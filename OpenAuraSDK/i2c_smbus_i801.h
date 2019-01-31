@@ -30,6 +30,15 @@
 #define SMBSLVCMD       (17 + i801_smba)    /* ICH3 and later */
 #define SMBNTFDADD      (20 + i801_smba)    /* ICH3 and later */
 
+
+/* Auxiliary status register bits, ICH4+ only */
+#define SMBAUXSTS_CRCE      BIT(0)
+#define SMBAUXSTS_STCO      BIT(1)
+
+/* Auxiliary control register bits, ICH4+ only */
+#define SMBAUXCTL_CRC       BIT(0)
+#define SMBAUXCTL_E32B      BIT(1)
+
 /* Other settings */
 #define MAX_RETRIES 400
 

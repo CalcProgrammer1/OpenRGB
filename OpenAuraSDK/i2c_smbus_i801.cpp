@@ -93,8 +93,7 @@ s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size,
     //if (hwpec)	/* enable/disable hardware PEC */
     //    outb_p(inb_p(SMBAUXCTL(priv)) | SMBAUXCTL_CRC, SMBAUXCTL(priv));
     //else
-    //    outb_p(inb_p(SMBAUXCTL(priv)) & (~SMBAUXCTL_CRC),
-    //        SMBAUXCTL(priv));
+	Out32(SMBAUXCTL, Inp32(SMBAUXCTL) & (~SMBAUXCTL_CRC));
 
     if (block)
         ret = i801_block_transaction(data, read_write, size, hwpec);
@@ -105,8 +104,7 @@ s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size,
     time, so we forcibly disable it after every transaction. Turn off
     E32B for the same reason. */
     //if (hwpec || block)
-    //    outb_p(inb_p(SMBAUXCTL(priv)) &
-    //        ~(SMBAUXCTL_CRC | SMBAUXCTL_E32B), SMBAUXCTL(priv));
+        Out32(SMBAUXCTL, Inp32(SMBAUXCTL) & ~(SMBAUXCTL_CRC | SMBAUXCTL_E32B));
 
     if (block)
         goto out;
@@ -299,6 +297,7 @@ int i2c_smbus_i801::i801_check_post(int status)
         /* try to stop the current command */
         Out32(SMBHSTCNT, Inp32(SMBHSTCNT) | SMBHSTCNT_KILL);
         //usleep_range(1000, 2000);
+		Sleep(1);
         Out32(SMBHSTCNT, Inp32(SMBHSTCNT) & (~SMBHSTCNT_KILL));
 
         Out32(SMBHSTSTS, STATUS_FLAGS);
@@ -408,6 +407,7 @@ int i2c_smbus_i801::i801_transaction(int xact)
     if (result < 0)
         return result;
 
+	Out32(SMBHSTCNT, Inp32(SMBHSTCNT) & ~SMBHSTCNT_INTREN);
     //if (priv->features & FEATURE_IRQ)
     //{
     //    outb_p(xact | SMBHSTCNT_INTREN | SMBHSTCNT_START,
@@ -441,6 +441,7 @@ int i2c_smbus_i801::i801_wait_byte_done()
     /* We will always wait for a fraction of a second! */
     do
     {
+		Sleep(1);
         //usleep_range(250, 500);
         status = Inp32(SMBHSTSTS);
     } while (!(status & (STATUS_ERROR_FLAGS | SMBHSTSTS_BYTE_DONE)) && (timeout++ < MAX_RETRIES));

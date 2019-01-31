@@ -170,7 +170,6 @@
     <ClInclude Include="i2c_smbus_i801.h" />
     <ClInclude Include="i2c_smbus_piix4.h" />
     <ClInclude Include="OpenAuraSDK.h" />
-    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AuraController.cpp" />
