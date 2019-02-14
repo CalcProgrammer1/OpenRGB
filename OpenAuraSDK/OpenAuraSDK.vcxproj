@@ -115,10 +115,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
+      <AdditionalIncludeDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,12 +158,14 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
+      <AdditionalIncludeDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -169,6 +173,7 @@
     <ClInclude Include="i2c_smbus.h" />
     <ClInclude Include="i2c_smbus_i801.h" />
     <ClInclude Include="i2c_smbus_piix4.h" />
+    <ClInclude Include="wmi.h" />
     <ClInclude Include="OpenAuraSDK.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +182,7 @@
     <ClCompile Include="i2c_smbus.cpp" />
     <ClCompile Include="i2c_smbus_i801.cpp" />
     <ClCompile Include="i2c_smbus_piix4.cpp" />
+    <ClCompile Include="wmi.cpp" />
     <ClCompile Include="OpenAuraSDK.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

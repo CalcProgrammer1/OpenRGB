@@ -30,6 +30,9 @@
     <ClInclude Include="i2c_smbus_i801.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="wmi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenAuraSDK.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="i2c_smbus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wmi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
