@@ -22,7 +22,9 @@ enum
     AURA_REG_COLORS_EFFECT              = 0x8010,   /* Colors for Internal Effects 15 bytes */
     AURA_REG_DIRECT                     = 0x8020,   /* "Direct Access" Selection Register   */
     AURA_REG_MODE                       = 0x8021,   /* AURA Mode Selection Register         */
-    AURA_REG_APPLY                      = 0x80A0    /* AURA Apply Changes Register          */
+    AURA_REG_APPLY                      = 0x80A0,   /* AURA Apply Changes Register          */
+    AURA_REG_SLOT_INDEX                 = 0x80F8,   /* AURA Slot Index Register (RAM only)  */
+    AURA_REG_I2C_ADDRESS                = 0x80F9,   /* AURA I2C Address Register (RAM only) */
 };
 
 enum
