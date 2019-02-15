@@ -8,19 +8,18 @@
 |  GNU GPL v2                               |
 \*-----------------------------------------*/
 
-#include <windows.h>
+#ifndef I2C_SMBUS_H
+#define I2C_SMBUS_H
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "inpout32.h"
 
-typedef UINT8   u8;
-typedef UINT16  u16;
-typedef UINT32  uint32_t;
-typedef INT32   s32;
+typedef unsigned char   u8;
+typedef unsigned short  u16;
+typedef unsigned int    u32;
+typedef int             s32;
 
-#pragma comment(lib, "inpout32.lib")
-#pragma once
-
+#ifdef WIN32
 //Data for SMBus Messages
 #define I2C_SMBUS_BLOCK_MAX     32
 
@@ -30,6 +29,11 @@ union i2c_smbus_data
     u16         word;
     u8          block[I2C_SMBUS_BLOCK_MAX + 2];
 };
+#else
+
+#include <linux/i2c.h>
+
+#endif  /* WIN32 */
 
 // i2c_smbus_xfer read or write markers
 #define I2C_SMBUS_READ  1
@@ -65,3 +69,5 @@ public:
     //Virtual function to be implemented by the driver
     virtual s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data) = 0;
 };
+
+#endif /* I2C_SMBUS_H */

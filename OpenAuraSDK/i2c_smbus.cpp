@@ -1,4 +1,5 @@
 #include "i2c_smbus.h"
+#include <string.h>
 
 s32 i2c_smbus_interface::i2c_smbus_write_quick(u8 addr, u8 value)
 {
