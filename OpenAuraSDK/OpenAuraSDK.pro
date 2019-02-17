@@ -14,3 +14,5 @@ HEADERS += \
     i2c_smbus_linux.h \
     AuraController.h \
     OpenAuraSDK.h
+
+FORMS +=

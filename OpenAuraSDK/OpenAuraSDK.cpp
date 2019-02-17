@@ -14,6 +14,9 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
+#include <unistd.h>
+#include <dirent.h>
+
 //#include "wmi.h"
 
 std::vector<AuraController *> controllers;
@@ -47,7 +50,7 @@ void DetectI2CBusses()
         // Analysis of many AMD boards has shown that AMD SMBus controllers have two adapters with fixed I/O spaces at 0x0B00 and 0x0B20
         // AMD SMBus adapters use the PIIX4 driver
         if (i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
-        {
+        {#include <dirent.h>
             bus = new i2c_smbus_piix4();
             ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B00;
             busses.push_back(bus);
@@ -96,7 +99,7 @@ void DetectI2CBusses()
 //      bus - pointer to i2c_smbus_interface where Aura device is connected
 //      dev - I2C address of Aura device
 //
-void CreateAuraDevice(i2c_smbus_interface * bus, aura_dev_id dev)
+AuraController * CreateAuraDevice(i2c_smbus_interface * bus, aura_dev_id dev)
 {
     AuraController * aura;
 
@@ -104,14 +107,12 @@ void CreateAuraDevice(i2c_smbus_interface * bus, aura_dev_id dev)
     aura->bus = bus;
     aura->dev = dev;
 
-    controllers.push_back(aura);
+    return(aura);
 }
 
-void DeleteAuraDevice(int idx)
+void DeleteAuraDevice(AuraController * controller)
 {
-    delete controllers[idx];
-
-    controllers.erase(controllers.begin() + idx);
+    delete controller;
 }
 
 // DetectI2C
@@ -263,6 +264,29 @@ void DumpAuraDevices()
     }
 }
 
+void DumpAuraRegisters(AuraController * controller)
+{
+    int i, j;
+
+    int start = 0x8000;
+
+    freopen("auradump.txt", "a", stdout);
+
+    printf("       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
+
+    for (i = 0; i < 512; i += 16)
+    {
+        printf("%04x: ", i + start);
+
+        for (j = 0; j < 16; j++)
+        {
+            printf("%02x ", controller->AuraRegisterRead(start + i + j));
+        }
+
+        printf("\r\n");
+    }
+}
+
 // WinMain
 //
 //  Main function.  Has no defined purpose yet, but is where you can call the other functions
@@ -276,50 +300,125 @@ int main()
 {
     //DetectI2CBusses();
 
-    i2c_smbus_interface * bus;
-    bus = new i2c_smbus_linux();
+    char driver_path[512];
+    DIR *dir;
+    struct dirent *ent;
 
-    int smbus_fd = open("/dev/i2c-0", O_RDWR);
-    ((i2c_smbus_linux *)bus)->handle = smbus_fd;
-    busses.push_back(bus);
+    strcpy(driver_path, "/sys/class/i2c-adapter/");
 
-    int res = bus->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
+    dir = opendir(driver_path);
 
-    if (res >= 0)
+    if(dir == NULL)
     {
-        CreateAuraDevice(busses[0], 0x77);
-
-        controllers[0]->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  0x00);
-        controllers[0]->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE0);
-
-        controllers[0]->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  0x01);
-        controllers[0]->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE2);
-
-        controllers[0]->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  0x02);
-        controllers[0]->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE4);
-
-        controllers[0]->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  0x03);
-        controllers[0]->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE6);
-
-        DeleteAuraDevice(0);
     }
 
-    CreateAuraDevice(busses[0], 0x70);
-    CreateAuraDevice(busses[0], 0x71);
-    CreateAuraDevice(busses[0], 0x72);
-    CreateAuraDevice(busses[0], 0x73);
+    ent = readdir(dir);
+
+    while(ent != NULL)
+    {
+        if(ent->d_type == DT_DIR || ent->d_type == DT_LNK)
+        {
+            if(strncmp(ent->d_name, "i2c-", 4) == 0)
+            {
+                int test_fd;
+                char device_string[1024];
+                strcpy(device_string, driver_path);
+                strcat(device_string, ent->d_name);
+                strcat(device_string, "/name");
+                test_fd = open(device_string, O_RDONLY);
+
+                if(test_fd)
+                {
+                    read(test_fd, device_string, sizeof(device_string));
+                    close(test_fd);
+
+                    i2c_smbus_interface *bus;
+                    bus = new i2c_smbus_linux();
+                    strcpy(bus->device_name, device_string);
+
+                    //ignore nvidia adapters for now
+                    if(strncmp(device_string, "NVIDIA", 6) == 0)
+                    {
+                        ent = readdir(dir);
+                        continue;
+                    }
+
+                    strcpy(device_string, "/dev/");
+                    strcat(device_string, ent->d_name);
+
+                    test_fd = open(device_string, O_RDWR);
+
+                    if (test_fd < 0)
+                    {
+                        ent = readdir(dir);
+                        continue;
+                    }
+
+                    ((i2c_smbus_linux *)bus)->handle = test_fd;
+                    busses.push_back(bus);
+                }
+            }
+        }
+        ent = readdir(dir);
+    }
+
+    for( int bus = 0; bus < busses.size(); bus++ )
+    {
+        // Remap Aura-enabled RAM modules on 0x77
+        for(int slot = 0; slot < 8; slot++)
+        {
+            int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
+
+            if(res < 0)
+            {
+                break;
+            }
+
+            AuraController * temp_controller = CreateAuraDevice(busses[bus], 0x77);
+
+            controllers[0]->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  slot);
+            controllers[0]->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE0 + ( slot << 1 ) );
+
+            delete temp_controller;
+        }
+
+        // Add Aura-enabled controllers at their remapped addresses
+        for(int slot = 0; slot < 8; slot++)
+        {
+            int res = busses[bus]->i2c_smbus_write_quick(0x70 + slot, I2C_SMBUS_WRITE);
+
+            if(res >= 0)
+            {
+               AuraController * new_controller = CreateAuraDevice(busses[bus], 0x70 + slot);
+               controllers.push_back(new_controller);
+            }
+        }
+
+        // Check for Aura controller at 0x4E
+        int res = busses[bus]->i2c_smbus_write_quick(0x4E, I2C_SMBUS_WRITE);
+
+        if(res >= 0)
+        {
+            AuraController * new_controller = CreateAuraDevice(busses[bus], 0x4E);
+            controllers.push_back(new_controller);
+        }
+    }
 
     for (int i = 0; i < controllers.size(); i++)
     {
-        controllers[i]->AuraRegisterWrite(AURA_REG_COLORS_EFFECT, 255);
-        controllers[i]->AuraRegisterWrite(AURA_REG_MODE, AURA_MODE_FLASHING);
+        controllers[i]->AuraRegisterWrite(AURA_REG_DIRECT, 1);
         controllers[i]->AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
     }
 
-    //for (int i = 0; i < busses.size(); i++)
-    //{
-    //    DetectI2C(busses[i], MODE_AUTO);
-    //}
+    for (int i = 0; i < controllers.size(); i++)
+    {
+        for(int j = 0; j < 5; j++)
+        {
+            controllers[i]->AuraRegisterWrite(AURA_REG_COLORS_DIRECT + ( j * 3 ) + 0, 0);
+            controllers[i]->AuraRegisterWrite(AURA_REG_COLORS_DIRECT + ( j * 3 ) + 1, 255  );
+            controllers[i]->AuraRegisterWrite(AURA_REG_COLORS_DIRECT + ( j * 3 ) + 2, 0  );
+        }
+    }
 
     return 1;
 }
