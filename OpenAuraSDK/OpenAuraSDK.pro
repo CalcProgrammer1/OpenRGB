@@ -12,7 +12,6 @@ SOURCES += \
 HEADERS += \
     i2c_smbus.h \
     i2c_smbus_linux.h \
-    AuraController.h \
-    OpenAuraSDK.h
+    AuraController.h
 
 FORMS +=

@@ -35,6 +35,6 @@ void AuraController::AuraRegisterWriteBlock(aura_register reg, unsigned char * d
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
     //Write Aura block data
-    bus->i2c_smbus_write_block_data(dev, 0x03, 15, data);
+    bus->i2c_smbus_write_block_data(dev, 0x03, sz, data);
 
 }

@@ -11,15 +11,13 @@
 #ifndef I2C_SMBUS_H
 #define I2C_SMBUS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
 typedef unsigned char   u8;
 typedef unsigned short  u16;
 typedef unsigned int    u32;
 typedef int             s32;
 
 #ifdef WIN32
+
 //Data for SMBus Messages
 #define I2C_SMBUS_BLOCK_MAX     32
 
@@ -29,7 +27,8 @@ union i2c_smbus_data
     u16         word;
     u8          block[I2C_SMBUS_BLOCK_MAX + 2];
 };
-#else
+
+#else /* WIN32 */
 
 #include <linux/i2c.h>
 
