@@ -31,6 +31,31 @@
 std::vector<AuraController *> controllers;
 std::vector<i2c_smbus_interface *> busses;
 
+
+/******************************************************************************************\
+*                                                                                          *
+*   CreateAuraDevice                                                                       *
+*                                                                                          *
+*       Enumerates an ASUS Aura compatibler I2C device with the given address on the given *
+*       bus                                                                                *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
+*           dev - I2C address of Aura device                                               *
+*                                                                                          *
+\******************************************************************************************/
+
+AuraController * CreateAuraDevice(i2c_smbus_interface * bus, aura_dev_id dev)
+{
+    AuraController * aura;
+
+    aura = new AuraController();
+    aura->bus = bus;
+    aura->dev = dev;
+
+    return(aura);
+
+}   /* CreateAuraDevice() */
+
 #ifdef WIN32
 /******************************************************************************************\
 *                                                                                          *
@@ -189,27 +214,63 @@ void DetectI2CBusses()
 
 /******************************************************************************************\
 *                                                                                          *
-*   CreateAuraDevice                                                                       *
+*   DetectAuraControllers                                                                  *
 *                                                                                          *
-*       Enumerates an ASUS Aura compatibler I2C device with the given address on the given *
-*       bus                                                                                *
+*       Detect Aura controllers on the enumerated I2C busses.  Searches for Aura-enabled   *
+*       RAM at 0x77 and tries to initialize their slot addresses, then searches for them   *
+*       at their correct initialized addresses.  Also looks for motherboard controller at  *
+*       address 0x4E.                                                                      *
 *                                                                                          *
 *           bus - pointer to i2c_smbus_interface where Aura device is connected            *
 *           dev - I2C address of Aura device                                               *
 *                                                                                          *
 \******************************************************************************************/
 
-AuraController * CreateAuraDevice(i2c_smbus_interface * bus, aura_dev_id dev)
+void DetectAuraControllers()
 {
-    AuraController * aura;
+    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    {
+        // Remap Aura-enabled RAM modules on 0x77
+        for (unsigned int slot = 0; slot < 8; slot++)
+        {
+            int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
 
-    aura = new AuraController();
-    aura->bus = bus;
-    aura->dev = dev;
+            if (res < 0)
+            {
+                break;
+            }
 
-    return(aura);
+            AuraController * temp_controller = CreateAuraDevice(busses[bus], 0x77);
 
-}   /* CreateAuraDevice() */
+            temp_controller->AuraRegisterWrite(AURA_REG_SLOT_INDEX, slot);
+            temp_controller->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE0 + (slot << 1));
+
+            delete temp_controller;
+        }
+
+        // Add Aura-enabled controllers at their remapped addresses
+        for (unsigned int slot = 0; slot < 8; slot++)
+        {
+            int res = busses[bus]->i2c_smbus_write_quick(0x70 + slot, I2C_SMBUS_WRITE);
+
+            if (res >= 0)
+            {
+                AuraController * new_controller = CreateAuraDevice(busses[bus], 0x70 + slot);
+                controllers.push_back(new_controller);
+            }
+        }
+
+        // Check for Aura controller at 0x4E
+        int res = busses[bus]->i2c_smbus_write_quick(0x4E, I2C_SMBUS_WRITE);
+
+        if (res >= 0)
+        {
+            AuraController * new_controller = CreateAuraDevice(busses[bus], 0x4E);
+            controllers.push_back(new_controller);
+        }
+    }
+
+}   /* DetectAuraControllers() */
 
 
 /******************************************************************************************\
@@ -338,50 +399,10 @@ int main()
                                  0,   255, 0,
                                  0,   0,   255,
                                  255, 0,   255,
-                                 0,   255, 255  };
+                                 255, 255, 255  };
     DetectI2CBusses();
 
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
-    {
-        // Remap Aura-enabled RAM modules on 0x77
-        for (unsigned int slot = 0; slot < 8; slot++)
-        {
-            int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
-
-            if (res < 0)
-            {
-                break;
-            }
-
-            AuraController * temp_controller = CreateAuraDevice(busses[bus], 0x77);
-
-            temp_controller->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  slot);
-            temp_controller->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE0 + ( slot << 1 ) );
-
-            delete temp_controller;
-        }
-
-        // Add Aura-enabled controllers at their remapped addresses
-        for (unsigned int slot = 0; slot < 8; slot++)
-        {
-            int res = busses[bus]->i2c_smbus_write_quick(0x70 + slot, I2C_SMBUS_WRITE);
-
-            if (res >= 0)
-            {
-               AuraController * new_controller = CreateAuraDevice(busses[bus], 0x70 + slot);
-               controllers.push_back(new_controller);
-            }
-        }
-
-        // Check for Aura controller at 0x4E
-        int res = busses[bus]->i2c_smbus_write_quick(0x4E, I2C_SMBUS_WRITE);
-
-        if (res >= 0)
-        {
-            AuraController * new_controller = CreateAuraDevice(busses[bus], 0x4E);
-            controllers.push_back(new_controller);
-        }
-    }
+    DetectAuraControllers();
 
     for (unsigned int i = 0; i < controllers.size(); i++)
     {
