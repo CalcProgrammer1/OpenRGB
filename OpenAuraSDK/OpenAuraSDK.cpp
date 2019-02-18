@@ -65,7 +65,7 @@ void DetectI2CBusses()
         // Analysis of many AMD boards has shown that AMD SMBus controllers have two adapters with fixed I/O spaces at 0x0B00 and 0x0B20
         // AMD SMBus adapters use the PIIX4 driver
         if (i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
-        {#include <dirent.h>
+        {
             bus = new i2c_smbus_piix4();
             ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B00;
             busses.push_back(bus);
@@ -355,8 +355,8 @@ int main()
 
             AuraController * temp_controller = CreateAuraDevice(busses[bus], 0x77);
 
-            controllers[0]->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  slot);
-            controllers[0]->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE0 + ( slot << 1 ) );
+            temp_controller->AuraRegisterWrite(AURA_REG_SLOT_INDEX,  slot);
+            temp_controller->AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE0 + ( slot << 1 ) );
 
             delete temp_controller;
         }
