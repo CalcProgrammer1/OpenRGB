@@ -11,6 +11,9 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+#include <tchar.h>
+#include "OpenAuraSDKDialog.h"
+#include "I2CDetectDialog.h"
 
 #ifdef WIN32
 
@@ -92,11 +95,15 @@ void DetectI2CBusses()
         if (i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
         {
             bus = new i2c_smbus_piix4();
+            strcpy(bus->device_name, i["Description"].c_str());
+            strcat(bus->device_name, " at 0x0B00");
             ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B00;
             busses.push_back(bus);
 
             bus = new i2c_smbus_piix4();
             ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B20;
+            strcpy(bus->device_name, i["Description"].c_str());
+            strcat(bus->device_name, " at 0x0B20");
             busses.push_back(bus);
         }
 
@@ -124,6 +131,7 @@ void DetectI2CBusses()
                 unsigned int IORangeStart = std::stoi(matches[1].str());
 
                 bus = new i2c_smbus_i801();
+                strcpy(bus->device_name, i["Description"].c_str());
                 ((i2c_smbus_i801 *)bus)->i801_smba = IORangeStart;
                 busses.push_back(bus);
             }
@@ -291,19 +299,23 @@ void DetectAuraControllers()
 #define MODE_READ   2
 #define MODE_FUNC   3
 
-void DetectI2C(i2c_smbus_interface * bus, int mode)
+std::string DetectI2C(i2c_smbus_interface * bus, int mode)
 {
     int i, j;
     int res;
     int slave_addr;
+    char line[128];
+    std::string text;
 
     freopen("i2cdetect.txt", "a", stdout);
 
-    printf("     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
+    sprintf(line, "     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
+    text.append(line);
 
     for (i = 0; i < 128; i += 16)
     {
-        printf("%02x: ", i);
+        sprintf(line, "%02x: ", i);
+        text.append(line);
 
         for (j = 0; j < 16; j++)
         {
@@ -330,15 +342,20 @@ void DetectI2C(i2c_smbus_interface * bus, int mode)
 
             if (res < 0)
             {
-                printf("-- ");
+                sprintf(line, "-- ");
+                text.append(line);
             }
             else
             {
-                printf("%02x ", i + j);
+                sprintf(line, "%02x ", i + j);
+                text.append(line);
             }
         }
-        printf("\r\n");
+        sprintf(line, "\r\n");
+        text.append(line);
     }
+
+    return text;
 
 }   /* DetectI2C() */
 
@@ -355,13 +372,13 @@ void DumpAuraRegisters(AuraController * controller)
 {
     int i, j;
 
-    int start = 0x8000;
+    int start = 0x0000;
 
     freopen("auradump.txt", "a", stdout);
 
     printf("       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
 
-    for (i = 0; i < 512; i += 16)
+    for (i = 0; i < 0xFFFF; i += 16)
     {
         printf("%04x: ", i + start);
 
@@ -388,11 +405,7 @@ void DumpAuraRegisters(AuraController * controller)
 *                                                                                          *
 \******************************************************************************************/
 
-#ifdef WIN32
-INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow)
-#else /* WIN32 */
 int main()
-#endif /* WIN32 */
 {
     // Colors Array              R    B    G
     unsigned char colors[15] = { 255, 0,   0,
@@ -404,7 +417,10 @@ int main()
 
     DetectAuraControllers();
 
-    for (unsigned int i = 0; i < controllers.size(); i++)
+    OpenAuraSDKDialog dlg(busses, controllers);
+    dlg.DoModal();
+
+    /*for (unsigned int i = 0; i < controllers.size(); i++)
     {
         controllers[i]->AuraRegisterWrite(AURA_REG_DIRECT, 1);
         controllers[i]->AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
@@ -415,5 +431,6 @@ int main()
         controllers[i]->AuraRegisterWriteBlock(AURA_REG_COLORS_DIRECT, colors, 15);
     }
 
+    DumpAuraRegisters(controllers[4]);*/
     return 1;
 }

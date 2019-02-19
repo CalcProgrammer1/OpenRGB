@@ -24,13 +24,22 @@
     <ClInclude Include="AuraController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OpenAuraSDK.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="i2c_smbus_i801.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wmi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenAuraSDKDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenAuraSDK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="I2CDetectDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,5 +65,16 @@
     <ClCompile Include="wmi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OpenAuraSDKDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="I2CDetectDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
