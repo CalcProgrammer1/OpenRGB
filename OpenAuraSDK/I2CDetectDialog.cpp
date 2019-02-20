@@ -29,8 +29,9 @@ BOOL I2CDetectDialog::OnInitDialog()
     for (int i = 0; i < busses.size(); i++)
     {
         i2c_bus_box->AddString(busses[i]->device_name);
-        i2c_bus_box->SetCurSel(0);
     }
+
+    i2c_bus_box->SetCurSel(0);
 
     CFont* myFont = new CFont();
     myFont->CreateFontA(16, 0, 0, 0, FW_DONTCARE, false, false, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, FIXED_PITCH | FF_MODERN, _T("Consolas"));

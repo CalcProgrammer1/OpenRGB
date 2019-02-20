@@ -17,14 +17,15 @@ public:
     virtual BOOL OnInitDialog();
 
 private:
+    void setMode(unsigned char mode_val);
 
 protected:
     std::vector<i2c_smbus_interface *>& busses;
     std::vector<AuraController *>& controllers;
     virtual void DoDataExchange(CDataExchange* pDX);
     DECLARE_MESSAGE_MAP()
-public:
 
+public:
     afx_msg void OnBnClickedButtonOpenaurasdkI2cdetect();
     afx_msg void OnBnClickedRadioOpenaurasdkDirectMode();
     afx_msg void OnBnClickedRadioOpenaurasdkEffectMode();
@@ -35,6 +36,10 @@ public:
     afx_msg void OnBnClickedRadioOpenaurasdkEffectSpectrumCycle();
     afx_msg void OnBnClickedRadioOpenaurasdkEffectRainbow();
     afx_msg void OnBnClickedRadioOpenaurasdkBreathingSpectrum();
+    afx_msg void OnBnClickedRadioOpenaurasdkEffectChaseFade();
+    afx_msg void OnBnClickedButtonOpenaurasdkSetColors();
+    afx_msg void OnCbnCloseupComboOpenaurasdkDevice();
+    afx_msg void OnBnClickedButtonOpenaurasdkSetColorsAll();
 };
 
 #endif
