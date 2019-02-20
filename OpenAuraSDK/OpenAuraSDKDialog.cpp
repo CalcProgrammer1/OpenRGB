@@ -71,14 +71,12 @@ void OpenAuraSDKDialog::OnBnClickedRadioOpenaurasdkDirectMode()
     {
         for (int i = 0; i < controllers.size(); i++)
         {
-            controllers[i]->AuraRegisterWrite(AURA_REG_DIRECT, 1);
-            controllers[i]->AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+            controllers[i]->SetDirect(true);
         }
     }
     else
     {
-        controllers[ aura_device - 1 ]->AuraRegisterWrite(AURA_REG_DIRECT, 1);
-        controllers[ aura_device - 1 ]->AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+        controllers[aura_device - 1]->SetDirect(true);
     }
 }
 
@@ -90,14 +88,12 @@ void OpenAuraSDKDialog::OnBnClickedRadioOpenaurasdkEffectMode()
     {
         for (int i = 0; i < controllers.size(); i++)
         {
-            controllers[i]->AuraRegisterWrite(AURA_REG_DIRECT, 0);
-            controllers[i]->AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+            controllers[i]->SetDirect(false);
         }
     }
     else
     {
-        controllers[aura_device - 1]->AuraRegisterWrite(AURA_REG_DIRECT, 0);
-        controllers[aura_device - 1]->AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+        controllers[aura_device - 1]->SetDirect(false);
     }
 }
 
@@ -199,6 +195,8 @@ void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColors()
                                                     GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_4_R),
                                                     GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_4_G),
                                                     GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_4_B) );
+
+                controllers[i]->SetDirect(false);
             }
         }
         else
@@ -225,6 +223,8 @@ void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColors()
                                                    GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_4_R),
                                                    GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_4_G),
                                                    GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_4_B) );
+
+                controllers[i]->SetDirect(true);
             }
         }
     }
@@ -298,6 +298,8 @@ void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsAll()
                 controllers[i]->SetAllColorsEffect(GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_R),
                                                    GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_G),
                                                    GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_B));
+
+                controllers[i]->SetDirect(false);
             }
         }
         else
@@ -307,6 +309,8 @@ void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsAll()
                 controllers[i]->SetAllColorsDirect(GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_R),
                                                    GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_G),
                                                    GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_B));
+
+                controllers[i]->SetDirect(true);
             }
         }
     }

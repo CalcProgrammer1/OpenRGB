@@ -68,6 +68,12 @@ void AuraController::SetAllColorsEffect(unsigned char red, unsigned char green, 
     delete colors;
 }
 
+void AuraController::SetDirect(unsigned char direct)
+{
+    AuraRegisterWrite(AURA_REG_DIRECT, direct);
+    AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+}
+
 void AuraController::SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char colors[3] = { red, blue, green };
