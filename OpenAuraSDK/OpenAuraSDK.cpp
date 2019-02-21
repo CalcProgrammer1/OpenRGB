@@ -15,6 +15,7 @@
 #ifdef WIN32
 
 #include <tchar.h>
+#include <regex>
 #include "OpenAuraSDKDialog.h"
 #include "I2CDetectDialog.h"
 #include "i2c_smbus_piix4.h"
@@ -25,7 +26,6 @@
 
 #include "OpenAuraSDKQtDialog.h"
 #include "i2c_smbus_linux.h"
-#include <regex>
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
