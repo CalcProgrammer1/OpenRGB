@@ -11,18 +11,19 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
-#include <tchar.h>
-#include "OpenAuraSDKDialog.h"
-#include "I2CDetectDialog.h"
 
 #ifdef WIN32
 
+#include <tchar.h>
+#include "OpenAuraSDKDialog.h"
+#include "I2CDetectDialog.h"
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
 #include "wmi.h"
 
 #else /* WIN32 */
 
+#include "OpenAuraSDKQtDialog.h"
 #include "i2c_smbus_linux.h"
 #include <regex>
 #include <fcntl.h>
@@ -370,42 +371,30 @@ void DumpAuraRegisters(AuraController * controller)
 
 /******************************************************************************************\
 *                                                                                          *
-*   main/WinMain                                                                           *
+*   main                                                                                   *
 *                                                                                          *
-*       Main function.  Has no defined purpose yet, but is where you can call the other    *
-*       functions in this project to test them out                                         *
-*                                                                                          *
-*       Currently, this program will enumerate all detected SMBus adapters and then detect *
-*       all attached devices, similar to i2cdetect on Linux                                *
+*       Main function.  Detects busses and Aura controllers, then opens the main window    *
 *                                                                                          *
 \******************************************************************************************/
 
-int main()
+int main(int argc, char *argv[])
 {
-    // Colors Array              R    B    G
-    unsigned char colors[15] = { 255, 0,   0,
-                                 0,   255, 0,
-                                 0,   0,   255,
-                                 255, 0,   255,
-                                 255, 255, 255  };
     DetectI2CBusses();
 
     DetectAuraControllers();
 
+#if WIN32
     OpenAuraSDKDialog dlg(busses, controllers);
     dlg.DoModal();
 
-    /*for (unsigned int i = 0; i < controllers.size(); i++)
-    {
-        controllers[i]->AuraRegisterWrite(AURA_REG_DIRECT, 1);
-        controllers[i]->AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
-    }
+    return 0;
 
-    for (unsigned int i = 0; i < controllers.size(); i++)
-    {
-        controllers[i]->AuraRegisterWriteBlock(AURA_REG_COLORS_DIRECT, colors, 15);
-    }
+#else
+    QApplication a(argc, argv);
 
-    DumpAuraRegisters(controllers[4]);*/
-    return 1;
+    Ui::OpenAuraSDKQtDialog dlg(busses, controllers);
+    dlg.show();
+
+    return a.exec();
+#endif
 }

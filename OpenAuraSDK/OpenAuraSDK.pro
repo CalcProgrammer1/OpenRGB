@@ -1,17 +1,22 @@
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = OpenAuraSDK
 TEMPLATE = app
-CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
 
 SOURCES += \
     i2c_smbus.cpp \
     AuraController.cpp \
     OpenAuraSDK.cpp \
-    i2c_smbus_linux.cpp
+    i2c_smbus_linux.cpp \
+    OpenAuraSDKQtDialog.cpp
 
 HEADERS += \
     i2c_smbus.h \
     i2c_smbus_linux.h \
-    AuraController.h
+    AuraController.h \
+    OpenAuraSDKQtDialog.h
 
-FORMS +=
+FORMS += \
+    openaurasdk.ui
