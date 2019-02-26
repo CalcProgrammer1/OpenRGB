@@ -199,6 +199,42 @@ void DetectI2CBusses()
 
 /******************************************************************************************\
 *                                                                                          *
+*   TestForAuraController                                                                  *
+*                                                                                          *
+*       Tests the given address to see if an Aura controller exists there.  First does a   *
+*       quick write to test for a response, and if so does a simple read at 0xA0 to test   *
+*       for incrementing values 0...F which was observed at this location during data dump *
+*                                                                                          *
+\******************************************************************************************/
+
+bool TestForAuraController(i2c_smbus_interface* bus, unsigned char address)
+{
+    bool pass = false;
+
+    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+    
+    if (res >= 0)
+    {
+        pass = true;
+
+        for (int i = 0xA0; i < 0xB0; i++)
+        {
+            res = bus->i2c_smbus_read_byte_data(address, i);
+
+            if (res != (i - 0xA0))
+            {
+                pass = false;
+            }
+        }
+    }
+
+    return(pass);
+
+}   /* TestForAuraController() */
+
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectAuraControllers                                                                  *
 *                                                                                          *
 *       Detect Aura controllers on the enumerated I2C busses.  Searches for Aura-enabled   *
@@ -236,9 +272,7 @@ void DetectAuraControllers()
         // Add Aura-enabled controllers at their remapped addresses
         for (unsigned int slot = 0; slot < 8; slot++)
         {
-            int res = busses[bus]->i2c_smbus_write_quick(0x70 + slot, I2C_SMBUS_WRITE);
-
-            if (res >= 0)
+            if (TestForAuraController(busses[bus], 0x70 + slot))
             {
                 new_controller = new AuraController(busses[bus], 0x70 + slot);
                 controllers.push_back(new_controller);
@@ -246,9 +280,7 @@ void DetectAuraControllers()
         }
 
         // Check for Aura controller at 0x4E
-        int res = busses[bus]->i2c_smbus_write_quick(0x4E, I2C_SMBUS_WRITE);
-
-        if (res >= 0)
+        if (TestForAuraController(busses[bus], 0x4E))
         {
             new_controller = new AuraController(busses[bus], 0x4E);
             controllers.push_back(new_controller);
