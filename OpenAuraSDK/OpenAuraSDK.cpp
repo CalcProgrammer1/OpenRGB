@@ -87,7 +87,8 @@ void DetectI2CBusses()
         // Analysis of many Intel boards has shown that Intel SMBus adapter I/O space varies between boards
         // We can query Win32_PnPAllocatedResource entries and look up the PCI device ID to find the allocated I/O space
         // Intel SMBus adapters use the i801 driver
-        else if (i["Manufacturer"].find("Intel") != std::string::npos)
+        else if ((i["Manufacturer"].find("Intel") != std::string::npos)
+              || (i["Manufacturer"].find("INTEL") != std::string::npos))
         {
             std::string rgx1 = ".+" + q_res_PnPSignedDriver[0]["DeviceID"].substr(4, 33) + ".+";
 
