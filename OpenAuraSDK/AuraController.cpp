@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "AuraController.h"
+#include <string>
 
 AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
 {
@@ -16,7 +17,35 @@ AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
 
     AuraUpdateDeviceName();
 
-    led_count = 5;  //temporary, some controllers have more channels
+    // LED-0116 - First generation motherboard controller
+    if (strcmp(device_name, "LED-0116") == 0)
+    {
+        direct_reg = AURA_REG_COLORS_DIRECT;
+        effect_reg = AURA_REG_COLORS_EFFECT;
+        led_count  = 5;
+    }
+    // DIMM_LED-0102 - First generation DRAM controller (Trident Z RGB)
+    else if (strcmp(device_name, "DIMM_LED-0102") == 0)
+    {
+        direct_reg = AURA_REG_COLORS_DIRECT;
+        effect_reg = AURA_REG_COLORS_EFFECT;
+        led_count  = 5;
+    }
+    // AUDA0-E6K5-0101 - Second generation DRAM controller (Geil Super Luce)
+    else if (strcmp(device_name, "AUDA0-E6K5-0101") == 0)
+    {
+        direct_reg = AURA_REG_COLORS_DIRECT_V2;
+        effect_reg = AURA_REG_COLORS_EFFECT_V2;
+        led_count  = 5;
+    }
+    // Assume first generation controller if string does not match
+    else
+    {
+        direct_reg = AURA_REG_COLORS_DIRECT;
+        effect_reg = AURA_REG_COLORS_EFFECT;
+        led_count = 5;
+    }
+    
 }
 
 AuraController::~AuraController()
@@ -45,7 +74,7 @@ void AuraController::SetAllColorsDirect(unsigned char red, unsigned char green, 
         colors[i + 2] = green;
     }
 
-    AuraRegisterWriteBlock(AURA_REG_COLORS_DIRECT, colors, led_count * 3);
+    AuraRegisterWriteBlock(direct_reg, colors, led_count * 3);
 
     delete colors;
 }
@@ -61,7 +90,7 @@ void AuraController::SetAllColorsEffect(unsigned char red, unsigned char green, 
         colors[i + 2] = green;
     }
 
-    AuraRegisterWriteBlock(AURA_REG_COLORS_EFFECT, colors, led_count * 3);
+    AuraRegisterWriteBlock(effect_reg, colors, led_count * 3);
     
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 
@@ -78,14 +107,14 @@ void AuraController::SetLEDColorDirect(unsigned int led, unsigned char red, unsi
 {
     unsigned char colors[3] = { red, blue, green };
 
-    AuraRegisterWriteBlock(AURA_REG_COLORS_DIRECT + ( 3 * led ), colors, 3);
+    AuraRegisterWriteBlock(direct_reg + ( 3 * led ), colors, 3);
 }
 
 void AuraController::SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char colors[3] = { red, blue, green };
 
-    AuraRegisterWriteBlock(AURA_REG_COLORS_EFFECT + (3 * led), colors, 3);
+    AuraRegisterWriteBlock(effect_reg + (3 * led), colors, 3);
 
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 }

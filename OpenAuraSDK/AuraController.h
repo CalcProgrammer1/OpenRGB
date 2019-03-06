@@ -26,6 +26,8 @@ enum
     AURA_REG_APPLY                      = 0x80A0,   /* AURA Apply Changes Register          */
     AURA_REG_SLOT_INDEX                 = 0x80F8,   /* AURA Slot Index Register (RAM only)  */
     AURA_REG_I2C_ADDRESS                = 0x80F9,   /* AURA I2C Address Register (RAM only) */
+    AURA_REG_COLORS_DIRECT_V2           = 0x8100,   /* Direct Colors (v2) 30 bytes          */
+    AURA_REG_COLORS_EFFECT_V2           = 0x8160,   /* Internal Colors (v2) 30 bytes        */
 };
 
 enum
@@ -70,6 +72,8 @@ public:
 private:
     char                    device_name[16];
     unsigned int            led_count;
+    aura_register           direct_reg;
+    aura_register           effect_reg;
     i2c_smbus_interface *   bus;
     aura_dev_id             dev;
 	
