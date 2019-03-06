@@ -8,7 +8,7 @@
 \*-----------------------------------------*/
 
 #include "AuraController.h"
-#include <string>
+#include <cstring>
 
 AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
 {
