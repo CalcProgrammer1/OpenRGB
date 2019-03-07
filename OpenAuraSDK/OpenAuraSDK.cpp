@@ -383,7 +383,7 @@ void DumpAuraRegisters(AuraController * controller)
 
     int start = 0x0000;
 
-    freopen("auradump.txt", "a", stdout);
+    FILE* file = freopen("auradump.txt", "a", stdout);
 
     printf("       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
 
@@ -398,6 +398,8 @@ void DumpAuraRegisters(AuraController * controller)
 
         printf("\r\n");
     }
+
+    fclose(file);
 
 }   /* DumpAuraRegisters() */
 

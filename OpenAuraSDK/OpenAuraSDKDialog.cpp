@@ -35,6 +35,7 @@ BEGIN_MESSAGE_MAP(OpenAuraSDKDialog, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_SET_COLORS, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColors)
     ON_CBN_CLOSEUP(IDC_COMBO_OPENAURASDK_DEVICE, &OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkDevice)
     ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_SET_COLORS_ALL, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsAll)
+    ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_DUMP, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkDump)
 END_MESSAGE_MAP()
 
 BOOL OpenAuraSDKDialog::OnInitDialog()
@@ -425,4 +426,16 @@ void OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkDevice()
         }
     }
 
+}
+
+void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkDump()
+{
+    unsigned int aura_device = ((CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_DEVICE))->GetCurSel();
+
+    if (aura_device > 0)
+    {
+        ((CButton*)GetDlgItem(IDC_BUTTON_OPENAURASDK_DUMP))->EnableWindow(false);
+        DumpAuraRegisters(controllers[aura_device - 1]);
+        ((CButton*)GetDlgItem(IDC_BUTTON_OPENAURASDK_DUMP))->EnableWindow(true);
+    }
 }

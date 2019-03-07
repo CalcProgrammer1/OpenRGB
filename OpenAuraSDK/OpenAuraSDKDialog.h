@@ -40,6 +40,7 @@ public:
     afx_msg void OnBnClickedButtonOpenaurasdkSetColors();
     afx_msg void OnCbnCloseupComboOpenaurasdkDevice();
     afx_msg void OnBnClickedButtonOpenaurasdkSetColorsAll();
+    afx_msg void OnBnClickedButtonOpenaurasdkDump();
 };
 
 #endif
