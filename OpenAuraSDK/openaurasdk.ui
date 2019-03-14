@@ -408,6 +408,19 @@
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="ButtonDumpAura">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>260</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dump Aura</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

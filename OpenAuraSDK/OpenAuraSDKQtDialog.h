@@ -59,6 +59,8 @@ private slots:
 
     void on_RadioChaseFade_clicked();
 
+    void on_ButtonDumpAura_clicked();
+
 private:
     Ui::OpenAuraSDKQtDialogUi *ui;
 };

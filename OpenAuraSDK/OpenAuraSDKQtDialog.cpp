@@ -342,3 +342,15 @@ void Ui::OpenAuraSDKQtDialog::on_RadioChaseFade_clicked()
 {
     setMode(AURA_MODE_CHASE_FADE);
 }
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonDumpAura_clicked()
+{
+    unsigned int aura_device = ui->ComboAuraDevices->currentIndex();
+
+    if (aura_device > 0)
+    {
+        ui->ButtonDumpAura->setEnabled(false);
+        DumpAuraRegisters(controllers[aura_device - 1]);
+        ui->ButtonDumpAura->setEnabled(true);
+    }
+}
