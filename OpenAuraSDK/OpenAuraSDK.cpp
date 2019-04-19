@@ -279,6 +279,13 @@ void DetectAuraControllers()
             }
         }
 
+        // Check for Aura controller at 0x40
+        if (TestForAuraController(busses[bus], 0x40))
+        {
+            new_controller = new AuraController(busses[bus], 0x40);
+            controllers.push_back(new_controller);
+        }
+
         // Check for Aura controller at 0x4E
         if (TestForAuraController(busses[bus], 0x4E))
         {
