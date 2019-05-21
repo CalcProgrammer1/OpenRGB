@@ -20,6 +20,7 @@
 #include "I2CDetectDialog.h"
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
+#include "i2c_smbus_nuvoton_nct6793d.h"
 #include "wmi.h"
 
 #else /* WIN32 */
@@ -61,6 +62,11 @@ void DetectI2CBusses()
     {
         return;
     }
+
+    //bus = new i2c_smbus_nuvoton_nct6793d();
+    //strcpy(bus->device_name, "Nuvoton NCT6793D");
+    //((i2c_smbus_nuvoton_nct6793d *)bus)->nuvoton_nct6793d_smba = 0x02C0;
+    //busses.push_back(bus);
 
     // For each detected SMBus adapter, try enumerating it as either AMD or Intel
     for (QueryObj &i : q_res_PnPSignedDriver)

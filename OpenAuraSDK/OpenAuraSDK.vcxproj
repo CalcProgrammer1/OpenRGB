@@ -23,20 +23,20 @@
     <ProjectGuid>{6D22BFF3-C1DF-407A-8816-05D63919A991}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>OpenAuraSDK</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -44,14 +44,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -181,6 +181,7 @@
     <ClInclude Include="I2CDetectDialog.h" />
     <ClInclude Include="i2c_smbus.h" />
     <ClInclude Include="i2c_smbus_i801.h" />
+    <ClInclude Include="i2c_smbus_nuvoton_nct6793d.h" />
     <ClInclude Include="i2c_smbus_piix4.h" />
     <ClInclude Include="OpenAuraSDK.h" />
     <ClInclude Include="OpenAuraSDKDialog.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="I2CDetectDialog.cpp" />
     <ClCompile Include="i2c_smbus.cpp" />
     <ClCompile Include="i2c_smbus_i801.cpp" />
+    <ClCompile Include="i2c_smbus_nuvoton_nct6793d.cpp" />
     <ClCompile Include="i2c_smbus_piix4.cpp" />
     <ClCompile Include="OpenAuraSDKDialog.cpp" />
     <ClCompile Include="wmi.cpp" />
