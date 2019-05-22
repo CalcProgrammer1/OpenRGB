@@ -107,7 +107,7 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
 			//Load more bytes into FIFO
 			if (len >= 4)
 			{
-				for (i = cnt; i <= 4; i++)
+				for (i = cnt; i <= (cnt + 4); i++)
 				{
 					Out32(SMBHSTDAT, data->block[i]);
 				}
@@ -117,7 +117,7 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
 			}
 			else
 			{
-				for (i = cnt; i <= len; i++)
+				for (i = cnt; i <= (cnt + len); i++)
 				{
 					Out32(SMBHSTDAT, data->block[i]);
 				}

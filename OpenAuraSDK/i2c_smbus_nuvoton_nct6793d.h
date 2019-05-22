@@ -34,11 +34,12 @@
 #define NCT6793D_SOFT_RESET     64
 
 /* Error register */
-#define NCT6793D_NO_ACK			32
+#define NCT6793D_NO_ACK         32
 
 /* Status register */
+#define NCT6793D_FIFO_EMPTY     1
+#define NCT6793D_FIFO_FULL      2
 #define NCT6793D_MANUAL_ACTIVE  4
-#define NCT6793D_FIFO_EMPTY		1
 
 class i2c_smbus_nuvoton_nct6793d : public i2c_smbus_interface
 {
