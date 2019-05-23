@@ -89,7 +89,8 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
         }
         else
         {
-            Out32(SMBHSTCMD, NCT6793D_READ_BLOCK);
+            return -EOPNOTSUPP;
+            //Out32(SMBHSTCMD, NCT6793D_READ_BLOCK);
         }
         break;
     default:
@@ -147,18 +148,6 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
         break;
     case I2C_SMBUS_WORD_DATA:
         data->word = Inp32(SMBHSTDAT) + (Inp32(SMBHSTDAT) << 8);
-        break;
-    case I2C_SMBUS_BLOCK_DATA:
-        data->block[0] = (u8)Inp32(SMBHSTDAT);
-        if (data->block[0] == 0 || data->block[0] > I2C_SMBUS_BLOCK_MAX)
-        {
-            return -EPROTO;
-        }
-        Inp32(SMBBLKSZ);
-        for (i = 1; i <= data->block[0]; i++)
-        {
-            data->block[i] = (u8)Inp32(SMBHSTDAT);
-        }
         break;
     }
 

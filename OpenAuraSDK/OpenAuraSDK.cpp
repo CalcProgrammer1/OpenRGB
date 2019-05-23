@@ -22,7 +22,9 @@
 #include "i2c_smbus_i801.h"
 #include "i2c_smbus_nuvoton_nct6793d.h"
 #include "wmi.h"
+#include "inpout32.h"
 
+#pragma comment(lib, "inpout32.lib")
 #else /* WIN32 */
 
 #include "OpenAuraSDKQtDialog.h"
@@ -37,6 +39,49 @@ std::vector<AuraController *> controllers;
 std::vector<i2c_smbus_interface *> busses;
 
 #ifdef WIN32
+#define SIO_NCT6793_ID 0xd120
+#define SIO_REG_DEVID 0x20 /* Device ID (2 bytes) */
+#define SIO_ID_MASK 0xFFF8
+
+/******************************************************************************************\
+*                                                                                          *
+*   Super IO functions - In Development                                                    *
+*                                                                                          *
+\******************************************************************************************/
+void superio_enter(int ioreg)
+{
+    Out32(ioreg, 0x87);
+    Out32(ioreg, 0x87);
+}
+
+void superio_outb(int ioreg, int reg, int val)
+{
+    Out32(ioreg, reg);
+    Out32(ioreg + 1, val);
+}
+
+int superio_inb(int ioreg, int reg)
+{
+    Out32(ioreg, reg);
+    return Inp32(ioreg + 1);
+}
+
+bool nct_find()
+{
+    int sioaddr = 0x2E;
+    superio_enter(sioaddr);
+
+    int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
+
+    switch (val & SIO_ID_MASK)
+    {
+    case SIO_NCT6793_ID:
+        return true;
+    }
+
+    return false;
+}
+
 /******************************************************************************************\
 *                                                                                          *
 *   DetectI2CBusses (Windows)                                                              *
@@ -63,10 +108,13 @@ void DetectI2CBusses()
         return;
     }
 
-    //bus = new i2c_smbus_nuvoton_nct6793d();
-    //strcpy(bus->device_name, "Nuvoton NCT6793D");
-    //((i2c_smbus_nuvoton_nct6793d *)bus)->nuvoton_nct6793d_smba = 0x02C0;
-    //busses.push_back(bus);
+    if (nct_find())
+    {
+        bus = new i2c_smbus_nuvoton_nct6793d();
+        strcpy(bus->device_name, "Nuvoton NCT6793D");
+        ((i2c_smbus_nuvoton_nct6793d*)bus)->nuvoton_nct6793d_smba = 0x02C0;
+        busses.push_back(bus);
+    }
 
     // For each detected SMBus adapter, try enumerating it as either AMD or Intel
     for (QueryObj &i : q_res_PnPSignedDriver)
