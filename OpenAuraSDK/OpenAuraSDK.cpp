@@ -39,23 +39,44 @@ std::vector<AuraController *> controllers;
 std::vector<i2c_smbus_interface *> busses;
 
 #ifdef WIN32
-#define SIO_NCT6793_ID      0xd120  /* Device ID for NCT6793D       */
+/******************************************************************************************\
+*                                                                                          *
+*   Nuvoton Super IO constants                                                             *
+*                                                                                          *
+\******************************************************************************************/
+
+#define SIO_NCT5577_ID      0xC333  /* Device ID for NCT5577D       */
+#define SIO_NCT6102_ID      0x1061  /* Device ID for NCT6102D/6106D */
+#define SIO_NCT6793_ID      0xd121  /* Device ID for NCT6793D       */
+#define SIO_NCT6796_ID      0xd421  /* Device ID for NCT6796D       */
 #define SIO_REG_LOGDEV      0x07    /* Logical Device Register      */
 #define SIO_REG_DEVID       0x20    /* Device ID Register           */
 #define SIO_REG_SMBA        0x62    /* SMBus Base Address Register  */
 #define SIO_LOGDEV_SMBUS    0x0B    /* Logical Device for SMBus     */
-#define SIO_ID_MASK         0xFFF8  /* Device ID mask               */
+
 
 /******************************************************************************************\
 *                                                                                          *
-*   Super IO functions - In Development                                                    *
+*   superio_enter                                                                          *
+*                                                                                          *
+*   Put the Super IO chip into Extended Function Mode                                      *
 *                                                                                          *
 \******************************************************************************************/
+
 void superio_enter(int ioreg)
 {
     Out32(ioreg, 0x87);
     Out32(ioreg, 0x87);
 }
+
+
+/******************************************************************************************\
+*                                                                                          *
+*   superio_outb                                                                           *
+*                                                                                          *
+*   Write a byte to the Super IO configuration register                                    *
+*                                                                                          *
+\******************************************************************************************/
 
 void superio_outb(int ioreg, int reg, int val)
 {
@@ -63,13 +84,32 @@ void superio_outb(int ioreg, int reg, int val)
     Out32(ioreg + 1, val);
 }
 
+
+/******************************************************************************************\
+*                                                                                          *
+*   superio_inb                                                                            *
+*                                                                                          *
+*   Read a byte to the Super IO configuration register                                     *
+*                                                                                          *
+\******************************************************************************************/
+
 int superio_inb(int ioreg, int reg)
 {
     Out32(ioreg, reg);
     return Inp32(ioreg + 1);
 }
 
-bool nct_find()
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectNuvotonI2CBusses (Windows)                                                       *
+*                                                                                          *
+*       Detects available Nuvoton Super IO SMBUS adapters and enumerates                   *
+*       i2c_smbus_interface objects for them                                               *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectNuvotonI2CBusses()
 {
     i2c_smbus_interface* bus;
     int sioaddr = 0x2E;
@@ -77,22 +117,43 @@ bool nct_find()
 
     int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
 
-    switch (val & SIO_ID_MASK)
+    switch (val)
     {
+    case SIO_NCT5577_ID:
+    case SIO_NCT6102_ID:
     case SIO_NCT6793_ID:
+    case SIO_NCT6796_ID:
+        bus = new i2c_smbus_nuvoton_nct6793d();
+
+        // Set logical device register to get SMBus base address
         superio_outb(sioaddr, SIO_REG_LOGDEV, SIO_LOGDEV_SMBUS);
 
+        // Get SMBus base address from configuration register
         int smba = (superio_inb(sioaddr, SIO_REG_SMBA) << 8) | superio_inb(sioaddr, SIO_REG_SMBA + 1);
-
-        bus = new i2c_smbus_nuvoton_nct6793d();
-        sprintf(bus->device_name, "Nuvoton NCT6793D SMBus at %X", smba);
         ((i2c_smbus_nuvoton_nct6793d*)bus)->nuvoton_nct6793d_smba = smba;
+
+        // Set device name string
+        switch (val)
+        {
+        case SIO_NCT5577_ID:
+            sprintf(bus->device_name, "Nuvoton NCT5577D SMBus at %X", smba);
+            break;
+        case SIO_NCT6102_ID:
+            sprintf(bus->device_name, "Nuvoton NCT6102D/NCT6106D SMBus at %X", smba);
+            break;
+        case SIO_NCT6793_ID:
+            sprintf(bus->device_name, "Nuvoton NCT6793D SMBus at %X", smba);
+            break;
+        case SIO_NCT6796_ID:
+            sprintf(bus->device_name, "Nuvoton NCT6796D SMBus at %X", smba);
+            break;
+        }
+
         busses.push_back(bus);
-        return true;
     }
 
-    return false;
-}
+}   /* DetectNuvotonI2CBusses() */
+
 
 /******************************************************************************************\
 *                                                                                          *
@@ -119,8 +180,6 @@ void DetectI2CBusses()
     {
         return;
     }
-
-    nct_find();
 
     // For each detected SMBus adapter, try enumerating it as either AMD or Intel
     for (QueryObj &i : q_res_PnPSignedDriver)
@@ -174,6 +233,9 @@ void DetectI2CBusses()
             }
         }
     }
+
+    // Detect Nuvoton Super IO SMBus adapters
+    DetectNuvotonI2CBusses();
 
 }   /* DetectI2CBusses() */
 
