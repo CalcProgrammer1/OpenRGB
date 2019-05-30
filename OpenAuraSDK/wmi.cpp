@@ -155,7 +155,7 @@ HRESULT Wmi::query(std::string queryStr, std::vector<QueryObj>& queryVectorOut, 
 
     while (pEnumerator)
     {
-        hres = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+        hres = pEnumerator->Next(WMI_WAIT_TIME, 1, &pclsObj, &uReturn);
 
         if (0==uReturn)
         {
