@@ -49,6 +49,7 @@ std::vector<i2c_smbus_interface *> busses;
 #define SIO_NCT6102_ID      0x1060  /* Device ID for NCT6102D/6106D (1061)  */
 #define SIO_NCT6793_ID      0xd120  /* Device ID for NCT6793D (D121)        */
 #define SIO_NCT6796_ID      0xd420  /* Device ID for NCT6796D (D421)        */
+#define SIO_NCT6798_ID      0xd428  /* Device ID for NCT6798D (D428)        */
 #define SIO_REG_LOGDEV      0x07    /* Logical Device Register              */
 #define SIO_REG_DEVID       0x20    /* Device ID Register                   */
 #define SIO_REG_SMBA        0x62    /* SMBus Base Address Register          */
@@ -124,6 +125,7 @@ void DetectNuvotonI2CBusses()
     case SIO_NCT6102_ID:
     case SIO_NCT6793_ID:
     case SIO_NCT6796_ID:
+    case SIO_NCT6798_ID:
         bus = new i2c_smbus_nuvoton_nct6793d();
 
         // Set logical device register to get SMBus base address
@@ -147,6 +149,9 @@ void DetectNuvotonI2CBusses()
             break;
         case SIO_NCT6796_ID:
             sprintf(bus->device_name, "Nuvoton NCT6796D SMBus at %X", smba);
+            break;
+        case SIO_NCT6798_ID:
+            sprintf(bus->device_name, "Nuvoton NCT6798D SMBus at %X", smba);
             break;
         }
 
