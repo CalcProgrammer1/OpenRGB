@@ -2,10 +2,20 @@ OpenAuraSDK
 
 This project is an open-source implementation of the Asus Aura RGB controller software.  It currently only supports a limited number of motherboard and RAM module lighting controllers.
 
+Confirmed supported motherboards (only AMD boards working in Linux at the moment):
+
+    * ASUS PRIME X370 Pro
+    * ASUS PRIME Z270-A
+    * ASUS ROG Strix Z370-E
+    
+Confirmed supported RGB RAM (except on X299):
+
+    * G.Skill Trident Z RGB
+    * Geil Super Luce
+
 It supports both Windows and Linux.  To build on Windows, download the latest Visual Studio Community edition and open the .sln.  You may have to retarget the project to the latest version of the Windows SDK and build tools and stuff.  Build for x86, the InpOut32 library I use does not support x64.
 
 To build on Linux, you can either open the project using QT Creator or build it using qmake.
-
 To build with qmake:
 
 cd OpenAuraSDK
