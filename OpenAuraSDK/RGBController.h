@@ -12,6 +12,14 @@
 #include <vector>
 #include <string>
 
+typedef unsigned int RGBColor;
+
+#define RGBGetRValue(rgb)   (rgb & 0x000000FF)
+#define RGBGetGValue(rgb)   ((rgb >> 8) & 0x000000FF)
+#define RGBGetBValue(rgb)   ((rgb >> 16) & 0x000000FF)
+
+#define ToRGBColor(r, g, b) ((b << 16) | (g << 8) | (r))
+
 typedef struct
 {
     std::string         name;   /* LED name         */
@@ -49,5 +57,5 @@ public:
 
     virtual int  GetMode()         = 0;
     virtual void SetMode(int mode) = 0;
-    virtual void SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue) = 0;
+    virtual void SetAllLEDs(RGBColor color) = 0;
 };

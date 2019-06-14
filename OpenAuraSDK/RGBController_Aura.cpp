@@ -34,15 +34,19 @@ void RGBController_Aura::SetMode(int mode)
     }
 }
 
-void RGBController_Aura::SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue)
+void RGBController_Aura::SetAllLEDs(RGBColor color)
 {
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
     if (GetMode() == 0)
     {
-        aura->SetAllColorsDirect(red, green, blue);
+        aura->SetAllColorsDirect(red, grn, blu);
     }
     else
     {
-        aura->SetAllColorsEffect(red, green, blue);
+        aura->SetAllColorsEffect(red, grn, blu);
     }
 }
 

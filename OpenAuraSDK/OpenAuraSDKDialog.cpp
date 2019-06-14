@@ -68,11 +68,13 @@ void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsAll()
 {
     CComboBox* controller_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_DEVICE);
 
-    controllers[controller_box->GetCurSel()]->SetAllLEDs(
+    RGBColor color = ToRGBColor(
         GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_R),
         GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_G),
         GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_B)
     );
+
+    controllers[controller_box->GetCurSel()]->SetAllLEDs(color);
 }
 
 

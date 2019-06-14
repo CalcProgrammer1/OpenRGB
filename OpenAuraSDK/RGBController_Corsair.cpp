@@ -19,9 +19,13 @@ void RGBController_Corsair::SetMode(int mode)
     corsair->SetMode(mode);
 }
 
-void RGBController_Corsair::SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue)
+void RGBController_Corsair::SetAllLEDs(RGBColor color)
 {
-    corsair->SetAllColorsDirect(red, green, blue);
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
+    corsair->SetAllColorsDirect(red, grn, blu);
 }
 
 RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)

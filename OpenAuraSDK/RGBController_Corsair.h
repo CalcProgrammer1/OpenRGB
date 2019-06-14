@@ -18,7 +18,7 @@ public:
     RGBController_Corsair(CorsairController* corsair_ptr);
     int GetMode();
     void SetMode(int mode);
-    void SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue);
+    void SetAllLEDs(RGBColor color);
 
 private:
     CorsairController* corsair;

@@ -18,7 +18,7 @@ public:
     RGBController_Aura(AuraController* aura_ptr);
     int GetMode();
     void SetMode(int mode);
-    void SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue);
+    void SetAllLEDs(RGBColor color);
 
 private:
     AuraController* aura;
