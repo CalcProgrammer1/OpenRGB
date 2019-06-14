@@ -9,6 +9,8 @@
 #include "AuraController.h"
 #include "CorsairController.h"
 #include "RGBController.h"
+#include "RGBController_Aura.h"
+#include "RGBController_Corsair.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>

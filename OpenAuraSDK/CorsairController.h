@@ -51,15 +51,3 @@ private:
     i2c_smbus_interface *   bus;
     corsair_dev_id          dev;
 };
-
-class RGBController_Corsair : public RGBController
-{
-public:
-    RGBController_Corsair(CorsairController* corsair_ptr);
-    int GetMode();
-    void SetMode(int mode);
-    void SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue);
-
-private:
-    CorsairController* corsair;
-};

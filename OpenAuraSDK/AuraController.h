@@ -80,15 +80,3 @@ private:
     aura_dev_id             dev;
 
 };
-
-class RGBController_Aura : public RGBController
-{
-public:
-    RGBController_Aura(AuraController* aura_ptr);
-    int GetMode();
-    void SetMode(int mode);
-    void SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue);
-
-private:
-    AuraController* aura;
-};
