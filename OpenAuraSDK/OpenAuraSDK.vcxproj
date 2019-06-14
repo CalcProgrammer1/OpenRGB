@@ -186,6 +186,7 @@
     <ClInclude Include="OpenAuraSDK.h" />
     <ClInclude Include="OpenAuraSDKDialog.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="RGBController.h" />
     <ClInclude Include="wmi.h" />
   </ItemGroup>
   <ItemGroup>

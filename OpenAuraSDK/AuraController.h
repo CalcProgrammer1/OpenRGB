@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus.h"
+#include "RGBController.h"
 
 #pragma once
 
@@ -46,6 +47,7 @@ enum
     AURA_MODE_SPECTRUM_CYCLE_WAVE       = 11,       /* Wave effect mode                     */
     AURA_MODE_CHASE_RAINBOW_PULSE       = 12,       /* Chase with  Rainbow Pulse effect mode*/
     AURA_MODE_RANDOM_FLICKER            = 13,       /* Random flicker effect mode           */
+    AURA_NUMBER_MODES                               /* Number of Aura modes                 */
 };
 
 class AuraController
@@ -77,5 +79,6 @@ private:
     i2c_smbus_interface *   bus;
     aura_dev_id             dev;
 	
-
+    RGBController           rgb;
+    void            UpdateRGBController();
 };

@@ -45,6 +45,9 @@
     <ClInclude Include="i2c_smbus_nuvoton_nct6793d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RGBController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenAuraSDK.cpp">
