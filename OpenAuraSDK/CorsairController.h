@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus.h"
+#include "RGBController.h"
 
 #pragma once
 
@@ -29,6 +30,7 @@ enum
     CORSAIR_VENGEANCE_RGB_MODE_SINGLE   = 0x00,     /* Single Color Effect Mode             */
     CORSAIR_VENGEANCE_RGB_MODE_FADE     = 0x01,     /* Fade Through Colors                  */
     CORSAIR_VENGEANCE_RGB_MODE_PULSE    = 0x02,     /* Pulse Through Colors                 */
+    CORSAIR_NUMBER_MODES                            /* Number of Corsair modes              */
 };
 
 class CorsairController
@@ -37,15 +39,27 @@ public:
     CorsairController(i2c_smbus_interface* bus, corsair_dev_id dev);
     ~CorsairController();
 
-    char*         GetDeviceName();
-    unsigned int  GetLEDCount();
+    char*           GetDeviceName();
+    unsigned int    GetLEDCount();
+    void            SetMode(unsigned char mode);
 
-    void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
+    void            SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
     char                    device_name[32];
     unsigned int            led_count;
     i2c_smbus_interface *   bus;
     corsair_dev_id          dev;
+};
 
+class RGBController_Corsair : public RGBController
+{
+public:
+    RGBController_Corsair(CorsairController* corsair_ptr);
+    int GetMode();
+    void SetMode(int mode);
+    void SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue);
+
+private:
+    CorsairController* corsair;
 };

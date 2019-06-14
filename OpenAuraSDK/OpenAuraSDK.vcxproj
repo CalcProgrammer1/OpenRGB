@@ -178,6 +178,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AuraController.h" />
+    <ClInclude Include="CorsairController.h" />
     <ClInclude Include="I2CDetectDialog.h" />
     <ClInclude Include="i2c_smbus.h" />
     <ClInclude Include="i2c_smbus_i801.h" />
@@ -191,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AuraController.cpp" />
+    <ClCompile Include="CorsairController.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="I2CDetectDialog.cpp" />
     <ClCompile Include="i2c_smbus.cpp" />

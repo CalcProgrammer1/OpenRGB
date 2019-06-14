@@ -48,6 +48,9 @@
     <ClInclude Include="RGBController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CorsairController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenAuraSDK.cpp">
@@ -78,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="i2c_smbus_nuvoton_nct6793d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CorsairController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

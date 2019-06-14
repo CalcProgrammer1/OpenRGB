@@ -7,6 +7,8 @@
 \******************************************************************************************/
 
 #include "AuraController.h"
+#include "CorsairController.h"
+#include "RGBController.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -35,8 +37,10 @@
 
 #endif /* WIN32 */
 
-std::vector<AuraController *> controllers;
+std::vector<AuraController *> aura_controllers;
+std::vector<CorsairController*> corsair_controllers;
 std::vector<i2c_smbus_interface *> busses;
+std::vector<RGBController*> rgb_controllers;
 
 #ifdef WIN32
 /******************************************************************************************\
@@ -358,6 +362,30 @@ bool TestForAuraController(i2c_smbus_interface* bus, unsigned char address)
 
 /******************************************************************************************\
 *                                                                                          *
+*   TestForCorsairController                                                               *
+*                                                                                          *
+*       Tests the given address to see if a Corsair controller exists there.               *
+*                                                                                          *
+\******************************************************************************************/
+
+bool TestForCorsairController(i2c_smbus_interface* bus, unsigned char address)
+{
+    bool pass = false;
+
+    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+
+    if (res >= 0)
+    {
+        pass = true;
+    }
+
+    return(pass);
+
+}   /* TestForCorsairController() */
+
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectAuraControllers                                                                  *
 *                                                                                          *
 *       Detect Aura controllers on the enumerated I2C busses.  Searches for Aura-enabled   *
@@ -398,7 +426,7 @@ void DetectAuraControllers()
             if (TestForAuraController(busses[bus], 0x70 + slot))
             {
                 new_controller = new AuraController(busses[bus], 0x70 + slot);
-                controllers.push_back(new_controller);
+                aura_controllers.push_back(new_controller);
             }
         }
 
@@ -406,32 +434,95 @@ void DetectAuraControllers()
         if (TestForAuraController(busses[bus], 0x40))
         {
             new_controller = new AuraController(busses[bus], 0x40);
-            controllers.push_back(new_controller);
+            aura_controllers.push_back(new_controller);
         }
 
         // Check for Aura controller at 0x4E
         if (TestForAuraController(busses[bus], 0x4E))
         {
             new_controller = new AuraController(busses[bus], 0x4E);
-            controllers.push_back(new_controller);
+            aura_controllers.push_back(new_controller);
         }
 
         // Check for Aura controller at 0x4F
         if (TestForAuraController(busses[bus], 0x4F))
         {
             new_controller = new AuraController(busses[bus], 0x4F);
-            controllers.push_back(new_controller);
+            aura_controllers.push_back(new_controller);
         }
 
         // Check for Aura controller at 0x66
         if (TestForAuraController(busses[bus], 0x66))
         {
             new_controller = new AuraController(busses[bus], 0x66);
-            controllers.push_back(new_controller);
+            aura_controllers.push_back(new_controller);
         }
     }
 
 }   /* DetectAuraControllers() */
+
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectCorsairControllers                                                               *
+*                                                                                          *
+*       Detect Corsair controllers on the enumerated I2C busses.                           *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
+*           dev - I2C address of Aura device                                               *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectCorsairControllers()
+{
+    CorsairController* new_controller;
+
+    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    {
+        // Check for Corsair controller at 0x58
+        if (TestForCorsairController(busses[bus], 0x58))
+        {
+            new_controller = new CorsairController(busses[bus], 0x58);
+            corsair_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x59
+        if (TestForCorsairController(busses[bus], 0x59))
+        {
+            new_controller = new CorsairController(busses[bus], 0x59);
+            corsair_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5A
+        if (TestForCorsairController(busses[bus], 0x5A))
+        {
+            new_controller = new CorsairController(busses[bus], 0x5A);
+            corsair_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5B
+        if (TestForCorsairController(busses[bus], 0x5B))
+        {
+            new_controller = new CorsairController(busses[bus], 0x5B);
+            corsair_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5C
+        if (TestForCorsairController(busses[bus], 0x5C))
+        {
+            new_controller = new CorsairController(busses[bus], 0x5C);
+            corsair_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5D
+        if (TestForCorsairController(busses[bus], 0x5D))
+        {
+            new_controller = new CorsairController(busses[bus], 0x5D);
+            corsair_controllers.push_back(new_controller);
+        }
+    }
+
+}   /* DetectCorsairControllers() */
 
 
 /******************************************************************************************\
@@ -561,9 +652,24 @@ int main(int argc, char *argv[])
     DetectI2CBusses();
 
     DetectAuraControllers();
+    DetectCorsairControllers();
+
+    for (int i = 0; i < aura_controllers.size(); i++)
+    {
+        RGBController_Aura* aura_rgb = new RGBController_Aura(aura_controllers[i]);
+
+        rgb_controllers.push_back(aura_rgb);
+    }
+
+    for (int i = 0; i < corsair_controllers.size(); i++)
+    {
+        RGBController_Corsair* corsair_rgb = new RGBController_Corsair(corsair_controllers[i]);
+
+        rgb_controllers.push_back(corsair_rgb);
+    }
 
 #if WIN32
-    OpenAuraSDKDialog dlg(busses, controllers);
+    OpenAuraSDKDialog dlg(busses, rgb_controllers);
     dlg.DoModal();
 
     return 0;

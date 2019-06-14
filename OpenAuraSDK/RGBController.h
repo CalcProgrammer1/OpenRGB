@@ -46,4 +46,8 @@ public:
     std::vector<led>    leds;   /* LEDs             */
     std::vector<zone>   zones;  /* Zones            */
     std::vector<mode>   modes;  /* Modes            */
+
+    virtual int  GetMode()         = 0;
+    virtual void SetMode(int mode) = 0;
+    virtual void SetAllLEDs(unsigned char red, unsigned char green, unsigned char blue) = 0;
 };
