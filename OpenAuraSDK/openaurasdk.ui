@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>300</height>
+    <height>160</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>60</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -27,24 +27,24 @@
      <string>Set All</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ButtonSetColors">
+   <widget class="QPushButton" name="ButtonSetZone">
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>10</y>
+      <y>60</y>
       <width>80</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Set Colors</string>
+     <string>Set Zone</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="EditLED0R">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>30</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -54,7 +54,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>60</y>
+      <y>30</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -64,127 +64,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>60</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED1R">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED1G">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>90</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED1B">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>90</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED2R">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>120</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED2G">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>120</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED2B">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>120</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED3R">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>150</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED3G">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>150</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED3B">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>150</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED4R">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>180</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED4G">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>180</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EditLED4B">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>180</y>
+      <y>30</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -194,7 +74,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
+      <y>10</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -207,7 +87,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>40</y>
+      <y>10</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -220,7 +100,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>40</y>
+      <y>10</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -229,7 +109,7 @@
      <string>Blue</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="ComboAuraDevices">
+   <widget class="QComboBox" name="ComboDevices">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -249,176 +129,89 @@
      </rect>
     </property>
     <property name="text">
-     <string>Aura Device</string>
+     <string>Device</string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="GroupBoxDirect">
+   <widget class="QComboBox" name="ComboModes">
     <property name="geometry">
      <rect>
       <x>290</x>
       <y>40</y>
       <width>200</width>
-      <height>60</height>
+      <height>20</height>
      </rect>
     </property>
-    <property name="title">
+   </widget>
+   <widget class="QLabel" name="LabelMode">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>40</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
      <string>Mode</string>
     </property>
-    <widget class="QRadioButton" name="RadioDirect">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>70</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Direct</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioEffect">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>30</y>
-       <width>70</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Effect</string>
-     </property>
-    </widget>
    </widget>
-   <widget class="QGroupBox" name="GroupBoxEffect">
+   <widget class="QComboBox" name="ComboZones">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>70</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelZone">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>70</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zone</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="ComboLEDs">
     <property name="geometry">
      <rect>
       <x>290</x>
       <y>100</y>
       <width>200</width>
-      <height>180</height>
+      <height>20</height>
      </rect>
     </property>
-    <property name="title">
-     <string>Effect</string>
-    </property>
-    <widget class="QRadioButton" name="RadioOff">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>150</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Off</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioStatic">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>150</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Static</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioBreathing">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>60</y>
-       <width>150</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Breathing</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioFlashing">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>150</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Flashing</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioSpectrumCycle">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>100</y>
-       <width>150</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Spectrum Cycle</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioRainbow">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>120</y>
-       <width>150</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Rainbow Wave</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioBreathingSpectrum">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>140</y>
-       <width>180</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Breathing Spectrum</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadioChaseFade">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>160</y>
-       <width>180</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Chase Fade</string>
-     </property>
-    </widget>
    </widget>
-   <widget class="QPushButton" name="ButtonDumpAura">
+   <widget class="QLabel" name="LabelLED">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>260</y>
-      <width>89</width>
-      <height>25</height>
+      <x>200</x>
+      <y>100</y>
+      <width>90</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Dump Aura</string>
+     <string>LED</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonSetLED">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Set LED</string>
     </property>
    </widget>
   </widget>

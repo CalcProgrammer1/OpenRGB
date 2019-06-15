@@ -679,7 +679,7 @@ int main(int argc, char *argv[])
 #else
     QApplication a(argc, argv);
 
-    Ui::OpenAuraSDKQtDialog dlg(busses, controllers);
+    Ui::OpenAuraSDKQtDialog dlg(busses, rgb_controllers);
     dlg.show();
 
     return a.exec();

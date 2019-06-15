@@ -5,7 +5,7 @@
 
 #include <vector>
 #include "i2c_smbus.h"
-#include "AuraController.h"
+#include "RGBController.h"
 
 #include <QMainWindow>
 #include <QTimer>
@@ -22,7 +22,7 @@ class Ui::OpenAuraSDKQtDialog : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit OpenAuraSDKQtDialog(std::vector<i2c_smbus_interface *>& bus, std::vector<AuraController *>& control, QWidget *parent = 0);
+    explicit OpenAuraSDKQtDialog(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent = 0);
     ~OpenAuraSDKQtDialog();
 
     void show();
@@ -30,36 +30,18 @@ public:
 
 protected:
     std::vector<i2c_smbus_interface *>& busses;
-    std::vector<AuraController *>& controllers;
+    std::vector<RGBController *>& controllers;
 
 private slots:
     void on_ButtonSetAll_clicked();
 
-    void on_ButtonSetColors_clicked();
+    void on_ButtonSetZone_clicked();
 
-    void on_RadioDirect_clicked();
+    void on_ButtonSetLED_clicked();
 
-    void on_RadioEffect_clicked();
+    void on_ComboDevices_currentIndexChanged(int index);
 
-    void on_ComboAuraDevices_currentIndexChanged(int index);
-
-    void on_RadioOff_clicked();
-
-    void on_RadioStatic_clicked();
-
-    void on_RadioBreathing_clicked();
-
-    void on_RadioFlashing_clicked();
-
-    void on_RadioSpectrumCycle_clicked();
-
-    void on_RadioRainbow_clicked();
-
-    void on_RadioBreathingSpectrum_clicked();
-
-    void on_RadioChaseFade_clicked();
-
-    void on_ButtonDumpAura_clicked();
+    void on_ComboModes_currentIndexChanged(int index);
 
 private:
     Ui::OpenAuraSDKQtDialogUi *ui;

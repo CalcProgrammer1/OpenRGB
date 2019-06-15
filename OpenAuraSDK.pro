@@ -10,13 +10,20 @@ SOURCES += \
     OpenAuraSDK/AuraController.cpp \
     OpenAuraSDK/OpenAuraSDK.cpp \
     OpenAuraSDK/i2c_smbus_linux.cpp \
-    OpenAuraSDK/OpenAuraSDKQtDialog.cpp
+    OpenAuraSDK/OpenAuraSDKQtDialog.cpp \
+    OpenAuraSDK/CorsairController.cpp \
+    OpenAuraSDK/RGBController_Aura.cpp \
+    OpenAuraSDK/RGBController_Corsair.cpp
 
 HEADERS += \
     OpenAuraSDK/i2c_smbus.h \
     OpenAuraSDK/i2c_smbus_linux.h \
     OpenAuraSDK/AuraController.h \
-    OpenAuraSDK/OpenAuraSDKQtDialog.h
+    OpenAuraSDK/OpenAuraSDKQtDialog.h \
+    OpenAuraSDK/CorsairController.h \
+    OpenAuraSDK/RGBController.h \
+    OpenAuraSDK/RGBController_Aura.h \
+    OpenAuraSDK/RGBController_Corsair.h
 
 FORMS += \
     OpenAuraSDK/openaurasdk.ui
