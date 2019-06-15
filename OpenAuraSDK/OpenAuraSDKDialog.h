@@ -27,12 +27,11 @@ protected:
 
 public:
     afx_msg void OnBnClickedButtonOpenaurasdkI2cdetect();
-    afx_msg void OnBnClickedButtonOpenaurasdkSetColors();
     afx_msg void OnCbnCloseupComboOpenaurasdkDevice();
     afx_msg void OnBnClickedButtonOpenaurasdkSetColorsAll();
-    afx_msg void OnBnClickedButtonOpenaurasdkDump();
     afx_msg void OnCbnCloseupComboOpenaurasdkMode();
 	afx_msg void OnBnClickedButtonOpenaurasdkSetZone();
+    afx_msg void OnBnClickedButtonOpenaurasdkSetColorsLed();
 };
 
 #endif

@@ -24,7 +24,6 @@ BEGIN_MESSAGE_MAP(OpenAuraSDKDialog, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_I2CDETECT, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkI2cdetect)
     ON_CBN_CLOSEUP(IDC_COMBO_OPENAURASDK_DEVICE, &OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkDevice)
     ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_SET_COLORS_ALL, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsAll)
-    ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_DUMP, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkDump)
     ON_CBN_CLOSEUP(IDC_COMBO_OPENAURASDK_MODE, &OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkMode)
     ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_SET_ZONE, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetZone)
 END_MESSAGE_MAP()
@@ -34,6 +33,7 @@ BOOL OpenAuraSDKDialog::OnInitDialog()
     CComboBox* controller_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_DEVICE);
     CComboBox* mode_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_MODE);
     CComboBox* zone_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_ZONE);
+    CComboBox* led_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_LED);
 
     for (int i = 0; i < controllers.size(); i++)
     {
@@ -51,10 +51,17 @@ BOOL OpenAuraSDKDialog::OnInitDialog()
 
     for (int i = 0; i < controllers[0]->zones.size(); i++)
     {
-        mode_box->AddString(controllers[0]->zones[i].name.c_str());
+        zone_box->AddString(controllers[0]->zones[i].name.c_str());
     }
 
     zone_box->SetCurSel(0);
+
+    for (int i = 0; i < controllers[0]->leds.size(); i++)
+    {
+        led_box->AddString(controllers[0]->leds[i].name.c_str());
+    }
+
+    led_box->SetCurSel(0);
 
     return TRUE;
 }
@@ -86,6 +93,7 @@ void OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkDevice()
     CComboBox* controller_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_DEVICE);
     CComboBox* mode_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_MODE);
     CComboBox* zone_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_ZONE);
+    CComboBox* led_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_LED);
 
     mode_box->ResetContent();
 
@@ -98,19 +106,22 @@ void OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkDevice()
 
     zone_box->ResetContent();
 
-    for (int i = 0; i < controllers[0]->zones.size(); i++)
+    for (int i = 0; i < controllers[controller_box->GetCurSel()]->zones.size(); i++)
     {
-        mode_box->AddString(controllers[0]->zones[i].name.c_str());
+        zone_box->AddString(controllers[controller_box->GetCurSel()]->zones[i].name.c_str());
     }
 
     zone_box->SetCurSel(0);
+
+    led_box->ResetContent();
+
+    for (int i = 0; i < controllers[controller_box->GetCurSel()]->leds.size(); i++)
+    {
+        led_box->AddString(controllers[controller_box->GetCurSel()]->leds[i].name.c_str());
+    }
+
+    led_box->SetCurSel(0);
 }
-
-void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkDump()
-{
-
-}
-
 
 void OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkMode()
 {
@@ -133,4 +144,19 @@ void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetZone()
     );
 
     controllers[controller_box->GetCurSel()]->SetAllZoneLEDs(zone_box->GetCurSel(), color);
+}
+
+
+void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsLed()
+{
+    CComboBox* controller_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_DEVICE);
+    CComboBox* led_box = (CComboBox*)GetDlgItem(IDC_COMBO_OPENAURASDK_LED);
+
+    RGBColor color = ToRGBColor(
+        GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_R),
+        GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_G),
+        GetDlgItemInt(IDC_EDIT_OPENAURASDK_LED_0_B)
+    );
+
+    controllers[controller_box->GetCurSel()]->SetLED(led_box->GetCurSel(), color);
 }

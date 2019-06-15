@@ -90,6 +90,8 @@ void RGBController_Aura::SetLED(int led, RGBColor color)
 
 RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 {
+    std::vector<unsigned char> aura_channels;
+
     aura = aura_ptr;
 
     name = aura->GetDeviceName();
@@ -119,26 +121,58 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 
     for (int i = 0; i < aura->GetLEDCount(); i++)
     {
+        aura_channels.push_back(aura->GetChannel(i));
+
         led* new_led = new led();
 
-        new_led->name = "Aura LED";
+        new_led->name = aura->GetChannelName(i);
 
         leds.push_back(*new_led);
     }
 
-    zone new_zone;
+    std::vector<unsigned char> aura_zones;
 
-    new_zone.name = "Aura Zone";
-    new_zone.type = ZONE_TYPE_LINEAR;
-
-    std::vector<int> zone_row;
-
-    for (int i = 0; i < aura->GetLEDCount(); i++)
+    // Search through all LEDs and create zones for each channel type
+    for (int i = 0; i < aura_channels.size(); i++)
     {
-        zone_row.push_back(i);
+        bool matched = false;
+
+        // Search through existing zones to make sure we don't create a duplicate zone
+        for (int j = 0; j < aura_zones.size(); j++)
+        {
+            if (aura_channels[i] == aura_zones[j])
+            {
+                matched = true;
+            }
+        }
+
+        // If zone does not already exist, create it
+        if (matched == false)
+        {
+            zone* new_zone = new zone();
+            std::vector<int>* zone_row = new std::vector<int>();
+
+            // Set zone name to channel name
+            new_zone->name = aura->GetChannelName(i);
+
+            // Find all LEDs with this channel type and add them to zone
+            for (int j = 0; j < aura->GetLEDCount(); j++)
+            {
+                if (aura->GetChannel(j) == aura_channels[i])
+                {
+                    zone_row->push_back(j);
+                }
+            }
+
+            // Aura devices can be either single or linear, never matrix
+            // That means only one row is needed
+            new_zone->map.push_back(*zone_row);
+
+            // Save channel to aura_zones so we know not to create another zone with this channel
+            aura_zones.push_back(aura_channels[i]);
+
+            // Push new zone to zones vector
+            zones.push_back(*new_zone);
+        }
     }
-
-    new_zone.map.push_back(zone_row);
-
-    zones.push_back(new_zone);
 }

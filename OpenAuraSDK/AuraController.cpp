@@ -17,49 +17,57 @@ AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
 
     AuraUpdateDeviceName();
 
+    // Read the device configuration table
+    for (int i = 0; i < 64; i++)
+    {
+        config_table[i] = AuraRegisterRead(AURA_REG_CONFIG_TABLE + i);
+    }
+
+    // Read LED count from configuration table
+    led_count = config_table[AURA_CONFIG_LED_COUNT];
+
     // LED-0116 - First generation motherboard controller
     if (strcmp(device_name, "LED-0116") == 0)
     {
-        direct_reg = AURA_REG_COLORS_DIRECT;
-        effect_reg = AURA_REG_COLORS_EFFECT;
-        led_count  = 5;
+        direct_reg  = AURA_REG_COLORS_DIRECT;
+        effect_reg  = AURA_REG_COLORS_EFFECT;
+        channel_cfg = AURA_CONFIG_CHANNEL_V1;
     }
     // DIMM_LED-0102 - First generation DRAM controller (Trident Z RGB)
     else if (strcmp(device_name, "DIMM_LED-0102") == 0)
     {
-        direct_reg = AURA_REG_COLORS_DIRECT;
-        effect_reg = AURA_REG_COLORS_EFFECT;
-        led_count  = 5;
+        direct_reg  = AURA_REG_COLORS_DIRECT;
+        effect_reg  = AURA_REG_COLORS_EFFECT;
+        channel_cfg = AURA_CONFIG_CHANNEL_V1;
     }
     // AUDA0-E6K5-0101 - Second generation DRAM controller (Geil Super Luce)
     else if (strcmp(device_name, "AUDA0-E6K5-0101") == 0)
     {
-        direct_reg = AURA_REG_COLORS_DIRECT_V2;
-        effect_reg = AURA_REG_COLORS_EFFECT_V2;
-        led_count  = 5;
+        direct_reg  = AURA_REG_COLORS_DIRECT_V2;
+        effect_reg  = AURA_REG_COLORS_EFFECT_V2;
+        channel_cfg = AURA_CONFIG_CHANNEL_V2;
     }
     // AUMA0-E6K5-0106 - Second generation motherboard controller
     else if (strcmp(device_name, "AUMA0-E6K5-0106") == 0)
     {
-        direct_reg = AURA_REG_COLORS_DIRECT_V2;
-        effect_reg = AURA_REG_COLORS_EFFECT_V2;
-        led_count = 5;
+        direct_reg  = AURA_REG_COLORS_DIRECT_V2;
+        effect_reg  = AURA_REG_COLORS_EFFECT_V2;
+        channel_cfg = AURA_CONFIG_CHANNEL_V2;
     }
     // AUMA0-E6K5-0105 - Second generation motherboard controller
     else if (strcmp(device_name, "AUMA0-E6K5-0105") == 0)
     {
-        direct_reg = AURA_REG_COLORS_DIRECT_V2;
-        effect_reg = AURA_REG_COLORS_EFFECT_V2;
-        led_count = 5;
+        direct_reg  = AURA_REG_COLORS_DIRECT_V2;
+        effect_reg  = AURA_REG_COLORS_EFFECT_V2;
+        channel_cfg = AURA_CONFIG_CHANNEL_V2;
     }
     // Assume first generation controller if string does not match
     else
     {
-        direct_reg = AURA_REG_COLORS_DIRECT;
-        effect_reg = AURA_REG_COLORS_EFFECT;
-        led_count = 5;
+        direct_reg  = AURA_REG_COLORS_DIRECT;
+        effect_reg  = AURA_REG_COLORS_EFFECT;
+        channel_cfg = AURA_CONFIG_CHANNEL_V1;
     }
-
 }
 
 AuraController::~AuraController()
@@ -70,6 +78,57 @@ AuraController::~AuraController()
 char * AuraController::GetDeviceName()
 {
     return(device_name);
+}
+
+unsigned char AuraController::GetChannel(unsigned int led)
+{
+    return(config_table[channel_cfg + led]);
+}
+
+const char * AuraController::GetChannelName(unsigned int led)
+{
+    switch (config_table[channel_cfg + led])
+    {
+    case (unsigned char)AURA_LED_CHANNEL_AUDIO:
+        return(aura_channels[0]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_BACKPLATE:
+        return(aura_channels[1]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_BACK_IO:
+        return(aura_channels[2]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_CENTER:
+        return(aura_channels[3]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_CENTER_START:
+        return(aura_channels[4]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_DRAM:
+        return(aura_channels[5]);
+        break;
+    
+    case (unsigned char)AURA_LED_CHANNEL_PCIE:
+        return(aura_channels[6]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_RGB_HEADER:
+        return(aura_channels[7]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_RGB_HEADER_2:
+        return(aura_channels[8]);
+        break;
+
+    default:
+        return(aura_channels[9]);
+        break;
+    }
 }
 
 unsigned int AuraController::GetLEDCount()

@@ -20,6 +20,7 @@ typedef unsigned short	aura_register;
 enum
 {
     AURA_REG_DEVICE_NAME                = 0x1000,   /* Device String 16 bytes               */
+    AURA_REG_CONFIG_TABLE               = 0x1C00,   /* Start of LED configuration bytes     */
     AURA_REG_COLORS_DIRECT              = 0x8000,   /* Colors for Direct Mode 15 bytes      */
     AURA_REG_COLORS_EFFECT              = 0x8010,   /* Colors for Internal Effects 15 bytes */
     AURA_REG_DIRECT                     = 0x8020,   /* "Direct Access" Selection Register   */
@@ -50,6 +51,41 @@ enum
     AURA_NUMBER_MODES                               /* Number of Aura modes                 */
 };
 
+enum
+{
+    AURA_LED_CHANNEL_DRAM_2             = 0x05,     /* DRAM LED channel                     */
+    AURA_LED_CHANNEL_CENTER_START       = 0x82,     /* Center zone first LED channel        */
+    AURA_LED_CHANNEL_CENTER             = 0x83,     /* Center zone LED channel              */
+    AURA_LED_CHANNEL_AUDIO              = 0x84,     /* Audio zone LED channel               */
+    AURA_LED_CHANNEL_BACK_IO            = 0x85,     /* Back I/O zone LED channel            */
+    AURA_LED_CHANNEL_RGB_HEADER         = 0x86,     /* RGB Header LED channel               */
+    AURA_LED_CHANNEL_RGB_HEADER_2       = 0x87,     /* RGB Header 2 LED channel             */
+    AURA_LED_CHANNEL_BACKPLATE          = 0x88,     /* Backplate zone LED channel           */
+    AURA_LED_CHANNEL_DRAM               = 0x8A,     /* DRAM LED channel                     */
+    AURA_LED_CHANNEL_PCIE               = 0x8B,     /* PCIe zone LED channel                */
+};
+
+static const char* aura_channels[] =                /* Aura channel strings                 */
+{
+    "Audio",
+    "Backplate",
+    "Back I/O",
+    "Center",
+    "Center",
+    "DRAM",
+    "PCIe",
+    "RGB Header",
+    "RGB Header 2",
+    "Unknown",
+};
+
+enum
+{
+    AURA_CONFIG_LED_COUNT               = 0x02,     /* LED Count configuration offset       */
+    AURA_CONFIG_CHANNEL_V1              = 0x13,     /* LED Channel configuration offset     */
+    AURA_CONFIG_CHANNEL_V2              = 0x1B,     /* LED Channel V2 configuration offset  */
+};
+
 class AuraController
 {
 public:
@@ -57,6 +93,8 @@ public:
     ~AuraController();
 
     char*         GetDeviceName();
+    unsigned char GetChannel(unsigned int led);
+    const char*   GetChannelName(unsigned int led);
     unsigned int  GetLEDCount();
     void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
     void          SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue);
@@ -73,9 +111,11 @@ public:
 
 private:
     char                    device_name[16];
+    unsigned char           config_table[64];
     unsigned int            led_count;
     aura_register           direct_reg;
     aura_register           effect_reg;
+    unsigned char           channel_cfg;
     i2c_smbus_interface *   bus;
     aura_dev_id             dev;
 
