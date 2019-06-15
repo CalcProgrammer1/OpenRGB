@@ -29,8 +29,8 @@ void RGBController_Aura::SetMode(int mode)
     }
     else
     {
-        aura->SetDirect(false);
         aura->SetMode(mode - 1);
+        aura->SetDirect(false);
     }
 }
 

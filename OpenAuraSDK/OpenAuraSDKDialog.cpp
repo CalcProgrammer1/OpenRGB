@@ -47,7 +47,7 @@ BOOL OpenAuraSDKDialog::OnInitDialog()
         mode_box->AddString(controllers[0]->modes[i].name.c_str());
     }
 
-    mode_box->SetCurSel(0);
+    mode_box->SetCurSel(controllers[0]->GetMode());
 
     for (int i = 0; i < controllers[0]->zones.size(); i++)
     {
