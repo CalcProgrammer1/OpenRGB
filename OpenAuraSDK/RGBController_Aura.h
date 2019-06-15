@@ -19,6 +19,8 @@ public:
     int GetMode();
     void SetMode(int mode);
     void SetAllLEDs(RGBColor color);
+    void SetAllZoneLEDs(int zone, RGBColor color);
+    void SetLED(int led, RGBColor color);
 
 private:
     AuraController* aura;

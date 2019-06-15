@@ -67,9 +67,9 @@ public:
 
     void          AuraUpdateDeviceName();
 
-	unsigned char AuraRegisterRead(aura_register reg);
-	void          AuraRegisterWrite(aura_register reg, unsigned char val);
-	void          AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz);
+    unsigned char AuraRegisterRead(aura_register reg);
+    void          AuraRegisterWrite(aura_register reg, unsigned char val);
+    void          AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz);
 
 private:
     char                    device_name[16];

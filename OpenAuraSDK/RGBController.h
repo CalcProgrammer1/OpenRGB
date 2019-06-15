@@ -58,4 +58,6 @@ public:
     virtual int  GetMode()         = 0;
     virtual void SetMode(int mode) = 0;
     virtual void SetAllLEDs(RGBColor color) = 0;
+	virtual void SetAllZoneLEDs(int zone, RGBColor color) = 0;
+	virtual void SetLED(int led, RGBColor color) = 0;
 };

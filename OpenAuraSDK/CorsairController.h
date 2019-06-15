@@ -43,7 +43,8 @@ public:
     unsigned int    GetLEDCount();
     void            SetMode(unsigned char mode);
 
-    void            SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
+    void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
+    void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
 
 private:
     char                    device_name[32];

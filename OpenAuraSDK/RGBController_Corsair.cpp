@@ -25,7 +25,31 @@ void RGBController_Corsair::SetAllLEDs(RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    corsair->SetAllColorsDirect(red, grn, blu);
+    corsair->SetAllColors(red, grn, blu);
+}
+
+void RGBController_Corsair::SetAllZoneLEDs(int zone, RGBColor color)
+{
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
+    for (int x = 0; x < zones[zone].map.size(); x++)
+    {
+        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        {
+            corsair->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
+        }
+    }
+}
+
+void RGBController_Corsair::SetLED(int led, RGBColor color)
+{
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
+    corsair->SetLEDColor(led, red, grn, blu);
 }
 
 RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)

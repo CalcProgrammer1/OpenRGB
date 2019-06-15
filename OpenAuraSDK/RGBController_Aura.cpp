@@ -50,6 +50,44 @@ void RGBController_Aura::SetAllLEDs(RGBColor color)
     }
 }
 
+void RGBController_Aura::SetAllZoneLEDs(int zone, RGBColor color)
+{
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
+    for (int x = 0; x < zones[zone].map.size(); x++)
+    {
+        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        {
+            if (GetMode() == 0)
+            {
+                aura->SetLEDColorDirect(zones[zone].map[x][y], red, grn, blu);
+            }
+            else
+            {
+                aura->SetLEDColorEffect(zones[zone].map[x][y], red, grn, blu);
+            }
+        }
+    }
+}
+
+void RGBController_Aura::SetLED(int led, RGBColor color)
+{
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
+    if (GetMode() == 0)
+    {
+        aura->SetLEDColorDirect(led, red, grn, blu);
+    }
+    else
+    {
+        aura->SetLEDColorEffect(led, red, grn, blu);
+    }
+}
+
 RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 {
     aura = aura_ptr;
