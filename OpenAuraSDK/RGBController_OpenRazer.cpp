@@ -304,6 +304,11 @@ static unsigned int GetTypeFromDeviceName(std::string dev_name)
     {
         return(RAZER_DEATHADDER_CHROMA);
     }
+
+    if(dev_name == "Razer DeathStalker Chroma")
+    {
+        return(RAZER_DEATHSTALKER_CHROMA);
+    }
 }
 
 void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path)
@@ -465,6 +470,34 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 zones.push_back(wheel_zone);
             }
             break;
-            
+        
+        case RAZER_DEATHSTALKER_CHROMA:
+            {
+                SetupMatrixDevice(dev_path);
+
+                for(int i = 0; i < 12; i++)
+                {
+                    RGBColor new_color = 0x00000000;
+                    color_buffer.push_back(new_color);
+                }
+
+                for (int i = 0; i < 12; i++)
+                {
+                    led* new_led = new led();
+                    new_led->name = "Keyboard";
+                    leds.push_back(*new_led);
+                }
+
+                zone keyboard_zone;
+                keyboard_zone.name = "Keyboard";
+                keyboard_zone.type = ZONE_TYPE_LINEAR;
+                std::vector<int> keyboard_zone_map;
+                for(int i = 0; i < 12; i++)
+                {
+                    keyboard_zone_map.push_back(i);
+                }
+                keyboard_zone.map.push_back(keyboard_zone_map);
+                zones.push_back(keyboard_zone);
+            }
     }
 }

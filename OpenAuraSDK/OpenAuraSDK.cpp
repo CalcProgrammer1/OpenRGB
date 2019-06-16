@@ -680,6 +680,10 @@ int main(int argc, char *argv[])
     razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0043.0007");
 
     rgb_controllers.push_back(razer_rgb);
+
+    razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razerkbd/0003:1532:0204.000C");
+
+    rgb_controllers.push_back(razer_rgb);
 #endif
 
 #if WIN32
