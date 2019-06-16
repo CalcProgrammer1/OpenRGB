@@ -26,7 +26,24 @@ private:
     unsigned int type;
     std::vector<RGBColor> color_buffer;
 
-    //OpenRazer Sysfs Entries
-    std::ofstream matrix_effect_custom;
+    void SetupMatrixDevice(std::string dev_path);
+    void SetupNonMatrixDevice(std::string dev_path);
+
+    bool matrix_device;
+
+    //OpenRazer Sysfs Entries for Matrix Devices
     std::ofstream matrix_custom_frame;
+    std::ofstream matrix_effect_custom;
+    std::ofstream matrix_effect_breath;
+    std::ofstream matrix_effect_none;
+    std::ofstream matrix_effect_reactive;
+    std::ofstream matrix_effect_spectrum;
+    std::ofstream matrix_effect_static;
+    std::ofstream matrix_effect_wave;
+
+    //OpenRazer Sysfs Entries for Non-Matrix Devices
+    std::ofstream logo_led_effect;
+    std::ofstream logo_led_rgb;
+    std::ofstream scroll_led_effect;
+    std::ofstream scroll_led_rgb;
 };

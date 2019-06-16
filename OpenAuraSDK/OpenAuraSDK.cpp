@@ -672,8 +672,12 @@ int main(int argc, char *argv[])
     }
 
     //This is only for testing, hard-coding the OpenRazer path for my mouse
-#if 0 
+#if 0
     RGBController_OpenRazer* razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0046.0004");
+
+    rgb_controllers.push_back(razer_rgb);
+
+    razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0043.0007");
 
     rgb_controllers.push_back(razer_rgb);
 #endif
