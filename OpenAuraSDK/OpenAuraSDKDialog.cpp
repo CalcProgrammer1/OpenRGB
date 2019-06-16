@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(OpenAuraSDKDialog, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_SET_COLORS_ALL, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsAll)
     ON_CBN_CLOSEUP(IDC_COMBO_OPENAURASDK_MODE, &OpenAuraSDKDialog::OnCbnCloseupComboOpenaurasdkMode)
     ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_SET_ZONE, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetZone)
+    ON_BN_CLICKED(IDC_BUTTON_OPENAURASDK_SET_COLORS_LED, &OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsLed)
 END_MESSAGE_MAP()
 
 BOOL OpenAuraSDKDialog::OnInitDialog()
