@@ -11,6 +11,7 @@
 #include "RGBController.h"
 #include "RGBController_Aura.h"
 #include "RGBController_Corsair.h"
+#include "RGBController_OpenRazer.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -669,6 +670,13 @@ int main(int argc, char *argv[])
 
         rgb_controllers.push_back(corsair_rgb);
     }
+
+    //This is only for testing, hard-coding the OpenRazer path for my mouse
+#if 0 
+    RGBController_OpenRazer* razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0046.0004");
+
+    rgb_controllers.push_back(razer_rgb);
+#endif
 
 #if WIN32
     OpenAuraSDKDialog dlg(busses, rgb_controllers);

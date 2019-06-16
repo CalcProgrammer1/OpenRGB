@@ -13,7 +13,8 @@ SOURCES += \
     OpenAuraSDK/OpenAuraSDKQtDialog.cpp \
     OpenAuraSDK/CorsairController.cpp \
     OpenAuraSDK/RGBController_Aura.cpp \
-    OpenAuraSDK/RGBController_Corsair.cpp
+    OpenAuraSDK/RGBController_Corsair.cpp \
+    OpenAuraSDK/RGBController_OpenRazer.cpp
 
 HEADERS += \
     OpenAuraSDK/i2c_smbus.h \
@@ -23,7 +24,8 @@ HEADERS += \
     OpenAuraSDK/CorsairController.h \
     OpenAuraSDK/RGBController.h \
     OpenAuraSDK/RGBController_Aura.h \
-    OpenAuraSDK/RGBController_Corsair.h
+    OpenAuraSDK/RGBController_Corsair.h \
+    OpenAuraSDK/RGBController_OpenRazer.h
 
 FORMS += \
     OpenAuraSDK/openaurasdk.ui
