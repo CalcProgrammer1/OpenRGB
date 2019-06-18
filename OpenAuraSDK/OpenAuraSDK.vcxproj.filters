@@ -57,6 +57,9 @@
     <ClInclude Include="RGBController_Corsair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RGBController_AorusGPU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenAuraSDK.cpp">
@@ -96,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RGBController_Corsair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController_AorusGPU.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

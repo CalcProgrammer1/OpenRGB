@@ -188,6 +188,7 @@
     <ClInclude Include="OpenAuraSDKDialog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RGBController.h" />
+    <ClInclude Include="RGBController_AorusGPU.h" />
     <ClInclude Include="RGBController_Aura.h" />
     <ClInclude Include="RGBController_Corsair.h" />
     <ClInclude Include="wmi.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="i2c_smbus_nuvoton_nct6793d.cpp" />
     <ClCompile Include="i2c_smbus_piix4.cpp" />
     <ClCompile Include="OpenAuraSDKDialog.cpp" />
+    <ClCompile Include="RGBController_AorusGPU.cpp" />
     <ClCompile Include="RGBController_Aura.cpp" />
     <ClCompile Include="RGBController_Corsair.cpp" />
     <ClCompile Include="wmi.cpp" />

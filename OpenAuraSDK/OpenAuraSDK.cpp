@@ -12,6 +12,7 @@
 #include "RGBController_Aura.h"
 #include "RGBController_Corsair.h"
 #include "RGBController_OpenRazer.h"
+#include "RGBController_AorusGPU.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -684,6 +685,13 @@ int main(int argc, char *argv[])
     razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razerkbd/0003:1532:0204.000C");
 
     rgb_controllers.push_back(razer_rgb);
+#endif
+
+    //This is for testing Aorus GPU
+#if 0
+    RGBController_AorusGPU* aorus_rgb = new RGBController_AorusGPU();
+
+    rgb_controllers.push_back(aorus_rgb);
 #endif
 
 #if WIN32
