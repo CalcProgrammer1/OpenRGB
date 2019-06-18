@@ -21,6 +21,7 @@ public:
     RGBController_AorusGPU();
     int GetMode();
     void SetMode(int mode);
+    void SetCustomMode();
     void SetAllLEDs(RGBColor color);
     void SetAllZoneLEDs(int zone, RGBColor color);
     void SetLED(int led, RGBColor color);

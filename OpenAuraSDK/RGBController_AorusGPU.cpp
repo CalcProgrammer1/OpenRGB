@@ -30,6 +30,11 @@ void RGBController_AorusGPU::SetMode(int mode)
 
 }
 
+void RGBController_AorusGPU::SetCustomMode()
+{
+
+}
+
 void RGBController_AorusGPU::SetAllLEDs(RGBColor color)
 {
     data[9] = RGBGetRValue(color);

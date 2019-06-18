@@ -114,6 +114,11 @@ void RGBController_OpenRazer::SetMode(int mode)
     
 }
 
+void RGBController_OpenRazer::SetCustomMode()
+{
+    SetMode(RAZER_MODE_CUSTOM);
+}
+
 void RGBController_OpenRazer::SetAllLEDs(RGBColor color)
 {
     for(int i = 0; i < color_buffer.size(); i++)

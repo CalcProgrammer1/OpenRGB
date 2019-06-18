@@ -19,6 +19,11 @@ void RGBController_Corsair::SetMode(int mode)
     corsair->SetMode(mode);
 }
 
+void RGBController_Corsair::SetCustomMode()
+{
+
+}
+
 void RGBController_Corsair::SetAllLEDs(RGBColor color)
 {
     unsigned char red = RGBGetRValue(color);

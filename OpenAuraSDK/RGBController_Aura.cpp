@@ -34,6 +34,11 @@ void RGBController_Aura::SetMode(int mode)
     }
 }
 
+void RGBController_Aura::SetCustomMode()
+{
+    aura->SetDirect(true);
+}
+
 void RGBController_Aura::SetAllLEDs(RGBColor color)
 {
     unsigned char red = RGBGetRValue(color);

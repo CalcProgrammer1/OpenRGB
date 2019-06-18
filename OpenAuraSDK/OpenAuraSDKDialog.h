@@ -32,6 +32,7 @@ public:
     afx_msg void OnCbnCloseupComboOpenaurasdkMode();
 	afx_msg void OnBnClickedButtonOpenaurasdkSetZone();
     afx_msg void OnBnClickedButtonOpenaurasdkSetColorsLed();
+    afx_msg void OnBnClickedButtonOpenaurasdkSetColorsDevice();
 };
 
 #endif
