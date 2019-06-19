@@ -22,7 +22,6 @@
 
 #include <tchar.h>
 #include <regex>
-#include "OpenAuraSDKDialog.h"
 #include "I2CDetectDialog.h"
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
@@ -33,7 +32,6 @@
 #pragma comment(lib, "inpout32.lib")
 #else /* WIN32 */
 
-#include "OpenAuraSDKQtDialog.h"
 #include "i2c_smbus_linux.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -41,9 +39,9 @@
 
 #endif /* WIN32 */
 
-std::vector<AuraController *> aura_controllers;
+std::vector<AuraController*> aura_controllers;
 std::vector<CorsairController*> corsair_controllers;
-std::vector<i2c_smbus_interface *> busses;
+std::vector<i2c_smbus_interface*> busses;
 std::vector<RGBController*> rgb_controllers;
 
 #ifdef WIN32
@@ -555,8 +553,6 @@ std::string DetectI2C(i2c_smbus_interface * bus, int mode)
     char line[128];
     std::string text;
 
-    freopen("i2cdetect.txt", "a", stdout);
-
     sprintf(line, "     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
     text.append(line);
 
@@ -645,13 +641,13 @@ void DumpAuraRegisters(AuraController * controller)
 
 /******************************************************************************************\
 *                                                                                          *
-*   main                                                                                   *
+*   DetectRGBConrollers                                                                    *
 *                                                                                          *
-*       Main function.  Detects busses and Aura controllers, then opens the main window    *
+*       Detect and populate RGB Controllers vector                                         *
 *                                                                                          *
 \******************************************************************************************/
 
-int main(int argc, char *argv[])
+void DetectRGBControllers(void)
 {
     DetectI2CBusses();
 
@@ -674,7 +670,7 @@ int main(int argc, char *argv[])
 
     //This is only for testing, hard-coding the OpenRazer path for my mouse
 #if 0
-    RGBController_OpenRazer* razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0046.0004");
+    RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0046.0004");
 
     rgb_controllers.push_back(razer_rgb);
 
@@ -689,23 +685,9 @@ int main(int argc, char *argv[])
 
     //This is for testing Aorus GPU
 #if 0
-    RGBController_AorusGPU* aorus_rgb = new RGBController_AorusGPU();
+    RGBController_AorusGPU * aorus_rgb = new RGBController_AorusGPU();
 
     rgb_controllers.push_back(aorus_rgb);
 #endif
 
-#if WIN32
-    OpenAuraSDKDialog dlg(busses, rgb_controllers);
-    dlg.DoModal();
-
-    return 0;
-
-#else
-    QApplication a(argc, argv);
-
-    Ui::OpenAuraSDKQtDialog dlg(busses, rgb_controllers);
-    dlg.show();
-
-    return a.exec();
-#endif
 }

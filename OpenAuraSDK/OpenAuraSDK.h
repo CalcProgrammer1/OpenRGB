@@ -9,3 +9,4 @@
 
 std::string DetectI2C(i2c_smbus_interface * bus, int mode);
 void DumpAuraRegisters(AuraController * controller);
+void DetectRGBControllers();

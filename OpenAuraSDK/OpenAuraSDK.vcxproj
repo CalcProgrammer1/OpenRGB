@@ -202,6 +202,7 @@
     <ClCompile Include="i2c_smbus_i801.cpp" />
     <ClCompile Include="i2c_smbus_nuvoton_nct6793d.cpp" />
     <ClCompile Include="i2c_smbus_piix4.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenAuraSDKDialog.cpp" />
     <ClCompile Include="RGBController_AorusGPU.cpp" />
     <ClCompile Include="RGBController_Aura.cpp" />
