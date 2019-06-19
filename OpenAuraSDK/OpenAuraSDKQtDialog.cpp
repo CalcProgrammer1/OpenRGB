@@ -34,6 +34,21 @@ void Ui::OpenAuraSDKQtDialog::on_ButtonSetAll_clicked()
         ui->EditLED0B->text().toInt()
     );
 
+    for (int i = 0; i < controllers.size(); i++)
+    {
+        controllers[i]->SetCustomMode();
+        controllers[i]->SetAllLEDs(color);
+    }
+}
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonSetDevice_clicked()
+{
+    RGBColor color = ToRGBColor(
+        ui->EditLED0R->text().toInt(),
+        ui->EditLED0G->text().toInt(),
+        ui->EditLED0B->text().toInt()
+    );
+
     controllers[ui->ComboDevices->currentIndex()]->SetAllLEDs(color);
 }
 

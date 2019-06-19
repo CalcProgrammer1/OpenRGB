@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="ButtonSetZone">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>60</y>
+      <x>10</x>
+      <y>90</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -204,7 +204,7 @@
    <widget class="QPushButton" name="ButtonSetLED">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>100</x>
       <y>90</y>
       <width>80</width>
       <height>20</height>
@@ -212,6 +212,19 @@
     </property>
     <property name="text">
      <string>Set LED</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonSetDevice">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>60</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Set Device</string>
     </property>
    </widget>
   </widget>

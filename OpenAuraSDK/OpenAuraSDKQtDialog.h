@@ -35,6 +35,8 @@ protected:
 private slots:
     void on_ButtonSetAll_clicked();
 
+    void on_ButtonSetDevice_clicked();
+
     void on_ButtonSetZone_clicked();
 
     void on_ButtonSetLED_clicked();
