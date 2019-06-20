@@ -33,6 +33,13 @@ protected:
     std::vector<RGBController *>& controllers;
 
 private slots:
+    void on_ButtonRed_clicked();
+    void on_ButtonYellow_clicked();
+    void on_ButtonGreen_clicked();
+    void on_ButtonCyan_clicked();
+    void on_ButtonBlue_clicked();
+    void on_ButtonMagenta_clicked();
+
     void on_ButtonSetAll_clicked();
 
     void on_ButtonSetDevice_clicked();

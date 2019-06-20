@@ -7,6 +7,50 @@ OpenAuraSDKQtDialog::OpenAuraSDKQtDialog(std::vector<i2c_smbus_interface *>& bus
 {
     ui->setupUi(this);
 
+    QPalette pal;
+
+    pal = ui->ButtonRed->palette();
+    pal.setColor(QPalette::Button, QColor(255, 0, 0));
+    ui->ButtonRed->setAutoFillBackground(true);
+    ui->ButtonRed->setPalette(pal);
+    ui->ButtonRed->setFlat(true);
+    ui->ButtonRed->update();
+
+    pal = ui->ButtonYellow->palette();
+    pal.setColor(QPalette::Button, QColor(255, 255, 0));
+    ui->ButtonYellow->setAutoFillBackground(true);
+    ui->ButtonYellow->setPalette(pal);
+    ui->ButtonYellow->setFlat(true);
+    ui->ButtonYellow->update();
+
+    pal = ui->ButtonGreen->palette();
+    pal.setColor(QPalette::Button, QColor(0, 255, 0));
+    ui->ButtonGreen->setAutoFillBackground(true);
+    ui->ButtonGreen->setPalette(pal);
+    ui->ButtonGreen->setFlat(true);
+    ui->ButtonGreen->update();
+
+    pal = ui->ButtonCyan->palette();
+    pal.setColor(QPalette::Button, QColor(0, 255, 255));
+    ui->ButtonCyan->setAutoFillBackground(true);
+    ui->ButtonCyan->setPalette(pal);
+    ui->ButtonCyan->setFlat(true);
+    ui->ButtonCyan->update();
+
+    pal = ui->ButtonBlue->palette();
+    pal.setColor(QPalette::Button, QColor(0, 0, 255));
+    ui->ButtonBlue->setAutoFillBackground(true);
+    ui->ButtonBlue->setPalette(pal);
+    ui->ButtonBlue->setFlat(true);
+    ui->ButtonBlue->update();
+
+    pal = ui->ButtonMagenta->palette();
+    pal.setColor(QPalette::Button, QColor(255, 0, 255));
+    ui->ButtonMagenta->setAutoFillBackground(true);
+    ui->ButtonMagenta->setPalette(pal);
+    ui->ButtonMagenta->setFlat(true);
+    ui->ButtonMagenta->update();
+
     for (int i = 0; i < controllers.size(); i++)
     {
         ui->ComboDevices->addItem(controllers[i]->name.c_str());
@@ -24,6 +68,48 @@ OpenAuraSDKQtDialog::~OpenAuraSDKQtDialog()
 void OpenAuraSDKQtDialog::show()
 {
     QMainWindow::show();
+}
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonRed_clicked()
+{
+    ui->EditLED0R->setText("255");
+    ui->EditLED0G->setText("0");
+    ui->EditLED0B->setText("0");
+}
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonYellow_clicked()
+{
+    ui->EditLED0R->setText("255");
+    ui->EditLED0G->setText("255");
+    ui->EditLED0B->setText("0");
+}
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonGreen_clicked()
+{
+    ui->EditLED0R->setText("0");
+    ui->EditLED0G->setText("255");
+    ui->EditLED0B->setText("0");
+}
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonCyan_clicked()
+{
+    ui->EditLED0R->setText("0");
+    ui->EditLED0G->setText("255");
+    ui->EditLED0B->setText("255");
+}
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonBlue_clicked()
+{
+    ui->EditLED0R->setText("0");
+    ui->EditLED0G->setText("0");
+    ui->EditLED0B->setText("255");
+}
+
+void Ui::OpenAuraSDKQtDialog::on_ButtonMagenta_clicked()
+{
+    ui->EditLED0R->setText("255");
+    ui->EditLED0G->setText("0");
+    ui->EditLED0B->setText("255");
 }
 
 void Ui::OpenAuraSDKQtDialog::on_ButtonSetAll_clicked()
