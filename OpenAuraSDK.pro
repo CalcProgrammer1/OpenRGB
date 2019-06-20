@@ -14,7 +14,8 @@ SOURCES += \
     OpenAuraSDK/CorsairController.cpp \
     OpenAuraSDK/RGBController_Aura.cpp \
     OpenAuraSDK/RGBController_Corsair.cpp \
-    OpenAuraSDK/RGBController_OpenRazer.cpp
+    OpenAuraSDK/RGBController_OpenRazer.cpp \
+    OpenAuraSDK/main.cpp
 
 HEADERS += \
     OpenAuraSDK/i2c_smbus.h \
