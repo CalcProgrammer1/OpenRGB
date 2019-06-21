@@ -60,6 +60,15 @@
     <ClInclude Include="RGBController_AorusGPU.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RGBController_LEDStrip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="serial_port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LEDStrip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenAuraSDK.cpp">
@@ -105,6 +114,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController_LEDStrip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LEDStrip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="serial_port.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

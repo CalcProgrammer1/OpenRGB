@@ -13,6 +13,7 @@
 #include "RGBController_Corsair.h"
 #include "RGBController_OpenRazer.h"
 #include "RGBController_AorusGPU.h"
+#include "RGBController_LEDStrip.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -22,7 +23,6 @@
 
 #include <tchar.h>
 #include <regex>
-#include "I2CDetectDialog.h"
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
 #include "i2c_smbus_nuvoton_nct6793d.h"
@@ -689,6 +689,13 @@ void DetectRGBControllers(void)
     RGBController_AorusGPU * aorus_rgb = new RGBController_AorusGPU();
 
     rgb_controllers.push_back(aorus_rgb);
+#endif
+
+    //This is for testing LED strips
+#if 0
+    RGBController_LEDStrip* ledstrip_rgb = new RGBController_LEDStrip();
+
+    rgb_controllers.push_back(ledstrip_rgb);
 #endif
 
 }
