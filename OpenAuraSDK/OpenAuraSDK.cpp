@@ -8,9 +8,11 @@
 
 #include "AuraController.h"
 #include "CorsairController.h"
+#include "HyperXController.h"
 #include "RGBController.h"
 #include "RGBController_Aura.h"
 #include "RGBController_Corsair.h"
+#include "RGBController_HyperX.h"
 #include "RGBController_OpenRazer.h"
 #include "RGBController_AorusGPU.h"
 #include "RGBController_LEDStrip.h"
@@ -42,6 +44,7 @@
 
 std::vector<AuraController*> aura_controllers;
 std::vector<CorsairController*> corsair_controllers;
+std::vector<HyperXController*> hyperx_controllers;
 std::vector<i2c_smbus_interface*> busses;
 std::vector<RGBController*> rgb_controllers;
 
@@ -389,6 +392,30 @@ bool TestForCorsairController(i2c_smbus_interface* bus, unsigned char address)
 
 /******************************************************************************************\
 *                                                                                          *
+*   TestForHyperXController                                                               *
+*                                                                                          *
+*       Tests the given address to see if a HyperX controller exists there.               *
+*                                                                                          *
+\******************************************************************************************/
+
+bool TestForHyperXController(i2c_smbus_interface* bus, unsigned char address)
+{
+    bool pass = false;
+
+    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+
+    if (res >= 0)
+    {
+        pass = true;
+    }
+
+    return(pass);
+
+}   /* TestForHyperXController() */
+
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectAuraControllers                                                                  *
 *                                                                                          *
 *       Detect Aura controllers on the enumerated I2C busses.  Searches for Aura-enabled   *
@@ -530,6 +557,34 @@ void DetectCorsairControllers()
 
 /******************************************************************************************\
 *                                                                                          *
+*   DetectHyperXControllers                                                                *
+*                                                                                          *
+*       Detect HyperX controllers on the enumerated I2C busses.                            *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
+*           dev - I2C address of Aura device                                               *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectHyperXControllers()
+{
+    HyperXController* new_controller;
+
+    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    {
+        // Check for HyperX controller at 0x27
+        if (TestForCorsairController(busses[bus], 0x27))
+        {
+            new_controller = new HyperXController(busses[bus], 0x27);
+            hyperx_controllers.push_back(new_controller);
+        }
+    }
+
+}   /* DetectHyperXControllers() */
+
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectI2C                                                                              *
 *                                                                                          *
 *       Prints a list of all detected I2C addresses on the given bus                       *
@@ -654,6 +709,7 @@ void DetectRGBControllers(void)
 
     DetectAuraControllers();
     DetectCorsairControllers();
+    DetectHyperXControllers();
 
     for (int i = 0; i < aura_controllers.size(); i++)
     {
@@ -669,6 +725,13 @@ void DetectRGBControllers(void)
         rgb_controllers.push_back(corsair_rgb);
     }
 
+    for (int i = 0; i < hyperx_controllers.size(); i++)
+    {
+        RGBController_HyperX* hyperx_rgb = new RGBController_HyperX(hyperx_controllers[i]);
+
+        rgb_controllers.push_back(hyperx_rgb);
+    }
+    
     //This is only for testing, hard-coding the OpenRazer path for my mouse
 #if 0
     RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0046.0004");

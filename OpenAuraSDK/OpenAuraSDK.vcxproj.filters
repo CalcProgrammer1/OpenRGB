@@ -69,6 +69,12 @@
     <ClInclude Include="LEDStrip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HyperXController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController_HyperX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenAuraSDK.cpp">
@@ -123,6 +129,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="serial_port.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HyperXController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController_HyperX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

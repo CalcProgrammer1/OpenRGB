@@ -8,7 +8,6 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus.h"
-#include "RGBController.h"
 
 #pragma once
 
