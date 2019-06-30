@@ -555,20 +555,19 @@ void DumpAuraRegisters(AuraController * controller)
 *       Main function.  Detects busses and Aura controllers, then opens the main window    *
 *                                                                                          *
 \******************************************************************************************/
-/* I801 SMBus address offsets */
-#define SMBHSTSTS       (0 + i801_smba)
-#define SMBHSTCNT       (2 + i801_smba)
-#define SMBHSTCMD       (3 + i801_smba)
-#define SMBHSTADD       (4 + i801_smba)
-#define SMBHSTDAT0      (5 + i801_smba)
-#define SMBHSTDAT1      (6 + i801_smba)
-#define SMBBLKDAT       (7 + i801_smba)
-#define SMBPEC          (8 + i801_smba)     /* ICH3 and later */
-#define SMBAUXSTS       (12 + i801_smba)    /* ICH4 and later */
-#define SMBAUXCTL       (13 + i801_smba)    /* ICH4 and later */
-#define SMBSLVSTS       (16 + i801_smba)    /* ICH3 and later */
-#define SMBSLVCMD       (17 + i801_smba)    /* ICH3 and later */
-#define SMBNTFDADD      (20 + i801_smba)    /* ICH3 and later */
+// PIIX4 SMBus address offsets
+#define SMBHSTSTS (0 + piix4_smba)
+#define SMBHSLVSTS (1 + piix4_smba)
+#define SMBHSTCNT (2 + piix4_smba)
+#define SMBHSTCMD (3 + piix4_smba)
+#define SMBHSTADD (4 + piix4_smba)
+#define SMBHSTDAT0 (5 + piix4_smba)
+#define SMBHSTDAT1 (6 + piix4_smba)
+#define SMBBLKDAT (7 + piix4_smba)
+#define SMBSLVCNT (8 + piix4_smba)
+#define SMBSHDWCMD (9 + piix4_smba)
+#define SMBSLVEVT (0xA + piix4_smba)
+#define SMBSLVDAT (0xC + piix4_smba)
 
 int main(int argc, char *argv[])
 {
@@ -576,27 +575,19 @@ int main(int argc, char *argv[])
 
     FILE* file = freopen("regdump.txt", "w", stdout);
 
-    int i801_smba = ((i2c_smbus_i801*)busses[0])->i801_smba;
+    int piix4_smba = ((i2c_smbus_piix4*)busses[0])->piix4_smba;
 
     while(1)
     {
-        //int smbhststs1 = Inp32(SMBHSTSTS);
-        //smbhststs1 = Inp32(SMBHSTSTS);
-        //int smbhststs2 = Inp32(SMBHSTSTS);
         while ((Inp32(SMBHSTSTS) & 0x02) != 0)
         {
-            for (int i = 0; i < 25000; i++);
+            for (int i = 0; i < 5000; i++);
         }
 
         while ((Inp32(SMBHSTSTS) & 0x02) == 0)
         {
-            for (int i = 0; i < 25000; i++);
+            for (int i = 0; i < 5000; i++);
         }
-            //smbhststs2 = Inp32(SMBHSTSTS);
-
-        //printf("cut \n");
-
-        //for (int i = 0; i < 2; i++)
         {
             unsigned char addr = Inp32(SMBHSTADD);
             if (addr & 1)
@@ -613,15 +604,6 @@ int main(int argc, char *argv[])
                     Inp32(SMBHSTCMD),
                     Inp32(SMBHSTADD) >> 1);
             }
-
-            //printf("%02x %02x %02x %02x %02x %02x \n",
-            //    Inp32(SMBHSTSTS),
-            //    Inp32(SMBHSTCNT),
-            //    Inp32(SMBHSTCMD),
-            //    Inp32(SMBHSTADD) >> 1,
-            //    Inp32(SMBHSTDAT0),
-            //    Inp32(SMBHSTDAT1)
-            //);
         }
     }
     fclose(file);
