@@ -555,16 +555,80 @@ void DumpAuraRegisters(AuraController * controller)
 *       Main function.  Detects busses and Aura controllers, then opens the main window    *
 *                                                                                          *
 \******************************************************************************************/
+/* I801 SMBus address offsets */
+#define SMBHSTSTS       (0 + i801_smba)
+#define SMBHSTCNT       (2 + i801_smba)
+#define SMBHSTCMD       (3 + i801_smba)
+#define SMBHSTADD       (4 + i801_smba)
+#define SMBHSTDAT0      (5 + i801_smba)
+#define SMBHSTDAT1      (6 + i801_smba)
+#define SMBBLKDAT       (7 + i801_smba)
+#define SMBPEC          (8 + i801_smba)     /* ICH3 and later */
+#define SMBAUXSTS       (12 + i801_smba)    /* ICH4 and later */
+#define SMBAUXCTL       (13 + i801_smba)    /* ICH4 and later */
+#define SMBSLVSTS       (16 + i801_smba)    /* ICH3 and later */
+#define SMBSLVCMD       (17 + i801_smba)    /* ICH3 and later */
+#define SMBNTFDADD      (20 + i801_smba)    /* ICH3 and later */
 
 int main(int argc, char *argv[])
 {
     DetectI2CBusses();
 
-    DetectAuraControllers();
+    FILE* file = freopen("regdump.txt", "w", stdout);
+
+    int i801_smba = ((i2c_smbus_i801*)busses[0])->i801_smba;
+
+    while(1)
+    {
+        //int smbhststs1 = Inp32(SMBHSTSTS);
+        //smbhststs1 = Inp32(SMBHSTSTS);
+        //int smbhststs2 = Inp32(SMBHSTSTS);
+        while ((Inp32(SMBHSTSTS) & 0x02) != 0)
+        {
+            for (int i = 0; i < 25000; i++);
+        }
+
+        while ((Inp32(SMBHSTSTS) & 0x02) == 0)
+        {
+            for (int i = 0; i < 25000; i++);
+        }
+            //smbhststs2 = Inp32(SMBHSTSTS);
+
+        //printf("cut \n");
+
+        //for (int i = 0; i < 2; i++)
+        {
+            unsigned char addr = Inp32(SMBHSTADD);
+            if (addr & 1)
+            {
+                printf("Read %02x from %02x, address %02x \n",
+                    Inp32(SMBHSTDAT0),
+                    Inp32(SMBHSTCMD),
+                    Inp32(SMBHSTADD) >> 1);
+            }
+            else
+            {
+                printf("Wrote %02x to %02x, address %02x \n",
+                    Inp32(SMBHSTDAT0),
+                    Inp32(SMBHSTCMD),
+                    Inp32(SMBHSTADD) >> 1);
+            }
+
+            //printf("%02x %02x %02x %02x %02x %02x \n",
+            //    Inp32(SMBHSTSTS),
+            //    Inp32(SMBHSTCNT),
+            //    Inp32(SMBHSTCMD),
+            //    Inp32(SMBHSTADD) >> 1,
+            //    Inp32(SMBHSTDAT0),
+            //    Inp32(SMBHSTDAT1)
+            //);
+        }
+    }
+    fclose(file);
 
 #if WIN32
-    OpenAuraSDKDialog dlg(busses, controllers);
-    dlg.DoModal();
+    //OpenAuraSDKDialog dlg(busses, controllers);
+    //dlg.DoModal();
 
     return 0;
 
