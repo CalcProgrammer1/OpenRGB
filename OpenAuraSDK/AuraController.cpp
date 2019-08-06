@@ -52,6 +52,13 @@ AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
         effect_reg = AURA_REG_COLORS_EFFECT_V2;
         led_count = 5;
     }
+    // AUMA0-E6K5-0104 - Second generation motherboard controller
+    else if (strcmp(device_name, "AUMA0-E6K5-0104") == 0)
+    {
+        direct_reg = AURA_REG_COLORS_DIRECT_V2;
+        effect_reg = AURA_REG_COLORS_EFFECT_V2;
+        led_count = 5;
+    }
     // Assume first generation controller if string does not match
     else
     {
