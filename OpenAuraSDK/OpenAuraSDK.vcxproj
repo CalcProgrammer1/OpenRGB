@@ -179,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="AuraController.h" />
     <ClInclude Include="CorsairController.h" />
+    <ClInclude Include="CorsairProController.h" />
     <ClInclude Include="HyperXController.h" />
     <ClInclude Include="I2CDetectDialog.h" />
     <ClInclude Include="i2c_smbus.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="OpenAuraSDKDialog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RGBController.h" />
+    <ClInclude Include="RGBController_CorsairPro.h" />
     <ClInclude Include="RGBController_HyperX.h" />
     <ClInclude Include="RGBController_AorusGPU.h" />
     <ClInclude Include="RGBController_Aura.h" />
@@ -201,6 +203,7 @@
   <ItemGroup>
     <ClCompile Include="AuraController.cpp" />
     <ClCompile Include="CorsairController.cpp" />
+    <ClCompile Include="CorsairProController.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="HyperXController.cpp" />
     <ClCompile Include="I2CDetectDialog.cpp" />
@@ -214,6 +217,7 @@
     <ClCompile Include="RGBController_AorusGPU.cpp" />
     <ClCompile Include="RGBController_Aura.cpp" />
     <ClCompile Include="RGBController_Corsair.cpp" />
+    <ClCompile Include="RGBController_CorsairPro.cpp" />
     <ClCompile Include="RGBController_HyperX.cpp" />
     <ClCompile Include="RGBController_LEDStrip.cpp" />
     <ClCompile Include="serial_port.cpp" />

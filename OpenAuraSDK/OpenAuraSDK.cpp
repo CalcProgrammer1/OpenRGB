@@ -8,10 +8,12 @@
 
 #include "AuraController.h"
 #include "CorsairController.h"
+#include "CorsairProController.h"
 #include "HyperXController.h"
 #include "RGBController.h"
 #include "RGBController_Aura.h"
 #include "RGBController_Corsair.h"
+#include "RGBController_CorsairPro.h"
 #include "RGBController_HyperX.h"
 #include "RGBController_OpenRazer.h"
 #include "RGBController_AorusGPU.h"
@@ -44,6 +46,7 @@
 
 std::vector<AuraController*> aura_controllers;
 std::vector<CorsairController*> corsair_controllers;
+std::vector<CorsairProController*> corsair_pro_controllers;
 std::vector<HyperXController*> hyperx_controllers;
 std::vector<i2c_smbus_interface*> busses;
 std::vector<RGBController*> rgb_controllers;
@@ -392,6 +395,30 @@ bool TestForCorsairController(i2c_smbus_interface* bus, unsigned char address)
 
 /******************************************************************************************\
 *                                                                                          *
+*   TestForCorsairProController                                                            *
+*                                                                                          *
+*       Tests the given address to see if a Corsair Pro controller exists there.           *
+*                                                                                          *
+\******************************************************************************************/
+
+bool TestForCorsairProController(i2c_smbus_interface* bus, unsigned char address)
+{
+    bool pass = false;
+
+    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+
+    if (res >= 0)
+    {
+        pass = true;
+    }
+
+    return(pass);
+
+}   /* TestForCorsairProController() */
+
+
+/******************************************************************************************\
+*                                                                                          *
 *   TestForHyperXController                                                               *
 *                                                                                          *
 *       Tests the given address to see if a HyperX controller exists there.               *
@@ -557,6 +584,69 @@ void DetectCorsairControllers()
 
 /******************************************************************************************\
 *                                                                                          *
+*   DetectCorsairProControllers                                                            *
+*                                                                                          *
+*       Detect Corsair Pro controllers on the enumerated I2C busses.                       *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
+*           dev - I2C address of Aura device                                               *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectCorsairProControllers()
+{
+    CorsairProController* new_controller;
+
+    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    {
+        // Check for Corsair controller at 0x58
+        if (TestForCorsairProController(busses[bus], 0x58))
+        {
+            new_controller = new CorsairProController(busses[bus], 0x58);
+            corsair_pro_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x59
+        if (TestForCorsairProController(busses[bus], 0x59))
+        {
+            new_controller = new CorsairProController(busses[bus], 0x59);
+            corsair_pro_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5A
+        if (TestForCorsairProController(busses[bus], 0x5A))
+        {
+            new_controller = new CorsairProController(busses[bus], 0x5A);
+            corsair_pro_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5B
+        if (TestForCorsairProController(busses[bus], 0x5B))
+        {
+            new_controller = new CorsairProController(busses[bus], 0x5B);
+            corsair_pro_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5C
+        if (TestForCorsairProController(busses[bus], 0x5C))
+        {
+            new_controller = new CorsairProController(busses[bus], 0x5C);
+            corsair_pro_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5D
+        if (TestForCorsairProController(busses[bus], 0x5D))
+        {
+            new_controller = new CorsairProController(busses[bus], 0x5D);
+            corsair_pro_controllers.push_back(new_controller);
+        }
+    }
+
+}   /* DetectCorsairProControllers() */
+
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectHyperXControllers                                                                *
 *                                                                                          *
 *       Detect HyperX controllers on the enumerated I2C busses.                            *
@@ -708,7 +798,8 @@ void DetectRGBControllers(void)
     DetectI2CBusses();
 
     DetectAuraControllers();
-    DetectCorsairControllers();
+    //DetectCorsairControllers();
+    //DetectCorsairProControllers();
     DetectHyperXControllers();
 
     for (int i = 0; i < aura_controllers.size(); i++)
@@ -721,6 +812,13 @@ void DetectRGBControllers(void)
     for (int i = 0; i < corsair_controllers.size(); i++)
     {
         RGBController_Corsair* corsair_rgb = new RGBController_Corsair(corsair_controllers[i]);
+
+        rgb_controllers.push_back(corsair_rgb);
+    }
+
+    for (int i = 0; i < corsair_pro_controllers.size(); i++)
+    {
+        RGBController_CorsairPro* corsair_rgb = new RGBController_CorsairPro(corsair_pro_controllers[i]);
 
         rgb_controllers.push_back(corsair_rgb);
     }

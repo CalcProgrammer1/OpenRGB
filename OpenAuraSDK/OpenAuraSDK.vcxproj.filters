@@ -75,6 +75,12 @@
     <ClInclude Include="RGBController_HyperX.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CorsairProController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController_CorsairPro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenAuraSDK.cpp">
@@ -135,6 +141,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RGBController_HyperX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CorsairProController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController_CorsairPro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

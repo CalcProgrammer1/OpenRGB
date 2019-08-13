@@ -1,0 +1,88 @@
+/*-----------------------------------------*\
+|  CorsairProController.h                   |
+|                                           |
+|  Definitions and types for Corsair        |
+|  Vengeance Pro RGB RAM lighting controller|
+|                                           |
+|  Adam Honse (CalcProgrammer1) 6/30/2019   |
+\*-----------------------------------------*/
+
+#include "i2c_smbus.h"
+
+#pragma once
+
+typedef unsigned char	corsair_dev_id;
+
+#define CORSAIR_PRO_LED_COUNT   ( 10 )
+
+enum
+{
+    CORSAIR_PRO_REG_COMMAND             = 0x20,     /* Command write register               */
+};
+
+enum
+{
+    CORSAIR_PRO_MODE_COLOR_SHIFT        = 0x00,     /* Color Shift mode                     */
+    CORSAIR_PRO_MODE_COLOR_PULSE        = 0x01,     /* Color Pulse mode                     */
+    CORSAIR_PRO_MODE_RAINBOW_WAVE       = 0x03,     /* Rainbow Wave mode                    */
+    CORSAIR_PRO_MODE_COLOR_WAVE         = 0x04,     /* Color Wave mode                      */
+    CORSAIR_PRO_MODE_VISOR              = 0x05,     /* Visor mode                           */
+    CORSAIR_PRO_MODE_RAIN               = 0x06,     /* Rain mode                            */
+    CORSAIR_PRO_MODE_MARQUEE            = 0x07,     /* Marquee mode                         */
+    CORSAIR_PRO_MODE_RAINBOW            = 0x08,     /* Rainbow mode                         */
+    CORSAIR_PRO_MODE_SEQUENTIAL         = 0x09,     /* Sequential mode                      */
+    CORSAIR_PRO_MODE_STATIC             = 0x10,     /* Static mode                          */
+
+    CORSAIR_PRO_NUMBER_MODES            = 10,       /* Number of Corsair Pro modes          */
+};
+
+enum
+{
+    CORSAIR_PRO_SPEED_SLOW              = 0x00,     /* Slow speed                           */
+    CORSAIR_PRO_SPEED_MEDIUM            = 0x01,     /* Medium speed                         */
+    CORSAIR_PRO_SPEED_FAST              = 0x02,     /* Fast speed                           */
+};
+
+enum
+{
+    CORSAIR_PRO_EFFECT_RANDOM_COLORS    = 0x00,     /* Random colors                        */
+    CORSAIR_PRO_EFFECT_CUSTOM_COLORS    = 0x01,     /* Custom colors                        */
+};
+
+enum
+{
+    CORSAIR_PRO_DIRECTION_UP            = 0x00,     /* Up direction                         */
+    CORSAIR_PRO_DIRECTION_DOWN          = 0x01,     /* Down direction                       */
+    CORSAIR_PRO_DIRECTION_LEFT          = 0x02,     /* Left direction                       */
+    CORSAIR_PRO_DIRECTION_RIGHT         = 0x03,     /* Right direction                      */
+    CORSAIR_PRO_DIRECTION_VERTICAL      = 0x01,     /* Vertical direction                   */
+    CORSAIR_PRO_DIRECTION_HORIZONTAL    = 0x03,     /* Horizontal direction                 */
+};
+
+class CorsairProController
+{
+public:
+    CorsairProController(i2c_smbus_interface* bus, corsair_dev_id dev);
+    ~CorsairProController();
+
+    char*           GetDeviceName();
+    unsigned int    GetLEDCount();
+    void            SetEffect(unsigned char mode);
+    void            SetCustom();
+
+    void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
+    void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
+    void            ApplyColors();
+    bool            WaitReady();
+
+private:
+    char                    device_name[32];
+    unsigned int            led_count;
+
+    unsigned char           led_red[CORSAIR_PRO_LED_COUNT];
+    unsigned char           led_green[CORSAIR_PRO_LED_COUNT];
+    unsigned char           led_blue[CORSAIR_PRO_LED_COUNT];
+
+    i2c_smbus_interface*    bus;
+    corsair_dev_id          dev;
+};
