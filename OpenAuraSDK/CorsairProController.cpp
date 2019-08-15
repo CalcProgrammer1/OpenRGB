@@ -9,7 +9,17 @@
 
 #include "CorsairProController.h"
 #include <cstring>
+
+#ifdef WIN32
 #include <Windows.h>
+#else
+#include <unistd.h>
+
+void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
 
 CorsairProController::CorsairProController(i2c_smbus_interface* bus, corsair_dev_id dev)
 {

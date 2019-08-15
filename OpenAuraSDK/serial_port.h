@@ -13,9 +13,29 @@
 #include <string.h>
 #include <stdio.h>
 
-
+#ifdef WIN32
 #include <windows.h>
 
+#else
+
+#include <fcntl.h>
+#include <unistd.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+
+//winsize, termio, and termios structs are redefined in
+//asm/termios.h, to prevent compiler errors from multply
+//defining them, use a #define to rename them -
+//essentially to undef them before they are redefined
+#define winsize undefine_winsize
+#define termio undefine_termio
+#define termios undefine_termios
+
+#include <asm/termios.h>
+#include <asm-generic/ioctls.h>
+
+
+#endif
 
 
 //Serial Port Class
