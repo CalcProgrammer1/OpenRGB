@@ -62,6 +62,7 @@ enum
     AURA_LED_CHANNEL_BACKPLATE          = 0x88,     /* Backplate zone LED channel           */
     AURA_LED_CHANNEL_DRAM               = 0x8A,     /* DRAM LED channel                     */
     AURA_LED_CHANNEL_PCIE               = 0x8B,     /* PCIe zone LED channel                */
+    AURA_LED_CHANNEL_RGB_HEADER_3       = 0x91,     /* RGB Header 3 LED channel             */
 };
 
 static const char* aura_channels[] =                /* Aura channel strings                 */
@@ -75,6 +76,7 @@ static const char* aura_channels[] =                /* Aura channel strings     
     "PCIe",
     "RGB Header",
     "RGB Header 2",
+    "RGB Header",
     "Unknown",
 };
 

@@ -66,7 +66,7 @@ AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
     {
         direct_reg = AURA_REG_COLORS_DIRECT_V2;
         effect_reg = AURA_REG_COLORS_EFFECT_V2;
-        led_count = 5;
+        channel_cfg = AURA_CONFIG_CHANNEL_V2;
     }
     // Assume first generation controller if string does not match
     else
@@ -132,8 +132,12 @@ const char * AuraController::GetChannelName(unsigned int led)
         return(aura_channels[8]);
         break;
 
-    default:
+    case (unsigned char)AURA_LED_CHANNEL_RGB_HEADER_3:
         return(aura_channels[9]);
+        break;
+
+    default:
+        return(aura_channels[10]);
         break;
     }
 }
