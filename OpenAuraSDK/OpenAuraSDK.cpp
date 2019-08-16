@@ -348,7 +348,7 @@ bool TestForAuraController(i2c_smbus_interface* bus, unsigned char address)
     bool pass = false;
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
-    
+
     if (res >= 0)
     {
         pass = true;
@@ -386,6 +386,16 @@ bool TestForCorsairController(i2c_smbus_interface* bus, unsigned char address)
     if (res >= 0)
     {
         pass = true;
+
+        for (int i = 0xA0; i < 0xB0; i++)
+        {
+            res = bus->i2c_smbus_read_byte_data(address, i);
+
+            if (res != 0xBA)
+            {
+                pass = false;
+            }
+        }
     }
 
     return(pass);
@@ -410,6 +420,30 @@ bool TestForCorsairProController(i2c_smbus_interface* bus, unsigned char address
     if (res >= 0)
     {
         pass = true;
+
+        for (int i = 0xA0; i < 0xB0; i++)
+        {
+            res = bus->i2c_smbus_read_byte_data(address, i);
+
+            if (res != 0x00)
+            {
+                pass = false;
+            }
+        }
+
+        res = bus->i2c_smbus_read_byte_data(address, 0x43);
+
+        if (res != 0x1C)
+        {
+            pass = false;
+        }
+
+        res = bus->i2c_smbus_read_byte_data(address, 0x44);
+
+        if (res != 0x03)
+        {
+            pass = false;
+        }
     }
 
     return(pass);
@@ -434,6 +468,16 @@ bool TestForHyperXController(i2c_smbus_interface* bus, unsigned char address)
     if (res >= 0)
     {
         pass = true;
+
+        for (int i = 0xA0; i < 0xB0; i++)
+        {
+            res = bus->i2c_smbus_read_byte_data(address, i);
+
+            if (res != i)
+            {
+                pass = false;
+            }
+        }
     }
 
     return(pass);
@@ -663,7 +707,7 @@ void DetectHyperXControllers()
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
         // Check for HyperX controller at 0x27
-        if (TestForCorsairController(busses[bus], 0x27))
+        if (TestForHyperXController(busses[bus], 0x27))
         {
             new_controller = new HyperXController(busses[bus], 0x27);
             hyperx_controllers.push_back(new_controller);
@@ -798,8 +842,8 @@ void DetectRGBControllers(void)
     DetectI2CBusses();
 
     DetectAuraControllers();
-    //DetectCorsairControllers();
-    //DetectCorsairProControllers();
+    DetectCorsairControllers();
+    DetectCorsairProControllers();
     DetectHyperXControllers();
 
     for (int i = 0; i < aura_controllers.size(); i++)
@@ -829,7 +873,7 @@ void DetectRGBControllers(void)
 
         rgb_controllers.push_back(hyperx_rgb);
     }
-    
+
     //This is only for testing, hard-coding the OpenRazer path for my mouse
 #if 0
     RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer("/sys/bus/hid/drivers/razermouse/0003:1532:0046.0004");
