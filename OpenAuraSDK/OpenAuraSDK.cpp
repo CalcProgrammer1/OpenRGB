@@ -421,14 +421,18 @@ bool TestForCorsairProController(i2c_smbus_interface* bus, unsigned char address
     {
         pass = true;
 
-        for (int i = 0xA0; i < 0xB0; i++)
-        {
-            res = bus->i2c_smbus_read_byte_data(address, i);
+        res = bus->i2c_smbus_read_byte_data(address, 0x24);
 
-            if (res != 0x00)
-            {
-                pass = false;
-            }
+        if (res != 0x02)
+        {
+            pass = false;
+        }
+
+        res = bus->i2c_smbus_read_byte_data(address, 0x25);
+
+        if (res != 0x02)
+        {
+            pass = false;
         }
 
         res = bus->i2c_smbus_read_byte_data(address, 0x43);
