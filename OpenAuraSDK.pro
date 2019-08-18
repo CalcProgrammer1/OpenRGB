@@ -8,12 +8,17 @@ TEMPLATE = app
 SOURCES += \
     OpenAuraSDK/i2c_smbus.cpp \
     OpenAuraSDK/AuraController.cpp \
+    OpenAuraSDK/AuraControllerDetect.cpp \
     OpenAuraSDK/OpenAuraSDK.cpp \
     OpenAuraSDK/i2c_smbus_linux.cpp \
     OpenAuraSDK/OpenAuraSDKQtDialog.cpp \
     OpenAuraSDK/CorsairController.cpp \
+    OpenAuraSDK/CorsairControllerDetect.cpp \
     OpenAuraSDK/CorsairProController.cpp \
+    OpenAuraSDK/CorsairProControllerDetect.cpp \
     OpenAuraSDK/HyperXController.cpp \
+    OpenAuraSDK/HyperXControllerDetect.cpp \
+    OpenAuraSDK/OpenRazerDetect.cpp \
     OpenAuraSDK/RGBController_Aura.cpp \
     OpenAuraSDK/RGBController_Corsair.cpp \
     OpenAuraSDK/RGBController_CorsairPro.cpp \
