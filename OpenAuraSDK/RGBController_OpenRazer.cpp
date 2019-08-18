@@ -227,9 +227,24 @@ unsigned int RGBController_OpenRazer::GetTypeFromDeviceName(std::string dev_name
         return(RAZER_DEATHADDER_CHROMA);
     }
 
+    else if(dev_name == "Razer Diamondback Chroma")
+    {
+        return(RAZER_DIAMONDBACK_CHROMA);
+    }
+
     else if(dev_name == "Razer DeathStalker Chroma")
     {
         return(RAZER_DEATHSTALKER_CHROMA);
+    }
+
+    else if(dev_name == "Razer Tartarus Chroma")
+    {
+        return(RAZER_TARTARUS_CHROMA);
+    }
+
+    else if(dev_name == "Razer Core")
+    {
+        return(RAZER_CORE);
     }
 
     else if(dev_name == "Razer Firefly")
@@ -392,6 +407,81 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             }
             break;
         
+        case RAZER_DIAMONDBACK_CHROMA:
+            {
+                SetupMatrixDevice(dev_path);
+                
+                for (int i = 0; i < 21; i++)
+                {
+                    RGBColor new_color = 0x00000000;
+                    color_buffer.push_back(new_color);
+                }
+
+                for (int i = 0; i < 9; i++)
+                {
+                    led* new_led = new led();
+                    new_led->name = "Left Strip";
+                    leds.push_back(*new_led);
+                }
+                for (int i = 7; i < 19; i++)
+                {
+                    led* new_led = new led();
+                    new_led->name = "Right Strip";
+                    leds.push_back(*new_led);
+                }
+
+                {
+                    led* new_led = new led();
+                    new_led->name = "Logo";
+                    leds.push_back(*new_led);
+                }
+
+                {
+                    led* new_led = new led();
+                    new_led->name = "Mouse Wheel";
+                    leds.push_back(*new_led);
+                }
+
+                zone left_zone;
+                left_zone.name = "Left Strip";
+                left_zone.type = ZONE_TYPE_LINEAR;
+                std::vector<int> left_zone_map;
+                for(int i = 0; i < 9; i++)
+                {
+                    left_zone_map.push_back(i);
+                }
+                left_zone.map.push_back(left_zone_map);
+                zones.push_back(left_zone);
+
+                zone right_zone;
+                right_zone.name = "Right Strip";
+                right_zone.type = ZONE_TYPE_LINEAR;
+                std::vector<int> right_zone_map;
+                for(int i = 7; i < 19; i++)
+                {
+                    right_zone_map.push_back(i);
+                }
+                right_zone.map.push_back(right_zone_map);
+                zones.push_back(right_zone);
+
+                zone logo_zone;
+                logo_zone.name = "Logo";
+                logo_zone.type = ZONE_TYPE_SINGLE;
+                std::vector<int> logo_zone_map;
+                logo_zone_map.push_back(19);
+                logo_zone.map.push_back(logo_zone_map);
+                zones.push_back(logo_zone);
+
+                zone wheel_zone;
+                wheel_zone.name = "Mouse Wheel";
+                wheel_zone.type = ZONE_TYPE_SINGLE;
+                std::vector<int> wheel_zone_map;
+                wheel_zone_map.push_back(20);
+                wheel_zone.map.push_back(wheel_zone_map);
+                zones.push_back(wheel_zone);
+            }
+            break;
+
         case RAZER_DEATHADDER_CHROMA:
             {
                 SetupNonMatrixDevice(dev_path);
@@ -458,6 +548,78 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             }
             break;
         
+        case RAZER_TARTARUS_CHROMA:
+            {
+                SetupMatrixDevice(dev_path);
+
+                for (int i = 0; i < 1; i++)
+                {
+                    RGBColor new_color = 0x00000000;
+                    color_buffer.push_back(new_color);
+                }
+
+                led logo_led;
+                logo_led.name = "Keypad";
+                leds.push_back(logo_led);
+
+                zone logo_zone;
+                logo_zone.name = "Keypad";
+                logo_zone.type = ZONE_TYPE_SINGLE;
+                std::vector<int> logo_zone_map;
+                logo_zone_map.push_back(0);
+                logo_zone.map.push_back(logo_zone_map);
+                zones.push_back(logo_zone);
+            }
+            break;
+
+        case RAZER_CORE:
+            {
+                SetupMatrixDevice(dev_path);
+
+                for(int i = 0; i < 9; i++)
+                {
+                    RGBColor new_color = 0x00000000;
+                    color_buffer.push_back(new_color);
+                }
+
+                for (int i = 0; i < 1; i++)
+                {
+                    led* new_led = new led();
+                    new_led->name = "GPU Lighting";
+                    leds.push_back(*new_led);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    led* new_led = new led();
+                    new_led->name = "LED Strip";
+                    leds.push_back(*new_led);
+                }
+
+                zone zone_1;
+                zone_1.name = "GPU Lighting";
+                zone_1.type = ZONE_TYPE_SINGLE;
+                std::vector<int> zone_1_map;
+                for(int i = 0; i < 1; i++)
+                {
+                    zone_1_map.push_back(i);
+                }
+                zone_1.map.push_back(zone_1_map);
+                zones.push_back(zone_1);
+
+                zone zone_2;
+                zone_2.name = "LED Strip";
+                zone_2.type = ZONE_TYPE_LINEAR;
+                std::vector<int> zone_2_map;
+                for(int i = 0; i < 8; i++)
+                {
+                    zone_2_map.push_back(i);
+                }
+                zone_2.map.push_back(zone_2_map);
+                zones.push_back(zone_2);
+            }
+            break;
+
         case RAZER_FIREFLY_CHROMA:
             {
                 SetupMatrixDevice(dev_path);
@@ -475,16 +637,16 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                     leds.push_back(*new_led);
                 }
 
-                zone keyboard_zone;
-                keyboard_zone.name = "LED Strip";
-                keyboard_zone.type = ZONE_TYPE_LINEAR;
-                std::vector<int> keyboard_zone_map;
+                zone zone_1;
+                zone_1.name = "LED Strip";
+                zone_1.type = ZONE_TYPE_LINEAR;
+                std::vector<int> zone_1_map;
                 for(int i = 0; i < 15; i++)
                 {
-                    keyboard_zone_map.push_back(i);
+                    zone_1_map.push_back(i);
                 }
-                keyboard_zone.map.push_back(keyboard_zone_map);
-                zones.push_back(keyboard_zone);
+                zone_1.map.push_back(zone_1_map);
+                zones.push_back(zone_1);
             }
             break;
 
