@@ -15,6 +15,50 @@
 class RGBController_OpenRazer : public RGBController
 {
 public:
+    enum
+    {
+        RAZER_NO_DEVICE,
+        RAZER_BLACKWIDOW_CHROMA,
+        RAZER_DEATHSTALKER_CHROMA,
+        RAZER_ORNATA_CHROMA,
+        RAZER_BLADE_STEALTH,
+        RAZER_BLADE_PRO,
+        RAZER_TARTARUS_CHROMA,
+        RAZER_DEATHADDER_CHROMA,
+        RAZER_DEATHADDER_ELITE,
+        RAZER_NAGA_CHROMA,
+        RAZER_DIAMONDBACK_CHROMA,
+        RAZER_MAMBA_TOURNAMENT_EDITION_CHROMA,
+        RAZER_FIREFLY_CHROMA,
+        RAZER_GOLIATHUS_EXTENDED_CHROMA,
+        RAZER_MUG_HOLDER,
+        RAZER_CORE,
+        RAZER_KRAKEN_V1,
+        RAZER_KRAKEN_V2,
+        RAZER_NUM_DEVICES
+    };
+
+    enum
+    {
+        RAZER_MODE_CUSTOM,
+        RAZER_MODE_OFF,
+        RAZER_MODE_STATIC,
+        RAZER_MODE_BREATHING,
+        RAZER_MODE_SPECTRUM_CYCLE,
+        RAZER_MODE_WAVE,
+        RAZER_MODE_REACTIVE,
+        RAZER_NUM_MODES
+    };
+
+    enum
+    {
+        RAZER_TYPE_MATRIX_FRAME,
+        RAZER_TYPE_MATRIX_NOFRAME,
+        RAZER_TYPE_NOMATRIX,
+        RAZER_NUM_TYPES
+    };
+
+public:
     RGBController_OpenRazer(std::string dev_path);
     int GetMode();
     void SetMode(int mode);
@@ -23,14 +67,17 @@ public:
     void SetAllZoneLEDs(int zone, RGBColor color);
     void SetLED(int led, RGBColor color);
 
+    unsigned int device;
+
 private:
-    unsigned int type;
     std::vector<RGBColor> color_buffer;
 
     void SetupMatrixDevice(std::string dev_path);
     void SetupNonMatrixDevice(std::string dev_path);
+    unsigned int GetTypeFromDeviceName(std::string dev_name);
+    void Output();
 
-    bool matrix_device;
+    unsigned int type;
 
     //OpenRazer Sysfs Entries for Matrix Devices
     std::ofstream matrix_custom_frame;
