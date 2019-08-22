@@ -29,12 +29,12 @@ public:
     void InitializeUDP(char* clientname, char* port);
     void InitializeEspurna(char* clientname, char* port, char * apikey);
     char* GetLEDString();
-    void SetNumLEDs(int numleds);
     void SetLEDs(std::vector<RGBColor> colors);
+
+    int num_leds;
 
 private:
     int baud_rate;
-    int num_leds;
     int fans;
     int channel;
     const int hueSize = 125;

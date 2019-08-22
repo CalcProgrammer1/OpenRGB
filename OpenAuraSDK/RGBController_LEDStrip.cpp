@@ -20,7 +20,7 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     led_mode.name = "Custom";
     modes.push_back(led_mode);
 
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < strip->num_leds; i++)
     {
         colors.push_back(0x00000000);
         led new_led;
@@ -31,7 +31,7 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     zone led_zone;
     led_zone.name = "LED Strip";
     std::vector<int> led_zone_map;
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < strip->num_leds; i++)
     {
         led_zone_map.push_back(i);
     }

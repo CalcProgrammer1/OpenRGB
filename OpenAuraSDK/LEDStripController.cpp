@@ -84,11 +84,6 @@ char* LEDStripController::GetLEDString()
     return(led_string);
 }
 
-void LEDStripController::SetNumLEDs(int numleds)
-{
-    num_leds = numleds;
-}
-
 void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
 {
     if (serialport != NULL )
