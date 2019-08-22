@@ -10,12 +10,12 @@
 #pragma once
 #include "RGBController.h"
 #include "serial_port.h"
-#include "LEDStrip.h"
+#include "LEDStripController.h"
 
 class RGBController_LEDStrip : public RGBController
 {
 public:
-    RGBController_LEDStrip();
+    RGBController_LEDStrip(LEDStripController* ledstrip_ptr);
     int GetMode();
     void SetMode(int mode);
     void SetCustomMode();
@@ -25,5 +25,5 @@ public:
 
 private:
     std::vector<RGBColor> colors;
-    LEDStrip* strip;
+    LEDStripController* strip;
 };

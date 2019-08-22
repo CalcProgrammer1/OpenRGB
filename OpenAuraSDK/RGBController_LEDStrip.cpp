@@ -10,12 +10,9 @@
 #include "RGBController_LEDStrip.h"
 
 
-RGBController_LEDStrip::RGBController_LEDStrip()
+RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
 {
-    strip = new LEDStrip();
-
-    strip->Initialize((char *)"COM1", 0, 0, 0, 0, 0, 0, 0);
-    strip->SetNumLEDs(15);
+    strip = ledstrip_ptr;
 
     name = "LED Strip";
 

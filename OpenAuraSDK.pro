@@ -18,13 +18,17 @@ SOURCES += \
     OpenAuraSDK/CorsairProControllerDetect.cpp \
     OpenAuraSDK/HyperXController.cpp \
     OpenAuraSDK/HyperXControllerDetect.cpp \
+    OpenAuraSDK/LEDStripController.cpp \
+    OpenAuraSDK/LEDStripControllerDetect.cpp \
     OpenAuraSDK/OpenRazerDetect.cpp \
     OpenAuraSDK/RGBController_Aura.cpp \
     OpenAuraSDK/RGBController_Corsair.cpp \
     OpenAuraSDK/RGBController_CorsairPro.cpp \
     OpenAuraSDK/RGBController_HyperX.cpp \
+    OpenAuraSDK/RGBController_LEDStrip.cpp \
     OpenAuraSDK/RGBController_OpenRazer.cpp \
-    OpenAuraSDK/main.cpp
+    OpenAuraSDK/main.cpp \
+    OpenAuraSDK/serial_port.cpp
 
 HEADERS += \
     OpenAuraSDK/i2c_smbus.h \
@@ -34,12 +38,14 @@ HEADERS += \
     OpenAuraSDK/CorsairController.h \
     OpenAuraSDK/CorsairProController.h \
     OpenAuraSDK/HyperXController.h \
+    OpenAuraSDK/LEDStripController.h \
     OpenAuraSDK/RGBController.h \
     OpenAuraSDK/RGBController_Aura.h \
     OpenAuraSDK/RGBController_Corsair.h \
     OpenAuraSDK/RGBController_CorsairPro.h \
     OpenAuraSDK/RGBController_HyperX.h \
-    OpenAuraSDK/RGBController_OpenRazer.h
+    OpenAuraSDK/RGBController_OpenRazer.h \
+    OpenAuraSDK/serial_port.h
 
 FORMS += \
     OpenAuraSDK/openaurasdk.ui

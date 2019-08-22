@@ -4,28 +4,56 @@
 |  Adam Honse (calcprogrammer1@gmail.com), 12/11/2016       |
 \*---------------------------------------------------------*/
 
-#include "LEDStrip.h"
+#include "LEDStripController.h"
 
 #include <fstream>
 #include <iostream>
 #include <string>
 
-LEDStrip::LEDStrip()
+#define LPSTR           char *
+#define strtok_s        strtok_r
+
+LEDStripController::LEDStripController()
 {
-    num_leds = 30;
+
 }
 
 
-LEDStrip::~LEDStrip()
+LEDStripController::~LEDStripController()
 {
 }
 
-void LEDStrip::Initialize(char* ledstring, int matrix_size, int matrix_pos, int sections, int rotate_x, bool mirror_x, bool mirror_y, bool single_color)
+void LEDStripController::Initialize(char* ledstring)
 {
-    InitializeSerial(ledstring , 115200);
+    LPSTR   numleds = NULL;
+    LPSTR   source = NULL;
+    LPSTR   udpport_baud = NULL;
+    LPSTR   next = NULL;
+
+    source = strtok_s(ledstring, ",", &next);
+
+    //Check for either the UDP port or the serial baud rate
+    if (strlen(next))
+    {
+        udpport_baud = strtok_s(next, ",", &next);
+    }
+
+    //Check for the number of LEDs
+    if (strlen(next))
+    {
+        numleds = strtok_s(next, ",", &next);
+    }
+
+    //Initialize with custom baud rate
+    InitializeSerial(source, atoi(udpport_baud));
+
+    if (numleds != NULL && strlen(numleds))
+    {
+        num_leds = atoi(numleds);
+    }
 }
 
-void LEDStrip::InitializeSerial(char* portname, int baud)
+void LEDStripController::InitializeSerial(char* portname, int baud)
 {
     portname = strtok(portname, "\r");
     strcpy(port_name, portname);
@@ -33,7 +61,7 @@ void LEDStrip::InitializeSerial(char* portname, int baud)
     serialport = new serial_port(port_name, baud_rate);
 }
 
-void LEDStrip::InitializeUDP(char * clientname, char * port)
+void LEDStripController::InitializeUDP(char * clientname, char * port)
 {
     strcpy(client_name, clientname);
     strcpy(port_name, port);
@@ -42,7 +70,7 @@ void LEDStrip::InitializeUDP(char * clientname, char * port)
     serialport = NULL;
 }
 
-void LEDStrip::InitializeEspurna(char * clientname, char * port, char * apikey)
+void LEDStripController::InitializeEspurna(char * clientname, char * port, char * apikey)
 {
     strcpy(client_name, clientname);
     strcpy(port_name, port);
@@ -51,17 +79,17 @@ void LEDStrip::InitializeEspurna(char * clientname, char * port, char * apikey)
     serialport = NULL;
 }
 
-char* LEDStrip::GetLEDString()
+char* LEDStripController::GetLEDString()
 {
     return(led_string);
 }
 
-void LEDStrip::SetNumLEDs(int numleds)
+void LEDStripController::SetNumLEDs(int numleds)
 {
     num_leds = numleds;
 }
 
-void LEDStrip::SetLEDs(std::vector<unsigned int> colors)
+void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
 {
     if (serialport != NULL )
     {
@@ -74,10 +102,10 @@ void LEDStrip::SetLEDs(std::vector<unsigned int> colors)
         for (int idx = 0; idx < (num_leds * 3); idx += 3)
         {
             int pixel_idx = idx / 3;
-            unsigned int color = colors[pixel_idx];
-            serial_buf[idx + 1] = GetRValue(color);
-            serial_buf[idx + 2] = GetGValue(color);
-            serial_buf[idx + 3] = GetBValue(color);
+            RGBColor color = colors[pixel_idx];
+            serial_buf[idx + 1] = RGBGetRValue(color);
+            serial_buf[idx + 2] = RGBGetRValue(color);
+            serial_buf[idx + 3] = RGBGetRValue(color);
         }
 
         unsigned short sum = 0;

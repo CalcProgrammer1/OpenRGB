@@ -7,7 +7,7 @@
 #ifndef LED_STRIP_H
 #define LED_STRIP_H
 
-
+#include "RGBController.h"
 #include "serial_port.h"
 #include <vector>
 
@@ -17,20 +17,20 @@
 #define FALSE false
 #endif
 
-class LEDStrip
+class LEDStripController
 {
 public:
-    LEDStrip();
-    ~LEDStrip();
+    LEDStripController();
+    ~LEDStripController();
 
-    void Initialize(char* ledstring, int matrix_size, int matrix_pos, int sections, int rotate_x, bool mirror_x, bool mirror_y, bool single_color);
+    void Initialize(char* ledstring);
     void InitializeHuePlus(char * ledstring);
     void InitializeSerial(char* portname, int baud);
     void InitializeUDP(char* clientname, char* port);
     void InitializeEspurna(char* clientname, char* port, char * apikey);
     char* GetLEDString();
     void SetNumLEDs(int numleds);
-    void SetLEDs(std::vector<unsigned int> colors);
+    void SetLEDs(std::vector<RGBColor> colors);
 
 private:
     int baud_rate;

@@ -9,7 +9,6 @@
 #include "AuraController.h"
 #include "RGBController.h"
 #include "RGBController_AorusGPU.h"
-#include "RGBController_LEDStrip.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -437,6 +436,7 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
 void DetectCorsairControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairProControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
+void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
 
 /******************************************************************************************\
@@ -456,6 +456,8 @@ void DetectRGBControllers(void)
     DetectCorsairProControllers(busses, rgb_controllers);
     DetectHyperXControllers(busses, rgb_controllers);
 
+    DetectLEDStripControllers(rgb_controllers);
+
 #ifndef WIN32
     DetectOpenRazerControllers(rgb_controllers);
 #endif
@@ -465,13 +467,6 @@ void DetectRGBControllers(void)
     RGBController_AorusGPU * aorus_rgb = new RGBController_AorusGPU();
 
     rgb_controllers.push_back(aorus_rgb);
-#endif
-
-    //This is for testing LED strips
-#if 0
-    RGBController_LEDStrip* ledstrip_rgb = new RGBController_LEDStrip();
-
-    rgb_controllers.push_back(ledstrip_rgb);
 #endif
 
 }
