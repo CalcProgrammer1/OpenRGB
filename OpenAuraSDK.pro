@@ -5,47 +5,58 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = OpenAuraSDK.bin
 TEMPLATE = app
 
-SOURCES += \
-    OpenAuraSDK/i2c_smbus.cpp \
-    OpenAuraSDK/AuraController.cpp \
-    OpenAuraSDK/AuraControllerDetect.cpp \
-    OpenAuraSDK/OpenAuraSDK.cpp \
-    OpenAuraSDK/i2c_smbus_linux.cpp \
-    OpenAuraSDK/OpenAuraSDKQtDialog.cpp \
-    OpenAuraSDK/CorsairController.cpp \
-    OpenAuraSDK/CorsairControllerDetect.cpp \
-    OpenAuraSDK/CorsairProController.cpp \
-    OpenAuraSDK/CorsairProControllerDetect.cpp \
-    OpenAuraSDK/HyperXController.cpp \
-    OpenAuraSDK/HyperXControllerDetect.cpp \
-    OpenAuraSDK/LEDStripController.cpp \
-    OpenAuraSDK/LEDStripControllerDetect.cpp \
-    OpenAuraSDK/OpenRazerDetect.cpp \
-    OpenAuraSDK/RGBController_Aura.cpp \
-    OpenAuraSDK/RGBController_Corsair.cpp \
-    OpenAuraSDK/RGBController_CorsairPro.cpp \
-    OpenAuraSDK/RGBController_HyperX.cpp \
-    OpenAuraSDK/RGBController_LEDStrip.cpp \
-    OpenAuraSDK/RGBController_OpenRazer.cpp \
-    OpenAuraSDK/main.cpp \
-    OpenAuraSDK/serial_port.cpp
+INCLUDEPATH +=                                                          \
+    i2c_smbus/                                                          \
+    serial_port/                                                        \
+    Controllers/AuraController/                                         \
+    Controllers/CorsairController/                                      \
+    Controllers/CorsairProController/                                   \
+    Controllers/HyperXController/                                       \
+    Controllers/LEDStripController/                                     \
+    RGBController/                                                      \
+    qt/
+
+SOURCES +=                                                              \
+    main.cpp                                                            \
+    OpenAuraSDK.cpp                                                     \
+    qt/OpenAuraSDKQtDialog.cpp                                          \
+    i2c_smbus/i2c_smbus.cpp                                             \
+    i2c_smbus/i2c_smbus_linux.cpp                                       \
+    serial_port/serial_port.cpp                                         \
+    Controllers/AuraController/AuraController.cpp                       \
+    Controllers/AuraController/AuraControllerDetect.cpp                 \
+    Controllers/CorsairController/CorsairController.cpp                 \
+    Controllers/CorsairController/CorsairControllerDetect.cpp           \
+    Controllers/CorsairProController/CorsairProController.cpp           \
+    Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
+    Controllers/HyperXController/HyperXController.cpp                   \
+    Controllers/HyperXController/HyperXControllerDetect.cpp             \
+    Controllers/LEDStripController/LEDStripController.cpp               \
+    Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+    RGBController/OpenRazerDetect.cpp                                   \
+    RGBController/RGBController_Aura.cpp                                \
+    RGBController/RGBController_Corsair.cpp                             \
+    RGBController/RGBController_CorsairPro.cpp                          \
+    RGBController/RGBController_HyperX.cpp                              \
+    RGBController/RGBController_LEDStrip.cpp                            \
+    RGBController/RGBController_OpenRazer.cpp
 
 HEADERS += \
-    OpenAuraSDK/i2c_smbus.h \
-    OpenAuraSDK/i2c_smbus_linux.h \
-    OpenAuraSDK/AuraController.h \
-    OpenAuraSDK/OpenAuraSDKQtDialog.h \
-    OpenAuraSDK/CorsairController.h \
-    OpenAuraSDK/CorsairProController.h \
-    OpenAuraSDK/HyperXController.h \
-    OpenAuraSDK/LEDStripController.h \
-    OpenAuraSDK/RGBController.h \
-    OpenAuraSDK/RGBController_Aura.h \
-    OpenAuraSDK/RGBController_Corsair.h \
-    OpenAuraSDK/RGBController_CorsairPro.h \
-    OpenAuraSDK/RGBController_HyperX.h \
-    OpenAuraSDK/RGBController_OpenRazer.h \
-    OpenAuraSDK/serial_port.h
+    qt/OpenAuraSDKQtDialog.h                                            \
+    i2c_smbus/i2c_smbus.h                                               \
+    i2c_smbus/i2c_smbus_linux.h                                         \
+    serial_port/serial_port.h                                           \
+    Controllers/AuraController/AuraController.h                         \
+    Controllers/CorsairController/CorsairController.h                   \
+    Controllers/CorsairProController/CorsairProController.h             \
+    Controllers/HyperXController/HyperXController.h                     \
+    Controllers/LEDStripController/LEDStripController.h                 \
+    RGBController/RGBController.h                                       \
+    RGBController/RGBController_Aura.h                                  \
+    RGBController/RGBController_Corsair.h                               \
+    RGBController/RGBController_CorsairPro.h                            \
+    RGBController/RGBController_HyperX.h                                \
+    RGBController/RGBController_OpenRazer.h
 
 FORMS += \
-    OpenAuraSDK/openaurasdk.ui
+    qt/openaurasdk.ui
