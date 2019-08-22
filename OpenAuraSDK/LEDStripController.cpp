@@ -104,8 +104,8 @@ void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
             int pixel_idx = idx / 3;
             RGBColor color = colors[pixel_idx];
             serial_buf[idx + 1] = RGBGetRValue(color);
-            serial_buf[idx + 2] = RGBGetRValue(color);
-            serial_buf[idx + 3] = RGBGetRValue(color);
+            serial_buf[idx + 2] = RGBGetGValue(color);
+            serial_buf[idx + 3] = RGBGetBValue(color);
         }
 
         unsigned short sum = 0;
