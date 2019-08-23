@@ -1,7 +1,7 @@
 /*-----------------------------------------*\
-|  i2c_smbus_nuvoton_nct6793d.h             |
+|  i2c_smbus_nct6775.h                      |
 |                                           |
-|  Nuvoton NCT6793D SMBUS driver for Windows|
+|  Nuvoton NCT67xx SMBUS driver for Windows |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 5/19/2019   |
 \*-----------------------------------------*/
@@ -20,34 +20,34 @@
 #define SMBHSTSTS       (0xE + nuvoton_nct6793d_smba)
 
 /* Command register */
-#define NCT6793D_READ_BYTE      0
-#define NCT6793D_READ_WORD      1
-#define NCT6793D_READ_BLOCK     2
-#define NCT6793D_BLOCK_WRITE_READ_PROC_CALL 3
-#define NCT6793D_PROC_CALL      4
-#define NCT6793D_WRITE_BYTE     8
-#define NCT6793D_WRITE_WORD     9
-#define NCT6793D_WRITE_BLOCK    10
+#define NCT6775_READ_BYTE      0
+#define NCT6775_READ_WORD      1
+#define NCT6775_READ_BLOCK     2
+#define NCT6775_BLOCK_WRITE_READ_PROC_CALL 3
+#define NCT6775_PROC_CALL      4
+#define NCT6775_WRITE_BYTE     8
+#define NCT6775_WRITE_WORD     9
+#define NCT6775_WRITE_BLOCK    10
 
 /* Control register */
-#define NCT6793D_MANUAL_START   128
-#define NCT6793D_SOFT_RESET     64
+#define NCT6775_MANUAL_START   128
+#define NCT6775_SOFT_RESET     64
 
 /* Error register */
-#define NCT6793D_NO_ACK         32
+#define NCT677f_NO_ACK         32
 
 /* Status register */
-#define NCT6793D_FIFO_EMPTY     1
-#define NCT6793D_FIFO_FULL      2
-#define NCT6793D_MANUAL_ACTIVE  4
+#define NCT6775_FIFO_EMPTY     1
+#define NCT6775_FIFO_FULL      2
+#define NCT6775_MANUAL_ACTIVE  4
 
-class i2c_smbus_nuvoton_nct6793d : public i2c_smbus_interface
+class i2c_smbus_nct6775: public i2c_smbus_interface
 {
 public:
-    u16 nuvoton_nct6793d_smba = 0x0290;
+    u16 nct6775_smba = 0x0290;
 
 private:
-    s32 nct6793d_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
+    s32 nct6775_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
 
 };

@@ -20,7 +20,7 @@
 #include <regex>
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
-#include "i2c_smbus_nuvoton_nct6793d.h"
+#include "i2c_smbus_nuvoton_nct6775.h"
 #include "wmi.h"
 #include "inpout32.h"
 
@@ -124,14 +124,14 @@ void DetectNuvotonI2CBusses()
     case SIO_NCT6102_ID:
     case SIO_NCT6793_ID:
     case SIO_NCT6796_ID:
-        bus = new i2c_smbus_nuvoton_nct6793d();
+        bus = new i2c_smbus_nuvoton_nct6775();
 
         // Set logical device register to get SMBus base address
         superio_outb(sioaddr, SIO_REG_LOGDEV, SIO_LOGDEV_SMBUS);
 
         // Get SMBus base address from configuration register
         int smba = (superio_inb(sioaddr, SIO_REG_SMBA) << 8) | superio_inb(sioaddr, SIO_REG_SMBA + 1);
-        ((i2c_smbus_nuvoton_nct6793d*)bus)->nuvoton_nct6793d_smba = smba;
+        ((i2c_smbus_nuvoton_nct6775*)bus)->nuvoton_nct6775_smba = smba;
 
         // Set device name string
         switch (val & SIO_ID_MASK)

@@ -1,22 +1,22 @@
 /*-----------------------------------------*\
-|  i2c_smbus_nuvoton_nct6793d.cpp           |
+|  i2c_smbus_nct6775.cpp                    |
 |                                           |
-|  Nuvoton NCT6793D SMBUS driver for Windows|
+|  Nuvoton NCT67xx SMBUS driver for Windows |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 5/19/2019   |
 \*-----------------------------------------*/
 
-#include "i2c_smbus_nuvoton_nct6793d.h"
+#include "i2c_smbus_nct6775.h"
 #include <Windows.h>
 #include "inpout32.h"
 
 #pragma comment(lib, "inpout32.lib")
 
-s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
+s32 i2c_smbus_nuvoton_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
 {
     int i, len, status, cnt;
 
-    Out32(SMBHSTCTL, NCT6793D_SOFT_RESET);
+    Out32(SMBHSTCTL, NCT6775_SOFT_RESET);
 
     switch (size)
     {
@@ -30,11 +30,11 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
         if (read_write == I2C_SMBUS_WRITE)
         {
             Out32(SMBHSTDAT, data->byte);
-            Out32(SMBHSTCMD, NCT6793D_WRITE_BYTE);
+            Out32(SMBHSTCMD, NCT6775_WRITE_BYTE);
         }
         else
         {
-            Out32(SMBHSTCMD, NCT6793D_READ_BYTE);
+            Out32(SMBHSTCMD, NCT6775_READ_BYTE);
         }
         break;
     case I2C_SMBUS_WORD_DATA:
@@ -44,11 +44,11 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
         {
 			Out32(SMBHSTDAT, data->word & 0xFF);
 			Out32(SMBHSTDAT, (data->word & 0xFF00) >> 8);
-            Out32(SMBHSTCMD, NCT6793D_WRITE_WORD);
+            Out32(SMBHSTCMD, NCT6775_WRITE_WORD);
         }
         else
         {
-            Out32(SMBHSTCMD, NCT6793D_READ_WORD);
+            Out32(SMBHSTCMD, NCT6775_READ_WORD);
         }
         break;
     case I2C_SMBUS_BLOCK_DATA:
@@ -85,25 +85,25 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
 				len = 0;
 			}
             
-            Out32(SMBHSTCMD, NCT6793D_WRITE_BLOCK);
+            Out32(SMBHSTCMD, NCT6775_WRITE_BLOCK);
         }
         else
         {
             return -EOPNOTSUPP;
-            //Out32(SMBHSTCMD, NCT6793D_READ_BLOCK);
+            //Out32(SMBHSTCMD, NCT6775_READ_BLOCK);
         }
         break;
     default:
         return -EOPNOTSUPP;
     }
 
-    Out32(SMBHSTCTL, NCT6793D_MANUAL_START);
+    Out32(SMBHSTCTL, NCT6775_MANUAL_START);
 
 	while ((size == I2C_SMBUS_BLOCK_DATA) && (len > 0))
 	{
 		if (read_write == I2C_SMBUS_WRITE)
 		{
-			while ((Inp32(SMBHSTSTS) & NCT6793D_FIFO_EMPTY) == 0);
+			while ((Inp32(SMBHSTSTS) & NCT6775_FIFO_EMPTY) == 0);
 
 			//Load more bytes into FIFO
 			if (len >= 4)
@@ -129,9 +129,9 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
 	}
 
 	//wait for manual mode to complete
-	while ((Inp32(SMBHSTSTS) & NCT6793D_MANUAL_ACTIVE) != 0);
+	while ((Inp32(SMBHSTSTS) & NCT6775_MANUAL_ACTIVE) != 0);
 
-	if ((Inp32(SMBHSTERR) & NCT6793D_NO_ACK) != 0)
+	if ((Inp32(SMBHSTERR) & NCT6775_NO_ACK) != 0)
 	{
 		return -EPROTO;
 	}
@@ -154,7 +154,7 @@ s32 i2c_smbus_nuvoton_nct6793d::nct6793d_access(u16 addr, char read_write, u8 co
     return 0;
 }
 
-s32 i2c_smbus_nuvoton_nct6793d::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
+s32 i2c_smbus_nuvoton_nct6775::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
-    return nct6793d_access(addr, read_write, command, size, data);
+    return nct6775_access(addr, read_write, command, size, data);
 }
