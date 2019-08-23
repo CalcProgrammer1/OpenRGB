@@ -57,6 +57,11 @@ void RGBController_HyperX::SetLED(int led, RGBColor color)
     hyperx->SetLEDColor(led, red, grn, blu);
 }
 
+void RGBController_HyperX::UpdateLEDs()
+{
+    
+}
+
 RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
 {
     hyperx = hyperx_ptr;
@@ -86,6 +91,7 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
         new_led->name = "HyperX LED";
 
         leds.push_back(*new_led);
+        colors.push_back(0x00000000);
     }
 
     zone new_zone;

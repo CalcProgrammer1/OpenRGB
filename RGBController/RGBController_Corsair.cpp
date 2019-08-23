@@ -57,6 +57,11 @@ void RGBController_Corsair::SetLED(int led, RGBColor color)
     corsair->SetLEDColor(led, red, grn, blu);
 }
 
+void RGBController_Corsair::UpdateLEDs()
+{
+
+}
+
 RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
 {
     corsair = corsair_ptr;
@@ -81,6 +86,7 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
         new_led->name = "Corsair LED";
 
         leds.push_back(*new_led);
+        colors.push_back(0x00000000);
     }
 
     zone new_zone;

@@ -93,6 +93,25 @@ void RGBController_Aura::SetLED(int led, RGBColor color)
     }
 }
 
+void RGBController_Aura::UpdateLEDs()
+{
+    for(int led = 0; led < colors.size(); led++)
+    {
+        unsigned char red = RGBGetRValue(colors[led]);
+        unsigned char grn = RGBGetGValue(colors[led]);
+        unsigned char blu = RGBGetBValue(colors[led]);
+
+        if (GetMode() == 0)
+        {
+            aura->SetLEDColorDirect(led, red, grn, blu);
+        }
+        else
+        {
+            aura->SetLEDColorEffect(led, red, grn, blu);
+        }
+    }
+}
+
 RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 {
     std::vector<unsigned char> aura_channels;
@@ -133,6 +152,7 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
         new_led->name = aura->GetChannelName(i);
 
         leds.push_back(*new_led);
+        colors.push_back(0x00000000);
     }
 
     std::vector<unsigned char> aura_zones;

@@ -90,7 +90,7 @@ void RGBController_OpenRazer::SetCustomMode()
     SetMode(RAZER_MODE_CUSTOM);
 }
 
-void RGBController_OpenRazer::Output()
+void RGBController_OpenRazer::UpdateLEDs()
 {
     switch(type)
     {
@@ -107,7 +107,7 @@ void RGBController_OpenRazer::Output()
                 }
                 else
                 {
-                    output_array_size = 3 + (color_buffer.size() * 3);
+                    output_array_size = 3 + (colors.size() * 3);
                     output_offset = 3;
                 }
                 
@@ -118,14 +118,14 @@ void RGBController_OpenRazer::Output()
                 {
                     output_array[0] = 0;
                     output_array[1] = 0;
-                    output_array[2] = color_buffer.size() - 1;
+                    output_array[2] = colors.size() - 1;
                 }
 
-                for(int i = 0; i < color_buffer.size(); i++)
+                for(int i = 0; i < colors.size(); i++)
                 {
-                    output_array[(i * 3) + 0 + output_offset] = (char)RGBGetRValue(color_buffer[i]);
-                    output_array[(i * 3) + 1 + output_offset] = (char)RGBGetGValue(color_buffer[i]);
-                    output_array[(i * 3) + 2 + output_offset] = (char)RGBGetBValue(color_buffer[i]);
+                    output_array[(i * 3) + 0 + output_offset] = (char)RGBGetRValue(colors[i]);
+                    output_array[(i * 3) + 1 + output_offset] = (char)RGBGetGValue(colors[i]);
+                    output_array[(i * 3) + 2 + output_offset] = (char)RGBGetBValue(colors[i]);
                 }
                 
                 if(type == RAZER_TYPE_MATRIX_NOFRAME)
@@ -149,14 +149,14 @@ void RGBController_OpenRazer::Output()
                 char output_array[output_array_size];
                 char update_value = 0;
 
-                output_array[0] = (char)RGBGetRValue(color_buffer[0]);
-                output_array[1] = (char)RGBGetGValue(color_buffer[0]);
-                output_array[2] = (char)RGBGetBValue(color_buffer[0]);
+                output_array[0] = (char)RGBGetRValue(colors[0]);
+                output_array[1] = (char)RGBGetGValue(colors[0]);
+                output_array[2] = (char)RGBGetBValue(colors[0]);
                 logo_led_rgb.write(output_array, output_array_size);
 
-                output_array[0] = (char)RGBGetRValue(color_buffer[1]);
-                output_array[1] = (char)RGBGetGValue(color_buffer[1]);
-                output_array[2] = (char)RGBGetBValue(color_buffer[1]);
+                output_array[0] = (char)RGBGetRValue(colors[1]);
+                output_array[1] = (char)RGBGetGValue(colors[1]);
+                output_array[2] = (char)RGBGetBValue(colors[1]);
                 scroll_led_rgb.write(output_array, output_array_size);
 
                 logo_led_rgb.flush();
@@ -173,12 +173,12 @@ void RGBController_OpenRazer::Output()
 
 void RGBController_OpenRazer::SetAllLEDs(RGBColor color)
 {
-    for(int i = 0; i < color_buffer.size(); i++)
+    for(int i = 0; i < colors.size(); i++)
     {
-        color_buffer[i] = color;
+        colors[i] = color;
     }
 
-    Output();
+    UpdateLEDs();
 }
 
 void RGBController_OpenRazer::SetAllZoneLEDs(int zone, RGBColor color)
@@ -187,18 +187,18 @@ void RGBController_OpenRazer::SetAllZoneLEDs(int zone, RGBColor color)
     {
         for (int y = 0; y < zones[zone].map[x].size(); y++)
         {
-            color_buffer[zones[zone].map[x][y]] = color;
+            colors[zones[zone].map[x][y]] = color;
         }
     }
 
-    Output();
+    UpdateLEDs();
 }
 
 void RGBController_OpenRazer::SetLED(int led, RGBColor color)
 {
-    color_buffer[led] = color;
+    colors[led] = color;
 
-    Output();
+    UpdateLEDs();
 }
 
 static std::string GetDeviceTypeString(std::string dev_path)
@@ -339,7 +339,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for (int i = 0; i < 16; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 for (int i = 0; i < 7; i++)
@@ -414,7 +414,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for (int i = 0; i < 21; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 for (int i = 0; i < 9; i++)
@@ -489,7 +489,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for (int i = 0; i < 2; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 led logo_led;
@@ -525,7 +525,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for(int i = 0; i < 12; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 for (int i = 0; i < 12; i++)
@@ -555,7 +555,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for (int i = 0; i < 1; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 led logo_led;
@@ -579,7 +579,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for(int i = 0; i < 9; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 for (int i = 0; i < 1; i++)
@@ -627,7 +627,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for(int i = 0; i < 15; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 for (int i = 0; i < 15; i++)
@@ -657,7 +657,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for (int i = 0; i < 1; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 led logo_led;
@@ -681,7 +681,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for(int i = 0; i < 15; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 for (int i = 0; i < 15; i++)
@@ -712,7 +712,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 for (int i = 0; i < 1; i++)
                 {
                     RGBColor new_color = 0x00000000;
-                    color_buffer.push_back(new_color);
+                    colors.push_back(new_color);
                 }
 
                 led logo_led;

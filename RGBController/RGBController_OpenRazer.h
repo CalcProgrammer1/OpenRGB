@@ -66,16 +66,14 @@ public:
     void SetAllLEDs(RGBColor color);
     void SetAllZoneLEDs(int zone, RGBColor color);
     void SetLED(int led, RGBColor color);
+    void UpdateLEDs();
 
     unsigned int device;
 
 private:
-    std::vector<RGBColor> color_buffer;
-
     void SetupMatrixDevice(std::string dev_path);
     void SetupNonMatrixDevice(std::string dev_path);
     unsigned int GetTypeFromDeviceName(std::string dev_name);
-    void Output();
 
     unsigned int type;
 

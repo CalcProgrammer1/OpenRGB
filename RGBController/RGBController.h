@@ -50,10 +50,11 @@ typedef struct
 class RGBController
 {
 public:
-    std::string         name;   /* controller name  */
-    std::vector<led>    leds;   /* LEDs             */
-    std::vector<zone>   zones;  /* Zones            */
-    std::vector<mode>   modes;  /* Modes            */
+    std::string             name;   /* controller name  */
+    std::vector<led>        leds;   /* LEDs             */
+    std::vector<zone>       zones;  /* Zones            */
+    std::vector<mode>       modes;  /* Modes            */
+    std::vector<RGBColor>   colors; /* Color buffer     */
 
     virtual int  GetMode()         = 0;
     virtual void SetMode(int mode) = 0;
@@ -61,4 +62,5 @@ public:
     virtual void SetAllLEDs(RGBColor color) = 0;
 	virtual void SetAllZoneLEDs(int zone, RGBColor color) = 0;
 	virtual void SetLED(int led, RGBColor color) = 0;
+    virtual void UpdateLEDs() = 0;
 };

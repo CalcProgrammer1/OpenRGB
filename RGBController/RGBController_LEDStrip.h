@@ -22,8 +22,8 @@ public:
     void SetAllLEDs(RGBColor color);
     void SetAllZoneLEDs(int zone, RGBColor color);
     void SetLED(int led, RGBColor color);
+    void UpdateLEDs();
 
 private:
-    std::vector<RGBColor> colors;
     LEDStripController* strip;
 };

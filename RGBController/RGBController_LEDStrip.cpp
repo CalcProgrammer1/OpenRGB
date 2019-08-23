@@ -80,3 +80,8 @@ void RGBController_LEDStrip::SetLED(int led, RGBColor color)
 
     strip->SetLEDs(colors);
 }
+
+void RGBController_LEDStrip::UpdateLEDs()
+{
+    strip->SetLEDs(colors);
+}
