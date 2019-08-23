@@ -10,14 +10,14 @@
 
 #pragma once
 
-#define SMBHSTDAT       (0 + nuvoton_nct6793d_smba)
-#define SMBBLKSZ        (1 + nuvoton_nct6793d_smba)
-#define SMBHSTCMD       (2 + nuvoton_nct6793d_smba)
-#define SMBHSTIDX       (3 + nuvoton_nct6793d_smba)  //Index field is the Command field on other controllers
-#define SMBHSTCTL       (4 + nuvoton_nct6793d_smba)
-#define SMBHSTADD       (5 + nuvoton_nct6793d_smba)
-#define SMBHSTERR		(9 + nuvoton_nct6793d_smba)
-#define SMBHSTSTS       (0xE + nuvoton_nct6793d_smba)
+#define SMBHSTDAT       (0 + nct6775_smba)
+#define SMBBLKSZ        (1 + nct6775_smba)
+#define SMBHSTCMD       (2 + nct6775_smba)
+#define SMBHSTIDX       (3 + nct6775_smba)  //Index field is the Command field on other controllers
+#define SMBHSTCTL       (4 + nct6775_smba)
+#define SMBHSTADD       (5 + nct6775_smba)
+#define SMBHSTERR		(9 + nct6775_smba)
+#define SMBHSTSTS       (0xE + nct6775_smba)
 
 /* Command register */
 #define NCT6775_READ_BYTE      0
@@ -34,7 +34,7 @@
 #define NCT6775_SOFT_RESET     64
 
 /* Error register */
-#define NCT677f_NO_ACK         32
+#define NCT6775_NO_ACK         32
 
 /* Status register */
 #define NCT6775_FIFO_EMPTY     1

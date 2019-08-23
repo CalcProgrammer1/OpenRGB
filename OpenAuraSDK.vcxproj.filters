@@ -13,146 +13,179 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{192d5e34-581a-40c4-bc69-f4b61632fd81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{d64d74dd-f822-4617-a88c-00dca03f70d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RGBController">
+      <UniqueIdentifier>{ee7c811d-9bd1-43a8-9d42-62801332ab30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\i2c_smbus">
+      <UniqueIdentifier>{fa28cfae-d8a7-4194-8f25-e35827dd0145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Controllers">
+      <UniqueIdentifier>{a50a158e-81a1-45c3-a300-67e869afcc2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\i2c_smbus">
+      <UniqueIdentifier>{8eae9b90-7558-4b0b-9f03-d3a651cb6624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RGBController">
+      <UniqueIdentifier>{02dd848e-6106-4f74-a58c-4a7547498ac3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="i2c_smbus.h">
+    <ClCompile Include="OpenAuraSDK.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="wmi\wmi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="serial_port\serial_port.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\AuraController\AuraController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\AuraController\AuraControllerDetect.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\CorsairController\CorsairController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\CorsairController\CorsairControllerDetect.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\CorsairProController\CorsairProController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\CorsairProController\CorsairProControllerDetect.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\HyperXController\HyperXController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\HyperXController\HyperXControllerDetect.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="i2c_smbus\i2c_smbus.cpp">
+      <Filter>Source Files\i2c_smbus</Filter>
+    </ClCompile>
+    <ClCompile Include="i2c_smbus\i2c_smbus_i801.cpp">
+      <Filter>Source Files\i2c_smbus</Filter>
+    </ClCompile>
+    <ClCompile Include="i2c_smbus\i2c_smbus_nct6775.cpp">
+      <Filter>Source Files\i2c_smbus</Filter>
+    </ClCompile>
+    <ClCompile Include="i2c_smbus\i2c_smbus_piix4.cpp">
+      <Filter>Source Files\i2c_smbus</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_AorusGPU.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_Aura.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_Corsair.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_CorsairPro.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_HyperX.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_LEDStrip.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
+    <ClCompile Include="vc\I2CDetectDialog.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\LEDStripController\LEDStripController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\LEDStripController\LEDStripControllerDetect.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="vc\OpenAuraSDKDialog.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="vc\Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="wmi\wmi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="i2c_smbus_piix4.h">
+    <ClInclude Include="serial_port\serial_port.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AuraController.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Controllers\AuraController\AuraController.h">
+      <Filter>Header Files\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="i2c_smbus_i801.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Controllers\CorsairController\CorsairController.h">
+      <Filter>Header Files\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="wmi.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Controllers\CorsairProController\CorsairProController.h">
+      <Filter>Header Files\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Controllers\HyperXController\HyperXController.h">
+      <Filter>Header Files\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="OpenAuraSDKDialog.h">
+    <ClInclude Include="Controllers\LEDStripController\LEDStripController.h">
+      <Filter>Header Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_AorusGPU.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_Aura.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_Corsair.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_CorsairPro.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_HyperX.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_LEDStrip.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="i2c_smbus\i2c_smbus.h">
+      <Filter>Header Files\i2c_smbus</Filter>
+    </ClInclude>
+    <ClInclude Include="i2c_smbus\i2c_smbus_i801.h">
+      <Filter>Header Files\i2c_smbus</Filter>
+    </ClInclude>
+    <ClInclude Include="i2c_smbus\i2c_smbus_nct6775.h">
+      <Filter>Header Files\i2c_smbus</Filter>
+    </ClInclude>
+    <ClInclude Include="i2c_smbus\i2c_smbus_piix4.h">
+      <Filter>Header Files\i2c_smbus</Filter>
+    </ClInclude>
+    <ClInclude Include="vc\I2CDetectDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpenAuraSDK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="I2CDetectDialog.h">
+    <ClInclude Include="vc\OpenAuraSDKDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="i2c_smbus_nuvoton_nct6793d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CorsairController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBController_Aura.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBController_Corsair.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBController_AorusGPU.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBController_LEDStrip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="serial_port.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LEDStrip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HyperXController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBController_HyperX.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CorsairProController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBController_CorsairPro.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="OpenAuraSDK.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="i2c_smbus_piix4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AuraController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="i2c_smbus_i801.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="i2c_smbus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="wmi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenAuraSDKDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="I2CDetectDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="i2c_smbus_nuvoton_nct6793d.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CorsairController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RGBController_Aura.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RGBController_Corsair.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RGBController_AorusGPU.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RGBController_LEDStrip.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LEDStrip.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="serial_port.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HyperXController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RGBController_HyperX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CorsairProController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RGBController_CorsairPro.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Resource.rc">
+    <ClInclude Include="vc\resource.h">
       <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    </ClInclude>
   </ItemGroup>
 </Project>

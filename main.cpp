@@ -53,3 +53,18 @@ int main(int argc, char* argv[])
     return a.exec();
 #endif
 }
+
+/******************************************************************************************\
+*                                                                                          *
+*   wWinMain                                                                               *
+*                                                                                          *
+*       Entry point for Windows.  Calls main().                                            *
+*                                                                                          *
+\******************************************************************************************/
+
+#ifdef WIN32
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+{
+    main(0, NULL);
+}
+#endif

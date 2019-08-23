@@ -10,9 +10,6 @@
 #include <iostream>
 #include <string>
 
-#define LPSTR           char *
-#define strtok_s        strtok_r
-
 LEDStripController::LEDStripController()
 {
 

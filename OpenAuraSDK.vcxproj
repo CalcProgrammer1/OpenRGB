@@ -98,16 +98,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_AFXDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,13 +120,14 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
-      <AdditionalIncludeDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,18 +140,18 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_AFXDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,67 +166,72 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
-      <AdditionalIncludeDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.\dependencies\inpout32_1501\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AuraController.h" />
-    <ClInclude Include="CorsairController.h" />
-    <ClInclude Include="CorsairProController.h" />
-    <ClInclude Include="HyperXController.h" />
-    <ClInclude Include="I2CDetectDialog.h" />
-    <ClInclude Include="i2c_smbus.h" />
-    <ClInclude Include="i2c_smbus_i801.h" />
-    <ClInclude Include="i2c_smbus_nuvoton_nct6793d.h" />
-    <ClInclude Include="i2c_smbus_piix4.h" />
-    <ClInclude Include="LEDStrip.h" />
-    <ClInclude Include="OpenAuraSDK.h" />
-    <ClInclude Include="OpenAuraSDKDialog.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="RGBController.h" />
-    <ClInclude Include="RGBController_CorsairPro.h" />
-    <ClInclude Include="RGBController_HyperX.h" />
-    <ClInclude Include="RGBController_AorusGPU.h" />
-    <ClInclude Include="RGBController_Aura.h" />
-    <ClInclude Include="RGBController_Corsair.h" />
-    <ClInclude Include="RGBController_LEDStrip.h" />
-    <ClInclude Include="serial_port.h" />
-    <ClInclude Include="wmi.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AuraController.cpp" />
-    <ClCompile Include="CorsairController.cpp" />
-    <ClCompile Include="CorsairProController.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="HyperXController.cpp" />
-    <ClCompile Include="I2CDetectDialog.cpp" />
-    <ClCompile Include="i2c_smbus.cpp" />
-    <ClCompile Include="i2c_smbus_i801.cpp" />
-    <ClCompile Include="i2c_smbus_nuvoton_nct6793d.cpp" />
-    <ClCompile Include="i2c_smbus_piix4.cpp" />
-    <ClCompile Include="LEDStrip.cpp" />
+    <ClCompile Include="Controllers\AuraController\AuraController.cpp" />
+    <ClCompile Include="Controllers\AuraController\AuraControllerDetect.cpp" />
+    <ClCompile Include="Controllers\CorsairController\CorsairController.cpp" />
+    <ClCompile Include="Controllers\CorsairController\CorsairControllerDetect.cpp" />
+    <ClCompile Include="Controllers\CorsairProController\CorsairProController.cpp" />
+    <ClCompile Include="Controllers\CorsairProController\CorsairProControllerDetect.cpp" />
+    <ClCompile Include="Controllers\HyperXController\HyperXController.cpp" />
+    <ClCompile Include="Controllers\HyperXController\HyperXControllerDetect.cpp" />
+    <ClCompile Include="Controllers\LEDStripController\LEDStripController.cpp" />
+    <ClCompile Include="Controllers\LEDStripController\LEDStripControllerDetect.cpp" />
+    <ClCompile Include="i2c_smbus\i2c_smbus.cpp" />
+    <ClCompile Include="i2c_smbus\i2c_smbus_i801.cpp" />
+    <ClCompile Include="i2c_smbus\i2c_smbus_nct6775.cpp" />
+    <ClCompile Include="i2c_smbus\i2c_smbus_piix4.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="OpenAuraSDKDialog.cpp" />
-    <ClCompile Include="RGBController_AorusGPU.cpp" />
-    <ClCompile Include="RGBController_Aura.cpp" />
-    <ClCompile Include="RGBController_Corsair.cpp" />
-    <ClCompile Include="RGBController_CorsairPro.cpp" />
-    <ClCompile Include="RGBController_HyperX.cpp" />
-    <ClCompile Include="RGBController_LEDStrip.cpp" />
-    <ClCompile Include="serial_port.cpp" />
-    <ClCompile Include="wmi.cpp" />
     <ClCompile Include="OpenAuraSDK.cpp" />
+    <ClCompile Include="RGBController\RGBController_AorusGPU.cpp" />
+    <ClCompile Include="RGBController\RGBController_Aura.cpp" />
+    <ClCompile Include="RGBController\RGBController_Corsair.cpp" />
+    <ClCompile Include="RGBController\RGBController_CorsairPro.cpp" />
+    <ClCompile Include="RGBController\RGBController_HyperX.cpp" />
+    <ClCompile Include="RGBController\RGBController_LEDStrip.cpp" />
+    <ClCompile Include="serial_port\serial_port.cpp" />
+    <ClCompile Include="vc\I2CDetectDialog.cpp" />
+    <ClCompile Include="vc\OpenAuraSDKDialog.cpp" />
+    <ClCompile Include="wmi\wmi.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
+    <ResourceCompile Include="vc\Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Controllers\AuraController\AuraController.h" />
+    <ClInclude Include="Controllers\CorsairController\CorsairController.h" />
+    <ClInclude Include="Controllers\CorsairProController\CorsairProController.h" />
+    <ClInclude Include="Controllers\HyperXController\HyperXController.h" />
+    <ClInclude Include="Controllers\LEDStripController\LEDStripController.h" />
+    <ClInclude Include="i2c_smbus\i2c_smbus.h" />
+    <ClInclude Include="i2c_smbus\i2c_smbus_i801.h" />
+    <ClInclude Include="i2c_smbus\i2c_smbus_nct6775.h" />
+    <ClInclude Include="i2c_smbus\i2c_smbus_piix4.h" />
+    <ClInclude Include="OpenAuraSDK.h" />
+    <ClInclude Include="RGBController\RGBController.h" />
+    <ClInclude Include="RGBController\RGBController_AorusGPU.h" />
+    <ClInclude Include="RGBController\RGBController_Aura.h" />
+    <ClInclude Include="RGBController\RGBController_Corsair.h" />
+    <ClInclude Include="RGBController\RGBController_CorsairPro.h" />
+    <ClInclude Include="RGBController\RGBController_HyperX.h" />
+    <ClInclude Include="RGBController\RGBController_LEDStrip.h" />
+    <ClInclude Include="serial_port\serial_port.h" />
+    <ClInclude Include="vc\I2CDetectDialog.h" />
+    <ClInclude Include="vc\OpenAuraSDKDialog.h" />
+    <ClInclude Include="vc\resource.h" />
+    <ClInclude Include="wmi\wmi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

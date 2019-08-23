@@ -17,6 +17,11 @@
 #define FALSE false
 #endif
 
+#ifndef WIN32
+#define LPSTR           char *
+#define strtok_s        strtok_r
+#endif
+
 class LEDStripController
 {
 public:
