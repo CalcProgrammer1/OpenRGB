@@ -26,9 +26,19 @@ void LEDStripController::Initialize(char* ledstring)
     LPSTR   source = NULL;
     LPSTR   udpport_baud = NULL;
     LPSTR   next = NULL;
-
+    
+    //Assume serial device unless a different protocol is specified
+    bool    serial = TRUE;
+    
     source = strtok_s(ledstring, ",", &next);
 
+    //Check if we are setting up a Keyboard Visualizer UDP protocol device
+    if (strncmp(source, "udp:", 4) == 0)
+    {
+        source = source + 4;
+        serial = FALSE;
+    }
+    
     //Check for either the UDP port or the serial baud rate
     if (strlen(next))
     {
@@ -41,8 +51,31 @@ void LEDStripController::Initialize(char* ledstring)
         numleds = strtok_s(next, ",", &next);
     }
 
-    //Initialize with custom baud rate
-    InitializeSerial(source, atoi(udpport_baud));
+    if (serial)
+    {
+        if (udpport_baud == NULL)
+        {
+            //Initialize with default baud rate
+            InitializeSerial(source, 115200);
+        }
+        else
+        {
+            //Initialize with custom baud rate
+            InitializeSerial(source, atoi(udpport_baud));
+        }
+    }
+    else
+    {
+        if (udpport_baud == NULL)
+        {
+            //Do something
+        }
+        else
+        {
+            //Initialize UDP port
+            InitializeUDP(source, udpport_baud);
+        }
+    }
 
     if (numleds != NULL && strlen(numleds))
     {
@@ -56,6 +89,7 @@ void LEDStripController::InitializeSerial(char* portname, int baud)
     strcpy(port_name, portname);
     baud_rate = baud;
     serialport = new serial_port(port_name, baud_rate);
+    udpport = NULL;
 }
 
 void LEDStripController::InitializeUDP(char * clientname, char * port)
@@ -63,16 +97,7 @@ void LEDStripController::InitializeUDP(char * clientname, char * port)
     strcpy(client_name, clientname);
     strcpy(port_name, port);
 
-    //udpport = new net_port(client_name, port_name);
-    serialport = NULL;
-}
-
-void LEDStripController::InitializeEspurna(char * clientname, char * port, char * apikey)
-{
-    strcpy(client_name, clientname);
-    strcpy(port_name, port);
-    strcpy(espurna_apikey, apikey);
-    //tcpport = new net_port;
+    udpport = new net_port(client_name, port_name);
     serialport = NULL;
 }
 
@@ -83,43 +108,40 @@ char* LEDStripController::GetLEDString()
 
 void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
 {
-    if (serialport != NULL )
+    unsigned char *serial_buf;
+
+    serial_buf = new unsigned char[(num_leds * 3) + 3];
+
+    serial_buf[0] = 0xAA;
+
+    for (int idx = 0; idx < (num_leds * 3); idx += 3)
     {
-        unsigned char *serial_buf;
-
-        serial_buf = new unsigned char[(num_leds * 3) + 3];
-
-        serial_buf[0] = 0xAA;
-
-        for (int idx = 0; idx < (num_leds * 3); idx += 3)
-        {
-            int pixel_idx = idx / 3;
-            RGBColor color = colors[pixel_idx];
-            serial_buf[idx + 1] = RGBGetRValue(color);
-            serial_buf[idx + 2] = RGBGetGValue(color);
-            serial_buf[idx + 3] = RGBGetBValue(color);
-        }
-
-        unsigned short sum = 0;
-
-        for (int i = 0; i < (num_leds * 3) + 1; i++)
-        {
-            sum += serial_buf[i];
-        }
-
-        serial_buf[(num_leds * 3) + 1] = sum >> 8;
-        serial_buf[(num_leds * 3) + 2] = sum & 0x00FF;
-
-        if (serialport != NULL)
-        {
-            serialport->serial_write((char *)serial_buf, (num_leds * 3) + 3);
-            serialport->serial_flush_tx();
-        }
-
-        delete[] serial_buf;
+        int pixel_idx = idx / 3;
+        RGBColor color = colors[pixel_idx];
+        serial_buf[idx + 1] = RGBGetRValue(color);
+        serial_buf[idx + 2] = RGBGetGValue(color);
+        serial_buf[idx + 3] = RGBGetBValue(color);
     }
-    else
+
+    unsigned short sum = 0;
+
+    for (int i = 0; i < (num_leds * 3) + 1; i++)
     {
-        //SetLEDsEspurna(pixels);
+        sum += serial_buf[i];
     }
+
+    serial_buf[(num_leds * 3) + 1] = sum >> 8;
+    serial_buf[(num_leds * 3) + 2] = sum & 0x00FF;
+
+    if (serialport != NULL)
+    {
+        serialport->serial_write((char *)serial_buf, (num_leds * 3) + 3);
+        serialport->serial_flush_tx();
+    }
+    else if (udpport != NULL)
+    {
+        udpport->udp_write((char *)serial_buf, (num_leds * 3) + 3);
+    }
+
+    delete[] serial_buf;
 }

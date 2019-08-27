@@ -1,6 +1,6 @@
-#include "LEDStripController.h"
+#include "HuePlusController.h"
 #include "RGBController.h"
-#include "RGBController_LEDStrip.h"
+#include "RGBController_HuePlus.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,16 +18,16 @@
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectLEDStripControllers                                                              *
+*   DetectHuePlusControllers                                                               *
 *                                                                                          *
-*       Detect devices supported by the LEDStrip driver                                    *
+*       Detect devices supported by the HuePlus driver                                     *
 *                                                                                          *                                                                                          *
 \******************************************************************************************/
 
-void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    LEDStripController* new_ledstrip;
-    RGBController_LEDStrip* new_controller;
+    HuePlusController* new_hueplus;
+    RGBController_HuePlus* new_controller;
 
     //Get file path in executable directory
     std::ifstream infile;
@@ -72,12 +72,12 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
 
                 if(argument)
                 {
-                    if (strcmp(argument, "ledstrip") == 0)
+                    if (strcmp(argument, "hueplus") == 0)
                     {
-                        new_ledstrip = new LEDStripController();
-                        new_ledstrip->Initialize(value);
+                        new_hueplus = new HuePlusController();
+                        new_hueplus->Initialize(value);
 
-                        new_controller = new RGBController_LEDStrip(new_ledstrip);
+                        new_controller = new RGBController_HuePlus(new_hueplus);
                         rgb_controllers.push_back(new_controller);
                     }
                 }
@@ -86,4 +86,4 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
     }
 
 
-}   /* DetectLEDStripControllers() */
+}   /* DetectHuePlusControllers() */

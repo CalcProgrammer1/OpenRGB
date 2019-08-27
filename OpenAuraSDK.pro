@@ -7,10 +7,12 @@ TEMPLATE = app
 
 INCLUDEPATH +=                                                          \
     i2c_smbus/                                                          \
+    net_port/                                                           \
     serial_port/                                                        \
     Controllers/AuraController/                                         \
     Controllers/CorsairController/                                      \
     Controllers/CorsairProController/                                   \
+    Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
     Controllers/LEDStripController/                                     \
     RGBController/                                                      \
@@ -22,6 +24,7 @@ SOURCES +=                                                              \
     qt/OpenAuraSDKQtDialog.cpp                                          \
     i2c_smbus/i2c_smbus.cpp                                             \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
+    net_port/net_port.cpp                                               \
     serial_port/serial_port.cpp                                         \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
@@ -29,6 +32,8 @@ SOURCES +=                                                              \
     Controllers/CorsairController/CorsairControllerDetect.cpp           \
     Controllers/CorsairProController/CorsairProController.cpp           \
     Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
+    Controllers/HuePlusController/HuePlusController.cpp                 \
+    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXController/HyperXController.cpp                   \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
     Controllers/LEDStripController/LEDStripController.cpp               \
@@ -37,6 +42,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairPro.cpp                          \
+    RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_OpenRazer.cpp
@@ -45,16 +51,19 @@ HEADERS += \
     qt/OpenAuraSDKQtDialog.h                                            \
     i2c_smbus/i2c_smbus.h                                               \
     i2c_smbus/i2c_smbus_linux.h                                         \
+    net_port/net_port.h                                                 \
     serial_port/serial_port.h                                           \
     Controllers/AuraController/AuraController.h                         \
     Controllers/CorsairController/CorsairController.h                   \
     Controllers/CorsairProController/CorsairProController.h             \
+    Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXController/HyperXController.h                     \
     Controllers/LEDStripController/LEDStripController.h                 \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairPro.h                            \
+    RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
     RGBController/RGBController_OpenRazer.h
 

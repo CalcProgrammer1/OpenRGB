@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-|  Definitions for Generic LED Strip Interface              |
+|  Definitions for NZXT Hue+                                |
 |                                                           |
 |  Adam Honse (calcprogrammer1@gmail.com), 12/11/2016       |
 \*---------------------------------------------------------*/
@@ -9,7 +9,6 @@
 
 #include "RGBController.h"
 #include "serial_port.h"
-#include "net_port.h"
 #include <vector>
 
 
@@ -23,15 +22,13 @@
 #define strtok_s        strtok_r
 #endif
 
-class LEDStripController
+class HuePlusController
 {
 public:
-    LEDStripController();
-    ~LEDStripController();
+    HuePlusController();
+    ~HuePlusController();
 
     void Initialize(char* ledstring);
-    void InitializeSerial(char* portname, int baud);
-    void InitializeUDP(char* clientname, char* port);
     char* GetLEDString();
     void SetLEDs(std::vector<RGBColor> colors);
 
@@ -39,12 +36,13 @@ public:
 
 private:
     int baud_rate;
+    int fans;
+    int channel;
+    const int hueSize = 125;
 
     char led_string[1024];
     char port_name[128];
-    char client_name[1024];
     serial_port *serialport;
-    net_port *udpport;
 };
 
 #endif
