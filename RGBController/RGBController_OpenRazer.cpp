@@ -97,48 +97,53 @@ void RGBController_OpenRazer::UpdateLEDs()
         case RAZER_TYPE_MATRIX_FRAME:
         case RAZER_TYPE_MATRIX_NOFRAME:
             {
-                unsigned int output_array_size;
-                unsigned int output_offset;
+                for (int row = 0; row < matrix_rows; row++)
+                {
+                    unsigned int output_array_size;
+                    unsigned int output_offset;
+                    unsigned int row_offset = (row * matrix_cols);
 
-                if(type == RAZER_TYPE_MATRIX_NOFRAME)
-                {
-                    output_array_size = 3;
-                    output_offset = 0;
-                }
-                else
-                {
-                    output_array_size = 3 + (colors.size() * 3);
-                    output_offset = 3;
-                }
-                
-                char output_array[output_array_size];
-                char update_value = 1;
+                    if(type == RAZER_TYPE_MATRIX_NOFRAME)
+                    {
+                        output_array_size = 3;
+                        output_offset = 0;
+                    }
+                    else
+                    {
+                        output_array_size = 3 + (matrix_cols* 3);
+                        output_offset = 3;
+                    }
+                    
+                    char output_array[output_array_size];
+                    char update_value = 1;
 
-                if(type != RAZER_TYPE_MATRIX_NOFRAME)
-                {
-                    output_array[0] = 0;
-                    output_array[1] = 0;
-                    output_array[2] = colors.size() - 1;
-                }
+                    if(type != RAZER_TYPE_MATRIX_NOFRAME)
+                    {
+                        output_array[0] = row;
+                        output_array[1] = 0;
+                        output_array[2] = matrix_cols - 1;
+                    }
 
-                for(int i = 0; i < colors.size(); i++)
-                {
-                    output_array[(i * 3) + 0 + output_offset] = (char)RGBGetRValue(colors[i]);
-                    output_array[(i * 3) + 1 + output_offset] = (char)RGBGetGValue(colors[i]);
-                    output_array[(i * 3) + 2 + output_offset] = (char)RGBGetBValue(colors[i]);
-                }
-                
-                if(type == RAZER_TYPE_MATRIX_NOFRAME)
-                {
-                    matrix_effect_custom.write(output_array, output_array_size);
-                    matrix_effect_custom.flush();
-                }
-                else
-                {
-                    matrix_custom_frame.write(output_array, output_array_size);
-                    matrix_custom_frame.flush();
-                    matrix_effect_custom.write(&update_value, 1);
-                    matrix_effect_custom.flush();
+                    for(int col = 0; col < matrix_cols; col++)
+                    {
+                        unsigned int color_idx = col + row_offset;
+                        output_array[(col * 3) + 0 + output_offset] = (char)RGBGetRValue(colors[color_idx]);
+                        output_array[(col * 3) + 1 + output_offset] = (char)RGBGetGValue(colors[color_idx]);
+                        output_array[(col * 3) + 2 + output_offset] = (char)RGBGetBValue(colors[color_idx]);
+                    }
+                    
+                    if(type == RAZER_TYPE_MATRIX_NOFRAME)
+                    {
+                        matrix_effect_custom.write(output_array, output_array_size);
+                        matrix_effect_custom.flush();
+                    }
+                    else
+                    {
+                        matrix_custom_frame.write(output_array, output_array_size);
+                        matrix_custom_frame.flush();
+                        matrix_effect_custom.write(&update_value, 1);
+                        matrix_effect_custom.flush();
+                    }
                 }
             }
             break;
@@ -272,13 +277,18 @@ unsigned int RGBController_OpenRazer::GetTypeFromDeviceName(std::string dev_name
         return(RAZER_KRAKEN_V2);
     }
 
+    else if(dev_name == "Razer Chroma HDK")
+    {
+        return(RAZER_CHROMA_HDK);
+    }
+
     else
     {
         return(RAZER_NO_DEVICE);
     }
 }
 
-void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path)
+void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned int rows, unsigned int cols)
 {
     matrix_custom_frame.open(dev_path + "/matrix_custom_frame");
     matrix_effect_custom.open(dev_path + "/matrix_effect_custom");
@@ -296,6 +306,9 @@ void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path)
     else
     {
         type = RAZER_TYPE_MATRIX_FRAME;
+
+        matrix_rows = rows;
+        matrix_cols = cols;
     }
 }
 
@@ -334,7 +347,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     {
         case RAZER_MAMBA_TOURNAMENT_EDITION_CHROMA:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 16);
                 
                 for (int i = 0; i < 16; i++)
                 {
@@ -409,7 +422,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
         
         case RAZER_DIAMONDBACK_CHROMA:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 21);
                 
                 for (int i = 0; i < 21; i++)
                 {
@@ -520,7 +533,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
         
         case RAZER_DEATHSTALKER_CHROMA:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 12);
 
                 for(int i = 0; i < 12; i++)
                 {
@@ -550,7 +563,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
         
         case RAZER_TARTARUS_CHROMA:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 1);
 
                 for (int i = 0; i < 1; i++)
                 {
@@ -574,7 +587,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
 
         case RAZER_CORE:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 9);
 
                 for(int i = 0; i < 9; i++)
                 {
@@ -622,7 +635,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
 
         case RAZER_FIREFLY_CHROMA:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 15);
 
                 for(int i = 0; i < 15; i++)
                 {
@@ -652,7 +665,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
 
         case RAZER_GOLIATHUS_EXTENDED_CHROMA:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 1);
 
                 for (int i = 0; i < 1; i++)
                 {
@@ -676,7 +689,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
 
         case RAZER_MUG_HOLDER:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 15);
 
                 for(int i = 0; i < 15; i++)
                 {
@@ -707,7 +720,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
         case RAZER_KRAKEN_V1:
         case RAZER_KRAKEN_V2:
             {
-                SetupMatrixDevice(dev_path);
+                SetupMatrixDevice(dev_path, 1, 1);
 
                 for (int i = 0; i < 1; i++)
                 {
@@ -726,6 +739,43 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 logo_zone_map.push_back(0);
                 logo_zone.map.push_back(logo_zone_map);
                 zones.push_back(logo_zone);
+            }
+            break;
+        
+        case RAZER_CHROMA_HDK:
+            {
+                SetupMatrixDevice(dev_path, 4, 16);
+
+                for (int i = 0; i < 64; i++)
+                {
+                    RGBColor new_color = 0x00000000;
+                    colors.push_back(new_color);
+                }
+
+                for (int i = 0; i < 64; i++)
+                {
+                    led* new_led = new led();
+                    new_led->name = "LED Strip";
+                    leds.push_back(*new_led);
+                }
+
+                for (int i = 0; i < 4; i++)
+                {
+                    zone* new_zone = new zone();
+                    new_zone->name = "LED Strip";
+                    new_zone->type = ZONE_TYPE_LINEAR;
+
+                    std::vector<int>* new_zone_map = new std::vector<int>();
+
+                    for (int j = 0; j < 16; j++)
+                    {
+                        new_zone_map->push_back((i * 16) + j);
+                    }
+
+                    new_zone->map.push_back(*new_zone_map);
+
+                    zones.push_back(*new_zone);
+                }
             }
             break;
     }

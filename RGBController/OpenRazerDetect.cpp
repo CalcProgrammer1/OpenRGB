@@ -26,7 +26,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     bool done = false;
     int driver_to_read = 0;
 
-    while(driver_to_read < 7)
+    while(driver_to_read < 8)
     {
         switch(driver_to_read)
         {
@@ -56,6 +56,10 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         
         case 6:
             strcpy(driver_path, "/sys/bus/hid/drivers/razermousemat/");
+            break;
+        
+        case 7:
+            strcpy(driver_path, "/sys/bus/hid/drivers/razerchromahdk/");
             break;
         }
 

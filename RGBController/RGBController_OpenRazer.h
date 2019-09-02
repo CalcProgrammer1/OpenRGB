@@ -35,6 +35,7 @@ public:
         RAZER_CORE,
         RAZER_KRAKEN_V1,
         RAZER_KRAKEN_V2,
+        RAZER_CHROMA_HDK,
         RAZER_NUM_DEVICES
     };
 
@@ -71,11 +72,13 @@ public:
     unsigned int device;
 
 private:
-    void SetupMatrixDevice(std::string dev_path);
+    void SetupMatrixDevice(std::string dev_path, unsigned int rows, unsigned int cols);
     void SetupNonMatrixDevice(std::string dev_path);
     unsigned int GetTypeFromDeviceName(std::string dev_name);
 
     unsigned int type;
+    unsigned int matrix_rows;
+    unsigned int matrix_cols;
 
     //OpenRazer Sysfs Entries for Matrix Devices
     std::ofstream matrix_custom_frame;
