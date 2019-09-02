@@ -114,6 +114,18 @@
     <ClCompile Include="vc\OpenAuraSDKDialog.cpp">
       <Filter>Source Files\Application</Filter>
     </ClCompile>
+    <ClCompile Include="Controllers\HuePlusController\HuePlusController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\HuePlusController\HuePlusControllerDetect.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="net_port\net_port.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_HuePlus.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="vc\Resource.rc">
@@ -186,6 +198,15 @@
     </ClInclude>
     <ClInclude Include="vc\resource.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\HuePlusController\HuePlusController.h">
+      <Filter>Header Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="net_port\net_port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_HuePlus.h">
+      <Filter>Header Files\RGBController</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
