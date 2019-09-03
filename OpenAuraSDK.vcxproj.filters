@@ -126,6 +126,12 @@
     <ClCompile Include="RGBController\RGBController_HuePlus.cpp">
       <Filter>Source Files\RGBController</Filter>
     </ClCompile>
+    <ClCompile Include="RGBController\RGBController_RazerChromaSDK.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RazerChromaSDKDetect.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="vc\Resource.rc">
@@ -206,6 +212,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RGBController\RGBController_HuePlus.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_RazerChromaSDK.h">
       <Filter>Header Files\RGBController</Filter>
     </ClInclude>
   </ItemGroup>

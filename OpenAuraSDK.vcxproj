@@ -98,7 +98,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_AFXDLL;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\dependencies\razer-chroma-2.9.0\inc;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
@@ -120,7 +120,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
-      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\dependencies\razer-chroma-2.9.0\inc;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -140,7 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_AFXDLL;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\dependencies\razer-chroma-2.9.0\inc;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
@@ -166,7 +166,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
-      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\dependencies\inpout32_1501\Win32;.\dependencies\razer-chroma-2.9.0\inc;.\Controllers\AuraController;.\Controllers\CorsairController;.\Controllers\CorsairProController;.\Controllers\HuePlusController;.\Controllers\HyperXController;.\Controllers\LEDStripController;.\RGBController;.\i2c_smbus;.\net_port;.\serial_port;.\vc;.\wmi;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -198,6 +198,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="net_port\net_port.cpp" />
     <ClCompile Include="OpenAuraSDK.cpp" />
+    <ClCompile Include="RGBController\RazerChromaSDKDetect.cpp" />
     <ClCompile Include="RGBController\RGBController_AorusGPU.cpp" />
     <ClCompile Include="RGBController\RGBController_Aura.cpp" />
     <ClCompile Include="RGBController\RGBController_Corsair.cpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="RGBController\RGBController_HuePlus.cpp" />
     <ClCompile Include="RGBController\RGBController_HyperX.cpp" />
     <ClCompile Include="RGBController\RGBController_LEDStrip.cpp" />
+    <ClCompile Include="RGBController\RGBController_RazerChromaSDK.cpp" />
     <ClCompile Include="serial_port\serial_port.cpp" />
     <ClCompile Include="vc\I2CDetectDialog.cpp" />
     <ClCompile Include="vc\OpenAuraSDKDialog.cpp" />
@@ -234,6 +236,7 @@
     <ClInclude Include="RGBController\RGBController_HuePlus.h" />
     <ClInclude Include="RGBController\RGBController_HyperX.h" />
     <ClInclude Include="RGBController\RGBController_LEDStrip.h" />
+    <ClInclude Include="RGBController\RGBController_RazerChromaSDK.h" />
     <ClInclude Include="serial_port\serial_port.h" />
     <ClInclude Include="vc\I2CDetectDialog.h" />
     <ClInclude Include="vc\OpenAuraSDKDialog.h" />
