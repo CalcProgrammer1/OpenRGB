@@ -26,29 +26,14 @@ typedef RZRESULT(*CREATEMOUSEPADEFFECT)(ChromaSDK::Mousepad::EFFECT_TYPE Effect,
 typedef RZRESULT(*CREATEHEADSETEFFECT)(ChromaSDK::Headset::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
 typedef RZRESULT(*CREATECHROMALINKEFFECT)(ChromaSDK::ChromaLink::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId);
 
-#define RAZER_MAX_ZONES 4
-#define RAZER_NUM_DEVICES 2
+#define RAZER_MAX_ZONES 6
+#define RAZER_NUM_DEVICES 3
 
 enum
 {
-    RAZER_NO_DEVICE,
-    RAZER_BLACKWIDOW_CHROMA,
-    RAZER_DEATHSTALKER_CHROMA,
-    RAZER_ORNATA_CHROMA,
-    RAZER_BLADE_STEALTH,
-    RAZER_BLADE_PRO,
-    RAZER_TARTARUS_CHROMA,
-    RAZER_DEATHADDER_CHROMA,
-    RAZER_DEATHADDER_ELITE,
-    RAZER_NAGA_CHROMA,
-    RAZER_DIAMONDBACK_CHROMA,
-    RAZER_MAMBA_TOURNAMENT_EDITION_CHROMA,
-    RAZER_FIREFLY_CHROMA,
-    RAZER_GOLIATHUS_EXTENDED_CHROMA,
-    RAZER_MUG_HOLDER,
-    RAZER_CORE,
-    RAZER_KRAKEN_V1,
-    RAZER_KRAKEN_V2,
+    RAZER_GENERIC_KEYBOARD,
+    RAZER_GENERIC_MOUSE,
+    RAZER_GENERIC_MOUSEPAD,
     RAZER_CHROMA_HDK
 };
 
@@ -79,25 +64,110 @@ typedef struct
 } razer_device;
 
 /*------------------------------------------------------------ *\
-|  Razer Firefly                                                |
+|  Razer Generic Mouse                                          |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       7 LEDs                                                  |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       7 LEDs                                                  |
+|                                                               |
+|  Zone "Bottom"                                                |
+|       Linear                                                  |
+|       5 LEDs                                                  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad/Backlight"                                      |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone mouse_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    7
+};
+
+static const razer_zone mouse_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    7
+};
+
+static const razer_zone mouse_bottom_zone =
+{
+    "Bottom LED Strip",
+    ZONE_TYPE_LINEAR,
+    5
+};
+
+static const razer_zone mouse_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1
+};
+
+static const razer_zone mouse_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1
+};
+
+static const razer_zone mouse_numpad_backlight_zone =
+{
+    "Numpad/Backlight",
+    ZONE_TYPE_SINGLE,
+    1
+};
+
+static const razer_device mouse_device =
+{
+    "Razer Generic Mouse",
+    RAZER_GENERIC_MOUSE,
+    {
+        &mouse_left_zone,
+        &mouse_right_zone,
+        &mouse_bottom_zone,
+        &mouse_scroll_wheel_zone,
+        &mouse_logo_zone,
+        &mouse_numpad_backlight_zone
+    }
+};
+
+/*------------------------------------------------------------ *\
+|  Razer Generic Mousepad (Firefly, Mug Holder)                 |
 |                                                               |
 |  Zone "LED Strip"                                             |
 |       Linear                                                  |
 |       15 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone firefly_zone =
+static const razer_zone mousepad_zone =
 {
     "LED Strip",
     ZONE_TYPE_LINEAR,
     15
 };
 
-static const razer_device firefly_device =
+static const razer_device mousepad_device =
 {
-    "Razer Firefly",
-    RAZER_FIREFLY_CHROMA,
+    "Razer Generic Mousepad",
+    RAZER_GENERIC_MOUSEPAD,
     {
-        &firefly_zone,
+        &mousepad_zone,
+        NULL,
+        NULL,
         NULL,
         NULL,
         NULL
@@ -138,13 +208,16 @@ static const razer_device chromahdk_device =
         &chromahdk_zone,
         &chromahdk_zone,
         &chromahdk_zone,
-        &chromahdk_zone
+        &chromahdk_zone,
+        NULL,
+        NULL
     }
 };
 
 static const razer_device* device_list[RAZER_NUM_DEVICES] =
 {
-    &firefly_device,
+    &mouse_device,
+    &mousepad_device,
     &chromahdk_device
 };
 

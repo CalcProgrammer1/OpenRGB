@@ -40,6 +40,8 @@ typedef RZRESULT(*CREATECHROMALINKEFFECT)(ChromaSDK::ChromaLink::EFFECT_TYPE Eff
 
 void DetectRazerChromaSDKControllers(std::vector<RGBController*>& rgb_controllers)
 {
+    RGBController_RazerChromaSDK* razer_rgb;
+
     // Dynamically loads the Chroma SDK library.
     hModule = LoadLibrary(CHROMASDKDLL);
     if (hModule)
@@ -52,11 +54,16 @@ void DetectRazerChromaSDKControllers(std::vector<RGBController*>& rgb_controller
         }
     }
 
-    RGBController_RazerChromaSDK* razer_rgb = new RGBController_RazerChromaSDK(RAZER_CHROMA_HDK, &hModule);
+
+    razer_rgb = new RGBController_RazerChromaSDK(RAZER_GENERIC_MOUSE, &hModule);
 
     rgb_controllers.push_back(razer_rgb);
 
-    razer_rgb = new RGBController_RazerChromaSDK(RAZER_FIREFLY_CHROMA, &hModule);
+    razer_rgb = new RGBController_RazerChromaSDK(RAZER_GENERIC_MOUSEPAD, &hModule);
+
+    rgb_controllers.push_back(razer_rgb);
+
+    razer_rgb = new RGBController_RazerChromaSDK(RAZER_CHROMA_HDK, &hModule);
 
     rgb_controllers.push_back(razer_rgb);
 
