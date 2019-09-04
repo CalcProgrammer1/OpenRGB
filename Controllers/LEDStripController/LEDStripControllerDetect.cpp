@@ -42,9 +42,8 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
     snprintf(arg1, 64, "/proc/%d/exe", getpid());
     readlink(arg1, filename, 1024);
     strcpy(filename, std::string(filename).substr(0, std::string(filename).find_last_of("\\/")).c_str());
-#endif
-
     strcat(filename, "/settings.txt");
+#endif
 
     //Open settings file
     infile.open(filename);
