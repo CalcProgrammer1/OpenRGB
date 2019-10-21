@@ -9,7 +9,7 @@
 
 #pragma once
 #include "RGBController.h"
-#include "E131Controller.h"
+#include <e131.h>
 
 typedef unsigned int e131_rgb_order;
 
@@ -31,12 +31,12 @@ struct E131Device
 	unsigned int start_channel;
 	e131_rgb_order rgb_order;
 	zone_type type;
-}
+};
 
 class RGBController_E131 : public RGBController
 {
 public:
-    RGBController_E131();
+    RGBController_E131(std::vector<E131Device> device_list);
     int GetMode();
     void SetMode(int mode);
     void SetCustomMode();
@@ -46,4 +46,8 @@ public:
     void UpdateLEDs();
 
 private:
+	std::vector<E131Device> 	devices;
+    std::vector<e131_packet_t> 	packets;
+	std::vector<e131_addr_t> 	dest_addrs;
+	std::vector<unsigned int> 	universes;
 };

@@ -1,5 +1,7 @@
 QT       += core gui
 
+LIBS += -le131
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = OpenAuraSDK.bin
@@ -39,9 +41,11 @@ SOURCES +=                                                              \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     RGBController/OpenRazerDetect.cpp                                   \
+    RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairPro.cpp                          \
+    RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
     RGBController/RGBController_LEDStrip.cpp                            \
@@ -63,6 +67,7 @@ HEADERS += \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairPro.h                            \
+    RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
     RGBController/RGBController_OpenRazer.h
