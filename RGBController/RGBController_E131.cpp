@@ -21,6 +21,8 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     led_mode.name = "Custom";
     modes.push_back(led_mode);
 
+    sockfd = e131_socket();
+
     for (int i = 0; i < devices.size(); i++)
     {
 		/*-----------------------------------------*\
@@ -126,8 +128,6 @@ void RGBController_E131::SetLED(int led, RGBColor color)
 
 void RGBController_E131::UpdateLEDs()
 {
-	int sockfd = e131_socket();
-
     for(int device_idx = 0; device_idx < devices.size(); device_idx++)
     {
         unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );

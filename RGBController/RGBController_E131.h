@@ -50,4 +50,5 @@ private:
     std::vector<e131_packet_t> 	packets;
 	std::vector<e131_addr_t> 	dest_addrs;
 	std::vector<unsigned int> 	universes;
+	int 						sockfd;
 };
