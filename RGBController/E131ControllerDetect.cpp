@@ -47,9 +47,9 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
 
 	dev.name = "Test";
 	dev.type = ZONE_TYPE_SINGLE;
-    dev.num_leds = 30;
+    dev.num_leds = 50;
 	dev.start_universe = 20;
-	dev.start_channel = 500;
+	dev.start_channel = 1;
 
     std::vector<E131Device> devices;
 
