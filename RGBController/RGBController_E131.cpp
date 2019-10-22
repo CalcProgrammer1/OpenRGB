@@ -180,5 +180,6 @@ void RGBController_E131::UpdateLEDs()
     for(int packet_idx = 0; packet_idx < packets.size(); packet_idx++)
     {
 	    e131_send(sockfd, &packets[packet_idx], &dest_addrs[packet_idx]);
+        packets[packet_idx].frame.seq_number++;
     }
 }
