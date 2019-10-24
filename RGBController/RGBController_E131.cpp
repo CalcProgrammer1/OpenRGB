@@ -62,7 +62,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
             for (int pkt_idx = 0; pkt_idx < packets.size(); pkt_idx++)
             {
-                if(packets[pkt_idx].frame.universe == universe)
+                if(universes[pkt_idx] == universe)
                 {
                     universe_exists = true;
                 }
