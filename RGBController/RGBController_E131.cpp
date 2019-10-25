@@ -17,6 +17,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     devices = device_list;
 
+    unsigned int led_zone_idx = 0;
     mode led_mode;
     led_mode.name = "Custom";
     modes.push_back(led_mode);
@@ -32,7 +33,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     	{
        		colors.push_back(0x00000000);
         	led new_led;
-        	new_led.name = "E1.31 LED";
+        	new_led.name = devices[i].name + " LED";
         	leds.push_back(new_led);
 		}
 		
@@ -45,7 +46,8 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     	std::vector<int> led_zone_map;
     	for (int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
     	{
-      	  	led_zone_map.push_back(led_idx);
+      	  	led_zone_map.push_back(led_zone_idx);
+            led_zone_idx++;
     	}
     	led_zone.map.push_back(led_zone_map);
     	zones.push_back(led_zone);
@@ -111,9 +113,12 @@ void RGBController_E131::SetAllLEDs(RGBColor color)
 
 void RGBController_E131::SetAllZoneLEDs(int zone, RGBColor color)
 {
-    for (int i = 0; i < colors.size(); i++)
+    for (int x = 0; x < zones[zone].map.size(); x++)
     {
-        colors[i] = color;
+        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        {
+            colors[zones[zone].map[x][y]] = color;
+        }
     }
 
 	UpdateLEDs();
@@ -128,6 +133,8 @@ void RGBController_E131::SetLED(int led, RGBColor color)
 
 void RGBController_E131::UpdateLEDs()
 {
+    int color_idx = 0;
+
     for(int device_idx = 0; device_idx < devices.size(); device_idx++)
     {
         unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
@@ -149,17 +156,18 @@ void RGBController_E131::UpdateLEDs()
                         switch(rgb_idx)
                         {
                             case 0:
-                                packets[packet_idx].dmp.prop_val[channel_idx] = RGBGetRValue( colors[led_idx] );
+                                packets[packet_idx].dmp.prop_val[channel_idx] = RGBGetRValue( colors[color_idx] );
                                 rgb_idx = 1;
                                 break;
                             case 1:
-                                packets[packet_idx].dmp.prop_val[channel_idx] = RGBGetGValue( colors[led_idx] );
+                                packets[packet_idx].dmp.prop_val[channel_idx] = RGBGetGValue( colors[color_idx] );
                                 rgb_idx = 2;
                                 break;
                             case 2:
-                                packets[packet_idx].dmp.prop_val[channel_idx] = RGBGetBValue( colors[led_idx] );
+                                packets[packet_idx].dmp.prop_val[channel_idx] = RGBGetBValue( colors[color_idx] );
                                 rgb_idx = 0;
                                 led_idx++;
+                                color_idx++;
                                 break;
                         }
 
