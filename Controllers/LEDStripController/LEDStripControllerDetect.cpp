@@ -37,12 +37,12 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
 #ifdef WIN32
     GetModuleFileName(NULL, filename, 2048);
     strcpy(filename, std::string(filename).substr(0, std::string(filename).find_last_of("\\/")).c_str());
-    strcat(filename, "\\settings.txt");
+    strcat(filename, "\\ledstrip.txt");
 #else
     snprintf(arg1, 64, "/proc/%d/exe", getpid());
     readlink(arg1, filename, 1024);
     strcpy(filename, std::string(filename).substr(0, std::string(filename).find_last_of("\\/")).c_str());
-    strcat(filename, "/settings.txt");
+    strcat(filename, "/ledstrip.txt");
 #endif
 
     //Open settings file
