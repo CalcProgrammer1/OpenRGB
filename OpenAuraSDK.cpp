@@ -260,8 +260,8 @@ void DetectI2CBusses()
     struct dirent *         ent;
     int                     test_fd;
 
-    // Start looking for I2C adapters in /sys/class/i2c-adapter/
-    strcpy(driver_path, "/sys/class/i2c-adapter/");
+    // Start looking for I2C adapters in /sys/bus/i2c/devices/
+    strcpy(driver_path, "/sys/bus/i2c/devices/");
     dir = opendir(driver_path);
 
     if(dir == NULL)
