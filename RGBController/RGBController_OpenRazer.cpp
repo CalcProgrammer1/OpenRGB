@@ -10,7 +10,7 @@
 #include "RGBController_OpenRazer.h"
 
 #include <fstream>
-
+#include <unistd.h>
 int RGBController_OpenRazer::GetMode()
 {
     return(0);
@@ -97,6 +97,8 @@ void RGBController_OpenRazer::UpdateLEDs()
         case RAZER_TYPE_MATRIX_FRAME:
         case RAZER_TYPE_MATRIX_NOFRAME:
             {
+                char update_value = 1;
+                
                 for (int row = 0; row < matrix_rows; row++)
                 {
                     unsigned int output_array_size;
@@ -115,7 +117,6 @@ void RGBController_OpenRazer::UpdateLEDs()
                     }
                     
                     char output_array[output_array_size];
-                    char update_value = 1;
 
                     if(type != RAZER_TYPE_MATRIX_NOFRAME)
                     {
@@ -141,10 +142,12 @@ void RGBController_OpenRazer::UpdateLEDs()
                     {
                         matrix_custom_frame.write(output_array, output_array_size);
                         matrix_custom_frame.flush();
-                        matrix_effect_custom.write(&update_value, 1);
-                        matrix_effect_custom.flush();
+                        usleep(5000);
                     }
                 }
+                usleep(5000);
+                matrix_effect_custom.write(&update_value, 1);
+                matrix_effect_custom.flush();
             }
             break;
         
@@ -282,6 +285,11 @@ unsigned int RGBController_OpenRazer::GetTypeFromDeviceName(std::string dev_name
         return(RAZER_CHROMA_HDK);
     }
 
+    else if(dev_name == "Razer Blade Stealth")
+    {
+        return(RAZER_BLADE_STEALTH);
+    }
+
     else
     {
         return(RAZER_NO_DEVICE);
@@ -417,6 +425,40 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 wheel_zone_map.push_back(15);
                 wheel_zone.map.push_back(wheel_zone_map);
                 zones.push_back(wheel_zone);
+            }
+            break;
+
+        case RAZER_BLADE_STEALTH:
+            {
+                SetupMatrixDevice(dev_path, 6, 16);
+
+                for (int i = 0; i < (6*16); i++)
+                {
+                    RGBColor new_color = 0x00000000;
+                    colors.push_back(new_color);
+                }
+
+                for(int i = 0; i < (6*16); i++)
+                {
+                    led* new_led = new led();
+                    new_led->name = "Keyboard";
+                    leds.push_back(*new_led);
+                }
+
+                zone keyboard_zone;
+                keyboard_zone.name = "Keyboard";
+                keyboard_zone.type = ZONE_TYPE_MATRIX;
+                for(int row=0; row < 6; row++)
+                {
+                    std::vector<int> row_zone_map;
+
+                    for(int col=0; col<16; col++)
+                    {
+                        row_zone_map.push_back((row*16)+col);
+                    }
+                    keyboard_zone.map.push_back(row_zone_map);
+                }
+                zones.push_back(keyboard_zone);
             }
             break;
         
