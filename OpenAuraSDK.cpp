@@ -439,6 +439,7 @@ void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectRazerChromaSDKControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -458,10 +459,11 @@ void DetectRGBControllers(void)
     DetectHyperXControllers(busses, rgb_controllers);
 
     DetectLEDStripControllers(rgb_controllers);
-
+    
 #ifdef WIN32
     DetectRazerChromaSDKControllers(rgb_controllers);
 #else
+    DetectE131Controllers(rgb_controllers);
     DetectOpenRazerControllers(rgb_controllers);
 #endif
 

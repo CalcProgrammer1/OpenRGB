@@ -1,0 +1,3 @@
+[submodule "dependencies/libe131"]
+	path = dependencies/libe131
+	url = https://github.com/hhromic/libe131
