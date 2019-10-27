@@ -72,5 +72,8 @@ HEADERS += \
     RGBController/RGBController_HyperX.h                                \
     RGBController/RGBController_OpenRazer.h
 
+RESOURCES += \
+    qt/resources.qrc
+
 FORMS += \
     qt/openaurasdk.ui

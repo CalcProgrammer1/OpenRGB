@@ -7,6 +7,9 @@ OpenAuraSDKQtDialog::OpenAuraSDKQtDialog(std::vector<i2c_smbus_interface *>& bus
 {
     ui->setupUi(this);
 
+    QIcon icon(":OpenRGB.png");
+    setWindowIcon(icon);
+
     QPalette pal;
 
     pal = ui->ButtonRed->palette();
