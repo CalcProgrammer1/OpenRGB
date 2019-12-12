@@ -132,6 +132,15 @@
     <ClCompile Include="RGBController\RazerChromaSDKDetect.cpp">
       <Filter>Source Files\RGBController</Filter>
     </ClCompile>
+    <ClCompile Include="Controllers\RGBFusionController\RGBFusionController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\RGBFusionController\RGBFusionControllerDetect.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="RGBController\RGBController_RGBFusion.cpp">
+      <Filter>Source Files\RGBController</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="vc\Resource.rc">
@@ -215,6 +224,12 @@
       <Filter>Header Files\RGBController</Filter>
     </ClInclude>
     <ClInclude Include="RGBController\RGBController_RazerChromaSDK.h">
+      <Filter>Header Files\RGBController</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\RGBFusionController\RGBFusionController.h">
+      <Filter>Header Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBController\RGBController_RGBFusion.h">
       <Filter>Header Files\RGBController</Filter>
     </ClInclude>
   </ItemGroup>

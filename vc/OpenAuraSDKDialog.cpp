@@ -88,7 +88,7 @@ void OpenAuraSDKDialog::OnBnClickedButtonOpenaurasdkSetColorsAll()
 
     for (int i = 0; i < controllers.size(); i++)
     {
-        controllers[i]->SetCustomMode();
+        //controllers[i]->SetCustomMode();
         controllers[i]->SetAllLEDs(color);
     }
 }
