@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  AuraController.h                         |
+|  AuraController.cpp                       |
 |                                           |
 |  Driver for ASUS Aura RGB lighting        |
 |  controller                               |
