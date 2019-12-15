@@ -19,16 +19,19 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     {
     case FIRMWARE_VER_1_PT_10:
         led_count = 1;
+        asr_led = true;
         strcpy(device_name, "ASRock ASR LED FW 1.10");
         break;
 
     case FIRMWARE_VER_2_PT_00:
         led_count = 1;
+        asr_led = false;
         strcpy(device_name, "ASRock Polychrome FW 2.00");
         break;
 
     case FIRMWARE_VER_3_PT_00:
         led_count = 1;
+        asr_led = false;
         strcpy(device_name, "ASRock Polychrome FW 3.00");
         break;
     }
@@ -68,28 +71,40 @@ unsigned int PolychromeController::GetLEDCount()
 
 void PolychromeController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char* colors = new unsigned char[led_count * 3];
-
-    for (int i = 0; i < (led_count * 3); i += 3)
+    if (asr_led)
     {
-        colors[i + 0] = red;
-        colors[i + 1] = blue;
-        colors[i + 2] = green;
-    }
 
-    delete colors;
+    }
+    else
+    {
+        unsigned char colors[3] = { red, green, blue };
+
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, colors);
+    }
 }
 
 void PolychromeController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char colors[3] = { red, blue, green };
+    if (asr_led)
+    {
+
+    }
+    else
+    {
+        unsigned char colors[3] = { red, green, blue };
+
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, colors);
+    }
 }
 
 void PolychromeController::SetMode(unsigned char mode)
 {
-    // For ASR LED protocol
-    //placeholder//
+    if (asr_led)
+    {
 
-    // For Polychrome protocol
-    bus->i2c_smbus_write_byte_data(dev, POLYCHROME_REG_MODE, mode);
+    }
+    else
+    {
+        bus->i2c_smbus_write_byte_data(dev, POLYCHROME_REG_MODE, mode);
+    }    
 }

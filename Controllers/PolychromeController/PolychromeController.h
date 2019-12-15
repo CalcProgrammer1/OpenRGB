@@ -27,6 +27,8 @@ enum
     ASRLED_REG_MODE                 = 0x30,     /* Mode selection register              */
 };
 
+#define ASRLED_NUM_MODES             8          /* Number of ASR LED modes              */
+
 enum
 {
     ASRLED_MODE_OFF                 = 0x10,     /* OFF mode                             */
@@ -45,6 +47,8 @@ enum
     POLYCHROME_REG_MODE             = 0x30,     /* Mode selection register              */
     POLYCHROME_REG_COLOR            = 0x34,     /* Color register: Red, Green, Blue     */
 };
+
+#define POLYCHROME_NUM_MODES          14        /* Number of Polychrome modes           */
 
 enum
 {
@@ -78,6 +82,7 @@ public:
     unsigned short  GetFirmwareVersion();
 
 private:
+    bool                    asr_led;
     char                    device_name[32];
     unsigned int            led_count;
     i2c_smbus_interface*    bus;
