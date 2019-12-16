@@ -620,7 +620,7 @@ int main(int argc, char *argv[])
                     break;
 
                 case PIIX4_BLOCK_DATA:
-                    printf("Read block of length %02x from %02x, address %02x",
+                    printf("Read block of length %02x from %02x, address %02x, contents: ",
                         dat0,
                         cmnd,
                         addr >> 1);
