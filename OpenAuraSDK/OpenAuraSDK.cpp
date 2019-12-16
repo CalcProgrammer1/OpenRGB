@@ -624,6 +624,17 @@ int main(int argc, char *argv[])
                         dat0,
                         cmnd,
                         addr >> 1);
+
+                    // Read SMBHSTCNT to reset SMBBLKDAT read pointer
+                    Inp32(SMBHSTCNT);
+
+                    for (int byte = 0; byte < dat0; byte++)
+                    {
+                        printf("%02x ", Inp32(SMBBLKDAT));
+                    }
+
+                    printf("\n");
+
                     break;
                 }
             }
