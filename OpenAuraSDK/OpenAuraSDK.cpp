@@ -596,7 +596,6 @@ int main(int argc, char *argv[])
             unsigned char dat1 = Inp32(SMBHSTDAT1);
             if (addr & 1)
             {
-                printf("read size %02x \n", size);
                 switch (size & 0x1C)
                 {
                 case PIIX4_QUICK:
