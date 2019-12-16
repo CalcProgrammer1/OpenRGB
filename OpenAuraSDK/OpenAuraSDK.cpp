@@ -590,36 +590,92 @@ int main(int argc, char *argv[])
         }
         {
             unsigned char addr = Inp32(SMBHSTADD);
+            unsigned char size = Inp32(SMBHSTCNT);
+            unsigned char cmnd = Inp32(SMBHSTCMD);
+            unsigned char dat0 = Inp32(SMBHSTDAT0);
+            unsigned char dat1 = Inp32(SMBHSTDAT1);
             if (addr & 1)
             {
-                printf("Read %02x from %02x, address %02x \n",
-                    Inp32(SMBHSTDAT0),
-                    Inp32(SMBHSTCMD),
-                    Inp32(SMBHSTADD) >> 1);
+                printf("read size %02x \n", size);
+                switch (size & 0x1C)
+                {
+                case PIIX4_QUICK:
+                    printf("Read %02x from address %02x \n",
+                        dat0,
+                        addr >> 1);
+                    break;
+
+                case PIIX4_BYTE_DATA:
+                    printf("Read %02x from %02x, address %02x \n",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+                case PIIX4_WORD_DATA:
+                    printf("Read %02x %02x from %02x, address %02x \n",
+                        dat0,
+                        dat1,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+                case PIIX4_BLOCK_DATA:
+                    printf("Read block of length %02x from %02x, address %02x",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+                    break;
+                }
             }
             else
             {
-                printf("Wrote %02x to %02x, address %02x \n",
-                    Inp32(SMBHSTDAT0),
-                    Inp32(SMBHSTCMD),
-                    Inp32(SMBHSTADD) >> 1);
+                switch (size & 0x1C)
+                {
+                case PIIX4_QUICK:
+                    printf("Wrote %02x to address %02x \n",
+                        dat0,
+                        addr >> 1);
+                    break;
+
+                case PIIX4_BYTE_DATA:
+                    printf("Wrote %02x to %02x, address %02x \n",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+                case PIIX4_WORD_DATA:
+                    printf("Wrote %02x %02x to %02x, address %02x \n",
+                        dat0,
+                        dat1,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+
+                case PIIX4_BLOCK_DATA:
+                    printf("Wrote block of length %02x to %02x, address %02x, contents: ",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+                    
+                    // Read SMBHSTCNT to reset SMBBLKDAT read pointer
+                    Inp32(SMBHSTCNT);
+
+                    for (int byte = 0; byte < dat0; byte++)
+                    {
+                        printf("%02x ", Inp32(SMBBLKDAT));
+                    }
+
+                    printf("\n");
+
+                    break;
+                }
+
             }
         }
     }
     fclose(file);
 
-#if WIN32
-    //OpenAuraSDKDialog dlg(busses, controllers);
-    //dlg.DoModal();
-
-    return 0;
-
-#else
-    QApplication a(argc, argv);
-
-    Ui::OpenAuraSDKQtDialog dlg(busses, controllers);
-    dlg.show();
-
-    return a.exec();
-#endif
 }
