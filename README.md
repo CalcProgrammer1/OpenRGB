@@ -1,32 +1,39 @@
-# OpenAuraSDK
-##### This project is an open-source implementation of the Asus Aura RGB controller software.  It currently only supports a limited number of motherboard and RAM module lighting controllers.
+# OpenRGB (formerly OpenAuraSDK)
 
-## Supported Devices 
+The goal of this project is to create an easy-to-use open source software program and library for accessing and controlling RGB lights on various PC hardware including motherboards, RAM modules, graphics cards, cooling devices, and peripherals.
 
-Confirmed supported motherboards:
-  - ASUS PRIME X370 Pro
-  - ASUS PRIME X470 Pro
-  - ASUS PRIME Z270-A
-  - ASUS PRIME Z370-A
-  - ASUS ROG Strix Z370-E
-    
-Confirmed supported RGB RAM (except on X299):
-  - G.Skill Trident Z RGB
-  - Geil Super Luce
-  - TeamGroup Delta RGB
+This project originally focused only on ASUS Aura.  It was spun off of Keyboard Visualizer's AsusAuraWindows branch to learn more about the details behind the Aura protocol and to develop a more flexible, compatible, and reliable driver for Aura.  Our Aura implementation is now quite solid and supports multiple generations of Aura controller across both Intel and AMD platforms.  It also supports Aura-compatible controllers used across multiple manufacturers of RGB memory modules including G.Skill Trident Z RGB and others.  It is still lacking a few capabilities, namely saving settings to persist across reboots, but the core functionality of setting colors and modes is there.
 
-Experimental support in generic RGB testing branch:
-  - Corsair Vengeance RGB
-  - Corsair Vengeance Pro RGB
-  - HyperX Predator RGB
+After getting a solid Aura implementation, the project branched out into other manufacturers and categories of RGB devices.  A major focus was to develop a software API that could reliably represent as many RGB devices as possible, exposing their various modes and describing their LED layouts via zones, that was generic enough to write a user application without specifically targeting any one manufacturer.  To this extent, the generic_rgb_interface_test branch was created which became the foundation of OpenRGB.  The goal of OpenRGB is to both develop new drivers for unsupported devices and integrate existing open source drivers for devices that do have some sort of open support.  The goal is to be the one-stop solution to open source RGB lighting control!
+
+## Supported Devices
+
+* Asus Aura (SMBus variants only)
+
+* Gigabyte RGB Fusion 1.0
+
+* Asus Aura RAM
+
+* Corsair Vengeance RGB
+
+* Corsair Vengeance Pro RGB
+
+* HyperX Predator RGB
+
+* NZXT Hue+
+
+* KeyboardVisualizer Arduino LED Strips
+
+* E1.31 (Linux only)
+
+* OpenRazer (Linux only)
 
 ## Installation
 #### Windows
-  1. Download the latest Visual Studio Community Edition and open the `.sln`.
-  2. Build the project for `x86` Architecture. The InpOut32 library I use does not support x64.
-  3. Copy InpOut32.dll from dependencies to the same path as OpenAuraSDK.exe.
-
-**You may have to retarget the project to the latest version of the Windows SDK and build tools and stuff.**
+  1. Download the latest Visual Studio Community Edition and Qt Creator.
+  2. Open the OpenRGB_Win.pro project.
+  3. Build the project for `x86` Architecture. The InpOut32 library I use does not support x64.
+  4. Copy InpOut32.dll from dependencies to the same path as OpenAuraSDK.exe along with the Qt libraries.
 
 **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
 

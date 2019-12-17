@@ -13,15 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef WIN32
-
-#include "OpenAuraSDKDialog.h"
-
-#else /* WIN32 */
-
 #include "OpenAuraSDKQtDialog.h"
 
-#endif /* WIN32 */
 
 extern std::vector<i2c_smbus_interface*> busses;
 extern std::vector<RGBController*> rgb_controllers;
@@ -38,20 +31,12 @@ int main(int argc, char* argv[])
 {
     DetectRGBControllers();
 
-#if WIN32
-    OpenAuraSDKDialog dlg(busses, rgb_controllers);
-    dlg.DoModal();
-
-    return 0;
-
-#else
     QApplication a(argc, argv);
 
     Ui::OpenAuraSDKQtDialog dlg(busses, rgb_controllers);
     dlg.show();
 
     return a.exec();
-#endif
 }
 
 /******************************************************************************************\
@@ -63,8 +48,8 @@ int main(int argc, char* argv[])
 \******************************************************************************************/
 
 #ifdef WIN32
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
-{
-    main(0, NULL);
-}
+//int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+//{
+//    main(0, NULL);
+//}
 #endif

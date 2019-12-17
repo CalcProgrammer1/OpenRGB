@@ -16,7 +16,6 @@
 
 #ifdef WIN32
 
-#include <tchar.h>
 #include <regex>
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
