@@ -22,7 +22,7 @@ INCLUDEPATH +=                                                          \
 SOURCES +=                                                              \
     main.cpp                                                            \
     OpenAuraSDK.cpp                                                     \
-    qt/OpenAuraSDKQtDialog.cpp                                          \
+    qt/OpenRGBDialog.cpp                                                \
     i2c_smbus/i2c_smbus.cpp                                             \
     net_port/net_port.cpp                                               \
     serial_port/serial_port.cpp                                         \
@@ -49,7 +49,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_RGBFusion.cpp
 
 HEADERS +=                                                              \
-    qt/OpenAuraSDKQtDialog.h                                            \
+    qt/OpenRGBDialog.h                                                  \
     i2c_smbus/i2c_smbus.h                                               \
     net_port/net_port.h                                                 \
     serial_port/serial_port.h                                           \
@@ -71,7 +71,7 @@ RESOURCES += \
     qt/resources.qrc
 
 FORMS += \
-    qt/openaurasdk.ui
+    qt/OpenRGBDialog.ui
 
 #-----------------------------------------------
 # Windows specific project configuration

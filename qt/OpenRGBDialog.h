@@ -1,7 +1,7 @@
-#ifndef OPENAURASDKQTDIALOG_H
-#define OPENAURASDKQTDIALOG_H
+#ifndef OPENRGBDIALOG_H
+#define OPENRGBDIALOG_H
 
-#include "ui_openaurasdk.h"
+#include "ui_OpenRGBDialog.h"
 
 #include <vector>
 #include "i2c_smbus.h"
@@ -14,16 +14,16 @@
 
 namespace Ui
 {
-    class OpenAuraSDKQtDialog;
+    class OpenRGBDialog;
 }
 
-class Ui::OpenAuraSDKQtDialog : public QMainWindow
+class Ui::OpenRGBDialog : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit OpenAuraSDKQtDialog(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent = 0);
-    ~OpenAuraSDKQtDialog();
+    explicit OpenRGBDialog(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent = 0);
+    ~OpenRGBDialog();
 
     void show();
     void setMode(unsigned char mode_val);
@@ -53,7 +53,7 @@ private slots:
     void on_ComboModes_currentIndexChanged(int index);
 
 private:
-    Ui::OpenAuraSDKQtDialogUi *ui;
+    Ui::OpenRGBDialogUi *ui;
 };
 
-#endif // OPENAURASDKQTDIALOG_H
+#endif // OPENRGBDIALOG_H

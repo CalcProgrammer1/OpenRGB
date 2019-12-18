@@ -1,9 +1,9 @@
-#include "OpenAuraSDKQtDialog.h"
+#include "OpenRGBDialog.h"
 #include "OpenAuraSDK.h"
 
 using namespace Ui;
 
-OpenAuraSDKQtDialog::OpenAuraSDKQtDialog(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent) : QMainWindow(parent), busses(bus), controllers (control), ui(new OpenAuraSDKQtDialogUi)
+OpenRGBDialog::OpenRGBDialog(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent) : QMainWindow(parent), busses(bus), controllers (control), ui(new OpenRGBDialogUi)
 {
     ui->setupUi(this);
 
@@ -63,59 +63,59 @@ OpenAuraSDKQtDialog::OpenAuraSDKQtDialog(std::vector<i2c_smbus_interface *>& bus
     ui->ComboDevices->setCurrentIndex(0);
 }
 
-OpenAuraSDKQtDialog::~OpenAuraSDKQtDialog()
+OpenRGBDialog::~OpenRGBDialog()
 {
     delete ui;
 }
 
-void OpenAuraSDKQtDialog::show()
+void OpenRGBDialog::show()
 {
     QMainWindow::show();
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonRed_clicked()
+void Ui::OpenRGBDialog::on_ButtonRed_clicked()
 {
     ui->EditLED0R->setText("255");
     ui->EditLED0G->setText("0");
     ui->EditLED0B->setText("0");
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonYellow_clicked()
+void Ui::OpenRGBDialog::on_ButtonYellow_clicked()
 {
     ui->EditLED0R->setText("255");
     ui->EditLED0G->setText("255");
     ui->EditLED0B->setText("0");
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonGreen_clicked()
+void Ui::OpenRGBDialog::on_ButtonGreen_clicked()
 {
     ui->EditLED0R->setText("0");
     ui->EditLED0G->setText("255");
     ui->EditLED0B->setText("0");
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonCyan_clicked()
+void Ui::OpenRGBDialog::on_ButtonCyan_clicked()
 {
     ui->EditLED0R->setText("0");
     ui->EditLED0G->setText("255");
     ui->EditLED0B->setText("255");
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonBlue_clicked()
+void Ui::OpenRGBDialog::on_ButtonBlue_clicked()
 {
     ui->EditLED0R->setText("0");
     ui->EditLED0G->setText("0");
     ui->EditLED0B->setText("255");
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonMagenta_clicked()
+void Ui::OpenRGBDialog::on_ButtonMagenta_clicked()
 {
     ui->EditLED0R->setText("255");
     ui->EditLED0G->setText("0");
     ui->EditLED0B->setText("255");
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonSetAll_clicked()
+void Ui::OpenRGBDialog::on_ButtonSetAll_clicked()
 {
     RGBColor color = ToRGBColor(
         ui->EditLED0R->text().toInt(),
@@ -130,7 +130,7 @@ void Ui::OpenAuraSDKQtDialog::on_ButtonSetAll_clicked()
     }
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonSetDevice_clicked()
+void Ui::OpenRGBDialog::on_ButtonSetDevice_clicked()
 {
     RGBColor color = ToRGBColor(
         ui->EditLED0R->text().toInt(),
@@ -141,7 +141,7 @@ void Ui::OpenAuraSDKQtDialog::on_ButtonSetDevice_clicked()
     controllers[ui->ComboDevices->currentIndex()]->SetAllLEDs(color);
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonSetZone_clicked()
+void Ui::OpenRGBDialog::on_ButtonSetZone_clicked()
 {
     RGBColor color = ToRGBColor(
         ui->EditLED0R->text().toInt(),
@@ -152,7 +152,7 @@ void Ui::OpenAuraSDKQtDialog::on_ButtonSetZone_clicked()
     controllers[ui->ComboDevices->currentIndex()]->SetAllZoneLEDs(ui->ComboZones->currentIndex(), color);
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ButtonSetLED_clicked()
+void Ui::OpenRGBDialog::on_ButtonSetLED_clicked()
 {
     RGBColor color = ToRGBColor(
         ui->EditLED0R->text().toInt(),
@@ -163,7 +163,7 @@ void Ui::OpenAuraSDKQtDialog::on_ButtonSetLED_clicked()
     controllers[ui->ComboDevices->currentIndex()]->SetLED(ui->ComboLEDs->currentIndex(), color);
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ComboDevices_currentIndexChanged(int index)
+void Ui::OpenRGBDialog::on_ComboDevices_currentIndexChanged(int index)
 {
     ui->ComboModes->clear();
 
@@ -193,7 +193,7 @@ void Ui::OpenAuraSDKQtDialog::on_ComboDevices_currentIndexChanged(int index)
     ui->ComboLEDs->setCurrentIndex(0);
 }
 
-void Ui::OpenAuraSDKQtDialog::on_ComboModes_currentIndexChanged(int index)
+void Ui::OpenRGBDialog::on_ComboModes_currentIndexChanged(int index)
 {
     controllers[ui->ComboDevices->currentIndex()]->SetMode(ui->ComboModes->currentIndex());
 }

@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "OpenAuraSDKQtDialog.h"
+#include "OpenRGBDialog.h"
 
 
 extern std::vector<i2c_smbus_interface*> busses;
@@ -33,23 +33,8 @@ int main(int argc, char* argv[])
 
     QApplication a(argc, argv);
 
-    Ui::OpenAuraSDKQtDialog dlg(busses, rgb_controllers);
+    Ui::OpenRGBDialog dlg(busses, rgb_controllers);
     dlg.show();
 
     return a.exec();
 }
-
-/******************************************************************************************\
-*                                                                                          *
-*   wWinMain                                                                               *
-*                                                                                          *
-*       Entry point for Windows.  Calls main().                                            *
-*                                                                                          *
-\******************************************************************************************/
-
-#ifdef WIN32
-//int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
-//{
-//    main(0, NULL);
-//}
-#endif
