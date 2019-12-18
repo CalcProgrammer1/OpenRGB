@@ -96,5 +96,8 @@ HEADERS +=                                                              \
     RGBController/RGBController_RazerChromaSDK.h                        \
     RGBController/RGBController_RGBFusion.h
 
+RESOURCES += \
+    qt/resources.qrc
+
 FORMS += \
     qt/openaurasdk.ui
