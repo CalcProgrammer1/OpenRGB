@@ -2,11 +2,10 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = OpenAuraSDK.bin
+TARGET = OpenAuraSDK
 TEMPLATE = app
 
 INCLUDEPATH +=                                                          \
-    dependencies/libe131/src/                                           \
     i2c_smbus/                                                          \
     net_port/                                                           \
     serial_port/                                                        \
@@ -16,16 +15,15 @@ INCLUDEPATH +=                                                          \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
     Controllers/LEDStripController/                                     \
+    Controllers/RGBFusionController/                                    \
     RGBController/                                                      \
     qt/
 
 SOURCES +=                                                              \
-    dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     OpenAuraSDK.cpp                                                     \
     qt/OpenAuraSDKQtDialog.cpp                                          \
     i2c_smbus/i2c_smbus.cpp                                             \
-    i2c_smbus/i2c_smbus_linux.cpp                                       \
     net_port/net_port.cpp                                               \
     serial_port/serial_port.cpp                                         \
     Controllers/AuraController/AuraController.cpp                       \
@@ -40,21 +38,19 @@ SOURCES +=                                                              \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
-    RGBController/OpenRazerDetect.cpp                                   \
-    RGBController/E131ControllerDetect.cpp                              \
+    Controllers/RGBFusionController/RGBFusionController.cpp             \
+    Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairPro.cpp                          \
-    RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
     RGBController/RGBController_LEDStrip.cpp                            \
-    RGBController/RGBController_OpenRazer.cpp
+    RGBController/RGBController_RGBFusion.cpp
 
-HEADERS += \
+HEADERS +=                                                              \
     qt/OpenAuraSDKQtDialog.h                                            \
     i2c_smbus/i2c_smbus.h                                               \
-    i2c_smbus/i2c_smbus_linux.h                                         \
     net_port/net_port.h                                                 \
     serial_port/serial_port.h                                           \
     Controllers/AuraController/AuraController.h                         \
@@ -67,13 +63,68 @@ HEADERS += \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairPro.h                            \
-    RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
-    RGBController/RGBController_OpenRazer.h
+    RGBController/RGBController_RGBFusion.h
 
 RESOURCES += \
     qt/resources.qrc
 
 FORMS += \
     qt/openaurasdk.ui
+
+#-----------------------------------------------
+# Windows specific project configuration
+#-----------------------------------------------
+win32:INCLUDEPATH +=                                                    \
+    dependencies/inpout32_1501/Win32/                                   \
+    dependencies/razer-chroma-2.9.0/inc                                 \
+    wmi/                                                                \
+
+win32:SOURCES +=                                                        \
+    i2c_smbus/i2c_smbus_i801.cpp                                        \
+    i2c_smbus/i2c_smbus_nct6775.cpp                                     \
+    i2c_smbus/i2c_smbus_piix4.cpp                                       \
+    wmi/wmi.cpp                                                         \
+    RGBController/RazerChromaSDKDetect.cpp                              \
+    RGBController/RGBController_RazerChromaSDK.cpp                      \
+
+win32:HEADERS +=                                                        \
+    dependencies/inpout32_1501/Win32/inpout32.h                         \
+    i2c_smbus/i2c_smbus_i801.h                                          \
+    i2c_smbus/i2c_smbus_nct6775.h                                       \
+    i2c_smbus/i2c_smbus_piix4.h                                         \
+    wmi/wmi.h                                                           \
+    RGBController/RGBController_RazerChromaSDK.h                        \
+
+win32:LIBS +=                                                           \
+    -lws2_32                                                            \
+    -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32
+
+win32:DEFINES -=                                                        \
+    UNICODE
+
+win32:DEFINES +=                                                        \
+    _MBCS                                                               \
+    WIN32                                                               \
+    _CRT_SECURE_NO_WARNINGS                                             \
+    _WINSOCK_DEPRECATED_NO_WARNINGS                                     \
+    WIN32_LEAN_AND_MEAN
+
+#-----------------------------------------------
+# Linux specific project configuration
+#-----------------------------------------------
+unix:INCLUDEPATH +=                                                     \
+    dependencies/libe131/src/                                           \
+
+unix:HEADERS +=                                                         \
+    i2c_smbus/i2c_smbus_linux.h                                         \
+    RGBController/RGBController_E131.h                                  \
+
+unix:SOURCES +=                                                         \
+    dependencies/libe131/src/e131.c                                     \
+    i2c_smbus/i2c_smbus_linux.cpp                                       \
+    RGBController/OpenRazerDetect.cpp                                   \
+    RGBController/E131ControllerDetect.cpp                              \
+    RGBController/RGBController_E131.cpp                                \
+    RGBController/RGBController_OpenRazer.cpp                           \
