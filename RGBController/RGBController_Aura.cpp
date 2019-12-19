@@ -120,7 +120,7 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 
     name = aura->GetDeviceName();
 
-    if((name.rfind("DRAM", 0) == 0) || (name.rfind("AUDA", 0) == 0) )
+    if((name.rfind("DIMM_LED", 0) == 0) || (name.rfind("AUDA", 0) == 0) )
     {
         type = DEVICE_TYPE_DRAM;
     }
