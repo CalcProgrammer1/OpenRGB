@@ -75,6 +75,8 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
 
     name = rgb_fusion->GetDeviceName();
 
+    type = DEVICE_TYPE_MOTHERBOARD;
+
     mode rgb_fusion_modes[RGB_FUSION_NUMBER_MODES];
 
     rgb_fusion_modes[0].name = "Static";

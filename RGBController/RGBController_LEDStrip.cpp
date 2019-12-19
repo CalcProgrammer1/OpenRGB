@@ -16,6 +16,8 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
 
     name = "LED Strip";
 
+    type = DEVICE_TYPE_LEDSTRIP;
+
     mode led_mode;
     led_mode.name = "Custom";
     modes.push_back(led_mode);

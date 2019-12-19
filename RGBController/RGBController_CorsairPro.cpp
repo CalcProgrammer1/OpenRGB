@@ -104,6 +104,8 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
 
     name = corsair->GetDeviceName();
 
+    type = DEVICE_TYPE_DRAM;
+
     mode corsair_modes[CORSAIR_PRO_NUMBER_MODES];
 
     corsair_modes[0].name = "Color Shift";

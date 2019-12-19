@@ -15,6 +15,8 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 
     name = "LED Strip";
 
+    type = DEVICE_TYPE_LEDSTRIP;
+
     mode led_mode;
     led_mode.name = "Custom";
     modes.push_back(led_mode);

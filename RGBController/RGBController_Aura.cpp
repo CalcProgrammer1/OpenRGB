@@ -120,6 +120,15 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 
     name = aura->GetDeviceName();
 
+    if((name.rfind("DRAM", 0) == 0) || (name.rfind("AUDA", 0) == 0) )
+    {
+        type = DEVICE_TYPE_DRAM;
+    }
+    else
+    {
+        type = DEVICE_TYPE_MOTHERBOARD;
+    }
+
     mode aura_modes[AURA_NUMBER_MODES + 1];
 
     aura_modes[0].name = "Direct";

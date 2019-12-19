@@ -68,6 +68,8 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
 
     name = hyperx->GetDeviceName();
 
+    type = DEVICE_TYPE_DRAM;
+
     mode hyperx_modes[HYPERX_NUMBER_MODES];
 
     hyperx_modes[0].name = "Static";

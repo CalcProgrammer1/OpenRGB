@@ -1,5 +1,11 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-    <file>OpenRGB.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>OpenRGB.png</file>
+        <file>motherboard.svg</file>
+        <file>ram.svg</file>
+        <file>graphics-card.svg</file>
+        <file>fan.svg</file>
+        <file>keyboard.svg</file>
+        <file>mouse.svg</file>
+    </qresource>
 </RCC>

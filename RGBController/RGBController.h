@@ -39,6 +39,21 @@ enum
     ZONE_TYPE_MATRIX
 };
 
+typedef int device_type;
+
+enum
+{
+    DEVICE_TYPE_MOTHERBOARD,
+    DEVICE_TYPE_DRAM,
+    DEVICE_TYPE_GPU,
+    DEVICE_TYPE_COOLER,
+    DEVICE_TYPE_LEDSTRIP,
+    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_MOUSE,
+    DEVICE_TYPE_HEADSET,
+    DEVICE_TYPE_UNKNOWN
+};
+
 typedef struct
 {
     std::string         name;   /* Zone name        */
@@ -55,6 +70,7 @@ public:
     std::vector<zone>       zones;  /* Zones            */
     std::vector<mode>       modes;  /* Modes            */
     std::vector<RGBColor>   colors; /* Color buffer     */
+    device_type             type;   /* device type      */
 
     virtual int  GetMode()         = 0;
     virtual void SetMode(int mode) = 0;

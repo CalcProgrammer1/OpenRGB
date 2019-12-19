@@ -68,6 +68,8 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
 
     name = corsair->GetDeviceName();
 
+    type = DEVICE_TYPE_DRAM;
+
     mode corsair_modes[CORSAIR_NUMBER_MODES];
 
     corsair_modes[0].name = "Static";

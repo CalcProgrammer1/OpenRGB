@@ -22,9 +22,12 @@ INCLUDEPATH +=                                                          \
 SOURCES +=                                                              \
     main.cpp                                                            \
     OpenAuraSDK.cpp                                                     \
+    qt/OpenRGBDevicePage.cpp \
     qt/OpenRGBDialog.cpp                                                \
     i2c_smbus/i2c_smbus.cpp                                             \
     net_port/net_port.cpp                                               \
+    qt/OpenRGBDialog2.cpp \
+    qt/hsv.cpp \
     serial_port/serial_port.cpp                                         \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
@@ -49,9 +52,11 @@ SOURCES +=                                                              \
     RGBController/RGBController_RGBFusion.cpp
 
 HEADERS +=                                                              \
+    qt/OpenRGBDevicePage.h \
     qt/OpenRGBDialog.h                                                  \
     i2c_smbus/i2c_smbus.h                                               \
     net_port/net_port.h                                                 \
+    qt/OpenRGBDialog2.h \
     serial_port/serial_port.h                                           \
     Controllers/AuraController/AuraController.h                         \
     Controllers/CorsairController/CorsairController.h                   \
@@ -71,7 +76,9 @@ RESOURCES += \
     qt/resources.qrc
 
 FORMS += \
-    qt/OpenRGBDialog.ui
+    qt/OpenRGBDevicePage.ui \
+    qt/OpenRGBDialog.ui \
+    qt/OpenRGBDialog2.ui
 
 #-----------------------------------------------
 # Windows specific project configuration

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpenRGBDevicePageUi</class>
+ <widget class="QFrame" name="OpenRGBDevicePageUi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>500</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <widget class="QComboBox" name="ZoneBox">
+   <property name="geometry">
+    <rect>
+     <x>71</x>
+     <y>50</y>
+     <width>160</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ZoneLabel">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>50</y>
+     <width>40</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Zone:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LEDLabel">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>90</y>
+     <width>40</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LED:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="LEDBox">
+   <property name="geometry">
+    <rect>
+     <x>71</x>
+     <y>90</y>
+     <width>160</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ModeLabel">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>210</y>
+     <width>40</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mode:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="ModeBox">
+   <property name="geometry">
+    <rect>
+     <x>71</x>
+     <y>210</y>
+     <width>160</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SetLEDButton">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>150</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LED</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SetZoneButton">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>150</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Zone</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="RedSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>120</y>
+     <width>50</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="GreenSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>160</y>
+     <width>50</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="BlueSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>200</y>
+     <width>50</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="RedLabel">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>120</y>
+     <width>20</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>R:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="GreenLabel">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>160</y>
+     <width>20</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>G:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="BlueLabel">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>200</y>
+     <width>20</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>B:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonGreen">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>250</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonBlue">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>250</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonCyan">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>250</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonMagenta">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>250</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonRed">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>250</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonYellow">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>250</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="HueSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>120</y>
+     <width>50</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>359</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="HueLabel">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>120</y>
+     <width>20</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>H:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SatLabel">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>160</y>
+     <width>20</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>S:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="SatSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>160</y>
+     <width>50</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="ValSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>200</y>
+     <width>50</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ValLabel">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>200</y>
+     <width>20</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>V:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SetDeviceButton">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>150</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Device</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SetLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>40</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "OpenRGBDialog.h"
+#include "OpenRGBDialog2.h"
 
 
 extern std::vector<i2c_smbus_interface*> busses;
@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
     QApplication a(argc, argv);
 
-    Ui::OpenRGBDialog dlg(busses, rgb_controllers);
+    Ui::OpenRGBDialog2 dlg(busses, rgb_controllers);
     dlg.show();
 
     return a.exec();
