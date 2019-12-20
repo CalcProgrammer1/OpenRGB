@@ -118,15 +118,17 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 
     aura = aura_ptr;
 
-    name = aura->GetDeviceName();
-
+    description = aura->GetDeviceName();
+    location = aura->GetDeviceLocation();
     if((name.rfind("DIMM_LED", 0) == 0) || (name.rfind("AUDA", 0) == 0) )
     {
         type = DEVICE_TYPE_DRAM;
+        name = "ASUS Aura DRAM";
     }
     else
     {
         type = DEVICE_TYPE_MOTHERBOARD;
+        name = "ASUS Aura Motherboard";
     }
 
     mode aura_modes[AURA_NUMBER_MODES + 1];

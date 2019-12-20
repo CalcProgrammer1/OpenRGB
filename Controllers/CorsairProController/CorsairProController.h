@@ -7,6 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 6/30/2019   |
 \*-----------------------------------------*/
 
+#include <string>
 #include "i2c_smbus.h"
 
 #pragma once
@@ -65,7 +66,8 @@ public:
     CorsairProController(i2c_smbus_interface* bus, corsair_dev_id dev);
     ~CorsairProController();
 
-    char*           GetDeviceName();
+    std::string     GetDeviceName();
+    std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     void            SetEffect(unsigned char mode);
     void            SetCustom();

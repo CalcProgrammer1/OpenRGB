@@ -22,9 +22,11 @@ RGBController_RazerChromaSDK::RGBController_RazerChromaSDK(unsigned int device_t
 
     for (int i = 0; i < RAZER_NUM_DEVICES; i++)
     {
-        if (device_list[i]->type == device_type)
+        if (device_list[i]->razer_type == device_type)
         {
             name = device_list[i]->name;
+            type = device_list[i]->type;
+            location = "Razer Chroma SDK";
 
             for (int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
             {
@@ -115,7 +117,7 @@ void RGBController_RazerChromaSDK::SetLED(int led, RGBColor color)
 
 void RGBController_RazerChromaSDK::UpdateLEDs()
 {
-    switch (device->type)
+    switch (device->razer_type)
     {
     case RAZER_GENERIC_MOUSE:
         {

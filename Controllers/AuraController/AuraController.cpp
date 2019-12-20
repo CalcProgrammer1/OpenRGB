@@ -82,9 +82,19 @@ AuraController::~AuraController()
 
 }
 
-char * AuraController::GetDeviceName()
+std::string AuraController::GetDeviceName()
 {
     return(device_name);
+}
+
+std::string AuraController::GetDeviceLocation()
+{
+    std::string return_string(bus->device_name);
+    char addr[5];
+    snprintf(addr, 5, "0x%02X", dev);
+    return_string.append(", address ");
+    return_string.append(addr);
+    return(return_string);
 }
 
 unsigned char AuraController::GetChannel(unsigned int led)

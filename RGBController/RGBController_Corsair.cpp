@@ -67,6 +67,7 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
     corsair = corsair_ptr;
 
     name = corsair->GetDeviceName();
+    location = corsair->GetDeviceLocation();
 
     type = DEVICE_TYPE_DRAM;
 

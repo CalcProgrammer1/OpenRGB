@@ -22,6 +22,7 @@ INCLUDEPATH +=                                                          \
 SOURCES +=                                                              \
     main.cpp                                                            \
     OpenAuraSDK.cpp                                                     \
+    qt/OpenRGBDeviceInfoPage.cpp \
     qt/OpenRGBDevicePage.cpp \
     qt/OpenRGBDialog.cpp                                                \
     i2c_smbus/i2c_smbus.cpp                                             \
@@ -52,6 +53,8 @@ SOURCES +=                                                              \
     RGBController/RGBController_RGBFusion.cpp
 
 HEADERS +=                                                              \
+    Controllers/RGBFusionController/RGBFusionController.h \
+    qt/OpenRGBDeviceInfoPage.h \
     qt/OpenRGBDevicePage.h \
     qt/OpenRGBDialog.h                                                  \
     i2c_smbus/i2c_smbus.h                                               \
@@ -76,6 +79,7 @@ RESOURCES += \
     qt/resources.qrc
 
 FORMS += \
+    qt/OpenRGBDeviceInfoPage.ui \
     qt/OpenRGBDevicePage.ui \
     qt/OpenRGBDialog.ui \
     qt/OpenRGBDialog2.ui

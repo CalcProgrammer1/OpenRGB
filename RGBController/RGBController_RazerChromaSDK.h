@@ -59,6 +59,7 @@ typedef struct
 typedef struct
 {
     std::string name;
+    unsigned int razer_type;
     unsigned int type;
     const razer_zone* zones[RAZER_MAX_ZONES];
 } razer_device;
@@ -136,6 +137,7 @@ static const razer_device mouse_device =
 {
     "Razer Generic Mouse",
     RAZER_GENERIC_MOUSE,
+    DEVICE_TYPE_MOUSE,
     {
         &mouse_left_zone,
         &mouse_right_zone,
@@ -164,6 +166,7 @@ static const razer_device mousepad_device =
 {
     "Razer Generic Mousepad",
     RAZER_GENERIC_MOUSEPAD,
+    DEVICE_TYPE_MOUSE,
     {
         &mousepad_zone,
         NULL,
@@ -204,6 +207,7 @@ static const razer_device chromahdk_device =
 {
     "Razer Chroma HDK",
     RAZER_CHROMA_HDK,
+    DEVICE_TYPE_LEDSTRIP,
     {
         &chromahdk_zone,
         &chromahdk_zone,

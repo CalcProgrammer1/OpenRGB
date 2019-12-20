@@ -7,6 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 8/19/2018   |
 \*-----------------------------------------*/
 
+#include <string>
 #include "i2c_smbus.h"
 
 #pragma once
@@ -93,7 +94,8 @@ public:
     AuraController(i2c_smbus_interface* bus, aura_dev_id dev);
     ~AuraController();
 
-    char*         GetDeviceName();
+    std::string   GetDeviceName();
+    std::string   GetDeviceLocation();
     unsigned char GetChannel(unsigned int led);
     const char*   GetChannelName(unsigned int led);
     unsigned int  GetLEDCount();

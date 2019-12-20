@@ -7,6 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 12/10/2019  |
 \*-----------------------------------------*/
 
+#include <string>
 #include "i2c_smbus.h"
 
 #pragma once
@@ -42,7 +43,8 @@ public:
     RGBFusionController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev);
     ~RGBFusionController();
 
-    char*           GetDeviceName();
+    std::string     GetDeviceName();
+    std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     unsigned char   GetMode();
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);

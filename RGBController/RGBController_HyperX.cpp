@@ -67,6 +67,7 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
     hyperx = hyperx_ptr;
 
     name = hyperx->GetDeviceName();
+    location = hyperx->GetDeviceLocation();
 
     type = DEVICE_TYPE_DRAM;
 

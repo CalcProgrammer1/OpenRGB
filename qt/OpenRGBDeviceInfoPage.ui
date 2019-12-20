@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpenRGBDeviceInfoPageUi</class>
+ <widget class="QFrame" name="OpenRGBDeviceInfoPageUi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>500</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <widget class="QLabel" name="TypeLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>80</y>
+     <width>60</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Type:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="TypeValue">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>80</y>
+     <width>240</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Type Value</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="DescriptionValue">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>100</y>
+     <width>240</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Description Value</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="DescriptionLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>100</y>
+     <width>60</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Description:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="VersionValue">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>120</y>
+     <width>240</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Version Value</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="VersionLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>120</y>
+     <width>60</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Version:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LocationLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>140</y>
+     <width>60</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Location:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LocationValue">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>140</y>
+     <width>240</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Location Value</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

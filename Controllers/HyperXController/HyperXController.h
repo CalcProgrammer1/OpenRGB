@@ -7,6 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 6/29/2019   |
 \*-----------------------------------------*/
 
+#include <string>
 #include "i2c_smbus.h"
 
 #pragma once
@@ -61,7 +62,8 @@ public:
     HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev);
     ~HyperXController();
 
-    char* GetDeviceName();
+    std::string     GetDeviceName();
+    std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     void            SetMode(unsigned char mode);
 
