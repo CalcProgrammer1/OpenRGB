@@ -11,6 +11,13 @@ OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>&
     ui->setupUi(this);
 
     /*-----------------------------------------------------*\
+    | Use a monospace font for the text box                 |
+    \*-----------------------------------------------------*/
+    QFont MonoFont("monospace");
+    MonoFont.setStyleHint(QFont::Monospace);
+    ui->SMBusDataText->setFont(MonoFont);
+
+    /*-----------------------------------------------------*\
     | Fill in the combo boxes with device information       |
     \*-----------------------------------------------------*/
     ui->SMBusAdaptersBox->clear();
