@@ -16,6 +16,7 @@
 std::string i2c_detect(i2c_smbus_interface * bus, int mode)
 {
     int i, j;
+    int first = 0x03, last = 0x77;
     int res;
     int slave_addr;
     char line[128];
@@ -31,6 +32,14 @@ std::string i2c_detect(i2c_smbus_interface * bus, int mode)
 
         for (j = 0; j < 16; j++)
         {
+            /* Skip unwanted addresses */
+			if (i+j < first || i+j > last)
+            {
+                sprintf(line, "   ");
+                text.append(line);
+				continue;
+			}
+
             /* Set slave address */
             slave_addr = i + j;
 
