@@ -118,9 +118,9 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 
     aura = aura_ptr;
 
-    description = aura->GetDeviceName();
+    version = aura->GetDeviceName();
     location = aura->GetDeviceLocation();
-    if((name.rfind("DIMM_LED", 0) == 0) || (name.rfind("AUDA", 0) == 0) )
+    if((version.find("DIMM_LED") != std::string::npos) || (version.find("AUDA") != std::string::npos) )
     {
         type = DEVICE_TYPE_DRAM;
         name = "ASUS Aura DRAM";
