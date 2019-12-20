@@ -38,9 +38,11 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
         ui->TypeValue->setText("Unknown");
     }
 
+    ui->NameValue->setText(QString::fromStdString(dev->name));
     ui->DescriptionValue->setText(QString::fromStdString(dev->description));
     ui->VersionValue->setText(QString::fromStdString(dev->version));
     ui->LocationValue->setText(QString::fromStdString(dev->location));
+    ui->SerialValue->setText(QString::fromStdString(dev->serial));
 }
 
 OpenRGBDeviceInfoPage::~OpenRGBDeviceInfoPage()

@@ -117,6 +117,58 @@
     <string>Location Value</string>
    </property>
   </widget>
+  <widget class="QLabel" name="NameValue">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>60</y>
+     <width>240</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Name Value</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="NameLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>60</y>
+     <width>60</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Name:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SerialValue">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>160</y>
+     <width>240</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Serial Value</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SerialLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>160</y>
+     <width>60</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Serial:</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
