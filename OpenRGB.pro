@@ -7,6 +7,7 @@ TEMPLATE = app
 
 INCLUDEPATH +=                                                          \
     i2c_smbus/                                                          \
+    i2c_tools/                                                          \
     net_port/                                                           \
     serial_port/                                                        \
     Controllers/AuraController/                                         \
@@ -22,13 +23,15 @@ INCLUDEPATH +=                                                          \
 SOURCES +=                                                              \
     main.cpp                                                            \
     OpenAuraSDK.cpp                                                     \
-    qt/OpenRGBDeviceInfoPage.cpp \
-    qt/OpenRGBDevicePage.cpp \
+    qt/OpenRGBDeviceInfoPage.cpp                                        \
+    qt/OpenRGBDevicePage.cpp                                            \
     qt/OpenRGBDialog.cpp                                                \
     i2c_smbus/i2c_smbus.cpp                                             \
+    i2c_tools/i2c_tools.cpp                                             \
     net_port/net_port.cpp                                               \
-    qt/OpenRGBDialog2.cpp \
-    qt/hsv.cpp \
+    qt/OpenRGBDialog2.cpp                                               \
+    qt/OpenRGBSystemInfoPage.cpp                                        \
+    qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
@@ -53,13 +56,15 @@ SOURCES +=                                                              \
     RGBController/RGBController_RGBFusion.cpp
 
 HEADERS +=                                                              \
-    Controllers/RGBFusionController/RGBFusionController.h \
-    qt/OpenRGBDeviceInfoPage.h \
-    qt/OpenRGBDevicePage.h \
+    Controllers/RGBFusionController/RGBFusionController.h               \
+    qt/OpenRGBDeviceInfoPage.h                                          \
+    qt/OpenRGBDevicePage.h                                              \
     qt/OpenRGBDialog.h                                                  \
     i2c_smbus/i2c_smbus.h                                               \
+    i2c_tools/i2c_tools.h                                               \
     net_port/net_port.h                                                 \
-    qt/OpenRGBDialog2.h \
+    qt/OpenRGBDialog2.h                                                 \
+    qt/OpenRGBSystemInfoPage.h                                          \
     serial_port/serial_port.h                                           \
     Controllers/AuraController/AuraController.h                         \
     Controllers/CorsairController/CorsairController.h                   \
@@ -82,7 +87,8 @@ FORMS += \
     qt/OpenRGBDeviceInfoPage.ui \
     qt/OpenRGBDevicePage.ui \
     qt/OpenRGBDialog.ui \
-    qt/OpenRGBDialog2.ui
+    qt/OpenRGBDialog2.ui \
+    qt/OpenRGBSystemInfoPage.ui
 
 #-----------------------------------------------
 # Windows specific project configuration

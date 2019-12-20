@@ -1,6 +1,7 @@
 #include "OpenRGBDialog2.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
+#include "OpenRGBSystemInfoPage.h"
 #include "OpenAuraSDK.h"
 #include <QLabel>
 #include <QTabBar>
@@ -117,6 +118,25 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
 
         InformationTabBar->setTabButton(dev_idx, QTabBar::LeftSide, NewTabLabel);
     }
+
+    OpenRGBSystemInfoPage *SysInfoPage = new OpenRGBSystemInfoPage(bus);
+    ui->InformationTabBar->addTab(SysInfoPage, "");
+
+    /*-----------------------------------------------------*\
+    | Use Qt's HTML capabilities to display both icon and   |
+    | text in the tab label.  Choose icon based on device   |
+    | type and append device name string.                   |
+    \*-----------------------------------------------------*/
+    QString SystemLabelString = "<html><table><tr><td width='30'><img src='";
+    SystemLabelString += ":/keyboard.svg";
+    SystemLabelString += "' height='15' width='15'></td><td>System</td></tr></table></html>";
+
+    QLabel *SystemTabLabel = new QLabel();
+    SystemTabLabel->setText(SystemLabelString);
+    SystemTabLabel->setIndent(20);
+    SystemTabLabel->setGeometry(0, 0, 200, 20);
+
+    InformationTabBar->setTabButton(control.size(), QTabBar::LeftSide, SystemTabLabel);
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
