@@ -7,3 +7,5 @@
 #define MODE_FUNC   3
 
 std::string i2c_detect(i2c_smbus_interface * bus, int mode);
+
+std::string i2c_dump(i2c_smbus_interface * bus, unsigned char address);

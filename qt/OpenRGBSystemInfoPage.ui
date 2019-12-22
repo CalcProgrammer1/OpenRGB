@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>300</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QLabel" name="SMBusAdaptersLabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>50</x>
      <y>10</y>
      <width>100</width>
      <height>22</height>
@@ -29,7 +29,7 @@
   <widget class="QComboBox" name="SMBusAdaptersBox">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>160</x>
      <y>10</y>
      <width>200</width>
      <height>22</height>
@@ -40,9 +40,9 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>60</y>
+     <y>80</y>
      <width>400</width>
-     <height>200</height>
+     <height>210</height>
     </rect>
    </property>
   </widget>
@@ -57,6 +57,67 @@
    </property>
    <property name="text">
     <string>Detect Devices</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DumpButton">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>40</y>
+     <width>80</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Dump Device</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SMBusDumpLabel">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>40</y>
+     <width>100</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SMBus Dumper:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="DumpAddressLabel">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>40</y>
+     <width>51</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Address:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="DumpAddressBox">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>40</y>
+     <width>80</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="suffix">
+    <string/>
+   </property>
+   <property name="prefix">
+    <string>0x</string>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
+   <property name="displayIntegerBase">
+    <number>16</number>
    </property>
   </widget>
  </widget>

@@ -79,3 +79,45 @@ std::string i2c_detect(i2c_smbus_interface * bus, int mode)
     return text;
 
 }   /* i2c_detect() */
+
+/******************************************************************************************\
+*                                                                                          *
+*   i2c_dump                                                                               *
+*                                                                                          *
+*       Prints the values at each address of a given SMBus device                          *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface to scan                                   *
+*           address - SMBus device address to scan                                         *
+*                                                                                          *
+\******************************************************************************************/
+
+std::string i2c_dump(i2c_smbus_interface * bus, unsigned char address)
+{
+    int i, j;
+
+    int start = 0x0000;
+
+    char line[128];
+    std::string text;
+
+    sprintf(line, "       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
+    text.append(line);
+
+    for (i = 0; i < 0xFF; i += 16)
+    {
+        sprintf(line, "%04x: ", i + start);
+        text.append(line);
+
+        for (j = 0; j < 16; j++)
+        {
+            sprintf(line, "%02x ", (unsigned char )bus->i2c_smbus_read_byte_data(address, start + i + j));
+            text.append(line);
+        }
+
+        sprintf(line, "\r\n");
+        text.append(line);
+    }
+
+    return text;
+
+}   /* i2c_dump() */

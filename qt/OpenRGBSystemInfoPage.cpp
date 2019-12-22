@@ -41,3 +41,11 @@ void Ui::OpenRGBSystemInfoPage::on_DetectButton_clicked()
 
     ui->SMBusDataText->setPlainText(i2c_detect(bus, MODE_QUICK).c_str());
 }
+
+void Ui::OpenRGBSystemInfoPage::on_DumpButton_clicked()
+{
+    i2c_smbus_interface* bus = busses[ui->SMBusAdaptersBox->currentIndex()];
+    unsigned char address = ui->DumpAddressBox->value();
+
+    ui->SMBusDataText->setPlainText(i2c_dump(bus, address).c_str());
+}

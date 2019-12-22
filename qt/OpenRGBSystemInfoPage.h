@@ -20,6 +20,8 @@ public:
 private slots:
     void on_DetectButton_clicked();
 
+    void on_DumpButton_clicked();
+
 private:
     Ui::OpenRGBSystemInfoPageUi *ui;
     std::vector<i2c_smbus_interface *>& busses;
