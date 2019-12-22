@@ -16,7 +16,9 @@ HyperXController::HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev)
     this->dev = dev;
 
     strcpy(device_name, "HyperX Predator RGB");
-    led_count = 1;
+    led_count = 5;
+
+    mode = HYPERX_MODE_DIRECT;
 }
 
 HyperXController::~HyperXController()
@@ -44,36 +46,82 @@ unsigned int HyperXController::GetLEDCount()
     return(led_count);
 }
 
+unsigned int HyperXController::GetMode()
+{
+    return(mode);
+}
+
+void HyperXController::SetEffectColor(unsigned char red, unsigned char green, unsigned char blue)
+{
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
+
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_RED, red);
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_GREEN, green);
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_BLUE, blue);
+
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+}
+
 void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_RED, red);
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_GREEN, green);
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_BLUE, blue);
+    for(int slot = 0; slot < 4; slot++)
+    {
+        unsigned char red_base    = HYPERX_REG_SLOT0_LED0_RED        + (0x20 * slot);
+        unsigned char green_base  = HYPERX_REG_SLOT0_LED0_GREEN      + (0x20 * slot);
+        unsigned char blue_base   = HYPERX_REG_SLOT0_LED0_BLUE       + (0x20 * slot);
+        unsigned char bright_base = HYPERX_REG_SLOT0_LED0_BRIGHTNESS + (0x20 * slot);
+
+        if(mode == HYPERX_MODE_DIRECT)
+        {
+            bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE3, HYPERX_MODE3_DIRECT);
+        }
+
+        for(int led = 0; led < 5; led++)
+        {
+            bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
+            bus->i2c_smbus_write_byte_data(dev, green_base  + (3 * led), green);
+            bus->i2c_smbus_write_byte_data(dev, blue_base   + (3 * led), blue );
+            bus->i2c_smbus_write_byte_data(dev, bright_base + (3 * led), 0x64 );
+        }
+    }
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
-void HyperXController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
+    unsigned char red_base    = HYPERX_REG_SLOT0_LED0_RED        + (0x20 * slot);
+    unsigned char green_base  = HYPERX_REG_SLOT0_LED0_GREEN      + (0x20 * slot);
+    unsigned char blue_base   = HYPERX_REG_SLOT0_LED0_BLUE       + (0x20 * slot);
+    unsigned char bright_base = HYPERX_REG_SLOT0_LED0_BRIGHTNESS + (0x20 * slot);
+
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_RED, red);
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_GREEN, green);
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_BLUE, blue);
+    bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
+    bus->i2c_smbus_write_byte_data(dev, green_base  + (3 * led), green);
+    bus->i2c_smbus_write_byte_data(dev, blue_base   + (3 * led), blue );
+    bus->i2c_smbus_write_byte_data(dev, bright_base + (3 * led), 0x64 );
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
-void HyperXController::SetMode(unsigned char mode)
+void HyperXController::SetMode(unsigned char new_mode)
 {
+    mode = new_mode;
+    
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
     switch (mode)
     {
+    case HYPERX_MODE_DIRECT:
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE3, HYPERX_MODE3_DIRECT);
+        break;
+
     case HYPERX_MODE_STATIC:
         bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE2, HYPERX_MODE2_STATIC);
         break;

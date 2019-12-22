@@ -21,7 +21,7 @@ void RGBController_HyperX::SetMode(int mode)
 
 void RGBController_HyperX::SetCustomMode()
 {
-    hyperx->SetMode(HYPERX_MODE_STATIC);
+    hyperx->SetMode(HYPERX_MODE_DIRECT);
 }
 
 void RGBController_HyperX::SetAllLEDs(RGBColor color)
@@ -30,7 +30,15 @@ void RGBController_HyperX::SetAllLEDs(RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    hyperx->SetAllColors(red, grn, blu);
+    if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
+    {
+        hyperx->SetAllColors(red, grn, blu);
+    }
+    else
+    {
+        hyperx->SetEffectColor(red, grn, blu);
+    }
+    
 }
 
 void RGBController_HyperX::SetAllZoneLEDs(int zone, RGBColor color)
@@ -39,12 +47,19 @@ void RGBController_HyperX::SetAllZoneLEDs(int zone, RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    for (int x = 0; x < zones[zone].map.size(); x++)
+    if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        for (int x = 0; x < zones[zone].map.size(); x++)
         {
-            hyperx->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
+            for (int y = 0; y < zones[zone].map[x].size(); y++)
+            {
+                hyperx->SetLEDColor(0, zones[zone].map[x][y], red, grn, blu);
+            }
         }
+    }
+    else
+    {
+        hyperx->SetEffectColor(red, grn, blu);
     }
 }
 
@@ -54,7 +69,14 @@ void RGBController_HyperX::SetLED(int led, RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    hyperx->SetLEDColor(led, red, grn, blu);
+    if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
+    {
+        hyperx->SetLEDColor(0, led, red, grn, blu);
+    }
+    else
+    {
+        hyperx->SetEffectColor(red, grn, blu);
+    }
 }
 
 void RGBController_HyperX::UpdateLEDs()
@@ -68,19 +90,20 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
 
     name = hyperx->GetDeviceName();
     location = hyperx->GetDeviceLocation();
-
+    
     type = DEVICE_TYPE_DRAM;
 
     mode hyperx_modes[HYPERX_NUMBER_MODES];
 
-    hyperx_modes[0].name = "Static";
-    hyperx_modes[1].name = "Rainbow";
-    hyperx_modes[2].name = "Comet";
-    hyperx_modes[3].name = "Heartbeat";
-    hyperx_modes[4].name = "Spectrum Cycle";
-    hyperx_modes[5].name = "Breathing";
-    hyperx_modes[6].name = "Bounce";
-    hyperx_modes[7].name = "Blink";
+    hyperx_modes[0].name = "Direct";
+    hyperx_modes[1].name = "Static";
+    hyperx_modes[2].name = "Rainbow";
+    hyperx_modes[3].name = "Comet";
+    hyperx_modes[4].name = "Heartbeat";
+    hyperx_modes[5].name = "Spectrum Cycle";
+    hyperx_modes[6].name = "Breathing";
+    hyperx_modes[7].name = "Bounce";
+    hyperx_modes[8].name = "Blink";
     
     for (int i = 0; i < HYPERX_NUMBER_MODES; i++)
     {
