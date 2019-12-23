@@ -11,7 +11,7 @@
 #else
 #include <unistd.h>
 
-void Sleep(unsigned int milliseconds)
+static void Sleep(unsigned int milliseconds)
 {
     usleep(1000 * milliseconds);
 }
