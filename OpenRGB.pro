@@ -49,7 +49,6 @@ SOURCES +=                                                              \
     Controllers/PolychromeController/PolychromeController.cpp           \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
-    RGBController/RGBController_AorusGPU.cpp                            \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairPro.cpp                          \
@@ -76,7 +75,6 @@ HEADERS +=                                                              \
     Controllers/HyperXController/HyperXController.h                     \
     Controllers/LEDStripController/LEDStripController.h                 \
     RGBController/RGBController.h                                       \
-    RGBController/RGBController_AorusGPU.h                              \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairPro.h                            \
@@ -108,6 +106,7 @@ win32:SOURCES +=                                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
     wmi/wmi.cpp                                                         \
+    RGBController/RGBController_AorusGPU.cpp                            \
     RGBController/RazerChromaSDKDetect.cpp                              \
     RGBController/RGBController_RazerChromaSDK.cpp                      \
 
@@ -117,6 +116,7 @@ win32:HEADERS +=                                                        \
     i2c_smbus/i2c_smbus_nct6775.h                                       \
     i2c_smbus/i2c_smbus_piix4.h                                         \
     wmi/wmi.h                                                           \
+    RGBController/RGBController_AorusGPU.h                              \
     RGBController/RGBController_RazerChromaSDK.h                        \
 
 win32:LIBS +=                                                           \
