@@ -31,6 +31,9 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
     case DEVICE_TYPE_MOUSE:
         ui->TypeValue->setText("Mouse");
         break;
+    case DEVICE_TYPE_MOUSEMAT:
+        ui->TypeValue->setText("Mousemat");
+        break;
     case DEVICE_TYPE_HEADSET:
         ui->TypeValue->setText("Headset");
         break;

@@ -20,7 +20,7 @@ void RGBController_OpenRazer::SetMode(int mode)
 {
     char update_value = 1;
 
-    switch(type)
+    switch(matrix_type)
     {
         case RAZER_TYPE_MATRIX_FRAME:
         case RAZER_TYPE_MATRIX_NOFRAME:
@@ -92,7 +92,7 @@ void RGBController_OpenRazer::SetCustomMode()
 
 void RGBController_OpenRazer::UpdateLEDs()
 {
-    switch(type)
+    switch(matrix_type)
     {
         case RAZER_TYPE_MATRIX_FRAME:
         case RAZER_TYPE_MATRIX_NOFRAME:
@@ -106,7 +106,7 @@ void RGBController_OpenRazer::UpdateLEDs()
                     unsigned int output_offset;
                     unsigned int row_offset = (row * matrix_cols);
 
-                    if(type == RAZER_TYPE_MATRIX_FRAME)
+                    if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
                     {
                         output_array_size = 3 + (matrix_cols* 3);
                         output_offset = 3;
@@ -119,7 +119,7 @@ void RGBController_OpenRazer::UpdateLEDs()
                     
                     char output_array[output_array_size];
 
-                    if(type == RAZER_TYPE_MATRIX_FRAME)
+                    if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
                     {
                         output_array[0] = row;
                         output_array[1] = 0;
@@ -134,12 +134,12 @@ void RGBController_OpenRazer::UpdateLEDs()
                         output_array[(col * 3) + 2 + output_offset] = (char)RGBGetBValue(colors[color_idx]);
                     }
                     
-                    if(type == RAZER_TYPE_MATRIX_FRAME)
+                    if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
                     {
                         matrix_custom_frame.write(output_array, output_array_size);
                         matrix_custom_frame.flush();
                     }
-                    else if(type == RAZER_TYPE_MATRIX_NOFRAME)
+                    else if(matrix_type == RAZER_TYPE_MATRIX_NOFRAME)
                     {
                         matrix_effect_custom.write(output_array, output_array_size);
                         matrix_effect_custom.flush();
@@ -151,7 +151,7 @@ void RGBController_OpenRazer::UpdateLEDs()
                     }
                 }
                 
-                if(type == RAZER_TYPE_MATRIX_FRAME)
+                if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
                 {
                     matrix_effect_custom.write(&update_value, 1);
                     matrix_effect_custom.flush();
@@ -246,11 +246,11 @@ void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned i
     {
         if(!matrix_effect_custom)
         {
-            type = RAZER_TYPE_MATRIX_STATIC;
+            matrix_type = RAZER_TYPE_MATRIX_STATIC;
         }
         else
         {
-            type = RAZER_TYPE_MATRIX_NOFRAME;
+            matrix_type = RAZER_TYPE_MATRIX_NOFRAME;
         }
 
         matrix_rows = 1;
@@ -258,7 +258,7 @@ void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned i
     }
     else
     {
-        type = RAZER_TYPE_MATRIX_FRAME;
+        matrix_type = RAZER_TYPE_MATRIX_FRAME;
 
         matrix_rows = rows;
         matrix_cols = cols;
@@ -272,7 +272,7 @@ void RGBController_OpenRazer::SetupNonMatrixDevice(std::string dev_path)
     scroll_led_effect.open(dev_path + "/scroll_led_effect");
     scroll_led_rgb.open(dev_path + "/scroll_led_rgb");
 
-    type = RAZER_TYPE_NOMATRIX;
+    matrix_type = RAZER_TYPE_NOMATRIX;
 }
 
 RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
@@ -300,6 +300,11 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             | Set device ID                                             |
             \*---------------------------------------------------------*/
             device = i;
+
+            /*---------------------------------------------------------*\
+            | Set device type                                           |
+            \*---------------------------------------------------------*/
+            type = device_list[i]->type;
 
             /*---------------------------------------------------------*\
             | Initialize modes                                          |

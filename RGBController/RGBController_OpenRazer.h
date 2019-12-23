@@ -25,6 +25,7 @@ typedef struct
 typedef struct
 {
     std::string name;
+    device_type type;
     bool matrix_type;
     unsigned int rows;
     unsigned int cols;
@@ -53,6 +54,7 @@ static const razer_zone blackwidow_chroma_zone =
 static const razer_device blackwidow_chroma_device =
 {
     "Razer BlackWidow Chroma",
+    DEVICE_TYPE_KEYBOARD,
     true,
     6,
     22,
@@ -84,6 +86,7 @@ static const razer_zone blackwidow_chroma_te_zone =
 static const razer_device blackwidow_chroma_te_device =
 {
     "Razer BlackWidow Chroma Tournament Edition",
+    DEVICE_TYPE_KEYBOARD,
     true,
     6,
     22,
@@ -115,6 +118,7 @@ static const razer_zone ornata_chroma_zone =
 static const razer_device ornata_chroma_device =
 {
     "Razer Ornata Chroma",
+    DEVICE_TYPE_KEYBOARD,
     true,
     6,
     22,
@@ -146,6 +150,7 @@ static const razer_zone deathstalker_chroma_zone =
 static const razer_device deathstalker_chroma_device =
 {
     "Razer DeathStalker Chroma",
+    DEVICE_TYPE_KEYBOARD,
     true,
     1,
     12,
@@ -181,6 +186,7 @@ static const razer_zone blade_stealth_zone =
 static const razer_device blade_stealth_device =
 {
     "Razer Blade Stealth",
+    DEVICE_TYPE_KEYBOARD,
     true,
     6,
     16,
@@ -212,6 +218,7 @@ static const razer_zone blade_pro_late_2016_zone =
 static const razer_device blade_pro_late_2016_device =
 {
     "Razer Blade Pro (Late 2016)",
+    DEVICE_TYPE_KEYBOARD,
     true,
     6,
     25,
@@ -243,6 +250,7 @@ static const razer_zone blade_pro_2017_zone =
 static const razer_device blade_pro_2017_device =
 {
     "Razer Blade Pro (2017)",
+    DEVICE_TYPE_KEYBOARD,
     true,
     6,
     25,
@@ -314,6 +322,7 @@ static const razer_zone mamba_te_scroll_wheel_zone =
 static const razer_device mamba_te_device =
 {
     "Razer Mamba Tournament Edition",
+    DEVICE_TYPE_MOUSE,
     true,
     1,
     16,
@@ -393,6 +402,7 @@ static const razer_zone diamondback_chroma_scroll_wheel_zone =
 static const razer_device diamondback_chroma_device =
 {
     "Razer Diamondback Chroma",
+    DEVICE_TYPE_MOUSE,
     true,
     1,
     21,
@@ -436,6 +446,7 @@ static const razer_zone deathadder_chroma_scroll_wheel_zone =
 static const razer_device deathadder_chroma_device =
 {
     "Razer DeathAdder Chroma",
+    DEVICE_TYPE_MOUSE,
     false,
     1,
     2,
@@ -491,6 +502,7 @@ static const razer_zone naga_chroma_numpad_zone =
 static const razer_device naga_chroma_device =
 {
     "Razer Naga Chroma",
+    DEVICE_TYPE_MOUSE,
     false,
     1,
     3,
@@ -526,6 +538,7 @@ static const razer_zone orbweaver_chroma_zone =
 static const razer_device orbweaver_chroma_device =
 {
     "Razer Orbweaver Chroma",
+    DEVICE_TYPE_KEYBOARD,
     true,
     6,
     25,
@@ -557,6 +570,7 @@ static const razer_zone tartarus_chroma_zone =
 static const razer_device tartarus_chroma_device =
 {
     "Razer Tartarus Chroma",
+    DEVICE_TYPE_KEYBOARD,
     true,
     1,
     1,
@@ -592,6 +606,7 @@ static const razer_zone firefly_zone =
 static const razer_device firefly_device =
 {
     "Razer Firefly",
+    DEVICE_TYPE_MOUSEMAT,
     true,
     1,
     15,
@@ -623,6 +638,7 @@ static const razer_zone goliathus_extended_zone =
 static const razer_device goliathus_extended_device =
 {
     "Razer Goliathus Extended",
+    DEVICE_TYPE_MOUSEMAT,
     true,
     1,
     1,
@@ -658,6 +674,7 @@ static const razer_zone kraken_chroma_zone =
 static const razer_device kraken_chroma_device =
 {
     "Razer Kraken 7.1 Chroma",
+    DEVICE_TYPE_HEADSET,
     true,
     1,
     1,
@@ -689,6 +706,7 @@ static const razer_zone kraken_v2_zone =
 static const razer_device kraken_v2_device =
 {
     "Razer Kraken 7.1 V2",
+    DEVICE_TYPE_HEADSET,
     true,
     1,
     1,
@@ -736,6 +754,7 @@ static const razer_zone core_led_strip_zone =
 static const razer_device core_device =
 {
     "Razer Core",
+    DEVICE_TYPE_UNKNOWN,
     true,
     1,
     9,
@@ -767,6 +786,7 @@ static const razer_zone mug_holder_zone =
 static const razer_device mug_holder_device =
 {
     "Razer Chroma Mug Holder",
+    DEVICE_TYPE_UNKNOWN,
     true,
     1,
     15,
@@ -810,6 +830,7 @@ static const razer_zone chromahdk_zone =
 static const razer_device chromahdk_device =
 {
     "Razer Chroma HDK",
+    DEVICE_TYPE_LEDSTRIP,
     true,
     4,
     16,
@@ -913,7 +934,7 @@ private:
     void SetupMatrixDevice(std::string dev_path, unsigned int rows, unsigned int cols);
     void SetupNonMatrixDevice(std::string dev_path);
 
-    unsigned int type;
+    unsigned int matrix_type;
     unsigned int matrix_rows;
     unsigned int matrix_cols;
 
