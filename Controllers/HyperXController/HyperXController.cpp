@@ -10,13 +10,23 @@
 #include "HyperXController.h"
 #include <cstring>
 
-HyperXController::HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev)
+HyperXController::HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    slots_valid = slots;
 
     strcpy(device_name, "HyperX Predator RGB");
-    led_count = 5;
+
+    led_count = 0;
+
+    for(int i = 0; i < 8; i++)
+    {
+        if((slots_valid & (1 << i)) != 0)
+        {
+            led_count += 5;
+        }
+    }
 
     mode = HYPERX_MODE_DIRECT;
 }
@@ -55,9 +65,10 @@ void HyperXController::SetEffectColor(unsigned char red, unsigned char green, un
 {
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_RED, red);
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_GREEN, green);
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_BLUE, blue);
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_RED,        red  );
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_GREEN,      green);
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_BLUE,       blue );
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_BRIGHTNESS, 0x64 );
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
@@ -67,24 +78,32 @@ void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsi
 {
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
+    /*-----------------------------------------------------*\
+    | Loop through all slots and only set those which are   |
+    | active.                                               |
+    \*-----------------------------------------------------*/
     for(int slot = 0; slot < 4; slot++)
     {
-        unsigned char red_base    = HYPERX_REG_SLOT0_LED0_RED        + (0x20 * slot);
-        unsigned char green_base  = HYPERX_REG_SLOT0_LED0_GREEN      + (0x20 * slot);
-        unsigned char blue_base   = HYPERX_REG_SLOT0_LED0_BLUE       + (0x20 * slot);
-        unsigned char bright_base = HYPERX_REG_SLOT0_LED0_BRIGHTNESS + (0x20 * slot);
-
-        if(mode == HYPERX_MODE_DIRECT)
+        if((slots_valid & (1 << slot)) != 0)
         {
-            bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE3, HYPERX_MODE3_DIRECT);
-        }
+            unsigned char base        = slot_base[slot];
+            unsigned char red_base    = base + 0x00;
+            unsigned char green_base  = base + 0x01;
+            unsigned char blue_base   = base + 0x02;
+            unsigned char bright_base = base + 0x10;
 
-        for(int led = 0; led < 5; led++)
-        {
-            bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
-            bus->i2c_smbus_write_byte_data(dev, green_base  + (3 * led), green);
-            bus->i2c_smbus_write_byte_data(dev, blue_base   + (3 * led), blue );
-            bus->i2c_smbus_write_byte_data(dev, bright_base + (3 * led), 0x64 );
+            if(mode == HYPERX_MODE_DIRECT)
+            {
+                bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE3, HYPERX_MODE3_DIRECT);
+            }
+
+            for(int led = 0; led < 5; led++)
+            {
+                bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
+                bus->i2c_smbus_write_byte_data(dev, green_base  + (3 * led), green);
+                bus->i2c_smbus_write_byte_data(dev, blue_base   + (3 * led), blue );
+                bus->i2c_smbus_write_byte_data(dev, bright_base + (3 * led), 0x64 );
+            }
         }
     }
 
@@ -92,12 +111,62 @@ void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsi
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
+void HyperXController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+{
+    /*-----------------------------------------------------*\
+    | led_slot - the unmapped slot ID for the given LED     |
+    | led - the LED ID within that slot                     |
+    | slot_id - counts enabled slots                        |
+    | slot - the mapped slot ID for the given LED           |
+    \*-----------------------------------------------------*/
+    int led_slot    = led / 5;
+    int slot_id     = -1;
+    int slot;
+
+    led            -= (led_slot * 5);
+
+    /*-----------------------------------------------------*\
+    | Loop through all possible slots and only count those  |
+    | which are active.                                     |
+    \*-----------------------------------------------------*/
+    for(slot = 0; slot < 4; slot++)
+    {
+        if((slots_valid & ( 1 << slot)) != 0)
+        {
+            slot_id++;
+        }
+
+        if(slot_id == led_slot)
+        {
+            break;
+        }
+    }
+
+    unsigned char base        = slot_base[slot];
+    unsigned char red_base    = base + 0x00;
+    unsigned char green_base  = base + 0x01;
+    unsigned char blue_base   = base + 0x02;
+    unsigned char bright_base = base + 0x10;
+
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
+
+    bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
+    bus->i2c_smbus_write_byte_data(dev, green_base  + (3 * led), green);
+    bus->i2c_smbus_write_byte_data(dev, blue_base   + (3 * led), blue );
+    bus->i2c_smbus_write_byte_data(dev, bright_base + (3 * led), 0x64 );
+
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
+    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+}
+
+
 void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char red_base    = HYPERX_REG_SLOT0_LED0_RED        + (0x20 * slot);
-    unsigned char green_base  = HYPERX_REG_SLOT0_LED0_GREEN      + (0x20 * slot);
-    unsigned char blue_base   = HYPERX_REG_SLOT0_LED0_BLUE       + (0x20 * slot);
-    unsigned char bright_base = HYPERX_REG_SLOT0_LED0_BRIGHTNESS + (0x20 * slot);
+    unsigned char base        = slot_base[slot];
+    unsigned char red_base    = base + 0x00;
+    unsigned char green_base  = base + 0x01;
+    unsigned char blue_base   = base + 0x02;
+    unsigned char bright_base = base + 0x10;
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 

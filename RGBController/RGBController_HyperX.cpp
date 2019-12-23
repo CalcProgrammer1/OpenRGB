@@ -53,7 +53,7 @@ void RGBController_HyperX::SetAllZoneLEDs(int zone, RGBColor color)
         {
             for (int y = 0; y < zones[zone].map[x].size(); y++)
             {
-                hyperx->SetLEDColor(0, zones[zone].map[x][y], red, grn, blu);
+                hyperx->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
             }
         }
     }
@@ -71,7 +71,7 @@ void RGBController_HyperX::SetLED(int led, RGBColor color)
 
     if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {
-        hyperx->SetLEDColor(0, led, red, grn, blu);
+        hyperx->SetLEDColor(led, red, grn, blu);
     }
     else
     {

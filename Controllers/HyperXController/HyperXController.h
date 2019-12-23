@@ -38,68 +38,68 @@ enum
     HYPERX_REG_SLOT0_LED3_BRIGHTNESS    = 0x2A,     /* Brightness for LED 3, Slot 0 (0-100) */
     HYPERX_REG_SLOT0_LED4_BRIGHTNESS    = 0x2D,     /* Brightness for LED 4, Slot 0 (0-100) */
 
-    HYPERX_REG_SLOT1_LED0_RED           = 0x31,     /* R color register for LED 0, Slot 1   */
-    HYPERX_REG_SLOT1_LED0_GREEN         = 0x32,     /* G color register for LED 0, Slot 1   */
-    HYPERX_REG_SLOT1_LED0_BLUE          = 0x33,     /* B color register for LED 0, Slot 1   */
-    HYPERX_REG_SLOT1_LED1_RED           = 0x34,     /* R color register for LED 1, Slot 1   */
-    HYPERX_REG_SLOT1_LED1_GREEN         = 0x35,     /* G color register for LED 1, Slot 1   */
-    HYPERX_REG_SLOT1_LED1_BLUE          = 0x36,     /* B color register for LED 1, Slot 1   */
-    HYPERX_REG_SLOT1_LED2_RED           = 0x37,     /* R color register for LED 2, Slot 1   */
-    HYPERX_REG_SLOT1_LED2_GREEN         = 0x38,     /* G color register for LED 2, Slot 1   */
-    HYPERX_REG_SLOT1_LED2_BLUE          = 0x39,     /* B color register for LED 2, Slot 1   */
-    HYPERX_REG_SLOT1_LED3_RED           = 0x3A,     /* R color register for LED 3, Slot 1   */
-    HYPERX_REG_SLOT1_LED3_GREEN         = 0x3B,     /* G color register for LED 3, Slot 1   */
-    HYPERX_REG_SLOT1_LED3_BLUE          = 0x3C,     /* B color register for LED 3, Slot 1   */
-    HYPERX_REG_SLOT1_LED4_RED           = 0x3D,     /* R color register for LED 4, Slot 1   */
-    HYPERX_REG_SLOT1_LED4_GREEN         = 0x3E,     /* G color register for LED 4, Slot 1   */
-    HYPERX_REG_SLOT1_LED4_BLUE          = 0x3F,     /* B color register for LED 4, Slot 1   */
-    HYPERX_REG_SLOT1_LED0_BRIGHTNESS    = 0x41,     /* Brightness for LED 0, Slot 1 (0-100) */
-    HYPERX_REG_SLOT1_LED1_BRIGHTNESS    = 0x44,     /* Brightness for LED 1, Slot 1 (0-100) */
-    HYPERX_REG_SLOT1_LED2_BRIGHTNESS    = 0x47,     /* Brightness for LED 2, Slot 1 (0-100) */
-    HYPERX_REG_SLOT1_LED3_BRIGHTNESS    = 0x4A,     /* Brightness for LED 3, Slot 1 (0-100) */
-    HYPERX_REG_SLOT1_LED4_BRIGHTNESS    = 0x4D,     /* Brightness for LED 4, Slot 1 (0-100) */
+    HYPERX_REG_SLOT1_LED0_RED           = 0x41,     /* R color register for LED 0, Slot 1   */
+    HYPERX_REG_SLOT1_LED0_GREEN         = 0x42,     /* G color register for LED 0, Slot 1   */
+    HYPERX_REG_SLOT1_LED0_BLUE          = 0x43,     /* B color register for LED 0, Slot 1   */
+    HYPERX_REG_SLOT1_LED1_RED           = 0x44,     /* R color register for LED 1, Slot 1   */
+    HYPERX_REG_SLOT1_LED1_GREEN         = 0x45,     /* G color register for LED 1, Slot 1   */
+    HYPERX_REG_SLOT1_LED1_BLUE          = 0x46,     /* B color register for LED 1, Slot 1   */
+    HYPERX_REG_SLOT1_LED2_RED           = 0x47,     /* R color register for LED 2, Slot 1   */
+    HYPERX_REG_SLOT1_LED2_GREEN         = 0x48,     /* G color register for LED 2, Slot 1   */
+    HYPERX_REG_SLOT1_LED2_BLUE          = 0x49,     /* B color register for LED 2, Slot 1   */
+    HYPERX_REG_SLOT1_LED3_RED           = 0x4A,     /* R color register for LED 3, Slot 1   */
+    HYPERX_REG_SLOT1_LED3_GREEN         = 0x4B,     /* G color register for LED 3, Slot 1   */
+    HYPERX_REG_SLOT1_LED3_BLUE          = 0x4C,     /* B color register for LED 3, Slot 1   */
+    HYPERX_REG_SLOT1_LED4_RED           = 0x4D,     /* R color register for LED 4, Slot 1   */
+    HYPERX_REG_SLOT1_LED4_GREEN         = 0x4E,     /* G color register for LED 4, Slot 1   */
+    HYPERX_REG_SLOT1_LED4_BLUE          = 0x4F,     /* B color register for LED 4, Slot 1   */
+    HYPERX_REG_SLOT1_LED0_BRIGHTNESS    = 0x51,     /* Brightness for LED 0, Slot 1 (0-100) */
+    HYPERX_REG_SLOT1_LED1_BRIGHTNESS    = 0x54,     /* Brightness for LED 1, Slot 1 (0-100) */
+    HYPERX_REG_SLOT1_LED2_BRIGHTNESS    = 0x57,     /* Brightness for LED 2, Slot 1 (0-100) */
+    HYPERX_REG_SLOT1_LED3_BRIGHTNESS    = 0x5A,     /* Brightness for LED 3, Slot 1 (0-100) */
+    HYPERX_REG_SLOT1_LED4_BRIGHTNESS    = 0x5D,     /* Brightness for LED 4, Slot 1 (0-100) */
 
-    HYPERX_REG_SLOT2_LED0_RED           = 0x51,     /* R color register for LED 0, Slot 2   */
-    HYPERX_REG_SLOT2_LED0_GREEN         = 0x52,     /* G color register for LED 0, Slot 2   */
-    HYPERX_REG_SLOT2_LED0_BLUE          = 0x53,     /* B color register for LED 0, Slot 2   */
-    HYPERX_REG_SLOT2_LED1_RED           = 0x54,     /* R color register for LED 1, Slot 2   */
-    HYPERX_REG_SLOT2_LED1_GREEN         = 0x55,     /* G color register for LED 1, Slot 2   */
-    HYPERX_REG_SLOT2_LED1_BLUE          = 0x56,     /* B color register for LED 1, Slot 2   */
-    HYPERX_REG_SLOT2_LED2_RED           = 0x57,     /* R color register for LED 2, Slot 2   */
-    HYPERX_REG_SLOT2_LED2_GREEN         = 0x58,     /* G color register for LED 2, Slot 2   */
-    HYPERX_REG_SLOT2_LED2_BLUE          = 0x59,     /* B color register for LED 2, Slot 2   */
-    HYPERX_REG_SLOT2_LED3_RED           = 0x5A,     /* R color register for LED 3, Slot 2   */
-    HYPERX_REG_SLOT2_LED3_GREEN         = 0x5B,     /* G color register for LED 3, Slot 2   */
-    HYPERX_REG_SLOT2_LED3_BLUE          = 0x5C,     /* B color register for LED 3, Slot 2   */
-    HYPERX_REG_SLOT2_LED4_RED           = 0x5D,     /* R color register for LED 4, Slot 2   */
-    HYPERX_REG_SLOT2_LED4_GREEN         = 0x5E,     /* G color register for LED 4, Slot 2   */
-    HYPERX_REG_SLOT2_LED4_BLUE          = 0x5F,     /* B color register for LED 4, Slot 2   */
-    HYPERX_REG_SLOT2_LED0_BRIGHTNESS    = 0x61,     /* Brightness for LED 0, Slot 2 (0-100) */
-    HYPERX_REG_SLOT2_LED1_BRIGHTNESS    = 0x64,     /* Brightness for LED 1, Slot 2 (0-100) */
-    HYPERX_REG_SLOT2_LED2_BRIGHTNESS    = 0x67,     /* Brightness for LED 2, Slot 2 (0-100) */
-    HYPERX_REG_SLOT2_LED3_BRIGHTNESS    = 0x6A,     /* Brightness for LED 3, Slot 2 (0-100) */
-    HYPERX_REG_SLOT2_LED4_BRIGHTNESS    = 0x6D,     /* Brightness for LED 4, Slot 2 (0-100) */
+    HYPERX_REG_SLOT2_LED0_RED           = 0x71,     /* R color register for LED 0, Slot 2   */
+    HYPERX_REG_SLOT2_LED0_GREEN         = 0x72,     /* G color register for LED 0, Slot 2   */
+    HYPERX_REG_SLOT2_LED0_BLUE          = 0x73,     /* B color register for LED 0, Slot 2   */
+    HYPERX_REG_SLOT2_LED1_RED           = 0x74,     /* R color register for LED 1, Slot 2   */
+    HYPERX_REG_SLOT2_LED1_GREEN         = 0x75,     /* G color register for LED 1, Slot 2   */
+    HYPERX_REG_SLOT2_LED1_BLUE          = 0x76,     /* B color register for LED 1, Slot 2   */
+    HYPERX_REG_SLOT2_LED2_RED           = 0x77,     /* R color register for LED 2, Slot 2   */
+    HYPERX_REG_SLOT2_LED2_GREEN         = 0x78,     /* G color register for LED 2, Slot 2   */
+    HYPERX_REG_SLOT2_LED2_BLUE          = 0x79,     /* B color register for LED 2, Slot 2   */
+    HYPERX_REG_SLOT2_LED3_RED           = 0x7A,     /* R color register for LED 3, Slot 2   */
+    HYPERX_REG_SLOT2_LED3_GREEN         = 0x7B,     /* G color register for LED 3, Slot 2   */
+    HYPERX_REG_SLOT2_LED3_BLUE          = 0x7C,     /* B color register for LED 3, Slot 2   */
+    HYPERX_REG_SLOT2_LED4_RED           = 0x7D,     /* R color register for LED 4, Slot 2   */
+    HYPERX_REG_SLOT2_LED4_GREEN         = 0x7E,     /* G color register for LED 4, Slot 2   */
+    HYPERX_REG_SLOT2_LED4_BLUE          = 0x7F,     /* B color register for LED 4, Slot 2   */
+    HYPERX_REG_SLOT2_LED0_BRIGHTNESS    = 0x81,     /* Brightness for LED 0, Slot 2 (0-100) */
+    HYPERX_REG_SLOT2_LED1_BRIGHTNESS    = 0x84,     /* Brightness for LED 1, Slot 2 (0-100) */
+    HYPERX_REG_SLOT2_LED2_BRIGHTNESS    = 0x87,     /* Brightness for LED 2, Slot 2 (0-100) */
+    HYPERX_REG_SLOT2_LED3_BRIGHTNESS    = 0x8A,     /* Brightness for LED 3, Slot 2 (0-100) */
+    HYPERX_REG_SLOT2_LED4_BRIGHTNESS    = 0x8D,     /* Brightness for LED 4, Slot 2 (0-100) */
 
-    HYPERX_REG_SLOT3_LED0_RED           = 0x71,     /* R color register for LED 0, Slot 3   */
-    HYPERX_REG_SLOT3_LED0_GREEN         = 0x72,     /* G color register for LED 0, Slot 3   */
-    HYPERX_REG_SLOT3_LED0_BLUE          = 0x73,     /* B color register for LED 0, Slot 3   */
-    HYPERX_REG_SLOT3_LED1_RED           = 0x74,     /* R color register for LED 1, Slot 3   */
-    HYPERX_REG_SLOT3_LED1_GREEN         = 0x75,     /* G color register for LED 1, Slot 3   */
-    HYPERX_REG_SLOT3_LED1_BLUE          = 0x76,     /* B color register for LED 1, Slot 3   */
-    HYPERX_REG_SLOT3_LED2_RED           = 0x77,     /* R color register for LED 2, Slot 3   */
-    HYPERX_REG_SLOT3_LED2_GREEN         = 0x78,     /* G color register for LED 2, Slot 3   */
-    HYPERX_REG_SLOT3_LED2_BLUE          = 0x79,     /* B color register for LED 2, Slot 3   */
-    HYPERX_REG_SLOT3_LED3_RED           = 0x7A,     /* R color register for LED 3, Slot 3   */
-    HYPERX_REG_SLOT3_LED3_GREEN         = 0x7B,     /* G color register for LED 3, Slot 3   */
-    HYPERX_REG_SLOT3_LED3_BLUE          = 0x7C,     /* B color register for LED 3, Slot 3   */
-    HYPERX_REG_SLOT3_LED4_RED           = 0x7D,     /* R color register for LED 4, Slot 3   */
-    HYPERX_REG_SLOT3_LED4_GREEN         = 0x7E,     /* G color register for LED 4, Slot 3   */
-    HYPERX_REG_SLOT3_LED4_BLUE          = 0x7F,     /* B color register for LED 4, Slot 3   */
-    HYPERX_REG_SLOT3_LED0_BRIGHTNESS    = 0x81,     /* Brightness for LED 0, Slot 3 (0-100) */
-    HYPERX_REG_SLOT3_LED1_BRIGHTNESS    = 0x84,     /* Brightness for LED 1, Slot 3 (0-100) */
-    HYPERX_REG_SLOT3_LED2_BRIGHTNESS    = 0x87,     /* Brightness for LED 2, Slot 3 (0-100) */
-    HYPERX_REG_SLOT3_LED3_BRIGHTNESS    = 0x8A,     /* Brightness for LED 3, Slot 3 (0-100) */
-    HYPERX_REG_SLOT3_LED4_BRIGHTNESS    = 0x8D,     /* Brightness for LED 4, Slot 3 (0-100) */
+    HYPERX_REG_SLOT3_LED0_RED           = 0xA1,     /* R color register for LED 0, Slot 3   */
+    HYPERX_REG_SLOT3_LED0_GREEN         = 0xA2,     /* G color register for LED 0, Slot 3   */
+    HYPERX_REG_SLOT3_LED0_BLUE          = 0xA3,     /* B color register for LED 0, Slot 3   */
+    HYPERX_REG_SLOT3_LED1_RED           = 0xA4,     /* R color register for LED 1, Slot 3   */
+    HYPERX_REG_SLOT3_LED1_GREEN         = 0xA5,     /* G color register for LED 1, Slot 3   */
+    HYPERX_REG_SLOT3_LED1_BLUE          = 0xA6,     /* B color register for LED 1, Slot 3   */
+    HYPERX_REG_SLOT3_LED2_RED           = 0xA7,     /* R color register for LED 2, Slot 3   */
+    HYPERX_REG_SLOT3_LED2_GREEN         = 0xA8,     /* G color register for LED 2, Slot 3   */
+    HYPERX_REG_SLOT3_LED2_BLUE          = 0xA9,     /* B color register for LED 2, Slot 3   */
+    HYPERX_REG_SLOT3_LED3_RED           = 0xAA,     /* R color register for LED 3, Slot 3   */
+    HYPERX_REG_SLOT3_LED3_GREEN         = 0xAB,     /* G color register for LED 3, Slot 3   */
+    HYPERX_REG_SLOT3_LED3_BLUE          = 0xAC,     /* B color register for LED 3, Slot 3   */
+    HYPERX_REG_SLOT3_LED4_RED           = 0xAD,     /* R color register for LED 4, Slot 3   */
+    HYPERX_REG_SLOT3_LED4_GREEN         = 0xAE,     /* G color register for LED 4, Slot 3   */
+    HYPERX_REG_SLOT3_LED4_BLUE          = 0xAF,     /* B color register for LED 4, Slot 3   */
+    HYPERX_REG_SLOT3_LED0_BRIGHTNESS    = 0xB1,     /* Brightness for LED 0, Slot 3 (0-100) */
+    HYPERX_REG_SLOT3_LED1_BRIGHTNESS    = 0xB4,     /* Brightness for LED 1, Slot 3 (0-100) */
+    HYPERX_REG_SLOT3_LED2_BRIGHTNESS    = 0xB7,     /* Brightness for LED 2, Slot 3 (0-100) */
+    HYPERX_REG_SLOT3_LED3_BRIGHTNESS    = 0xBA,     /* Brightness for LED 3, Slot 3 (0-100) */
+    HYPERX_REG_SLOT3_LED4_BRIGHTNESS    = 0xBD,     /* Brightness for LED 4, Slot 3 (0-100) */
 
     HYPERX_REG_EFFECT_BRIGHTNESS        = 0xDD,     /* Brightness for effects (0-100)       */
     HYPERX_REG_APPLY                    = 0xE1,     /* Apply changes register               */
@@ -146,11 +146,18 @@ enum
     HYPERX_NUMBER_MODES                             /* Number of HyperX modes               */
 };
 
+static const unsigned char slot_base[4] =
+{
+    HYPERX_REG_SLOT0_LED0_RED,                      /* SPD 0x50 maps to slot 0              */
+    HYPERX_REG_SLOT1_LED0_RED,                      /* SPD 0x51 maps to slot 1              */
+    HYPERX_REG_SLOT2_LED0_RED,                      /* SPD 0x52 maps to slot 2              */
+    HYPERX_REG_SLOT3_LED0_RED                       /* SPD 0x53 maps to slot 3              */
+};
 
 class HyperXController
 {
 public:
-    HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev);
+    HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots);
     ~HyperXController();
 
     std::string     GetDeviceName();
@@ -161,11 +168,13 @@ public:
 
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SetEffectColor(unsigned char red, unsigned char green, unsigned char blue);
+    void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
 
 private:
     char                    device_name[32];
     unsigned int            led_count;
+    unsigned char           slots_valid;
     i2c_smbus_interface*    bus;
     hyperx_dev_id           dev;
     unsigned int            mode;

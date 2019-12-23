@@ -6,6 +6,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+
+void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
 /******************************************************************************************\
 *                                                                                          *
 *   TestForHyperXController                                                               *
@@ -58,12 +69,33 @@ void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
+        unsigned char slots_valid = 0x00;
+
         // Check for HyperX controller at 0x27
         if (TestForHyperXController(busses[bus], 0x27))
         {
-            new_hyperx = new HyperXController(busses[bus], 0x27);
-            new_controller = new RGBController_HyperX(new_hyperx);
-            rgb_controllers.push_back(new_controller);
+            for(int slot_addr = 0x50; slot_addr <= 0x57; slot_addr++)
+            {
+                // Test for HyperX SPD at slot_addr
+                // This test was copied from NGENUITY software
+                // Tests SPD addresses in order: 0x40, 0x41, 0x68, and 0x67
+                if((busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x40) == 0x01)
+                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x41) == 0x98)
+                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x68) == 0x10)
+                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x67) == 0x00))
+                {
+                    slots_valid |= (1 << (slot_addr - 0x50));
+                }
+
+                Sleep(1);
+            }
+
+            if(slots_valid != 0)
+            {
+                new_hyperx = new HyperXController(busses[bus], 0x27, slots_valid);
+                new_controller = new RGBController_HyperX(new_hyperx);
+                rgb_controllers.push_back(new_controller);
+            }
         }
     }
 
