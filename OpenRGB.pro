@@ -16,6 +16,7 @@ INCLUDEPATH +=                                                          \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
     Controllers/LEDStripController/                                     \
+    Controllers/PolychromeController/                                   \
     Controllers/RGBFusionController/                                    \
     RGBController/                                                      \
     qt/
@@ -45,6 +46,7 @@ SOURCES +=                                                              \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+    Controllers/PolychromeController/PolychromeController.cpp           \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
     RGBController/RGBController_AorusGPU.cpp                            \
@@ -80,6 +82,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_CorsairPro.h                            \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
+    RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_RGBFusion.h
 
 RESOURCES += \
