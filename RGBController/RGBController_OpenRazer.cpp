@@ -231,6 +231,34 @@ static std::string GetDeviceTypeString(std::string dev_path)
     return(ret_str);
 }
 
+static std::string GetFirmwareVersionString(std::string dev_path)
+{
+    // Read firmware_version for firmware version string
+    std::string firm_ver_path = dev_path + "/firmware_version";
+    std::ifstream firm_ver_file;
+    std::string ret_str;
+
+    firm_ver_file.open(firm_ver_path);
+    std::getline(firm_ver_file, ret_str);
+    firm_ver_file.close();
+
+    return(ret_str);   
+}
+
+static std::string GetSerialNumberString(std::string dev_path)
+{
+    // Read device_serial for serial number string
+    std::string ser_num_path = dev_path + "/device_serial";
+    std::ifstream ser_num_file;
+    std::string ret_str;
+
+    ser_num_file.open(ser_num_path);
+    std::getline(ser_num_file, ret_str);
+    ser_num_file.close();
+
+    return(ret_str);    
+}
+
 void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned int rows, unsigned int cols)
 {
     matrix_custom_frame.open(dev_path + "/matrix_custom_frame");
@@ -288,6 +316,26 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     | Get the device name from the OpenRazer driver                     |
     \*-----------------------------------------------------------------*/
     name = GetDeviceTypeString(dev_path);
+
+    /*-----------------------------------------------------------------*\
+    | Set the description to indicate this is an OpenRazer device       |
+    \*-----------------------------------------------------------------*/
+    description = "OpenRazer Device";
+    
+    /*-----------------------------------------------------------------*\
+    | Set the device path as the location                               |
+    \*-----------------------------------------------------------------*/
+    location = dev_path;
+
+    /*-----------------------------------------------------------------*\
+    | Get the serial number from the dev path                           |
+    \*-----------------------------------------------------------------*/
+    serial = GetSerialNumberString(dev_path);
+
+    /*-----------------------------------------------------------------*\
+    | Get the firmware version from the dev path                        |
+    \*-----------------------------------------------------------------*/
+    version = GetFirmwareVersionString(dev_path);
 
     /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |

@@ -74,6 +74,10 @@ void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
         // Check for HyperX controller at 0x27
         if (TestForHyperXController(busses[bus], 0x27))
         {
+            busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
+
+            Sleep(1);
+            
             for(int slot_addr = 0x50; slot_addr <= 0x57; slot_addr++)
             {
                 // Test for HyperX SPD at slot_addr
