@@ -56,6 +56,21 @@ unsigned int HyperXController::GetLEDCount()
     return(led_count);
 }
 
+unsigned int HyperXController::GetSlotCount()
+{
+    unsigned int slot_count = 0;
+
+    for(int slot = 0; slot < 4; slot++)
+    {
+        if((slots_valid & (1 << slot)) != 0)
+        {
+            slot_count++;
+        }
+    }
+
+    return(slot_count);
+}
+
 unsigned int HyperXController::GetMode()
 {
     return(mode);

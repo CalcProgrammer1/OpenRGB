@@ -163,6 +163,7 @@ public:
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
+    unsigned int    GetSlotCount();
     unsigned int    GetMode();
     void            SetMode(unsigned char new_mode);
 

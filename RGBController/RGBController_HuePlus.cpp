@@ -36,6 +36,7 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 
             new_zone->name = "Hue+ Channel ";
             new_zone->name.append(ch_idx_string);
+            new_zone->type = ZONE_TYPE_LINEAR;
 
             std::vector<int> *new_zone_map = new std::vector<int>();
 

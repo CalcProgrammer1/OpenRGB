@@ -110,29 +110,41 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
         modes.push_back(hyperx_modes[i]);
     }
 
-    for (int i = 0; i < hyperx->GetLEDCount(); i++)
+    unsigned int led_idx = 0;
+
+    for(int slot = 0; slot < hyperx->GetSlotCount(); slot++)
     {
-        led* new_led = new led();
+        zone* new_zone = new zone;
 
-        new_led->name = "HyperX LED";
+        char slot_idx_str[3];
+        sprintf(slot_idx_str, "%d", slot);
+        new_zone->name = "HyperX Slot ";
+        new_zone->name.append(slot_idx_str);
 
-        leds.push_back(*new_led);
-        colors.push_back(0x00000000);
+        new_zone->type = ZONE_TYPE_LINEAR;
+
+        std::vector<int> *new_zone_map = new std::vector<int>();
+
+        for(int led_slot_idx = 0; led_slot_idx < 5; led_slot_idx++)
+        {
+            colors.push_back(0x00000000);
+
+            led* new_led = new led();
+
+            char led_idx_str[3];
+            sprintf(led_idx_str, "%d", led_slot_idx);
+            new_led->name = "HyperX Slot ";
+            new_led->name.append(slot_idx_str);
+            new_led->name.append(", LED ");
+            new_led->name.append(led_idx_str);
+
+            leds.push_back(*new_led);
+
+            new_zone_map->push_back(led_idx);
+            led_idx++;
+        }
+
+        new_zone->map.push_back(*new_zone_map);
+        zones.push_back(*new_zone);
     }
-
-    zone new_zone;
-
-    new_zone.name = "HyperX Zone";
-    new_zone.type = ZONE_TYPE_SINGLE;
-
-    std::vector<int> zone_row;
-
-    for (int i = 0; i < hyperx->GetLEDCount(); i++)
-    {
-        zone_row.push_back(i);
-    }
-
-    new_zone.map.push_back(zone_row);
-
-    zones.push_back(new_zone);
 }
