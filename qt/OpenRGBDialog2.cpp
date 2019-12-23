@@ -26,6 +26,14 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         ui->DevicesTabBar->addTab(NewPage, "");
 
         /*-----------------------------------------------------*\
+        | Connect the page's Set All button to the Set All slot |
+        \*-----------------------------------------------------*/
+        connect(NewPage,
+                SIGNAL(SetAllDevices(unsigned char, unsigned char, unsigned char)),
+                this,
+                SLOT(on_SetAllDevices(unsigned char, unsigned char, unsigned char)));
+
+        /*-----------------------------------------------------*\
         | Use Qt's HTML capabilities to display both icon and   |
         | text in the tab label.  Choose icon based on device   |
         | type and append device name string.                   |
@@ -147,4 +155,12 @@ OpenRGBDialog2::~OpenRGBDialog2()
 void OpenRGBDialog2::show()
 {
     QMainWindow::show();
+}
+
+void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
+{
+    for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+    {
+        qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->SetDevice(red, green, blue);
+    }
 }

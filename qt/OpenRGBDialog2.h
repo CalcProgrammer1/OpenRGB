@@ -34,6 +34,9 @@ protected:
 
 private:
     Ui::OpenRGBDialog2Ui *ui;
+
+private slots:
+    void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
 };
 
 #endif // OPENRGBDIALOG2_H

@@ -368,6 +368,19 @@
     <string>Set:</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="SetAllButton">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>180</y>
+     <width>80</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set All Devices</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

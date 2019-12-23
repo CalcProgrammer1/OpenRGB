@@ -115,6 +115,18 @@ void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int index)
     device->SetMode(ui->ModeBox->currentIndex());
 }
 
+void Ui::OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, unsigned char blue)
+{
+    UpdatingColor = true;
+    ui->RedSpinBox->setValue(red);
+    ui->GreenSpinBox->setValue(green);
+    ui->BlueSpinBox->setValue(blue);
+    UpdatingColor = false;
+    updateHSV();
+
+    on_SetDeviceButton_clicked();
+}
+
 void Ui::OpenRGBDevicePage::on_SetDeviceButton_clicked()
 {
     /*-----------------------------------------------------*\
@@ -290,4 +302,13 @@ void Ui::OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int arg1)
 void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int arg1)
 {
     updateRGB();
+}
+
+void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()
+{
+    unsigned char red   = ui->RedSpinBox->value();
+    unsigned char green = ui->GreenSpinBox->value();
+    unsigned char blue  = ui->BlueSpinBox->value();
+
+    emit SetAllDevices(red, green, blue);
 }

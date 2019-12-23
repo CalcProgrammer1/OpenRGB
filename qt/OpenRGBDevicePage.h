@@ -18,6 +18,8 @@ public:
     explicit OpenRGBDevicePage(RGBController *dev, QWidget *parent = nullptr);
     ~OpenRGBDevicePage();
 
+    void SetDevice(unsigned char red, unsigned char green, unsigned char blue);
+
 private slots:
     void on_ButtonRed_clicked();
     void on_ButtonYellow_clicked();
@@ -38,6 +40,8 @@ private slots:
     void on_BlueSpinBox_valueChanged(int arg1);
     void on_ValSpinBox_valueChanged(int arg1);
 
+    void on_SetAllButton_clicked();
+
 private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
@@ -47,6 +51,9 @@ private:
     void updateRGB();
 
     void updateHSV();
+
+signals:
+    void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
 };
 
 #endif // OPENRGBDEVICEPAGE_H
