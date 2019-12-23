@@ -359,6 +359,7 @@ void DetectCorsairProControllers(std::vector<i2c_smbus_interface*> &busses, std:
 void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
+void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectRazerChromaSDKControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
@@ -382,7 +383,7 @@ void DetectRGBControllers(void)
     DetectRGBFusionControllers(busses, rgb_controllers);
 
     DetectLEDStripControllers(rgb_controllers);
-    
+    DetectHuePlusControllers(rgb_controllers);
 #ifdef WIN32
     DetectRazerChromaSDKControllers(rgb_controllers);
 #else

@@ -24,5 +24,7 @@ public:
     void UpdateLEDs();
 
 private:
-    HuePlusController* strip;
+    HuePlusController*          hueplus;
+    std::vector<unsigned int>   leds_channel;
+    std::vector<unsigned int>   zones_channel;
 };
