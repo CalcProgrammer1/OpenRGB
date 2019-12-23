@@ -62,9 +62,15 @@ void RGBController_AorusGPU::SetLED(int led, RGBColor color)
     GvWriteI2C(0x00000000, data, 0x00000000);
 }
 
+void RGBController_AorusGPU::UpdateLEDs()
+{
+
+}
+
 RGBController_AorusGPU::RGBController_AorusGPU()
 {
     name = "Aorus GPU";
+    type = DEVICE_TYPE_GPU;
 
     handle = LoadLibrary("GvDisplay.dll");
 

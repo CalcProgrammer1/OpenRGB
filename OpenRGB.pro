@@ -47,6 +47,7 @@ SOURCES +=                                                              \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
+    RGBController/RGBController_AorusGPU.cpp                            \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairPro.cpp                          \
@@ -73,6 +74,7 @@ HEADERS +=                                                              \
     Controllers/HyperXController/HyperXController.h                     \
     Controllers/LEDStripController/LEDStripController.h                 \
     RGBController/RGBController.h                                       \
+    RGBController/RGBController_AorusGPU.h                              \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairPro.h                            \
