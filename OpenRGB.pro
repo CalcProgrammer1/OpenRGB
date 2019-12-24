@@ -1,5 +1,7 @@
 QT       += core gui
 
+LIBS += -lusb-1.0
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = OpenRGB
@@ -10,6 +12,7 @@ INCLUDEPATH +=                                                          \
     i2c_tools/                                                          \
     net_port/                                                           \
     serial_port/                                                        \
+    Controllers/AMDWraithPrismController/                               \
     Controllers/AuraController/                                         \
     Controllers/CorsairController/                                      \
     Controllers/CorsairProController/                                   \
@@ -34,6 +37,8 @@ SOURCES +=                                                              \
     qt/OpenRGBSystemInfoPage.cpp                                        \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
+    Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
+    Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
     Controllers/CorsairController/CorsairController.cpp                 \
@@ -68,6 +73,7 @@ HEADERS +=                                                              \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBSystemInfoPage.h                                          \
     serial_port/serial_port.h                                           \
+    Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
     Controllers/AuraController/AuraController.h                         \
     Controllers/CorsairController/CorsairController.h                   \
     Controllers/CorsairProController/CorsairProController.h             \
