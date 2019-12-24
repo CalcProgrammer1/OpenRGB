@@ -20,6 +20,8 @@ public:
 
     std::string GetEffectChannelString(unsigned char channel);
 
+    void SetRingEffectChannel(unsigned char channel);
+
     void SetFanColor(unsigned char red, unsigned char green, unsigned char blue);
     void SetLogoColor(unsigned char red, unsigned char green, unsigned char blue);
 
