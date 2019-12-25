@@ -27,6 +27,7 @@ public:
 
     void SetFanColor(unsigned char red, unsigned char green, unsigned char blue);
     void SetLogoColor(unsigned char red, unsigned char green, unsigned char blue);
+    void SetRingColor(unsigned char red, unsigned char green, unsigned char blue);
 
     void SendEnableCommand();
     void SendRemapCommand();

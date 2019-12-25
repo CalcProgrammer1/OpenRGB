@@ -43,7 +43,19 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     std::vector<int> fan_zone_map;
     fan_zone_map.push_back(1);
     fan_zone.map.push_back(fan_zone_map);
-    zones.push_back(fan_zone);    
+    zones.push_back(fan_zone);
+
+    led ring_led;
+    ring_led.name = "Ring";
+    leds.push_back(ring_led);
+
+    zone ring_zone;
+    ring_zone.name = "Ring";
+    ring_zone.type = ZONE_TYPE_SINGLE;
+    std::vector<int> ring_zone_map;
+    ring_zone_map.push_back(2);
+    ring_zone.map.push_back(ring_zone_map);
+    zones.push_back(ring_zone);   
 }
 
 RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
@@ -74,6 +86,7 @@ void RGBController_AMDWraithPrism::SetAllLEDs(RGBColor color)
 
     wraith->SetFanColor(red, grn, blu);
     wraith->SetLogoColor(red, grn, blu);
+    wraith->SetRingColor(red, grn, blu);
 }
 
 void RGBController_AMDWraithPrism::SetAllZoneLEDs(int zone, RGBColor color)
@@ -90,6 +103,10 @@ void RGBController_AMDWraithPrism::SetAllZoneLEDs(int zone, RGBColor color)
     {
         wraith->SetFanColor(red, grn, blu);
     }
+    else if(zone == 2)
+    {
+        wraith->SetRingColor(red, grn, blu);
+    }
 }
 
 void RGBController_AMDWraithPrism::SetLED(int led, RGBColor color)
@@ -105,6 +122,10 @@ void RGBController_AMDWraithPrism::SetLED(int led, RGBColor color)
     else if(led == 1)
     {
         wraith->SetFanColor(red, grn, blu);
+    }
+    else if(led == 2)
+    {
+        wraith->SetRingColor(red, grn, blu);
     }
 }
 
