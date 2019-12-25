@@ -19,6 +19,7 @@ public:
     char* GetDeviceName();
 
     std::string GetEffectChannelString(unsigned char channel);
+    std::string GetFirmwareVersionString();
 
     void SetRingEffectChannel(unsigned char channel);
 

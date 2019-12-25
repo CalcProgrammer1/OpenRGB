@@ -83,6 +83,53 @@ std::string AMDWraithPrismController::GetEffectChannelString(unsigned char chann
     return(ret_string);
 }
 
+std::string AMDWraithPrismController::GetFirmwareVersionString()
+{
+    std::string ret_string = "";
+
+    unsigned char usb_buf[] =
+    {
+        0x12, 0x20, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+    };
+
+    int             actual;
+    unsigned char   fw_buf[16] = {0x00};
+
+    libusb_interrupt_transfer(dev, 0x04, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
+
+    for(int char_idx = 0; char_idx < 16; char_idx+=2)
+    {
+        if(usb_buf[char_idx + 0x08] != 0)
+        {
+            fw_buf[char_idx / 2] = usb_buf[char_idx + 0x08];
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    ret_string.append((char *)fw_buf);
+
+    return(ret_string);
+}
+
 void AMDWraithPrismController::SetFanColor(unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char usb_buf[] =
