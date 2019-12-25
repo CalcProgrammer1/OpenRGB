@@ -15,6 +15,11 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* p
 
     name = "Thermaltake Poseidon Z RGB";
     type = DEVICE_TYPE_KEYBOARD;
+
+    for(int i = 0; i < 104; i++)
+    {
+        colors.push_back(0x00000000);
+    }
 }
 
 RGBController_PoseidonZRGB::~RGBController_PoseidonZRGB()
