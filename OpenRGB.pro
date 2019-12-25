@@ -1,7 +1,5 @@
 QT       += core gui
 
-LIBS += -lusb-1.0
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = OpenRGB
@@ -107,6 +105,7 @@ FORMS += \
 win32:INCLUDEPATH +=                                                    \
     dependencies/inpout32_1501/Win32/                                   \
     dependencies/razer-chroma-2.9.0/inc                                 \
+    dependencies/libusb-1.0.22/include                                  \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
@@ -129,7 +128,8 @@ win32:HEADERS +=                                                        \
 
 win32:LIBS +=                                                           \
     -lws2_32                                                            \
-    -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32
+    -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32              \
+    -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0
 
 win32:DEFINES -=                                                        \
     UNICODE
@@ -150,6 +150,9 @@ unix:INCLUDEPATH +=                                                     \
 unix:HEADERS +=                                                         \
     i2c_smbus/i2c_smbus_linux.h                                         \
     RGBController/RGBController_E131.h                                  \
+
+unix:LIBS +=                                                            \
+    -lusb-1.0
 
 unix:SOURCES +=                                                         \
     dependencies/libe131/src/e131.c                                     \
