@@ -11,7 +11,7 @@
 
 int RGBController_Polychrome::GetMode()
 {
-    return(polychrome->GetMode());
+    return(0);
 }
 
 void RGBController_Polychrome::SetMode(int mode)
