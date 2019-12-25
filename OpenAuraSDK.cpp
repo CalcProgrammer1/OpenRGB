@@ -387,7 +387,7 @@ void DetectRGBControllers(void)
     DetectLEDStripControllers(rgb_controllers);
     DetectHuePlusControllers(rgb_controllers);
 
-    //DetectAMDWraithPrismControllers(rgb_controllers);
+    DetectAMDWraithPrismControllers(rgb_controllers);
     DetectMSI3ZoneControllers(rgb_controllers);
 
 #ifdef WIN32

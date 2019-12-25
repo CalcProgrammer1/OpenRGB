@@ -25,7 +25,6 @@ INCLUDEPATH +=                                                          \
     qt/
 
 SOURCES +=                                                              \
-    dependencies/hidapi/hid.c                                           \
     main.cpp                                                            \
     OpenAuraSDK.cpp                                                     \
     qt/OpenRGBDeviceInfoPage.cpp                                        \
@@ -121,6 +120,7 @@ win32:INCLUDEPATH +=                                                    \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
+    dependencies/hidapi/hid_win.c                                       \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
@@ -167,6 +167,7 @@ unix:LIBS +=                                                            \
     -lusb-1.0
 
 unix:SOURCES +=                                                         \
+    dependencies/hidapi/hid.c                                           \
     dependencies/libe131/src/e131.c                                     \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
     RGBController/OpenRazerDetect.cpp                                   \
