@@ -1,20 +1,21 @@
 /*-----------------------------------------*\
-|  RGBController_HuePlus.h                  |
+|  RGBController_AMDWraithPrism.h           |
 |                                           |
-|  Generic RGB Interface for NZXT Hue+      |
+|  Generic RGB Interface for AMD Wraith     |
+|  Prism                                    |
 |                                           |
-|  Adam Honse (CalcProgrammer1) 6/20/2019   |
+|  Adam Honse (CalcProgrammer1) 12/25/2019  |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
-#include "serial_port.h"
-#include "HuePlusController.h"
+#include "AMDWraithPrismController.h"
 
-class RGBController_HuePlus : public RGBController
+class RGBController_AMDWraithPrism : public RGBController
 {
 public:
-    RGBController_HuePlus(HuePlusController* hueplus_ptr);
+    RGBController_AMDWraithPrism(AMDWraithPrismController* wraith_ptr);
+    ~RGBController_AMDWraithPrism();
     int GetMode();
     void SetMode(int mode);
     void SetCustomMode();
@@ -24,7 +25,5 @@ public:
     void UpdateLEDs();
 
 private:
-    HuePlusController*          hueplus;
-    std::vector<unsigned int>   leds_channel;
-    std::vector<unsigned int>   zones_channel;
+    AMDWraithPrismController*   wraith;
 };

@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_HuePlus.cpp               |
+|  RGBController_HuePlus.cpp                |
 |                                           |
 |  Generic RGB Interface for NZXT Hue+      |
 |                                           |

@@ -1,6 +1,6 @@
 #include "AMDWraithPrismController.h"
 #include "RGBController.h"
-//#include "RGBController_AMDWraithPrism.h"
+#include "RGBController_AMDWraithPrism.h"
 #include <vector>
 #include <libusb-1.0/libusb.h>
 
@@ -29,5 +29,9 @@ void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controller
         libusb_claim_interface(dev, 1);
 
         AMDWraithPrismController* controller = new AMDWraithPrismController(dev);
+
+        RGBController_AMDWraithPrism* rgb_controller = new RGBController_AMDWraithPrism(controller);
+
+        rgb_controllers.push_back(rgb_controller);
     }
 }

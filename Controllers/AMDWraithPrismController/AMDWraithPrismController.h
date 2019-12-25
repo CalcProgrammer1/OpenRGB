@@ -10,6 +10,8 @@
 #include <string>
 #include <libusb-1.0/libusb.h>
 
+#pragma once
+
 class AMDWraithPrismController
 {
 public:
