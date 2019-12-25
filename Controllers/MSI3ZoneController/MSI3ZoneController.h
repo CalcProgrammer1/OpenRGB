@@ -10,14 +10,14 @@
 #include "RGBController.h"
 
 #include <string>
-#include <libusb-1.0/libusb.h>
+#include "hidapi.h"
 
 #pragma once
 
 class MSI3ZoneController
 {
 public:
-    MSI3ZoneController(libusb_device_handle* dev_handle);
+    MSI3ZoneController(hid_device* dev_handle);
     ~MSI3ZoneController();
 
     char* GetDeviceName();
@@ -26,5 +26,5 @@ public:
     
 private:
     char                    device_name[32];
-    libusb_device_handle*   dev;
+    hid_device*             dev;
 };

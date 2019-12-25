@@ -8,6 +8,7 @@ TEMPLATE = app
 INCLUDEPATH +=                                                          \
     i2c_smbus/                                                          \
     i2c_tools/                                                          \
+    hidapi/                                                             \
     net_port/                                                           \
     serial_port/                                                        \
     Controllers/AMDWraithPrismController/                               \
@@ -31,6 +32,7 @@ SOURCES +=                                                              \
     qt/OpenRGBDialog.cpp                                                \
     i2c_smbus/i2c_smbus.cpp                                             \
     i2c_tools/i2c_tools.cpp                                             \
+    hidapi/hid.c                                                        \
     net_port/net_port.cpp                                               \
     qt/OpenRGBDialog2.cpp                                               \
     qt/OpenRGBSystemInfoPage.cpp                                        \
@@ -73,6 +75,7 @@ HEADERS +=                                                              \
     qt/OpenRGBDialog.h                                                  \
     i2c_smbus/i2c_smbus.h                                               \
     i2c_tools/i2c_tools.h                                               \
+    hidapi/hidapi.h                                                     \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBSystemInfoPage.h                                          \

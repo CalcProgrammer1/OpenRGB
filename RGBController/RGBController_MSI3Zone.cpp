@@ -23,14 +23,17 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* msi_ptr)
     led left_led;
     left_led.name = "Keyboard Left";
     leds.push_back(left_led);
+    colors.push_back(0x00000000);
 
     led mid_led;
     mid_led.name = "Keyboard Middle";
     leds.push_back(mid_led);
+    colors.push_back(0x00000000);
 
     led right_led;
     right_led.name = "Keyboard Right";
     leds.push_back(right_led);
+    colors.push_back(0x00000000);
 
     zone keyboard_zone;
     keyboard_zone.name = "Keyboard";
@@ -45,6 +48,7 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* msi_ptr)
     led aux_led;
     aux_led.name = "Aux";
     leds.push_back(aux_led);
+    colors.push_back(0x00000000);
 
     zone aux_zone;
     aux_zone.name = "Aux";
@@ -77,20 +81,35 @@ void RGBController_MSI3Zone::SetCustomMode()
 
 void RGBController_MSI3Zone::SetAllLEDs(RGBColor color)
 {
+    for(int i = 0; i < colors.size(); i++)
+    {
+        colors[i] = color;
+    }
 
+    UpdateLEDs();
 }
 
 void RGBController_MSI3Zone::SetAllZoneLEDs(int zone, RGBColor color)
 {
+    for (int x = 0; x < zones[zone].map.size(); x++)
+    {
+        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        {
+            colors[zones[zone].map[x][y]] = color;
+        }
+    }
 
+    UpdateLEDs();
 }
 
 void RGBController_MSI3Zone::SetLED(int led, RGBColor color)
 {
+    colors[led] = color;
 
+    UpdateLEDs();
 }
 
 void RGBController_MSI3Zone::UpdateLEDs()
 {
-
+    msi->SetLEDs(colors);
 }

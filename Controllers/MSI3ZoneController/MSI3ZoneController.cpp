@@ -9,11 +9,11 @@
 
 #include "MSI3ZoneController.h"
 
-MSI3ZoneController::MSI3ZoneController(libusb_device_handle* dev_handle)
+MSI3ZoneController::MSI3ZoneController(hid_device* dev_handle)
 {
     dev = dev_handle;
 
-    strcpy(device_name, "MSI 3-Zone Keyboard");
+    //strcpy(device_name, "MSI 3-Zone Keyboard");
 }
 
 MSI3ZoneController::~MSI3ZoneController()
@@ -41,38 +41,38 @@ void MSI3ZoneController::SetLEDs(std::vector<RGBColor> colors)
     buf[6] = RGBGetBValue(colors[0]);
     buf[7] = 236;
 
-    libusb_control_transfer(dev, LIBUSB_DT_HID, LIBUSB_REQUEST_SET_CONFIGURATION, 0x0300, 0x03, buf, 8, 0);
+    hid_send_feature_report(dev, buf, 8);
 
     buf[3] = 2;
     buf[4] = RGBGetRValue(colors[1]);
     buf[5] = RGBGetGValue(colors[1]);
     buf[6] = RGBGetBValue(colors[1]);
 
-    libusb_control_transfer(dev, LIBUSB_DT_HID, LIBUSB_REQUEST_SET_CONFIGURATION, 0x0300, 0x03, buf, 8, 0);
+    hid_send_feature_report(dev, buf, 8);
 
     buf[3] = 3;
     buf[4] = RGBGetRValue(colors[2]);
     buf[5] = RGBGetGValue(colors[2]);
     buf[6] = RGBGetBValue(colors[2]);
 
-    libusb_control_transfer(dev, LIBUSB_DT_HID, LIBUSB_REQUEST_SET_CONFIGURATION, 0x0300, 0x03, buf, 8, 0);
+    hid_send_feature_report(dev, buf, 8);
 
     buf[3] = 4;
     buf[4] = RGBGetRValue(colors[3]);
     buf[5] = RGBGetGValue(colors[3]);
     buf[6] = RGBGetBValue(colors[3]);
 
-    libusb_control_transfer(dev, LIBUSB_DT_HID, LIBUSB_REQUEST_SET_CONFIGURATION, 0x0300, 0x03, buf, 8, 0);
+    hid_send_feature_report(dev, buf, 8);
 
     buf[3] = 5;
 
-    libusb_control_transfer(dev, LIBUSB_DT_HID, LIBUSB_REQUEST_SET_CONFIGURATION, 0x0300, 0x03, buf, 8, 0);
+    hid_send_feature_report(dev, buf, 8);
 
     buf[3] = 6;
 
-    libusb_control_transfer(dev, LIBUSB_DT_HID, LIBUSB_REQUEST_SET_CONFIGURATION, 0x0300, 0x03, buf, 8, 0);
+    hid_send_feature_report(dev, buf, 8);
 
     buf[3] = 7;
 
-    libusb_control_transfer(dev, LIBUSB_DT_HID, LIBUSB_REQUEST_SET_CONFIGURATION, 0x0300, 0x03, buf, 8, 0);
+    hid_send_feature_report(dev, buf, 8);
 }
