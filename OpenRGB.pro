@@ -20,6 +20,7 @@ INCLUDEPATH +=                                                          \
     Controllers/LEDStripController/                                     \
     Controllers/MSI3ZoneController/                                     \
     Controllers/PolychromeController/                                   \
+    Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
     RGBController/                                                      \
     qt/
@@ -54,6 +55,9 @@ SOURCES +=                                                              \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
     Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
     Controllers/PolychromeController/PolychromeController.cpp           \
+    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
+    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
+    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
@@ -87,6 +91,7 @@ HEADERS +=                                                              \
     Controllers/LEDStripController/LEDStripController.h                 \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
     Controllers/PolychromeController/PolychromeController.h             \
+    Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
@@ -98,6 +103,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_LEDStrip.h                              \
     RGBController/RGBController_MSI3Zone.h                              \
     RGBController/RGBController_Polychrome.h                            \
+    RGBController/RGBController_PoseidonZRGB.h                          \
     RGBController/RGBController_RGBFusion.h
 
 RESOURCES += \
