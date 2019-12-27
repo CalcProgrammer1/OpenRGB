@@ -74,6 +74,11 @@ unsigned int PolychromeController::GetLEDCount()
     return(led_count);
 }
 
+unsigned int PolychromeController::GetMode()
+{
+    return(0);
+}
+
 void PolychromeController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
     if (asr_led)

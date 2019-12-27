@@ -60,6 +60,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
     RGBController/RGBController_LEDStrip.cpp                            \
+    RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_RGBFusion.cpp
 
 HEADERS +=                                                              \

@@ -76,6 +76,7 @@ public:
 
     char*           GetDeviceName();
     unsigned int    GetLEDCount();
+    unsigned int    GetMode();
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode);
