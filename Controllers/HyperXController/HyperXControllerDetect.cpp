@@ -82,11 +82,9 @@ void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
             {
                 // Test for HyperX SPD at slot_addr
                 // This test was copied from NGENUITY software
-                // Tests SPD addresses in order: 0x40, 0x41, 0x68, and 0x67
+                // Tests SPD addresses in order: 0x40, 0x41
                 if((busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x40) == 0x01)
-                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x41) == 0x98)
-                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x68) == 0x10)
-                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x67) == 0x00))
+                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x41) == 0x98))
                 {
                     slots_valid |= (1 << (slot_addr - 0x50));
                 }
