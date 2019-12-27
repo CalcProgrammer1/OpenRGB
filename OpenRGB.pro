@@ -50,6 +50,7 @@ SOURCES +=                                                              \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     Controllers/PolychromeController/PolychromeController.cpp           \
+    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
