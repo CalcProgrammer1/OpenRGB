@@ -6,6 +6,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*----------------------------------------------------------------------*\
+| This list contains the available SMBus addresses for mapping Aura RAM  |
+\*----------------------------------------------------------------------*/
+#define AURA_RAM_ADDRESS_COUNT  17
+
+static const unsigned char aura_ram_addresses[] =
+{
+    0x70,
+    0x71,
+    0x73,
+    0x74,
+    0x75,
+    0x76,
+    0x78,
+    0x79,
+    0x7A,
+    0x7B,
+    0x7C,
+    0x7D,
+    0x7E,
+    0x7F,
+    0x4F,
+    0x66,
+    0x67
+};
+
 /******************************************************************************************\
 *                                                                                          *
 *   TestForAuraController                                                                  *
@@ -62,6 +88,8 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
+        int address_list_idx = 0;
+
         // Remap Aura-enabled RAM modules on 0x77
         for (unsigned int slot = 0; slot < 8; slot++)
         {
@@ -74,16 +102,26 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
 
             AuraController temp_controller(busses[bus], 0x77);
 
+            // Search through available addresses and skip over ones that are already in use
+            res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+
+            while (res >= 0)
+            {
+                address_list_idx++;
+                res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+            }
+
             temp_controller.AuraRegisterWrite(AURA_REG_SLOT_INDEX, slot);
-            temp_controller.AuraRegisterWrite(AURA_REG_I2C_ADDRESS, 0xE0 + (slot << 1));
+            temp_controller.AuraRegisterWrite(AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
+            address_list_idx++;
         }
 
         // Add Aura-enabled controllers at their remapped addresses
-        for (unsigned int slot = 0; slot < 8; slot++)
+        for (unsigned int address_list_idx = 0; address_list_idx < AURA_RAM_ADDRESS_COUNT; address_list_idx++)
         {
-            if (TestForAuraController(busses[bus], 0x70 + slot))
+            if (TestForAuraController(busses[bus], aura_ram_addresses[address_list_idx]))
             {
-                new_aura = new AuraController(busses[bus], 0x70 + slot);
+                new_aura = new AuraController(busses[bus], aura_ram_addresses[address_list_idx]);
                 new_controller = new RGBController_Aura(new_aura);
                 rgb_controllers.push_back(new_controller);
             }
