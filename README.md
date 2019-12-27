@@ -38,10 +38,12 @@ After getting a solid Aura implementation, the project branched out into other m
 **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
 
 #### Linux:
-  1. Either open the project using QT Creator or build it using qmake.
+  1. Either open the project using QT Creator or build it using qmake.  You will need the libusb-1.0-0 (or equivalent) development package from your distribution's package manager installed.
     
-         cd OpenAuraSDK
-         qmake OpenAuraSDK.pro
+         git clone https://gitlab.com/CalcProgrammer1/OpenRGB
+         cd OpenRGB
+         git submodule update --init --recursive
+         qmake OpenRGB.pro
          make
      
 
