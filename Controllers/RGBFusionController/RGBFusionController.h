@@ -16,14 +16,14 @@ typedef unsigned char	rgb_fusion_dev_id;
 
 enum
 {
-    RGB_FUSION_BANK_0_REG_CH_0_R    = 0x00, /* Channel 0 Red Value                  */
-    RGB_FUSION_BANK_0_REG_CH_0_G    = 0x01, /* Channel 0 Green Value                */
-    RGB_FUSION_BANK_0_REG_CH_0_B    = 0x02, /* Channel 0 Blue Value                 */
-    RGB_FUSION_BANK_0_REG_CH_1_R    = 0x08, /* Channel 1 Red Value                  */
-    RGB_FUSION_BANK_0_REG_CH_1_G    = 0x09, /* Channel 1 Green Value                */
-    RGB_FUSION_BANK_0_REG_CH_1_B    = 0x0A, /* Channel 1 Blue Value                 */
-    RGB_FUSION_BANK_1_REG_CH_0_MODE = 0x03, /* Channel 0 Mode Selection             */
-    RGB_FUSION_BANK_1_REG_CH_1_MODE = 0x13, /* Channel 1 Mode Selection             */
+    RGB_FUSION_BANK_0_REG_CH_0_MODE = 0x03, /* Channel 0 Mode Selection             */
+    RGB_FUSION_BANK_0_REG_CH_1_MODE = 0x13, /* Channel 1 Mode Selection             */
+    RGB_FUSION_BANK_1_REG_CH_0_R    = 0x00, /* Channel 0 Red Value                  */
+    RGB_FUSION_BANK_1_REG_CH_0_G    = 0x01, /* Channel 0 Green Value                */
+    RGB_FUSION_BANK_1_REG_CH_0_B    = 0x02, /* Channel 0 Blue Value                 */
+    RGB_FUSION_BANK_1_REG_CH_1_R    = 0x08, /* Channel 1 Red Value                  */
+    RGB_FUSION_BANK_1_REG_CH_1_G    = 0x09, /* Channel 1 Green Value                */
+    RGB_FUSION_BANK_1_REG_CH_1_B    = 0x0A, /* Channel 1 Blue Value                 */
     RGB_FUSION_BANK_SWITCH_REG      = 0xF0, /* Bank Switch Register                 */
 };
 

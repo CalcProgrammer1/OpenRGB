@@ -22,6 +22,10 @@ RGBFusionController::RGBFusionController(i2c_smbus_interface* bus, rgb_fusion_de
 
     // Set LED count
     led_count = 2;
+
+    // Enable control
+    switch_bank(0);
+    bus->i2c_smbus_write_byte_data(dev, 0x02, 0x09);
 }
 
 RGBFusionController::~RGBFusionController()
@@ -132,37 +136,38 @@ void RGBFusionController::dump()
 
 unsigned char RGBFusionController::get_mode_ch_0()
 {
-    s32 temp = bus->i2c_smbus_read_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_0_MODE);
-    return(temp);
+    return(bus->i2c_smbus_read_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_MODE));
 }
 
 unsigned char RGBFusionController::get_mode_ch_1()
 {
-    return(bus->i2c_smbus_read_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_1_MODE));
+    return(bus->i2c_smbus_read_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_MODE));
 }
 
 void RGBFusionController::set_color_ch_0(unsigned char red, unsigned char green, unsigned char blue)
 {
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_R, red);
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_G, green);
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_B, blue);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_0_R, red);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_0_G, green);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_0_B, blue);
+    bus->i2c_smbus_write_byte_data(dev, 0x03, 0x01);
 }
 
 void RGBFusionController::set_color_ch_1(unsigned char red, unsigned char green, unsigned char blue)
 {
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_R, red);
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_G, green);
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_B, blue);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_1_R, red);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_1_G, green);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_1_B, blue);
+    bus->i2c_smbus_write_byte_data(dev, 0x0B, 0x01);
 }
 
 void RGBFusionController::set_mode_ch_0(unsigned char mode)
 {
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_0_MODE, mode + RGB_FUSION_WRITE_MODE_OFST);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_MODE, mode + RGB_FUSION_WRITE_MODE_OFST);
 }
 
 void RGBFusionController::set_mode_ch_1(unsigned char mode)
 {
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_1_REG_CH_1_MODE, mode + RGB_FUSION_WRITE_MODE_OFST);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_MODE, mode + RGB_FUSION_WRITE_MODE_OFST);
 }
 
 void RGBFusionController::switch_bank(unsigned char bank)
