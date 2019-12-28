@@ -1,5 +1,4 @@
 #include "OpenRGBDialog.h"
-#include "OpenAuraSDK.h"
 
 using namespace Ui;
 

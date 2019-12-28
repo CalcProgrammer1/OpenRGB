@@ -2,7 +2,6 @@
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
-#include "OpenAuraSDK.h"
 #include <QLabel>
 #include <QTabBar>
 

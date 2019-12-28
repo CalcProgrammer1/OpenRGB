@@ -24,7 +24,7 @@ INCLUDEPATH +=                                                          \
 
 SOURCES +=                                                              \
     main.cpp                                                            \
-    OpenAuraSDK.cpp                                                     \
+    OpenRGB.cpp                                                         \
     qt/OpenRGBDeviceInfoPage.cpp                                        \
     qt/OpenRGBDevicePage.cpp                                            \
     qt/OpenRGBDialog.cpp                                                \

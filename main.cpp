@@ -6,7 +6,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-#include "OpenAuraSDK.h"
+#include "OpenRGB.h"
 #include "RGBController.h"
 #include "i2c_smbus.h"
 #include <vector>

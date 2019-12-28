@@ -1,14 +1,12 @@
 /******************************************************************************************\
 *                                                                                          *
-*   OpenAuraSDK.cpp                                                                        *
+*   OpenRGB.cpp                                                                            *
 *                                                                                          *
-*       Functions for communicating with Asus Aura devices on Windows and Linux            *
+*       Functions for communicating with RGBController API devices on Windows and Linux    *
 *                                                                                          *
 \******************************************************************************************/
 
-#include "AuraController.h"
 #include "RGBController.h"
-#include "RGBController_AorusGPU.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -319,40 +317,6 @@ void DetectI2CBusses()
 
 #endif  /* WIN32 */
 
-/******************************************************************************************\
-*                                                                                          *
-*   DumpAuraRegisters                                                                      *
-*                                                                                          *
-*       Dumps register values from an Aura device                                          *
-*                                                                                          *
-\******************************************************************************************/
-
-void DumpAuraRegisters(AuraController * controller)
-{
-    int i, j;
-
-    int start = 0x0000;
-
-    FILE* file = freopen("auradump.txt", "a", stdout);
-
-    printf("       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
-
-    for (i = 0; i < 0xFFFF; i += 16)
-    {
-        printf("%04x: ", i + start);
-
-        for (j = 0; j < 16; j++)
-        {
-            printf("%02x ", controller->AuraRegisterRead(start + i + j));
-        }
-
-        printf("\r\n");
-    }
-
-    fclose(file);
-
-}   /* DumpAuraRegisters() */
-
 void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairProControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
@@ -365,6 +329,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectRazerChromaSDKControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectAorusGPUControllers(std::vector<RGBController*> &rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -390,18 +355,19 @@ void DetectRGBControllers(void)
 
     DetectAMDWraithPrismControllers(rgb_controllers);
 
+    /*-------------------------------------*\
+    | Windows-only devices                  |
+    \*-------------------------------------*/
 #ifdef WIN32
     DetectRazerChromaSDKControllers(rgb_controllers);
+    //DetectAorusGPUControllers(rgb_controllers);
+
+    /*-------------------------------------*\
+    | Linux-only devices                    |
+    \*-------------------------------------*/
 #else
     DetectE131Controllers(rgb_controllers);
     DetectOpenRazerControllers(rgb_controllers);
 #endif
 
-    //This is for testing Aorus GPU
-#if 0
-    RGBController_AorusGPU * aorus_rgb = new RGBController_AorusGPU();
-
-    rgb_controllers.push_back(aorus_rgb);
-#endif
-
-}
+}   /* DetectRGBControllers() */
