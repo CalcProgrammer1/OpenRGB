@@ -14,6 +14,7 @@ INCLUDEPATH +=                                                          \
     Controllers/AuraController/                                         \
     Controllers/CorsairController/                                      \
     Controllers/CorsairProController/                                   \
+    Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
     Controllers/LEDStripController/                                     \
@@ -43,6 +44,8 @@ SOURCES +=                                                              \
     Controllers/CorsairController/CorsairControllerDetect.cpp           \
     Controllers/CorsairProController/CorsairProController.cpp           \
     Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
+    Controllers/Hue2Controller/Hue2Controller.cpp                       \
+    Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
     Controllers/HuePlusController/HuePlusController.cpp                 \
     Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXController/HyperXController.cpp                   \
@@ -57,6 +60,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairPro.cpp                          \
+    RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
     RGBController/RGBController_LEDStrip.cpp                            \
@@ -78,6 +82,7 @@ HEADERS +=                                                              \
     Controllers/AuraController/AuraController.h                         \
     Controllers/CorsairController/CorsairController.h                   \
     Controllers/CorsairProController/CorsairProController.h             \
+    Controllers/Hue2Controller/Hue2Controller.h                         \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXController/HyperXController.h                     \
     Controllers/LEDStripController/LEDStripController.h                 \
@@ -86,6 +91,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairPro.h                            \
+    RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
     RGBController/RGBController_Polychrome.h                            \
