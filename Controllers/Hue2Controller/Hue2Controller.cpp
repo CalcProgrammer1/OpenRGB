@@ -69,6 +69,10 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int channel)
         {
             switch(usb_buf[start + dev])
             {
+            case 0x01: //Hue 1 strip
+                num_leds_on_channel += 10;
+                break;
+                
             case 0x04: //Hue 2 strip
                 num_leds_on_channel += 10;
                 break;
@@ -162,7 +166,7 @@ void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> 
     usb_buf[0x01] = 0x11;
     pkt_max       = 20;
 
-    if(pkt_max > (colors.size() - 20))
+    if(pkt_max > ((signed int)colors.size() - 20))
     {
         pkt_max = colors.size() - 20;
     }
