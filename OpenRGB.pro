@@ -85,6 +85,7 @@ HEADERS +=                                                              \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBSystemInfoPage.h                                          \
+    serial_port/find_usb_serial_port.h                                  \
     serial_port/serial_port.h                                           \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
     Controllers/AuraController/AuraController.h                         \
@@ -133,6 +134,7 @@ win32:SOURCES +=                                                        \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
+    serial_port/find_usb_serial_port_win.cpp                            \
     wmi/wmi.cpp                                                         \
     RGBController/AorusGPUDetect.cpp                                    \
     RGBController/RGBController_AorusGPU.cpp                            \
@@ -176,5 +178,6 @@ unix:LIBS +=                                                            \
 
 unix:SOURCES +=                                                         \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
+    serial_port/find_usb_serial_port_linux.cpp                          \
     RGBController/OpenRazerDetect.cpp                                   \
     RGBController/RGBController_OpenRazer.cpp                           \
