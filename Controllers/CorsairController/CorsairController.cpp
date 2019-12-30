@@ -53,7 +53,7 @@ void CorsairController::SetAllColors(unsigned char red, unsigned char green, uns
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_MODE, CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
 }
 
-void CorsairController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void CorsairController::SetLEDColor(unsigned int /*led*/, unsigned char red, unsigned char green, unsigned char blue)
 {
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_FADE_TIME, 0x00);
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_RED_VAL, red);
@@ -62,7 +62,7 @@ void CorsairController::SetLEDColor(unsigned int led, unsigned char red, unsigne
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_MODE, CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
 }
 
-void CorsairController::SetMode(unsigned char mode)
+void CorsairController::SetMode(unsigned char /*mode*/)
 {
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_MODE, CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
 }

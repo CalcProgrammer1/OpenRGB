@@ -40,7 +40,7 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 
             std::vector<int> *new_zone_map = new std::vector<int>();
 
-            for (int led_ch_idx = 0; led_ch_idx < hueplus->channel_leds[channel_idx]; led_ch_idx++)
+            for (unsigned led_ch_idx = 0; led_ch_idx < hueplus->channel_leds[channel_idx]; led_ch_idx++)
             {
                 colors.push_back(0x00000000);
 
@@ -72,7 +72,7 @@ int RGBController_HuePlus::GetMode()
     return 0;
 }
 
-void RGBController_HuePlus::SetMode(int mode)
+void RGBController_HuePlus::SetMode(int /*mode*/)
 {
 
 }
@@ -84,7 +84,7 @@ void RGBController_HuePlus::SetCustomMode()
 
 void RGBController_HuePlus::SetAllLEDs(RGBColor color)
 {
-    for (int i = 0; i < colors.size(); i++)
+    for (std::size_t i = 0; i < colors.size(); i++)
     {
         colors[i] = color;
     }
@@ -94,11 +94,11 @@ void RGBController_HuePlus::SetAllLEDs(RGBColor color)
 
 void RGBController_HuePlus::SetAllZoneLEDs(int zone, RGBColor color)
 {
-    int channel = zones_channel[zone];
+    unsigned int channel = zones_channel[zone];
 
-    for (int x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
     {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
         {
             colors[zones[zone].map[x][y]] = color;
         }
@@ -106,7 +106,7 @@ void RGBController_HuePlus::SetAllZoneLEDs(int zone, RGBColor color)
 
     std::vector<RGBColor> channel_colors;
 
-    for(int color = 0; color < colors.size(); color++)
+    for(std::size_t color = 0; color < colors.size(); color++)
     {
         if(leds_channel[color] == channel)
         {
@@ -119,12 +119,12 @@ void RGBController_HuePlus::SetAllZoneLEDs(int zone, RGBColor color)
 
 void RGBController_HuePlus::SetLED(int led, RGBColor color)
 {
-    int channel = leds_channel[led];
+    unsigned int channel = leds_channel[led];
     colors[led] = color;
 
     std::vector<RGBColor> channel_colors;
 
-    for(int color = 0; color < colors.size(); color++)
+    for(std::size_t color = 0; color < colors.size(); color++)
     {
         if(leds_channel[color] == channel)
         {

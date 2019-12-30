@@ -77,6 +77,8 @@ public:
     std::vector<RGBColor>   colors;         /* Color buffer             */
     device_type             type;           /* device type              */
 
+    virtual ~RGBController() = default;
+
     virtual int  GetMode()         = 0;
     virtual void SetMode(int mode) = 0;
     virtual void SetCustomMode()   = 0;

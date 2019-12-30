@@ -5,8 +5,8 @@ using namespace Ui;
 
 OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>& bus, QWidget *parent) :
     QFrame(parent),
-    busses(bus),
-    ui(new Ui::OpenRGBSystemInfoPageUi)
+    ui(new Ui::OpenRGBSystemInfoPageUi),
+    busses(bus)
 {
     ui->setupUi(this);
 
@@ -22,7 +22,7 @@ OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>&
     \*-----------------------------------------------------*/
     ui->SMBusAdaptersBox->clear();
 
-    for (int i = 0; i < busses.size(); i++)
+    for (std::size_t i = 0; i < busses.size(); i++)
     {
         ui->SMBusAdaptersBox->addItem(busses[i]->device_name);
     }

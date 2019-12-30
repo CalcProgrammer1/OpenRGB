@@ -54,6 +54,8 @@ class i2c_smbus_interface
 public:
     char device_name[512];
 
+    virtual ~i2c_smbus_interface() = default;
+
     //Functions derived from i2c-core.c
     s32 i2c_smbus_write_quick(u8 addr, u8 value);
     s32 i2c_smbus_read_byte(u8 addr);

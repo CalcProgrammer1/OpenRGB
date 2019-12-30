@@ -12,17 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
-
 AMDWraithPrismController::AMDWraithPrismController(libusb_device_handle* dev_handle)
 {
     dev = dev_handle;

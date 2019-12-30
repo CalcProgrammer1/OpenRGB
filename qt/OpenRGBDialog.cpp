@@ -53,7 +53,7 @@ OpenRGBDialog::OpenRGBDialog(std::vector<i2c_smbus_interface *>& bus, std::vecto
     ui->ButtonMagenta->setFlat(true);
     ui->ButtonMagenta->update();
 
-    for (int i = 0; i < controllers.size(); i++)
+    for (std::size_t i = 0; i < controllers.size(); i++)
     {
         ui->ComboDevices->addItem(controllers[i]->name.c_str());
     }
@@ -122,7 +122,7 @@ void Ui::OpenRGBDialog::on_ButtonSetAll_clicked()
         ui->EditLED0B->text().toInt()
     );
 
-    for (int i = 0; i < controllers.size(); i++)
+    for (std::size_t i = 0; i < controllers.size(); i++)
     {
         controllers[i]->SetCustomMode();
         controllers[i]->SetAllLEDs(color);
@@ -162,11 +162,11 @@ void Ui::OpenRGBDialog::on_ButtonSetLED_clicked()
     controllers[ui->ComboDevices->currentIndex()]->SetLED(ui->ComboLEDs->currentIndex(), color);
 }
 
-void Ui::OpenRGBDialog::on_ComboDevices_currentIndexChanged(int index)
+void Ui::OpenRGBDialog::on_ComboDevices_currentIndexChanged()
 {
     ui->ComboModes->clear();
 
-    for (int i = 0; i < controllers[ui->ComboDevices->currentIndex()]->modes.size(); i++)
+    for (std::size_t i = 0; i < controllers[ui->ComboDevices->currentIndex()]->modes.size(); i++)
     {
         ui->ComboModes->addItem(controllers[ui->ComboDevices->currentIndex()]->modes[i].name.c_str());
     }
@@ -175,7 +175,7 @@ void Ui::OpenRGBDialog::on_ComboDevices_currentIndexChanged(int index)
 
     ui->ComboZones->clear();
 
-    for (int i = 0; i < controllers[ui->ComboDevices->currentIndex()]->zones.size(); i++)
+    for (std::size_t i = 0; i < controllers[ui->ComboDevices->currentIndex()]->zones.size(); i++)
     {
         ui->ComboZones->addItem(controllers[ui->ComboDevices->currentIndex()]->zones[i].name.c_str());
     }
@@ -184,7 +184,7 @@ void Ui::OpenRGBDialog::on_ComboDevices_currentIndexChanged(int index)
 
     ui->ComboLEDs->clear();
 
-    for (int i = 0; i < controllers[ui->ComboDevices->currentIndex()]->leds.size(); i++)
+    for (std::size_t i = 0; i < controllers[ui->ComboDevices->currentIndex()]->leds.size(); i++)
     {
         ui->ComboLEDs->addItem(controllers[ui->ComboDevices->currentIndex()]->leds[i].name.c_str());
     }
@@ -192,7 +192,7 @@ void Ui::OpenRGBDialog::on_ComboDevices_currentIndexChanged(int index)
     ui->ComboLEDs->setCurrentIndex(0);
 }
 
-void Ui::OpenRGBDialog::on_ComboModes_currentIndexChanged(int index)
+void Ui::OpenRGBDialog::on_ComboModes_currentIndexChanged()
 {
     controllers[ui->ComboDevices->currentIndex()]->SetMode(ui->ComboModes->currentIndex());
 }

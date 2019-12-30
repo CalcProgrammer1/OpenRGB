@@ -66,7 +66,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     \*-----------------------------------------------------*/
     ui->ModeBox->clear();
 
-    for (int i = 0; i < device->modes.size(); i++)
+    for (std::size_t i = 0; i < device->modes.size(); i++)
     {
         ui->ModeBox->addItem(device->modes[i].name.c_str());
     }
@@ -75,7 +75,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 
     ui->ZoneBox->clear();
 
-    for (int i = 0; i < device->zones.size(); i++)
+    for (std::size_t i = 0; i < device->zones.size(); i++)
     {
         ui->ZoneBox->addItem(device->zones[i].name.c_str());
     }
@@ -84,7 +84,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 
     ui->LEDBox->clear();
 
-    for (int i = 0; i < device->leds.size(); i++)
+    for (std::size_t i = 0; i < device->leds.size(); i++)
     {
         ui->LEDBox->addItem(device->leds[i].name.c_str());
     }
@@ -97,17 +97,17 @@ OpenRGBDevicePage::~OpenRGBDevicePage()
     delete ui;
 }
 
-void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
+void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
 {
 
 }
 
-void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
+void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int /*index*/)
 {
 
 }
 
-void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int index)
+void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
 {
     /*-----------------------------------------------------*\
     | Change device mode                                    |
@@ -274,32 +274,32 @@ void Ui::OpenRGBDevicePage::updateHSV()
     UpdatingColor = false;
 }
 
-void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int arg1)
+void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int /*arg1*/)
 {
     updateHSV();
 }
 
-void Ui::OpenRGBDevicePage::on_HueSpinBox_valueChanged(int arg1)
+void Ui::OpenRGBDevicePage::on_HueSpinBox_valueChanged(int /*arg1*/)
 {
     updateRGB();
 }
 
-void Ui::OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int arg1)
+void Ui::OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int /*arg1*/)
 {
     updateHSV();
 }
 
-void Ui::OpenRGBDevicePage::on_SatSpinBox_valueChanged(int arg1)
+void Ui::OpenRGBDevicePage::on_SatSpinBox_valueChanged(int /*arg1*/)
 {
     updateRGB();
 }
 
-void Ui::OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int arg1)
+void Ui::OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int /*arg1*/)
 {
     updateHSV();
 }
 
-void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int arg1)
+void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int /*arg1*/)
 {
     updateRGB();
 }

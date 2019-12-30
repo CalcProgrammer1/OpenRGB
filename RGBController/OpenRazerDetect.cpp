@@ -22,7 +22,6 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     char driver_path[512];
     DIR *dir;
     struct dirent *ent;
-    int test_fd;
     bool done = false;
     int driver_to_read = 0;
 
@@ -97,7 +96,6 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
                 }
                 else
                 {
-                    int device_type;
                     char device_string[1024];
                     strcpy(device_string, driver_path);
                     strcat(device_string, ent->d_name);

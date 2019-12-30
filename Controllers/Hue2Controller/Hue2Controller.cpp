@@ -10,18 +10,6 @@
 #include <iostream>
 #include <string>
 
-
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
-
 Hue2Controller::Hue2Controller(libusb_device_handle* dev_handle)
 {
     dev = dev_handle;
@@ -33,7 +21,7 @@ Hue2Controller::~Hue2Controller()
 {
 }
 
-unsigned int Hue2Controller::GetStripsOnChannel(unsigned int channel)
+unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
 {
     unsigned int ret_val = 0;
 
@@ -128,7 +116,7 @@ void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> 
     };
     int             actual;
 
-    int pkt_max = 20;
+    std::size_t pkt_max = 20;
 
     /*-----------------------------------------------------*\
     | Set channel in USB packets                            |
@@ -144,7 +132,7 @@ void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> 
         pkt_max = colors.size();
     }
 
-    for (int idx = 0; idx < pkt_max; idx++)
+    for (std::size_t idx = 0; idx < pkt_max; idx++)
     {
         int pixel_idx = idx * 3;
         RGBColor color = colors[idx];
@@ -166,14 +154,12 @@ void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> 
     usb_buf[0x01] = 0x11;
     pkt_max       = 20;
 
-    if(pkt_max > ((signed int)colors.size() - 20))
-    {
-        pkt_max = colors.size() - 20;
-    }
+    if (colors.size() > 20)
+        pkt_max = std::min(pkt_max, colors.size() - 20);
 
     if(pkt_max > 0)
     {
-        for (int idx = 0; idx < pkt_max; idx++)
+        for (std::size_t idx = 0; idx < pkt_max; idx++)
         {
             int pixel_idx = idx * 3;
             RGBColor color = colors[idx + 20];

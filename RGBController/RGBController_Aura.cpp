@@ -61,9 +61,9 @@ void RGBController_Aura::SetAllZoneLEDs(int zone, RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    for (int x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
     {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
         {
             if (GetMode() == 0)
             {
@@ -95,7 +95,7 @@ void RGBController_Aura::SetLED(int led, RGBColor color)
 
 void RGBController_Aura::UpdateLEDs()
 {
-    for(int led = 0; led < colors.size(); led++)
+    for(std::size_t led = 0; led < colors.size(); led++)
     {
         unsigned char red = RGBGetRValue(colors[led]);
         unsigned char grn = RGBGetGValue(colors[led]);
@@ -149,12 +149,12 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
     aura_modes[13].name = "Chase Rainbow Pulse";
     aura_modes[14].name = "Random Flicker";
 
-    for (int i = 0; i < (AURA_NUMBER_MODES + 1); i++)
+    for (std::size_t i = 0; i < (AURA_NUMBER_MODES + 1); i++)
     {
         modes.push_back(aura_modes[i]);
     }
 
-    for (int i = 0; i < aura->GetLEDCount(); i++)
+    for (std::size_t i = 0; i < aura->GetLEDCount(); i++)
     {
         aura_channels.push_back(aura->GetChannel(i));
 
@@ -169,12 +169,12 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
     std::vector<unsigned char> aura_zones;
 
     // Search through all LEDs and create zones for each channel type
-    for (int i = 0; i < aura_channels.size(); i++)
+    for (std::size_t i = 0; i < aura_channels.size(); i++)
     {
         bool matched = false;
 
         // Search through existing zones to make sure we don't create a duplicate zone
-        for (int j = 0; j < aura_zones.size(); j++)
+        for (std::size_t j = 0; j < aura_zones.size(); j++)
         {
             if (aura_channels[i] == aura_zones[j])
             {
@@ -192,7 +192,7 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
             new_zone->name = aura->GetChannelName(i);
 
             // Find all LEDs with this channel type and add them to zone
-            for (int j = 0; j < aura->GetLEDCount(); j++)
+            for (std::size_t j = 0; j < aura->GetLEDCount(); j++)
             {
                 if (aura->GetChannel(j) == aura_channels[i])
                 {

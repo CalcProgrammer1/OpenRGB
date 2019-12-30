@@ -39,9 +39,9 @@ void RGBController_Corsair::SetAllZoneLEDs(int zone, RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    for (int x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
     {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
         {
             corsair->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
         }
@@ -82,7 +82,7 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
         modes.push_back(corsair_modes[i]);
     }
 
-    for (int i = 0; i < corsair->GetLEDCount(); i++)
+    for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
     {
         led* new_led = new led();
 
@@ -99,7 +99,7 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
 
     std::vector<int> zone_row;
 
-    for (int i = 0; i < corsair->GetLEDCount(); i++)
+    for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
     {
         zone_row.push_back(i);
     }

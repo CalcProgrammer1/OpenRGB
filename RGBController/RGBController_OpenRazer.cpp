@@ -100,7 +100,7 @@ void RGBController_OpenRazer::UpdateLEDs()
             {
                 char update_value = 1;
                 
-                for (int row = 0; row < matrix_rows; row++)
+                for (unsigned int row = 0; row < matrix_rows; row++)
                 {
                     unsigned int output_array_size;
                     unsigned int output_offset;
@@ -126,7 +126,7 @@ void RGBController_OpenRazer::UpdateLEDs()
                         output_array[2] = matrix_cols - 1;
                     }
 
-                    for(int col = 0; col < matrix_cols; col++)
+                    for(unsigned int col = 0; col < matrix_cols; col++)
                     {
                         unsigned int color_idx = col + row_offset;
                         output_array[(col * 3) + 0 + output_offset] = (char)RGBGetRValue(colors[color_idx]);
@@ -189,7 +189,7 @@ void RGBController_OpenRazer::UpdateLEDs()
 
 void RGBController_OpenRazer::SetAllLEDs(RGBColor color)
 {
-    for(int i = 0; i < colors.size(); i++)
+    for(std::size_t i = 0; i < colors.size(); i++)
     {
         colors[i] = color;
     }
@@ -199,9 +199,9 @@ void RGBController_OpenRazer::SetAllLEDs(RGBColor color)
 
 void RGBController_OpenRazer::SetAllZoneLEDs(int zone, RGBColor color)
 {
-    for (int x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
     {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
         {
             colors[zones[zone].map[x][y]] = color;
         }
@@ -340,7 +340,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |
     \*-----------------------------------------------------------------*/
-    for (int i = 0; i < RAZER_NUM_DEVICES; i++)
+    for (std::size_t i = 0; i < RAZER_NUM_DEVICES; i++)
     {
         if (device_list[i]->name == name)
         {
@@ -395,11 +395,11 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                     new_zone.name = device_list[i]->zones[zone_id]->name;
                     new_zone.type = device_list[i]->zones[zone_id]->type;
 
-                    for (int row_id = 0; row_id < device_list[i]->zones[zone_id]->rows; row_id++)
+                    for (unsigned int row_id = 0; row_id < device_list[i]->zones[zone_id]->rows; row_id++)
                     {
                         std::vector<int> new_zone_map;
 
-                        for (int col_id = 0; col_id < device_list[i]->zones[zone_id]->cols; col_id++)
+                        for (unsigned int col_id = 0; col_id < device_list[i]->zones[zone_id]->cols; col_id++)
                         {
                             RGBColor new_color = 0x00000000;
                             colors.push_back(new_color);

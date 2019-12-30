@@ -93,7 +93,7 @@ void PolychromeController::SetAllColors(unsigned char red, unsigned char green, 
     }
 }
 
-void PolychromeController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void PolychromeController::SetLEDColor(unsigned int /*led*/, unsigned char red, unsigned char green, unsigned char blue)
 {
     if (asr_led)
     {

@@ -29,7 +29,7 @@ CorsairProController::CorsairProController(i2c_smbus_interface* bus, corsair_dev
     strcpy(device_name, "Corsair Vengeance Pro RGB");
     led_count = CORSAIR_PRO_LED_COUNT;
 
-    for (int i = 0; i < led_count; i++)
+    for (unsigned int i = 0; i < led_count; i++)
     {
         led_red[i]      = 0;
         led_green[i]    = 0;
@@ -64,7 +64,7 @@ unsigned int CorsairProController::GetLEDCount()
 
 void CorsairProController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
-    for (int i = 0; i < led_count; i++)
+    for (unsigned int i = 0; i < led_count; i++)
     {
         led_red[i]      = red;
         led_green[i]    = green;

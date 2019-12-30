@@ -68,7 +68,7 @@ int RGBController_AMDWraithPrism::GetMode()
     return 0;
 }
 
-void RGBController_AMDWraithPrism::SetMode(int mode)
+void RGBController_AMDWraithPrism::SetMode(int /*mode*/)
 {
 
 }

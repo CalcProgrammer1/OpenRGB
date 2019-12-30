@@ -24,12 +24,12 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     sockfd = e131_socket();
 
-    for (int i = 0; i < devices.size(); i++)
+    for (std::size_t i = 0; i < devices.size(); i++)
     {
 		/*-----------------------------------------*\
 		| Add LEDs                                  |
         \*-----------------------------------------*/
-    	for (int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
+    	for (unsigned int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
     	{
        		colors.push_back(0x00000000);
         	led new_led;
@@ -44,7 +44,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     	led_zone.name = devices[i].name;
     	led_zone.type = devices[i].type;
     	std::vector<int> led_zone_map;
-    	for (int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
+        for (unsigned int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
     	{
       	  	led_zone_map.push_back(led_zone_idx);
             led_zone_idx++;
@@ -57,12 +57,12 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
         \*-----------------------------------------*/
         unsigned int total_universes = ceil( ( ( devices[i].num_leds * 3 ) + devices[i].start_channel ) / 512.0f );
 
-        for (int univ_idx = 0; univ_idx < total_universes; univ_idx++)
+        for (unsigned int univ_idx = 0; univ_idx < total_universes; univ_idx++)
         {
             unsigned int universe = devices[i].start_universe + univ_idx;
             bool universe_exists = false;
 
-            for (int pkt_idx = 0; pkt_idx < packets.size(); pkt_idx++)
+            for (std::size_t pkt_idx = 0; pkt_idx < packets.size(); pkt_idx++)
             {
                 if(universes[pkt_idx] == universe)
                 {
@@ -91,7 +91,7 @@ int RGBController_E131::GetMode()
     return 0;
 }
 
-void RGBController_E131::SetMode(int mode)
+void RGBController_E131::SetMode(int /*mode*/)
 {
 
 }
@@ -103,7 +103,7 @@ void RGBController_E131::SetCustomMode()
 
 void RGBController_E131::SetAllLEDs(RGBColor color)
 {
-    for (int i = 0; i < colors.size(); i++)
+    for (std::size_t i = 0; i < colors.size(); i++)
     {
         colors[i] = color;
     }
@@ -113,9 +113,9 @@ void RGBController_E131::SetAllLEDs(RGBColor color)
 
 void RGBController_E131::SetAllZoneLEDs(int zone, RGBColor color)
 {
-    for (int x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
     {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
         {
             colors[zones[zone].map[x][y]] = color;
         }
@@ -135,7 +135,7 @@ void RGBController_E131::UpdateLEDs()
 {
     int color_idx = 0;
 
-    for(int device_idx = 0; device_idx < devices.size(); device_idx++)
+    for(std::size_t device_idx = 0; device_idx < devices.size(); device_idx++)
     {
         unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
         unsigned int channel_idx = devices[device_idx].start_channel;
@@ -143,11 +143,11 @@ void RGBController_E131::UpdateLEDs()
         unsigned int rgb_idx = 0;
         bool         done = false;
 
-        for (int univ_idx = 0; univ_idx < total_universes; univ_idx++)
+        for (unsigned int univ_idx = 0; univ_idx < total_universes; univ_idx++)
         {
             unsigned int universe = devices[device_idx].start_universe + univ_idx;
 
-            for(int packet_idx = 0; packet_idx < packets.size(); packet_idx++)
+            for(std::size_t packet_idx = 0; packet_idx < packets.size(); packet_idx++)
             {
                 if(!done && (universes[packet_idx] == universe))
                 {
@@ -185,7 +185,7 @@ void RGBController_E131::UpdateLEDs()
         }
     }
 
-    for(int packet_idx = 0; packet_idx < packets.size(); packet_idx++)
+    for(std::size_t packet_idx = 0; packet_idx < packets.size(); packet_idx++)
     {
 	    e131_send(sockfd, &packets[packet_idx], &dest_addrs[packet_idx]);
         packets[packet_idx].frame.seq_number++;

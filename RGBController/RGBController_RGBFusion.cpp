@@ -53,7 +53,7 @@ void RGBController_RGBFusion::SetLED(int led, RGBColor color)
 
 void RGBController_RGBFusion::UpdateLEDs()
 {
-    for (int led = 0; led < colors.size(); led++)
+    for (std::size_t led = 0; led < colors.size(); led++)
     {
         unsigned char red = RGBGetRValue(colors[led]);
         unsigned char grn = RGBGetGValue(colors[led]);
@@ -91,7 +91,7 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
     }
 
     // Search through all LEDs and create zones for each channel type
-    for (int i = 0; i < rgb_fusion->GetLEDCount(); i++)
+    for (unsigned int i = 0; i < rgb_fusion->GetLEDCount(); i++)
     {
         zone* new_zone = new zone();
         led*  new_led  = new led();

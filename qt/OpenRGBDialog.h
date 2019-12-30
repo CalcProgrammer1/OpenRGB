@@ -48,9 +48,9 @@ private slots:
 
     void on_ButtonSetLED_clicked();
 
-    void on_ComboDevices_currentIndexChanged(int index);
+    void on_ComboDevices_currentIndexChanged();
 
-    void on_ComboModes_currentIndexChanged(int index);
+    void on_ComboModes_currentIndexChanged();
 
 private:
     Ui::OpenRGBDialogUi *ui;

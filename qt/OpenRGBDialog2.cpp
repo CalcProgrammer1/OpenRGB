@@ -19,7 +19,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     \*-----------------------------------------------------*/
     QTabBar *DevicesTabBar = ui->DevicesTabBar->tabBar();
 
-    for(int dev_idx = 0; dev_idx < control.size(); dev_idx++)
+    for(std::size_t dev_idx = 0; dev_idx < control.size(); dev_idx++)
     {
         OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(control[dev_idx]);
         ui->DevicesTabBar->addTab(NewPage, "");
@@ -79,7 +79,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     \*-----------------------------------------------------*/
     QTabBar *InformationTabBar = ui->InformationTabBar->tabBar();
 
-    for(int dev_idx = 0; dev_idx < control.size(); dev_idx++)
+    for(std::size_t dev_idx = 0; dev_idx < control.size(); dev_idx++)
     {
         OpenRGBDeviceInfoPage *NewPage = new OpenRGBDeviceInfoPage(control[dev_idx]);
         ui->InformationTabBar->addTab(NewPage, "");

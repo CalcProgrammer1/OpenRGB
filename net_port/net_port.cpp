@@ -236,7 +236,7 @@ void net_port::tcp_close()
     connected = false;
 }
 
-int net_port::tcp_listen(char * recv_data, int length)
+int net_port::tcp_listen(char * recv_data, int /*length*/)
 {
     int ret = 0;
     int len = 0;

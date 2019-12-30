@@ -161,7 +161,7 @@ void AuraController::SetAllColorsDirect(unsigned char red, unsigned char green, 
 {
     unsigned char* colors = new unsigned char[led_count * 3];
 
-    for (int i = 0; i < (led_count * 3); i += 3)
+    for (unsigned int i = 0; i < (led_count * 3); i += 3)
     {
         colors[i + 0] = red;
         colors[i + 1] = blue;
@@ -177,7 +177,7 @@ void AuraController::SetAllColorsEffect(unsigned char red, unsigned char green, 
 {
     unsigned char* colors = new unsigned char[led_count * 3];
 
-    for (int i = 0; i < (led_count * 3); i += 3)
+    for (unsigned int i = 0; i < (led_count * 3); i += 3)
     {
         colors[i + 0] = red;
         colors[i + 1] = blue;
@@ -188,7 +188,7 @@ void AuraController::SetAllColorsEffect(unsigned char red, unsigned char green, 
     
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 
-    delete colors;
+    delete[] colors;
 }
 
 void AuraController::SetDirect(unsigned char direct)

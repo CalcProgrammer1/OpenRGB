@@ -23,7 +23,7 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
 
     unsigned int led_idx = 0;
 
-    for (int channel_idx = 0; channel_idx < HUE_2_NUM_CHANNELS; channel_idx++)
+    for (unsigned int channel_idx = 0; channel_idx < HUE_2_NUM_CHANNELS; channel_idx++)
     {
         if(hue2->channel_leds[channel_idx] > 0)
         {
@@ -38,7 +38,7 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
 
             std::vector<int> *new_zone_map = new std::vector<int>();
 
-            for (int led_ch_idx = 0; led_ch_idx < hue2->channel_leds[channel_idx]; led_ch_idx++)
+            for (unsigned int led_ch_idx = 0; led_ch_idx < hue2->channel_leds[channel_idx]; led_ch_idx++)
             {
                 colors.push_back(0x00000000);
 
@@ -70,7 +70,7 @@ int RGBController_Hue2::GetMode()
     return 0;
 }
 
-void RGBController_Hue2::SetMode(int mode)
+void RGBController_Hue2::SetMode(int /*mode*/)
 {
 
 }
@@ -82,7 +82,7 @@ void RGBController_Hue2::SetCustomMode()
 
 void RGBController_Hue2::SetAllLEDs(RGBColor color)
 {
-    for (int i = 0; i < colors.size(); i++)
+    for (std::size_t i = 0; i < colors.size(); i++)
     {
         colors[i] = color;
     }
@@ -92,11 +92,11 @@ void RGBController_Hue2::SetAllLEDs(RGBColor color)
 
 void RGBController_Hue2::SetAllZoneLEDs(int zone, RGBColor color)
 {
-    int channel = zones_channel[zone];
+    unsigned int channel = zones_channel[zone];
 
-    for (int x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
     {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
+        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
         {
             colors[zones[zone].map[x][y]] = color;
         }
@@ -104,7 +104,7 @@ void RGBController_Hue2::SetAllZoneLEDs(int zone, RGBColor color)
 
     std::vector<RGBColor> channel_colors;
 
-    for(int color = 0; color < colors.size(); color++)
+    for(std::size_t color = 0; color < colors.size(); color++)
     {
         if(leds_channel[color] == channel)
         {
@@ -117,12 +117,12 @@ void RGBController_Hue2::SetAllZoneLEDs(int zone, RGBColor color)
 
 void RGBController_Hue2::SetLED(int led, RGBColor color)
 {
-    int channel = leds_channel[led];
+    unsigned int channel = leds_channel[led];
     colors[led] = color;
 
     std::vector<RGBColor> channel_colors;
 
-    for(int color = 0; color < colors.size(); color++)
+    for(std::size_t color = 0; color < colors.size(); color++)
     {
         if(leds_channel[color] == channel)
         {
@@ -136,9 +136,9 @@ void RGBController_Hue2::UpdateLEDs()
 {
     std::vector<RGBColor> channel_colors;
 
-    for(int channel = 0; channel < HUE_2_NUM_CHANNELS; channel++)
+    for(unsigned int channel = 0; channel < HUE_2_NUM_CHANNELS; channel++)
     {
-        for(int color = 0; color < colors.size(); color++)
+        for(std::size_t color = 0; color < colors.size(); color++)
         {
             if(leds_channel[color] == channel)
             {

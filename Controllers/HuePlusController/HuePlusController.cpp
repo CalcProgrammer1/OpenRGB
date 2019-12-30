@@ -96,7 +96,7 @@ void HuePlusController::SetChannelLEDs(unsigned int channel, std::vector<RGBColo
             serial_buf[i] = 0x00;
         }
 
-        for (int idx = 0; idx < (colors.size() * 3); idx += 3)
+        for (unsigned int idx = 0; idx < (colors.size() * 3); idx += 3)
         {
             int pixel_idx = idx / 3;
             RGBColor color = colors[pixel_idx];
