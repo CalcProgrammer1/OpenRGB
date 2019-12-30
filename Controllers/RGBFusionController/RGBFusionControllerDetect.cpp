@@ -24,6 +24,13 @@ bool TestForRGBFusionController(i2c_smbus_interface* bus, unsigned char address)
     if (res >= 0)
     {
         pass = true;
+
+        res = bus->i2c_smbus_read_byte_data(address, 0xF2);
+
+        if (res != 0xC4)
+        {
+            pass = false;
+        }
     }
 
     return(pass);
