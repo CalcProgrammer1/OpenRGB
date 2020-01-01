@@ -113,14 +113,19 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
 
             AuraController temp_controller(busses[bus], 0x77);
 
-            // Search through available addresses and skip over ones that are already in use
-            res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
-
-            while (res >= 0)
+            do
             {
                 address_list_idx++;
-                res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
-            }
+
+                if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
+                {
+                    res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                }
+                else
+                {
+                    break;
+                }
+            } while (res >= 0);
 
             temp_controller.AuraRegisterWrite(AURA_REG_SLOT_INDEX, slot);
             temp_controller.AuraRegisterWrite(AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
