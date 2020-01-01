@@ -43,6 +43,19 @@ static const unsigned char aura_ram_addresses[] =
     0x67
 };
 
+/*---------------------------------------------------------------------------------*\
+| This list contains the available SMBus addresses for mapping Aura motherboards    |
+\*---------------------------------------------------------------------------------*/
+#define AURA_MOBO_ADDRESS_COUNT 4
+
+static const unsigned char aura_mobo_addresses[] =
+{
+    0x40,
+    0x4E,
+    0x4F,
+    0x66
+};
+
 /******************************************************************************************\
 *                                                                                          *
 *   TestForAuraController                                                                  *
@@ -145,36 +158,17 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
             Sleep(1);
         }
 
-        // Check for Aura controller at 0x40
-        if (TestForAuraController(busses[bus], 0x40))
+        // Add Aura-enabled motherboard controllers
+        for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
         {
-            new_aura = new AuraController(busses[bus], 0x40);
-            new_controller = new RGBController_Aura(new_aura);
-            rgb_controllers.push_back(new_controller);
-        }
+            if (TestForAuraController(busses[bus], aura_mobo_addresses[address_list_idx]))
+            {
+                new_aura = new AuraController(busses[bus], aura_mobo_addresses[address_list_idx]);
+                new_controller = new RGBController_Aura(new_aura);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Aura controller at 0x4E
-        if (TestForAuraController(busses[bus], 0x4E))
-        {
-            new_aura = new AuraController(busses[bus], 0x4E);
-            new_controller = new RGBController_Aura(new_aura);
-            rgb_controllers.push_back(new_controller);
-        }
-
-        // Check for Aura controller at 0x4F
-        if (TestForAuraController(busses[bus], 0x4F))
-        {
-            new_aura = new AuraController(busses[bus], 0x4F);
-            new_controller = new RGBController_Aura(new_aura);
-            rgb_controllers.push_back(new_controller);
-        }
-
-        // Check for Aura controller at 0x66
-        if (TestForAuraController(busses[bus], 0x66))
-        {
-            new_aura = new AuraController(busses[bus], 0x66);
-            new_controller = new RGBController_Aura(new_aura);
-            rgb_controllers.push_back(new_controller);
+            Sleep(1);
         }
     }
 
