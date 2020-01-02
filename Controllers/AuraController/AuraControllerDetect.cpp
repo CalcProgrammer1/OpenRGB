@@ -58,6 +58,25 @@ static const unsigned char aura_mobo_addresses[] =
 
 /******************************************************************************************\
 *                                                                                          *
+*   AuraRegisterWrite                                                                      *
+*                                                                                          *
+*       A standalone version of the AuraController::AuraRegisterWrite function for access  *
+*       to Aura devices without instancing the AuraController class or reading the config  *
+*       table from the device.                                                             *
+*                                                                                          *
+\******************************************************************************************/
+
+void AuraRegisterWrite(i2c_smbus_interface* bus, aura_dev_id dev, aura_register reg, unsigned char val)
+{
+    //Write Aura register
+    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
+
+    //Write Aura value
+    bus->i2c_smbus_write_byte_data(dev, 0x01, val);
+}
+
+/******************************************************************************************\
+*                                                                                          *
 *   TestForAuraController                                                                  *
 *                                                                                          *
 *       Tests the given address to see if an Aura controller exists there.  First does a   *
@@ -124,15 +143,12 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
                 break;
             }
 
-            AuraController temp_controller(busses[bus], 0x77);
-
             do
             {
-                address_list_idx++;
-
                 if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
                 {
                     res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                    address_list_idx++;
                 }
                 else
                 {
@@ -140,9 +156,8 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
                 }
             } while (res >= 0);
 
-            temp_controller.AuraRegisterWrite(AURA_REG_SLOT_INDEX, slot);
-            temp_controller.AuraRegisterWrite(AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
-            address_list_idx++;
+            AuraRegisterWrite(busses[bus], 0x77, AURA_REG_SLOT_INDEX, slot);
+            AuraRegisterWrite(busses[bus], 0x77, AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
         }
 
         // Add Aura-enabled controllers at their remapped addresses

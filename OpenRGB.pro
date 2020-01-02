@@ -18,6 +18,7 @@ INCLUDEPATH +=                                                          \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
     Controllers/LEDStripController/                                     \
+    Controllers/PatriotViperController/                                 \
     Controllers/PolychromeController/                                   \
     Controllers/RGBFusionController/                                    \
     RGBController/                                                      \
@@ -52,6 +53,8 @@ SOURCES +=                                                              \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+    Controllers/PatriotViperController/PatriotViperController.cpp       \
+    Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
     Controllers/PolychromeController/PolychromeController.cpp           \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
@@ -64,6 +67,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
     RGBController/RGBController_LEDStrip.cpp                            \
+    RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_RGBFusion.cpp
 
@@ -86,6 +90,9 @@ HEADERS +=                                                              \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXController/HyperXController.h                     \
     Controllers/LEDStripController/LEDStripController.h                 \
+    Controllers/PatriotViperController/PatriotViperController.h         \
+    Controllers/PolychromeController/PolychromeController.h             \
+    Controllers/RGBFusionController/RGBFusionController.h               \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_Aura.h                                  \
@@ -94,6 +101,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
+    RGBController/RGBController_PatriotViper.h                          \
     RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_RGBFusion.h
 
