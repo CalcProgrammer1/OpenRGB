@@ -155,7 +155,9 @@ void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> 
     pkt_max       = 20;
 
     if (colors.size() > 20)
-        pkt_max = std::min(pkt_max, colors.size() - 20);
+    {
+        pkt_max = colors.size() - 20;
+    }
 
     if(pkt_max > 0)
     {
