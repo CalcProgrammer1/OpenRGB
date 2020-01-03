@@ -31,9 +31,10 @@ After getting a solid Aura implementation, the project branched out into other m
 ## Installation
 #### Windows
   1. Download the latest Visual Studio Community Edition and Qt Creator.
-  2. Open the OpenRGB_Win.pro project.
-  3. Build the project for `x86` Architecture. The InpOut32 library I use does not support x64.
-  4. Copy InpOut32.dll from dependencies to the same path as OpenAuraSDK.exe along with the Qt libraries.
+  2. Update the submodules: git submodule update --init --recursive
+  3. Open the OpenRGB_Win.pro project.
+  4. Build the project for `x86` Architecture. The InpOut32 library I use does not support x64.
+  5. Copy InpOut32.dll from dependencies to the same path as OpenAuraSDK.exe along with the Qt libraries.
 
 **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
 
