@@ -359,6 +359,8 @@ void DetectRGBControllers(void)
 
     DetectAMDWraithPrismControllers(rgb_controllers);
 
+    DetectE131Controllers(rgb_controllers);
+
     /*-------------------------------------*\
     | Windows-only devices                  |
     \*-------------------------------------*/
@@ -370,7 +372,6 @@ void DetectRGBControllers(void)
     | Linux-only devices                    |
     \*-------------------------------------*/
 #else
-    DetectE131Controllers(rgb_controllers);
     DetectOpenRazerControllers(rgb_controllers);
 #endif
 

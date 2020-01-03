@@ -13,6 +13,8 @@
 #ifndef WIN32
 #include <unistd.h>
 #include <dirent.h>
+#else
+#include <windows.h>
 #endif
 
 #ifndef WIN32
@@ -167,4 +169,4 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             }
     }
 
-}   /* DetectLEDStripControllers() */
+}   /* DetectE131Controllers() */

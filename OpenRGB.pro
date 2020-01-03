@@ -6,6 +6,7 @@ TARGET = OpenRGB
 TEMPLATE = app
 
 INCLUDEPATH +=                                                          \
+    dependencies/libe131/src/                                           \
     i2c_smbus/                                                          \
     i2c_tools/                                                          \
     net_port/                                                           \
@@ -25,6 +26,7 @@ INCLUDEPATH +=                                                          \
     qt/
 
 SOURCES +=                                                              \
+    dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     OpenRGB.cpp                                                         \
     qt/OpenRGBDeviceInfoPage.cpp                                        \
@@ -59,6 +61,7 @@ SOURCES +=                                                              \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
+    RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
@@ -66,6 +69,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
+    RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
@@ -98,6 +102,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairPro.h                            \
+    RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
@@ -161,19 +166,14 @@ win32:DEFINES +=                                                        \
 # Linux specific project configuration
 #-----------------------------------------------
 unix:INCLUDEPATH +=                                                     \
-    dependencies/libe131/src/                                           \
 
 unix:HEADERS +=                                                         \
     i2c_smbus/i2c_smbus_linux.h                                         \
-    RGBController/RGBController_E131.h                                  \
 
 unix:LIBS +=                                                            \
     -lusb-1.0
 
 unix:SOURCES +=                                                         \
-    dependencies/libe131/src/e131.c                                     \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
     RGBController/OpenRazerDetect.cpp                                   \
-    RGBController/E131ControllerDetect.cpp                              \
-    RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_OpenRazer.cpp                           \
