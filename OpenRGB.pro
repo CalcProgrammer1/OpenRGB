@@ -134,6 +134,7 @@ win32:SOURCES +=                                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
     wmi/wmi.cpp                                                         \
+    RGBController/AorusGPUDetect.cpp                                    \
     RGBController/RGBController_AorusGPU.cpp                            \
     RGBController/RazerChromaSDKDetect.cpp                              \
     RGBController/RGBController_RazerChromaSDK.cpp                      \
