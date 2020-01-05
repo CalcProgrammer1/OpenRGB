@@ -30,7 +30,7 @@ public:
     void SetRingColor(unsigned char red, unsigned char green, unsigned char blue);
 
     void SendEnableCommand();
-    void SendRemapCommand();
+    void SendApplyCommand();
     void SendEffectCommand();
 
 private:
