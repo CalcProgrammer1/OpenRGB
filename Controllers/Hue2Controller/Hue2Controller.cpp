@@ -78,6 +78,60 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
     return(ret_val);
 }
 
+void Hue2Controller::SetChannelEffect(unsigned int channel, unsigned int mode, std::vector<RGBColor> colors)
+{
+    unsigned char usb_buf[] =
+    {
+        0x28, 0x03, 0x00, 0x28,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    };
+    int             actual = 0;
+
+    /*-----------------------------------------------------*\
+    | Set channel in USB packet                             |
+    \*-----------------------------------------------------*/
+    usb_buf[0x02]   = channel;
+
+    /*-----------------------------------------------------*\
+    | Set mode in USB packet                                |
+    \*-----------------------------------------------------*/
+    usb_buf[0x04]   = mode;
+
+    /*-----------------------------------------------------*\
+    | Set color count in USB packet                         |
+    \*-----------------------------------------------------*/
+    usb_buf[0x08]   = colors.size();
+
+    /*-----------------------------------------------------*\
+    | Fill in color data                                    |
+    \*-----------------------------------------------------*/
+    for (std::size_t idx = 0; idx < colors.size(); idx++)
+    {
+        int pixel_idx = idx * 3;
+        RGBColor color = colors[idx];
+        usb_buf[pixel_idx + 0x0A] = RGBGetGValue(color);
+        usb_buf[pixel_idx + 0x0B] = RGBGetRValue(color);
+        usb_buf[pixel_idx + 0x0C] = RGBGetBValue(color);
+    }
+
+    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
+}
+
 void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors)
 {
     unsigned char usb_buf[] =

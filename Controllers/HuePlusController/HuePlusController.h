@@ -56,6 +56,7 @@ public:
     void            Initialize(char* port_name);
     char*           GetLEDString();
     unsigned int    GetStripsOnChannel(unsigned int channel);
+    void            SetChannelEffect(unsigned int channel, unsigned int mode, std::vector<RGBColor> colors);
     void            SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors);
 
     unsigned int    channel_leds[HUE_PLUS_NUM_CHANNELS];
