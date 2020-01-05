@@ -64,6 +64,11 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
             case 0x04: //Hue 2 strip
                 num_leds_on_channel += 10;
                 break;
+            
+            case 0x0B: //Aer 2 fan
+                num_leds_on_channel += 8;
+                break;
+
             default:
                 break;
             }
