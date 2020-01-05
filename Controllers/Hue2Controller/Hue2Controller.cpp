@@ -157,7 +157,7 @@ void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> 
     }
     
     usb_buf[0x01] = 0x11;
-    pkt_max       = 20;
+    pkt_max       = 0;
 
     if (colors.size() > 20)
     {
