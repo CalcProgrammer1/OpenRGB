@@ -71,73 +71,105 @@ unsigned int PatriotViperController::GetSlotCount()
 
 unsigned int PatriotViperController::GetMode()
 {
-    return(0);
+    return(mode);
 }
 
 void PatriotViperController::SetEffectColor(unsigned char red, unsigned char green, unsigned char blue)
 {
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
+    ViperRegisterWrite(VIPER_REG_LED0_EFFECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED1_EFFECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED2_EFFECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED3_EFFECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED4_EFFECT_COLOR, red, blue, green);
+
+    ViperRegisterWrite(VIPER_REG_MODE, mode, 0x00, 0x0C);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
 }
 
 void PatriotViperController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
-    bus->i2c_smbus_write_byte_data(dev, 0xFF, 0xFF);
-    bus->i2c_smbus_write_byte_data(dev, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
-    bus->i2c_smbus_write_byte_data(dev, 0x01, 0x04);
-    bus->i2c_smbus_write_byte_data(dev, 0x00, 0x00);
-    
-    bus->i2c_smbus_write_byte_data(dev, 0x30, red);
-    bus->i2c_smbus_write_byte_data(dev, green, blue);
+    ViperRegisterWrite(VIPER_REG_LED0_DIRECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED1_DIRECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED2_DIRECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED3_DIRECT_COLOR, red, blue, green);
+    ViperRegisterWrite(VIPER_REG_LED4_DIRECT_COLOR, red, blue, green);
 
-    bus->i2c_smbus_write_byte_data(dev, 0x31, red);
-    bus->i2c_smbus_write_byte_data(dev, green, blue);
-
-    bus->i2c_smbus_write_byte_data(dev, 0x32, red);
-    bus->i2c_smbus_write_byte_data(dev, green, blue);
-
-    bus->i2c_smbus_write_byte_data(dev, 0x33, red);
-    bus->i2c_smbus_write_byte_data(dev, green, blue);
-
-    bus->i2c_smbus_write_byte_data(dev, 0x34, red);
-    bus->i2c_smbus_write_byte_data(dev, green, blue);
-
-    bus->i2c_smbus_write_byte_data(dev, 0x35, 0x01);
-    bus->i2c_smbus_write_byte_data(dev, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
 }
 
 void PatriotViperController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
-    bus->i2c_smbus_write_byte_data(dev, 0xFF, 0xFF);
-    bus->i2c_smbus_write_byte_data(dev, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
-    bus->i2c_smbus_write_byte_data(dev, 0x01, 0x04);
-    bus->i2c_smbus_write_byte_data(dev, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_LED0_DIRECT_COLOR + led, red, blue, green);
 
-    bus->i2c_smbus_write_byte_data(dev, 0x30 + led, red);
-    bus->i2c_smbus_write_byte_data(dev, green, blue);
-
-    bus->i2c_smbus_write_byte_data(dev, 0x35, 0x01);
-    bus->i2c_smbus_write_byte_data(dev, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
 }
 
+void PatriotViperController::SetLEDEffectColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+{
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
+
+    ViperRegisterWrite(VIPER_REG_LED0_EFFECT_COLOR + led, red, blue, green);
+
+    ViperRegisterWrite(VIPER_REG_MODE, mode, 0x00, 0x0C);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
+}
 
 void PatriotViperController::SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
-    bus->i2c_smbus_write_byte_data(dev, 0xFF, 0xFF);
-    bus->i2c_smbus_write_byte_data(dev, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
-    bus->i2c_smbus_write_byte_data(dev, 0x01, 0x04);
-    bus->i2c_smbus_write_byte_data(dev, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_LED0_DIRECT_COLOR + led, red, blue, green);
 
-    bus->i2c_smbus_write_byte_data(dev, 0x30 + led, red);
-    bus->i2c_smbus_write_byte_data(dev, green, blue);
+    ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
+}
 
-    bus->i2c_smbus_write_byte_data(dev, 0x35, 0x01);
-    bus->i2c_smbus_write_byte_data(dev, 0x00, 0x00);
+void PatriotViperController::SetLEDEffectColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+{
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
+
+    ViperRegisterWrite(VIPER_REG_LED0_EFFECT_COLOR + led, red, blue, green);
+
+    ViperRegisterWrite(VIPER_REG_MODE, mode, 0x00, 0x0C);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
 }
 
 void PatriotViperController::SetMode(unsigned char new_mode)
 {
+    direct = false;
+    mode = new_mode;
 
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_MODE, new_mode, 0x00, 0x0C);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
+}
+
+void PatriotViperController::SetDirect()
+{
+    direct = true;
+    ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
+    ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
+    ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
+}
+
+void PatriotViperController::ViperRegisterWrite(viper_register reg, unsigned char val0, unsigned char val1, unsigned char val2)
+{
+    bus->i2c_smbus_write_byte_data(dev, reg, val0);
+    bus->i2c_smbus_write_byte_data(dev, val2, val1);
 }

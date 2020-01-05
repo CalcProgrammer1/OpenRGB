@@ -16,12 +16,19 @@ int RGBController_PatriotViper::GetMode()
 
 void RGBController_PatriotViper::SetMode(int mode)
 {
-    viper->SetMode(mode);
+    if(mode == 0)
+    {
+        viper->SetDirect();
+    }
+    else
+    {
+        viper->SetMode(mode - 1);
+    }
 }
 
 void RGBController_PatriotViper::SetCustomMode()
 {
-    viper->SetMode(0);
+    viper->SetDirect();
 }
 
 void RGBController_PatriotViper::SetAllLEDs(RGBColor color)
@@ -30,7 +37,7 @@ void RGBController_PatriotViper::SetAllLEDs(RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    if(viper->GetMode() == 0)
+    if(viper->direct == true)
     {
         viper->SetAllColors(red, grn, blu);
     }
@@ -47,7 +54,7 @@ void RGBController_PatriotViper::SetAllZoneLEDs(int zone, RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    if(viper->GetMode() == 0)
+    if(viper->direct == true)
     {
         for (std::size_t x = 0; x < zones[zone].map.size(); x++)
         {
@@ -59,7 +66,13 @@ void RGBController_PatriotViper::SetAllZoneLEDs(int zone, RGBColor color)
     }
     else
     {
-        viper->SetEffectColor(red, grn, blu);
+        for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+        {
+            for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
+            {
+                viper->SetLEDEffectColor(zones[zone].map[x][y], red, grn, blu);
+            }
+        }
     }
 }
 
@@ -69,13 +82,13 @@ void RGBController_PatriotViper::SetLED(int led, RGBColor color)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    if(viper->GetMode() == 0)
+    if(viper->direct == true)
     {
         viper->SetLEDColor(led, red, grn, blu);
     }
     else
     {
-        viper->SetEffectColor(red, grn, blu);
+        viper->SetLEDEffectColor(led, red, grn, blu);
     }
 }
 
@@ -93,11 +106,20 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     
     type = DEVICE_TYPE_DRAM;
 
-    mode viper_modes[1];
+    mode viper_modes[10];
 
     viper_modes[0].name = "Direct";
-    
-    for (int i = 0; i < 1; i++)
+    viper_modes[1].name = "Dark";
+    viper_modes[2].name = "Breathing";
+    viper_modes[3].name = "Viper";
+    viper_modes[4].name = "Heartbeat";
+    viper_modes[5].name = "Marquee";
+    viper_modes[6].name = "Raindrop";
+    viper_modes[7].name = "Aurora";
+    viper_modes[8].name = "Unknown";
+    viper_modes[9].name = "Neon";
+
+    for (int i = 0; i < 9; i++)
     {
         modes.push_back(viper_modes[i]);
     }
