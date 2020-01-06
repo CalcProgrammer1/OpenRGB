@@ -14,6 +14,24 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     QIcon logo(":OpenRGB.png");
     setWindowIcon(logo);
 
+
+    QMenu* trayIconMenu = new QMenu( this );
+
+    trayIcon = new QSystemTrayIcon(this);
+
+    QAction* actionShowHide = new QAction("Show/Hide", this);
+    connect(actionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
+    trayIconMenu->addAction(actionShowHide);
+    
+    QAction* actionExit = new QAction( "Exit", this );
+    connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
+    trayIconMenu->addAction(actionExit);
+
+    trayIcon->setIcon(logo);
+    trayIcon->setToolTip("OpenRGB");
+    trayIcon->setContextMenu(trayIconMenu);
+    trayIcon->show();
+
     /*-----------------------------------------------------*\
     | Set up list of devices                                |
     \*-----------------------------------------------------*/
@@ -156,10 +174,27 @@ void OpenRGBDialog2::show()
     QMainWindow::show();
 }
 
+void OpenRGBDialog2::on_Exit()
+{
+    close();
+}
+
 void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
 {
     for(int device = 0; device < ui->DevicesTabBar->count(); device++)
     {
         qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->SetDevice(red, green, blue);
+    }
+}
+
+void OpenRGBDialog2::on_ShowHide()
+{
+    if(isHidden())
+    {
+        show();
+    }
+    else
+    {
+        hide();
     }
 }

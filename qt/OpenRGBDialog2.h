@@ -34,9 +34,12 @@ protected:
 
 private:
     Ui::OpenRGBDialog2Ui *ui;
+    QSystemTrayIcon* trayIcon;
 
 private slots:
+    void on_Exit();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
+    void on_ShowHide();
 };
 
 #endif // OPENRGBDIALOG2_H
