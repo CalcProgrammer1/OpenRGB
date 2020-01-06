@@ -22,7 +22,11 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     QAction* actionShowHide = new QAction("Show/Hide", this);
     connect(actionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
     trayIconMenu->addAction(actionShowHide);
-    
+
+    QAction* actionLightsOff = new QAction("Lights Off", this);
+    connect(actionLightsOff, SIGNAL(triggered()), this, SLOT(on_LightsOff()));
+    trayIconMenu->addAction(actionLightsOff);
+
     QAction* actionExit = new QAction( "Exit", this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
     trayIconMenu->addAction(actionExit);
@@ -177,6 +181,11 @@ void OpenRGBDialog2::show()
 void OpenRGBDialog2::on_Exit()
 {
     close();
+}
+
+void OpenRGBDialog2::on_LightsOff()
+{
+    on_SetAllDevices(0, 0, 0);
 }
 
 void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
