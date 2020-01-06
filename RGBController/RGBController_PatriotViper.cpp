@@ -94,7 +94,13 @@ void RGBController_PatriotViper::SetLED(int led, RGBColor color)
 
 void RGBController_PatriotViper::UpdateLEDs()
 {
-    
+    for(int led = 0; led < 5; led++)
+    {
+        unsigned char red = RGBGetRValue(colors[led]);
+        unsigned char grn = RGBGetGValue(colors[led]);
+        unsigned char blu = RGBGetBValue(colors[led]);
+        viper->SetLEDColor(led, red, grn, blu);
+    }
 }
 
 RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* viper_ptr)

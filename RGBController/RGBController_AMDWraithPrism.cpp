@@ -131,5 +131,18 @@ void RGBController_AMDWraithPrism::SetLED(int led, RGBColor color)
 
 void RGBController_AMDWraithPrism::UpdateLEDs()
 {
+    unsigned char red = RGBGetRValue(colors[0]);
+    unsigned char grn = RGBGetGValue(colors[0]);
+    unsigned char blu = RGBGetBValue(colors[0]);
+    wraith->SetLogoColor(red, grn, blu);
 
+    red = RGBGetRValue(colors[1]);
+    grn = RGBGetGValue(colors[1]);
+    blu = RGBGetBValue(colors[1]);
+    wraith->SetFanColor(red, grn, blu);
+
+    red = RGBGetRValue(colors[2]);
+    grn = RGBGetGValue(colors[2]);
+    blu = RGBGetBValue(colors[2]);
+    wraith->SetRingColor(red, grn, blu);
 }
