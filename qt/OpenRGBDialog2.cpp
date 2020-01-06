@@ -14,7 +14,9 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     QIcon logo(":OpenRGB.png");
     setWindowIcon(logo);
 
-
+    /*-----------------------------------------------------*\
+    | Set up tray icon menu                                 |
+    \*-----------------------------------------------------*/
     QMenu* trayIconMenu = new QMenu( this );
 
     trayIcon = new QSystemTrayIcon(this);
@@ -22,6 +24,38 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     QAction* actionShowHide = new QAction("Show/Hide", this);
     connect(actionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
     trayIconMenu->addAction(actionShowHide);
+
+    QMenu* quickColorsMenu = new QMenu("Quick Colors", this);
+
+    QAction* actionQuickRed = new QAction("Red", this);
+    connect(actionQuickRed, SIGNAL(triggered()), this, SLOT(on_QuickRed()));
+    quickColorsMenu->addAction(actionQuickRed);
+
+    QAction* actionQuickYellow = new QAction("Yellow", this);
+    connect(actionQuickYellow, SIGNAL(triggered()), this, SLOT(on_QuickYellow()));
+    quickColorsMenu->addAction(actionQuickYellow);
+
+    QAction* actionQuickGreen = new QAction("Green", this);
+    connect(actionQuickGreen, SIGNAL(triggered()), this, SLOT(on_QuickGreen()));
+    quickColorsMenu->addAction(actionQuickGreen);
+
+    QAction* actionQuickCyan = new QAction("Cyan", this);
+    connect(actionQuickCyan, SIGNAL(triggered()), this, SLOT(on_QuickCyan()));
+    quickColorsMenu->addAction(actionQuickCyan);
+
+    QAction* actionQuickBlue = new QAction("Blue", this);
+    connect(actionQuickBlue, SIGNAL(triggered()), this, SLOT(on_QuickBlue()));
+    quickColorsMenu->addAction(actionQuickBlue);
+    
+    QAction* actionQuickMagenta = new QAction("Magenta", this);
+    connect(actionQuickMagenta, SIGNAL(triggered()), this, SLOT(on_QuickMagenta()));
+    quickColorsMenu->addAction(actionQuickMagenta);
+
+    QAction* actionQuickWhite = new QAction("White", this);
+    connect(actionQuickWhite, SIGNAL(triggered()), this, SLOT(on_QuickWhite()));
+    quickColorsMenu->addAction(actionQuickWhite);
+
+    trayIconMenu->addMenu(quickColorsMenu);
 
     QAction* actionLightsOff = new QAction("Lights Off", this);
     connect(actionLightsOff, SIGNAL(triggered()), this, SLOT(on_LightsOff()));
@@ -185,7 +219,42 @@ void OpenRGBDialog2::on_Exit()
 
 void OpenRGBDialog2::on_LightsOff()
 {
-    on_SetAllDevices(0, 0, 0);
+    on_SetAllDevices(0x00, 0x00, 0x00);
+}
+
+void OpenRGBDialog2::on_QuickRed()
+{
+    on_SetAllDevices(0xFF, 0x00, 0x00);
+}
+
+void OpenRGBDialog2::on_QuickYellow()
+{
+    on_SetAllDevices(0xFF, 0xFF, 0x00);
+}
+
+void OpenRGBDialog2::on_QuickGreen()
+{
+    on_SetAllDevices(0x00, 0xFF, 0x00);
+}
+
+void OpenRGBDialog2::on_QuickCyan()
+{
+    on_SetAllDevices(0x00, 0xFF, 0xFF);
+}
+
+void OpenRGBDialog2::on_QuickBlue()
+{
+    on_SetAllDevices(0x00, 0x00, 0xFF);
+}
+
+void OpenRGBDialog2::on_QuickMagenta()
+{
+    on_SetAllDevices(0xFF, 0x00, 0xFF);
+}
+
+void OpenRGBDialog2::on_QuickWhite()
+{
+    on_SetAllDevices(0xFF, 0xFF, 0xFF);
 }
 
 void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)

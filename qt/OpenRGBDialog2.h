@@ -39,6 +39,13 @@ private:
 private slots:
     void on_Exit();
     void on_LightsOff();
+    void on_QuickRed();
+    void on_QuickYellow();
+    void on_QuickGreen();
+    void on_QuickCyan();
+    void on_QuickBlue();
+    void on_QuickMagenta();
+    void on_QuickWhite();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_ShowHide();
 };
