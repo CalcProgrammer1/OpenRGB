@@ -81,7 +81,19 @@ void RGBController_HyperX::SetLED(int led, RGBColor color)
 
 void RGBController_HyperX::UpdateLEDs()
 {
-    
+    for (std::size_t zone = 0; zone < zones.size(); zone++ )
+    {
+        for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+        {
+            for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
+            {
+                unsigned char red = RGBGetRValue(colors[zones[zone].map[x][y]]);
+                unsigned char grn = RGBGetGValue(colors[zones[zone].map[x][y]]);
+                unsigned char blu = RGBGetBValue(colors[zones[zone].map[x][y]]);
+                hyperx->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
+            }
+        }
+    }
 }
 
 RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
