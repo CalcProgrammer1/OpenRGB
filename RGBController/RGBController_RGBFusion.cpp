@@ -24,43 +24,32 @@ void RGBController_RGBFusion::SetCustomMode()
     rgb_fusion->SetMode(RGB_FUSION_MODE_STATIC);
 }
 
-void RGBController_RGBFusion::SetAllLEDs(RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-    
-    rgb_fusion->SetAllColors(red, grn, blu);
-}
-
-void RGBController_RGBFusion::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    rgb_fusion->SetLEDColor(zone, red, grn, blu);
-}
-
-void RGBController_RGBFusion::SetLED(int led, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-    
-    rgb_fusion->SetLEDColor(led, red, grn, blu);
-}
-
 void RGBController_RGBFusion::UpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
     {
-        unsigned char red = RGBGetRValue(colors[led]);
-        unsigned char grn = RGBGetGValue(colors[led]);
-        unsigned char blu = RGBGetBValue(colors[led]);
+        RGBColor      color = colors[led];
+        unsigned char red   = RGBGetRValue(color);
+        unsigned char grn   = RGBGetGValue(color);
+        unsigned char blu   = RGBGetBValue(color);
 
         rgb_fusion->SetLEDColor(led, red, grn, blu);
     }
+}
+
+void RGBController_RGBFusion::UpdateZoneLEDs(int zone)
+{
+    RGBColor      color = colors[zone];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
+
+    rgb_fusion->SetLEDColor(zone, red, grn, blu);
+}
+
+void RGBController_RGBFusion::UpdateSingleLED(int led)
+{
+    UpdateZoneLEDs(led);
 }
 
 static const char* rgb_fusion_zone_names[] =
@@ -110,6 +99,7 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
 
         // Push new LED to LEDs vector
         leds.push_back(*new_led);
+        colors.push_back(0x00000000);
 
         // Push new zone to zones vector
         zones.push_back(*new_zone);

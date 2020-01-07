@@ -31,56 +31,43 @@ void RGBController_PatriotViper::SetCustomMode()
     viper->SetDirect();
 }
 
-void RGBController_PatriotViper::SetAllLEDs(RGBColor color)
+void RGBController_PatriotViper::UpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
     if(viper->direct == true)
     {
-        viper->SetAllColors(red, grn, blu);
-    }
-    else
-    {
-        viper->SetEffectColor(red, grn, blu);
-    }
-    
-}
-
-void RGBController_PatriotViper::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    if(viper->direct == true)
-    {
-        for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+        for(int led = 0; led < 5; led++)
         {
-            for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-            {
-                viper->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
-            }
+            RGBColor      color = colors[led];
+            unsigned char red   = RGBGetRValue(color);
+            unsigned char grn   = RGBGetGValue(color);
+            unsigned char blu   = RGBGetBValue(color);
+            viper->SetLEDColor(led, red, grn, blu);
         }
     }
     else
     {
-        for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+        for(int led = 0; led < 5; led++)
         {
-            for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-            {
-                viper->SetLEDEffectColor(zones[zone].map[x][y], red, grn, blu);
-            }
+            RGBColor      color = colors[led];
+            unsigned char red   = RGBGetRValue(color);
+            unsigned char grn   = RGBGetGValue(color);
+            unsigned char blu   = RGBGetBValue(color);
+            viper->SetLEDEffectColor(led, red, grn, blu);
         }
     }
 }
 
-void RGBController_PatriotViper::SetLED(int led, RGBColor color)
+void RGBController_PatriotViper::UpdateZoneLEDs(int zone)
 {
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
+    UpdateLEDs();
+}
+
+void RGBController_PatriotViper::UpdateSingleLED(int led)
+{
+    RGBColor      color = colors[led];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
 
     if(viper->direct == true)
     {
@@ -89,17 +76,6 @@ void RGBController_PatriotViper::SetLED(int led, RGBColor color)
     else
     {
         viper->SetLEDEffectColor(led, red, grn, blu);
-    }
-}
-
-void RGBController_PatriotViper::UpdateLEDs()
-{
-    for(int led = 0; led < 5; led++)
-    {
-        unsigned char red = RGBGetRValue(colors[led]);
-        unsigned char grn = RGBGetGValue(colors[led]);
-        unsigned char blu = RGBGetBValue(colors[led]);
-        viper->SetLEDColor(led, red, grn, blu);
     }
 }
 

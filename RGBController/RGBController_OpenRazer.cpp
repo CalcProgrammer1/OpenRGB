@@ -187,33 +187,13 @@ void RGBController_OpenRazer::UpdateLEDs()
     }
 }
 
-void RGBController_OpenRazer::SetAllLEDs(RGBColor color)
+void RGBController_OpenRazer::UpdateZoneLEDs(int zone)
 {
-    for(std::size_t i = 0; i < colors.size(); i++)
-    {
-        colors[i] = color;
-    }
-
     UpdateLEDs();
 }
 
-void RGBController_OpenRazer::SetAllZoneLEDs(int zone, RGBColor color)
+void RGBController_OpenRazer::UpdateSingleLED(int led)
 {
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
-    {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            colors[zones[zone].map[x][y]] = color;
-        }
-    }
-
-    UpdateLEDs();
-}
-
-void RGBController_OpenRazer::SetLED(int led, RGBColor color)
-{
-    colors[led] = color;
-
     UpdateLEDs();
 }
 

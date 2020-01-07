@@ -56,46 +56,34 @@ void RGBController_CorsairPro::SetCustomMode()
     corsair->SetCustom();
 }
 
-void RGBController_CorsairPro::SetAllLEDs(RGBColor color)
+void RGBController_CorsairPro::UpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    corsair->SetAllColors(red, grn, blu);
-    corsair->ApplyColors();
-}
-
-void RGBController_CorsairPro::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t led = 0; led < colors.size(); led++)
     {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            corsair->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
-        }
+        RGBColor      color = colors[led];
+        unsigned char red   = RGBGetRValue(color);
+        unsigned char grn   = RGBGetGValue(color);
+        unsigned char blu   = RGBGetBValue(color);
+        corsair->SetLEDColor(led, red, grn, blu);
     }
 
     corsair->ApplyColors();
 }
 
-void RGBController_CorsairPro::SetLED(int led, RGBColor color)
+void RGBController_CorsairPro::UpdateZoneLEDs(int zone)
 {
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
+    UpdateLEDs();
+}
+
+void RGBController_CorsairPro::UpdateSingleLED(int led)
+{
+    RGBColor      color = colors[led];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
 
     corsair->SetLEDColor(led, red, grn, blu);
     corsair->ApplyColors();
-}
-
-void RGBController_CorsairPro::UpdateLEDs()
-{
-
 }
 
 RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair_ptr)

@@ -56,34 +56,17 @@ void RGBController_LEDStrip::SetCustomMode()
 
 }
 
-void RGBController_LEDStrip::SetAllLEDs(RGBColor color)
-{
-    for (std::size_t i = 0; i < colors.size(); i++)
-    {
-        colors[i] = color;
-    }
-
-    strip->SetLEDs(colors);
-}
-
-void RGBController_LEDStrip::SetAllZoneLEDs(int /*zone*/, RGBColor color)
-{
-    for (std::size_t i = 0; i < colors.size(); i++)
-    {
-        colors[i] = color;
-    }
-
-    strip->SetLEDs(colors);
-}
-
-void RGBController_LEDStrip::SetLED(int led, RGBColor color)
-{
-    colors[led] = color;
-
-    strip->SetLEDs(colors);
-}
-
 void RGBController_LEDStrip::UpdateLEDs()
+{
+    strip->SetLEDs(colors);
+}
+
+void RGBController_LEDStrip::UpdateZoneLEDs(int zone)
+{
+    strip->SetLEDs(colors);
+}
+
+void RGBController_LEDStrip::UpdateSingleLED(int led)
 {
     strip->SetLEDs(colors);
 }

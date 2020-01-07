@@ -24,33 +24,6 @@ void RGBController_Polychrome::SetCustomMode()
     polychrome->SetMode(POLYCHROME_MODE_STATIC);
 }
 
-void RGBController_Polychrome::SetAllLEDs(RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    polychrome->SetAllColors(red, grn, blu);
-}
-
-void RGBController_Polychrome::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    polychrome->SetLEDColor(zone, red, grn, blu);
-}
-
-void RGBController_Polychrome::SetLED(int led, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    polychrome->SetLEDColor(led, red, grn, blu);
-}
-
 void RGBController_Polychrome::UpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
@@ -61,6 +34,16 @@ void RGBController_Polychrome::UpdateLEDs()
 
         polychrome->SetLEDColor(led, red, grn, blu);
     }
+}
+
+void RGBController_Polychrome::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
+
+void RGBController_Polychrome::UpdateSingleLED(int led)
+{
+    UpdateLEDs();
 }
 
 static const char* polychrome_zone_names[] =
@@ -105,6 +88,7 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 
         // Push new LED to LEDs vector
         leds.push_back(*new_led);
+        colors.push_back(0x00000000);
 
         // Push new zone to zones vector
         zones.push_back(*new_zone);

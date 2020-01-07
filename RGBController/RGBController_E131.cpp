@@ -101,36 +101,6 @@ void RGBController_E131::SetCustomMode()
 
 }
 
-void RGBController_E131::SetAllLEDs(RGBColor color)
-{
-    for (std::size_t i = 0; i < colors.size(); i++)
-    {
-        colors[i] = color;
-    }
-
-	UpdateLEDs();
-}
-
-void RGBController_E131::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
-    {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            colors[zones[zone].map[x][y]] = color;
-        }
-    }
-
-	UpdateLEDs();
-}
-
-void RGBController_E131::SetLED(int led, RGBColor color)
-{
-    colors[led] = color;
-
-	UpdateLEDs();
-}
-
 void RGBController_E131::UpdateLEDs()
 {
     int color_idx = 0;
@@ -187,7 +157,17 @@ void RGBController_E131::UpdateLEDs()
 
     for(std::size_t packet_idx = 0; packet_idx < packets.size(); packet_idx++)
     {
-	    e131_send(sockfd, &packets[packet_idx], &dest_addrs[packet_idx]);
+        e131_send(sockfd, &packets[packet_idx], &dest_addrs[packet_idx]);
         packets[packet_idx].frame.seq_number++;
     }
+}
+
+void RGBController_E131::UpdateZoneLEDs(int zone)
+{
+	UpdateLEDs();
+}
+
+void RGBController_E131::UpdateSingleLED(int led)
+{
+	UpdateLEDs();
 }

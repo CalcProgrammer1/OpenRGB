@@ -26,6 +26,7 @@ INCLUDEPATH +=                                                          \
     qt/
 
 SOURCES +=                                                              \
+    RGBController/RGBController.cpp \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     OpenRGB.cpp                                                         \

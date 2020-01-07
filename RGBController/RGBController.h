@@ -79,11 +79,21 @@ public:
 
     virtual ~RGBController() = default;
 
-    virtual int  GetMode()         = 0;
-    virtual void SetMode(int mode) = 0;
-    virtual void SetCustomMode()   = 0;
-    virtual void SetAllLEDs(RGBColor color) = 0;
-	virtual void SetAllZoneLEDs(int zone, RGBColor color) = 0;
-	virtual void SetLED(int led, RGBColor color) = 0;
-    virtual void UpdateLEDs() = 0;
+    /*---------------------------------------------------------*\
+    | Generic functions implemented in RGBController.cpp        |
+    \*---------------------------------------------------------*/
+    RGBColor                GetLED(int led);
+    void                    SetLED(int led, RGBColor color);
+    void                    SetAllLEDs(RGBColor color);
+    void                    SetAllZoneLEDs(int zone, RGBColor color);
+
+    /*---------------------------------------------------------*\
+    | Functions to be implemented in device implementation      |
+    \*---------------------------------------------------------*/
+    virtual int             GetMode()                                   = 0;
+    virtual void            SetMode(int mode)                           = 0;
+    virtual void            SetCustomMode()                             = 0;
+    virtual void            UpdateLEDs()                                = 0;
+    virtual void            UpdateZoneLEDs(int zone)                    = 0;
+    virtual void            UpdateSingleLED(int led)                    = 0;
 };

@@ -90,6 +90,11 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     }
 
     ui->LEDBox->setCurrentIndex(0);
+
+    /*-----------------------------------------------------*\
+    | Update color picker with color of first LED           |
+    \*-----------------------------------------------------*/
+    on_LEDBox_currentIndexChanged(0);
 }
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
@@ -102,9 +107,18 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
 
 }
 
-void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int /*index*/)
+void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 {
-
+    /*-----------------------------------------------------*\
+    | Update color picker with color of selected LED        |
+    \*-----------------------------------------------------*/
+    RGBColor color = device->GetLED(index);
+    UpdatingColor = true;
+    ui->RedSpinBox->setValue(RGBGetRValue(color));
+    ui->GreenSpinBox->setValue(RGBGetGValue(color));
+    ui->BlueSpinBox->setValue(RGBGetBValue(color));
+    UpdatingColor = false;
+    updateHSV();
 }
 
 void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)

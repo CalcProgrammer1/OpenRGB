@@ -35,36 +35,24 @@ void RGBController_AorusGPU::SetCustomMode()
 
 }
 
-void RGBController_AorusGPU::SetAllLEDs(RGBColor color)
-{
-    data[9] = RGBGetRValue(color);
-    data[10] = RGBGetGValue(color);
-    data[11] = RGBGetBValue(color);
-
-    GvWriteI2C(0x00000000, data, 0x00000000);
-}
-
-void RGBController_AorusGPU::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    data[9] = RGBGetRValue(color);
-    data[10] = RGBGetGValue(color);
-    data[11] = RGBGetBValue(color);
-
-    GvWriteI2C(0x00000000, data, 0x00000000);
-}
-
-void RGBController_AorusGPU::SetLED(int led, RGBColor color)
-{
-    data[9] = RGBGetRValue(color);
-    data[10] = RGBGetGValue(color);
-    data[11] = RGBGetBValue(color);
-
-    GvWriteI2C(0x00000000, data, 0x00000000);
-}
-
 void RGBController_AorusGPU::UpdateLEDs()
 {
+    RGBColor color = colors[0];
+    data[9] = RGBGetRValue(color);
+    data[10] = RGBGetGValue(color);
+    data[11] = RGBGetBValue(color);
 
+    GvWriteI2C(0x00000000, data, 0x00000000);
+}
+
+void RGBController_AorusGPU::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
+
+void RGBController_AorusGPU::UpdateSingleLED(int led)
+{
+    UpdateLEDs();
 }
 
 RGBController_AorusGPU::RGBController_AorusGPU()
@@ -80,6 +68,8 @@ RGBController_AorusGPU::RGBController_AorusGPU()
     
     GvFreeDispLib();
     GvInitDispLib();
+
+    colors.push_back(0x00000000);
 
     mode aorus_mode;
     aorus_mode.name = "Static";

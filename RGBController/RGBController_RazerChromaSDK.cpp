@@ -85,36 +85,6 @@ void RGBController_RazerChromaSDK::SetCustomMode()
 
 }
 
-void RGBController_RazerChromaSDK::SetAllLEDs(RGBColor color)
-{
-    for (int i = 0; i < colors.size(); i++)
-    {
-        colors[i] = color;
-    }
-
-    UpdateLEDs();
-}
-
-void RGBController_RazerChromaSDK::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    for (int x = 0; x < zones[zone].map.size(); x++)
-    {
-        for (int y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            colors[zones[zone].map[x][y]] = color;
-        }
-    }
-
-    UpdateLEDs();
-}
-
-void RGBController_RazerChromaSDK::SetLED(int led, RGBColor color)
-{
-    colors[led] = color;
-
-    UpdateLEDs();
-}
-
 void RGBController_RazerChromaSDK::UpdateLEDs()
 {
     switch (device->razer_type)
@@ -188,4 +158,14 @@ void RGBController_RazerChromaSDK::UpdateLEDs()
         }
         break;
     }
+}
+
+void RGBController_RazerChromaSDK::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
+
+void RGBController_RazerChromaSDK::UpdateSingleLED(int led)
+{
+    UpdateLEDs();
 }

@@ -99,6 +99,9 @@ public:
     unsigned char GetChannel(unsigned int led);
     const char*   GetChannelName(unsigned int led);
     unsigned int  GetLEDCount();
+    unsigned char GetLEDRed(unsigned int led);
+    unsigned char GetLEDGreen(unsigned int led);
+    unsigned char GetLEDBlue(unsigned int led);
     void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
     void          SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue);
     void          SetDirect(unsigned char direct);

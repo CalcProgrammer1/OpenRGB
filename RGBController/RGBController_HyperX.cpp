@@ -24,50 +24,67 @@ void RGBController_HyperX::SetCustomMode()
     hyperx->SetMode(HYPERX_MODE_DIRECT);
 }
 
-void RGBController_HyperX::SetAllLEDs(RGBColor color)
+void RGBController_HyperX::UpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
     if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {
-        hyperx->SetAllColors(red, grn, blu);
+        for (std::size_t zone = 0; zone < zones.size(); zone++ )
+        {
+            for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+            {
+                for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
+                {
+                    int           led   = zones[zone].map[x][y];
+                    RGBColor      color = colors[led];
+                    unsigned char red = RGBGetRValue(color);
+                    unsigned char grn = RGBGetGValue(color);
+                    unsigned char blu = RGBGetBValue(color);
+                    hyperx->SetLEDColor(led, red, grn, blu);
+                }
+            }
+        }
     }
     else
     {
+        unsigned char red = RGBGetRValue(colors[0]);
+        unsigned char grn = RGBGetGValue(colors[0]);
+        unsigned char blu = RGBGetBValue(colors[0]);
         hyperx->SetEffectColor(red, grn, blu);
     }
-    
 }
 
-void RGBController_HyperX::SetAllZoneLEDs(int zone, RGBColor color)
+void RGBController_HyperX::UpdateZoneLEDs(int zone)
 {
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
     if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {
         for (std::size_t x = 0; x < zones[zone].map.size(); x++)
         {
             for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
             {
-                hyperx->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
+                int           led   = zones[zone].map[x][y];
+                RGBColor      color = colors[led];
+                unsigned char red = RGBGetRValue(color);
+                unsigned char grn = RGBGetGValue(color);
+                unsigned char blu = RGBGetBValue(color);
+                hyperx->SetLEDColor(led, red, grn, blu);
             }
         }
     }
     else
     {
+        unsigned char red = RGBGetRValue(colors[0]);
+        unsigned char grn = RGBGetGValue(colors[0]);
+        unsigned char blu = RGBGetBValue(colors[0]);
         hyperx->SetEffectColor(red, grn, blu);
     }
 }
 
-void RGBController_HyperX::SetLED(int led, RGBColor color)
+void RGBController_HyperX::UpdateSingleLED(int led)
 {
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
+    RGBColor      color = colors[led];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
 
     if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {
@@ -76,23 +93,6 @@ void RGBController_HyperX::SetLED(int led, RGBColor color)
     else
     {
         hyperx->SetEffectColor(red, grn, blu);
-    }
-}
-
-void RGBController_HyperX::UpdateLEDs()
-{
-    for (std::size_t zone = 0; zone < zones.size(); zone++ )
-    {
-        for (std::size_t x = 0; x < zones[zone].map.size(); x++)
-        {
-            for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-            {
-                unsigned char red = RGBGetRValue(colors[zones[zone].map[x][y]]);
-                unsigned char grn = RGBGetGValue(colors[zones[zone].map[x][y]]);
-                unsigned char blu = RGBGetBValue(colors[zones[zone].map[x][y]]);
-                hyperx->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
-            }
-        }
     }
 }
 

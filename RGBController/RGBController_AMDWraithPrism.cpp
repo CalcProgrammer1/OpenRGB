@@ -24,6 +24,7 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     led logo_led;
     logo_led.name = "Logo";
     leds.push_back(logo_led);
+    colors.push_back(0x00000000);
 
     zone logo_zone;
     logo_zone.name = "Logo";
@@ -36,6 +37,7 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     led fan_led;
     fan_led.name = "Fan";
     leds.push_back(fan_led);
+    colors.push_back(0x00000000);
 
     zone fan_zone;
     fan_zone.name = "Fan";
@@ -48,6 +50,7 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     led ring_led;
     ring_led.name = "Ring";
     leds.push_back(ring_led);
+    colors.push_back(0x00000000);
 
     zone ring_zone;
     ring_zone.name = "Ring";
@@ -78,57 +81,6 @@ void RGBController_AMDWraithPrism::SetCustomMode()
 
 }
 
-void RGBController_AMDWraithPrism::SetAllLEDs(RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    wraith->SetFanColor(red, grn, blu);
-    wraith->SetLogoColor(red, grn, blu);
-    wraith->SetRingColor(red, grn, blu);
-}
-
-void RGBController_AMDWraithPrism::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    if(zone == 0)
-    {
-        wraith->SetLogoColor(red, grn, blu);
-    }
-    else if(zone == 1)
-    {
-        wraith->SetFanColor(red, grn, blu);
-    }
-    else if(zone == 2)
-    {
-        wraith->SetRingColor(red, grn, blu);
-    }
-}
-
-void RGBController_AMDWraithPrism::SetLED(int led, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    if(led == 0)
-    {
-        wraith->SetLogoColor(red, grn, blu);
-    }
-    else if(led == 1)
-    {
-        wraith->SetFanColor(red, grn, blu);
-    }
-    else if(led == 2)
-    {
-        wraith->SetRingColor(red, grn, blu);
-    }
-}
-
 void RGBController_AMDWraithPrism::UpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
@@ -145,4 +97,30 @@ void RGBController_AMDWraithPrism::UpdateLEDs()
     grn = RGBGetGValue(colors[2]);
     blu = RGBGetBValue(colors[2]);
     wraith->SetRingColor(red, grn, blu);
+}
+
+void RGBController_AMDWraithPrism::UpdateZoneLEDs(int zone)
+{
+    RGBColor      color = colors[zone];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
+
+    if(zone == 0)
+    {
+        wraith->SetLogoColor(red, grn, blu);
+    }
+    else if(zone == 1)
+    {
+        wraith->SetFanColor(red, grn, blu);
+    }
+    else if(zone == 2)
+    {
+        wraith->SetRingColor(red, grn, blu);
+    }
+}
+
+void RGBController_AMDWraithPrism::UpdateSingleLED(int led)
+{
+    UpdateZoneLEDs(led);
 }

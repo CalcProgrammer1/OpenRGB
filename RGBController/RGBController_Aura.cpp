@@ -39,60 +39,6 @@ void RGBController_Aura::SetCustomMode()
     aura->SetDirect(true);
 }
 
-void RGBController_Aura::SetAllLEDs(RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    if (GetMode() == 0)
-    {
-        aura->SetAllColorsDirect(red, grn, blu);
-    }
-    else
-    {
-        aura->SetAllColorsEffect(red, grn, blu);
-    }
-}
-
-void RGBController_Aura::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
-    {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            if (GetMode() == 0)
-            {
-                aura->SetLEDColorDirect(zones[zone].map[x][y], red, grn, blu);
-            }
-            else
-            {
-                aura->SetLEDColorEffect(zones[zone].map[x][y], red, grn, blu);
-            }
-        }
-    }
-}
-
-void RGBController_Aura::SetLED(int led, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    if (GetMode() == 0)
-    {
-        aura->SetLEDColorDirect(led, red, grn, blu);
-    }
-    else
-    {
-        aura->SetLEDColorEffect(led, red, grn, blu);
-    }
-}
-
 void RGBController_Aura::UpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
@@ -109,6 +55,47 @@ void RGBController_Aura::UpdateLEDs()
         {
             aura->SetLEDColorEffect(led, red, grn, blu);
         }
+    }
+}
+
+void RGBController_Aura::UpdateZoneLEDs(int zone)
+{
+    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+    {
+        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
+        {
+            int           led   = zones[zone].map[x][y];
+            RGBColor      color = colors[led];
+            unsigned char red   = RGBGetRValue(color);
+            unsigned char grn   = RGBGetGValue(color);
+            unsigned char blu   = RGBGetBValue(color);
+
+            if (GetMode() == 0)
+            {
+                aura->SetLEDColorDirect(led, red, grn, blu);
+            }
+            else
+            {
+                aura->SetLEDColorEffect(led, red, grn, blu);
+            }
+        }
+    }
+}
+
+void RGBController_Aura::UpdateSingleLED(int led)
+{
+    RGBColor color    = colors[led];
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
+    if (GetMode() == 0)
+    {
+        aura->SetLEDColorDirect(led, red, grn, blu);
+    }
+    else
+    {
+        aura->SetLEDColorEffect(led, red, grn, blu);
     }
 }
 
@@ -163,7 +150,12 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
         new_led->name = aura->GetChannelName(i);
 
         leds.push_back(*new_led);
-        colors.push_back(0x00000000);
+
+        unsigned char red = aura->GetLEDRed(i);
+        unsigned char grn = aura->GetLEDGreen(i);
+        unsigned char blu = aura->GetLEDBlue(i);
+
+        colors.push_back(ToRGBColor(red, grn, blu));
     }
 
     std::vector<unsigned char> aura_zones;

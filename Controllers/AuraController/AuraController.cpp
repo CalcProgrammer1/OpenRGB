@@ -157,6 +157,21 @@ unsigned int AuraController::GetLEDCount()
     return(led_count);
 }
 
+unsigned char AuraController::GetLEDRed(unsigned int led)
+{
+    return(AuraRegisterRead(direct_reg + ( 3 * led )));
+}
+
+unsigned char AuraController::GetLEDGreen(unsigned int led)
+{
+    return(AuraRegisterRead(direct_reg + ( 3 * led ) + 2));
+}
+
+unsigned char AuraController::GetLEDBlue(unsigned int led)
+{
+    return(AuraRegisterRead(direct_reg + ( 3 * led ) + 1));
+}
+
 void AuraController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char* colors = new unsigned char[led_count * 3];

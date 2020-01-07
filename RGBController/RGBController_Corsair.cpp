@@ -24,42 +24,24 @@ void RGBController_Corsair::SetCustomMode()
 
 }
 
-void RGBController_Corsair::SetAllLEDs(RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    corsair->SetAllColors(red, grn, blu);
-}
-
-void RGBController_Corsair::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
-    {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            corsair->SetLEDColor(zones[zone].map[x][y], red, grn, blu);
-        }
-    }
-}
-
-void RGBController_Corsair::SetLED(int led, RGBColor color)
-{
-    unsigned char red = RGBGetRValue(color);
-    unsigned char grn = RGBGetGValue(color);
-    unsigned char blu = RGBGetBValue(color);
-
-    corsair->SetLEDColor(led, red, grn, blu);
-}
-
 void RGBController_Corsair::UpdateLEDs()
 {
+    RGBColor      color = colors[0];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
 
+    corsair->SetLEDColor(red, grn, blu);
+}
+
+void RGBController_Corsair::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
+
+void RGBController_Corsair::UpdateSingleLED(int led)
+{
+    UpdateLEDs();
 }
 
 RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)

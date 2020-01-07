@@ -82,58 +82,6 @@ void RGBController_HuePlus::SetCustomMode()
 
 }
 
-void RGBController_HuePlus::SetAllLEDs(RGBColor color)
-{
-    for (std::size_t i = 0; i < colors.size(); i++)
-    {
-        colors[i] = color;
-    }
-
-    hueplus->SetChannelLEDs(0, colors);
-}
-
-void RGBController_HuePlus::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    unsigned int channel = zones_channel[zone];
-
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
-    {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            colors[zones[zone].map[x][y]] = color;
-        }
-    }
-
-    std::vector<RGBColor> channel_colors;
-
-    for(std::size_t color = 0; color < colors.size(); color++)
-    {
-        if(leds_channel[color] == channel)
-        {
-            channel_colors.push_back(colors[color]);
-        }
-    }
-
-    hueplus->SetChannelLEDs(channel, channel_colors);
-}
-
-void RGBController_HuePlus::SetLED(int led, RGBColor color)
-{
-    unsigned int channel = leds_channel[led];
-    colors[led] = color;
-
-    std::vector<RGBColor> channel_colors;
-
-    for(std::size_t color = 0; color < colors.size(); color++)
-    {
-        if(leds_channel[color] == channel)
-        {
-            channel_colors.push_back(colors[color]);
-        }
-    }
-    hueplus->SetChannelLEDs(channel, channel_colors);
-}
-
 void RGBController_HuePlus::UpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx <= zones.size(); zone_idx++)
@@ -155,4 +103,37 @@ void RGBController_HuePlus::UpdateLEDs()
             hueplus->SetChannelLEDs(channel, channel_colors);
         }
     }
+}
+
+void RGBController_HuePlus::UpdateZoneLEDs(int zone)
+{
+    unsigned int channel = zones_channel[zone];
+
+    std::vector<RGBColor> channel_colors;
+
+    for(std::size_t color = 0; color < colors.size(); color++)
+    {
+        if(leds_channel[color] == channel)
+        {
+            channel_colors.push_back(colors[color]);
+        }
+    }
+
+    hueplus->SetChannelLEDs(channel, channel_colors);
+}
+
+void RGBController_HuePlus::UpdateSingleLED(int led)
+{
+    unsigned int channel = leds_channel[led];
+
+    std::vector<RGBColor> channel_colors;
+
+    for(std::size_t color = 0; color < colors.size(); color++)
+    {
+        if(leds_channel[color] == channel)
+        {
+            channel_colors.push_back(colors[color]);
+        }
+    }
+    hueplus->SetChannelLEDs(channel, channel_colors);
 }
