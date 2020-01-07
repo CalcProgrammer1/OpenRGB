@@ -104,7 +104,7 @@ void Hue2Controller::SetChannelEffect(unsigned int channel, unsigned int mode, s
     /*-----------------------------------------------------*\
     | Set channel in USB packet                             |
     \*-----------------------------------------------------*/
-    usb_buf[0x02]   = channel;
+    usb_buf[0x02]   = 1 << channel;
 
     /*-----------------------------------------------------*\
     | Set mode in USB packet                                |
@@ -180,8 +180,8 @@ void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> 
     /*-----------------------------------------------------*\
     | Set channel in USB packets                            |
     \*-----------------------------------------------------*/
-    usb_buf[0x02]   = channel;
-    usb_apply[0x02] = channel;
+    usb_buf[0x02]   = 1 << channel;
+    usb_apply[0x02] = 1 << channel;
 
     /*-----------------------------------------------------*\
     | Send first packet for first 20 LEDs                   |

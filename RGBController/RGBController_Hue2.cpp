@@ -52,7 +52,7 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
                 new_led.name.append(led_idx_string);
 
                 leds.push_back(new_led);
-                leds_channel.push_back(channel_idx + 1);
+                leds_channel.push_back(channel_idx);
 
                 new_zone_map->push_back(led_idx);
                 led_idx++;
@@ -60,7 +60,7 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
 
             new_zone->map.push_back(*new_zone_map);
             zones.push_back(*new_zone);
-            zones_channel.push_back(channel_idx + 1);
+            zones_channel.push_back(channel_idx);
         }
     }
 }
