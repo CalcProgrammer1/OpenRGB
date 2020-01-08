@@ -76,6 +76,9 @@ unsigned int PatriotViperController::GetMode()
 
 void PatriotViperController::SetEffectColor(unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+    
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
@@ -88,10 +91,16 @@ void PatriotViperController::SetEffectColor(unsigned char red, unsigned char gre
     ViperRegisterWrite(VIPER_REG_MODE, mode, 0x00, 0x0C);
     ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
     ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
@@ -102,20 +111,32 @@ void PatriotViperController::SetAllColors(unsigned char red, unsigned char green
     ViperRegisterWrite(VIPER_REG_LED4_DIRECT_COLOR, red, blue, green);
 
     ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
     ViperRegisterWrite(VIPER_REG_LED0_DIRECT_COLOR + led, red, blue, green);
 
     ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::SetLEDEffectColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
@@ -124,20 +145,32 @@ void PatriotViperController::SetLEDEffectColor(unsigned int led, unsigned char r
     ViperRegisterWrite(VIPER_REG_MODE, mode, 0x00, 0x0C);
     ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
     ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
     ViperRegisterWrite(VIPER_REG_LED0_DIRECT_COLOR + led, red, blue, green);
 
     ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::SetLEDEffectColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
 
@@ -146,6 +179,9 @@ void PatriotViperController::SetLEDEffectColor(unsigned int slot, unsigned int l
     ViperRegisterWrite(VIPER_REG_MODE, mode, 0x00, 0x0C);
     ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
     ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::SetMode(unsigned char new_mode)
@@ -153,19 +189,32 @@ void PatriotViperController::SetMode(unsigned char new_mode)
     direct = false;
     mode = new_mode;
 
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
     ViperRegisterWrite(VIPER_REG_MODE, new_mode, 0x00, 0x0C);
     ViperRegisterWrite(VIPER_REG_MODE, 0xAA, 0x00, 0x00);
     ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::SetDirect()
 {
     direct = true;
+
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
     ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void PatriotViperController::ViperRegisterWrite(viper_register reg, unsigned char val0, unsigned char val1, unsigned char val2)

@@ -78,6 +78,9 @@ unsigned int HyperXController::GetMode()
 
 void HyperXController::SetEffectColor(unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+    
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_EFFECT_RED,        red  );
@@ -87,10 +90,16 @@ void HyperXController::SetEffectColor(unsigned char red, unsigned char green, un
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
     /*-----------------------------------------------------*\
@@ -124,6 +133,9 @@ void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsi
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void HyperXController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
@@ -163,6 +175,9 @@ void HyperXController::SetLEDColor(unsigned int led, unsigned char red, unsigned
     unsigned char blue_base   = base + 0x02;
     unsigned char bright_base = base + 0x10;
 
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
     bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
@@ -172,6 +187,9 @@ void HyperXController::SetLEDColor(unsigned int led, unsigned char red, unsigned
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 
@@ -183,6 +201,9 @@ void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned
     unsigned char blue_base   = base + 0x02;
     unsigned char bright_base = base + 0x10;
 
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
     bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
@@ -192,12 +213,18 @@ void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void HyperXController::SetMode(unsigned char new_mode)
 {
     mode = new_mode;
-    
+
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
     switch (mode)
@@ -241,4 +268,7 @@ void HyperXController::SetMode(unsigned char new_mode)
 
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }

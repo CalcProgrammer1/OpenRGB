@@ -46,14 +46,26 @@ unsigned int CorsairController::GetLEDCount()
 
 void CorsairController::SetLEDColor(unsigned char red, unsigned char green, unsigned char blue)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_FADE_TIME, 0x00);
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_RED_VAL, red);
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_GREEN_VAL, green);
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_BLUE_VAL, blue);
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_MODE, CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void CorsairController::SetMode(unsigned char /*mode*/)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_VENGEANCE_RGB_CMD_MODE, CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }

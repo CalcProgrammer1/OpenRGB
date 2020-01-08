@@ -69,8 +69,14 @@ public:
     s32 i2c_smbus_read_i2c_block_data(u8 addr, u8 command, u8 length, u8 *values);
     s32 i2c_smbus_write_i2c_block_data(u8 addr, u8 command, u8 length, const u8 *values);
 
+    void i2c_smbus_wait_and_lock();
+    void i2c_smbus_unlock();
+
     //Virtual function to be implemented by the driver
     virtual s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data) = 0;
+
+private:
+    bool lock = false;
 };
 
 #endif /* I2C_SMBUS_H */

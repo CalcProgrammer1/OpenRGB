@@ -63,6 +63,9 @@ void RGBFusionController::SetAllColors(unsigned char red, unsigned char green, u
 {
     unsigned char mode_ch_0;
     unsigned char mode_ch_1;
+
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
     
     switch_bank(1);
     set_color_ch_0(red, green, blue);
@@ -74,6 +77,8 @@ void RGBFusionController::SetAllColors(unsigned char red, unsigned char green, u
     set_mode_ch_0(mode_ch_0);
     set_mode_ch_1(mode_ch_1);
 
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void RGBFusionController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
@@ -83,30 +88,48 @@ void RGBFusionController::SetLEDColor(unsigned int led, unsigned char red, unsig
     switch (led)
     {
     case 0:
+        //Lock SMBus interface
+        bus->i2c_smbus_wait_and_lock();
+        
         switch_bank(1);
         set_color_ch_0(red, green, blue);
 
         switch_bank(0);
         mode = get_mode_ch_0();
         set_mode_ch_0(mode);
+
+        //Unlock SMBus interface
+        bus->i2c_smbus_unlock();
         break;
 
     case 1:
+        //Lock SMBus interface
+        bus->i2c_smbus_wait_and_lock();
+
         switch_bank(1);
         set_color_ch_1(red, green, blue);
 
         switch_bank(0);
         mode = get_mode_ch_1();
         set_mode_ch_1(mode);
+
+        //Unlock SMBus interface
+        bus->i2c_smbus_unlock();
         break;
     }
 }
 
 void RGBFusionController::SetMode(unsigned char mode)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     switch_bank(0);
     set_mode_ch_0(mode);
     set_mode_ch_1(mode);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void RGBFusionController::dump()

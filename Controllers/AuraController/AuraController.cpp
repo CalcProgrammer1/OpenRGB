@@ -244,30 +244,45 @@ void AuraController::AuraUpdateDeviceName()
 
 unsigned char AuraController::AuraRegisterRead(aura_register reg)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     //Write Aura register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
     //Read Aura value
     return(bus->i2c_smbus_read_byte_data(dev, 0x81));
 
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void AuraController::AuraRegisterWrite(aura_register reg, unsigned char val)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     //Write Aura register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
     //Write Aura value
     bus->i2c_smbus_write_byte_data(dev, 0x01, val);
 
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void AuraController::AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+    
     //Write Aura register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
     //Write Aura block data
     bus->i2c_smbus_write_block_data(dev, 0x03, sz, data);
 
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }

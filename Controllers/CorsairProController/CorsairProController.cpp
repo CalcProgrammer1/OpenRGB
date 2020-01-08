@@ -81,6 +81,9 @@ void CorsairProController::SetLEDColor(unsigned int led, unsigned char red, unsi
 
 void CorsairProController::ApplyColors()
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+
     bus->i2c_smbus_write_byte_data(dev, 0x26, 0x02);
     Sleep(1);
     bus->i2c_smbus_write_byte_data(dev, 0x21, 0x00);
@@ -95,10 +98,16 @@ void CorsairProController::ApplyColors()
     }
 
     bus->i2c_smbus_write_byte_data(dev, 0x82, 0x02);
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void CorsairProController::SetEffect(unsigned char mode)
 {
+    //Lock SMBus interface
+    bus->i2c_smbus_wait_and_lock();
+    
     bus->i2c_smbus_write_byte_data(dev, 0x26, 0x01);
     Sleep(1);
     bus->i2c_smbus_write_byte_data(dev, 0x21, 0x00);
@@ -127,6 +136,9 @@ void CorsairProController::SetEffect(unsigned char mode)
 
     bus->i2c_smbus_write_byte_data(dev, 0x82, 0x01);
     WaitReady();
+
+    //Unlock SMBus interface
+    bus->i2c_smbus_unlock();
 }
 
 void CorsairProController::SetCustom()

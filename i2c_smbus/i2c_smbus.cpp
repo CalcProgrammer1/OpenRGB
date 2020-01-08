@@ -9,6 +9,17 @@
 #include "i2c_smbus.h"
 #include <string.h>
 
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
 s32 i2c_smbus_interface::i2c_smbus_write_quick(u8 addr, u8 value)
 {
     return i2c_smbus_xfer(addr, value, 0, I2C_SMBUS_QUICK, NULL);
@@ -127,4 +138,19 @@ s32 i2c_smbus_interface::i2c_smbus_write_i2c_block_data(u8 addr, u8 command, u8 
     data.block[0] = length;
     memcpy(&data.block[1], values, length);
     return i2c_smbus_xfer(addr, I2C_SMBUS_WRITE, command, I2C_SMBUS_I2C_BLOCK_DATA, &data);
+}
+
+void i2c_smbus_interface::i2c_smbus_wait_and_lock()
+{
+    while(lock == true)
+    {
+        Sleep(1);
+    }
+
+    lock = true;
+}
+
+void i2c_smbus_interface::i2c_smbus_unlock()
+{
+    lock = false;
 }
