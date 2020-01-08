@@ -139,7 +139,7 @@ void HuePlusController::SetChannelEffect(unsigned int channel, unsigned int mode
     serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
     serialport->serial_flush_tx();
 
-    Sleep(1);
+    Sleep(10);
 }
 
 void HuePlusController::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors)
@@ -205,5 +205,5 @@ void HuePlusController::SetChannelLEDs(unsigned int channel, std::vector<RGBColo
     serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
     serialport->serial_flush_tx();
 
-    Sleep(1);
+    Sleep(10);
 }
