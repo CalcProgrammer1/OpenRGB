@@ -4,25 +4,36 @@
 |  Generic RGB Interface for OpenRGB        |
 |  Gigabyte RGB Fusion 2.0 Driver           |
 |                                           |
-|  Adam Honse (CalcProgrammer1) 1/15/2020   |
+|  jackun 1/8/2020                          |
 \*-----------------------------------------*/
 
 #pragma once
-
 #include "RGBController.h"
 #include "RGBFusion2Controller.h"
+#include <map>
+#include <vector>
 
-class RGBController_RGBFusion2 : public RGBController
+struct LedPort
+{
+    const char* name;
+    int header;
+};
+
+typedef std::vector< std::vector<LedPort> > ZoneLeds;
+typedef std::map< std::string, ZoneLeds > KnownChannels;
+
+class RGBController_RGBFusion2: public RGBController
 {
 public:
-    RGBController_RGBFusion2(RGBFusion2Controller* rgb_fusion_ptr);
+    RGBController_RGBFusion2(RGBFusion2Controller* controller_ptr);
+    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
-
-    void        SetCustomMode();
     void        UpdateMode();
 
 private:
-    RGBFusion2Controller* rgb_fusion;
+    RGBFusion2Controller*       controller;
+    IT8297Report                report;
+    unsigned int                per_strip_led_cnt;
 };

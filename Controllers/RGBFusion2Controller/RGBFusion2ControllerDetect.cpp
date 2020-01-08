@@ -1,36 +1,37 @@
 #include "RGBFusion2Controller.h"
-#include "RGBController.h"
 #include "RGBController_RGBFusion2.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
-#define RGB_FUSION_2_VID 0x048D
-#define RGB_FUSION_2_PID 0x8297
+#define IT8297_VID 0x048D
+#define IT8297_PID 0x8297
 
 /******************************************************************************************\
 *                                                                                          *
 *   DetectRGBFusion2Controllers                                                            *
 *                                                                                          *
-*       Detect RGB Fusion 2.0 controllers on the USB interface.                            *
+*       Detect RGB Fusion 2 devices that use IT8297 RGB controller                         *
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectRGBFusion2Controllers(std::vector<RGBController*>& rgb_controllers)
+void DetectRGBFusion2Controllers(std::vector<RGBController*> &rgb_controllers)
 {
-    hid_device* dev;
+    if (hid_init() < 0)
+        return;
 
-    //Look for RGB Fusion 2.0 Controller
-    hid_init();
+    hid_device_info * device_list = hid_enumerate(IT8297_VID, IT8297_PID);
+    if (!device_list)
+        return;
 
-    dev = hid_open(RGB_FUSION_2_VID, RGB_FUSION_2_PID, 0);
-
-    if( dev )
+    hid_device_info * device = device_list;
+    while (device)
     {
-        RGBFusion2Controller* controller = new RGBFusion2Controller(dev);
-
-        RGBController_RGBFusion2* rgb_controller = new RGBController_RGBFusion2(controller);
-
-        rgb_controllers.push_back(rgb_controller);
+        hid_device * dev = hid_open_path(device->path);
+        if (dev) {
+            RGBFusion2Controller * controller = new RGBFusion2Controller(dev, device_list->path);
+            RGBController_RGBFusion2 * rgb_controller = new RGBController_RGBFusion2(controller);
+            rgb_controllers.push_back(rgb_controller);
+        }
+        device = device->next;
     }
 
-}   /* DetectRGBFusionControllers() */
+    hid_free_enumeration(device_list);
+}
