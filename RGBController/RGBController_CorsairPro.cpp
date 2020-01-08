@@ -113,6 +113,8 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
         modes.push_back(corsair_modes[i]);
     }
 
+    colors.resize(corsair->GetLEDCount());
+
     for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
     {
         led* new_led = new led();
@@ -120,7 +122,6 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
         new_led->name = "Corsair Pro LED";
 
         leds.push_back(*new_led);
-        colors.push_back(0x00000000);
     }
 
     zone new_zone;

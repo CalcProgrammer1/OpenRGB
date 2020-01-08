@@ -141,6 +141,8 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
         modes.push_back(aura_modes[i]);
     }
 
+    colors.resize(aura->GetLEDCount());
+
     for (std::size_t i = 0; i < aura->GetLEDCount(); i++)
     {
         aura_channels.push_back(aura->GetChannel(i));
@@ -155,7 +157,7 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
         unsigned char grn = aura->GetLEDGreen(i);
         unsigned char blu = aura->GetLEDBlue(i);
 
-        colors.push_back(ToRGBColor(red, grn, blu));
+        colors[i] = ToRGBColor(red, grn, blu);
     }
 
     std::vector<unsigned char> aura_zones;

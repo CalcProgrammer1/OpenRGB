@@ -23,8 +23,20 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
     led_mode.name = "Custom";
     modes.push_back(led_mode);
 
-    unsigned int led_idx = 0;
+    /*-------------------------------------------------*\
+    | Set size of colors array                          |
+    \*-------------------------------------------------*/
+    unsigned int led_count = 0;
+    for (unsigned int channel_idx = 0; channel_idx < HUE_PLUS_NUM_CHANNELS; channel_idx++)
+    {
+        led_count += hueplus->channel_leds[channel_idx];
+    }
+    colors.resize(led_count);
 
+    /*-------------------------------------------------*\
+    | Set zones and leds                                |
+    \*-------------------------------------------------*/
+    unsigned int led_idx = 0;
     for (int channel_idx = 0; channel_idx < HUE_PLUS_NUM_CHANNELS; channel_idx++)
     {
         if(hueplus->channel_leds[channel_idx] > 0)
@@ -42,8 +54,6 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 
             for (unsigned led_ch_idx = 0; led_ch_idx < hueplus->channel_leds[channel_idx]; led_ch_idx++)
             {
-                colors.push_back(0x00000000);
-
                 char led_idx_string[3];
                 sprintf(led_idx_string, "%d", led_ch_idx + 1);
 
@@ -119,7 +129,10 @@ void RGBController_HuePlus::UpdateZoneLEDs(int zone)
         }
     }
 
-    hueplus->SetChannelLEDs(channel, channel_colors);
+    if(channel_colors.size() > 0)
+    {
+        hueplus->SetChannelLEDs(channel, channel_colors);
+    }
 }
 
 void RGBController_HuePlus::UpdateSingleLED(int led)
@@ -135,5 +148,9 @@ void RGBController_HuePlus::UpdateSingleLED(int led)
             channel_colors.push_back(colors[color]);
         }
     }
-    hueplus->SetChannelLEDs(channel, channel_colors);
+
+    if(channel_colors.size() > 0)
+    {
+        hueplus->SetChannelLEDs(channel, channel_colors);
+    }
 }
