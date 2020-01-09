@@ -37,8 +37,8 @@ void HuePlusController::Initialize(char* port_name)
     
     serialport = new serial_port(port_name, HUE_PLUS_BAUD);
 
-    channel_leds[HUE_PLUS_CHANNEL_1_IDX] = GetStripsOnChannel(HUE_PLUS_CHANNEL_1) * 10;
-    channel_leds[HUE_PLUS_CHANNEL_2_IDX] = GetStripsOnChannel(HUE_PLUS_CHANNEL_2) * 10;
+    channel_leds[HUE_PLUS_CHANNEL_1_IDX] = GetLEDsOnChannel(HUE_PLUS_CHANNEL_1);
+    channel_leds[HUE_PLUS_CHANNEL_2_IDX] = GetLEDsOnChannel(HUE_PLUS_CHANNEL_2);
 }
 
 char* HuePlusController::GetLEDString()
@@ -46,7 +46,7 @@ char* HuePlusController::GetLEDString()
     return(led_string);
 }
 
-unsigned int HuePlusController::GetStripsOnChannel(unsigned int channel)
+unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)
 {
     unsigned char serial_buf[] =
     {
@@ -68,9 +68,17 @@ unsigned int HuePlusController::GetStripsOnChannel(unsigned int channel)
 
     int bytes_read = serialport->serial_read((char *)serial_buf, 5);
 
+    printf("%x %x %x %x %x \r\n", serial_buf[0], serial_buf[1], serial_buf[2], serial_buf[3], serial_buf[4]);
     if(bytes_read == 5)
     {
-        ret_val = serial_buf[4];
+        if(serial_buf[3] == 0x01)
+        {
+            ret_val = serial_buf[4] * 8;
+        }
+        else
+        {
+            ret_val += serial_buf[4] * 10;
+        }
     }
 
     return(ret_val);

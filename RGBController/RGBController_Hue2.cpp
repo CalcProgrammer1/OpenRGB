@@ -92,7 +92,7 @@ void RGBController_Hue2::SetCustomMode()
 
 void RGBController_Hue2::UpdateLEDs()
 {
-    for(std::size_t zone_idx = 0; zone_idx <= zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         unsigned int channel = zones_channel[zone_idx];
 
