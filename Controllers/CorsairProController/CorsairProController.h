@@ -69,6 +69,7 @@ public:
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
+    unsigned char   GetEffect();
     void            SetEffect(unsigned char mode);
     void            SetCustom();
 
@@ -80,7 +81,7 @@ public:
 private:
     char                    device_name[32];
     unsigned int            led_count;
-
+    unsigned char           effect_mode;
     unsigned char           led_red[CORSAIR_PRO_LED_COUNT];
     unsigned char           led_green[CORSAIR_PRO_LED_COUNT];
     unsigned char           led_blue[CORSAIR_PRO_LED_COUNT];

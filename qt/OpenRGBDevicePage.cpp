@@ -64,6 +64,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     /*-----------------------------------------------------*\
     | Fill in the combo boxes with device information       |
     \*-----------------------------------------------------*/
+    ui->ModeBox->blockSignals(true);
     ui->ModeBox->clear();
 
     for (std::size_t i = 0; i < device->modes.size(); i++)
@@ -72,7 +73,9 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     }
 
     ui->ModeBox->setCurrentIndex(device->GetMode());
+    ui->ModeBox->blockSignals(false);
 
+    ui->ZoneBox->blockSignals(true);
     ui->ZoneBox->clear();
 
     for (std::size_t i = 0; i < device->zones.size(); i++)
@@ -81,7 +84,9 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     }
 
     ui->ZoneBox->setCurrentIndex(0);
+    ui->ZoneBox->blockSignals(false);
 
+    ui->LEDBox->blockSignals(true);
     ui->LEDBox->clear();
 
     for (std::size_t i = 0; i < device->leds.size(); i++)
@@ -90,6 +95,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     }
 
     ui->LEDBox->setCurrentIndex(0);
+    ui->LEDBox->blockSignals(false);
 
     /*-----------------------------------------------------*\
     | Update color picker with color of first LED           |

@@ -11,6 +11,40 @@
 
 int RGBController_CorsairPro::GetMode()
 {
+    switch (corsair->GetEffect())
+    {
+    case CORSAIR_PRO_MODE_COLOR_SHIFT:
+        return(0);
+        break;
+    case CORSAIR_PRO_MODE_COLOR_PULSE:
+        return(1);
+        break;
+    case CORSAIR_PRO_MODE_RAINBOW_WAVE:
+        return(2);
+        break;
+    case CORSAIR_PRO_MODE_COLOR_WAVE:
+        return(3);
+        break;
+    case CORSAIR_PRO_MODE_VISOR:
+        return(4);
+        break;
+    case CORSAIR_PRO_MODE_RAIN:
+        return(5);
+        break;
+    case CORSAIR_PRO_MODE_MARQUEE:
+        return(6);
+        break;
+    case CORSAIR_PRO_MODE_RAINBOW:
+        return(7);
+        break;
+    case CORSAIR_PRO_MODE_SEQUENTIAL:
+        return(8);
+        break;
+    case CORSAIR_PRO_MODE_STATIC:
+        return(9);
+        break;
+    }
+
     return(0);
 }
 

@@ -29,6 +29,8 @@ CorsairProController::CorsairProController(i2c_smbus_interface* bus, corsair_dev
     strcpy(device_name, "Corsair Vengeance Pro RGB");
     led_count = CORSAIR_PRO_LED_COUNT;
 
+    effect_mode = CORSAIR_PRO_MODE_STATIC;
+    
     for (unsigned int i = 0; i < led_count; i++)
     {
         led_red[i]      = 0;
@@ -60,6 +62,11 @@ std::string CorsairProController::GetDeviceLocation()
 unsigned int CorsairProController::GetLEDCount()
 {
     return(led_count);
+}
+
+unsigned char CorsairProController::GetEffect()
+{
+    return(effect_mode);
 }
 
 void CorsairProController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
@@ -99,12 +106,14 @@ void CorsairProController::ApplyColors()
 
 void CorsairProController::SetEffect(unsigned char mode)
 {
+    effect_mode = mode;
+
     bus->i2c_smbus_write_byte_data(dev, 0x26, 0x01);
     Sleep(1);
     bus->i2c_smbus_write_byte_data(dev, 0x21, 0x00);
     Sleep(1);
 
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, mode); //Mode
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, effect_mode); //Mode
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, CORSAIR_PRO_SPEED_MEDIUM); //Speed
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, CORSAIR_PRO_EFFECT_RANDOM_COLORS); //Custom color
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, CORSAIR_PRO_DIRECTION_UP); //Direction
