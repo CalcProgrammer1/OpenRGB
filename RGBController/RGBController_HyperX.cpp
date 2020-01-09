@@ -122,6 +122,8 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
         modes.push_back(hyperx_modes[i]);
     }
 
+    colors.resize(hyperx->GetLEDCount());
+
     unsigned int led_idx = 0;
 
     for(unsigned int slot = 0; slot < hyperx->GetSlotCount(); slot++)
@@ -139,8 +141,6 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
 
         for(int led_slot_idx = 0; led_slot_idx < 5; led_slot_idx++)
         {
-            colors.push_back(0x00000000);
-
             led* new_led = new led();
 
             char led_idx_str[3];

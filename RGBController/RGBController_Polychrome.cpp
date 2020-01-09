@@ -68,6 +68,8 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
         modes.push_back(polychrome_modes[i]);
     }
 
+    colors.resize(polychrome->GetLEDCount());
+
     // Search through all LEDs and create zones for each channel type
     for (unsigned int i = 0; i < polychrome->GetLEDCount(); i++)
     {
@@ -88,7 +90,6 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 
         // Push new LED to LEDs vector
         leds.push_back(*new_led);
-        colors.push_back(0x00000000);
 
         // Push new zone to zones vector
         zones.push_back(*new_zone);

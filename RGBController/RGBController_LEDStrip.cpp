@@ -22,9 +22,10 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     led_mode.name = "Custom";
     modes.push_back(led_mode);
 
+    colors.resize(strip->num_leds);
+    
     for (int i = 0; i < strip->num_leds; i++)
     {
-        colors.push_back(0x00000000);
         led new_led;
         new_led.name = "LED Strip";
         leds.push_back(new_led);

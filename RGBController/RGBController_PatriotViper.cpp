@@ -106,8 +106,9 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
         modes.push_back(viper_modes[i]);
     }
 
-    unsigned int led_idx = 0;
+    colors.resize(viper->GetLEDCount());
 
+    unsigned int led_idx = 0;
     for(unsigned int slot = 0; slot < viper->GetSlotCount(); slot++)
     {
         zone* new_zone = new zone;
@@ -123,8 +124,6 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
 
         for(int led_slot_idx = 0; led_slot_idx < 5; led_slot_idx++)
         {
-            colors.push_back(0x00000000);
-
             led* new_led = new led();
 
             char led_idx_str[3];

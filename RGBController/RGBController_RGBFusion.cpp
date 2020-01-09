@@ -79,6 +79,8 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
         modes.push_back(rgb_fusion_modes[i]);
     }
 
+    colors.resize(rgb_fusion->GetLEDCount());
+
     // Search through all LEDs and create zones for each channel type
     for (unsigned int i = 0; i < rgb_fusion->GetLEDCount(); i++)
     {
@@ -99,7 +101,6 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
 
         // Push new LED to LEDs vector
         leds.push_back(*new_led);
-        colors.push_back(0x00000000);
 
         // Push new zone to zones vector
         zones.push_back(*new_zone);
