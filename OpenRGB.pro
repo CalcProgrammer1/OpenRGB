@@ -14,6 +14,7 @@ INCLUDEPATH +=                                                          \
     Controllers/AMDWraithPrismController/                               \
     Controllers/AuraController/                                         \
     Controllers/CorsairController/                                      \
+    Controllers/CorsairKbdV1Controller/                                 \
     Controllers/CorsairProController/                                   \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
@@ -46,6 +47,8 @@ SOURCES +=                                                              \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
     Controllers/CorsairController/CorsairController.cpp                 \
+    Controllers/CorsairKbdV1Controller/CorsairKbdV1Controller.cpp       \
+    Controllers/CorsairKbdV1Controller/CorsairKbdV1ControllerDetect.cpp \
     Controllers/CorsairController/CorsairControllerDetect.cpp           \
     Controllers/CorsairProController/CorsairProController.cpp           \
     Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
@@ -72,6 +75,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
+    RGBController/RGBController_CorsairKbdV1.cpp                        \
     RGBController/RGBController_CorsairPro.cpp                          \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
@@ -112,6 +116,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_Corsair.h                               \
+    RGBController/RGBController_CorsairKbdV1.h                          \
     RGBController/RGBController_CorsairPro.h                            \
     RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_Hue2.h                                  \

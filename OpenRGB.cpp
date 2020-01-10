@@ -334,6 +334,7 @@ void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controller
 void DetectAorusGPUControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectCorsairKbdV1Controllers(std::vector<RGBController*>& rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -362,7 +363,8 @@ void DetectRGBControllers(void)
     DetectAMDWraithPrismControllers(rgb_controllers);
     DetectMSI3ZoneControllers(rgb_controllers);
     DetectPoseidonZRGBControllers(rgb_controllers);
-
+    DetectCorsairKbdV1Controllers(rgb_controllers);
+    
     DetectE131Controllers(rgb_controllers);
 
     /*-------------------------------------*\
