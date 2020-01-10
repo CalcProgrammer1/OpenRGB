@@ -9,9 +9,29 @@
 
 #include "CorsairKbdV1Controller.h"
 
-CorsairKbdV1Controller::CorsairKbdV1Controller(hid_device* dev_handle)
+static void send_usb_msg(libusb_device_handle* dev, char * data_pkt)
+{
+    char usb_pkt[65];
+    for(int i = 1; i < 65; i++)
+    {
+        usb_pkt[i] = data_pkt[i-1];
+    }
+    libusb_control_transfer(dev, 0x21, 0x09, 0x0300, 0x03, (unsigned char *)data_pkt, 64, 1000);
+}
+
+CorsairKbdV1Controller::CorsairKbdV1Controller(libusb_device_handle* dev_handle)
 {
     dev = dev_handle;
+
+    char data_pkt[64] = { 0 };
+
+    data_pkt[0] = 0x07;
+    data_pkt[1] = 0x05;
+    data_pkt[2] = 0x02;
+    data_pkt[3] = 0x00;
+    data_pkt[4] = 0x03;
+
+    send_usb_msg(dev, data_pkt);
 }
 
 CorsairKbdV1Controller::~CorsairKbdV1Controller()
@@ -42,6 +62,10 @@ void CorsairKbdV1Controller::SetLEDs(std::vector<RGBColor> colors)
         if( grn > 7 ) grn = 7;
         if( blu > 7 ) blu = 7;
 
+        red = 7 - red;
+        grn = 7 - grn;
+        blu = 7 - blu;
+        
         red_val[color_idx] = red;
         grn_val[color_idx] = grn;
         blu_val[color_idx] = blu;
@@ -73,7 +97,9 @@ void CorsairKbdV1Controller::SetLEDs(std::vector<RGBColor> colors)
 
     data_pkt[4][0] = 0x07;
     data_pkt[4][1] = 0x27;
-    data_pkt[4][4] = 0xD8;
+    data_pkt[4][2] = 0x00;
+    data_pkt[4][2] = 0x00;
+    data_pkt[4][4] = 0xD8; //Number of payload bytes
 
     for(int i = 0; i < 60; i++)
     {
@@ -105,9 +131,9 @@ void CorsairKbdV1Controller::SetLEDs(std::vector<RGBColor> colors)
         data_pkt[3][i+4] = blu_val[i*2+73] << 4 | blu_val[i*2+72];
     }
 
-    hid_send_feature_report(dev, (const unsigned char *)data_pkt[0], 64);
-    hid_send_feature_report(dev, (const unsigned char *)data_pkt[1], 64);
-    hid_send_feature_report(dev, (const unsigned char *)data_pkt[2], 64);
-    hid_send_feature_report(dev, (const unsigned char *)data_pkt[3], 64);
-    hid_send_feature_report(dev, (const unsigned char *)data_pkt[4], 64);
+    send_usb_msg(dev, data_pkt[0]);
+    send_usb_msg(dev, data_pkt[1]);
+    send_usb_msg(dev, data_pkt[2]);
+    send_usb_msg(dev, data_pkt[3]);
+    send_usb_msg(dev, data_pkt[4]);
 }
