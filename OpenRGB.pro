@@ -90,7 +90,6 @@ HEADERS +=                                                              \
     qt/OpenRGBDialog.h                                                  \
     i2c_smbus/i2c_smbus.h                                               \
     i2c_tools/i2c_tools.h                                               \
-    hidapi/hidapi.h                                                     \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBSystemInfoPage.h                                          \
@@ -191,7 +190,17 @@ unix:HEADERS +=                                                         \
 
 unix:LIBS +=                                                            \
     -lusb-1.0                                                           \
-    -lhidapi
+
+packagesExist(hidapi-libusb){
+    unix:LIBS += -lhidapi-libusb
+} else {
+    packagesExist(hidapi) {
+        unix:LIBS += -lhidapi
+    } else {
+        unix:LIBS += -lhidapi-libusb
+    }
+}
+
 
 unix:SOURCES +=                                                         \
     i2c_smbus/i2c_smbus_linux.cpp                                       \

@@ -2,7 +2,7 @@
 #include "RGBController.h"
 #include "RGBController_MSI3Zone.h"
 #include <vector>
-#include "hidapi.h"
+#include <hidapi/hidapi.h>
 
 #define MSI_3_ZONE_KEYBOARD_VID 0x1770
 #define MSI_3_ZONE_KEYBOARD_PID 0xFF00
