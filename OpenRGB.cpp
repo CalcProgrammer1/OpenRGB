@@ -332,6 +332,8 @@ void DetectRazerChromaSDKControllers(std::vector<RGBController*>& rgb_controller
 void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectAorusGPUControllers(std::vector<RGBController*> &rgb_controllers);
+void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -358,6 +360,8 @@ void DetectRGBControllers(void)
     DetectHuePlusControllers(rgb_controllers);
 
     DetectAMDWraithPrismControllers(rgb_controllers);
+    DetectMSI3ZoneControllers(rgb_controllers);
+    DetectPoseidonZRGBControllers(rgb_controllers);
 
     DetectE131Controllers(rgb_controllers);
 

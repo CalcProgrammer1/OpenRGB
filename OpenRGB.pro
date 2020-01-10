@@ -19,14 +19,15 @@ INCLUDEPATH +=                                                          \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
     Controllers/LEDStripController/                                     \
+    Controllers/MSI3ZoneController/                                     \
     Controllers/PatriotViperController/                                 \
     Controllers/PolychromeController/                                   \
+    Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
     RGBController/                                                      \
     qt/
 
 SOURCES +=                                                              \
-    RGBController/RGBController.cpp \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     OpenRGB.cpp                                                         \
@@ -56,12 +57,17 @@ SOURCES +=                                                              \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+    Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
+    Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
     Controllers/PatriotViperController/PatriotViperController.cpp       \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
     Controllers/PolychromeController/PolychromeController.cpp           \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
+    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
+    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
+    RGBController/RGBController.cpp                                     \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
@@ -72,17 +78,19 @@ SOURCES +=                                                              \
     RGBController/RGBController_HyperX.cpp                              \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
+    RGBController/RGBController_MSI3Zone.cpp                            \
     RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
+    RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RGBFusion.cpp
 
 HEADERS +=                                                              \
-    Controllers/RGBFusionController/RGBFusionController.h               \
     qt/OpenRGBDeviceInfoPage.h                                          \
     qt/OpenRGBDevicePage.h                                              \
     qt/OpenRGBDialog.h                                                  \
     i2c_smbus/i2c_smbus.h                                               \
     i2c_tools/i2c_tools.h                                               \
+    hidapi/hidapi.h                                                     \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBSystemInfoPage.h                                          \
@@ -96,8 +104,10 @@ HEADERS +=                                                              \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXController/HyperXController.h                     \
     Controllers/LEDStripController/LEDStripController.h                 \
+    Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
     Controllers/PatriotViperController/PatriotViperController.h         \
     Controllers/PolychromeController/PolychromeController.h             \
+    Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
@@ -108,8 +118,11 @@ HEADERS +=                                                              \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
+    RGBController/RGBController_LEDStrip.h                              \
+    RGBController/RGBController_MSI3Zone.h                              \
     RGBController/RGBController_PatriotViper.h                          \
     RGBController/RGBController_Polychrome.h                            \
+    RGBController/RGBController_PoseidonZRGB.h                          \
     RGBController/RGBController_RGBFusion.h
 
 RESOURCES += \
@@ -129,6 +142,7 @@ win32:INCLUDEPATH +=                                                    \
     dependencies/inpout32_1501/Win32/                                   \
     dependencies/razer-chroma-2.9.0/inc                                 \
     dependencies/libusb-1.0.22/include                                  \
+    dependencies/hidapi                                                 \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
@@ -154,7 +168,8 @@ win32:HEADERS +=                                                        \
 win32:LIBS +=                                                           \
     -lws2_32                                                            \
     -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32              \
-    -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0
+    -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0          \
+    -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi
 
 win32:DEFINES -=                                                        \
     UNICODE
@@ -175,7 +190,8 @@ unix:HEADERS +=                                                         \
     i2c_smbus/i2c_smbus_linux.h                                         \
 
 unix:LIBS +=                                                            \
-    -lusb-1.0
+    -lusb-1.0                                                           \
+    -lhidapi
 
 unix:SOURCES +=                                                         \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
