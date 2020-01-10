@@ -55,7 +55,7 @@ SOURCES +=                                                              \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
     Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
     Controllers/PolychromeController/PolychromeController.cpp           \
-    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
+#    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
     Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
@@ -69,6 +69,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_MSI3Zone.cpp                            \
     RGBController/RGBController_Polychrome.cpp                          \
+    RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RGBFusion.cpp
 
 HEADERS +=                                                              \
@@ -126,7 +127,6 @@ win32:INCLUDEPATH +=                                                    \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
-    dependencies/hidapi/hid_win.c                                       \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
@@ -147,7 +147,8 @@ win32:HEADERS +=                                                        \
 win32:LIBS +=                                                           \
     -lws2_32                                                            \
     -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32              \
-    -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0
+    -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0          \
+    -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi
 
 win32:DEFINES -=                                                        \
     UNICODE

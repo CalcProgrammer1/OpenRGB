@@ -45,7 +45,7 @@ char* PoseidonZRGBController::GetDeviceName()
     return device_name;
 }
 
-void PoseidonZRGBController::SetLEDsDirect(std::vector<RGBColor) colors)
+void PoseidonZRGBController::SetLEDsDirect(std::vector<RGBColor> colors)
 {
     unsigned char red_grn_buf[264];
     unsigned char blu_buf[264];
