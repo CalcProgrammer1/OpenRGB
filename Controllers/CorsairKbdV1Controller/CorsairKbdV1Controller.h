@@ -24,7 +24,7 @@ public:
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
     void SetLEDs(std::vector<RGBColor> colors);
-    
+
 private:
     char                    device_name[32];
     libusb_device_handle*   dev;

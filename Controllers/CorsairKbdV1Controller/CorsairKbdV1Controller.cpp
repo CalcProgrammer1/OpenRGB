@@ -12,11 +12,12 @@
 static void send_usb_msg(libusb_device_handle* dev, char * data_pkt)
 {
     char usb_pkt[65];
+    int actual;
     for(int i = 1; i < 65; i++)
     {
         usb_pkt[i] = data_pkt[i-1];
     }
-    libusb_control_transfer(dev, 0x21, 0x09, 0x0300, 0x03, (unsigned char *)data_pkt, 64, 1000);
+    libusb_interrupt_transfer(dev, 0x02, (unsigned char *)data_pkt, 64, &actual, 1000);
 }
 
 CorsairKbdV1Controller::CorsairKbdV1Controller(libusb_device_handle* dev_handle)
@@ -65,7 +66,7 @@ void CorsairKbdV1Controller::SetLEDs(std::vector<RGBColor> colors)
         red = 7 - red;
         grn = 7 - grn;
         blu = 7 - blu;
-        
+
         red_val[color_idx] = red;
         grn_val[color_idx] = grn;
         blu_val[color_idx] = blu;
