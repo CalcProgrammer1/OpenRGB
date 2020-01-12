@@ -10,14 +10,14 @@
 #include "RGBController.h"
 
 #include <string>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #pragma once
 
 class CorsairKbdV1Controller
 {
 public:
-    CorsairKbdV1Controller(libusb_device_handle* dev_handle);
+    CorsairKbdV1Controller(hid_device* dev_handle);
     ~CorsairKbdV1Controller();
 
     char* GetDeviceName();
@@ -27,5 +27,5 @@ public:
 
 private:
     char                    device_name[32];
-    libusb_device_handle*   dev;
+    hid_device*             dev;
 };

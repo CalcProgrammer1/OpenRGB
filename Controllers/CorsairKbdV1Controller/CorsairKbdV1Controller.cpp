@@ -9,18 +9,19 @@
 
 #include "CorsairKbdV1Controller.h"
 
-static void send_usb_msg(libusb_device_handle* dev, char * data_pkt)
+static void send_usb_msg(hid_device* dev, char * data_pkt)
 {
     char usb_pkt[65];
     int actual;
+    usb_pkt[0] = 0x21;
     for(int i = 1; i < 65; i++)
     {
         usb_pkt[i] = data_pkt[i-1];
     }
-    libusb_interrupt_transfer(dev, 0x02, (unsigned char *)data_pkt, 64, &actual, 1000);
+    hid_send_feature_report(dev, (unsigned char *)usb_pkt, 65);
 }
 
-CorsairKbdV1Controller::CorsairKbdV1Controller(libusb_device_handle* dev_handle)
+CorsairKbdV1Controller::CorsairKbdV1Controller(hid_device* dev_handle)
 {
     dev = dev_handle;
 
