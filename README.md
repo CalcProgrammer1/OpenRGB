@@ -8,25 +8,7 @@ After getting a solid Aura implementation, the project branched out into other m
 
 ## Supported Devices
 
-* Asus Aura (SMBus variants only)
-
-* Gigabyte RGB Fusion 1.0
-
-* Asus Aura RAM
-
-* Corsair Vengeance RGB
-
-* Corsair Vengeance Pro RGB
-
-* HyperX Predator RGB
-
-* NZXT Hue+
-
-* KeyboardVisualizer Arduino LED Strips
-
-* E1.31 (Linux only)
-
-* OpenRazer (Linux only)
+See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) for the current list of supported devices.
 
 ## Installation
 #### Windows
