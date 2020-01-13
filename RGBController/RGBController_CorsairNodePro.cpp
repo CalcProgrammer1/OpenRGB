@@ -130,8 +130,9 @@ void RGBController_CorsairNodePro::UpdateZoneLEDs(int zone)
 
     if(channel_colors.size() > 0)
     {
-        corsair->SetChannelLEDs(channel, channel_colors);
+        //corsair->SetChannelLEDs(channel, channel_colors);
     }
+    corsair->SendKeepalive();
 }
 
 void RGBController_CorsairNodePro::UpdateSingleLED(int led)

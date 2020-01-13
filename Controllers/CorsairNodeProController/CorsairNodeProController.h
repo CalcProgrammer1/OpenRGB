@@ -27,8 +27,10 @@ public:
     unsigned int    GetStripsOnChannel(unsigned int channel);
     void            SetChannelEffect(unsigned int channel, unsigned int mode, std::vector<RGBColor> colors);
     void            SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors);
-    
+    void            SendKeepalive();
     unsigned int    channel_leds[CORSAIR_NODE_PRO_NUM_CHANNELS];
+
+    void            KeepaliveThread();
 
 private:
     libusb_device_handle*   dev;
