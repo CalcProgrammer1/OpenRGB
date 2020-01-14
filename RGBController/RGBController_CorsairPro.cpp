@@ -32,6 +32,7 @@ void RGBController_CorsairPro::SetMode(int mode)
 
 void RGBController_CorsairPro::SetCustomMode()
 {
+    active_mode = 9;
     corsair->SetCustom();
 }
 
@@ -75,39 +76,45 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     type = DEVICE_TYPE_DRAM;
 
     mode ColorShift;
-    ColorShift.name  = "Color Shift";
-    ColorShift.value = CORSAIR_PRO_MODE_COLOR_SHIFT;
-    ColorShift.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorShift.name   = "Color Shift";
+    ColorShift.value  = CORSAIR_PRO_MODE_COLOR_SHIFT;
+    ColorShift.flags  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorShift.random = false;
     modes.push_back(ColorShift);
 
     mode ColorPulse;
-    ColorPulse.name  = "Color Pulse";
-    ColorPulse.value = CORSAIR_PRO_MODE_COLOR_PULSE;
-    ColorPulse.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorPulse.name   = "Color Pulse";
+    ColorPulse.value  = CORSAIR_PRO_MODE_COLOR_PULSE;
+    ColorPulse.flags  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorPulse.random = false;
     modes.push_back(ColorPulse);
 
     mode RainbowWave;
-    RainbowWave.name  = "Rainbow Wave";
-    RainbowWave.value = CORSAIR_PRO_MODE_RAINBOW_WAVE;
-    RainbowWave.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD;
+    RainbowWave.name   = "Rainbow Wave";
+    RainbowWave.value  = CORSAIR_PRO_MODE_RAINBOW_WAVE;
+    RainbowWave.flags  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD;
+    RainbowWave.random = false;
     modes.push_back(RainbowWave);
 
     mode ColorWave;
-    ColorWave.name  = "Color Wave";
-    ColorWave.value = CORSAIR_PRO_MODE_COLOR_WAVE;
-    ColorWave.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorWave.name   = "Color Wave";
+    ColorWave.value  = CORSAIR_PRO_MODE_COLOR_WAVE;
+    ColorWave.flags  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorWave.random = false;
     modes.push_back(ColorWave); 
     
     mode Visor;
-    Visor.name  = "Visor";
-    Visor.value = CORSAIR_PRO_MODE_VISOR;
-    Visor.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Visor.name   = "Visor";
+    Visor.value  = CORSAIR_PRO_MODE_VISOR;
+    Visor.flags  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Visor.random = false;
     modes.push_back(Visor);
 
     mode Rain;
-    Rain.name  = "Rain";
-    Rain.value = CORSAIR_PRO_MODE_RAIN;
-    Rain.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Rain.name   = "Rain";
+    Rain.value  = CORSAIR_PRO_MODE_RAIN;
+    Rain.flags  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Rain.random = false;
     modes.push_back(Rain);
 
     mode Marquee;
@@ -123,9 +130,10 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     modes.push_back(Rainbow);
     
     mode Sequential;
-    Sequential.name  = "Sequential";
-    Sequential.value = CORSAIR_PRO_MODE_SEQUENTIAL;
-    Sequential.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Sequential.name   = "Sequential";
+    Sequential.value  = CORSAIR_PRO_MODE_SEQUENTIAL;
+    Sequential.flags  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Sequential.random = false;
     modes.push_back(Sequential);
 
     mode Static;
@@ -133,6 +141,8 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Static.value = CORSAIR_PRO_MODE_STATIC;
     Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
     modes.push_back(Static);
+
+    active_mode = 9;
 
     colors.resize(corsair->GetLEDCount());
 

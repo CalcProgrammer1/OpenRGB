@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
 {
     DetectRGBControllers();
 
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
     Ui::OpenRGBDialog2 dlg(busses, rgb_controllers);
