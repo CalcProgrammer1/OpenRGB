@@ -46,6 +46,8 @@ private slots:
 
     void on_RandomCheck_clicked();
 
+    void on_SpeedSlider_valueChanged(int value);
+
 private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;

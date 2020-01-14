@@ -56,7 +56,7 @@ public:
     unsigned int    GetLEDCount();
     unsigned int    GetSlotCount();
     unsigned int    GetMode();
-    void            SetMode(unsigned char new_mode);
+    void            SetMode(unsigned char new_mode, unsigned char new_speed);
     void            SetDirect();
 
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
@@ -75,5 +75,6 @@ private:
     unsigned char           slots_valid;
     i2c_smbus_interface*    bus;
     viper_dev_id            dev;
-    unsigned int            mode;
+    unsigned char           mode;
+    unsigned char           speed;
 };
