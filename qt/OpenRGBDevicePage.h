@@ -19,6 +19,7 @@ public:
     ~OpenRGBDevicePage();
 
     void SetDevice(unsigned char red, unsigned char green, unsigned char blue);
+    void UpdateMode();
 
 private slots:
     void on_ButtonRed_clicked();
@@ -41,6 +42,8 @@ private slots:
     void on_ValSpinBox_valueChanged(int arg1);
 
     void on_SetAllButton_clicked();
+
+    void on_RandomCheck_clicked();
 
 private:
     Ui::OpenRGBDevicePageUi *ui;

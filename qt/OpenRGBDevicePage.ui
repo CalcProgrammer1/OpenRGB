@@ -381,6 +381,19 @@
     <string>Set All Devices</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="RandomCheck">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>240</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Random Color</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

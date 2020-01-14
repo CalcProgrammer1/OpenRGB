@@ -11,7 +11,26 @@
 
 int RGBController_Aura::GetMode()
 {
-    int dev_mode = aura->AuraRegisterRead(AURA_REG_MODE);
+    int  dev_mode = aura->AuraRegisterRead(AURA_REG_MODE);
+    bool random   = false;
+
+    switch(dev_mode)
+    {
+    case AURA_MODE_SPECTRUM_CYCLE_CHASE:
+        dev_mode = AURA_MODE_CHASE;
+        random   = true;
+        break;
+
+    case AURA_MODE_SPECTRUM_CYCLE_BREATHING:
+        dev_mode = AURA_MODE_BREATHING;
+        random   = true;
+        break;
+
+    case AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE:
+        dev_mode = AURA_MODE_CHASE_FADE;
+        random   = true;
+        break;
+    }
 
     if (aura->AuraRegisterRead(AURA_REG_DIRECT))
     {
@@ -22,11 +41,12 @@ int RGBController_Aura::GetMode()
     {
         if(modes[mode].value == dev_mode)
         {
-            return(mode);
+            active_mode        = mode;
+            modes[mode].random = random;
         }
     }
 
-    return(0);
+    return(active_mode);
 }
 
 void RGBController_Aura::SetMode(int mode)
@@ -37,7 +57,25 @@ void RGBController_Aura::SetMode(int mode)
     }
     else
     {
-        aura->SetMode(modes[mode].value);
+        int new_mode = modes[mode].value;
+
+        if(modes[mode].random == true)
+        {
+            switch(new_mode)
+            {
+            case AURA_MODE_CHASE:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE;
+                break;
+            case AURA_MODE_BREATHING:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_BREATHING;
+                break;
+            case AURA_MODE_CHASE_FADE:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE;
+                break;
+            }
+        }
+
+        aura->SetMode(new_mode);
         aura->SetDirect(false);
     }
 }

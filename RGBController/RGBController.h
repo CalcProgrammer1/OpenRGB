@@ -20,11 +20,9 @@ typedef unsigned int RGBColor;
 
 #define ToRGBColor(r, g, b) ((b << 16) | (g << 8) | (r))
 
-typedef struct
-{
-    std::string         name;   /* LED name         */
-} led;
-
+/*------------------------------------------------------------------*\
+| Mode Flags                                                         |
+\*------------------------------------------------------------------*/
 enum
 {
     MODE_FLAG_HAS_SPEED         = (1 << 0), /* Mode has speed parameter         */
@@ -37,13 +35,29 @@ enum
     MODE_FLAG_PER_LED_COLOR     = (1 << 7), /* Mode uses device LED colors      */
 };
 
+/*------------------------------------------------------------------*\
+| Mode Type                                                          |
+\*------------------------------------------------------------------*/
 typedef struct
 {
+    /*--------------------------------------------------------------*\
+    | Mode Information                                               |
+    \*--------------------------------------------------------------*/
     std::string         name;   /* Mode name                        */
     int                 value;  /* Device-specific mode value       */
-    unsigned int        speed;  /* Mode speed parameter value       */
     unsigned int        flags;  /* Mode flags bitfield              */
+
+    /*--------------------------------------------------------------*\
+    | Mode Settings                                                  |
+    \*--------------------------------------------------------------*/
+    unsigned int        speed;  /* Mode speed parameter value       */
+    bool                random; /* Random color mode enabled        */
 } mode;
+
+typedef struct
+{
+    std::string         name;   /* LED name         */
+} led;
 
 typedef int zone_type;
 
@@ -91,6 +105,7 @@ public:
     std::vector<mode>       modes;          /* Modes                    */
     std::vector<RGBColor>   colors;         /* Color buffer             */
     device_type             type;           /* device type              */
+    int                     active_mode;    /* active mode              */
 
     virtual ~RGBController() = default;
 
