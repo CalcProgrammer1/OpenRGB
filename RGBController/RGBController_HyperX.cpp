@@ -16,7 +16,7 @@ int RGBController_HyperX::GetMode()
 
 void RGBController_HyperX::SetMode(int mode)
 {
-    hyperx->SetMode(mode);
+    hyperx->SetMode(modes[mode].value);
 }
 
 void RGBController_HyperX::SetCustomMode()
@@ -105,22 +105,59 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
     
     type = DEVICE_TYPE_DRAM;
 
-    mode hyperx_modes[HYPERX_NUMBER_MODES];
+    mode Direct;
+    Direct.name  = "Direct";
+    Direct.value = HYPERX_MODE_DIRECT;
+    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Direct);
 
-    hyperx_modes[0].name = "Direct";
-    hyperx_modes[1].name = "Static";
-    hyperx_modes[2].name = "Rainbow";
-    hyperx_modes[3].name = "Comet";
-    hyperx_modes[4].name = "Heartbeat";
-    hyperx_modes[5].name = "Spectrum Cycle";
-    hyperx_modes[6].name = "Breathing";
-    hyperx_modes[7].name = "Bounce";
-    hyperx_modes[8].name = "Blink";
+    mode Static;
+    Static.name  = "Static";
+    Static.value = HYPERX_MODE_STATIC;
+    Static.flags = MODE_FLAG_HAS_COLOR;
+    modes.push_back(Static);
+
+    mode Rainbow;
+    Rainbow.name  = "Rainbow";
+    Rainbow.value = HYPERX_MODE_RAINBOW;
+    Rainbow.flags = 0;
+    modes.push_back(Rainbow);
+
+    mode Comet;
+    Comet.name  = "Comet";
+    Comet.value = HYPERX_MODE_COMET;
+    Comet.flags = MODE_FLAG_HAS_COLOR;
+    modes.push_back(Comet);
+
+    mode Heartbeat;
+    Heartbeat.name  = "Heartbeat";
+    Heartbeat.value = HYPERX_MODE_HEARTBEAT;
+    Heartbeat.flags = MODE_FLAG_HAS_COLOR;
+    modes.push_back(Heartbeat);
+
+    mode SpectrumCycle;
+    SpectrumCycle.name  = "Spectrum Cycle";
+    SpectrumCycle.value = HYPERX_MODE_CYCLE;
+    SpectrumCycle.flags = 0;
+    modes.push_back(SpectrumCycle);
     
-    for (int i = 0; i < HYPERX_NUMBER_MODES; i++)
-    {
-        modes.push_back(hyperx_modes[i]);
-    }
+    mode Breathing;
+    Breathing.name  = "Breathing";
+    Breathing.value = HYPERX_MODE_BREATHING;
+    Breathing.flags = MODE_FLAG_HAS_COLOR;
+    modes.push_back(Breathing);
+
+    mode Bounce;
+    Bounce.name  = "Bounce";
+    Bounce.value = HYPERX_MODE_BOUNCE;
+    Bounce.flags = MODE_FLAG_HAS_COLOR;
+    modes.push_back(Bounce);
+
+    mode Blink;
+    Blink.name  = "Blink";
+    Blink.value = HYPERX_MODE_BLINK;
+    Blink.flags = MODE_FLAG_HAS_COLOR;
+    modes.push_back(Blink);
 
     colors.resize(hyperx->GetLEDCount());
 

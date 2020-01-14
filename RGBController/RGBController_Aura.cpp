@@ -11,25 +11,33 @@
 
 int RGBController_Aura::GetMode()
 {
+    int dev_mode = aura->AuraRegisterRead(AURA_REG_MODE);
+
     if (aura->AuraRegisterRead(AURA_REG_DIRECT))
     {
-        return(0);
+        dev_mode = 0xFFFF;
     }
-    else
+
+    for(int mode = 0; mode < modes.size(); mode++)
     {
-        return(aura->AuraRegisterRead(AURA_REG_MODE) + 1);
+        if(modes[mode].value == dev_mode)
+        {
+            return(mode);
+        }
     }
+
+    return(0);
 }
 
 void RGBController_Aura::SetMode(int mode)
 {
-    if (mode == 0)
+    if (modes[mode].value == 0xFFFF)
     {
         aura->SetDirect(true);
     }
     else
     {
-        aura->SetMode(mode - 1);
+        aura->SetMode(modes[mode].value);
         aura->SetDirect(false);
     }
 }
@@ -118,28 +126,65 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
         name = "ASUS Aura Motherboard";
     }
 
-    mode aura_modes[AURA_NUMBER_MODES + 1];
+    mode Direct;
+    Direct.name  = "Direct";
+    Direct.value = 0xFFFF;
+    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Direct);
 
-    aura_modes[0].name = "Direct";
-    aura_modes[1].name = "Off";
-    aura_modes[2].name = "Static";
-    aura_modes[3].name = "Breathing";
-    aura_modes[4].name = "Flashing";
-    aura_modes[5].name = "Spectrum Cycle";
-    aura_modes[6].name = "Rainbow";
-    aura_modes[7].name = "Spectrum Cycle Breathing";
-    aura_modes[8].name = "Chase Fade";
-    aura_modes[9].name = "Spectrum Cycle Chase Fade";
-    aura_modes[10].name = "Chase";
-    aura_modes[11].name = "Spectrum Cycle Chase";
-    aura_modes[12].name = "Spectrum Cycle Wave";
-    aura_modes[13].name = "Chase Rainbow Pulse";
-    aura_modes[14].name = "Random Flicker";
+    mode Off;
+    Off.name  = "Off";
+    Off.value = AURA_MODE_OFF;
+    Off.flags = 0;
+    modes.push_back(Off);
 
-    for (std::size_t i = 0; i < (AURA_NUMBER_MODES + 1); i++)
-    {
-        modes.push_back(aura_modes[i]);
-    }
+    mode Static;
+    Static.name  = "Static";
+    Static.value = AURA_MODE_STATIC;
+    Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Static);
+    
+    mode Breathing;
+    Breathing.name  = "Breathing";
+    Breathing.value = AURA_MODE_BREATHING;
+    Breathing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Breathing);
+
+    mode Flashing;
+    Flashing.name  = "Flashing";
+    Flashing.value = AURA_MODE_FLASHING;
+    Flashing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Flashing);
+
+    mode SpectrumCycle;
+    SpectrumCycle.name  = "Spectrum Cycle";
+    SpectrumCycle.value = AURA_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags = 0;
+    modes.push_back(SpectrumCycle);
+
+    mode Rainbow;
+    Rainbow.name  = "Rainbow";
+    Rainbow.value = AURA_MODE_RAINBOW;
+    Rainbow.flags = 0;
+    modes.push_back(Rainbow);
+
+    mode ChaseFade;
+    ChaseFade.name  = "Chase Fade";
+    ChaseFade.value = AURA_MODE_CHASE_FADE;
+    ChaseFade.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(ChaseFade);
+
+    mode Chase;
+    Chase.name  = "Chase";
+    Chase.value = AURA_MODE_CHASE;
+    Chase.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Chase);
+
+    mode RandomFlicker;
+    RandomFlicker.name  = "Random Flicker";
+    RandomFlicker.value = AURA_MODE_RANDOM_FLICKER;
+    RandomFlicker.flags = 0;
+    modes.push_back(RandomFlicker);
 
     colors.resize(aura->GetLEDCount());
 

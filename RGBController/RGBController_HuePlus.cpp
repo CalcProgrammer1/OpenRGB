@@ -19,9 +19,65 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 
     location = hueplus->GetLEDString();
     
-    mode led_mode;
-    led_mode.name = "Custom";
-    modes.push_back(led_mode);
+    mode Direct;
+    Direct.name  = "Direct";
+    Direct.value = HUE_PLUS_MODE_FIXED;
+    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Direct);
+
+    mode Fading;
+    Fading.name  = "Fading";
+    Fading.value = HUE_PLUS_MODE_FADING;
+    Fading.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Fading);
+
+    mode SpectrumCycle;
+    SpectrumCycle.name  = "Spectrum Cycle";
+    SpectrumCycle.value = HUE_PLUS_MODE_SPECTRUM;
+    SpectrumCycle.flags = 0;
+    modes.push_back(SpectrumCycle);
+
+    mode Marquee;
+    Marquee.name  = "Marquee";
+    Marquee.value = HUE_PLUS_MODE_MARQUEE;
+    Marquee.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Marquee);
+
+    mode CoverMarquee;
+    CoverMarquee.name  = "Cover Marquee";
+    CoverMarquee.value = HUE_PLUS_MODE_COVER_MARQUEE;
+    CoverMarquee.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(CoverMarquee);
+
+    mode Alternating;
+    Alternating.name  = "Alternating";
+    Alternating.value = HUE_PLUS_MODE_ALTERNATING;
+    Alternating.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Alternating);
+
+    mode Pulsing;
+    Pulsing.name  = "Pulsing";
+    Pulsing.value = HUE_PLUS_MODE_PULSING;
+    Pulsing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Pulsing);
+
+    mode Breathing;
+    Breathing.name  = "Breathing";
+    Breathing.value = HUE_PLUS_MODE_BREATHING;
+    Breathing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Breathing);
+
+    mode Alert;
+    Alert.name  = "Alert";
+    Alert.value = HUE_PLUS_MODE_ALERT;
+    Alert.flags = 0;
+    modes.push_back(Alert);
+
+    mode Candlelight;
+    Candlelight.name  = "Candlelight";
+    Candlelight.value = HUE_PLUS_MODE_CANDLELIGHT;
+    Candlelight.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Candlelight);
 
     /*-------------------------------------------------*\
     | Set size of colors array                          |
@@ -82,9 +138,27 @@ int RGBController_HuePlus::GetMode()
     return 0;
 }
 
-void RGBController_HuePlus::SetMode(int /*mode*/)
+void RGBController_HuePlus::SetMode(int mode)
 {
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        unsigned int channel = zones_channel[zone_idx];
 
+        std::vector<RGBColor> channel_colors;
+
+        for(std::size_t color = 0; color < colors.size(); color++)
+        {
+            if(leds_channel[color] == channel)
+            {
+                channel_colors.push_back(colors[color]);
+            }
+        }
+
+        if(channel_colors.size() > 0)
+        {
+            hueplus->SetChannelEffect(channel, modes[mode].value, channel_colors);
+        }
+    }
 }
 
 void RGBController_HuePlus::SetCustomMode()

@@ -11,12 +11,22 @@
 
 int RGBController_RGBFusion::GetMode()
 {
-    return(rgb_fusion->GetMode());
+    int dev_mode = rgb_fusion->GetMode();
+
+    for(int mode = 0; mode < modes.size(); mode++)
+    {
+        if(modes[mode].value == dev_mode)
+        {
+            return(mode);
+        }
+    }
+
+    return(0);
 }
 
 void RGBController_RGBFusion::SetMode(int mode)
 {
-    rgb_fusion->SetMode(mode);
+    rgb_fusion->SetMode(modes[mode].value);
 }
 
 void RGBController_RGBFusion::SetCustomMode()
@@ -68,16 +78,23 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
 
     type = DEVICE_TYPE_MOTHERBOARD;
 
-    mode rgb_fusion_modes[RGB_FUSION_NUMBER_MODES];
+    mode Static;
+    Static.name  = "Static";
+    Static.value = RGB_FUSION_MODE_STATIC;
+    Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Static);
 
-    rgb_fusion_modes[0].name = "Static";
-    rgb_fusion_modes[1].name = "Breathing";
-    rgb_fusion_modes[2].name = "Flashing";
+    mode Breathing;
+    Breathing.name  = "Breathing";
+    Breathing.value = RGB_FUSION_MODE_BREATHING;
+    Breathing.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+    modes.push_back(Breathing);
 
-    for (int i = 0; i < RGB_FUSION_NUMBER_MODES; i++)
-    {
-        modes.push_back(rgb_fusion_modes[i]);
-    }
+    mode Flashing;
+    Flashing.name  = "Flashing";
+    Flashing.value = RGB_FUSION_MODE_FLASHING;
+    Flashing.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+    modes.push_back(Flashing);
 
     colors.resize(rgb_fusion->GetLEDCount());
 

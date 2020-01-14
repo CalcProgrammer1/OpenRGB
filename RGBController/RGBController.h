@@ -25,9 +25,24 @@ typedef struct
     std::string         name;   /* LED name         */
 } led;
 
+enum
+{
+    MODE_FLAG_HAS_SPEED         = (1 << 0), /* Mode has speed parameter         */
+    MODE_FLAG_HAS_DIRECTION_LR  = (1 << 1), /* Mode has left/right parameter    */
+    MODE_FLAG_HAS_DIRECTION_UD  = (1 << 2), /* Mode has up/down parameter       */
+    MODE_FLAG_HAS_DIRECTION_HV  = (1 << 3), /* Mode has horiz/vert parameter    */
+    MODE_FLAG_HAS_BRIGHTNESS    = (1 << 4), /* Mode has brightness parameter    */
+    MODE_FLAG_HAS_COLOR         = (1 << 5), /* Mode has custom color parameter  */
+    MODE_FLAG_RANDOM_COLOR      = (1 << 6), /* Mode has random color option     */
+    MODE_FLAG_PER_LED_COLOR     = (1 << 7), /* Mode uses device LED colors      */
+};
+
 typedef struct
 {
-    std::string         name;   /* Mode name        */
+    std::string         name;   /* Mode name                        */
+    int                 value;  /* Device-specific mode value       */
+    unsigned int        speed;  /* Mode speed parameter value       */
+    unsigned int        flags;  /* Mode flags bitfield              */
 } mode;
 
 typedef int zone_type;

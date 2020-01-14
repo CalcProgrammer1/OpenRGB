@@ -41,9 +41,16 @@ enum
 
 enum
 {
-    HUE_PLUS_MODE_FIXED     = 0x00,     /* Fixed colors mode            */
-    HUE_PLUS_MODE_FADING    = 0x01,     /* Fading mode                  */
-    HUE_PLUS_MODE_SPECTRUM  = 0x02,     /* Spectrum cycle mode          */
+    HUE_PLUS_MODE_FIXED         = 0x00, /* Fixed colors mode            */
+    HUE_PLUS_MODE_FADING        = 0x01, /* Fading mode                  */
+    HUE_PLUS_MODE_SPECTRUM      = 0x02, /* Spectrum cycle mode          */
+    HUE_PLUS_MODE_MARQUEE       = 0x03, /* Marquee mode                 */
+    HUE_PLUS_MODE_COVER_MARQUEE = 0x04, /* Cover marquee mode           */
+    HUE_PLUS_MODE_ALTERNATING   = 0x05, /* Alternating mode             */
+    HUE_PLUS_MODE_PULSING       = 0x06, /* Pulsing mode                 */
+    HUE_PLUS_MODE_BREATHING     = 0x07, /* Breathing mode               */
+    HUE_PLUS_MODE_ALERT         = 0x08, /* Alert mode                   */
+    HUE_PLUS_MODE_CANDLELIGHT   = 0x09, /* Candlelight mode             */
     HUE_PLUS_NUM_MODES                  /* Number of Hue Plus modes     */
 };
 

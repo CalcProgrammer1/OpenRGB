@@ -16,13 +16,13 @@ int RGBController_PatriotViper::GetMode()
 
 void RGBController_PatriotViper::SetMode(int mode)
 {
-    if(mode == 0)
+    if(modes[mode].value == 0xFFFF)
     {
         viper->SetDirect();
     }
     else
     {
-        viper->SetMode(mode - 1);
+        viper->SetMode(modes[mode].value);
     }
 }
 
@@ -88,23 +88,53 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     
     type = DEVICE_TYPE_DRAM;
 
-    mode viper_modes[10];
+    mode Direct;
+    Direct.name  = "Direct";
+    Direct.value = 0xFFFF;
+    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Direct);
 
-    viper_modes[0].name = "Direct";
-    viper_modes[1].name = "Dark";
-    viper_modes[2].name = "Breathing";
-    viper_modes[3].name = "Viper";
-    viper_modes[4].name = "Heartbeat";
-    viper_modes[5].name = "Marquee";
-    viper_modes[6].name = "Raindrop";
-    viper_modes[7].name = "Aurora";
-    viper_modes[8].name = "Unknown";
-    viper_modes[9].name = "Neon";
+    mode Dark;
+    Dark.name  = "Dark";
+    Dark.value = VIPER_MODE_DARK;
+    Dark.flags = 0;
+    modes.push_back(Dark);
 
-    for (int i = 0; i < 9; i++)
-    {
-        modes.push_back(viper_modes[i]);
-    }
+    mode Breathing;
+    Breathing.name  = "Breathing";
+    Breathing.value = VIPER_MODE_BREATHING;
+    Breathing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Breathing);
+
+    mode Viper;
+    Viper.name  = "Viper";
+    Viper.value = VIPER_MODE_VIPER;
+    Viper.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Viper);
+
+    mode Heartbeat;
+    Heartbeat.name  = "Heartbeat";
+    Heartbeat.value = VIPER_MODE_HEARTBEAT;
+    Heartbeat.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Heartbeat);
+
+    mode Marquee;
+    Marquee.name  = "Marquee";
+    Marquee.value = VIPER_MODE_MARQUEE;
+    Marquee.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Marquee);
+
+    mode Raindrop;
+    Raindrop.name  = "Raindrop";
+    Raindrop.value = VIPER_MODE_RAINDROP;
+    Raindrop.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Raindrop);
+
+    mode Aurora;
+    Aurora.name  = "Aurora";
+    Aurora.value = VIPER_MODE_AURORA;
+    Aurora.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Aurora);
 
     colors.resize(viper->GetLEDCount());
 
