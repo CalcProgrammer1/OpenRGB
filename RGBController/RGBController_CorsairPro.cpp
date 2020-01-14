@@ -11,22 +11,23 @@
 
 int RGBController_CorsairPro::GetMode()
 {
-    int dev_mode = corsair->GetEffect();
-
-    for(int mode = 0; mode < modes.size(); mode++)
-    {
-        if(modes[mode].value == dev_mode)
-        {
-            return(mode);
-        }
-    }
-
-    return(0);
+    return(active_mode);
 }
 
 void RGBController_CorsairPro::SetMode(int mode)
 {
-    corsair->SetEffect(modes[mode].value);
+    active_mode = mode;
+
+    corsair->SetEffect(modes[active_mode].value,
+                       CORSAIR_PRO_SPEED_MEDIUM,
+                       CORSAIR_PRO_DIRECTION_UP,
+                       modes[active_mode].random,
+                       RGBGetRValue(colors[0]),
+                       RGBGetGValue(colors[0]),
+                       RGBGetBValue(colors[0]),
+                       RGBGetRValue(colors[1]),
+                       RGBGetGValue(colors[1]),
+                       RGBGetBValue(colors[1]));
 }
 
 void RGBController_CorsairPro::SetCustomMode()

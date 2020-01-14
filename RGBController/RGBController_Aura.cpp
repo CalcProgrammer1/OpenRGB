@@ -51,15 +51,17 @@ int RGBController_Aura::GetMode()
 
 void RGBController_Aura::SetMode(int mode)
 {
-    if (modes[mode].value == 0xFFFF)
+    active_mode = mode;
+
+    if (modes[active_mode].value == 0xFFFF)
     {
         aura->SetDirect(true);
     }
     else
     {
-        int new_mode = modes[mode].value;
+        int new_mode = modes[active_mode].value;
 
-        if(modes[mode].random == true)
+        if(modes[active_mode].random == true)
         {
             switch(new_mode)
             {
