@@ -70,7 +70,17 @@ public:
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     unsigned char   GetEffect();
-    void            SetEffect(unsigned char mode);
+    void            SetEffect(unsigned char mode,
+                              unsigned char speed,
+                              unsigned char direction,
+                              bool          random,
+                              unsigned char red1,
+                              unsigned char grn1,
+                              unsigned char blu1,
+                              unsigned char red2,
+                              unsigned char grn2,
+                              unsigned char blu2
+                             );
     void            SetCustom();
 
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);

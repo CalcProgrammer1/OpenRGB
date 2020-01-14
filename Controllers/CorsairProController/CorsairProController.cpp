@@ -104,7 +104,17 @@ void CorsairProController::ApplyColors()
     bus->i2c_smbus_write_byte_data(dev, 0x82, 0x02);
 }
 
-void CorsairProController::SetEffect(unsigned char mode)
+void CorsairProController::SetEffect(unsigned char mode,
+                                     unsigned char speed,
+                                     unsigned char direction,
+                                     bool          random,
+                                     unsigned char red1,
+                                     unsigned char grn1,
+                                     unsigned char blu1,
+                                     unsigned char red2,
+                                     unsigned char grn2,
+                                     unsigned char blu2
+                                    )
 {
     effect_mode = mode;
 
@@ -113,17 +123,28 @@ void CorsairProController::SetEffect(unsigned char mode)
     bus->i2c_smbus_write_byte_data(dev, 0x21, 0x00);
     Sleep(1);
 
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, effect_mode); //Mode
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, CORSAIR_PRO_SPEED_MEDIUM); //Speed
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, CORSAIR_PRO_EFFECT_RANDOM_COLORS); //Custom color
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, CORSAIR_PRO_DIRECTION_UP); //Direction
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00); // Custom color 1 red
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00); // Custom color 1 green
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00); // Custom color 1 blue
+    unsigned char random_byte;
+
+    if(random)
+    {
+        random_byte = CORSAIR_PRO_EFFECT_RANDOM_COLORS;
+    }
+    else
+    {
+        random_byte = CORSAIR_PRO_EFFECT_CUSTOM_COLORS;
+    }
+
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, effect_mode);  //Mode
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, speed);        //Speed
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, random_byte);  //Custom color
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, direction);    //Direction
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, red1);         // Custom color 1 red
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, grn1);         // Custom color 1 green
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, blu1);         // Custom color 1 blue
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0xFF);
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00); // Custom color 2 red
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00); // Custom color 2 green
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00); // Custom color 2 blue
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, red2);         // Custom color 2 red
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, grn2);         // Custom color 2 green
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, blu2);         // Custom color 2 blue
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0xFF);
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00);
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, 0x00);
@@ -140,7 +161,13 @@ void CorsairProController::SetEffect(unsigned char mode)
 
 void CorsairProController::SetCustom()
 {
-    SetEffect(CORSAIR_PRO_MODE_STATIC);
+    SetEffect(CORSAIR_PRO_MODE_STATIC,
+              0x00,
+              0x00,
+              false,
+              0x00, 0x00, 0x00,
+              0x00, 0x00, 0x00
+              );
 }
 
 bool CorsairProController::WaitReady()

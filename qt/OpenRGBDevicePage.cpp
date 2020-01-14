@@ -75,6 +75,11 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     ui->ModeBox->setCurrentIndex(device->GetMode());
     ui->ModeBox->blockSignals(false);
 
+    /*-----------------------------------------------------*\
+    | Update mode user interface elements                   |
+    \*-----------------------------------------------------*/
+    UpdateModeUi();
+
     ui->ZoneBox->blockSignals(true);
     ui->ZoneBox->clear();
 
@@ -130,22 +135,9 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
 {
     /*-----------------------------------------------------*\
-    | Read new mode flags and settings                      |
+    | Update mode user interface elements                   |
     \*-----------------------------------------------------*/
-    int  selected_mode   = ui->ModeBox->currentIndex();
-    bool supports_random = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_COLOR )
-                        && ( device->modes[selected_mode].flags & MODE_FLAG_RANDOM_COLOR );
-    bool random          = device->modes[selected_mode].random;
-
-    if(supports_random)
-    {
-        ui->RandomCheck->setEnabled(true);
-        ui->RandomCheck->setCheckState(random ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
-    }
-    else
-    {
-        ui->RandomCheck->setEnabled(false);
-    }
+    UpdateModeUi();
 
     /*-----------------------------------------------------*\
     | Change device mode                                    |
@@ -161,6 +153,34 @@ void Ui::OpenRGBDevicePage::on_RandomCheck_clicked()
     UpdateMode();
 }
 
+void Ui::OpenRGBDevicePage::UpdateModeUi()
+{
+    /*-----------------------------------------------------*\
+    | Read new mode flags and settings                      |
+    \*-----------------------------------------------------*/
+    int  selected_mode   = ui->ModeBox->currentIndex();
+
+    /*-----------------------------------------------------*\
+    | Don't update the UI if the current mode is invalid    |
+    \*-----------------------------------------------------*/
+    if(selected_mode < device->modes.size())
+    {
+        bool supports_random = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_COLOR )
+                            && ( device->modes[selected_mode].flags & MODE_FLAG_RANDOM_COLOR );
+        bool random          = device->modes[selected_mode].random;
+
+        if(supports_random)
+        {
+            ui->RandomCheck->setEnabled(true);
+            ui->RandomCheck->setCheckState(random ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+        }
+        else
+        {
+            ui->RandomCheck->setEnabled(false);
+        }
+    }
+}
+
 void Ui::OpenRGBDevicePage::UpdateMode()
 {
     /*-----------------------------------------------------*\
@@ -171,15 +191,21 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     bool current_random = ui->RandomCheck->checkState();
 
     /*-----------------------------------------------------*\
-    | Update mode parameters                                |
+    | Don't set the mode if the current mode is invalid     |
     \*-----------------------------------------------------*/
-    device->modes[current_mode].speed  = current_speed;
-    device->modes[current_mode].random = current_random;
+    if(current_mode < device->modes.size())
+    {
+        /*-----------------------------------------------------*\
+        | Update mode parameters                                |
+        \*-----------------------------------------------------*/
+        device->modes[current_mode].speed  = current_speed;
+        device->modes[current_mode].random = current_random;
 
-    /*-----------------------------------------------------*\
-    | Change device mode                                    |
-    \*-----------------------------------------------------*/
-    device->SetMode(current_mode);
+        /*-----------------------------------------------------*\
+        | Change device mode                                    |
+        \*-----------------------------------------------------*/
+        device->SetMode(current_mode);
+    }
 }
 
 void Ui::OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, unsigned char blue)

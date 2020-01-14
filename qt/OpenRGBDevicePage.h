@@ -20,6 +20,7 @@ public:
 
     void SetDevice(unsigned char red, unsigned char green, unsigned char blue);
     void UpdateMode();
+    void UpdateModeUi();
 
 private slots:
     void on_ButtonRed_clicked();
