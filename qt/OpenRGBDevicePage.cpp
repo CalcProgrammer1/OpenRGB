@@ -130,9 +130,56 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
 {
     /*-----------------------------------------------------*\
+    | Read new mode flags and settings                      |
+    \*-----------------------------------------------------*/
+    int  selected_mode   = ui->ModeBox->currentIndex();
+    bool supports_random = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_COLOR )
+                        && ( device->modes[selected_mode].flags & MODE_FLAG_RANDOM_COLOR );
+    bool random          = device->modes[selected_mode].random;
+
+    if(supports_random)
+    {
+        ui->RandomCheck->setEnabled(true);
+        ui->RandomCheck->setCheckState(random ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    }
+    else
+    {
+        ui->RandomCheck->setEnabled(false);
+    }
+
+    /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
-    device->SetMode(ui->ModeBox->currentIndex());
+    UpdateMode();
+}
+
+void Ui::OpenRGBDevicePage::on_RandomCheck_clicked()
+{
+    /*-----------------------------------------------------*\
+    | Change device mode                                    |
+    \*-----------------------------------------------------*/
+    UpdateMode();
+}
+
+void Ui::OpenRGBDevicePage::UpdateMode()
+{
+    /*-----------------------------------------------------*\
+    | Read user interface                                   |
+    \*-----------------------------------------------------*/
+    int  current_mode   = ui->ModeBox->currentIndex();
+    int  current_speed  = 0;
+    bool current_random = ui->RandomCheck->checkState();
+
+    /*-----------------------------------------------------*\
+    | Update mode parameters                                |
+    \*-----------------------------------------------------*/
+    device->modes[current_mode].speed  = current_speed;
+    device->modes[current_mode].random = current_random;
+
+    /*-----------------------------------------------------*\
+    | Change device mode                                    |
+    \*-----------------------------------------------------*/
+    device->SetMode(current_mode);
 }
 
 void Ui::OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, unsigned char blue)
