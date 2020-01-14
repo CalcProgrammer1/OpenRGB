@@ -11,17 +11,17 @@
 
 int RGBController_Corsair::GetMode()
 {
-    return(CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
+    return(0);
 }
 
 void RGBController_Corsair::SetMode(int mode)
 {
-    corsair->SetMode(mode);
+    corsair->SetMode(modes[mode].value);
 }
 
 void RGBController_Corsair::SetCustomMode()
 {
-
+    corsair->SetMode(CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
 }
 
 void RGBController_Corsair::UpdateLEDs()
@@ -53,16 +53,23 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
 
     type = DEVICE_TYPE_DRAM;
 
-    mode corsair_modes[CORSAIR_NUMBER_MODES];
+    mode Static;
+    Static.name  = "Static";
+    Static.value = CORSAIR_VENGEANCE_RGB_MODE_SINGLE;
+    Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Static);
 
-    corsair_modes[0].name = "Static";
-    corsair_modes[1].name = "Fade";
-    corsair_modes[2].name = "Pulse";
+    mode Fade;
+    Fade.name  = "Fade";
+    Fade.value = CORSAIR_VENGEANCE_RGB_MODE_FADE;
+    Fade.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Fade);
 
-    for (int i = 0; i < CORSAIR_NUMBER_MODES; i++)
-    {
-        modes.push_back(corsair_modes[i]);
-    }
+    mode Pulse;
+    Pulse.name  = "Pulse";
+    Pulse.value = CORSAIR_VENGEANCE_RGB_MODE_PULSE;
+    Pulse.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Pulse);
 
     for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
     {
