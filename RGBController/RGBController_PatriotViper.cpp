@@ -22,7 +22,7 @@ void RGBController_PatriotViper::SetMode(int mode)
     }
     else
     {
-        viper->SetMode(modes[mode].value);
+        viper->SetMode(modes[mode].value, modes[mode].speed);
     }
 }
 
@@ -89,51 +89,83 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     type = DEVICE_TYPE_DRAM;
 
     mode Direct;
-    Direct.name  = "Direct";
-    Direct.value = 0xFFFF;
-    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Direct.name      = "Direct";
+    Direct.value     = 0xFFFF;
+    Direct.flags     = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Direct.speed_min = 0;
+    Direct.speed_max = 0;
+    Direct.random    = false;
+    Direct.speed     = 0;
     modes.push_back(Direct);
 
     mode Dark;
-    Dark.name  = "Dark";
-    Dark.value = VIPER_MODE_DARK;
-    Dark.flags = 0;
+    Dark.name      = "Dark";
+    Dark.value     = VIPER_MODE_DARK;
+    Dark.flags     = 0;
+    Dark.speed_min = 0;
+    Dark.speed_max = 0;
+    Dark.random    = false;
+    Dark.speed     = 0;
     modes.push_back(Dark);
 
     mode Breathing;
-    Breathing.name  = "Breathing";
-    Breathing.value = VIPER_MODE_BREATHING;
-    Breathing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Breathing.name      = "Breathing";
+    Breathing.value     = VIPER_MODE_BREATHING;
+    Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Breathing.speed_min = 0x00;
+    Breathing.speed_max = 0xFF;
+    Breathing.random    = false;
+    Breathing.speed     = 0x0C;
     modes.push_back(Breathing);
 
     mode Viper;
-    Viper.name  = "Viper";
-    Viper.value = VIPER_MODE_VIPER;
-    Viper.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Viper.name      = "Viper";
+    Viper.value     = VIPER_MODE_VIPER;
+    Viper.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Viper.speed_min = 0x14;
+    Viper.speed_max = 0xC8;
+    Viper.random    = false;
+    Viper.speed     = 0x64;
     modes.push_back(Viper);
 
     mode Heartbeat;
-    Heartbeat.name  = "Heartbeat";
-    Heartbeat.value = VIPER_MODE_HEARTBEAT;
-    Heartbeat.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Heartbeat.name      = "Heartbeat";
+    Heartbeat.value     = VIPER_MODE_HEARTBEAT;
+    Heartbeat.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Heartbeat.speed_min = 0x14;
+    Heartbeat.speed_max = 0xC8;
+    Heartbeat.random    = false;
+    Heartbeat.speed     = 0x64;
     modes.push_back(Heartbeat);
 
     mode Marquee;
-    Marquee.name  = "Marquee";
-    Marquee.value = VIPER_MODE_MARQUEE;
-    Marquee.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Marquee.name      = "Marquee";
+    Marquee.value     = VIPER_MODE_MARQUEE;
+    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Marquee.speed_min = 0x14;
+    Marquee.speed_max = 0xC8;
+    Marquee.random    = false;
+    Marquee.speed     = 0x64;
     modes.push_back(Marquee);
 
     mode Raindrop;
-    Raindrop.name  = "Raindrop";
-    Raindrop.value = VIPER_MODE_RAINDROP;
-    Raindrop.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Raindrop.name      = "Raindrop";
+    Raindrop.value     = VIPER_MODE_RAINDROP;
+    Raindrop.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Raindrop.speed_min = 0x14;
+    Raindrop.speed_max = 0xC8;
+    Raindrop.random    = false;
+    Raindrop.speed     = 0x64;
     modes.push_back(Raindrop);
 
     mode Aurora;
-    Aurora.name  = "Aurora";
-    Aurora.value = VIPER_MODE_AURORA;
-    Aurora.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Aurora.name      = "Aurora";
+    Aurora.value     = VIPER_MODE_AURORA;
+    Aurora.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Aurora.speed_min = 0x14;
+    Aurora.speed_max = 0xC8;
+    Aurora.random    = false;
+    Aurora.speed     = 0x64;
     modes.push_back(Aurora);
 
     colors.resize(viper->GetLEDCount());

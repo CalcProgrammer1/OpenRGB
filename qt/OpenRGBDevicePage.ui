@@ -394,6 +394,19 @@
     <string>Random Color</string>
    </property>
   </widget>
+  <widget class="QSlider" name="SpeedSlider">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>270</y>
+     <width>160</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

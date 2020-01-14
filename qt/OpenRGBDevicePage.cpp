@@ -153,6 +153,14 @@ void Ui::OpenRGBDevicePage::on_RandomCheck_clicked()
     UpdateMode();
 }
 
+void Ui::OpenRGBDevicePage::on_SpeedSlider_valueChanged(int value)
+{
+    /*-----------------------------------------------------*\
+    | Change device mode                                    |
+    \*-----------------------------------------------------*/
+    UpdateMode();
+}
+
 void Ui::OpenRGBDevicePage::UpdateModeUi()
 {
     /*-----------------------------------------------------*\
@@ -167,8 +175,21 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
     {
         bool supports_random = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_COLOR )
                             && ( device->modes[selected_mode].flags & MODE_FLAG_RANDOM_COLOR );
+        bool supports_speed  = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_SPEED );
         bool random          = device->modes[selected_mode].random;
 
+        if(supports_speed)
+        {
+            ui->SpeedSlider->setEnabled(true);
+            ui->SpeedSlider->setMinimum(device->modes[selected_mode].speed_min);
+            ui->SpeedSlider->setMaximum(device->modes[selected_mode].speed_max);
+            ui->SpeedSlider->setValue(  device->modes[selected_mode].speed    );
+        }
+        else
+        {
+            ui->SpeedSlider->setEnabled(false);
+        }
+        
         if(supports_random)
         {
             ui->RandomCheck->setEnabled(true);
@@ -187,7 +208,7 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     | Read user interface                                   |
     \*-----------------------------------------------------*/
     int  current_mode   = ui->ModeBox->currentIndex();
-    int  current_speed  = 0;
+    int  current_speed  = ui->SpeedSlider->value();
     bool current_random = ui->RandomCheck->checkState();
 
     /*-----------------------------------------------------*\

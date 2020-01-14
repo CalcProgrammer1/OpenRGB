@@ -46,7 +46,9 @@ typedef struct
     std::string         name;   /* Mode name                        */
     int                 value;  /* Device-specific mode value       */
     unsigned int        flags;  /* Mode flags bitfield              */
-
+    unsigned int        speed_min;  /* speed minimum value          */
+    unsigned int        speed_max;  /* speed maximum value          */
+    
     /*--------------------------------------------------------------*\
     | Mode Settings                                                  |
     \*--------------------------------------------------------------*/
