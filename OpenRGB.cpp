@@ -324,6 +324,7 @@ void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
 void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
+void DetectRGBFusion2Controllers(std::vector<RGBController*>& rgb_controllers);
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers);
@@ -356,6 +357,7 @@ void DetectRGBControllers(void)
     DetectPolychromeControllers(busses, rgb_controllers);
     DetectRGBFusionControllers(busses, rgb_controllers);
 
+    DetectRGBFusion2Controllers(rgb_controllers);
     DetectLEDStripControllers(rgb_controllers);
     DetectHue2Controllers(rgb_controllers);
     DetectHuePlusControllers(rgb_controllers);

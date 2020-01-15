@@ -117,7 +117,7 @@ HEADERS +=                                                              \
     Controllers/PolychromeController/PolychromeController.h             \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
-    Controllers/RGBFusion2Controller/RGBFusion2Controller.hidapi        \
+    Controllers/RGBFusion2Controller/RGBFusion2Controller.h             \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_Aura.h                                  \
