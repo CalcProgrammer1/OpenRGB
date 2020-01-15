@@ -103,9 +103,9 @@ enum
 
     HYPERX_REG_EFFECT_BRIGHTNESS        = 0xDD,     /* Brightness for effects (0-100)       */
     HYPERX_REG_APPLY                    = 0xE1,     /* Apply changes register               */
-    HYPERX_REG_MODE1                    = 0xE3,     /* Mode control register 1              */
-    HYPERX_REG_MODE2                    = 0xE4,     /* Mode control register 2              */
-    HYPERX_REG_MODE3                    = 0xE5,     /* Mode control register 3              */
+    HYPERX_REG_MODE_RANDOM              = 0xE3,     /* Mode control register, random colors */
+    HYPERX_REG_MODE_CUSTOM              = 0xE4,     /* Mode control register, custom colors */
+    HYPERX_REG_MODE_INDEPENDENT         = 0xE5,     /* Mode control register, independent   */
     HYPERX_REG_EFFECT_RED               = 0xEC,     /* Red color register for effects       */
     HYPERX_REG_EFFECT_GREEN             = 0xED,     /* Green color register for effects     */
     HYPERX_REG_EFFECT_BLUE              = 0xEE,     /* Blue color register for effects      */
@@ -165,7 +165,7 @@ public:
     unsigned int    GetLEDCount();
     unsigned int    GetSlotCount();
     unsigned int    GetMode();
-    void            SetMode(unsigned char new_mode);
+    void            SetMode(unsigned char new_mode, bool random);
 
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SetEffectColor(unsigned char red, unsigned char green, unsigned char blue);

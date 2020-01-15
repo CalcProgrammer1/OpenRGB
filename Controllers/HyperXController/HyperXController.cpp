@@ -109,7 +109,7 @@ void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsi
 
             if(mode == HYPERX_MODE_DIRECT)
             {
-                bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE3, HYPERX_MODE3_DIRECT);
+                bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE_INDEPENDENT, HYPERX_MODE3_DIRECT);
             }
 
             for(int led = 0; led < 5; led++)
@@ -194,48 +194,64 @@ void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
-void HyperXController::SetMode(unsigned char new_mode)
+void HyperXController::SetMode(unsigned char new_mode, bool random)
 {
     mode = new_mode;
     
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
+    /*-----------------------------------------------------*\
+    | Determine which mode register to use.                 |
+    | If set to random color mode, use Mode1.               |
+    | If set to fixed color mode, use Mode2.                |
+    \*-----------------------------------------------------*/
+    unsigned char mode_reg;
+
+    if(random)
+    {
+        mode_reg = HYPERX_REG_MODE_RANDOM;
+    }
+    else
+    {
+        mode_reg = HYPERX_REG_MODE_CUSTOM;
+    }
+    
     switch (mode)
     {
     case HYPERX_MODE_DIRECT:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE3, HYPERX_MODE3_DIRECT);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE_INDEPENDENT, HYPERX_MODE3_DIRECT);
         break;
 
     case HYPERX_MODE_STATIC:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE2, HYPERX_MODE2_STATIC);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE_CUSTOM, HYPERX_MODE2_STATIC);
         break;
 
     case HYPERX_MODE_RAINBOW:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE1, HYPERX_MODE1_RAINBOW);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE_RANDOM, HYPERX_MODE1_RAINBOW);
         break;
 
     case HYPERX_MODE_COMET:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE2, HYPERX_MODE2_COMET);
+        bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_COMET);
         break;
 
     case HYPERX_MODE_HEARTBEAT:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE2, HYPERX_MODE2_HEARTBEAT);
+        bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_HEARTBEAT);
         break;
 
     case HYPERX_MODE_CYCLE:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE1, HYPERX_MODE1_CYCLE);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE_RANDOM, HYPERX_MODE1_CYCLE);
         break;
 
     case HYPERX_MODE_BREATHING:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE2, HYPERX_MODE2_BREATHING);
+        bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_BREATHING);
         break;
 
     case HYPERX_MODE_BOUNCE:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE2, HYPERX_MODE2_BOUNCE);
+            bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_BOUNCE);
         break;
 
     case HYPERX_MODE_BLINK:
-        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE2, HYPERX_MODE2_BLINK);
+        bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_BLINK);
         break;
     }
 
