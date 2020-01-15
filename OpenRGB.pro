@@ -29,6 +29,7 @@ INCLUDEPATH +=                                                          \
     Controllers/PolychromeController/                                   \
     Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
+    Controllers/RGBFusion2Controller/                                   \
     Controllers/ThermaltakeRiingController/                             \
     RGBController/                                                      \
     qt/
@@ -82,6 +83,8 @@ SOURCES +=                                                              \
     Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
+    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
+    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
@@ -104,6 +107,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
+    RGBController/RGBController_RGBFusion2.cpp                          \
     RGBController/RGBController_ThermaltakeRiing.cpp                    \
 
 HEADERS +=                                                              \
@@ -135,6 +139,7 @@ HEADERS +=                                                              \
     Controllers/PolychromeController/PolychromeController.h             \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
+    Controllers/RGBFusion2Controller/RGBFusion2Controller.h             \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
@@ -154,6 +159,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_PoseidonZRGB.h                          \
     RGBController/RGBController_RGBFusion.h                             \
+    RGBController/RGBController_RGBFusion2.h                            \
     RGBController/RGBController_ThermaltakeRiing.h                      \
 
 RESOURCES += \
