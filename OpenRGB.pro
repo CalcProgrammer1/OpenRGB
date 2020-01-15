@@ -25,6 +25,7 @@ INCLUDEPATH +=                                                          \
     Controllers/PolychromeController/                                   \
     Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
+    Controllers/RGBFusion2Controller/                                   \
     RGBController/                                                      \
     qt/
 
@@ -70,6 +71,8 @@ SOURCES +=                                                              \
     Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
+    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
+    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
     RGBController/RGBController.cpp                                     \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
@@ -86,7 +89,8 @@ SOURCES +=                                                              \
     RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_PoseidonZRGB.cpp                        \
-    RGBController/RGBController_RGBFusion.cpp
+    RGBController/RGBController_RGBFusion.cpp                           \
+    RGBController/RGBController_RGBFusion2.cpp
 
 HEADERS +=                                                              \
     qt/OpenRGBDeviceInfoPage.h                                          \
@@ -113,6 +117,7 @@ HEADERS +=                                                              \
     Controllers/PolychromeController/PolychromeController.h             \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
+    Controllers/RGBFusion2Controller/RGBFusion2Controller.hidapi        \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_Aura.h                                  \
@@ -128,7 +133,8 @@ HEADERS +=                                                              \
     RGBController/RGBController_PatriotViper.h                          \
     RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_PoseidonZRGB.h                          \
-    RGBController/RGBController_RGBFusion.h
+    RGBController/RGBController_RGBFusion.h                             \
+    RGBController/RGBController_RGBFusion2.h
 
 RESOURCES += \
     qt/resources.qrc
