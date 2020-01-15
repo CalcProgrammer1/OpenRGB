@@ -21,13 +21,21 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
 **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
 
 #### Linux:
-  1. Either open the project using QT Creator or build it using qmake.  You will need the libusb-1.0-0 (or equivalent) development package from your distribution's package manager installed.
+  1. Either open the project using QT Creator or build it using qmake.  You will need the libusb-1.0-0 (or equivalent) and libhidapi development packages from your distribution's package manager installed.
     
-         git clone https://gitlab.com/CalcProgrammer1/OpenRGB
-         cd OpenRGB
-         git submodule update --init --recursive
-         qmake OpenRGB.pro
-         make
+    * sudo apt install qt5-default libusb-1.0-0-dev libhidapi-dev
+
+    * git clone https://gitlab.com/CalcProgrammer1/OpenRGB
+
+    * cd OpenRGB
+
+    * git submodule update --init --recursive
+
+    * qmake OpenRGB.pro
+
+    * make -j8
+    
+    * ./OpenRGB
      
 
   2. Allow access to SMBus:<br>
