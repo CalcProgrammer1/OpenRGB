@@ -30,6 +30,15 @@ enum
 
 enum
 {
+    HUE_2_SPEED_SLOWEST         = 0x00,     /* Slowest speed                */
+    HUE_2_SPEED_SLOW            = 0x01,     /* Slow speed                   */
+    HUE_2_SPEED_NORMAL          = 0x02,     /* Normal speed                 */
+    HUE_2_SPEED_FAST            = 0x03,     /* Fast speed                   */
+    HUE_2_SPEED_FASTEST         = 0x04,     /* Fastest speed                */
+};
+
+enum
+{
     HUE_2_MODE_FIXED            = 0x00,     /* Fixed colors mode            */
     HUE_2_MODE_FADING           = 0x01,     /* Fading mode                  */
     HUE_2_MODE_SPECTRUM         = 0x02,     /* Spectrum cycle mode          */
@@ -49,11 +58,14 @@ public:
     
     char*           GetLEDString();
     unsigned int    GetStripsOnChannel(unsigned int channel);
-    void            SetChannelEffect(unsigned int channel, unsigned int mode, std::vector<RGBColor> colors);
-    void            SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors);
+    void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
+    void            SetMode(unsigned char mode, unsigned char speed);
     
     unsigned int    channel_leds[HUE_2_NUM_CHANNELS];
 
 private:
     libusb_device_handle*   dev;
+
+    unsigned char   current_mode;
+    unsigned char   current_speed;
 };

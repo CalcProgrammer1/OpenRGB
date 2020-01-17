@@ -41,8 +41,11 @@ enum
 
 enum
 {
-    HUE_PLUS_SPEED_MIN          = 0x00, /* Slowest speed                */
-    HUE_PLUS_SPEED_MAX          = 0x04, /* Fastest speed                */
+    HUE_PLUS_SPEED_SLOWEST      = 0x00, /* Slowest speed                */
+    HUE_PLUS_SPEED_SLOW         = 0x01, /* Slow speed                   */
+    HUE_PLUS_SPEED_NORMAL       = 0x02, /* Normal speed                 */
+    HUE_PLUS_SPEED_FAST         = 0x03, /* Fast speed                   */
+    HUE_PLUS_SPEED_FASTEST      = 0x04, /* Fastest speed                */
 };
 
 enum
