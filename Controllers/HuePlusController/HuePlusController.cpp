@@ -25,7 +25,7 @@ static void Sleep(unsigned int milliseconds)
 HuePlusController::HuePlusController()
 {
     current_mode    = HUE_PLUS_MODE_FIXED;
-    current_speed   = 0;
+    current_speed   = HUE_PLUS_SPEED_NORMAL;
 }
 
 HuePlusController::~HuePlusController()

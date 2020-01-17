@@ -19,6 +19,8 @@ Hue2Controller::Hue2Controller(libusb_device_handle* dev_handle)
 
 Hue2Controller::~Hue2Controller()
 {
+    current_mode    = HUE_2_MODE_FIXED;
+    current_speed   = HUE_2_SPEED_NORMAL;
 }
 
 unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
@@ -82,7 +84,13 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
     return(ret_val);
 }
 
-void Hue2Controller::SetChannelEffect(unsigned int channel, unsigned int mode, std::vector<RGBColor> colors)
+void Hue2Controller::SetMode(unsigned char mode, unsigned char speed)
+{
+    current_mode    = mode;
+    current_speed   = speed;
+}
+
+void Hue2Controller::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
 {
     unsigned char usb_buf[] =
     {
@@ -113,8 +121,12 @@ void Hue2Controller::SetChannelEffect(unsigned int channel, unsigned int mode, s
     /*-----------------------------------------------------*\
     | Set mode in USB packet                                |
     \*-----------------------------------------------------*/
-    usb_buf[0x04]   = mode;
+    usb_buf[0x04]   = current_mode;
 
+    /*-----------------------------------------------------*\
+    | Set speed in USB packet                               |
+    \*-----------------------------------------------------*/
+    usb_buf[0x05]   = current_speed;
     /*-----------------------------------------------------*\
     | Set color count in USB packet                         |
     \*-----------------------------------------------------*/
@@ -134,110 +146,4 @@ void Hue2Controller::SetChannelEffect(unsigned int channel, unsigned int mode, s
 
     libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
     libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
-}
-
-void Hue2Controller::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors)
-{
-    unsigned char usb_buf[] =
-    {
-        0x22, 0x10, 0x01, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
-    };
-
-    unsigned char usb_apply[] =
-    {
-        0x22, 0xA0, 0x01, 0x00,
-        0x01, 0x00, 0x00, 0x28,
-        0x00, 0x00, 0x80, 0x00,
-        0x32, 0x00, 0x00, 0x01,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
-    };
-    int             actual;
-
-    std::size_t pkt_max = 20;
-
-    /*-----------------------------------------------------*\
-    | Set channel in USB packets                            |
-    \*-----------------------------------------------------*/
-    usb_buf[0x02]   = 1 << channel;
-    usb_apply[0x02] = 1 << channel;
-
-    /*-----------------------------------------------------*\
-    | Send first packet for first 20 LEDs                   |
-    \*-----------------------------------------------------*/
-    if(pkt_max > colors.size())
-    {
-        pkt_max = colors.size();
-    }
-
-    for (std::size_t idx = 0; idx < pkt_max; idx++)
-    {
-        int pixel_idx = idx * 3;
-        RGBColor color = colors[idx];
-        usb_buf[pixel_idx + 4] = RGBGetGValue(color);
-        usb_buf[pixel_idx + 5] = RGBGetRValue(color);
-        usb_buf[pixel_idx + 6] = RGBGetBValue(color);
-    }
-
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-
-    /*-----------------------------------------------------*\
-    | Send second packet for second 20 LEDs if necessary    |
-    \*-----------------------------------------------------*/
-    for(int idx = 4; idx < 64; idx++)
-    {
-        usb_buf[idx] = 0;
-    }
-    
-    usb_buf[0x01] = 0x11;
-    pkt_max       = 0;
-
-    if (colors.size() > 20)
-    {
-        pkt_max = colors.size() - 20;
-    }
-
-    if(pkt_max > 0)
-    {
-        for (std::size_t idx = 0; idx < pkt_max; idx++)
-        {
-            int pixel_idx = idx * 3;
-            RGBColor color = colors[idx + 20];
-            usb_buf[pixel_idx + 4] = RGBGetGValue(color);
-            usb_buf[pixel_idx + 5] = RGBGetRValue(color);
-            usb_buf[pixel_idx + 6] = RGBGetBValue(color);
-        }
-
-        libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-    }
-
-    /*-----------------------------------------------------*\
-    | Send apply packet                                     |
-    \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_apply, 64, &actual, 0);
 }

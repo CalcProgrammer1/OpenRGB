@@ -24,45 +24,66 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
     modes.push_back(Direct);
 
     mode Fading;
-    Fading.name  = "Fading";
-    Fading.value = HUE_2_MODE_FADING;
-    Fading.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Fading.name      = "Fading";
+    Fading.value     = HUE_2_MODE_FADING;
+    Fading.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Fading.speed_min = HUE_2_SPEED_SLOWEST;
+    Fading.speed_max = HUE_2_SPEED_FASTEST;
+    Fading.speed     = HUE_2_SPEED_NORMAL;
     modes.push_back(Fading);
 
     mode SpectrumCycle;
-    SpectrumCycle.name  = "Spectrum Cycle";
-    SpectrumCycle.value = HUE_2_MODE_SPECTRUM;
-    SpectrumCycle.flags = 0;
+    SpectrumCycle.name      = "Spectrum Cycle";
+    SpectrumCycle.value     = HUE_2_MODE_SPECTRUM;
+    SpectrumCycle.flags     = MODE_FLAG_HAS_SPEED;
+    SpectrumCycle.speed_min = HUE_2_SPEED_SLOWEST;
+    SpectrumCycle.speed_max = HUE_2_SPEED_FASTEST;
+    SpectrumCycle.speed     = HUE_2_SPEED_NORMAL;
     modes.push_back(SpectrumCycle);
 
     mode Marquee;
-    Marquee.name  = "Marquee";
-    Marquee.value = HUE_2_MODE_MARQUEE;
-    Marquee.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Marquee.name      = "Marquee";
+    Marquee.value     = HUE_2_MODE_MARQUEE;
+    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Marquee.speed_min = HUE_2_SPEED_SLOWEST;
+    Marquee.speed_max = HUE_2_SPEED_FASTEST;
+    Marquee.speed     = HUE_2_SPEED_NORMAL;
     modes.push_back(Marquee);
 
     mode CoverMarquee;
-    CoverMarquee.name  = "Cover Marquee";
-    CoverMarquee.value = HUE_2_MODE_COVER_MARQUEE;
-    CoverMarquee.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    CoverMarquee.name      = "Cover Marquee";
+    CoverMarquee.value     = HUE_2_MODE_COVER_MARQUEE;
+    CoverMarquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    CoverMarquee.speed_min = HUE_2_SPEED_SLOWEST;
+    CoverMarquee.speed_max = HUE_2_SPEED_FASTEST;
+    CoverMarquee.speed     = HUE_2_SPEED_NORMAL;
     modes.push_back(CoverMarquee);
 
     mode Alternating;
-    Alternating.name  = "Alternating";
-    Alternating.value = HUE_2_MODE_ALTERNATING;
-    Alternating.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Alternating.name      = "Alternating";
+    Alternating.value     = HUE_2_MODE_ALTERNATING;
+    Alternating.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Alternating.speed_min = HUE_2_SPEED_SLOWEST;
+    Alternating.speed_max = HUE_2_SPEED_FASTEST;
+    Alternating.speed     = HUE_2_SPEED_NORMAL;
     modes.push_back(Alternating);
 
     mode Pulsing;
-    Pulsing.name  = "Pulsing";
-    Pulsing.value = HUE_2_MODE_PULSING;
-    Pulsing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Pulsing.name      = "Pulsing";
+    Pulsing.value     = HUE_2_MODE_PULSING;
+    Pulsing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Pulsing.speed_min = HUE_2_SPEED_SLOWEST;
+    Pulsing.speed_max = HUE_2_SPEED_FASTEST;
+    Pulsing.speed     = HUE_2_SPEED_NORMAL;
     modes.push_back(Pulsing);
 
     mode Breathing;
-    Breathing.name  = "Breathing";
-    Breathing.value = HUE_2_MODE_BREATHING;
-    Breathing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Breathing.name      = "Breathing";
+    Breathing.value     = HUE_2_MODE_BREATHING;
+    Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Breathing.speed_min = HUE_2_SPEED_SLOWEST;
+    Breathing.speed_max = HUE_2_SPEED_FASTEST;
+    Breathing.speed     = HUE_2_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     /*-------------------------------------------------*\
@@ -142,7 +163,8 @@ void RGBController_Hue2::SetMode(int mode)
 
         if(channel_colors.size() > 0)
         {
-            hue2->SetChannelEffect(channel, modes[mode].value, channel_colors);
+            hue2->SetMode(modes[mode].value, modes[mode].speed);
+            hue2->SetChannelLEDs(channel, channel_colors);
         }
     }
 }

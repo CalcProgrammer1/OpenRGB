@@ -30,63 +30,63 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 //    Fading.name      = "Fading";
 //    Fading.value     = HUE_PLUS_MODE_FADING;
 //    Fading.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-//    Fading.speed_min = HUE_PLUS_SPEED_MIN;
-//    Fading.speed_max = HUE_PLUS_SPEED_MAX;
-//    Fading.speed     = HUE_PLUS_SPEED_MIN;
+//    Fading.speed_min = HUE_PLUS_SPEED_SLOWEST;
+//    Fading.speed_max = HUE_PLUS_SPEED_FASTEST;
+//    Fading.speed     = HUE_PLUS_SPEED_NORMAL;
 //    modes.push_back(Fading);
 
     mode SpectrumCycle;
     SpectrumCycle.name      = "Spectrum Cycle";
     SpectrumCycle.value     = HUE_PLUS_MODE_SPECTRUM;
     SpectrumCycle.flags     = MODE_FLAG_HAS_SPEED;
-    SpectrumCycle.speed_min = HUE_PLUS_SPEED_MIN;
-    SpectrumCycle.speed_max = HUE_PLUS_SPEED_MAX;
-    SpectrumCycle.speed     = HUE_PLUS_SPEED_MIN;
+    SpectrumCycle.speed_min = HUE_PLUS_SPEED_SLOWEST;
+    SpectrumCycle.speed_max = HUE_PLUS_SPEED_FASTEST;
+    SpectrumCycle.speed     = HUE_PLUS_SPEED_NORMAL;
     modes.push_back(SpectrumCycle);
 
     mode Marquee;
     Marquee.name      = "Marquee";
     Marquee.value     = HUE_PLUS_MODE_MARQUEE;
     Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Marquee.speed_min = HUE_PLUS_SPEED_MIN;
-    Marquee.speed_max = HUE_PLUS_SPEED_MAX;
-    Marquee.speed     = HUE_PLUS_SPEED_MIN;
+    Marquee.speed_min = HUE_PLUS_SPEED_SLOWEST;
+    Marquee.speed_max = HUE_PLUS_SPEED_FASTEST;
+    Marquee.speed     = HUE_PLUS_SPEED_NORMAL;
     modes.push_back(Marquee);
 
     mode CoverMarquee;
     CoverMarquee.name      = "Cover Marquee";
     CoverMarquee.value     = HUE_PLUS_MODE_COVER_MARQUEE;
     CoverMarquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    CoverMarquee.speed_min = HUE_PLUS_SPEED_MIN;
-    CoverMarquee.speed_max = HUE_PLUS_SPEED_MAX;
-    CoverMarquee.speed     = HUE_PLUS_SPEED_MIN;
+    CoverMarquee.speed_min = HUE_PLUS_SPEED_SLOWEST;
+    CoverMarquee.speed_max = HUE_PLUS_SPEED_FASTEST;
+    CoverMarquee.speed     = HUE_PLUS_SPEED_NORMAL;
     modes.push_back(CoverMarquee);
 
     mode Alternating;
     Alternating.name      = "Alternating";
     Alternating.value     = HUE_PLUS_MODE_ALTERNATING;
     Alternating.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Alternating.speed_min = HUE_PLUS_SPEED_MIN;
-    Alternating.speed_max = HUE_PLUS_SPEED_MAX;
-    Alternating.speed     = HUE_PLUS_SPEED_MIN;
+    Alternating.speed_min = HUE_PLUS_SPEED_SLOWEST;
+    Alternating.speed_max = HUE_PLUS_SPEED_FASTEST;
+    Alternating.speed     = HUE_PLUS_SPEED_NORMAL;
     modes.push_back(Alternating);
 
     mode Pulsing;
     Pulsing.name      = "Pulsing";
     Pulsing.value     = HUE_PLUS_MODE_PULSING;
     Pulsing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Pulsing.speed_min = HUE_PLUS_SPEED_MIN;
-    Pulsing.speed_max = HUE_PLUS_SPEED_MAX;
-    Pulsing.speed     = HUE_PLUS_SPEED_MIN;
+    Pulsing.speed_min = HUE_PLUS_SPEED_SLOWEST;
+    Pulsing.speed_max = HUE_PLUS_SPEED_FASTEST;
+    Pulsing.speed     = HUE_PLUS_SPEED_NORMAL;
     modes.push_back(Pulsing);
 
     mode Breathing;
     Breathing.name      = "Breathing";
     Breathing.value     = HUE_PLUS_MODE_BREATHING;
     Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Breathing.speed_min = HUE_PLUS_SPEED_MIN;
-    Breathing.speed_max = HUE_PLUS_SPEED_MAX;
-    Breathing.speed     = HUE_PLUS_SPEED_MIN;
+    Breathing.speed_min = HUE_PLUS_SPEED_SLOWEST;
+    Breathing.speed_max = HUE_PLUS_SPEED_FASTEST;
+    Breathing.speed     = HUE_PLUS_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     mode Alert;
@@ -105,9 +105,9 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
     Wings.name      = "Wings";
     Wings.value     = HUE_PLUS_MODE_WINGS;
     Wings.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Wings.speed_min = HUE_PLUS_SPEED_MIN;
-    Wings.speed_max = HUE_PLUS_SPEED_MAX;
-    Wings.speed     = HUE_PLUS_SPEED_MIN;
+    Wings.speed_min = HUE_PLUS_SPEED_SLOWEST;
+    Wings.speed_max = HUE_PLUS_SPEED_FASTEST;
+    Wings.speed     = HUE_PLUS_SPEED_NORMAL;
     modes.push_back(Wings);
 
 // Wave mode is currently disabled because it doesn't appear to work
@@ -115,9 +115,9 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 //    Wave.name      = "Wave";
 //    Wave.value     = HUE_PLUS_MODE_WAVE;
 //    Wave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-//    Wave.speed_min = HUE_PLUS_SPEED_MIN;
-//    Wave.speed_max = HUE_PLUS_SPEED_MAX;
-//    Wave.speed     = HUE_PLUS_SPEED_MIN;
+//    Wave.speed_min = HUE_PLUS_SPEED_SLOWEST;
+//    Wave.speed_max = HUE_PLUS_SPEED_FASTEST;
+//    Wave.speed     = HUE_PLUS_SPEED_NORMAL;
 //    modes.push_back(Wave);
 
     /*-------------------------------------------------*\
