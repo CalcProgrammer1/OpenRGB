@@ -24,16 +24,17 @@ static void Sleep(unsigned int milliseconds)
 
 HuePlusController::HuePlusController()
 {
-
+    current_mode    = HUE_PLUS_MODE_FIXED;
+    current_speed   = 0;
 }
 
 HuePlusController::~HuePlusController()
 {
 }
 
-void HuePlusController::Initialize(char* port_name)
+void HuePlusController::Initialize(char* port)
 {
-    strcpy(led_string, port_name);
+    strcpy(port_name, port);
     
     serialport = new serial_port(port_name, HUE_PLUS_BAUD);
 
@@ -41,9 +42,9 @@ void HuePlusController::Initialize(char* port_name)
     channel_leds[HUE_PLUS_CHANNEL_2_IDX] = GetLEDsOnChannel(HUE_PLUS_CHANNEL_2);
 }
 
-char* HuePlusController::GetLEDString()
+char* HuePlusController::GetLocation()
 {
-    return(led_string);
+    return(port_name);
 }
 
 unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)
@@ -83,7 +84,13 @@ unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)
     return(ret_val);
 }
 
-void HuePlusController::SetChannelEffect(unsigned int channel, unsigned int mode, std::vector<RGBColor> colors)
+void HuePlusController::SetMode(unsigned char mode, unsigned char speed)
+{
+    current_mode    = mode;
+    current_speed   = speed;
+}
+
+void HuePlusController::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
 {
     unsigned char serial_buf[] =
     {
@@ -129,7 +136,12 @@ void HuePlusController::SetChannelEffect(unsigned int channel, unsigned int mode
     /*-----------------------------------------------------*\
     | Set mode in serial packet                             |
     \*-----------------------------------------------------*/
-    serial_buf[0x02]   = mode;
+    serial_buf[0x02]   = current_mode;
+
+    /*-----------------------------------------------------*\
+    | Set speed in serial packet                            |
+    \*-----------------------------------------------------*/
+    serial_buf[0x04]   = current_speed;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
@@ -141,72 +153,6 @@ void HuePlusController::SetChannelEffect(unsigned int channel, unsigned int mode
         serial_buf[pixel_idx + 0x05] = RGBGetGValue(color);
         serial_buf[pixel_idx + 0x06] = RGBGetRValue(color);
         serial_buf[pixel_idx + 0x07] = RGBGetBValue(color);
-    }
-
-    serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
-    serialport->serial_flush_tx();
-
-    Sleep(10);
-}
-
-void HuePlusController::SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors)
-{
-    unsigned char serial_buf[] =
-    {
-        0x4B, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00
-    };
-
-    /*-----------------------------------------------------*\
-    | Set channel in serial packet                          |
-    \*-----------------------------------------------------*/
-    serial_buf[0x01]   = channel;
-
-    /*-----------------------------------------------------*\
-    | Set mode in serial packet                             |
-    \*-----------------------------------------------------*/
-    serial_buf[0x02]   = HUE_PLUS_MODE_FIXED;
-
-    /*-----------------------------------------------------*\
-    | Fill in color data                                    |
-    \*-----------------------------------------------------*/
-    for (unsigned int idx = 0; idx < (colors.size() * 3); idx += 3)
-    {
-        int pixel_idx = idx / 3;
-        RGBColor color = colors[pixel_idx];
-        serial_buf[idx + 5] = RGBGetGValue(color);
-        serial_buf[idx + 6] = RGBGetRValue(color);
-        serial_buf[idx + 7] = RGBGetBValue(color);
     }
 
     serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
