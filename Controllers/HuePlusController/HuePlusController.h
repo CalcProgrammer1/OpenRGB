@@ -41,6 +41,12 @@ enum
 
 enum
 {
+    HUE_PLUS_SPEED_MIN          = 0x00, /* Slowest speed                */
+    HUE_PLUS_SPEED_MAX          = 0x04, /* Fastest speed                */
+};
+
+enum
+{
     HUE_PLUS_MODE_FIXED         = 0x00, /* Fixed colors mode            */
     HUE_PLUS_MODE_FADING        = 0x01, /* Fading mode                  */
     HUE_PLUS_MODE_SPECTRUM      = 0x02, /* Spectrum cycle mode          */
@@ -51,7 +57,8 @@ enum
     HUE_PLUS_MODE_BREATHING     = 0x07, /* Breathing mode               */
     HUE_PLUS_MODE_ALERT         = 0x08, /* Alert mode                   */
     HUE_PLUS_MODE_CANDLELIGHT   = 0x09, /* Candlelight mode             */
-    HUE_PLUS_NUM_MODES                  /* Number of Hue Plus modes     */
+    HUE_PLUS_MODE_WINGS         = 0x0C, /* Wings mode                   */
+    HUE_PLUS_MODE_WAVE          = 0x0D, /* Wave mode                    */
 };
 
 class HuePlusController
@@ -60,18 +67,20 @@ public:
     HuePlusController();
     ~HuePlusController();
 
-    void            Initialize(char* port_name);
-    char*           GetLEDString();
+    void            Initialize(char* port);
+    char*           GetLocation();
     unsigned int    GetLEDsOnChannel(unsigned int channel);
-    void            SetChannelEffect(unsigned int channel, unsigned int mode, std::vector<RGBColor> colors);
-    void            SetChannelLEDs(unsigned int channel, std::vector<RGBColor> colors);
+    void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
+    void            SetMode(unsigned char mode, unsigned char speed);
 
     unsigned int    channel_leds[HUE_PLUS_NUM_CHANNELS];
 
 private:
-    char led_string[1024];
-    char port_name[128];
-    serial_port *serialport;
+    char            port_name[128];
+    serial_port     *serialport;
+
+    unsigned char   current_mode;
+    unsigned char   current_speed;
 };
 
 #endif
