@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 //Include thread libraries for Windows or Linux
 #ifdef WIN32
