@@ -36,6 +36,19 @@ enum
 };
 
 /*------------------------------------------------------------------*\
+| Mode Directions                                                    |
+\*------------------------------------------------------------------*/
+enum
+{
+    MODE_DIRECTION_LEFT         = 0,        /* Mode direction left              */
+    MODE_DIRECTION_RIGHT        = 1,        /* Mode direction right             */
+    MODE_DIRECTION_UP           = 2,        /* Mode direction up                */
+    MODE_DIRECTION_DOWN         = 3,        /* Mode direction down              */
+    MODE_DIRECTION_HORIZONTAL   = 4,        /* Mode direction horizontal        */
+    MODE_DIRECTION_VERTICAL     = 5,        /* Mode direction vertical          */
+};
+
+/*------------------------------------------------------------------*\
 | Mode Type                                                          |
 \*------------------------------------------------------------------*/
 typedef struct
@@ -53,6 +66,7 @@ typedef struct
     | Mode Settings                                                  |
     \*--------------------------------------------------------------*/
     unsigned int        speed;  /* Mode speed parameter value       */
+    unsigned int        direction;  /* Mode direction value         */
     bool                random; /* Random color mode enabled        */
 } mode;
 

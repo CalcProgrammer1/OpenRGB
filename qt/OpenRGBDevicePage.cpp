@@ -153,7 +153,15 @@ void Ui::OpenRGBDevicePage::on_RandomCheck_clicked()
     UpdateMode();
 }
 
-void Ui::OpenRGBDevicePage::on_SpeedSlider_valueChanged(int value)
+void Ui::OpenRGBDevicePage::on_SpeedSlider_valueChanged(int /*value*/)
+{
+    /*-----------------------------------------------------*\
+    | Change device mode                                    |
+    \*-----------------------------------------------------*/
+    UpdateMode();
+}
+
+void Ui::OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
 {
     /*-----------------------------------------------------*\
     | Change device mode                                    |
@@ -176,7 +184,11 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         bool supports_random = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_COLOR )
                             && ( device->modes[selected_mode].flags & MODE_FLAG_RANDOM_COLOR );
         bool supports_speed  = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_SPEED );
+        bool supports_dir_lr = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
+        bool supports_dir_ud = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
+        bool supports_dir_hv = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
         bool random          = device->modes[selected_mode].random;
+        unsigned int dir     = device->modes[selected_mode].direction;
 
         if(supports_speed)
         {
@@ -200,6 +212,74 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         {
             ui->SpeedSlider->setEnabled(false);
         }
+
+        ui->DirectionBox->clear();
+        
+        if(supports_dir_lr)
+        {
+            ui->DirectionBox->addItem("Left");
+            ui->DirectionBox->addItem("Right");
+        }
+
+        if(supports_dir_ud)
+        {
+            ui->DirectionBox->addItem("Up");
+            ui->DirectionBox->addItem("Down");
+        }
+
+        if(supports_dir_hv)
+        {
+            ui->DirectionBox->addItem("Horizontal");
+            ui->DirectionBox->addItem("Vertical");
+        }
+
+        if(supports_dir_lr || supports_dir_ud || supports_dir_hv)
+        {
+            if((supports_dir_lr)
+             &&((dir == MODE_DIRECTION_LEFT)
+              ||(dir == MODE_DIRECTION_RIGHT)))
+            {
+                ui->DirectionBox->setCurrentIndex(dir);
+            }
+
+            if((supports_dir_ud)
+             &&((dir == MODE_DIRECTION_UP)
+              ||(dir == MODE_DIRECTION_DOWN)))
+            {
+                if(supports_dir_lr)
+                {
+                    ui->DirectionBox->setCurrentIndex(dir);
+                }
+                else
+                {
+                    ui->DirectionBox->setCurrentIndex(dir - 2);
+                }
+            }
+
+            if((supports_dir_hv)
+             &&((dir == MODE_DIRECTION_HORIZONTAL)
+              ||(dir == MODE_DIRECTION_VERTICAL)))
+            {
+                if(supports_dir_lr && supports_dir_ud)
+                {
+                    ui->DirectionBox->setCurrentIndex(dir);
+                }
+                else if(supports_dir_lr || supports_dir_ud)
+                {
+                    ui->DirectionBox->setCurrentIndex(dir - 2);
+                }
+                else
+                {
+                    ui->DirectionBox->setCurrentIndex(dir - 4);
+                }
+            }
+
+            ui->DirectionBox->setEnabled(true);
+        }
+        else
+        {
+            ui->DirectionBox->setEnabled(false);
+        }
         
         if(supports_random)
         {
@@ -218,9 +298,53 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     /*-----------------------------------------------------*\
     | Read user interface                                   |
     \*-----------------------------------------------------*/
-    int  current_mode   = ui->ModeBox->currentIndex();
-    int  current_speed  = ui->SpeedSlider->value();
-    bool current_random = ui->RandomCheck->checkState();
+    int  current_mode      = ui->ModeBox->currentIndex();
+    int  current_speed     = ui->SpeedSlider->value();
+    bool current_random    = ui->RandomCheck->checkState();
+    int  current_dir_idx   = ui->DirectionBox->currentIndex();
+    int  current_direction = 0;
+    bool supports_dir_lr = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
+    bool supports_dir_ud = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
+    bool supports_dir_hv = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
+
+    /*-----------------------------------------------------*\
+    | Set the direction value                               |
+    \*-----------------------------------------------------*/
+    if(supports_dir_hv)
+    {
+        if(supports_dir_lr && supports_dir_ud)
+        {
+            current_direction = current_dir_idx;
+        }
+        else if(supports_dir_lr || supports_dir_ud)
+        {
+            current_direction = current_dir_idx + 2;
+        }
+        else
+        {
+            current_direction = current_dir_idx + 4;
+        }
+    }
+
+    if(supports_dir_ud)
+    {
+        if(supports_dir_lr)
+        {
+            current_direction = current_dir_idx;
+        }
+        else
+        {
+            current_direction = current_dir_idx + 2;
+        }
+    }
+
+    if((supports_dir_lr)
+     &&(current_dir_idx < 2))
+    {
+        current_direction = current_dir_idx;
+    }
+    
+    device->modes[current_mode].direction = current_direction;
 
     /*-----------------------------------------------------*\
     | If Speed Slider is inverted, invert value             |

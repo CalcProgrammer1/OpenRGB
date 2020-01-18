@@ -48,6 +48,8 @@ private slots:
 
     void on_SpeedSlider_valueChanged(int value);
 
+    void on_DirectionBox_currentIndexChanged(int index);
+
 private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
