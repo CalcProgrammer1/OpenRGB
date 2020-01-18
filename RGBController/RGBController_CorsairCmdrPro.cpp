@@ -183,7 +183,6 @@ void RGBController_CorsairCmdrPro::UpdateZoneLEDs(int zone)
     {
         corsair->SetChannelLEDs(channel, channel_colors);
     }
-    corsair->SendKeepalive();
 }
 
 void RGBController_CorsairCmdrPro::UpdateSingleLED(int led)
