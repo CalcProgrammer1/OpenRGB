@@ -54,9 +54,9 @@ enum
 
 enum
 {
-    CORSAIR_CMDR_PRO_SPEED_SLOW                 = 0x00,     /* Slow speed                           */
+    CORSAIR_CMDR_PRO_SPEED_FAST                 = 0x00,     /* Fast speed                           */
     CORSAIR_CMDR_PRO_SPEED_MEDIUM               = 0x01,     /* Medium speed                         */
-    CORSAIR_CMDR_PRO_SPEED_FAST                 = 0x02,     /* Fast speed                           */
+    CORSAIR_CMDR_PRO_SPEED_SLOW                 = 0x02,     /* Slow speed                           */
 };
 
 enum
@@ -97,7 +97,6 @@ public:
                                     );
 
     void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
-    void            SendKeepalive();
     unsigned int    channel_leds[CORSAIR_CMDR_PRO_NUM_CHANNELS];
 
     void            KeepaliveThread();
