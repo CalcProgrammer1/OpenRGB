@@ -180,10 +180,21 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
 
         if(supports_speed)
         {
+            if(device->modes[selected_mode].speed_min > device->modes[selected_mode].speed_max)
+            {
+                InvertedSpeed = true;
+                ui->SpeedSlider->setMinimum(device->modes[selected_mode].speed_max);
+                ui->SpeedSlider->setMaximum(device->modes[selected_mode].speed_min);
+            }
+            else
+            {
+                InvertedSpeed = false;
+                ui->SpeedSlider->setMinimum(device->modes[selected_mode].speed_min);
+                ui->SpeedSlider->setMaximum(device->modes[selected_mode].speed_max);
+            }
+            
+            ui->SpeedSlider->setValue(device->modes[selected_mode].speed);
             ui->SpeedSlider->setEnabled(true);
-            ui->SpeedSlider->setMinimum(device->modes[selected_mode].speed_min);
-            ui->SpeedSlider->setMaximum(device->modes[selected_mode].speed_max);
-            ui->SpeedSlider->setValue(  device->modes[selected_mode].speed    );
         }
         else
         {
@@ -210,6 +221,14 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     int  current_mode   = ui->ModeBox->currentIndex();
     int  current_speed  = ui->SpeedSlider->value();
     bool current_random = ui->RandomCheck->checkState();
+
+    /*-----------------------------------------------------*\
+    | If Speed Slider is inverted, invert value             |
+    \*-----------------------------------------------------*/
+    if(InvertedSpeed)
+    {
+        current_speed = device->modes[current_mode].speed_min - current_speed;
+    }
 
     /*-----------------------------------------------------*\
     | Don't set the mode if the current mode is invalid     |

@@ -53,6 +53,7 @@ private:
     RGBController *device;
 
     bool UpdatingColor = false;
+    bool InvertedSpeed = false;
 
     void updateRGB();
 
