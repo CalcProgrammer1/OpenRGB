@@ -18,9 +18,38 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 
     type = DEVICE_TYPE_LEDSTRIP;
     
-    mode led_mode;
-    led_mode.name = "Custom";
-    modes.push_back(led_mode);
+    mode Direct;
+    Direct.name  = "Direct";
+    Direct.value = 0xFFFF;
+    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Direct);
+
+    mode RainbowWave;
+    RainbowWave.name      = "Rainbow Wave";
+    RainbowWave.value     = CORSAIR_CMDR_PRO_MODE_RAINBOW_WAVE;
+    RainbowWave.flags     = MODE_FLAG_HAS_SPEED;
+    RainbowWave.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    RainbowWave.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
+    RainbowWave.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    modes.push_back(RainbowWave);
+
+    mode ColorShift;
+    ColorShift.name       = "Color Shift";
+    ColorShift.value      = CORSAIR_CMDR_PRO_MODE_COLOR_SHIFT;
+    ColorShift.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorShift.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    ColorShift.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    ColorShift.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    modes.push_back(ColorShift);
+
+    mode ColorPulse;
+    ColorPulse.name      = "Color Pulse";
+    ColorPulse.value     = CORSAIR_CMDR_PRO_MODE_COLOR_PULSE;
+    ColorPulse.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorPulse.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    ColorPulse.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
+    ColorPulse.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    modes.push_back(ColorPulse);
 
     /*-------------------------------------------------*\
     | Set size of colors array                          |
@@ -81,9 +110,31 @@ int RGBController_CorsairNodePro::GetMode()
     return 0;
 }
 
-void RGBController_CorsairNodePro::SetMode(int /*mode*/)
+void RGBController_CorsairNodePro::SetMode(int mode)
 {
+    active_mode = mode;
 
+    if(modes[active_mode].value == 0xFFFF)
+    {
+        UpdateLEDs();
+    }
+    else
+    {
+        for(int channel = 0; channel < CORSAIR_CMDR_PRO_NUM_CHANNELS; channel++)
+        {
+            corsair->SetChannelEffect(channel,
+                                      modes[active_mode].value,
+                                      modes[active_mode].speed,
+                                      0,
+                                      modes[active_mode].random,
+                                      RGBGetRValue(colors[0]),
+                                      RGBGetGValue(colors[0]),
+                                      RGBGetBValue(colors[0]),
+                                      RGBGetRValue(colors[1]),
+                                      RGBGetGValue(colors[1]),
+                                      RGBGetBValue(colors[1]));
+        }
+    }
 }
 
 void RGBController_CorsairNodePro::SetCustomMode()
@@ -130,9 +181,8 @@ void RGBController_CorsairNodePro::UpdateZoneLEDs(int zone)
 
     if(channel_colors.size() > 0)
     {
-        //corsair->SetChannelLEDs(channel, channel_colors);
+        corsair->SetChannelLEDs(channel, channel_colors);
     }
-    corsair->SendKeepalive();
 }
 
 void RGBController_CorsairNodePro::UpdateSingleLED(int led)
