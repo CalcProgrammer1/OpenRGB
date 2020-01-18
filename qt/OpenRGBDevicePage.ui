@@ -400,11 +400,24 @@
      <x>70</x>
      <y>270</y>
      <width>160</width>
-     <height>16</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SpeedLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>270</y>
+     <width>40</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Speed:</string>
    </property>
   </widget>
  </widget>
