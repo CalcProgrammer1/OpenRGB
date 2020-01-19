@@ -38,37 +38,41 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
     mode SpectrumCycle;
     SpectrumCycle.name      = "Spectrum Cycle";
     SpectrumCycle.value     = HUE_PLUS_MODE_SPECTRUM;
-    SpectrumCycle.flags     = MODE_FLAG_HAS_SPEED;
+    SpectrumCycle.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
     SpectrumCycle.speed_min = HUE_PLUS_SPEED_SLOWEST;
     SpectrumCycle.speed_max = HUE_PLUS_SPEED_FASTEST;
     SpectrumCycle.speed     = HUE_PLUS_SPEED_NORMAL;
+    SpectrumCycle.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(SpectrumCycle);
 
     mode Marquee;
     Marquee.name      = "Marquee";
     Marquee.value     = HUE_PLUS_MODE_MARQUEE;
-    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
     Marquee.speed_min = HUE_PLUS_SPEED_SLOWEST;
     Marquee.speed_max = HUE_PLUS_SPEED_FASTEST;
     Marquee.speed     = HUE_PLUS_SPEED_NORMAL;
+    Marquee.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(Marquee);
 
     mode CoverMarquee;
     CoverMarquee.name      = "Cover Marquee";
     CoverMarquee.value     = HUE_PLUS_MODE_COVER_MARQUEE;
-    CoverMarquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    CoverMarquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
     CoverMarquee.speed_min = HUE_PLUS_SPEED_SLOWEST;
     CoverMarquee.speed_max = HUE_PLUS_SPEED_FASTEST;
     CoverMarquee.speed     = HUE_PLUS_SPEED_NORMAL;
+    CoverMarquee.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(CoverMarquee);
 
     mode Alternating;
     Alternating.name      = "Alternating";
     Alternating.value     = HUE_PLUS_MODE_ALTERNATING;
-    Alternating.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Alternating.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
     Alternating.speed_min = HUE_PLUS_SPEED_SLOWEST;
     Alternating.speed_max = HUE_PLUS_SPEED_FASTEST;
     Alternating.speed     = HUE_PLUS_SPEED_NORMAL;
+    Alternating.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(Alternating);
 
     mode Pulsing;
@@ -197,7 +201,14 @@ void RGBController_HuePlus::SetMode(int mode)
 
         if(channel_colors.size() > 0)
         {
-            hueplus->SetMode(modes[mode].value, modes[mode].speed);
+            bool direction = false;
+
+            if(modes[mode].direction == MODE_DIRECTION_LEFT)
+            {
+                direction = true;
+            }
+
+            hueplus->SetMode(modes[mode].value, modes[mode].speed, direction);
             hueplus->SetChannelLEDs(channel, channel_colors);
         }
     }

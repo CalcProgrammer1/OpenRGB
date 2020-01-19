@@ -12,7 +12,7 @@
 *   DetectHuePlusControllers                                                               *
 *                                                                                          *
 *       Detect devices supported by the HuePlus driver                                     *
-*                                                                                          *                                                                                          *
+*                                                                                          *
 \******************************************************************************************/
 
 void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers)

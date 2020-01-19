@@ -84,10 +84,11 @@ unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)
     return(ret_val);
 }
 
-void HuePlusController::SetMode(unsigned char mode, unsigned char speed)
+void HuePlusController::SetMode(unsigned char mode, unsigned char speed, bool direction)
 {
-    current_mode    = mode;
-    current_speed   = speed;
+    current_mode        = mode;
+    current_speed       = speed;
+    current_direction   = direction;
 }
 
 void HuePlusController::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
@@ -137,6 +138,12 @@ void HuePlusController::SetChannelLEDs(unsigned char channel, std::vector<RGBCol
     | Set mode in serial packet                             |
     \*-----------------------------------------------------*/
     serial_buf[0x02]   = current_mode;
+
+    /*-----------------------------------------------------*\
+    | Set options bitfield in serial packet                 |
+    \*-----------------------------------------------------*/
+    serial_buf[0x03]   = 0;
+    serial_buf[0x03]   |= current_direction ? ( 1 << 4 ) : 0;
 
     /*-----------------------------------------------------*\
     | Set speed in serial packet                            |
