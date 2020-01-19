@@ -27,10 +27,11 @@ RGBController_CorsairCmdrPro::RGBController_CorsairCmdrPro(CorsairCmdrProControl
     mode RainbowWave;
     RainbowWave.name      = "Rainbow Wave";
     RainbowWave.value     = CORSAIR_CMDR_PRO_MODE_RAINBOW_WAVE;
-    RainbowWave.flags     = MODE_FLAG_HAS_SPEED;
+    RainbowWave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
     RainbowWave.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
     RainbowWave.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
     RainbowWave.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    RainbowWave.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(RainbowWave);
 
     mode ColorShift;
@@ -54,10 +55,11 @@ RGBController_CorsairCmdrPro::RGBController_CorsairCmdrPro(CorsairCmdrProControl
     mode ColorWave;
     ColorWave.name      = "Color Wave";
     ColorWave.value     = CORSAIR_CMDR_PRO_MODE_COLOR_WAVE;
-    ColorWave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorWave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
     ColorWave.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
     ColorWave.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
     ColorWave.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorWave.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(ColorWave);
 
     mode Static;
@@ -84,10 +86,11 @@ RGBController_CorsairCmdrPro::RGBController_CorsairCmdrPro(CorsairCmdrProControl
     mode Marquee;
     Marquee.name      = "Marquee";
     Marquee.value     = CORSAIR_CMDR_PRO_MODE_MARQUEE;
-    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
     Marquee.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
     Marquee.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
     Marquee.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Marquee.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(Marquee);
 
     mode Blink;
@@ -102,10 +105,11 @@ RGBController_CorsairCmdrPro::RGBController_CorsairCmdrPro(CorsairCmdrProControl
     mode Sequential;
     Sequential.name      = "Sequential";
     Sequential.value     = CORSAIR_CMDR_PRO_MODE_SEQUENTIAL;
-    Sequential.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Sequential.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
     Sequential.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
     Sequential.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
     Sequential.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Sequential.direction = MODE_DIRECTION_RIGHT;
     modes.push_back(Sequential);
 
     mode Rainbow;
@@ -188,10 +192,17 @@ void RGBController_CorsairCmdrPro::SetMode(int mode)
     {
         for(int channel = 0; channel < CORSAIR_CMDR_PRO_NUM_CHANNELS; channel++)
         {
+            unsigned int direction = 0;
+
+            if(modes[active_mode].direction == MODE_DIRECTION_RIGHT)
+            {
+                direction = 1;
+            }
+
             corsair->SetChannelEffect(channel,
                                       modes[active_mode].value,
                                       modes[active_mode].speed,
-                                      0,
+                                      direction,
                                       modes[active_mode].random,
                                       RGBGetRValue(colors[0]),
                                       RGBGetGValue(colors[0]),
