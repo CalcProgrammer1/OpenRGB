@@ -19,6 +19,7 @@ INCLUDEPATH +=                                                          \
     Controllers/CorsairKeyboardController/                              \
     Controllers/CorsairNodeProController/                               \
     Controllers/CorsairProController/                                   \
+    Controllers/CrucialController/                                      \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
@@ -63,6 +64,8 @@ SOURCES +=                                                              \
     Controllers/CorsairNodeProController/CorsairNodeProControllerDetect.cpp \
     Controllers/CorsairProController/CorsairProController.cpp           \
     Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
+    Controllers/CrucialController/CrucialController.cpp                 \
+    Controllers/CrucialController/CrucialControllerDetect.cpp           \
     Controllers/Hue2Controller/Hue2Controller.cpp                       \
     Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
     Controllers/HuePlusController/HuePlusController.cpp                 \
@@ -96,6 +99,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_CorsairKeyboard.cpp                     \
     RGBController/RGBController_CorsairNodePro.cpp                      \
     RGBController/RGBController_CorsairPro.cpp                          \
+    RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
@@ -129,6 +133,7 @@ HEADERS +=                                                              \
     Controllers/CorsairKeyboardController/CorsairKeyboardController.h   \
     Controllers/CorsairNodeProController/CorsairNodeProController.h     \
     Controllers/CorsairProController/CorsairProController.h             \
+    Controllers/CrucialController/CrucialController.h                   \
     Controllers/Hue2Controller/Hue2Controller.h                         \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXController/HyperXController.h                     \
@@ -148,6 +153,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_CorsairCmdrPro.h                        \
     RGBController/RGBController_CorsairNodePro.h                        \
     RGBController/RGBController_CorsairPro.h                            \
+    RGBController/RGBController_Crucial.h                               \
     RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
