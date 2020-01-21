@@ -77,9 +77,9 @@ void RGBFusion2Controller::SetLEDColor(unsigned int led, unsigned char red, unsi
     usb_buf[0x01] = (0x20 |  led);
     usb_buf[0x02] = (0x01 << led );
 
-    usb_buf[0x0E] = red;
+    usb_buf[0x0E] = blue;
     usb_buf[0x0F] = green;
-    usb_buf[0x10] = blue;
+    usb_buf[0x10] = red;
 
     hid_send_feature_report(dev, usb_buf, 64);
     
