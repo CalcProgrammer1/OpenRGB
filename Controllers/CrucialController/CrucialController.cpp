@@ -7,6 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 1/19/2020   |
 \*-----------------------------------------*/
 
+#include "RGBController.h"
 #include "CrucialController.h"
 #include <cstring>
 
@@ -46,10 +47,9 @@ void CrucialController::SetMode(unsigned char mode)
     SendEffectMode(mode, 0x10);
 }
 
-void CrucialController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
+void CrucialController::SetAllColorsDirect(RGBColor* colors)
 {
-    SendEffectColors(red, green, blue);
-    SendEffectMode(CRUCIAL_MODE_STATIC, 0);
+    SendDirectColors(colors);
 }
 
 void CrucialController::SendEffectColors(unsigned char red, unsigned char green, unsigned char blue)
@@ -77,6 +77,39 @@ void CrucialController::SendEffectMode(unsigned char mode, unsigned char speed)
     CrucialRegisterWrite(0x82EE, 0x00);
     CrucialRegisterWrite(0x82EF, speed);
     CrucialRegisterWrite(0x82F0, 0x84);
+}
+
+void CrucialController::SendDirectColors(RGBColor* color_buf)
+{
+    //Red Channels
+    CrucialRegisterWrite(0x8300, RGBGetRValue(color_buf[0]));
+    CrucialRegisterWrite(0x8301, RGBGetRValue(color_buf[1]));
+    CrucialRegisterWrite(0x8302, RGBGetRValue(color_buf[2]));
+    CrucialRegisterWrite(0x8303, RGBGetRValue(color_buf[3]));
+    CrucialRegisterWrite(0x8304, RGBGetRValue(color_buf[4]));
+    CrucialRegisterWrite(0x8305, RGBGetRValue(color_buf[5]));
+    CrucialRegisterWrite(0x8306, RGBGetRValue(color_buf[6]));
+    CrucialRegisterWrite(0x8307, RGBGetRValue(color_buf[7]));
+
+    //Green Channels
+    CrucialRegisterWrite(0x8340, RGBGetGValue(color_buf[0]));
+    CrucialRegisterWrite(0x8341, RGBGetGValue(color_buf[1]));
+    CrucialRegisterWrite(0x8342, RGBGetGValue(color_buf[2]));
+    CrucialRegisterWrite(0x8343, RGBGetGValue(color_buf[3]));
+    CrucialRegisterWrite(0x8344, RGBGetGValue(color_buf[4]));
+    CrucialRegisterWrite(0x8345, RGBGetGValue(color_buf[5]));
+    CrucialRegisterWrite(0x8346, RGBGetGValue(color_buf[6]));
+    CrucialRegisterWrite(0x8347, RGBGetGValue(color_buf[7]));
+
+    //Blue Channels
+    CrucialRegisterWrite(0x8380, RGBGetBValue(color_buf[0]));
+    CrucialRegisterWrite(0x8381, RGBGetBValue(color_buf[1]));
+    CrucialRegisterWrite(0x8382, RGBGetBValue(color_buf[2]));
+    CrucialRegisterWrite(0x8383, RGBGetBValue(color_buf[3]));
+    CrucialRegisterWrite(0x8384, RGBGetBValue(color_buf[4]));
+    CrucialRegisterWrite(0x8385, RGBGetBValue(color_buf[5]));
+    CrucialRegisterWrite(0x8386, RGBGetBValue(color_buf[6]));
+    CrucialRegisterWrite(0x8387, RGBGetBValue(color_buf[7]));
 }
 
 unsigned char CrucialController::CrucialRegisterRead(crucial_register reg)

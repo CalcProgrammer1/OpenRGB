@@ -6,6 +6,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*----------------------------------------------------------------------*\
+| This list contains the available SMBus addresses for Crucial RAM       |
+\*----------------------------------------------------------------------*/
+#define CRUCIAL_ADDRESS_COUNT  4
+
+static const unsigned char crucial_addresses[] =
+{
+    0x20,
+    0x21,
+    0x22,
+    0x22
+};
+
+
 /******************************************************************************************\
 *                                                                                          *
 *   TestForCrucialController                                                               *
@@ -59,13 +73,16 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        if (TestForCrucialController(busses[bus], 0x23))
+        // Add Crucial controllers
+        for (unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)
         {
-            new_crucial = new CrucialController(busses[bus], 0x23);
-            new_controller = new RGBController_Crucial(new_crucial);
-            rgb_controllers.push_back(new_controller);
+            if (TestForCrucialController(busses[bus], crucial_addresses[address_list_idx]))
+            {
+                new_crucial = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
+                new_controller = new RGBController_Crucial(new_crucial);
+                rgb_controllers.push_back(new_controller);
+            }
         }
-
     }
 
 }   /* DetectCrucialControllers() */
