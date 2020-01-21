@@ -27,17 +27,17 @@ void RGBController_Crucial::SetCustomMode()
 
 void RGBController_Crucial::UpdateLEDs()
 {
-crucial->SetAllColorsDirect(RGBGetRValue(colors[0]),RGBGetGValue(colors[0]),RGBGetBValue(colors[0]));
+crucial->SetAllColorsDirect(&colors[0]);
 }
 
 void RGBController_Crucial::UpdateZoneLEDs(int zone)
 {
-
+crucial->SetAllColorsDirect(&colors[0]);
 }
 
 void RGBController_Crucial::UpdateSingleLED(int led)
 {
-
+crucial->SetAllColorsDirect(&colors[0]);
 }
 
 RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
@@ -120,5 +120,24 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     //Static.flags = 0;
     modes.push_back(Static);
 
-    colors.push_back(0x00000000);
+    zone new_zone;
+    new_zone.name = "DRAM";
+    new_zone.type = ZONE_TYPE_LINEAR;
+    
+    std::vector<int> new_zone_map;
+
+    for(int led_idx = 0; led_idx < 8; led_idx++)
+    {
+        colors.push_back(0x00000000);
+
+        led new_led;
+        new_led.name = "DRAM LED";
+
+        leds.push_back(new_led);
+        new_zone_map.push_back(led_idx);
+    }
+
+    new_zone.map.push_back(new_zone_map);
+
+    zones.push_back(new_zone);
 }

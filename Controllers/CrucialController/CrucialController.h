@@ -7,6 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 1/19/2020   |
 \*-----------------------------------------*/
 
+#include "RGBController.h"
 #include <string>
 #include "i2c_smbus.h"
 
@@ -40,7 +41,7 @@ public:
     std::string   GetDeviceName();
     std::string   GetDeviceLocation();
     unsigned int  GetLEDCount();
-    void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
+    void          SetAllColorsDirect(RGBColor* colors);
     void          SetMode(unsigned char mode);
 
     unsigned char CrucialRegisterRead(crucial_register reg);
@@ -54,6 +55,7 @@ private:
     i2c_smbus_interface *   bus;
     crucial_dev_id          dev;
 
+    void            SendDirectColors(RGBColor* color_buf);
     void            SendEffectColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SendBrightness(unsigned char brightness);
     void            SendEffectMode(unsigned char mode, unsigned char speed);
