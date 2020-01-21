@@ -317,9 +317,9 @@ void DetectRGBControllers(void)
     | Windows-only devices                  |
     \*-------------------------------------*/
 #ifdef WIN32
-    DetectRazerChromaSDKControllers(rgb_controllers);
-    //DetectAorusGPUControllers(rgb_controllers);
-
+ //   DetectRazerChromaSDKControllers(rgb_controllers);
+    DetectAorusGPUControllers(rgb_controllers);
+    DetectOpenRazerControllers(rgb_controllers);
     /*-------------------------------------*\
     | Linux-only devices                    |
     \*-------------------------------------*/
