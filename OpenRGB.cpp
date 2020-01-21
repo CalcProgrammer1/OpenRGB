@@ -320,6 +320,7 @@ void DetectI2CBusses()
 void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairProControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
+void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
@@ -351,6 +352,7 @@ void DetectRGBControllers(void)
     DetectAuraControllers(busses, rgb_controllers);
     DetectCorsairControllers(busses, rgb_controllers);
     DetectCorsairProControllers(busses, rgb_controllers);
+    DetectCrucialControllers(busses, rgb_controllers);
     DetectHyperXControllers(busses, rgb_controllers);
     DetectPatriotViperControllers(busses, rgb_controllers);
     DetectPolychromeControllers(busses, rgb_controllers);
