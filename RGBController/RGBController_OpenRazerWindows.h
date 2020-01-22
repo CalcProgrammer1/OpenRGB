@@ -182,6 +182,38 @@ static const razer_device deathstalker_chroma_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Huntsman Elite                                         |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone huntsman_elite_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device huntsman_elite_device =
+{
+    "Razer Huntsman Elite",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &huntsman_elite_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  LAPTOPS                                                                  |
 \*-------------------------------------------------------------------------*/
@@ -691,7 +723,7 @@ static const razer_zone kraken_chroma_zone =
 
 static const razer_device kraken_chroma_device =
 {
-    "Razer Kraken 7.1 Chroma (Rainie)",
+    "Razer Kraken 7.1 Chroma",
     DEVICE_TYPE_HEADSET,
     true,
     1,
@@ -876,6 +908,7 @@ static const razer_device* device_list[] =
     &blackwidow_chroma_te_device,
     &ornata_chroma_device,
     &deathstalker_chroma_device,
+    &huntsman_elite_device,
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
 \*-----------------------------------------------------------------*/
