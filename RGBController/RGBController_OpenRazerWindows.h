@@ -691,7 +691,7 @@ static const razer_zone kraken_chroma_zone =
 
 static const razer_device kraken_chroma_device =
 {
-    "Razer Kraken 7.1 Chroma",
+    "Razer Kraken 7.1 Chroma (Rainie)",
     DEVICE_TYPE_HEADSET,
     true,
     1,

@@ -108,8 +108,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     static struct device_attribute devkraken_attr_device_type                   = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_device_type"));
     static struct device_attribute devkraken_attr_device_serial                 = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_device_serial"));
     static struct device_attribute devkraken_attr_firmware_version              = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_firmware_version"));
-	//static struct device_attribute devkraken_attr_matrix_effect_custom        = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_custom"));
-	//static struct device_attribute devkraken_attr_matrix_custom_frame         = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_custom_frame"));
+	static struct device_attribute devkraken_attr_matrix_effect_custom          = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_custom"));
+    //static struct device_attribute devkraken_attr_matrix_custom_frame           = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_custom_frame"));
 	//static struct device_attribute devkraken_attr_matrix_brightness           = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_brightness"));
 	static struct device_attribute devkraken_attr_matrix_effect_none            = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_none"));
 	static struct device_attribute devkraken_attr_matrix_effect_static          = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_static"));
@@ -253,6 +253,64 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         }
     }
 
+    hdev = NULL;
+	num = init_razer_kraken_driver(&hdev);
+	for (unsigned int i = 0; i < num; i++)
+    {
+        device_fn_type* device_fn = new device_fn_type;
+        device_fn->device_type               = &devkraken_attr_device_type;
+        device_fn->device_serial             = &devkraken_attr_device_serial;
+		device_fn->firmware_version			 = &devkraken_attr_firmware_version;
+        device_fn->matrix_effect_custom      = &devkraken_attr_matrix_effect_custom;
+        device_fn->matrix_custom_frame       = NULL;//&devkraken_attr_matrix_custom_frame;
+        device_fn->matrix_brightness         = NULL;//&devkraken_attr_matrix_brightness;
+        device_fn->matrix_effect_none        = &devkraken_attr_matrix_effect_none;
+        device_fn->matrix_effect_static      = &devkraken_attr_matrix_effect_static;
+		device_fn->matrix_effect_breath	     = &devkraken_attr_matrix_effect_breath;
+        device_fn->matrix_effect_spectrum    = &devkraken_attr_matrix_effect_spectrum;
+        device_fn->matrix_effect_reactive    = NULL;//&devkraken_attr_matrix_effect_reactive;
+		device_fn->matrix_effect_wave        = NULL;//&devkraken_attr_matrix_effect_wave;
 
+        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+        if(razer_rgb->device_index != -1)
+        {
+            rgb_controllers.push_back(razer_rgb);
+        }
+        else
+        {
+            delete razer_rgb;
+        }
+    }
+
+    hdev = NULL;
+	num = init_razer_core_driver(&hdev);
+	for (unsigned int i = 0; i < num; i++)
+    {
+        device_fn_type* device_fn = new device_fn_type;
+        device_fn->device_type               = &devcore_attr_device_type;
+        device_fn->device_serial             = &devcore_attr_device_serial;
+		device_fn->firmware_version			 = &devcore_attr_firmware_version;
+        device_fn->matrix_effect_custom      = &devcore_attr_matrix_effect_custom;
+        device_fn->matrix_custom_frame       = &devcore_attr_matrix_custom_frame;
+        device_fn->matrix_brightness         = &devcore_attr_matrix_brightness;
+        device_fn->matrix_effect_none        = &devcore_attr_matrix_effect_none;
+        device_fn->matrix_effect_static      = &devcore_attr_matrix_effect_static;
+		device_fn->matrix_effect_breath	     = &devcore_attr_matrix_effect_breath;
+        device_fn->matrix_effect_spectrum    = &devcore_attr_matrix_effect_spectrum;
+        device_fn->matrix_effect_reactive    = &devcore_attr_matrix_effect_reactive;
+		device_fn->matrix_effect_wave        = &devcore_attr_matrix_effect_wave;
+
+        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+        if(razer_rgb->device_index != -1)
+        {
+            rgb_controllers.push_back(razer_rgb);
+        }
+        else
+        {
+            delete razer_rgb;
+        }
+    }
 
 }   /* DetectOpenRazerControllers() */
