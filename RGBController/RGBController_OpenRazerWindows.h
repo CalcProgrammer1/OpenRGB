@@ -387,6 +387,75 @@ static const razer_device mamba_te_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Mamba Elite                                            |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       9 LEDs                                                  |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       9 LEDs                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_elite_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_elite_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_elite_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_zone mamba_elite_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device mamba_elite_device =
+{
+    "Razer Mamba Elite",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    20,
+    {
+        &mamba_elite_scroll_wheel_zone,
+        &mamba_elite_logo_zone,
+        &mamba_elite_left_zone,
+        &mamba_elite_right_zone,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Diamondback Chroma                                     |
 |                                                               |
 |  Zone "Right"                                                 |
@@ -894,6 +963,38 @@ static const razer_device chromahdk_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Base Station Chroma                                    |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       15 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone base_station_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_device base_station_device =
+{
+    "Razer Base Station Chroma",
+    DEVICE_TYPE_UNKNOWN,
+    true,
+    1,
+    15,
+    {
+        &base_station_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -919,6 +1020,7 @@ static const razer_device* device_list[] =
 |  MICE                                                             |
 \*-----------------------------------------------------------------*/
     &mamba_te_device,
+    &mamba_elite_device,
     &diamondback_chroma_device,
     &deathadder_chroma_device,
 /*-----------------------------------------------------------------*\
@@ -941,7 +1043,8 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &core_device,
     &mug_holder_device,
-    &chromahdk_device
+    &chromahdk_device,
+    &base_station_device
 };
 
 

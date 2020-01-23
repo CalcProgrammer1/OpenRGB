@@ -10,9 +10,9 @@
 #include <linux/hid.h>
 
 #ifdef _WIN64
-#define CHROMALINUXDLL        "ChromaDLL64.dll"
+#define OPENRAZERDLL            "OpenRazer64.dll"
 #elif WIN32
-#define CHROMALINUXDLL        "ChromaDLL.dll"
+#define OPENRAZERDLL            "OpenRazer.dll"
 #endif
 
 /******************************************************************************************\
@@ -25,7 +25,7 @@
 
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    static HMODULE module = LoadLibrary(CHROMALINUXDLL);
+    static HMODULE module = LoadLibrary(OPENRAZERDLL);
 
 	if(module == nullptr)
     {
