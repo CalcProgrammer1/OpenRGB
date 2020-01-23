@@ -16,11 +16,35 @@ int RGBController_CorsairPro::GetMode()
 
 void RGBController_CorsairPro::SetMode(int mode)
 {
+    unsigned int corsair_direction;
+
     active_mode = mode;
+
+    switch(modes[active_mode].direction)
+    {
+        case MODE_DIRECTION_LEFT:
+            corsair_direction = CORSAIR_PRO_DIRECTION_LEFT;
+            break;
+        case MODE_DIRECTION_RIGHT:
+            corsair_direction = CORSAIR_PRO_DIRECTION_RIGHT;
+            break;
+        case MODE_DIRECTION_UP:
+            corsair_direction = CORSAIR_PRO_DIRECTION_UP;
+            break;
+        case MODE_DIRECTION_DOWN:
+            corsair_direction = CORSAIR_PRO_DIRECTION_DOWN;
+            break;
+        case MODE_DIRECTION_HORIZONTAL:
+            corsair_direction = CORSAIR_PRO_DIRECTION_HORIZONTAL;
+            break;
+        case MODE_DIRECTION_VERTICAL:
+            corsair_direction = CORSAIR_PRO_DIRECTION_VERTICAL;
+            break;
+    }
 
     corsair->SetEffect(modes[active_mode].value,
                        modes[active_mode].speed,
-                       CORSAIR_PRO_DIRECTION_UP,
+                       corsair_direction,
                        modes[active_mode].random,
                        RGBGetRValue(colors[0]),
                        RGBGetGValue(colors[0]),
@@ -103,6 +127,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     RainbowWave.speed_max = CORSAIR_PRO_SPEED_FAST;
     RainbowWave.random    = false;
     RainbowWave.speed     = CORSAIR_PRO_SPEED_SLOW;
+    RainbowWave.direction = MODE_DIRECTION_LEFT;
     modes.push_back(RainbowWave);
 
     mode ColorWave;
@@ -113,6 +138,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     ColorWave.speed_max = CORSAIR_PRO_SPEED_FAST;
     ColorWave.random    = false;
     ColorWave.speed     = CORSAIR_PRO_SPEED_SLOW;
+    ColorWave.direction = MODE_DIRECTION_LEFT;
     modes.push_back(ColorWave); 
     
     mode Visor;
@@ -123,6 +149,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Visor.speed_max = CORSAIR_PRO_SPEED_FAST;
     Visor.random    = false;
     Visor.speed     = CORSAIR_PRO_SPEED_SLOW;
+    Visor.direction = MODE_DIRECTION_VERTICAL;
     modes.push_back(Visor);
 
     mode Rain;
@@ -133,6 +160,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Rain.speed_max = CORSAIR_PRO_SPEED_FAST;
     Rain.random    = false;
     Rain.speed     = CORSAIR_PRO_SPEED_SLOW;
+    Rain.direction = MODE_DIRECTION_LEFT;
     modes.push_back(Rain);
 
     mode Marquee;
@@ -163,6 +191,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Sequential.speed_max = CORSAIR_PRO_SPEED_FAST;
     Sequential.random    = false;
     Sequential.speed     = CORSAIR_PRO_SPEED_SLOW;
+    Sequential.direction = MODE_DIRECTION_DOWN;
     modes.push_back(Sequential);
 
     mode Static;
