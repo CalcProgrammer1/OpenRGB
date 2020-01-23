@@ -59,7 +59,7 @@ public:
     char*           GetLEDString();
     unsigned int    GetStripsOnChannel(unsigned int channel);
     void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
-    void            SetMode(unsigned char mode, unsigned char speed);
+    void            SetMode(unsigned char mode, unsigned char speed, bool direction);
     
     unsigned int    channel_leds[HUE_2_NUM_CHANNELS];
 
@@ -68,4 +68,5 @@ private:
 
     unsigned char   current_mode;
     unsigned char   current_speed;
+    bool            current_direction;
 };
