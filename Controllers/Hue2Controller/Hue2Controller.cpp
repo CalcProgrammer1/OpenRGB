@@ -19,8 +19,9 @@ Hue2Controller::Hue2Controller(libusb_device_handle* dev_handle)
 
 Hue2Controller::~Hue2Controller()
 {
-    current_mode    = HUE_2_MODE_FIXED;
-    current_speed   = HUE_2_SPEED_NORMAL;
+    current_mode        = HUE_2_MODE_FIXED;
+    current_speed       = HUE_2_SPEED_NORMAL;
+    current_direction   = false;
 }
 
 unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
@@ -84,10 +85,11 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
     return(ret_val);
 }
 
-void Hue2Controller::SetMode(unsigned char mode, unsigned char speed)
+void Hue2Controller::SetMode(unsigned char mode, unsigned char speed, bool direction)
 {
-    current_mode    = mode;
-    current_speed   = speed;
+    current_mode        = mode;
+    current_speed       = speed;
+    current_direction   = direction;
 }
 
 void Hue2Controller::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
@@ -127,6 +129,12 @@ void Hue2Controller::SetChannelLEDs(unsigned char channel, std::vector<RGBColor>
     | Set speed in USB packet                               |
     \*-----------------------------------------------------*/
     usb_buf[0x05]   = current_speed;
+
+    /*-----------------------------------------------------*\
+    | Set direction in USB packet                           |
+    \*-----------------------------------------------------*/
+    usb_buf[0x06]   = current_direction ? 0x01 : 0x00;
+    
     /*-----------------------------------------------------*\
     | Set color count in USB packet                         |
     \*-----------------------------------------------------*/
