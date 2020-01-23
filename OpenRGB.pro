@@ -183,7 +183,6 @@ FORMS += \
 #-----------------------------------------------
 win32:INCLUDEPATH +=                                                    \
     dependencies/inpout32_1501/Win32/                                   \
-    dependencies/razer-chroma-2.9.0/inc                                 \
     dependencies/libusb-1.0.22/include                                  \
     dependencies/hidapi                                                 \
     wmi/                                                                \
@@ -196,8 +195,6 @@ win32:SOURCES +=                                                        \
     wmi/wmi.cpp                                                         \
     RGBController/AorusGPUDetect.cpp                                    \
     RGBController/RGBController_AorusGPU.cpp                            \
-    RGBController/RazerChromaSDKDetect.cpp                              \
-    RGBController/RGBController_RazerChromaSDK.cpp                      \
 
 win32:HEADERS +=                                                        \
     dependencies/inpout32_1501/Win32/inpout32.h                         \
@@ -206,7 +203,6 @@ win32:HEADERS +=                                                        \
     i2c_smbus/i2c_smbus_piix4.h                                         \
     wmi/wmi.h                                                           \
     RGBController/RGBController_AorusGPU.h                              \
-    RGBController/RGBController_RazerChromaSDK.h                        \
 
 win32:LIBS +=                                                           \
     -lws2_32                                                            \

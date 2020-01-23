@@ -264,7 +264,6 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectRazerChromaSDKControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectAorusGPUControllers(std::vector<RGBController*> &rgb_controllers);
@@ -317,7 +316,6 @@ void DetectRGBControllers(void)
     | Windows-only devices                  |
     \*-------------------------------------*/
 #ifdef WIN32
-    DetectRazerChromaSDKControllers(rgb_controllers);
     //DetectAorusGPUControllers(rgb_controllers);
 
     /*-------------------------------------*\
