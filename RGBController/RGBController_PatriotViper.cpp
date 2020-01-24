@@ -112,60 +112,60 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     Breathing.name      = "Breathing";
     Breathing.value     = VIPER_MODE_BREATHING;
     Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Breathing.speed_min = 0x00;
-    Breathing.speed_max = 0xFF;
+    Breathing.speed_min = VIPER_SPEED_BREATHING_MIN;
+    Breathing.speed_max = VIPER_SPEED_BREATHING_MAX;
     Breathing.random    = false;
-    Breathing.speed     = 0x0C;
+    Breathing.speed     = VIPER_SPEED_BREATHING_DEFAULT;
     modes.push_back(Breathing);
 
     mode Viper;
     Viper.name      = "Viper";
     Viper.value     = VIPER_MODE_VIPER;
     Viper.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Viper.speed_min = 0x14;
-    Viper.speed_max = 0xC8;
+    Viper.speed_min = VIPER_SPEED_MIN;
+    Viper.speed_max = VIPER_SPEED_MAX;
     Viper.random    = false;
-    Viper.speed     = 0x64;
+    Viper.speed     = VIPER_SPEED_DEFAULT;
     modes.push_back(Viper);
 
     mode Heartbeat;
     Heartbeat.name      = "Heartbeat";
     Heartbeat.value     = VIPER_MODE_HEARTBEAT;
     Heartbeat.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Heartbeat.speed_min = 0x14;
-    Heartbeat.speed_max = 0xC8;
+    Heartbeat.speed_min = VIPER_SPEED_MIN;
+    Heartbeat.speed_max = VIPER_SPEED_MAX;
     Heartbeat.random    = false;
-    Heartbeat.speed     = 0x64;
+    Heartbeat.speed     = VIPER_SPEED_DEFAULT;
     modes.push_back(Heartbeat);
 
     mode Marquee;
     Marquee.name      = "Marquee";
     Marquee.value     = VIPER_MODE_MARQUEE;
     Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Marquee.speed_min = 0x14;
-    Marquee.speed_max = 0xC8;
+    Marquee.speed_min = VIPER_SPEED_MIN;
+    Marquee.speed_max = VIPER_SPEED_MAX;
     Marquee.random    = false;
-    Marquee.speed     = 0x64;
+    Marquee.speed     = VIPER_SPEED_DEFAULT;
     modes.push_back(Marquee);
 
     mode Raindrop;
     Raindrop.name      = "Raindrop";
     Raindrop.value     = VIPER_MODE_RAINDROP;
     Raindrop.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Raindrop.speed_min = 0x14;
-    Raindrop.speed_max = 0xC8;
+    Raindrop.speed_min = VIPER_SPEED_MIN;
+    Raindrop.speed_max = VIPER_SPEED_MAX;
     Raindrop.random    = false;
-    Raindrop.speed     = 0x64;
+    Raindrop.speed     = VIPER_SPEED_DEFAULT;
     modes.push_back(Raindrop);
 
     mode Aurora;
     Aurora.name      = "Aurora";
     Aurora.value     = VIPER_MODE_AURORA;
     Aurora.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Aurora.speed_min = 0x14;
-    Aurora.speed_max = 0xC8;
+    Aurora.speed_min = VIPER_SPEED_MIN;
+    Aurora.speed_max = VIPER_SPEED_MAX;
     Aurora.random    = false;
-    Aurora.speed     = 0x64;
+    Aurora.speed     = VIPER_SPEED_DEFAULT;
     modes.push_back(Aurora);
 
     colors.resize(viper->GetLEDCount());

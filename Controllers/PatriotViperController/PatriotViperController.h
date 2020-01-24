@@ -45,6 +45,16 @@ enum
     VIPER_MODE_NEON                     = 0x08,     /* Neon mode                            */
 };
 
+enum
+{
+    VIPER_SPEED_MIN                     = 0xC8,     /* Slowest speed for non-breathing mode */
+    VIPER_SPEED_DEFAULT                 = 0x64,     /* Default speed for non-breathing mode */
+    VIPER_SPEED_MAX                     = 0x14,     /* Fastest speed for non-breathing mode */
+    VIPER_SPEED_BREATHING_MIN           = 0xFF,     /* Slowest speed for breathing mode     */
+    VIPER_SPEED_BREATHING_DEFAULT       = 0x0C,     /* Default speed for breathing mode     */
+    VIPER_SPEED_BREATHING_MAX           = 0x00,     /* Fastest speed for breathing mode     */
+};
+
 class PatriotViperController
 {
 public:
