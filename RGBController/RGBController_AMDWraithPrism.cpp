@@ -51,6 +51,36 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     Rainbow.speed     = AMD_WRAITH_PRISM_SPEED_NORMAL;
     modes.push_back(Rainbow);
 
+    mode Bounce;
+    Bounce.name      = "Bounce";
+    Bounce.value     = AMD_WRAITH_PRISM_EFFECT_CHANNEL_BOUNCE;
+    Bounce.flags     = MODE_FLAG_HAS_SPEED;
+    Bounce.speed_min = AMD_WRAITH_PRISM_SPEED_SLOWEST;
+    Bounce.speed_max = AMD_WRAITH_PRISM_SPEED_FASTEST;
+    Bounce.random    = true;
+    Bounce.speed     = AMD_WRAITH_PRISM_SPEED_NORMAL;
+    modes.push_back(Bounce);
+
+    mode Chase;
+    Chase.name      = "Chase";
+    Chase.value     = AMD_WRAITH_PRISM_EFFECT_CHANNEL_CHASE;
+    Chase.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Chase.speed_min = AMD_WRAITH_PRISM_SPEED_SLOWEST;
+    Chase.speed_max = AMD_WRAITH_PRISM_SPEED_FASTEST;
+    Chase.random    = false;
+    Chase.speed     = AMD_WRAITH_PRISM_SPEED_NORMAL;
+    modes.push_back(Chase);
+
+    mode Swirl;
+    Swirl.name      = "Swirl";
+    Swirl.value     = AMD_WRAITH_PRISM_EFFECT_CHANNEL_SWIRL;
+    Swirl.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Swirl.speed_min = AMD_WRAITH_PRISM_SPEED_SLOWEST;
+    Swirl.speed_max = AMD_WRAITH_PRISM_SPEED_FASTEST;
+    Swirl.random    = false;
+    Swirl.speed     = AMD_WRAITH_PRISM_SPEED_NORMAL;
+    modes.push_back(Swirl);
+
     led logo_led;
     logo_led.name = "Logo";
     leds.push_back(logo_led);
@@ -109,6 +139,7 @@ void RGBController_AMDWraithPrism::SetMode(int mode)
     {
         case AMD_WRAITH_PRISM_EFFECT_CHANNEL_COLOR_CYCLE:
         case AMD_WRAITH_PRISM_EFFECT_CHANNEL_RAINBOW:
+        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_BOUNCE:
             wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
             wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
             break;
@@ -119,8 +150,16 @@ void RGBController_AMDWraithPrism::SetMode(int mode)
             break;
 
         default:
-            wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[mode].speed, modes[mode].random);
-            wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[mode].speed, modes[mode].random);
+            if(modes[mode].random)
+            {
+                wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
+                wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
+            }
+            else
+            {
+                wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[mode].speed, modes[mode].random);
+                wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[mode].speed, modes[mode].random);
+            }
             break;
     }
 
