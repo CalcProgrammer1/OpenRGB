@@ -26,12 +26,12 @@ int RGBController_RGBFusion::GetMode()
 
 void RGBController_RGBFusion::SetMode(int mode)
 {
-    rgb_fusion->SetMode(modes[mode].value);
+    rgb_fusion->SetMode(modes[mode].value, modes[mode].speed);
 }
 
 void RGBController_RGBFusion::SetCustomMode()
 {
-    rgb_fusion->SetMode(RGB_FUSION_MODE_STATIC);
+    rgb_fusion->SetMode(RGB_FUSION_MODE_STATIC, 0);
 }
 
 void RGBController_RGBFusion::UpdateLEDs()
@@ -85,15 +85,21 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name  = "Breathing";
-    Breathing.value = RGB_FUSION_MODE_BREATHING;
-    Breathing.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+    Breathing.name      = "Breathing";
+    Breathing.value     = RGB_FUSION_MODE_BREATHING;
+    Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Breathing.speed_min = RGB_FUSION_SPEED_SLOW;
+    Breathing.speed_max = RGB_FUSION_SPEED_FAST;
+    Breathing.speed     = RGB_FUSION_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     mode Flashing;
-    Flashing.name  = "Flashing";
-    Flashing.value = RGB_FUSION_MODE_FLASHING;
-    Flashing.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+    Flashing.name      = "Flashing";
+    Flashing.value     = RGB_FUSION_MODE_FLASHING;
+    Flashing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Flashing.speed_min = RGB_FUSION_SPEED_SLOW;
+    Flashing.speed_max = RGB_FUSION_SPEED_FAST;
+    Flashing.speed     = RGB_FUSION_SPEED_NORMAL;
     modes.push_back(Flashing);
 
     colors.resize(rgb_fusion->GetLEDCount());
