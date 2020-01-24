@@ -174,17 +174,17 @@ void RGBFusionController::set_mode_ch_1(unsigned char mode)
 
 void RGBFusionController::set_timers_ch_0(unsigned short timer0, unsigned short timer1)
 {
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_TIMER_0_MSB, timer0 << 8);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_TIMER_0_MSB, timer0 >> 8);
     bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_TIMER_0_LSB, timer0 & 0xFF);
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_TIMER_1_MSB, timer1 << 8);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_TIMER_1_MSB, timer1 >> 8);
     bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_0_TIMER_1_LSB, timer1 & 0xFF);
 }
 
 void RGBFusionController::set_timers_ch_1(unsigned short timer0, unsigned short timer1)
 {
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_TIMER_0_MSB, timer0 << 8);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_TIMER_0_MSB, timer0 >> 8);
     bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_TIMER_0_LSB, timer0 & 0xFF);
-    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_TIMER_1_MSB, timer1 << 8);
+    bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_TIMER_1_MSB, timer1 >> 8);
     bus->i2c_smbus_write_byte_data(dev, RGB_FUSION_BANK_0_REG_CH_1_TIMER_1_LSB, timer1 & 0xFF);
 }
 
