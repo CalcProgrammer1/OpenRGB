@@ -12,6 +12,46 @@
 
 #pragma once
 
+static const unsigned char max_brightness_fan_logo[] =
+{
+    0x00,
+    0xFF,
+    0x7F,
+    0xFF
+};
+
+static const unsigned char max_brightness_ring[] =
+{
+    0xFF,
+    0xFF,
+    0x7F,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF
+};
+
+static const unsigned char mode_value_ring[] =
+{
+    0xFF,
+    0x03,
+    0xFF,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x05,
+    0xFF,
+    0xC3,
+    0x4A,
+    0x05
+};
+
 enum
 {
     AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC       = 0x01, /* Fan/Logo Static Mode         */
@@ -30,6 +70,7 @@ enum
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_BOUNCE      = 0x08, /* Bounce effect channel        */
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_CHASE       = 0x09, /* Chase effect channel         */
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_SWIRL       = 0x0A, /* Swirl effect channel         */
+    AMD_WRAITH_PRISM_EFFECT_CHANNEL_MORSE       = 0x0B, /* Morse code effect channel    */
 };
 
 class AMDWraithPrismController
@@ -45,13 +86,13 @@ public:
 
     void SetRingEffectChannel(unsigned char channel);
 
-    void SetFanMode(unsigned char mode, unsigned char speed);
+    void SetFanMode(unsigned char mode, unsigned char speed, bool random_color);
     void SetFanColor(unsigned char red, unsigned char green, unsigned char blue);
 
-    void SetLogoMode(unsigned char mode, unsigned char speed);
+    void SetLogoMode(unsigned char mode, unsigned char speed, bool random_color);
     void SetLogoColor(unsigned char red, unsigned char green, unsigned char blue);
 
-    void SetRingMode(unsigned char mode, unsigned char speed, bool direction);
+    void SetRingMode(unsigned char mode, unsigned char speed, bool direction, bool random_color);
     void SetRingColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
@@ -60,13 +101,16 @@ private:
 
     unsigned char           current_fan_mode;
     unsigned char           current_fan_speed;
+    bool                    current_fan_random_color;
 
     unsigned char           current_logo_mode;
     unsigned char           current_logo_speed;
+    bool                    current_logo_random_color;
 
     unsigned char           current_ring_mode;
     unsigned char           current_ring_speed;
     bool                    current_ring_direction;
+    bool                    current_ring_random_color;
 
     void SendEnableCommand();
 
@@ -76,7 +120,8 @@ private:
         (
         unsigned char effect_channel,
         unsigned char speed,
-        unsigned char direction,
+        bool          direction,
+        bool          random_color,
         unsigned char mode,
         unsigned char brightness,
         unsigned char red,
