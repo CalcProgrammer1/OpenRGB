@@ -22,6 +22,7 @@ static const unsigned char max_brightness_fan_logo[] =
 
 static const unsigned char speed_values_fan_logo[][5] =
 {
+    { 0x00, 0x00, 0x00, 0x00, 0x00 },                  /*                              */
     { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },                  /* Static                       */
     { 0x96, 0x8C, 0x80, 0x6E, 0x68 },                  /* Color Cycle                  */
     { 0x3C, 0x37, 0x31, 0x2C, 0x26 },                  /* Breathing                    */
