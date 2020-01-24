@@ -126,10 +126,11 @@ std::string AMDWraithPrismController::GetFirmwareVersionString()
     return(ret_string);
 }
 
-void AMDWraithPrismController::SetFanMode(unsigned char mode, unsigned char speed)
+void AMDWraithPrismController::SetFanMode(unsigned char mode, unsigned char speed, bool random_color)
 {
-    current_fan_mode        = mode;
-    current_fan_speed       = speed;
+    current_fan_mode            = mode;
+    current_fan_speed           = speed;
+    current_fan_random_color    = random_color;
 }
 
 void AMDWraithPrismController::SetFanColor(unsigned char red, unsigned char green, unsigned char blue)
@@ -138,19 +139,21 @@ void AMDWraithPrismController::SetFanColor(unsigned char red, unsigned char gree
     (
         AMD_WRAITH_PRISM_EFFECT_CHANNEL_FAN_LED,
         current_fan_speed,
-        0x00,
+        false,
+        current_fan_random_color,
         current_fan_mode,
-        0xFF,
+        max_brightness_fan_logo[current_fan_mode],
         red,
         green,
         blue
     );
 }
 
-void AMDWraithPrismController::SetLogoMode(unsigned char mode, unsigned char speed)
+void AMDWraithPrismController::SetLogoMode(unsigned char mode, unsigned char speed, bool random_color)
 {
-    current_logo_mode       = mode;
-    current_logo_speed      = speed;
+    current_logo_mode           = mode;
+    current_logo_speed          = speed;
+    current_logo_random_color   = random_color;
 }
 
 void AMDWraithPrismController::SetLogoColor(unsigned char red, unsigned char green, unsigned char blue)
@@ -159,35 +162,42 @@ void AMDWraithPrismController::SetLogoColor(unsigned char red, unsigned char gre
     (
         AMD_WRAITH_PRISM_EFFECT_CHANNEL_LOGO_LED,
         current_logo_speed,
-        0x00,
+        false,
+        current_logo_random_color,
         current_logo_mode,
-        0xFF,
+        max_brightness_fan_logo[current_logo_mode],
         red,
         green,
         blue
     );
 }
 
-void AMDWraithPrismController::SetRingMode(unsigned char mode, unsigned char speed, bool direction)
+void AMDWraithPrismController::SetRingMode(unsigned char mode, unsigned char speed, bool direction, bool random_color)
 {
-    current_ring_mode       = mode;
-    current_ring_speed      = speed;
-    current_ring_direction  = direction;
+    current_ring_mode           = mode;
+    current_ring_speed          = speed;
+    current_ring_direction      = direction;
+    current_ring_random_color   = random_color;
 }
 
 void AMDWraithPrismController::SetRingColor(unsigned char red, unsigned char green, unsigned char blue)
 {
+    SetRingEffectChannel(current_ring_mode);
+
     SendEffectChannelUpdate
     (
-        AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC,
-        0xFF,
-        0x00,
-        AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC,
-        0xFF,
+        current_ring_mode,
+        current_ring_speed,
+        current_ring_direction,
+        current_ring_random_color,
+        mode_value_ring[current_ring_mode],
+        max_brightness_ring[current_ring_mode],
         red,
         green,
         blue
     );
+
+    SendApplyCommand();
 }
 
 void AMDWraithPrismController::SetRingEffectChannel(unsigned char channel)
@@ -255,7 +265,8 @@ void AMDWraithPrismController::SendEffectChannelUpdate
     (
     unsigned char effect_channel,
     unsigned char speed,
-    unsigned char direction,
+    bool          direction,
+    bool          random_color,
     unsigned char mode,
     unsigned char brightness,
     unsigned char red,
@@ -287,7 +298,7 @@ void AMDWraithPrismController::SendEffectChannelUpdate
 
     usb_buf[0x04]   = effect_channel;
     usb_buf[0x05]   = speed;
-    usb_buf[0x06]   = direction ? 0x01 : 0x00;
+    usb_buf[0x06]   = (direction ? 0x01 : 0x00) | (random_color ? 0x80 : 0x00);
     usb_buf[0x07]   = mode;
 
     usb_buf[0x09]   = brightness;
