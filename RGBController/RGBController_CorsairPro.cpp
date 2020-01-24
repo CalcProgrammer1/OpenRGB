@@ -127,7 +127,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     RainbowWave.speed_max = CORSAIR_PRO_SPEED_FAST;
     RainbowWave.random    = false;
     RainbowWave.speed     = CORSAIR_PRO_SPEED_SLOW;
-    RainbowWave.direction = MODE_DIRECTION_LEFT;
+    RainbowWave.direction = MODE_DIRECTION_DOWN;
     modes.push_back(RainbowWave);
 
     mode ColorWave;
@@ -138,7 +138,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     ColorWave.speed_max = CORSAIR_PRO_SPEED_FAST;
     ColorWave.random    = false;
     ColorWave.speed     = CORSAIR_PRO_SPEED_SLOW;
-    ColorWave.direction = MODE_DIRECTION_LEFT;
+    ColorWave.direction = MODE_DIRECTION_DOWN;
     modes.push_back(ColorWave); 
     
     mode Visor;
@@ -160,7 +160,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Rain.speed_max = CORSAIR_PRO_SPEED_FAST;
     Rain.random    = false;
     Rain.speed     = CORSAIR_PRO_SPEED_SLOW;
-    Rain.direction = MODE_DIRECTION_LEFT;
+    Rain.direction = MODE_DIRECTION_DOWN;
     modes.push_back(Rain);
 
     mode Marquee;

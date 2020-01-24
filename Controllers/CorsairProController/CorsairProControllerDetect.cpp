@@ -6,6 +6,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
 /******************************************************************************************\
 *                                                                                          *
 *   TestForCorsairProController                                                            *
@@ -53,6 +64,8 @@ bool TestForCorsairProController(i2c_smbus_interface* bus, unsigned char address
         }
     }
 
+    Sleep(10);
+    
     return(pass);
 
 }   /* TestForCorsairProController() */
