@@ -18,7 +18,7 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     version = wraith->GetFirmwareVersionString();
 
     mode Static;
-    Static.name = "Static";
+    Static.name  = "Static";
     Static.value = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
     Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
     modes.push_back(Static);
@@ -27,28 +27,28 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     Breathing.name      = "Breathing";
     Breathing.value     = AMD_WRAITH_PRISM_EFFECT_CHANNEL_BREATHING;
     Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Breathing.speed_min = 0x3C;
-    Breathing.speed_max = 0x26;
+    Breathing.speed_min = AMD_WRAITH_PRISM_SPEED_SLOWEST;
+    Breathing.speed_max = AMD_WRAITH_PRISM_SPEED_FASTEST;
     Breathing.random    = false;
-    Breathing.speed     = 0x31;
+    Breathing.speed     = AMD_WRAITH_PRISM_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     mode ColorCycle;
     ColorCycle.name      = "Color Cycle";
     ColorCycle.value     = AMD_WRAITH_PRISM_EFFECT_CHANNEL_COLOR_CYCLE;
     ColorCycle.flags     = MODE_FLAG_HAS_SPEED;
-    ColorCycle.speed_min = 0x96;
-    ColorCycle.speed_max = 0x68;
-    ColorCycle.speed     = 0x80;
+    ColorCycle.speed_min = AMD_WRAITH_PRISM_SPEED_SLOWEST;
+    ColorCycle.speed_max = AMD_WRAITH_PRISM_SPEED_FASTEST;
+    ColorCycle.speed     = AMD_WRAITH_PRISM_SPEED_NORMAL;
     modes.push_back(ColorCycle);
 
     mode Rainbow;
     Rainbow.name      = "Rainbow";
     Rainbow.value     = AMD_WRAITH_PRISM_EFFECT_CHANNEL_RAINBOW;
     Rainbow.flags     = MODE_FLAG_HAS_SPEED;
-    Rainbow.speed_min = 0x72;
-    Rainbow.speed_max = 0x61;
-    Rainbow.speed     = 0x64;
+    Rainbow.speed_min = AMD_WRAITH_PRISM_SPEED_SLOWEST;
+    Rainbow.speed_max = AMD_WRAITH_PRISM_SPEED_FASTEST;
+    Rainbow.speed     = AMD_WRAITH_PRISM_SPEED_NORMAL;
     modes.push_back(Rainbow);
 
     led logo_led;

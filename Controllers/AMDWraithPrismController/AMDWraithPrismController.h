@@ -20,6 +20,13 @@ static const unsigned char max_brightness_fan_logo[] =
     0xFF
 };
 
+static const unsigned char speed_values_fan_logo[][5] =
+{
+    { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },                  /* Static                       */
+    { 0x96, 0x8C, 0x80, 0x6E, 0x68 },                  /* Color Cycle                  */
+    { 0x3C, 0x37, 0x31, 0x2C, 0x26 },                  /* Breathing                    */
+};
+
 static const unsigned char max_brightness_ring[] =
 {
     0xFF,
@@ -52,6 +59,22 @@ static const unsigned char mode_value_ring[] =
     0x05
 };
 
+static const unsigned char speed_values_ring[][5] =
+{
+    { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },                   /* Static                       */
+    { 0x3C, 0x37, 0x31, 0x2C, 0x26 },                   /* Breathing                    */
+    { 0x96, 0x8C, 0x80, 0x6E, 0x68 },                   /* Color Cycle                  */
+    { 0x00, 0x00, 0x00, 0x00, 0x00 },                   /*                              */
+    { 0x00, 0x00, 0x00, 0x00, 0x00 },                   /*                              */
+    { 0x00, 0x00, 0x00, 0x00, 0x00 },                   /*                              */
+    { 0x00, 0x00, 0x00, 0x00, 0x00 },                   /*                              */
+    { 0x72, 0x68, 0x64, 0x62, 0x61 },                   /* Rainbow                      */
+    { 0x00, 0x00, 0x00, 0x00, 0x00 },                   /* Bounce                       */
+    { 0x77, 0x74, 0x6E, 0x6B, 0x67 },                   /* Chase                        */
+    { 0x77, 0x74, 0x6E, 0x6B, 0x67 },                   /* Swirl                        */
+    { 0x00, 0x00, 0x00, 0x00, 0x00 },                   /* Morse Code                   */
+};
+
 enum
 {
     AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC       = 0x01, /* Fan/Logo Static Mode         */
@@ -71,6 +94,15 @@ enum
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_CHASE       = 0x09, /* Chase effect channel         */
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_SWIRL       = 0x0A, /* Swirl effect channel         */
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_MORSE       = 0x0B, /* Morse code effect channel    */
+};
+
+enum
+{
+    AMD_WRAITH_PRISM_SPEED_SLOWEST              = 0x00, /* Slowest speed                */
+    AMD_WRAITH_PRISM_SPEED_SLOW                 = 0x01, /* Slow speed                   */
+    AMD_WRAITH_PRISM_SPEED_NORMAL               = 0x02, /* Normal speed                 */
+    AMD_WRAITH_PRISM_SPEED_FAST                 = 0x03, /* Fast speed                   */
+    AMD_WRAITH_PRISM_SPEED_FASTEST              = 0x04, /* Fastest speed                */
 };
 
 class AMDWraithPrismController

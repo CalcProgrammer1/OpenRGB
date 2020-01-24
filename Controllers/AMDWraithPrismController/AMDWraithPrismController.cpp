@@ -129,7 +129,7 @@ std::string AMDWraithPrismController::GetFirmwareVersionString()
 void AMDWraithPrismController::SetFanMode(unsigned char mode, unsigned char speed, bool random_color)
 {
     current_fan_mode            = mode;
-    current_fan_speed           = speed;
+    current_fan_speed           = speed_values_fan_logo[speed][mode];
     current_fan_random_color    = random_color;
 }
 
@@ -152,7 +152,7 @@ void AMDWraithPrismController::SetFanColor(unsigned char red, unsigned char gree
 void AMDWraithPrismController::SetLogoMode(unsigned char mode, unsigned char speed, bool random_color)
 {
     current_logo_mode           = mode;
-    current_logo_speed          = speed;
+    current_logo_speed          = speed_values_fan_logo[speed][mode];
     current_logo_random_color   = random_color;
 }
 
@@ -175,7 +175,7 @@ void AMDWraithPrismController::SetLogoColor(unsigned char red, unsigned char gre
 void AMDWraithPrismController::SetRingMode(unsigned char mode, unsigned char speed, bool direction, bool random_color)
 {
     current_ring_mode           = mode;
-    current_ring_speed          = speed;
+    current_ring_speed          = speed_values_ring[speed][mode];
     current_ring_direction      = direction;
     current_ring_random_color   = random_color;
 }
