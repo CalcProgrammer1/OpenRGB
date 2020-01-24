@@ -18,6 +18,16 @@ AMDWraithPrismController::AMDWraithPrismController(libusb_device_handle* dev_han
 
     strcpy(device_name, "AMD Wraith Prism");
 
+    current_fan_mode = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
+    current_fan_speed = 0x00;
+
+    current_logo_mode = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
+    current_logo_speed = 0x00;
+
+    current_ring_mode = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
+    current_ring_speed = 0x00;
+    current_ring_direction = false;
+
     SendEnableCommand();
     SetRingEffectChannel(0x00);
     SendApplyCommand();
@@ -116,133 +126,73 @@ std::string AMDWraithPrismController::GetFirmwareVersionString()
     return(ret_string);
 }
 
+void AMDWraithPrismController::SetFanMode(unsigned char mode, unsigned char speed)
+{
+    current_fan_mode        = mode;
+    current_fan_speed       = speed;
+}
+
 void AMDWraithPrismController::SetFanColor(unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char usb_buf[] =
-    {
-        0x51, 0x2C, 0x01, 0x00,
-        0x06, 0xFF, 0x00, 0x01,
-        0xFF, 0xFF, 0x00, 0xFF,
-        0x00, 0x00, 0x00, 0x00,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF
-    };
+    SendEffectChannelUpdate
+    (
+        AMD_WRAITH_PRISM_EFFECT_CHANNEL_FAN_LED,
+        current_fan_speed,
+        0x00,
+        current_fan_mode,
+        0xFF,
+        red,
+        green,
+        blue
+    );
+}
 
-    int             actual;
-
-    usb_buf[0x0A] = red;
-    usb_buf[0x0B] = green;
-    usb_buf[0x0C] = blue;
-
-    libusb_interrupt_transfer(dev, 0x04, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
+void AMDWraithPrismController::SetLogoMode(unsigned char mode, unsigned char speed)
+{
+    current_logo_mode       = mode;
+    current_logo_speed      = speed;
 }
 
 void AMDWraithPrismController::SetLogoColor(unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char usb_buf[] =
-    {
-        0x51, 0x2C, 0x01, 0x00,
-        0x05, 0xFF, 0x00, 0x01,
-        0xFF, 0xFF, 0x00, 0xFF,
-        0x00, 0x00, 0x00, 0x00,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF
-    };
+    SendEffectChannelUpdate
+    (
+        AMD_WRAITH_PRISM_EFFECT_CHANNEL_LOGO_LED,
+        current_logo_speed,
+        0x00,
+        current_logo_mode,
+        0xFF,
+        red,
+        green,
+        blue
+    );
+}
 
-    int             actual;
-
-    usb_buf[0x0A] = red;
-    usb_buf[0x0B] = green;
-    usb_buf[0x0C] = blue;
-
-    libusb_interrupt_transfer(dev, 0x04, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
+void AMDWraithPrismController::SetRingMode(unsigned char mode, unsigned char speed, bool direction)
+{
+    current_ring_mode       = mode;
+    current_ring_speed      = speed;
+    current_ring_direction  = direction;
 }
 
 void AMDWraithPrismController::SetRingColor(unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char usb_buf[] =
-    {
-        0x51, 0x2C, 0x01, 0x00,
-        0x00, 0xFF, 0x00, 0xFF,
-        0xFF, 0xFF, 0x00, 0xFF,
-        0x00, 0x00, 0x00, 0x00,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF,
-        0xFF, 0xFF, 0xFF, 0xFF
-    };
-
-    int             actual;
-
-    usb_buf[0x0A] = red;
-    usb_buf[0x0B] = green;
-    usb_buf[0x0C] = blue;
-
-    libusb_interrupt_transfer(dev, 0x04, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
+    SendEffectChannelUpdate
+    (
+        AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC,
+        0xFF,
+        0x00,
+        AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC,
+        0xFF,
+        red,
+        green,
+        blue
+    );
 }
 
 void AMDWraithPrismController::SetRingEffectChannel(unsigned char channel)
 {
-    unsigned char usb_buf[] =
-    {
-        0x51, 0xA0, 0x01, 0x00,
-        0x00, 0x03, 0x00, 0x00,
-        0x05, 0x06, 0x07, 0x07,
-        0x07, 0x07, 0x07, 0x07,
-        0x07, 0x07, 0x07, 0x07,
-        0x07, 0x07, 0x07, 0x07,
-        0x07, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-    };
-
-    int             actual;
-
-    for(int led = 0x0A; led <= 0x18; led++)
-    {
-        usb_buf[led] = channel;
-    }
-
-    libusb_interrupt_transfer(dev, 0x04, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
+    SendChannelRemap(channel, AMD_WRAITH_PRISM_EFFECT_CHANNEL_LOGO_LED, AMD_WRAITH_PRISM_EFFECT_CHANNEL_FAN_LED);
 }
 
 void AMDWraithPrismController::SendEnableCommand()
@@ -301,7 +251,17 @@ void AMDWraithPrismController::SendApplyCommand()
     libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
 }
 
-void AMDWraithPrismController::SendEffectCommand()
+void AMDWraithPrismController::SendEffectChannelUpdate
+    (
+    unsigned char effect_channel,
+    unsigned char speed,
+    unsigned char direction,
+    unsigned char mode,
+    unsigned char brightness,
+    unsigned char red,
+    unsigned char green,
+    unsigned char blue
+    )
 {
     unsigned char usb_buf[] =
     {
@@ -324,6 +284,53 @@ void AMDWraithPrismController::SendEffectCommand()
     };
 
     int             actual;
+
+    usb_buf[0x04]   = effect_channel;
+    usb_buf[0x05]   = speed;
+    usb_buf[0x06]   = direction ? 0x01 : 0x00;
+    usb_buf[0x07]   = mode;
+
+    usb_buf[0x09]   = brightness;
+
+    usb_buf[0x0A]   = red;
+    usb_buf[0x0B]   = green;
+    usb_buf[0x0C]   = blue;
+
+    libusb_interrupt_transfer(dev, 0x04, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
+}
+
+void AMDWraithPrismController::SendChannelRemap(unsigned char ring_channel, unsigned char logo_channel, unsigned char fan_channel)
+{
+    unsigned char usb_buf[] =
+    {
+        0x51, 0xA0, 0x01, 0x00,
+        0x00, 0x03, 0x00, 0x00,
+        0x05, 0x06, 0x07, 0x07,
+        0x07, 0x07, 0x07, 0x07,
+        0x07, 0x07, 0x07, 0x07,
+        0x07, 0x07, 0x07, 0x07,
+        0x07, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+    };
+
+    int             actual;
+
+    usb_buf[0x08] = logo_channel;
+    usb_buf[0x09] = fan_channel;
+
+    for(int led = 0x0A; led <= 0x18; led++)
+    {
+        usb_buf[led] = ring_channel;
+    }
 
     libusb_interrupt_transfer(dev, 0x04, usb_buf, 64, &actual, 0);
     libusb_interrupt_transfer(dev, 0x83, usb_buf, 64, &actual, 0);
