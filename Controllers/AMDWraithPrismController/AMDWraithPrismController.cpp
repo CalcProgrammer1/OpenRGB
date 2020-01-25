@@ -19,15 +19,15 @@ AMDWraithPrismController::AMDWraithPrismController(libusb_device_handle* dev_han
     strcpy(device_name, "AMD Wraith Prism");
 
     current_fan_mode = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
-    current_fan_speed = 0x00;
+    current_fan_speed = 0xFF;
     current_fan_random_color = false;
 
     current_logo_mode = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
-    current_logo_speed = 0x00;
+    current_logo_speed = 0xFF;
     current_logo_random_color = false;
 
     current_ring_mode = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
-    current_ring_speed = 0x00;
+    current_ring_speed = 0xFF;
     current_ring_direction = false;
 
     SendEnableCommand();
