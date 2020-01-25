@@ -16,12 +16,12 @@ int RGBController_HyperX::GetMode()
 
 void RGBController_HyperX::SetMode(int mode)
 {
-    hyperx->SetMode(modes[mode].value, modes[mode].random);
+    hyperx->SetMode(modes[mode].value, modes[mode].random, modes[mode].speed);
 }
 
 void RGBController_HyperX::SetCustomMode()
 {
-    hyperx->SetMode(HYPERX_MODE_DIRECT, false);
+    hyperx->SetMode(HYPERX_MODE_DIRECT, false, 0x00);
 }
 
 void RGBController_HyperX::UpdateLEDs()
@@ -118,50 +118,71 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
     modes.push_back(Static);
 
     mode Rainbow;
-    Rainbow.name  = "Rainbow";
-    Rainbow.value = HYPERX_MODE_RAINBOW;
-    Rainbow.flags = 0;
+    Rainbow.name      = "Rainbow";
+    Rainbow.value     = HYPERX_MODE_RAINBOW;
+    Rainbow.flags     = MODE_FLAG_HAS_SPEED;
+    Rainbow.speed_min = HYPERX_SPEED_RAINBOW_SLOW;
+    Rainbow.speed_max = HYPERX_SPEED_RAINBOW_FAST;
+    Rainbow.speed     = HYPERX_SPEED_RAINBOW_NORMAL;
     modes.push_back(Rainbow);
 
     mode Comet;
-    Comet.name   = "Comet";
-    Comet.value  = HYPERX_MODE_COMET;
-    Comet.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Comet.random = false;
+    Comet.name      = "Comet";
+    Comet.value     = HYPERX_MODE_COMET;
+    Comet.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Comet.speed_min = HYPERX_SPEED_COMET_SLOW;
+    Comet.speed_max = HYPERX_SPEED_COMET_FAST;
+    Comet.random    = false;
+    Comet.speed     = HYPERX_SPEED_COMET_NORMAL;
     modes.push_back(Comet);
 
     mode Heartbeat;
-    Heartbeat.name   = "Heartbeat";
-    Heartbeat.value  = HYPERX_MODE_HEARTBEAT;
-    Heartbeat.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Heartbeat.random = false;
+    Heartbeat.name      = "Heartbeat";
+    Heartbeat.value     = HYPERX_MODE_HEARTBEAT;
+    Heartbeat.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Heartbeat.speed_min = HYPERX_SPEED_COMET_SLOW;
+    Heartbeat.speed_max = HYPERX_SPEED_COMET_FAST;
+    Heartbeat.random    = false;
+    Heartbeat.speed     = HYPERX_SPEED_COMET_NORMAL;
     modes.push_back(Heartbeat);
 
     mode SpectrumCycle;
-    SpectrumCycle.name  = "Spectrum Cycle";
-    SpectrumCycle.value = HYPERX_MODE_CYCLE;
-    SpectrumCycle.flags = 0;
+    SpectrumCycle.name      = "Spectrum Cycle";
+    SpectrumCycle.value     = HYPERX_MODE_CYCLE;
+    SpectrumCycle.flags     = MODE_FLAG_HAS_SPEED;
+    SpectrumCycle.speed_min = HYPERX_SPEED_CYCLE_SLOW;
+    SpectrumCycle.speed_max = HYPERX_SPEED_CYCLE_FAST;
+    SpectrumCycle.speed     = HYPERX_SPEED_CYCLE_NORMAL;
     modes.push_back(SpectrumCycle);
     
     mode Breathing;
-    Breathing.name   = "Breathing";
-    Breathing.value  = HYPERX_MODE_BREATHING;
-    Breathing.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Breathing.random = false;
+    Breathing.name      = "Breathing";
+    Breathing.value     = HYPERX_MODE_BREATHING;
+    Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Breathing.speed_min = HYPERX_SPEED_BREATHING_SLOW;
+    Breathing.speed_max = HYPERX_SPEED_BREATHING_FAST;
+    Breathing.random    = false;
+    Breathing.speed     = HYPERX_SPEED_BREATHING_NORMAL;
     modes.push_back(Breathing);
 
     mode Bounce;
-    Bounce.name   = "Bounce";
-    Bounce.value  = HYPERX_MODE_BOUNCE;
-    Bounce.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Bounce.random = false;
+    Bounce.name      = "Bounce";
+    Bounce.value     = HYPERX_MODE_BOUNCE;
+    Bounce.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Bounce.speed_min = HYPERX_SPEED_BOUNCE_SLOW;
+    Bounce.speed_max = HYPERX_SPEED_BOUNCE_FAST;
+    Bounce.random    = false;
+    Bounce.speed     = HYPERX_SPEED_BOUNCE_NORMAL;
     modes.push_back(Bounce);
 
     mode Blink;
-    Blink.name   = "Blink";
-    Blink.value  = HYPERX_MODE_BLINK;
-    Blink.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Blink.random = false;
+    Blink.name      = "Blink";
+    Blink.value     = HYPERX_MODE_BLINK;
+    Blink.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    Blink.speed_min = HYPERX_SPEED_BLINK_SLOW;
+    Blink.speed_max = HYPERX_SPEED_BLINK_FAST;
+    Blink.random    = false;
+    Blink.speed     = HYPERX_SPEED_BLINK_NORMAL;
     modes.push_back(Blink);
 
     colors.resize(hyperx->GetLEDCount());

@@ -101,11 +101,25 @@ enum
     HYPERX_REG_SLOT3_LED3_BRIGHTNESS    = 0xBA,     /* Brightness for LED 3, Slot 3 (0-100) */
     HYPERX_REG_SLOT3_LED4_BRIGHTNESS    = 0xBD,     /* Brightness for LED 4, Slot 3 (0-100) */
 
+    HYPERX_REG_TIMER_MSB                = 0xD1,     /* Timer MSB                            */
+    HYPERX_REG_TIMER_LSB                = 0xD2,     /* Timer LSB                            */
+    HYPERX_REG_ON_TIME_MSB              = 0xD3,     /* Effect on time MSB                   */
+    HYPERX_REG_ON_TIME_LSB              = 0xD4,     /* Effect on time LSB                   */
+    HYPERX_REG_CHANGE_TIME_MSB          = 0xD5,     /* Change time MSB                      */
+    HYPERX_REG_CHANGE_TIME_LSB          = 0xD6,     /* Change time LSB                      */
+    HYPERX_REG_FADE_IN_TIME_MSB         = 0xD7,     /* Fade in time MSB                     */
+    HYPERX_REG_FADE_IN_TIME_LSB         = 0xD8,     /* Fade in time LSB                     */
+    HYPERX_REG_FADE_OUT_TIME_MSB        = 0xD9,     /* Fade out time MSB                    */
+    HYPERX_REG_FADE_OUT_TIME_LSB        = 0xDA,     /* Fade out time LSB                    */
+    HYPERX_REG_OFF_TIME_MSB             = 0xDB,     /* Effect off time MSB                  */
+    HYPERX_REG_OFF_TIME_LSB             = 0xDC,     /* Effect off time LSB                  */
     HYPERX_REG_EFFECT_BRIGHTNESS        = 0xDD,     /* Brightness for effects (0-100)       */
     HYPERX_REG_APPLY                    = 0xE1,     /* Apply changes register               */
     HYPERX_REG_MODE_RANDOM              = 0xE3,     /* Mode control register, random colors */
     HYPERX_REG_MODE_CUSTOM              = 0xE4,     /* Mode control register, custom colors */
     HYPERX_REG_MODE_INDEPENDENT         = 0xE5,     /* Mode control register, independent   */
+    HYPERX_REG_DELAY_TIME_MSB           = 0xEA,     /* Delay time MSB                       */
+    HYPERX_REG_DELAY_TIME_LSB           = 0xEB,     /* Delay time LSB                       */
     HYPERX_REG_EFFECT_RED               = 0xEC,     /* Red color register for effects       */
     HYPERX_REG_EFFECT_GREEN             = 0xED,     /* Green color register for effects     */
     HYPERX_REG_EFFECT_BLUE              = 0xEE,     /* Blue color register for effects      */
@@ -146,6 +160,31 @@ enum
     HYPERX_NUMBER_MODES                             /* Number of HyperX modes               */
 };
 
+enum
+{
+    HYPERX_SPEED_BOUNCE_SLOW            = 0x07D0,   /* Slowest speed for bounce mode        */
+    HYPERX_SPEED_BOUNCE_NORMAL          = 0x07D0,   /* Normal speed for bounce mode         */
+    HYPERX_SPEED_BOUNCE_FAST            = 0x0064,   /* Fastest speed for bounce mode        */
+    HYPERX_SPEED_BREATHING_SLOW         = 0x07D0,   /* Slowest speed for breathing mode     */
+    HYPERX_SPEED_BREATHING_NORMAL       = 0x07D0,   /* Normal speed for breathing mode      */
+    HYPERX_SPEED_BREATHING_FAST         = 0x0064,   /* Fastest speed for breathing mode     */
+    HYPERX_SPEED_CYCLE_SLOW             = 0x05DC,   /* Slowest speed for cycle mode         */
+    HYPERX_SPEED_CYCLE_NORMAL           = 0x05DC,   /* Normal speed for cycle mode          */
+    HYPERX_SPEED_CYCLE_FAST             = 0x00FA,   /* Fastest speed for cycle mode         */
+    HYPERX_SPEED_RAINBOW_SLOW           = 0x07D0,   /* Slowest speed for rainbow mode       */
+    HYPERX_SPEED_RAINBOW_NORMAL         = 0x07D0,   /* Normal speed for rainbow mode        */
+    HYPERX_SPEED_RAINBOW_FAST           = 0x0064,   /* Fastest speed for rainbow mode       */
+    HYPERX_SPEED_BLINK_SLOW             = 0x07D0,   /* Slowest speed for blink mode         */
+    HYPERX_SPEED_BLINK_NORMAL           = 0x07D0,   /* Normal speed for blink mode          */
+    HYPERX_SPEED_BLINK_FAST             = 0x01F4,   /* Fastest speed for blink mode         */
+    HYPERX_SPEED_HEARTBEAT_SLOW         = 0x07D0,   /* Slowest speed for heartbeat mode     */
+    HYPERX_SPEED_HEARTBEAT_NORMAL       = 0x07D0,   /* Normal speed for heartbeat mode      */
+    HYPERX_SPEED_HEARTBEAT_FAST         = 0x01F4,   /* Fastest speed for heartbeat mode     */
+    HYPERX_SPEED_COMET_SLOW             = 0x07D0,   /* Slowest speed for comet mode         */
+    HYPERX_SPEED_COMET_NORMAL           = 0x07D0,   /* Normal speed for comet mode          */
+    HYPERX_SPEED_COMET_FAST             = 0x0064,   /* Fastest speed for comet mode         */
+};
+
 static const unsigned char slot_base[4] =
 {
     HYPERX_REG_SLOT0_LED0_RED,                      /* SPD 0x50 maps to slot 0              */
@@ -165,7 +204,7 @@ public:
     unsigned int    GetLEDCount();
     unsigned int    GetSlotCount();
     unsigned int    GetMode();
-    void            SetMode(unsigned char new_mode, bool random);
+    void            SetMode(unsigned char new_mode, bool random, unsigned short new_speed);
 
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SetEffectColor(unsigned char red, unsigned char green, unsigned char blue);
@@ -179,4 +218,5 @@ private:
     i2c_smbus_interface*    bus;
     hyperx_dev_id           dev;
     unsigned int            mode;
+    unsigned short          speed;
 };
