@@ -44,3 +44,15 @@ void RGBController::SetAllZoneLEDs(int zone, RGBColor color)
 
     UpdateZoneLEDs(zone);
 }
+
+int RGBController::GetMode()
+{
+    return(active_mode);
+}
+
+void RGBController::SetMode(int mode)
+{
+    active_mode = mode;
+
+    UpdateMode();
+}

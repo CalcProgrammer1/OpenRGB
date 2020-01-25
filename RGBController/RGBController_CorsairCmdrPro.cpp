@@ -175,50 +175,6 @@ RGBController_CorsairCmdrPro::RGBController_CorsairCmdrPro(CorsairCmdrProControl
     }
 }
 
-int RGBController_CorsairCmdrPro::GetMode()
-{
-    return 0;
-}
-
-void RGBController_CorsairCmdrPro::SetMode(int mode)
-{
-    active_mode = mode;
-
-    if(modes[active_mode].value == 0xFFFF)
-    {
-        UpdateLEDs();
-    }
-    else
-    {
-        for(int channel = 0; channel < CORSAIR_CMDR_PRO_NUM_CHANNELS; channel++)
-        {
-            unsigned int direction = 0;
-
-            if(modes[active_mode].direction == MODE_DIRECTION_RIGHT)
-            {
-                direction = 1;
-            }
-
-            corsair->SetChannelEffect(channel,
-                                      modes[active_mode].value,
-                                      modes[active_mode].speed,
-                                      direction,
-                                      modes[active_mode].random,
-                                      RGBGetRValue(colors[0]),
-                                      RGBGetGValue(colors[0]),
-                                      RGBGetBValue(colors[0]),
-                                      RGBGetRValue(colors[1]),
-                                      RGBGetGValue(colors[1]),
-                                      RGBGetBValue(colors[1]));
-        }
-    }
-}
-
-void RGBController_CorsairCmdrPro::SetCustomMode()
-{
-
-}
-
 void RGBController_CorsairCmdrPro::UpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
@@ -279,5 +235,42 @@ void RGBController_CorsairCmdrPro::UpdateSingleLED(int led)
     if(channel_colors.size() > 0)
     {
         corsair->SetChannelLEDs(channel, channel_colors);
+    }
+}
+
+void RGBController_CorsairCmdrPro::SetCustomMode()
+{
+    SetMode(9);
+}
+
+void RGBController_CorsairCmdrPro::UpdateMode()
+{
+    if(modes[active_mode].value == 0xFFFF)
+    {
+        UpdateLEDs();
+    }
+    else
+    {
+        for(int channel = 0; channel < CORSAIR_CMDR_PRO_NUM_CHANNELS; channel++)
+        {
+            unsigned int direction = 0;
+
+            if(modes[active_mode].direction == MODE_DIRECTION_RIGHT)
+            {
+                direction = 1;
+            }
+
+            corsair->SetChannelEffect(channel,
+                                      modes[active_mode].value,
+                                      modes[active_mode].speed,
+                                      direction,
+                                      modes[active_mode].random,
+                                      RGBGetRValue(colors[0]),
+                                      RGBGetGValue(colors[0]),
+                                      RGBGetBValue(colors[0]),
+                                      RGBGetRValue(colors[1]),
+                                      RGBGetGValue(colors[1]),
+                                      RGBGetBValue(colors[1]));
+        }
     }
 }

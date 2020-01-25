@@ -19,12 +19,12 @@ class RGBController_AorusGPU : public RGBController
 {
 public:
     RGBController_AorusGPU();
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
 private:
     _GvWriteI2C GvWriteI2C;

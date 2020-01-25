@@ -144,47 +144,6 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
     }
 }
 
-int RGBController_Hue2::GetMode()
-{
-    return 0;
-}
-
-void RGBController_Hue2::SetMode(int mode)
-{
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        unsigned int channel = zones_channel[zone_idx];
-
-        std::vector<RGBColor> channel_colors;
-
-        for(std::size_t color = 0; color < colors.size(); color++)
-        {
-            if(leds_channel[color] == channel)
-            {
-                channel_colors.push_back(colors[color]);
-            }
-        }
-
-        if(channel_colors.size() > 0)
-        {
-            bool direction = false;
-
-            if(modes[mode].direction == MODE_DIRECTION_LEFT)
-            {
-                direction = true;
-            }
-
-            hue2->SetMode(modes[mode].value, modes[mode].speed, direction);
-            hue2->SetChannelLEDs(channel, channel_colors);
-        }
-    }
-}
-
-void RGBController_Hue2::SetCustomMode()
-{
-
-}
-
 void RGBController_Hue2::UpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
@@ -245,5 +204,41 @@ void RGBController_Hue2::UpdateSingleLED(int led)
     if(channel_colors.size() > 0)
     {
         hue2->SetChannelLEDs(channel, channel_colors);
+    }
+}
+
+void RGBController_Hue2::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_Hue2::UpdateMode()
+{
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        unsigned int channel = zones_channel[zone_idx];
+
+        std::vector<RGBColor> channel_colors;
+
+        for(std::size_t color = 0; color < colors.size(); color++)
+        {
+            if(leds_channel[color] == channel)
+            {
+                channel_colors.push_back(colors[color]);
+            }
+        }
+
+        if(channel_colors.size() > 0)
+        {
+            bool direction = false;
+
+            if(modes[active_mode].direction == MODE_DIRECTION_LEFT)
+            {
+                direction = true;
+            }
+
+            hue2->SetMode(modes[active_mode].value, modes[active_mode].speed, direction);
+            hue2->SetChannelLEDs(channel, channel_colors);
+        }
     }
 }

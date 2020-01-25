@@ -70,21 +70,6 @@ RGBController_RazerChromaSDK::RGBController_RazerChromaSDK(unsigned int device_t
     if(CreateChromaLinkEffect == NULL) CreateChromaLinkEffect = (CREATECHROMALINKEFFECT)GetProcAddress(*hModule, "CreateChromaLinkEffect");
 }
 
-int RGBController_RazerChromaSDK::GetMode()
-{
-    return 0;
-}
-
-void RGBController_RazerChromaSDK::SetMode(int mode)
-{
-
-}
-
-void RGBController_RazerChromaSDK::SetCustomMode()
-{
-
-}
-
 void RGBController_RazerChromaSDK::UpdateLEDs()
 {
     switch (device->razer_type)
@@ -168,4 +153,14 @@ void RGBController_RazerChromaSDK::UpdateZoneLEDs(int zone)
 void RGBController_RazerChromaSDK::UpdateSingleLED(int led)
 {
     UpdateLEDs();
+}
+
+void RGBController_RazerChromaSDK::SetCustomMode()
+{
+
+}
+
+void RGBController_RazerChromaSDK::UpdateMode()
+{
+
 }

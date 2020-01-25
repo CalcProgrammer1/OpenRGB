@@ -229,12 +229,12 @@ class RGBController_RazerChromaSDK : public RGBController
 {
 public:
     RGBController_RazerChromaSDK(unsigned int device_type, HMODULE* hModule);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
 private:
     const razer_device* device;

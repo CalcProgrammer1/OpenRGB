@@ -920,12 +920,12 @@ public:
 
 public:
     RGBController_OpenRazer(std::string dev_path);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
     int device;
 

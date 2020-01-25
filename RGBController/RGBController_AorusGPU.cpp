@@ -20,21 +20,6 @@ static unsigned char data[] = { 0x8E, 0x00, 0x00, 0x00,
                                 0x64, 0x00, 0x00, 0x00,
                                 0x01, 0x00, 0x00, 0x00 };
 
-int RGBController_AorusGPU::GetMode()
-{
-    return(0);
-}
-
-void RGBController_AorusGPU::SetMode(int mode)
-{
-
-}
-
-void RGBController_AorusGPU::SetCustomMode()
-{
-
-}
-
 void RGBController_AorusGPU::UpdateLEDs()
 {
     RGBColor color = colors[0];
@@ -85,4 +70,14 @@ RGBController_AorusGPU::RGBController_AorusGPU()
     aorus_zone_map.push_back(0);
     aorus_zone.map.push_back(aorus_zone_map);
     zones.push_back(aorus_zone);
+}
+
+void RGBController_AorusGPU::SetCustomMode()
+{
+
+}
+
+void RGBController_AorusGPU::UpdateMode()
+{
+
 }

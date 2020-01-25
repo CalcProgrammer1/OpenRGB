@@ -9,7 +9,7 @@
 
 #include "RGBController_Aura.h"
 
-int RGBController_Aura::GetMode()
+int RGBController_Aura::GetDeviceMode()
 {
     int  dev_mode = aura->AuraRegisterRead(AURA_REG_MODE);
     bool random   = false;
@@ -47,44 +47,6 @@ int RGBController_Aura::GetMode()
     }
 
     return(active_mode);
-}
-
-void RGBController_Aura::SetMode(int mode)
-{
-    active_mode = mode;
-
-    if (modes[active_mode].value == 0xFFFF)
-    {
-        aura->SetDirect(true);
-    }
-    else
-    {
-        int new_mode = modes[active_mode].value;
-
-        if(modes[active_mode].random == true)
-        {
-            switch(new_mode)
-            {
-            case AURA_MODE_CHASE:
-                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE;
-                break;
-            case AURA_MODE_BREATHING:
-                new_mode = AURA_MODE_SPECTRUM_CYCLE_BREATHING;
-                break;
-            case AURA_MODE_CHASE_FADE:
-                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE;
-                break;
-            }
-        }
-
-        aura->SetMode(new_mode);
-        aura->SetDirect(false);
-    }
-}
-
-void RGBController_Aura::SetCustomMode()
-{
-    aura->SetDirect(true);
 }
 
 void RGBController_Aura::UpdateLEDs()
@@ -289,5 +251,44 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
             // Push new zone to zones vector
             zones.push_back(*new_zone);
         }
+    }
+
+    // Initialize active mode
+    active_mode = GetDeviceMode();
+}
+
+void RGBController_Aura::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_Aura::UpdateMode()
+{
+    if (modes[active_mode].value == 0xFFFF)
+    {
+        aura->SetDirect(true);
+    }
+    else
+    {
+        int new_mode = modes[active_mode].value;
+
+        if(modes[active_mode].random == true)
+        {
+            switch(new_mode)
+            {
+            case AURA_MODE_CHASE:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE;
+                break;
+            case AURA_MODE_BREATHING:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_BREATHING;
+                break;
+            case AURA_MODE_CHASE_FADE:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE;
+                break;
+            }
+        }
+
+        aura->SetMode(new_mode);
+        aura->SetDirect(false);
     }
 }

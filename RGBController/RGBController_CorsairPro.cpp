@@ -9,57 +9,6 @@
 
 #include "RGBController_CorsairPro.h"
 
-int RGBController_CorsairPro::GetMode()
-{
-    return(active_mode);
-}
-
-void RGBController_CorsairPro::SetMode(int mode)
-{
-    unsigned int corsair_direction;
-
-    active_mode = mode;
-
-    switch(modes[active_mode].direction)
-    {
-        case MODE_DIRECTION_LEFT:
-            corsair_direction = CORSAIR_PRO_DIRECTION_LEFT;
-            break;
-        case MODE_DIRECTION_RIGHT:
-            corsair_direction = CORSAIR_PRO_DIRECTION_RIGHT;
-            break;
-        case MODE_DIRECTION_UP:
-            corsair_direction = CORSAIR_PRO_DIRECTION_UP;
-            break;
-        case MODE_DIRECTION_DOWN:
-            corsair_direction = CORSAIR_PRO_DIRECTION_DOWN;
-            break;
-        case MODE_DIRECTION_HORIZONTAL:
-            corsair_direction = CORSAIR_PRO_DIRECTION_HORIZONTAL;
-            break;
-        case MODE_DIRECTION_VERTICAL:
-            corsair_direction = CORSAIR_PRO_DIRECTION_VERTICAL;
-            break;
-    }
-
-    corsair->SetEffect(modes[active_mode].value,
-                       modes[active_mode].speed,
-                       corsair_direction,
-                       modes[active_mode].random,
-                       RGBGetRValue(colors[0]),
-                       RGBGetGValue(colors[0]),
-                       RGBGetBValue(colors[0]),
-                       RGBGetRValue(colors[1]),
-                       RGBGetGValue(colors[1]),
-                       RGBGetBValue(colors[1]));
-}
-
-void RGBController_CorsairPro::SetCustomMode()
-{
-    active_mode = 9;
-    corsair->SetCustom();
-}
-
 void RGBController_CorsairPro::UpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
@@ -232,4 +181,47 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     new_zone.map.push_back(zone_row);
 
     zones.push_back(new_zone);
+}
+
+void RGBController_CorsairPro::SetCustomMode()
+{
+    SetMode(9);
+}
+
+void RGBController_CorsairPro::UpdateMode()
+{
+    unsigned int corsair_direction;
+
+    switch(modes[active_mode].direction)
+    {
+        case MODE_DIRECTION_LEFT:
+            corsair_direction = CORSAIR_PRO_DIRECTION_LEFT;
+            break;
+        case MODE_DIRECTION_RIGHT:
+            corsair_direction = CORSAIR_PRO_DIRECTION_RIGHT;
+            break;
+        case MODE_DIRECTION_UP:
+            corsair_direction = CORSAIR_PRO_DIRECTION_UP;
+            break;
+        case MODE_DIRECTION_DOWN:
+            corsair_direction = CORSAIR_PRO_DIRECTION_DOWN;
+            break;
+        case MODE_DIRECTION_HORIZONTAL:
+            corsair_direction = CORSAIR_PRO_DIRECTION_HORIZONTAL;
+            break;
+        case MODE_DIRECTION_VERTICAL:
+            corsair_direction = CORSAIR_PRO_DIRECTION_VERTICAL;
+            break;
+    }
+
+    corsair->SetEffect(modes[active_mode].value,
+                       modes[active_mode].speed,
+                       corsair_direction,
+                       modes[active_mode].random,
+                       RGBGetRValue(colors[0]),
+                       RGBGetGValue(colors[0]),
+                       RGBGetBValue(colors[0]),
+                       RGBGetRValue(colors[1]),
+                       RGBGetGValue(colors[1]),
+                       RGBGetBValue(colors[1]));
 }

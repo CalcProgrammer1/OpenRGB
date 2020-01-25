@@ -16,13 +16,15 @@ class RGBController_Aura : public RGBController
 {
 public:
     RGBController_Aura(AuraController* aura_ptr);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
+    void        SetCustomMode();
+    void        UpdateMode();
+
 private:
     AuraController* aura;
+
+    int         GetDeviceMode();
 };

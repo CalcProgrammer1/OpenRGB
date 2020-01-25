@@ -9,20 +9,6 @@
 
 #include "RGBController_Polychrome.h"
 
-int RGBController_Polychrome::GetMode()
-{
-    return(polychrome->GetMode());
-}
-
-void RGBController_Polychrome::SetMode(int mode)
-{
-    polychrome->SetMode(mode);
-}
-
-void RGBController_Polychrome::SetCustomMode()
-{
-    polychrome->SetMode(POLYCHROME_MODE_STATIC);
-}
 
 void RGBController_Polychrome::UpdateLEDs()
 {
@@ -94,4 +80,14 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
         // Push new zone to zones vector
         zones.push_back(*new_zone);
     }
+}
+
+void RGBController_Polychrome::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_Polychrome::UpdateMode()
+{
+    polychrome->SetMode(active_mode);
 }

@@ -9,21 +9,6 @@
 
 #include "RGBController_Corsair.h"
 
-int RGBController_Corsair::GetMode()
-{
-    return(0);
-}
-
-void RGBController_Corsair::SetMode(int mode)
-{
-    corsair->SetMode(modes[mode].value);
-}
-
-void RGBController_Corsair::SetCustomMode()
-{
-    corsair->SetMode(CORSAIR_VENGEANCE_RGB_MODE_SINGLE);
-}
-
 void RGBController_Corsair::UpdateLEDs()
 {
     RGBColor      color = colors[0];
@@ -96,4 +81,14 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
     new_zone.map.push_back(zone_row);
 
     zones.push_back(new_zone);
+}
+
+void RGBController_Corsair::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_Corsair::UpdateMode()
+{
+    corsair->SetMode(modes[active_mode].value);
 }
