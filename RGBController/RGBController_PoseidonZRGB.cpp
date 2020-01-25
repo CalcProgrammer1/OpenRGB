@@ -27,21 +27,6 @@ RGBController_PoseidonZRGB::~RGBController_PoseidonZRGB()
 
 }
 
-int RGBController_PoseidonZRGB::GetMode()
-{
-    return 0;
-}
-
-void RGBController_PoseidonZRGB::SetMode(int mode)
-{
-
-}
-
-void RGBController_PoseidonZRGB::SetCustomMode()
-{
-
-}
-
 void RGBController_PoseidonZRGB::UpdateLEDs()
 {
     poseidon->SetLEDs(colors);
@@ -55,4 +40,14 @@ void RGBController_PoseidonZRGB::UpdateZoneLEDs(int zone)
 void RGBController_PoseidonZRGB::UpdateSingleLED(int led)
 {
     poseidon->SetLEDs(colors);
+}
+
+void RGBController_PoseidonZRGB::SetCustomMode()
+{
+
+}
+
+void RGBController_PoseidonZRGB::UpdateMode()
+{
+
 }

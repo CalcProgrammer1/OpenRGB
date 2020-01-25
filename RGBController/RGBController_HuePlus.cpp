@@ -178,47 +178,6 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
     }
 }
 
-int RGBController_HuePlus::GetMode()
-{
-    return 0;
-}
-
-void RGBController_HuePlus::SetMode(int mode)
-{
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        unsigned int channel = zones_channel[zone_idx];
-
-        std::vector<RGBColor> channel_colors;
-
-        for(std::size_t color = 0; color < colors.size(); color++)
-        {
-            if(leds_channel[color] == channel)
-            {
-                channel_colors.push_back(colors[color]);
-            }
-        }
-
-        if(channel_colors.size() > 0)
-        {
-            bool direction = false;
-
-            if(modes[mode].direction == MODE_DIRECTION_LEFT)
-            {
-                direction = true;
-            }
-
-            hueplus->SetMode(modes[mode].value, modes[mode].speed, direction);
-            hueplus->SetChannelLEDs(channel, channel_colors);
-        }
-    }
-}
-
-void RGBController_HuePlus::SetCustomMode()
-{
-
-}
-
 void RGBController_HuePlus::UpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
@@ -279,5 +238,41 @@ void RGBController_HuePlus::UpdateSingleLED(int led)
     if(channel_colors.size() > 0)
     {
         hueplus->SetChannelLEDs(channel, channel_colors);
+    }
+}
+
+void RGBController_HuePlus::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_HuePlus::UpdateMode()
+{
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        unsigned int channel = zones_channel[zone_idx];
+
+        std::vector<RGBColor> channel_colors;
+
+        for(std::size_t color = 0; color < colors.size(); color++)
+        {
+            if(leds_channel[color] == channel)
+            {
+                channel_colors.push_back(colors[color]);
+            }
+        }
+
+        if(channel_colors.size() > 0)
+        {
+            bool direction = false;
+
+            if(modes[active_mode].direction == MODE_DIRECTION_LEFT)
+            {
+                direction = true;
+            }
+
+            hueplus->SetMode(modes[active_mode].value, modes[active_mode].speed, direction);
+            hueplus->SetChannelLEDs(channel, channel_colors);
+        }
     }
 }

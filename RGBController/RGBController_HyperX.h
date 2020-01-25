@@ -16,12 +16,12 @@ class RGBController_HyperX : public RGBController
 {
 public:
     RGBController_HyperX(HyperXController* hyperx_ptr);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
 private:
     HyperXController* hyperx;

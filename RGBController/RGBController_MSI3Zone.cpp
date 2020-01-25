@@ -64,21 +64,6 @@ RGBController_MSI3Zone::~RGBController_MSI3Zone()
 
 }
 
-int RGBController_MSI3Zone::GetMode()
-{
-    return 0;
-}
-
-void RGBController_MSI3Zone::SetMode(int mode)
-{
-
-}
-
-void RGBController_MSI3Zone::SetCustomMode()
-{
-
-}
-
 void RGBController_MSI3Zone::UpdateLEDs()
 {
     msi->SetLEDs(colors);
@@ -92,4 +77,14 @@ void RGBController_MSI3Zone::UpdateZoneLEDs(int zone)
 void RGBController_MSI3Zone::UpdateSingleLED(int led)
 {
     msi->SetLEDs(colors);
+}
+
+void RGBController_MSI3Zone::SetCustomMode()
+{
+
+}
+
+void RGBController_MSI3Zone::UpdateMode()
+{
+
 }

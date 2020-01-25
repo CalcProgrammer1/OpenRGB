@@ -16,12 +16,12 @@ class RGBController_Polychrome : public RGBController
 {
 public:
     RGBController_Polychrome(PolychromeController* polychrome_ptr);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
 private:
     PolychromeController* polychrome;

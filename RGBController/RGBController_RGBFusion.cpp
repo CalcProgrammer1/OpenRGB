@@ -9,30 +9,6 @@
 
 #include "RGBController_RGBFusion.h"
 
-int RGBController_RGBFusion::GetMode()
-{
-    int dev_mode = rgb_fusion->GetMode();
-
-    for(int mode = 0; mode < modes.size(); mode++)
-    {
-        if(modes[mode].value == dev_mode)
-        {
-            return(mode);
-        }
-    }
-
-    return(0);
-}
-
-void RGBController_RGBFusion::SetMode(int mode)
-{
-    rgb_fusion->SetMode(modes[mode].value, modes[mode].speed);
-}
-
-void RGBController_RGBFusion::SetCustomMode()
-{
-    rgb_fusion->SetMode(RGB_FUSION_MODE_STATIC, 0);
-}
 
 void RGBController_RGBFusion::UpdateLEDs()
 {
@@ -128,4 +104,32 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
         // Push new zone to zones vector
         zones.push_back(*new_zone);
     }
+
+    // Initialize active mode
+    active_mode = GetDeviceMode();
+}
+
+int RGBController_RGBFusion::GetDeviceMode()
+{
+    int dev_mode = rgb_fusion->GetMode();
+
+    for(int mode = 0; mode < modes.size(); mode++)
+    {
+        if(modes[mode].value == dev_mode)
+        {
+            return(mode);
+        }
+    }
+
+    return(0);
+}
+
+void RGBController_RGBFusion::SetCustomMode()
+{
+    rgb_fusion->SetMode(RGB_FUSION_MODE_STATIC, 0);
+}
+
+void RGBController_RGBFusion::UpdateMode()
+{
+    rgb_fusion->SetMode(modes[active_mode].value, modes[active_mode].speed);
 }

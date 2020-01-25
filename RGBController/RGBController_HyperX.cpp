@@ -9,20 +9,6 @@
 
 #include "RGBController_HyperX.h"
 
-int RGBController_HyperX::GetMode()
-{
-    return(0);
-}
-
-void RGBController_HyperX::SetMode(int mode)
-{
-    hyperx->SetMode(modes[mode].value, modes[mode].random, modes[mode].speed);
-}
-
-void RGBController_HyperX::SetCustomMode()
-{
-    hyperx->SetMode(HYPERX_MODE_DIRECT, false, 0x00);
-}
 
 void RGBController_HyperX::UpdateLEDs()
 {
@@ -223,3 +209,14 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
         zones.push_back(*new_zone);
     }
 }
+
+void RGBController_HyperX::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_HyperX::UpdateMode()
+{
+    hyperx->SetMode(modes[active_mode].value, modes[active_mode].random, modes[active_mode].speed);
+}
+

@@ -81,7 +81,6 @@ public:
                               unsigned char grn2,
                               unsigned char blu2
                              );
-    void            SetCustom();
 
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);

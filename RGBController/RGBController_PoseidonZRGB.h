@@ -16,12 +16,12 @@ class RGBController_PoseidonZRGB : public RGBController
 public:
     RGBController_PoseidonZRGB(PoseidonZRGBController* poseidon_ptr);
     ~RGBController_PoseidonZRGB();
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
 private:
     PoseidonZRGBController*   poseidon;

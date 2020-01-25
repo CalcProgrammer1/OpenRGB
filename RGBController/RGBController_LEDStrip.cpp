@@ -42,21 +42,6 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     zones.push_back(led_zone);
 }
 
-int RGBController_LEDStrip::GetMode()
-{
-    return 0;
-}
-
-void RGBController_LEDStrip::SetMode(int /*mode*/)
-{
-
-}
-
-void RGBController_LEDStrip::SetCustomMode()
-{
-
-}
-
 void RGBController_LEDStrip::UpdateLEDs()
 {
     strip->SetLEDs(colors);
@@ -70,4 +55,14 @@ void RGBController_LEDStrip::UpdateZoneLEDs(int zone)
 void RGBController_LEDStrip::UpdateSingleLED(int led)
 {
     strip->SetLEDs(colors);
+}
+
+void RGBController_LEDStrip::SetCustomMode()
+{
+
+}
+
+void RGBController_LEDStrip::UpdateMode()
+{
+
 }

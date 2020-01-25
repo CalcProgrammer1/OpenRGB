@@ -159,17 +159,6 @@ void CorsairProController::SetEffect(unsigned char mode,
     WaitReady();
 }
 
-void CorsairProController::SetCustom()
-{
-    SetEffect(CORSAIR_PRO_MODE_STATIC,
-              0x00,
-              0x00,
-              false,
-              0x00, 0x00, 0x00,
-              0x00, 0x00, 0x00
-              );
-}
-
 bool CorsairProController::WaitReady()
 {
     int i = 0;

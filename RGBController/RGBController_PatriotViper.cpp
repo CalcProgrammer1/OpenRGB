@@ -9,28 +9,6 @@
 
 #include "RGBController_PatriotViper.h"
 
-int RGBController_PatriotViper::GetMode()
-{
-    return(0);
-}
-
-void RGBController_PatriotViper::SetMode(int mode)
-{
-    if(modes[mode].value == 0xFFFF)
-    {
-        viper->SetDirect();
-    }
-    else
-    {
-        viper->SetMode(modes[mode].value, modes[mode].speed);
-    }
-}
-
-void RGBController_PatriotViper::SetCustomMode()
-{
-    viper->SetDirect();
-}
-
 void RGBController_PatriotViper::UpdateLEDs()
 {
     if(viper->direct == true)
@@ -203,5 +181,22 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
 
         new_zone->map.push_back(*new_zone_map);
         zones.push_back(*new_zone);
+    }
+}
+
+void RGBController_PatriotViper::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_PatriotViper::UpdateMode()
+{
+    if(modes[active_mode].value == 0xFFFF)
+    {
+        viper->SetDirect();
+    }
+    else
+    {
+        viper->SetMode(modes[active_mode].value, modes[active_mode].speed);
     }
 }

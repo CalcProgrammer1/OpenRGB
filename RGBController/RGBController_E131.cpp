@@ -86,21 +86,6 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 	}
 }
 
-int RGBController_E131::GetMode()
-{
-    return 0;
-}
-
-void RGBController_E131::SetMode(int /*mode*/)
-{
-
-}
-
-void RGBController_E131::SetCustomMode()
-{
-
-}
-
 void RGBController_E131::UpdateLEDs()
 {
     int color_idx = 0;
@@ -170,4 +155,14 @@ void RGBController_E131::UpdateZoneLEDs(int zone)
 void RGBController_E131::UpdateSingleLED(int led)
 {
 	UpdateLEDs();
+}
+
+void RGBController_E131::SetCustomMode()
+{
+
+}
+
+void RGBController_E131::UpdateMode()
+{
+
 }

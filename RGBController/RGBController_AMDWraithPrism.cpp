@@ -129,51 +129,6 @@ RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
 
 }
 
-int RGBController_AMDWraithPrism::GetMode()
-{
-    return 0;
-}
-
-void RGBController_AMDWraithPrism::SetMode(int mode)
-{
-    wraith->SetRingMode(modes[mode].value, modes[mode].speed, modes[mode].direction, modes[mode].random);
-
-    switch(modes[mode].value)
-    {
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_COLOR_CYCLE:
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_RAINBOW:
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_BOUNCE:
-            wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
-            wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
-            break;
-        
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_BREATHING:
-            wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_BREATHING, modes[mode].speed, modes[mode].random);
-            wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_BREATHING, modes[mode].speed, modes[mode].random);
-            break;
-
-        default:
-            if(modes[mode].random)
-            {
-                wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
-                wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[mode].speed, modes[mode].random);
-            }
-            else
-            {
-                wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[mode].speed, modes[mode].random);
-                wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[mode].speed, modes[mode].random);
-            }
-            break;
-    }
-
-    UpdateLEDs();
-}
-
-void RGBController_AMDWraithPrism::SetCustomMode()
-{
-    SetMode(0);
-}
-
 void RGBController_AMDWraithPrism::UpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
@@ -216,4 +171,44 @@ void RGBController_AMDWraithPrism::UpdateZoneLEDs(int zone)
 void RGBController_AMDWraithPrism::UpdateSingleLED(int led)
 {
     UpdateZoneLEDs(led);
+}
+
+void RGBController_AMDWraithPrism::SetCustomMode()
+{
+    SetMode(0);
+}
+
+void RGBController_AMDWraithPrism::UpdateMode()
+{
+    wraith->SetRingMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].direction, modes[active_mode].random);
+
+    switch(modes[active_mode].value)
+    {
+        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_COLOR_CYCLE:
+        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_RAINBOW:
+        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_BOUNCE:
+            wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].random);
+            wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].random);
+            break;
+        
+        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_BREATHING:
+            wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_BREATHING, modes[active_mode].speed, modes[active_mode].random);
+            wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_BREATHING, modes[active_mode].speed, modes[active_mode].random);
+            break;
+
+        default:
+            if(modes[active_mode].random)
+            {
+                wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].random);
+                wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].random);
+            }
+            else
+            {
+                wraith->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[active_mode].speed, modes[active_mode].random);
+                wraith->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[active_mode].speed, modes[active_mode].random);
+            }
+            break;
+    }
+
+    UpdateLEDs();
 }

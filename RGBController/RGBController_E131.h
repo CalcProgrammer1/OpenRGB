@@ -37,12 +37,12 @@ class RGBController_E131 : public RGBController
 {
 public:
     RGBController_E131(std::vector<E131Device> device_list);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
 private:
 	std::vector<E131Device> 	devices;
