@@ -194,9 +194,10 @@ void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
-void HyperXController::SetMode(unsigned char new_mode, bool random)
+void HyperXController::SetMode(unsigned char new_mode, bool random, unsigned short new_speed)
 {
-    mode = new_mode;
+    mode  = new_mode;
+    speed = new_speed;
     
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
@@ -228,30 +229,56 @@ void HyperXController::SetMode(unsigned char new_mode, bool random)
 
     case HYPERX_MODE_RAINBOW:
         bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE_RANDOM, HYPERX_MODE1_RAINBOW);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_TIMER_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_TIMER_LSB, speed & 0xFF);
         break;
 
     case HYPERX_MODE_COMET:
         bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_COMET);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_TIMER_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_TIMER_LSB, speed & 0xFF);
         break;
 
     case HYPERX_MODE_HEARTBEAT:
         bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_HEARTBEAT);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_OFF_TIME_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_OFF_TIME_LSB, speed & 0xFF);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_ON_TIME_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_ON_TIME_LSB, speed & 0xFF);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_DELAY_TIME_MSB, 0x03);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_DELAY_TIME_LSB, 0xE8);
         break;
 
     case HYPERX_MODE_CYCLE:
         bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_MODE_RANDOM, HYPERX_MODE1_CYCLE);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_ON_TIME_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_ON_TIME_LSB, speed & 0xFF);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_CHANGE_TIME_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_CHANGE_TIME_LSB, speed & 0xFF);
         break;
 
     case HYPERX_MODE_BREATHING:
         bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_BREATHING);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_FADE_IN_TIME_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_FADE_IN_TIME_LSB, speed & 0xFF);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_FADE_OUT_TIME_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_FADE_OUT_TIME_LSB, speed & 0xFF);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_OFF_TIME_MSB, 0x00);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_OFF_TIME_LSB, 0x00);
         break;
 
     case HYPERX_MODE_BOUNCE:
-            bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_BOUNCE);
+        bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_BOUNCE);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_TIMER_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_TIMER_LSB, speed & 0xFF);
         break;
 
     case HYPERX_MODE_BLINK:
         bus->i2c_smbus_write_byte_data(dev, mode_reg, HYPERX_MODE2_BLINK);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_OFF_TIME_MSB, speed >> 8);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_OFF_TIME_LSB, speed & 0xFF);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_ON_TIME_MSB, 0x07);
+        bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_ON_TIME_LSB, 0xD4);
         break;
     }
 
