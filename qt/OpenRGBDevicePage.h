@@ -19,6 +19,7 @@ public:
     ~OpenRGBDevicePage();
 
     void SetDevice(unsigned char red, unsigned char green, unsigned char blue);
+    void SetCustomMode();
     void UpdateMode();
     void UpdateModeUi();
 

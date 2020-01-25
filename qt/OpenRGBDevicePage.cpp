@@ -385,6 +385,13 @@ void Ui::OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, un
     on_SetDeviceButton_clicked();
 }
 
+void Ui::OpenRGBDevicePage::SetCustomMode()
+{
+    device->SetCustomMode();
+    ui->ModeBox->setCurrentIndex(0);//device->active_mode);
+    UpdateModeUi();
+}
+
 void Ui::OpenRGBDevicePage::on_SetDeviceButton_clicked()
 {
     /*-----------------------------------------------------*\
