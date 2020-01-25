@@ -289,6 +289,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         else
         {
             ui->RandomCheck->setEnabled(false);
+            ui->RandomCheck->setCheckState(random ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
         }
     }
 }
@@ -351,7 +352,7 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     \*-----------------------------------------------------*/
     if(InvertedSpeed)
     {
-        current_speed = device->modes[current_mode].speed_min - current_speed;
+        current_speed = device->modes[current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
     }
 
     /*-----------------------------------------------------*\
