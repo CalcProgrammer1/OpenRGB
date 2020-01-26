@@ -291,9 +291,10 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             if(matrix_effect_wave)
             {
                 mode Wave;
-                Wave.name  = "Wave";
-                Wave.value = RAZER_MODE_WAVE;
-                Wave.flags = 0;
+                Wave.name      = "Wave";
+                Wave.value     = RAZER_MODE_WAVE;
+                Wave.flags     = MODE_FLAG_HAS_DIRECTION_LR;
+                Wave.direction = MODE_DIRECTION_RIGHT;
                 modes.push_back(Wave);
             }
 
@@ -398,6 +399,16 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
                     
                     case RAZER_MODE_WAVE:
+                        switch(modes[active_mode].direction)
+                        {
+                            case MODE_DIRECTION_LEFT:
+                                update_value = '2';
+                                break;
+                            
+                            default:
+                                update_value = '1';
+                                break;
+                        }
                         matrix_effect_wave.write(&update_value, 1);
                         matrix_effect_wave.flush();
                         break;
