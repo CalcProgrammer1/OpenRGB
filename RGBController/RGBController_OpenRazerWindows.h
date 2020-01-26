@@ -995,6 +995,96 @@ static const razer_device base_station_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Nommo Pro                                              |
+|                                                               |
+|  Zone "Left Speaker"                                          |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Right Speaker"                                         |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone nommo_pro_left_zone =
+{
+    "Left Speaker",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone nommo_pro_right_zone =
+{
+    "Right Speaker",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_device nommo_pro_device =
+{
+    "Razer Nommo Pro",
+    DEVICE_TYPE_UNKNOWN,
+    true,
+    2,
+    8,
+    {
+        &nommo_pro_left_zone,
+        &nommo_pro_right_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Nommo Chroma                                           |
+|                                                               |
+|  Zone "Right Speaker"                                         |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left Speaker"                                          |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone nommo_chroma_right_zone =
+{
+    "Right Speaker",
+    ZONE_TYPE_LINEAR,
+    1,
+    24
+};
+
+static const razer_zone nommo_chroma_left_zone =
+{
+    "Left Speaker",
+    ZONE_TYPE_LINEAR,
+    1,
+    24
+};
+
+static const razer_device nommo_chroma_device =
+{
+    "Razer Nommo Chroma",
+    DEVICE_TYPE_UNKNOWN,
+    true,
+    2,
+    24,
+    {
+        &nommo_chroma_right_zone,
+        &nommo_chroma_left_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -1044,7 +1134,9 @@ static const razer_device* device_list[] =
     &core_device,
     &mug_holder_device,
     &chromahdk_device,
-    &base_station_device
+    &base_station_device,
+    &nommo_pro_device,
+    &nommo_chroma_device
 };
 
 
