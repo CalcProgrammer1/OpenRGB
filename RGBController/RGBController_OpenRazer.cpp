@@ -80,7 +80,7 @@ void RGBController_OpenRazer::UpdateLEDs()
                 }
             }
             break;
-        
+#if 0
         case RAZER_TYPE_NOMATRIX:
             {
                 unsigned int output_array_size = 3;
@@ -106,6 +106,7 @@ void RGBController_OpenRazer::UpdateLEDs()
                 scroll_led_effect.flush();
             }
             break;
+#endif
     }
 }
 
@@ -231,7 +232,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             /*---------------------------------------------------------*\
             | Set device ID                                             |
             \*---------------------------------------------------------*/
-            device = i;
+            device_index = i;
 
             /*---------------------------------------------------------*\
             | Set device type                                           |
@@ -387,8 +388,8 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
 
                     case RAZER_MODE_BREATHING:
-                        matrix_effect_breathing.write(&update_value, 1);
-                        matrix_effect_breathing.write();
+                        matrix_effect_breath.write(&update_value, 1);
+                        matrix_effect_breath.flush();
                         break;
 
                     case RAZER_MODE_SPECTRUM_CYCLE:
@@ -408,7 +409,7 @@ void RGBController_OpenRazer::UpdateMode()
                 }
             }
             break;
-
+#if 0
         case RAZER_TYPE_NOMATRIX:
             {
                 switch(active_mode)
@@ -430,5 +431,6 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
                 }
             }
+#endif
     }
 }
