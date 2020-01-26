@@ -15,83 +15,6 @@
 #include <linux/module.h>
 #include <linux/hid.h>
 
-int RGBController_OpenRazer::GetMode()
-{
-    return(0);
-}
-
-void RGBController_OpenRazer::SetMode(int mode)
-{
-    char update_value = 1;
-
-    switch(matrix_type)
-    {
-        case RAZER_TYPE_MATRIX_FRAME:
-        case RAZER_TYPE_MATRIX_NOFRAME:
-            {
-                switch(mode)
-                {
-                    case RAZER_MODE_CUSTOM:
-                        razer_functions->matrix_effect_custom->store(razer_device, NULL, &update_value, 1);
-                        break;
-                    
-                    case RAZER_MODE_OFF:
-                        razer_functions->matrix_effect_none->store(razer_device, NULL, &update_value, 1);
-                        break;
-
-                    case RAZER_MODE_STATIC:
-                        razer_functions->matrix_effect_static->store(razer_device, NULL, &update_value, 1);
-                        break;
-
-                    case RAZER_MODE_BREATHING:
-                        razer_functions->matrix_effect_breath->store(razer_device, NULL, &update_value, 1);
-                        break;
-
-                    case RAZER_MODE_SPECTRUM_CYCLE:
-                        razer_functions->matrix_effect_spectrum->store(razer_device, NULL, &update_value, 1);
-                        break;
-                    
-                    case RAZER_MODE_WAVE:
-                        razer_functions->matrix_effect_wave->store(razer_device, NULL, &update_value, 1);
-                        break;
-
-                    case RAZER_MODE_REACTIVE:
-                        razer_functions->matrix_effect_reactive->store(razer_device, NULL, &update_value, 1);
-                        break;
-                }
-            }
-            break;
-#if 0
-        case RAZER_TYPE_NOMATRIX:
-            {
-                switch(mode)
-                {
-                    case RAZER_MODE_CUSTOM:
-                        update_value = 0;
-                        logo_led_effect.write(&update_value, 1);
-                        scroll_led_effect.write(&update_value, 1);
-                        logo_led_effect.flush();
-                        scroll_led_effect.flush();
-                        break;
-
-                    case RAZER_MODE_SPECTRUM_CYCLE:
-                        update_value = '4';
-                        logo_led_effect.write(&update_value, 1);
-                        scroll_led_effect.write(&update_value, 1);
-                        logo_led_effect.flush();
-                        scroll_led_effect.flush();
-                        break;
-                }
-            }
-#endif
-    }
-}
-
-void RGBController_OpenRazer::SetCustomMode()
-{
-    SetMode(RAZER_MODE_CUSTOM);
-}
-
 void RGBController_OpenRazer::UpdateLEDs()
 {
     switch(matrix_type)
@@ -308,21 +231,70 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
             /*---------------------------------------------------------*\
             | Initialize modes                                          |
             \*---------------------------------------------------------*/
-            mode razer_modes[RAZER_NUM_MODES];
-
-            razer_modes[0].name = "Custom";
-            razer_modes[1].name = "Off";
-            razer_modes[2].name = "Static";
-            razer_modes[3].name = "Breathing";
-            razer_modes[4].name = "Spectrum Cycle";
-            razer_modes[5].name = "Wave";
-            razer_modes[6].name = "Reactive";
-
-            for (int i = 0; i < RAZER_NUM_MODES; i++)
+            if(razer_functions->matrix_effect_custom != NULL)
             {
-                modes.push_back(razer_modes[i]);
+                mode Custom;
+                Custom.name  = "Custom";
+                Custom.value = RAZER_MODE_CUSTOM;
+                Custom.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+                modes.push_back(Custom);
             }
-            
+
+            if(razer_functions->matrix_effect_none)
+            {
+                mode Off;
+                Off.name  = "Off";
+                Off.value = RAZER_MODE_OFF;
+                Off.flags = 0;
+                modes.push_back(Off);
+            }
+
+            if(razer_functions->matrix_effect_static)
+            {
+                mode Static;
+                Static.name = "Static";
+                Static.value = RAZER_MODE_STATIC;
+                Static.flags = MODE_FLAG_HAS_COLOR;
+                modes.push_back(Static);
+            }
+
+            if(razer_functions->matrix_effect_breath)
+            {
+                mode Breathing;
+                Breathing.name   = "Breathing";
+                Breathing.value  = RAZER_MODE_BREATHING;
+                Breathing.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+                Breathing.random = false;
+                modes.push_back(Breathing);
+            }
+
+            if(razer_functions->matrix_effect_spectrum)
+            {
+                mode SpectrumCycle;
+                SpectrumCycle.name  = "Spectrum Cycle";
+                SpectrumCycle.value = RAZER_MODE_SPECTRUM_CYCLE;
+                SpectrumCycle.flags = 0;
+                modes.push_back(SpectrumCycle);
+            }
+
+            if(razer_functions->matrix_effect_wave)
+            {
+                mode Wave;
+                Wave.name  = "Wave";
+                Wave.value = RAZER_MODE_WAVE;
+                Wave.flags = 0;
+                modes.push_back(Wave);
+            }
+
+            if(razer_functions->matrix_effect_reactive)
+            {
+                mode Reactive;
+                Reactive.name  = "Reactive";
+                Reactive.value = RAZER_MODE_REACTIVE;
+                Reactive.flags = 0;
+                modes.push_back(Reactive);
+            }
+
             /*---------------------------------------------------------*\
             | Initialize file descriptors                               |
             \*---------------------------------------------------------*/
@@ -372,4 +344,76 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
         }
     }
 
+}
+
+void RGBController_OpenRazer::SetCustomMode()
+{
+    SetMode(RAZER_MODE_CUSTOM);
+}
+
+void RGBController_OpenRazer::UpdateMode()
+{
+    char update_value = 1;
+
+    switch(matrix_type)
+    {
+        case RAZER_TYPE_MATRIX_FRAME:
+        case RAZER_TYPE_MATRIX_NOFRAME:
+            {
+                switch(modes[active_mode].value)
+                {
+                    case RAZER_MODE_CUSTOM:
+                        razer_functions->matrix_effect_custom->store(razer_device, NULL, &update_value, 1);
+                        break;
+
+                    case RAZER_MODE_OFF:
+                        razer_functions->matrix_effect_none->store(razer_device, NULL, &update_value, 1);
+                        break;
+
+                    case RAZER_MODE_STATIC:
+                        razer_functions->matrix_effect_static->store(razer_device, NULL, &update_value, 1);
+                        break;
+
+                    case RAZER_MODE_BREATHING:
+                        razer_functions->matrix_effect_breath->store(razer_device, NULL, &update_value, 1);
+                        break;
+
+                    case RAZER_MODE_SPECTRUM_CYCLE:
+                        razer_functions->matrix_effect_spectrum->store(razer_device, NULL, &update_value, 1);
+                        break;
+
+                    case RAZER_MODE_WAVE:
+                        razer_functions->matrix_effect_wave->store(razer_device, NULL, &update_value, 1);
+                        break;
+
+                    case RAZER_MODE_REACTIVE:
+                        razer_functions->matrix_effect_reactive->store(razer_device, NULL, &update_value, 1);
+                        break;
+                }
+            }
+            break;
+#if 0
+        case RAZER_TYPE_NOMATRIX:
+            {
+                switch(modes[active_mode].value)
+                {
+                    case RAZER_MODE_CUSTOM:
+                        update_value = 0;
+                        logo_led_effect.write(&update_value, 1);
+                        scroll_led_effect.write(&update_value, 1);
+                        logo_led_effect.flush();
+                        scroll_led_effect.flush();
+                        break;
+
+                    case RAZER_MODE_SPECTRUM_CYCLE:
+                        update_value = '4';
+                        logo_led_effect.write(&update_value, 1);
+                        scroll_led_effect.write(&update_value, 1);
+                        logo_led_effect.flush();
+                        scroll_led_effect.flush();
+                        break;
+                }
+            }
+#endif
+    }
 }

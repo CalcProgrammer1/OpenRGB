@@ -1166,12 +1166,12 @@ public:
 
 public:
     RGBController_OpenRazer(device * razer_device, device_fn_type* razer_functions);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
     int device_index;
 
