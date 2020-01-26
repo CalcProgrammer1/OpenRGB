@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController_OpenRazerWindows.h"
+
 #include <algorithm>
 #include <fstream>
 #include <string.h>
@@ -121,9 +122,9 @@ void RGBController_OpenRazer::UpdateSingleLED(int led)
 
 void RGBController_OpenRazer::SetupMatrixDevice(device * razer_device, device_fn_type* razer_functions, unsigned int rows, unsigned int cols)
 {
-    if(razer_functions->matrix_custom_frame == NULL)
+    if(!razer_functions->matrix_custom_frame)
     {
-        if(razer_functions->matrix_effect_custom != NULL)
+        if(!razer_functions->matrix_effect_custom)
         {
             matrix_type = RAZER_TYPE_MATRIX_STATIC;
         }
@@ -231,7 +232,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
             /*---------------------------------------------------------*\
             | Initialize modes                                          |
             \*---------------------------------------------------------*/
-            if(razer_functions->matrix_effect_custom != NULL)
+            if(razer_functions->matrix_effect_custom)
             {
                 mode Custom;
                 Custom.name  = "Custom";
