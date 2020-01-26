@@ -12,7 +12,6 @@
 #include <fstream>
 #include <unistd.h>
 
-
 void RGBController_OpenRazer::UpdateLEDs()
 {
     switch(matrix_type)
@@ -120,59 +119,8 @@ void RGBController_OpenRazer::UpdateSingleLED(int led)
     UpdateLEDs();
 }
 
-static std::string GetDeviceTypeString(std::string dev_path)
-{
-    // Read device_type for device name string
-    std::string dev_type_path = dev_path + "/device_type";
-    std::ifstream dev_type_file;
-    std::string ret_str;
-
-    dev_type_file.open(dev_type_path);
-    std::getline(dev_type_file, ret_str);
-    dev_type_file.close();
-
-    return(ret_str);
-}
-
-static std::string GetFirmwareVersionString(std::string dev_path)
-{
-    // Read firmware_version for firmware version string
-    std::string firm_ver_path = dev_path + "/firmware_version";
-    std::ifstream firm_ver_file;
-    std::string ret_str;
-
-    firm_ver_file.open(firm_ver_path);
-    std::getline(firm_ver_file, ret_str);
-    firm_ver_file.close();
-
-    return(ret_str);   
-}
-
-static std::string GetSerialNumberString(std::string dev_path)
-{
-    // Read device_serial for serial number string
-    std::string ser_num_path = dev_path + "/device_serial";
-    std::ifstream ser_num_file;
-    std::string ret_str;
-
-    ser_num_file.open(ser_num_path);
-    std::getline(ser_num_file, ret_str);
-    ser_num_file.close();
-
-    return(ret_str);    
-}
-
 void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned int rows, unsigned int cols)
 {
-    matrix_custom_frame.open(dev_path + "/matrix_custom_frame");
-    matrix_effect_custom.open(dev_path + "/matrix_effect_custom");
-    matrix_effect_breath.open(dev_path + "/matrix_effect_breath");
-    matrix_effect_none.open(dev_path + "/matrix_effect_none");
-    matrix_effect_reactive.open(dev_path + "/matrix_effect_reactive");
-    matrix_effect_spectrum.open(dev_path + "/matrix_effect_spectrum");
-    matrix_effect_static.open(dev_path + "/matrix_effect_static");
-    matrix_effect_wave.open(dev_path + "/matrix_effect_wave");    
-
     if(!matrix_custom_frame)
     {
         if(!matrix_effect_custom)
@@ -198,12 +146,40 @@ void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned i
 
 void RGBController_OpenRazer::SetupNonMatrixDevice(std::string dev_path)
 {
-    logo_led_effect.open(dev_path + "/logo_led_effect");
-    logo_led_rgb.open(dev_path + "/logo_led_rgb");
-    scroll_led_effect.open(dev_path + "/scroll_led_effect");
-    scroll_led_rgb.open(dev_path + "/scroll_led_rgb");
-
     matrix_type = RAZER_TYPE_NOMATRIX;
+}
+
+void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
+{
+    device_type.open(                  dev_path + "/device_type");
+    device_serial.open(                dev_path + "/device_serial");
+    firmware_version.open(             dev_path + "/firmware_version");
+
+    matrix_custom_frame.open(          dev_path + "/matrix_custom_frame");
+    matrix_brightness.open(            dev_path + "/matrix_brightness");
+
+    matrix_effect_custom.open(         dev_path + "/matrix_effect_custom");
+    matrix_effect_none.open(           dev_path + "/matrix_effect_none");
+    matrix_effect_static.open(         dev_path + "/matrix_effect_static");
+    matrix_effect_breath.open(         dev_path + "/matrix_effect_breath");
+    matrix_effect_spectrum.open(       dev_path + "/matrix_effect_spectrum");
+    matrix_effect_reactive.open(       dev_path + "/matrix_effect_reactive");
+    matrix_effect_wave.open(           dev_path + "/matrix_effect_wave");
+
+    logo_led_brightness.open(          dev_path + "/logo_led_brightness");
+    logo_matrix_effect_none.open(      dev_path + "/logo_matrix_effect_none");
+    logo_matrix_effect_static.open(    dev_path + "/logo_matrix_effect_static");
+    logo_matrix_effect_spectrum.open(  dev_path + "/logo_matrix_effect_spectrum");
+    logo_matrix_effect_reactive.open(  dev_path + "/logo_matrix_effect_reactive");
+
+    scroll_led_brightness.open(        dev_path + "/scroll_led_brightness");
+    scroll_matrix_effect_none.open(    dev_path + "/scroll_matrix_effect_none");
+    scroll_matrix_effect_static.open(  dev_path + "/scroll_matrix_effect_static");
+    scroll_matrix_effect_spectrum.open(dev_path + "/scroll_matrix_effect_spectrum");
+    scroll_matrix_effect_reactive.open(dev_path + "/scroll_matrix_effect_reactive");
+
+    scroll_led_effect.open(            dev_path + "/scroll_led_effect");
+    scroll_led_rgb.open(               dev_path + "/scroll_led_rgb");
 }
 
 RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
@@ -211,14 +187,19 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     unsigned int led_count = 0;
 
     /*-----------------------------------------------------------------*\
+    | Open the OpenRazer device functions                               |
+    \*-----------------------------------------------------------------*/
+    OpenFunctions(dev_path);
+
+    /*-----------------------------------------------------------------*\
     | Start device at -1.  This indicates the device was not detected   |
     \*-----------------------------------------------------------------*/
-    device = -1;
+    device_index = -1;
 
     /*-----------------------------------------------------------------*\
     | Get the device name from the OpenRazer driver                     |
     \*-----------------------------------------------------------------*/
-    name = GetDeviceTypeString(dev_path);
+    std::getline(device_type, name);
 
     /*-----------------------------------------------------------------*\
     | Set the description to indicate this is an OpenRazer device       |
@@ -233,12 +214,12 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     /*-----------------------------------------------------------------*\
     | Get the serial number from the dev path                           |
     \*-----------------------------------------------------------------*/
-    serial = GetSerialNumberString(dev_path);
+    std::getline(device_serial, serial);
 
     /*-----------------------------------------------------------------*\
     | Get the firmware version from the dev path                        |
     \*-----------------------------------------------------------------*/
-    version = GetFirmwareVersionString(dev_path);
+    std::getline(firmware_version, version);
 
     /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |
@@ -260,19 +241,68 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             /*---------------------------------------------------------*\
             | Initialize modes                                          |
             \*---------------------------------------------------------*/
-            mode razer_modes[RAZER_NUM_MODES];
-
-            razer_modes[0].name = "Custom";
-            razer_modes[1].name = "Off";
-            razer_modes[2].name = "Static";
-            razer_modes[3].name = "Breathing";
-            razer_modes[4].name = "Spectrum Cycle";
-            razer_modes[5].name = "Wave";
-            razer_modes[6].name = "Reactive";
-
-            for (int i = 0; i < RAZER_NUM_MODES; i++)
+            if(matrix_effect_custom)
             {
-                modes.push_back(razer_modes[i]);
+                mode Custom;
+                Custom.name  = "Custom";
+                Custom.value = RAZER_MODE_CUSTOM;
+                Custom.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+                modes.push_back(Custom);
+            }
+
+            if(matrix_effect_none)
+            {
+                mode Off;
+                Off.name  = "Off";
+                Off.value = RAZER_MODE_OFF;
+                Off.flags = 0;
+                modes.push_back(Off);
+            }
+
+            if(matrix_effect_static)
+            {
+                mode Static;
+                Static.name = "Static";
+                Static.value = RAZER_MODE_STATIC;
+                Static.flags = MODE_FLAG_HAS_COLOR;
+                modes.push_back(Static);
+            }
+
+            if(matrix_effect_breath)
+            {
+                mode Breathing;
+                Breathing.name   = "Breathing";
+                Breathing.value  = RAZER_MODE_BREATHING;
+                Breathing.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+                Breathing.random = false;
+                modes.push_back(Breathing);
+            }
+
+            if(matrix_effect_spectrum)
+            {
+                mode SpectrumCycle;
+                SpectrumCycle.name  = "Spectrum Cycle";
+                SpectrumCycle.value = RAZER_MODE_SPECTRUM_CYCLE;
+                SpectrumCycle.flags = 0;
+                modes.push_back(SpectrumCycle);
+            }
+
+            if(matrix_effect_wave)
+            {
+                mode Wave;
+                Wave.name  = "Wave";
+                Wave.value = RAZER_MODE_WAVE;
+                Wave.flags = 0;
+                modes.push_back(Wave);
+            }
+
+            if(matrix_effect_reactive)
+            {
+                mode Reactive;
+                Reactive.name  = "Reactive";
+                Reactive.value = RAZER_MODE_REACTIVE;
+                Reactive.flags = 0;
+                modes.push_back(Reactive);
             }
             
             /*---------------------------------------------------------*\
@@ -352,9 +382,13 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
 
                     case RAZER_MODE_STATIC:
+                        matrix_effect_static.write(&update_value, 1);
+                        matrix_effect_static.flush();
                         break;
 
                     case RAZER_MODE_BREATHING:
+                        matrix_effect_breathing.write(&update_value, 1);
+                        matrix_effect_breathing.write();
                         break;
 
                     case RAZER_MODE_SPECTRUM_CYCLE:

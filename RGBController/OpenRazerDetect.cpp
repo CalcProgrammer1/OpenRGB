@@ -102,7 +102,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
                     RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(device_string);
 
-                    if(razer_rgb->device != -1)
+                    if(razer_rgb->device_index != -1)
                     {
                         rgb_controllers.push_back(razer_rgb);
                     }
