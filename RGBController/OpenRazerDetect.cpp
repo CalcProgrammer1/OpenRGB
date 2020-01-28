@@ -58,7 +58,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
             break;
         
         case 7:
-            strcpy(driver_path, "/sys/bus/hid/drivers/razerchromahdk/");
+            strcpy(driver_path, "/sys/bus/hid/drivers/razeraccessory/");
             break;
         }
 
