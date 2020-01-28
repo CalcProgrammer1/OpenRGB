@@ -336,6 +336,7 @@ void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectCorsairCmdrProControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairNodeProControllers(std::vector<RGBController*> &rgb_controllers);
+void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -381,6 +382,7 @@ void DetectRGBControllers(void)
     \*-------------------------------------*/
 #else
     DetectOpenRazerControllers(rgb_controllers);
+    DetectFaustusControllers(rgb_controllers);
 #endif
 
 }   /* DetectRGBControllers() */

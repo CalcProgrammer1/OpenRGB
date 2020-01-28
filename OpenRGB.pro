@@ -199,6 +199,7 @@ unix:INCLUDEPATH +=                                                     \
 
 unix:HEADERS +=                                                         \
     i2c_smbus/i2c_smbus_linux.h                                         \
+    RGBController/RGBController_Faustus.h                               \
 
 unix:LIBS +=                                                            \
     -lusb-1.0                                                           \
@@ -218,4 +219,5 @@ unix:SOURCES +=                                                         \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                          \
     RGBController/OpenRazerDetect.cpp                                   \
+    RGBController/RGBController_Faustus.cpp                             \
     RGBController/RGBController_OpenRazer.cpp                           \
