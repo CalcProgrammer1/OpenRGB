@@ -104,10 +104,10 @@ void PolychromeController::SetMode(unsigned char mode)
 
     if (asr_led)
     {
-        bus->i2c_smbus_write_byte_data(dev, ASRLED_REG_MODE, active_mode);
+        bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
     }
     else
     {
-        bus->i2c_smbus_write_byte_data(dev, POLYCHROME_REG_MODE, active_mode);
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_MODE, 1, &active_mode);
     }    
 }
