@@ -18,12 +18,28 @@
 
 void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers)
 {
+    hid_device_info* info;
     hid_device* dev;
 
-    //Look for Thermaltake Poseidon Z RGB Keyboard
     hid_init();
 
-    dev = hid_open(TT_POSEIDON_Z_RGB_VID, TT_POSEIDON_Z_RGB_PID, 0);
+    info = hid_enumerate(TT_POSEIDON_Z_RGB_VID, TT_POSEIDON_Z_RGB_PID);
+
+    //Look for Thermaltake Poseidon Z RGB Keyboard
+    while(info)
+    {
+        if((info->vendor_id == TT_POSEIDON_Z_RGB_VID)
+         &&(info->product_id == TT_POSEIDON_Z_RGB_PID)
+         &&(info->interface_number == 2))
+        {
+            dev = hid_open_path(info->path);
+            break;
+        }
+        else
+        {
+            info = info->next;
+        }
+    }
 
     if( dev )
     {

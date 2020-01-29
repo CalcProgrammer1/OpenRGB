@@ -35,4 +35,13 @@ public:
 private:
     char                    device_name[32];
     hid_device*             dev;
+
+    void PoseidonZRGBController::SendControl
+        (
+        unsigned char   profile_to_activate,
+        unsigned char   profile_to_edit,
+        unsigned char   direction,
+        unsigned char   mode,
+        unsigned char   brightness
+        );
 };

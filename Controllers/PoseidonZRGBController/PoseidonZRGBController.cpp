@@ -47,10 +47,10 @@ char* PoseidonZRGBController::GetDeviceName()
 
 void PoseidonZRGBController::SetLEDsDirect(std::vector<RGBColor> colors)
 {
-    unsigned char red_grn_buf[264];
-    unsigned char blu_buf[264];
+    unsigned char red_grn_buf[265];
+    unsigned char blu_buf[265];
 
-    for(int i = 0; i < 264; i++)
+    for(int i = 0; i < 265; i++)
     {
         red_grn_buf[i] = 0x00;
         blu_buf[i]     = 0x00;
@@ -91,25 +91,35 @@ void PoseidonZRGBController::SetLEDsDirect(std::vector<RGBColor> colors)
 
 void PoseidonZRGBController::SetLEDs(std::vector<RGBColor> colors)
 {
-    unsigned char buf[264] = {0};
+    SendControl
+        (
+        1,
+        1,
+        0,
+        3,
+        4
+        );
+#if 0
+    unsigned char buf[265] = {0};
 
     //Send Red Packet
-    for(int i = 0; i < 264; i++)
+    for(int i = 0; i < 265; i++)
     {
         buf[i] = 0xFF;
     }
 
     buf[0] = 0x07;
-    buf[1] = 0x09;
-    buf[2] = 0x01;
+    buf[1] = 0x07;
+    buf[2] = 0x09;
     buf[3] = 0x01;
+    buf[4] = 0x01;
 
     for(int i = 0; i < 104; i++)
     {
-        buf[keys[i]] = RGBGetRValue(colors[i]);
+        buf[keys[i] + 1] = RGBGetRValue(colors[i]);
     }
 
-    hid_send_feature_report(dev, buf, 264);
+    hid_send_feature_report(dev, buf, 265);
 
     Sleep(10);
     
@@ -120,54 +130,87 @@ void PoseidonZRGBController::SetLEDs(std::vector<RGBColor> colors)
     }
 
     buf[0] = 0x07;
-    buf[1] = 0x09;
-    buf[2] = 0x01;
-    buf[3] = 0x02;
+    buf[1] = 0x07;
+    buf[2] = 0x09;
+    buf[3] = 0x01;
+    buf[4] = 0x02;
 
-    buf[8] = 0xFF;
+    buf[9] = 0xFF;
 
     for(int i = 0; i < 104; i++)
     {
-        buf[keys[i]] = RGBGetGValue(colors[i]);
+        buf[keys[i] + 1] = RGBGetGValue(colors[i]);
     }
 
-    hid_send_feature_report(dev, buf, 264);
+    hid_send_feature_report(dev, buf, 265);
 
     Sleep(10);
     
     //Send Blue Packet
-    for(int i = 0; i < 264; i++)
+    for(int i = 0; i < 265; i++)
     {
         buf[i] = 0x11;
     }
 
     buf[0] = 0x07;
-    buf[1] = 0x09;
-    buf[2] = 0x01;
-    buf[3] = 0x03;
+    buf[1] = 0x07;
+    buf[2] = 0x09;
+    buf[3] = 0x01;
+    buf[4] = 0x03;
 
     for(int i = 0; i < 104; i++)
     {
-       buf[keys[i]] = RGBGetBValue(colors[i]);
+       buf[keys[i] + 1] = RGBGetBValue(colors[i]);
     }
 
-    hid_send_feature_report(dev, buf, 264);
+    hid_send_feature_report(dev, buf, 265);
 
     Sleep(10);
     
     //Send Update Packet
-    for(int i = 0; i < 264; i++)
+    for(int i = 0; i < 265; i++)
     {
         buf[i] = 0x00;
     }
 
     buf[0] = 0x07;
-    buf[1] = 0x02;
-    buf[2] = 0x01;
-    buf[8] = 0x01;  //Preset to save
-    buf[13] = 0x04; //Brightness?
-    buf[16] = 0x08;
-    buf[22] = 0x03;
+    buf[1] = 0x07;
+    buf[2] = 0x02;
+    buf[3] = 0x01;
+    buf[9] = 0x01;  //Preset to save
+    buf[14] = 0x04; //Brightness?
+    buf[17] = 0x08;
+    buf[23] = 0x03;
 
-    hid_send_feature_report(dev, buf, 264);
+    hid_send_feature_report(dev, buf, 265);
+#endif
+}
+
+void PoseidonZRGBController::SendControl
+    (
+    unsigned char   profile_to_activate,
+    unsigned char   profile_to_edit,
+    unsigned char   direction,
+    unsigned char   mode,
+    unsigned char   brightness
+    )
+{
+    unsigned char usb_buf[265];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x07;
+    usb_buf[0x01]   = 0x07;
+    usb_buf[0x02]   = 0x02;
+    usb_buf[0x03]   = profile_to_activate;
+    usb_buf[0x09]   = profile_to_edit;
+    usb_buf[0x0B]   = direction;
+    usb_buf[0x0D]   = mode;
+    usb_buf[0x0E]   = brightness;
+    usb_buf[0x11]   = 0x08;
+
+    int bytes_sent = hid_send_feature_report(dev, usb_buf, 265);
+    const wchar_t * error = hid_error(dev);
+
+    bytes_sent++;
 }
