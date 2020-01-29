@@ -76,45 +76,38 @@ unsigned int PolychromeController::GetLEDCount()
 
 unsigned int PolychromeController::GetMode()
 {
-    return(0);
+    return(active_mode);
 }
 
-void PolychromeController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
+bool PolychromeController::IsAsrLed()
 {
+    return(asr_led);
+}
+
+void PolychromeController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
+{
+    unsigned char colors[3] = { red, green, blue };
+
     if (asr_led)
     {
-
+        bus->i2c_smbus_write_block_data(dev, active_mode, 3, colors);
     }
     else
     {
-        unsigned char colors[3] = { red, green, blue };
-
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, colors);
-    }
-}
-
-void PolychromeController::SetLEDColor(unsigned int /*led*/, unsigned char red, unsigned char green, unsigned char blue)
-{
-    if (asr_led)
-    {
-
-    }
-    else
-    {
-        unsigned char colors[3] = { red, green, blue };
-
         bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, colors);
     }
 }
 
 void PolychromeController::SetMode(unsigned char mode)
 {
+    active_mode = mode;
+
     if (asr_led)
     {
-
+        bus->i2c_smbus_write_byte_data(dev, ASRLED_REG_MODE, active_mode);
     }
     else
     {
-        bus->i2c_smbus_write_byte_data(dev, POLYCHROME_REG_MODE, mode);
+        bus->i2c_smbus_write_byte_data(dev, POLYCHROME_REG_MODE, active_mode);
     }    
 }

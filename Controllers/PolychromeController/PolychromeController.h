@@ -77,8 +77,8 @@ public:
     char*           GetDeviceName();
     unsigned int    GetLEDCount();
     unsigned int    GetMode();
-    void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
-    void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
+    bool            IsAsrLed();
+    void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode);
     unsigned short  GetFirmwareVersion();
 
@@ -86,6 +86,7 @@ private:
     bool                    asr_led;
     char                    device_name[32];
     unsigned int            led_count;
+    unsigned char           active_mode;
     i2c_smbus_interface*    bus;
     polychrome_dev_id       dev;
 
