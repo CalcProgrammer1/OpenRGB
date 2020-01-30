@@ -72,7 +72,11 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
                 num_leds_on_channel += 10;
                 break;
             
-            case 0x0B: //Aer 2 fan
+            case 0x0B: //Aer 2 fan (120mm)
+                num_leds_on_channel += 8;
+                break;
+
+            case 0x0C: //Aer 2 fan (140mm)
                 num_leds_on_channel += 8;
                 break;
 
