@@ -83,6 +83,8 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     ui->ZoneBox->blockSignals(true);
     ui->ZoneBox->clear();
 
+    ui->ZoneBox->addItem("All Zones");
+
     for (std::size_t i = 0; i < device->zones.size(); i++)
     {
         ui->ZoneBox->addItem(device->zones[i].name.c_str());
@@ -91,16 +93,10 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     ui->ZoneBox->setCurrentIndex(0);
     ui->ZoneBox->blockSignals(false);
 
-    ui->LEDBox->blockSignals(true);
-    ui->LEDBox->clear();
-
-    for (std::size_t i = 0; i < device->leds.size(); i++)
-    {
-        ui->LEDBox->addItem(device->leds[i].name.c_str());
-    }
-
-    ui->LEDBox->setCurrentIndex(0);
-    ui->LEDBox->blockSignals(false);
+    /*-----------------------------------------------------*\
+    | Update LED box                                        |
+    \*-----------------------------------------------------*/
+    on_ZoneBox_currentIndexChanged(0);
 
     /*-----------------------------------------------------*\
     | Update color picker with color of first LED           |
@@ -115,11 +111,63 @@ OpenRGBDevicePage::~OpenRGBDevicePage()
 
 void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
 {
+    unsigned int selected_zone = ui->ZoneBox->currentIndex();
 
+    ui->LEDBox->blockSignals(true);
+    ui->LEDBox->clear();
+
+    if(selected_zone == 0)
+    {
+        for (std::size_t i = 0; i < device->leds.size(); i++)
+        {
+            ui->LEDBox->addItem(device->leds[i].name.c_str());
+        }
+    }
+    else
+    {
+        selected_zone = selected_zone - 1;
+
+        for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
+        {
+            for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
+            {
+                ui->LEDBox->addItem(device->leds[device->zones[selected_zone].map[y][x]].name.c_str());
+            }
+        }
+    }
+
+    ui->LEDBox->setCurrentIndex(0);
+    on_LEDBox_currentIndexChanged(0);
+    ui->LEDBox->blockSignals(false);
 }
 
 void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 {
+    unsigned int selected_zone = ui->ZoneBox->currentIndex();
+
+    if(selected_zone > 0)
+    {
+        selected_zone = selected_zone - 1;
+
+        unsigned int count = 0;
+
+        for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
+        {
+            for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
+            {
+                if(count == index)
+                {
+                    index = device->zones[selected_zone].map[y][x];
+                    break;
+                }
+                else
+                {
+                    count++;
+                }
+            }
+        }
+    }
+    
     /*-----------------------------------------------------*\
     | Update color picker with color of selected LED        |
     \*-----------------------------------------------------*/
@@ -408,20 +456,57 @@ void Ui::OpenRGBDevicePage::on_SetDeviceButton_clicked()
 
 void Ui::OpenRGBDevicePage::on_SetZoneButton_clicked()
 {
-    /*-----------------------------------------------------*\
-    | Set all LEDs in the selected zone to the current color|
-    \*-----------------------------------------------------*/
-    RGBColor color = ToRGBColor(
-        ui->RedSpinBox->text().toInt(),
-        ui->GreenSpinBox->text().toInt(),
-        ui->BlueSpinBox->text().toInt()
-    );
+    unsigned int index = ui->ZoneBox->currentIndex();
 
-    device->SetAllZoneLEDs(ui->ZoneBox->currentIndex(), color);
+    if(index == 0)
+    {
+        on_SetDeviceButton_clicked();
+    }
+    else
+    {
+        index = index - 1;
+
+        /*-----------------------------------------------------*\
+        | Set all LEDs in the selected zone to the current color|
+        \*-----------------------------------------------------*/
+        RGBColor color = ToRGBColor(
+            ui->RedSpinBox->text().toInt(),
+            ui->GreenSpinBox->text().toInt(),
+            ui->BlueSpinBox->text().toInt()
+        );
+
+        device->SetAllZoneLEDs(index, color);
+    }
 }
 
 void Ui::OpenRGBDevicePage::on_SetLEDButton_clicked()
 {
+    unsigned int index = ui->LEDBox->currentIndex();
+    unsigned int selected_zone = ui->ZoneBox->currentIndex();
+
+    if(selected_zone > 0)
+    {
+        selected_zone = selected_zone - 1;
+
+        unsigned int count = 0;
+
+        for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
+        {
+            for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
+            {
+                if(count == index)
+                {
+                    index = device->zones[selected_zone].map[y][x];
+                    break;
+                }
+                else
+                {
+                    count++;
+                }
+            }
+        }
+    }
+
     /*-----------------------------------------------------*\
     | Set the selected LED to the current color             |
     \*-----------------------------------------------------*/
@@ -431,7 +516,7 @@ void Ui::OpenRGBDevicePage::on_SetLEDButton_clicked()
         ui->BlueSpinBox->text().toInt()
     );
 
-    device->SetLED(ui->LEDBox->currentIndex(), color);
+    device->SetLED(index, color);
 }
 
 void Ui::OpenRGBDevicePage::on_ButtonRed_clicked()
