@@ -18,6 +18,7 @@ enum
 {
     FIRMWARE_VER_1_PT_10            = 0x010A,   /* Firmware nu51_1.10                   */
     FIRMWARE_VER_2_PT_00            = 0x0200,   /* Firmware nu51_2.00                   */
+    FIRMWARE_VER_2_PT_10            = 0x020A,   /* Firmware nu51_2.10                   */
     FIRMWARE_VER_3_PT_00            = 0x0300,   /* Firmware nu51_3.00                   */
 };
 
