@@ -326,11 +326,15 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
 
                         for (unsigned int col_id = 0; col_id < device_list[i]->zones[zone_id]->cols; col_id++)
                         {
+                            char id_buf[8];
+                            snprintf(id_buf, 8, "%d", col_id + 1);
+
                             RGBColor new_color = 0x00000000;
                             colors.push_back(new_color);
 
                             led* new_led = new led();
-                            new_led->name = device_list[i]->zones[zone_id]->name;
+                            new_led->name = device_list[i]->zones[zone_id]->name + " LED ";
+                            new_led->name.append(id_buf);
                             leds.push_back(*new_led);
 
                             new_zone_map.push_back(led_count);

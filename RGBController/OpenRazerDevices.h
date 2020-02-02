@@ -906,9 +906,33 @@ static const razer_device mug_holder_device =
 |       Linear                                                  |
 |       16 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone chromahdk_zone =
+static const razer_zone chromahdk_zone_1 =
 {
-    "LED Strip",
+    "Channel 1",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_zone chromahdk_zone_2 =
+{
+    "Channel 2",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_zone chromahdk_zone_3 =
+{
+    "Channel 3",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_zone chromahdk_zone_4 =
+{
+    "Channel 4",
     ZONE_TYPE_LINEAR,
     1,
     16
@@ -922,10 +946,10 @@ static const razer_device chromahdk_device =
     4,
     16,
     {
-        &chromahdk_zone,
-        &chromahdk_zone,
-        &chromahdk_zone,
-        &chromahdk_zone,
+        &chromahdk_zone_1,
+        &chromahdk_zone_2,
+        &chromahdk_zone_3,
+        &chromahdk_zone_4,
         NULL,
         NULL
     }
