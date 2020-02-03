@@ -29,7 +29,7 @@ RGBController_PoseidonZRGB::~RGBController_PoseidonZRGB()
 
 void RGBController_PoseidonZRGB::UpdateLEDs()
 {
-    poseidon->SetLEDs(colors);
+    poseidon->SetLEDsDirect(colors);
 }
 
 void RGBController_PoseidonZRGB::UpdateZoneLEDs(int zone)

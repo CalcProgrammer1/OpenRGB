@@ -30,7 +30,7 @@ void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers)
     {
         if((info->vendor_id == TT_POSEIDON_Z_RGB_VID)
          &&(info->product_id == TT_POSEIDON_Z_RGB_PID)
-         &&(info->interface_number == 2))
+         &&(info->interface_number == 0))
         {
             dev = hid_open_path(info->path);
             break;
