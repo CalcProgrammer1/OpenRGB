@@ -15,11 +15,13 @@ INCLUDEPATH +=                                                          \
     Controllers/AuraController/                                         \
     Controllers/CorsairController/                                      \
     Controllers/CorsairCmdrProController/                               \
+    Controllers/CorsairKeyboardController/                              \
     Controllers/CorsairNodeProController/                               \
     Controllers/CorsairProController/                                   \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
+    Controllers/HyperXKeyboardController/                               \
     Controllers/LEDStripController/                                     \
     Controllers/MSI3ZoneController/                                     \
     Controllers/PatriotViperController/                                 \
@@ -51,6 +53,8 @@ SOURCES +=                                                              \
     Controllers/CorsairController/CorsairControllerDetect.cpp           \
     Controllers/CorsairCmdrProController/CorsairCmdrProController.cpp   \
     Controllers/CorsairCmdrProController/CorsairCmdrProControllerDetect.cpp \
+    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
+    Controllers/CorsairKeyboardController/CorsairKeyboardControllerDetect.cpp \
     Controllers/CorsairNodeProController/CorsairNodeProController.cpp   \
     Controllers/CorsairNodeProController/CorsairNodeProControllerDetect.cpp \
     Controllers/CorsairProController/CorsairProController.cpp           \
@@ -61,6 +65,8 @@ SOURCES +=                                                              \
     Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXController/HyperXController.cpp                   \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
+    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
+    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
@@ -79,11 +85,13 @@ SOURCES +=                                                              \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairCmdrPro.cpp                      \
+    RGBController/RGBController_CorsairKeyboard.cpp                     \
     RGBController/RGBController_CorsairNodePro.cpp                      \
     RGBController/RGBController_CorsairPro.cpp                          \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
+    RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_MSI3Zone.cpp                            \
@@ -107,11 +115,13 @@ HEADERS +=                                                              \
     Controllers/AuraController/AuraController.h                         \
     Controllers/CorsairController/CorsairController.h                   \
     Controllers/CorsairCmdrProController/CorsairCmdrProController.h     \
+    Controllers/CorsairKeyboardController/CorsairKeyboardController.h   \
     Controllers/CorsairNodeProController/CorsairNodeProController.h     \
     Controllers/CorsairProController/CorsairProController.h             \
     Controllers/Hue2Controller/Hue2Controller.h                         \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXController/HyperXController.h                     \
+    Controllers/HyperXKeyboardController/HyperXKeyboardController.h     \
     Controllers/LEDStripController/LEDStripController.h                 \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
     Controllers/PatriotViperController/PatriotViperController.h         \
@@ -129,6 +139,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperX.h                                \
+    RGBController/RGBController_HyperXKeyboard.h                        \
     RGBController/RGBController_LEDStrip.h                              \
     RGBController/RGBController_MSI3Zone.h                              \
     RGBController/RGBController_PatriotViper.h                          \
