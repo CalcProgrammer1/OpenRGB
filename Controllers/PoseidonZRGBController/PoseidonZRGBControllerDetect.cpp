@@ -2,7 +2,7 @@
 #include "RGBController.h"
 #include "RGBController_PoseidonZRGB.h"
 #include <vector>
-#include "hidapi.h"
+#include <hidapi/hidapi.h>
 
 #define TT_POSEIDON_Z_RGB_VID 0x264A
 #define TT_POSEIDON_Z_RGB_PID 0x3006

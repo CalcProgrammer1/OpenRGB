@@ -9,6 +9,8 @@
 
 #include "HyperXKeyboardController.h"
 
+#include <cstring>
+
 #ifdef WIN32
 #include <Windows.h>
 #else
