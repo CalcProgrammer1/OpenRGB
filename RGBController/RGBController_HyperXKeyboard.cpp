@@ -220,10 +220,6 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
 
         zones.push_back(new_zone);
     }
-    for(int i = 0; i < 126; i++)
-    {
-
-    }
 }
 
 RGBController_HyperXKeyboard::~RGBController_HyperXKeyboard()
