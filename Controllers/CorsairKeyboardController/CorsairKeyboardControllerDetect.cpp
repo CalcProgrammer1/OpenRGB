@@ -19,7 +19,7 @@
 void DetectCorsairKeyboardControllers(std::vector<RGBController*>& rgb_controllers)
 {
     hid_device_info* info;
-    hid_device* dev;
+    hid_device* dev = NULL;
 
     hid_init();
 
