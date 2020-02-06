@@ -24,16 +24,23 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     sockfd = e131_socket();
 
+    colors.resize(0);
+    
     for (std::size_t i = 0; i < devices.size(); i++)
     {
 		/*-----------------------------------------*\
 		| Add LEDs                                  |
         \*-----------------------------------------*/
+        colors.resize(colors.size() + devices[i].num_leds);
+
     	for (unsigned int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
     	{
-       		colors.push_back(0x00000000);
+            char id_buf[16];
+            snprintf(id_buf, 16, "%d", led_idx);
+
         	led new_led;
-        	new_led.name = devices[i].name + " LED";
+        	new_led.name = devices[i].name + " LED ";
+            new_led.name.append(id_buf);
         	leds.push_back(new_led);
 		}
 		

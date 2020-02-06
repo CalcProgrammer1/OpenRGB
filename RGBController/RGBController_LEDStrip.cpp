@@ -26,8 +26,13 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     
     for (int i = 0; i < strip->num_leds; i++)
     {
+        char id_buf[16];
+        snprintf(id_buf, 16, "%d", i);
+
         led new_led;
-        new_led.name = "LED Strip";
+        new_led.name = "LED ";
+        new_led.name.append(id_buf);
+        
         leds.push_back(new_led);
     }
 
