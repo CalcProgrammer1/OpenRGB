@@ -8,7 +8,6 @@
 
 #pragma once
 #include "RGBController.h"
-#include "serial_port.h"
 #include "Hue2Controller.h"
 
 class RGBController_Hue2 : public RGBController

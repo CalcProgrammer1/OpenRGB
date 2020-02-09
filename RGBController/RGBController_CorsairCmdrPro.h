@@ -9,7 +9,6 @@
 
 #pragma once
 #include "RGBController.h"
-#include "serial_port.h"
 #include "CorsairCmdrProController.h"
 
 class RGBController_CorsairCmdrPro : public RGBController

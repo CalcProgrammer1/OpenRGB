@@ -9,7 +9,6 @@
 
 #pragma once
 #include "RGBController.h"
-#include "serial_port.h"
 #include "ThermaltakeRiingController.h"
 
 class RGBController_ThermaltakeRiing : public RGBController
