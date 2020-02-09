@@ -339,6 +339,7 @@ void DetectCorsairKeyboardControllers(std::vector<RGBController*>& rgb_controlle
 void DetectCorsairNodeProControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -371,6 +372,7 @@ void DetectRGBControllers(void)
     DetectCorsairCmdrProControllers(rgb_controllers);
     DetectCorsairKeyboardControllers(rgb_controllers);
     DetectCorsairNodeProControllers(rgb_controllers);
+    DetectThermaltakeRiingControllers(rgb_controllers);
     
     DetectE131Controllers(rgb_controllers);
 
