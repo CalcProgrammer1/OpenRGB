@@ -55,8 +55,7 @@ class Hue2Controller
 public:
     Hue2Controller(libusb_device_handle* dev_handle);
     ~Hue2Controller();
-    
-    char*           GetLEDString();
+
     unsigned int    GetStripsOnChannel(unsigned int channel);
     void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
     void            SetMode(unsigned char mode, unsigned char speed, bool direction);

@@ -87,7 +87,6 @@ public:
     CorsairNodeProController(libusb_device_handle* dev_handle);
     ~CorsairNodeProController();
     
-    char*           GetLEDString();
     unsigned int    GetStripsOnChannel(unsigned int channel);
 
     void            SetChannelEffect(unsigned char channel,

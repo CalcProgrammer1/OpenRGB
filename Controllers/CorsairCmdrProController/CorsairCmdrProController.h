@@ -80,7 +80,6 @@ public:
     CorsairCmdrProController(libusb_device_handle* dev_handle);
     ~CorsairCmdrProController();
     
-    char*           GetLEDString();
     unsigned int    GetStripsOnChannel(unsigned int channel);
 
     void            SetChannelEffect(unsigned char channel,
