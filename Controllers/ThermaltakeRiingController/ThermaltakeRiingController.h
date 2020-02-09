@@ -48,12 +48,16 @@ public:
     ThermaltakeRiingController(libusb_device_handle* dev_handle);
     ~ThermaltakeRiingController();
 
-    void SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
-
+    void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
+    void            SetMode(unsigned char mode, unsigned char speed);
+    
     unsigned int    channel_leds[5];
 
 private:
     libusb_device_handle*   dev;
+
+    unsigned char   current_mode;
+    unsigned char   current_speed;
     
     void    SendInit();
 

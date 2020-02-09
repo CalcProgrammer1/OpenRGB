@@ -348,7 +348,7 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     | Read user interface                                   |
     \*-----------------------------------------------------*/
     int  current_mode      = ui->ModeBox->currentIndex();
-    int  current_speed     = ui->SpeedSlider->value();
+    int  current_speed     = 0;
     bool current_random    = ui->RandomCheck->checkState();
     int  current_dir_idx   = ui->DirectionBox->currentIndex();
     int  current_direction = 0;
@@ -396,11 +396,19 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     device->modes[current_mode].direction = current_direction;
 
     /*-----------------------------------------------------*\
-    | If Speed Slider is inverted, invert value             |
+    | If Speed Slider is enabled, read the speed value      |
     \*-----------------------------------------------------*/
-    if(InvertedSpeed)
+    if(ui->SpeedSlider->isEnabled())
     {
-        current_speed = device->modes[current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
+        current_speed = ui->SpeedSlider->value();
+
+        /*-----------------------------------------------------*\
+        | If Speed Slider is inverted, invert value             |
+        \*-----------------------------------------------------*/
+        if(InvertedSpeed)
+        {
+            current_speed = device->modes[current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
+        }
     }
 
     /*-----------------------------------------------------*\

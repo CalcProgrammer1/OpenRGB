@@ -20,7 +20,7 @@ ThermaltakeRiingController::ThermaltakeRiingController(libusb_device_handle* dev
     channel_leds[0] = 9;
     channel_leds[1] = 9;
     channel_leds[2] = 9;
-    channel_leds[4] = 0;
+    channel_leds[3] = 0;
     channel_leds[4] = 0;
 }
 
@@ -31,7 +31,7 @@ ThermaltakeRiingController::~ThermaltakeRiingController()
 
 void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
 {
-    unsigned char* color_data = new unsigned char[colors.size()];
+    unsigned char* color_data = new unsigned char[3 * colors.size()];
 
     for(int color = 0; color < colors.size(); color++)
     {
@@ -41,9 +41,15 @@ void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, std::vect
         color_data[color_idx + 2] = RGBGetBValue(colors[color]);
     }
 
-    SendRGB(channel, THERMALTAKE_MODE_PER_LED, THERMALTAKE_SPEED_FAST, colors.size(), color_data);
+    SendRGB(channel, current_mode, current_speed, colors.size(), color_data);
 
     delete[] color_data;
+}
+
+void ThermaltakeRiingController::SetMode(unsigned char mode, unsigned char speed)
+{
+    current_mode        = mode;
+    current_speed       = speed;
 }
 
 /*-------------------------------------------------------------------------------------------------*\

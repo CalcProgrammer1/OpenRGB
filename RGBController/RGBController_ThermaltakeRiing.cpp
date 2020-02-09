@@ -18,6 +18,78 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
 
     type = DEVICE_TYPE_COOLER;
 
+    mode Flow;
+    Flow.name      = "Flow";
+    Flow.value     = THERMALTAKE_MODE_FLOW;
+    Flow.flags     = MODE_FLAG_HAS_SPEED;
+    Flow.speed_min = THERMALTAKE_SPEED_SLOW;
+    Flow.speed_max = THERMALTAKE_SPEED_EXTREME;
+    Flow.speed     = THERMALTAKE_SPEED_NORMAL;
+    modes.push_back(Flow);
+
+    mode Spectrum;
+    Spectrum.name      = "Spectrum";
+    Spectrum.value     = THERMALTAKE_MODE_SPECTRUM;
+    Spectrum.flags     = MODE_FLAG_HAS_SPEED;
+    Spectrum.speed_min = THERMALTAKE_SPEED_SLOW;
+    Spectrum.speed_max = THERMALTAKE_SPEED_EXTREME;
+    Spectrum.speed     = THERMALTAKE_SPEED_NORMAL;
+    modes.push_back(Spectrum);
+
+    mode Ripple;
+    Ripple.name      = "Ripple";
+    Ripple.value     = THERMALTAKE_MODE_RIPPLE;
+    Ripple.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+    Ripple.speed_min = THERMALTAKE_SPEED_SLOW;
+    Ripple.speed_max = THERMALTAKE_SPEED_EXTREME;
+    Ripple.speed     = THERMALTAKE_SPEED_NORMAL;
+    modes.push_back(Ripple);
+
+    mode Blink;
+    Blink.name      = "Blink";
+    Blink.value     = THERMALTAKE_MODE_BLINK;
+    Blink.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Blink.speed_min = THERMALTAKE_SPEED_SLOW;
+    Blink.speed_max = THERMALTAKE_SPEED_EXTREME;
+    Blink.speed     = THERMALTAKE_SPEED_NORMAL;
+    modes.push_back(Blink);
+
+    mode Pulse;
+    Pulse.name      = "Pulse";
+    Pulse.value     = THERMALTAKE_MODE_PULSE;
+    Pulse.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Pulse.speed_min = THERMALTAKE_SPEED_SLOW;
+    Pulse.speed_max = THERMALTAKE_SPEED_EXTREME;
+    Pulse.speed     = THERMALTAKE_SPEED_NORMAL;
+    modes.push_back(Pulse);
+
+    mode Wave;
+    Wave.name      = "Wave";
+    Wave.value     = THERMALTAKE_MODE_WAVE;
+    Wave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Wave.speed_min = THERMALTAKE_SPEED_SLOW;
+    Wave.speed_max = THERMALTAKE_SPEED_EXTREME;
+    Wave.speed     = THERMALTAKE_SPEED_NORMAL;
+    modes.push_back(Wave);
+
+    mode Direct;
+    Direct.name      = "Direct";
+    Direct.value     = THERMALTAKE_MODE_PER_LED;
+    Direct.flags     = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Direct.speed_min = 0;
+    Direct.speed_max = 0;
+    Direct.speed     = 0;
+    modes.push_back(Direct);
+
+    mode Static;
+    Static.name      = "Static";
+    Static.value     = THERMALTAKE_MODE_FULL;
+    Static.flags     = MODE_FLAG_HAS_COLOR;
+    Static.speed_min = 0;
+    Static.speed_max = 0;
+    Static.speed     = 0;
+    modes.push_back(Static);
+
     /*-------------------------------------------------*\
     | Set size of colors array                          |
     \*-------------------------------------------------*/
@@ -137,8 +209,29 @@ void RGBController_ThermaltakeRiing::UpdateSingleLED(int led)
 
 void RGBController_ThermaltakeRiing::SetCustomMode()
 {
+    SetMode(6);
 }
 
 void RGBController_ThermaltakeRiing::UpdateMode()
 {
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        unsigned int channel = zones_channel[zone_idx];
+
+        std::vector<RGBColor> channel_colors;
+
+        for(std::size_t color = 0; color < colors.size(); color++)
+        {
+            if(leds_channel[color] == channel)
+            {
+                channel_colors.push_back(colors[color]);
+            }
+        }
+
+        if(channel_colors.size() > 0)
+        {
+            riing->SetMode(modes[active_mode].value, modes[active_mode].speed);
+            riing->SetChannelLEDs(channel, channel_colors);
+        }
+    }
 }
