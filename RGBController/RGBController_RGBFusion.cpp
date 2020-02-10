@@ -126,7 +126,7 @@ int RGBController_RGBFusion::GetDeviceMode()
 
 void RGBController_RGBFusion::SetCustomMode()
 {
-    rgb_fusion->SetMode(RGB_FUSION_MODE_STATIC, 0);
+    active_mode = 0;
 }
 
 void RGBController_RGBFusion::UpdateMode()

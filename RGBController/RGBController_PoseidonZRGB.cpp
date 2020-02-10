@@ -229,7 +229,7 @@ void RGBController_PoseidonZRGB::UpdateSingleLED(int led)
 
 void RGBController_PoseidonZRGB::SetCustomMode()
 {
-    SetMode(0);
+    active_mode = 0;
 }
 
 void RGBController_PoseidonZRGB::UpdateMode()

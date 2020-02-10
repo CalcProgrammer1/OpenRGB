@@ -144,6 +144,12 @@ RGBController_CorsairKeyboard::RGBController_CorsairKeyboard(CorsairKeyboardCont
     name = "Corsair RGB Keyboard";
     type = DEVICE_TYPE_KEYBOARD;
 
+    mode Direct;
+    Direct.name  = "Direct";
+    Direct.value = 0;
+    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    modes.push_back(Direct);
+
     colors.resize(111);
 
     unsigned int led_idx = 0;
@@ -193,7 +199,7 @@ void RGBController_CorsairKeyboard::UpdateSingleLED(int led)
 
 void RGBController_CorsairKeyboard::SetCustomMode()
 {
-
+    active_mode = 0;
 }
 
 void RGBController_CorsairKeyboard::UpdateMode()

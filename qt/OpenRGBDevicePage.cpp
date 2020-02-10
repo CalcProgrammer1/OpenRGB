@@ -240,6 +240,8 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
 
         if(supports_speed)
         {
+            ui->SpeedSlider->blockSignals(true);
+
             if(device->modes[selected_mode].speed_min > device->modes[selected_mode].speed_max)
             {
                 InvertedSpeed = true;
@@ -255,10 +257,13 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
             
             ui->SpeedSlider->setValue(device->modes[selected_mode].speed);
             ui->SpeedSlider->setEnabled(true);
+            ui->SpeedSlider->blockSignals(false);
         }
         else
         {
+            ui->SpeedSlider->blockSignals(true);
             ui->SpeedSlider->setEnabled(false);
+            ui->SpeedSlider->blockSignals(false);
         }
 
         ui->DirectionBox->clear();
@@ -348,84 +353,88 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     | Read user interface                                   |
     \*-----------------------------------------------------*/
     int  current_mode      = ui->ModeBox->currentIndex();
-    int  current_speed     = 0;
-    bool current_random    = ui->RandomCheck->checkState();
-    int  current_dir_idx   = ui->DirectionBox->currentIndex();
-    int  current_direction = 0;
-    bool supports_dir_lr = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
-    bool supports_dir_ud = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
-    bool supports_dir_hv = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
 
-    /*-----------------------------------------------------*\
-    | Set the direction value                               |
-    \*-----------------------------------------------------*/
-    if(supports_dir_hv)
+    if(current_mode >= 0)
     {
-        if(supports_dir_lr && supports_dir_ud)
+        int  current_speed     = 0;
+        bool current_random    = ui->RandomCheck->checkState();
+        int  current_dir_idx   = ui->DirectionBox->currentIndex();
+        int  current_direction = 0;
+        bool supports_dir_lr = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
+        bool supports_dir_ud = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
+        bool supports_dir_hv = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
+
+        /*-----------------------------------------------------*\
+        | Set the direction value                               |
+        \*-----------------------------------------------------*/
+        if(supports_dir_hv)
+        {
+            if(supports_dir_lr && supports_dir_ud)
+            {
+                current_direction = current_dir_idx;
+            }
+            else if(supports_dir_lr || supports_dir_ud)
+            {
+                current_direction = current_dir_idx + 2;
+            }
+            else
+            {
+                current_direction = current_dir_idx + 4;
+            }
+        }
+
+        if(supports_dir_ud)
+        {
+            if(supports_dir_lr)
+            {
+                current_direction = current_dir_idx;
+            }
+            else
+            {
+                current_direction = current_dir_idx + 2;
+            }
+        }
+
+        if((supports_dir_lr)
+         &&(current_dir_idx < 2))
         {
             current_direction = current_dir_idx;
         }
-        else if(supports_dir_lr || supports_dir_ud)
-        {
-            current_direction = current_dir_idx + 2;
-        }
-        else
-        {
-            current_direction = current_dir_idx + 4;
-        }
-    }
 
-    if(supports_dir_ud)
-    {
-        if(supports_dir_lr)
-        {
-            current_direction = current_dir_idx;
-        }
-        else
-        {
-            current_direction = current_dir_idx + 2;
-        }
-    }
-
-    if((supports_dir_lr)
-     &&(current_dir_idx < 2))
-    {
-        current_direction = current_dir_idx;
-    }
-    
-    device->modes[current_mode].direction = current_direction;
-
-    /*-----------------------------------------------------*\
-    | If Speed Slider is enabled, read the speed value      |
-    \*-----------------------------------------------------*/
-    if(ui->SpeedSlider->isEnabled())
-    {
-        current_speed = ui->SpeedSlider->value();
+        device->modes[current_mode].direction = current_direction;
 
         /*-----------------------------------------------------*\
-        | If Speed Slider is inverted, invert value             |
+        | If Speed Slider is enabled, read the speed value      |
         \*-----------------------------------------------------*/
-        if(InvertedSpeed)
+        if(ui->SpeedSlider->isEnabled())
         {
-            current_speed = device->modes[current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
+            current_speed = ui->SpeedSlider->value();
+
+            /*-----------------------------------------------------*\
+            | If Speed Slider is inverted, invert value             |
+            \*-----------------------------------------------------*/
+            if(InvertedSpeed)
+            {
+                current_speed = device->modes[current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
+            }
         }
-    }
-
-    /*-----------------------------------------------------*\
-    | Don't set the mode if the current mode is invalid     |
-    \*-----------------------------------------------------*/
-    if(current_mode < device->modes.size())
-    {
-        /*-----------------------------------------------------*\
-        | Update mode parameters                                |
-        \*-----------------------------------------------------*/
-        device->modes[current_mode].speed  = current_speed;
-        device->modes[current_mode].random = current_random;
 
         /*-----------------------------------------------------*\
-        | Change device mode                                    |
+        | Don't set the mode if the current mode is invalid     |
         \*-----------------------------------------------------*/
-        device->SetMode(current_mode);
+        if(current_mode < device->modes.size())
+        {
+            /*-----------------------------------------------------*\
+            | Update mode parameters                                |
+            \*-----------------------------------------------------*/
+            device->modes[current_mode].speed  = current_speed;
+            device->modes[current_mode].random = current_random;
+
+            /*-----------------------------------------------------*\
+            | Change device mode                                    |
+            \*-----------------------------------------------------*/
+            device->SetMode(current_mode);
+        }
     }
 }
 
@@ -448,6 +457,7 @@ void Ui::OpenRGBDevicePage::SetCustomMode()
     ui->ModeBox->setCurrentIndex(device->active_mode);
     ui->ModeBox->blockSignals(false);
     UpdateModeUi();
+    UpdateMode();
 }
 
 void Ui::OpenRGBDevicePage::on_SetDeviceButton_clicked()
