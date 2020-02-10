@@ -210,7 +210,7 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 
 void RGBController_Polychrome::SetCustomMode()
 {
-    SetMode(1);
+    active_mode = 1;
 }
 
 void RGBController_Polychrome::UpdateMode()

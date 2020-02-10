@@ -185,7 +185,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
 
 void RGBController_CorsairPro::SetCustomMode()
 {
-    SetMode(9);
+    active_mode = 9;
 }
 
 void RGBController_CorsairPro::UpdateMode()

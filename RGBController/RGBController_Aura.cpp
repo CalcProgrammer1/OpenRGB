@@ -259,7 +259,7 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 
 void RGBController_Aura::SetCustomMode()
 {
-    SetMode(0);
+    active_mode = 0;
 }
 
 void RGBController_Aura::UpdateMode()

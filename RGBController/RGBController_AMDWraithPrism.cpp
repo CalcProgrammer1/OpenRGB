@@ -175,7 +175,7 @@ void RGBController_AMDWraithPrism::UpdateSingleLED(int led)
 
 void RGBController_AMDWraithPrism::SetCustomMode()
 {
-    SetMode(0);
+    active_mode = 0;
 }
 
 void RGBController_AMDWraithPrism::UpdateMode()

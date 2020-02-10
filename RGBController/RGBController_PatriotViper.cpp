@@ -186,7 +186,7 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
 
 void RGBController_PatriotViper::SetCustomMode()
 {
-    SetMode(0);
+    active_mode = 0;
 }
 
 void RGBController_PatriotViper::UpdateMode()

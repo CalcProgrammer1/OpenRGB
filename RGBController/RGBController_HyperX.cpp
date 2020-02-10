@@ -212,7 +212,7 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
 
 void RGBController_HyperX::SetCustomMode()
 {
-    SetMode(0);
+    active_mode = 0;
 }
 
 void RGBController_HyperX::UpdateMode()

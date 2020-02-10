@@ -240,7 +240,7 @@ void RGBController_CorsairCmdrPro::UpdateSingleLED(int led)
 
 void RGBController_CorsairCmdrPro::SetCustomMode()
 {
-    SetMode(9);
+    active_mode = 9;
 }
 
 void RGBController_CorsairCmdrPro::UpdateMode()

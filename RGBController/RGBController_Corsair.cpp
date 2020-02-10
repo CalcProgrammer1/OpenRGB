@@ -85,7 +85,7 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
 
 void RGBController_Corsair::SetCustomMode()
 {
-    SetMode(0);
+    active_mode = 0;
 }
 
 void RGBController_Corsair::UpdateMode()

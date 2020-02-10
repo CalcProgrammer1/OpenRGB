@@ -243,7 +243,7 @@ void RGBController_HuePlus::UpdateSingleLED(int led)
 
 void RGBController_HuePlus::SetCustomMode()
 {
-    SetMode(0);
+    active_mode = 0;
 }
 
 void RGBController_HuePlus::UpdateMode()

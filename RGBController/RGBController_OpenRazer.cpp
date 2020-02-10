@@ -327,7 +327,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
 
 void RGBController_OpenRazer::SetCustomMode()
 {
-    SetMode(RAZER_MODE_CUSTOM);
+    active_mode = RAZER_MODE_CUSTOM;
 }
 
 void RGBController_OpenRazer::UpdateMode()

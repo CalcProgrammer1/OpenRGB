@@ -240,7 +240,7 @@ void RGBController_CorsairNodePro::UpdateSingleLED(int led)
 
 void RGBController_CorsairNodePro::SetCustomMode()
 {
-    SetMode(9);
+    active_mode = 9;
 }
 
 void RGBController_CorsairNodePro::UpdateMode()
