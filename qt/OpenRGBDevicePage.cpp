@@ -444,7 +444,9 @@ void Ui::OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, un
 void Ui::OpenRGBDevicePage::SetCustomMode()
 {
     device->SetCustomMode();
-    ui->ModeBox->setCurrentIndex(0);//device->active_mode);
+    ui->ModeBox->blockSignals(true);
+    ui->ModeBox->setCurrentIndex(device->active_mode);
+    ui->ModeBox->blockSignals(false);
     UpdateModeUi();
 }
 
