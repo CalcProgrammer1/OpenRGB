@@ -58,10 +58,10 @@ private:
 
     unsigned char   current_mode;
     unsigned char   current_speed;
-    
+
     void    SendInit();
 
-    void ThermaltakeRiingController::SendRGB
+    void SendRGB
         (
             unsigned char       port,
             unsigned char       mode,
