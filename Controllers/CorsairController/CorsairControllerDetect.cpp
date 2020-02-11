@@ -104,6 +104,22 @@ void DetectCorsairControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
             new_controller = new RGBController_Corsair(new_corsair);
             rgb_controllers.push_back(new_controller);
         }
+
+        // Check for Corsair controller at 0x5E
+        if (TestForCorsairController(busses[bus], 0x5E))
+        {
+            new_corsair = new CorsairController(busses[bus], 0x5E);
+            new_controller = new RGBController_Corsair(new_corsair);
+            rgb_controllers.push_back(new_controller);
+        }
+
+        // Check for Corsair controller at 0x5F
+        if (TestForCorsairController(busses[bus], 0x5F))
+        {
+            new_corsair = new CorsairController(busses[bus], 0x5F);
+            new_controller = new RGBController_Corsair(new_corsair);
+            rgb_controllers.push_back(new_controller);
+        }
     }
 
 }   /* DetectCorsairControllers() */
