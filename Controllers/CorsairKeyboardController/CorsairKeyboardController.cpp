@@ -32,19 +32,25 @@ static void send_usb_msg(hid_device* dev, char * data_pkt)
     bytes++;
 }
 
+static void get_usb_msg(hid_device* dev, char* data_pkt)
+{
+    char usb_pkt[65];
+    usb_pkt[0] = 0x00;
+    for(int i = 1; i < 65; i++)
+    {
+        usb_pkt[i] = data_pkt[i-1];
+    }
+    int bytes = hid_get_feature_report(dev, (unsigned char*)data_pkt, 64);
+    bytes++;
+}
+
 CorsairKeyboardController::CorsairKeyboardController(hid_device* dev_handle)
 {
     dev = dev_handle;
 
     char data_pkt[64] = { 0 };
 
-    data_pkt[0] = 0x07;
-    data_pkt[1] = 0x05;
-    data_pkt[2] = 0x02;
-    data_pkt[3] = 0x00;
-    data_pkt[4] = 0x03;
-
-    send_usb_msg(dev, data_pkt);
+    LightingControl();
 }
 
 CorsairKeyboardController::~CorsairKeyboardController()
@@ -54,16 +60,22 @@ CorsairKeyboardController::~CorsairKeyboardController()
 
 void CorsairKeyboardController::SetLEDs(std::vector<RGBColor> colors)
 {
-    char data_pkt[5][64] = { 0 };
-    char red_val[144];
-    char grn_val[144];
-    char blu_val[144];
+    unsigned char data_pkt[216];
+    unsigned char red_val[144];
+    unsigned char grn_val[144];
+    unsigned char blu_val[144];
 
+    /*-----------------------------------------------------*\
+    | Zero out buffers                                      |
+    \*-----------------------------------------------------*/
     memset(data_pkt, 0x00, sizeof( data_pkt ));
     memset(red_val, 0x00, sizeof( red_val ));
     memset(grn_val, 0x00, sizeof( grn_val ));
     memset(blu_val, 0x00, sizeof( blu_val ));
 
+    /*-----------------------------------------------------*\
+    | Scale color values to 9-bit                           |
+    \*-----------------------------------------------------*/
     for(int color_idx = 0; color_idx < colors.size(); color_idx++)
     {
         RGBColor      color = colors[color_idx];
@@ -84,69 +96,158 @@ void CorsairKeyboardController::SetLEDs(std::vector<RGBColor> colors)
         blu_val[keys[color_idx]] = blu;
     }
 
-    // Perform USB control message to keyboard
-    //
-    // Request Type:  0x21
-    // Request:       0x09
-    // Value          0x0300
-    // Index:         0x03
-    // Size:          64
-
-    data_pkt[0][0] = 0x7F;
-    data_pkt[0][1] = 0x01;
-    data_pkt[0][2] = 0x3C;
-
-    data_pkt[1][0] = 0x7F;
-    data_pkt[1][1] = 0x02;
-    data_pkt[1][2] = 0x3C;
-
-    data_pkt[2][0] = 0x7F;
-    data_pkt[2][1] = 0x03;
-    data_pkt[2][2] = 0x3C;
-
-    data_pkt[3][0] = 0x7F;
-    data_pkt[3][1] = 0x04;
-    data_pkt[3][2] = 0x24;
-
-    data_pkt[4][0] = 0x07;
-    data_pkt[4][1] = 0x27;
-    data_pkt[4][2] = 0x00;
-    data_pkt[4][2] = 0x00;
-    data_pkt[4][4] = 0xD8; //Number of payload bytes
-
-    for(int i = 0; i < 60; i++)
+    /*-----------------------------------------------------*\
+    | Pack the color values, 2 values per byte              |
+    \*-----------------------------------------------------*/
+    for(int red_idx = 0; red_idx < 72; red_idx++)
     {
-        data_pkt[0][i+4] = red_val[i*2+1] << 4 | red_val[i*2];
+        data_pkt[red_idx] = red_val[(red_idx * 2) + 1] << 4 | red_val[red_idx * 2];
     }
 
-    for(int i = 0; i < 12; i++)
+    for(int grn_idx = 0; grn_idx < 72; grn_idx++)
     {
-        data_pkt[1][i+4] = red_val[i*2+121] << 4 | red_val[i*2+120];
+        data_pkt[grn_idx + 72] = grn_val[(grn_idx * 2) + 1] << 4 | grn_val[grn_idx * 2];
     }
 
-    for(int i = 0; i < 48; i++)
+    for(int blu_idx = 0; blu_idx < 72; blu_idx++)
     {
-        data_pkt[1][i+16] = grn_val[i*2+1] << 4 | grn_val[i*2];
+        data_pkt[blu_idx + 144] = blu_val[(blu_idx * 2) + 1] << 4 | blu_val[blu_idx * 2];
     }
 
-    for(int i = 0; i < 24; i++)
-    {
-        data_pkt[2][i+4] = grn_val[i*2+97] << 4 | grn_val[i*2+96];
-    }
+    /*-----------------------------------------------------*\
+    | Send the packets                                      |
+    \*-----------------------------------------------------*/
+    StreamPacket(1, 60, &data_pkt[0]);
+    StreamPacket(2, 60, &data_pkt[60]);
+    StreamPacket(3, 60, &data_pkt[120]);
+    StreamPacket(4, 36, &data_pkt[180]);
+    
+    SubmitLimitedColors(216);
+}
 
-    for(int i = 0; i < 36; i++)
-    {
-        data_pkt[2][i+28] = blu_val[i*2+1] << 4 | blu_val[i*2];
-    }
+/*-------------------------------------------------------------------------------------------------*\
+| Private packet sending functions.                                                                 |
+\*-------------------------------------------------------------------------------------------------*/
 
-    for(int i = 0; i < 36; i++)
-    {
-        data_pkt[3][i+4] = blu_val[i*2+73] << 4 | blu_val[i*2+72];
-    }
+void CorsairKeyboardController::LightingControl()
+{
+    char usb_buf[64];
 
-    send_usb_msg(dev, data_pkt[0]);
-    send_usb_msg(dev, data_pkt[1]);
-    send_usb_msg(dev, data_pkt[2]);
-    send_usb_msg(dev, data_pkt[3]);
-    send_usb_msg(dev, data_pkt[4]);
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Lighting Control packet                        |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x01]   = CORSAIR_PROPERTY_LIGHTING_CONTROL;
+    usb_buf[0x02]   = CORSAIR_LIGHTING_CONTROL_SOFTWARE;
+    usb_buf[0x04]   = 0x03;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
+}
+
+void CorsairKeyboardController::ReadFirmwareInfo()
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Read Firmware Info packet                      |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_COMMAND_READ;
+    usb_buf[0x01]   = CORSAIR_PROPERTY_FIRMWARE_INFO;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
+    get_usb_msg(dev, usb_buf);
+}
+
+void CorsairKeyboardController::StreamPacket
+    (
+    unsigned char   packet_id,
+    unsigned char   data_sz,
+    unsigned char*  data_ptr
+    )
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Stream packet                                  |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_COMMAND_STREAM;
+    usb_buf[0x01]   = packet_id;
+    usb_buf[0x02]   = data_sz;
+
+    /*-----------------------------------------------------*\
+    | Copy in data bytes                                    |
+    \*-----------------------------------------------------*/
+    memcpy(&usb_buf[0x04], data_ptr, data_sz);
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
+}
+
+void CorsairKeyboardController::SubmitColors()
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Keyboard 24-Bit Colors packet           |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x01]   = CORSAIR_PROPERTY_SUBMIT_KEYBOARD_COLOR_24;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
+}
+
+void CorsairKeyboardController::SubmitLimitedColors
+    (
+    unsigned char   byte_count
+    )
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Keyboard 9-Bit Colors packet            |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x01]   = CORSAIR_PROPERTY_SUBMIT_KEYBOARD_COLOR_9;
+    usb_buf[0x04]   = byte_count;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
 }
