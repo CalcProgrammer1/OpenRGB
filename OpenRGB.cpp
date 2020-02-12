@@ -13,15 +13,12 @@
 #include <stdlib.h>
 
 #ifdef WIN32
-
 #include <regex>
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
 #include "i2c_smbus_nct6775.h"
+#include "super_io.h"
 #include "wmi.h"
-#include "inpout32.h"
-
-#pragma comment(lib, "inpout32.lib")
 #else /* WIN32 */
 
 #include "i2c_smbus_linux.h"
@@ -36,68 +33,6 @@ std::vector<i2c_smbus_interface*> busses;
 std::vector<RGBController*> rgb_controllers;
 
 #ifdef WIN32
-/******************************************************************************************\
-*                                                                                          *
-*   Nuvoton Super IO constants                                                             *
-*                                                                                          *
-\******************************************************************************************/
-
-#define SIO_NCT5577_ID      0xC330  /* Device ID for NCT5577D (C333)        */
-#define SIO_NCT6102_ID      0x1060  /* Device ID for NCT6102D/6106D (1061)  */
-#define SIO_NCT6793_ID      0xd120  /* Device ID for NCT6793D (D121)        */
-#define SIO_NCT6796_ID      0xd420  /* Device ID for NCT6796D (D421)        */
-#define SIO_REG_LOGDEV      0x07    /* Logical Device Register              */
-#define SIO_REG_DEVID       0x20    /* Device ID Register                   */
-#define SIO_REG_SMBA        0x62    /* SMBus Base Address Register          */
-#define SIO_LOGDEV_SMBUS    0x0B    /* Logical Device for SMBus             */
-#define SIO_ID_MASK         0xFFF8  /* Device ID mask                       */
-
-
-/******************************************************************************************\
-*                                                                                          *
-*   superio_enter                                                                          *
-*                                                                                          *
-*   Put the Super IO chip into Extended Function Mode                                      *
-*                                                                                          *
-\******************************************************************************************/
-
-void superio_enter(int ioreg)
-{
-    Out32(ioreg, 0x87);
-    Out32(ioreg, 0x87);
-}
-
-
-/******************************************************************************************\
-*                                                                                          *
-*   superio_outb                                                                           *
-*                                                                                          *
-*   Write a byte to the Super IO configuration register                                    *
-*                                                                                          *
-\******************************************************************************************/
-
-void superio_outb(int ioreg, int reg, int val)
-{
-    Out32(ioreg, reg);
-    Out32(ioreg + 1, val);
-}
-
-
-/******************************************************************************************\
-*                                                                                          *
-*   superio_inb                                                                            *
-*                                                                                          *
-*   Read a byte to the Super IO configuration register                                     *
-*                                                                                          *
-\******************************************************************************************/
-
-int superio_inb(int ioreg, int reg)
-{
-    Out32(ioreg, reg);
-    return Inp32(ioreg + 1);
-}
-
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectNuvotonI2CBusses (Windows)                                                       *

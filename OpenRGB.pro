@@ -11,6 +11,7 @@ INCLUDEPATH +=                                                          \
     i2c_tools/                                                          \
     net_port/                                                           \
     serial_port/                                                        \
+    super_io/                                                           \
     Controllers/AMDWraithPrismController/                               \
     Controllers/AuraController/                                         \
     Controllers/CorsairController/                                      \
@@ -46,6 +47,7 @@ SOURCES +=                                                              \
     qt/OpenRGBSystemInfoPage.cpp                                        \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
+    super_io/super_io.cpp                                               \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
     Controllers/AuraController/AuraController.cpp                       \
@@ -115,6 +117,7 @@ HEADERS +=                                                              \
     qt/OpenRGBSystemInfoPage.h                                          \
     serial_port/find_usb_serial_port.h                                  \
     serial_port/serial_port.h                                           \
+    super_io/super_io.h                                                 \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
     Controllers/AuraController/AuraController.h                         \
     Controllers/CorsairController/CorsairController.h                   \
