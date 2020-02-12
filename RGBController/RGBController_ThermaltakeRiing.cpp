@@ -209,7 +209,7 @@ void RGBController_ThermaltakeRiing::UpdateSingleLED(int led)
 
 void RGBController_ThermaltakeRiing::SetCustomMode()
 {
-    SetMode(6);
+    active_mode = 6;
 }
 
 void RGBController_ThermaltakeRiing::UpdateMode()

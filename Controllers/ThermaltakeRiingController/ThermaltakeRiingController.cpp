@@ -102,7 +102,7 @@ void ThermaltakeRiingController::SendRGB
     usb_buf[0x00]   = 0x32;
     usb_buf[0x01]   = 0x52;
     usb_buf[0x02]   = port;
-    usb_buf[0x03]   = mode + speed;
+    usb_buf[0x03]   = mode + ( speed & 0x03 );
 
     /*-----------------------------------------------------*\
     | Copy in GRB color data                                |
