@@ -14,7 +14,11 @@
 
 #pragma comment(lib, "inpout32.lib")
 #else
-#include <sys/io.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
+int dev_port_fd;
 #endif
 
 /******************************************************************************************\
@@ -31,8 +35,13 @@ void superio_enter(int ioreg)
     Out32(ioreg, 0x87);
     Out32(ioreg, 0x87);
 #else
-    outb_p(0x87, ioreg);
-    outb_p(0x87, ioreg);
+    unsigned char temp = 0x87;
+    dev_port_fd = open("/dev/port", O_RDWR, "rw");
+    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    write(dev_port_fd, &temp, 1);
+    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    write(dev_port_fd, &temp, 1);
+    close(dev_port_fd);
 #endif
 }
 
@@ -51,8 +60,11 @@ void superio_outb(int ioreg, int reg, int val)
     Out32(ioreg, reg);
     Out32(ioreg + 1, val);
 #else
-    outb_p(reg, ioreg);
-    outb_p(val, ioreg + 1);
+    dev_port_fd = open("/dev/port", O_RDWR, "rw");
+    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    write(dev_port_fd, &reg, 1);
+    write(dev_port_fd, &val, 1);
+    close(dev_port_fd);
 #endif
 }
 
@@ -71,7 +83,12 @@ int superio_inb(int ioreg, int reg)
     Out32(ioreg, reg);
     return Inp32(ioreg + 1);
 #else
-    outb_p(reg, ioreg);
-    return inb_p(ioreg + 1);
+    unsigned char temp;
+    dev_port_fd = open("/dev/port", O_RDWR, "rw");
+    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    write(dev_port_fd, &reg, 1);
+    read(dev_port_fd, &temp, 1);
+    close(dev_port_fd);
+    return((int)temp);
 #endif
 }
