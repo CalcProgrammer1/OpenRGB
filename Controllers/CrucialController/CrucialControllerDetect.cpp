@@ -16,7 +16,7 @@ static const unsigned char crucial_addresses[] =
     0x20,
     0x21,
     0x22,
-    0x22
+    0x23
 };
 
 
