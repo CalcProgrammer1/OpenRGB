@@ -9,21 +9,6 @@
 
 #include "RGBController_RGBFusion2.h"
 
-int RGBController_RGBFusion2::GetMode()
-{
-    return(rgb_fusion->GetMode());
-}
-
-void RGBController_RGBFusion2::SetMode(int mode)
-{
-    rgb_fusion->SetMode(mode);
-}
-
-void RGBController_RGBFusion2::SetCustomMode()
-{
-    rgb_fusion->SetMode(0);
-}
-
 void RGBController_RGBFusion2::UpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
@@ -97,4 +82,14 @@ RGBController_RGBFusion2::RGBController_RGBFusion2(RGBFusion2Controller* rgb_fus
         // Push new zone to zones vector
         zones.push_back(*new_zone);
     }
+}
+
+void RGBController_RGBFusion2::SetCustomMode()
+{
+    active_mode = 0;
+}
+
+void RGBController_RGBFusion2::UpdateMode()
+{
+    rgb_fusion->SetMode(modes[active_mode].value);
 }

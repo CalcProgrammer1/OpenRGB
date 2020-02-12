@@ -16,12 +16,12 @@ class RGBController_RGBFusion2 : public RGBController
 {
 public:
     RGBController_RGBFusion2(RGBFusion2Controller* rgb_fusion_ptr);
-    int         GetMode();
-    void        SetMode(int mode);
-    void        SetCustomMode();
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
+    void        UpdateMode();
 
 private:
     RGBFusion2Controller* rgb_fusion;
