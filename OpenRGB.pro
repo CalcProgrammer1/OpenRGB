@@ -185,6 +185,7 @@ win32:INCLUDEPATH +=                                                    \
     dependencies/inpout32_1501/Win32/                                   \
     dependencies/libusb-1.0.22/include                                  \
     dependencies/hidapi                                                 \
+    dependencies/openrazer-win32                                        \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
@@ -194,7 +195,9 @@ win32:SOURCES +=                                                        \
     serial_port/find_usb_serial_port_win.cpp                            \
     wmi/wmi.cpp                                                         \
     RGBController/AorusGPUDetect.cpp                                    \
+    RGBController/OpenRazerWindowsDetect.cpp                            \
     RGBController/RGBController_AorusGPU.cpp                            \
+    RGBController/RGBController_OpenRazerWindows.cpp                    \
 
 win32:HEADERS +=                                                        \
     dependencies/inpout32_1501/Win32/inpout32.h                         \
@@ -203,6 +206,7 @@ win32:HEADERS +=                                                        \
     i2c_smbus/i2c_smbus_piix4.h                                         \
     wmi/wmi.h                                                           \
     RGBController/RGBController_AorusGPU.h                              \
+    RGBController/RGBController_OpenRazerWindows.h                      \
 
 win32:LIBS +=                                                           \
     -lws2_32                                                            \
@@ -219,6 +223,16 @@ win32:DEFINES +=                                                        \
     _CRT_SECURE_NO_WARNINGS                                             \
     _WINSOCK_DEPRECATED_NO_WARNINGS                                     \
     WIN32_LEAN_AND_MEAN
+
+# Copy OpenRazer.dll to output directory
+win32
+{
+    copydata.commands = $(COPY_FILE) \"$$shell_path($$PWD\\dependencies\\openrazer-win32\\OpenRazer.dll)\" \"$$shell_path($$OUT_PWD)\"
+    first.depends = $(first) copydata
+    export(first.depends)
+    export(copydata.commands)
+    QMAKE_EXTRA_TARGETS += first copydata
+}
 
 #-----------------------------------------------
 # Linux specific project configuration
