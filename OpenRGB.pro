@@ -228,6 +228,16 @@ win32:DEFINES +=                                                        \
     _WINSOCK_DEPRECATED_NO_WARNINGS                                     \
     WIN32_LEAN_AND_MEAN
 
+# Copy OpenRazer.dll to output directory
+win32
+{
+    copydata.commands = $(COPY_FILE) \"$$shell_path($$PWD\\dependencies\\openrazer-win32\\OpenRazer.dll)\" \"$$shell_path($$OUT_PWD)\"
+    first.depends = $(first) copydata
+    export(first.depends)
+    export(copydata.commands)
+    QMAKE_EXTRA_TARGETS += first copydata
+}
+
 #-----------------------------------------------
 # Linux specific project configuration
 #-----------------------------------------------
