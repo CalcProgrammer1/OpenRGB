@@ -186,7 +186,7 @@ win32:INCLUDEPATH +=                                                    \
     dependencies/razer-chroma-2.9.0/inc                                 \
     dependencies/libusb-1.0.22/include                                  \
     dependencies/hidapi                                                 \
-    dependencies/razer-drivers-win32                                    \
+    dependencies/openrazer-win32                                        \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
