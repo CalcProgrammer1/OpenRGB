@@ -21,6 +21,8 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
 
     int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
 
+    printf("Super IO DevID: %04X", val);
+
     switch (val & SIO_ID_MASK)
     {
     case SIO_NCT6795_ID:
