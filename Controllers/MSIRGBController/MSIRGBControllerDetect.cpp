@@ -16,7 +16,7 @@
 
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    int sioaddr = 0x4E;
+    int sioaddr = 0x2E;
     superio_enter(sioaddr);
 
     int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
