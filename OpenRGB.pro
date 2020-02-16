@@ -22,6 +22,7 @@ DEFINES +=                                                              \
 RC_ICONS = qt/OpenRGB.ico
 
 INCLUDEPATH +=                                                          \
+    dependencies/hidapi                                                 \
     dependencies/libe131/src/                                           \
     i2c_smbus/                                                          \
     i2c_tools/                                                          \
@@ -55,6 +56,7 @@ INCLUDEPATH +=                                                          \
     qt/
 
 SOURCES +=                                                              \
+    dependencies/hidapi/hidapi.c                                        \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     cli.cpp                                                             \
@@ -227,7 +229,6 @@ FORMS += \
 win32:INCLUDEPATH +=                                                    \
     dependencies/inpout32_1501/Win32/                                   \
     dependencies/libusb-1.0.22/include                                  \
-    dependencies/hidapi                                                 \
     dependencies/NVFC                                                   \
     dependencies/openrazer-win32                                        \
     wmi/                                                                \
@@ -258,7 +259,6 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
         -lws2_32                                                        \
         -L"$$PWD/dependencies/inpout32_1501/x64/" -linpoutx64           \
         -L"$$PWD/dependencies/libusb-1.0.22/MS64/dll" -llibusb-1.0      \
-        -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
@@ -266,7 +266,6 @@ win32:contains(QMAKE_TARGET.arch, x86) {
         -lws2_32                                                        \
         -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32          \
         -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0      \
-        -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi
 }
 
 win32:DEFINES -=                                                        \
@@ -308,17 +307,6 @@ unix:HEADERS +=                                                         \
 unix:LIBS +=                                                            \
     -lusb-1.0                                                           \
     -lstdc++fs                                                          \
-    
-packagesExist(hidapi-libusb){
-    unix:LIBS += -lhidapi-libusb
-} else {
-    packagesExist(hidapi) {
-        unix:LIBS += -lhidapi
-    } else {
-        unix:LIBS += -lhidapi-libusb
-    }
-}
-
 
 unix:SOURCES +=                                                         \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
