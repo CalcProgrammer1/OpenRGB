@@ -46,137 +46,159 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
     if(polychrome->IsAsrLed())
     {
         mode Off;
-        Off.name = "Off";
-        Off.value = ASRLED_MODE_OFF;
-        Off.flags = 0;
+        Off.name       = "Off";
+        Off.value      = ASRLED_MODE_OFF;
+        Off.flags      = 0;
+        Off.color_mode = MODE_COLORS_NONE;
         modes.push_back(Off);
 
         mode Static;
-        Static.name = "Static";
-        Static.value = ASRLED_MODE_STATIC;
-        Static.flags = MODE_FLAG_HAS_COLOR;
+        Static.name       = "Static";
+        Static.value      = ASRLED_MODE_STATIC;
+        Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+        Static.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Static);
 
         mode Breathing;
-        Breathing.name = "Breathing";
-        Breathing.value = ASRLED_MODE_BREATHING;
-        Breathing.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+        Breathing.name       = "Breathing";
+        Breathing.value      = ASRLED_MODE_BREATHING;
+        Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+        Breathing.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Breathing);
 
         mode Strobe;
-        Strobe.name = "Strobe";
-        Strobe.value = ASRLED_MODE_FLASHING;
-        Strobe.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+        Strobe.name       = "Strobe";
+        Strobe.value      = ASRLED_MODE_FLASHING;
+        Strobe.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+        Strobe.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Strobe);
 
         mode SpectrumCycle;
-        SpectrumCycle.name = "Spectrum Cycle";
-        SpectrumCycle.value = ASRLED_MODE_SPECTRUM_CYCLE;
-        SpectrumCycle.flags = MODE_FLAG_HAS_SPEED;
+        SpectrumCycle.name       = "Spectrum Cycle";
+        SpectrumCycle.value      = ASRLED_MODE_SPECTRUM_CYCLE;
+        SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
+        SpectrumCycle.color_mode = MODE_COLORS_NONE;
         modes.push_back(SpectrumCycle);
 
         mode Random;
-        Random.name = "Random";
-        Random.value = ASRLED_MODE_RANDOM;
-        Random.flags = MODE_FLAG_HAS_SPEED;
+        Random.name       = "Random";
+        Random.value      = ASRLED_MODE_RANDOM;
+        Random.flags      = MODE_FLAG_HAS_SPEED;
+        Random.color_mode = MODE_COLORS_NONE;
         modes.push_back(Random);
         
         mode Music;
-        Music.name = "Music";
-        Music.value = ASRLED_MODE_MUSIC;
-        Music.flags = MODE_FLAG_HAS_COLOR;
+        Music.name       = "Music";
+        Music.value      = ASRLED_MODE_MUSIC;
+        Music.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+        Music.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Music);
 
         mode Wave;
-        Wave.name = "Wave";
-        Wave.value = ASRLED_MODE_WAVE;
-        Wave.flags = MODE_FLAG_HAS_SPEED;
+        Wave.name       = "Wave";
+        Wave.value      = ASRLED_MODE_WAVE;
+        Wave.flags      = MODE_FLAG_HAS_SPEED;
+        Wave.color_mode = MODE_COLORS_NONE;
         modes.push_back(Wave);
     }
     else
     {
         mode Off;
-        Off.name = "Off";
-        Off.value = POLYCHROME_MODE_OFF;
-        Off.flags = 0;
+        Off.name       = "Off";
+        Off.value      = POLYCHROME_MODE_OFF;
+        Off.flags      = 0;
+        Off.color_mode = MODE_COLORS_NONE;
         modes.push_back(Off);
 
         mode Static;
-        Static.name = "Static";
-        Static.value = POLYCHROME_MODE_STATIC;
-        Static.flags = MODE_FLAG_HAS_COLOR;
+        Static.name       = "Static";
+        Static.value      = POLYCHROME_MODE_STATIC;
+        Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+        Static.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Static);
 
         mode Breathing;
-        Breathing.name = "Breathing";
-        Breathing.value = POLYCHROME_MODE_BREATHING;
-        Breathing.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+        Breathing.name       = "Breathing";
+        Breathing.value      = POLYCHROME_MODE_BREATHING;
+        Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+        Breathing.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Breathing);
 
         mode Strobe;
-        Strobe.name = "Strobe";
-        Strobe.value = POLYCHROME_MODE_FLASHING;
-        Strobe.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
+        Strobe.name       = "Strobe";
+        Strobe.value      = POLYCHROME_MODE_FLASHING;
+        Strobe.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+        Strobe.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Strobe);
 
         mode SpectrumCycle;
-        SpectrumCycle.name = "Spectrum Cycle";
-        SpectrumCycle.value = POLYCHROME_MODE_SPECTRUM_CYCLE;
-        SpectrumCycle.flags = MODE_FLAG_HAS_SPEED;
+        SpectrumCycle.name       = "Spectrum Cycle";
+        SpectrumCycle.value      = POLYCHROME_MODE_SPECTRUM_CYCLE;
+        SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
+        SpectrumCycle.color_mode = MODE_COLORS_NONE;
         modes.push_back(SpectrumCycle);
 
         mode Random;
-        Random.name = "Random";
-        Random.value = POLYCHROME_MODE_RANDOM;
-        Random.flags = MODE_FLAG_HAS_SPEED;
+        Random.name       = "Random";
+        Random.value      = POLYCHROME_MODE_RANDOM;
+        Random.flags      = MODE_FLAG_HAS_SPEED;
+        Random.color_mode = MODE_COLORS_NONE;
         modes.push_back(Random);
 
         mode Wave;
-        Wave.name = "Wave";
-        Wave.value = POLYCHROME_MODE_WAVE;
-        Wave.flags = MODE_FLAG_HAS_SPEED;
+        Wave.name       = "Wave";
+        Wave.value      = POLYCHROME_MODE_WAVE;
+        Wave.flags      = MODE_FLAG_HAS_SPEED;
+        Wave.color_mode = MODE_COLORS_NONE;
         modes.push_back(Wave);
 
         mode Spring;
-        Spring.name = "Spring";
-        Spring.value = POLYCHROME_MODE_SPRING;
-        Spring.flags = MODE_FLAG_HAS_SPEED;
+        Spring.name       = "Spring";
+        Spring.value      = POLYCHROME_MODE_SPRING;
+        Spring.flags      = MODE_FLAG_HAS_SPEED;
+        Spring.color_mode = MODE_COLORS_NONE;
         modes.push_back(Spring);
 
         mode Stack;
-        Stack.name = "Stack";
-        Stack.value = POLYCHROME_MODE_STACK;
-        Stack.flags = MODE_FLAG_HAS_SPEED;
+        Stack.name       = "Stack";
+        Stack.value      = POLYCHROME_MODE_STACK;
+        Stack.flags      = MODE_FLAG_HAS_SPEED;
+        Stack.color_mode = MODE_COLORS_NONE;
         modes.push_back(Stack);
 
         mode Cram;
-        Cram.name = "Cram";
-        Cram.value = POLYCHROME_MODE_CRAM;
-        Cram.flags = MODE_FLAG_HAS_SPEED;
+        Cram.name       = "Cram";
+        Cram.value      = POLYCHROME_MODE_CRAM;
+        Cram.flags      = MODE_FLAG_HAS_SPEED;
+        Cram.color_mode = MODE_COLORS_NONE;
         modes.push_back(Cram);
 
         mode Scan;
-        Scan.name = "Scan";
-        Scan.value = POLYCHROME_MODE_SCAN;
-        Scan.flags = MODE_FLAG_HAS_SPEED;
+        Scan.name       = "Scan";
+        Scan.value      = POLYCHROME_MODE_SCAN;
+        Scan.flags      = MODE_FLAG_HAS_SPEED;
+        Scan.color_mode = MODE_COLORS_NONE;
         modes.push_back(Scan);
 
         mode Neon;
-        Neon.name = "Neon";
-        Neon.value = POLYCHROME_MODE_NEON;
-        Neon.flags = 0;
+        Neon.name       = "Neon";
+        Neon.value      = POLYCHROME_MODE_NEON;
+        Neon.flags      = 0;
+        Neon.color_mode = MODE_COLORS_NONE;
         modes.push_back(Neon);
 
         mode Water;
-        Water.name = "Water";
-        Water.value = POLYCHROME_MODE_WATER;
-        Water.flags = MODE_FLAG_HAS_SPEED;
+        Water.name       = "Water";
+        Water.value      = POLYCHROME_MODE_WATER;
+        Water.flags      = MODE_FLAG_HAS_SPEED;
+        Water.color_mode = MODE_COLORS_NONE;
         modes.push_back(Water);
 
         mode Rainbow;
-        Rainbow.name = "Rainbow";
-        Rainbow.value = POLYCHROME_MODE_RAINBOW;
-        Rainbow.flags = MODE_FLAG_HAS_SPEED;
+        Rainbow.name       = "Rainbow";
+        Rainbow.value      = POLYCHROME_MODE_RAINBOW;
+        Rainbow.flags      = MODE_FLAG_HAS_SPEED;
+        Rainbow.color_mode = MODE_COLORS_NONE;
         modes.push_back(Rainbow);
     }
 

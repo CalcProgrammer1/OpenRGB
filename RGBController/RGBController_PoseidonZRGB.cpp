@@ -135,42 +135,42 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* p
     type = DEVICE_TYPE_KEYBOARD;
 
     mode Direct;
-    Direct.name   = "Direct";
-    Direct.value  = POSEIDONZ_MODE_STATIC;
-    Direct.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Direct.random = false;
+    Direct.name       = "Direct";
+    Direct.value      = POSEIDONZ_MODE_STATIC;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Static;
-    Static.name   = "Static";
-    Static.value  = POSEIDONZ_MODE_STATIC;
-    Static.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Static.random = false;
+    Static.name       = "Static";
+    Static.value      = POSEIDONZ_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Wave;
-    Wave.name      = "Wave";
-    Wave.value     = POSEIDONZ_MODE_WAVE;
-    Wave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    Wave.speed_min = POSEIDONZ_SPEED_SLOW;
-    Wave.speed_max = POSEIDONZ_SPEED_FAST;
-    Wave.random    = false;
-    Wave.speed     = POSEIDONZ_SPEED_FAST;
-    Wave.direction = MODE_DIRECTION_LEFT;
+    Wave.name       = "Wave";
+    Wave.value      = POSEIDONZ_MODE_WAVE;
+    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    Wave.speed_min  = POSEIDONZ_SPEED_SLOW;
+    Wave.speed_max  = POSEIDONZ_SPEED_FAST;
+    Wave.color_mode = MODE_COLORS_NONE;
+    Wave.speed      = POSEIDONZ_SPEED_FAST;
+    Wave.direction  = MODE_DIRECTION_LEFT;
     modes.push_back(Wave);
 
     mode Ripple;
-    Ripple.name   = "Ripple";
-    Ripple.value  = POSEIDONZ_MODE_RIPPLE;
-    Ripple.flags  = 0;
-    Ripple.random = false;
+    Ripple.name       = "Ripple";
+    Ripple.value      = POSEIDONZ_MODE_RIPPLE;
+    Ripple.flags      = 0;
+    Ripple.color_mode = MODE_COLORS_NONE;
     modes.push_back(Ripple);
 
     mode Reactive;
-    Reactive.name   = "Reactive";
-    Reactive.value  = POSEIDONZ_MODE_REACTIVE;
-    Reactive.flags  = 0;
-    Reactive.random = false;
+    Reactive.name       = "Reactive";
+    Reactive.value      = POSEIDONZ_MODE_REACTIVE;
+    Reactive.flags      = 0;
+    Reactive.color_mode = MODE_COLORS_NONE;
     modes.push_back(Reactive);
 
     colors.resize(104);

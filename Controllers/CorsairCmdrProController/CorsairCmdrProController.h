@@ -92,7 +92,10 @@ public:
                                      unsigned char blu1,
                                      unsigned char red2,
                                      unsigned char grn2,
-                                     unsigned char blu2
+                                     unsigned char blu2,
+                                     unsigned char red3,
+                                     unsigned char grn3,
+                                     unsigned char blu3
                                     );
 
     void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);

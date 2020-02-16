@@ -18,9 +18,13 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     devices = device_list;
 
     unsigned int led_zone_idx = 0;
-    mode led_mode;
-    led_mode.name = "Custom";
-    modes.push_back(led_mode);
+
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = 0;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     sockfd = e131_socket();
 

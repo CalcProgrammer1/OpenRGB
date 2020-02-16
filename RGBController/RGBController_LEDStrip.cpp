@@ -18,9 +18,12 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
 
     type = DEVICE_TYPE_LEDSTRIP;
 
-    mode led_mode;
-    led_mode.name = "Custom";
-    modes.push_back(led_mode);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = 0;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     colors.resize(strip->num_leds);
     

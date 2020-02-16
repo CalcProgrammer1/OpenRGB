@@ -75,6 +75,7 @@ public:
     unsigned int    GetLEDsOnChannel(unsigned int channel);
     void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
     void            SetMode(unsigned char mode, unsigned char speed, bool direction);
+    void            SetModeColors(unsigned char channel, std::vector<RGBColor> colors);
 
     unsigned int    channel_leds[HUE_PLUS_NUM_CHANNELS];
 

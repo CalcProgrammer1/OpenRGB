@@ -11,17 +11,24 @@
 
 void RGBController_Crucial::UpdateLEDs()
 {
-crucial->SetAllColorsDirect(&colors[0]);
+    if(modes[active_mode].value == 0xFFFF)
+    {
+        crucial->SetAllColorsDirect(&colors[0]);
+    }
+    else
+    {
+
+    }
 }
 
 void RGBController_Crucial::UpdateZoneLEDs(int zone)
 {
-crucial->SetAllColorsDirect(&colors[0]);
+    UpdateLEDs();
 }
 
 void RGBController_Crucial::UpdateSingleLED(int led)
 {
-crucial->SetAllColorsDirect(&colors[0]);
+    UpdateLEDs();
 }
 
 RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
@@ -32,28 +39,43 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     type = DEVICE_TYPE_DRAM;
     name = "Crucial DRAM";
 
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = 0xFFFF;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
+
+#if 0
     mode Shift;
-    Shift.name = "Shift";
-    Shift.value = CRUCIAL_MODE_SHIFT;
-    Shift.flags = 0;
+    Shift.name       = "Shift";
+    Shift.value      = CRUCIAL_MODE_SHIFT;
+    Shift.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Shift.colors_min = 1;
+    Shift.colors_max = 1;
+    Shift.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Shift.colors.resize(1);
     modes.push_back(Shift);
     
     mode GradientShift;
-    GradientShift.name = "Gradient Shift";
-    GradientShift.value = CRUCIAL_MODE_GRADIENT_SHIFT;
-    GradientShift.flags = 0;
+    GradientShift.name       = "Gradient Shift";
+    GradientShift.value      = CRUCIAL_MODE_GRADIENT_SHIFT;
+    GradientShift.flags      = 0;
+    GradientShift.color_mode = MODE_COLORS_NONE;
     modes.push_back(GradientShift);
 
     mode Fill;
-    Fill.name = "Fill";
-    Fill.value = CRUCIAL_MODE_FILL;
-    Fill.flags = 0;
+    Fill.name       = "Fill";
+    Fill.value      = CRUCIAL_MODE_FILL;
+    Fill.flags      = 0;
+    Fill.color_mode = MODE_COLORS_NONE;
     modes.push_back(Fill);
 
     mode Stack;
-    Stack.name = "Stack";
-    Stack.value = CRUCIAL_MODE_STACK;
-    Stack.flags = 0;
+    Stack.name       = "Stack";
+    Stack.value      = CRUCIAL_MODE_STACK;
+    Stack.flags      = 0;
+    Stack.color_mode = MODE_COLORS_NONE;
     modes.push_back(Stack);
 
     mode DoubleStack;
@@ -103,6 +125,7 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     Static.value = CRUCIAL_MODE_STATIC;
     Static.flags = 0;
     modes.push_back(Static);
+#endif
 
     zone new_zone;
     new_zone.name = "DRAM";

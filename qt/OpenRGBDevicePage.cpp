@@ -62,7 +62,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     ui->ButtonMagenta->update();
 
     /*-----------------------------------------------------*\
-    | Fill in the combo boxes with device information       |
+    | Fill in the mode selection box                        |
     \*-----------------------------------------------------*/
     ui->ModeBox->blockSignals(true);
     ui->ModeBox->clear();
@@ -79,29 +79,6 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     | Update mode user interface elements                   |
     \*-----------------------------------------------------*/
     UpdateModeUi();
-
-    ui->ZoneBox->blockSignals(true);
-    ui->ZoneBox->clear();
-
-    ui->ZoneBox->addItem("All Zones");
-
-    for (std::size_t i = 0; i < device->zones.size(); i++)
-    {
-        ui->ZoneBox->addItem(device->zones[i].name.c_str());
-    }
-
-    ui->ZoneBox->setCurrentIndex(0);
-    ui->ZoneBox->blockSignals(false);
-
-    /*-----------------------------------------------------*\
-    | Update LED box                                        |
-    \*-----------------------------------------------------*/
-    on_ZoneBox_currentIndexChanged(0);
-
-    /*-----------------------------------------------------*\
-    | Update color picker with color of first LED           |
-    \*-----------------------------------------------------*/
-    on_LEDBox_currentIndexChanged(0);
 }
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
@@ -111,76 +88,116 @@ OpenRGBDevicePage::~OpenRGBDevicePage()
 
 void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
 {
-    unsigned int selected_zone = ui->ZoneBox->currentIndex();
+    /*-----------------------------------------------------*\
+    | Read selected mode                                    |
+    \*-----------------------------------------------------*/
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
 
-    ui->LEDBox->blockSignals(true);
-    ui->LEDBox->clear();
-
-    if(selected_zone == 0)
+    switch(device->modes[selected_mode].color_mode)
     {
-        for (std::size_t i = 0; i < device->leds.size(); i++)
-        {
-            ui->LEDBox->addItem(device->leds[i].name.c_str());
-        }
-    }
-    else
-    {
-        selected_zone = selected_zone - 1;
-
-        for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
-        {
-            for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
+        case MODE_COLORS_PER_LED:
             {
-                ui->LEDBox->addItem(device->leds[device->zones[selected_zone].map[y][x]].name.c_str());
-            }
-        }
-    }
+                unsigned int selected_zone = ui->ZoneBox->currentIndex();
 
-    ui->LEDBox->setCurrentIndex(0);
-    on_LEDBox_currentIndexChanged(0);
-    ui->LEDBox->blockSignals(false);
+                ui->LEDBox->blockSignals(true);
+                ui->LEDBox->clear();
+
+                if(selected_zone == 0)
+                {
+                    for (std::size_t i = 0; i < device->leds.size(); i++)
+                    {
+                        ui->LEDBox->addItem(device->leds[i].name.c_str());
+                    }
+                }
+                else
+                {
+                    selected_zone = selected_zone - 1;
+
+                    for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
+                    {
+                        for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
+                        {
+                            ui->LEDBox->addItem(device->leds[device->zones[selected_zone].map[y][x]].name.c_str());
+                        }
+                    }
+                }
+
+                ui->LEDBox->setCurrentIndex(0);
+                on_LEDBox_currentIndexChanged(0);
+                ui->LEDBox->blockSignals(false);
+            }
+            break;
+    }
 }
 
 void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 {
-    unsigned int selected_zone = ui->ZoneBox->currentIndex();
-
-    if(selected_zone > 0)
-    {
-        selected_zone = selected_zone - 1;
-
-        unsigned int count = 0;
-
-        for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
-        {
-            for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
-            {
-                if(count == index)
-                {
-                    index = device->zones[selected_zone].map[y][x];
-                    break;
-                }
-                else
-                {
-                    count++;
-                }
-            }
-        }
-    }
-    
     /*-----------------------------------------------------*\
-    | Update color picker with color of selected LED        |
+    | Read selected mode                                    |
     \*-----------------------------------------------------*/
-    RGBColor color = device->GetLED(index);
-    UpdatingColor = true;
-    ui->RedSpinBox->setValue(RGBGetRValue(color));
-    ui->GreenSpinBox->setValue(RGBGetGValue(color));
-    ui->BlueSpinBox->setValue(RGBGetBValue(color));
-    UpdatingColor = false;
-    updateHSV();
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
+
+    switch(device->modes[selected_mode].color_mode)
+    {
+        case MODE_COLORS_PER_LED:
+            {
+                unsigned int selected_zone = ui->ZoneBox->currentIndex();
+
+                if(selected_zone > 0)
+                {
+                    selected_zone = selected_zone - 1;
+
+                    unsigned int count = 0;
+
+                    for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
+                    {
+                        for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
+                        {
+                            if(count == index)
+                            {
+                                index = device->zones[selected_zone].map[y][x];
+                                break;
+                            }
+                            else
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                }
+
+                /*-----------------------------------------------------*\
+                | Update color picker with color of selected LED        |
+                \*-----------------------------------------------------*/
+                RGBColor color = device->GetLED(index);
+                UpdatingColor = true;
+                ui->RedSpinBox->setValue(RGBGetRValue(color));
+                ui->GreenSpinBox->setValue(RGBGetGValue(color));
+                ui->BlueSpinBox->setValue(RGBGetBValue(color));
+                UpdatingColor = false;
+                updateHSV();
+            }
+            break;
+
+        case MODE_COLORS_MODE_SPECIFIC:
+            {
+            /*-----------------------------------------------------*\
+            | Update color picker with color of selected mode       |
+            \*-----------------------------------------------------*/
+            RGBColor color = device->modes[selected_mode].colors[index];
+            UpdatingColor = true;
+            ui->RedSpinBox->setValue(RGBGetRValue(color));
+            ui->GreenSpinBox->setValue(RGBGetGValue(color));
+            ui->BlueSpinBox->setValue(RGBGetBValue(color));
+            UpdatingColor = false;
+            updateHSV();
+            }
+            break;
+    }
+
 }
 
-void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
+void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int index)
 {
     /*-----------------------------------------------------*\
     | Update mode user interface elements                   |
@@ -193,12 +210,43 @@ void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
     UpdateMode();
 }
 
+void Ui::OpenRGBDevicePage::on_PerLEDCheck_clicked()
+{
+    /*-----------------------------------------------------*\
+    | Change device mode                                    |
+    \*-----------------------------------------------------*/
+    UpdateMode();
+
+    /*-----------------------------------------------------*\
+    | Update mode user interface elements                   |
+    \*-----------------------------------------------------*/
+    UpdateModeUi();
+}
+
+void Ui::OpenRGBDevicePage::on_ModeSpecificCheck_clicked()
+{
+    /*-----------------------------------------------------*\
+    | Change device mode                                    |
+    \*-----------------------------------------------------*/
+    UpdateMode();
+
+    /*-----------------------------------------------------*\
+    | Update mode user interface elements                   |
+    \*-----------------------------------------------------*/
+    UpdateModeUi();
+}
+
 void Ui::OpenRGBDevicePage::on_RandomCheck_clicked()
 {
     /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
     UpdateMode();
+
+    /*-----------------------------------------------------*\
+    | Update mode user interface elements                   |
+    \*-----------------------------------------------------*/
+    UpdateModeUi();
 }
 
 void Ui::OpenRGBDevicePage::on_SpeedSlider_valueChanged(int /*value*/)
@@ -220,23 +268,26 @@ void Ui::OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
 void Ui::OpenRGBDevicePage::UpdateModeUi()
 {
     /*-----------------------------------------------------*\
-    | Read new mode flags and settings                      |
+    | Read selected mode                                    |
     \*-----------------------------------------------------*/
-    int  selected_mode   = ui->ModeBox->currentIndex();
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
 
     /*-----------------------------------------------------*\
     | Don't update the UI if the current mode is invalid    |
     \*-----------------------------------------------------*/
     if(selected_mode < device->modes.size())
     {
-        bool supports_random = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_COLOR )
-                            && ( device->modes[selected_mode].flags & MODE_FLAG_RANDOM_COLOR );
-        bool supports_speed  = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_SPEED );
-        bool supports_dir_lr = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
-        bool supports_dir_ud = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
-        bool supports_dir_hv = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
-        bool random          = device->modes[selected_mode].random;
-        unsigned int dir     = device->modes[selected_mode].direction;
+        bool supports_per_led       = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR );
+        bool supports_mode_specific = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR );
+        bool supports_random        = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_RANDOM_COLOR );
+        bool supports_speed         = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_SPEED );
+        bool supports_dir_lr        = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
+        bool supports_dir_ud        = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
+        bool supports_dir_hv        = ( device->modes[selected_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
+        bool per_led                = device->modes[selected_mode].color_mode == MODE_COLORS_PER_LED;
+        bool mode_specific          = device->modes[selected_mode].color_mode == MODE_COLORS_MODE_SPECIFIC;
+        bool random                 = device->modes[selected_mode].color_mode == MODE_COLORS_RANDOM;
+        unsigned int dir            = device->modes[selected_mode].direction;
 
         if(supports_speed)
         {
@@ -266,6 +317,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
             ui->SpeedSlider->blockSignals(false);
         }
 
+        ui->DirectionBox->blockSignals(true);
         ui->DirectionBox->clear();
         
         if(supports_dir_lr)
@@ -334,15 +386,108 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
             ui->DirectionBox->setEnabled(false);
         }
         
+        ui->DirectionBox->blockSignals(false);
+
+        if(supports_per_led)
+        {
+            ui->PerLEDCheck->setEnabled(true);
+            ui->PerLEDCheck->setChecked(per_led);
+        }
+        else
+        {
+            ui->PerLEDCheck->setEnabled(false);
+            ui->PerLEDCheck->setAutoExclusive(false);
+            ui->PerLEDCheck->setChecked(false);
+            ui->PerLEDCheck->setAutoExclusive(true);
+        }
+
+        if(supports_mode_specific)
+        {
+            ui->ModeSpecificCheck->setEnabled(true);
+            ui->ModeSpecificCheck->setChecked(mode_specific);
+        }
+        else
+        {
+            ui->ModeSpecificCheck->setEnabled(false);
+            ui->ModeSpecificCheck->setAutoExclusive(false);
+            ui->ModeSpecificCheck->setChecked(false);
+            ui->ModeSpecificCheck->setAutoExclusive(true);
+        }
+
         if(supports_random)
         {
             ui->RandomCheck->setEnabled(true);
-            ui->RandomCheck->setCheckState(random ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+            ui->RandomCheck->setChecked(random);
         }
         else
         {
             ui->RandomCheck->setEnabled(false);
-            ui->RandomCheck->setCheckState(random ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+            ui->RandomCheck->setAutoExclusive(false);
+            ui->RandomCheck->setChecked(false);
+            ui->RandomCheck->setAutoExclusive(true);
+        }
+
+        /*-----------------------------------------------------*\
+        | Fill in the zone box based on color mode              |
+        \*-----------------------------------------------------*/
+        switch(device->modes[selected_mode].color_mode)
+        {
+            case MODE_COLORS_NONE:
+            case MODE_COLORS_RANDOM:
+                ui->ZoneBox->blockSignals(true);
+                ui->ZoneBox->clear();
+                ui->ZoneBox->blockSignals(false);
+
+                ui->LEDBox->blockSignals(true);
+                ui->LEDBox->clear();
+                ui->LEDBox->blockSignals(false);
+                break;
+
+            case MODE_COLORS_PER_LED:
+                ui->ZoneBox->blockSignals(true);
+                ui->ZoneBox->clear();
+
+                ui->ZoneBox->addItem("All Zones");
+
+                for (std::size_t i = 0; i < device->zones.size(); i++)
+                {
+                    ui->ZoneBox->addItem(device->zones[i].name.c_str());
+                }
+
+                ui->ZoneBox->setCurrentIndex(0);
+                ui->ZoneBox->blockSignals(false);
+
+                /*-----------------------------------------------------*\
+                | Update LED box                                        |
+                \*-----------------------------------------------------*/
+                on_ZoneBox_currentIndexChanged(0);
+
+                /*-----------------------------------------------------*\
+                | Update color picker with color of first LED           |
+                \*-----------------------------------------------------*/
+                on_LEDBox_currentIndexChanged(0);
+                break;
+
+            case MODE_COLORS_MODE_SPECIFIC:
+                ui->ZoneBox->blockSignals(true);
+                ui->ZoneBox->clear();
+                ui->ZoneBox->addItem("Mode Specific");
+                ui->ZoneBox->blockSignals(false);
+
+                ui->LEDBox->blockSignals(true);
+                ui->LEDBox->clear();
+
+                for (std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
+                {
+                    char id_buf[32];
+                    snprintf(id_buf, 16, "Mode Color %d", i);
+                    ui->LEDBox->addItem(id_buf);
+                }
+
+                ui->LEDBox->setCurrentIndex(0);
+                on_LEDBox_currentIndexChanged(0);
+                ui->LEDBox->blockSignals(false);
+                break;
         }
     }
 }
@@ -350,14 +495,16 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
 void Ui::OpenRGBDevicePage::UpdateMode()
 {
     /*-----------------------------------------------------*\
-    | Read user interface                                   |
+    | Read selected mode                                    |
     \*-----------------------------------------------------*/
-    int  current_mode      = ui->ModeBox->currentIndex();
+    unsigned int current_mode   = (unsigned int)ui->ModeBox->currentIndex();
 
     if(current_mode >= 0)
     {
         int  current_speed     = 0;
-        bool current_random    = ui->RandomCheck->checkState();
+        bool current_per_led   = ui->PerLEDCheck->isChecked();
+        bool current_mode_specific = ui->ModeSpecificCheck->isChecked();
+        bool current_random    = ui->RandomCheck->isChecked();
         int  current_dir_idx   = ui->DirectionBox->currentIndex();
         int  current_direction = 0;
         bool supports_dir_lr = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
@@ -428,7 +575,23 @@ void Ui::OpenRGBDevicePage::UpdateMode()
             | Update mode parameters                                |
             \*-----------------------------------------------------*/
             device->modes[current_mode].speed  = current_speed;
-            device->modes[current_mode].random = current_random;
+
+            if(current_per_led)
+            {
+                device->modes[current_mode].color_mode = MODE_COLORS_PER_LED;
+            }
+            else if(current_mode_specific)
+            {
+                device->modes[current_mode].color_mode = MODE_COLORS_MODE_SPECIFIC;
+            }
+            else if(current_random)
+            {
+                device->modes[current_mode].color_mode = MODE_COLORS_RANDOM;
+            }
+            else
+            {
+                device->modes[current_mode].color_mode = MODE_COLORS_NONE;
+            }
 
             /*-----------------------------------------------------*\
             | Change device mode                                    |
@@ -463,80 +626,153 @@ void Ui::OpenRGBDevicePage::SetCustomMode()
 void Ui::OpenRGBDevicePage::on_SetDeviceButton_clicked()
 {
     /*-----------------------------------------------------*\
-    | Set all device LEDs to the current color              |
+    | Read selected mode                                    |
     \*-----------------------------------------------------*/
-    RGBColor color = ToRGBColor(
-        ui->RedSpinBox->text().toInt(),
-        ui->GreenSpinBox->text().toInt(),
-        ui->BlueSpinBox->text().toInt()
-    );
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
 
-    device->SetAllLEDs(color);
+    switch(device->modes[selected_mode].color_mode)
+    {
+        case MODE_COLORS_PER_LED:
+            {
+                /*-----------------------------------------------------*\
+                | Set all device LEDs to the current color              |
+                \*-----------------------------------------------------*/
+                RGBColor color = ToRGBColor(
+                    ui->RedSpinBox->text().toInt(),
+                    ui->GreenSpinBox->text().toInt(),
+                    ui->BlueSpinBox->text().toInt()
+                );
+
+                device->SetAllLEDs(color);
+            }
+            break;
+
+        case MODE_COLORS_MODE_SPECIFIC:
+            {
+                /*-----------------------------------------------------*\
+                | Set all device LEDs to the current color              |
+                \*-----------------------------------------------------*/
+                RGBColor color = ToRGBColor(
+                    ui->RedSpinBox->text().toInt(),
+                    ui->GreenSpinBox->text().toInt(),
+                    ui->BlueSpinBox->text().toInt()
+                );
+
+                for(int i = 0; i < device->modes[selected_mode].colors.size(); i++)
+                {
+                    device->modes[selected_mode].colors[i] = color;
+                }
+
+                device->UpdateMode();
+            }
+            break;
+    }
 }
 
 void Ui::OpenRGBDevicePage::on_SetZoneButton_clicked()
 {
-    unsigned int index = ui->ZoneBox->currentIndex();
+    /*-----------------------------------------------------*\
+    | Read selected mode                                    |
+    \*-----------------------------------------------------*/
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
 
-    if(index == 0)
+    switch(device->modes[selected_mode].color_mode)
     {
-        on_SetDeviceButton_clicked();
-    }
-    else
-    {
-        index = index - 1;
+        case MODE_COLORS_PER_LED:
+            {
+                unsigned int index = ui->ZoneBox->currentIndex();
 
-        /*-----------------------------------------------------*\
-        | Set all LEDs in the selected zone to the current color|
-        \*-----------------------------------------------------*/
-        RGBColor color = ToRGBColor(
-            ui->RedSpinBox->text().toInt(),
-            ui->GreenSpinBox->text().toInt(),
-            ui->BlueSpinBox->text().toInt()
-        );
+                if(index == 0)
+                {
+                    on_SetDeviceButton_clicked();
+                }
+                else
+                {
+                    index = index - 1;
 
-        device->SetAllZoneLEDs(index, color);
+                    /*-----------------------------------------------------*\
+                    | Set all LEDs in the selected zone to the current color|
+                    \*-----------------------------------------------------*/
+                    RGBColor color = ToRGBColor(
+                        ui->RedSpinBox->text().toInt(),
+                        ui->GreenSpinBox->text().toInt(),
+                        ui->BlueSpinBox->text().toInt()
+                    );
+
+                    device->SetAllZoneLEDs(index, color);
+                }
+            }
+            break;
     }
 }
 
 void Ui::OpenRGBDevicePage::on_SetLEDButton_clicked()
 {
-    unsigned int index = ui->LEDBox->currentIndex();
-    unsigned int selected_zone = ui->ZoneBox->currentIndex();
-
-    if(selected_zone > 0)
-    {
-        selected_zone = selected_zone - 1;
-
-        unsigned int count = 0;
-
-        for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
-        {
-            for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
-            {
-                if(count == index)
-                {
-                    index = device->zones[selected_zone].map[y][x];
-                    break;
-                }
-                else
-                {
-                    count++;
-                }
-            }
-        }
-    }
-
     /*-----------------------------------------------------*\
-    | Set the selected LED to the current color             |
+    | Read selected mode                                    |
     \*-----------------------------------------------------*/
-    RGBColor color = ToRGBColor(
-        ui->RedSpinBox->text().toInt(),
-        ui->GreenSpinBox->text().toInt(),
-        ui->BlueSpinBox->text().toInt()
-    );
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
+    unsigned int index = ui->LEDBox->currentIndex();
 
-    device->SetLED(index, color);
+    switch(device->modes[selected_mode].color_mode)
+    {
+        case MODE_COLORS_PER_LED:
+            {
+                unsigned int selected_zone = ui->ZoneBox->currentIndex();
+
+                if(selected_zone > 0)
+                {
+                    selected_zone = selected_zone - 1;
+
+                    unsigned int count = 0;
+
+                    for (std::size_t y = 0; y < device->zones[selected_zone].map.size(); y++)
+                    {
+                        for(std::size_t x = 0; x < device->zones[selected_zone].map[y].size(); x++)
+                        {
+                            if(count == index)
+                            {
+                                index = device->zones[selected_zone].map[y][x];
+                                break;
+                            }
+                            else
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                }
+
+                /*-----------------------------------------------------*\
+                | Set the selected LED to the current color             |
+                \*-----------------------------------------------------*/
+                RGBColor color = ToRGBColor(
+                    ui->RedSpinBox->text().toInt(),
+                    ui->GreenSpinBox->text().toInt(),
+                    ui->BlueSpinBox->text().toInt()
+                );
+
+                device->SetLED(index, color);
+            }
+            break;
+
+        case MODE_COLORS_MODE_SPECIFIC:
+            {
+                /*-----------------------------------------------------*\
+                | Set all device LEDs to the current color              |
+                \*-----------------------------------------------------*/
+                RGBColor color = ToRGBColor(
+                    ui->RedSpinBox->text().toInt(),
+                    ui->GreenSpinBox->text().toInt(),
+                    ui->BlueSpinBox->text().toInt()
+                );
+
+                device->modes[selected_mode].colors[index] = color;
+
+                device->UpdateMode();
+            }
+            break;
+    }
 }
 
 void Ui::OpenRGBDevicePage::on_ButtonRed_clicked()

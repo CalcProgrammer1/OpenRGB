@@ -145,9 +145,10 @@ RGBController_CorsairKeyboard::RGBController_CorsairKeyboard(CorsairKeyboardCont
     type = DEVICE_TYPE_KEYBOARD;
 
     mode Direct;
-    Direct.name  = "Direct";
-    Direct.value = 0;
-    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Direct.name       = "Direct";
+    Direct.value      = 0;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     colors.resize(111);

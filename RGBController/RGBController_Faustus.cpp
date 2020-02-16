@@ -10,34 +10,34 @@ RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
     type = DEVICE_TYPE_KEYBOARD;
 
     modes.resize(4);
-    modes[0].name   = "Static";
-    modes[0].value  = FAUSTUS_MODE_STATIC;
-    modes[0].flags  = MODE_FLAG_HAS_COLOR;
-    modes[0].random = false;
+    modes[0].name       = "Static";
+    modes[0].value      = FAUSTUS_MODE_STATIC;
+    modes[0].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    modes[0].color_mode = MODE_COLORS_PER_LED;
 
-    modes[1].name      = "Breathing";
-    modes[1].value     = FAUSTUS_MODE_BREATHING;
-    modes[1].flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR;
-    modes[1].speed_min = FAUSTUS_SPEED_SLOWEST;
-    modes[1].speed_max = FAUSTUS_SPEED_FASTEST;
-    modes[1].random    = false;
-    modes[1].speed     = FAUSTUS_SPEED_NORMAL;
+    modes[1].name       = "Breathing";
+    modes[1].value      = FAUSTUS_MODE_BREATHING;
+    modes[1].flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    modes[1].speed_min  = FAUSTUS_SPEED_SLOWEST;
+    modes[1].speed_max  = FAUSTUS_SPEED_FASTEST;
+    modes[1].color_mode = MODE_COLORS_PER_LED;
+    modes[1].speed      = FAUSTUS_SPEED_NORMAL;
 
-    modes[2].name      = "Color Cycle";
-    modes[2].value     = FAUSTUS_MODE_COLOR_CYCLE;
-    modes[2].flags     = MODE_FLAG_HAS_SPEED;
-    modes[2].speed_min = FAUSTUS_SPEED_SLOWEST;
-    modes[2].speed_max = FAUSTUS_SPEED_FASTEST;
-    modes[2].random    = false;
-    modes[2].speed     = FAUSTUS_SPEED_NORMAL;
+    modes[2].name       = "Color Cycle";
+    modes[2].value      = FAUSTUS_MODE_COLOR_CYCLE;
+    modes[2].flags      = MODE_FLAG_HAS_SPEED;
+    modes[2].speed_min  = FAUSTUS_SPEED_SLOWEST;
+    modes[2].speed_max  = FAUSTUS_SPEED_FASTEST;
+    modes[2].color_mode = MODE_COLORS_NONE;
+    modes[2].speed      = FAUSTUS_SPEED_NORMAL;
 
-    modes[3].name      = "Strobe";
-    modes[3].value     = FAUSTUS_MODE_STROBE;
-    modes[3].flags     = MODE_FLAG_HAS_SPEED;
-    modes[3].speed_min = FAUSTUS_SPEED_SLOWEST;
-    modes[3].speed_max = FAUSTUS_SPEED_FASTEST;
-    modes[3].random    = false;
-    modes[3].speed     = FAUSTUS_SPEED_NORMAL;
+    modes[3].name       = "Strobe";
+    modes[3].value      = FAUSTUS_MODE_STROBE;
+    modes[3].flags      = MODE_FLAG_HAS_SPEED;
+    modes[3].speed_min  = FAUSTUS_SPEED_SLOWEST;
+    modes[3].speed_max  = FAUSTUS_SPEED_FASTEST;
+    modes[3].color_mode = MODE_COLORS_NONE;
+    modes[3].speed      = FAUSTUS_SPEED_NORMAL;
 
     colors.resize(1);
     leds.resize(1);

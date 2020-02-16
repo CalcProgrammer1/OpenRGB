@@ -122,13 +122,6 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1" colspan="3">
-    <widget class="QCheckBox" name="RandomCheck">
-     <property name="text">
-      <string>Random Color</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="1" colspan="3">
     <widget class="QComboBox" name="LEDBox"/>
    </item>
@@ -233,6 +226,34 @@
     <widget class="QPushButton" name="ButtonRed">
      <property name="text">
       <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QRadioButton" name="PerLEDCheck">
+     <property name="text">
+      <string>Per-LED</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2">
+    <widget class="QRadioButton" name="ModeSpecificCheck">
+     <property name="text">
+      <string>Mode-Specific</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="3">
+    <widget class="QRadioButton" name="RandomCheck">
+     <property name="text">
+      <string>Random</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="ColorLabel">
+     <property name="text">
+      <string>Colors:</string>
      </property>
     </widget>
    </item>

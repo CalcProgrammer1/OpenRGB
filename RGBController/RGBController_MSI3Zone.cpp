@@ -16,9 +16,12 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* msi_ptr)
     name = "MSI 3-Zone Keyboard";
     type = DEVICE_TYPE_KEYBOARD;
 
-    mode led_mode;
-    led_mode.name = "Custom";
-    modes.push_back(led_mode);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = 0;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     led left_led;
     left_led.name = "Keyboard Left";

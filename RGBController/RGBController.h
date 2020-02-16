@@ -25,14 +25,14 @@ typedef unsigned int RGBColor;
 \*------------------------------------------------------------------*/
 enum
 {
-    MODE_FLAG_HAS_SPEED         = (1 << 0), /* Mode has speed parameter         */
-    MODE_FLAG_HAS_DIRECTION_LR  = (1 << 1), /* Mode has left/right parameter    */
-    MODE_FLAG_HAS_DIRECTION_UD  = (1 << 2), /* Mode has up/down parameter       */
-    MODE_FLAG_HAS_DIRECTION_HV  = (1 << 3), /* Mode has horiz/vert parameter    */
-    MODE_FLAG_HAS_BRIGHTNESS    = (1 << 4), /* Mode has brightness parameter    */
-    MODE_FLAG_HAS_COLOR         = (1 << 5), /* Mode has custom color parameter  */
-    MODE_FLAG_RANDOM_COLOR      = (1 << 6), /* Mode has random color option     */
-    MODE_FLAG_PER_LED_COLOR     = (1 << 7), /* Mode uses device LED colors      */
+    MODE_FLAG_HAS_SPEED                 = (1 << 0), /* Mode has speed parameter         */
+    MODE_FLAG_HAS_DIRECTION_LR          = (1 << 1), /* Mode has left/right parameter    */
+    MODE_FLAG_HAS_DIRECTION_UD          = (1 << 2), /* Mode has up/down parameter       */
+    MODE_FLAG_HAS_DIRECTION_HV          = (1 << 3), /* Mode has horiz/vert parameter    */
+    MODE_FLAG_HAS_BRIGHTNESS            = (1 << 4), /* Mode has brightness parameter    */
+    MODE_FLAG_HAS_PER_LED_COLOR         = (1 << 5), /* Mode has per-LED colors          */
+    MODE_FLAG_HAS_MODE_SPECIFIC_COLOR   = (1 << 6), /* Mode has mode specific colors    */
+    MODE_FLAG_HAS_RANDOM_COLOR          = (1 << 7), /* Mode has random color option     */
 };
 
 /*------------------------------------------------------------------*\
@@ -48,6 +48,14 @@ enum
     MODE_DIRECTION_VERTICAL     = 5,        /* Mode direction vertical          */
 };
 
+enum
+{
+    MODE_COLORS_NONE            = 0,        /* Mode has no colors               */
+    MODE_COLORS_PER_LED         = 1,        /* Mode has per LED colors selected */
+    MODE_COLORS_MODE_SPECIFIC   = 2,        /* Mode specific colors selected    */
+    MODE_COLORS_RANDOM          = 3,        /* Mode has random colors selected  */
+};
+
 /*------------------------------------------------------------------*\
 | Mode Type                                                          |
 \*------------------------------------------------------------------*/
@@ -61,13 +69,17 @@ typedef struct
     unsigned int        flags;  /* Mode flags bitfield              */
     unsigned int        speed_min;  /* speed minimum value          */
     unsigned int        speed_max;  /* speed maximum value          */
+    unsigned int        colors_min; /* minimum number of mode colors*/
+    unsigned int        colors_max; /* maximum numver of mode colors*/
     
     /*--------------------------------------------------------------*\
     | Mode Settings                                                  |
     \*--------------------------------------------------------------*/
     unsigned int        speed;  /* Mode speed parameter value       */
     unsigned int        direction;  /* Mode direction value         */
-    bool                random; /* Random color mode enabled        */
+    unsigned int        color_mode; /* Mode color selection         */
+    std::vector<RGBColor>
+                        colors; /* mode-specific colors             */
 } mode;
 
 typedef struct

@@ -11,38 +11,45 @@
 
 int RGBController_Aura::GetDeviceMode()
 {
-    int  dev_mode = aura->AuraRegisterRead(AURA_REG_MODE);
-    bool random   = false;
-
-    switch(dev_mode)
-    {
-    case AURA_MODE_SPECTRUM_CYCLE_CHASE:
-        dev_mode = AURA_MODE_CHASE;
-        random   = true;
-        break;
-
-    case AURA_MODE_SPECTRUM_CYCLE_BREATHING:
-        dev_mode = AURA_MODE_BREATHING;
-        random   = true;
-        break;
-
-    case AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE:
-        dev_mode = AURA_MODE_CHASE_FADE;
-        random   = true;
-        break;
-    }
+    int  dev_mode  = aura->AuraRegisterRead(AURA_REG_MODE);
+    int color_mode = MODE_COLORS_PER_LED;
 
     if (aura->AuraRegisterRead(AURA_REG_DIRECT))
     {
         dev_mode = 0xFFFF;
     }
 
+    switch(dev_mode)
+    {
+    case AURA_MODE_OFF:
+    case AURA_MODE_RAINBOW:
+    case AURA_MODE_SPECTRUM_CYCLE:
+    case AURA_MODE_RANDOM_FLICKER:
+        color_mode = MODE_COLORS_NONE;
+        break;
+
+    case AURA_MODE_SPECTRUM_CYCLE_CHASE:
+        dev_mode   = AURA_MODE_CHASE;
+        color_mode = MODE_COLORS_RANDOM;
+        break;
+
+    case AURA_MODE_SPECTRUM_CYCLE_BREATHING:
+        dev_mode   = AURA_MODE_BREATHING;
+        color_mode = MODE_COLORS_RANDOM;
+        break;
+
+    case AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE:
+        dev_mode   = AURA_MODE_CHASE_FADE;
+        color_mode = MODE_COLORS_RANDOM;
+        break;
+    }
+
     for(int mode = 0; mode < modes.size(); mode++)
     {
         if(modes[mode].value == dev_mode)
         {
-            active_mode        = mode;
-            modes[mode].random = random;
+            active_mode            = mode;
+            modes[mode].color_mode = color_mode;
         }
     }
 
@@ -129,63 +136,73 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
     }
 
     mode Direct;
-    Direct.name  = "Direct";
-    Direct.value = 0xFFFF;
-    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Direct.name       = "Direct";
+    Direct.value      = 0xFFFF;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Off;
-    Off.name  = "Off";
-    Off.value = AURA_MODE_OFF;
-    Off.flags = 0;
+    Off.name       = "Off";
+    Off.value      = AURA_MODE_OFF;
+    Off.flags      = 0;
+    Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
-    Static.name  = "Static";
-    Static.value = AURA_MODE_STATIC;
-    Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Static.name       = "Static";
+    Static.value      = AURA_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
     
     mode Breathing;
-    Breathing.name  = "Breathing";
-    Breathing.value = AURA_MODE_BREATHING;
-    Breathing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Breathing.name       = "Breathing";
+    Breathing.value      = AURA_MODE_BREATHING;
+    Breathing.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode Flashing;
-    Flashing.name  = "Flashing";
-    Flashing.value = AURA_MODE_FLASHING;
-    Flashing.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Flashing.name       = "Flashing";
+    Flashing.value      = AURA_MODE_FLASHING;
+    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Flashing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name  = "Spectrum Cycle";
-    SpectrumCycle.value = AURA_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags = 0;
+    SpectrumCycle.name       = "Spectrum Cycle";
+    SpectrumCycle.value      = AURA_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags      = 0;
+    SpectrumCycle.color_mode = MODE_COLORS_NONE;
     modes.push_back(SpectrumCycle);
 
     mode Rainbow;
-    Rainbow.name  = "Rainbow";
-    Rainbow.value = AURA_MODE_RAINBOW;
-    Rainbow.flags = 0;
+    Rainbow.name       = "Rainbow";
+    Rainbow.value      = AURA_MODE_RAINBOW;
+    Rainbow.flags      = 0;
+    Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode ChaseFade;
-    ChaseFade.name  = "Chase Fade";
-    ChaseFade.value = AURA_MODE_CHASE_FADE;
-    ChaseFade.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR | MODE_FLAG_PER_LED_COLOR;
+    ChaseFade.name       = "Chase Fade";
+    ChaseFade.value      = AURA_MODE_CHASE_FADE;
+    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    ChaseFade.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(ChaseFade);
 
     mode Chase;
-    Chase.name  = "Chase";
-    Chase.value = AURA_MODE_CHASE;
-    Chase.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Chase.name       = "Chase";
+    Chase.value      = AURA_MODE_CHASE;
+    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Chase.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Chase);
 
     mode RandomFlicker;
-    RandomFlicker.name  = "Random Flicker";
-    RandomFlicker.value = AURA_MODE_RANDOM_FLICKER;
-    RandomFlicker.flags = 0;
+    RandomFlicker.name       = "Random Flicker";
+    RandomFlicker.value      = AURA_MODE_RANDOM_FLICKER;
+    RandomFlicker.flags      = 0;
+    RandomFlicker.color_mode = MODE_COLORS_NONE;
     modes.push_back(RandomFlicker);
 
     colors.resize(aura->GetLEDCount());
@@ -272,7 +289,7 @@ void RGBController_Aura::UpdateMode()
     {
         int new_mode = modes[active_mode].value;
 
-        if(modes[active_mode].random == true)
+        if(modes[active_mode].color_mode == MODE_COLORS_RANDOM)
         {
             switch(new_mode)
             {

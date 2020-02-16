@@ -39,21 +39,24 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
     type = DEVICE_TYPE_DRAM;
 
     mode Static;
-    Static.name  = "Static";
-    Static.value = CORSAIR_VENGEANCE_RGB_MODE_SINGLE;
-    Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Static.name       = "Static";
+    Static.value      = CORSAIR_VENGEANCE_RGB_MODE_SINGLE;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Fade;
-    Fade.name  = "Fade";
-    Fade.value = CORSAIR_VENGEANCE_RGB_MODE_FADE;
-    Fade.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Fade.name       = "Fade";
+    Fade.value      = CORSAIR_VENGEANCE_RGB_MODE_FADE;
+    Fade.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Fade.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Fade);
 
     mode Pulse;
-    Pulse.name  = "Pulse";
-    Pulse.value = CORSAIR_VENGEANCE_RGB_MODE_PULSE;
-    Pulse.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Pulse.name       = "Pulse";
+    Pulse.value      = CORSAIR_VENGEANCE_RGB_MODE_PULSE;
+    Pulse.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Pulse.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Pulse);
 
     for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)

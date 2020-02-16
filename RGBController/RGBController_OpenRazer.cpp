@@ -245,65 +245,77 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             if(matrix_effect_custom)
             {
                 mode Custom;
-                Custom.name  = "Custom";
-                Custom.value = RAZER_MODE_CUSTOM;
-                Custom.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+                Custom.name       = "Custom";
+                Custom.value      = RAZER_MODE_CUSTOM;
+                Custom.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+                Custom.color_mode = MODE_COLORS_PER_LED;
                 modes.push_back(Custom);
             }
 
             if(matrix_effect_none)
             {
                 mode Off;
-                Off.name  = "Off";
-                Off.value = RAZER_MODE_OFF;
-                Off.flags = 0;
+                Off.name       = "Off";
+                Off.value      = RAZER_MODE_OFF;
+                Off.flags      = 0;
+                Off.color_mode = MODE_COLORS_NONE;
                 modes.push_back(Off);
             }
 
             if(matrix_effect_static)
             {
                 mode Static;
-                Static.name = "Static";
-                Static.value = RAZER_MODE_STATIC;
-                Static.flags = MODE_FLAG_HAS_COLOR;
+                Static.name       = "Static";
+                Static.value      = RAZER_MODE_STATIC;
+                Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+                Static.colors_min = 1;
+                Static.colors_max = 1;
+                Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
+                Static.colors.resize(1);
                 modes.push_back(Static);
             }
 
             if(matrix_effect_breath)
             {
                 mode Breathing;
-                Breathing.name   = "Breathing";
-                Breathing.value  = RAZER_MODE_BREATHING;
-                Breathing.flags  = MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-                Breathing.random = false;
+                Breathing.name       = "Breathing";
+                Breathing.value      = RAZER_MODE_BREATHING;
+                Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+                Breathing.colors_min = 1;
+                Breathing.colors_max = 2;
+                Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+                Breathing.colors.resize(1);
                 modes.push_back(Breathing);
             }
 
             if(matrix_effect_spectrum)
             {
                 mode SpectrumCycle;
-                SpectrumCycle.name  = "Spectrum Cycle";
-                SpectrumCycle.value = RAZER_MODE_SPECTRUM_CYCLE;
-                SpectrumCycle.flags = 0;
+                SpectrumCycle.name       = "Spectrum Cycle";
+                SpectrumCycle.value      = RAZER_MODE_SPECTRUM_CYCLE;
+                SpectrumCycle.flags      = 0;
+                SpectrumCycle.color_mode = MODE_COLORS_NONE;
                 modes.push_back(SpectrumCycle);
             }
 
             if(matrix_effect_wave)
             {
                 mode Wave;
-                Wave.name      = "Wave";
-                Wave.value     = RAZER_MODE_WAVE;
-                Wave.flags     = MODE_FLAG_HAS_DIRECTION_LR;
-                Wave.direction = MODE_DIRECTION_RIGHT;
+                Wave.name       = "Wave";
+                Wave.value      = RAZER_MODE_WAVE;
+                Wave.flags      = MODE_FLAG_HAS_DIRECTION_LR;
+                Wave.direction  = MODE_DIRECTION_RIGHT;
+                Wave.color_mode = MODE_COLORS_NONE;
                 modes.push_back(Wave);
             }
 
             if(matrix_effect_reactive)
             {
                 mode Reactive;
-                Reactive.name  = "Reactive";
-                Reactive.value = RAZER_MODE_REACTIVE;
-                Reactive.flags = 0;
+                Reactive.name       = "Reactive";
+                Reactive.value      = RAZER_MODE_REACTIVE;
+                Reactive.flags      = 0;
+                Reactive.color_mode = MODE_COLORS_NONE;
                 modes.push_back(Reactive);
             }
             
@@ -364,57 +376,88 @@ void RGBController_OpenRazer::SetCustomMode()
 
 void RGBController_OpenRazer::UpdateMode()
 {
-    char update_value = 1;
+    char update_value[6];
+
+    update_value[0] = 1;
 
     switch(matrix_type)
     {
         case RAZER_TYPE_MATRIX_FRAME:
         case RAZER_TYPE_MATRIX_NOFRAME:
             {
-                switch(active_mode)
+                switch(modes[active_mode].value)
                 {
                     case RAZER_MODE_CUSTOM:
-                        matrix_effect_custom.write(&update_value, 1);
+                        matrix_effect_custom.write(update_value, 1);
                         matrix_effect_custom.flush();
                         break;
-                    
+
                     case RAZER_MODE_OFF:
-                        matrix_effect_none.write(&update_value, 1);
+                        matrix_effect_none.write(update_value, 1);
                         matrix_effect_none.flush();
                         break;
 
                     case RAZER_MODE_STATIC:
-                        matrix_effect_static.write(&update_value, 1);
+                        update_value[0] = RGBGetRValue(modes[RAZER_MODE_STATIC].colors[0]);
+                        update_value[1] = RGBGetGValue(modes[RAZER_MODE_STATIC].colors[0]);
+                        update_value[2] = RGBGetBValue(modes[RAZER_MODE_STATIC].colors[0]);
+                        matrix_effect_static.write(update_value, 3);
                         matrix_effect_static.flush();
                         break;
 
                     case RAZER_MODE_BREATHING:
-                        matrix_effect_breath.write(&update_value, 1);
-                        matrix_effect_breath.flush();
+                        switch(modes[RAZER_MODE_BREATHING].color_mode)
+                        {
+                            case MODE_COLORS_MODE_SPECIFIC:
+                                update_value[0] = RGBGetRValue(modes[RAZER_MODE_BREATHING].colors[0]);
+                                update_value[1] = RGBGetGValue(modes[RAZER_MODE_BREATHING].colors[0]);
+                                update_value[2] = RGBGetBValue(modes[RAZER_MODE_BREATHING].colors[0]);
+
+                                if(modes[RAZER_MODE_BREATHING].colors.size() == 2)
+                                {
+                                    update_value[3] = RGBGetRValue(modes[RAZER_MODE_BREATHING].colors[1]);
+                                    update_value[4] = RGBGetGValue(modes[RAZER_MODE_BREATHING].colors[1]);
+                                    update_value[5] = RGBGetBValue(modes[RAZER_MODE_BREATHING].colors[1]);
+
+                                    matrix_effect_breath.write(update_value, 6);
+                                    matrix_effect_breath.flush();
+                                }
+                                else
+                                {
+                                    matrix_effect_breath.write(update_value, 3);
+                                    matrix_effect_breath.flush();
+                                }
+                                break;
+
+                            case MODE_COLORS_RANDOM:
+                                matrix_effect_breath.write(update_value, 1);
+                                matrix_effect_breath.flush();
+                                break;
+                        }
                         break;
 
                     case RAZER_MODE_SPECTRUM_CYCLE:
-                        matrix_effect_spectrum.write(&update_value, 1);
+                        matrix_effect_spectrum.write(update_value, 1);
                         matrix_effect_spectrum.flush();
                         break;
-                    
+
                     case RAZER_MODE_WAVE:
                         switch(modes[active_mode].direction)
                         {
                             case MODE_DIRECTION_LEFT:
-                                update_value = '2';
+                                update_value[0] = '2';
                                 break;
-                            
+
                             default:
-                                update_value = '1';
+                                update_value[0] = '1';
                                 break;
                         }
-                        matrix_effect_wave.write(&update_value, 1);
+                        matrix_effect_wave.write(update_value, 1);
                         matrix_effect_wave.flush();
                         break;
 
                     case RAZER_MODE_REACTIVE:
-                        matrix_effect_reactive.write(&update_value, 1);
+                        matrix_effect_reactive.write(update_value, 1);
                         matrix_effect_reactive.flush();
                         break;
                 }

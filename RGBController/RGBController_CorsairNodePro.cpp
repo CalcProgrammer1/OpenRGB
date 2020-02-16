@@ -19,106 +19,145 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
     type = DEVICE_TYPE_LEDSTRIP;
 
     mode Direct;
-    Direct.name  = "Direct";
-    Direct.value = 0xFFFF;
-    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Direct.name       = "Direct";
+    Direct.value      = 0xFFFF;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode RainbowWave;
-    RainbowWave.name      = "Rainbow Wave";
-    RainbowWave.value     = CORSAIR_CMDR_PRO_MODE_RAINBOW_WAVE;
-    RainbowWave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    RainbowWave.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    RainbowWave.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    RainbowWave.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
-    RainbowWave.direction = MODE_DIRECTION_RIGHT;
+    RainbowWave.name       = "Rainbow Wave";
+    RainbowWave.value      = CORSAIR_CMDR_PRO_MODE_RAINBOW_WAVE;
+    RainbowWave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    RainbowWave.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    RainbowWave.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    RainbowWave.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    RainbowWave.direction  = MODE_DIRECTION_RIGHT;
+    RainbowWave.color_mode = MODE_COLORS_NONE;
     modes.push_back(RainbowWave);
 
     mode ColorShift;
     ColorShift.name       = "Color Shift";
     ColorShift.value      = CORSAIR_CMDR_PRO_MODE_COLOR_SHIFT;
-    ColorShift.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
+    ColorShift.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    ColorShift.colors_min = 2;
+    ColorShift.colors_max = 2;
     ColorShift.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
     ColorShift.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
     ColorShift.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorShift.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    ColorShift.colors.resize(2);
     modes.push_back(ColorShift);
 
     mode ColorPulse;
-    ColorPulse.name      = "Color Pulse";
-    ColorPulse.value     = CORSAIR_CMDR_PRO_MODE_COLOR_PULSE;
-    ColorPulse.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    ColorPulse.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    ColorPulse.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    ColorPulse.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorPulse.name       = "Color Pulse";
+    ColorPulse.value      = CORSAIR_CMDR_PRO_MODE_COLOR_PULSE;
+    ColorPulse.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    ColorPulse.colors_min = 2;
+    ColorPulse.colors_max = 2;
+    ColorPulse.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    ColorPulse.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    ColorPulse.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorPulse.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    ColorPulse.colors.resize(2);
     modes.push_back(ColorPulse);
 
     mode ColorWave;
-    ColorWave.name      = "Color Wave";
-    ColorWave.value     = CORSAIR_CMDR_PRO_MODE_COLOR_WAVE;
-    ColorWave.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    ColorWave.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    ColorWave.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    ColorWave.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
-    ColorWave.direction = MODE_DIRECTION_RIGHT;
+    ColorWave.name       = "Color Wave";
+    ColorWave.value      = CORSAIR_CMDR_PRO_MODE_COLOR_WAVE;
+    ColorWave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    ColorWave.colors_min = 2;
+    ColorWave.colors_max = 2;
+    ColorWave.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    ColorWave.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    ColorWave.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorWave.direction  = MODE_DIRECTION_RIGHT;
+    ColorWave.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    ColorWave.colors.resize(2);
     modes.push_back(ColorWave);
 
     mode Static;
-    Static.name  = "Static";
-    Static.value = CORSAIR_CMDR_PRO_MODE_STATIC;
-    Static.flags = MODE_FLAG_HAS_COLOR;
+    Static.name       = "Static";
+    Static.value      = CORSAIR_CMDR_PRO_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.colors_min = 1;
+    Static.colors_max = 1;
+    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Temperature;
-    Temperature.name  = "Temperature";
-    Temperature.value = CORSAIR_CMDR_PRO_MODE_TEMPERATURE;
-    Temperature.flags = MODE_FLAG_HAS_COLOR;
+    Temperature.name       = "Temperature";
+    Temperature.value      = CORSAIR_CMDR_PRO_MODE_TEMPERATURE;
+    Temperature.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Temperature.colors_min = 3;
+    Temperature.colors_max = 3;
+    Temperature.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Temperature.colors.resize(3);
     modes.push_back(Temperature);
 
     mode Visor;
-    Visor.name      = "Visor";
-    Visor.value     = CORSAIR_CMDR_PRO_MODE_VISOR;
-    Visor.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Visor.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Visor.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Visor.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Visor.name       = "Visor";
+    Visor.value      = CORSAIR_CMDR_PRO_MODE_VISOR;
+    Visor.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Visor.colors_min = 2;
+    Visor.colors_max = 2;
+    Visor.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    Visor.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    Visor.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Visor.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Visor.colors.resize(2);
     modes.push_back(Visor);
 
     mode Marquee;
-    Marquee.name      = "Marquee";
-    Marquee.value     = CORSAIR_CMDR_PRO_MODE_MARQUEE;
-    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Marquee.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Marquee.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Marquee.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
-    Marquee.direction = MODE_DIRECTION_RIGHT;
+    Marquee.name       = "Marquee";
+    Marquee.value      = CORSAIR_CMDR_PRO_MODE_MARQUEE;
+    Marquee.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Marquee.colors_min = 1;
+    Marquee.colors_max = 1;
+    Marquee.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    Marquee.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    Marquee.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Marquee.direction  = MODE_DIRECTION_RIGHT;
+    Marquee.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Marquee.colors.resize(1);
     modes.push_back(Marquee);
 
     mode Blink;
-    Blink.name      = "Blink";
-    Blink.value     = CORSAIR_CMDR_PRO_MODE_BLINK;
-    Blink.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Blink.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Blink.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Blink.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Blink.name       = "Blink";
+    Blink.value      = CORSAIR_CMDR_PRO_MODE_BLINK;
+    Blink.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Blink.colors_min = 2;
+    Blink.colors_max = 2;
+    Blink.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    Blink.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    Blink.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Blink.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Blink.colors.resize(2);
     modes.push_back(Blink);
 
     mode Sequential;
-    Sequential.name      = "Sequential";
-    Sequential.value     = CORSAIR_CMDR_PRO_MODE_SEQUENTIAL;
-    Sequential.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_RANDOM_COLOR;
-    Sequential.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Sequential.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Sequential.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
-    Sequential.direction = MODE_DIRECTION_RIGHT;
+    Sequential.name       = "Sequential";
+    Sequential.value      = CORSAIR_CMDR_PRO_MODE_SEQUENTIAL;
+    Sequential.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Sequential.colors_min = 1;
+    Sequential.colors_max = 1;
+    Sequential.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    Sequential.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    Sequential.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Sequential.direction  = MODE_DIRECTION_RIGHT;
+    Sequential.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Sequential.colors.resize(1);
     modes.push_back(Sequential);
 
     mode Rainbow;
-    Rainbow.name      = "Rainbow";
-    Rainbow.value     = CORSAIR_CMDR_PRO_MODE_RAINBOW;
-    Rainbow.flags     = MODE_FLAG_HAS_SPEED;
-    Rainbow.speed_min = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Rainbow.speed_max = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Rainbow.speed     = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Rainbow.name       = "Rainbow";
+    Rainbow.value      = CORSAIR_CMDR_PRO_MODE_RAINBOW;
+    Rainbow.flags      = MODE_FLAG_HAS_SPEED;
+    Rainbow.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
+    Rainbow.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
+    Rainbow.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
     
     /*-------------------------------------------------*\
@@ -240,7 +279,7 @@ void RGBController_CorsairNodePro::UpdateSingleLED(int led)
 
 void RGBController_CorsairNodePro::SetCustomMode()
 {
-    active_mode = 9;
+    active_mode = 0;
 }
 
 void RGBController_CorsairNodePro::UpdateMode()
@@ -254,23 +293,39 @@ void RGBController_CorsairNodePro::UpdateMode()
         for(int channel = 0; channel < CORSAIR_CMDR_PRO_NUM_CHANNELS; channel++)
         {
             unsigned int direction = 0;
+            bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
 
             if(modes[active_mode].direction == MODE_DIRECTION_RIGHT)
             {
                 direction = 1;
             }
 
+            unsigned char mode_colors[9];
+
+            if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+            {
+                for(int i = 0; i < modes[active_mode].colors.size(); i++)
+                {
+                    mode_colors[(3 * i) + 0] = RGBGetRValue(modes[active_mode].colors[i]);
+                    mode_colors[(3 * i) + 1] = RGBGetGValue(modes[active_mode].colors[i]);
+                    mode_colors[(3 * i) + 2] = RGBGetBValue(modes[active_mode].colors[i]);
+                }
+            }
+
             corsair->SetChannelEffect(channel,
                                       modes[active_mode].value,
                                       modes[active_mode].speed,
                                       direction,
-                                      modes[active_mode].random,
-                                      RGBGetRValue(colors[0]),
-                                      RGBGetGValue(colors[0]),
-                                      RGBGetBValue(colors[0]),
-                                      RGBGetRValue(colors[1]),
-                                      RGBGetGValue(colors[1]),
-                                      RGBGetBValue(colors[1]));
+                                      random,
+                                      mode_colors[0],
+                                      mode_colors[1],
+                                      mode_colors[2],
+                                      mode_colors[3],
+                                      mode_colors[4],
+                                      mode_colors[5],
+                                      mode_colors[6],
+                                      mode_colors[7],
+                                      mode_colors[8]);
         }
     }
 }

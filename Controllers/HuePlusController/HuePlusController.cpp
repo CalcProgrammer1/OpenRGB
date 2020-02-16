@@ -9,7 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
+#include <cstring>
 
 #ifdef WIN32
 #include <Windows.h>
@@ -92,43 +92,75 @@ void HuePlusController::SetMode(unsigned char mode, unsigned char speed, bool di
     current_direction   = direction;
 }
 
+void HuePlusController::SetModeColors(unsigned char channel, std::vector<RGBColor> colors)
+{
+    unsigned char serial_buf[125];
+
+    for(int color_idx = 0; color_idx < colors.size(); color_idx++)
+    {
+        /*-----------------------------------------------------*\
+        | Zero out buffer                                       |
+        \*-----------------------------------------------------*/
+        memset(serial_buf, 0x00, sizeof(serial_buf));
+
+        /*-----------------------------------------------------*\
+        | Set up main packet                                    |
+        \*-----------------------------------------------------*/
+        serial_buf[0x00]    = 0x4B;
+
+        /*-----------------------------------------------------*\
+        | Set channel in serial packet                          |
+        \*-----------------------------------------------------*/
+        serial_buf[0x01]   = channel;
+
+        /*-----------------------------------------------------*\
+        | Set mode in serial packet                             |
+        \*-----------------------------------------------------*/
+        serial_buf[0x02]   = current_mode;
+
+        /*-----------------------------------------------------*\
+        | Set options bitfield in serial packet                 |
+        \*-----------------------------------------------------*/
+        serial_buf[0x03]   = 0;
+        serial_buf[0x03]   |= current_direction ? ( 1 << 4 ) : 0;
+
+        /*-----------------------------------------------------*\
+        | Set color index and speed in serial packet            |
+        \*-----------------------------------------------------*/
+        serial_buf[0x04]   = ( color_idx << 5 ) | current_speed;
+
+        /*-----------------------------------------------------*\
+        | Fill in color data                                    |
+        \*-----------------------------------------------------*/
+        for (std::size_t idx = 0; idx < 40; idx++)
+        {
+            int pixel_idx = idx * 3;
+            RGBColor color = colors[color_idx];
+            serial_buf[pixel_idx + 0x05] = RGBGetGValue(color);
+            serial_buf[pixel_idx + 0x06] = RGBGetRValue(color);
+            serial_buf[pixel_idx + 0x07] = RGBGetBValue(color);
+        }
+
+        serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
+        serialport->serial_flush_tx();
+
+        Sleep(10);
+    }
+}
+
 void HuePlusController::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
 {
-    unsigned char serial_buf[] =
-    {
-        0x4B, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00
-    };
+    unsigned char serial_buf[125];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(serial_buf, 0x00, sizeof(serial_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up main packet                                    |
+    \*-----------------------------------------------------*/
+    serial_buf[0x00]    = 0x4B;
 
     /*-----------------------------------------------------*\
     | Set channel in serial packet                          |

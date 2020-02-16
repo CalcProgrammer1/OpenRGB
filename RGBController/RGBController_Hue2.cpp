@@ -18,76 +18,102 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
     type = DEVICE_TYPE_LEDSTRIP;
     
     mode Direct;
-    Direct.name  = "Direct";
-    Direct.value = HUE_2_MODE_FIXED;
-    Direct.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Direct.name       = "Direct";
+    Direct.value      = HUE_2_MODE_FIXED;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Fading;
-    Fading.name      = "Fading";
-    Fading.value     = HUE_2_MODE_FADING;
-    Fading.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Fading.speed_min = HUE_2_SPEED_SLOWEST;
-    Fading.speed_max = HUE_2_SPEED_FASTEST;
-    Fading.speed     = HUE_2_SPEED_NORMAL;
+    Fading.name       = "Fading";
+    Fading.value      = HUE_2_MODE_FADING;
+    Fading.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Fading.speed_min  = HUE_2_SPEED_SLOWEST;
+    Fading.speed_max  = HUE_2_SPEED_FASTEST;
+    Fading.colors_min = 1;
+    Fading.colors_max = 8;
+    Fading.speed      = HUE_2_SPEED_NORMAL;
+    Fading.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Fading.colors.resize(1);
     modes.push_back(Fading);
 
     mode SpectrumCycle;
-    SpectrumCycle.name      = "Spectrum Cycle";
-    SpectrumCycle.value     = HUE_2_MODE_SPECTRUM;
-    SpectrumCycle.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    SpectrumCycle.speed_min = HUE_2_SPEED_SLOWEST;
-    SpectrumCycle.speed_max = HUE_2_SPEED_FASTEST;
-    SpectrumCycle.speed     = HUE_2_SPEED_NORMAL;
-    SpectrumCycle.direction = MODE_DIRECTION_RIGHT;
+    SpectrumCycle.name       = "Spectrum Cycle";
+    SpectrumCycle.value      = HUE_2_MODE_SPECTRUM;
+    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    SpectrumCycle.speed_min  = HUE_2_SPEED_SLOWEST;
+    SpectrumCycle.speed_max  = HUE_2_SPEED_FASTEST;
+    SpectrumCycle.speed      = HUE_2_SPEED_NORMAL;
+    SpectrumCycle.direction  = MODE_DIRECTION_RIGHT;
+    SpectrumCycle.color_mode = MODE_COLORS_NONE;
     modes.push_back(SpectrumCycle);
 
     mode Marquee;
-    Marquee.name      = "Marquee";
-    Marquee.value     = HUE_2_MODE_MARQUEE;
-    Marquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Marquee.speed_min = HUE_2_SPEED_SLOWEST;
-    Marquee.speed_max = HUE_2_SPEED_FASTEST;
-    Marquee.speed     = HUE_2_SPEED_NORMAL;
-    Marquee.direction = MODE_DIRECTION_RIGHT;
+    Marquee.name       = "Marquee";
+    Marquee.value      = HUE_2_MODE_MARQUEE;
+    Marquee.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Marquee.speed_min  = HUE_2_SPEED_SLOWEST;
+    Marquee.speed_max  = HUE_2_SPEED_FASTEST;
+    Marquee.colors_min = 1;
+    Marquee.colors_max = 1;
+    Marquee.speed      = HUE_2_SPEED_NORMAL;
+    Marquee.direction  = MODE_DIRECTION_RIGHT;
+    Marquee.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Marquee.colors.resize(1);
     modes.push_back(Marquee);
 
     mode CoverMarquee;
-    CoverMarquee.name      = "Cover Marquee";
-    CoverMarquee.value     = HUE_2_MODE_COVER_MARQUEE;
-    CoverMarquee.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    CoverMarquee.speed_min = HUE_2_SPEED_SLOWEST;
-    CoverMarquee.speed_max = HUE_2_SPEED_FASTEST;
-    CoverMarquee.speed     = HUE_2_SPEED_NORMAL;
-    CoverMarquee.direction = MODE_DIRECTION_RIGHT;
+    CoverMarquee.name       = "Cover Marquee";
+    CoverMarquee.value      = HUE_2_MODE_COVER_MARQUEE;
+    CoverMarquee.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    CoverMarquee.speed_min  = HUE_2_SPEED_SLOWEST;
+    CoverMarquee.speed_max  = HUE_2_SPEED_FASTEST;
+    CoverMarquee.colors_min = 1;
+    CoverMarquee.colors_max = 8;
+    CoverMarquee.speed      = HUE_2_SPEED_NORMAL;
+    CoverMarquee.direction  = MODE_DIRECTION_RIGHT;
+    CoverMarquee.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    CoverMarquee.colors.resize(1);
     modes.push_back(CoverMarquee);
 
     mode Alternating;
-    Alternating.name      = "Alternating";
-    Alternating.value     = HUE_2_MODE_ALTERNATING;
-    Alternating.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Alternating.speed_min = HUE_2_SPEED_SLOWEST;
-    Alternating.speed_max = HUE_2_SPEED_FASTEST;
-    Alternating.speed     = HUE_2_SPEED_NORMAL;
-    Alternating.direction = MODE_DIRECTION_RIGHT;
+    Alternating.name       = "Alternating";
+    Alternating.value      = HUE_2_MODE_ALTERNATING;
+    Alternating.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Alternating.speed_min  = HUE_2_SPEED_SLOWEST;
+    Alternating.speed_max  = HUE_2_SPEED_FASTEST;
+    Alternating.colors_min = 1;
+    Alternating.colors_max = 2;
+    Alternating.speed      = HUE_2_SPEED_NORMAL;
+    Alternating.direction  = MODE_DIRECTION_RIGHT;
+    Alternating.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Alternating.colors.resize(1);
     modes.push_back(Alternating);
 
     mode Pulsing;
-    Pulsing.name      = "Pulsing";
-    Pulsing.value     = HUE_2_MODE_PULSING;
-    Pulsing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Pulsing.speed_min = HUE_2_SPEED_SLOWEST;
-    Pulsing.speed_max = HUE_2_SPEED_FASTEST;
-    Pulsing.speed     = HUE_2_SPEED_NORMAL;
+    Pulsing.name       = "Pulsing";
+    Pulsing.value      = HUE_2_MODE_PULSING;
+    Pulsing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Pulsing.speed_min  = HUE_2_SPEED_SLOWEST;
+    Pulsing.speed_max  = HUE_2_SPEED_FASTEST;
+    Pulsing.colors_min = 1;
+    Pulsing.colors_max = 8;
+    Pulsing.speed      = HUE_2_SPEED_NORMAL;
+    Pulsing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Pulsing.colors.resize(1);
     modes.push_back(Pulsing);
 
     mode Breathing;
-    Breathing.name      = "Breathing";
-    Breathing.value     = HUE_2_MODE_BREATHING;
-    Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Breathing.speed_min = HUE_2_SPEED_SLOWEST;
-    Breathing.speed_max = HUE_2_SPEED_FASTEST;
-    Breathing.speed     = HUE_2_SPEED_NORMAL;
+    Breathing.name       = "Breathing";
+    Breathing.value      = HUE_2_MODE_BREATHING;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.speed_min  = HUE_2_SPEED_SLOWEST;
+    Breathing.speed_max  = HUE_2_SPEED_FASTEST;
+    Breathing.colors_min = 1;
+    Breathing.colors_max = 8;
+    Breathing.speed      = HUE_2_SPEED_NORMAL;
+    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     /*-------------------------------------------------*\
@@ -238,7 +264,22 @@ void RGBController_Hue2::UpdateMode()
             }
 
             hue2->SetMode(modes[active_mode].value, modes[active_mode].speed, direction);
-            hue2->SetChannelLEDs(channel, channel_colors);
+
+            if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
+            {
+                hue2->SetChannelLEDs(channel, channel_colors);
+            }
+            else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+            {
+                hue2->SetChannelLEDs(channel, modes[active_mode].colors);
+            }
+            else if(modes[active_mode].color_mode == MODE_COLORS_NONE)
+            {
+                std::vector<RGBColor> temp_colors;
+                temp_colors.push_back(0x00000000);
+
+                hue2->SetChannelLEDs(channel, temp_colors);
+            }
         }
     }
 }

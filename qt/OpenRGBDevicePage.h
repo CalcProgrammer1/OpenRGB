@@ -51,6 +51,10 @@ private slots:
 
     void on_DirectionBox_currentIndexChanged(int index);
 
+    void on_PerLEDCheck_clicked();
+
+    void on_ModeSpecificCheck_clicked();
+
 private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;

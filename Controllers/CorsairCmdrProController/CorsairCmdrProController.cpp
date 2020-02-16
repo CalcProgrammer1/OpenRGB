@@ -89,7 +89,10 @@ void CorsairCmdrProController::SetChannelEffect(unsigned char channel,
                                                 unsigned char blu1,
                                                 unsigned char red2,
                                                 unsigned char grn2,
-                                                unsigned char blu2
+                                                unsigned char blu2,
+                                                unsigned char red3,
+                                                unsigned char grn3,
+                                                unsigned char blu3
                                                )
 {
     /*-----------------------------------------------------*\
@@ -125,9 +128,9 @@ void CorsairCmdrProController::SetChannelEffect(unsigned char channel,
         red2,
         grn2,
         blu2,
-        0,
-        0,
-        0,
+        red3,
+        grn3,
+        blu3,
         0,
         0,
         0

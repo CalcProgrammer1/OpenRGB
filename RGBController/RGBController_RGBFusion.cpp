@@ -55,27 +55,30 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
     type = DEVICE_TYPE_MOTHERBOARD;
 
     mode Static;
-    Static.name  = "Static";
-    Static.value = RGB_FUSION_MODE_STATIC;
-    Static.flags = MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
+    Static.name       = "Static";
+    Static.value      = RGB_FUSION_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name      = "Breathing";
-    Breathing.value     = RGB_FUSION_MODE_BREATHING;
-    Breathing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Breathing.speed_min = RGB_FUSION_SPEED_SLOW;
-    Breathing.speed_max = RGB_FUSION_SPEED_FAST;
-    Breathing.speed     = RGB_FUSION_SPEED_NORMAL;
+    Breathing.name       = "Breathing";
+    Breathing.value      = RGB_FUSION_MODE_BREATHING;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.speed_min  = RGB_FUSION_SPEED_SLOW;
+    Breathing.speed_max  = RGB_FUSION_SPEED_FAST;
+    Breathing.speed      = RGB_FUSION_SPEED_NORMAL;
+    Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode Flashing;
-    Flashing.name      = "Flashing";
-    Flashing.value     = RGB_FUSION_MODE_FLASHING;
-    Flashing.flags     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_COLOR | MODE_FLAG_PER_LED_COLOR;
-    Flashing.speed_min = RGB_FUSION_SPEED_SLOW;
-    Flashing.speed_max = RGB_FUSION_SPEED_FAST;
-    Flashing.speed     = RGB_FUSION_SPEED_NORMAL;
+    Flashing.name       = "Flashing";
+    Flashing.value      = RGB_FUSION_MODE_FLASHING;
+    Flashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.speed_min  = RGB_FUSION_SPEED_SLOW;
+    Flashing.speed_max  = RGB_FUSION_SPEED_FAST;
+    Flashing.speed      = RGB_FUSION_SPEED_NORMAL;
+    Flashing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Flashing);
 
     colors.resize(rgb_fusion->GetLEDCount());

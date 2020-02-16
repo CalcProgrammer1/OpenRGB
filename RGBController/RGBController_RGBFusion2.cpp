@@ -47,14 +47,12 @@ RGBController_RGBFusion2::RGBController_RGBFusion2(RGBFusion2Controller* rgb_fus
 
     type = DEVICE_TYPE_MOTHERBOARD;
 
-    mode rgb_fusion_modes[1];
-
-    rgb_fusion_modes[0].name = "Static";
-
-    for (int i = 0; i < 1; i++)
-    {
-        modes.push_back(rgb_fusion_modes[i]);
-    }
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = 0;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     colors.resize(rgb_fusion->GetLEDCount());
 
