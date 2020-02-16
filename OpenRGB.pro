@@ -234,6 +234,7 @@ win32:INCLUDEPATH +=                                                    \
 
 win32:SOURCES +=                                                        \
     dependencies/NVFC/nvapi.cpp                                         \
+    dependencies/hidapi/hid_win.c                                       \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_nvapi.cpp                                       \
@@ -258,7 +259,6 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
         -lws2_32                                                        \
         -L"$$PWD/dependencies/inpout32_1501/x64/" -linpoutx64           \
         -L"$$PWD/dependencies/libusb-1.0.22/MS64/dll" -llibusb-1.0      \
-        -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
@@ -266,7 +266,6 @@ win32:contains(QMAKE_TARGET.arch, x86) {
         -lws2_32                                                        \
         -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32          \
         -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0      \
-        -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi
 }
 
 win32:DEFINES -=                                                        \
