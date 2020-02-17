@@ -28,8 +28,18 @@ MSIRGBController::MSIRGBController(int sioaddr)
 
     if((enable & MSI_SIO_RGB_ENABLE_MASK) != MSI_SIO_RGB_ENABLE_MASK)
     {
-        superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_ENABLE, MSI_SIO_RGB_ENABLE_MASK);
+        superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_ENABLE, MSI_SIO_RGB_ENABLE_MASK & (enable & !MSI_SIO_RGB_ENABLE_MASK));
     }
+
+    /*-----------------------------------------------------*\
+    | Lighting enabled, no pulsing or blinking              |
+    \*-----------------------------------------------------*/
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_CFG_1, 0x00);
+
+    /*-----------------------------------------------------*\
+    | Lighting enabled, RGB non-inverted, header on         |
+    \*-----------------------------------------------------*/
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_CFG_3, 0xE2);
 }
 
 MSIRGBController::~MSIRGBController()

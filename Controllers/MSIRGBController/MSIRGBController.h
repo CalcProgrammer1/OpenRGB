@@ -19,6 +19,7 @@
 enum
 {
     MSI_SIO_RGB_REG_ENABLE      = 0xE0,
+    MSI_SIO_RGB_REG_CFG_1       = 0xE4,
     MSI_SIO_RGB_REG_RED_1_0     = 0xF0,
     MSI_SIO_RGB_REG_RED_3_2     = 0xF1,
     MSI_SIO_RGB_REG_RED_5_4     = 0xF2,
@@ -31,6 +32,8 @@ enum
     MSI_SIO_RGB_REG_BLUE_3_2    = 0xF9,
     MSI_SIO_RGB_REG_BLUE_5_4    = 0xFA,
     MSI_SIO_RGB_REG_BLUE_7_6    = 0xFB,
+    MSI_SIO_RGB_REG_CFG_2       = 0xFE,
+    MSI_SIO_RGB_REG_CFG_3       = 0xFF,
 };
 
 #define MSI_SIO_RGB_ENABLE_MASK 0xE0
