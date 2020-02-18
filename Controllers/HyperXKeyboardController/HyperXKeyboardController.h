@@ -68,7 +68,14 @@ public:
     HyperXKeyboardController(hid_device* dev_handle);
     ~HyperXKeyboardController();
 
-    void SetMode(unsigned char mode, unsigned char direction, unsigned char speed);
+    void SetMode
+        (
+        unsigned char mode,
+        unsigned char direction,
+        unsigned char speed,
+        std::vector<RGBColor> colors
+        );
+
     void SetLEDsDirect(std::vector<RGBColor> colors);
     void SetLEDs(std::vector<RGBColor> colors);
 
@@ -90,7 +97,16 @@ private:
                 unsigned char   direction,
                 unsigned char   reactive_mode,
                 unsigned char   speed,
-                unsigned char   color_mode
+                unsigned char   color_mode,
+                unsigned char   red_single,
+                unsigned char   grn_single,
+                unsigned char   blu_single,
+                unsigned char   red_dual_1,
+                unsigned char   grn_dual_1,
+                unsigned char   blu_dual_1,
+                unsigned char   red_dual_2,
+                unsigned char   grn_dual_2,
+                unsigned char   blu_dual_2
                 );
 
     void    SendColor

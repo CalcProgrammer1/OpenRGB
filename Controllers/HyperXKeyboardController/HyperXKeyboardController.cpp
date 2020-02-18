@@ -46,11 +46,47 @@ HyperXKeyboardController::~HyperXKeyboardController()
 
 }
 
-void HyperXKeyboardController::SetMode(unsigned char mode, unsigned char direction, unsigned char speed)
+void HyperXKeyboardController::SetMode
+    (
+    unsigned char mode,
+    unsigned char direction,
+    unsigned char speed,
+    std::vector<RGBColor> colors
+    )
 {
+    unsigned char color_mode;
+    unsigned char mode_colors[9];
+
     active_mode = mode;
     active_direction = direction;
     active_speed = speed;
+
+    memset(mode_colors, 0x00, sizeof(mode_colors));
+
+    switch(colors.size())
+    {
+        default:
+        case 0:
+            color_mode = HYPERX_COLOR_MODE_SPECTRUM;
+            break;
+
+        case 1:
+            color_mode = HYPERX_COLOR_MODE_SINGLE;
+            mode_colors[0] = RGBGetRValue(colors[0]);
+            mode_colors[1] = RGBGetGValue(colors[0]);
+            mode_colors[2] = RGBGetBValue(colors[0]);
+            break;
+
+        case 2:
+            color_mode = HYPERX_COLOR_MODE_DUAL;
+            mode_colors[3] = RGBGetRValue(colors[0]);
+            mode_colors[4] = RGBGetGValue(colors[0]);
+            mode_colors[5] = RGBGetBValue(colors[0]);
+            mode_colors[6] = RGBGetRValue(colors[1]);
+            mode_colors[7] = RGBGetGValue(colors[1]);
+            mode_colors[8] = RGBGetBValue(colors[1]);
+            break;
+    }
 
     SendEffect
         (
@@ -59,8 +95,19 @@ void HyperXKeyboardController::SetMode(unsigned char mode, unsigned char directi
         active_direction,
         HYPERX_REACTIVE_MODE_NONE,
         active_speed,
-        HYPERX_COLOR_MODE_SPECTRUM
+        color_mode,
+        mode_colors[0],
+        mode_colors[1],
+        mode_colors[2],
+        mode_colors[3],
+        mode_colors[4],
+        mode_colors[5],
+        mode_colors[6],
+        mode_colors[7],
+        mode_colors[8]
         );
+
+    Sleep(100);
 }
 
 void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
@@ -202,7 +249,16 @@ void HyperXKeyboardController::SendEffect
     unsigned char   direction,
     unsigned char   reactive_mode,
     unsigned char   speed,
-    unsigned char   color_mode
+    unsigned char   color_mode,
+    unsigned char   red_single,
+    unsigned char   grn_single,
+    unsigned char   blu_single,
+    unsigned char   red_dual_1,
+    unsigned char   grn_dual_1,
+    unsigned char   blu_dual_1,
+    unsigned char   red_dual_2,
+    unsigned char   grn_dual_2,
+    unsigned char   blu_dual_2
     )
 {
     unsigned char buf[264];
@@ -242,6 +298,19 @@ void HyperXKeyboardController::SendEffect
     buf[0x20]   = reactive_mode;
     buf[0x21]   = reactive_mode;
     buf[0x22]   = reactive_mode;
+
+    /*-----------------------------------------------------*\
+    | Set mode-specific colors                              |
+    \*-----------------------------------------------------*/
+    buf[0x29]   = red_single;
+    buf[0x41]   = grn_single;
+    buf[0x59]   = blu_single;
+    buf[0x2A]   = red_dual_1;
+    buf[0x42]   = grn_dual_1;
+    buf[0x5A]   = blu_dual_1;
+    buf[0x2B]   = red_dual_2;
+    buf[0x43]   = grn_dual_2;
+    buf[0x5B]   = blu_dual_2;
 
     buf[0x6B]   = 0x09;
     buf[0x6C]   = 0x09;

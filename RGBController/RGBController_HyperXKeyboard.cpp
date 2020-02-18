@@ -188,11 +188,14 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = HYPERX_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Breathing.speed_min  = 0x00;
     Breathing.speed_max  = 0x09;
-    Breathing.color_mode = MODE_COLORS_NONE;
+    Breathing.colors_min = 1;
+    Breathing.colors_max = 2;
+    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Breathing.speed      = 0x09;
+    Breathing.colors.resize(2);
     modes.push_back(Breathing);
 
     colors.resize(126);
@@ -256,5 +259,13 @@ void RGBController_HyperXKeyboard::SetCustomMode()
 
 void RGBController_HyperXKeyboard::UpdateMode()
 {
-    hyperx->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed);
+    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+    {
+        hyperx->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, modes[active_mode].colors);
+    }
+    else
+    {
+        std::vector<RGBColor> temp_colors;
+        hyperx->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, temp_colors);
+    }
 }
