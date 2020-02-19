@@ -10,8 +10,6 @@
 #include <Windows.h>
 #include "inpout32.h"
 
-#pragma comment(lib, "inpout32.lib")
-
 s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
 {
     int i, len, status, cnt;

@@ -12,8 +12,6 @@
 #include <Windows.h>
 #include "inpout32.h"
 
-#pragma comment(lib, "inpout32.lib")
-
 /* Return negative errno on error. */
 s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
 {

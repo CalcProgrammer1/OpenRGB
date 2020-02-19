@@ -12,7 +12,6 @@
 #include <Windows.h>
 #include "inpout32.h"
 
-#pragma comment(lib, "inpout32.lib")
 #else
 #include <unistd.h>
 #include <sys/types.h>

@@ -208,11 +208,21 @@ win32:HEADERS +=                                                        \
     RGBController/RGBController_AorusGPU.h                              \
     RGBController/RGBController_OpenRazerWindows.h                      \
 
-win32:LIBS +=                                                           \
-    -lws2_32                                                            \
-    -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32              \
-    -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0          \
-    -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi
+win32:contains(QMAKE_TARGET.arch, x86_64) {
+    LIBS +=                                                             \
+        -lws2_32                                                        \
+        -L"$$PWD/dependencies/inpout32_1501/x64/" -linpoutx64           \
+        -L"$$PWD/dependencies/libusb-1.0.22/MS64/dll" -llibusb-1.0      \
+        -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi
+}
+
+win32:contains(QMAKE_TARGET.arch, x86) {
+    LIBS +=                                                             \
+        -lws2_32                                                        \
+        -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32          \
+        -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0      \
+        -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi
+}
 
 win32:DEFINES -=                                                        \
     UNICODE
@@ -225,8 +235,15 @@ win32:DEFINES +=                                                        \
     WIN32_LEAN_AND_MEAN
 
 # Copy OpenRazer.dll to output directory
-win32
-{
+win32:contains(QMAKE_TARGET.arch, x86_64) {
+    copydata.commands = $(COPY_FILE) \"$$shell_path($$PWD\\dependencies\\openrazer-win32\\OpenRazer64.dll)\" \"$$shell_path($$OUT_PWD)\"
+    first.depends = $(first) copydata
+    export(first.depends)
+    export(copydata.commands)
+    QMAKE_EXTRA_TARGETS += first copydata
+}
+
+win32:contains(QMAKE_TARGET.arch, x86) {
     copydata.commands = $(COPY_FILE) \"$$shell_path($$PWD\\dependencies\\openrazer-win32\\OpenRazer.dll)\" \"$$shell_path($$OUT_PWD)\"
     first.depends = $(first) copydata
     export(first.depends)

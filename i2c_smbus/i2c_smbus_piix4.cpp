@@ -12,8 +12,6 @@
 #include <Windows.h>
 #include "inpout32.h"
 
-#pragma comment(lib, "inpout32.lib")
-
 //Logic adapted from piix4_transaction() in i2c-piix4.c
 int i2c_smbus_piix4::piix4_transaction()
 {
