@@ -78,8 +78,8 @@ void MSIRGBController::SetColor(unsigned char red, unsigned char green, unsigned
     superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_5_4, (green | (green << 4)));
     superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_7_6, (green | (green << 4)));
 
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_1_0, (blue & (blue << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_3_2, (blue & (blue << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_5_4, (blue & (blue << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_7_6, (blue & (blue << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_1_0, (blue | (blue << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_3_2, (blue | (blue << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_5_4, (blue | (blue << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_7_6, (blue | (blue << 4)));
 }
