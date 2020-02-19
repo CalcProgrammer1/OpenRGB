@@ -22,12 +22,13 @@ MSIRGBController::MSIRGBController(int sioaddr)
     \*-----------------------------------------------------*/
     superio_outb(msi_sioaddr, SIO_REG_LOGDEV, 0x09);
 
-    int val = superio_inb(msi_sioaddr, 0x2C);
+    int val_at_2c = superio_inb(msi_sioaddr, 0x2C);
 
-    if((val & 0x10) != 0x10)
-    {
-        superio_outb(msi_sioaddr, 0x2C, (val | 0x10));
-    }
+    val_at_2c &= 0b11110111;
+    val_at_2c |= 0b00010000;
+
+    superio_outb(msi_sioaddr, 0x2C, val_at_2c);
+    
 
     /*-----------------------------------------------------*\
     | Set logical device register to RGB controller         |
