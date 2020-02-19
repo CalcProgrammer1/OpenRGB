@@ -68,15 +68,15 @@ void MSIRGBController::SetColor(unsigned char red, unsigned char green, unsigned
     | Only static mode is supported right now - all colors  |
     | are the same.                                         |
     \*-----------------------------------------------------*/
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_1_0, (red & (red << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_3_2, (red & (red << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_5_4, (red & (red << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_7_6, (red & (red << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_1_0, (red | (red << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_3_2, (red | (red << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_5_4, (red | (red << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_RED_7_6, (red | (red << 4)));
 
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_1_0, (green & (green << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_3_2, (green & (green << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_5_4, (green & (green << 4)));
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_7_6, (green & (green << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_1_0, (green | (green << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_3_2, (green | (green << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_5_4, (green | (green << 4)));
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_GREEN_7_6, (green | (green << 4)));
 
     superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_1_0, (blue & (blue << 4)));
     superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_BLUE_3_2, (blue & (blue << 4)));
