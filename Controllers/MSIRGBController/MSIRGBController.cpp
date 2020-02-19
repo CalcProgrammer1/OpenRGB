@@ -17,6 +17,19 @@ MSIRGBController::MSIRGBController(int sioaddr)
     msi_sioaddr = sioaddr;
 
     /*-----------------------------------------------------*\
+    | This setup step isn't well documented                 |
+    | Without this, pulsing does not work                   |
+    \*-----------------------------------------------------*/
+    superio_outb(msi_sioaddr, SIO_REG_LOGDEV, 0x09);
+
+    int val = superio_inb(msi_sioaddr, 0x2C);
+
+    if((val & 0x10) != 0x10)
+    {
+        superio_outb(msi_sioaddr, 0x2C, (val | 0x10));
+    }
+
+    /*-----------------------------------------------------*\
     | Set logical device register to RGB controller         |
     \*-----------------------------------------------------*/
     superio_outb(msi_sioaddr, SIO_REG_LOGDEV, MSI_SIO_LOGDEV_RGB);
