@@ -36,9 +36,9 @@ void superio_enter(int ioreg)
 #else
     unsigned char temp = 0x87;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    lseek(dev_port_fd, ioreg, SEEK_SET);
     write(dev_port_fd, &temp, 1);
-    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    lseek(dev_port_fd, ioreg, SEEK_SET);
     write(dev_port_fd, &temp, 1);
     close(dev_port_fd);
 #endif
@@ -60,7 +60,7 @@ void superio_outb(int ioreg, int reg, int val)
     Out32(ioreg + 1, val);
 #else
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    lseek(dev_port_fd, ioreg, SEEK_SET);
     write(dev_port_fd, &reg, 1);
     write(dev_port_fd, &val, 1);
     close(dev_port_fd);
@@ -84,7 +84,7 @@ int superio_inb(int ioreg, int reg)
 #else
     unsigned char temp;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    lseek(dev_port_fd, ioreg, SEEK_CUR);
+    lseek(dev_port_fd, ioreg, SEEK_SET);
     write(dev_port_fd, &reg, 1);
     read(dev_port_fd, &temp, 1);
     close(dev_port_fd);
