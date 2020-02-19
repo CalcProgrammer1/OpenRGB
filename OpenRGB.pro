@@ -13,6 +13,7 @@ INCLUDEPATH +=                                                          \
     serial_port/                                                        \
     super_io/                                                           \
     Controllers/AMDWraithPrismController/                               \
+    Controllers/AuraAddressableController/                              \
     Controllers/AuraController/                                         \
     Controllers/CorsairController/                                      \
     Controllers/CorsairCmdrProController/                               \
@@ -52,6 +53,8 @@ SOURCES +=                                                              \
     super_io/super_io.cpp                                               \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
+    Controllers/AuraAddressableController/AuraAddressableController.cpp \
+    Controllers/AuraAddressableController/AuraAddressableControllerDetect.cpp \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
     Controllers/CorsairController/CorsairController.cpp                 \
@@ -94,6 +97,7 @@ SOURCES +=                                                              \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
+    RGBController/RGBController_AuraAddressable.cpp                     \
     RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairCmdrPro.cpp                      \
     RGBController/RGBController_CorsairKeyboard.cpp                     \
@@ -128,6 +132,7 @@ HEADERS +=                                                              \
     super_io/super_io.h                                                 \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
     Controllers/AuraController/AuraController.h                         \
+    Controllers/AuraAddressableController/AuraAddressableController.h   \
     Controllers/CorsairController/CorsairController.h                   \
     Controllers/CorsairCmdrProController/CorsairCmdrProController.h     \
     Controllers/CorsairKeyboardController/CorsairKeyboardController.h   \
@@ -149,6 +154,7 @@ HEADERS +=                                                              \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_Aura.h                                  \
+    RGBController/RGBController_AuraAddressable.h                       \
     RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairCmdrPro.h                        \
     RGBController/RGBController_CorsairNodePro.h                        \
