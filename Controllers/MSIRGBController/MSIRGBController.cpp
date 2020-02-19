@@ -39,7 +39,7 @@ MSIRGBController::MSIRGBController(int sioaddr)
     /*-----------------------------------------------------*\
     | Lighting enabled, RGB non-inverted, header on         |
     \*-----------------------------------------------------*/
-    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_CFG_3, 0xE2);
+    superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_CFG_3, 0xFE);
 }
 
 MSIRGBController::~MSIRGBController()
