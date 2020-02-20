@@ -12,6 +12,11 @@ RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* msi_ptr)
 {
     msi = msi_ptr;
 
+    name = "MSI Motherboard";
+    description = "MSI-RGB Device";
+
+    type = DEVICE_TYPE_MOTHERBOARD;
+    
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0;
