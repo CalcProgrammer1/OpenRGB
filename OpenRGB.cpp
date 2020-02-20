@@ -218,14 +218,7 @@ void DetectI2CBusses()
                 {
                     read(test_fd, device_string, sizeof(device_string));
                     close(test_fd);
-
-                    //ignore nvidia adapters for now
-                    if(strncmp(device_string, "NVIDIA", 6) == 0)
-                    {
-                        ent = readdir(dir);
-                        continue;
-                    }
-
+                    
                     bus = new i2c_smbus_linux();
                     strcpy(bus->device_name, device_string);
 
@@ -253,6 +246,7 @@ void DetectI2CBusses()
 #endif  /* WIN32 */
 
 void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
+void DetectAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairProControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
@@ -290,6 +284,7 @@ void DetectRGBControllers(void)
     DetectI2CBusses();
 
     DetectAuraControllers(busses, rgb_controllers);
+    DetectAuraGPUControllers(busses, rgb_controllers);
     DetectCorsairControllers(busses, rgb_controllers);
     DetectCorsairProControllers(busses, rgb_controllers);
     DetectCrucialControllers(busses, rgb_controllers);
