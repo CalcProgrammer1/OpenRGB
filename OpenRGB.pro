@@ -5,6 +5,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = OpenRGB
 TEMPLATE = app
 
+RC_ICONS = qt/OpenRGB.ico
+
 INCLUDEPATH +=                                                          \
     dependencies/libe131/src/                                           \
     i2c_smbus/                                                          \
