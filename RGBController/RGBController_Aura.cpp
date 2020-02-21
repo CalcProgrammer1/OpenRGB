@@ -214,6 +214,7 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
         led* new_led = new led();
 
         new_led->name = aura->GetChannelName(i);
+        new_led->name.append(std::to_string(i));
 
         leds.push_back(*new_led);
 
