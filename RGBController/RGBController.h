@@ -112,6 +112,8 @@ enum
     DEVICE_TYPE_UNKNOWN
 };
 
+std::string device_type_to_str(device_type type);
+
 typedef struct
 {
     std::string         name;   /* Zone name        */

@@ -56,3 +56,30 @@ void RGBController::SetMode(int mode)
 
     UpdateMode();
 }
+
+std::string device_type_to_str(device_type type)
+{
+    switch(type)
+    {
+    case DEVICE_TYPE_MOTHERBOARD:
+        return "Motherboard";
+    case DEVICE_TYPE_DRAM:
+        return "DRAM";
+    case DEVICE_TYPE_GPU:
+        return "GPU";
+    case DEVICE_TYPE_COOLER:
+        return "Cooler";
+    case DEVICE_TYPE_LEDSTRIP:
+        return "LED Strip";
+    case DEVICE_TYPE_KEYBOARD:
+        return "Keyboard";
+    case DEVICE_TYPE_MOUSE:
+        return "Mouse";
+    case DEVICE_TYPE_MOUSEMAT:
+        return "Mousemat";
+    case DEVICE_TYPE_HEADSET:
+        return "Headset";
+    default:
+        return "Unknown";
+    }
+}

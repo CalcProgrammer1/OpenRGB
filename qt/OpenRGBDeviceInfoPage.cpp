@@ -8,38 +8,7 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
 {
     ui->setupUi(this);
 
-    switch(dev->type)
-    {
-    case DEVICE_TYPE_MOTHERBOARD:
-        ui->TypeValue->setText("Motherboard");
-        break;
-    case DEVICE_TYPE_DRAM:
-        ui->TypeValue->setText("DRAM");
-        break;
-    case DEVICE_TYPE_GPU:
-        ui->TypeValue->setText("GPU");
-        break;
-    case DEVICE_TYPE_COOLER:
-        ui->TypeValue->setText("Cooler");
-        break;
-    case DEVICE_TYPE_LEDSTRIP:
-        ui->TypeValue->setText("LED Strip");
-        break;
-    case DEVICE_TYPE_KEYBOARD:
-        ui->TypeValue->setText("Keyboard");
-        break;
-    case DEVICE_TYPE_MOUSE:
-        ui->TypeValue->setText("Mouse");
-        break;
-    case DEVICE_TYPE_MOUSEMAT:
-        ui->TypeValue->setText("Mousemat");
-        break;
-    case DEVICE_TYPE_HEADSET:
-        ui->TypeValue->setText("Headset");
-        break;
-    default:
-        ui->TypeValue->setText("Unknown");
-    }
+    ui->TypeValue->setText(device_type_to_str(dev->type).c_str());
 
     ui->NameValue->setText(QString::fromStdString(dev->name));
     ui->DescriptionValue->setText(QString::fromStdString(dev->description));
