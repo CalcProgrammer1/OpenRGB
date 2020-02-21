@@ -43,6 +43,7 @@ INCLUDEPATH +=                                                          \
 SOURCES +=                                                              \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
+    cli.cpp                                                             \
     OpenRGB.cpp                                                         \
     qt/OpenRGBDeviceInfoPage.cpp                                        \
     qt/OpenRGBDevicePage.cpp                                            \
