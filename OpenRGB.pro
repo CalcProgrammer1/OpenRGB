@@ -191,6 +191,7 @@ win32:INCLUDEPATH +=                                                    \
     dependencies/inpout32_1501/Win32/                                   \
     dependencies/libusb-1.0.22/include                                  \
     dependencies/hidapi                                                 \
+    dependencies/NVFC                                                   \
     dependencies/openrazer-win32                                        \
     wmi/                                                                \
 
