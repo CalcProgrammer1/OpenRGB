@@ -35,6 +35,7 @@ INCLUDEPATH +=                                                          \
     Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
     Controllers/RGBFusion2Controller/                                   \
+    Controllers/RGBFusionGPUController/                                 \
     Controllers/ThermaltakeRiingController/                             \
     RGBController/                                                      \
     qt/
@@ -96,6 +97,8 @@ SOURCES +=                                                              \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
     Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
     Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
+    Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
+    Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
@@ -122,6 +125,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
     RGBController/RGBController_RGBFusion2.cpp                          \
+    RGBController/RGBController_RGBFusionGPU.cpp                        \
     RGBController/RGBController_ThermaltakeRiing.cpp                    \
 
 HEADERS +=                                                              \
@@ -157,6 +161,7 @@ HEADERS +=                                                              \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
     Controllers/RGBFusion2Controller/RGBFusion2Controller.h             \
+    Controllers/RGBFusionGPUController/RGBFusionGPUController.h         \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
@@ -180,6 +185,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_PoseidonZRGB.h                          \
     RGBController/RGBController_RGBFusion.h                             \
     RGBController/RGBController_RGBFusion2.h                            \
+    RGBController/RGBController_RGBFusionGPU.h                          \
     RGBController/RGBController_ThermaltakeRiing.h                      \
 
 RESOURCES += \
@@ -205,12 +211,12 @@ win32:INCLUDEPATH +=                                                    \
 win32:SOURCES +=                                                        \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
+    i2c_smbus/i2c_smbus_nvapi.cpp                                       \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
+    i2c_smbus/nvapi.cpp                                                 \
     serial_port/find_usb_serial_port_win.cpp                            \
     wmi/wmi.cpp                                                         \
-    RGBController/AorusGPUDetect.cpp                                    \
     RGBController/OpenRazerWindowsDetect.cpp                            \
-    RGBController/RGBController_AorusGPU.cpp                            \
     RGBController/RGBController_OpenRazerWindows.cpp                    \
 
 win32:HEADERS +=                                                        \
@@ -219,7 +225,6 @@ win32:HEADERS +=                                                        \
     i2c_smbus/i2c_smbus_nct6775.h                                       \
     i2c_smbus/i2c_smbus_piix4.h                                         \
     wmi/wmi.h                                                           \
-    RGBController/RGBController_AorusGPU.h                              \
     RGBController/RGBController_OpenRazerWindows.h                      \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {

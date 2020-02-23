@@ -17,6 +17,7 @@
 #include "i2c_smbus_piix4.h"
 #include "i2c_smbus_i801.h"
 #include "i2c_smbus_nct6775.h"
+#include "i2c_smbus_nvapi.h"
 #include "super_io.h"
 #include "wmi.h"
 #else /* WIN32 */
@@ -170,6 +171,9 @@ void DetectI2CBusses()
     // Detect Nuvoton Super IO SMBus adapters
     DetectNuvotonI2CBusses();
 
+    i2c_smbus_nvapi * nvapi_bus = new i2c_smbus_nvapi();
+    strcpy(nvapi_bus->device_name, "NVAPI Bus");
+    busses.push_back(nvapi_bus);
 }   /* DetectI2CBusses() */
 
 #else /* WIN32 */
@@ -254,6 +258,7 @@ void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
 void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
+void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers);
@@ -261,7 +266,6 @@ void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectAorusGPUControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectCorsairCmdrProControllers(std::vector<RGBController*> &rgb_controllers);
@@ -291,6 +295,8 @@ void DetectRGBControllers(void)
     DetectHyperXControllers(busses, rgb_controllers);
     DetectPatriotViperControllers(busses, rgb_controllers);
     DetectPolychromeControllers(busses, rgb_controllers);
+    DetectRGBFusionGPUControllers(busses, rgb_controllers);
+
     DetectRGBFusionControllers(busses, rgb_controllers);
     DetectMSIRGBControllers(rgb_controllers);
 
@@ -313,7 +319,6 @@ void DetectRGBControllers(void)
     | Windows-only devices                  |
     \*-------------------------------------*/
 #ifdef WIN32
-    //DetectAorusGPUControllers(rgb_controllers);
     DetectOpenRazerControllers(rgb_controllers);
     /*-------------------------------------*\
     | Linux-only devices                    |
