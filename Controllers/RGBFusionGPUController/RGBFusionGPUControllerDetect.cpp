@@ -18,19 +18,35 @@
 bool TestForRGBFusionGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
     bool pass = false;
+    int res;
 
-    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+    //Write out 0xAB 0x00 0x00 0x00 sequence
+    res = bus->i2c_smbus_write_byte(address, 0xAB);
 
     if (res >= 0)
     {
+        bus->i2c_smbus_write_byte(address, 0x00);
+        bus->i2c_smbus_write_byte(address, 0x00);
+        bus->i2c_smbus_write_byte(address, 0x00);
+
         pass = true;
 
-        res = bus->i2c_smbus_read_byte_data(address, 0xAB);
+        res = bus->i2c_smbus_read_byte(address);
 
-        if (res != 0x14)
+        if (res != 0xAB)
         {
             pass = false;
         }
+
+        res = bus->i2c_smbus_read_byte(address);
+
+        if(res != 0x14)
+        {
+            pass = false;
+        }
+
+        bus->i2c_smbus_read_byte(address);
+        bus->i2c_smbus_read_byte(address);
     }
 
     return(pass);
@@ -53,15 +69,15 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
     RGBFusionGPUController* new_rgb_fusion;
     RGBController_RGBFusionGPU* new_controller;
 
-   // for (unsigned int bus = 0; bus < busses.size(); bus++)
-   // {
+    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    {
         // Check for RGB Fusion controller at 0x47
-  //      if (TestForRGBFusionGPUController(busses[bus], 0x47))
-//        {
-            new_rgb_fusion = new RGBFusionGPUController(busses[2], 0x47);
+        if (TestForRGBFusionGPUController(busses[bus], 0x47))
+        {
+            new_rgb_fusion = new RGBFusionGPUController(busses[bus], 0x47);
             new_controller = new RGBController_RGBFusionGPU(new_rgb_fusion);
             rgb_controllers.push_back(new_controller);
-     //   }
-   // }
+        }
+    }
 
 }   /* DetectRGBFusionGPUControllers() */
