@@ -209,11 +209,11 @@ win32:INCLUDEPATH +=                                                    \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
+    dependencies/NVFC/nvapi.cpp                                         \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_nvapi.cpp                                       \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
-    i2c_smbus/nvapi.cpp                                                 \
     serial_port/find_usb_serial_port_win.cpp                            \
     wmi/wmi.cpp                                                         \
     RGBController/OpenRazerWindowsDetect.cpp                            \
@@ -221,8 +221,10 @@ win32:SOURCES +=                                                        \
 
 win32:HEADERS +=                                                        \
     dependencies/inpout32_1501/Win32/inpout32.h                         \
+    dependencies/NVFC/nvapi.h                                           \
     i2c_smbus/i2c_smbus_i801.h                                          \
     i2c_smbus/i2c_smbus_nct6775.h                                       \
+    i2c_smbus/i2c_smbus_nvapi.h                                         \
     i2c_smbus/i2c_smbus_piix4.h                                         \
     wmi/wmi.h                                                           \
     RGBController/RGBController_OpenRazerWindows.h                      \

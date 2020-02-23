@@ -88,6 +88,33 @@ void DetectNuvotonI2CBusses()
 
 }   /* DetectNuvotonI2CBusses() */
 
+/******************************************************************************************\
+*                                                                                          *
+*   DetectNvAPII2CBusses (Windows)                                                         *
+*                                                                                          *
+*       Detects available NVidia NvAPI I2C adapters and enumerates                         *
+*       i2c_smbus_interface objects for them.  Only enumerates the first bus for each GPU  *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectNvAPII2CBusses()
+{
+    static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
+    static NV_S32                   gpu_count = 0;
+
+    NV_STATUS initialize = NvAPI_Initialize();
+
+    NvAPI_EnumPhysicalGPUs(gpu_handles, &gpu_count);
+
+    for(NV_S32 gpu_idx = 0; gpu_idx < gpu_count; gpu_idx++)
+    {
+        i2c_smbus_nvapi * nvapi_bus = new i2c_smbus_nvapi(gpu_handles[gpu_idx]);
+
+        sprintf(nvapi_bus->device_name, "NVidia NvAPI I2C on GPU %d", gpu_idx);
+
+        busses.push_back(nvapi_bus);
+    }
+}   /* DetectNvAPII2CBusses() */
 
 /******************************************************************************************\
 *                                                                                          *
@@ -171,9 +198,9 @@ void DetectI2CBusses()
     // Detect Nuvoton Super IO SMBus adapters
     DetectNuvotonI2CBusses();
 
-    i2c_smbus_nvapi * nvapi_bus = new i2c_smbus_nvapi();
-    strcpy(nvapi_bus->device_name, "NVAPI Bus");
-    busses.push_back(nvapi_bus);
+    // Detect NVidia NvAPI I2C adapters
+    DetectNvAPII2CBusses();
+
 }   /* DetectI2CBusses() */
 
 #else /* WIN32 */
