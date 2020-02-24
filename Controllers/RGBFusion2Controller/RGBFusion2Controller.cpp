@@ -9,6 +9,7 @@
 
 #include "RGBFusion2Controller.h"
 #include <algorithm>
+#include <array>
 #include <thread>
 #include <chrono>
 
