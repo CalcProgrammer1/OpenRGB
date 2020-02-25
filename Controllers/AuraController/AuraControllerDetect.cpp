@@ -135,7 +135,7 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        int address_list_idx = 0;
+        int address_list_idx = -1;
 
         // Remap Aura-enabled RAM modules on 0x77
         for (unsigned int slot = 0; slot < 8; slot++)
@@ -151,8 +151,8 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
             {
                 if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
                 {
-                    res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
                     address_list_idx++;
+                    res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
                 }
                 else
                 {
