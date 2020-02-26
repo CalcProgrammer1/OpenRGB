@@ -27,6 +27,7 @@ unsigned char * RGBController::GetDeviceDescription()
 
     unsigned short *zone_map_rows   = new unsigned short[num_zones];
 
+    data_size += sizeof(data_size);
     data_size += sizeof(device_type);
     data_size += name_len           + sizeof(name_len);
     data_size += description_len    + sizeof(description_len);
@@ -94,6 +95,12 @@ unsigned char * RGBController::GetDeviceDescription()
     | Create data buffer                                        |
     \*---------------------------------------------------------*/
     unsigned char *data_buf = new unsigned char[data_size];
+
+    /*---------------------------------------------------------*\
+    | Copy in data size                                         |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
 
     /*---------------------------------------------------------*\
     | Copy in type                                              |
@@ -357,6 +364,8 @@ unsigned char * RGBController::GetDeviceDescription()
 void RGBController::ReadDeviceDescription(unsigned char* data_buf)
 {
     unsigned int data_ptr = 0;
+
+    data_ptr += sizeof(unsigned int);
 
     /*---------------------------------------------------------*\
     | Copy in type                                              |
