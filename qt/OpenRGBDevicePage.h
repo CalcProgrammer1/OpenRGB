@@ -20,6 +20,7 @@ public:
 
     void SetDevice(unsigned char red, unsigned char green, unsigned char blue);
     void SetCustomMode();
+    void UpdateDevice();
     void UpdateMode();
     void UpdateModeUi();
 

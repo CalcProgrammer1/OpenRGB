@@ -1,7 +1,9 @@
+#include <fstream>
 #include "OpenRGBDialog2.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
+#include "RGBController_Dummy.h"
 #include <QLabel>
 #include <QTabBar>
 
@@ -275,5 +277,112 @@ void OpenRGBDialog2::on_ShowHide()
     else
     {
         hide();
+    }
+}
+
+void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
+{
+    for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
+    {
+        char filename[128];
+        snprintf(filename, 128, "controller_%d.bin", controller_index);
+
+        std::ofstream controller_file(filename, std::ios::out | std::ios::binary);
+
+        unsigned char *controller_data = controllers[controller_index]->GetDeviceDescription();
+        unsigned int controller_size;
+
+        memcpy(&controller_size, controller_data, sizeof(controller_size));
+
+        controller_file.write((const char *)controller_data, controller_size);
+
+        controller_file.close();
+    }
+}
+
+void Ui::OpenRGBDialog2::on_ButtonLoadProfile_clicked()
+{
+    for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
+    {
+        char filename[128];
+        snprintf(filename, 128, "controller_%d.bin", controller_index);
+
+        std::ifstream controller_file(filename, std::ios::in | std::ios::binary);
+        unsigned int controller_size;
+
+        controller_file.read((char *)&controller_size, sizeof(controller_size));
+
+        unsigned char *controller_data = new unsigned char[controller_size];
+
+        controller_file.seekg(0);
+
+        controller_file.read((char *)controller_data, controller_size);
+
+        RGBController_Dummy temp_controller;
+
+        temp_controller.ReadDeviceDescription(controller_data);
+
+        delete[] controller_data;
+
+        RGBController *controller_ptr = controllers[controller_index];
+
+        /*---------------------------------------------------------*\
+        | Test if saved controller data matches this controller     |
+        \*---------------------------------------------------------*/
+        if((temp_controller.type        == controller_ptr->type       )
+         &&(temp_controller.name        == controller_ptr->name       )
+         &&(temp_controller.description == controller_ptr->description)
+         &&(temp_controller.version     == controller_ptr->version    )
+         &&(temp_controller.serial      == controller_ptr->serial     )
+         &&(temp_controller.location    == controller_ptr->location   ))
+        {
+            /*---------------------------------------------------------*\
+            | Update all modes                                          |
+            \*---------------------------------------------------------*/
+            if(temp_controller.modes.size() == controller_ptr->modes.size())
+            {
+                for(int mode_index = 0; mode_index < temp_controller.modes.size(); mode_index++)
+                {
+                    if((temp_controller.modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
+                     &&(temp_controller.modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
+                     &&(temp_controller.modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
+                     &&(temp_controller.modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
+                     &&(temp_controller.modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
+                     &&(temp_controller.modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
+                     &&(temp_controller.modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
+                    {
+                        controller_ptr->modes[mode_index].speed      = temp_controller.modes[mode_index].speed;
+                        controller_ptr->modes[mode_index].direction  = temp_controller.modes[mode_index].direction;
+                        controller_ptr->modes[mode_index].color_mode = temp_controller.modes[mode_index].color_mode;
+
+                        controller_ptr->modes[mode_index].colors.resize(temp_controller.modes[mode_index].colors.size());
+
+                        for(int mode_color_index = 0; mode_color_index < temp_controller.modes[mode_index].colors.size(); mode_color_index++)
+                        {
+                            controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller.modes[mode_index].colors[mode_color_index];
+                        }
+                    }
+
+                }
+
+                controller_ptr->active_mode = temp_controller.active_mode;
+            }
+
+            /*---------------------------------------------------------*\
+            | Update all colors                                         |
+            \*---------------------------------------------------------*/
+            if(temp_controller.colors.size() == controller_ptr->colors.size())
+            {
+                for(int color_index = 0; color_index < temp_controller.colors.size(); color_index++)
+                {
+                    controller_ptr->colors[color_index] = temp_controller.colors[color_index];
+                }
+            }
+        }
+    }
+
+    for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+    {
+        qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
     }
 }
