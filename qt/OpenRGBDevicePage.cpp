@@ -597,6 +597,7 @@ void Ui::OpenRGBDevicePage::UpdateMode()
             | Change device mode                                    |
             \*-----------------------------------------------------*/
             device->SetMode(current_mode);
+            device->UpdateLEDs();
         }
     }
 }
