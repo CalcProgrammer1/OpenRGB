@@ -1,4 +1,5 @@
 #include "RGBController.h"
+#include <cstring>
 
 unsigned char * RGBController::GetDeviceDescription()
 {
