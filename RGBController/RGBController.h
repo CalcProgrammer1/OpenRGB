@@ -150,6 +150,9 @@ public:
     int                     GetMode();
     void                    SetMode(int mode);
 
+    unsigned char *         GetDeviceDescription();
+    void                    ReadDeviceDescription(unsigned char* data_buf);
+
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/

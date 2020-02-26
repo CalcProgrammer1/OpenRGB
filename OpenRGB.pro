@@ -113,6 +113,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_CorsairNodePro.cpp                      \
     RGBController/RGBController_CorsairPro.cpp                          \
     RGBController/RGBController_Crucial.cpp                             \
+    RGBController/RGBController_Dummy.cpp                               \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
@@ -173,6 +174,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_CorsairNodePro.h                        \
     RGBController/RGBController_CorsairPro.h                            \
     RGBController/RGBController_Crucial.h                               \
+    RGBController/RGBController_Dummy.h                                 \
     RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
