@@ -15,14 +15,24 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="3" column="1">
+     <widget class="QPushButton" name="ButtonLoadProfile">
+      <property name="text">
+       <string>Load Profile</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
      <widget class="QPushButton" name="ButtonSaveProfile">
       <property name="text">
        <string>Save Profile</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="3" column="2">
+     <widget class="QComboBox" name="comboBox"/>
+    </item>
+    <item row="2" column="0" colspan="3">
      <widget class="QTabWidget" name="MainTabBar">
       <property name="tabShape">
        <enum>QTabWidget::Rounded</enum>
@@ -41,7 +51,7 @@
         <string>Devices</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
+        <item row="1" column="0">
          <widget class="QTabWidget" name="DevicesTabBar">
           <property name="tabPosition">
            <enum>QTabWidget::West</enum>
@@ -84,13 +94,6 @@
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QPushButton" name="ButtonLoadProfile">
-      <property name="text">
-       <string>Load Profile</string>
-      </property>
      </widget>
     </item>
    </layout>

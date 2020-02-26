@@ -52,6 +52,7 @@ SOURCES +=                                                              \
     i2c_tools/i2c_tools.cpp                                             \
     net_port/net_port.cpp                                               \
     qt/OpenRGBDialog2.cpp                                               \
+    qt/OpenRGBProfileSaveDialog.cpp \
     qt/OpenRGBSystemInfoPage.cpp                                        \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
@@ -138,6 +139,7 @@ HEADERS +=                                                              \
     i2c_tools/i2c_tools.h                                               \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
+    qt/OpenRGBProfileSaveDialog.h \
     qt/OpenRGBSystemInfoPage.h                                          \
     serial_port/find_usb_serial_port.h                                  \
     serial_port/serial_port.h                                           \
@@ -199,6 +201,7 @@ FORMS += \
     qt/OpenRGBDevicePage.ui \
     qt/OpenRGBDialog.ui \
     qt/OpenRGBDialog2.ui \
+    qt/OpenRGBProfileSaveDialog.ui \
     qt/OpenRGBSystemInfoPage.ui
 
 #-----------------------------------------------
