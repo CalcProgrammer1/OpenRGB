@@ -7,6 +7,11 @@
 #include "RGBController_Dummy.h"
 #include <QLabel>
 #include <QTabBar>
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+#include <iostream>
+
+namespace fs = std::experimental::filesystem;
 
 using namespace Ui;
 
@@ -16,6 +21,44 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
 
     QIcon logo(":OpenRGB.png");
     setWindowIcon(logo);
+
+    /*---------------------------------------------------------*\
+    | Load profiles by looking for .orp files in current dir    |
+    \*---------------------------------------------------------*/
+    for(const auto & entry : fs::directory_iterator("."))
+    {
+        std::string filename = entry.path().filename().string();
+
+        if(filename.find(".orp"))
+        {
+            /*---------------------------------------------------------*\
+            | Open input file in binary mode                            |
+            \*---------------------------------------------------------*/
+            std::ifstream profile_file(filename, std::ios::in | std::ios::binary);
+
+            /*---------------------------------------------------------*\
+            | Read and verify file header                               |
+            \*---------------------------------------------------------*/
+            char            header_string[16];
+            unsigned int    header_version;
+
+            profile_file.read(header_string, 16);
+            profile_file.read((char *)&header_version, sizeof(unsigned int));
+
+            if(strcmp(header_string, "OPENRGB_PROFILE") == 0)
+            {
+                if(header_version == 1)
+                {
+                    /*---------------------------------------------------------*\
+                    | Add this profile to the list                              |
+                    \*---------------------------------------------------------*/
+                    ui->comboBox->addItem(filename.c_str());
+                }
+            }
+
+            profile_file.close();
+        }
+    }
 
     /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |
@@ -331,6 +374,11 @@ void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
         | Close the file when done                                  |
         \*---------------------------------------------------------*/
         controller_file.close();
+
+        /*---------------------------------------------------------*\
+        | Add the new file to the profile list                      |
+        \*---------------------------------------------------------*/
+        ui->comboBox->addItem(filename.c_str());
     }
 }
 
@@ -343,7 +391,7 @@ void Ui::OpenRGBDialog2::on_ButtonLoadProfile_clicked()
     /*---------------------------------------------------------*\
     | Get the profile filename from the profiles list           |
     \*---------------------------------------------------------*/
-    std::string filename = "test123.orp";
+    std::string filename = ui->comboBox->currentText().toStdString();
 
     /*---------------------------------------------------------*\
     | Open input file in binary mode                            |
