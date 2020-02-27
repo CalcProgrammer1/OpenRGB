@@ -499,10 +499,10 @@ void Ui::OpenRGBDialog2::on_ButtonLoadProfile_clicked()
                 }
             }
         }
-    }
 
-    for(int device = 0; device < ui->DevicesTabBar->count(); device++)
-    {
-        qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
+        for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+        {
+            qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
+        }
     }
 }
