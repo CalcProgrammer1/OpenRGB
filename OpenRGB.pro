@@ -290,7 +290,8 @@ unix:HEADERS +=                                                         \
 
 unix:LIBS +=                                                            \
     -lusb-1.0                                                           \
-
+    -lstdc++fs                                                          \
+    
 packagesExist(hidapi-libusb){
     unix:LIBS += -lhidapi-libusb
 } else {
