@@ -597,7 +597,11 @@ void Ui::OpenRGBDevicePage::UpdateMode()
             | Change device mode                                    |
             \*-----------------------------------------------------*/
             device->SetMode(current_mode);
-            device->UpdateLEDs();
+
+            if(device->modes[current_mode].color_mode == MODE_COLORS_PER_LED)
+            {
+                device->UpdateLEDs();
+            }
         }
     }
 }
