@@ -29,7 +29,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     {
         std::string filename = entry.path().filename().string();
 
-        if(filename.find(".orp"))
+        if(filename.find(".orp") != std::string::npos)
         {
             /*---------------------------------------------------------*\
             | Open input file in binary mode                            |
@@ -70,6 +70,18 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     QAction* actionShowHide = new QAction("Show/Hide", this);
     connect(actionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
     trayIconMenu->addAction(actionShowHide);
+
+    QMenu* profileMenu = new QMenu("Profiles", this);
+
+    for(int profile_index = 0; profile_index < ui->comboBox->count(); profile_index++)
+    {
+        QAction* actionProfileSelected = new QAction(ui->comboBox->itemText(profile_index), this);
+        actionProfileSelected->setObjectName(ui->comboBox->itemText(profile_index));
+        connect(actionProfileSelected, SIGNAL(triggered()), this, SLOT(on_ProfileSelected()));
+        profileMenu->addAction(actionProfileSelected);
+    }
+
+    trayIconMenu->addMenu(profileMenu);
 
     QMenu* quickColorsMenu = new QMenu("Quick Colors", this);
 
@@ -321,6 +333,128 @@ void OpenRGBDialog2::on_ShowHide()
     else
     {
         hide();
+    }
+}
+
+void Ui::OpenRGBDialog2::on_ProfileSelected()
+{
+    std::vector<RGBController*> temp_controllers;
+    unsigned int controller_size;
+    unsigned int controller_offset = 0;
+
+    std::string filename = QObject::sender()->objectName().toStdString();
+
+    /*---------------------------------------------------------*\
+    | Open input file in binary mode                            |
+    \*---------------------------------------------------------*/
+    std::ifstream controller_file(filename, std::ios::in | std::ios::binary);
+
+    /*---------------------------------------------------------*\
+    | Read and verify file header                               |
+    \*---------------------------------------------------------*/
+    char            header_string[16];
+    unsigned int    header_version;
+
+    controller_file.read(header_string, 16);
+    controller_file.read((char *)&header_version, sizeof(unsigned int));
+
+    controller_offset += 16 + sizeof(unsigned int);
+    controller_file.seekg(controller_offset);
+
+    if(strcmp(header_string, "OPENRGB_PROFILE") == 0)
+    {
+        if(header_version == 1)
+        {
+            /*---------------------------------------------------------*\
+            | Read controller data from file until EOF                  |
+            \*---------------------------------------------------------*/
+            while(!(controller_file.peek() == EOF))
+            {
+                controller_file.read((char *)&controller_size, sizeof(controller_size));
+
+                unsigned char *controller_data = new unsigned char[controller_size];
+
+                controller_file.seekg(controller_offset);
+
+                controller_file.read((char *)controller_data, controller_size);
+
+                RGBController_Dummy *temp_controller = new RGBController_Dummy();
+
+                temp_controller->ReadDeviceDescription(controller_data);
+
+                temp_controllers.push_back(temp_controller);
+
+                delete[] controller_data;
+
+                controller_offset += controller_size;
+                controller_file.seekg(controller_offset);
+            }
+
+            for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
+            {
+                RGBController *temp_controller = temp_controllers[controller_index];
+                RGBController *controller_ptr = controllers[controller_index];
+
+                /*---------------------------------------------------------*\
+                | Test if saved controller data matches this controller     |
+                \*---------------------------------------------------------*/
+                if((temp_controller->type        == controller_ptr->type       )
+                 &&(temp_controller->name        == controller_ptr->name       )
+                 &&(temp_controller->description == controller_ptr->description)
+                 &&(temp_controller->version     == controller_ptr->version    )
+                 &&(temp_controller->serial      == controller_ptr->serial     )
+                 &&(temp_controller->location    == controller_ptr->location   ))
+                {
+                    /*---------------------------------------------------------*\
+                    | Update all modes                                          |
+                    \*---------------------------------------------------------*/
+                    if(temp_controller->modes.size() == controller_ptr->modes.size())
+                    {
+                        for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
+                        {
+                            if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
+                             &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
+                             &&(temp_controller->modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
+                             &&(temp_controller->modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
+                             &&(temp_controller->modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
+                             &&(temp_controller->modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
+                             &&(temp_controller->modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
+                            {
+                                controller_ptr->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
+                                controller_ptr->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
+                                controller_ptr->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
+
+                                controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
+
+                                for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
+                                {
+                                    controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
+                                }
+                            }
+
+                        }
+
+                        controller_ptr->active_mode = temp_controller->active_mode;
+                    }
+
+                    /*---------------------------------------------------------*\
+                    | Update all colors                                         |
+                    \*---------------------------------------------------------*/
+                    if(temp_controller->colors.size() == controller_ptr->colors.size())
+                    {
+                        for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
+                        {
+                            controller_ptr->colors[color_index] = temp_controller->colors[color_index];
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+        {
+            qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
+        }
     }
 }
 
