@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpenRGBSoftwareInfoPageUi</class>
+ <widget class="QFrame" name="OpenRGBSoftwareInfoPageUi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>500</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="GitBranchLabel">
+     <property name="text">
+      <string>Git Branch:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="GitCommitIDValue">
+     <property name="text">
+      <string>Git Commit ID Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="VersionLabel">
+     <property name="text">
+      <string>Version:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="BuildDateLabel">
+     <property name="text">
+      <string>Build Date:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="GitCommitDateLabel">
+     <property name="text">
+      <string>Git Commit Date:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="GitCommitIDLabel">
+     <property name="text">
+      <string>Git Commit ID:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="BuildDateValue">
+     <property name="text">
+      <string>Build Date Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLabel" name="GitBranchValue">
+     <property name="text">
+      <string>Git Branch Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="GitCommitDateValue">
+     <property name="text">
+      <string>Git Commit Date Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="VersionValue">
+     <property name="text">
+      <string>Version Value</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

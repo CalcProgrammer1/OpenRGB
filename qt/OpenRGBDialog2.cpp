@@ -2,6 +2,7 @@
 #include "OpenRGBDialog2.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
+#include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBProfileSaveDialog.h"
 #include "RGBController_Dummy.h"
@@ -258,6 +259,25 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     SystemTabLabel->setGeometry(0, 0, 200, 20);
 
     InformationTabBar->setTabButton(control.size(), QTabBar::LeftSide, SystemTabLabel);
+
+    OpenRGBSoftwareInfoPage *SoftInfoPage = new OpenRGBSoftwareInfoPage();
+    ui->InformationTabBar->addTab(SoftInfoPage, "");
+
+    /*-----------------------------------------------------*\
+    | Use Qt's HTML capabilities to display both icon and   |
+    | text in the tab label.  Choose icon based on device   |
+    | type and append device name string.                   |
+    \*-----------------------------------------------------*/
+    QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
+    SoftwareLabelString += ":/keyboard.svg";
+    SoftwareLabelString += "' height='15' width='15'></td><td>Software</td></tr></table></html>";
+
+    QLabel *SoftwareTabLabel = new QLabel();
+    SoftwareTabLabel->setText(SoftwareLabelString);
+    SoftwareTabLabel->setIndent(20);
+    SoftwareTabLabel->setGeometry(0, 0, 200, 20);
+
+    InformationTabBar->setTabButton(control.size() + 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()

@@ -53,6 +53,7 @@ SOURCES +=                                                              \
     net_port/net_port.cpp                                               \
     qt/OpenRGBDialog2.cpp                                               \
     qt/OpenRGBProfileSaveDialog.cpp \
+    qt/OpenRGBSoftwareInfoPage.cpp \
     qt/OpenRGBSystemInfoPage.cpp                                        \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
@@ -140,6 +141,7 @@ HEADERS +=                                                              \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBProfileSaveDialog.h \
+    qt/OpenRGBSoftwareInfoPage.h \
     qt/OpenRGBSystemInfoPage.h                                          \
     serial_port/find_usb_serial_port.h                                  \
     serial_port/serial_port.h                                           \
@@ -202,6 +204,7 @@ FORMS += \
     qt/OpenRGBDialog.ui \
     qt/OpenRGBDialog2.ui \
     qt/OpenRGBProfileSaveDialog.ui \
+    qt/OpenRGBSoftwareInfoPage.ui \
     qt/OpenRGBSystemInfoPage.ui
 
 #-----------------------------------------------
