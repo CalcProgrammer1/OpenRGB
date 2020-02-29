@@ -96,7 +96,7 @@ struct hid_device_ {
 	int blocking; /* boolean */
 
 	/* Read thread objects */
-	HANDLE thread;
+	//HANDLE thread;
 	//pthread_mutex_t mutex; /* Protects input_reports */
 	//pthread_cond_t condition;
 	//pthread_barrier_t barrier; /* Ensures correct startup sequence */

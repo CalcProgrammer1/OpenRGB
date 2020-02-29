@@ -299,6 +299,7 @@ win32:contains(QMAKE_TARGET.arch, x86) {
 # Linux specific project configuration
 #-----------------------------------------------
 unix:INCLUDEPATH +=                                                     \
+    dependencies/hidapi                                                 \
 
 unix:HEADERS +=                                                         \
     i2c_smbus/i2c_smbus_linux.h                                         \
@@ -307,19 +308,9 @@ unix:HEADERS +=                                                         \
 unix:LIBS +=                                                            \
     -lusb-1.0                                                           \
     -lstdc++fs                                                          \
-    
-packagesExist(hidapi-libusb){
-    unix:LIBS += -lhidapi-libusb
-} else {
-    packagesExist(hidapi) {
-        unix:LIBS += -lhidapi
-    } else {
-        unix:LIBS += -lhidapi-libusb
-    }
-}
-
 
 unix:SOURCES +=                                                         \
+    dependencies/hidapi/hid_win.c                                       \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                          \
     RGBController/OpenRazerDetect.cpp                                   \
