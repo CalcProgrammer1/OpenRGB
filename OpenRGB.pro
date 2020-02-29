@@ -5,6 +5,20 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = OpenRGB
 TEMPLATE = app
 
+VERSION         = 0.0
+win32:BUILDDATE = $$system(date /t)
+unix:BUILDDATE  = $$system(date -R)
+GIT_COMMIT_ID   = $$system(git --git-dir $$_PRO_FILE_PWD_/.git --work-tree $$_PRO_FILE_PWD_ rev-parse HEAD)
+GIT_COMMIT_DATE = $$system(git --git-dir $$_PRO_FILE_PWD_/.git --work-tree $$_PRO_FILE_PWD_ show -s --format=%ci HEAD)
+GIT_BRANCH      = $$system(git --git-dir $$_PRO_FILE_PWD_/.git --work-tree $$_PRO_FILE_PWD_ rev-parse --abbrev-ref HEAD)
+
+DEFINES +=                                                              \
+    VERSION_STRING=\\"\"\"$$VERSION\\"\"\"                              \
+    BUILDDATE_STRING=\\"\"\"$$BUILDDATE\\"\"\"                          \
+    GIT_COMMIT_ID=\\"\"\"$$GIT_COMMIT_ID\\"\"\"                         \
+    GIT_COMMIT_DATE=\\"\"\"$$GIT_COMMIT_DATE\\"\"\"                     \
+    GIT_BRANCH=\\"\"\"$$GIT_BRANCH\\"\"\"
+
 RC_ICONS = qt/OpenRGB.ico
 
 INCLUDEPATH +=                                                          \
