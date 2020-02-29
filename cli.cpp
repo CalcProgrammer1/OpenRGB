@@ -31,7 +31,9 @@ struct Options
 void PrintHelp()
 {
     std::string help_text;
-    help_text += "OpenRGB, for controlling RGB lighting.\n";
+    help_text += "OpenRGB ";
+    help_text += VERSION_STRING;
+    help_text += ", for controlling RGB lighting.\n";
     help_text += "Usage: OpenRGB (--device [--mode] [--color])...\n";
     help_text += "\nOptions:\n";
     help_text += "--gui\t\t\t\t\t Show GUI, also appears when not passing any parameters\n";
@@ -41,8 +43,30 @@ void PrintHelp()
     help_text += "-c,  --color \"FFFFFF,00AAFF...\"\t\t Sets colors on each device directly if no effect is specified, and sets the effect color if an effect is specified\n";
     help_text += "\t\t\t\t\t If there are more LEDs than colors given, the last color will be applied to the remaining LEDs\n";
     help_text += "-m,  --mode [breathing | static | ...]   Sets the mode to be applied, check --list-devices to see which modes are supported on your device\n";
+    help_text += "-v,  --version\t\t\t\t Display version and software build information\n";
 
     std::cout << help_text << std::endl;
+}
+
+void PrintVersion()
+{
+    std::string version_text;
+    version_text += "OpenRGB ";
+    version_text += VERSION_STRING;
+    version_text += ", for controlling RGB lighting.\n";
+    version_text += "  Version:\t\t ";
+    version_text += VERSION_STRING;
+    version_text += "\n  Build Date\t\t ";
+    version_text += BUILDDATE_STRING;
+    version_text += "\n  Git Commit ID\t\t ";
+    version_text += GIT_COMMIT_ID;
+    version_text += "\n  Git Commit Date\t ";
+    version_text += GIT_COMMIT_DATE;
+    version_text += "\n  Git Branch\t\t ";
+    version_text += GIT_BRANCH;
+    version_text += "\n";
+
+    std::cout << version_text << std::endl;
 }
 
 bool ParseColors(std::string colors_string, DeviceOptions *options)
@@ -306,6 +330,12 @@ int cli_main(int argc, char *argv[])
     if (argc == 2 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")))
     {
         PrintHelp();
+        return 0;
+    }
+
+    if (argc == 2 && (!strcmp(argv[1], "--version") || !strcmp(argv[1], "-v")))
+    {
+        PrintVersion();
         return 0;
     }
 
