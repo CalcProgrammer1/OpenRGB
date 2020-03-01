@@ -23,6 +23,8 @@ public:
     void        SetCustomMode();
     void        UpdateMode();
 
+    void        KeepaliveThread();
+    
 private:
     HyperXKeyboardController*   hyperx;
 };

@@ -9,6 +9,41 @@
 
 #include "RGBController_HyperXKeyboard.h"
 
+//Include thread libraries for Windows or Linux
+#ifdef WIN32
+#include <process.h>
+#else
+#include "pthread.h"
+#include "unistd.h"
+#endif
+
+//Thread functions have different types in Windows and Linux
+#ifdef WIN32
+#define THREAD static void
+#define THREADRETURN
+#else
+#define THREAD static void*
+#define THREADRETURN return(NULL);
+#endif
+
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
+THREAD keepalive_thread(void *param)
+{
+    RGBController_HyperXKeyboard* controller = static_cast<RGBController_HyperXKeyboard*>(param);
+    controller->KeepaliveThread();
+    THREADRETURN
+}
+
 static const char* zone_names[] =
 {
     "Keyboard",
@@ -223,6 +258,19 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
 
         zones.push_back(new_zone);
     }
+
+    /*-----------------------------------------------------*\
+    | The Corsair Lighting Node Pro requires a packet within|
+    | 20 seconds of sending the lighting change in order    |
+    | to not revert back into rainbow mode.  Start a thread |
+    | to continuously send a keepalive packet every 5s      |
+    \*-----------------------------------------------------*/
+#ifdef WIN32
+    _beginthread(keepalive_thread, 0, this);
+#else
+    pthread_t thread;
+    pthread_create(&thread, NULL, &keepalive_thread, this);
+#endif
 }
 
 RGBController_HyperXKeyboard::~RGBController_HyperXKeyboard()
@@ -267,5 +315,17 @@ void RGBController_HyperXKeyboard::UpdateMode()
     {
         std::vector<RGBColor> temp_colors;
         hyperx->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, temp_colors);
+    }
+}
+
+void RGBController_HyperXKeyboard::KeepaliveThread()
+{
+    while(1)
+    {
+        if(active_mode == 0)
+        {
+            hyperx->SetLEDsDirect(colors);
+        }
+        Sleep(100);
     }
 }
