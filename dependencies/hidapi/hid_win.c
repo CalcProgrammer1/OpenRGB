@@ -43,7 +43,7 @@
 /* GNU / LibUSB */
 #include <libusb-1.0/libusb.h>
 
-#include "hidapi.h"
+#include "hidapi/hidapi.h"
 
 #ifdef __cplusplus
 extern "C" {
