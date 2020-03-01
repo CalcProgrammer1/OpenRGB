@@ -104,6 +104,9 @@ void PoseidonZRGBController::SetLEDsDirect(std::vector<RGBColor> colors)
     | Send packets                                          |
     \*-----------------------------------------------------*/
     hid_send_feature_report(dev, red_grn_buf, 264);
+
+    Sleep(5);
+     
     hid_send_feature_report(dev, blu_buf, 264);
 }
 
