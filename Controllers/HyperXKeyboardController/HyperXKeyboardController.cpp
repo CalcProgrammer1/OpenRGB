@@ -137,7 +137,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         red_color_data
         );
 
-    Sleep(2);
+    Sleep(5);
 
     SendDirect
         (
@@ -145,7 +145,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         grn_color_data
         );
 
-    Sleep(2);
+    Sleep(5);
 
     SendDirect
         (
@@ -153,7 +153,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         blu_color_data
         );
 
-    Sleep(2);
+    Sleep(5);
 
     SendDirectExtended
         (
@@ -189,12 +189,16 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
         red_color_data
         );
 
+    Sleep(5);
+
     SendColor
         (
         0x01,
         HYPERX_COLOR_CHANNEL_GREEN,
         grn_color_data
         );
+
+    Sleep(5);
 
     SendColor
         (
@@ -203,6 +207,8 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
         blu_color_data
         );
 
+    Sleep(5);
+    
     SendExtendedColor
         (
         0x01,
