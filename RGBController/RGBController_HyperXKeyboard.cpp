@@ -302,7 +302,7 @@ void RGBController_HyperXKeyboard::UpdateSingleLED(int led)
 
 void RGBController_HyperXKeyboard::SetCustomMode()
 {
-    active_mode = 1;
+    active_mode = 0;
 }
 
 void RGBController_HyperXKeyboard::UpdateMode()
