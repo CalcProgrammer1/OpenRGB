@@ -56,6 +56,8 @@ void PoseidonZRGBController::SetMode(unsigned char mode, unsigned char direction
         POSEIDONZ_BRIGHTNESS_MAX,
         active_speed
         );
+
+    Sleep(200);
 }
 
 void PoseidonZRGBController::SetLEDsDirect(std::vector<RGBColor> colors)
