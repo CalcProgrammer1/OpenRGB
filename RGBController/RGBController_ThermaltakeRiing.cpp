@@ -85,7 +85,7 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
     Direct.speed_min  = 0;
     Direct.speed_max  = 0;
     Direct.speed      = 0;
-    Direct.color_mode = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Static;
