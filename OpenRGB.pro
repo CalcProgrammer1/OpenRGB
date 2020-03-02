@@ -61,6 +61,7 @@ SOURCES +=                                                              \
     main.cpp                                                            \
     cli.cpp                                                             \
     OpenRGB.cpp                                                         \
+    ProfileManager.cpp                                                  \
     qt/OpenRGBDeviceInfoPage.cpp                                        \
     qt/OpenRGBDevicePage.cpp                                            \
     qt/OpenRGBDialog.cpp                                                \
@@ -149,6 +150,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_ThermaltakeRiing.cpp                    \
 
 HEADERS +=                                                              \
+    ProfileManager.h                                                    \
     qt/OpenRGBDeviceInfoPage.h                                          \
     qt/OpenRGBDevicePage.h                                              \
     qt/OpenRGBDialog.h                                                  \

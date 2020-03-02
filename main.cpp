@@ -7,6 +7,7 @@
 \******************************************************************************************/
 
 #include "OpenRGB.h"
+#include "ProfileManager.h"
 #include "RGBController.h"
 #include "i2c_smbus.h"
 #include <vector>
@@ -32,6 +33,8 @@ extern int cli_main(int argc, char *argv[]);
 
 int main(int argc, char* argv[])
 {
+    ProfileManager profile_manager(rgb_controllers);
+    
     if (argc > 1 && strcmp(argv[1], "--gui"))
     {
         return cli_main(argc, argv);
@@ -42,7 +45,7 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
-    Ui::OpenRGBDialog2 dlg(busses, rgb_controllers);
+    Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, profile_manager);
     dlg.show();
 
     return a.exec();

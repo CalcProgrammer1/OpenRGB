@@ -1,65 +1,20 @@
-#include <fstream>
 #include "OpenRGBDialog2.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBProfileSaveDialog.h"
-#include "RGBController_Dummy.h"
 #include <QLabel>
 #include <QTabBar>
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental/filesystem>
-#include <iostream>
-
-namespace fs = std::experimental::filesystem;
 
 using namespace Ui;
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent) : QMainWindow(parent), busses(bus), controllers (control), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager& manager, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
     QIcon logo(":OpenRGB.png");
     setWindowIcon(logo);
-
-    /*---------------------------------------------------------*\
-    | Load profiles by looking for .orp files in current dir    |
-    \*---------------------------------------------------------*/
-    for(const auto & entry : fs::directory_iterator("."))
-    {
-        std::string filename = entry.path().filename().string();
-
-        if(filename.find(".orp") != std::string::npos)
-        {
-            /*---------------------------------------------------------*\
-            | Open input file in binary mode                            |
-            \*---------------------------------------------------------*/
-            std::ifstream profile_file(filename, std::ios::in | std::ios::binary);
-
-            /*---------------------------------------------------------*\
-            | Read and verify file header                               |
-            \*---------------------------------------------------------*/
-            char            header_string[16];
-            unsigned int    header_version;
-
-            profile_file.read(header_string, 16);
-            profile_file.read((char *)&header_version, sizeof(unsigned int));
-
-            if(strcmp(header_string, "OPENRGB_PROFILE") == 0)
-            {
-                if(header_version == 1)
-                {
-                    /*---------------------------------------------------------*\
-                    | Add this profile to the list                              |
-                    \*---------------------------------------------------------*/
-                    ui->comboBox->addItem(filename.c_str());
-                }
-            }
-
-            profile_file.close();
-        }
-    }
 
     /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |
@@ -72,15 +27,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     connect(actionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
     trayIconMenu->addAction(actionShowHide);
 
-    QMenu* profileMenu = new QMenu("Profiles", this);
-
-    for(int profile_index = 0; profile_index < ui->comboBox->count(); profile_index++)
-    {
-        QAction* actionProfileSelected = new QAction(ui->comboBox->itemText(profile_index), this);
-        actionProfileSelected->setObjectName(ui->comboBox->itemText(profile_index));
-        connect(actionProfileSelected, SIGNAL(triggered()), this, SLOT(on_ProfileSelected()));
-        profileMenu->addAction(actionProfileSelected);
-    }
+    profileMenu = new QMenu("Profiles", this);
 
     trayIconMenu->addMenu(profileMenu);
 
@@ -128,6 +75,8 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     trayIcon->setToolTip("OpenRGB");
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
+
+    RefreshProfileList();
 
     /*-----------------------------------------------------*\
     | Set up list of devices                                |
@@ -290,6 +239,31 @@ void OpenRGBDialog2::show()
     QMainWindow::show();
 }
 
+void OpenRGBDialog2::RefreshProfileList()
+{
+    /*-----------------------------------------------------*\
+    | Clear profile combo box and tray icon menu            |
+    \*-----------------------------------------------------*/
+    ui->ProfileBox->clear();
+    profileMenu->clear();
+
+    for(int profile_index = 0; profile_index < profile_manager.profile_list.size(); profile_index++)
+    {
+        /*-----------------------------------------------------*\
+        | Fill in profile combo box                             |
+        \*-----------------------------------------------------*/
+        ui->ProfileBox->addItem(profile_manager.profile_list[profile_index].c_str());
+
+        /*-----------------------------------------------------*\
+        | Fill in profile tray icon menu                        |
+        \*-----------------------------------------------------*/
+        QAction* actionProfileSelected = new QAction(profile_manager.profile_list[profile_index].c_str(), this);
+        actionProfileSelected->setObjectName(profile_manager.profile_list[profile_index].c_str());
+        connect(actionProfileSelected, SIGNAL(triggered()), this, SLOT(on_ProfileSelected()));
+        profileMenu->addAction(actionProfileSelected);
+    }
+}
+
 void OpenRGBDialog2::on_Exit()
 {
     close();
@@ -358,119 +332,16 @@ void OpenRGBDialog2::on_ShowHide()
 
 void Ui::OpenRGBDialog2::on_ProfileSelected()
 {
-    std::vector<RGBController*> temp_controllers;
-    unsigned int controller_size;
-    unsigned int controller_offset = 0;
-
-    std::string filename = QObject::sender()->objectName().toStdString();
+    /*---------------------------------------------------------*\
+    | Get the profile filename from the selected object         |
+    \*---------------------------------------------------------*/
+    std::string profile_name = QObject::sender()->objectName().toStdString();
 
     /*---------------------------------------------------------*\
-    | Open input file in binary mode                            |
+    | Load the profile                                          |
     \*---------------------------------------------------------*/
-    std::ifstream controller_file(filename, std::ios::in | std::ios::binary);
-
-    /*---------------------------------------------------------*\
-    | Read and verify file header                               |
-    \*---------------------------------------------------------*/
-    char            header_string[16];
-    unsigned int    header_version;
-
-    controller_file.read(header_string, 16);
-    controller_file.read((char *)&header_version, sizeof(unsigned int));
-
-    controller_offset += 16 + sizeof(unsigned int);
-    controller_file.seekg(controller_offset);
-
-    if(strcmp(header_string, "OPENRGB_PROFILE") == 0)
+    if(profile_manager.LoadProfile(profile_name))
     {
-        if(header_version == 1)
-        {
-            /*---------------------------------------------------------*\
-            | Read controller data from file until EOF                  |
-            \*---------------------------------------------------------*/
-            while(!(controller_file.peek() == EOF))
-            {
-                controller_file.read((char *)&controller_size, sizeof(controller_size));
-
-                unsigned char *controller_data = new unsigned char[controller_size];
-
-                controller_file.seekg(controller_offset);
-
-                controller_file.read((char *)controller_data, controller_size);
-
-                RGBController_Dummy *temp_controller = new RGBController_Dummy();
-
-                temp_controller->ReadDeviceDescription(controller_data);
-
-                temp_controllers.push_back(temp_controller);
-
-                delete[] controller_data;
-
-                controller_offset += controller_size;
-                controller_file.seekg(controller_offset);
-            }
-
-            for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
-            {
-                RGBController *temp_controller = temp_controllers[controller_index];
-                RGBController *controller_ptr = controllers[controller_index];
-
-                /*---------------------------------------------------------*\
-                | Test if saved controller data matches this controller     |
-                \*---------------------------------------------------------*/
-                if((temp_controller->type        == controller_ptr->type       )
-                 &&(temp_controller->name        == controller_ptr->name       )
-                 &&(temp_controller->description == controller_ptr->description)
-                 &&(temp_controller->version     == controller_ptr->version    )
-                 &&(temp_controller->serial      == controller_ptr->serial     )
-                 &&(temp_controller->location    == controller_ptr->location   ))
-                {
-                    /*---------------------------------------------------------*\
-                    | Update all modes                                          |
-                    \*---------------------------------------------------------*/
-                    if(temp_controller->modes.size() == controller_ptr->modes.size())
-                    {
-                        for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
-                        {
-                            if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
-                             &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
-                             &&(temp_controller->modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
-                             &&(temp_controller->modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
-                             &&(temp_controller->modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
-                             &&(temp_controller->modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
-                             &&(temp_controller->modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
-                            {
-                                controller_ptr->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
-                                controller_ptr->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
-                                controller_ptr->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
-
-                                controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
-
-                                for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
-                                {
-                                    controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
-                                }
-                            }
-
-                        }
-
-                        controller_ptr->active_mode = temp_controller->active_mode;
-                    }
-
-                    /*---------------------------------------------------------*\
-                    | Update all colors                                         |
-                    \*---------------------------------------------------------*/
-                    if(temp_controller->colors.size() == controller_ptr->colors.size())
-                    {
-                        for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
-                        {
-                            controller_ptr->colors[color_index] = temp_controller->colors[color_index];
-                        }
-                    }
-                }
-            }
-        }
-
         for(int device = 0; device < ui->DevicesTabBar->count(); device++)
         {
             qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
@@ -488,172 +359,26 @@ void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
     std::string profile_name = dialog.show();
 
     /*---------------------------------------------------------*\
-    | If a name was entered, save the profile file              |
+    | Save the profile                                          |
     \*---------------------------------------------------------*/
-    if(profile_name != "")
+    if(profile_manager.SaveProfile(profile_name))
     {
-        /*---------------------------------------------------------*\
-        | Extension .orp - OpenRgb Profile                          |
-        \*---------------------------------------------------------*/
-        std::string filename = profile_name + ".orp";
-
-        /*---------------------------------------------------------*\
-        | Open an output file in binary mode                        |
-        \*---------------------------------------------------------*/
-        std::ofstream controller_file(filename, std::ios::out | std::ios::binary);
-
-        /*---------------------------------------------------------*\
-        | Write header                                              |
-        | 16 bytes - "OPENRGB_PROFILE"                              |
-        | 4 bytes - Version, unsigned int                           |
-        \*---------------------------------------------------------*/
-        unsigned int profile_version = 1;
-        controller_file.write("OPENRGB_PROFILE", 16);
-        controller_file.write((char *)&profile_version, sizeof(unsigned int));
-
-        /*---------------------------------------------------------*\
-        | Write controller data for each controller                 |
-        \*---------------------------------------------------------*/
-        for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
-        {
-            unsigned char *controller_data = controllers[controller_index]->GetDeviceDescription();
-            unsigned int controller_size;
-
-            memcpy(&controller_size, controller_data, sizeof(controller_size));
-
-            controller_file.write((const char *)controller_data, controller_size);
-        }
-
-        /*---------------------------------------------------------*\
-        | Close the file when done                                  |
-        \*---------------------------------------------------------*/
-        controller_file.close();
-
-        /*---------------------------------------------------------*\
-        | Add the new file to the profile list                      |
-        \*---------------------------------------------------------*/
-        ui->comboBox->addItem(filename.c_str());
+        RefreshProfileList();
     }
 }
 
 void Ui::OpenRGBDialog2::on_ButtonLoadProfile_clicked()
 {
-    std::vector<RGBController*> temp_controllers;
-    unsigned int controller_size;
-    unsigned int controller_offset = 0;
-
     /*---------------------------------------------------------*\
     | Get the profile filename from the profiles list           |
     \*---------------------------------------------------------*/
-    std::string filename = ui->comboBox->currentText().toStdString();
+    std::string profile_name = ui->ProfileBox->currentText().toStdString();
 
     /*---------------------------------------------------------*\
-    | Open input file in binary mode                            |
+    | Load the profile                                          |
     \*---------------------------------------------------------*/
-    std::ifstream controller_file(filename, std::ios::in | std::ios::binary);
-
-    /*---------------------------------------------------------*\
-    | Read and verify file header                               |
-    \*---------------------------------------------------------*/
-    char            header_string[16];
-    unsigned int    header_version;
-
-    controller_file.read(header_string, 16);
-    controller_file.read((char *)&header_version, sizeof(unsigned int));
-
-    controller_offset += 16 + sizeof(unsigned int);
-    controller_file.seekg(controller_offset);
-
-    if(strcmp(header_string, "OPENRGB_PROFILE") == 0)
+    if(profile_manager.LoadProfile(profile_name))
     {
-        if(header_version == 1)
-        {
-            /*---------------------------------------------------------*\
-            | Read controller data from file until EOF                  |
-            \*---------------------------------------------------------*/
-            while(!(controller_file.peek() == EOF))
-            {
-                controller_file.read((char *)&controller_size, sizeof(controller_size));
-
-                unsigned char *controller_data = new unsigned char[controller_size];
-
-                controller_file.seekg(controller_offset);
-
-                controller_file.read((char *)controller_data, controller_size);
-
-                RGBController_Dummy *temp_controller = new RGBController_Dummy();
-
-                temp_controller->ReadDeviceDescription(controller_data);
-
-                temp_controllers.push_back(temp_controller);
-
-                delete[] controller_data;
-
-                controller_offset += controller_size;
-                controller_file.seekg(controller_offset);
-            }
-
-            for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
-            {
-                RGBController *temp_controller = temp_controllers[controller_index];
-                RGBController *controller_ptr = controllers[controller_index];
-
-                /*---------------------------------------------------------*\
-                | Test if saved controller data matches this controller     |
-                \*---------------------------------------------------------*/
-                if((temp_controller->type        == controller_ptr->type       )
-                 &&(temp_controller->name        == controller_ptr->name       )
-                 &&(temp_controller->description == controller_ptr->description)
-                 &&(temp_controller->version     == controller_ptr->version    )
-                 &&(temp_controller->serial      == controller_ptr->serial     )
-                 &&(temp_controller->location    == controller_ptr->location   ))
-                {
-                    /*---------------------------------------------------------*\
-                    | Update all modes                                          |
-                    \*---------------------------------------------------------*/
-                    if(temp_controller->modes.size() == controller_ptr->modes.size())
-                    {
-                        for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
-                        {
-                            if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
-                             &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
-                             &&(temp_controller->modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
-                             &&(temp_controller->modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
-                             &&(temp_controller->modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
-                             &&(temp_controller->modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
-                             &&(temp_controller->modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
-                            {
-                                controller_ptr->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
-                                controller_ptr->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
-                                controller_ptr->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
-
-                                controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
-
-                                for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
-                                {
-                                    controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
-                                }
-                            }
-
-                        }
-
-                        controller_ptr->active_mode = temp_controller->active_mode;
-                    }
-
-                    /*---------------------------------------------------------*\
-                    | Update all colors                                         |
-                    \*---------------------------------------------------------*/
-                    if(temp_controller->colors.size() == controller_ptr->colors.size())
-                    {
-                        for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
-                        {
-                            controller_ptr->colors[color_index] = temp_controller->colors[color_index];
-                        }
-                    }
-                }
-            }
-        }
-
         for(int device = 0; device < ui->DevicesTabBar->count(); device++)
         {
             qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
