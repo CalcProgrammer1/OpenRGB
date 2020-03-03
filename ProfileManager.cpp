@@ -77,6 +77,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
 bool ProfileManager::LoadProfile(std::string profile_name)
 {
     std::vector<RGBController*> temp_controllers;
+    std::vector<bool>           temp_controller_used;
     unsigned int                controller_size;
     unsigned int                controller_offset = 0;
     bool                        ret_val = false;
@@ -122,6 +123,7 @@ bool ProfileManager::LoadProfile(std::string profile_name)
                 temp_controller->ReadDeviceDescription(controller_data);
 
                 temp_controllers.push_back(temp_controller);
+                temp_controller_used.push_back(false);
 
                 delete[] controller_data;
 
@@ -131,62 +133,75 @@ bool ProfileManager::LoadProfile(std::string profile_name)
                 ret_val = true;
             }
 
+            /*---------------------------------------------------------*\
+            | Loop through all controllers.  For each controller, search|
+            | all saved controllers until a match is found              |
+            \*---------------------------------------------------------*/
             for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
             {
-                RGBController *temp_controller = temp_controllers[controller_index];
                 RGBController *controller_ptr = controllers[controller_index];
 
-                /*---------------------------------------------------------*\
-                | Test if saved controller data matches this controller     |
-                \*---------------------------------------------------------*/
-                if((temp_controller->type        == controller_ptr->type       )
-                 &&(temp_controller->name        == controller_ptr->name       )
-                 &&(temp_controller->description == controller_ptr->description)
-                 &&(temp_controller->version     == controller_ptr->version    )
-                 &&(temp_controller->serial      == controller_ptr->serial     )
-                 &&(temp_controller->location    == controller_ptr->location   ))
+                for(int temp_index = 0; temp_index < temp_controllers.size(); temp_index++)
                 {
+                    RGBController *temp_controller = temp_controllers[controller_index];
+                    
                     /*---------------------------------------------------------*\
-                    | Update all modes                                          |
+                    | Test if saved controller data matches this controller     |
                     \*---------------------------------------------------------*/
-                    if(temp_controller->modes.size() == controller_ptr->modes.size())
+                    if((temp_controller_used[temp_index] == false                  )
+                     &&(temp_controller->type        == controller_ptr->type       )
+                     &&(temp_controller->name        == controller_ptr->name       )
+                     &&(temp_controller->description == controller_ptr->description)
+                     &&(temp_controller->version     == controller_ptr->version    )
+                     &&(temp_controller->serial      == controller_ptr->serial     )
+                     &&(temp_controller->location    == controller_ptr->location   ))
                     {
-                        for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
+                        /*---------------------------------------------------------*\
+                        | Update all modes                                          |
+                        \*---------------------------------------------------------*/
+                        if(temp_controller->modes.size() == controller_ptr->modes.size())
                         {
-                            if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
-                             &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
-                             &&(temp_controller->modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
-                             &&(temp_controller->modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
-                             &&(temp_controller->modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
-                             &&(temp_controller->modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
-                             &&(temp_controller->modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
+                            for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
                             {
-                                controller_ptr->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
-                                controller_ptr->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
-                                controller_ptr->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
-
-                                controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
-
-                                for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
+                                if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
+                                &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
+                                &&(temp_controller->modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
+                                &&(temp_controller->modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
+                                &&(temp_controller->modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
+                                &&(temp_controller->modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
+                                &&(temp_controller->modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
                                 {
-                                    controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
+                                    controller_ptr->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
+                                    controller_ptr->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
+                                    controller_ptr->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
+
+                                    controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
+
+                                    for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
+                                    {
+                                        controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
+                                    }
                                 }
+
                             }
 
+                            controller_ptr->active_mode = temp_controller->active_mode;
                         }
 
-                        controller_ptr->active_mode = temp_controller->active_mode;
-                    }
-
-                    /*---------------------------------------------------------*\
-                    | Update all colors                                         |
-                    \*---------------------------------------------------------*/
-                    if(temp_controller->colors.size() == controller_ptr->colors.size())
-                    {
-                        for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
+                        /*---------------------------------------------------------*\
+                        | Update all colors                                         |
+                        \*---------------------------------------------------------*/
+                        if(temp_controller->colors.size() == controller_ptr->colors.size())
                         {
-                            controller_ptr->colors[color_index] = temp_controller->colors[color_index];
+                            for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
+                            {
+                                controller_ptr->colors[color_index] = temp_controller->colors[color_index];
+                            }
                         }
+
+                        temp_controller_used[temp_index] = true;
+
+                        break;
                     }
                 }
             }
