@@ -47,6 +47,12 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
         strcpy(device_name, "ASRock Polychrome FW 3.00");
         break;
 
+    case FIRMWARE_VER_3_PT_04:
+        led_count = 1;
+        asr_led = false;
+        strcpy(device_name, "ASRock Polychrome FW 3.04");
+        break;
+
     default:
         led_count = 0;
         strcpy(device_name, "");
