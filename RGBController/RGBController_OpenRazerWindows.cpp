@@ -160,12 +160,6 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
     unsigned int led_count = 0;
 
     /*-----------------------------------------------------------------*\
-    | Initialize buffer                                                 |
-    \*-----------------------------------------------------------------*/
-    memset(string_buf, 0xFF, sizeof(string_buf));
-    string_buf[1023] = '\0';
-
-    /*-----------------------------------------------------------------*\
     | Start device at -1.  This indicates the device was not detected   |
     \*-----------------------------------------------------------------*/
     device_index = -1;
@@ -189,28 +183,16 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
     location = "";
 
     /*-----------------------------------------------------------------*\
-    | Initialize buffer                                                 |
-    \*-----------------------------------------------------------------*/
-    //memset(string_buf, 0xFF, sizeof(string_buf));
-    //string_buf[1023] = '\0';
-
-    /*-----------------------------------------------------------------*\
     | Get the serial number from the dev path                           |
     \*-----------------------------------------------------------------*/
-    //razer_functions->device_serial->show(razer_device, NULL, string_buf);
-    //serial = string_buf;
-
-    /*-----------------------------------------------------------------*\
-    | Initialize buffer                                                 |
-    \*-----------------------------------------------------------------*/
-    //memset(string_buf, 0xFF, sizeof(string_buf));
-    //string_buf[1023] = '\0';
+    razer_functions->device_serial->show(razer_device, NULL, string_buf);
+    serial = string_buf;
 
     /*-----------------------------------------------------------------*\
     | Get the firmware version from the dev path                        |
     \*-----------------------------------------------------------------*/
-    //razer_functions->firmware_version->show(razer_device, NULL, string_buf);
-    //version = string_buf;
+    razer_functions->firmware_version->show(razer_device, NULL, string_buf);
+    version = string_buf;
 
     /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |
