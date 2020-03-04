@@ -1,4 +1,5 @@
 #include "OpenRGBDevicePage.h"
+#include "OpenRGBZoneResizeDialog.h"
 #include "hsv.h"
 
 using namespace Ui;
@@ -108,6 +109,8 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                     {
                         ui->LEDBox->addItem(device->leds[i].name.c_str());
                     }
+
+                    ui->ResizeButton->setEnabled(false);
                 }
                 else
                 {
@@ -119,6 +122,15 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                         {
                             ui->LEDBox->addItem(device->leds[device->zones[selected_zone].map[y][x]].name.c_str());
                         }
+                    }
+
+                    if(device->zones[selected_zone].leds_min == device->zones[selected_zone].leds_max)
+                    {
+                        ui->ResizeButton->setEnabled(false);
+                    }
+                    else
+                    {
+                        ui->ResizeButton->setEnabled(true);
                     }
                 }
 
@@ -441,6 +453,8 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 ui->LEDBox->blockSignals(true);
                 ui->LEDBox->clear();
                 ui->LEDBox->blockSignals(false);
+
+                ui->ResizeButton->setEnabled(false);
                 break;
 
             case MODE_COLORS_PER_LED:
@@ -476,6 +490,15 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
 
                 ui->LEDBox->blockSignals(true);
                 ui->LEDBox->clear();
+
+                if(device->modes[selected_mode].colors_min == device->modes[selected_mode].colors_max)
+                {
+                    ui->ResizeButton->setEnabled(false);
+                }
+                else
+                {
+                    ui->ResizeButton->setEnabled(true);
+                }
 
                 for (std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
                 {
@@ -931,4 +954,45 @@ void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()
     unsigned char blue  = ui->BlueSpinBox->value();
 
     emit SetAllDevices(red, green, blue);
+}
+
+void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
+{
+    switch(device->modes[device->active_mode].color_mode)
+    {
+    case MODE_COLORS_PER_LED:
+        {
+            int selected_zone = ui->ZoneBox->currentIndex();
+
+            selected_zone -= 1;
+
+            if(device->zones[selected_zone].type == ZONE_TYPE_LINEAR)
+            {
+                OpenRGBZoneResizeDialog dlg(device->zones[selected_zone].leds_min,
+                                            device->zones[selected_zone].leds_max,
+                                            device->zones[selected_zone].map[0].size());
+
+                int new_size = dlg.show();
+            }
+        }
+        break;
+
+    case MODE_COLORS_MODE_SPECIFIC:
+        {
+            OpenRGBZoneResizeDialog dlg(device->modes[device->active_mode].colors_min,
+                                        device->modes[device->active_mode].colors_max,
+                                        device->modes[device->active_mode].colors.size());
+
+            int new_size = dlg.show();
+
+            if(new_size > 0)
+            {
+                device->modes[device->active_mode].colors.resize(new_size);
+            }
+
+            UpdateModeUi();
+            UpdateMode();
+        }
+        break;
+    }
 }

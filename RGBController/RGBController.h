@@ -120,6 +120,8 @@ typedef struct
 	zone_type           type;   /* Zone type        */
     std::vector<std::vector<int>>
                         map;    /* LED index map    */
+    unsigned int        leds_min;
+    unsigned int        leds_max;
 } zone;
 
 class RGBController

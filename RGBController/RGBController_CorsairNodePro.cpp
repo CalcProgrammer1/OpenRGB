@@ -183,9 +183,11 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
             char ch_idx_string[2];
             sprintf(ch_idx_string, "%d", channel_idx + 1);
 
-            new_zone->name = "Corsair Channel ";
+            new_zone->name     = "Corsair Channel ";
             new_zone->name.append(ch_idx_string);
-            new_zone->type = ZONE_TYPE_LINEAR;
+            new_zone->type     = ZONE_TYPE_LINEAR;
+            new_zone->leds_min = 0;
+            new_zone->leds_max = 40;
 
             std::vector<int> *new_zone_map = new std::vector<int>();
 

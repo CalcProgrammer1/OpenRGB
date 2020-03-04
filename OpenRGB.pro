@@ -72,6 +72,7 @@ SOURCES +=                                                              \
     qt/OpenRGBProfileSaveDialog.cpp \
     qt/OpenRGBSoftwareInfoPage.cpp \
     qt/OpenRGBSystemInfoPage.cpp                                        \
+    qt/OpenRGBZoneResizeDialog.cpp \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
     super_io/super_io.cpp                                               \
@@ -161,6 +162,7 @@ HEADERS +=                                                              \
     qt/OpenRGBProfileSaveDialog.h \
     qt/OpenRGBSoftwareInfoPage.h \
     qt/OpenRGBSystemInfoPage.h                                          \
+    qt/OpenRGBZoneResizeDialog.h \
     serial_port/find_usb_serial_port.h                                  \
     serial_port/serial_port.h                                           \
     super_io/super_io.h                                                 \
@@ -223,7 +225,8 @@ FORMS += \
     qt/OpenRGBDialog2.ui \
     qt/OpenRGBProfileSaveDialog.ui \
     qt/OpenRGBSoftwareInfoPage.ui \
-    qt/OpenRGBSystemInfoPage.ui
+    qt/OpenRGBSystemInfoPage.ui \
+    qt/OpenRGBZoneResizeDialog.ui
 
 #-----------------------------------------------
 # Windows specific project configuration

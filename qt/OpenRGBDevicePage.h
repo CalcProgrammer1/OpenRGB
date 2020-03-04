@@ -56,6 +56,8 @@ private slots:
 
     void on_ModeSpecificCheck_clicked();
 
+    void on_ResizeButton_clicked();
+
 private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
