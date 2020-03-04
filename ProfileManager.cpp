@@ -62,9 +62,9 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         controller_file.close();
 
         /*---------------------------------------------------------*\
-        | Add the new file to the profile list                      |
+        | Update the profile list                                   |
         \*---------------------------------------------------------*/
-        profile_list.push_back(filename);
+        UpdateProfileList();
 
         return(true);
     }
