@@ -211,9 +211,11 @@ bool ProfileManager::LoadProfile(std::string profile_name)
     return(ret_val);
 }
 
-void ProfileManager::DeleteProfile(std::string name)
+void ProfileManager::DeleteProfile(std::string profile_name)
 {
+    remove(profile_name.c_str());
 
+    UpdateProfileList();
 }
 
 void ProfileManager::UpdateProfileList()

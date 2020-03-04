@@ -6,6 +6,7 @@
 #include "OpenRGBProfileSaveDialog.h"
 #include <QLabel>
 #include <QTabBar>
+#include <QMessageBox>
 
 using namespace Ui;
 
@@ -383,5 +384,29 @@ void Ui::OpenRGBDialog2::on_ButtonLoadProfile_clicked()
         {
             qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
         }
+    }
+}
+
+void Ui::OpenRGBDialog2::on_ButtonDeleteProfile_clicked()
+{
+    /*---------------------------------------------------------*\
+    | Get the profile filename from the profiles list           |
+    \*---------------------------------------------------------*/
+    std::string profile_name = ui->ProfileBox->currentText().toStdString();
+
+    /*---------------------------------------------------------*\
+    | Confirm we want to delete the profile                     |
+    \*---------------------------------------------------------*/
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Delete Profile", "Do you really want to delete this profile?", QMessageBox::Yes|QMessageBox::No);
+
+    /*---------------------------------------------------------*\
+    | Load the profile                                          |
+    \*---------------------------------------------------------*/
+    if(reply == QMessageBox::Yes)
+    {
+        profile_manager.DeleteProfile(profile_name);
+
+        RefreshProfileList();
     }
 }
