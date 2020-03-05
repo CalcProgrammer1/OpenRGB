@@ -29,29 +29,29 @@ INCLUDEPATH +=                                                          \
     net_port/                                                           \
     serial_port/                                                        \
     super_io/                                                           \
-    Controllers/AMDWraithPrismController/                               \
-    Controllers/AuraController/                                         \
-    Controllers/AuraGPUController/                                      \
-    Controllers/CorsairController/                                      \
-    Controllers/CorsairCmdrProController/                               \
-    Controllers/CorsairKeyboardController/                              \
+#    Controllers/AMDWraithPrismController/                               \
+#    Controllers/AuraController/                                         \
+#    Controllers/AuraGPUController/                                      \
+#    Controllers/CorsairController/                                      \
+#    Controllers/CorsairCmdrProController/                               \
+#    Controllers/CorsairKeyboardController/                              \
     Controllers/CorsairNodeProController/                               \
-    Controllers/CorsairProController/                                   \
-    Controllers/CrucialController/                                      \
-    Controllers/Hue2Controller/                                         \
-    Controllers/HuePlusController/                                      \
-    Controllers/HyperXController/                                       \
-    Controllers/HyperXKeyboardController/                               \
-    Controllers/LEDStripController/                                     \
-    Controllers/MSI3ZoneController/                                     \
-    Controllers/MSIRGBController/                                       \
-    Controllers/PatriotViperController/                                 \
-    Controllers/PolychromeController/                                   \
-    Controllers/PoseidonZRGBController/                                 \
-    Controllers/RGBFusionController/                                    \
-    Controllers/RGBFusion2Controller/                                   \
-    Controllers/RGBFusionGPUController/                                 \
-    Controllers/ThermaltakeRiingController/                             \
+#    Controllers/CorsairProController/                                   \
+#    Controllers/CrucialController/                                      \
+#    Controllers/Hue2Controller/                                         \
+#    Controllers/HuePlusController/                                      \
+#    Controllers/HyperXController/                                       \
+#    Controllers/HyperXKeyboardController/                               \
+#    Controllers/LEDStripController/                                     \
+#    Controllers/MSI3ZoneController/                                     \
+#    Controllers/MSIRGBController/                                       \
+#    Controllers/PatriotViperController/                                 \
+#    Controllers/PolychromeController/                                   \
+#    Controllers/PoseidonZRGBController/                                 \
+#    Controllers/RGBFusionController/                                    \
+#    Controllers/RGBFusion2Controller/                                   \
+#    Controllers/RGBFusionGPUController/                                 \
+#    Controllers/ThermaltakeRiingController/                             \
     RGBController/                                                      \
     qt/
 
@@ -76,79 +76,79 @@ SOURCES +=                                                              \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
     super_io/super_io.cpp                                               \
-    Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
-    Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
-    Controllers/AuraController/AuraController.cpp                       \
-    Controllers/AuraController/AuraControllerDetect.cpp                 \
-    Controllers/AuraGPUController/AuraGPUController.cpp                 \
-    Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
-    Controllers/CorsairController/CorsairController.cpp                 \
-    Controllers/CorsairController/CorsairControllerDetect.cpp           \
-    Controllers/CorsairCmdrProController/CorsairCmdrProController.cpp   \
-    Controllers/CorsairCmdrProController/CorsairCmdrProControllerDetect.cpp \
-    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
-    Controllers/CorsairKeyboardController/CorsairKeyboardControllerDetect.cpp \
+#    Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
+#    Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
+#    Controllers/AuraController/AuraController.cpp                       \
+#    Controllers/AuraController/AuraControllerDetect.cpp                 \
+#    Controllers/AuraGPUController/AuraGPUController.cpp                 \
+#    Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
+#    Controllers/CorsairController/CorsairController.cpp                 \
+#    Controllers/CorsairController/CorsairControllerDetect.cpp           \
+#    Controllers/CorsairCmdrProController/CorsairCmdrProController.cpp   \
+#    Controllers/CorsairCmdrProController/CorsairCmdrProControllerDetect.cpp \
+#    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
+#    Controllers/CorsairKeyboardController/CorsairKeyboardControllerDetect.cpp \
     Controllers/CorsairNodeProController/CorsairNodeProController.cpp   \
     Controllers/CorsairNodeProController/CorsairNodeProControllerDetect.cpp \
-    Controllers/CorsairProController/CorsairProController.cpp           \
-    Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
-    Controllers/CrucialController/CrucialController.cpp                 \
-    Controllers/CrucialController/CrucialControllerDetect.cpp           \
-    Controllers/Hue2Controller/Hue2Controller.cpp                       \
-    Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
-    Controllers/HuePlusController/HuePlusController.cpp                 \
-    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
-    Controllers/HyperXController/HyperXController.cpp                   \
-    Controllers/HyperXController/HyperXControllerDetect.cpp             \
-    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
-    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
-    Controllers/LEDStripController/LEDStripController.cpp               \
-    Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
-    Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
-    Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
-    Controllers/MSIRGBController/MSIRGBController.cpp                   \
-    Controllers/MSIRGBController/MSIRGBControllerDetect.cpp             \
-    Controllers/PatriotViperController/PatriotViperController.cpp       \
-    Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
-    Controllers/PolychromeController/PolychromeController.cpp           \
-    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
-    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
-    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
-    Controllers/RGBFusionController/RGBFusionController.cpp             \
-    Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
-    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
-    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
-    Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
-    Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
-    Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
-    Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
+#    Controllers/CorsairProController/CorsairProController.cpp           \
+#    Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
+#    Controllers/CrucialController/CrucialController.cpp                 \
+#    Controllers/CrucialController/CrucialControllerDetect.cpp           \
+#    Controllers/Hue2Controller/Hue2Controller.cpp                       \
+#    Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
+#    Controllers/HuePlusController/HuePlusController.cpp                 \
+#    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
+#    Controllers/HyperXController/HyperXController.cpp                   \
+#    Controllers/HyperXController/HyperXControllerDetect.cpp             \
+#    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
+#    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
+#    Controllers/LEDStripController/LEDStripController.cpp               \
+#    Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+#    Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
+#    Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
+#    Controllers/MSIRGBController/MSIRGBController.cpp                   \
+#    Controllers/MSIRGBController/MSIRGBControllerDetect.cpp             \
+#    Controllers/PatriotViperController/PatriotViperController.cpp       \
+#    Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
+#    Controllers/PolychromeController/PolychromeController.cpp           \
+#    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
+#    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
+#    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
+#    Controllers/RGBFusionController/RGBFusionController.cpp             \
+#    Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
+#    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
+#    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
+#    Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
+#    Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
+#    Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
+#    Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
-    RGBController/E131ControllerDetect.cpp                              \
-    RGBController/RGBController_AMDWraithPrism.cpp                      \
-    RGBController/RGBController_Aura.cpp                                \
-    RGBController/RGBController_AuraGPU.cpp                             \
-    RGBController/RGBController_Corsair.cpp                             \
-    RGBController/RGBController_CorsairCmdrPro.cpp                      \
-    RGBController/RGBController_CorsairKeyboard.cpp                     \
+#    RGBController/E131ControllerDetect.cpp                              \
+#    RGBController/RGBController_AMDWraithPrism.cpp                      \
+#    RGBController/RGBController_Aura.cpp                                \
+#    RGBController/RGBController_AuraGPU.cpp                             \
+#    RGBController/RGBController_Corsair.cpp                             \
+#    RGBController/RGBController_CorsairCmdrPro.cpp                      \
+#    RGBController/RGBController_CorsairKeyboard.cpp                     \
     RGBController/RGBController_CorsairNodePro.cpp                      \
-    RGBController/RGBController_CorsairPro.cpp                          \
-    RGBController/RGBController_Crucial.cpp                             \
+#    RGBController/RGBController_CorsairPro.cpp                          \
+#    RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Dummy.cpp                               \
-    RGBController/RGBController_Hue2.cpp                                \
-    RGBController/RGBController_HuePlus.cpp                             \
-    RGBController/RGBController_HyperX.cpp                              \
-    RGBController/RGBController_HyperXKeyboard.cpp                      \
-    RGBController/RGBController_E131.cpp                                \
-    RGBController/RGBController_LEDStrip.cpp                            \
-    RGBController/RGBController_MSI3Zone.cpp                            \
-    RGBController/RGBController_MSIRGB.cpp                              \
-    RGBController/RGBController_PatriotViper.cpp                        \
-    RGBController/RGBController_Polychrome.cpp                          \
-    RGBController/RGBController_PoseidonZRGB.cpp                        \
-    RGBController/RGBController_RGBFusion.cpp                           \
-    RGBController/RGBController_RGBFusion2.cpp                          \
-    RGBController/RGBController_RGBFusionGPU.cpp                        \
-    RGBController/RGBController_ThermaltakeRiing.cpp                    \
+#    RGBController/RGBController_Hue2.cpp                                \
+#    RGBController/RGBController_HuePlus.cpp                             \
+#    RGBController/RGBController_HyperX.cpp                              \
+#    RGBController/RGBController_HyperXKeyboard.cpp                      \
+#    RGBController/RGBController_E131.cpp                                \
+#    RGBController/RGBController_LEDStrip.cpp                            \
+#    RGBController/RGBController_MSI3Zone.cpp                            \
+#    RGBController/RGBController_MSIRGB.cpp                              \
+#    RGBController/RGBController_PatriotViper.cpp                        \
+#    RGBController/RGBController_Polychrome.cpp                          \
+#    RGBController/RGBController_PoseidonZRGB.cpp                        \
+#    RGBController/RGBController_RGBFusion.cpp                           \
+#    RGBController/RGBController_RGBFusion2.cpp                          \
+#    RGBController/RGBController_RGBFusionGPU.cpp                        \
+#    RGBController/RGBController_ThermaltakeRiing.cpp                    \
 
 HEADERS +=                                                              \
     ProfileManager.h                                                    \
@@ -246,8 +246,8 @@ win32:SOURCES +=                                                        \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
     serial_port/find_usb_serial_port_win.cpp                            \
     wmi/wmi.cpp                                                         \
-    RGBController/OpenRazerWindowsDetect.cpp                            \
-    RGBController/RGBController_OpenRazerWindows.cpp                    \
+#    RGBController/OpenRazerWindowsDetect.cpp                            \
+#    RGBController/RGBController_OpenRazerWindows.cpp                    \
 
 win32:HEADERS +=                                                        \
     dependencies/inpout32_1501/Win32/inpout32.h                         \

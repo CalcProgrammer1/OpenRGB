@@ -90,6 +90,7 @@ public:
     unsigned int    GetStripsOnChannel(unsigned int channel);
 
     void            SetChannelEffect(unsigned char channel,
+                                     unsigned char num_leds,
                                      unsigned char mode,
                                      unsigned char speed,
                                      unsigned char direction,
@@ -105,7 +106,7 @@ public:
                                      unsigned char blu3
                                     );
 
-    void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
+    void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     unsigned int    channel_leds[CORSAIR_NODE_PRO_NUM_CHANNELS];
 
     void            KeepaliveThread();

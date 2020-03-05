@@ -116,12 +116,13 @@ std::string device_type_to_str(device_type type);
 
 typedef struct
 {
-    std::string         name;   /* Zone name        */
-	zone_type           type;   /* Zone type        */
-    std::vector<std::vector<int>>
-                        map;    /* LED index map    */
-    unsigned int        leds_min;
-    unsigned int        leds_max;
+    std::string             name;           /* Zone name                */
+    zone_type               type;           /* Zone type                */
+    led *                   leds;           /* List of LEDs in zone     */
+    RGBColor *              colors;         /* Colors of LEDs in zone   */
+    unsigned int            leds_count;     /* Number of LEDs in zone   */
+    unsigned int            leds_min;       /* Minimum number of LEDs   */
+    unsigned int            leds_max;       /* Maximum number of LEDs   */
 } zone;
 
 class RGBController
@@ -144,6 +145,8 @@ public:
     /*---------------------------------------------------------*\
     | Generic functions implemented in RGBController.cpp        |
     \*---------------------------------------------------------*/
+    void                    SetupColors();
+
     RGBColor                GetLED(int led);
     void                    SetLED(int led, RGBColor color);
     void                    SetAllLEDs(RGBColor color);
@@ -158,6 +161,10 @@ public:
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/
+    virtual void            SetupZones()                                = 0;
+
+    virtual void            ResizeZone(int zone, int new_size)          = 0;
+
     virtual void            UpdateLEDs()                                = 0;
     virtual void            UpdateZoneLEDs(int zone)                    = 0;
     virtual void            UpdateSingleLED(int led)                    = 0;

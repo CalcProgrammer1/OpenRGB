@@ -80,6 +80,7 @@ void CorsairNodeProController::KeepaliveThread()
 }
 
 void CorsairNodeProController::SetChannelEffect(unsigned char channel,
+                                                unsigned char num_leds,
                                                 unsigned char mode,
                                                 unsigned char speed,
                                                 unsigned char direction,
@@ -117,7 +118,7 @@ void CorsairNodeProController::SetChannelEffect(unsigned char channel,
     (
         channel,
         0,
-        CORSAIR_CMDR_PRO_LED_TYPE_LED_STRIP,
+        num_leds,
         mode,
         speed,
         direction,
@@ -142,7 +143,7 @@ void CorsairNodeProController::SetChannelEffect(unsigned char channel,
     SendCommit();
 }
 
-void CorsairNodeProController::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
+void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
 {
     unsigned char   color_data[50];
     unsigned char   pkt_max;
@@ -157,9 +158,9 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, std::vector
     \*-----------------------------------------------------*/
     pkt_max = 50;
 
-    if(pkt_max > colors.size())
+    if(pkt_max > num_colors)
     {
-        pkt_max = (unsigned char)colors.size();
+        pkt_max = (unsigned char)num_colors;
     }
 
     for(int idx = 0; idx < pkt_max; idx++)
@@ -174,9 +175,9 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, std::vector
     \*-----------------------------------------------------*/
     pkt_max = 0;
 
-    if (colors.size() > 50)
+    if (num_colors > 50)
     {
-        pkt_max = (unsigned char)(colors.size() - 50);
+        pkt_max = (unsigned char)(num_colors - 50);
     }
 
     if(pkt_max > 0)
@@ -194,9 +195,9 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, std::vector
     \*-----------------------------------------------------*/
     pkt_max = 50;
 
-    if(pkt_max > colors.size())
+    if(pkt_max > num_colors)
     {
-        pkt_max = (unsigned char)colors.size();
+        pkt_max = (unsigned char)num_colors;
     }
 
     for(int idx = 0; idx < pkt_max; idx++)
@@ -211,9 +212,9 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, std::vector
     \*-----------------------------------------------------*/
     pkt_max = 0;
 
-    if (colors.size() > 50)
+    if (num_colors > 50)
     {
-        pkt_max = (unsigned char)(colors.size() - 50);
+        pkt_max = (unsigned char)(num_colors - 50);
     }
 
     if(pkt_max > 0)
@@ -231,9 +232,9 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, std::vector
     \*-----------------------------------------------------*/
     pkt_max = 50;
 
-    if(pkt_max > colors.size())
+    if(pkt_max > num_colors)
     {
-        pkt_max = (unsigned char)colors.size();
+        pkt_max = (unsigned char)num_colors;
     }
 
     for(int idx = 0; idx < pkt_max; idx++)
@@ -248,9 +249,9 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, std::vector
     \*-----------------------------------------------------*/
     pkt_max = 0;
 
-    if (colors.size() > 50)
+    if (num_colors > 50)
     {
-        pkt_max = (unsigned char)(colors.size() - 50);
+        pkt_max = (unsigned char)(num_colors - 50);
     }
 
     if(pkt_max > 0)

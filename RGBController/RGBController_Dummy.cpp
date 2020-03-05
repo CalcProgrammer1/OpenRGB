@@ -13,6 +13,16 @@ RGBController_Dummy::RGBController_Dummy()
 
 }
 
+void RGBController_Dummy::SetupZones()
+{
+
+}
+
+void RGBController_Dummy::ResizeZone(int zone, int new_size)
+{
+
+}
+
 void RGBController_Dummy::UpdateLEDs()
 {
 

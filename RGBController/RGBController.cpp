@@ -3,6 +3,7 @@
 
 unsigned char * RGBController::GetDeviceDescription()
 {
+#if 0
     unsigned int data_ptr = 0;
     unsigned int data_size = 0;
 
@@ -359,10 +360,13 @@ unsigned char * RGBController::GetDeviceDescription()
     delete[] zone_map_rows;
 
     return(data_buf);
+#endif
+    return(NULL);
 }
 
 void RGBController::ReadDeviceDescription(unsigned char* data_buf)
 {
+#if 0
     unsigned int data_ptr = 0;
 
     data_ptr += sizeof(unsigned int);
@@ -654,6 +658,40 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
 
         colors.push_back(new_color);
     }
+#endif
+}
+
+void RGBController::SetupColors()
+{
+    unsigned int total_led_count;
+
+    /*---------------------------------------------------------*\
+    | Determine total number of LEDs on the device              |
+    \*---------------------------------------------------------*/
+    total_led_count = 0;
+
+    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        total_led_count += zones[zone_idx].leds_count;
+    }
+
+    /*---------------------------------------------------------*\
+    | Set the size of the color buffer to the number of LEDs    |
+    \*---------------------------------------------------------*/
+    colors.resize(total_led_count);
+
+    /*---------------------------------------------------------*\
+    | Set the color buffer pointers on each zone                |
+    \*---------------------------------------------------------*/
+    total_led_count = 0;
+
+    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].colors = &colors[total_led_count];
+        zones[zone_idx].leds   = &leds[total_led_count];
+
+        total_led_count += zones[zone_idx].leds_count;
+    }
 }
 
 RGBColor RGBController::GetLED(int led)
@@ -680,9 +718,9 @@ void RGBController::SetLED(int led, RGBColor color)
 
 void RGBController::SetAllLEDs(RGBColor color)
 {
-    for(int led = 0; led < colors.size(); led++)
+    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        colors[led] = color;
+        SetAllZoneLEDs(zone_idx, color);
     }
 
     UpdateLEDs();
@@ -690,12 +728,9 @@ void RGBController::SetAllLEDs(RGBColor color)
 
 void RGBController::SetAllZoneLEDs(int zone, RGBColor color)
 {
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t color_idx = 0; color_idx < zones[zone].leds_count; color_idx++)
     {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            colors[zones[zone].map[x][y]] = color;
-        }
+        zones[zone].colors[color_idx] = color;
     }
 
     UpdateZoneLEDs(zone);

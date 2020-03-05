@@ -313,42 +313,42 @@ void DetectRGBFusion2Controllers(std::vector<RGBController*> &rgb_controllers);
 #include "RGBController_Dummy.h"
 void DetectRGBControllers(void)
 {
-    DetectI2CBusses();
+    //DetectI2CBusses();
 
-    DetectAuraControllers(busses, rgb_controllers);
-    DetectAuraGPUControllers(busses, rgb_controllers);
-    DetectCorsairControllers(busses, rgb_controllers);
-    DetectCorsairProControllers(busses, rgb_controllers);
-    DetectCrucialControllers(busses, rgb_controllers);
-    DetectHyperXControllers(busses, rgb_controllers);
-    DetectPatriotViperControllers(busses, rgb_controllers);
-    DetectPolychromeControllers(busses, rgb_controllers);
-    DetectRGBFusionGPUControllers(busses, rgb_controllers);
+    //DetectAuraControllers(busses, rgb_controllers);
+    //DetectAuraGPUControllers(busses, rgb_controllers);
+    //DetectCorsairControllers(busses, rgb_controllers);
+    //DetectCorsairProControllers(busses, rgb_controllers);
+    //DetectCrucialControllers(busses, rgb_controllers);
+    //DetectHyperXControllers(busses, rgb_controllers);
+    //DetectPatriotViperControllers(busses, rgb_controllers);
+    //DetectPolychromeControllers(busses, rgb_controllers);
+    //DetectRGBFusionGPUControllers(busses, rgb_controllers);
 
-    DetectRGBFusionControllers(busses, rgb_controllers);
-    DetectMSIRGBControllers(rgb_controllers);
+    //DetectRGBFusionControllers(busses, rgb_controllers);
+    //DetectMSIRGBControllers(rgb_controllers);
 
-    DetectLEDStripControllers(rgb_controllers);
-    DetectHue2Controllers(rgb_controllers);
-    DetectHuePlusControllers(rgb_controllers);
+    //DetectLEDStripControllers(rgb_controllers);
+    //DetectHue2Controllers(rgb_controllers);
+    //DetectHuePlusControllers(rgb_controllers);
 
-    DetectAMDWraithPrismControllers(rgb_controllers);
-    DetectMSI3ZoneControllers(rgb_controllers);
-    DetectPoseidonZRGBControllers(rgb_controllers);
-    DetectHyperXKeyboardControllers(rgb_controllers);
-    DetectCorsairCmdrProControllers(rgb_controllers);
-    DetectCorsairKeyboardControllers(rgb_controllers);
+    //DetectAMDWraithPrismControllers(rgb_controllers);
+    //DetectMSI3ZoneControllers(rgb_controllers);
+    //DetectPoseidonZRGBControllers(rgb_controllers);
+    //DetectHyperXKeyboardControllers(rgb_controllers);
+    //DetectCorsairCmdrProControllers(rgb_controllers);
+    //DetectCorsairKeyboardControllers(rgb_controllers);
     DetectCorsairNodeProControllers(rgb_controllers);
-    DetectThermaltakeRiingControllers(rgb_controllers);
-    DetectRGBFusion2Controllers(rgb_controllers);
+    //DetectThermaltakeRiingControllers(rgb_controllers);
+    //DetectRGBFusion2Controllers(rgb_controllers);
     
-    DetectE131Controllers(rgb_controllers);
+    //DetectE131Controllers(rgb_controllers);
 
     /*-------------------------------------*\
     | Windows-only devices                  |
     \*-------------------------------------*/
 #ifdef WIN32
-    DetectOpenRazerControllers(rgb_controllers);
+    //DetectOpenRazerControllers(rgb_controllers);
     /*-------------------------------------*\
     | Linux-only devices                    |
     \*-------------------------------------*/
