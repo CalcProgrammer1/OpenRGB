@@ -15,6 +15,11 @@ class RGBController_ThermaltakeRiing : public RGBController
 {
 public:
     RGBController_ThermaltakeRiing(ThermaltakeRiingController* riing_ptr);
+
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

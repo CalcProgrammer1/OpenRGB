@@ -29,11 +29,11 @@ ThermaltakeRiingController::~ThermaltakeRiingController()
 
 }
 
-void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
+void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
 {
-    unsigned char* color_data = new unsigned char[3 * colors.size()];
+    unsigned char* color_data = new unsigned char[3 * num_colors];
 
-    for(int color = 0; color < colors.size(); color++)
+    for(int color = 0; color < num_colors; color++)
     {
         int color_idx = color * 3;
         color_data[color_idx + 0] = RGBGetGValue(colors[color]);
@@ -41,7 +41,7 @@ void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, std::vect
         color_data[color_idx + 2] = RGBGetBValue(colors[color]);
     }
 
-    SendRGB(channel, current_mode, current_speed, colors.size(), color_data);
+    SendRGB(channel, current_mode, current_speed, num_colors, color_data);
 
     delete[] color_data;
 }

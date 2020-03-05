@@ -339,7 +339,7 @@ void DetectRGBControllers(void)
     //DetectCorsairCmdrProControllers(rgb_controllers);
     //DetectCorsairKeyboardControllers(rgb_controllers);
     DetectCorsairNodeProControllers(rgb_controllers);
-    //DetectThermaltakeRiingControllers(rgb_controllers);
+    DetectThermaltakeRiingControllers(rgb_controllers);
     //DetectRGBFusion2Controllers(rgb_controllers);
     
     //DetectE131Controllers(rgb_controllers);

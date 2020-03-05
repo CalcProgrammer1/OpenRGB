@@ -51,7 +51,7 @@ INCLUDEPATH +=                                                          \
 #    Controllers/RGBFusionController/                                    \
 #    Controllers/RGBFusion2Controller/                                   \
 #    Controllers/RGBFusionGPUController/                                 \
-#    Controllers/ThermaltakeRiingController/                             \
+    Controllers/ThermaltakeRiingController/                             \
     RGBController/                                                      \
     qt/
 
@@ -120,8 +120,8 @@ SOURCES +=                                                              \
 #    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
 #    Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
 #    Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
-#    Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
-#    Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
+    Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
+    Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
 #    RGBController/E131ControllerDetect.cpp                              \
 #    RGBController/RGBController_AMDWraithPrism.cpp                      \
@@ -148,7 +148,7 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_RGBFusion.cpp                           \
 #    RGBController/RGBController_RGBFusion2.cpp                          \
 #    RGBController/RGBController_RGBFusionGPU.cpp                        \
-#    RGBController/RGBController_ThermaltakeRiing.cpp                    \
+    RGBController/RGBController_ThermaltakeRiing.cpp                    \
 
 HEADERS +=                                                              \
     ProfileManager.h                                                    \
