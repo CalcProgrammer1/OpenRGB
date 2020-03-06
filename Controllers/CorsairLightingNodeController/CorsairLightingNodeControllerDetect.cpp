@@ -1,6 +1,6 @@
-#include "CorsairNodeProController.h"
+#include "CorsairLightingNodeController.h"
 #include "RGBController.h"
-#include "RGBController_CorsairNodePro.h"
+#include "RGBController_CorsairLightingNode.h"
 #include <vector>
 #include <libusb-1.0/libusb.h>
 
@@ -34,13 +34,13 @@ static const corsair_node_device device_list[6] =
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectCorsairNodeProControllers                                                        *
+*   DetectCorsairLightingNodeControllers                                                   *
 *                                                                                          *
 *       Detect devices supported by the Corsair Lighting Node Pro driver                   *
 *                                                                                          *                                                                                          *
 \******************************************************************************************/
 
-void DetectCorsairNodeProControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_controllers)
 {
     libusb_context * ctx;
     libusb_init(&ctx);
@@ -55,13 +55,13 @@ void DetectCorsairNodeProControllers(std::vector<RGBController*> &rgb_controller
             libusb_detach_kernel_driver(dev, 0);
             libusb_claim_interface(dev, 0);
 
-            CorsairNodeProController* controller = new CorsairNodeProController(dev, device_list[device_idx].usb_endpoint);
+            CorsairLightingNodeController* controller = new CorsairLightingNodeController(dev, device_list[device_idx].usb_endpoint);
 
-            RGBController_CorsairNodePro* rgb_controller = new RGBController_CorsairNodePro(controller);
+            RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
 
             rgb_controller->name = device_list[device_idx].name;
 
             rgb_controllers.push_back(rgb_controller);
         }
     }
-}   /* DetectCorsairNodeProControllers() */
+}   /* DetectCorsairLightingNodeControllers() */

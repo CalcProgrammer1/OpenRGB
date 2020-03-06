@@ -4,7 +4,7 @@
 |  Adam Honse (calcprogrammer1@gmail.com), 1/12/2020        |
 \*---------------------------------------------------------*/
 
-#include "CorsairNodeProController.h"
+#include "CorsairLightingNodeController.h"
 
 #include <fstream>
 #include <iostream>
@@ -41,12 +41,12 @@ static void Sleep(unsigned int milliseconds)
 
 THREAD keepalive_thread(void *param)
 {
-    CorsairNodeProController* corsair = static_cast<CorsairNodeProController*>(param);
+    CorsairLightingNodeController* corsair = static_cast<CorsairLightingNodeController*>(param);
     corsair->KeepaliveThread();
     THREADRETURN
 }
 
-CorsairNodeProController::CorsairNodeProController(libusb_device_handle* dev_handle, unsigned int dev_endpoint)
+CorsairLightingNodeController::CorsairLightingNodeController(libusb_device_handle* dev_handle, unsigned int dev_endpoint)
 {
     dev = dev_handle;
     endpoint = dev_endpoint;
@@ -68,11 +68,11 @@ CorsairNodeProController::CorsairNodeProController(libusb_device_handle* dev_han
 #endif
 }
 
-CorsairNodeProController::~CorsairNodeProController()
+CorsairLightingNodeController::~CorsairLightingNodeController()
 {
 }
 
-void CorsairNodeProController::KeepaliveThread()
+void CorsairLightingNodeController::KeepaliveThread()
 {
     while(1)
     {
@@ -81,7 +81,7 @@ void CorsairNodeProController::KeepaliveThread()
     }
 }
 
-void CorsairNodeProController::SetChannelEffect(unsigned char channel,
+void CorsairLightingNodeController::SetChannelEffect(unsigned char channel,
                                                 unsigned char num_leds,
                                                 unsigned char mode,
                                                 unsigned char speed,
@@ -111,7 +111,7 @@ void CorsairNodeProController::SetChannelEffect(unsigned char channel,
     /*-----------------------------------------------------*\
     | Set Port State packet                                 |
     \*-----------------------------------------------------*/
-    SendPortState(channel, CORSAIR_CMDR_PRO_PORT_STATE_HARDWARE);
+    SendPortState(channel, CORSAIR_LIGHTING_NODE_PORT_STATE_HARDWARE);
 
     /*-----------------------------------------------------*\
     | Set Effect Configuration packet                       |
@@ -145,7 +145,7 @@ void CorsairNodeProController::SetChannelEffect(unsigned char channel,
     SendCommit();
 }
 
-void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
+void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
 {
     unsigned char   color_data[50];
     unsigned char   pkt_max;
@@ -153,7 +153,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
     /*-----------------------------------------------------*\
     | Send Port State packet                                |
     \*-----------------------------------------------------*/
-    SendPortState(channel, CORSAIR_CMDR_PRO_PORT_STATE_SOFTWARE);
+    SendPortState(channel, CORSAIR_LIGHTING_NODE_PORT_STATE_SOFTWARE);
 
     /*-----------------------------------------------------*\
     | Send red channel packet 1                             |
@@ -170,7 +170,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
         color_data[idx] = RGBGetRValue(colors[idx]);
     }
 
-    SendDirect(channel, 0, pkt_max, CORSAIR_CMDR_PRO_DIRECT_CHANNEL_RED, color_data);
+    SendDirect(channel, 0, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_RED, color_data);
 
     /*-----------------------------------------------------*\
     | Send red channel packet 2 if necessary                |
@@ -189,7 +189,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
             color_data[idx] = RGBGetRValue(colors[idx+50]);
         }
 
-        SendDirect(channel, 50, pkt_max, CORSAIR_CMDR_PRO_DIRECT_CHANNEL_RED, color_data);
+        SendDirect(channel, 50, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_RED, color_data);
     }
 
     /*-----------------------------------------------------*\
@@ -207,7 +207,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
         color_data[idx] = RGBGetGValue(colors[idx]);
     }
 
-    SendDirect(channel, 0, pkt_max, CORSAIR_CMDR_PRO_DIRECT_CHANNEL_GREEN, color_data);
+    SendDirect(channel, 0, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_GREEN, color_data);
 
     /*-----------------------------------------------------*\
     | Send green channel packet 2 if necessary              |
@@ -226,7 +226,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
             color_data[idx] = RGBGetGValue(colors[idx+50]);
         }
 
-        SendDirect(channel, 50, pkt_max, CORSAIR_CMDR_PRO_DIRECT_CHANNEL_GREEN, color_data);
+        SendDirect(channel, 50, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_GREEN, color_data);
     }
 
     /*-----------------------------------------------------*\
@@ -244,7 +244,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
         color_data[idx] = RGBGetBValue(colors[idx]);
     }
 
-    SendDirect(channel, 0, pkt_max, CORSAIR_CMDR_PRO_DIRECT_CHANNEL_BLUE, color_data);
+    SendDirect(channel, 0, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_BLUE, color_data);
 
     /*-----------------------------------------------------*\
     | Send blue channel packet 2 if necessary               |
@@ -263,7 +263,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
             color_data[idx] = RGBGetBValue(colors[idx+50]);
         }
 
-        SendDirect(channel, 50, pkt_max, CORSAIR_CMDR_PRO_DIRECT_CHANNEL_BLUE, color_data);
+        SendDirect(channel, 50, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_BLUE, color_data);
     }
 
     /*-----------------------------------------------------*\
@@ -276,7 +276,7 @@ void CorsairNodeProController::SetChannelLEDs(unsigned char channel, RGBColor * 
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
-void CorsairNodeProController::SendDirect
+void CorsairLightingNodeController::SendDirect
     (
     unsigned char   channel,
     unsigned char   start,
@@ -296,7 +296,7 @@ void CorsairNodeProController::SendDirect
     /*-----------------------------------------------------*\
     | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_CMDR_PRO_PACKET_ID_DIRECT;
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_DIRECT;
     usb_buf[0x01]   = channel;
     usb_buf[0x02]   = start;
     usb_buf[0x03]   = count;
@@ -313,7 +313,7 @@ void CorsairNodeProController::SendDirect
     libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
-void CorsairNodeProController::SendCommit()
+void CorsairLightingNodeController::SendCommit()
 {
     int             actual;
     unsigned char   usb_buf[64];
@@ -326,7 +326,7 @@ void CorsairNodeProController::SendCommit()
     /*-----------------------------------------------------*\
     | Set up Commit packet                                  |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_CMDR_PRO_PACKET_ID_COMMIT;
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_COMMIT;
     usb_buf[0x01]   = 0xFF;
 
     /*-----------------------------------------------------*\
@@ -335,7 +335,7 @@ void CorsairNodeProController::SendCommit()
     libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
-void CorsairNodeProController::SendBegin
+void CorsairLightingNodeController::SendBegin
     (
     unsigned char   channel
     )
@@ -351,7 +351,7 @@ void CorsairNodeProController::SendBegin
     /*-----------------------------------------------------*\
     | Set up Begin packet                                   |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_CMDR_PRO_PACKET_ID_BEGIN;
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_BEGIN;
     usb_buf[0x01]   = channel;
 
     /*-----------------------------------------------------*\
@@ -360,7 +360,7 @@ void CorsairNodeProController::SendBegin
     libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
-void CorsairNodeProController::SendEffectConfig
+void CorsairLightingNodeController::SendEffectConfig
     (
     unsigned char   channel,
     unsigned char   count,
@@ -394,7 +394,7 @@ void CorsairNodeProController::SendEffectConfig
     /*-----------------------------------------------------*\
     | Set up Effect Config packet                           |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_CMDR_PRO_PACKET_ID_EFFECT_CONFIG;
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_EFFECT_CONFIG;
     usb_buf[0x01]   = channel;
     usb_buf[0x02]   = count * 10;
     usb_buf[0x03]   = led_type;
@@ -437,12 +437,12 @@ void CorsairNodeProController::SendEffectConfig
     libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
-void CorsairNodeProController::SendTemperature()
+void CorsairLightingNodeController::SendTemperature()
 {
 
 }
 
-void CorsairNodeProController::SendReset
+void CorsairLightingNodeController::SendReset
     (
     unsigned char   channel
     )
@@ -458,7 +458,7 @@ void CorsairNodeProController::SendReset
     /*-----------------------------------------------------*\
     | Set up Reset packet                                   |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_CMDR_PRO_PACKET_ID_RESET;
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_RESET;
     usb_buf[0x01]   = channel;
 
     /*-----------------------------------------------------*\
@@ -467,7 +467,7 @@ void CorsairNodeProController::SendReset
     libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
-void CorsairNodeProController::SendPortState
+void CorsairLightingNodeController::SendPortState
     (
     unsigned char   channel,
     unsigned char   state
@@ -484,7 +484,7 @@ void CorsairNodeProController::SendPortState
     /*-----------------------------------------------------*\
     | Set up Port State packet                              |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_CMDR_PRO_PACKET_ID_PORT_STATE;
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_PORT_STATE;
     usb_buf[0x01]   = channel;
     usb_buf[0x02]   = state;
 
@@ -494,17 +494,17 @@ void CorsairNodeProController::SendPortState
     libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
-void CorsairNodeProController::SendBrightness()
+void CorsairLightingNodeController::SendBrightness()
 {
 
 }
 
-void CorsairNodeProController::SendLEDCount()
+void CorsairLightingNodeController::SendLEDCount()
 {
 
 }
 
-void CorsairNodeProController::SendProtocol()
+void CorsairLightingNodeController::SendProtocol()
 {
 
 }

@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_CorsairNodePro.cpp         |
+|  RGBController_CorsairLightingNode.cpp         |
 |                                           |
 |  Generic RGB Interface for Corsair        |
 |  Lighting Node Pro                        |
@@ -7,10 +7,10 @@
 |  Adam Honse (CalcProgrammer1) 1/12/2020   |
 \*-----------------------------------------*/
 
-#include "RGBController_CorsairNodePro.h"
+#include "RGBController_CorsairLightingNode.h"
 
 
-RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProController* corsair_ptr)
+RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLightingNodeController* corsair_ptr)
 {
     corsair = corsair_ptr;
 
@@ -27,50 +27,50 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 
     mode RainbowWave;
     RainbowWave.name       = "Rainbow Wave";
-    RainbowWave.value      = CORSAIR_CMDR_PRO_MODE_RAINBOW_WAVE;
+    RainbowWave.value      = CORSAIR_LIGHTING_NODE_MODE_RAINBOW_WAVE;
     RainbowWave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    RainbowWave.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    RainbowWave.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    RainbowWave.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    RainbowWave.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    RainbowWave.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    RainbowWave.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     RainbowWave.direction  = MODE_DIRECTION_RIGHT;
     RainbowWave.color_mode = MODE_COLORS_NONE;
     modes.push_back(RainbowWave);
 
     mode ColorShift;
     ColorShift.name       = "Color Shift";
-    ColorShift.value      = CORSAIR_CMDR_PRO_MODE_COLOR_SHIFT;
+    ColorShift.value      = CORSAIR_LIGHTING_NODE_MODE_COLOR_SHIFT;
     ColorShift.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     ColorShift.colors_min = 2;
     ColorShift.colors_max = 2;
-    ColorShift.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    ColorShift.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    ColorShift.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorShift.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    ColorShift.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    ColorShift.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     ColorShift.color_mode = MODE_COLORS_MODE_SPECIFIC;
     ColorShift.colors.resize(2);
     modes.push_back(ColorShift);
 
     mode ColorPulse;
     ColorPulse.name       = "Color Pulse";
-    ColorPulse.value      = CORSAIR_CMDR_PRO_MODE_COLOR_PULSE;
+    ColorPulse.value      = CORSAIR_LIGHTING_NODE_MODE_COLOR_PULSE;
     ColorPulse.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     ColorPulse.colors_min = 2;
     ColorPulse.colors_max = 2;
-    ColorPulse.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    ColorPulse.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    ColorPulse.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorPulse.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    ColorPulse.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    ColorPulse.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     ColorPulse.color_mode = MODE_COLORS_MODE_SPECIFIC;
     ColorPulse.colors.resize(2);
     modes.push_back(ColorPulse);
 
     mode ColorWave;
     ColorWave.name       = "Color Wave";
-    ColorWave.value      = CORSAIR_CMDR_PRO_MODE_COLOR_WAVE;
+    ColorWave.value      = CORSAIR_LIGHTING_NODE_MODE_COLOR_WAVE;
     ColorWave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     ColorWave.colors_min = 2;
     ColorWave.colors_max = 2;
-    ColorWave.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    ColorWave.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    ColorWave.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    ColorWave.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    ColorWave.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    ColorWave.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     ColorWave.direction  = MODE_DIRECTION_RIGHT;
     ColorWave.color_mode = MODE_COLORS_MODE_SPECIFIC;
     ColorWave.colors.resize(2);
@@ -78,7 +78,7 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 
     mode Static;
     Static.name       = "Static";
-    Static.value      = CORSAIR_CMDR_PRO_MODE_STATIC;
+    Static.value      = CORSAIR_LIGHTING_NODE_MODE_STATIC;
     Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
     Static.colors_min = 1;
     Static.colors_max = 1;
@@ -88,7 +88,7 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 
     mode Temperature;
     Temperature.name       = "Temperature";
-    Temperature.value      = CORSAIR_CMDR_PRO_MODE_TEMPERATURE;
+    Temperature.value      = CORSAIR_LIGHTING_NODE_MODE_TEMPERATURE;
     Temperature.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
     Temperature.colors_min = 3;
     Temperature.colors_max = 3;
@@ -98,26 +98,26 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 
     mode Visor;
     Visor.name       = "Visor";
-    Visor.value      = CORSAIR_CMDR_PRO_MODE_VISOR;
+    Visor.value      = CORSAIR_LIGHTING_NODE_MODE_VISOR;
     Visor.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Visor.colors_min = 2;
     Visor.colors_max = 2;
-    Visor.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Visor.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Visor.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Visor.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    Visor.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    Visor.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     Visor.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Visor.colors.resize(2);
     modes.push_back(Visor);
 
     mode Marquee;
     Marquee.name       = "Marquee";
-    Marquee.value      = CORSAIR_CMDR_PRO_MODE_MARQUEE;
+    Marquee.value      = CORSAIR_LIGHTING_NODE_MODE_MARQUEE;
     Marquee.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Marquee.colors_min = 1;
     Marquee.colors_max = 1;
-    Marquee.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Marquee.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Marquee.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Marquee.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    Marquee.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    Marquee.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     Marquee.direction  = MODE_DIRECTION_RIGHT;
     Marquee.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Marquee.colors.resize(1);
@@ -125,26 +125,26 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 
     mode Blink;
     Blink.name       = "Blink";
-    Blink.value      = CORSAIR_CMDR_PRO_MODE_BLINK;
+    Blink.value      = CORSAIR_LIGHTING_NODE_MODE_BLINK;
     Blink.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Blink.colors_min = 2;
     Blink.colors_max = 2;
-    Blink.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Blink.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Blink.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Blink.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    Blink.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    Blink.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     Blink.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Blink.colors.resize(2);
     modes.push_back(Blink);
 
     mode Sequential;
     Sequential.name       = "Sequential";
-    Sequential.value      = CORSAIR_CMDR_PRO_MODE_SEQUENTIAL;
+    Sequential.value      = CORSAIR_LIGHTING_NODE_MODE_SEQUENTIAL;
     Sequential.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Sequential.colors_min = 1;
     Sequential.colors_max = 1;
-    Sequential.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Sequential.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Sequential.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Sequential.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    Sequential.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    Sequential.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     Sequential.direction  = MODE_DIRECTION_RIGHT;
     Sequential.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Sequential.colors.resize(1);
@@ -152,18 +152,18 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 
     mode Rainbow;
     Rainbow.name       = "Rainbow";
-    Rainbow.value      = CORSAIR_CMDR_PRO_MODE_RAINBOW;
+    Rainbow.value      = CORSAIR_LIGHTING_NODE_MODE_RAINBOW;
     Rainbow.flags      = MODE_FLAG_HAS_SPEED;
-    Rainbow.speed_min  = CORSAIR_CMDR_PRO_SPEED_SLOW;
-    Rainbow.speed_max  = CORSAIR_CMDR_PRO_SPEED_FAST;
-    Rainbow.speed      = CORSAIR_CMDR_PRO_SPEED_MEDIUM;
+    Rainbow.speed_min  = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
+    Rainbow.speed_max  = CORSAIR_LIGHTING_NODE_SPEED_FAST;
+    Rainbow.speed      = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
     Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     SetupZones();
 }
 
-void RGBController_CorsairNodePro::SetupZones()
+void RGBController_CorsairLightingNode::SetupZones()
 {
     /*-------------------------------------------------*\
     | Clear any existing zone/LED configuration         |
@@ -174,7 +174,7 @@ void RGBController_CorsairNodePro::SetupZones()
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
-    for (unsigned int channel_idx = 0; channel_idx < CORSAIR_NODE_PRO_NUM_CHANNELS; channel_idx++)
+    for (unsigned int channel_idx = 0; channel_idx < CORSAIR_LIGHTING_NODE_NUM_CHANNELS; channel_idx++)
     {
         if(corsair->channel_leds[channel_idx] > 0)
         {
@@ -213,14 +213,14 @@ void RGBController_CorsairNodePro::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairNodePro::ResizeZone(int zone, int new_size)
+void RGBController_CorsairLightingNode::ResizeZone(int zone, int new_size)
 {
     corsair->channel_leds[zone] = new_size;
 
     SetupZones();
 }
 
-void RGBController_CorsairNodePro::UpdateLEDs()
+void RGBController_CorsairLightingNode::UpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -228,24 +228,24 @@ void RGBController_CorsairNodePro::UpdateLEDs()
     }
 }
 
-void RGBController_CorsairNodePro::UpdateZoneLEDs(int zone)
+void RGBController_CorsairLightingNode::UpdateZoneLEDs(int zone)
 {
     corsair->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_CorsairNodePro::UpdateSingleLED(int led)
+void RGBController_CorsairLightingNode::UpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 
     corsair->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
-void RGBController_CorsairNodePro::SetCustomMode()
+void RGBController_CorsairLightingNode::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_CorsairNodePro::UpdateMode()
+void RGBController_CorsairLightingNode::UpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)
     {
@@ -253,7 +253,7 @@ void RGBController_CorsairNodePro::UpdateMode()
     }
     else
     {
-        for(int channel = 0; channel < CORSAIR_CMDR_PRO_NUM_CHANNELS; channel++)
+        for(int channel = 0; channel < CORSAIR_LIGHTING_NODE_NUM_CHANNELS; channel++)
         {
             unsigned int direction = 0;
             bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);

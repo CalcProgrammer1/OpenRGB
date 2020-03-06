@@ -34,7 +34,7 @@ INCLUDEPATH +=                                                          \
 #    Controllers/AuraGPUController/                                      \
 #    Controllers/CorsairController/                                      \
 #    Controllers/CorsairKeyboardController/                              \
-    Controllers/CorsairNodeProController/                               \
+    Controllers/CorsairLightingNodeController/                           \
 #    Controllers/CorsairProController/                                   \
 #    Controllers/CrucialController/                                      \
 #    Controllers/Hue2Controller/                                         \
@@ -85,8 +85,8 @@ SOURCES +=                                                              \
 #    Controllers/CorsairController/CorsairControllerDetect.cpp           \
 #    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
 #    Controllers/CorsairKeyboardController/CorsairKeyboardControllerDetect.cpp \
-    Controllers/CorsairNodeProController/CorsairNodeProController.cpp   \
-    Controllers/CorsairNodeProController/CorsairNodeProControllerDetect.cpp \
+    Controllers/CorsairLightingNodeController/CorsairLightingNodeController.cpp \
+    Controllers/CorsairLightingNodeController/CorsairLightingNodeControllerDetect.cpp \
 #    Controllers/CorsairProController/CorsairProController.cpp           \
 #    Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
 #    Controllers/CrucialController/CrucialController.cpp                 \
@@ -126,7 +126,7 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_AuraGPU.cpp                             \
 #    RGBController/RGBController_Corsair.cpp                             \
 #    RGBController/RGBController_CorsairKeyboard.cpp                     \
-    RGBController/RGBController_CorsairNodePro.cpp                      \
+    RGBController/RGBController_CorsairLightingNode.cpp                 \
 #    RGBController/RGBController_CorsairPro.cpp                          \
 #    RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Dummy.cpp                               \
@@ -167,7 +167,7 @@ HEADERS +=                                                              \
     Controllers/AuraGPUController/AuraGPUController.h                   \
     Controllers/CorsairController/CorsairController.h                   \
     Controllers/CorsairKeyboardController/CorsairKeyboardController.h   \
-    Controllers/CorsairNodeProController/CorsairNodeProController.h     \
+    Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h \
     Controllers/CorsairProController/CorsairProController.h             \
     Controllers/CrucialController/CrucialController.h                   \
     Controllers/Hue2Controller/Hue2Controller.h                         \
@@ -189,7 +189,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_AuraGPU.h                               \
     RGBController/RGBController_Corsair.h                               \
-    RGBController/RGBController_CorsairNodePro.h                        \
+    RGBController/RGBController_CorsairLightingNode.h                   \
     RGBController/RGBController_CorsairPro.h                            \
     RGBController/RGBController_Crucial.h                               \
     RGBController/RGBController_Dummy.h                                 \

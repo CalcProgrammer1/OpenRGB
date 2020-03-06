@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_CorsairNodePro.h           |
+|  RGBController_CorsairLightingNode.h           |
 |                                           |
 |  Generic RGB Interface for Corsair        |
 |  Lighting Node Pro                        |
@@ -9,12 +9,12 @@
 
 #pragma once
 #include "RGBController.h"
-#include "CorsairNodeProController.h"
+#include "CorsairLightingNodeController.h"
 
-class RGBController_CorsairNodePro : public RGBController
+class RGBController_CorsairLightingNode : public RGBController
 {
 public:
-    RGBController_CorsairNodePro(CorsairNodeProController* corsair_ptr);
+    RGBController_CorsairLightingNode(CorsairLightingNodeController* corsair_ptr);
 
     void        SetupZones();
 
@@ -28,7 +28,7 @@ public:
     void        UpdateMode();
 
 private:
-    CorsairNodeProController*   corsair;
+    CorsairLightingNodeController*   corsair;
     std::vector<unsigned int>   leds_channel;
     std::vector<unsigned int>   zones_channel;
 };
