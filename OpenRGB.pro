@@ -33,7 +33,6 @@ INCLUDEPATH +=                                                          \
 #    Controllers/AuraController/                                         \
 #    Controllers/AuraGPUController/                                      \
 #    Controllers/CorsairController/                                      \
-#    Controllers/CorsairCmdrProController/                               \
 #    Controllers/CorsairKeyboardController/                              \
     Controllers/CorsairNodeProController/                               \
 #    Controllers/CorsairProController/                                   \
@@ -84,8 +83,6 @@ SOURCES +=                                                              \
 #    Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
 #    Controllers/CorsairController/CorsairController.cpp                 \
 #    Controllers/CorsairController/CorsairControllerDetect.cpp           \
-#    Controllers/CorsairCmdrProController/CorsairCmdrProController.cpp   \
-#    Controllers/CorsairCmdrProController/CorsairCmdrProControllerDetect.cpp \
 #    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
 #    Controllers/CorsairKeyboardController/CorsairKeyboardControllerDetect.cpp \
     Controllers/CorsairNodeProController/CorsairNodeProController.cpp   \
@@ -128,7 +125,6 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_Aura.cpp                                \
 #    RGBController/RGBController_AuraGPU.cpp                             \
 #    RGBController/RGBController_Corsair.cpp                             \
-#    RGBController/RGBController_CorsairCmdrPro.cpp                      \
 #    RGBController/RGBController_CorsairKeyboard.cpp                     \
     RGBController/RGBController_CorsairNodePro.cpp                      \
 #    RGBController/RGBController_CorsairPro.cpp                          \
@@ -170,7 +166,6 @@ HEADERS +=                                                              \
     Controllers/AuraController/AuraController.h                         \
     Controllers/AuraGPUController/AuraGPUController.h                   \
     Controllers/CorsairController/CorsairController.h                   \
-    Controllers/CorsairCmdrProController/CorsairCmdrProController.h     \
     Controllers/CorsairKeyboardController/CorsairKeyboardController.h   \
     Controllers/CorsairNodeProController/CorsairNodeProController.h     \
     Controllers/CorsairProController/CorsairProController.h             \
@@ -194,7 +189,6 @@ HEADERS +=                                                              \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_AuraGPU.h                               \
     RGBController/RGBController_Corsair.h                               \
-    RGBController/RGBController_CorsairCmdrPro.h                        \
     RGBController/RGBController_CorsairNodePro.h                        \
     RGBController/RGBController_CorsairPro.h                            \
     RGBController/RGBController_Crucial.h                               \
