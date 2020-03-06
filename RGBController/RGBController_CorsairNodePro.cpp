@@ -14,7 +14,7 @@ RGBController_CorsairNodePro::RGBController_CorsairNodePro(CorsairNodeProControl
 {
     corsair = corsair_ptr;
 
-    name = "Corsair Lighting Node Pro";
+    name = "Corsair Lighting Node Device";
 
     type = DEVICE_TYPE_LEDSTRIP;
 
