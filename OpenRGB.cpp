@@ -312,9 +312,9 @@ void DetectRGBFusion2Controllers(std::vector<RGBController*> &rgb_controllers);
 #include "RGBController_Dummy.h"
 void DetectRGBControllers(void)
 {
-    //DetectI2CBusses();
+    DetectI2CBusses();
 
-    //DetectAuraControllers(busses, rgb_controllers);
+    DetectAuraControllers(busses, rgb_controllers);
     //DetectAuraGPUControllers(busses, rgb_controllers);
     //DetectCorsairControllers(busses, rgb_controllers);
     //DetectCorsairProControllers(busses, rgb_controllers);

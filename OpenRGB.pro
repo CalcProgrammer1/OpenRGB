@@ -30,7 +30,7 @@ INCLUDEPATH +=                                                          \
     serial_port/                                                        \
     super_io/                                                           \
 #    Controllers/AMDWraithPrismController/                               \
-#    Controllers/AuraController/                                         \
+    Controllers/AuraController/                                         \
 #    Controllers/AuraGPUController/                                      \
 #    Controllers/CorsairController/                                      \
 #    Controllers/CorsairKeyboardController/                              \
@@ -77,8 +77,8 @@ SOURCES +=                                                              \
     super_io/super_io.cpp                                               \
 #    Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
 #    Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
-#    Controllers/AuraController/AuraController.cpp                       \
-#    Controllers/AuraController/AuraControllerDetect.cpp                 \
+    Controllers/AuraController/AuraController.cpp                       \
+    Controllers/AuraController/AuraControllerDetect.cpp                 \
 #    Controllers/AuraGPUController/AuraGPUController.cpp                 \
 #    Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
 #    Controllers/CorsairController/CorsairController.cpp                 \
@@ -122,7 +122,7 @@ SOURCES +=                                                              \
     RGBController/RGBController.cpp                                     \
 #    RGBController/E131ControllerDetect.cpp                              \
 #    RGBController/RGBController_AMDWraithPrism.cpp                      \
-#    RGBController/RGBController_Aura.cpp                                \
+    RGBController/RGBController_Aura.cpp                                \
 #    RGBController/RGBController_AuraGPU.cpp                             \
 #    RGBController/RGBController_Corsair.cpp                             \
 #    RGBController/RGBController_CorsairKeyboard.cpp                     \

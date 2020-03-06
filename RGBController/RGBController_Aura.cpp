@@ -77,24 +77,21 @@ void RGBController_Aura::UpdateLEDs()
 
 void RGBController_Aura::UpdateZoneLEDs(int zone)
 {
-    for (std::size_t x = 0; x < zones[zone].map.size(); x++)
+    for (std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
     {
-        for (std::size_t y = 0; y < zones[zone].map[x].size(); y++)
-        {
-            int           led   = zones[zone].map[x][y];
-            RGBColor      color = colors[led];
-            unsigned char red   = RGBGetRValue(color);
-            unsigned char grn   = RGBGetGValue(color);
-            unsigned char blu   = RGBGetBValue(color);
+        int           led   = zones[zone].leds[led_idx].value;
+        RGBColor      color = colors[led];
+        unsigned char red   = RGBGetRValue(color);
+        unsigned char grn   = RGBGetGValue(color);
+        unsigned char blu   = RGBGetBValue(color);
 
-            if (GetMode() == 0)
-            {
-                aura->SetLEDColorDirect(led, red, grn, blu);
-            }
-            else
-            {
-                aura->SetLEDColorEffect(led, red, grn, blu);
-            }
+        if (GetMode() == 0)
+        {
+            aura->SetLEDColorDirect(led, red, grn, blu);
+        }
+        else
+        {
+            aura->SetLEDColorEffect(led, red, grn, blu);
         }
     }
 }
@@ -118,8 +115,6 @@ void RGBController_Aura::UpdateSingleLED(int led)
 
 RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
 {
-    std::vector<unsigned char> aura_channels;
-
     aura = aura_ptr;
 
     version = aura->GetDeviceName();
@@ -205,74 +200,113 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
     RandomFlicker.color_mode = MODE_COLORS_NONE;
     modes.push_back(RandomFlicker);
 
-    colors.resize(aura->GetLEDCount());
+    SetupZones();
 
-    for (std::size_t i = 0; i < aura->GetLEDCount(); i++)
-    {
-        aura_channels.push_back(aura->GetChannel(i));
+    // Initialize active mode
+    active_mode = GetDeviceMode();
+}
 
-        led* new_led = new led();
+void RGBController_Aura::SetupZones()
+{
+    std::vector<int>    aura_led_map;
 
-        new_led->name = aura->GetChannelName(i);
-        new_led->name.append(std::to_string(i));
-
-        leds.push_back(*new_led);
-
-        unsigned char red = aura->GetLEDRed(i);
-        unsigned char grn = aura->GetLEDGreen(i);
-        unsigned char blu = aura->GetLEDBlue(i);
-
-        colors[i] = ToRGBColor(red, grn, blu);
-    }
-
-    std::vector<unsigned char> aura_zones;
-
-    // Search through all LEDs and create zones for each channel type
-    for (std::size_t i = 0; i < aura_channels.size(); i++)
+    /*---------------------------------------------------------*\
+    | Search through all LEDs and create zones for each channel |
+    | type                                                      |
+    \*---------------------------------------------------------*/
+    for (std::size_t led_idx = 0; led_idx < aura->GetLEDCount(); led_idx++)
     {
         bool matched = false;
 
-        // Search through existing zones to make sure we don't create a duplicate zone
-        for (std::size_t j = 0; j < aura_zones.size(); j++)
+        /*---------------------------------------------------------*\
+        | Search through existing zones to make sure we don't       |
+        | create a duplicate zone                                   |
+        \*---------------------------------------------------------*/
+        for (std::size_t existing_zone_idx = 0; existing_zone_idx < zones.size(); existing_zone_idx++)
         {
-            if (aura_channels[i] == aura_zones[j])
+            if (aura->GetChannelName(led_idx) == zones[existing_zone_idx].name)
             {
                 matched = true;
             }
         }
 
-        // If zone does not already exist, create it
+        /*---------------------------------------------------------*\
+        | If zone does not already exist, create it                 |
+        \*---------------------------------------------------------*/
         if (matched == false)
         {
             zone* new_zone = new zone();
-            std::vector<int>* zone_row = new std::vector<int>();
 
-            // Set zone name to channel name
-            new_zone->name = aura->GetChannelName(i);
+            /*---------------------------------------------------------*\
+            | Set zone name to channel name                             |
+            \*---------------------------------------------------------*/
+            new_zone->name = aura->GetChannelName(led_idx);
 
-            // Find all LEDs with this channel type and add them to zone
-            for (std::size_t j = 0; j < aura->GetLEDCount(); j++)
+            new_zone->leds_count = 0;
+
+            /*---------------------------------------------------------*\
+            | Find all LEDs with this channel type and add them to zone |
+            \*---------------------------------------------------------*/
+            for (std::size_t zone_led_idx = 0; zone_led_idx < aura->GetLEDCount(); zone_led_idx++)
             {
-                if (aura->GetChannel(j) == aura_channels[i])
+                if (aura->GetChannelName(zone_led_idx) == new_zone->name)
                 {
-                    zone_row->push_back(j);
+                    new_zone->leds_count++;
+                    aura_led_map.push_back(zone_led_idx);
                 }
             }
 
-            // Aura devices can be either single or linear, never matrix
-            // That means only one row is needed
-            new_zone->map.push_back(*zone_row);
+            /*---------------------------------------------------------*\
+            | Aura zones have fixed size, so set min and max to count   |
+            \*---------------------------------------------------------*/
+            new_zone->leds_min = new_zone->leds_count;
+            new_zone->leds_max = new_zone->leds_count;
 
-            // Save channel to aura_zones so we know not to create another zone with this channel
-            aura_zones.push_back(aura_channels[i]);
+            /*---------------------------------------------------------*\
+            | If this zone has more than one LED, mark it as linear type|
+            \*---------------------------------------------------------*/
+            if(new_zone->leds_count > 1)
+            {
+                new_zone->type = ZONE_TYPE_LINEAR;
+            }
+            else
+            {
+                new_zone->type = ZONE_TYPE_SINGLE;
+            }
 
-            // Push new zone to zones vector
+            /*---------------------------------------------------------*\
+            | Push new zone to zones vector                             |
+            \*---------------------------------------------------------*/
             zones.push_back(*new_zone);
         }
     }
 
-    // Initialize active mode
-    active_mode = GetDeviceMode();
+    /*---------------------------------------------------------*\
+    | Create LED entries for each zone                          |
+    \*---------------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            led* new_led = new led();
+
+            new_led->name = zones[zone_idx].name + " LED ";
+            new_led->name.append(std::to_string(led_idx + 1));
+
+            new_led->value = aura_led_map[led_idx];
+
+            leds.push_back(*new_led);
+        }
+    }
+
+    SetupColors();
+}
+
+void RGBController_Aura::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_Aura::SetCustomMode()

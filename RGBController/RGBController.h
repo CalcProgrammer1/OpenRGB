@@ -84,7 +84,8 @@ typedef struct
 
 typedef struct
 {
-    std::string         name;   /* LED name         */
+    std::string         name;   /* LED name                     */
+    unsigned int        value;  /* Device-specific LED value    */
 } led;
 
 typedef int zone_type;
