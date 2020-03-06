@@ -322,7 +322,7 @@ void DetectRGBControllers(void)
     //DetectHyperXControllers(busses, rgb_controllers);
     //DetectPatriotViperControllers(busses, rgb_controllers);
     //DetectPolychromeControllers(busses, rgb_controllers);
-    //DetectRGBFusionGPUControllers(busses, rgb_controllers);
+    DetectRGBFusionGPUControllers(busses, rgb_controllers);
 
     //DetectRGBFusionControllers(busses, rgb_controllers);
     //DetectMSIRGBControllers(rgb_controllers);

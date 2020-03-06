@@ -9,27 +9,6 @@
 
 #include "RGBController_RGBFusionGPU.h"
 
-
-void RGBController_RGBFusionGPU::UpdateLEDs()
-{
-    RGBColor      color = colors[0];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
-
-    rgb_fusion->SetColor(red, grn, blu);
-}
-
-void RGBController_RGBFusionGPU::UpdateZoneLEDs(int zone)
-{
-    UpdateLEDs();
-}
-
-void RGBController_RGBFusionGPU::UpdateSingleLED(int led)
-{
-    UpdateLEDs();
-}
-
 RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* rgb_fusion_ptr)
 {
     rgb_fusion = rgb_fusion_ptr;
@@ -87,31 +66,63 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* r
     SpectrumCycle.color_mode = MODE_COLORS_NONE;
     modes.push_back(SpectrumCycle);
 
-    colors.resize(1);
-
-    zone* new_zone = new zone();
-    led*  new_led  = new led();
-
-    std::vector<int>* zone_row = new std::vector<int>();
-
-    // Set zone name to channel name
-    new_zone->name = "GPU Zone";
-    new_led->name  = "GPU LED";
-
-    zone_row->push_back(0);
-
-    // Aura devices can be either single or linear, never matrix
-    // That means only one row is needed
-    new_zone->map.push_back(*zone_row);
-
-    // Push new LED to LEDs vector
-    leds.push_back(*new_led);
-
-    // Push new zone to zones vector
-    zones.push_back(*new_zone);
+    SetupZones();
 
     // Initialize active mode
     active_mode = 0;
+}
+
+void RGBController_RGBFusionGPU::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | This device only has one LED, so create a single zone and |
+    | LED for it                                                |
+    \*---------------------------------------------------------*/
+    zone* new_zone = new zone();
+    led*  new_led  = new led();
+
+    new_zone->name          = "GPU Zone";
+    new_zone->type          = ZONE_TYPE_SINGLE;
+    new_zone->leds_min      = 1;
+    new_zone->leds_max      = 1;
+    new_zone->leds_count    = 1;
+
+    new_led->name           = "GPU LED";
+
+    /*---------------------------------------------------------*\
+    | Push the zone and LED on to device vectors                |
+    \*---------------------------------------------------------*/
+    leds.push_back(*new_led);
+    zones.push_back(*new_zone);
+
+    SetupColors();
+}
+
+void RGBController_RGBFusionGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
+}
+
+void RGBController_RGBFusionGPU::UpdateLEDs()
+{
+    RGBColor      color = colors[0];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
+
+    rgb_fusion->SetColor(red, grn, blu);
+}
+
+void RGBController_RGBFusionGPU::UpdateZoneLEDs(int /*zone*/)
+{
+    UpdateLEDs();
+}
+
+void RGBController_RGBFusionGPU::UpdateSingleLED(int /*led*/)
+{
+    UpdateLEDs();
 }
 
 void RGBController_RGBFusionGPU::SetCustomMode()
@@ -121,5 +132,5 @@ void RGBController_RGBFusionGPU::SetCustomMode()
 
 void RGBController_RGBFusionGPU::UpdateMode()
 {
-    rgb_fusion->SetMode(modes[active_mode].value, modes[active_mode].speed);
+    rgb_fusion->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed);
 }
