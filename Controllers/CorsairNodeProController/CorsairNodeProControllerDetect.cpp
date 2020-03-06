@@ -23,12 +23,12 @@ typedef struct
 
 static const corsair_node_device device_list[6] =
 {
-    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_CORE_PID,     0,      1,      "Corsair Lighting Node Core"    },
-    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_PRO_PID,      0,      2,      "Corsair Lighting Node Pro"     },
+    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_CORE_PID,     1,      1,      "Corsair Lighting Node Core"    },
+    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_PRO_PID,      1,      2,      "Corsair Lighting Node Pro"     },
     { CORSAIR_VID,          CORSAIR_COMMANDER_PRO_PID,          2,      2,      "Corsair Commander Pro"         },
-    { CORSAIR_VID,          CORSAIR_LS100_PID,                  0,      1,      "Corsair LS100 Lighting Kit"    },
+    { CORSAIR_VID,          CORSAIR_LS100_PID,                  1,      1,      "Corsair LS100 Lighting Kit"    },
     { CORSAIR_VID,          CORSAIR_1000D_OBSIDIAN_PID,         2,      2,      "Corsair 1000D Obsidian"        },
-    { CORSAIR_VID,          CORSAIR_SPEC_OMEGA_RGB_PID,         0,      2,      "Corsair SPEC OMEGA RGB"        }
+    { CORSAIR_VID,          CORSAIR_SPEC_OMEGA_RGB_PID,         1,      2,      "Corsair SPEC OMEGA RGB"        }
 
 };
 
@@ -55,7 +55,7 @@ void DetectCorsairNodeProControllers(std::vector<RGBController*> &rgb_controller
             libusb_detach_kernel_driver(dev, 0);
             libusb_claim_interface(dev, 0);
 
-            CorsairNodeProController* controller = new CorsairNodeProController(dev);
+            CorsairNodeProController* controller = new CorsairNodeProController(dev, device_list[device_idx].usb_endpoint);
 
             RGBController_CorsairNodePro* rgb_controller = new RGBController_CorsairNodePro(controller);
 

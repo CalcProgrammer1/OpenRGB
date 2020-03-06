@@ -46,9 +46,11 @@ THREAD keepalive_thread(void *param)
     THREADRETURN
 }
 
-CorsairNodeProController::CorsairNodeProController(libusb_device_handle* dev_handle)
+CorsairNodeProController::CorsairNodeProController(libusb_device_handle* dev_handle, unsigned int dev_endpoint)
 {
     dev = dev_handle;
+    endpoint = dev_endpoint;
+
     channel_leds[0] = 60;
     channel_leds[1] = 60;
 
@@ -308,7 +310,7 @@ void CorsairNodeProController::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
 void CorsairNodeProController::SendCommit()
@@ -330,7 +332,7 @@ void CorsairNodeProController::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
 void CorsairNodeProController::SendBegin
@@ -355,7 +357,7 @@ void CorsairNodeProController::SendBegin
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
 void CorsairNodeProController::SendEffectConfig
@@ -432,7 +434,7 @@ void CorsairNodeProController::SendEffectConfig
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
 void CorsairNodeProController::SendTemperature()
@@ -462,7 +464,7 @@ void CorsairNodeProController::SendReset
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
 void CorsairNodeProController::SendPortState
@@ -489,7 +491,7 @@ void CorsairNodeProController::SendPortState
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
 }
 
 void CorsairNodeProController::SendBrightness()
