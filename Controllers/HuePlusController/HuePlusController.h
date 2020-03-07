@@ -73,9 +73,23 @@ public:
     void            Initialize(char* port);
     char*           GetLocation();
     unsigned int    GetLEDsOnChannel(unsigned int channel);
-    void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
-    void            SetMode(unsigned char mode, unsigned char speed, bool direction);
-    void            SetModeColors(unsigned char channel, std::vector<RGBColor> colors);
+
+    void            SetChannelEffect
+                        (
+                        unsigned char   channel,
+                        unsigned char   mode,
+                        unsigned char   speed,
+                        bool            direction,
+                        RGBColor *      colors,
+                        unsigned int    num_colors
+                        );
+
+    void            SetChannelLEDs
+                        (
+                        unsigned char   channel,
+                        RGBColor *      colors,
+                        unsigned int    num_colors
+                        );
 
     unsigned int    channel_leds[HUE_PLUS_NUM_CHANNELS];
 
@@ -83,9 +97,16 @@ private:
     char            port_name[128];
     serial_port     *serialport;
 
-    unsigned char   current_mode;
-    unsigned char   current_speed;
-    bool            current_direction;
+    void            SendPacket
+                        (
+                        unsigned char   channel,
+                        unsigned char   mode,
+                        bool            direction,
+                        unsigned char   color_idx,
+                        unsigned char   speed,
+                        unsigned char   color_count,
+                        unsigned char*  color_data
+                        );
 };
 
 #endif

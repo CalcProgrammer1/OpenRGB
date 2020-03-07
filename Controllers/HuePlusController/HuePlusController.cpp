@@ -24,9 +24,7 @@ static void Sleep(unsigned int milliseconds)
 
 HuePlusController::HuePlusController()
 {
-    current_mode        = HUE_PLUS_MODE_FIXED;
-    current_speed       = HUE_PLUS_SPEED_NORMAL;
-    current_direction   = false;
+
 }
 
 HuePlusController::~HuePlusController()
@@ -85,70 +83,119 @@ unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)
     return(ret_val);
 }
 
-void HuePlusController::SetMode(unsigned char mode, unsigned char speed, bool direction)
+void HuePlusController::SetChannelEffect
+    (
+    unsigned char   channel,
+    unsigned char   mode,
+    unsigned char   speed,
+    bool            direction,
+    RGBColor *      colors,
+    unsigned int    num_colors
+    )
 {
-    current_mode        = mode;
-    current_speed       = speed;
-    current_direction   = direction;
-}
+    unsigned char color_data[120];
 
-void HuePlusController::SetModeColors(unsigned char channel, std::vector<RGBColor> colors)
-{
-    unsigned char serial_buf[125];
-
-    for(int color_idx = 0; color_idx < colors.size(); color_idx++)
+    /*-----------------------------------------------------*\
+    | If mode requires no colors, send packet               |
+    \*-----------------------------------------------------*/
+    if(num_colors == 0)
     {
         /*-----------------------------------------------------*\
-        | Zero out buffer                                       |
+        | Send mode without color data                          |
         \*-----------------------------------------------------*/
-        memset(serial_buf, 0x00, sizeof(serial_buf));
+        SendPacket(channel, mode, direction, 0, speed, 0, NULL);
+    }
+    /*-----------------------------------------------------*\
+    | If mode requires indexed colors, send color index     |
+    | packets for each mode color                           |
+    \*-----------------------------------------------------*/
+    else if(num_colors <= 8)
+    {
+        for(int color_idx = 0; color_idx < num_colors; color_idx++)
+        {
+            /*-----------------------------------------------------*\
+            | Fill in color data (40 entries per color)             |
+            \*-----------------------------------------------------*/
+            for (std::size_t idx = 0; idx < 40; idx++)
+            {
+                int pixel_idx = idx * 3;
+                RGBColor color = colors[color_idx];
+                color_data[pixel_idx + 0x00] = RGBGetGValue(color);
+                color_data[pixel_idx + 0x01] = RGBGetRValue(color);
+                color_data[pixel_idx + 0x02] = RGBGetBValue(color);
+            }
 
+            /*-----------------------------------------------------*\
+            | Send mode and color data                              |
+            \*-----------------------------------------------------*/
+            SendPacket(channel, mode, direction, color_idx, speed, 40, &color_data[0]);
+        }
+    }
+    /*-----------------------------------------------------*\
+    | If mode requires per-LED colors, fill colors array    |
+    \*-----------------------------------------------------*/
+    else
+    {
         /*-----------------------------------------------------*\
-        | Set up main packet                                    |
+        | Fill in color data (up to 40 colors)                  |
         \*-----------------------------------------------------*/
-        serial_buf[0x00]    = 0x4B;
-
-        /*-----------------------------------------------------*\
-        | Set channel in serial packet                          |
-        \*-----------------------------------------------------*/
-        serial_buf[0x01]   = channel;
-
-        /*-----------------------------------------------------*\
-        | Set mode in serial packet                             |
-        \*-----------------------------------------------------*/
-        serial_buf[0x02]   = current_mode;
-
-        /*-----------------------------------------------------*\
-        | Set options bitfield in serial packet                 |
-        \*-----------------------------------------------------*/
-        serial_buf[0x03]   = 0;
-        serial_buf[0x03]   |= current_direction ? ( 1 << 4 ) : 0;
-
-        /*-----------------------------------------------------*\
-        | Set color index and speed in serial packet            |
-        \*-----------------------------------------------------*/
-        serial_buf[0x04]   = ( color_idx << 5 ) | current_speed;
-
-        /*-----------------------------------------------------*\
-        | Fill in color data                                    |
-        \*-----------------------------------------------------*/
-        for (std::size_t idx = 0; idx < 40; idx++)
+        for (std::size_t idx = 0; idx < num_colors; idx++)
         {
             int pixel_idx = idx * 3;
-            RGBColor color = colors[color_idx];
-            serial_buf[pixel_idx + 0x05] = RGBGetGValue(color);
-            serial_buf[pixel_idx + 0x06] = RGBGetRValue(color);
-            serial_buf[pixel_idx + 0x07] = RGBGetBValue(color);
+            RGBColor color = colors[idx];
+            color_data[pixel_idx + 0x00] = RGBGetGValue(color);
+            color_data[pixel_idx + 0x01] = RGBGetRValue(color);
+            color_data[pixel_idx + 0x02] = RGBGetBValue(color);
         }
 
-        serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
-        serialport->serial_flush_tx();
-
-        Sleep(10);
+        /*-----------------------------------------------------*\
+        | Send mode and color data                              |
+        \*-----------------------------------------------------*/
+        SendPacket(channel, mode, direction, 0, speed, num_colors, &color_data[0]);
     }
 }
 
-void HuePlusController::SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors)
+void HuePlusController::SetChannelLEDs
+    (
+    unsigned char   channel,
+    RGBColor *      colors,
+    unsigned int    num_colors
+    )
+{
+    unsigned char color_data[120];
+
+    /*-----------------------------------------------------*\
+    | Fill in color data (up to 40 colors)                  |
+    \*-----------------------------------------------------*/
+    for (std::size_t idx = 0; idx < num_colors; idx++)
+    {
+        int pixel_idx = idx * 3;
+        RGBColor color = colors[idx];
+        color_data[pixel_idx + 0x00] = RGBGetGValue(color);
+        color_data[pixel_idx + 0x01] = RGBGetRValue(color);
+        color_data[pixel_idx + 0x02] = RGBGetBValue(color);
+    }
+
+    /*-----------------------------------------------------*\
+    | Send color data                                       |
+    \*-----------------------------------------------------*/
+    SendPacket(channel, HUE_PLUS_MODE_FIXED, false, 0, 0, num_colors, &color_data[0]);
+}
+
+/*-------------------------------------------------------------------------------------------------*\
+| Private packet sending functions.                                                                 |
+\*-------------------------------------------------------------------------------------------------*/
+
+void HuePlusController::SendPacket
+    (
+    unsigned char   channel,
+    unsigned char   mode,
+    bool            direction,
+    unsigned char   color_idx,
+    unsigned char   speed,
+    unsigned char   color_count,
+    unsigned char*  color_data
+    )
 {
     unsigned char serial_buf[125];
 
@@ -158,45 +205,44 @@ void HuePlusController::SetChannelLEDs(unsigned char channel, std::vector<RGBCol
     memset(serial_buf, 0x00, sizeof(serial_buf));
 
     /*-----------------------------------------------------*\
-    | Set up main packet                                    |
+    | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
     serial_buf[0x00]    = 0x4B;
 
     /*-----------------------------------------------------*\
     | Set channel in serial packet                          |
     \*-----------------------------------------------------*/
-    serial_buf[0x01]   = channel;
+    serial_buf[0x01]   = channel + 1;
 
     /*-----------------------------------------------------*\
     | Set mode in serial packet                             |
     \*-----------------------------------------------------*/
-    serial_buf[0x02]   = current_mode;
+    serial_buf[0x02]   = mode;
 
     /*-----------------------------------------------------*\
     | Set options bitfield in serial packet                 |
     \*-----------------------------------------------------*/
     serial_buf[0x03]   = 0;
-    serial_buf[0x03]   |= current_direction ? ( 1 << 4 ) : 0;
+    serial_buf[0x03]   |= direction ? ( 1 << 4 ) : 0;
 
     /*-----------------------------------------------------*\
-    | Set speed in serial packet                            |
+    | Set color index and speed in serial packet            |
     \*-----------------------------------------------------*/
-    serial_buf[0x04]   = current_speed;
+    serial_buf[0x04]   = ( color_idx << 5 ) | speed;
 
     /*-----------------------------------------------------*\
-    | Fill in color data                                    |
+    | Copy in color data bytes                              |
     \*-----------------------------------------------------*/
-    for (std::size_t idx = 0; idx < colors.size(); idx++)
-    {
-        int pixel_idx = idx * 3;
-        RGBColor color = colors[idx];
-        serial_buf[pixel_idx + 0x05] = RGBGetGValue(color);
-        serial_buf[pixel_idx + 0x06] = RGBGetRValue(color);
-        serial_buf[pixel_idx + 0x07] = RGBGetBValue(color);
-    }
+    memcpy(&serial_buf[0x05], color_data, color_count * 3);
 
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
     serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
     serialport->serial_flush_tx();
 
-    Sleep(10);
+    /*-----------------------------------------------------*\
+    | Delay to allow Hue+ device to ready for next packet   |
+    \*-----------------------------------------------------*/
+    Sleep(20);
 }

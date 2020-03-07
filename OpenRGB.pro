@@ -37,8 +37,8 @@ INCLUDEPATH +=                                                          \
     Controllers/CorsairLightingNodeController/                           \
 #    Controllers/CorsairProController/                                   \
 #    Controllers/CrucialController/                                      \
-#    Controllers/Hue2Controller/                                         \
-#    Controllers/HuePlusController/                                      \
+    Controllers/Hue2Controller/                                         \
+    Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
 #    Controllers/HyperXKeyboardController/                               \
     Controllers/LEDStripController/                                     \
@@ -91,10 +91,10 @@ SOURCES +=                                                              \
 #    Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
 #    Controllers/CrucialController/CrucialController.cpp                 \
 #    Controllers/CrucialController/CrucialControllerDetect.cpp           \
-#    Controllers/Hue2Controller/Hue2Controller.cpp                       \
-#    Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
-#    Controllers/HuePlusController/HuePlusController.cpp                 \
-#    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
+    Controllers/Hue2Controller/Hue2Controller.cpp                       \
+    Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
+    Controllers/HuePlusController/HuePlusController.cpp                 \
+    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXController/HyperXController.cpp                   \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
 #    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
@@ -130,8 +130,8 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_CorsairPro.cpp                          \
 #    RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Dummy.cpp                               \
-#    RGBController/RGBController_Hue2.cpp                                \
-#    RGBController/RGBController_HuePlus.cpp                             \
+    RGBController/RGBController_Hue2.cpp                                \
+    RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
 #    RGBController/RGBController_HyperXKeyboard.cpp                      \
 #    RGBController/RGBController_E131.cpp                                \

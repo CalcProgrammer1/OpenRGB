@@ -158,121 +158,72 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
     Wave.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Wave);
 
+    SetupZones();
+}
+
+void RGBController_HuePlus::SetupZones()
+{
     /*-------------------------------------------------*\
-    | Set size of colors array                          |
+    | Set up zones                                      |
     \*-------------------------------------------------*/
-    unsigned int led_count = 0;
-    for (unsigned int channel_idx = 0; channel_idx < HUE_PLUS_NUM_CHANNELS; channel_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < HUE_PLUS_NUM_CHANNELS; zone_idx++)
     {
-        led_count += hueplus->channel_leds[channel_idx];
+        zone* new_zone = new zone;
+
+        new_zone->name          = "Hue+ Channel ";
+        new_zone->name.append(std::to_string(zone_idx + 1));
+        new_zone->type          = ZONE_TYPE_LINEAR;
+        new_zone->leds_min      = 0;
+        new_zone->leds_max      = 40;
+        new_zone->leds_count    = hueplus->channel_leds[zone_idx];
+
+        zones.push_back(*new_zone);
     }
-    colors.resize(led_count);
 
     /*-------------------------------------------------*\
-    | Set zones and leds                                |
+    | Set up LEDs                                       |
     \*-------------------------------------------------*/
-    unsigned int led_idx = 0;
-    for (int channel_idx = 0; channel_idx < HUE_PLUS_NUM_CHANNELS; channel_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        if(hueplus->channel_leds[channel_idx] > 0)
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
-            zone* new_zone = new zone;
+            led new_led;
+            new_led.name = "Hue+ Channel ";
+            new_led.name.append(std::to_string(zone_idx + 1));
+            new_led.name.append(", LED ");
+            new_led.name.append(std::to_string(led_idx + 1));
+            new_led.value = zone_idx;
 
-            char ch_idx_string[2];
-            sprintf(ch_idx_string, "%d", channel_idx + 1);
-
-            new_zone->name = "Hue+ Channel ";
-            new_zone->name.append(ch_idx_string);
-            new_zone->type = ZONE_TYPE_LINEAR;
-
-            std::vector<int> *new_zone_map = new std::vector<int>();
-
-            for (unsigned led_ch_idx = 0; led_ch_idx < hueplus->channel_leds[channel_idx]; led_ch_idx++)
-            {
-                char led_idx_string[3];
-                sprintf(led_idx_string, "%d", led_ch_idx + 1);
-
-                led new_led;
-                new_led.name = "Hue+ Channel ";
-                new_led.name.append(ch_idx_string);
-                new_led.name.append(", LED ");
-                new_led.name.append(led_idx_string);
-
-                leds.push_back(new_led);
-                leds_channel.push_back(channel_idx + 1);
-
-                new_zone_map->push_back(led_idx);
-                led_idx++;
-            }
-
-            new_zone->map.push_back(*new_zone_map);
-            zones.push_back(*new_zone);
-            zones_channel.push_back(channel_idx + 1);
+            leds.push_back(new_led);
         }
     }
+
+    SetupColors();
+}
+
+void RGBController_HuePlus::ResizeZone(int zone, int new_size)
+{
+
 }
 
 void RGBController_HuePlus::UpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        unsigned int channel = zones_channel[zone_idx];
-
-        std::vector<RGBColor> channel_colors;
-
-        for(std::size_t color = 0; color < colors.size(); color++)
-        {
-            if(leds_channel[color] == channel)
-            {
-                channel_colors.push_back(colors[color]);
-            }
-        }
-
-        if(channel_colors.size() > 0)
-        {
-            hueplus->SetChannelLEDs(channel, channel_colors);
-        }
+        hueplus->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
 void RGBController_HuePlus::UpdateZoneLEDs(int zone)
 {
-    unsigned int channel = zones_channel[zone];
-
-    std::vector<RGBColor> channel_colors;
-
-    for(std::size_t color = 0; color < colors.size(); color++)
-    {
-        if(leds_channel[color] == channel)
-        {
-            channel_colors.push_back(colors[color]);
-        }
-    }
-
-    if(channel_colors.size() > 0)
-    {
-        hueplus->SetChannelLEDs(channel, channel_colors);
-    }
+    hueplus->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_HuePlus::UpdateSingleLED(int led)
 {
-    unsigned int channel = leds_channel[led];
+    unsigned int zone_idx = leds[led].value;
 
-    std::vector<RGBColor> channel_colors;
-
-    for(std::size_t color = 0; color < colors.size(); color++)
-    {
-        if(leds_channel[color] == channel)
-        {
-            channel_colors.push_back(colors[color]);
-        }
-    }
-
-    if(channel_colors.size() > 0)
-    {
-        hueplus->SetChannelLEDs(channel, channel_colors);
-    }
+    hueplus->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
 }
 
 void RGBController_HuePlus::SetCustomMode()
@@ -282,47 +233,36 @@ void RGBController_HuePlus::SetCustomMode()
 
 void RGBController_HuePlus::UpdateMode()
 {
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    if(modes[active_mode].value == HUE_PLUS_MODE_FIXED)
     {
-        unsigned int channel = zones_channel[zone_idx];
-
-        std::vector<RGBColor> channel_colors;
-
-        for(std::size_t color = 0; color < colors.size(); color++)
+        UpdateLEDs();
+    }
+    else
+    {
+        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
-            if(leds_channel[color] == channel)
-            {
-                channel_colors.push_back(colors[color]);
-            }
-        }
-
-        if(channel_colors.size() > 0)
-        {
-            bool direction = false;
+            RGBColor*   colors      = NULL;
+            bool        direction   = false;
 
             if(modes[active_mode].direction == MODE_DIRECTION_LEFT)
             {
                 direction = true;
             }
 
-            hueplus->SetMode(modes[active_mode].value, modes[active_mode].speed, direction);
-
-
-            if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
+            if(modes[active_mode].colors.size() > 0)
             {
-                hueplus->SetChannelLEDs(channel, channel_colors);
+                colors = &modes[active_mode].colors[0];
             }
-            else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
-            {
-                hueplus->SetModeColors(channel, modes[active_mode].colors);
-            }
-            else if(modes[active_mode].color_mode == MODE_COLORS_NONE)
-            {
-                std::vector<RGBColor> temp_colors;
-                temp_colors.push_back(0x00000000);
 
-                hueplus->SetModeColors(channel, temp_colors);
-            }
+            hueplus->SetChannelEffect
+                    (
+                    zone_idx,
+                    modes[active_mode].value,
+                    modes[active_mode].speed,
+                    direction,
+                    colors,
+                    modes[active_mode].colors.size()
+                    );
         }
     }
 }

@@ -56,16 +56,53 @@ public:
     Hue2Controller(libusb_device_handle* dev_handle);
     ~Hue2Controller();
 
-    unsigned int    GetStripsOnChannel(unsigned int channel);
-    void            SetChannelLEDs(unsigned char channel, std::vector<RGBColor> colors);
-    void            SetMode(unsigned char mode, unsigned char speed, bool direction);
+    unsigned int    GetStripsOnChannel
+                        (
+                        unsigned int    channel
+                        );
+
+    void            SetChannelEffect
+                        (
+                        unsigned char   channel,
+                        unsigned char   mode,
+                        unsigned char   speed,
+                        bool            direction,
+                        RGBColor *      colors,
+                        unsigned int    num_colors
+                        );
+
+    void            SetChannelLEDs
+                        (
+                        unsigned char   channel,
+                        RGBColor *      colors,
+                        unsigned int    num_colors
+                        );
     
     unsigned int    channel_leds[HUE_2_NUM_CHANNELS];
 
 private:
     libusb_device_handle*   dev;
 
-    unsigned char   current_mode;
-    unsigned char   current_speed;
-    bool            current_direction;
+    void            SendApply
+                        (
+                        unsigned char   channel
+                        );
+
+    void            SendDirect
+                        (
+                        unsigned char   channel,
+                        unsigned char   group,
+                        unsigned char   color_count,
+                        unsigned char*  color_data
+                        );
+
+    void            SendEffect
+                        (
+                        unsigned char   channel,
+                        unsigned char   mode,
+                        unsigned char   speed,
+                        bool            direction,
+                        unsigned char   color_count,
+                        unsigned char*  color_data
+                        );
 };
