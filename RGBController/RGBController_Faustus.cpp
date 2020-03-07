@@ -39,13 +39,7 @@ RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
     modes[3].color_mode = MODE_COLORS_NONE;
     modes[3].speed      = FAUSTUS_SPEED_NORMAL;
 
-    colors.resize(1);
-    leds.resize(1);
-    leds[0].name = "Keyboard backlight LED";
-    zones.resize(1);
-    zones[0].type = ZONE_TYPE_SINGLE;
-    zones[0].name = "Keyboard backlight zone";
-    zones[0].map.push_back(std::vector<int>(1, 0));
+    SetupZones();
 
     // Prepare file streams
     r_path = dev_path;
@@ -61,6 +55,34 @@ RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
     mode_path.append("/kbbl_mode");
     flags_path.append("/kbbl_flags");
     set_path.append("/kbbl_set");
+}
+
+void RGBController_Faustus::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Set up zone                                               |
+    \*---------------------------------------------------------*/
+    zones.resize(1);
+    zones[0].type           = ZONE_TYPE_SINGLE;
+    zones[0].name           = "Keyboard Backlight zone";
+    zones[0].leds_min       = 1;
+    zones[0].leds_max       = 1;
+    zones[0].leds_count     = 1;
+
+    /*---------------------------------------------------------*\
+    | Set up LED                                                |
+    \*---------------------------------------------------------*/
+    leds.resize(1);
+    leds[0].name = "Keyboard Backlight LED";
+
+    SetupColors();
+}
+
+void RGBController_Faustus::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_Faustus::UpdateLEDs()
