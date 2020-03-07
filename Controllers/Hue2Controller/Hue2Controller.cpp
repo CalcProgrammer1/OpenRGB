@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 Hue2Controller::Hue2Controller(libusb_device_handle* dev_handle)
 {
