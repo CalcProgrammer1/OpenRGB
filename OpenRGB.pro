@@ -46,7 +46,7 @@ INCLUDEPATH +=                                                          \
     Controllers/MSIRGBController/                                       \
 #    Controllers/PatriotViperController/                                 \
     Controllers/PolychromeController/                                   \
-#    Controllers/PoseidonZRGBController/                                 \
+    Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
 #    Controllers/RGBFusion2Controller/                                   \
     Controllers/RGBFusionGPUController/                                 \
@@ -109,8 +109,8 @@ SOURCES +=                                                              \
 #    Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
     Controllers/PolychromeController/PolychromeController.cpp           \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
-#    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
-#    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
+    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
+    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
 #    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
@@ -140,7 +140,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_MSIRGB.cpp                              \
 #    RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
-#    RGBController/RGBController_PoseidonZRGB.cpp                        \
+    RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
 #    RGBController/RGBController_RGBFusion2.cpp                          \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
