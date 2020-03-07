@@ -42,7 +42,7 @@ INCLUDEPATH +=                                                          \
     Controllers/HyperXController/                                       \
 #    Controllers/HyperXKeyboardController/                               \
     Controllers/LEDStripController/                                     \
-#    Controllers/MSI3ZoneController/                                     \
+    Controllers/MSI3ZoneController/                                     \
     Controllers/MSIRGBController/                                       \
 #    Controllers/PatriotViperController/                                 \
     Controllers/PolychromeController/                                   \
@@ -101,8 +101,8 @@ SOURCES +=                                                              \
 #    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
-#    Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
-#    Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
+    Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
+    Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
     Controllers/MSIRGBController/MSIRGBController.cpp                   \
     Controllers/MSIRGBController/MSIRGBControllerDetect.cpp             \
 #    Controllers/PatriotViperController/PatriotViperController.cpp       \
@@ -136,7 +136,7 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
-#    RGBController/RGBController_MSI3Zone.cpp                            \
+    RGBController/RGBController_MSI3Zone.cpp                            \
     RGBController/RGBController_MSIRGB.cpp                              \
 #    RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \

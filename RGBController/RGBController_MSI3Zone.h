@@ -16,6 +16,11 @@ class RGBController_MSI3Zone : public RGBController
 public:
     RGBController_MSI3Zone(MSI3ZoneController* msi_ptr);
     ~RGBController_MSI3Zone();
+
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
