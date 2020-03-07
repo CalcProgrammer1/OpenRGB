@@ -9,35 +9,6 @@
 
 #include "RGBController_RGBFusion.h"
 
-
-void RGBController_RGBFusion::UpdateLEDs()
-{
-    for (std::size_t led = 0; led < colors.size(); led++)
-    {
-        RGBColor      color = colors[led];
-        unsigned char red   = RGBGetRValue(color);
-        unsigned char grn   = RGBGetGValue(color);
-        unsigned char blu   = RGBGetBValue(color);
-
-        rgb_fusion->SetLEDColor(led, red, grn, blu);
-    }
-}
-
-void RGBController_RGBFusion::UpdateZoneLEDs(int zone)
-{
-    RGBColor      color = colors[zone];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
-
-    rgb_fusion->SetLEDColor(zone, red, grn, blu);
-}
-
-void RGBController_RGBFusion::UpdateSingleLED(int led)
-{
-    UpdateZoneLEDs(led);
-}
-
 static const char* rgb_fusion_zone_names[] =
 {
     "Motherboard",
@@ -81,35 +52,87 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
     Flashing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Flashing);
 
-    colors.resize(rgb_fusion->GetLEDCount());
-
-    // Search through all LEDs and create zones for each channel type
-    for (unsigned int i = 0; i < rgb_fusion->GetLEDCount(); i++)
-    {
-        zone* new_zone = new zone();
-        led*  new_led  = new led();
-
-        std::vector<int>* zone_row = new std::vector<int>();
-
-        // Set zone name to channel name
-        new_zone->name = rgb_fusion_zone_names[i];
-        new_led->name  = rgb_fusion_zone_names[i];
-
-        zone_row->push_back(i);
-
-        // Aura devices can be either single or linear, never matrix
-        // That means only one row is needed
-        new_zone->map.push_back(*zone_row);
-
-        // Push new LED to LEDs vector
-        leds.push_back(*new_led);
-
-        // Push new zone to zones vector
-        zones.push_back(*new_zone);
-    }
+    SetupZones();
 
     // Initialize active mode
     active_mode = GetDeviceMode();
+}
+
+void RGBController_RGBFusion::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Search through all LEDs and create zones for each channel |
+    | type                                                      |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_idx = 0; zone_idx < rgb_fusion->GetLEDCount(); zone_idx++)
+    {
+        zone* new_zone = new zone();
+
+        /*---------------------------------------------------------*\
+        | Set zone name to channel name                             |
+        \*---------------------------------------------------------*/
+        new_zone->name          = rgb_fusion_zone_names[zone_idx];
+        new_zone->leds_min      = 1;
+        new_zone->leds_max      = 1;
+        new_zone->leds_count    = 1;
+
+        /*---------------------------------------------------------*\
+        | Push new zone to zones vector                             |
+        \*---------------------------------------------------------*/
+        zones.push_back(*new_zone);
+    }
+
+    for(unsigned int led_idx = 0; led_idx < zones.size(); led_idx++)
+    {
+        led* new_led = new led();
+
+        /*---------------------------------------------------------*\
+        | Set LED name to channel name                              |
+        \*---------------------------------------------------------*/
+        new_led->name           = rgb_fusion_zone_names[led_idx];
+
+        /*---------------------------------------------------------*\
+        | Push new LED to LEDs vector                               |
+        \*---------------------------------------------------------*/
+        leds.push_back(*new_led);
+    }
+
+    SetupColors();
+}
+
+void RGBController_RGBFusion::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
+}
+
+void RGBController_RGBFusion::UpdateLEDs()
+{
+    for (std::size_t led = 0; led < colors.size(); led++)
+    {
+        RGBColor      color = colors[led];
+        unsigned char red   = RGBGetRValue(color);
+        unsigned char grn   = RGBGetGValue(color);
+        unsigned char blu   = RGBGetBValue(color);
+
+        rgb_fusion->SetLEDColor(led, red, grn, blu);
+    }
+}
+
+void RGBController_RGBFusion::UpdateZoneLEDs(int zone)
+{
+    RGBColor      color = colors[zone];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
+
+    rgb_fusion->SetLEDColor(zone, red, grn, blu);
+}
+
+void RGBController_RGBFusion::UpdateSingleLED(int led)
+{
+    UpdateZoneLEDs(led);
 }
 
 int RGBController_RGBFusion::GetDeviceMode()

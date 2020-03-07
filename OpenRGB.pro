@@ -47,7 +47,7 @@ INCLUDEPATH +=                                                          \
 #    Controllers/PatriotViperController/                                 \
 #    Controllers/PolychromeController/                                   \
 #    Controllers/PoseidonZRGBController/                                 \
-#    Controllers/RGBFusionController/                                    \
+    Controllers/RGBFusionController/                                    \
 #    Controllers/RGBFusion2Controller/                                   \
     Controllers/RGBFusionGPUController/                                 \
     Controllers/ThermaltakeRiingController/                             \
@@ -111,8 +111,8 @@ SOURCES +=                                                              \
 #    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
 #    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
 #    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
-#    Controllers/RGBFusionController/RGBFusionController.cpp             \
-#    Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
+    Controllers/RGBFusionController/RGBFusionController.cpp             \
+    Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
 #    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
 #    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
@@ -141,7 +141,7 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_PatriotViper.cpp                        \
 #    RGBController/RGBController_Polychrome.cpp                          \
 #    RGBController/RGBController_PoseidonZRGB.cpp                        \
-#    RGBController/RGBController_RGBFusion.cpp                           \
+    RGBController/RGBController_RGBFusion.cpp                           \
 #    RGBController/RGBController_RGBFusion2.cpp                          \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
     RGBController/RGBController_ThermaltakeRiing.cpp                    \

@@ -324,7 +324,7 @@ void DetectRGBControllers(void)
     //DetectPolychromeControllers(busses, rgb_controllers);
     DetectRGBFusionGPUControllers(busses, rgb_controllers);
 
-    //DetectRGBFusionControllers(busses, rgb_controllers);
+    DetectRGBFusionControllers(busses, rgb_controllers);
     //DetectMSIRGBControllers(rgb_controllers);
 
     //DetectLEDStripControllers(rgb_controllers);
