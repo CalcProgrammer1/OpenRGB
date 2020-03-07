@@ -24,22 +24,32 @@ RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* msi_ptr)
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    SetupZones();
+}
+
+RGBController_MSIRGB::~RGBController_MSIRGB()
+{
+
+}
+
+void RGBController_MSIRGB::SetupZones()
+{
+    zone msi_zone;
+    msi_zone.name           = "MSI Zone";
+    msi_zone.type           = ZONE_TYPE_SINGLE;
+    msi_zone.leds_min       = 1;
+    msi_zone.leds_max       = 1;
+    msi_zone.leds_count     = 1;
+    zones.push_back(msi_zone);
+
     led msi_led;
     msi_led.name = "MSI LED";
     leds.push_back(msi_led);
 
-    zone msi_zone;
-    msi_zone.name = "MSI Zone";
-    msi_zone.type = ZONE_TYPE_SINGLE;
-    std::vector<int> msi_zone_map;
-    msi_zone_map.push_back(0);
-    msi_zone.map.push_back(msi_zone_map);
-    zones.push_back(msi_zone);
-
-    colors.push_back(0x00000000);
+    SetupColors();
 }
 
-RGBController_MSIRGB::~RGBController_MSIRGB()
+void RGBController_MSIRGB::ResizeZone(int zone, int new_size)
 {
 
 }
