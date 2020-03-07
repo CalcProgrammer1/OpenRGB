@@ -45,7 +45,7 @@ INCLUDEPATH +=                                                          \
 #    Controllers/MSI3ZoneController/                                     \
     Controllers/MSIRGBController/                                       \
 #    Controllers/PatriotViperController/                                 \
-#    Controllers/PolychromeController/                                   \
+    Controllers/PolychromeController/                                   \
 #    Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
 #    Controllers/RGBFusion2Controller/                                   \
@@ -107,8 +107,8 @@ SOURCES +=                                                              \
     Controllers/MSIRGBController/MSIRGBControllerDetect.cpp             \
 #    Controllers/PatriotViperController/PatriotViperController.cpp       \
 #    Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
-#    Controllers/PolychromeController/PolychromeController.cpp           \
-#    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
+    Controllers/PolychromeController/PolychromeController.cpp           \
+    Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
 #    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
 #    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
@@ -139,7 +139,7 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_MSI3Zone.cpp                            \
     RGBController/RGBController_MSIRGB.cpp                              \
 #    RGBController/RGBController_PatriotViper.cpp                        \
-#    RGBController/RGBController_Polychrome.cpp                          \
+    RGBController/RGBController_Polychrome.cpp                          \
 #    RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
 #    RGBController/RGBController_RGBFusion2.cpp                          \
