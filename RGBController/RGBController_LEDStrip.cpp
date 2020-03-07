@@ -25,29 +25,36 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-    colors.resize(strip->num_leds);
-    
-    for (int i = 0; i < strip->num_leds; i++)
-    {
-        char id_buf[16];
-        snprintf(id_buf, 16, "%d", i);
+    SetupZones();
+}
 
+void RGBController_LEDStrip::SetupZones()
+{
+    zone led_zone;
+    led_zone.name       = "LED Strip";
+    led_zone.type       = ZONE_TYPE_LINEAR;
+    led_zone.leds_min   = strip->num_leds;
+    led_zone.leds_max   = strip->num_leds;
+    led_zone.leds_count = strip->num_leds;
+    zones.push_back(led_zone);
+
+    for(int led_idx = 0; led_idx < strip->num_leds; led_idx++)
+    {
         led new_led;
         new_led.name = "LED ";
-        new_led.name.append(id_buf);
-        
+        new_led.name.append(std::to_string(led_idx));
+
         leds.push_back(new_led);
     }
 
-    zone led_zone;
-    led_zone.name = "LED Strip";
-    std::vector<int> led_zone_map;
-    for (int i = 0; i < strip->num_leds; i++)
-    {
-        led_zone_map.push_back(i);
-    }
-    led_zone.map.push_back(led_zone_map);
-    zones.push_back(led_zone);
+    SetupColors();
+}
+
+void RGBController_LEDStrip::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_LEDStrip::UpdateLEDs()

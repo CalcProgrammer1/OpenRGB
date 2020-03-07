@@ -41,7 +41,7 @@ INCLUDEPATH +=                                                          \
 #    Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
 #    Controllers/HyperXKeyboardController/                               \
-#    Controllers/LEDStripController/                                     \
+    Controllers/LEDStripController/                                     \
 #    Controllers/MSI3ZoneController/                                     \
 #    Controllers/MSIRGBController/                                       \
 #    Controllers/PatriotViperController/                                 \
@@ -99,8 +99,8 @@ SOURCES +=                                                              \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
 #    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
 #    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
-#    Controllers/LEDStripController/LEDStripController.cpp               \
-#    Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+    Controllers/LEDStripController/LEDStripController.cpp               \
+    Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
 #    Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
 #    Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
 #    Controllers/MSIRGBController/MSIRGBController.cpp                   \
@@ -135,7 +135,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_HyperX.cpp                              \
 #    RGBController/RGBController_HyperXKeyboard.cpp                      \
 #    RGBController/RGBController_E131.cpp                                \
-#    RGBController/RGBController_LEDStrip.cpp                            \
+    RGBController/RGBController_LEDStrip.cpp                            \
 #    RGBController/RGBController_MSI3Zone.cpp                            \
 #    RGBController/RGBController_MSIRGB.cpp                              \
 #    RGBController/RGBController_PatriotViper.cpp                        \
