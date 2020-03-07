@@ -318,7 +318,7 @@ void DetectRGBControllers(void)
     DetectAuraGPUControllers(busses, rgb_controllers);
     DetectCorsairControllers(busses, rgb_controllers);
     DetectCorsairProControllers(busses, rgb_controllers);
-    //DetectCrucialControllers(busses, rgb_controllers);
+    DetectCrucialControllers(busses, rgb_controllers);
     DetectHyperXControllers(busses, rgb_controllers);
     //DetectPatriotViperControllers(busses, rgb_controllers);
     DetectPolychromeControllers(busses, rgb_controllers);

@@ -16,6 +16,11 @@ class RGBController_Crucial : public RGBController
 {
 public:
     RGBController_Crucial(CrucialController* crucial_ptr);
+
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+    
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

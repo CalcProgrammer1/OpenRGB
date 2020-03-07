@@ -9,28 +9,6 @@
 
 #include "RGBController_Crucial.h"
 
-void RGBController_Crucial::UpdateLEDs()
-{
-    if(modes[active_mode].value == 0xFFFF)
-    {
-        crucial->SetAllColorsDirect(&colors[0]);
-    }
-    else
-    {
-
-    }
-}
-
-void RGBController_Crucial::UpdateZoneLEDs(int zone)
-{
-    UpdateLEDs();
-}
-
-void RGBController_Crucial::UpdateSingleLED(int led)
-{
-    UpdateLEDs();
-}
-
 RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
 {
     crucial = crucial_ptr;
@@ -127,26 +105,63 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     modes.push_back(Static);
 #endif
 
+    SetupZones();
+}
+
+void RGBController_Crucial::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Set up zone                                               |
+    \*---------------------------------------------------------*/
     zone new_zone;
-    new_zone.name = "DRAM";
-    new_zone.type = ZONE_TYPE_LINEAR;
-    
-    std::vector<int> new_zone_map;
+    new_zone.name           = "DRAM";
+    new_zone.type           = ZONE_TYPE_LINEAR;
+    new_zone.leds_min       = 8;
+    new_zone.leds_max       = 8;
+    new_zone.leds_count     = 8;
+    zones.push_back(new_zone);
 
-    for(int led_idx = 0; led_idx < 8; led_idx++)
+    /*---------------------------------------------------------*\
+    | Set up LEDs                                               |
+    \*---------------------------------------------------------*/
+    for(int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
-        colors.push_back(0x00000000);
-
         led new_led;
-        new_led.name = "DRAM LED";
-
+        new_led.name = "DRAM LED ";
+        new_led.name.append(std::to_string(led_idx));
         leds.push_back(new_led);
-        new_zone_map.push_back(led_idx);
     }
 
-    new_zone.map.push_back(new_zone_map);
+    SetupColors();
+}
 
-    zones.push_back(new_zone);
+void RGBController_Crucial::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
+}
+
+void RGBController_Crucial::UpdateLEDs()
+{
+    if(modes[active_mode].value == 0xFFFF)
+    {
+        crucial->SetAllColorsDirect(&colors[0]);
+    }
+    else
+    {
+
+    }
+}
+
+void RGBController_Crucial::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
+
+void RGBController_Crucial::UpdateSingleLED(int led)
+{
+    UpdateLEDs();
 }
 
 void RGBController_Crucial::SetCustomMode()

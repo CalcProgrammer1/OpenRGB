@@ -36,7 +36,7 @@ INCLUDEPATH +=                                                          \
 #    Controllers/CorsairKeyboardController/                              \
     Controllers/CorsairLightingNodeController/                           \
     Controllers/CorsairProController/                                   \
-#    Controllers/CrucialController/                                      \
+    Controllers/CrucialController/                                      \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
@@ -89,8 +89,8 @@ SOURCES +=                                                              \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeControllerDetect.cpp \
     Controllers/CorsairProController/CorsairProController.cpp           \
     Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
-#    Controllers/CrucialController/CrucialController.cpp                 \
-#    Controllers/CrucialController/CrucialControllerDetect.cpp           \
+    Controllers/CrucialController/CrucialController.cpp                 \
+    Controllers/CrucialController/CrucialControllerDetect.cpp           \
     Controllers/Hue2Controller/Hue2Controller.cpp                       \
     Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
     Controllers/HuePlusController/HuePlusController.cpp                 \
@@ -128,7 +128,7 @@ SOURCES +=                                                              \
 #    RGBController/RGBController_CorsairKeyboard.cpp                     \
     RGBController/RGBController_CorsairLightingNode.cpp                 \
     RGBController/RGBController_CorsairPro.cpp                          \
-#    RGBController/RGBController_Crucial.cpp                             \
+    RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Dummy.cpp                               \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
