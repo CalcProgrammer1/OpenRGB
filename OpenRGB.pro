@@ -29,7 +29,7 @@ INCLUDEPATH +=                                                          \
     net_port/                                                           \
     serial_port/                                                        \
     super_io/                                                           \
-#    Controllers/AMDWraithPrismController/                               \
+    Controllers/AMDWraithPrismController/                               \
     Controllers/AuraController/                                         \
 #    Controllers/AuraGPUController/                                      \
 #    Controllers/CorsairController/                                      \
@@ -75,8 +75,8 @@ SOURCES +=                                                              \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
     super_io/super_io.cpp                                               \
-#    Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
-#    Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
+    Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
+    Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
 #    Controllers/AuraGPUController/AuraGPUController.cpp                 \
@@ -121,7 +121,7 @@ SOURCES +=                                                              \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
 #    RGBController/E131ControllerDetect.cpp                              \
-#    RGBController/RGBController_AMDWraithPrism.cpp                      \
+    RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
 #    RGBController/RGBController_AuraGPU.cpp                             \
 #    RGBController/RGBController_Corsair.cpp                             \

@@ -331,7 +331,7 @@ void DetectRGBControllers(void)
     //DetectHue2Controllers(rgb_controllers);
     //DetectHuePlusControllers(rgb_controllers);
 
-    //DetectAMDWraithPrismControllers(rgb_controllers);
+    DetectAMDWraithPrismControllers(rgb_controllers);
     //DetectMSI3ZoneControllers(rgb_controllers);
     //DetectPoseidonZRGBControllers(rgb_controllers);
     //DetectHyperXKeyboardControllers(rgb_controllers);

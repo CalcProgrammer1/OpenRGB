@@ -84,49 +84,66 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     Swirl.speed      = AMD_WRAITH_PRISM_SPEED_NORMAL;
     modes.push_back(Swirl);
 
-    led logo_led;
-    logo_led.name = "Logo";
-    leds.push_back(logo_led);
-    colors.push_back(0x00000000);
-
-    zone logo_zone;
-    logo_zone.name = "Logo";
-    logo_zone.type = ZONE_TYPE_SINGLE;
-    std::vector<int> logo_zone_map;
-    logo_zone_map.push_back(0);
-    logo_zone.map.push_back(logo_zone_map);
-    zones.push_back(logo_zone);
-
-    led fan_led;
-    fan_led.name = "Fan";
-    leds.push_back(fan_led);
-    colors.push_back(0x00000000);
-
-    zone fan_zone;
-    fan_zone.name = "Fan";
-    fan_zone.type = ZONE_TYPE_SINGLE;
-    std::vector<int> fan_zone_map;
-    fan_zone_map.push_back(1);
-    fan_zone.map.push_back(fan_zone_map);
-    zones.push_back(fan_zone);
-
-    led ring_led;
-    ring_led.name = "Ring";
-    leds.push_back(ring_led);
-    colors.push_back(0x00000000);
-
-    zone ring_zone;
-    ring_zone.name = "Ring";
-    ring_zone.type = ZONE_TYPE_SINGLE;
-    std::vector<int> ring_zone_map;
-    ring_zone_map.push_back(2);
-    ring_zone.map.push_back(ring_zone_map);
-    zones.push_back(ring_zone);   
+    SetupZones();
 }
 
 RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
 {
 
+}
+
+void RGBController_AMDWraithPrism::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Set up zones                                              |
+    \*---------------------------------------------------------*/
+    zone logo_zone;
+    logo_zone.name          = "Logo";
+    logo_zone.type          = ZONE_TYPE_SINGLE;
+    logo_zone.leds_min      = 1;
+    logo_zone.leds_max      = 1;
+    logo_zone.leds_count    = 1;
+    zones.push_back(logo_zone);
+
+    zone fan_zone;
+    fan_zone.name           = "Fan";
+    fan_zone.type           = ZONE_TYPE_SINGLE;
+    fan_zone.leds_min       = 1;
+    fan_zone.leds_max       = 1;
+    fan_zone.leds_count     = 1;
+    zones.push_back(fan_zone);
+
+    zone ring_zone;
+    ring_zone.name          = "Ring";
+    ring_zone.type          = ZONE_TYPE_SINGLE;
+    ring_zone.leds_min      = 1;
+    ring_zone.leds_max      = 1;
+    ring_zone.leds_count    = 1;
+    zones.push_back(ring_zone);
+
+    /*---------------------------------------------------------*\
+    | Set up LEDs                                               |
+    \*---------------------------------------------------------*/
+    led logo_led;
+    logo_led.name = "Logo LED";
+    leds.push_back(logo_led);
+
+    led fan_led;
+    fan_led.name = "Fan LED";
+    leds.push_back(fan_led);
+
+    led ring_led;
+    ring_led.name = "Ring LED";
+    leds.push_back(ring_led);
+
+    SetupColors();
+}
+
+void RGBController_AMDWraithPrism::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_AMDWraithPrism::UpdateLEDs()
