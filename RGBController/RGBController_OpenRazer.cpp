@@ -331,46 +331,56 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 SetupNonMatrixDevice(dev_path);
             }
             
-            /*---------------------------------------------------------*\
-            | Fill in zone information based on device table            |
-            \*---------------------------------------------------------*/
-            for (int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
+            SetupZones();
+        }
+    }
+}
+
+void RGBController_OpenRazer::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Fill in zone information based on device table            |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
+    {
+        if(device_list[device_index]->zones[zone_id] != NULL)
+        {
+            zone new_zone;
+
+            new_zone.name       = device_list[device_index]->zones[zone_id]->name;
+            new_zone.type       = device_list[device_index]->zones[zone_id]->type;
+
+            new_zone.leds_count = device_list[device_index]->zones[zone_id]->rows * device_list[device_index]->zones[zone_id]->cols;
+            new_zone.leds_min   = new_zone.leds_count;
+            new_zone.leds_max   = new_zone.leds_count;
+
+            zones.push_back(new_zone);
+        }
+    }
+
+    for(unsigned int zone_id = 0; zone_id < zones.size(); zone_id++)
+    {
+        for (unsigned int row_id = 0; row_id < device_list[device_index]->zones[zone_id]->rows; row_id++)
+        {
+            for (unsigned int col_id = 0; col_id < device_list[device_index]->zones[zone_id]->cols; col_id++)
             {
-                if (device_list[i]->zones[zone_id] != NULL)
-                {
-                    zone new_zone;
-                    new_zone.name = device_list[i]->zones[zone_id]->name;
-                    new_zone.type = device_list[i]->zones[zone_id]->type;
+                led* new_led = new led();
 
-                    for (unsigned int row_id = 0; row_id < device_list[i]->zones[zone_id]->rows; row_id++)
-                    {
-                        std::vector<int> new_zone_map;
-
-                        for (unsigned int col_id = 0; col_id < device_list[i]->zones[zone_id]->cols; col_id++)
-                        {
-                            char id_buf[8];
-                            snprintf(id_buf, 8, "%d", col_id + 1);
-
-                            RGBColor new_color = 0x00000000;
-                            colors.push_back(new_color);
-
-                            led* new_led = new led();
-                            new_led->name = device_list[i]->zones[zone_id]->name + " LED ";
-                            new_led->name.append(id_buf);
-                            leds.push_back(*new_led);
-
-                            new_zone_map.push_back(led_count);
-
-                            led_count++;
-                        }
-
-                        new_zone.map.push_back(new_zone_map);
-                    }
-                    zones.push_back(new_zone);
-                }
+                new_led->name = device_list[device_index]->zones[zone_id]->name + " LED ";
+                new_led->name.append(std::to_string(col_id + 1));
+                leds.push_back(*new_led);
             }
         }
     }
+
+    SetupColors();
+}
+
+void RGBController_OpenRazer::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_OpenRazer::SetCustomMode()

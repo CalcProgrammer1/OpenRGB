@@ -240,8 +240,8 @@ win32:SOURCES +=                                                        \
     i2c_smbus/i2c_smbus_piix4.cpp                                       \
     serial_port/find_usb_serial_port_win.cpp                            \
     wmi/wmi.cpp                                                         \
-#    RGBController/OpenRazerWindowsDetect.cpp                            \
-#    RGBController/RGBController_OpenRazerWindows.cpp                    \
+    RGBController/OpenRazerWindowsDetect.cpp                            \
+    RGBController/RGBController_OpenRazerWindows.cpp                    \
 
 win32:HEADERS +=                                                        \
     dependencies/inpout32_1501/Win32/inpout32.h                         \

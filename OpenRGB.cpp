@@ -342,16 +342,16 @@ void DetectRGBControllers(void)
     
     //DetectE131Controllers(rgb_controllers);
 
+    DetectOpenRazerControllers(rgb_controllers);
+
     /*-------------------------------------*\
     | Windows-only devices                  |
     \*-------------------------------------*/
 #ifdef WIN32
-    //DetectOpenRazerControllers(rgb_controllers);
     /*-------------------------------------*\
     | Linux-only devices                    |
     \*-------------------------------------*/
 #else
-    DetectOpenRazerControllers(rgb_controllers);
     DetectFaustusControllers(rgb_controllers);
 #endif
 

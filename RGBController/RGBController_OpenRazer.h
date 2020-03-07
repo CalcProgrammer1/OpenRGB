@@ -40,6 +40,11 @@ public:
 
 public:
     RGBController_OpenRazer(std::string dev_path);
+
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

@@ -74,6 +74,11 @@ public:
 
 public:
     RGBController_OpenRazer(device * razer_device, device_fn_type* razer_functions);
+
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
