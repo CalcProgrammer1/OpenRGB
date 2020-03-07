@@ -9,36 +9,6 @@
 
 #include "RGBController_CorsairPro.h"
 
-void RGBController_CorsairPro::UpdateLEDs()
-{
-    for (std::size_t led = 0; led < colors.size(); led++)
-    {
-        RGBColor      color = colors[led];
-        unsigned char red   = RGBGetRValue(color);
-        unsigned char grn   = RGBGetGValue(color);
-        unsigned char blu   = RGBGetBValue(color);
-        corsair->SetLEDColor(led, red, grn, blu);
-    }
-
-    corsair->ApplyColors();
-}
-
-void RGBController_CorsairPro::UpdateZoneLEDs(int zone)
-{
-    UpdateLEDs();
-}
-
-void RGBController_CorsairPro::UpdateSingleLED(int led)
-{
-    RGBColor      color = colors[led];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
-
-    corsair->SetLEDColor(led, red, grn, blu);
-    corsair->ApplyColors();
-}
-
 RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair_ptr)
 {
     corsair = corsair_ptr;
@@ -97,8 +67,8 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     ColorWave.direction  = MODE_DIRECTION_DOWN;
     ColorWave.color_mode = MODE_COLORS_MODE_SPECIFIC;
     ColorWave.colors.resize(2);
-    modes.push_back(ColorWave); 
-    
+    modes.push_back(ColorWave);
+
     mode Visor;
     Visor.name       = "Visor";
     Visor.value      = CORSAIR_PRO_MODE_VISOR;
@@ -139,7 +109,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Marquee.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Marquee.colors.resize(1);
     modes.push_back(Marquee);
-    
+
     mode Rainbow;
     Rainbow.name       = "Rainbow";
     Rainbow.value      = CORSAIR_PRO_MODE_RAINBOW;
@@ -149,7 +119,7 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Rainbow.speed      = CORSAIR_PRO_SPEED_SLOW;
     Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
-    
+
     mode Sequential;
     Sequential.name       = "Sequential";
     Sequential.value      = CORSAIR_PRO_MODE_SEQUENTIAL;
@@ -174,34 +144,73 @@ RGBController_CorsairPro::RGBController_CorsairPro(CorsairProController* corsair
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
+    SetupZones();
+
     active_mode = 9;
+}
 
-    colors.resize(corsair->GetLEDCount());
+void RGBController_CorsairPro::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Set up zone                                               |
+    \*---------------------------------------------------------*/
+    zone new_zone;
+    new_zone.name           = "Corsair Pro Zone";
+    new_zone.type           = ZONE_TYPE_LINEAR;
+    new_zone.leds_min       = corsair->GetLEDCount();
+    new_zone.leds_max       = corsair->GetLEDCount();
+    new_zone.leds_count     = corsair->GetLEDCount();
+    zones.push_back(new_zone);
 
-    for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
+    /*---------------------------------------------------------*\
+    | Set up LEDs                                               |
+    \*---------------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         led* new_led = new led();
-
-        new_led->name = "Corsair Pro LED";
-
+        new_led->name = "Corsair Pro LED ";
+        new_led->name.append(std::to_string(led_idx));
         leds.push_back(*new_led);
     }
 
-    zone new_zone;
+    SetupColors();
+}
 
-    new_zone.name = "Corsair Pro Zone";
-    new_zone.type = ZONE_TYPE_LINEAR;
+void RGBController_CorsairPro::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
+}
 
-    std::vector<int> zone_row;
-
-    for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
+void RGBController_CorsairPro::UpdateLEDs()
+{
+    for (std::size_t led = 0; led < colors.size(); led++)
     {
-        zone_row.push_back(i);
+        RGBColor      color = colors[led];
+        unsigned char red   = RGBGetRValue(color);
+        unsigned char grn   = RGBGetGValue(color);
+        unsigned char blu   = RGBGetBValue(color);
+        corsair->SetLEDColor(led, red, grn, blu);
     }
 
-    new_zone.map.push_back(zone_row);
+    corsair->ApplyColors();
+}
 
-    zones.push_back(new_zone);
+void RGBController_CorsairPro::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
+
+void RGBController_CorsairPro::UpdateSingleLED(int led)
+{
+    RGBColor      color = colors[led];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
+
+    corsair->SetLEDColor(led, red, grn, blu);
+    corsair->ApplyColors();
 }
 
 void RGBController_CorsairPro::SetCustomMode()
