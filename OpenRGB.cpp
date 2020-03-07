@@ -340,7 +340,7 @@ void DetectRGBControllers(void)
     DetectThermaltakeRiingControllers(rgb_controllers);
     //DetectRGBFusion2Controllers(rgb_controllers);
     
-    //DetectE131Controllers(rgb_controllers);
+    DetectE131Controllers(rgb_controllers);
 
     DetectOpenRazerControllers(rgb_controllers);
 

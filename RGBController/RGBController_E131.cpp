@@ -27,50 +27,19 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     modes.push_back(Direct);
 
     sockfd = e131_socket();
-
-    colors.resize(0);
     
-    for (std::size_t i = 0; i < devices.size(); i++)
+    SetupZones();
+
+    for (std::size_t device_idx = 0; device_idx < devices.size(); device_idx++)
     {
-		/*-----------------------------------------*\
-		| Add LEDs                                  |
-        \*-----------------------------------------*/
-        colors.resize(colors.size() + devices[i].num_leds);
-
-    	for (unsigned int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
-    	{
-            char id_buf[16];
-            snprintf(id_buf, 16, "%d", led_idx);
-
-        	led new_led;
-        	new_led.name = devices[i].name + " LED ";
-            new_led.name.append(id_buf);
-        	leds.push_back(new_led);
-		}
-		
-        /*-----------------------------------------*\
-        | Add Zones                                 |
-        \*-----------------------------------------*/
-	    zone led_zone;
-    	led_zone.name = devices[i].name;
-    	led_zone.type = devices[i].type;
-    	std::vector<int> led_zone_map;
-        for (unsigned int led_idx = 0; led_idx < devices[i].num_leds; led_idx++)
-    	{
-      	  	led_zone_map.push_back(led_zone_idx);
-            led_zone_idx++;
-    	}
-    	led_zone.map.push_back(led_zone_map);
-    	zones.push_back(led_zone);
-
         /*-----------------------------------------*\
         | Add Universes                             |
         \*-----------------------------------------*/
-        unsigned int total_universes = ceil( ( ( devices[i].num_leds * 3 ) + devices[i].start_channel ) / 512.0f );
+        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
 
         for (unsigned int univ_idx = 0; univ_idx < total_universes; univ_idx++)
         {
-            unsigned int universe = devices[i].start_universe + univ_idx;
+            unsigned int universe = devices[device_idx].start_universe + univ_idx;
             bool universe_exists = false;
 
             for (std::size_t pkt_idx = 0; pkt_idx < packets.size(); pkt_idx++)
@@ -95,6 +64,49 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
             }
         }
 	}
+}
+
+void RGBController_E131::SetupZones()
+{
+    /*-----------------------------------------*\
+    | Add Zones                                 |
+    \*-----------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < devices.size(); zone_idx++)
+    {
+        zone led_zone;
+        led_zone.name           = devices[zone_idx].name;
+        led_zone.type           = devices[zone_idx].type;
+        led_zone.leds_min       = devices[zone_idx].num_leds;
+        led_zone.leds_max       = devices[zone_idx].num_leds;
+        led_zone.leds_count     = devices[zone_idx].num_leds;
+
+        zones.push_back(led_zone);
+    }
+
+    /*-----------------------------------------*\
+    | Add LEDs                                  |
+    \*-----------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            led new_led;
+
+            new_led.name = zones[zone_idx].name + " LED ";
+            new_led.name.append(std::to_string(led_idx));
+
+            leds.push_back(new_led);
+        }
+    }
+
+    SetupColors();
+}
+
+void RGBController_E131::ResizeZone(int zone, int new_size)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_E131::UpdateLEDs()

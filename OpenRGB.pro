@@ -120,7 +120,7 @@ SOURCES +=                                                              \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
-#    RGBController/E131ControllerDetect.cpp                              \
+    RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
 #    RGBController/RGBController_AuraGPU.cpp                             \
@@ -134,7 +134,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
 #    RGBController/RGBController_HyperXKeyboard.cpp                      \
-#    RGBController/RGBController_E131.cpp                                \
+    RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
 #    RGBController/RGBController_MSI3Zone.cpp                            \
 #    RGBController/RGBController_MSIRGB.cpp                              \

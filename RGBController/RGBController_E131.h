@@ -37,6 +37,11 @@ class RGBController_E131 : public RGBController
 {
 public:
     RGBController_E131(std::vector<E131Device> device_list);
+
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
