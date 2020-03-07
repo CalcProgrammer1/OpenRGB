@@ -300,6 +300,19 @@ void RGBController_Aura::SetupZones()
     }
 
     SetupColors();
+
+    /*---------------------------------------------------------*\
+    | Initialize colors for each LED                            |
+    \*---------------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        unsigned int  led = leds[led_idx].value;
+        unsigned char red = aura->GetLEDRed(led);
+        unsigned char grn = aura->GetLEDGreen(led);
+        unsigned char blu = aura->GetLEDBlue(led);
+
+        colors[led_idx] = ToRGBColor(red, grn, blu);
+    }
 }
 
 void RGBController_Aura::ResizeZone(int /*zone*/, int /*new_size*/)

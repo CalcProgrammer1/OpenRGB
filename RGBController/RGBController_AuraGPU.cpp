@@ -41,39 +41,10 @@ int RGBController_AuraGPU::GetDeviceMode()
     return(active_mode);
 }
 
-void RGBController_AuraGPU::UpdateLEDs()
-{
-    for(std::size_t led = 0; led < colors.size(); led++)
-    {
-        unsigned char red = RGBGetRValue(colors[led]);
-        unsigned char grn = RGBGetGValue(colors[led]);
-        unsigned char blu = RGBGetBValue(colors[led]);
-
-        if (GetMode() == 0)
-        {
-            aura_gpu->SetLEDColorsDirect(red, grn, blu);
-        }
-        else 
-        {
-            aura_gpu->SetLEDColorsEffect(red, grn, blu);
-        }
-    }
-}
-
-void RGBController_AuraGPU::UpdateZoneLEDs(int zone)
-{
-    UpdateLEDs();
-}
-
-void RGBController_AuraGPU::UpdateSingleLED(int led)
-{
-    UpdateLEDs();
-}
-
 RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
 {
     aura_gpu = aura_gpu_ptr;
-    
+
 
     name = aura_gpu->GetDeviceName();
     version = "0.00.1";
@@ -101,7 +72,7 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
-    mode Breathing;  
+    mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = AURA_GPU_MODE_BREATHING;
     Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
@@ -122,28 +93,77 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
     Spectrum_Cycle.color_mode = MODE_COLORS_NONE;
     modes.push_back(Spectrum_Cycle);
 
-    colors.resize(1);
+    SetupZones();
 
-    led aura_gpu_led;                                                       
+    active_mode = GetDeviceMode();
+}
+
+void RGBController_AuraGPU::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Set up zone                                               |
+    \*---------------------------------------------------------*/
+    zone aura_gpu_zone;
+    aura_gpu_zone.name          = "GPU";
+    aura_gpu_zone.type          = ZONE_TYPE_SINGLE;
+    aura_gpu_zone.leds_min      = 1;
+    aura_gpu_zone.leds_max      = 1;
+    aura_gpu_zone.leds_count    = 1;
+    zones.push_back(aura_gpu_zone);
+
+    /*---------------------------------------------------------*\
+    | Set up LED                                                |
+    \*---------------------------------------------------------*/
+    led aura_gpu_led;
     aura_gpu_led.name = "GPU";
     leds.push_back(aura_gpu_led);
 
-    zone aura_gpu_zone;
-    aura_gpu_zone.name = "GPU";
-    aura_gpu_zone.type = ZONE_TYPE_SINGLE;
+    SetupColors();
 
-    std::vector<int> aura_gpu_zone_map;
-    aura_gpu_zone_map.push_back(0);
-    aura_gpu_zone.map.push_back(aura_gpu_zone_map);
-    zones.push_back(aura_gpu_zone);
-
+    /*---------------------------------------------------------*\
+    | Initialize color                                          |
+    \*---------------------------------------------------------*/
     unsigned char red = aura_gpu->GetLEDRed();
     unsigned char grn = aura_gpu->GetLEDGreen();
     unsigned char blu = aura_gpu->GetLEDBlue();
-    
-    colors[0] =  ToRGBColor(red, grn, blu);
 
-    active_mode = GetDeviceMode();
+    colors[0] =  ToRGBColor(red, grn, blu);
+}
+
+void RGBController_AuraGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
+}
+
+void RGBController_AuraGPU::UpdateLEDs()
+{
+    for(std::size_t led = 0; led < colors.size(); led++)
+    {
+        unsigned char red = RGBGetRValue(colors[led]);
+        unsigned char grn = RGBGetGValue(colors[led]);
+        unsigned char blu = RGBGetBValue(colors[led]);
+
+        if (GetMode() == 0)
+        {
+            aura_gpu->SetLEDColorsDirect(red, grn, blu);
+        }
+        else 
+        {
+            aura_gpu->SetLEDColorsEffect(red, grn, blu);
+        }
+    }
+}
+
+void RGBController_AuraGPU::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
+
+void RGBController_AuraGPU::UpdateSingleLED(int led)
+{
+    UpdateLEDs();
 }
 
 void RGBController_AuraGPU::SetCustomMode()

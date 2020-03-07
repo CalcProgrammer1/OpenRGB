@@ -31,7 +31,7 @@ INCLUDEPATH +=                                                          \
     super_io/                                                           \
     Controllers/AMDWraithPrismController/                               \
     Controllers/AuraController/                                         \
-#    Controllers/AuraGPUController/                                      \
+    Controllers/AuraGPUController/                                      \
     Controllers/CorsairController/                                      \
 #    Controllers/CorsairKeyboardController/                              \
     Controllers/CorsairLightingNodeController/                           \
@@ -79,8 +79,8 @@ SOURCES +=                                                              \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
     Controllers/AuraController/AuraController.cpp                       \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
-#    Controllers/AuraGPUController/AuraGPUController.cpp                 \
-#    Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
+    Controllers/AuraGPUController/AuraGPUController.cpp                 \
+    Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
     Controllers/CorsairController/CorsairController.cpp                 \
     Controllers/CorsairController/CorsairControllerDetect.cpp           \
 #    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
@@ -123,7 +123,7 @@ SOURCES +=                                                              \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
-#    RGBController/RGBController_AuraGPU.cpp                             \
+    RGBController/RGBController_AuraGPU.cpp                             \
     RGBController/RGBController_Corsair.cpp                             \
 #    RGBController/RGBController_CorsairKeyboard.cpp                     \
     RGBController/RGBController_CorsairLightingNode.cpp                 \
