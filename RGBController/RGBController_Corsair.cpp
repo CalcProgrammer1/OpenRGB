@@ -9,26 +9,6 @@
 
 #include "RGBController_Corsair.h"
 
-void RGBController_Corsair::UpdateLEDs()
-{
-    RGBColor      color = colors[0];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
-
-    corsair->SetLEDColor(red, grn, blu);
-}
-
-void RGBController_Corsair::UpdateZoneLEDs(int zone)
-{
-    UpdateLEDs();
-}
-
-void RGBController_Corsair::UpdateSingleLED(int led)
-{
-    UpdateLEDs();
-}
-
 RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
 {
     corsair = corsair_ptr;
@@ -59,31 +39,60 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
     Pulse.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Pulse);
 
-    for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
+    SetupZones();
+}
+
+void RGBController_Corsair::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Create a single zone                                      |
+    \*---------------------------------------------------------*/
+    zone new_zone;
+    new_zone.name       = "Corsair Zone";
+    new_zone.type       = ZONE_TYPE_SINGLE;
+    new_zone.leds_min   = corsair->GetLEDCount();
+    new_zone.leds_max   = corsair->GetLEDCount();
+    new_zone.leds_count = corsair->GetLEDCount();
+    zones.push_back(new_zone);
+
+    /*---------------------------------------------------------*\
+    | Set up LEDs                                               |
+    \*---------------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         led* new_led = new led();
-
         new_led->name = "Corsair LED";
-
         leds.push_back(*new_led);
-        colors.push_back(0x00000000);
     }
 
-    zone new_zone;
+    SetupColors();
+}
 
-    new_zone.name = "Corsair Zone";
-    new_zone.type = ZONE_TYPE_SINGLE;
+void RGBController_Corsair::ResizeZone(int zone, int new_size)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
+}
 
-    std::vector<int> zone_row;
+void RGBController_Corsair::UpdateLEDs()
+{
+    RGBColor      color = colors[0];
+    unsigned char red   = RGBGetRValue(color);
+    unsigned char grn   = RGBGetGValue(color);
+    unsigned char blu   = RGBGetBValue(color);
 
-    for (unsigned int i = 0; i < corsair->GetLEDCount(); i++)
-    {
-        zone_row.push_back(i);
-    }
+    corsair->SetLEDColor(red, grn, blu);
+}
 
-    new_zone.map.push_back(zone_row);
+void RGBController_Corsair::UpdateZoneLEDs(int zone)
+{
+    UpdateLEDs();
+}
 
-    zones.push_back(new_zone);
+void RGBController_Corsair::UpdateSingleLED(int led)
+{
+    UpdateLEDs();
 }
 
 void RGBController_Corsair::SetCustomMode()
