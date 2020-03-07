@@ -39,7 +39,7 @@ INCLUDEPATH +=                                                          \
 #    Controllers/CrucialController/                                      \
 #    Controllers/Hue2Controller/                                         \
 #    Controllers/HuePlusController/                                      \
-#    Controllers/HyperXController/                                       \
+    Controllers/HyperXController/                                       \
 #    Controllers/HyperXKeyboardController/                               \
 #    Controllers/LEDStripController/                                     \
 #    Controllers/MSI3ZoneController/                                     \
@@ -95,8 +95,8 @@ SOURCES +=                                                              \
 #    Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
 #    Controllers/HuePlusController/HuePlusController.cpp                 \
 #    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
-#    Controllers/HyperXController/HyperXController.cpp                   \
-#    Controllers/HyperXController/HyperXControllerDetect.cpp             \
+    Controllers/HyperXController/HyperXController.cpp                   \
+    Controllers/HyperXController/HyperXControllerDetect.cpp             \
 #    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
 #    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
 #    Controllers/LEDStripController/LEDStripController.cpp               \
@@ -132,7 +132,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Dummy.cpp                               \
 #    RGBController/RGBController_Hue2.cpp                                \
 #    RGBController/RGBController_HuePlus.cpp                             \
-#    RGBController/RGBController_HyperX.cpp                              \
+    RGBController/RGBController_HyperX.cpp                              \
 #    RGBController/RGBController_HyperXKeyboard.cpp                      \
 #    RGBController/RGBController_E131.cpp                                \
 #    RGBController/RGBController_LEDStrip.cpp                            \
