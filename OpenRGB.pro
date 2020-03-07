@@ -40,7 +40,7 @@ INCLUDEPATH +=                                                          \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXController/                                       \
-#    Controllers/HyperXKeyboardController/                               \
+    Controllers/HyperXKeyboardController/                               \
     Controllers/LEDStripController/                                     \
     Controllers/MSI3ZoneController/                                     \
     Controllers/MSIRGBController/                                       \
@@ -97,8 +97,8 @@ SOURCES +=                                                              \
     Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXController/HyperXController.cpp                   \
     Controllers/HyperXController/HyperXControllerDetect.cpp             \
-#    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
-#    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
+    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
+    Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
@@ -133,7 +133,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperX.cpp                              \
-#    RGBController/RGBController_HyperXKeyboard.cpp                      \
+    RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_MSI3Zone.cpp                            \
