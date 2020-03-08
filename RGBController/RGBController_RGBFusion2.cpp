@@ -301,6 +301,7 @@ void RGBController_RGBFusion2::UpdateZoneLEDs(int zone)
                     hdr = HDR_D_LED2_RGB;
                 }
 
+                controller->DisableBuiltinEffect(1, zone == 1 ? 0x01 : 0x02);
                 controller->SetStripColors(hdr, zones[zone].colors, zones[zone].leds_count);
             }
         }
