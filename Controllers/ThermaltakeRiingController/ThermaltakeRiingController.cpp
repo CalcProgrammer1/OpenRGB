@@ -41,7 +41,7 @@ void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, RGBColor 
         color_data[color_idx + 2] = RGBGetBValue(colors[color]);
     }
 
-    SendRGB(channel, current_mode, current_speed, num_colors, color_data);
+    SendRGB(channel + 1, current_mode, current_speed, num_colors, color_data);
 
     delete[] color_data;
 }

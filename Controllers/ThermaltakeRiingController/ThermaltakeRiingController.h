@@ -42,6 +42,8 @@ enum
     THERMALTAKE_SPEED_EXTREME       = 0x00
 };
 
+#define THERMALTAKE_NUM_CHANNELS    5
+
 class ThermaltakeRiingController
 {
 public:
@@ -51,7 +53,7 @@ public:
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     void            SetMode(unsigned char mode, unsigned char speed);
     
-    unsigned int    channel_leds[5];
+    unsigned int    channel_leds[THERMALTAKE_NUM_CHANNELS];
 
 private:
     libusb_device_handle*   dev;
