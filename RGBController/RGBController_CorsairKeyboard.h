@@ -17,6 +17,10 @@ public:
     RGBController_CorsairKeyboard(CorsairKeyboardController* corsair_ptr);
     ~RGBController_CorsairKeyboard();
 
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+    
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

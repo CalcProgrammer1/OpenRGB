@@ -33,8 +33,8 @@ INCLUDEPATH +=                                                          \
     Controllers/AuraController/                                         \
     Controllers/AuraGPUController/                                      \
     Controllers/CorsairController/                                      \
-#    Controllers/CorsairKeyboardController/                              \
-    Controllers/CorsairLightingNodeController/                           \
+    Controllers/CorsairKeyboardController/                              \
+    Controllers/CorsairLightingNodeController/                          \
     Controllers/CorsairProController/                                   \
     Controllers/CrucialController/                                      \
     Controllers/Hue2Controller/                                         \
@@ -68,10 +68,10 @@ SOURCES +=                                                              \
     i2c_tools/i2c_tools.cpp                                             \
     net_port/net_port.cpp                                               \
     qt/OpenRGBDialog2.cpp                                               \
-    qt/OpenRGBProfileSaveDialog.cpp \
-    qt/OpenRGBSoftwareInfoPage.cpp \
+    qt/OpenRGBProfileSaveDialog.cpp                                     \
+    qt/OpenRGBSoftwareInfoPage.cpp                                      \
     qt/OpenRGBSystemInfoPage.cpp                                        \
-    qt/OpenRGBZoneResizeDialog.cpp \
+    qt/OpenRGBZoneResizeDialog.cpp                                      \
     qt/hsv.cpp                                                          \
     serial_port/serial_port.cpp                                         \
     super_io/super_io.cpp                                               \
@@ -83,8 +83,8 @@ SOURCES +=                                                              \
     Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
     Controllers/CorsairController/CorsairController.cpp                 \
     Controllers/CorsairController/CorsairControllerDetect.cpp           \
-#    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
-#    Controllers/CorsairKeyboardController/CorsairKeyboardControllerDetect.cpp \
+    Controllers/CorsairKeyboardController/CorsairKeyboardController.cpp \
+    Controllers/CorsairKeyboardController/CorsairKeyboardControllerDetect.cpp \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.cpp \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeControllerDetect.cpp \
     Controllers/CorsairProController/CorsairProController.cpp           \
@@ -125,7 +125,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_AuraGPU.cpp                             \
     RGBController/RGBController_Corsair.cpp                             \
-#    RGBController/RGBController_CorsairKeyboard.cpp                     \
+    RGBController/RGBController_CorsairKeyboard.cpp                     \
     RGBController/RGBController_CorsairLightingNode.cpp                 \
     RGBController/RGBController_CorsairPro.cpp                          \
     RGBController/RGBController_Crucial.cpp                             \
@@ -155,10 +155,10 @@ HEADERS +=                                                              \
     i2c_tools/i2c_tools.h                                               \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
-    qt/OpenRGBProfileSaveDialog.h \
-    qt/OpenRGBSoftwareInfoPage.h \
+    qt/OpenRGBProfileSaveDialog.h                                       \
+    qt/OpenRGBSoftwareInfoPage.h                                        \
     qt/OpenRGBSystemInfoPage.h                                          \
-    qt/OpenRGBZoneResizeDialog.h \
+    qt/OpenRGBZoneResizeDialog.h                                        \
     serial_port/find_usb_serial_port.h                                  \
     serial_port/serial_port.h                                           \
     super_io/super_io.h                                                 \

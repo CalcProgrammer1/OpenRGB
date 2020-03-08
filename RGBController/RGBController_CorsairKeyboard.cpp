@@ -151,36 +151,47 @@ RGBController_CorsairKeyboard::RGBController_CorsairKeyboard(CorsairKeyboardCont
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-    colors.resize(111);
-
-    unsigned int led_idx = 0;
-    for(unsigned int zone_idx = 0; zone_idx < 2; zone_idx++)
-    {
-        zone new_zone;
-        new_zone.name.append(zone_names[zone_idx]);
-
-        std::vector<int> new_zone_map;
-
-        for(unsigned int led_count = 0; led_count < zone_sizes[zone_idx]; led_count++)
-        {
-            led new_led;
-            new_led.name.append(led_names[led_idx]);
-            leds.push_back(new_led);
-
-            new_zone_map.push_back(led_idx);
-
-            led_idx++;
-        }
-
-        new_zone.map.push_back(new_zone_map);
-
-        zones.push_back(new_zone);
-    }
+    SetupZones();
 }
 
 RGBController_CorsairKeyboard::~RGBController_CorsairKeyboard()
 {
 
+}
+
+void RGBController_CorsairKeyboard::SetupZones()
+{
+    /*---------------------------------------------------------*\
+    | Set up zones                                              |
+    \*---------------------------------------------------------*/
+    unsigned int total_led_count = 0;
+    for(unsigned int zone_idx = 0; zone_idx < 2; zone_idx++)
+    {
+        zone new_zone;
+        new_zone.name           = zone_names[zone_idx];
+        new_zone.leds_min       = zone_sizes[zone_idx];
+        new_zone.leds_max       = zone_sizes[zone_idx];
+        new_zone.leds_count     = zone_sizes[zone_idx];
+        zones.push_back(new_zone);
+
+        total_led_count += zone_sizes[zone_idx];
+    }
+
+    for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
+    {
+        led new_led;
+        new_led.name = led_names[led_idx];
+        leds.push_back(new_led);
+    }
+
+    SetupColors();
+}
+
+void RGBController_CorsairKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_CorsairKeyboard::UpdateLEDs()
