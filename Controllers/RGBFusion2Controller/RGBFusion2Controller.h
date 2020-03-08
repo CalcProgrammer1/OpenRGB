@@ -160,7 +160,14 @@ public:
     RGBFusion2Controller(hid_device* handle, const char *path);
     ~RGBFusion2Controller();
 
-    void            SetStripColors(unsigned int hdr, int start, int end, std::vector<RGBColor>& colors, int single_led = -1);
+    void            SetStripColors
+                        (
+                        unsigned int    hdr,
+                        RGBColor *      colors,
+                        unsigned int    num_colors,
+                        int             single_led      = -1
+                        );
+
     void            SetLEDEffect(unsigned int led, int mode, unsigned int speed, bool random, unsigned char red, unsigned char green, unsigned char blue);
     void            SetLedCount(unsigned int count);
     void            SetMode(int mode);

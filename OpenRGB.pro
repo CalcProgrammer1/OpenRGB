@@ -48,7 +48,7 @@ INCLUDEPATH +=                                                          \
     Controllers/PolychromeController/                                   \
     Controllers/PoseidonZRGBController/                                 \
     Controllers/RGBFusionController/                                    \
-#    Controllers/RGBFusion2Controller/                                   \
+    Controllers/RGBFusion2Controller/                                   \
     Controllers/RGBFusionGPUController/                                 \
     Controllers/ThermaltakeRiingController/                             \
     RGBController/                                                      \
@@ -113,8 +113,8 @@ SOURCES +=                                                              \
     Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
-#    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
-#    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
+    Controllers/RGBFusion2Controller/RGBFusion2Controller.cpp           \
+    Controllers/RGBFusion2Controller/RGBFusion2ControllerDetect.cpp     \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
     Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
@@ -142,7 +142,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
-#    RGBController/RGBController_RGBFusion2.cpp                          \
+    RGBController/RGBController_RGBFusion2.cpp                          \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
     RGBController/RGBController_ThermaltakeRiing.cpp                    \
 

@@ -26,10 +26,16 @@ class RGBController_RGBFusion2: public RGBController
 {
 public:
     RGBController_RGBFusion2(RGBFusion2Controller* controller_ptr);
-    void        SetCustomMode();
+
+    void        SetupZones();
+
+    void        ResizeZone(int zone, int new_size);
+
     void        UpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
+
+    void        SetCustomMode();
     void        UpdateMode();
 
 private:

@@ -151,7 +151,13 @@ std::string RGBFusion2Controller::GetSerial()
     return(chip_id);
 }
 
-void RGBFusion2Controller::SetStripColors(unsigned int hdr, int start, int end, std::vector<RGBColor>& colors, int single_led)
+void RGBFusion2Controller::SetStripColors
+    (
+    unsigned int    hdr,
+    RGBColor *      colors,
+    unsigned int    num_colors,
+    int             single_led
+    )
 {
     PktRGB pkt;
     pkt.Init(hdr, report_id);
@@ -164,7 +170,7 @@ void RGBFusion2Controller::SetStripColors(unsigned int hdr, int start, int end, 
     unsigned char bo_b = byteorder & 0xFF;
 
     int res;
-    int leds_left = end - start;
+    int leds_left = num_colors;
     int sent_data = 0;
     int k = 0;
     int leds_in_pkt = sizeof(pkt.s.leds) / sizeof(*pkt.s.leds); /* 19 */
@@ -174,7 +180,7 @@ void RGBFusion2Controller::SetStripColors(unsigned int hdr, int start, int end, 
     if(single_led > -1)
     {
         leds_left = 1;
-        k = single_led - start;
+        k = single_led;
         sent_data = k * 3;
         leds_in_pkt = 1;
     }
@@ -190,7 +196,7 @@ void RGBFusion2Controller::SetStripColors(unsigned int hdr, int start, int end, 
 
         for(int i = 0; i < leds_in_pkt; i++)
         {
-            RGBColor      color = colors[start + k];
+            RGBColor      color = colors[k];
             unsigned char red   = RGBGetRValue(color);
             unsigned char grn   = RGBGetGValue(color);
             unsigned char blu   = RGBGetBValue(color);
