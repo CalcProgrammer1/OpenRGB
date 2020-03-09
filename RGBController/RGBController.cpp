@@ -3,7 +3,6 @@
 
 unsigned char * RGBController::GetDeviceDescription()
 {
-#if 0
     unsigned int data_ptr = 0;
     unsigned int data_size = 0;
 
@@ -25,8 +24,6 @@ unsigned char * RGBController::GetDeviceDescription()
     unsigned short *led_name_len    = new unsigned short[num_leds];
 
     unsigned short *mode_num_colors = new unsigned short[num_modes];
-
-    unsigned short *zone_map_rows   = new unsigned short[num_zones];
 
     data_size += sizeof(data_size);
     data_size += sizeof(device_type);
@@ -63,21 +60,12 @@ unsigned char * RGBController::GetDeviceDescription()
     for(int zone_index = 0; zone_index < num_zones; zone_index++)
     {
         zone_name_len[zone_index]   = strlen(zones[zone_index].name.c_str()) + 1;
-        zone_map_rows[zone_index] = zones[zone_index].map.size();
         
         data_size += zone_name_len[zone_index] + sizeof(zone_name_len[zone_index]);
         data_size += sizeof(zones[zone_index].type);
-        data_size += sizeof(zone_map_rows[zone_index]);
-
-        for(int row_index = 0; row_index < zone_map_rows[zone_index]; row_index++)
-        {
-            data_size += sizeof(unsigned short);
-
-            for(int row_led_index = 0; row_led_index < zones[zone_index].map[row_index].size(); row_led_index++)
-            {
-                data_size += sizeof(int);
-            }
-        }
+        data_size += sizeof(zones[zone_index].leds_min);
+        data_size += sizeof(zones[zone_index].leds_max);
+        data_size += sizeof(zones[zone_index].leds_count);
     }
 
     data_size += sizeof(num_leds);
@@ -87,6 +75,8 @@ unsigned char * RGBController::GetDeviceDescription()
         led_name_len[led_index] = strlen(leds[led_index].name.c_str()) + 1;
 
         data_size += led_name_len[led_index] + sizeof(led_name_len[led_index]);
+
+        data_size += sizeof(leds[led_index].value);
     }
 
     data_size += sizeof(num_colors);
@@ -280,35 +270,22 @@ unsigned char * RGBController::GetDeviceDescription()
         data_ptr += sizeof(zones[zone_index].type);
 
         /*---------------------------------------------------------*\
-        | Copy in zone map number of rows                           |
+        | Copy in zone minimum LED count (data)                     |
         \*---------------------------------------------------------*/
-        memcpy(&data_buf[data_ptr], &zone_map_rows[zone_index], sizeof(unsigned short));
-        data_ptr += sizeof(unsigned short);
+        memcpy(&data_buf[data_ptr], &zones[zone_index].leds_min, sizeof(zones[zone_index].leds_min));
+        data_ptr += sizeof(zones[zone_index].leds_min);
 
         /*---------------------------------------------------------*\
-        | Copy in rows                                              |
+        | Copy in zone maximum LED count (data)                     |
         \*---------------------------------------------------------*/
-        for(int row_index = 0; row_index < zone_map_rows[zone_index]; row_index++)
-        {
-            /*---------------------------------------------------------*\
-            | Copy row size                                             |
-            \*---------------------------------------------------------*/
-            unsigned short zone_map_row_size = zones[zone_index].map[row_index].size();
-            memcpy(&data_buf[data_ptr], &zone_map_row_size, sizeof(unsigned short));
-            data_ptr += sizeof(unsigned short);
+        memcpy(&data_buf[data_ptr], &zones[zone_index].leds_max, sizeof(zones[zone_index].leds_max));
+        data_ptr += sizeof(zones[zone_index].leds_max);
 
-            /*---------------------------------------------------------*\
-            | Copy in row LEDs                                          |
-            \*---------------------------------------------------------*/
-            for(int row_led_index = 0; row_led_index < zone_map_row_size; row_led_index++)
-            {
-                /*---------------------------------------------------------*\
-                | Copy row size                                             |
-                \*---------------------------------------------------------*/
-                memcpy(&data_buf[data_ptr], &zones[zone_index].map[row_index][row_led_index], sizeof(zones[zone_index].map[row_index][row_led_index]));
-                data_ptr += sizeof(zones[zone_index].map[row_index][row_led_index]);
-            }
-        }
+        /*---------------------------------------------------------*\
+        | Copy in zone LED count (data)                             |
+        \*---------------------------------------------------------*/
+        memcpy(&data_buf[data_ptr], &zones[zone_index].leds_count, sizeof(zones[zone_index].leds_count));
+        data_ptr += sizeof(zones[zone_index].leds_count);
     }
 
     /*---------------------------------------------------------*\
@@ -331,6 +308,12 @@ unsigned char * RGBController::GetDeviceDescription()
 
         strcpy((char *)&data_buf[data_ptr], leds[led_index].name.c_str());
         data_ptr += ledname_len;
+
+        /*---------------------------------------------------------*\
+        | Copy in LED value (data)                                  |
+        \*---------------------------------------------------------*/
+        memcpy(&data_buf[data_ptr], &leds[led_index].value, sizeof(leds[led_index].value));
+        data_ptr += sizeof(leds[led_index].value);
     }
 
     /*---------------------------------------------------------*\
@@ -357,16 +340,12 @@ unsigned char * RGBController::GetDeviceDescription()
     delete[] led_name_len;
 
     delete[] mode_num_colors;
-    delete[] zone_map_rows;
 
     return(data_buf);
-#endif
-    return(NULL);
 }
 
 void RGBController::ReadDeviceDescription(unsigned char* data_buf)
 {
-#if 0
     unsigned int data_ptr = 0;
 
     data_ptr += sizeof(unsigned int);
@@ -567,44 +546,22 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
         data_ptr += sizeof(new_zone.type);
 
         /*---------------------------------------------------------*\
-        | Copy in zone map number of rows                           |
+        | Copy in zone minimum LED count (data)                     |
         \*---------------------------------------------------------*/
-        unsigned short zone_map_rows;
-        memcpy(&zone_map_rows, &data_buf[data_ptr], sizeof(unsigned short));
-        data_ptr += sizeof(unsigned short);
+        memcpy(&new_zone.leds_min, &data_buf[data_ptr], sizeof(new_zone.leds_min));
+        data_ptr += sizeof(new_zone.leds_min);
 
         /*---------------------------------------------------------*\
-        | Copy in rows                                              |
+        | Copy in zone maximum LED count (data)                     |
         \*---------------------------------------------------------*/
-        for(int row_index = 0; row_index < zone_map_rows; row_index++)
-        {
-            std::vector<int> new_zone_map_row;
+        memcpy(&new_zone.leds_max, &data_buf[data_ptr], sizeof(new_zone.leds_max));
+        data_ptr += sizeof(new_zone.leds_max);
 
-            /*---------------------------------------------------------*\
-            | Copy row size                                             |
-            \*---------------------------------------------------------*/
-            unsigned short zone_map_row_size;
-            memcpy(&zone_map_row_size, &data_buf[data_ptr], sizeof(unsigned short));
-            data_ptr += sizeof(unsigned short);
-
-            /*---------------------------------------------------------*\
-            | Copy in row LEDs                                          |
-            \*---------------------------------------------------------*/
-            for(int row_led_index = 0; row_led_index < zone_map_row_size; row_led_index++)
-            {
-                int new_index;
-
-                /*---------------------------------------------------------*\
-                | Copy row size                                             |
-                \*---------------------------------------------------------*/
-                memcpy(&new_index, &data_buf[data_ptr], sizeof(int));
-                data_ptr += sizeof(int);
-
-                new_zone_map_row.push_back(new_index);
-            }
-
-            new_zone.map.push_back(new_zone_map_row);
-        }
+        /*---------------------------------------------------------*\
+        | Copy in zone LED count (data)                             |
+        \*---------------------------------------------------------*/
+        memcpy(&new_zone.leds_count, &data_buf[data_ptr], sizeof(new_zone.leds_count));
+        data_ptr += sizeof(new_zone.leds_count);
 
         zones.push_back(new_zone);
     }
@@ -633,6 +590,12 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
         new_led.name = (char *)&data_buf[data_ptr];
         data_ptr += ledname_len;
 
+        /*---------------------------------------------------------*\
+        | Copy in LED value (data)                                  |
+        \*---------------------------------------------------------*/
+        memcpy(&new_led.value, &data_buf[data_ptr], sizeof(new_led.value));
+        data_ptr += sizeof(new_led.value);
+
         leds.push_back(new_led);
     }
 
@@ -658,7 +621,6 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
 
         colors.push_back(new_color);
     }
-#endif
 }
 
 void RGBController::SetupColors()
@@ -688,7 +650,7 @@ void RGBController::SetupColors()
     for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         zones[zone_idx].start_idx=total_led_count;
-        
+
         if(colors.size() > 0)
         {
             zones[zone_idx].colors = &colors[total_led_count];
