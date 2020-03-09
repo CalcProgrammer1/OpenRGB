@@ -760,7 +760,7 @@ void Ui::OpenRGBDevicePage::on_SetLEDButton_clicked()
                 {
                     selected_zone = selected_zone - 1;
 
-                    device->zones[selected_zone].colors[index] = color;
+                    device->SetLED(device->zones[selected_zone].start_idx + index, color);
                 }
             }
             break;

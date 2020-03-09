@@ -687,6 +687,8 @@ void RGBController::SetupColors()
 
     for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
+        zones[zone_idx].start_idx=total_led_count;
+        
         if(colors.size() > 0)
         {
             zones[zone_idx].colors = &colors[total_led_count];

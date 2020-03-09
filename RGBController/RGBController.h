@@ -121,6 +121,7 @@ typedef struct
     zone_type               type;           /* Zone type                */
     led *                   leds;           /* List of LEDs in zone     */
     RGBColor *              colors;         /* Colors of LEDs in zone   */
+    unsigned int            start_idx;      /* Start index of led/color */
     unsigned int            leds_count;     /* Number of LEDs in zone   */
     unsigned int            leds_min;       /* Minimum number of LEDs   */
     unsigned int            leds_max;       /* Maximum number of LEDs   */
