@@ -127,7 +127,7 @@ void RGBController_ThermaltakeRiing::SetupZones()
         new_zone->type     = ZONE_TYPE_LINEAR;
 
         new_zone->leds_min = 0;
-        new_zone->leds_max = 60;
+        new_zone->leds_max = 20;
         new_zone->leds_count = riing->channel_leds[channel_idx];
 
         for (unsigned int led_ch_idx = 0; led_ch_idx < riing->channel_leds[channel_idx]; led_ch_idx++)
