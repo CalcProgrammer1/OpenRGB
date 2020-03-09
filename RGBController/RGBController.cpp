@@ -651,7 +651,7 @@ void RGBController::SetupColors()
     {
         zones[zone_idx].start_idx=total_led_count;
 
-        if(colors.size() > 0)
+        if((colors.size() > 0) && (zones[zone_idx].leds_count > 0))
         {
             zones[zone_idx].colors = &colors[total_led_count];
         }
@@ -660,7 +660,7 @@ void RGBController::SetupColors()
             zones[zone_idx].colors = NULL;
         }
 
-        if(leds.size() > 0)
+        if((leds.size() > 0) && (zones[zone_idx].leds_count > 0))
         {
             zones[zone_idx].leds   = &leds[total_led_count];
         }
