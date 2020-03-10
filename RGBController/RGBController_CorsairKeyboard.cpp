@@ -141,9 +141,10 @@ RGBController_CorsairKeyboard::RGBController_CorsairKeyboard(CorsairKeyboardCont
 {
     corsair = corsair_ptr;
 
-    name    = "Corsair RGB Keyboard";
-    type    = corsair->GetDeviceType();
-    version = corsair->GetFirmwareString();
+    name        = "Corsair RGB Peripheral Device";
+    description = "Corsair RGB Peripheral Device";
+    type        = corsair->GetDeviceType();
+    version     = corsair->GetFirmwareString();
 
     mode Direct;
     Direct.name       = "Direct";
