@@ -141,8 +141,9 @@ RGBController_CorsairKeyboard::RGBController_CorsairKeyboard(CorsairKeyboardCont
 {
     corsair = corsair_ptr;
 
-    name = "Corsair RGB Keyboard";
-    type = DEVICE_TYPE_KEYBOARD;
+    name    = "Corsair RGB Keyboard";
+    type    = corsair->GetDeviceType();
+    version = corsair->GetFirmwareString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -162,25 +163,67 @@ RGBController_CorsairKeyboard::~RGBController_CorsairKeyboard()
 void RGBController_CorsairKeyboard::SetupZones()
 {
     /*---------------------------------------------------------*\
+    | Determine number of zones                                 |
+    |   For now, keyboard has 2 zones and mousemat has 1        |
+    \*---------------------------------------------------------*/
+    unsigned int num_zones = 0;
+
+    switch(type)
+    {
+        case DEVICE_TYPE_KEYBOARD:
+            num_zones = 2;
+            break;
+
+        case DEVICE_TYPE_MOUSEMAT:
+            num_zones = 1;
+            break;
+    }
+
+    /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
     unsigned int total_led_count = 0;
-    for(unsigned int zone_idx = 0; zone_idx < 2; zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < num_zones; zone_idx++)
     {
         zone new_zone;
-        new_zone.name           = zone_names[zone_idx];
-        new_zone.leds_min       = zone_sizes[zone_idx];
-        new_zone.leds_max       = zone_sizes[zone_idx];
-        new_zone.leds_count     = zone_sizes[zone_idx];
+        switch(type)
+        {
+            case DEVICE_TYPE_KEYBOARD:
+                new_zone.name           = zone_names[zone_idx];
+                new_zone.leds_min       = zone_sizes[zone_idx];
+                new_zone.leds_max       = zone_sizes[zone_idx];
+                new_zone.leds_count     = zone_sizes[zone_idx];
+                break;
+
+            case DEVICE_TYPE_MOUSEMAT:
+                new_zone.name           = "Mousemat Zone";
+                new_zone.leds_min       = 15;
+                new_zone.leds_max       = 15;
+                new_zone.leds_count     = 15;
+                break;
+        }
+
         zones.push_back(new_zone);
 
-        total_led_count += zone_sizes[zone_idx];
+        total_led_count += new_zone.leds_count;
     }
 
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name = led_names[led_idx];
+
+        switch(type)
+        {
+            case DEVICE_TYPE_KEYBOARD:
+                new_led.name = led_names[led_idx];
+                break;
+
+            case DEVICE_TYPE_MOUSEMAT:
+                new_led.name = "Mousemat LED ";
+                new_led.name.append(std::to_string(led_idx + 1));
+                break;
+        }
+        
         leds.push_back(new_led);
     }
 

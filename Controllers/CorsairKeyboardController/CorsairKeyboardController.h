@@ -52,13 +52,22 @@ public:
     CorsairKeyboardController(hid_device* dev_handle);
     ~CorsairKeyboardController();
 
-    void SetLEDsDirect(std::vector<RGBColor> colors);
-    void SetLEDs(std::vector<RGBColor> colors);
+    device_type     GetDeviceType();
+    std::string     GetFirmwareString();
+
+    void            SetLEDs(std::vector<RGBColor> colors);
+    void            SetLEDsKeyboard(std::vector<RGBColor> colors);
+    void            SetLEDsLimited(std::vector<RGBColor> colors);
+    void            SetLEDsMouse(std::vector<RGBColor> colors);
 
 private:
     hid_device*             dev;
 
+    std::string             firmware_version;
+    device_type             device_type;
+
     void    LightingControl();
+    void    SpecialFunctionControl();
 
     void    ReadFirmwareInfo();
     
@@ -74,5 +83,11 @@ private:
     void    SubmitLimitedColors
                 (
                 unsigned char   byte_count
+                );
+
+    void    SubmitMouseColors
+                (
+                unsigned char   num_zones,
+                RGBColor *      color_data
                 );
 };

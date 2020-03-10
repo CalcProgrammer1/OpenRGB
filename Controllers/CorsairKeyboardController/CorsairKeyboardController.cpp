@@ -50,6 +50,9 @@ CorsairKeyboardController::CorsairKeyboardController(hid_device* dev_handle)
 
     char data_pkt[64] = { 0 };
 
+    ReadFirmwareInfo();
+
+    SpecialFunctionControl();
     LightingControl();
 }
 
@@ -58,7 +61,39 @@ CorsairKeyboardController::~CorsairKeyboardController()
 
 }
 
-void CorsairKeyboardController::SetLEDs(std::vector<RGBColor> colors)
+device_type CorsairKeyboardController::GetDeviceType()
+{
+    return device_type;
+}
+
+std::string CorsairKeyboardController::GetFirmwareString()
+{
+    return firmware_version;
+}
+
+void CorsairKeyboardController::SetLEDs(std::vector<RGBColor>colors)
+{
+    switch(device_type)
+    {
+        case DEVICE_TYPE_KEYBOARD:
+            SetLEDsLimited(colors);
+            break;
+
+        case DEVICE_TYPE_MOUSE:
+            break;
+
+        case DEVICE_TYPE_MOUSEMAT:
+            SetLEDsMouse(colors);
+            break;
+    }
+}
+
+void CorsairKeyboardController::SetLEDsMouse(std::vector<RGBColor> colors)
+{
+    SubmitMouseColors(colors.size(), &colors[0]);
+}
+
+void CorsairKeyboardController::SetLEDsLimited(std::vector<RGBColor> colors)
 {
     unsigned char data_pkt[216];
     unsigned char red_val[144];
@@ -141,11 +176,52 @@ void CorsairKeyboardController::LightingControl()
     /*-----------------------------------------------------*\
     | Set up Lighting Control packet                        |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_COMMAND_WRITE;
-    usb_buf[0x01]   = CORSAIR_PROPERTY_LIGHTING_CONTROL;
-    usb_buf[0x02]   = CORSAIR_LIGHTING_CONTROL_SOFTWARE;
-    usb_buf[0x04]   = 0x03;
+    usb_buf[0x00]           = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x01]           = CORSAIR_PROPERTY_LIGHTING_CONTROL;
+    usb_buf[0x02]           = CORSAIR_LIGHTING_CONTROL_SOFTWARE;
 
+    /*-----------------------------------------------------*\
+    | Lighting control byte needs to be 3 for keyboards, 1  |
+    | for mice and mousepads                                |
+    \*-----------------------------------------------------*/
+    switch(device_type)
+    {
+        default:
+        case DEVICE_TYPE_KEYBOARD:
+            usb_buf[0x04]   = 0x03;
+            break;
+
+        case DEVICE_TYPE_MOUSE:
+            usb_buf[0x04]   = 0x01;
+            break;
+
+        case DEVICE_TYPE_MOUSEMAT:
+            usb_buf[0x04]   = 0x04;
+            break;
+    }
+    
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
+}
+
+void CorsairKeyboardController::SpecialFunctionControl()
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Lighting Control packet                        |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]           = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x01]           = CORSAIR_PROPERTY_SPECIAL_FUNCTION;
+    usb_buf[0x02]           = CORSAIR_LIGHTING_CONTROL_SOFTWARE;
+    
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
@@ -172,6 +248,39 @@ void CorsairKeyboardController::ReadFirmwareInfo()
     \*-----------------------------------------------------*/
     send_usb_msg(dev, usb_buf);
     get_usb_msg(dev, usb_buf);
+
+    /*-----------------------------------------------------*\
+    | Get device type                                       |
+    |   0xC0    Device is a keyboard                        |
+    |   0xC1    Device is a mouse                           |
+    |   0xC2    Device is a mousepad                        |
+    \*-----------------------------------------------------*/
+    switch((unsigned char)usb_buf[0x14])
+    {
+        case 0xC0:
+            device_type = DEVICE_TYPE_KEYBOARD;
+            break;
+
+        case 0xC1:
+            device_type = DEVICE_TYPE_MOUSE;
+            break;
+
+        case 0xC2:
+            device_type = DEVICE_TYPE_MOUSEMAT;
+            break;
+
+        default:
+            device_type = DEVICE_TYPE_UNKNOWN;
+            break;
+    }
+
+    /*-----------------------------------------------------*\
+    | Format firmware version string if device type is valid|
+    \*-----------------------------------------------------*/
+    if(device_type != DEVICE_TYPE_UNKNOWN)
+    {
+        firmware_version = std::to_string(usb_buf[0x09]) + "." + std::to_string(usb_buf[0x08]);
+    }
 }
 
 void CorsairKeyboardController::StreamPacket
@@ -245,6 +354,44 @@ void CorsairKeyboardController::SubmitLimitedColors
     usb_buf[0x00]   = CORSAIR_COMMAND_WRITE;
     usb_buf[0x01]   = CORSAIR_PROPERTY_SUBMIT_KEYBOARD_COLOR_9;
     usb_buf[0x04]   = byte_count;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
+}
+
+void CorsairKeyboardController::SubmitMouseColors
+    (
+    unsigned char   num_zones,
+    RGBColor *      color_data
+    )
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Mouse Colors packet                     |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x01]   = CORSAIR_PROPERTY_SUBMIT_MOUSE_COLOR;
+    usb_buf[0x02]   = num_zones;
+    usb_buf[0x03]   = 0x00;
+
+    /*-----------------------------------------------------*\
+    | Copy in colors in <ZONE> <RED> <GREEN> <BLUE> order   |
+    \*-----------------------------------------------------*/
+    for(unsigned int zone_idx = 0; zone_idx < num_zones; zone_idx++)
+    {
+        //usb_buf[(zone_idx * 4) + 4] = zone_idx;
+        usb_buf[(zone_idx * 3) + 4] = RGBGetRValue(color_data[zone_idx]);
+        usb_buf[(zone_idx * 3) + 5] = RGBGetGValue(color_data[zone_idx]);
+        usb_buf[(zone_idx * 3) + 6] = RGBGetBValue(color_data[zone_idx]);
+    }
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
