@@ -54,6 +54,8 @@ CorsairLightingNodeController::CorsairLightingNodeController(libusb_device_handl
     channel_leds[0] = 60;
     channel_leds[1] = 60;
 
+    SendFirmwareRequest();
+
     /*-----------------------------------------------------*\
     | The Corsair Lighting Node Pro requires a packet within|
     | 20 seconds of sending the lighting change in order    |
@@ -79,6 +81,11 @@ void CorsairLightingNodeController::KeepaliveThread()
         SendCommit();
         Sleep(5000);
     }
+}
+
+std::string CorsairLightingNodeController::GetFirmwareString()
+{
+    return(firmware_version);
 }
 
 void CorsairLightingNodeController::SetChannelEffect(unsigned char channel,
@@ -275,6 +282,33 @@ void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBCol
 /*-------------------------------------------------------------------------------------------------*\
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
+
+void CorsairLightingNodeController::SendFirmwareRequest()
+{
+    int             actual;
+    unsigned char   usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Firmware Version Request packet                |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_FIRMWARE;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
+    libusb_interrupt_transfer(dev, 0x80 + endpoint, usb_buf, 64, &actual, 0);
+
+    if(actual > 0)
+    {
+        firmware_version = std::to_string(usb_buf[0x01]) + "." + std::to_string(usb_buf[0x02]) + "." + std::to_string(usb_buf[0x03]);
+    }
+}
 
 void CorsairLightingNodeController::SendDirect
     (

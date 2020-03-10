@@ -12,6 +12,7 @@
 
 enum
 {
+    CORSAIR_LIGHTING_NODE_PACKET_ID_FIRMWARE         = 0x02,     /* Get firmware version                 */
     CORSAIR_LIGHTING_NODE_PACKET_ID_DIRECT           = 0x32,     /* Direct mode LED update packet        */
     CORSAIR_LIGHTING_NODE_PACKET_ID_COMMIT           = 0x33,     /* Commit changes packet                */
     CORSAIR_LIGHTING_NODE_PACKET_ID_BEGIN            = 0x34,     /* Begin effect packet                  */
@@ -80,6 +81,8 @@ public:
     CorsairLightingNodeController(libusb_device_handle* dev_handle, unsigned int dev_endpoint);
     ~CorsairLightingNodeController();
 
+    std::string     GetFirmwareString();
+
     unsigned int    GetStripsOnChannel(unsigned int channel);
 
     void            SetChannelEffect(unsigned char channel,
@@ -107,6 +110,9 @@ public:
 private:
     libusb_device_handle*   dev;
     unsigned int            endpoint;
+    std::string             firmware_version;
+
+    void            SendFirmwareRequest();
 
     void            SendDirect
                         (
