@@ -63,7 +63,7 @@ CorsairKeyboardController::~CorsairKeyboardController()
 
 device_type CorsairKeyboardController::GetDeviceType()
 {
-    return device_type;
+    return type;
 }
 
 std::string CorsairKeyboardController::GetFirmwareString()
@@ -73,7 +73,7 @@ std::string CorsairKeyboardController::GetFirmwareString()
 
 void CorsairKeyboardController::SetLEDs(std::vector<RGBColor>colors)
 {
-    switch(device_type)
+    switch(type)
     {
         case DEVICE_TYPE_KEYBOARD:
             SetLEDsLimited(colors);
@@ -184,7 +184,7 @@ void CorsairKeyboardController::LightingControl()
     | Lighting control byte needs to be 3 for keyboards, 1  |
     | for mice and mousepads                                |
     \*-----------------------------------------------------*/
-    switch(device_type)
+    switch(type)
     {
         default:
         case DEVICE_TYPE_KEYBOARD:
@@ -258,26 +258,26 @@ void CorsairKeyboardController::ReadFirmwareInfo()
     switch((unsigned char)usb_buf[0x14])
     {
         case 0xC0:
-            device_type = DEVICE_TYPE_KEYBOARD;
+            type = DEVICE_TYPE_KEYBOARD;
             break;
 
         case 0xC1:
-            device_type = DEVICE_TYPE_MOUSE;
+            type = DEVICE_TYPE_MOUSE;
             break;
 
         case 0xC2:
-            device_type = DEVICE_TYPE_MOUSEMAT;
+            type = DEVICE_TYPE_MOUSEMAT;
             break;
 
         default:
-            device_type = DEVICE_TYPE_UNKNOWN;
+            type = DEVICE_TYPE_UNKNOWN;
             break;
     }
 
     /*-----------------------------------------------------*\
     | Format firmware version string if device type is valid|
     \*-----------------------------------------------------*/
-    if(device_type != DEVICE_TYPE_UNKNOWN)
+    if(type != DEVICE_TYPE_UNKNOWN)
     {
         firmware_version = std::to_string(usb_buf[0x09]) + "." + std::to_string(usb_buf[0x08]);
     }

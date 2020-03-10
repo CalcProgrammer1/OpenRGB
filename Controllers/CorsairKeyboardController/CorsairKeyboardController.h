@@ -64,7 +64,7 @@ private:
     hid_device*             dev;
 
     std::string             firmware_version;
-    device_type             device_type;
+    device_type             type;
 
     void    LightingControl();
     void    SpecialFunctionControl();
