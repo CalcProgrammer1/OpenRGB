@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
+    <width>556</width>
     <height>300</height>
    </rect>
   </property>
@@ -56,13 +56,6 @@
     <widget class="QLabel" name="SatLabel">
      <property name="text">
       <string>S:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="3">
-    <widget class="QRadioButton" name="ModeSpecificCheck">
-     <property name="text">
-      <string>Mode-Specific</string>
      </property>
     </widget>
    </item>
@@ -146,13 +139,6 @@
     <widget class="QPushButton" name="ButtonBlue">
      <property name="text">
       <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QPushButton" name="SetZoneButton">
-     <property name="text">
-      <string>Zone</string>
      </property>
     </widget>
    </item>
@@ -261,6 +247,20 @@
     <widget class="QPushButton" name="ResizeButton">
      <property name="text">
       <string>Resize</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" colspan="2">
+    <widget class="QPushButton" name="SetZoneButton">
+     <property name="text">
+      <string>Zone</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2" colspan="2">
+    <widget class="QRadioButton" name="ModeSpecificCheck">
+     <property name="text">
+      <string>Mode-Specific</string>
      </property>
     </widget>
    </item>
