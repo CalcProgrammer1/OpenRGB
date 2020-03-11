@@ -79,7 +79,12 @@ private:
                 unsigned char*  data_ptr
                 );
 
-    void    SubmitColors();
+    void    SubmitColors
+                (
+                unsigned char   color_channel,
+                unsigned char   packet_count,
+                unsigned char   finish_val
+                );
 
     void    SubmitLimitedColors
                 (
