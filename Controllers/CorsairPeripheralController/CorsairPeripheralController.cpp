@@ -76,7 +76,7 @@ void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
     switch(type)
     {
         case DEVICE_TYPE_KEYBOARD:
-            SetLEDsLimited(colors);
+            SetLEDsKeyboardFull(colors);
             break;
 
         case DEVICE_TYPE_MOUSE:
@@ -88,7 +88,7 @@ void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
     }
 }
 
-void CorsairPeripheralController::SetLEDsKeyboard(std::vector<RGBColor> colors)
+void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colors)
 {
     unsigned char red_val[144];
     unsigned char grn_val[144];
@@ -118,7 +118,7 @@ void CorsairPeripheralController::SetLEDsKeyboard(std::vector<RGBColor> colors)
     StreamPacket(1, 60, &red_val[0]);
     StreamPacket(2, 60, &red_val[60]);
     StreamPacket(3, 24, &red_val[120]);
-    SubmitColors(1, 3, 1);
+    SubmitKeyboardFullColors(1, 3, 1);
 
     /*-----------------------------------------------------*\
     | Send green bytes                                      |
@@ -126,7 +126,7 @@ void CorsairPeripheralController::SetLEDsKeyboard(std::vector<RGBColor> colors)
     StreamPacket(1, 60, &grn_val[0]);
     StreamPacket(2, 60, &grn_val[60]);
     StreamPacket(3, 24, &grn_val[120]);
-    SubmitColors(2, 3, 1);
+    SubmitKeyboardFullColors(2, 3, 1);
 
     /*-----------------------------------------------------*\
     | Send blue bytes                                       |
@@ -134,7 +134,7 @@ void CorsairPeripheralController::SetLEDsKeyboard(std::vector<RGBColor> colors)
     StreamPacket(1, 60, &blu_val[0]);
     StreamPacket(2, 60, &blu_val[60]);
     StreamPacket(3, 24, &blu_val[120]);
-    SubmitColors(3, 3, 2);
+    SubmitKeyboardFullColors(3, 3, 2);
 }
 
 void CorsairPeripheralController::SetLEDsMouse(std::vector<RGBColor> colors)
@@ -142,7 +142,7 @@ void CorsairPeripheralController::SetLEDsMouse(std::vector<RGBColor> colors)
     SubmitMouseColors(colors.size(), &colors[0]);
 }
 
-void CorsairPeripheralController::SetLEDsLimited(std::vector<RGBColor> colors)
+void CorsairPeripheralController::SetLEDsKeyboardLimited(std::vector<RGBColor> colors)
 {
     unsigned char data_pkt[216];
     unsigned char red_val[144];
@@ -206,7 +206,7 @@ void CorsairPeripheralController::SetLEDsLimited(std::vector<RGBColor> colors)
     StreamPacket(3, 60, &data_pkt[120]);
     StreamPacket(4, 36, &data_pkt[180]);
     
-    SubmitLimitedColors(216);
+    SubmitKeyboardLimitedColors(216);
 }
 
 /*-------------------------------------------------------------------------------------------------*\
@@ -364,7 +364,7 @@ void CorsairPeripheralController::StreamPacket
     send_usb_msg(dev, usb_buf);
 }
 
-void CorsairPeripheralController::SubmitColors
+void CorsairPeripheralController::SubmitKeyboardFullColors
     (
     unsigned char   color_channel,
     unsigned char   packet_count,
@@ -393,7 +393,7 @@ void CorsairPeripheralController::SubmitColors
     send_usb_msg(dev, usb_buf);
 }
 
-void CorsairPeripheralController::SubmitLimitedColors
+void CorsairPeripheralController::SubmitKeyboardLimitedColors
     (
     unsigned char   byte_count
     )

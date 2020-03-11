@@ -57,8 +57,8 @@ public:
     std::string     GetFirmwareString();
 
     void            SetLEDs(std::vector<RGBColor> colors);
-    void            SetLEDsKeyboard(std::vector<RGBColor> colors);
-    void            SetLEDsLimited(std::vector<RGBColor> colors);
+    void            SetLEDsKeyboardFull(std::vector<RGBColor> colors);
+    void            SetLEDsKeyboardLimited(std::vector<RGBColor> colors);
     void            SetLEDsMouse(std::vector<RGBColor> colors);
 
 private:
@@ -79,14 +79,14 @@ private:
                 unsigned char*  data_ptr
                 );
 
-    void    SubmitColors
+    void    SubmitKeyboardFullColors
                 (
                 unsigned char   color_channel,
                 unsigned char   packet_count,
                 unsigned char   finish_val
                 );
 
-    void    SubmitLimitedColors
+    void    SubmitKeyboardLimitedColors
                 (
                 unsigned char   byte_count
                 );
