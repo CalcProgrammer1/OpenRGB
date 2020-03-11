@@ -106,10 +106,10 @@ void CorsairPeripheralController::SetLEDsKeyboard(std::vector<RGBColor> colors)
     \*-----------------------------------------------------*/
     for(int color_idx = 0; color_idx < colors.size(); color_idx++)
     {
-        RGBColor      color = colors[color_idx];
-        unsigned char red   = RGBGetRValue(color);
-        unsigned char grn   = RGBGetGValue(color);
-        unsigned char blu   = RGBGetBValue(color);
+        RGBColor           color = colors[color_idx];
+        red_val[keys[color_idx]] = RGBGetRValue(color);
+        grn_val[keys[color_idx]] = RGBGetGValue(color);
+        blu_val[keys[color_idx]] = RGBGetBValue(color);
     }
 
     /*-----------------------------------------------------*\
