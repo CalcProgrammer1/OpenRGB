@@ -1,21 +1,21 @@
 /*-----------------------------------------*\
-|  RGBController_CorsairKeyboard.h          |
+|  RGBController_CorsairPeripheral.h        |
 |                                           |
 |  Generic RGB Interface for Corsair RGB    |
-|  keyboards                                |
+|  keyboard, mouse, and mousemat devices    |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 1/9/2020    |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
-#include "CorsairKeyboardController.h"
+#include "CorsairPeripheralController.h"
 
-class RGBController_CorsairKeyboard : public RGBController
+class RGBController_CorsairPeripheral : public RGBController
 {
 public:
-    RGBController_CorsairKeyboard(CorsairKeyboardController* corsair_ptr);
-    ~RGBController_CorsairKeyboard();
+    RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr);
+    ~RGBController_CorsairPeripheral();
 
     void        SetupZones();
 
@@ -29,5 +29,5 @@ public:
     void        UpdateMode();
 
 private:
-    CorsairKeyboardController*   corsair;
+    CorsairPeripheralController*   corsair;
 };

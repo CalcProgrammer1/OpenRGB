@@ -1,8 +1,9 @@
 /*-----------------------------------------*\
-|  CorsairKeyboardController.h              |
+|  CorsairPeripheralController.h            |
 |                                           |
 |  Definitions and types for Corsair RGB    |
-|  keyboard lighting controller             |
+|  keyboard, mouse, and mousemat lighting   |
+|  controller                               |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 1/9/2020    |
 \*-----------------------------------------*/
@@ -46,11 +47,11 @@ enum
     CORSAIR_COLOR_CHANNEL_BLUE      = 0x03
 };
 
-class CorsairKeyboardController
+class CorsairPeripheralController
 {
 public:
-    CorsairKeyboardController(hid_device* dev_handle);
-    ~CorsairKeyboardController();
+    CorsairPeripheralController(hid_device* dev_handle);
+    ~CorsairPeripheralController();
 
     device_type     GetDeviceType();
     std::string     GetFirmwareString();

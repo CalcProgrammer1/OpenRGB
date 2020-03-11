@@ -295,7 +295,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectCorsairKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
@@ -335,7 +335,7 @@ void DetectRGBControllers(void)
     DetectMSI3ZoneControllers(rgb_controllers);
     DetectPoseidonZRGBControllers(rgb_controllers);
     DetectHyperXKeyboardControllers(rgb_controllers);
-    DetectCorsairKeyboardControllers(rgb_controllers);
+    DetectCorsairPeripheralControllers(rgb_controllers);
     DetectCorsairLightingNodeControllers(rgb_controllers);
     DetectThermaltakeRiingControllers(rgb_controllers);
     DetectRGBFusion2Controllers(rgb_controllers);

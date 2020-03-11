@@ -1,13 +1,13 @@
 /*-----------------------------------------*\
-|  CorsairKeyboardController.cpp            |
+|  CorsairPeripheralController.cpp          |
 |                                           |
-|  Driver for Corsair RGB keyboard lighting |
-|  controller                               |
+|  Driver for Corsair RGB keyboard, mouse,  |
+|  and mousemat lighting controller         |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 1/9/2020    |
 \*-----------------------------------------*/
 
-#include "CorsairKeyboardController.h"
+#include "CorsairPeripheralController.h"
 
 #include <cstring>
 
@@ -44,7 +44,7 @@ static void get_usb_msg(hid_device* dev, char* data_pkt)
     bytes++;
 }
 
-CorsairKeyboardController::CorsairKeyboardController(hid_device* dev_handle)
+CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle)
 {
     dev = dev_handle;
 
@@ -56,22 +56,22 @@ CorsairKeyboardController::CorsairKeyboardController(hid_device* dev_handle)
     LightingControl();
 }
 
-CorsairKeyboardController::~CorsairKeyboardController()
+CorsairPeripheralController::~CorsairPeripheralController()
 {
 
 }
 
-device_type CorsairKeyboardController::GetDeviceType()
+device_type CorsairPeripheralController::GetDeviceType()
 {
     return type;
 }
 
-std::string CorsairKeyboardController::GetFirmwareString()
+std::string CorsairPeripheralController::GetFirmwareString()
 {
     return firmware_version;
 }
 
-void CorsairKeyboardController::SetLEDs(std::vector<RGBColor>colors)
+void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
 {
     switch(type)
     {
@@ -88,12 +88,12 @@ void CorsairKeyboardController::SetLEDs(std::vector<RGBColor>colors)
     }
 }
 
-void CorsairKeyboardController::SetLEDsMouse(std::vector<RGBColor> colors)
+void CorsairPeripheralController::SetLEDsMouse(std::vector<RGBColor> colors)
 {
     SubmitMouseColors(colors.size(), &colors[0]);
 }
 
-void CorsairKeyboardController::SetLEDsLimited(std::vector<RGBColor> colors)
+void CorsairPeripheralController::SetLEDsLimited(std::vector<RGBColor> colors)
 {
     unsigned char data_pkt[216];
     unsigned char red_val[144];
@@ -164,7 +164,7 @@ void CorsairKeyboardController::SetLEDsLimited(std::vector<RGBColor> colors)
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
-void CorsairKeyboardController::LightingControl()
+void CorsairPeripheralController::LightingControl()
 {
     char usb_buf[64];
 
@@ -206,7 +206,7 @@ void CorsairKeyboardController::LightingControl()
     send_usb_msg(dev, usb_buf);
 }
 
-void CorsairKeyboardController::SpecialFunctionControl()
+void CorsairPeripheralController::SpecialFunctionControl()
 {
     char usb_buf[64];
 
@@ -228,7 +228,7 @@ void CorsairKeyboardController::SpecialFunctionControl()
     send_usb_msg(dev, usb_buf);
 }
 
-void CorsairKeyboardController::ReadFirmwareInfo()
+void CorsairPeripheralController::ReadFirmwareInfo()
 {
     char usb_buf[64];
 
@@ -283,7 +283,7 @@ void CorsairKeyboardController::ReadFirmwareInfo()
     }
 }
 
-void CorsairKeyboardController::StreamPacket
+void CorsairPeripheralController::StreamPacket
     (
     unsigned char   packet_id,
     unsigned char   data_sz,
@@ -315,7 +315,7 @@ void CorsairKeyboardController::StreamPacket
     send_usb_msg(dev, usb_buf);
 }
 
-void CorsairKeyboardController::SubmitColors()
+void CorsairPeripheralController::SubmitColors()
 {
     char usb_buf[64];
 
@@ -336,7 +336,7 @@ void CorsairKeyboardController::SubmitColors()
     send_usb_msg(dev, usb_buf);
 }
 
-void CorsairKeyboardController::SubmitLimitedColors
+void CorsairPeripheralController::SubmitLimitedColors
     (
     unsigned char   byte_count
     )
@@ -361,7 +361,7 @@ void CorsairKeyboardController::SubmitLimitedColors
     send_usb_msg(dev, usb_buf);
 }
 
-void CorsairKeyboardController::SubmitMouseColors
+void CorsairPeripheralController::SubmitMouseColors
     (
     unsigned char   num_zones,
     RGBColor *      color_data

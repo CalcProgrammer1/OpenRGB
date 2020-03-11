@@ -1,13 +1,13 @@
 /*-----------------------------------------*\
-|  RGBController_CorsairKeyboard.cpp        |
+|  RGBController_CorsairPeripheral.cpp      |
 |                                           |
 |  Generic RGB Interface for Corsair RGB    |
-|  keyboards                                |
+|  keyboard, mouse, and mousemat devices    |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 1/9/2020    |
 \*-----------------------------------------*/
 
-#include "RGBController_CorsairKeyboard.h"
+#include "RGBController_CorsairPeripheral.h"
 
 static const char* zone_names[] =
 {
@@ -137,7 +137,7 @@ static const char* led_names[] =
     "Key: F12"
 };
 
-RGBController_CorsairKeyboard::RGBController_CorsairKeyboard(CorsairKeyboardController* corsair_ptr)
+RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr)
 {
     corsair = corsair_ptr;
 
@@ -156,12 +156,12 @@ RGBController_CorsairKeyboard::RGBController_CorsairKeyboard(CorsairKeyboardCont
     SetupZones();
 }
 
-RGBController_CorsairKeyboard::~RGBController_CorsairKeyboard()
+RGBController_CorsairPeripheral::~RGBController_CorsairPeripheral()
 {
 
 }
 
-void RGBController_CorsairKeyboard::SetupZones()
+void RGBController_CorsairPeripheral::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Determine number of zones                                 |
@@ -231,34 +231,34 @@ void RGBController_CorsairKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CorsairPeripheral::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_CorsairKeyboard::UpdateLEDs()
+void RGBController_CorsairPeripheral::UpdateLEDs()
 {
     corsair->SetLEDs(colors);
 }
 
-void RGBController_CorsairKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_CorsairPeripheral::UpdateZoneLEDs(int zone)
 {
     corsair->SetLEDs(colors);
 }
 
-void RGBController_CorsairKeyboard::UpdateSingleLED(int led)
+void RGBController_CorsairPeripheral::UpdateSingleLED(int led)
 {
     corsair->SetLEDs(colors);
 }
 
-void RGBController_CorsairKeyboard::SetCustomMode()
+void RGBController_CorsairPeripheral::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_CorsairKeyboard::UpdateMode()
+void RGBController_CorsairPeripheral::UpdateMode()
 {
 
 }

@@ -1,6 +1,6 @@
-#include "CorsairKeyboardController.h"
+#include "CorsairPeripheralController.h"
 #include "RGBController.h"
-#include "RGBController_CorsairKeyboard.h"
+#include "RGBController_CorsairPeripheral.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -63,13 +63,13 @@ static const corsair_node_device device_list[3] =
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectCorsairKeyboardControllers                                                       *
+*   DetectCorsairPeripheralControllers                                                     *
 *                                                                                          *
 *       Tests the USB address to see if a Corsair RGB Keyboard controller exists there.    *
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectCorsairKeyboardControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_controllers)
 {
     hid_device_info* info;
     hid_device* dev;
@@ -82,7 +82,7 @@ void DetectCorsairKeyboardControllers(std::vector<RGBController*>& rgb_controlle
 
         info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
 
-        //Look for Corsair RGB Keyboard, interface 1
+        //Look for Corsair RGB Peripheral
         while(info)
         {
             if((info->vendor_id == device_list[device_idx].usb_vid)
@@ -100,11 +100,11 @@ void DetectCorsairKeyboardControllers(std::vector<RGBController*>& rgb_controlle
 
         if( dev )
         {
-            CorsairKeyboardController* controller = new CorsairKeyboardController(dev);
+            CorsairPeripheralController* controller = new CorsairPeripheralController(dev);
 
             if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
             {
-                RGBController_CorsairKeyboard* rgb_controller = new RGBController_CorsairKeyboard(controller);
+                RGBController_CorsairPeripheral* rgb_controller = new RGBController_CorsairPeripheral(controller);
 
                 rgb_controller->name = device_list[device_idx].name;
                 
