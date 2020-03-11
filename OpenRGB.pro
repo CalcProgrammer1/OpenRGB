@@ -32,10 +32,10 @@ INCLUDEPATH +=                                                          \
     Controllers/AMDWraithPrismController/                               \
     Controllers/AuraController/                                         \
     Controllers/AuraGPUController/                                      \
-    Controllers/CorsairController/                                      \
     Controllers/CorsairPeripheralController/                            \
     Controllers/CorsairLightingNodeController/                          \
-    Controllers/CorsairProController/                                   \
+    Controllers/CorsairVengeanceController/                             \
+    Controllers/CorsairVengeanceProController/                          \
     Controllers/CrucialController/                                      \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
@@ -81,14 +81,14 @@ SOURCES +=                                                              \
     Controllers/AuraController/AuraControllerDetect.cpp                 \
     Controllers/AuraGPUController/AuraGPUController.cpp                 \
     Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
-    Controllers/CorsairController/CorsairController.cpp                 \
-    Controllers/CorsairController/CorsairControllerDetect.cpp           \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.cpp \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeControllerDetect.cpp \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.cpp \
     Controllers/CorsairPeripheralController/CorsairPeripheralControllerDetect.cpp \
-    Controllers/CorsairProController/CorsairProController.cpp           \
-    Controllers/CorsairProController/CorsairProControllerDetect.cpp     \
+    Controllers/CorsairVengeanceController/CorsairVengeanceController.cpp \
+    Controllers/CorsairVengeanceController/CorsairVengeanceControllerDetect.cpp \
+    Controllers/CorsairVengeanceProController/CorsairVengeanceProController.cpp \
+    Controllers/CorsairVengeanceProController/CorsairVengeanceProControllerDetect.cpp \
     Controllers/CrucialController/CrucialController.cpp                 \
     Controllers/CrucialController/CrucialControllerDetect.cpp           \
     Controllers/Hue2Controller/Hue2Controller.cpp                       \
@@ -124,10 +124,10 @@ SOURCES +=                                                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_AuraGPU.cpp                             \
-    RGBController/RGBController_Corsair.cpp                             \
     RGBController/RGBController_CorsairLightingNode.cpp                 \
     RGBController/RGBController_CorsairPeripheral.cpp                   \
-    RGBController/RGBController_CorsairPro.cpp                          \
+    RGBController/RGBController_CorsairVengeance.cpp                    \
+    RGBController/RGBController_CorsairVengeancePro.cpp                 \
     RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Dummy.cpp                               \
     RGBController/RGBController_Hue2.cpp                                \
@@ -165,10 +165,10 @@ HEADERS +=                                                              \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
     Controllers/AuraController/AuraController.h                         \
     Controllers/AuraGPUController/AuraGPUController.h                   \
-    Controllers/CorsairController/CorsairController.h                   \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.h \
-    Controllers/CorsairProController/CorsairProController.h             \
+    Controllers/CorsairVengeanceController/CorsairVengeanceController.h \
+    Controllers/CorsairVengeanceProController/CorsairVengeanceProController.h \
     Controllers/CrucialController/CrucialController.h                   \
     Controllers/Hue2Controller/Hue2Controller.h                         \
     Controllers/HuePlusController/HuePlusController.h                   \
@@ -188,10 +188,10 @@ HEADERS +=                                                              \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_AuraGPU.h                               \
-    RGBController/RGBController_Corsair.h                               \
     RGBController/RGBController_CorsairLightingNode.h                   \
     RGBController/RGBController_CorsairPeripheral.h                     \
-    RGBController/RGBController_CorsairPro.h                            \
+    RGBController/RGBController_CorsairVengeance.h                      \
+    RGBController/RGBController_CorsairVengeancePro.h                   \
     RGBController/RGBController_Crucial.h                               \
     RGBController/RGBController_Dummy.h                                 \
     RGBController/RGBController_E131.h                                  \

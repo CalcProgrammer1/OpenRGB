@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  CorsairProController.h                   |
+|  CorsairVengeanceProController.h          |
 |                                           |
 |  Definitions and types for Corsair        |
 |  Vengeance Pro RGB RAM lighting controller|
@@ -60,11 +60,11 @@ enum
     CORSAIR_PRO_DIRECTION_HORIZONTAL    = 0x03,     /* Horizontal direction                 */
 };
 
-class CorsairProController
+class CorsairVengeanceProController
 {
 public:
-    CorsairProController(i2c_smbus_interface* bus, corsair_dev_id dev);
-    ~CorsairProController();
+    CorsairVengeanceProController(i2c_smbus_interface* bus, corsair_dev_id dev);
+    ~CorsairVengeanceProController();
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();

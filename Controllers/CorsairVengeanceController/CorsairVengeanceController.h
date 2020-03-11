@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  CorsairController.h                      |
+|  CorsairVengeanceController.h             |
 |                                           |
 |  Definitions and types for Corsair        |
 |  Vengeance RGB RAM lighting controller    |
@@ -33,11 +33,11 @@ enum
     CORSAIR_NUMBER_MODES                            /* Number of Corsair modes              */
 };
 
-class CorsairController
+class CorsairVengeanceController
 {
 public:
-    CorsairController(i2c_smbus_interface* bus, corsair_dev_id dev);
-    ~CorsairController();
+    CorsairVengeanceController(i2c_smbus_interface* bus, corsair_dev_id dev);
+    ~CorsairVengeanceController();
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();

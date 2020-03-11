@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_Corsair.cpp                |
+|  RGBController_CorsairVengeance.cpp       |
 |                                           |
 |  Generic RGB Interface for OpenAuraSDK    |
 |  Corsair Vengeance RGB driver             |
@@ -7,9 +7,9 @@
 |  Adam Honse (CalcProgrammer1) 6/13/2019   |
 \*-----------------------------------------*/
 
-#include "RGBController_Corsair.h"
+#include "RGBController_CorsairVengeance.h"
 
-RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
+RGBController_CorsairVengeance::RGBController_CorsairVengeance(CorsairVengeanceController* corsair_ptr)
 {
     corsair = corsair_ptr;
 
@@ -42,7 +42,7 @@ RGBController_Corsair::RGBController_Corsair(CorsairController* corsair_ptr)
     SetupZones();
 }
 
-void RGBController_Corsair::SetupZones()
+void RGBController_CorsairVengeance::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Create a single zone                                      |
@@ -68,14 +68,14 @@ void RGBController_Corsair::SetupZones()
     SetupColors();
 }
 
-void RGBController_Corsair::ResizeZone(int zone, int new_size)
+void RGBController_CorsairVengeance::ResizeZone(int zone, int new_size)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_Corsair::UpdateLEDs()
+void RGBController_CorsairVengeance::UpdateLEDs()
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -85,22 +85,22 @@ void RGBController_Corsair::UpdateLEDs()
     corsair->SetLEDColor(red, grn, blu);
 }
 
-void RGBController_Corsair::UpdateZoneLEDs(int zone)
+void RGBController_CorsairVengeance::UpdateZoneLEDs(int zone)
 {
     UpdateLEDs();
 }
 
-void RGBController_Corsair::UpdateSingleLED(int led)
+void RGBController_CorsairVengeance::UpdateSingleLED(int led)
 {
     UpdateLEDs();
 }
 
-void RGBController_Corsair::SetCustomMode()
+void RGBController_CorsairVengeance::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_Corsair::UpdateMode()
+void RGBController_CorsairVengeance::UpdateMode()
 {
     corsair->SetMode(modes[active_mode].value);
 }

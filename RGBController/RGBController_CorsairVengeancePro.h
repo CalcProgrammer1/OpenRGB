@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_CorsairPro.h               |
+|  RGBController_CorsairVengeancePro.h      |
 |                                           |
 |  Generic RGB Interface for OpenAuraSDK    |
 |  Corsair Vengeance Pro RGB driver         |
@@ -10,12 +10,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "CorsairProController.h"
+#include "CorsairVengeanceProController.h"
 
-class RGBController_CorsairPro : public RGBController
+class RGBController_CorsairVengeancePro : public RGBController
 {
 public:
-    RGBController_CorsairPro(CorsairProController* corsair_ptr);
+    RGBController_CorsairVengeancePro(CorsairVengeanceProController* corsair_ptr);
 
     void        SetupZones();
 
@@ -29,5 +29,5 @@ public:
     void        UpdateMode();
 
 private:
-    CorsairProController* corsair;
+    CorsairVengeanceProController* corsair;
 };

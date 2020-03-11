@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  CorsairProController.cpp                 |
+|  CorsairVengeanceProController.cpp        |
 |                                           |
 |  Definitions and types for Corsair        |
 |  Vengeance Pro RGB RAM lighting controller|
@@ -7,7 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 6/30/2019   |
 \*-----------------------------------------*/
 
-#include "CorsairProController.h"
+#include "CorsairVengeanceProController.h"
 #include <cstring>
 
 #ifdef WIN32
@@ -21,7 +21,7 @@ static void Sleep(unsigned int milliseconds)
 }
 #endif
 
-CorsairProController::CorsairProController(i2c_smbus_interface* bus, corsair_dev_id dev)
+CorsairVengeanceProController::CorsairVengeanceProController(i2c_smbus_interface* bus, corsair_dev_id dev)
 {
     this->bus = bus;
     this->dev = dev;
@@ -39,17 +39,17 @@ CorsairProController::CorsairProController(i2c_smbus_interface* bus, corsair_dev
     }
 }
 
-CorsairProController::~CorsairProController()
+CorsairVengeanceProController::~CorsairVengeanceProController()
 {
 
 }
 
-std::string CorsairProController::GetDeviceName()
+std::string CorsairVengeanceProController::GetDeviceName()
 {
     return(device_name);
 }
 
-std::string CorsairProController::GetDeviceLocation()
+std::string CorsairVengeanceProController::GetDeviceLocation()
 {
     std::string return_string(bus->device_name);
     char addr[5];
@@ -59,17 +59,17 @@ std::string CorsairProController::GetDeviceLocation()
     return(return_string);
 }
 
-unsigned int CorsairProController::GetLEDCount()
+unsigned int CorsairVengeanceProController::GetLEDCount()
 {
     return(led_count);
 }
 
-unsigned char CorsairProController::GetEffect()
+unsigned char CorsairVengeanceProController::GetEffect()
 {
     return(effect_mode);
 }
 
-void CorsairProController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
+void CorsairVengeanceProController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
     for (unsigned int i = 0; i < led_count; i++)
     {
@@ -79,14 +79,14 @@ void CorsairProController::SetAllColors(unsigned char red, unsigned char green, 
     }
 }
 
-void CorsairProController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void CorsairVengeanceProController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     led_red[led]    = red;
     led_green[led]  = green;
     led_blue[led]   = blue;
 }
 
-void CorsairProController::ApplyColors()
+void CorsairVengeanceProController::ApplyColors()
 {
     bus->i2c_smbus_write_byte_data(dev, 0x26, 0x02);
     Sleep(1);
@@ -104,7 +104,7 @@ void CorsairProController::ApplyColors()
     bus->i2c_smbus_write_byte_data(dev, 0x82, 0x02);
 }
 
-void CorsairProController::SetEffect(unsigned char mode,
+void CorsairVengeanceProController::SetEffect(unsigned char mode,
                                      unsigned char speed,
                                      unsigned char direction,
                                      bool          random,
@@ -159,7 +159,7 @@ void CorsairProController::SetEffect(unsigned char mode,
     WaitReady();
 }
 
-bool CorsairProController::WaitReady()
+bool CorsairVengeanceProController::WaitReady()
 {
     int i = 0;
     while (bus->i2c_smbus_read_byte_data(dev, 0x41) != 0x00)
