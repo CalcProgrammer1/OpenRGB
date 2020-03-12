@@ -300,7 +300,7 @@ void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_contr
 void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectRGBFusion2Controllers(std::vector<RGBController*> &rgb_controllers);
+void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -338,7 +338,7 @@ void DetectRGBControllers(void)
     DetectCorsairPeripheralControllers(rgb_controllers);
     DetectCorsairLightingNodeControllers(rgb_controllers);
     DetectThermaltakeRiingControllers(rgb_controllers);
-    DetectRGBFusion2Controllers(rgb_controllers);
+    DetectRGBFusion2USBControllers(rgb_controllers);
     
     DetectE131Controllers(rgb_controllers);
 

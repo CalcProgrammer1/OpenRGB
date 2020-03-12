@@ -1,13 +1,13 @@
 /*-----------------------------------------*\
-|  RGBFusion2Controller.cpp                 |
+|  RGBFusion2USBController.cpp              |
 |                                           |
 |  Driver for Gigabyte Aorus RGB Fusion 2.0 |
-|  lighting controller                      |
+|  USB lighting controller                  |
 |                                           |
 |  jackun 1/8/2020                          |
 \*-----------------------------------------*/
 
-#include "RGBFusion2Controller.h"
+#include "RGBFusion2USBController.h"
 #include <algorithm>
 #include <array>
 #include <thread>
@@ -27,7 +27,7 @@ static LEDCount LedCountToEnum(unsigned int c)
     return(LEDS_1024);
 }
 
-RGBFusion2Controller::RGBFusion2Controller(hid_device* handle, const char *path) : dev(handle)
+RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char *path) : dev(handle)
 {
     int res = 0;
     char text[64] {};
@@ -62,14 +62,14 @@ RGBFusion2Controller::RGBFusion2Controller(hid_device* handle, const char *path)
     }
 }
 
-RGBFusion2Controller::~RGBFusion2Controller()
+RGBFusion2USBController::~RGBFusion2USBController()
 {
     if( dev ) {
         hid_close(dev);
     }
 }
 
-void RGBFusion2Controller::SetMode(int m)
+void RGBFusion2USBController::SetMode(int m)
 {
     mode = m;
 }
@@ -78,7 +78,7 @@ void RGBFusion2Controller::SetMode(int m)
 // "Custom" RGB packets don't seem to get remapped so use report.byteorderN and do it manually.
 // Of course it all depends how we send data to the controller, but bios/rgb fusion 2 itself
 // set it up like this.
-void RGBFusion2Controller::SetCalibration()
+void RGBFusion2USBController::SetCalibration()
 {
     uint8_t buffer[64] {};
     buffer[0] = report_id;
@@ -105,14 +105,14 @@ void RGBFusion2Controller::SetCalibration()
     SendPacket(buffer);
 }
 
-void RGBFusion2Controller::SetLedCount(unsigned int count)
+void RGBFusion2USBController::SetLedCount(unsigned int count)
 {
     led_count = count;
     LEDCount s0 = LedCountToEnum(count);
     SendPacket(0x34, s0 | (s0 << 4)); // D_LED1 | D_LED2
 }
 
-bool RGBFusion2Controller::DisableBuiltinEffect(int enable_bit, int mask)
+bool RGBFusion2USBController::DisableBuiltinEffect(int enable_bit, int mask)
 {
     if(effect_disabled & enable_bit)
         return(true);
@@ -126,32 +126,32 @@ bool RGBFusion2Controller::DisableBuiltinEffect(int enable_bit, int mask)
     return res;
 }
 
-bool RGBFusion2Controller::EnableBeat(bool e)
+bool RGBFusion2USBController::EnableBeat(bool e)
 {
     return SendPacket(0x31, e ? 1 : 0);
 }
 
-std::string RGBFusion2Controller::GetDeviceName()
+std::string RGBFusion2USBController::GetDeviceName()
 {
     return(name);
 }
 
-std::string RGBFusion2Controller::GetFWVersion()
+std::string RGBFusion2USBController::GetFWVersion()
 {
     return(version);
 }
 
-std::string RGBFusion2Controller::GetDeviceLocation()
+std::string RGBFusion2USBController::GetDeviceLocation()
 {
     return(loc);
 }
 
-std::string RGBFusion2Controller::GetSerial()
+std::string RGBFusion2USBController::GetSerial()
 {
     return(chip_id);
 }
 
-void RGBFusion2Controller::SetStripColors
+void RGBFusion2USBController::SetStripColors
     (
     unsigned int    hdr,
     RGBColor *      colors,
@@ -228,7 +228,7 @@ static const std::array< std::array<int, 3>, 5> speeds = {
     },
 };
 
-void RGBFusion2Controller::SetLEDEffect(unsigned int led, int mode, unsigned int speed, bool random, unsigned char r, unsigned char g, unsigned char b)
+void RGBFusion2USBController::SetLEDEffect(unsigned int led, int mode, unsigned int speed, bool random, unsigned char r, unsigned char g, unsigned char b)
 {
     PktEffect pkt;
     pkt.Init(led, report_id);
@@ -270,12 +270,12 @@ void RGBFusion2Controller::SetLEDEffect(unsigned int led, int mode, unsigned int
     SendPacket(pkt.buffer);
 }
 
-bool RGBFusion2Controller::ApplyEffect()
+bool RGBFusion2USBController::ApplyEffect()
 {
     return SendPacket(0x28, 0xFF);
 }
 
-bool RGBFusion2Controller::SendPacket(uint8_t a, uint8_t b, uint8_t c)
+bool RGBFusion2USBController::SendPacket(uint8_t a, uint8_t b, uint8_t c)
 {
     unsigned char buffer[64] {};
     buffer[0] = report_id;
@@ -285,7 +285,7 @@ bool RGBFusion2Controller::SendPacket(uint8_t a, uint8_t b, uint8_t c)
     return (SendPacket(buffer) == 64);
 }
 
-int RGBFusion2Controller::SendPacket(unsigned char* packet)
+int RGBFusion2USBController::SendPacket(unsigned char* packet)
 {
     return hid_send_feature_report(dev, packet, 64);
 }

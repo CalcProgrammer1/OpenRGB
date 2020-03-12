@@ -1,13 +1,13 @@
 /*-----------------------------------------*\
-|  RGBController_RGBFusion2.cpp             |
+|  RGBController_RGBFusion2USB.cpp          |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion 2.0 Driver           |
+|  Gigabyte RGB Fusion 2.0 USB Driver       |
 |                                           |
 |  jackun 1/8/2020                          |
 \*-----------------------------------------*/
 
-#include "RGBController_RGBFusion2.h"
+#include "RGBController_RGBFusion2USB.h"
 #include <sstream>
 #include <array>
 
@@ -72,7 +72,7 @@ static const KnownChannels known_channels
     },
 };
 
-RGBController_RGBFusion2::RGBController_RGBFusion2(RGBFusion2Controller* controller_ptr)
+RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2Controller* controller_ptr)
 {
     controller = controller_ptr;
 
@@ -140,7 +140,7 @@ RGBController_RGBFusion2::RGBController_RGBFusion2(RGBFusion2Controller* control
     SetupZones();
 }
 
-void RGBController_RGBFusion2::SetupZones()
+void RGBController_RGBFusion2USB::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Look up channel map based on device name                  |
@@ -216,17 +216,17 @@ void RGBController_RGBFusion2::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2::ResizeZone(int zone, int new_size)
+void RGBController_RGBFusion2USB::ResizeZone(int zone, int new_size)
 {
 
 }
 
-void RGBController_RGBFusion2::SetCustomMode()
+void RGBController_RGBFusion2USB::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_RGBFusion2::UpdateLEDs()
+void RGBController_RGBFusion2USB::UpdateLEDs()
 {
     for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -234,7 +234,7 @@ void RGBController_RGBFusion2::UpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion2::UpdateZoneLEDs(int zone)
+void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
 {
     /*---------------------------------------------------------*\
     | Get mode parameters                                       |
@@ -327,7 +327,7 @@ void RGBController_RGBFusion2::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_RGBFusion2::UpdateSingleLED(int led)
+void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
 {
     /*---------------------------------------------------------*\
     | Get mode parameters                                       |
@@ -371,7 +371,7 @@ void RGBController_RGBFusion2::UpdateSingleLED(int led)
     }
 }
 
-void RGBController_RGBFusion2::UpdateMode()
+void RGBController_RGBFusion2USB::UpdateMode()
 {
     // XXX Comment out to allow each zone or motherboard LED have different modes
     UpdateLEDs();

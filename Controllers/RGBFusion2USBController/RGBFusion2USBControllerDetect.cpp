@@ -1,18 +1,18 @@
-#include "RGBFusion2Controller.h"
-#include "RGBController_RGBFusion2.h"
+#include "RGBFusion2USBController.h"
+#include "RGBController_RGBFusion2USB.h"
 
 #define IT8297_VID 0x048D
 #define IT8297_PID 0x8297
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectRGBFusion2Controllers                                                            *
+*   DetectRGBFusion2USBControllers                                                         *
 *                                                                                          *
 *       Detect RGB Fusion 2 devices that use IT8297 RGB controller                         *
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectRGBFusion2Controllers(std::vector<RGBController*> &rgb_controllers)
+void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers)
 {
     if (hid_init() < 0)
         return;
@@ -26,8 +26,8 @@ void DetectRGBFusion2Controllers(std::vector<RGBController*> &rgb_controllers)
     {
         hid_device * dev = hid_open_path(device->path);
         if (dev) {
-            RGBFusion2Controller * controller = new RGBFusion2Controller(dev, device_list->path);
-            RGBController_RGBFusion2 * rgb_controller = new RGBController_RGBFusion2(controller);
+            RGBFusion2USBController * controller = new RGBFusion2USBController(dev, device_list->path);
+            RGBController_RGBFusion2USB * rgb_controller = new RGBController_RGBFusion2USB(controller);
             rgb_controllers.push_back(rgb_controller);
         }
         device = device->next;

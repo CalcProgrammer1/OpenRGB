@@ -1,15 +1,15 @@
 /*-----------------------------------------*\
-|  RGBController_RGBFusion2.h               |
+|  RGBController_RGBFusion2USB.h            |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion 2.0 Driver           |
+|  Gigabyte RGB Fusion 2.0 USB Driver       |
 |                                           |
 |  jackun 1/8/2020                          |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
-#include "RGBFusion2Controller.h"
+#include "RGBFusion2USBController.h"
 #include <map>
 #include <vector>
 
@@ -22,10 +22,10 @@ struct LedPort
 typedef std::vector< std::vector<LedPort> > ZoneLeds;
 typedef std::map< std::string, ZoneLeds > KnownChannels;
 
-class RGBController_RGBFusion2: public RGBController
+class RGBController_RGBFusion2USB: public RGBController
 {
 public:
-    RGBController_RGBFusion2(RGBFusion2Controller* controller_ptr);
+    RGBController_RGBFusion2USB(RGBFusion2USBController* controller_ptr);
 
     void        SetupZones();
 
@@ -39,7 +39,7 @@ public:
     void        UpdateMode();
 
 private:
-    RGBFusion2Controller*       controller;
+    RGBFusion2USBController*       controller;
     IT8297Report                report;
     unsigned int                per_strip_led_cnt;
 };

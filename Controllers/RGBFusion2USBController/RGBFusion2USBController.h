@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  RGBFusion2Controller.h                   |
+|  RGBFusion2USBController.h                |
 |                                           |
 |  Definitions and types for Gigabyte Aorus |
-|  RGB Fusion 2.0 lighting controller       |
+|  RGB Fusion 2.0 USB lighting controller   |
 |                                           |
 |  jackun 1/8/2020                          |
 \*-----------------------------------------*/
@@ -154,11 +154,11 @@ struct IT8297Report
 
 #pragma pack(pop)
 
-class RGBFusion2Controller
+class RGBFusion2USBController
 {
 public:
-    RGBFusion2Controller(hid_device* handle, const char *path);
-    ~RGBFusion2Controller();
+    RGBFusion2USBController(hid_device* handle, const char *path);
+    ~RGBFusion2USBController();
 
     void            SetStripColors
                         (
