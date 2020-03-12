@@ -54,11 +54,29 @@ typedef struct
     const char *    name;
 } corsair_node_device;
 
-static const corsair_node_device device_list[3] =
+#define CORSAIR_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const corsair_node_device device_list[] =
 {
-    { CORSAIR_VID,          CORSAIR_K70_RGB_PID,                1,      "Corsair K70 RGB"           },
-    { CORSAIR_VID,          CORSAIR_K95_RGB_PID,                1,      "Corsair K95 RGB"           },
-    { CORSAIR_VID,          CORSAIR_MM800_RGB_POLARIS_PID,      0,      "Corsair MM800 RGB Polaris" }
+    /*-----------------------------------------------------------------------------------------------------*\
+    | Keyboards                                                                                             |
+    \*-----------------------------------------------------------------------------------------------------*/
+    { CORSAIR_VID,          CORSAIR_K68_RGB,                    1,      "Corsair K68 RGB"                   },
+    { CORSAIR_VID,          CORSAIR_K70_RGB_PID,                1,      "Corsair K70 RGB"                   },
+    { CORSAIR_VID,          CORSAIR_K70_LUX_RGB_PID,            1,      "Corsair K70 LUX RGB"               },
+    { CORSAIR_VID,          CORSAIR_K70_RGB_RAPIDFIRE_PID,      1,      "Corsair K70 RGB RAPIDFIRE"         },
+    { CORSAIR_VID,          CORSAIR_K70_RGB_MK2_PID,            1,      "Corsair K70 RGB MK.2"              },
+    { CORSAIR_VID,          CORSAIR_K70_RGB_MK2_SE_PID,         1,      "Corsair K70 RGB MK.2 SE"           },
+    { CORSAIR_VID,          CORSAIR_K70_RGB_MK2_LP_PID,         1,      "Corsair K70 RGB MK.2 Low Profile"  },
+    { CORSAIR_VID,          CORSAIR_K95_RGB_PID,                1,      "Corsair K95 RGB"                   },
+    { CORSAIR_VID,          CORSAIR_K95_PLATINUM_PID,           1,      "Corsair K95 RGB PLATINUM"          },
+    /*-----------------------------------------------------------------------------------------------------*\
+    | Mice                                                                                                  |
+    \*-----------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------------------------------------------------------*\
+    | Mousemats                                                                                             |
+    \*-----------------------------------------------------------------------------------------------------*/
+    { CORSAIR_VID,          CORSAIR_MM800_RGB_POLARIS_PID,      0,      "Corsair MM800 RGB Polaris"         }
 };
 
 /******************************************************************************************\
@@ -76,7 +94,7 @@ void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_control
 
     hid_init();
 
-    for(int device_idx = 0; device_idx < 3; device_idx++)
+    for(int device_idx = 0; device_idx < CORSAIR_NUM_DEVICES; device_idx++)
     {
         dev = NULL;
 
