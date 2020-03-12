@@ -1,6 +1,6 @@
-#include "HyperXController.h"
+#include "HyperXDRAMController.h"
 #include "RGBController.h"
-#include "RGBController_HyperX.h"
+#include "RGBController_HyperXDRAM.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -19,13 +19,13 @@ static void Sleep(unsigned int milliseconds)
 
 /******************************************************************************************\
 *                                                                                          *
-*   TestForHyperXController                                                               *
+*   TestForHyperXDRAMController                                                            *
 *                                                                                          *
-*       Tests the given address to see if a HyperX controller exists there.               *
+*       Tests the given address to see if a HyperX controller exists there.                *
 *                                                                                          *
 \******************************************************************************************/
 
-bool TestForHyperXController(i2c_smbus_interface* bus, unsigned char address)
+bool TestForHyperXDRAMController(i2c_smbus_interface* bus, unsigned char address)
 {
     bool pass = false;
 
@@ -48,31 +48,31 @@ bool TestForHyperXController(i2c_smbus_interface* bus, unsigned char address)
 
     return(pass);
 
-}   /* TestForHyperXController() */
+}   /* TestForHyperXDRAMController() */
 
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectHyperXControllers                                                                *
+*   DetectHyperXDRAMControllers                                                            *
 *                                                                                          *
-*       Detect HyperX controllers on the enumerated I2C busses.                            *
+*       Detect HyperX DRAM controllers on the enumerated I2C busses.                       *
 *                                                                                          *
 *           bus - pointer to i2c_smbus_interface where Aura device is connected            *
 *           dev - I2C address of Aura device                                               *
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
 {
-    HyperXController* new_hyperx;
-    RGBController_HyperX* new_controller;
+    HyperXDRAMController* new_hyperx;
+    RGBController_HyperXDRAM* new_controller;
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
         unsigned char slots_valid = 0x00;
 
         // Check for HyperX controller at 0x27
-        if (TestForHyperXController(busses[bus], 0x27))
+        if (TestForHyperXDRAMController(busses[bus], 0x27))
         {
             busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
 
@@ -94,11 +94,11 @@ void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
 
             if(slots_valid != 0)
             {
-                new_hyperx = new HyperXController(busses[bus], 0x27, slots_valid);
-                new_controller = new RGBController_HyperX(new_hyperx);
+                new_hyperx = new HyperXDRAMController(busses[bus], 0x27, slots_valid);
+                new_controller = new RGBController_HyperXDRAM(new_hyperx);
                 rgb_controllers.push_back(new_controller);
             }
         }
     }
 
-}   /* DetectHyperXControllers() */
+}   /* DetectHyperXDRAMControllers() */

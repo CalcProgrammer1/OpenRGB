@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  RGBController_HyperX.h                   |
+|  RGBController_HyperXDRAM.h               |
 |                                           |
 |  Generic RGB Interface for OpenAuraSDK    |
-|  HyperX Predator RGB interface            |
+|  HyperX Predator and Fury RGB interface   |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 6/29/2019   |
 \*-----------------------------------------*/
@@ -10,12 +10,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "HyperXController.h"
+#include "HyperXDRAMController.h"
 
-class RGBController_HyperX : public RGBController
+class RGBController_HyperXDRAM : public RGBController
 {
 public:
-    RGBController_HyperX(HyperXController* hyperx_ptr);
+    RGBController_HyperXDRAM(HyperXDRAMController* hyperx_ptr);
 
     void        SetupZones();
 
@@ -29,5 +29,5 @@ public:
     void        UpdateMode();
 
 private:
-    HyperXController* hyperx;
+    HyperXDRAMController* hyperx;
 };

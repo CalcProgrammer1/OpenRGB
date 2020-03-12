@@ -1,16 +1,16 @@
 /*-----------------------------------------*\
-|  HyperXController.cpp                     |
+|  HyperXDRAMController.cpp                 |
 |                                           |
 |  Definitions and types for HyperX Predator|
-|  RGB RAM lighting controller              |
+|  and Fury RGB RAM lighting controller     |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 6/29/2019   |
 \*-----------------------------------------*/
 
-#include "HyperXController.h"
+#include "HyperXDRAMController.h"
 #include <cstring>
 
-HyperXController::HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots)
+HyperXDRAMController::HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots)
 {
     this->bus   = bus;
     this->dev   = dev;
@@ -31,17 +31,17 @@ HyperXController::HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev, 
     mode = HYPERX_MODE_DIRECT;
 }
 
-HyperXController::~HyperXController()
+HyperXDRAMController::~HyperXDRAMController()
 {
 
 }
 
-std::string HyperXController::GetDeviceName()
+std::string HyperXDRAMController::GetDeviceName()
 {
     return(device_name);
 }
 
-std::string HyperXController::GetDeviceLocation()
+std::string HyperXDRAMController::GetDeviceLocation()
 {
     std::string return_string(bus->device_name);
     char addr[5];
@@ -51,12 +51,12 @@ std::string HyperXController::GetDeviceLocation()
     return(return_string);
 }
 
-unsigned int HyperXController::GetLEDCount()
+unsigned int HyperXDRAMController::GetLEDCount()
 {
     return(led_count);
 }
 
-unsigned int HyperXController::GetSlotCount()
+unsigned int HyperXDRAMController::GetSlotCount()
 {
     unsigned int slot_count = 0;
 
@@ -71,12 +71,12 @@ unsigned int HyperXController::GetSlotCount()
     return(slot_count);
 }
 
-unsigned int HyperXController::GetMode()
+unsigned int HyperXDRAMController::GetMode()
 {
     return(mode);
 }
 
-void HyperXController::SetEffectColor(unsigned char red, unsigned char green, unsigned char blue)
+void HyperXDRAMController::SetEffectColor(unsigned char red, unsigned char green, unsigned char blue)
 {
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
@@ -89,7 +89,7 @@ void HyperXController::SetEffectColor(unsigned char red, unsigned char green, un
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
-void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
+void HyperXDRAMController::SetAllColors(unsigned char red, unsigned char green, unsigned char blue)
 {
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
@@ -126,7 +126,7 @@ void HyperXController::SetAllColors(unsigned char red, unsigned char green, unsi
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
-void HyperXController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void HyperXDRAMController::SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     /*-----------------------------------------------------*\
     | led_slot - the unmapped slot ID for the given LED     |
@@ -175,7 +175,7 @@ void HyperXController::SetLEDColor(unsigned int led, unsigned char red, unsigned
 }
 
 
-void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void HyperXDRAMController::SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char base        = slot_base[slot];
     unsigned char red_base    = base + 0x00;
@@ -194,7 +194,7 @@ void HyperXController::SetLEDColor(unsigned int slot, unsigned int led, unsigned
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
 }
 
-void HyperXController::SetMode(unsigned char new_mode, bool random, unsigned short new_speed)
+void HyperXDRAMController::SetMode(unsigned char new_mode, bool random, unsigned short new_speed)
 {
     mode  = new_mode;
     speed = new_speed;

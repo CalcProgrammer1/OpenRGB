@@ -39,7 +39,7 @@ INCLUDEPATH +=                                                          \
     Controllers/CrucialController/                                      \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
-    Controllers/HyperXController/                                       \
+    Controllers/HyperXDRAMController/                                   \
     Controllers/HyperXKeyboardController/                               \
     Controllers/LEDStripController/                                     \
     Controllers/MSI3ZoneController/                                     \
@@ -95,8 +95,8 @@ SOURCES +=                                                              \
     Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
     Controllers/HuePlusController/HuePlusController.cpp                 \
     Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
-    Controllers/HyperXController/HyperXController.cpp                   \
-    Controllers/HyperXController/HyperXControllerDetect.cpp             \
+    Controllers/HyperXDRAMController/HyperXDRAMController.cpp           \
+    Controllers/HyperXDRAMController/HyperXDRAMControllerDetect.cpp     \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
     Controllers/LEDStripController/LEDStripController.cpp               \
@@ -132,7 +132,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Dummy.cpp                               \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
-    RGBController/RGBController_HyperX.cpp                              \
+    RGBController/RGBController_HyperXDRAM.cpp                          \
     RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
@@ -172,7 +172,7 @@ HEADERS +=                                                              \
     Controllers/CrucialController/CrucialController.h                   \
     Controllers/Hue2Controller/Hue2Controller.h                         \
     Controllers/HuePlusController/HuePlusController.h                   \
-    Controllers/HyperXController/HyperXController.h                     \
+    Controllers/HyperXDRAMController/HyperXDRAMController.h             \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.h     \
     Controllers/LEDStripController/LEDStripController.h                 \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
@@ -197,7 +197,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
-    RGBController/RGBController_HyperX.h                                \
+    RGBController/RGBController_HyperXDRAM.h                            \
     RGBController/RGBController_HyperXKeyboard.h                        \
     RGBController/RGBController_LEDStrip.h                              \
     RGBController/RGBController_MSI3Zone.h                              \

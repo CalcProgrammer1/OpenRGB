@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  HyperXController.h                       |
+|  HyperXDRAMController.h                   |
 |                                           |
 |  Definitions and types for HyperX Predator|
-|  RGB RAM lighting controller              |
+|  and Fury RGB RAM lighting controller     |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 6/29/2019   |
 \*-----------------------------------------*/
@@ -193,11 +193,11 @@ static const unsigned char slot_base[4] =
     HYPERX_REG_SLOT3_LED0_RED                       /* SPD 0x53 maps to slot 3              */
 };
 
-class HyperXController
+class HyperXDRAMController
 {
 public:
-    HyperXController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots);
-    ~HyperXController();
+    HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots);
+    ~HyperXDRAMController();
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();

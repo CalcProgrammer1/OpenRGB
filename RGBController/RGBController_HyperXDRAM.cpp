@@ -1,16 +1,16 @@
 /*-----------------------------------------*\
-|  RGBController_HyperX.cpp                 |
+|  RGBController_HyperXDRAM.cpp             |
 |                                           |
 |  Generic RGB Interface for OpenAuraSDK    |
-|  HyperX Predator RGB interface            |
+|  HyperX Predator and Fury RGB interface   |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 6/29/2019   |
 \*-----------------------------------------*/
 
-#include "RGBController_HyperX.h"
+#include "RGBController_HyperXDRAM.h"
 
 
-RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
+RGBController_HyperXDRAM::RGBController_HyperXDRAM(HyperXDRAMController* hyperx_ptr)
 {
     hyperx = hyperx_ptr;
 
@@ -124,7 +124,7 @@ RGBController_HyperX::RGBController_HyperX(HyperXController* hyperx_ptr)
     SetupZones();
 }
 
-void RGBController_HyperX::SetupZones()
+void RGBController_HyperXDRAM::SetupZones()
 {
     for(unsigned int slot = 0; slot < hyperx->GetSlotCount(); slot++)
     {
@@ -160,14 +160,14 @@ void RGBController_HyperX::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperX::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HyperXDRAM::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_HyperX::UpdateLEDs()
+void RGBController_HyperXDRAM::UpdateLEDs()
 {
     if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {
@@ -189,7 +189,7 @@ void RGBController_HyperX::UpdateLEDs()
     }
 }
 
-void RGBController_HyperX::UpdateZoneLEDs(int zone)
+void RGBController_HyperXDRAM::UpdateZoneLEDs(int zone)
 {
     if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {
@@ -212,7 +212,7 @@ void RGBController_HyperX::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_HyperX::UpdateSingleLED(int led)
+void RGBController_HyperXDRAM::UpdateSingleLED(int led)
 {
     RGBColor      color = colors[led];
     unsigned char red   = RGBGetRValue(color);
@@ -229,12 +229,12 @@ void RGBController_HyperX::UpdateSingleLED(int led)
     }
 }
 
-void RGBController_HyperX::SetCustomMode()
+void RGBController_HyperXDRAM::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_HyperX::UpdateMode()
+void RGBController_HyperXDRAM::UpdateMode()
 {
     bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
 

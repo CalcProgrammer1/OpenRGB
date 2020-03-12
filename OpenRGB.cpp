@@ -281,7 +281,7 @@ void DetectAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
 void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectHyperXControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
+void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
@@ -319,7 +319,7 @@ void DetectRGBControllers(void)
     DetectCorsairVengeanceControllers(busses, rgb_controllers);
     DetectCorsairVengeanceProControllers(busses, rgb_controllers);
     DetectCrucialControllers(busses, rgb_controllers);
-    DetectHyperXControllers(busses, rgb_controllers);
+    DetectHyperXDRAMControllers(busses, rgb_controllers);
     DetectPatriotViperControllers(busses, rgb_controllers);
     DetectPolychromeControllers(busses, rgb_controllers);
     DetectRGBFusionGPUControllers(busses, rgb_controllers);
