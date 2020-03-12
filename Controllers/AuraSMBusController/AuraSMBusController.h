@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  AuraController.h                         |
+|  AuraSMBusController.h                    |
 |                                           |
 |  Definitions and types for ASUS Aura RGB  |
 |  lighting controller                      |
@@ -88,11 +88,11 @@ enum
     AURA_CONFIG_CHANNEL_V2              = 0x1B,     /* LED Channel V2 configuration offset  */
 };
 
-class AuraController
+class AuraSMBusController
 {
 public:
-    AuraController(i2c_smbus_interface* bus, aura_dev_id dev);
-    ~AuraController();
+    AuraSMBusController(i2c_smbus_interface* bus, aura_dev_id dev);
+    ~AuraSMBusController();
 
     std::string   GetDeviceName();
     std::string   GetDeviceLocation();

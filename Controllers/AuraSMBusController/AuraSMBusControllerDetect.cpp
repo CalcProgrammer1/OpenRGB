@@ -1,6 +1,6 @@
-#include "AuraController.h"
+#include "AuraSMBusController.h"
 #include "RGBController.h"
-#include "RGBController_Aura.h"
+#include "RGBController_AuraSMBus.h"
 #include "i2c_smbus.h"
 #include <vector>
 #include <stdio.h>
@@ -64,9 +64,9 @@ static const unsigned char aura_mobo_addresses[] =
 *                                                                                          *
 *   AuraRegisterWrite                                                                      *
 *                                                                                          *
-*       A standalone version of the AuraController::AuraRegisterWrite function for access  *
-*       to Aura devices without instancing the AuraController class or reading the config  *
-*       table from the device.                                                             *
+*       A standalone version of the AuraSMBusController::AuraRegisterWrite function for    *
+*       access to Aura devices without instancing the AuraSMBusController class or reading *
+*       the config table from the device.                                                  *
 *                                                                                          *
 \******************************************************************************************/
 
@@ -81,7 +81,7 @@ void AuraRegisterWrite(i2c_smbus_interface* bus, aura_dev_id dev, aura_register 
 
 /******************************************************************************************\
 *                                                                                          *
-*   TestForAuraController                                                                  *
+*   TestForAuraSMBusController                                                                  *
 *                                                                                          *
 *       Tests the given address to see if an Aura controller exists there.  First does a   *
 *       quick write to test for a response, and if so does a simple read at 0xA0 to test   *
@@ -89,7 +89,7 @@ void AuraRegisterWrite(i2c_smbus_interface* bus, aura_dev_id dev, aura_register 
 *                                                                                          *
 \******************************************************************************************/
 
-bool TestForAuraController(i2c_smbus_interface* bus, unsigned char address)
+bool TestForAuraSMBusController(i2c_smbus_interface* bus, unsigned char address)
 {
     bool pass = false;
 
@@ -112,11 +112,11 @@ bool TestForAuraController(i2c_smbus_interface* bus, unsigned char address)
 
     return(pass);
 
-}   /* TestForAuraController() */
+}   /* TestForAuraSMBusController() */
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectAuraControllers                                                                  *
+*   DetectAuraSMBusControllers                                                                  *
 *                                                                                          *
 *       Detect Aura controllers on the enumerated I2C busses.  Searches for Aura-enabled   *
 *       RAM at 0x77 and tries to initialize their slot addresses, then searches for them   *
@@ -128,10 +128,10 @@ bool TestForAuraController(i2c_smbus_interface* bus, unsigned char address)
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
 {
-    AuraController* new_aura;
-    RGBController_Aura* new_controller;
+    AuraSMBusController* new_aura;
+    RGBController_AuraSMBus* new_controller;
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
@@ -171,10 +171,10 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
         // Add Aura-enabled controllers at their remapped addresses
         for (unsigned int address_list_idx = 0; address_list_idx < AURA_RAM_ADDRESS_COUNT; address_list_idx++)
         {
-            if (TestForAuraController(busses[bus], aura_ram_addresses[address_list_idx]))
+            if (TestForAuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]))
             {
-                new_aura = new AuraController(busses[bus], aura_ram_addresses[address_list_idx]);
-                new_controller = new RGBController_Aura(new_aura);
+                new_aura = new AuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]);
+                new_controller = new RGBController_AuraSMBus(new_aura);
                 rgb_controllers.push_back(new_controller);
             }
 
@@ -184,10 +184,10 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
         // Add Aura-enabled motherboard controllers
         for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
         {
-            if (TestForAuraController(busses[bus], aura_mobo_addresses[address_list_idx]))
+            if (TestForAuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
             {
-                new_aura = new AuraController(busses[bus], aura_mobo_addresses[address_list_idx]);
-                new_controller = new RGBController_Aura(new_aura);
+                new_aura = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
+                new_controller = new RGBController_AuraSMBus(new_aura);
                 rgb_controllers.push_back(new_controller);
             }
 
@@ -195,4 +195,4 @@ void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vecto
         }
     }
 
-}   /* DetectAuraControllers() */
+}   /* DetectAuraSMBusControllers() */

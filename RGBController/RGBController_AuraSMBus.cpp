@@ -1,15 +1,15 @@
 /*-----------------------------------------*\
-|  RGBController_Aura.cpp                   |
+|  RGBController_AuraSMBus.cpp              |
 |                                           |
 |  Generic RGB Interface for OpenAuraSDK    |
-|  Asus Aura driver                         |
+|  Asus Aura SMBus driver                   |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 6/13/2019   |
 \*-----------------------------------------*/
 
-#include "RGBController_Aura.h"
+#include "RGBController_AuraSMBus.h"
 
-int RGBController_Aura::GetDeviceMode()
+int RGBController_AuraSMBus::GetDeviceMode()
 {
     int  dev_mode  = aura->AuraRegisterRead(AURA_REG_MODE);
     int color_mode = MODE_COLORS_PER_LED;
@@ -56,7 +56,7 @@ int RGBController_Aura::GetDeviceMode()
     return(active_mode);
 }
 
-void RGBController_Aura::UpdateLEDs()
+void RGBController_AuraSMBus::UpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {
@@ -75,7 +75,7 @@ void RGBController_Aura::UpdateLEDs()
     }
 }
 
-void RGBController_Aura::UpdateZoneLEDs(int zone)
+void RGBController_AuraSMBus::UpdateZoneLEDs(int zone)
 {
     for (std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
     {
@@ -96,7 +96,7 @@ void RGBController_Aura::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_Aura::UpdateSingleLED(int led)
+void RGBController_AuraSMBus::UpdateSingleLED(int led)
 {
     RGBColor color    = colors[led];
     unsigned char red = RGBGetRValue(color);
@@ -113,7 +113,7 @@ void RGBController_Aura::UpdateSingleLED(int led)
     }
 }
 
-RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
+RGBController_AuraSMBus::RGBController_AuraSMBus(AuraController * aura_ptr)
 {
     aura = aura_ptr;
 
@@ -207,7 +207,7 @@ RGBController_Aura::RGBController_Aura(AuraController * aura_ptr)
     active_mode = GetDeviceMode();
 }
 
-void RGBController_Aura::SetupZones()
+void RGBController_AuraSMBus::SetupZones()
 {
     std::vector<int>    aura_led_map;
 
@@ -316,19 +316,19 @@ void RGBController_Aura::SetupZones()
     }
 }
 
-void RGBController_Aura::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AuraSMBus::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_Aura::SetCustomMode()
+void RGBController_AuraSMBus::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_Aura::UpdateMode()
+void RGBController_AuraSMBus::UpdateMode()
 {
     if (modes[active_mode].value == 0xFFFF)
     {

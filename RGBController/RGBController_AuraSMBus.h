@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  RGBController_Aura.h                     |
+|  RGBController_AuraSMBus.h                |
 |                                           |
 |  Generic RGB Interface for OpenAuraSDK    |
-|  Asus Aura driver                         |
+|  Asus Aura SMBus driver                   |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 6/13/2019   |
 \*-----------------------------------------*/
@@ -10,12 +10,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "AuraController.h"
+#include "AuraSMBusController.h"
 
-class RGBController_Aura : public RGBController
+class RGBController_AuraSMBus : public RGBController
 {
 public:
-    RGBController_Aura(AuraController* aura_ptr);
+    RGBController_AuraSMBus(AuraSMBusController* aura_ptr);
 
     void        SetupZones();
 
@@ -29,7 +29,7 @@ public:
     void        UpdateMode();
 
 private:
-    AuraController* aura;
+    AuraSMBusController* aura;
 
     int         GetDeviceMode();
 };

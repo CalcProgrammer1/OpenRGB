@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  AuraController.cpp                       |
+|  AuraSMBusController.cpp                  |
 |                                           |
 |  Driver for ASUS Aura RGB lighting        |
 |  controller                               |
@@ -7,10 +7,10 @@
 |  Adam Honse (CalcProgrammer1) 8/19/2018   |
 \*-----------------------------------------*/
 
-#include "AuraController.h"
+#include "AuraSMBusController.h"
 #include <cstring>
 
-AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
+AuraSMBusController::AuraSMBusController(i2c_smbus_interface* bus, aura_dev_id dev)
 {
     this->bus = bus;
     this->dev = dev;
@@ -77,17 +77,17 @@ AuraController::AuraController(i2c_smbus_interface* bus, aura_dev_id dev)
     }
 }
 
-AuraController::~AuraController()
+AuraSMBusController::~AuraSMBusController()
 {
 
 }
 
-std::string AuraController::GetDeviceName()
+std::string AuraSMBusController::GetDeviceName()
 {
     return(device_name);
 }
 
-std::string AuraController::GetDeviceLocation()
+std::string AuraSMBusController::GetDeviceLocation()
 {
     std::string return_string(bus->device_name);
     char addr[5];
@@ -97,12 +97,12 @@ std::string AuraController::GetDeviceLocation()
     return(return_string);
 }
 
-unsigned char AuraController::GetChannel(unsigned int led)
+unsigned char AuraSMBusController::GetChannel(unsigned int led)
 {
     return(config_table[channel_cfg + led]);
 }
 
-const char * AuraController::GetChannelName(unsigned int led)
+const char * AuraSMBusController::GetChannelName(unsigned int led)
 {
     switch (config_table[channel_cfg + led])
     {
@@ -152,27 +152,27 @@ const char * AuraController::GetChannelName(unsigned int led)
     }
 }
 
-unsigned int AuraController::GetLEDCount()
+unsigned int AuraSMBusController::GetLEDCount()
 {
     return(led_count);
 }
 
-unsigned char AuraController::GetLEDRed(unsigned int led)
+unsigned char AuraSMBusController::GetLEDRed(unsigned int led)
 {
     return(AuraRegisterRead(direct_reg + ( 3 * led )));
 }
 
-unsigned char AuraController::GetLEDGreen(unsigned int led)
+unsigned char AuraSMBusController::GetLEDGreen(unsigned int led)
 {
     return(AuraRegisterRead(direct_reg + ( 3 * led ) + 2));
 }
 
-unsigned char AuraController::GetLEDBlue(unsigned int led)
+unsigned char AuraSMBusController::GetLEDBlue(unsigned int led)
 {
     return(AuraRegisterRead(direct_reg + ( 3 * led ) + 1));
 }
 
-void AuraController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
+void AuraSMBusController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char* colors = new unsigned char[led_count * 3];
 
@@ -188,7 +188,7 @@ void AuraController::SetAllColorsDirect(unsigned char red, unsigned char green, 
     delete colors;
 }
 
-void AuraController::SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue)
+void AuraSMBusController::SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char* colors = new unsigned char[led_count * 3];
 
@@ -206,20 +206,20 @@ void AuraController::SetAllColorsEffect(unsigned char red, unsigned char green, 
     delete[] colors;
 }
 
-void AuraController::SetDirect(unsigned char direct)
+void AuraSMBusController::SetDirect(unsigned char direct)
 {
     AuraRegisterWrite(AURA_REG_DIRECT, direct);
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 }
 
-void AuraController::SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void AuraSMBusController::SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char colors[3] = { red, blue, green };
 
     AuraRegisterWriteBlock(direct_reg + ( 3 * led ), colors, 3);
 }
 
-void AuraController::SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void AuraSMBusController::SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char colors[3] = { red, blue, green };
 
@@ -228,13 +228,13 @@ void AuraController::SetLEDColorEffect(unsigned int led, unsigned char red, unsi
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 }
 
-void AuraController::SetMode(unsigned char mode)
+void AuraSMBusController::SetMode(unsigned char mode)
 {
     AuraRegisterWrite(AURA_REG_MODE, mode);
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 }
 
-void AuraController::AuraUpdateDeviceName()
+void AuraSMBusController::AuraUpdateDeviceName()
 {
     for (int i = 0; i < 16; i++)
     {
@@ -242,7 +242,7 @@ void AuraController::AuraUpdateDeviceName()
     }
 }
 
-unsigned char AuraController::AuraRegisterRead(aura_register reg)
+unsigned char AuraSMBusController::AuraRegisterRead(aura_register reg)
 {
     //Write Aura register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
@@ -252,7 +252,7 @@ unsigned char AuraController::AuraRegisterRead(aura_register reg)
 
 }
 
-void AuraController::AuraRegisterWrite(aura_register reg, unsigned char val)
+void AuraSMBusController::AuraRegisterWrite(aura_register reg, unsigned char val)
 {
     //Write Aura register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
@@ -262,7 +262,7 @@ void AuraController::AuraRegisterWrite(aura_register reg, unsigned char val)
 
 }
 
-void AuraController::AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz)
+void AuraSMBusController::AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz)
 {
     //Write Aura register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));

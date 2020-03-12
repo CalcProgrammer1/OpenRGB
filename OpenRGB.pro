@@ -30,8 +30,8 @@ INCLUDEPATH +=                                                          \
     serial_port/                                                        \
     super_io/                                                           \
     Controllers/AMDWraithPrismController/                               \
-    Controllers/AuraController/                                         \
     Controllers/AuraGPUController/                                      \
+    Controllers/AuraSMBusController/                                    \
     Controllers/CorsairPeripheralController/                            \
     Controllers/CorsairLightingNodeController/                          \
     Controllers/CorsairVengeanceController/                             \
@@ -77,10 +77,10 @@ SOURCES +=                                                              \
     super_io/super_io.cpp                                               \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
-    Controllers/AuraController/AuraController.cpp                       \
-    Controllers/AuraController/AuraControllerDetect.cpp                 \
     Controllers/AuraGPUController/AuraGPUController.cpp                 \
     Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
+    Controllers/AuraSMBusController/AuraSMBusController.cpp             \
+    Controllers/AuraSMBusController/AuraSMBusControllerDetect.cpp       \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.cpp \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeControllerDetect.cpp \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.cpp \
@@ -122,8 +122,8 @@ SOURCES +=                                                              \
     RGBController/RGBController.cpp                                     \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
-    RGBController/RGBController_Aura.cpp                                \
     RGBController/RGBController_AuraGPU.cpp                             \
+    RGBController/RGBController_AuraSMBus.cpp                           \
     RGBController/RGBController_CorsairLightingNode.cpp                 \
     RGBController/RGBController_CorsairPeripheral.cpp                   \
     RGBController/RGBController_CorsairVengeance.cpp                    \
@@ -163,8 +163,8 @@ HEADERS +=                                                              \
     serial_port/serial_port.h                                           \
     super_io/super_io.h                                                 \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
-    Controllers/AuraController/AuraController.h                         \
     Controllers/AuraGPUController/AuraGPUController.h                   \
+    Controllers/AuraSMBusController/AuraSMBusController.h               \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.h \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.h \
@@ -186,8 +186,8 @@ HEADERS +=                                                              \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
-    RGBController/RGBController_Aura.h                                  \
     RGBController/RGBController_AuraGPU.h                               \
+    RGBController/RGBController_AuraSMBus.h                             \
     RGBController/RGBController_CorsairLightingNode.h                   \
     RGBController/RGBController_CorsairPeripheral.h                     \
     RGBController/RGBController_CorsairVengeance.h                      \

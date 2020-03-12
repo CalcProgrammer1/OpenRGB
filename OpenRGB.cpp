@@ -276,7 +276,7 @@ void DetectI2CBusses()
 
 #endif  /* WIN32 */
 
-void DetectAuraControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
+void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
@@ -314,7 +314,7 @@ void DetectRGBControllers(void)
 {
     DetectI2CBusses();
 
-    DetectAuraControllers(busses, rgb_controllers);
+    DetectAuraSMBusControllers(busses, rgb_controllers);
     DetectAuraGPUControllers(busses, rgb_controllers);
     DetectCorsairVengeanceControllers(busses, rgb_controllers);
     DetectCorsairVengeanceProControllers(busses, rgb_controllers);
