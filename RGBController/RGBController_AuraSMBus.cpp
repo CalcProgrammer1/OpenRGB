@@ -113,7 +113,7 @@ void RGBController_AuraSMBus::UpdateSingleLED(int led)
     }
 }
 
-RGBController_AuraSMBus::RGBController_AuraSMBus(AuraController * aura_ptr)
+RGBController_AuraSMBus::RGBController_AuraSMBus(AuraSMBusController * aura_ptr)
 {
     aura = aura_ptr;
 

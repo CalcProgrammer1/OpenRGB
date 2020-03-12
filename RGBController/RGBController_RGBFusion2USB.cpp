@@ -72,7 +72,7 @@ static const KnownChannels known_channels
     },
 };
 
-RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2Controller* controller_ptr)
+RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController* controller_ptr)
 {
     controller = controller_ptr;
 
