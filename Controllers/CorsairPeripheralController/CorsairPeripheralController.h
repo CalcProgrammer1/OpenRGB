@@ -60,6 +60,7 @@ public:
     void            SetLEDsKeyboardFull(std::vector<RGBColor> colors);
     void            SetLEDsKeyboardLimited(std::vector<RGBColor> colors);
     void            SetLEDsMouse(std::vector<RGBColor> colors);
+    void            SetLEDsMousemat(std::vector<RGBColor> colors);
 
 private:
     hid_device*             dev;
@@ -96,4 +97,10 @@ private:
                 unsigned char   num_zones,
                 RGBColor *      color_data
                 );
+
+    void    SubmitMousematColors
+            (
+            unsigned char   num_zones,
+            RGBColor *      color_data
+            );
 };

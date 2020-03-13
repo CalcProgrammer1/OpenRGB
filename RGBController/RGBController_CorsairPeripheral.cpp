@@ -175,6 +175,7 @@ void RGBController_CorsairPeripheral::SetupZones()
             num_zones = 2;
             break;
 
+        case DEVICE_TYPE_MOUSE:
         case DEVICE_TYPE_MOUSEMAT:
             num_zones = 1;
             break;
@@ -196,6 +197,7 @@ void RGBController_CorsairPeripheral::SetupZones()
                 new_zone.leds_count     = zone_sizes[zone_idx];
                 break;
 
+            case DEVICE_TYPE_MOUSE:
             case DEVICE_TYPE_MOUSEMAT:
                 new_zone.name           = "Mousemat Zone";
                 new_zone.leds_min       = 15;
@@ -219,6 +221,7 @@ void RGBController_CorsairPeripheral::SetupZones()
                 new_led.name = led_names[led_idx];
                 break;
 
+            case DEVICE_TYPE_MOUSE:
             case DEVICE_TYPE_MOUSEMAT:
                 new_led.name = "Mousemat LED ";
                 new_led.name.append(std::to_string(led_idx + 1));

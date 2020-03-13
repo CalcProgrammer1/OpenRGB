@@ -80,10 +80,11 @@ void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
             break;
 
         case DEVICE_TYPE_MOUSE:
+            SetLEDsMouse(colors);
             break;
 
         case DEVICE_TYPE_MOUSEMAT:
-            SetLEDsMouse(colors);
+            SetLEDsMousemat(colors);
             break;
     }
 }
@@ -140,6 +141,11 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
 void CorsairPeripheralController::SetLEDsMouse(std::vector<RGBColor> colors)
 {
     SubmitMouseColors(colors.size(), &colors[0]);
+}
+
+void CorsairPeripheralController::SetLEDsMousemat(std::vector<RGBColor> colors)
+{
+    SubmitMousematColors(colors.size(), &colors[0]);
 }
 
 void CorsairPeripheralController::SetLEDsKeyboardLimited(std::vector<RGBColor> colors)
@@ -419,6 +425,44 @@ void CorsairPeripheralController::SubmitKeyboardLimitedColors
 }
 
 void CorsairPeripheralController::SubmitMouseColors
+    (
+    unsigned char   num_zones,
+    RGBColor *      color_data
+    )
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Mouse Colors packet                     |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x01]   = CORSAIR_PROPERTY_SUBMIT_MOUSE_COLOR;
+    usb_buf[0x02]   = num_zones;
+    usb_buf[0x03]   = 0x00;
+
+    /*-----------------------------------------------------*\
+    | Copy in colors in <ZONE> <RED> <GREEN> <BLUE> order   |
+    \*-----------------------------------------------------*/
+    for(unsigned int zone_idx = 0; zone_idx < num_zones; zone_idx++)
+    {
+        usb_buf[(zone_idx * 4) + 4] = zone_idx;
+        usb_buf[(zone_idx * 4) + 5] = RGBGetRValue(color_data[zone_idx]);
+        usb_buf[(zone_idx * 4) + 6] = RGBGetGValue(color_data[zone_idx]);
+        usb_buf[(zone_idx * 4) + 7] = RGBGetBValue(color_data[zone_idx]);
+    }
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    send_usb_msg(dev, usb_buf);
+}
+
+void CorsairPeripheralController::SubmitMousematColors
     (
     unsigned char   num_zones,
     RGBColor *      color_data
