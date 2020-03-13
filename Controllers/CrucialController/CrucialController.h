@@ -42,6 +42,7 @@ public:
     std::string   GetDeviceLocation();
     unsigned int  GetLEDCount();
     void          SetAllColorsDirect(RGBColor* colors);
+    void          SendEffectColors(unsigned char red, unsigned char green, unsigned char blue);
     void          SetMode(unsigned char mode);
 
     unsigned char CrucialRegisterRead(crucial_register reg);
@@ -56,7 +57,6 @@ private:
     crucial_dev_id          dev;
 
     void            SendDirectColors(RGBColor* color_buf);
-    void            SendEffectColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SendBrightness(unsigned char brightness);
     void            SendEffectMode(unsigned char mode, unsigned char speed);
 };

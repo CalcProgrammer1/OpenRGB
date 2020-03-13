@@ -24,7 +24,6 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-#if 0
     mode Shift;
     Shift.name       = "Shift";
     Shift.value      = CRUCIAL_MODE_SHIFT;
@@ -57,53 +56,60 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     modes.push_back(Stack);
 
     mode DoubleStack;
-    DoubleStack.name = "Double Stack";
-    DoubleStack.value = CRUCIAL_MODE_DOUBLE_STACK;
-    DoubleStack.flags = 0;
+    DoubleStack.name       = "Double Stack";
+    DoubleStack.value      = CRUCIAL_MODE_DOUBLE_STACK;
+    DoubleStack.flags      = 0;
+    DoubleStack.color_mode = MODE_COLORS_NONE;
     modes.push_back(DoubleStack);
 
     mode Breathing;
-    Breathing.name = "Breathing";
-    Breathing.value = CRUCIAL_MODE_BREATHING;
-    Breathing.flags = 0;
+    Breathing.name       = "Breathing";
+    Breathing.value      = CRUCIAL_MODE_BREATHING;
+    Breathing.flags      = 0;
+    Breathing.color_mode = MODE_COLORS_NONE;
     modes.push_back(Breathing);
 
     mode MotionPoint;
-    MotionPoint.name = "Motion Point";
-    MotionPoint.value = CRUCIAL_MODE_MOTION_POINT;
-    MotionPoint.flags = 0;
+    MotionPoint.name       = "Motion Point";
+    MotionPoint.value      = CRUCIAL_MODE_MOTION_POINT;
+    MotionPoint.flags      = 0;
+    MotionPoint.color_mode = MODE_COLORS_NONE;
     modes.push_back(MotionPoint);
 
     mode InsideOut;
-    InsideOut.name = "Inside Out";
-    InsideOut.value = CRUCIAL_MODE_INSIDE_OUT;
-    InsideOut.flags = 0;
+    InsideOut.name       = "Inside Out";
+    InsideOut.value      = CRUCIAL_MODE_INSIDE_OUT;
+    InsideOut.flags      = 0;
+    InsideOut.color_mode = MODE_COLORS_NONE;
     modes.push_back(InsideOut);
 
     mode ColorStep;
-    ColorStep.name = "Color Step";
-    ColorStep.value = CRUCIAL_MODE_COLOR_STEP;
-    ColorStep.flags = 0;
+    ColorStep.name       = "Color Step";
+    ColorStep.value      = CRUCIAL_MODE_COLOR_STEP;
+    ColorStep.flags      = 0;
+    ColorStep.color_mode = MODE_COLORS_NONE;
     modes.push_back(ColorStep);
 
     mode WaterWave;
-    WaterWave.name = "Water Wave (Color Blending)";
-    WaterWave.value = CRUCIAL_MODE_WATER_WAVE;
-    WaterWave.flags = 0;
+    WaterWave.name       = "Water Wave (Color Blending)";
+    WaterWave.value      = CRUCIAL_MODE_WATER_WAVE;
+    WaterWave.flags      = 0;
+    WaterWave.color_mode = MODE_COLORS_NONE;
     modes.push_back(WaterWave);
 
     mode Flashing;
-    Flashing.name = "Flashing";
-    Flashing.value = CRUCIAL_MODE_FLASHING;
-    Flashing.flags = 0;
+    Flashing.name       = "Flashing";
+    Flashing.value      = CRUCIAL_MODE_FLASHING;
+    Flashing.flags      = 0;
+    Flashing.color_mode = MODE_COLORS_NONE;
     modes.push_back(Flashing);
 
     mode Static;
-    Static.name = "Static";
-    Static.value = CRUCIAL_MODE_STATIC;
-    Static.flags = 0;
+    Static.name       = "Static";
+    Static.value      = CRUCIAL_MODE_STATIC;
+    Static.flags      = 0;
+    Static.color_mode = MODE_COLORS_NONE;
     modes.push_back(Static);
-#endif
 
     SetupZones();
 }
@@ -150,7 +156,10 @@ void RGBController_Crucial::UpdateLEDs()
     }
     else
     {
-
+        unsigned char red = RGBGetRValue(colors[0]);
+        unsigned char grn = RGBGetGValue(colors[0]);
+        unsigned char blu = RGBGetBValue(colors[0]);
+        crucial->SendEffectColors(red, grn, blu);
     }
 }
 
