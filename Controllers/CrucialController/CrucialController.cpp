@@ -52,16 +52,15 @@ void CrucialController::SetAllColorsDirect(RGBColor* colors)
     SendDirectColors(colors);
 }
 
-void CrucialController::SendEffectColors(unsigned char red, unsigned char green, unsigned char blue)
+void CrucialController::SetAllColorsEffect(RGBColor* colors)
 {
-    CrucialRegisterWrite(0x82E9, 0xFF);
-    CrucialRegisterWrite(0x82EA, 0x00);
-    CrucialRegisterWrite(0x82EB, 0x00);
-    CrucialRegisterWrite(0x82EC, 0x00);
-    CrucialRegisterWrite(0x82ED, red);
-    CrucialRegisterWrite(0x82EE, green);
-    CrucialRegisterWrite(0x82EF, blue);
-    CrucialRegisterWrite(0x82F0, 0x01);
+    for(int led_idx = 0; led_idx < 8; led_idx++)
+    {
+        unsigned char red = RGBGetRValue(colors[led_idx]);
+        unsigned char grn = RGBGetGValue(colors[led_idx]);
+        unsigned char blu = RGBGetBValue(colors[led_idx]);
+        SendEffectColor(led_idx, red, grn, blu);
+    }
 }
 
 void CrucialController::SendBrightness(unsigned char brightness)
@@ -130,4 +129,22 @@ void CrucialController::CrucialRegisterWrite(crucial_register reg, unsigned char
     //Write Crucial value
     bus->i2c_smbus_write_byte_data(dev, 0x01, val);
 
+}
+
+void CrucialController::SendEffectColor
+    (
+    unsigned int    led_idx,
+    unsigned int    red,
+    unsigned int    green,
+    unsigned int    blue
+    )
+{
+    CrucialRegisterWrite(0x82E9, (1 << led_idx));
+    CrucialRegisterWrite(0x82EA, 0x00);
+    CrucialRegisterWrite(0x82EB, 0x00);
+    CrucialRegisterWrite(0x82EC, 0x00);
+    CrucialRegisterWrite(0x82ED, red);
+    CrucialRegisterWrite(0x82EE, green);
+    CrucialRegisterWrite(0x82EF, blue);
+    CrucialRegisterWrite(0x82F0, 0x01);
 }

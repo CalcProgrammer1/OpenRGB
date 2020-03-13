@@ -156,10 +156,7 @@ void RGBController_Crucial::UpdateLEDs()
     }
     else
     {
-        unsigned char red = RGBGetRValue(colors[0]);
-        unsigned char grn = RGBGetGValue(colors[0]);
-        unsigned char blu = RGBGetBValue(colors[0]);
-        crucial->SendEffectColors(red, grn, blu);
+        crucial->SetAllColorsEffect(&colors[0]);
     }
 }
 

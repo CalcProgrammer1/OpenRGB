@@ -42,7 +42,7 @@ public:
     std::string   GetDeviceLocation();
     unsigned int  GetLEDCount();
     void          SetAllColorsDirect(RGBColor* colors);
-    void          SendEffectColors(unsigned char red, unsigned char green, unsigned char blue);
+    void          SetAllColorsEffect(RGBColor* colors);
     void          SetMode(unsigned char mode);
 
     unsigned char CrucialRegisterRead(crucial_register reg);
@@ -56,6 +56,14 @@ private:
     i2c_smbus_interface *   bus;
     crucial_dev_id          dev;
 
+    void            SendEffectColor
+                        (
+                        unsigned int    led_idx,
+                        unsigned int    red,
+                        unsigned int    green,
+                        unsigned int    blue
+                        );
+    
     void            SendDirectColors(RGBColor* color_buf);
     void            SendBrightness(unsigned char brightness);
     void            SendEffectMode(unsigned char mode, unsigned char speed);
