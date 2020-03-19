@@ -47,6 +47,7 @@ INCLUDEPATH +=                                                          \
     Controllers/PatriotViperController/                                 \
     Controllers/PolychromeController/                                   \
     Controllers/PoseidonZRGBController/                                 \
+    Controllers/RedragonController/                                     \
     Controllers/RGBFusionController/                                    \
     Controllers/RGBFusion2USBController/                                \
     Controllers/RGBFusionGPUController/                                 \
@@ -117,6 +118,8 @@ SOURCES +=                                                              \
     Controllers/RGBFusion2USBController/RGBFusion2USBControllerDetect.cpp \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
     Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
+    Controllers/RedragonController/RedragonController.cpp               \
+    Controllers/RedragonController/RedragonControllerDetect.cpp         \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
@@ -183,6 +186,7 @@ HEADERS +=                                                              \
     Controllers/RGBFusionController/RGBFusionController.h               \
     Controllers/RGBFusion2USBController/RGBFusion2USBController.h       \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.h         \
+    Controllers/RedragonController/RedragonController.h                 \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \

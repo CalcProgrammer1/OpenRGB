@@ -946,7 +946,7 @@ int HID_API_EXPORT hid_read_timeout(hid_device *dev, unsigned char *data, size_t
 {
 	int bytes_read = -1;
 
-#if 0
+#if 1
 	int transferred;
 	int res = libusb_interrupt_transfer(dev->device_handle, dev->input_endpoint, data, length, &transferred, 5000);
 	LOG("transferred: %d\n", transferred);

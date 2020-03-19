@@ -304,6 +304,7 @@ void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers);
+void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -342,7 +343,8 @@ void DetectRGBControllers(void)
     DetectCorsairLightingNodeControllers(rgb_controllers);
     DetectThermaltakeRiingControllers(rgb_controllers);
     DetectRGBFusion2USBControllers(rgb_controllers);
-    
+    DetectRedragonControllers(rgb_controllers);
+
     DetectE131Controllers(rgb_controllers);
 
     DetectOpenRazerControllers(rgb_controllers);
