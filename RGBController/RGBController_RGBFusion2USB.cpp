@@ -152,6 +152,11 @@ void RGBController_RGBFusion2USB::SetupZones()
     }
 
     /*---------------------------------------------------------*\
+    | Get the default number of addressable LEDs for each strip |
+    \*---------------------------------------------------------*/
+    per_strip_led_cnt = 64; // TODO needs GUI option
+
+    /*---------------------------------------------------------*\
     | Get number of motherboard LEDs and set addressable LED    |
     | count                                                     |
     \*---------------------------------------------------------*/
