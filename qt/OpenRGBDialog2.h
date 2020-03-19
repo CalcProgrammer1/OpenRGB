@@ -51,6 +51,7 @@ private slots:
     void on_QuickMagenta();
     void on_QuickWhite();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
+    void on_SaveSizeProfile();
     void on_ShowHide();
     void on_ProfileSelected();
     void on_ButtonSaveProfile_clicked();

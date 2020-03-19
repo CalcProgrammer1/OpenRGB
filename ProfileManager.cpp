@@ -26,14 +26,9 @@ bool ProfileManager::SaveProfile(std::string profile_name)
     if(profile_name != "")
     {
         /*---------------------------------------------------------*\
-        | Extension .orp - OpenRgb Profile                          |
-        \*---------------------------------------------------------*/
-        std::string filename = profile_name + ".orp";
-
-        /*---------------------------------------------------------*\
         | Open an output file in binary mode                        |
         \*---------------------------------------------------------*/
-        std::ofstream controller_file(filename, std::ios::out | std::ios::binary);
+        std::ofstream controller_file(profile_name, std::ios::out | std::ios::binary);
 
         /*---------------------------------------------------------*\
         | Write header                                              |
@@ -76,6 +71,21 @@ bool ProfileManager::SaveProfile(std::string profile_name)
 }
 
 bool ProfileManager::LoadProfile(std::string profile_name)
+{
+    return(LoadProfileWithOptions(profile_name, false, true));
+}
+
+bool ProfileManager::LoadSizeFromProfile(std::string profile_name)
+{
+    return(LoadProfileWithOptions(profile_name, true, false));
+}
+
+bool ProfileManager::LoadProfileWithOptions
+    (
+    std::string     profile_name,
+    bool            load_size,
+    bool            load_settings
+    )
 {
     std::vector<RGBController*> temp_controllers;
     std::vector<bool>           temp_controller_used;
@@ -158,51 +168,78 @@ bool ProfileManager::LoadProfile(std::string profile_name)
                      &&(temp_controller->location    == controller_ptr->location   ))
                     {
                         /*---------------------------------------------------------*\
-                        | Update all modes                                          |
+                        | Update zone sizes if requested                            |
                         \*---------------------------------------------------------*/
-                        if(temp_controller->modes.size() == controller_ptr->modes.size())
+                        if(load_size)
                         {
-                            for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
+                            if(temp_controller->zones.size() == controller_ptr->zones.size())
                             {
-                                if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
-                                &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
-                                &&(temp_controller->modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
-                                &&(temp_controller->modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
-                                &&(temp_controller->modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
-                                &&(temp_controller->modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
-                                &&(temp_controller->modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
+                                for(int zone_idx = 0; zone_idx < temp_controller->zones.size(); zone_idx++)
                                 {
-                                    controller_ptr->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
-                                    controller_ptr->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
-                                    controller_ptr->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
-
-                                    controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
-
-                                    for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
+                                    if((temp_controller->zones[zone_idx].name       == controller_ptr->zones[zone_idx].name      )
+                                     &&(temp_controller->zones[zone_idx].type       == controller_ptr->zones[zone_idx].type      )
+                                     &&(temp_controller->zones[zone_idx].leds_min   == controller_ptr->zones[zone_idx].leds_min  )
+                                     &&(temp_controller->zones[zone_idx].leds_max   == controller_ptr->zones[zone_idx].leds_max  )
+                                     &&(temp_controller->zones[zone_idx].leds_count != controller_ptr->zones[zone_idx].leds_count))
                                     {
-                                        controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
+                                        controller_ptr->ResizeZone(zone_idx, temp_controller->zones[zone_idx].leds_count);
                                     }
                                 }
-
                             }
-
-                            controller_ptr->active_mode = temp_controller->active_mode;
                         }
 
                         /*---------------------------------------------------------*\
-                        | Update all colors                                         |
+                        | Update settings if requested                              |
                         \*---------------------------------------------------------*/
-                        if(temp_controller->colors.size() == controller_ptr->colors.size())
+                        if(load_settings)
                         {
-                            for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
+                            /*---------------------------------------------------------*\
+                            | Update all modes                                          |
+                            \*---------------------------------------------------------*/
+                            if(temp_controller->modes.size() == controller_ptr->modes.size())
                             {
-                                controller_ptr->colors[color_index] = temp_controller->colors[color_index];
+                                for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
+                                {
+                                    if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
+                                     &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
+                                     &&(temp_controller->modes[mode_index].flags      == controller_ptr->modes[mode_index].flags     )
+                                     &&(temp_controller->modes[mode_index].speed_min  == controller_ptr->modes[mode_index].speed_min )
+                                     &&(temp_controller->modes[mode_index].speed_max  == controller_ptr->modes[mode_index].speed_max )
+                                     &&(temp_controller->modes[mode_index].colors_min == controller_ptr->modes[mode_index].colors_min)
+                                     &&(temp_controller->modes[mode_index].colors_max == controller_ptr->modes[mode_index].colors_max))
+                                    {
+                                        controller_ptr->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
+                                        controller_ptr->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
+                                        controller_ptr->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
+
+                                        controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
+
+                                        for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
+                                        {
+                                            controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
+                                        }
+                                    }
+
+                                }
+
+                                controller_ptr->active_mode = temp_controller->active_mode;
                             }
+
+                            /*---------------------------------------------------------*\
+                            | Update all colors                                         |
+                            \*---------------------------------------------------------*/
+                            if(temp_controller->colors.size() == controller_ptr->colors.size())
+                            {
+                                for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
+                                {
+                                    controller_ptr->colors[color_index] = temp_controller->colors[color_index];
+                                }
+                            }
+
+                            temp_controller_used[temp_index] = true;
+
+                            break;
                         }
-
-                        temp_controller_used[temp_index] = true;
-
-                        break;
                     }
                 }
             }

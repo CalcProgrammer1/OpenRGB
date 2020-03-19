@@ -42,6 +42,8 @@ int main(int argc, char* argv[])
 
     DetectRGBControllers();
 
+    profile_manager.LoadSizeFromProfile("sizes.ors");
+
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 

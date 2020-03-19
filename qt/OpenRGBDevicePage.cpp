@@ -959,6 +959,11 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
                     | Update color picker with color of first LED           |
                     \*-----------------------------------------------------*/
                     on_LEDBox_currentIndexChanged(0);
+
+                    /*-----------------------------------------------------*\
+                    | Save the size profile                                 |
+                    \*-----------------------------------------------------*/
+                    SaveSizeProfile();
                 }
             }
         }

@@ -71,6 +71,7 @@ private:
 
 signals:
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
+    void SaveSizeProfile();
 };
 
 #endif // OPENRGBDEVICEPAGE_H

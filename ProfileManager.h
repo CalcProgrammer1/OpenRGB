@@ -10,6 +10,7 @@ public:
 
     bool SaveProfile(std::string profile_name);
     bool LoadProfile(std::string profile_name);
+    bool LoadSizeFromProfile(std::string profile_name);
     void DeleteProfile(std::string profile_name);
 
     std::vector<std::string> profile_list;
@@ -19,4 +20,10 @@ protected:
 
 private:
     void UpdateProfileList();
+    bool LoadProfileWithOptions
+            (
+            std::string     profile_name,
+            bool            load_size,
+            bool            load_settings
+            );
 };

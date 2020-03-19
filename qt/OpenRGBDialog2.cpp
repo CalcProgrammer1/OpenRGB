@@ -98,6 +98,14 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
                 SLOT(on_SetAllDevices(unsigned char, unsigned char, unsigned char)));
 
         /*-----------------------------------------------------*\
+        | Connect the page's Resize signal to the Save Size slot|
+        \*-----------------------------------------------------*/
+        connect(NewPage,
+                SIGNAL(SaveSizeProfile()),
+                this,
+                SLOT(on_SaveSizeProfile()));
+
+        /*-----------------------------------------------------*\
         | Use Qt's HTML capabilities to display both icon and   |
         | text in the tab label.  Choose icon based on device   |
         | type and append device name string.                   |
@@ -319,6 +327,14 @@ void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, un
     }
 }
 
+void OpenRGBDialog2::on_SaveSizeProfile()
+{
+    /*---------------------------------------------------------*\
+    | Save the profile                                          |
+    \*---------------------------------------------------------*/
+    profile_manager.SaveProfile("sizes.ors");
+}
+
 void OpenRGBDialog2::on_ShowHide()
 {
     if(isHidden())
@@ -360,9 +376,14 @@ void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
     std::string profile_name = dialog.show();
 
     /*---------------------------------------------------------*\
+    | Extension .orp - OpenRgb Profile                          |
+    \*---------------------------------------------------------*/
+    std::string filename = profile_name + ".orp";
+
+    /*---------------------------------------------------------*\
     | Save the profile                                          |
     \*---------------------------------------------------------*/
-    if(profile_manager.SaveProfile(profile_name))
+    if(profile_manager.SaveProfile(filename))
     {
         RefreshProfileList();
     }
