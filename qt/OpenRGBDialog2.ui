@@ -43,23 +43,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="TabEffects">
-       <attribute name="title">
-        <string>Synchronized Effects</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0">
-         <widget class="QTabWidget" name="EffectsTabBar">
-          <property name="tabPosition">
-           <enum>QTabWidget::West</enum>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="TabInformation">
        <attribute name="title">
         <string>Information</string>
