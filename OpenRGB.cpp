@@ -247,7 +247,10 @@ void DetectI2CBusses()
 
                 if(test_fd)
                 {
+                    memset(device_string, 0x00, sizeof(device_string));
                     read(test_fd, device_string, sizeof(device_string));
+                    device_string[strlen(device_string) - 1] = 0x00;
+                    
                     close(test_fd);
                     
                     bus = new i2c_smbus_linux();
