@@ -21,7 +21,7 @@ extern std::vector<i2c_smbus_interface*> busses;
 extern std::vector<RGBController*> rgb_controllers;
 
 // See cli.cpp
-extern int cli_main(int argc, char *argv[]);
+extern int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -35,14 +35,14 @@ int main(int argc, char* argv[])
 {
     ProfileManager profile_manager(rgb_controllers);
     
-    if (argc > 1 && strcmp(argv[1], "--gui"))
-    {
-        return cli_main(argc, argv);
-    }
-
     DetectRGBControllers();
 
     profile_manager.LoadSizeFromProfile("sizes.ors");
+
+    if (argc > 1 && strcmp(argv[1], "--gui"))
+    {
+        return cli_main(argc, argv, rgb_controllers);
+    }
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);

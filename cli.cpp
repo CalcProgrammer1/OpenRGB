@@ -7,8 +7,7 @@
 #include "RGBController.h"
 #include "i2c_smbus.h"
 
-extern std::vector<i2c_smbus_interface*> busses;
-extern std::vector<RGBController*> rgb_controllers;
+static std::vector<RGBController*> rgb_controllers;
 
 struct DeviceOptions
 {
@@ -325,8 +324,10 @@ void ApplyOptions(DeviceOptions& options)
     }
 }
 
-int cli_main(int argc, char *argv[])
+int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in)
 {
+    rgb_controllers = rgb_controllers_in;
+    
     if (argc == 2 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")))
     {
         PrintHelp();
@@ -338,8 +339,6 @@ int cli_main(int argc, char *argv[])
         PrintVersion();
         return 0;
     }
-
-    DetectRGBControllers();
 
     Options options;
     if (!ProcessOptions(argc, argv, &options))
