@@ -632,7 +632,7 @@ void RGBController::SetupColors()
     \*---------------------------------------------------------*/
     total_led_count = 0;
 
-    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         total_led_count += zones[zone_idx].leds_count;
     }
@@ -647,7 +647,7 @@ void RGBController::SetupColors()
     \*---------------------------------------------------------*/
     total_led_count = 0;
 
-    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         zones[zone_idx].start_idx=total_led_count;
 
@@ -674,7 +674,7 @@ void RGBController::SetupColors()
     }
 }
 
-RGBColor RGBController::GetLED(int led)
+RGBColor RGBController::GetLED(unsigned int led)
 {
     if(led < colors.size())
     {
@@ -686,7 +686,7 @@ RGBColor RGBController::GetLED(int led)
     }
 }
 
-void RGBController::SetLED(int led, RGBColor color)
+void RGBController::SetLED(unsigned int led, RGBColor color)
 {
     if(led < colors.size())
     {
@@ -698,7 +698,7 @@ void RGBController::SetLED(int led, RGBColor color)
 
 void RGBController::SetAllLEDs(RGBColor color)
 {
-    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         SetAllZoneLEDs(zone_idx, color);
     }

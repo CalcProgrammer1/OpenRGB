@@ -149,8 +149,8 @@ public:
     \*---------------------------------------------------------*/
     void                    SetupColors();
 
-    RGBColor                GetLED(int led);
-    void                    SetLED(int led, RGBColor color);
+    RGBColor                GetLED(unsigned int led);
+    void                    SetLED(unsigned int led, RGBColor color);
     void                    SetAllLEDs(RGBColor color);
     void                    SetAllZoneLEDs(int zone, RGBColor color);
 

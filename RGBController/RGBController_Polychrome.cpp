@@ -226,7 +226,7 @@ void RGBController_Polychrome::SetupZones()
     SetupColors();
 }
 
-void RGBController_Polychrome::ResizeZone(int zone, int new_size)
+void RGBController_Polychrome::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -245,12 +245,12 @@ void RGBController_Polychrome::UpdateLEDs()
     }
 }
 
-void RGBController_Polychrome::UpdateZoneLEDs(int zone)
+void RGBController_Polychrome::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_Polychrome::UpdateSingleLED(int led)
+void RGBController_Polychrome::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }

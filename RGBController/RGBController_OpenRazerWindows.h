@@ -89,8 +89,8 @@ public:
     int device_index;
 
 private:
-    void SetupMatrixDevice(device * razer_device, device_fn_type* razer_functions, unsigned int rows, unsigned int cols);
-    void SetupNonMatrixDevice(device * razer_device, device_fn_type* razer_functions);
+    void SetupMatrixDevice(device_fn_type* razer_functions, unsigned int rows, unsigned int cols);
+    void SetupNonMatrixDevice();
 
     unsigned int matrix_type;
     unsigned int matrix_rows;

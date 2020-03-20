@@ -62,12 +62,12 @@ void RGBController_LEDStrip::UpdateLEDs()
     strip->SetLEDs(colors);
 }
 
-void RGBController_LEDStrip::UpdateZoneLEDs(int zone)
+void RGBController_LEDStrip::UpdateZoneLEDs(int /*zone*/)
 {
     strip->SetLEDs(colors);
 }
 
-void RGBController_LEDStrip::UpdateSingleLED(int led)
+void RGBController_LEDStrip::UpdateSingleLED(int /*led*/)
 {
     strip->SetLEDs(colors);
 }

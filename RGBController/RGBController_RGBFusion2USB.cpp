@@ -221,7 +221,7 @@ void RGBController_RGBFusion2USB::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2USB::ResizeZone(int zone, int new_size)
+void RGBController_RGBFusion2USB::ResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }

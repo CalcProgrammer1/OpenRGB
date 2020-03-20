@@ -201,7 +201,7 @@ void RGBController_HuePlus::SetupZones()
     SetupColors();
 }
 
-void RGBController_HuePlus::ResizeZone(int zone, int new_size)
+void RGBController_HuePlus::ResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }

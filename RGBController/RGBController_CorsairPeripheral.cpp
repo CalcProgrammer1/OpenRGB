@@ -246,12 +246,12 @@ void RGBController_CorsairPeripheral::UpdateLEDs()
     corsair->SetLEDs(colors);
 }
 
-void RGBController_CorsairPeripheral::UpdateZoneLEDs(int zone)
+void RGBController_CorsairPeripheral::UpdateZoneLEDs(int /*zone*/)
 {
     corsair->SetLEDs(colors);
 }
 
-void RGBController_CorsairPeripheral::UpdateSingleLED(int led)
+void RGBController_CorsairPeripheral::UpdateSingleLED(int /*led*/)
 {
     corsair->SetLEDs(colors);
 }

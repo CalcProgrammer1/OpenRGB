@@ -229,7 +229,7 @@ void RGBController_CorsairLightingNode::SetupZones()
 
 void RGBController_CorsairLightingNode::ResizeZone(int zone, int new_size)
 {
-    if((new_size >= zones[zone].leds_min) && (new_size <= zones[zone].leds_max))
+    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
     {
         zones[zone].leds_count = new_size;
 
@@ -284,7 +284,7 @@ void RGBController_CorsairLightingNode::UpdateMode()
 
             if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
             {
-                for(int i = 0; i < modes[active_mode].colors.size(); i++)
+                for(std::size_t i = 0; i < modes[active_mode].colors.size(); i++)
                 {
                     mode_colors[(3 * i) + 0] = RGBGetRValue(modes[active_mode].colors[i]);
                     mode_colors[(3 * i) + 1] = RGBGetGValue(modes[active_mode].colors[i]);

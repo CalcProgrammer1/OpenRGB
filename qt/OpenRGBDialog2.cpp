@@ -256,7 +256,7 @@ void OpenRGBDialog2::RefreshProfileList()
     ui->ProfileBox->clear();
     profileMenu->clear();
 
-    for(int profile_index = 0; profile_index < profile_manager.profile_list.size(); profile_index++)
+    for(std::size_t profile_index = 0; profile_index < profile_manager.profile_list.size(); profile_index++)
     {
         /*-----------------------------------------------------*\
         | Fill in profile combo box                             |

@@ -139,7 +139,7 @@ int RGBController_RGBFusion::GetDeviceMode()
 {
     int dev_mode = rgb_fusion->GetMode();
 
-    for(int mode = 0; mode < modes.size(); mode++)
+    for(std::size_t mode = 0; mode < modes.size(); mode++)
     {
         if(modes[mode].value == dev_mode)
         {

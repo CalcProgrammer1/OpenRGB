@@ -29,7 +29,7 @@ int RGBController_AuraGPU::GetDeviceMode()
         break;
     }
 
-    for(int mode = 0; mode < modes.size(); mode++)
+    for(std::size_t mode = 0; mode < modes.size(); mode++)
     {
         if(modes[mode].value == dev_mode)
         {
@@ -156,12 +156,12 @@ void RGBController_AuraGPU::UpdateLEDs()
     }
 }
 
-void RGBController_AuraGPU::UpdateZoneLEDs(int zone)
+void RGBController_AuraGPU::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_AuraGPU::UpdateSingleLED(int led)
+void RGBController_AuraGPU::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }

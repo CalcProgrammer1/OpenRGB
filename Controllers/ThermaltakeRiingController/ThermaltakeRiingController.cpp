@@ -27,7 +27,7 @@ void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, RGBColor 
 {
     unsigned char* color_data = new unsigned char[3 * num_colors];
 
-    for(int color = 0; color < num_colors; color++)
+    for(std::size_t color = 0; color < num_colors; color++)
     {
         int color_idx = color * 3;
         color_data[color_idx + 0] = RGBGetGValue(colors[color]);

@@ -42,7 +42,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         /*---------------------------------------------------------*\
         | Write controller data for each controller                 |
         \*---------------------------------------------------------*/
-        for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
+        for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
         {
             unsigned char *controller_data = controllers[controller_index]->GetDeviceDescription();
             unsigned int controller_size;
@@ -148,11 +148,11 @@ bool ProfileManager::LoadProfileWithOptions
             | Loop through all controllers.  For each controller, search|
             | all saved controllers until a match is found              |
             \*---------------------------------------------------------*/
-            for(int controller_index = 0; controller_index < controllers.size(); controller_index++)
+            for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
             {
                 RGBController *controller_ptr = controllers[controller_index];
 
-                for(int temp_index = 0; temp_index < temp_controllers.size(); temp_index++)
+                for(std::size_t temp_index = 0; temp_index < temp_controllers.size(); temp_index++)
                 {
                     RGBController *temp_controller = temp_controllers[controller_index];
                     
@@ -174,7 +174,7 @@ bool ProfileManager::LoadProfileWithOptions
                         {
                             if(temp_controller->zones.size() == controller_ptr->zones.size())
                             {
-                                for(int zone_idx = 0; zone_idx < temp_controller->zones.size(); zone_idx++)
+                                for(std::size_t zone_idx = 0; zone_idx < temp_controller->zones.size(); zone_idx++)
                                 {
                                     if((temp_controller->zones[zone_idx].name       == controller_ptr->zones[zone_idx].name      )
                                      &&(temp_controller->zones[zone_idx].type       == controller_ptr->zones[zone_idx].type      )
@@ -198,7 +198,7 @@ bool ProfileManager::LoadProfileWithOptions
                             \*---------------------------------------------------------*/
                             if(temp_controller->modes.size() == controller_ptr->modes.size())
                             {
-                                for(int mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
+                                for(std::size_t mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
                                 {
                                     if((temp_controller->modes[mode_index].name       == controller_ptr->modes[mode_index].name      )
                                      &&(temp_controller->modes[mode_index].value      == controller_ptr->modes[mode_index].value     )
@@ -214,7 +214,7 @@ bool ProfileManager::LoadProfileWithOptions
 
                                         controller_ptr->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
 
-                                        for(int mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
+                                        for(std::size_t mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
                                         {
                                             controller_ptr->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
                                         }
@@ -230,7 +230,7 @@ bool ProfileManager::LoadProfileWithOptions
                             \*---------------------------------------------------------*/
                             if(temp_controller->colors.size() == controller_ptr->colors.size())
                             {
-                                for(int color_index = 0; color_index < temp_controller->colors.size(); color_index++)
+                                for(std::size_t color_index = 0; color_index < temp_controller->colors.size(); color_index++)
                                 {
                                     controller_ptr->colors[color_index] = temp_controller->colors[color_index];
                                 }

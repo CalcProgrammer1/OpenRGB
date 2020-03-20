@@ -68,8 +68,6 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
         if(dir == NULL)
         {
-            closedir(dir);
-
             driver_to_read++;
             continue;
         }

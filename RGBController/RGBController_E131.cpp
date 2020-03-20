@@ -17,8 +17,6 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     devices = device_list;
 
-    unsigned int led_zone_idx = 0;
-
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0;
@@ -102,7 +100,7 @@ void RGBController_E131::SetupZones()
     SetupColors();
 }
 
-void RGBController_E131::ResizeZone(int zone, int new_size)
+void RGBController_E131::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -170,12 +168,12 @@ void RGBController_E131::UpdateLEDs()
     }
 }
 
-void RGBController_E131::UpdateZoneLEDs(int zone)
+void RGBController_E131::UpdateZoneLEDs(int /*zone*/)
 {
 	UpdateLEDs();
 }
 
-void RGBController_E131::UpdateSingleLED(int led)
+void RGBController_E131::UpdateSingleLED(int /*led*/)
 {
 	UpdateLEDs();
 }

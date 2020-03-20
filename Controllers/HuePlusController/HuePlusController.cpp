@@ -111,7 +111,7 @@ void HuePlusController::SetChannelEffect
     \*-----------------------------------------------------*/
     else if(num_colors <= 8)
     {
-        for(int color_idx = 0; color_idx < num_colors; color_idx++)
+        for(std::size_t color_idx = 0; color_idx < num_colors; color_idx++)
         {
             /*-----------------------------------------------------*\
             | Fill in color data (40 entries per color)             |

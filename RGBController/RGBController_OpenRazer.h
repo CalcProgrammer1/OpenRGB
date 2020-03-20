@@ -55,8 +55,8 @@ public:
     int device_index;
 
 private:
-    void SetupMatrixDevice(std::string dev_path, unsigned int rows, unsigned int cols);
-    void SetupNonMatrixDevice(std::string dev_path);
+    void SetupMatrixDevice(unsigned int rows, unsigned int cols);
+    void SetupNonMatrixDevice();
 
     unsigned int matrix_type;
     unsigned int matrix_rows;

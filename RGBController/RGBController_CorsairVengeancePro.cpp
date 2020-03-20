@@ -197,7 +197,7 @@ void RGBController_CorsairVengeancePro::UpdateLEDs()
     corsair->ApplyColors();
 }
 
-void RGBController_CorsairVengeancePro::UpdateZoneLEDs(int zone)
+void RGBController_CorsairVengeancePro::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
@@ -220,7 +220,7 @@ void RGBController_CorsairVengeancePro::SetCustomMode()
 
 void RGBController_CorsairVengeancePro::UpdateMode()
 {
-    unsigned int corsair_direction;
+    unsigned int corsair_direction = 0;
     bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     unsigned char mode_colors[6];
 
@@ -246,6 +246,13 @@ void RGBController_CorsairVengeancePro::UpdateMode()
             break;
     }
 
+    mode_colors[0] = 0;
+    mode_colors[1] = 0;
+    mode_colors[2] = 0;
+    mode_colors[3] = 0;
+    mode_colors[4] = 0;
+    mode_colors[5] = 0;
+
     if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
         mode_colors[0] = RGBGetRValue(modes[active_mode].colors[0]);
@@ -257,7 +264,7 @@ void RGBController_CorsairVengeancePro::UpdateMode()
             mode_colors[3] = RGBGetRValue(modes[active_mode].colors[1]);
             mode_colors[4] = RGBGetGValue(modes[active_mode].colors[1]);
             mode_colors[5] = RGBGetBValue(modes[active_mode].colors[1]);
-        }
+        }        
     }
 
     corsair->SetEffect(modes[active_mode].value,

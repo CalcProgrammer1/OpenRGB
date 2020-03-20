@@ -128,12 +128,12 @@ void RGBController_Faustus::UpdateLEDs()
     str_set.close();
 }
 
-void RGBController_Faustus::UpdateZoneLEDs(int zone)
+void RGBController_Faustus::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_Faustus::UpdateSingleLED(int led)
+void RGBController_Faustus::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }

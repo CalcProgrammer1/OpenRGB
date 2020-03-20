@@ -126,7 +126,7 @@ void PatriotViperController::SetLEDEffectColor(unsigned int led, unsigned char r
     ViperRegisterWrite(VIPER_REG_MODE, 0xFA, 0x00, 0x00);
 }
 
-void PatriotViperController::SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void PatriotViperController::SetLEDColor(unsigned int /*slot*/, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);
@@ -136,7 +136,7 @@ void PatriotViperController::SetLEDColor(unsigned int slot, unsigned int led, un
     ViperRegisterWrite(VIPER_REG_APPLY, 0x01, 0x00, 0x00);
 }
 
-void PatriotViperController::SetLEDEffectColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void PatriotViperController::SetLEDEffectColor(unsigned int /*slot*/, unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     ViperRegisterWrite(VIPER_REG_START, 0xFF, 0xFF, 0xFF);
     ViperRegisterWrite(VIPER_REG_STATIC, 0x04, 0x00, 0x00);

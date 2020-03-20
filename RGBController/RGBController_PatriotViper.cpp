@@ -120,7 +120,7 @@ void RGBController_PatriotViper::SetupZones()
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
     \*---------------------------------------------------------*/
-    for(int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
+    for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         led* new_led = new led();
 
@@ -165,7 +165,7 @@ void RGBController_PatriotViper::UpdateLEDs()
     }
 }
 
-void RGBController_PatriotViper::UpdateZoneLEDs(int zone)
+void RGBController_PatriotViper::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }

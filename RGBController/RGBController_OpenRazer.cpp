@@ -110,17 +110,17 @@ void RGBController_OpenRazer::UpdateLEDs()
     }
 }
 
-void RGBController_OpenRazer::UpdateZoneLEDs(int zone)
+void RGBController_OpenRazer::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_OpenRazer::UpdateSingleLED(int led)
+void RGBController_OpenRazer::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned int rows, unsigned int cols)
+void RGBController_OpenRazer::SetupMatrixDevice(unsigned int rows, unsigned int cols)
 {
     if(!matrix_custom_frame)
     {
@@ -145,7 +145,7 @@ void RGBController_OpenRazer::SetupMatrixDevice(std::string dev_path, unsigned i
     }
 }
 
-void RGBController_OpenRazer::SetupNonMatrixDevice(std::string dev_path)
+void RGBController_OpenRazer::SetupNonMatrixDevice()
 {
     matrix_type = RAZER_TYPE_NOMATRIX;
 }
@@ -185,8 +185,6 @@ void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
 
 RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
 {
-    unsigned int led_count = 0;
-
     /*-----------------------------------------------------------------*\
     | Open the OpenRazer device functions                               |
     \*-----------------------------------------------------------------*/
@@ -324,11 +322,11 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             \*---------------------------------------------------------*/
             if(device_list[i]->matrix_type == true)
             {
-                SetupMatrixDevice(dev_path, device_list[i]->rows, device_list[i]->cols);    
+                SetupMatrixDevice(device_list[i]->rows, device_list[i]->cols);    
             }
             else
             {
-                SetupNonMatrixDevice(dev_path);
+                SetupNonMatrixDevice();
             }
             
             SetupZones();

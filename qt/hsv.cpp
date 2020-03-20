@@ -76,7 +76,9 @@ void rgb2hsv(unsigned int rgb, hsv_t* hsv)
 
 unsigned int hsv2rgb(hsv_t* hsv)
 {
-    unsigned char r, g, b;
+    unsigned char r = 0;
+	unsigned char g = 0;
+	unsigned char b = 0;
 
 	if (hsv->saturation == 0) {
 		r = g = b = hsv->value;

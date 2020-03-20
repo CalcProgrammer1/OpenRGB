@@ -32,23 +32,9 @@ static void send_usb_msg(hid_device* dev, char * data_pkt)
     bytes++;
 }
 
-static void get_usb_msg(hid_device* dev, char* data_pkt)
-{
-    char usb_pkt[65];
-    usb_pkt[0] = 0x00;
-    for(int i = 1; i < 65; i++)
-    {
-        usb_pkt[i] = data_pkt[i-1];
-    }
-    int bytes = hid_get_feature_report(dev, (unsigned char*)data_pkt, 64);
-    bytes++;
-}
-
 CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle)
 {
     dev = dev_handle;
-
-    char data_pkt[64] = { 0 };
 
     ReadFirmwareInfo();
 
@@ -105,7 +91,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     /*-----------------------------------------------------*\
     | Copy red, green, and blue components into buffers     |
     \*-----------------------------------------------------*/
-    for(int color_idx = 0; color_idx < colors.size(); color_idx++)
+    for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
     {
         RGBColor           color = colors[color_idx];
         red_val[keys[color_idx]] = RGBGetRValue(color);
@@ -166,7 +152,7 @@ void CorsairPeripheralController::SetLEDsKeyboardLimited(std::vector<RGBColor> c
     /*-----------------------------------------------------*\
     | Scale color values to 9-bit                           |
     \*-----------------------------------------------------*/
-    for(int color_idx = 0; color_idx < colors.size(); color_idx++)
+    for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
     {
         RGBColor      color = colors[color_idx];
         unsigned char red   = RGBGetRValue(color);
@@ -302,7 +288,7 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     | Send packet                                           |
     \*-----------------------------------------------------*/
     send_usb_msg(dev, usb_buf);
-    get_usb_msg(dev, usb_buf);
+    hid_get_feature_report(dev, (unsigned char*)usb_buf, 64);
 
     /*-----------------------------------------------------*\
     | Get device type                                       |

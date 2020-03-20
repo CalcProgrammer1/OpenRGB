@@ -44,7 +44,7 @@ int RGBController_AuraSMBus::GetDeviceMode()
         break;
     }
 
-    for(int mode = 0; mode < modes.size(); mode++)
+    for(std::size_t mode = 0; mode < modes.size(); mode++)
     {
         if(modes[mode].value == dev_mode)
         {

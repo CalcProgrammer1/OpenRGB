@@ -68,7 +68,7 @@ void RGBController_CorsairVengeance::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairVengeance::ResizeZone(int zone, int new_size)
+void RGBController_CorsairVengeance::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -85,12 +85,12 @@ void RGBController_CorsairVengeance::UpdateLEDs()
     corsair->SetLEDColor(red, grn, blu);
 }
 
-void RGBController_CorsairVengeance::UpdateZoneLEDs(int zone)
+void RGBController_CorsairVengeance::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_CorsairVengeance::UpdateSingleLED(int led)
+void RGBController_CorsairVengeance::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }

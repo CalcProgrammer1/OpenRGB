@@ -301,12 +301,12 @@ void RGBController_HyperXKeyboard::UpdateLEDs()
     }
 }
 
-void RGBController_HyperXKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_HyperXKeyboard::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_HyperXKeyboard::UpdateSingleLED(int led)
+void RGBController_HyperXKeyboard::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }

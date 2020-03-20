@@ -140,9 +140,9 @@ void RGBController_HyperXDRAM::SetupZones()
         zones.push_back(*new_zone);
     }
 
-    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        for(int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led* new_led = new led();
 

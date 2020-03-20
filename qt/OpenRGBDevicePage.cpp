@@ -162,7 +162,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 {
                     selected_zone = selected_zone - 1;
 
-                    if(index < device->zones[selected_zone].leds_count)
+                    if((unsigned int)index < device->zones[selected_zone].leds_count)
                     {
                         color = device->zones[selected_zone].colors[index];
                     }
@@ -198,7 +198,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 
 }
 
-void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int index)
+void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
 {
     /*-----------------------------------------------------*\
     | Update mode user interface elements                   |
@@ -492,7 +492,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 for (std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
                 {
                     char id_buf[32];
-                    snprintf(id_buf, 16, "Mode Color %d", i);
+                    snprintf(id_buf, 16, "Mode Color %lu", i);
                     ui->LEDBox->addItem(id_buf);
                 }
 
@@ -509,7 +509,7 @@ void Ui::OpenRGBDevicePage::UpdateMode()
     /*-----------------------------------------------------*\
     | Read selected mode                                    |
     \*-----------------------------------------------------*/
-    unsigned int current_mode   = (unsigned int)ui->ModeBox->currentIndex();
+    int current_mode = ui->ModeBox->currentIndex();
 
     if(current_mode >= 0)
     {
@@ -519,9 +519,9 @@ void Ui::OpenRGBDevicePage::UpdateMode()
         bool current_random    = ui->RandomCheck->isChecked();
         int  current_dir_idx   = ui->DirectionBox->currentIndex();
         int  current_direction = 0;
-        bool supports_dir_lr = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
-        bool supports_dir_ud = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
-        bool supports_dir_hv = ( device->modes[current_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
+        bool supports_dir_lr = ( device->modes[(unsigned int)current_mode].flags & MODE_FLAG_HAS_DIRECTION_LR );
+        bool supports_dir_ud = ( device->modes[(unsigned int)current_mode].flags & MODE_FLAG_HAS_DIRECTION_UD );
+        bool supports_dir_hv = ( device->modes[(unsigned int)current_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
 
         /*-----------------------------------------------------*\
         | Set the direction value                               |
@@ -560,7 +560,7 @@ void Ui::OpenRGBDevicePage::UpdateMode()
             current_direction = current_dir_idx;
         }
 
-        device->modes[current_mode].direction = current_direction;
+        device->modes[(unsigned int)current_mode].direction = current_direction;
 
         /*-----------------------------------------------------*\
         | If Speed Slider is enabled, read the speed value      |
@@ -574,43 +574,43 @@ void Ui::OpenRGBDevicePage::UpdateMode()
             \*-----------------------------------------------------*/
             if(InvertedSpeed)
             {
-                current_speed = device->modes[current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
+                current_speed = device->modes[(unsigned int)current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
             }
         }
 
         /*-----------------------------------------------------*\
         | Don't set the mode if the current mode is invalid     |
         \*-----------------------------------------------------*/
-        if(current_mode < device->modes.size())
+        if((unsigned int)current_mode < device->modes.size())
         {
             /*-----------------------------------------------------*\
             | Update mode parameters                                |
             \*-----------------------------------------------------*/
-            device->modes[current_mode].speed  = current_speed;
+            device->modes[(unsigned int)current_mode].speed  = current_speed;
 
             if(current_per_led)
             {
-                device->modes[current_mode].color_mode = MODE_COLORS_PER_LED;
+                device->modes[(unsigned int)current_mode].color_mode = MODE_COLORS_PER_LED;
             }
             else if(current_mode_specific)
             {
-                device->modes[current_mode].color_mode = MODE_COLORS_MODE_SPECIFIC;
+                device->modes[(unsigned int)current_mode].color_mode = MODE_COLORS_MODE_SPECIFIC;
             }
             else if(current_random)
             {
-                device->modes[current_mode].color_mode = MODE_COLORS_RANDOM;
+                device->modes[(unsigned int)current_mode].color_mode = MODE_COLORS_RANDOM;
             }
             else
             {
-                device->modes[current_mode].color_mode = MODE_COLORS_NONE;
+                device->modes[(unsigned int)current_mode].color_mode = MODE_COLORS_NONE;
             }
 
             /*-----------------------------------------------------*\
             | Change device mode                                    |
             \*-----------------------------------------------------*/
-            device->SetMode(current_mode);
+            device->SetMode((unsigned int)current_mode);
 
-            if(device->modes[current_mode].color_mode == MODE_COLORS_PER_LED)
+            if(device->modes[(unsigned int)current_mode].color_mode == MODE_COLORS_PER_LED)
             {
                 device->UpdateLEDs();
             }
@@ -684,7 +684,7 @@ void Ui::OpenRGBDevicePage::on_SetDeviceButton_clicked()
                     ui->BlueSpinBox->text().toInt()
                 );
 
-                for(int i = 0; i < device->modes[selected_mode].colors.size(); i++)
+                for(std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
                 {
                     device->modes[selected_mode].colors[i] = color;
                 }

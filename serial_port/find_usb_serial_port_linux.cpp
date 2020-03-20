@@ -32,7 +32,6 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
 
     if(dir == NULL)
     {
-        closedir(dir);
         return ret_string;
     }
 

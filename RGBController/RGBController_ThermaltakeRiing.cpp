@@ -168,7 +168,7 @@ void RGBController_ThermaltakeRiing::SetupZones()
 
 void RGBController_ThermaltakeRiing::ResizeZone(int zone, int new_size)
 {
-    if((new_size >= zones[zone].leds_min) && (new_size <= zones[zone].leds_max))
+    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
     {
         zones[zone].leds_count = new_size;
 

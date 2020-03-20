@@ -110,17 +110,17 @@ void RGBController_OpenRazer::UpdateLEDs()
     }
 }
 
-void RGBController_OpenRazer::UpdateZoneLEDs(int zone)
+void RGBController_OpenRazer::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_OpenRazer::UpdateSingleLED(int led)
+void RGBController_OpenRazer::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_OpenRazer::SetupMatrixDevice(device * razer_device, device_fn_type* razer_functions, unsigned int rows, unsigned int cols)
+void RGBController_OpenRazer::SetupMatrixDevice(device_fn_type* razer_functions, unsigned int rows, unsigned int cols)
 {
     if(!razer_functions->matrix_custom_frame)
     {
@@ -145,7 +145,7 @@ void RGBController_OpenRazer::SetupMatrixDevice(device * razer_device, device_fn
     }
 }
 
-void RGBController_OpenRazer::SetupNonMatrixDevice(device * razer_device, device_fn_type* razer_functions)
+void RGBController_OpenRazer::SetupNonMatrixDevice()
 {
     matrix_type = RAZER_TYPE_NOMATRIX;
 }
@@ -156,8 +156,6 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
     
     this->razer_device = razer_device;
     this->razer_functions = razer_functions;
-
-    unsigned int led_count = 0;
 
     /*-----------------------------------------------------------------*\
     | Start device at -1.  This indicates the device was not detected   |
@@ -296,11 +294,11 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
             \*---------------------------------------------------------*/
             if(device_list[i]->matrix_type == true)
             {
-                SetupMatrixDevice(razer_device, razer_functions, device_list[i]->rows, device_list[i]->cols);    
+                SetupMatrixDevice(razer_functions, device_list[i]->rows, device_list[i]->cols);    
             }
             else
             {
-                SetupNonMatrixDevice(razer_device, razer_functions);
+                SetupNonMatrixDevice();
             }
             
             SetupZones();

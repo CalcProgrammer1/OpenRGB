@@ -130,7 +130,7 @@ void RGBController_Crucial::SetupZones()
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
     \*---------------------------------------------------------*/
-    for(int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
+    for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         led new_led;
         new_led.name = "DRAM LED ";
@@ -160,12 +160,12 @@ void RGBController_Crucial::UpdateLEDs()
     }
 }
 
-void RGBController_Crucial::UpdateZoneLEDs(int zone)
+void RGBController_Crucial::UpdateZoneLEDs(int /*zone*/)
 {
     UpdateLEDs();
 }
 
-void RGBController_Crucial::UpdateSingleLED(int led)
+void RGBController_Crucial::UpdateSingleLED(int /*led*/)
 {
     UpdateLEDs();
 }

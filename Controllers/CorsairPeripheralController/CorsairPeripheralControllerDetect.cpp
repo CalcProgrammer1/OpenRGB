@@ -98,7 +98,7 @@ void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_control
 
     hid_init();
 
-    for(int device_idx = 0; device_idx < CORSAIR_NUM_DEVICES; device_idx++)
+    for(std::size_t device_idx = 0; device_idx < CORSAIR_NUM_DEVICES; device_idx++)
     {
         dev = NULL;
 
