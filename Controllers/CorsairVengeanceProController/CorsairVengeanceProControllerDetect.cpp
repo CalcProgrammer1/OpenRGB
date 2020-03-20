@@ -44,7 +44,7 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
 
         res = bus->i2c_smbus_read_byte_data(address, 0x44);
 
-        if (res != 0x03)
+        if (!((res == 0x03) || (res == 0x04)))
         {
             pass = false;
         }
