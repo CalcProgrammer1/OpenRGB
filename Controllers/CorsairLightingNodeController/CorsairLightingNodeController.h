@@ -103,7 +103,6 @@ public:
                                     );
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
-    unsigned int    channel_leds[CORSAIR_LIGHTING_NODE_NUM_CHANNELS];
 
     void            KeepaliveThread();
 

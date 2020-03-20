@@ -162,7 +162,10 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 {
                     selected_zone = selected_zone - 1;
 
-                    color = device->zones[selected_zone].colors[index];
+                    if(index < device->zones[selected_zone].leds_count)
+                    {
+                        color = device->zones[selected_zone].colors[index];
+                    }
                 }
 
                 /*-----------------------------------------------------*\

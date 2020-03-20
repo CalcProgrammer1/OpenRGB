@@ -107,30 +107,47 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
 void RGBController_ThermaltakeRiing::SetupZones()
 {
     /*-------------------------------------------------*\
-    | Clear any existing zone/LED configuration         |
+    | Only set LED count on the first run               |
+    \*-------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-------------------------------------------------*\
+    | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
     leds.clear();
-    zones.clear();
+    colors.clear();
+    zones.resize(THERMALTAKE_NUM_CHANNELS);
 
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
     for (unsigned int channel_idx = 0; channel_idx < THERMALTAKE_NUM_CHANNELS; channel_idx++)
     {
-        zone* new_zone = new zone;
-
         char ch_idx_string[2];
         sprintf(ch_idx_string, "%d", channel_idx + 1);
 
-        new_zone->name     = "Riing Channel ";
-        new_zone->name.append(ch_idx_string);
-        new_zone->type     = ZONE_TYPE_LINEAR;
+        zones[channel_idx].name     = "Riing Channel ";
+        zones[channel_idx].name.append(ch_idx_string);
+        zones[channel_idx].type     = ZONE_TYPE_LINEAR;
 
-        new_zone->leds_min = 0;
-        new_zone->leds_max = 20;
-        new_zone->leds_count = riing->channel_leds[channel_idx];
+        /*-------------------------------------------------*\
+        | The maximum number of colors that would fit in the|
+        | Riing protocol is 20                              |
+        \*-------------------------------------------------*/
+        zones[channel_idx].leds_min   = 0;
+        zones[channel_idx].leds_max   = 20;
 
-        for (unsigned int led_ch_idx = 0; led_ch_idx < riing->channel_leds[channel_idx]; led_ch_idx++)
+        if(first_run)
+        {
+            zones[channel_idx].leds_count = 0;
+        }
+
+        for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
             char led_idx_string[3];
             sprintf(led_idx_string, "%d", led_ch_idx + 1);
@@ -144,8 +161,6 @@ void RGBController_ThermaltakeRiing::SetupZones()
             leds.push_back(new_led);
             leds_channel.push_back(channel_idx);
         }
-
-        zones.push_back(*new_zone);
     }
 
     SetupColors();
@@ -153,9 +168,12 @@ void RGBController_ThermaltakeRiing::SetupZones()
 
 void RGBController_ThermaltakeRiing::ResizeZone(int zone, int new_size)
 {
-    riing->channel_leds[zone] = new_size;
+    if((new_size >= zones[zone].leds_min) && (new_size <= zones[zone].leds_max))
+    {
+        zones[zone].leds_count = new_size;
 
-    SetupZones();
+        SetupZones();
+    }
 }
 
 void RGBController_ThermaltakeRiing::UpdateLEDs()

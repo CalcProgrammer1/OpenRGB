@@ -167,47 +167,60 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
 void RGBController_CorsairLightingNode::SetupZones()
 {
     /*-------------------------------------------------*\
-    | Clear any existing zone/LED configuration         |
+    | Only set LED count on the first run               |
+    \*-------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-------------------------------------------------*\
+    | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
     leds.clear();
-    zones.clear();
+    colors.clear();
+    zones.resize(CORSAIR_LIGHTING_NODE_NUM_CHANNELS);
 
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
     for (unsigned int channel_idx = 0; channel_idx < CORSAIR_LIGHTING_NODE_NUM_CHANNELS; channel_idx++)
     {
-        if(corsair->channel_leds[channel_idx] > 0)
+        char ch_idx_string[2];
+        sprintf(ch_idx_string, "%d", channel_idx + 1);
+
+        zones[channel_idx].name     = "Corsair Channel ";
+        zones[channel_idx].name.append(ch_idx_string);
+        zones[channel_idx].type     = ZONE_TYPE_LINEAR;
+
+        /*-------------------------------------------------*\
+        | According to some research on Corsair forums, the |
+        | maximum number of LEDs supported by Corsair Link  |
+        | devices is 96                                     |
+        \*-------------------------------------------------*/
+        zones[channel_idx].leds_min   = 0;
+        zones[channel_idx].leds_max   = 96;
+
+        if(first_run)
         {
-            zone* new_zone = new zone;
+            zones[channel_idx].leds_count = 0;
+        }
 
-            char ch_idx_string[2];
-            sprintf(ch_idx_string, "%d", channel_idx + 1);
+        for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
+        {
+            char led_idx_string[3];
+            sprintf(led_idx_string, "%d", led_ch_idx + 1);
 
-            new_zone->name     = "Corsair Channel ";
-            new_zone->name.append(ch_idx_string);
-            new_zone->type     = ZONE_TYPE_LINEAR;
+            led new_led;
+            new_led.name = "Corsair Channel ";
+            new_led.name.append(ch_idx_string);
+            new_led.name.append(", LED ");
+            new_led.name.append(led_idx_string);
 
-            new_zone->leds_min = 0;
-            new_zone->leds_max = 60;
-            new_zone->leds_count = corsair->channel_leds[channel_idx];
-
-            for (unsigned int led_ch_idx = 0; led_ch_idx < corsair->channel_leds[channel_idx]; led_ch_idx++)
-            {
-                char led_idx_string[3];
-                sprintf(led_idx_string, "%d", led_ch_idx + 1);
-
-                led new_led;
-                new_led.name = "Corsair Channel ";
-                new_led.name.append(ch_idx_string);
-                new_led.name.append(", LED ");
-                new_led.name.append(led_idx_string);
-
-                leds.push_back(new_led);
-                leds_channel.push_back(channel_idx);
-            }
-
-            zones.push_back(*new_zone);
+            leds.push_back(new_led);
+            leds_channel.push_back(channel_idx);
         }
     }
 
@@ -216,9 +229,12 @@ void RGBController_CorsairLightingNode::SetupZones()
 
 void RGBController_CorsairLightingNode::ResizeZone(int zone, int new_size)
 {
-    corsair->channel_leds[zone] = new_size;
+    if((new_size >= zones[zone].leds_min) && (new_size <= zones[zone].leds_max))
+    {
+        zones[zone].leds_count = new_size;
 
-    SetupZones();
+        SetupZones();
+    }
 }
 
 void RGBController_CorsairLightingNode::UpdateLEDs()

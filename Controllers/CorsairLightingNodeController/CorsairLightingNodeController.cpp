@@ -51,9 +51,6 @@ CorsairLightingNodeController::CorsairLightingNodeController(libusb_device_handl
     dev = dev_handle;
     endpoint = dev_endpoint;
 
-    channel_leds[0] = 60;
-    channel_leds[1] = 60;
-
     SendFirmwareRequest();
 
     /*-----------------------------------------------------*\

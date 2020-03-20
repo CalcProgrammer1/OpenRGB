@@ -16,12 +16,6 @@ ThermaltakeRiingController::ThermaltakeRiingController(libusb_device_handle* dev
     dev = dev_handle;
 
     SendInit();
-
-    channel_leds[0] = 9;
-    channel_leds[1] = 9;
-    channel_leds[2] = 9;
-    channel_leds[3] = 0;
-    channel_leds[4] = 0;
 }
 
 ThermaltakeRiingController::~ThermaltakeRiingController()
