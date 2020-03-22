@@ -312,7 +312,7 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
 *       Detect and populate RGB Controllers vector                                         *
 *                                                                                          *
 \******************************************************************************************/
-#include "RGBController_Dummy.h"
+
 void DetectRGBControllers(void)
 {
     DetectI2CBusses();
