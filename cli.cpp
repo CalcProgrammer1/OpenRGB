@@ -258,19 +258,19 @@ void OptionListDevices()
     }
 }
 
-bool OptionDevice(int currentDev, std::string argument, Options *res)
+bool OptionDevice(int *currentDev, std::string argument, Options *res)
 {
     try
     {
-        currentDev = std::stoi(argument);
+        *currentDev = std::stoi(argument);
 
-        if (rgb_controllers.size() <= currentDev || currentDev < 0)
+        if (rgb_controllers.size() <= *currentDev || *currentDev < 0)
         {
             throw;
         }
 
         DeviceOptions newDev;
-        newDev.device = currentDev;
+        newDev.device = *currentDev;
 
         if(!res->hasDevice)
         {
@@ -288,9 +288,9 @@ bool OptionDevice(int currentDev, std::string argument, Options *res)
     }
 }
 
-bool OptionColor(int currentDev, std::string argument, Options *res)
+bool OptionColor(int *currentDev, std::string argument, Options *res)
 {
-    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(res, currentDev);
+    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(res, *currentDev);
 
     if(ParseColors(argument, currentDevOpts))
     {
@@ -303,15 +303,15 @@ bool OptionColor(int currentDev, std::string argument, Options *res)
     }
 }
 
-bool OptionMode(int currentDev, std::string argument, Options *res)
+bool OptionMode(int *currentDev, std::string argument, Options *res)
 {
-    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(res, currentDev);
+    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(res, *currentDev);
     currentDevOpts->mode = argument;
     currentDevOpts->hasOption = true;
     return true;
 }
 
-bool OptionProfile(int currentDev, std::string argument, Options *res)
+bool OptionProfile(std::string argument)
 {
     /*---------------------------------------------------------*\
     | Attempt to load profile                                   |
@@ -343,7 +343,7 @@ bool OptionProfile(int currentDev, std::string argument, Options *res)
     }
 }
 
-bool OptionSaveProfile(int currentDev, std::string argument, Options *res)
+bool OptionSaveProfile(std::string argument)
 {
     /*---------------------------------------------------------*\
     | Set save profile filename                                 |
@@ -385,7 +385,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--device" || option == "-d")
         {
-            if(!OptionDevice(currentDev, argument, res))
+            if(!OptionDevice(&currentDev, argument, res))
             {
                 return false;
             }
@@ -396,7 +396,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--color" || option == "-c")
         {
-            if(!OptionColor(currentDev, argument, res))
+            if(!OptionColor(&currentDev, argument, res))
             {
                 return false;
             }
@@ -407,7 +407,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--mode" || option == "-m")
         {
-            if(!OptionMode(currentDev, argument, res))
+            if(!OptionMode(&currentDev, argument, res))
             {
                 return false;
             }
@@ -418,7 +418,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--profile" || option == "-p")
         {
-            OptionProfile(currentDev, argument, res);
+            OptionProfile(argument);
             exit(0);
         }
 
@@ -427,7 +427,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--save-profile" || option == "-sp")
         {
-            OptionSaveProfile(currentDev, argument, res);
+            OptionSaveProfile(argument);
         }
 
         /*---------------------------------------------------------*\
