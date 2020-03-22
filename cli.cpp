@@ -9,7 +9,8 @@
 #include "i2c_smbus.h"
 
 static std::vector<RGBController*> rgb_controllers;
-static ProfileManager* profile_manager;
+static ProfileManager*             profile_manager;
+static std::string                 profile_save_filename = "";
 
 struct DeviceOptions
 {
@@ -47,6 +48,7 @@ void PrintHelp()
     help_text += "-m,  --mode [breathing | static | ...]   Sets the mode to be applied, check --list-devices to see which modes are supported on your device\n";
     help_text += "-v,  --version                           Display version and software build information\n";
     help_text += "-p,  --profile filename.orp              Load the profile from filename.orp\n";
+    help_text += "-sp, --save-profile filename.orp         Save the given settings to profile filename.orp\n";
 
     std::cout << help_text << std::endl;
 }
@@ -341,6 +343,15 @@ bool OptionProfile(int currentDev, std::string argument, Options *res)
     }
 }
 
+bool OptionSaveProfile(int currentDev, std::string argument, Options *res)
+{
+    /*---------------------------------------------------------*\
+    | Set save profile filename                                 |
+    \*---------------------------------------------------------*/
+    profile_save_filename = argument;
+    return(true);
+}
+
 bool ProcessOptions(int argc, char *argv[], Options *res)
 {
     int arg_index = 1;
@@ -409,6 +420,14 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         {
             OptionProfile(currentDev, argument, res);
             exit(0);
+        }
+
+        /*---------------------------------------------------------*\
+        | -sp / --save-profile                                      |
+        \*---------------------------------------------------------*/
+        else if(option == "--save-profile" || option == "-sp")
+        {
+            OptionSaveProfile(currentDev, argument, res);
         }
 
         /*---------------------------------------------------------*\
@@ -504,6 +523,18 @@ int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controller
         {
             options.allDeviceOptions.device = i;
             ApplyOptions(options.allDeviceOptions);
+        }
+    }
+
+    if(profile_save_filename != "")
+    {
+        if(profile_manager->SaveProfile(profile_save_filename))
+        {
+            std::cout << "Profile saved successfully" << std::endl;
+        }
+        else
+        {
+            std::cout << "Profile saving failed" << std::endl;
         }
     }
 
