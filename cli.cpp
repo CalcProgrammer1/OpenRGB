@@ -63,19 +63,21 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
     return options->colors.size() > 0;
 }
 
-int ParseMode(DeviceOptions& options)
+unsigned int ParseMode(DeviceOptions& options)
 {
-    auto availableModes = rgb_controllers[options.device]->modes;
-    for (int i = 0; i < availableModes.size(); i++)
+    /*---------------------------------------------------------*\
+    | Search through all of the device modes and see if there is|
+    | a match.  If no match is found, print an error message.   |
+    \*---------------------------------------------------------*/
+    for(std::size_t mode_idx = 0; mode_idx < rgb_controllers[options.device]->modes.size(); mode_idx++)
     {
-        if (availableModes[i].name == options.mode)
+        if (rgb_controllers[options.device]->modes[mode_idx].name == options.mode)
         {
-            return i;
+            return mode_idx;
         }
     }
 
-    std::cout << "Error: Mode '" + options.mode + "' not available for device '" +
-        rgb_controllers[options.device]->name + "'" << std::endl;
+    std::cout << "Error: Mode '" + options.mode + "' not available for device '" + rgb_controllers[options.device]->name + "'" << std::endl;
     return false;
 }
 
@@ -359,6 +361,8 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
     int arg_index = 1;
     int currentDev = -1;
 
+    options->hasDevice = false;
+
     while(arg_index < argc)
     {
         std::string option   = argv[arg_index];
@@ -376,7 +380,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         /*---------------------------------------------------------*\
         | -h / --help                                               |
         \*---------------------------------------------------------*/
-        else if(option == "--help" || option == "-h")
+        if(option == "--help" || option == "-h")
         {
             OptionHelp();
             exit(0);
@@ -493,24 +497,70 @@ void ApplyOptions(DeviceOptions& options)
     | Set mode first, in case it's 'direct' (which affects      |
     | SetLED below)                                             |
     \*---------------------------------------------------------*/
-    int mode = ParseMode(options);
+    unsigned int mode = ParseMode(options);
+
+    /*---------------------------------------------------------*\
+    | Determine which color mode this mode uses and update      |
+    | colors accordingly                                        |
+    \*---------------------------------------------------------*/
+    switch(device->modes[mode].color_mode)
+    {
+        case MODE_COLORS_NONE:
+            break;
+
+        case MODE_COLORS_RANDOM:
+            break;
+
+        case MODE_COLORS_PER_LED:
+            if(options.colors.size() != 0)
+            {
+                std::size_t last_set_color;
+
+                for(std::size_t led_idx = 0; led_idx < device->leds.size(); led_idx++)
+                {
+                    if(led_idx < options.colors.size())
+                    {
+                        last_set_color = led_idx;
+                    }
+
+                    device->colors[led_idx] = ToRGBColor(std::get<0>(options.colors[last_set_color]),
+                                                         std::get<1>(options.colors[last_set_color]),
+                                                         std::get<2>(options.colors[last_set_color]));
+                }
+            }
+            break;
+
+        case MODE_COLORS_MODE_SPECIFIC:
+            if(options.colors.size() >= device->modes[mode].colors_min && options.colors.size() <= device->modes[mode].colors_max)
+            {
+                device->modes[mode].colors.resize(options.colors.size());
+
+                for(std::size_t color_idx = 0; color_idx <= options.colors.size(); color_idx++)
+                {
+                    device->modes[mode].colors[color_idx] = ToRGBColor(std::get<0>(options.colors[color_idx]),
+                                                                       std::get<1>(options.colors[color_idx]),
+                                                                       std::get<2>(options.colors[color_idx]));
+                }
+            }
+            else
+            {
+                std::cout << "Wrong number of colors specified for mode" << std::endl;
+                exit(0);
+            }
+            break;
+    }
+
+    /*---------------------------------------------------------*\
+    | Set device mode                                           |
+    \*---------------------------------------------------------*/
     device->SetMode(mode);
 
-    if(options.colors.size() != 0)
+    /*---------------------------------------------------------*\
+    | Set device per-LED colors if necessary                    |
+    \*---------------------------------------------------------*/
+    if(device->modes[mode].color_mode == MODE_COLORS_PER_LED)
     {
-        int last_set_color;
-
-        for(std::size_t led_idx = 0; led_idx < device->leds.size(); led_idx++)
-        {
-            if(led_idx < options.colors.size())
-            {
-                last_set_color = led_idx;
-            }
-
-            device->SetLED(led_idx, ToRGBColor(std::get<0>(options.colors[last_set_color]),
-                                               std::get<1>(options.colors[last_set_color]),
-                                               std::get<2>(options.colors[last_set_color])));
-        }
+        device->UpdateLEDs();
     }
 }
 
