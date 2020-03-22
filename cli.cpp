@@ -24,8 +24,10 @@ struct Options
 {
     std::vector<DeviceOptions> devices;
 
-    // if hasDevice is false, devices above is empty and allDeviceOptions
-    // shall be applied to all available devices
+    /*---------------------------------------------------------*\
+    | If hasDevice is false, devices above is empty and         |
+    | allDeviceOptions shall be applied to all available devices|
+    \*---------------------------------------------------------*/
     bool hasDevice;
     DeviceOptions allDeviceOptions;
 };
@@ -258,7 +260,7 @@ void OptionListDevices()
     }
 }
 
-bool OptionDevice(int *currentDev, std::string argument, Options *res)
+bool OptionDevice(int *currentDev, std::string argument, Options *options)
 {
     try
     {
@@ -272,12 +274,12 @@ bool OptionDevice(int *currentDev, std::string argument, Options *res)
         DeviceOptions newDev;
         newDev.device = *currentDev;
 
-        if(!res->hasDevice)
+        if(!options->hasDevice)
         {
-            res->hasDevice = true;
+            options->hasDevice = true;
         }
 
-        res->devices.push_back(newDev);
+        options->devices.push_back(newDev);
 
         return true;
     }
@@ -288,9 +290,9 @@ bool OptionDevice(int *currentDev, std::string argument, Options *res)
     }
 }
 
-bool OptionColor(int *currentDev, std::string argument, Options *res)
+bool OptionColor(int *currentDev, std::string argument, Options *options)
 {
-    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(res, *currentDev);
+    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
 
     if(ParseColors(argument, currentDevOpts))
     {
@@ -303,9 +305,9 @@ bool OptionColor(int *currentDev, std::string argument, Options *res)
     }
 }
 
-bool OptionMode(int *currentDev, std::string argument, Options *res)
+bool OptionMode(int *currentDev, std::string argument, Options *options)
 {
-    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(res, *currentDev);
+    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
     currentDevOpts->mode = argument;
     currentDevOpts->hasOption = true;
     return true;
@@ -352,7 +354,7 @@ bool OptionSaveProfile(std::string argument)
     return(true);
 }
 
-bool ProcessOptions(int argc, char *argv[], Options *res)
+bool ProcessOptions(int argc, char *argv[], Options *options)
 {
     int arg_index = 1;
     int currentDev = -1;
@@ -403,7 +405,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--device" || option == "-d")
         {
-            if(!OptionDevice(&currentDev, argument, res))
+            if(!OptionDevice(&currentDev, argument, options))
             {
                 return false;
             }
@@ -414,7 +416,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--color" || option == "-c")
         {
-            if(!OptionColor(&currentDev, argument, res))
+            if(!OptionColor(&currentDev, argument, options))
             {
                 return false;
             }
@@ -425,7 +427,7 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         \*---------------------------------------------------------*/
         else if(option == "--mode" || option == "-m")
         {
-            if(!OptionMode(&currentDev, argument, res))
+            if(!OptionMode(&currentDev, argument, options))
             {
                 return false;
             }
@@ -460,20 +462,24 @@ bool ProcessOptions(int argc, char *argv[], Options *res)
         arg_index++;
     }
 
-    if(res->hasDevice)
+    /*---------------------------------------------------------*\
+    | If a device was specified, check to verify that a         |
+    | corresponding option was also specified                   |
+    \*---------------------------------------------------------*/
+    if(options->hasDevice)
     {
-        for(int i = 0; i < res->devices.size(); i++)
+        for(std::size_t option_idx = 0; option_idx < options->devices.size(); option_idx++)
         {
-            if(!res->devices[i].hasOption)
+            if(!options->devices[option_idx].hasOption)
             {
-                std::cout << "Error: Device " + std::to_string(i) + " specified, but neither mode nor color given" << std::endl;
+                std::cout << "Error: Device " + std::to_string(option_idx) + " specified, but neither mode nor color given" << std::endl;
                 return false;
             }
         }
     }
     else
     {
-        return res->allDeviceOptions.hasOption;
+        return options->allDeviceOptions.hasOption;
     }
 
     return true;
@@ -483,23 +489,27 @@ void ApplyOptions(DeviceOptions& options)
 {
     RGBController *device = rgb_controllers[options.device];
 
-    // Set mode first, in case it's 'direct' (which affects SetLED below)
+    /*---------------------------------------------------------*\
+    | Set mode first, in case it's 'direct' (which affects      |
+    | SetLED below)                                             |
+    \*---------------------------------------------------------*/
     int mode = ParseMode(options);
     device->SetMode(mode);
 
-    if (options.colors.size() != 0)
+    if(options.colors.size() != 0)
     {
         int last_set_color;
-        for (int i = 0; i < device->leds.size(); i++)
+
+        for(std::size_t led_idx = 0; led_idx < device->leds.size(); led_idx++)
         {
-            if (i < options.colors.size())
+            if(led_idx < options.colors.size())
             {
-                last_set_color = i;
+                last_set_color = led_idx;
             }
 
-            device->SetLED(i, ToRGBColor(std::get<0>(options.colors[last_set_color]),
-                                         std::get<1>(options.colors[last_set_color]),
-                                         std::get<2>(options.colors[last_set_color])));
+            device->SetLED(led_idx, ToRGBColor(std::get<0>(options.colors[last_set_color]),
+                                               std::get<1>(options.colors[last_set_color]),
+                                               std::get<2>(options.colors[last_set_color])));
         }
     }
 }
@@ -509,6 +519,9 @@ int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controller
     rgb_controllers = rgb_controllers_in;
     profile_manager = profile_manager_in;
     
+    /*---------------------------------------------------------*\
+    | Process the argument options                              |
+    \*---------------------------------------------------------*/
     Options options;
     if (!ProcessOptions(argc, argv, &options))
     {
@@ -516,22 +529,30 @@ int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controller
         return -1;
     }
 
+    /*---------------------------------------------------------*\
+    | If the options has one or more specific devices, loop     |
+    | through all of the specific devices and apply settings.   |
+    | Otherwise, apply settings to all devices.                 |
+    \*---------------------------------------------------------*/
     if (options.hasDevice)
     {
-        for (int i = 0; i < options.devices.size(); i++)
+        for(std::size_t device_idx = 0; device_idx < options.devices.size(); device_idx++)
         {
-            ApplyOptions(options.devices[i]);
+            ApplyOptions(options.devices[device_idx]);
         }
     }
     else
     {
-        for (int i = 0; i < rgb_controllers.size(); i++)
+        for (std::size_t device_idx = 0; device_idx < rgb_controllers.size(); device_idx++)
         {
-            options.allDeviceOptions.device = i;
+            options.allDeviceOptions.device = device_idx;
             ApplyOptions(options.allDeviceOptions);
         }
     }
 
+    /*---------------------------------------------------------*\
+    | If there is a save filename set, save the profile         |
+    \*---------------------------------------------------------*/
     if(profile_save_filename != "")
     {
         if(profile_manager->SaveProfile(profile_save_filename))
