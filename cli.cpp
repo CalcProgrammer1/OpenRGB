@@ -299,6 +299,7 @@ bool OptionColor(int *currentDev, std::string argument, Options *options)
     if(ParseColors(argument, currentDevOpts))
     {
         currentDevOpts->hasOption = true;
+        return true;
     }
     else
     {
