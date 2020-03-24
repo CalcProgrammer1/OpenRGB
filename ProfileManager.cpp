@@ -154,7 +154,7 @@ bool ProfileManager::LoadProfileWithOptions
 
                 for(std::size_t temp_index = 0; temp_index < temp_controllers.size(); temp_index++)
                 {
-                    RGBController *temp_controller = temp_controllers[controller_index];
+                    RGBController *temp_controller = temp_controllers[temp_index];
                     
                     /*---------------------------------------------------------*\
                     | Test if saved controller data matches this controller     |
