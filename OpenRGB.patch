@@ -1,8 +1,8 @@
 diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 09367fc014c3..25c0e02b3344 100644
+index 2ddca08f8a76..72647850f08e 100644
 --- a/drivers/i2c/busses/Kconfig
 +++ b/drivers/i2c/busses/Kconfig
-@@ -216,6 +216,15 @@ config I2C_CHT_WC
+@@ -217,6 +217,15 @@ config I2C_CHT_WC
  	  combined with a FUSB302 Type-C port-controller as such it is advised
  	  to also select CONFIG_TYPEC_FUSB302=m.
  
@@ -19,7 +19,7 @@ index 09367fc014c3..25c0e02b3344 100644
  	tristate "Nvidia nForce2, nForce3 and nForce4"
  	depends on PCI
 diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
-index 80c23895eaaf..57a2daf0b94e 100644
+index 25d60889713c..3c2a9b237ac6 100644
 --- a/drivers/i2c/busses/Makefile
 +++ b/drivers/i2c/busses/Makefile
 @@ -17,6 +17,7 @@ obj-$(CONFIG_I2C_CHT_WC)	+= i2c-cht-wc.o
@@ -32,10 +32,10 @@ index 80c23895eaaf..57a2daf0b94e 100644
  obj-$(CONFIG_I2C_NVIDIA_GPU)	+= i2c-nvidia-gpu.o
 diff --git a/drivers/i2c/busses/i2c-nct6775.c b/drivers/i2c/busses/i2c-nct6775.c
 new file mode 100644
-index 000000000000..e2b491a4b9f6
+index 000000000000..0462f0952043
 --- /dev/null
 +++ b/drivers/i2c/busses/i2c-nct6775.c
-@@ -0,0 +1,617 @@
+@@ -0,0 +1,647 @@
 +/*
 + * i2c-nct6775 - Driver for the SMBus master functionality of
 + *	       Nuvoton NCT677x Super-I/O chips
@@ -71,6 +71,7 @@ index 000000000000..e2b491a4b9f6
 +#include <linux/hwmon-vid.h>
 +#include <linux/err.h>
 +#include <linux/mutex.h>
++#include <linux/delay.h>
 +#include <linux/ioport.h>
 +#include <linux/i2c.h>
 +#include <linux/acpi.h>
@@ -114,6 +115,9 @@ index 000000000000..e2b491a4b9f6
 +#define NCT6793D_MANUAL_ACTIVE  4
 +
 +#define NCT6775_LD_SMBUS		0x0B
++
++/* Other settings */
++#define MAX_RETRIES		400
 +
 +enum kinds { nct6106, nct6775, nct6776, nct6779, nct6791, nct6792, nct6793,
 +	     nct6795, nct6796, nct6798 };
@@ -237,10 +241,13 @@ index 000000000000..e2b491a4b9f6
 +	struct i2c_nct6775_adapdata *adapdata = i2c_get_adapdata(adap);
 +	unsigned short nuvoton_nct6793d_smba = adapdata->smba;
 +	int i, len, cnt;
++	union i2c_smbus_data tmp_data;
++	int timeout = 0;
 +
++	tmp_data.word = 0;
 +	cnt = 0;
 +	len = 0;
-+	
++
 +	outb_p(NCT6793D_SOFT_RESET, SMBHSTCTL);
 +
 +	switch (size) {
@@ -248,13 +255,14 @@ index 000000000000..e2b491a4b9f6
 +			outb_p((addr << 1) | read_write,
 +			       SMBHSTADD);
 +			break;
-+		case I2C_SMBUS_BYTE:
 +		case I2C_SMBUS_BYTE_DATA:
++			tmp_data.byte = data->byte;
++		case I2C_SMBUS_BYTE:
 +			outb_p((addr << 1) | read_write,
 +			       SMBHSTADD);
 +			outb_p(command, SMBHSTIDX);
 +			if (read_write == I2C_SMBUS_WRITE) {
-+				outb_p(data->byte, SMBHSTDAT);
++				outb_p(tmp_data.byte, SMBHSTDAT);
 +				outb_p(NCT6793D_WRITE_BYTE, SMBHSTCMD);
 +			}
 +			else {
@@ -268,7 +276,7 @@ index 000000000000..e2b491a4b9f6
 +			if (read_write == I2C_SMBUS_WRITE) {
 +				outb_p(data->word & 0xff, SMBHSTDAT);
 +				outb_p((data->word & 0xff00) >> 8, SMBHSTDAT);
-+				outb_p(NCT6793D_WRITE_WORD, SMBHSTCMD);			
++				outb_p(NCT6793D_WRITE_WORD, SMBHSTCMD);
 +			}
 +			else {
 +				outb_p(NCT6793D_READ_WORD, SMBHSTCMD);
@@ -316,7 +324,16 @@ index 000000000000..e2b491a4b9f6
 +
 +	while ((size == I2C_SMBUS_BLOCK_DATA) && (len > 0)) {
 +		if (read_write == I2C_SMBUS_WRITE) {
-+			while ((inb_p(SMBHSTSTS) & NCT6793D_FIFO_EMPTY) == 0);
++			timeout = 0;
++			while ((inb_p(SMBHSTSTS) & NCT6793D_FIFO_EMPTY) == 0)
++			{
++				if(timeout > MAX_RETRIES)
++				{
++					return -ETIMEDOUT;
++				}
++				usleep_range(250, 500);
++				timeout++;
++			}
 +
 +			//Load more bytes into FIFO
 +			if (len >= 4) {
@@ -335,10 +352,23 @@ index 000000000000..e2b491a4b9f6
 +				len = 0;
 +			}
 +		}
++		else {
++			return -ENOTSUPP;
++		}
++		
 +	}
 +
 +	//wait for manual mode to complete
-+	while ((inb_p(SMBHSTSTS) & NCT6793D_MANUAL_ACTIVE) != 0);
++	timeout = 0;
++	while ((inb_p(SMBHSTSTS) & NCT6793D_MANUAL_ACTIVE) != 0)
++	{
++		if(timeout > MAX_RETRIES)
++		{
++			return -ETIMEDOUT;
++		}
++		usleep_range(250, 500);
++		timeout++;
++	}
 +
 +	if ((inb_p(SMBHSTERR) & NCT6793D_NO_ACK) != 0) {    	
 +		return -ENXIO;
@@ -654,10 +684,10 @@ index 000000000000..e2b491a4b9f6
 +module_init(i2c_nct6775_init);
 +module_exit(i2c_nct6775_exit);
 diff --git a/drivers/i2c/busses/i2c-piix4.c b/drivers/i2c/busses/i2c-piix4.c
-index c46c4bddc7ca..8565d08178a2 100644
+index 30ded6422e7b..e25ce84c26af 100644
 --- a/drivers/i2c/busses/i2c-piix4.c
 +++ b/drivers/i2c/busses/i2c-piix4.c
-@@ -468,11 +468,11 @@ static int piix4_transaction(struct i2c_adapter *piix4_adapter)
+@@ -467,11 +467,11 @@ static int piix4_transaction(struct i2c_adapter *piix4_adapter)
  	if (srvrworks_csb5_delay) /* Extra delay for SERVERWORKS_CSB5 */
  		usleep_range(2000, 2100);
  	else
@@ -671,7 +701,7 @@ index c46c4bddc7ca..8565d08178a2 100644
  
  	/* If the SMBus is still busy, we give up */
  	if (timeout == MAX_TIMEOUT) {
-@@ -963,6 +963,11 @@ static int piix4_probe(struct pci_dev *dev, const struct pci_device_id *id)
+@@ -981,6 +981,11 @@ static int piix4_probe(struct pci_dev *dev, const struct pci_device_id *id)
  		retval = piix4_setup_sb800(dev, id, 1);
  	}
  
