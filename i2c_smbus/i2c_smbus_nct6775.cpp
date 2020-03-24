@@ -13,6 +13,12 @@
 s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
 {
     int i, len, status, cnt;
+    i2c_smbus_data tmp_data;
+    int timeout = 0;
+
+    tmp_data.word = 0;
+    cnt = 0;
+    len = 0;
 
     Out32(SMBHSTCTL, NCT6775_SOFT_RESET);
 
@@ -21,13 +27,14 @@ s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int
     case I2C_SMBUS_QUICK:
         Out32(SMBHSTADD, (addr << 1) | read_write);
         break;
-	case I2C_SMBUS_BYTE:
     case I2C_SMBUS_BYTE_DATA:
+        tmp_data.byte = data->byte;
+    case I2C_SMBUS_BYTE:
         Out32(SMBHSTADD, (addr << 1) | read_write);
         Out32(SMBHSTIDX, command);
         if (read_write == I2C_SMBUS_WRITE)
         {
-            Out32(SMBHSTDAT, data->byte);
+            Out32(SMBHSTDAT, tmp_data.byte);
             Out32(SMBHSTCMD, NCT6775_WRITE_BYTE);
         }
         else
@@ -101,7 +108,16 @@ s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int
 	{
 		if (read_write == I2C_SMBUS_WRITE)
 		{
-			while ((Inp32(SMBHSTSTS) & NCT6775_FIFO_EMPTY) == 0);
+            timeout = 0;
+            while ((Inp32(SMBHSTSTS) & NCT6775_FIFO_EMPTY) == 0)
+            {
+                if(timeout > NCT6775_MAX_RETRIES)
+                {
+                    return -ETIMEDOUT;
+                }
+                Sleep(1);
+                timeout++;
+            }
 
 			//Load more bytes into FIFO
 			if (len >= 4)
@@ -124,10 +140,23 @@ s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int
 				len = 0;
 			}
 		}
+        else
+        {
+            return -ENOTSUP;
+        }
 	}
 
 	//wait for manual mode to complete
-	while ((Inp32(SMBHSTSTS) & NCT6775_MANUAL_ACTIVE) != 0);
+    timeout = 0;
+    while ((Inp32(SMBHSTSTS) & NCT6775_MANUAL_ACTIVE) != 0)
+    {
+        if(timeout > NCT6775_MAX_RETRIES)
+        {
+            return -ETIMEDOUT;
+        }
+        Sleep(1);
+        timeout++;
+    }
 
 	if ((Inp32(SMBHSTERR) & NCT6775_NO_ACK) != 0)
 	{

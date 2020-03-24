@@ -41,6 +41,10 @@
 #define NCT6775_FIFO_FULL      2
 #define NCT6775_MANUAL_ACTIVE  4
 
+/* Other settings */
+#define NCT6775_MAX_RETRIES    400
+
+
 class i2c_smbus_nct6775: public i2c_smbus_interface
 {
 public:
