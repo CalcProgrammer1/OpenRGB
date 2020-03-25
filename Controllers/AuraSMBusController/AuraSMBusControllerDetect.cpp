@@ -20,12 +20,13 @@ static void Sleep(unsigned int milliseconds)
 /*----------------------------------------------------------------------*\
 | This list contains the available SMBus addresses for mapping Aura RAM  |
 \*----------------------------------------------------------------------*/
-#define AURA_RAM_ADDRESS_COUNT  21
+#define AURA_RAM_ADDRESS_COUNT  22
 
 static const unsigned char aura_ram_addresses[] =
 {
     0x70,
     0x71,
+    0x72,
     0x73,
     0x74,
     0x75,
