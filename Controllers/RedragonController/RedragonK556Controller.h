@@ -19,8 +19,8 @@
 
 enum
 {
-    REDRAGON_K556_MODE_RAINBOW_WAVE_SHORT       = 0x01, /* "Go with the stream"     */
-    REDRAGON_K556_MODE_RAINBOW_WAVE_LONG        = 0x02, /* "Clouds fly"             */
+    REDRAGON_K556_MODE_COLOR_WAVE_SHORT         = 0x01, /* "Go with the stream"     */
+    REDRAGON_K556_MODE_COLOR_WAVE_LONG          = 0x02, /* "Clouds fly"             */
     REDRAGON_K556_MODE_COLOR_WHEEL              = 0x03, /* "Winding paths"          */
     REDRAGON_K556_MODE_SPECTRUM_CYCLE           = 0x04, /* "The trial of light"     */
     REDRAGON_K556_MODE_BREATHING                = 0x05, /* "Breathing"              */
