@@ -118,7 +118,8 @@ SOURCES +=                                                              \
     Controllers/RGBFusion2USBController/RGBFusion2USBControllerDetect.cpp \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
     Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
-    Controllers/RedragonController/RedragonController.cpp               \
+    Controllers/RedragonController/RedragonK556Controller.cpp           \
+    Controllers/RedragonController/RedragonM711Controller.cpp           \
     Controllers/RedragonController/RedragonControllerDetect.cpp         \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
@@ -144,6 +145,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_PoseidonZRGB.cpp                        \
+    RGBController/RGBController_RedragonM711.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
     RGBController/RGBController_RGBFusion2USB.cpp                       \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
@@ -186,7 +188,8 @@ HEADERS +=                                                              \
     Controllers/RGBFusionController/RGBFusionController.h               \
     Controllers/RGBFusion2USBController/RGBFusion2USBController.h       \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.h         \
-    Controllers/RedragonController/RedragonController.h                 \
+    Controllers/RedragonController/RedragonK556Controller.h             \
+    Controllers/RedragonController/RedragonM711Controller.h             \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
@@ -209,6 +212,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_PatriotViper.h                          \
     RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_PoseidonZRGB.h                          \
+    RGBController/RGBController_RedragonM711.h                          \
     RGBController/RGBController_RGBFusion.h                             \
     RGBController/RGBController_RGBFusion2USB.h                         \
     RGBController/RGBController_RGBFusionGPU.h                          \

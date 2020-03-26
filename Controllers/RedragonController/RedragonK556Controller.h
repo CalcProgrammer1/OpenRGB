@@ -1,9 +1,8 @@
 /*-----------------------------------------*\
-|  RedragonController.h                     |
+|  RedragonK556Controller.h                 |
 |                                           |
-|  Definitions and types for Redragon RGB   |
-|  keyboard, mouse, and mousemat lighting   |
-|  controller                               |
+|  Definitions and types for Redragon K556  |
+|  Devarajas keyboard lighting controller   |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 3/15/2020   |
 \*-----------------------------------------*/
@@ -14,6 +13,9 @@
 #include <hidapi/hidapi.h>
 
 #pragma once
+
+#define REDRAGON_K556_MAX_PACKET_SIZE   ( 0x36 )        /* max packet size for color*/
+                                                        /* update packets           */
 
 enum
 {
@@ -37,22 +39,18 @@ enum
     REDRAGON_K556_MODE_CUSTOM                   = 0x14, /* "Coastal"                */
 };
 
-enum
-{
-    REDRAGON_M117_MODE_WAVE              = 0x00,
-    REDRAGON_M117_MODE_RANDOM_BREATHING  = 0x01,
-    REDRAGON_M117_MODE_STATIC            = 0x02,
-    REDRAGON_M117_MODE_BREATHING         = 0x04,
-    REDRAGON_M117_MODE_RAINBOW           = 0x08,
-    REDRAGON_M117_MODE_FLASHING          = 0x10,
-};
-
-class RedragonController
+class RedragonK556Controller
 {
 public:
-    RedragonController(hid_device* dev_handle);
-    ~RedragonController();
+    RedragonK556Controller(hid_device* dev_handle);
+    ~RedragonK556Controller();
 
+    void        SetKeyboardColors
+                    (
+                    unsigned char *     color_data,
+                    unsigned int        size
+                    );
+        
 private:
     hid_device*             dev;
 

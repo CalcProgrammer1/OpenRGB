@@ -1,5 +1,7 @@
-#include "RedragonController.h"
+#include "RedragonK556Controller.h"
+#include "RedragonM711Controller.h"
 #include "RGBController.h"
+#include "RGBController_RedragonM711.h"
 #include "RGBController_Dummy.h"
 #include <vector>
 #include <hidapi/hidapi.h>
@@ -81,16 +83,28 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
 
         if( dev )
         {
-            RedragonController* controller = new RedragonController(dev);
+            switch(device_list[device_idx].type)
+            {
+                case DEVICE_TYPE_KEYBOARD:
+                    {
+                    RedragonK556Controller* controller = new RedragonK556Controller(dev);
+                    RGBController_Dummy* rgb_controller = new RGBController_Dummy();
 
-            //if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
-            //{
-                RGBController_Dummy* rgb_controller = new RGBController_Dummy();
+                    rgb_controller->name = device_list[device_idx].name;
+                    
+                    rgb_controllers.push_back(rgb_controller);
+                    }
+                    break;
 
-                rgb_controller->name = device_list[device_idx].name;
-                
-                rgb_controllers.push_back(rgb_controller);
-            //}
+                case DEVICE_TYPE_MOUSE:
+                    {
+                    RedragonM711Controller* controller = new RedragonM711Controller(dev);
+
+                    RGBController_RedragonM711* rgb_controller = new RGBController_RedragonM711(controller);
+                    rgb_controllers.push_back(rgb_controller);
+                    }
+                    break;
+            }
         }
     }
 }
