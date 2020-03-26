@@ -5,26 +5,6 @@
 RedragonK556Controller::RedragonK556Controller(hid_device* dev_handle)
 {
     dev = dev_handle;
-
-    unsigned char color_data[0x36 * 7];
-
-    SendKeyboardBegin();
-    SendKeyboardMode(20);
-
-    for(int i = 0; i < 0x36 * 7; i += 3)
-    {
-        color_data[i] = 0x00;
-        color_data[i+1] = 0xff;
-        color_data[i+2] = 0x00;
-    }
-    
-    SetKeyboardColors
-        (
-        color_data,
-        0x36 * 6
-        );
-    
-    SendKeyboardEnd();
 }
 
 void RedragonK556Controller::SetKeyboardColors

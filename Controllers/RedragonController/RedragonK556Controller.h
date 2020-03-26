@@ -50,9 +50,6 @@ public:
                     unsigned char *     color_data,
                     unsigned int        size
                     );
-        
-private:
-    hid_device*             dev;
 
     void        SendKeyboardBegin();
 
@@ -70,14 +67,6 @@ private:
 
     void        SendKeyboardEnd();
 
-    void        SendMouseApply();
-
-    void        SendMouseMode
-                   (
-                   unsigned char       mode,
-                   unsigned char       speed,
-                   unsigned char       red,
-                   unsigned char       green,
-                   unsigned char       blue
-                   );
+private:
+    hid_device*             dev;
 };

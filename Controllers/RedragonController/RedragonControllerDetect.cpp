@@ -1,8 +1,8 @@
 #include "RedragonK556Controller.h"
 #include "RedragonM711Controller.h"
 #include "RGBController.h"
+#include "RGBController_RedragonK556.h"
 #include "RGBController_RedragonM711.h"
-#include "RGBController_Dummy.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -88,10 +88,8 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
                 case DEVICE_TYPE_KEYBOARD:
                     {
                     RedragonK556Controller* controller = new RedragonK556Controller(dev);
-                    RGBController_Dummy* rgb_controller = new RGBController_Dummy();
 
-                    rgb_controller->name = device_list[device_idx].name;
-                    
+                    RGBController_RedragonK556* rgb_controller = new RGBController_RedragonK556(controller);
                     rgb_controllers.push_back(rgb_controller);
                     }
                     break;

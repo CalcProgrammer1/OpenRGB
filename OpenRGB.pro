@@ -145,6 +145,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_PoseidonZRGB.cpp                        \
+    RGBController/RGBController_RedragonK556.cpp                        \
     RGBController/RGBController_RedragonM711.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
     RGBController/RGBController_RGBFusion2USB.cpp                       \
@@ -212,6 +213,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_PatriotViper.h                          \
     RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_PoseidonZRGB.h                          \
+    RGBController/RGBController_RedragonK556.h                          \
     RGBController/RGBController_RedragonM711.h                          \
     RGBController/RGBController_RGBFusion.h                             \
     RGBController/RGBController_RGBFusion2USB.h                         \

@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_RedragonM711.h             |
+|  RGBController_RedragonM711.cpp           |
 |                                           |
 |  Generic RGB Interface for Redragon M711  |
 |  Cobra RGB Mouse                          |
