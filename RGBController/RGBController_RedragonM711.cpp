@@ -17,6 +17,13 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
     type = DEVICE_TYPE_MOUSE;
     description = "Redragon M711 Device";
 
+    mode Static;
+    Static.name       = "Static";
+    Static.value      = REDRAGON_M711_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Static);
+    
     mode Wave;
     Wave.name       = "Wave";
     Wave.value      = REDRAGON_M711_MODE_WAVE;
@@ -30,13 +37,6 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
     Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
-
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = REDRAGON_M711_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
 
     mode Rainbow;
     Rainbow.name       = "Rainbow";
