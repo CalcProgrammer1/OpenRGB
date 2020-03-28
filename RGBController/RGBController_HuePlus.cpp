@@ -164,20 +164,37 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 void RGBController_HuePlus::SetupZones()
 {
     /*-------------------------------------------------*\
+    | Only set LED count on the first run               |
+    \*-------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    /*-------------------------------------------------*\
+    | Clear any existing color/LED configuration        |
+    \*-------------------------------------------------*/
+    leds.clear();
+    colors.clear();
+    zones.resize(HUE_PLUS_NUM_CHANNELS);
+
+    /*-------------------------------------------------*\
     | Set up zones                                      |
     \*-------------------------------------------------*/
     for(unsigned int zone_idx = 0; zone_idx < HUE_PLUS_NUM_CHANNELS; zone_idx++)
     {
-        zone* new_zone = new zone;
-
-        new_zone->name          = "Hue+ Channel ";
-        new_zone->name.append(std::to_string(zone_idx + 1));
-        new_zone->type          = ZONE_TYPE_LINEAR;
-        new_zone->leds_min      = 0;
-        new_zone->leds_max      = 40;
-        new_zone->leds_count    = hueplus->channel_leds[zone_idx];
-
-        zones.push_back(*new_zone);
+        zones[zone_idx].name            = "Hue+ Channel ";
+        zones[zone_idx].name.append(std::to_string(zone_idx + 1));
+        zones[zone_idx].type            = ZONE_TYPE_LINEAR;
+        zones[zone_idx].leds_min        = 0;
+        zones[zone_idx].leds_max        = 40;
+        
+        if(first_run)
+        {
+            zones[zone_idx].leds_count  = 0;
+        }
     }
 
     /*-------------------------------------------------*\
@@ -201,9 +218,14 @@ void RGBController_HuePlus::SetupZones()
     SetupColors();
 }
 
-void RGBController_HuePlus::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HuePlus::ResizeZone(int zone, int new_size)
 {
+    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
+    {
+        zones[zone].leds_count = new_size;
 
+        SetupZones();
+    }
 }
 
 void RGBController_HuePlus::UpdateLEDs()
