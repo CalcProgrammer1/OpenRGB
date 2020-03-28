@@ -5,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = OpenRGB
 TEMPLATE = app
 
-VERSION         = 0.1
+VERSION         = 0.11
 win32:BUILDDATE = $$system(date /t)
 unix:BUILDDATE  = $$system(date -R)
 GIT_COMMIT_ID   = $$system(git --git-dir $$_PRO_FILE_PWD_/.git --work-tree $$_PRO_FILE_PWD_ rev-parse HEAD)
