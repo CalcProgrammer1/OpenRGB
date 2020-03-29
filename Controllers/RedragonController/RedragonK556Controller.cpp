@@ -43,6 +43,22 @@ void RedragonK556Controller::SetKeyboardColors
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
+void RedragonK556Controller::ComputeChecksum
+    (
+    char                usb_buf[64]
+    )
+{
+    unsigned short checksum = 0;
+
+    for(unsigned int byte_idx = 0x03; byte_idx < 64; byte_idx++)
+    {
+        checksum += usb_buf[byte_idx];
+    }
+
+    usb_buf[0x01] = checksum & 0xFF;
+    usb_buf[0x02] = checksum >> 8;
+}
+
 void RedragonK556Controller::SendKeyboardBegin()
 {
     char usb_buf[64];
@@ -53,12 +69,40 @@ void RedragonK556Controller::SendKeyboardBegin()
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up Keyboard Begin packet                          |
+    | Set up Keyboard Begin (0x01) packet                   |
+    |   Note: Not computing checksum as packet contents are |
+    |         fixed                                         |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
     usb_buf[0x01]           = 0x01;
     usb_buf[0x02]           = 0x00;
     usb_buf[0x03]           = 0x01;
+    
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 64);
+    hid_read(dev, (unsigned char *)usb_buf, 64);
+}
+
+void RedragonK556Controller::SendKeyboardEnd()
+{
+    char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Keyboard End (0x02) packet                     |
+    |   Note: Not computing checksum as packet contents are |
+    |         fixed                                         |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]           = 0x04;
+    usb_buf[0x01]           = 0x02;
+    usb_buf[0x02]           = 0x00;
+    usb_buf[0x03]           = 0x02;
     
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -82,12 +126,11 @@ void RedragonK556Controller::SendKeyboardData
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up Keyboard End packet                            |
+    | Set up Keyboard Color Data (0x11) packet              |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x01]           = 0x11 + data_offset;
-    usb_buf[0x02]           = data_size;
-    usb_buf[0x03]           = ( data_size / 3 ) - 1;
+    usb_buf[0x03]           = 0x11;
+
     usb_buf[0x04]           = data_size;
     usb_buf[0x05]           = data_offset & 0x00FF;
     usb_buf[0x06]           = data_offset >> 8;
@@ -97,6 +140,11 @@ void RedragonK556Controller::SendKeyboardData
     \*-----------------------------------------------------*/
     memcpy(&usb_buf[0x08], data, data_size);
     
+    /*-----------------------------------------------------*\
+    | Compute Checksum                                      |
+    \*-----------------------------------------------------*/
+    ComputeChecksum(usb_buf);
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
@@ -117,40 +165,19 @@ void RedragonK556Controller::SendKeyboardMode
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up Keyboard End packet                            |
+    | Set up Keyboard Parameter (0x06) packet               |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x01]           = 0x00;
-    usb_buf[0x02]           = 0x00;
     usb_buf[0x03]           = 0x06;
     usb_buf[0x04]           = 0x01;
 
     usb_buf[0x08]           = mode;
     
     /*-----------------------------------------------------*\
-    | Send packet                                           |
+    | Compute Checksum                                      |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 64);
-    hid_read(dev, (unsigned char *)usb_buf, 64);
-}
+    ComputeChecksum(usb_buf);
 
-void RedragonK556Controller::SendKeyboardEnd()
-{
-    char usb_buf[64];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    /*-----------------------------------------------------*\
-    | Set up Keyboard End packet                            |
-    \*-----------------------------------------------------*/
-    usb_buf[0x00]           = 0x04;
-    usb_buf[0x01]           = 0x02;
-    usb_buf[0x02]           = 0x00;
-    usb_buf[0x03]           = 0x02;
-    
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/

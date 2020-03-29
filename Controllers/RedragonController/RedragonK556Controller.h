@@ -69,4 +69,9 @@ public:
 
 private:
     hid_device*             dev;
+
+    void        ComputeChecksum
+                    (
+                    char                usb_buf[64]
+                    );
 };
