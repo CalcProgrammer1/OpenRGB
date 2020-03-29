@@ -37,15 +37,34 @@ OpenRGBSystemInfoPage::~OpenRGBSystemInfoPage()
 
 void Ui::OpenRGBSystemInfoPage::on_DetectButton_clicked()
 {
-    i2c_smbus_interface* bus = busses[ui->SMBusAdaptersBox->currentIndex()];
+    int current_index = ui->SMBusAdaptersBox->currentIndex();
 
-    ui->SMBusDataText->setPlainText(i2c_detect(bus, MODE_QUICK).c_str());
+    if(current_index < 0)
+    {
+        current_index = 0;
+    }
+
+    if(busses.size() > current_index)
+    {
+        i2c_smbus_interface* bus = busses[current_index];
+        ui->SMBusDataText->setPlainText(i2c_detect(bus, MODE_QUICK).c_str());
+    }
 }
 
 void Ui::OpenRGBSystemInfoPage::on_DumpButton_clicked()
 {
-    i2c_smbus_interface* bus = busses[ui->SMBusAdaptersBox->currentIndex()];
-    unsigned char address = ui->DumpAddressBox->value();
+    int current_index = ui->SMBusAdaptersBox->currentIndex();
 
-    ui->SMBusDataText->setPlainText(i2c_dump(bus, address).c_str());
+    if(current_index < 0)
+    {
+        current_index = 0;
+    }
+    
+    if(busses.size() > current_index)
+    {
+        i2c_smbus_interface* bus = busses[current_index];
+        unsigned char address = ui->DumpAddressBox->value();
+
+        ui->SMBusDataText->setPlainText(i2c_dump(bus, address).c_str());
+    }
 }
