@@ -39,6 +39,40 @@ void RedragonK556Controller::SetKeyboardColors
     }
 }
 
+void RedragonK556Controller::SendKeyboardMode
+    (
+    unsigned char       mode
+    )
+{
+    SendKeyboardParameter(REDRAGON_K556_PARAMETER_MODE, 1, &mode);
+}
+
+void RedragonK556Controller::SendKeyboardModeEx
+    (
+    unsigned char       mode,
+    unsigned char       brightness,
+    unsigned char       speed,
+    unsigned char       direction,
+    unsigned char       random_flag,
+    unsigned char       red,
+    unsigned char       green,
+    unsigned char       blue
+    )
+{
+    unsigned char parameter_data[8];
+
+    parameter_data[0]   = mode;
+    parameter_data[1]   = brightness;
+    parameter_data[2]   = speed;
+    parameter_data[3]   = direction;
+    parameter_data[4]   = random_flag;
+    parameter_data[5]   = red;
+    parameter_data[6]   = green;
+    parameter_data[7]   = blue;
+
+    SendKeyboardParameter(0, 8, parameter_data);
+}
+
 /*-------------------------------------------------------------------------------------------------*\
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
@@ -74,9 +108,9 @@ void RedragonK556Controller::SendKeyboardBegin()
     |         fixed                                         |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x01]           = 0x01;
+    usb_buf[0x01]           = REDRAGON_K556_COMMAND_BEGIN;
     usb_buf[0x02]           = 0x00;
-    usb_buf[0x03]           = 0x01;
+    usb_buf[0x03]           = REDRAGON_K556_COMMAND_BEGIN;
     
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -100,9 +134,9 @@ void RedragonK556Controller::SendKeyboardEnd()
     |         fixed                                         |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x01]           = 0x02;
+    usb_buf[0x01]           = REDRAGON_K556_COMMAND_END;
     usb_buf[0x02]           = 0x00;
-    usb_buf[0x03]           = 0x02;
+    usb_buf[0x03]           = REDRAGON_K556_COMMAND_END;
     
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -152,9 +186,11 @@ void RedragonK556Controller::SendKeyboardData
     hid_read(dev, (unsigned char *)usb_buf, 64);
 }
 
-void RedragonK556Controller::SendKeyboardMode
+void RedragonK556Controller::SendKeyboardParameter
     (
-    unsigned char       mode
+    unsigned char       parameter,
+    unsigned char       parameter_size,
+    unsigned char*      parameter_data
     )
 {
     char usb_buf[64];
@@ -168,11 +204,15 @@ void RedragonK556Controller::SendKeyboardMode
     | Set up Keyboard Parameter (0x06) packet               |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x03]           = 0x06;
-    usb_buf[0x04]           = 0x01;
+    usb_buf[0x03]           = REDRAGON_K556_COMMAND_SET_PARAMETER;
+    usb_buf[0x04]           = parameter_size;
+    usb_buf[0x05]           = parameter;
 
-    usb_buf[0x08]           = mode;
-    
+    /*-----------------------------------------------------*\
+    | Copy in data bytes                                    |
+    \*-----------------------------------------------------*/
+    memcpy(&usb_buf[0x08], parameter_data, parameter_size);
+
     /*-----------------------------------------------------*\
     | Compute Checksum                                      |
     \*-----------------------------------------------------*/
