@@ -14,48 +14,31 @@
    <string>Frame</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="1">
-    <widget class="QPushButton" name="SetDeviceButton">
+   <item row="7" column="6">
+    <widget class="QLabel" name="BlueLabel">
      <property name="text">
-      <string>Device</string>
+      <string>B:</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="10">
-    <widget class="QPushButton" name="ButtonMagenta">
+   <item row="7" column="1" colspan="4">
+    <widget class="QSlider" name="SpeedSlider">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="4">
+    <widget class="QRadioButton" name="RandomCheck">
+     <property name="text">
+      <string>Random</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="9">
+    <widget class="QPushButton" name="ButtonCyan">
      <property name="text">
       <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="6">
-    <widget class="QPushButton" name="ButtonYellow">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QRadioButton" name="PerLEDCheck">
-     <property name="text">
-      <string>Per-LED</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="6" colspan="2">
-    <widget class="QSpinBox" name="BlueSpinBox">
-     <property name="maximum">
-      <number>255</number>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1" colspan="4">
-    <widget class="QComboBox" name="ModeBox"/>
-   </item>
-   <item row="3" column="8">
-    <widget class="QLabel" name="SatLabel">
-     <property name="text">
-      <string>S:</string>
      </property>
     </widget>
    </item>
@@ -69,184 +52,73 @@
    <item row="1" column="1" colspan="4">
     <widget class="QComboBox" name="LEDBox"/>
    </item>
-   <item row="6" column="7">
+   <item row="9" column="8">
     <widget class="QPushButton" name="ButtonGreen">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="4" column="5">
-    <widget class="QLabel" name="BlueLabel">
-     <property name="text">
-      <string>B:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="SpeedLabel">
-     <property name="text">
-      <string>Speed:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" colspan="4">
-    <widget class="QPushButton" name="SetAllButton">
-     <property name="text">
-      <string>Set All Devices</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="8">
-    <widget class="QLabel" name="ValLabel">
-     <property name="text">
-      <string>V:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="DirectionLabel">
-     <property name="text">
-      <string>Dir:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1" colspan="4">
-    <widget class="QComboBox" name="DirectionBox"/>
-   </item>
-   <item row="2" column="5">
-    <widget class="QLabel" name="RedLabel">
-     <property name="text">
-      <string>R:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="4">
-    <widget class="QPushButton" name="SetLEDButton">
-     <property name="text">
-      <string>LED</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="5">
-    <widget class="QLabel" name="GreenLabel">
-     <property name="text">
-      <string>G:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="9">
-    <widget class="QPushButton" name="ButtonBlue">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="6" colspan="2">
-    <widget class="QSpinBox" name="RedSpinBox">
-     <property name="maximum">
-      <number>255</number>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1" colspan="4">
-    <widget class="QSlider" name="SpeedSlider">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="8">
-    <widget class="QLabel" name="HueLabel">
-     <property name="text">
-      <string>H:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="5">
-    <widget class="QPushButton" name="ButtonRed">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="8">
-    <widget class="QPushButton" name="ButtonCyan">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="SetLabel">
-     <property name="text">
-      <string>Set:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="LEDLabel">
-     <property name="text">
-      <string>LED:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="9" colspan="2">
-    <widget class="QSpinBox" name="HueSpinBox">
-     <property name="maximum">
-      <number>359</number>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="9" colspan="2">
-    <widget class="QSpinBox" name="ValSpinBox">
-     <property name="maximum">
-      <number>255</number>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="4">
-    <widget class="QRadioButton" name="RandomCheck">
-     <property name="text">
-      <string>Random</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="6" colspan="2">
-    <widget class="QSpinBox" name="GreenSpinBox">
-     <property name="maximum">
-      <number>255</number>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="9" colspan="2">
+   <item row="6" column="10" colspan="2">
     <widget class="QSpinBox" name="SatSpinBox">
      <property name="maximum">
       <number>255</number>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="ZoneLabel">
+   <item row="6" column="9">
+    <widget class="QLabel" name="SatLabel">
      <property name="text">
-      <string>Zone:</string>
+      <string>S:</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="ModeLabel">
+   <item row="5" column="6">
+    <widget class="QLabel" name="RedLabel">
      <property name="text">
-      <string>Mode:</string>
+      <string>R:</string>
      </property>
     </widget>
-   </item>
-   <item row="0" column="1" colspan="3">
-    <widget class="QComboBox" name="ZoneBox"/>
    </item>
    <item row="0" column="4">
     <widget class="QPushButton" name="ResizeButton">
      <property name="text">
       <string>Resize</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="10">
+    <widget class="QPushButton" name="ButtonBlue">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="7" colspan="2">
+    <widget class="QSpinBox" name="GreenSpinBox">
+     <property name="maximum">
+      <number>255</number>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QRadioButton" name="PerLEDCheck">
+     <property name="text">
+      <string>Per-LED</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="7" colspan="2">
+    <widget class="QSpinBox" name="RedSpinBox">
+     <property name="maximum">
+      <number>255</number>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="11">
+    <widget class="QPushButton" name="ButtonMagenta">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
@@ -257,6 +129,51 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="4">
+    <widget class="QPushButton" name="SetLEDButton">
+     <property name="text">
+      <string>LED</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="4">
+    <widget class="QPushButton" name="SetAllButton">
+     <property name="text">
+      <string>Set All Devices</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="6">
+    <widget class="QLabel" name="GreenLabel">
+     <property name="text">
+      <string>G:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="9">
+    <widget class="QLabel" name="ValLabel">
+     <property name="text">
+      <string>V:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="QComboBox" name="ZoneBox"/>
+   </item>
+   <item row="9" column="6">
+    <widget class="QPushButton" name="ButtonRed">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="DirectionLabel">
+     <property name="text">
+      <string>Dir:</string>
+     </property>
+    </widget>
+   </item>
    <item row="6" column="2" colspan="2">
     <widget class="QRadioButton" name="ModeSpecificCheck">
      <property name="text">
@@ -264,8 +181,112 @@
      </property>
     </widget>
    </item>
+   <item row="9" column="7">
+    <widget class="QPushButton" name="ButtonYellow">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="7" colspan="2">
+    <widget class="QSpinBox" name="BlueSpinBox">
+     <property name="maximum">
+      <number>255</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="LEDLabel">
+     <property name="text">
+      <string>LED:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="10" colspan="2">
+    <widget class="QSpinBox" name="HueSpinBox">
+     <property name="maximum">
+      <number>359</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="ModeLabel">
+     <property name="text">
+      <string>Mode:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="SetLabel">
+     <property name="text">
+      <string>Set:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="ZoneLabel">
+     <property name="text">
+      <string>Zone:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="SpeedLabel">
+     <property name="text">
+      <string>Speed:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="10" colspan="2">
+    <widget class="QSpinBox" name="ValSpinBox">
+     <property name="maximum">
+      <number>255</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="4">
+    <widget class="QComboBox" name="ModeBox"/>
+   </item>
+   <item row="9" column="1" colspan="4">
+    <widget class="QComboBox" name="DirectionBox"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="SetDeviceButton">
+     <property name="text">
+      <string>Device</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="9">
+    <widget class="QLabel" name="HueLabel">
+     <property name="text">
+      <string>H:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="6" rowspan="4" colspan="6">
+    <widget class="ColorWheel" name="ColorWheelBox" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorWheel</class>
+   <extends>QWidget</extends>
+   <header location="global">ColorWheel.h</header>
+   <container>1</container>
+   <slots>
+    <signal>colorChanged(QColor)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

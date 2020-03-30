@@ -58,6 +58,8 @@ private slots:
 
     void on_ResizeButton_clicked();
 
+    void on_ColorWheelBox_colorChanged(const QColor color);
+
 private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
@@ -68,6 +70,8 @@ private:
     void updateRGB();
 
     void updateHSV();
+
+    void updateWheel();
 
 signals:
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);

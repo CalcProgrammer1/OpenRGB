@@ -22,6 +22,7 @@ DEFINES +=                                                              \
 RC_ICONS = qt/OpenRGB.ico
 
 INCLUDEPATH +=                                                          \
+    dependencies/ColorWheel                                             \
     dependencies/hidapi                                                 \
     dependencies/libe131/src/                                           \
     i2c_smbus/                                                          \
@@ -56,6 +57,7 @@ INCLUDEPATH +=                                                          \
     qt/
 
 SOURCES +=                                                              \
+    dependencies/ColorWheel/ColorWheel.cpp                              \
     dependencies/hidapi/hidapi.c                                        \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
@@ -153,6 +155,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_ThermaltakeRiing.cpp                    \
 
 HEADERS +=                                                              \
+    dependencies/ColorWheel/ColorWheel.h                                \
     ProfileManager.h                                                    \
     qt/OpenRGBDeviceInfoPage.h                                          \
     qt/OpenRGBDevicePage.h                                              \

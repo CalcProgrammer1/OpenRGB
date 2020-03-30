@@ -795,6 +795,7 @@ void Ui::OpenRGBDevicePage::on_ButtonRed_clicked()
     ui->BlueSpinBox->setValue(0);
     UpdatingColor = false;
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_ButtonYellow_clicked()
@@ -805,6 +806,7 @@ void Ui::OpenRGBDevicePage::on_ButtonYellow_clicked()
     ui->BlueSpinBox->setValue(0);
     UpdatingColor = false;
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_ButtonGreen_clicked()
@@ -815,6 +817,7 @@ void Ui::OpenRGBDevicePage::on_ButtonGreen_clicked()
     ui->BlueSpinBox->setValue(0);
     UpdatingColor = false;
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_ButtonCyan_clicked()
@@ -825,6 +828,7 @@ void Ui::OpenRGBDevicePage::on_ButtonCyan_clicked()
     ui->BlueSpinBox->setValue(255);
     UpdatingColor = false;
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_ButtonBlue_clicked()
@@ -835,6 +839,7 @@ void Ui::OpenRGBDevicePage::on_ButtonBlue_clicked()
     ui->BlueSpinBox->setValue(255);
     UpdatingColor = false;
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_ButtonMagenta_clicked()
@@ -844,6 +849,18 @@ void Ui::OpenRGBDevicePage::on_ButtonMagenta_clicked()
     ui->GreenSpinBox->setValue(0);
     ui->BlueSpinBox->setValue(255);
     UpdatingColor = false;
+    updateHSV();
+    updateWheel();
+}
+
+void Ui::OpenRGBDevicePage::on_ColorWheelBox_colorChanged(const QColor color)
+{
+    UpdatingColor = true;
+    ui->RedSpinBox->setValue(color.red());
+    ui->GreenSpinBox->setValue(color.green());
+    ui->BlueSpinBox->setValue(color.blue());
+    UpdatingColor = false;
+
     updateHSV();
 }
 
@@ -892,34 +909,60 @@ void Ui::OpenRGBDevicePage::updateHSV()
     UpdatingColor = false;
 }
 
+void Ui::OpenRGBDevicePage::updateWheel()
+{
+    if(UpdatingColor)
+    {
+        return;
+    }
+
+    UpdatingColor = true;
+
+    RGBColor qrgb = ToRGBColor
+                        (
+                        ui->BlueSpinBox->value(),
+                        ui->GreenSpinBox->value(),
+                        ui->RedSpinBox->value());
+
+    ui->ColorWheelBox->setColor(QColor::fromRgb(qrgb));
+
+    UpdatingColor = false;
+}
+
 void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int /*arg1*/)
 {
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_HueSpinBox_valueChanged(int /*arg1*/)
 {
     updateRGB();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int /*arg1*/)
 {
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_SatSpinBox_valueChanged(int /*arg1*/)
 {
     updateRGB();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int /*arg1*/)
 {
     updateHSV();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int /*arg1*/)
 {
     updateRGB();
+    updateWheel();
 }
 
 void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()
