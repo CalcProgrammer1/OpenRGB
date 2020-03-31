@@ -1,5 +1,5 @@
 /*-----------------------------------------------------*\
-| colorwheel.cpp                                        |
+| ColorWheel.cpp                                        |
 |                                                       |
 |  Color wheel selector widget for Qt                   |
 |                                                       |
@@ -8,7 +8,7 @@
 |  Modified by Adam Honse (calcprogrammer1@gmail.com)   |
 \*-----------------------------------------------------*/
 
-#include "colorwheel.h"
+#include "ColorWheel.h"
 #include <QPainter>
 #include <QResizeEvent>
 #include <QStyleOption>
