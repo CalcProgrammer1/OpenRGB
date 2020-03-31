@@ -177,6 +177,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 ui->BlueSpinBox->setValue(RGBGetBValue(color));
                 UpdatingColor = false;
                 updateHSV();
+                updateWheel();
             }
             break;
 
@@ -192,6 +193,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
             ui->BlueSpinBox->setValue(RGBGetBValue(color));
             UpdatingColor = false;
             updateHSV();
+            updateWheel();
             }
             break;
     }
