@@ -58,7 +58,11 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
             {
                 char * usb_dev = strstr(usb_string, "/");
                 usb_dev++;
-                usb_dev = strtok(usb_dev, "/");
+                char * usb_end = strstr(usb_dev, "/tty");
+                *usb_end = '\0';
+
+                usb_end = strrchr(usb_dev, '/');
+                *usb_end = '\0';
 
                 char usb_path[1024];
 
