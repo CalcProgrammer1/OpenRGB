@@ -196,12 +196,12 @@ void RGBController_CorsairLightingNode::SetupZones()
         zones[channel_idx].type     = ZONE_TYPE_LINEAR;
 
         /*-------------------------------------------------*\
-        | According to some research on Corsair forums, the |
-        | maximum number of LEDs supported by Corsair Link  |
-        | devices is 96                                     |
+        | I did some experimenting and determined that the  |
+        | maximum number of LEDs the Corsair Commander Pro  |
+        | can support is 200.                               |
         \*-------------------------------------------------*/
         zones[channel_idx].leds_min   = 0;
-        zones[channel_idx].leds_max   = 96;
+        zones[channel_idx].leds_max   = 200;
 
         if(first_run)
         {
@@ -210,7 +210,7 @@ void RGBController_CorsairLightingNode::SetupZones()
 
         for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
-            char led_idx_string[3];
+            char led_idx_string[4];
             sprintf(led_idx_string, "%d", led_ch_idx + 1);
 
             led new_led;

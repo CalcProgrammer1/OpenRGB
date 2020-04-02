@@ -151,8 +151,12 @@ void CorsairLightingNodeController::SetChannelEffect(unsigned char channel,
 
 void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
 {
-    unsigned char   color_data[50];
-    unsigned char   pkt_max;
+    unsigned char   red_color_data[50];
+    unsigned char   grn_color_data[50];
+    unsigned char   blu_color_data[50];
+    unsigned char   pkt_offset          = 0;
+    unsigned char   pkt_size            = 0;
+    unsigned int    colors_remaining    = num_colors;
 
     /*-----------------------------------------------------*\
     | Send Port State packet                                |
@@ -160,114 +164,32 @@ void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBCol
     SendPortState(channel, CORSAIR_LIGHTING_NODE_PORT_STATE_SOFTWARE);
 
     /*-----------------------------------------------------*\
-    | Send red channel packet 1                             |
+    | Loop through colors and send 50 at a time             |
     \*-----------------------------------------------------*/
-    pkt_max = 50;
-
-    if(pkt_max > num_colors)
+    while(colors_remaining > 0)
     {
-        pkt_max = (unsigned char)num_colors;
-    }
-
-    for(int idx = 0; idx < pkt_max; idx++)
-    {
-        color_data[idx] = RGBGetRValue(colors[idx]);
-    }
-
-    SendDirect(channel, 0, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_RED, color_data);
-
-    /*-----------------------------------------------------*\
-    | Send red channel packet 2 if necessary                |
-    \*-----------------------------------------------------*/
-    pkt_max = 0;
-
-    if (num_colors > 50)
-    {
-        pkt_max = (unsigned char)(num_colors - 50);
-    }
-
-    if(pkt_max > 0)
-    {
-        for (std::size_t idx = 0; idx < pkt_max; idx++)
+        if(colors_remaining < 50)
         {
-            color_data[idx] = RGBGetRValue(colors[idx+50]);
+            pkt_size = colors_remaining;
+        }
+        else
+        {
+            pkt_size = 50;
+        }
+        
+        for(int color_idx = 0; color_idx < pkt_size; color_idx++)
+        {
+            red_color_data[color_idx] = RGBGetRValue(colors[pkt_offset + color_idx]);
+            grn_color_data[color_idx] = RGBGetGValue(colors[pkt_offset + color_idx]);
+            blu_color_data[color_idx] = RGBGetBValue(colors[pkt_offset + color_idx]);
         }
 
-        SendDirect(channel, 50, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_RED, color_data);
-    }
+        SendDirect(channel, pkt_offset, pkt_size, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_RED,   red_color_data);
+        SendDirect(channel, pkt_offset, pkt_size, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_GREEN, grn_color_data);
+        SendDirect(channel, pkt_offset, pkt_size, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_BLUE,  blu_color_data);
 
-    /*-----------------------------------------------------*\
-    | Send green channel packet 1                           |
-    \*-----------------------------------------------------*/
-    pkt_max = 50;
-
-    if(pkt_max > num_colors)
-    {
-        pkt_max = (unsigned char)num_colors;
-    }
-
-    for(int idx = 0; idx < pkt_max; idx++)
-    {
-        color_data[idx] = RGBGetGValue(colors[idx]);
-    }
-
-    SendDirect(channel, 0, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_GREEN, color_data);
-
-    /*-----------------------------------------------------*\
-    | Send green channel packet 2 if necessary              |
-    \*-----------------------------------------------------*/
-    pkt_max = 0;
-
-    if (num_colors > 50)
-    {
-        pkt_max = (unsigned char)(num_colors - 50);
-    }
-
-    if(pkt_max > 0)
-    {
-        for (std::size_t idx = 0; idx < pkt_max; idx++)
-        {
-            color_data[idx] = RGBGetGValue(colors[idx+50]);
-        }
-
-        SendDirect(channel, 50, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_GREEN, color_data);
-    }
-
-    /*-----------------------------------------------------*\
-    | Send blue channel packet 1                            |
-    \*-----------------------------------------------------*/
-    pkt_max = 50;
-
-    if(pkt_max > num_colors)
-    {
-        pkt_max = (unsigned char)num_colors;
-    }
-
-    for(int idx = 0; idx < pkt_max; idx++)
-    {
-        color_data[idx] = RGBGetBValue(colors[idx]);
-    }
-
-    SendDirect(channel, 0, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_BLUE, color_data);
-
-    /*-----------------------------------------------------*\
-    | Send blue channel packet 2 if necessary               |
-    \*-----------------------------------------------------*/
-    pkt_max = 0;
-
-    if (num_colors > 50)
-    {
-        pkt_max = (unsigned char)(num_colors - 50);
-    }
-
-    if(pkt_max > 0)
-    {
-        for (std::size_t idx = 0; idx < pkt_max; idx++)
-        {
-            color_data[idx] = RGBGetBValue(colors[idx+50]);
-        }
-
-        SendDirect(channel, 50, pkt_max, CORSAIR_LIGHTING_NODE_DIRECT_CHANNEL_BLUE, color_data);
+        colors_remaining -= pkt_size;
+        pkt_offset       += pkt_size;
     }
 
     /*-----------------------------------------------------*\
