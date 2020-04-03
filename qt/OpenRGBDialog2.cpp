@@ -275,6 +275,7 @@ void OpenRGBDialog2::RefreshProfileList()
 
 void OpenRGBDialog2::on_Exit()
 {
+    trayIcon->hide();
     close();
 }
 
