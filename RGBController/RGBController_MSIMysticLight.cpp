@@ -129,28 +129,49 @@ void RGBController_MSIMysticLight::UpdateMode()
 
 void RGBController_MSIMysticLight::SetupModes()
 {
-    mode Off;
-    Off.name       = "Off";
-    Off.value      = EFFECT::DISABLE;
-    Off.color_mode = MODE_COLORS_PER_LED; // Only needed to show the Zones and Leds on the GUI
-    modes.push_back(Off);
+    constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR;
+    constexpr unsigned int COMMON       = RANDOM_ONLY | MODE_FLAG_HAS_PER_LED_COLOR;
 
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = EFFECT::STATIC;
-    Static.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
-
-    mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = EFFECT::BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed      = SPEED::MEDIUM;
-    Breathing.speed_max  = SPEED::HIGH;
-    Breathing.speed_min  = SPEED::LOW;
-    modes.push_back(Breathing);
+    SetupMode("Off", DISABLE, 0);
+    SetupMode("Static", STATIC, MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR);
+    SetupMode("Breathing", BREATHING, COMMON);
+    SetupMode("Flashing", FLASHING, COMMON);
+    SetupMode("Double flashing", DOUBLE_FLASHING, COMMON);
+    SetupMode("Lightning", LIGHTNING, COMMON);
+    SetupMode("MSI Marquee", MSI_MARQUEE, COMMON);
+    SetupMode("Meteor", METEOR, COMMON);
+    SetupMode("Water drop", WATER_DROP, COMMON);
+    SetupMode("MSI Rainbow", MSI_RAINBOW, RANDOM_ONLY);
+    SetupMode("Pop", POP, COMMON);
+    SetupMode("Rap", RAP, COMMON);
+    SetupMode("Jazz", JAZZ, COMMON);
+    SetupMode("Play", PLAY, COMMON);
+    SetupMode("Movie", MOVIE, COMMON);
+    SetupMode("Color ring", COLOR_RING, COMMON);
+    SetupMode("Planetary", PLANETARY, COMMON);
+    SetupMode("Double meteor", DOUBLE_METEOR, COMMON);
+    SetupMode("Energy", ENERGY, COMMON);
+    SetupMode("Blink", BLINK, COMMON);
+    SetupMode("Clock", CLOCK, COMMON);
+    SetupMode("Color pulse", COLOR_PULSE, COMMON);
+    SetupMode("Color shift", COLOR_SHIFT, COMMON);
+    SetupMode("Color wave", COLOR_WAVE, COMMON);
+    SetupMode("Marquee", MARQUEE, COMMON);
+    SetupMode("Rainbow", RAINBOW, COMMON);
+    SetupMode("Rainbow wave", RAINBOW_WAVE, COMMON);
+    SetupMode("Visor", VISOR, COMMON);
+    SetupMode("JRainbow", JRAINBOW, COMMON);
+    SetupMode("Rainbow flashing", RAINBOW_FLASHING, COMMON);
+    SetupMode("Rainbow double flashing", RAINBOW_DOUBLE_FLASHING, COMMON);
+    SetupMode("Random", RANDOM, COMMON);
+    SetupMode("Fan control", FAN_CONTROL, COMMON);
+    SetupMode("Off 2", DISABLE_2, COMMON);
+    SetupMode("Color ring flashing", COLOR_RING_FLASHING, COMMON);
+    SetupMode("Color ring double flashing", COLOR_RING_DOUBLE_FLASHING, COMMON);
+    SetupMode("Stack", STACK, COMMON);
+    SetupMode("Corsair Que", CORSAIR_QUE, COMMON);
+    SetupMode("Fire", FIRE, COMMON);
+    SetupMode("Lava", LAVA, COMMON);
 }
 
 void RGBController_MSIMysticLight::UpdateLed(int zone, int led)
@@ -170,4 +191,29 @@ void RGBController_MSIMysticLight::UpdateLed(int zone, int led)
 ZONE RGBController_MSIMysticLight::ZoneFromPos(int zone)
 {
     return led_zones[zone].value;
+}
+
+void RGBController_MSIMysticLight::SetupMode(const char *name, EFFECT mod, unsigned int flags)
+{
+    mode Mode;
+    Mode.name       = name;
+    Mode.value      = mod;
+    Mode.flags      = flags;
+    if(flags & MODE_FLAG_HAS_PER_LED_COLOR)
+    {
+        Mode.color_mode = MODE_COLORS_PER_LED;
+    }
+    else
+    {
+        Mode.color_mode = MODE_COLORS_RANDOM;
+    }
+
+    if(flags & MODE_FLAG_HAS_SPEED)
+    {
+        Mode.speed      = SPEED::MEDIUM;
+        Mode.speed_max  = SPEED::HIGH;
+        Mode.speed_min  = SPEED::LOW;
+    }
+    
+    modes.push_back(Mode);
 }

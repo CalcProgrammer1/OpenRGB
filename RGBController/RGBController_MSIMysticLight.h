@@ -41,6 +41,7 @@ private:
     void        SetupModes();
     void        UpdateLed(int zone, int led);
     ZONE        ZoneFromPos(int zone);
+    void        SetupMode(const char *name, EFFECT mode, unsigned int flags);
 
     MSIMysticLightController*       controller;
 };
