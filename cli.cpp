@@ -14,10 +14,12 @@ static std::string                 profile_save_filename = "";
 
 struct DeviceOptions
 {
-    int device;
+    int             device;
     std::vector<std::tuple<unsigned char, unsigned char, unsigned char>> colors;
-    std::string mode;
-    bool hasOption;
+    std::string     mode;
+    unsigned int    size;
+    bool            hasSize;
+    bool            hasOption;
 };
 
 struct Options
@@ -129,10 +131,15 @@ void OptionHelp()
     help_text += "--gui                                    Show GUI, also appears when not passing any parameters\n";
     help_text += "-l,  --list-devices                      Lists every compatible device with their number\n";
     help_text += "-d,  --device [0-9]                      Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
-    help_text += "                                         Can be specified multiple times with different modes and colors\n";
-    help_text += "-c,  --color \"FFFFFF,00AAFF...\"          Sets colors on each device directly if no effect is specified, and sets the effect color if an effect is specified\n";
-    help_text += "                                         If there are more LEDs than colors given, the last color will be applied to the remaining LEDs\n";
+    help_text += "                                           Can be specified multiple times with different modes and colors\n";
+    help_text += "-z,  --zone [0-9]                        Selects zone to apply colors and/or sizes to, or applies to all zones in device if omitted\n";
+    help_text += "                                           Must be specified after specifying a device\n";
+    help_text += "-c,  --color \"FFFFFF,00AAFF...\"        Sets colors on each device directly if no effect is specified, and sets the effect color if an effect is specified\n";
+    help_text += "                                           If there are more LEDs than colors given, the last color will be applied to the remaining LEDs\n";
     help_text += "-m,  --mode [breathing | static | ...]   Sets the mode to be applied, check --list-devices to see which modes are supported on your device\n";
+    help_text += "-s,  --size [0-N]                        Sets the new size of the specified device zone.\n";
+    help_text += "                                           Must be specified after specifying a zone.\n";
+    help_text += "                                           If the specified size is out of range, or the zone does not offer resizing capability, the size will not be changed\n";
     help_text += "-v,  --version                           Display version and software build information\n";
     help_text += "-p,  --profile filename.orp              Load the profile from filename.orp\n";
     help_text += "-sp, --save-profile filename.orp         Save the given settings to profile filename.orp\n";
@@ -262,19 +269,19 @@ void OptionListDevices()
     }
 }
 
-bool OptionDevice(int *currentDev, std::string argument, Options *options)
+bool OptionDevice(int *current_device, std::string argument, Options *options)
 {
     try
     {
-        *currentDev = std::stoi(argument);
+        *current_device = std::stoi(argument);
 
-        if (rgb_controllers.size() <= *currentDev || *currentDev < 0)
+        if((*current_device >= rgb_controllers.size()) || (*current_device < 0))
         {
             throw;
         }
 
         DeviceOptions newDev;
-        newDev.device = *currentDev;
+        newDev.device = *current_device;
 
         if(!options->hasDevice)
         {
@@ -292,7 +299,30 @@ bool OptionDevice(int *currentDev, std::string argument, Options *options)
     }
 }
 
-bool OptionColor(int *currentDev, std::string argument, Options *options)
+bool OptionZone(int *current_device, int *current_zone, std::string argument, Options *options)
+{
+    try
+    {
+        *current_zone = std::stoi(argument);
+
+        if(*current_device >= rgb_controllers.size())
+        {
+            if(*current_zone >= rgb_controllers[*current_device]->zones.size())
+            {
+                throw;
+            }
+        }
+
+        return true;
+    }
+    catch(...)
+    {
+        std::cout << "Error: Invalid zone ID: " + argument << std::endl;
+        return false;
+    }
+}
+
+bool OptionColor(int *currentDev, int *current_zone, std::string argument, Options *options)
 {
     DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
 
@@ -313,6 +343,41 @@ bool OptionMode(int *currentDev, std::string argument, Options *options)
     DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
     currentDevOpts->mode = argument;
     currentDevOpts->hasOption = true;
+    return true;
+}
+
+bool OptionSize(int *current_device, int *current_zone, std::string argument, Options *options)
+{
+    int new_size = std::stoi(argument);
+
+    /*---------------------------------------------------------*\
+    | Fail out if device, zone, or size are out of range        |
+    \*---------------------------------------------------------*/
+    if((*current_device >= rgb_controllers.size()) || (*current_device < 0))
+    {
+        std::cout << "Error: Device is out of range" << std::endl;
+        return false;
+    }
+    else if((*current_zone >= rgb_controllers[*current_device]->zones.size()) || (*current_zone < 0))
+    {
+        std::cout << "Error: Zone is out of range" << std::endl;
+        return false;
+    }
+    else if((new_size < rgb_controllers[*current_device]->zones[*current_zone].leds_min) || (new_size > rgb_controllers[*current_device]->zones[*current_zone].leds_max))
+    {
+        std::cout << "Error: New size is out of range" << std::endl;
+    }
+
+    /*---------------------------------------------------------*\
+    | Resize the zone                                           |
+    \*---------------------------------------------------------*/
+    rgb_controllers[*current_device]->ResizeZone(*current_zone, new_size);
+
+    /*---------------------------------------------------------*\
+    | Save the profile                                          |
+    \*---------------------------------------------------------*/
+    profile_manager->SaveProfile("sizes.ors");
+
     return true;
 }
 
@@ -359,8 +424,9 @@ bool OptionSaveProfile(std::string argument)
 
 bool ProcessOptions(int argc, char *argv[], Options *options)
 {
-    int arg_index = 1;
-    int currentDev = -1;
+    int arg_index       = 1;
+    int current_device  = -1;
+    int current_zone    = -1;
 
     options->hasDevice = false;
 
@@ -410,7 +476,18 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--device" || option == "-d")
         {
-            if(!OptionDevice(&currentDev, argument, options))
+            if(!OptionDevice(&current_device, argument, options))
+            {
+                return false;
+            }
+        }
+
+        /*---------------------------------------------------------*\
+        | -z / --zone                                               |
+        \*---------------------------------------------------------*/
+        else if(option == "--zone" || option == "-z")
+        {
+            if(!OptionZone(&current_device, &current_zone, argument, options))
             {
                 return false;
             }
@@ -421,7 +498,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--color" || option == "-c")
         {
-            if(!OptionColor(&currentDev, argument, options))
+            if(!OptionColor(&current_device, &current_zone, argument, options))
             {
                 return false;
             }
@@ -432,7 +509,18 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--mode" || option == "-m")
         {
-            if(!OptionMode(&currentDev, argument, options))
+            if(!OptionMode(&current_device, argument, options))
+            {
+                return false;
+            }
+        }
+
+        /*---------------------------------------------------------*\
+        | -s / --size                                               |
+        \*---------------------------------------------------------*/
+        else if(option == "--size" || option == "-s")
+        {
+            if(!OptionSize(&current_device, &current_zone, argument, options))
             {
                 return false;
             }
