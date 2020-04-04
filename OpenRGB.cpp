@@ -57,6 +57,7 @@ void DetectNuvotonI2CBusses()
     case SIO_NCT6102_ID:
     case SIO_NCT6793_ID:
     case SIO_NCT6796_ID:
+    case SIO_NCT6798_ID:
         bus = new i2c_smbus_nct6775();
 
         // Set logical device register to get SMBus base address
@@ -80,6 +81,9 @@ void DetectNuvotonI2CBusses()
             break;
         case SIO_NCT6796_ID:
             sprintf(bus->device_name, "Nuvoton NCT6796D SMBus at %X", smba);
+            break;
+        case SIO_NCT6798_ID:
+            sprintf(bus->device_name, "Nuvoton NCT6798D SMBus at %X", smba);
             break;
         }
 
