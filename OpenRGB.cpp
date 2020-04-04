@@ -293,6 +293,7 @@ void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, st
 void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
+void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraAddressableControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
@@ -335,6 +336,7 @@ void DetectRGBControllers(void)
     DetectRGBFusionGPUControllers(busses, rgb_controllers);
 
     DetectRGBFusionControllers(busses, rgb_controllers);
+    DetectMSIMysticLightControllers(rgb_controllers);
     DetectMSIRGBControllers(rgb_controllers);
 
     DetectAuraAddressableControllers(rgb_controllers);

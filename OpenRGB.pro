@@ -45,6 +45,7 @@ INCLUDEPATH +=                                                          \
     Controllers/HyperXKeyboardController/                               \
     Controllers/LEDStripController/                                     \
     Controllers/MSI3ZoneController/                                     \
+    Controllers/MSIMysticLightController/                               \
     Controllers/MSIRGBController/                                       \
     Controllers/NZXTKrakenController/                                   \
     Controllers/PatriotViperController/                                 \
@@ -110,6 +111,8 @@ SOURCES +=                                                              \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
     Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
+    Controllers/MSIMysticLightController/MSIMysticLightController.cpp   \
+    Controllers/MSIMysticLightController/MSIMysticLightControllerDetect.cpp \
     Controllers/MSIRGBController/MSIRGBController.cpp                   \
     Controllers/MSIRGBController/MSIRGBControllerDetect.cpp             \
     Controllers/NZXTKrakenController/NZXTKrakenController.cpp           \
@@ -150,6 +153,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_MSI3Zone.cpp                            \
+    RGBController/RGBController_MSIMysticLight.cpp                      \
     RGBController/RGBController_MSIRGB.cpp                              \
     RGBController/RGBController_NZXTKraken.cpp                          \
     RGBController/RGBController_PatriotViper.cpp                        \
@@ -194,6 +198,7 @@ HEADERS +=                                                              \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.h     \
     Controllers/LEDStripController/LEDStripController.h                 \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
+    Controllers/MSIMysticLightController/MSIMysticLightController.h     \
     Controllers/MSIRGBController/MSIRGBController.h                     \
     Controllers/PatriotViperController/PatriotViperController.h         \
     Controllers/PolychromeController/PolychromeController.h             \
@@ -222,6 +227,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_HyperXKeyboard.h                        \
     RGBController/RGBController_LEDStrip.h                              \
     RGBController/RGBController_MSI3Zone.h                              \
+    RGBController/RGBController_MSIMysticLight.h                        \
     RGBController/RGBController_MSIRGB.h                                \
     RGBController/RGBController_PatriotViper.h                          \
     RGBController/RGBController_Polychrome.h                            \
