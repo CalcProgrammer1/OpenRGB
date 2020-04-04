@@ -153,7 +153,7 @@ struct FeaturePacket
     ZoneData on_board_led_9; // 164
     ZoneData j_rgb_2; // 174
 
-    unsigned char send_led_data = 0; // 184
+    unsigned char save_data = 0; // 184
 };
 
 
@@ -178,7 +178,7 @@ public:
 
 private:
     bool            UpdateController();
-    void            SetSendLedSettings(bool send);
+    void            SaveOnUpdate(bool send);
     ZoneData*       GetZoneData(ZONE zone);
 
     hid_device*             dev;

@@ -10,21 +10,13 @@
 #pragma once
 #include "RGBController.h"
 #include "MSIMysticLightController.h"
-#include <map>
 #include <vector>
-
-struct LedPort
-{
-    const char* name;
-    int header;
-};
-
-typedef std::vector< std::vector<LedPort> > ZoneLeds;
 
 class RGBController_MSIMysticLight: public RGBController
 {
 public:
     RGBController_MSIMysticLight(MSIMysticLightController* controller_ptr);
+    ~RGBController_MSIMysticLight();
 
     void        SetupZones();
 

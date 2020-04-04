@@ -92,9 +92,9 @@ bool MSIMysticLightController::Update()
     return hid_send_feature_report(dev, reinterpret_cast<unsigned char *>(&data), sizeof data) == sizeof data;
 }
 
-void MSIMysticLightController::SetSendLedSettings(bool send)
+void MSIMysticLightController::SaveOnUpdate(bool save)
 {
-    data.send_led_data = send;
+    data.save_data = save;
 }
 
 void MSIMysticLightController::SetZoneColor(ZONE zone, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
