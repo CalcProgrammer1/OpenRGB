@@ -51,14 +51,13 @@ static const unsigned char aura_ram_addresses[] =
 /*---------------------------------------------------------------------------------*\
 | This list contains the available SMBus addresses for mapping Aura motherboards    |
 \*---------------------------------------------------------------------------------*/
-#define AURA_MOBO_ADDRESS_COUNT 4
+#define AURA_MOBO_ADDRESS_COUNT 3
 
 static const unsigned char aura_mobo_addresses[] =
 {
     0x40,
     0x4E,
-    0x4F,
-    0x66
+    0x4F
 };
 
 /******************************************************************************************\
