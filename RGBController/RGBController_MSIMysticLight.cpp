@@ -50,10 +50,7 @@ RGBController_MSIMysticLight::RGBController_MSIMysticLight(MSIMysticLightControl
 
 RGBController_MSIMysticLight::~RGBController_MSIMysticLight()
 {
-    if(controller)
-    {
-        delete controller;
-    }
+    delete controller;
 }
 
 void RGBController_MSIMysticLight::SetupZones()
@@ -222,6 +219,6 @@ void RGBController_MSIMysticLight::SetupMode(const char *name, EFFECT mod, unsig
         Mode.speed_max  = SPEED::HIGH;
         Mode.speed_min  = SPEED::LOW;
     }
-    
+
     modes.push_back(Mode);
 }

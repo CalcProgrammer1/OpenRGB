@@ -93,6 +93,13 @@ enum SPEED
     HIGH
 };
 
+enum FAN_TYPE
+{
+    SP,
+    HD,
+    LL
+};
+
 enum BRIGHTNESS
 {
     OFF,
@@ -115,6 +122,17 @@ struct Color
     unsigned char B;
 };
 
+struct CorsairZoneData
+{
+    unsigned char effect = EFFECT::STATIC;
+    Color color { std::numeric_limits<unsigned char>::max(), 0, 0 };
+    unsigned char fan_flags = 40;
+    unsigned char corsair_quantity;
+    unsigned char padding[3];
+
+    unsigned char is_individual = 0;
+};
+
 struct ZoneData
 {
     unsigned char effect = EFFECT::STATIC;
@@ -128,7 +146,7 @@ struct ZoneData
 
 struct RainbowZoneData : ZoneData
 {
-    unsigned char cycleNum = 20;
+    unsigned char led_count = 20;
 };
 
 struct FeaturePacket
@@ -139,7 +157,7 @@ struct FeaturePacket
     ZoneData j_pipe_2; // 21
     RainbowZoneData j_rainbow_1; // 31
     RainbowZoneData j_rainbow_2; // 42
-    RainbowZoneData j_corsair; // 53
+    CorsairZoneData j_corsair; // 53
     ZoneData j_corsair_outerll120; // 64
     ZoneData on_board_led; // 74
     ZoneData on_board_led_1; // 84
@@ -166,10 +184,16 @@ public:
     unsigned int    GetZoneMinLedCount(ZONE zone);
     unsigned int    GetZoneMaxLedCount(ZONE zone);
     unsigned int    GetZoneLedCount(ZONE zone);
+    void            SetZoneLedCount(ZONE zone, unsigned int led_count);
 
     void            SetMode(ZONE zone, EFFECT mode, SPEED speed, BRIGHTNESS brightness, bool rainbow_color);
     void            SetZoneColor(ZONE zone, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
+    std::pair<Color, Color>
+                    GetZoneColor(ZONE zone);
     bool            Update();
+
+    void            SetDeviceSettings(bool stripe_or_fan, FAN_TYPE fan_type, unsigned char corsair_device_quantity, bool is_LL120Outer_individual);
+    bool            SetVolume(unsigned char main, unsigned char left, unsigned char right);
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
@@ -177,18 +201,20 @@ public:
     std::string     GetSerial();
 
 private:
-    bool            UpdateController();
+    bool            ReadSettings();
     void            SaveOnUpdate(bool send);
     bool            ReadFwVersion();
     void            ReadSerial();
     void            ReadName();
     ZoneData*       GetZoneData(ZONE zone);
+    RainbowZoneData*
+                    GetRainbowZoneData(ZONE zone);
 
     hid_device*             dev;
     std::string             name;
     std::string             loc;
-    std::string             versionAPROM;
-    std::string             versionLDROM;
+    std::string             version_APROM;
+    std::string             version_LDROM;
     std::string             chip_id;
 
     FeaturePacket data;
