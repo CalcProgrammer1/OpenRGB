@@ -179,12 +179,16 @@ public:
 private:
     bool            UpdateController();
     void            SaveOnUpdate(bool send);
+    bool            ReadFwVersion();
+    void            ReadSerial();
+    void            ReadName();
     ZoneData*       GetZoneData(ZONE zone);
 
     hid_device*             dev;
     std::string             name;
     std::string             loc;
-    std::string             version;
+    std::string             versionAPROM;
+    std::string             versionLDROM;
     std::string             chip_id;
 
     FeaturePacket data;

@@ -19,6 +19,10 @@ MSIMysticLightController::MSIMysticLightController(hid_device* handle, const cha
     if( dev )
     {
         loc = path;
+        
+        ReadName();
+        ReadSerial();
+        ReadFwVersion();
     }
 }
 
@@ -74,7 +78,7 @@ std::string MSIMysticLightController::GetDeviceName()
 
 std::string MSIMysticLightController::GetFWVersion()
 {
-    return(version);
+    return std::string("AP/LD ").append(versionAPROM).append(" / ").append(versionLDROM);
 }
 
 std::string MSIMysticLightController::GetDeviceLocation()
@@ -153,4 +157,53 @@ ZoneData *MSIMysticLightController::GetZoneData(ZONE zone)
     }
 
     return nullptr;
+}
+
+bool MSIMysticLightController::ReadFwVersion()
+{
+    // First read the APROM
+    int num = 1;
+    unsigned char request[64] = {1, 176};
+    unsigned char response[64];
+
+    std::fill_n(request + 2, sizeof request - 2, 204);
+    num &= hid_write(dev, request, 64);
+    num &= hid_read(dev, response, 64);
+
+    unsigned char highValue = response[2] >> 4;
+    unsigned char lowValue  = response[2] & 15;
+
+    versionAPROM = std::to_string(static_cast<int>(highValue)).append(".").append(std::to_string(static_cast<int>(lowValue)));
+
+    // Now read the LDROM
+    request[1] = 182;
+    num &= hid_write(dev, request, 64);
+    num &= hid_read(dev, response, 64);
+
+    highValue = response[2] >> 4;
+    lowValue = response[2] & 15;
+
+    versionLDROM = std::to_string(static_cast<int>(highValue)).append(".").append(std::to_string(static_cast<int>(lowValue)));
+
+    return num == 1;
+}
+
+void MSIMysticLightController::ReadSerial()
+{
+    wchar_t serial[256];
+    hid_get_serial_number_string(dev, serial, 256);
+    std::wstring wserial = std::wstring(serial);
+    chip_id = std::string(wserial.begin(), wserial.end());
+}
+
+void MSIMysticLightController::ReadName()
+{
+    wchar_t tname[256];
+    hid_get_manufacturer_string(dev, tname, 256);
+    std::wstring wname = std::wstring(tname);
+    name = std::string(wname.begin(), wname.end());
+
+    hid_get_product_string(dev, tname, 256);
+    wname = std::wstring(tname);
+    name.append(" ").append(std::string(wname.begin(), wname.end()));
 }
