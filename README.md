@@ -1,29 +1,28 @@
-# OpenRGB (formerly OpenAuraSDK)
+## ![OpenRGB](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/5b7e633ac9f63b00c8a4c72686206c3f/OpenRGB.png) (formerly OpenAuraSDK)
 
-The goal of this project is to create an easy-to-use open source software program and library for accessing and controlling RGB lights on various PC hardware including motherboards, RAM modules, graphics cards, cooling devices, and peripherals.
-
-This project originally focused only on ASUS Aura.  It was spun off of Keyboard Visualizer's AsusAuraWindows branch to learn more about the details behind the Aura protocol and to develop a more flexible, compatible, and reliable driver for Aura.  Our Aura implementation is now quite solid and supports multiple generations of Aura controller across both Intel and AMD platforms.  It also supports Aura-compatible controllers used across multiple manufacturers of RGB memory modules including G.Skill Trident Z RGB and others.  It is still lacking a few capabilities, namely saving settings to persist across reboots, but the core functionality of setting colors and modes is there.
-
-After getting a solid Aura implementation, the project branched out into other manufacturers and categories of RGB devices.  A major focus was to develop a software API that could reliably represent as many RGB devices as possible, exposing their various modes and describing their LED layouts via zones, that was generic enough to write a user application without specifically targeting any one manufacturer.  To this extent, the generic_rgb_interface_test branch was created which became the foundation of OpenRGB.  The goal of OpenRGB is to both develop new drivers for unsupported devices and integrate existing open source drivers for devices that do have some sort of open support.  The goal is to be the one-stop solution to open source RGB lighting control!
+One of the biggest complaints about RGB is the software ecosystem surrounding it.  Every manufacturer has their own app, their own brand, their own style.  If you want to mix and match devices, you end up with a ton of conflicting, functionally identical apps competing for your background resources.  On top of that, these apps are proprietary and Windows-only.  Some even require online accounts.  What if there was a way to control all of your RGB devices from a single app, on both Windows and Linux, without any nonsense?  That is what OpenRGB sets out to achieve.  One app to rule them all.
+OpenRGB is still in its early stages and already supports quite a few products.  I'm always on the lookout for good deals on more popular RGB devices to add support for.
 
 ## Supported Devices
 
 See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) for the current list of supported devices.
+
+![OpenRGB_0.11](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/2a913ece50cfa1ab2210f63e4846df4f/OpenRGB_0.11.PNG)
 
 ## Installation
 #### Windows
   1. Download the latest Visual Studio Community Edition and Qt Creator.
   2. Update the submodules: git submodule update --init --recursive
   3. Open the OpenRGB_Win.pro project.
-  4. Build the project for `x86` Architecture. The InpOut32 library I use does not support x64.
-  5. Copy InpOut32.dll from dependencies to the same path as OpenAuraSDK.exe along with the Qt libraries.
+  4. Build the project for either the `x86` or `x64` architecture.
+  5. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
 
 **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
 
 #### Linux:
-  1. Either open the project using QT Creator or build it using qmake.  You will need the libusb-1.0-0 (or equivalent) and libhidapi development packages from your distribution's package manager installed.
+  1. Either open the project using QT Creator or build it using qmake.  You will need the libusb-1.0-0 (or equivalent) development package from your distribution's package manager installed.
     
-    * sudo apt install qt5-default libusb-1.0-0-dev libhidapi-dev
+    * sudo apt install build-esential qtcreator qt5-default libusb-1.0-0-dev
 
     * git clone https://gitlab.com/CalcProgrammer1/OpenRGB
 
@@ -43,10 +42,16 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
      - This can be identified by your motherboard
          ##### Intel
           - `modprobe i2c-dev i2c-i801`
-          - Asus used the SMBus controller on the Super IO chip for on-board Aura chips on Intel motherboards.  I have a kernel patch to add a driver for this chip [here](https://gitlab.com/CalcProgrammer1/OpenAuraSDK/issues/22).  After patching the kernel, enable the Nuvoton NCT67xx SMBus driver in your kernel configuration.  The driver may be loaded with `modprobe i2c-nct6775`
+          - Asus used the SMBus controller on the Super IO chip for on-board Aura chips on Intel motherboards.  I have a kernel patch to add a driver for this chip (OpenRGB.patch).  After patching the kernel, enable the Nuvoton NCT67xx SMBus driver in your kernel configuration.  The driver may be loaded with `modprobe i2c-nct6775`
          ##### AMD
           - `modprobe i2c-dev i2c-piix4` 
-          - The second SMBus isn't currently picked up by the kernel driver and that seems to be where Asus wired the Aura controllers so I have a kernel patch [here](https://gitlab.com/CalcProgrammer1/OpenAuraSDK/issues/9) that will allow the kernel to use the second bus (at `0x0b20`).
+          - The second SMBus isn't currently picked up by the kernel driver and that seems to be where Asus wired the Aura controllers so I have a kernel patch (OpenRGB.patch) that will allow the kernel to use the second bus (at `0x0b20`).
+
+     - Instructions on patching the kernel:
+       - https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Kernel-Patch
+       
+     - Some Gigabyte/Aorus motherboards have an ACPI conflict with the SMBus controller.
+       - Add `acpi_enforce_resources=lax` to your kernel command line and reboot.  The controller should now show up.
 
      - You'll have to enable user access to your SMbus if you don't run as root.
        - List all SMBus controllers: `sudo i2cdetect -l`
