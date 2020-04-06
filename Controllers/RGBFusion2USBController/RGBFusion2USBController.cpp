@@ -107,7 +107,6 @@ void RGBFusion2USBController::SetCalibration()
 
 void RGBFusion2USBController::SetLedCount(unsigned int count)
 {
-    led_count = count;
     LEDCount s0 = LedCountToEnum(count);
     SendPacket(0x34, s0 | (s0 << 4)); // D_LED1 | D_LED2
 }

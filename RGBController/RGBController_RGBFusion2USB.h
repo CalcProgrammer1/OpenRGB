@@ -40,6 +40,5 @@ public:
 
 private:
     RGBFusion2USBController*       controller;
-    IT8297Report                report;
-    unsigned int                per_strip_led_cnt;
+    IT8297Report                   report;
 };

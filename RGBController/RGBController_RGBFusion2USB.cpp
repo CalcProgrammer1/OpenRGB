@@ -142,6 +142,16 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
 
 void RGBController_RGBFusion2USB::SetupZones()
 {
+    /*-------------------------------------------------*\
+    | Only set LED count on the first run               |
+    \*-------------------------------------------------*/
+    bool first_run = false;
+
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
     /*---------------------------------------------------------*\
     | Look up channel map based on device name                  |
     \*---------------------------------------------------------*/
@@ -152,45 +162,48 @@ void RGBController_RGBFusion2USB::SetupZones()
     }
 
     /*---------------------------------------------------------*\
-    | Get the default number of addressable LEDs for each strip |
-    \*---------------------------------------------------------*/
-    per_strip_led_cnt = 64; // TODO needs GUI option
-
-    /*---------------------------------------------------------*\
     | Get number of motherboard LEDs and set addressable LED    |
     | count                                                     |
     \*---------------------------------------------------------*/
     size_t mb_led_cnt = it->second[0].size();
 
-    controller->SetLedCount(per_strip_led_cnt);
-    controller->DisableBuiltinEffect(0, 0x3);
+    /*-------------------------------------------------*\
+    | Clear any existing color/LED configuration        |
+    \*-------------------------------------------------*/
+    leds.clear();
+    colors.clear();
+    zones.resize(led_zones.size());
 
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < led_zones.size(); zone_idx++)
     {
-        zone new_zone;
-        new_zone.name           = led_zones[zone_idx];
-        new_zone.type           = ZONE_TYPE_LINEAR;
+        zones[zone_idx].name           = led_zones[zone_idx];
+        zones[zone_idx].type           = ZONE_TYPE_LINEAR;
 
         /*---------------------------------------------------------*\
         | Zone index 0 is motherboard LEDs and has fixed size       |
         \*---------------------------------------------------------*/
         if(zone_idx == ZONE_MB)
         {
-            new_zone.leds_min   = mb_led_cnt;
-            new_zone.leds_max   = mb_led_cnt;
-            new_zone.leds_count = mb_led_cnt;
+            zones[zone_idx].leds_min   = mb_led_cnt;
+            zones[zone_idx].leds_max   = mb_led_cnt;
+            zones[zone_idx].leds_count = mb_led_cnt;
         }
         else
         {
-            new_zone.leds_min   = 0;
-            new_zone.leds_max   = per_strip_led_cnt;    //TODO - per-channel LED counts
-            new_zone.leds_count = per_strip_led_cnt;    
+            zones[zone_idx].leds_min   = 0;
+            zones[zone_idx].leds_max   = 1024;
+
+            if(first_run)
+            {
+                zones[zone_idx].leds_count = 0;
+            }
+
+            controller->SetLedCount(zones[zone_idx].leds_count);
+            controller->DisableBuiltinEffect(0, 0x3);
         }
-        
-        zones.push_back(new_zone);
     }
 
     /*---------------------------------------------------------*\
@@ -221,9 +234,14 @@ void RGBController_RGBFusion2USB::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2USB::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RGBFusion2USB::ResizeZone(int zone, int new_size)
 {
+    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
+    {
+        zones[zone].leds_count = new_size;
 
+        SetupZones();
+    }
 }
 
 void RGBController_RGBFusion2USB::SetCustomMode()

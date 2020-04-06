@@ -186,7 +186,6 @@ private:
 
     hid_device*             dev;
     int                     mode;
-    unsigned int            led_count;
     IT8297Report            report;
     std::string             name;
     std::string             loc;
