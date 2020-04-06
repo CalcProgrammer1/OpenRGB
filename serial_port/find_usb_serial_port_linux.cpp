@@ -50,7 +50,11 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
             strcpy(tty_path, "/sys/class/tty/");
             strcat(tty_path, ent->d_name);
 
-            readlink(tty_path, symlink_path, 1024);
+            /*-----------------------------------------------------------------*\
+            | readlink() does not null-terminate, so manually terminate it      |
+            \*-----------------------------------------------------------------*/
+            ssize_t link_path_size = readlink(tty_path, symlink_path, 1024);
+            symlink_path[link_path_size] = '\0';
 
             char * usb_string = strstr(symlink_path, "usb");
 
