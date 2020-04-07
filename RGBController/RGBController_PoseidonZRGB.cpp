@@ -131,8 +131,9 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* p
 {
     poseidon = poseidon_ptr;
 
-    name = "Thermaltake Poseidon Z RGB";
-    type = DEVICE_TYPE_KEYBOARD;
+    name        = "Thermaltake Poseidon Z RGB";
+    type        = DEVICE_TYPE_KEYBOARD;
+    description = "Thermaltake Poseidon Z RGB Device";
 
     mode Direct;
     Direct.name       = "Direct";

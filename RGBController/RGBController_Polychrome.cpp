@@ -18,7 +18,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 {
     polychrome = polychrome_ptr;
 
-    name = polychrome->GetDeviceName();
+    name        = polychrome->GetDeviceName();
+    type        = DEVICE_TYPE_MOTHERBOARD;
+    description = "ASRock Polychrome Device";
 
     if(polychrome->IsAsrLed())
     {

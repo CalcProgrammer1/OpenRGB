@@ -13,10 +13,10 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
 {
     viper = viper_ptr;
 
-    name = viper->GetDeviceName();
-    location = viper->GetDeviceLocation();
-    
-    type = DEVICE_TYPE_DRAM;
+    name        = viper->GetDeviceName();
+    type        = DEVICE_TYPE_DRAM;
+    description = "Patriot Viper Device";
+    location    = viper->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";

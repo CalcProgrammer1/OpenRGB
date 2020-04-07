@@ -14,10 +14,10 @@ RGBController_HyperXDRAM::RGBController_HyperXDRAM(HyperXDRAMController* hyperx_
 {
     hyperx = hyperx_ptr;
 
-    name = hyperx->GetDeviceName();
-    location = hyperx->GetDeviceLocation();
-
-    type = DEVICE_TYPE_DRAM;
+    name        = hyperx->GetDeviceName();
+    type        = DEVICE_TYPE_DRAM;
+    description = "HyperX DRAM Device";
+    location    = hyperx->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";

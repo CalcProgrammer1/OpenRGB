@@ -5,9 +5,9 @@
 
 RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
 {
-    name = "Faustus";
-    description = "ASUS TUF Keyboard Backlight";
-    type = DEVICE_TYPE_KEYBOARD;
+    name        = "ASUS TUF Keyboard";
+    type        = DEVICE_TYPE_KEYBOARD;
+    description = "Faustus Device";
 
     modes.resize(4);
     modes[0].name       = "Static";

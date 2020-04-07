@@ -14,9 +14,9 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
 {
     strip = ledstrip_ptr;
 
-    name = "LED Strip";
-
-    type = DEVICE_TYPE_LEDSTRIP;
+    name        = "LED Strip";
+    type        = DEVICE_TYPE_LEDSTRIP;
+    description = "Keyboard Visualizer Arduino LED Strip Device";
 
     mode Direct;
     Direct.name       = "Direct";

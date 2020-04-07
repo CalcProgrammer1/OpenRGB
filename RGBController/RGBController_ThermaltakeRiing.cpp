@@ -14,9 +14,9 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
 {
     riing = riing_ptr;
 
-    name = "Thermaltake Riing";
-
-    type = DEVICE_TYPE_COOLER;
+    name        = "Thermaltake Riing";
+    type        = DEVICE_TYPE_COOLER;
+    description = "Thermaltake Riing Device";
 
     mode Flow;
     Flow.name       = "Flow";

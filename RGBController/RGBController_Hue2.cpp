@@ -13,10 +13,10 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
 {
     hue2 = hue2_ptr;
 
-    name = "NZXT Hue 2";
+    name        = "NZXT Hue 2";
+    type        = DEVICE_TYPE_LEDSTRIP;
+    description = "NZXT Hue 2 Device";
 
-    type = DEVICE_TYPE_LEDSTRIP;
-    
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0xFFFF;

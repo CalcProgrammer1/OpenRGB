@@ -19,9 +19,9 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
 {
     rgb_fusion = rgb_fusion_ptr;
 
-    name = rgb_fusion->GetDeviceName();
+    name        = rgb_fusion->GetDeviceName();
     description = "RGB Fusion 1.0";
-    location = rgb_fusion->GetDeviceLocation();
+    location    = rgb_fusion->GetDeviceLocation();
 
     type = DEVICE_TYPE_MOTHERBOARD;
 

@@ -13,9 +13,10 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
 {
     wraith = wraith_ptr;
 
-    name = "AMD Wraith Prism";
-    type = DEVICE_TYPE_COOLER;
-    version = wraith->GetFirmwareVersionString();
+    name        = "AMD Wraith Prism";
+    type        = DEVICE_TYPE_COOLER;
+    description = "AMD Wraith Prism Device";
+    version     = wraith->GetFirmwareVersionString();
 
     mode Static;
     Static.name       = "Static";

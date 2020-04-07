@@ -13,7 +13,9 @@
 
 RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 {
-    name = "E1.31 Streaming ACN Device";
+    name        = "E1.31 Streaming ACN Device";
+    type        = DEVICE_TYPE_LEDSTRIP;
+    description = "E1.31 Streaming ACN Device";
 
     devices = device_list;
 

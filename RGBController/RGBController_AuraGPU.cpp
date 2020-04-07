@@ -46,10 +46,11 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
     aura_gpu = aura_gpu_ptr;
 
 
-    name = aura_gpu->GetDeviceName();
-    version = "0.00.1";
-    location = aura_gpu->GetDeviceLocation();
-    type = DEVICE_TYPE_GPU;
+    name        = aura_gpu->GetDeviceName();
+    type        = DEVICE_TYPE_GPU;
+    description = "ASUS Aura GPU Device";
+    version     = "0.00.1";
+    location    = aura_gpu->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";

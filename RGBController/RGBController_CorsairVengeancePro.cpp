@@ -13,10 +13,10 @@ RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVeng
 {
     corsair = corsair_ptr;
 
-    name = corsair->GetDeviceName();
-    location = corsair->GetDeviceLocation();
-
-    type = DEVICE_TYPE_DRAM;
+    name        = corsair->GetDeviceName();
+    type        = DEVICE_TYPE_DRAM;
+    description = "Corsair Vengeance Pro RGB Device";
+    location    = corsair->GetDeviceLocation();
 
     mode ColorShift;
     ColorShift.name       = "Color Shift";

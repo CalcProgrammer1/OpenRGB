@@ -13,8 +13,8 @@ RGBController_RedragonK556::RGBController_RedragonK556(RedragonK556Controller* r
 {
     redragon = redragon_ptr;
 
-    name = "Redragon K556 Devarajas";
-    type = DEVICE_TYPE_KEYBOARD;
+    name        = "Redragon K556 Devarajas";
+    type        = DEVICE_TYPE_KEYBOARD;
     description = "Redragon K556 Device";
 
     mode Custom;
