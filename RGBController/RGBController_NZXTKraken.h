@@ -29,8 +29,20 @@ public:
     void        UpdateMode();
 
 private:
-    std::vector<std::vector<RGBColor>> GetColors(int zone);
+    std::vector<std::vector<RGBColor>> GetColors
+        (
+        int zone,
+        const mode& channel_mode
+        );
+
+    void UpdateChannel
+        (
+        NZXTKrakenChannel_t channel,
+        int zone,
+        const mode& channel_mode
+        );
 
     NZXTKrakenController*       nzxtkraken;
     std::set<unsigned int>      logo_modes;
+    int                         default_mode;
 };
