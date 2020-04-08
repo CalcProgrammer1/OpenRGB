@@ -136,22 +136,22 @@ struct CorsairZoneData
 struct ZoneData
 {
     unsigned char effect = EFFECT::STATIC;
-    Color color { std::numeric_limits<unsigned char>::max(), 0, 0 };
-    unsigned char speedAndBrightnessFlags = 40;
-    Color color2 { 0, std::numeric_limits<unsigned char>::max(), 0 };
-    unsigned char colorFlags = 128;
+    Color color { std::numeric_limits<unsigned char>::max(), 0u, 0u };
+    unsigned char speedAndBrightnessFlags = 40u;
+    Color color2 { 0, std::numeric_limits<unsigned char>::max(), 0u };
+    unsigned char colorFlags = 128u;
 
-    const unsigned char padding = 0;
+    const unsigned char padding = 0u;
 };
 
 struct RainbowZoneData : ZoneData
 {
-    unsigned char led_count = 20;
+    unsigned char cycle_or_led_num = 20u;
 };
 
 struct FeaturePacket
 {
-    const unsigned char report_id = 82; // Report ID
+    const unsigned char report_id = 82u; // Report ID
     ZoneData j_rgb_1; // 1
     ZoneData j_pipe_1; // 11
     ZoneData j_pipe_2; // 21
@@ -171,7 +171,7 @@ struct FeaturePacket
     ZoneData on_board_led_9; // 164
     ZoneData j_rgb_2; // 174
 
-    unsigned char save_data = 0; // 184
+    unsigned char save_data = 0u; // 184
 };
 
 
@@ -187,13 +187,19 @@ public:
     void            SetZoneLedCount(ZONE zone, unsigned int led_count);
 
     void            SetMode(ZONE zone, EFFECT mode, SPEED speed, BRIGHTNESS brightness, bool rainbow_color);
+    void            GetMode(ZONE zone, EFFECT &mode, SPEED &speed, BRIGHTNESS &brightness, bool &rainbow_color);
     void            SetZoneColor(ZONE zone, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
+    void            SetCycleCount(ZONE zone, unsigned char cycle_num);
+    unsigned char   GetCycleCount(ZONE zone);
     std::pair<Color, Color>
                     GetZoneColor(ZONE zone);
     bool            Update();
 
     void            SetDeviceSettings(bool stripe_or_fan, FAN_TYPE fan_type, unsigned char corsair_device_quantity, bool is_LL120Outer_individual);
+    void            GetDeviceSettings(bool &stripe_or_fan, FAN_TYPE &fan_type, unsigned char &corsair_device_quantity, bool &is_LL120Outer_individual);
     bool            SetVolume(unsigned char main, unsigned char left, unsigned char right);
+    void            SetBoardSyncSettings(bool onboard_sync, bool combine_JRGB, bool combine_JPIPE1, bool combine_JPIPE2, bool combine_JRAINBOW1, bool combine_JRAINBOW2, bool combine_crossair);
+    void            GetBoardSyncSettings(bool &onboard_sync, bool &combine_JRGB, bool &combine_JPIPE1, bool &combine_JPIPE2, bool &combine_JRAINBOW1, bool &combine_JRAINBOW2, bool &combine_crossair);
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
@@ -209,6 +215,7 @@ private:
     ZoneData*       GetZoneData(ZONE zone);
     RainbowZoneData*
                     GetRainbowZoneData(ZONE zone);
+    static unsigned char   BitSet(unsigned char value, bool bit, unsigned int position);
 
     hid_device*             dev;
     std::string             name;

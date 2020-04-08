@@ -37,7 +37,7 @@ MSIMysticLightController::~MSIMysticLightController()
 
 unsigned int MSIMysticLightController::GetZoneMinLedCount(ZONE /*zone*/)
 {
-    return 1;
+    return 1u;
 }
 
 unsigned int MSIMysticLightController::GetZoneMaxLedCount(ZONE zone)
@@ -47,9 +47,9 @@ unsigned int MSIMysticLightController::GetZoneMaxLedCount(ZONE zone)
     case J_RAINBOW_1:
     case J_RAINBOW_2:
     case J_CORSAIR:
-        return 240;
+        return 4u; // TODO: It can be different by zone and by mobo
     default:
-        return 1;
+        return 1u;
     }
 }
 
@@ -62,7 +62,7 @@ unsigned int MSIMysticLightController::GetZoneLedCount(ZONE zone)
         return GetZoneMaxLedCount(zone);
     }
 
-    return requestedZone->led_count;
+    return requestedZone->cycle_or_led_num;
 }
 
 void MSIMysticLightController::SetZoneLedCount(ZONE zone, unsigned int led_count)
@@ -74,7 +74,8 @@ void MSIMysticLightController::SetZoneLedCount(ZONE zone, unsigned int led_count
         return;
     }
 
-    requestedZone->led_count = std::min(GetZoneMaxLedCount(zone), std::max(GetZoneMinLedCount(zone), led_count));
+    led_count = std::min(GetZoneMaxLedCount(zone), std::max(GetZoneMinLedCount(zone), led_count));
+    requestedZone->cycle_or_led_num = led_count;
 }
 
 void MSIMysticLightController::SetMode(ZONE zone, EFFECT mode, SPEED speed, BRIGHTNESS brightness, bool rainbow_color)
@@ -86,8 +87,8 @@ void MSIMysticLightController::SetMode(ZONE zone, EFFECT mode, SPEED speed, BRIG
     }
 
     zoneData->effect = mode;
-    zoneData->speedAndBrightnessFlags = (zoneData->speedAndBrightnessFlags & 128) | brightness << 2 | speed;
-    zoneData->colorFlags = static_cast<unsigned char>(std::bitset<8>(zoneData->colorFlags).set(7, !rainbow_color).to_ulong());
+    zoneData->speedAndBrightnessFlags = (zoneData->speedAndBrightnessFlags & 128u) | brightness << 2u | speed;
+    zoneData->colorFlags = BitSet(zoneData->colorFlags, !rainbow_color, 7u);
 }
 
 std::string MSIMysticLightController::GetDeviceName()
@@ -202,6 +203,7 @@ ZoneData *MSIMysticLightController::GetZoneData(ZONE zone)
 
     return nullptr;
 }
+
 RainbowZoneData *MSIMysticLightController::GetRainbowZoneData(ZONE zone)
 {
     switch (zone)
@@ -235,12 +237,12 @@ bool MSIMysticLightController::ReadFwVersion()
 
     // Now read the LDROM
     // Checksum also available at report ID 184, with highCheksum stored at index 8, and low at 9
-    request[1] = 182;
+    request[1] = 182u;
     num &= hid_write(dev, request, 64);
     num &= hid_read(dev, response, 64);
 
-    highValue = response[2] >> 4;
-    lowValue = response[2] & 15;
+    highValue = response[2] >> 4u;
+    lowValue = response[2] & 15u;
 
     version_LDROM = std::to_string(static_cast<int>(highValue)).append(".").append(std::to_string(static_cast<int>(lowValue)));
 
@@ -269,37 +271,124 @@ void MSIMysticLightController::ReadName()
 
 void MSIMysticLightController::SetDeviceSettings(bool is_fan, FAN_TYPE fan_type,
                                                  unsigned char corsair_device_quantity,
-                                                 bool is_LL120Outer_individual) { // If is_fan false, it is a stripe
+                                                 bool is_LL120Outer_individual) 
+{
+    // If is_fan false, it is a stripe
     CorsairZoneData &settingsZone = data.j_corsair;
-    settingsZone.fan_flags = (settingsZone.fan_flags & 128) | fan_type << 1 | is_fan;
-    settingsZone.corsair_quantity = corsair_device_quantity << 2;
-    settingsZone.is_individual = static_cast<unsigned char>(std::bitset<8>(settingsZone.padding).set(0, is_LL120Outer_individual).to_ulong());
+    settingsZone.fan_flags = (settingsZone.fan_flags & 128u) | fan_type << 1u | is_fan;
+    settingsZone.corsair_quantity = corsair_device_quantity << 2u;
+    settingsZone.is_individual = BitSet(settingsZone.is_individual, is_LL120Outer_individual, 0u);
 }
 
-bool MSIMysticLightController::SetVolume(unsigned char main, unsigned char left, unsigned char right) {
+bool MSIMysticLightController::SetVolume(unsigned char main, unsigned char left, unsigned char right)
+{
     unsigned char packet[64];
-    std::fill_n(packet, sizeof packet, 204);
+    std::fill_n(packet, sizeof packet, 204u);
 
-    if(main > 100)
+    if(main > 100u)
     {
-        main = 100;
+        main = 100u;
     }
 
-    if(left > 100)
+    if(left > 100u)
     {
-        left = 100;
+        left = 100u;
     }
 
-    if(right > 100)
+    if(right > 100u)
     {
-        right = 100;
+        right = 100u;
     }
 
-    packet[0] = 1;
-    packet[1] = 192;
+    packet[0] = 1u;
+    packet[1] = 192u;
     packet[3] = main;
     packet[4] = left;
     packet[5] = right;
 
     return hid_write(dev, packet, sizeof packet);
+}
+
+void MSIMysticLightController::SetBoardSyncSettings(bool onboard_sync, bool combine_JRGB, bool combine_JPIPE1,
+                                                    bool combine_JPIPE2, bool combine_JRAINBOW1, bool combine_JRAINBOW2,
+                                                    bool combine_crossair)
+{
+    ZoneData &syncZone = data.on_board_led;
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, onboard_sync, 0u);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JRAINBOW1, 1u);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JRAINBOW2, 2u);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_crossair, 3u);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JPIPE1, 4u);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JPIPE2, 5u);
+
+    syncZone.speedAndBrightnessFlags = BitSet(syncZone.speedAndBrightnessFlags, combine_JRGB, 7u);
+}
+
+void MSIMysticLightController::GetMode(ZONE zone, EFFECT &mode, SPEED &speed, BRIGHTNESS &brightness, bool &rainbow_color) 
+{
+    ZoneData *zoneData = GetZoneData(zone);
+    if (!zoneData)
+    {
+        return;
+    }
+
+    mode = static_cast<EFFECT>(zoneData->effect);
+    speed = static_cast<SPEED>(zoneData->speedAndBrightnessFlags & 3u);
+    brightness = static_cast<BRIGHTNESS>((zoneData->speedAndBrightnessFlags >> 2u) & 31u);
+    rainbow_color = (zoneData->colorFlags & 128u) >> 7u;
+}
+
+unsigned char MSIMysticLightController::BitSet(unsigned char value, bool bit, unsigned int position)
+{
+    return static_cast<unsigned char>(std::bitset<8>(value).set(position, bit).to_ulong());
+}
+
+void MSIMysticLightController::SetCycleCount(ZONE zone, unsigned char cycle_num)
+{
+    RainbowZoneData *requestedZone = GetRainbowZoneData(zone);
+
+    if (!requestedZone)
+    {
+        return;
+    }
+
+    requestedZone->cycle_or_led_num = cycle_num;
+}
+
+unsigned char MSIMysticLightController::GetCycleCount(ZONE zone)
+{
+    RainbowZoneData *requestedZone = GetRainbowZoneData(zone);
+
+    if (!requestedZone)
+    {
+        return 0;
+    }
+
+    return requestedZone->cycle_or_led_num;
+}
+
+void MSIMysticLightController::GetBoardSyncSettings(bool &onboard_sync, bool &combine_JRGB, bool &combine_JPIPE1,
+                                                    bool &combine_JPIPE2, bool &combine_JRAINBOW1,
+                                                    bool &combine_JRAINBOW2, bool &combine_crossair)
+{
+    ZoneData &syncZone = data.on_board_led;
+    onboard_sync = syncZone.colorFlags & 1u;
+    combine_JRAINBOW1 = syncZone.colorFlags >> 1u & 1u;
+    combine_JRAINBOW2 = syncZone.colorFlags >> 1u & 1u;
+    combine_crossair = syncZone.colorFlags >> 3u & 1u;
+    combine_JPIPE1 = syncZone.colorFlags >> 4u & 1u;
+    combine_JPIPE2 = syncZone.colorFlags >> 5u & 1u;
+
+    combine_JRGB = (syncZone.speedAndBrightnessFlags & 128u) >> 7u;
+}
+
+void MSIMysticLightController::GetDeviceSettings(bool &stripe_or_fan, FAN_TYPE &fan_type,
+                                                 unsigned char &corsair_device_quantity,
+                                                 bool &is_LL120Outer_individual)
+{
+    CorsairZoneData &settingsZone = data.j_corsair;
+    stripe_or_fan = settingsZone.fan_flags & 1u;
+    fan_type = static_cast<FAN_TYPE >((settingsZone.fan_flags & 14u) >> 1u);
+    corsair_device_quantity = (settingsZone.corsair_quantity & 252u) >> 2u;
+    is_LL120Outer_individual = settingsZone.is_individual & 1u;
 }
