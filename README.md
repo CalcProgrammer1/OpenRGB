@@ -58,4 +58,21 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
        - Find out which control your Aura devices (PIIX4, I801, and NCT67xx)
        - Give user access to those controllers, for instance: `sudo chmod 777 /dev/i2c-0`
 
+## Projects Used
+
+  * InpOutx64: http://www.highrez.co.uk/downloads/inpout32/
+
+  * libusb: https://github.com/libusb/libusb
+
+  * hidapi: https://github.com/libusb/hidapi
+
+  * libe131: https://github.com/hhromic/libe131
+
+  * NVFC: https://github.com/graphitemaster/NVFC
+
+  * OpenRazer: https://github.com/openrazer/openrazer
+
+  * OpenRazer-Win32: https://github.com/CalcProgrammer1/openrazer-win32
+
+  * Qt-Plus (ColorWheel): https://github.com/liuyanghejerry/Qt-Plus
 
