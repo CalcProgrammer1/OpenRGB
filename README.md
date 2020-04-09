@@ -12,10 +12,9 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
 ## Installation
 #### Windows
   1. Download the latest Visual Studio Community Edition and Qt Creator.
-  2. Update the submodules: git submodule update --init --recursive
-  3. Open the OpenRGB_Win.pro project.
-  4. Build the project for either the `x86` or `x64` architecture.
-  5. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
+  2. Open the OpenRGB_Win.pro project.
+  3. Build the project for either the `x86` or `x64` architecture.
+  4. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
 
 **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
 
@@ -27,8 +26,6 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
     * git clone https://gitlab.com/CalcProgrammer1/OpenRGB
 
     * cd OpenRGB
-
-    * git submodule update --init --recursive
 
     * qmake OpenRGB.pro
 
