@@ -1351,6 +1351,62 @@ static const razer_device kraken_v2_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Tiamat 7.1 V2                                          |
+|                                                               |
+|  Zone "Controller"                                            |
+|       Linear                                                  |
+|       15 LEDs                                                 |
+|                                                               |
+|  Zone "Headset Left"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Headset Right"                                         |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone tiamat_71_v2_controller_zone =
+{
+    "Controller",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_zone tiamat_71_v2_headset_left_zone =
+{
+    "Headset Left",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone tiamat_71_v2_headset_right_zone =
+{
+    "Headset Right",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device tiamat_71_v2_device =
+{
+    "Razer Tiamat 7.1 V2",
+    DEVICE_TYPE_HEADSET,
+    true,
+    1,
+    17,
+    {
+        &tiamat_71_v2_controller_zone,
+        &tiamat_71_v2_headset_left_zone,
+        &tiamat_71_v2_headset_right_zone,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  OTHER                                                                    |
 \*-------------------------------------------------------------------------*/
@@ -1681,6 +1737,7 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &kraken_chroma_device,
     &kraken_v2_device,
+    &tiamat_71_v2_device,
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
 \*-----------------------------------------------------------------*/
