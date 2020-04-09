@@ -218,6 +218,39 @@ static const razer_device blade_stealth_device =
     }
 };
 
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (Mid 2019) Mercury                            |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_mid_2019_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_mid_2019_device =
+{
+    "Razer Blade 15 (Mid 2019) Mercury",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_mid_2019_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
 /*-------------------------------------------------------------*\
 |  Razer Blade Pro (Late 2016)                                  |
 |                                                               |
@@ -1096,6 +1129,7 @@ static const razer_device* device_list[] =
 |  LAPTOPS                                                          |
 \*-----------------------------------------------------------------*/
     &blade_stealth_device,
+    &blade_15_mid_2019_device,
     &blade_pro_late_2016_device,
     &blade_pro_2017_device,
 /*-----------------------------------------------------------------*\
