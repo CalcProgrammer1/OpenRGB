@@ -93,27 +93,36 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Static;
     Static.name       = "Static";
     Static.value      = EFFECT_STATIC;
-    Static.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.colors_min = 1;
+    Static.colors_max = 1;
+    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = EFFECT_PULSE;
-    Breathing.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Breathing.speed_min  = 0;
     Breathing.speed_max  = 4;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
+    Breathing.colors_min = 1;
+    Breathing.colors_max = 1;
+    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.colors.resize(1);
     Breathing.speed      = 2;
     modes.push_back(Breathing);
 
     mode Blinking;
     Blinking.name       = "Blinking";
     Blinking.value      = EFFECT_BLINKING;
-    Blinking.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Blinking.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Blinking.speed_min  = 0;
     Blinking.speed_max  = 4;
-    Blinking.color_mode = MODE_COLORS_PER_LED;
+    Blinking.colors_min = 1;
+    Blinking.colors_max = 1;
+    Blinking.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Blinking.colors.resize(1);
     Blinking.speed      = 2;
     modes.push_back(Blinking);
 
@@ -130,10 +139,13 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Flashing;
     Flashing.name       = "Flashing";
     Flashing.value      = 10;
-    Flashing.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Flashing.flags      = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Flashing.speed_min  = 0;
     Flashing.speed_max  = 4;
-    Flashing.color_mode = MODE_COLORS_PER_LED;
+    Flashing.colors_min = 1;
+    Flashing.colors_max = 1;
+    Flashing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Flashing.colors.resize(1);
     Flashing.speed      = 2;
     modes.push_back(Flashing);
 
@@ -282,22 +294,43 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     if(zone == ZONE_MB)
     {
-        /*---------------------------------------------------------*\
-        | Motherboard LEDs always use effect mode, so use static for|
-        | direct mode                                               |
-        \*---------------------------------------------------------*/
-        if(mode_value == 0xFFFF)
-        {
-            mode_value = EFFECT_STATIC;
-        }
+        unsigned char red = 0;
+        unsigned char grn = 0;
+        unsigned char blu = 0;
         
         for(size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
         {
-            unsigned char red = RGBGetRValue(zones[zone].colors[led_idx]);
-            unsigned char grn = RGBGetGValue(zones[zone].colors[led_idx]);
-            unsigned char blu = RGBGetBValue(zones[zone].colors[led_idx]);
+            /*---------------------------------------------------------*\
+            | Initialize mode value                                     |
+            \*---------------------------------------------------------*/
+            mode_value = modes[active_mode].value;
 
-            controller->SetLEDEffect(it->second[zone][led_idx].header, modes[active_mode].value, modes[active_mode].speed, random, red, grn, blu);
+            /*---------------------------------------------------------*\
+            | Motherboard LEDs always use effect mode, so use static for|
+            | direct mode but get colors from zone                      |
+            \*---------------------------------------------------------*/
+            if(mode_value == 0xFFFF)
+            {
+                red = RGBGetRValue(zones[zone].colors[led_idx]);
+                grn = RGBGetGValue(zones[zone].colors[led_idx]);
+                blu = RGBGetBValue(zones[zone].colors[led_idx]);
+
+                mode_value = EFFECT_STATIC;
+            }
+            /*---------------------------------------------------------*\
+            | If the mode uses mode-specific color, get color from mode |
+            \*---------------------------------------------------------*/
+            else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+            {
+                red = RGBGetRValue(modes[active_mode].colors[0]);
+                grn = RGBGetGValue(modes[active_mode].colors[0]);
+                blu = RGBGetBValue(modes[active_mode].colors[0]);
+            }
+
+            /*---------------------------------------------------------*\
+            | Apply the mode and color to the zone                      |
+            \*---------------------------------------------------------*/
+            controller->SetLEDEffect(it->second[zone][led_idx].header, mode_value, modes[active_mode].speed, random, red, grn, blu);
         }
         
         controller->ApplyEffect();
@@ -335,13 +368,25 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
         {
             if(it->second[zone].size())
             {
-                unsigned char red = RGBGetRValue(zones[zone].colors[0]);
-                unsigned char grn = RGBGetGValue(zones[zone].colors[0]);
-                unsigned char blu = RGBGetBValue(zones[zone].colors[0]);
+                unsigned char red = 0;
+                unsigned char grn = 0;
+                unsigned char blu = 0;
                 
+                /*---------------------------------------------------------*\
+                | If mode has mode specific color, load color from mode     |
+                \*---------------------------------------------------------*/
+                if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+                {
+                    red = RGBGetRValue(modes[active_mode].colors[0]);
+                    grn = RGBGetGValue(modes[active_mode].colors[0]);
+                    blu = RGBGetBValue(modes[active_mode].colors[0]);
+                }
+
                 int hdr = it->second[zone].front().header;
 
-                // apply built-in effects to LED strips
+                /*---------------------------------------------------------*\
+                | Apply built-in effects to LED strips                      |
+                \*---------------------------------------------------------*/
                 controller->DisableBuiltinEffect(0, zone == 1 ? 0x01 : 0x02);
                 controller->SetLEDEffect(hdr, modes[active_mode].value, modes[active_mode].speed, random, red, grn, blu);
                 controller->ApplyEffect();
@@ -364,25 +409,40 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
     \*---------------------------------------------------------*/
     if(zone_idx == ZONE_MB)
     {
-        int header = led;
-        auto it = known_channels.find(controller->GetDeviceName());
+        unsigned char red = 0;
+        unsigned char grn = 0;
+        unsigned char blu = 0;
+        
+        KnownChannels::const_iterator it = known_channels.find(controller->GetDeviceName());
+
         if (it == known_channels.end() || it->second.size() == 0)
-            header = it->second[ZONE_MB][led].header;
+        {
+            led = it->second[ZONE_MB][led].header;
+        }
 
         /*---------------------------------------------------------*\
         | Motherboard LEDs always use effect mode, so use static for|
-        | direct mode                                               |
+        | direct mode but get colors from zone                      |
         \*---------------------------------------------------------*/
         if(mode_value == 0xFFFF)
         {
+            red = RGBGetRValue(colors[led]);
+            grn = RGBGetGValue(colors[led]);
+            blu = RGBGetBValue(colors[led]);
+
             mode_value = EFFECT_STATIC;
         }
-        
-        unsigned char red = RGBGetRValue(colors[led]);
-        unsigned char grn = RGBGetGValue(colors[led]);
-        unsigned char blu = RGBGetBValue(colors[led]);
+        /*---------------------------------------------------------*\
+        | If the mode uses mode-specific color, get color from mode |
+        \*---------------------------------------------------------*/
+        else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+        {
+            red = RGBGetRValue(modes[active_mode].colors[0]);
+            grn = RGBGetGValue(modes[active_mode].colors[0]);
+            blu = RGBGetBValue(modes[active_mode].colors[0]);
+        }
 
-        controller->SetLEDEffect(header, modes[active_mode].value, modes[active_mode].speed, random, red, grn, blu);
+        controller->SetLEDEffect(led, mode_value, modes[active_mode].speed, random, red, grn, blu);
         controller->ApplyEffect();
     }
     /*---------------------------------------------------------*\
@@ -396,6 +456,5 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
 
 void RGBController_RGBFusion2USB::UpdateMode()
 {
-    // XXX Comment out to allow each zone or motherboard LED have different modes
     UpdateLEDs();
 }
