@@ -21,7 +21,7 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
 #### Linux:
   1. Either open the project using QT Creator or build it using qmake.  You will need the libusb-1.0-0 (or equivalent) development package from your distribution's package manager installed.
     
-    * sudo apt install build-esential qtcreator qt5-default libusb-1.0-0-dev
+    * sudo apt install build-essential qtcreator qt5-default libusb-1.0-0-dev
 
     * git clone https://gitlab.com/CalcProgrammer1/OpenRGB
 
