@@ -588,7 +588,7 @@ static const razer_zone blade_15_mid_2019_mercury_zone =
 
 static const razer_device blade_15_mid_2019_mercury_device =
 {
-    "Razer Blade 15 (Mid 2019) Mercury",
+    "Razer Blade 15 (Mid 2019) Mercury White",
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
