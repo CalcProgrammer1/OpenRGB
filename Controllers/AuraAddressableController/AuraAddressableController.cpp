@@ -47,7 +47,7 @@ void AuraAddressableController::SetLEDsDirect(std::vector<RGBColor> colors)
             leds_to_send = colors.size() - leds_sent;
         }
 
-        for(int led_idx = 0; leds_to_send < 20; led_idx++)
+        for(int led_idx = 0; led_idx < leds_to_send; led_idx++)
         {
             led_data[(led_idx * 3) + 0] = RGBGetRValue(colors[led_idx + leds_sent]);
             led_data[(led_idx * 3) + 1] = RGBGetGValue(colors[led_idx + leds_sent]);
