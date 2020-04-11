@@ -54,8 +54,6 @@ public:
         unsigned char grn,
         unsigned char blu
         );
-    
-    unsigned int    channel_leds[1];
 
 private:
     char                    device_name[32];

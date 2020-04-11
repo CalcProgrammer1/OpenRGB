@@ -24,8 +24,6 @@ static void Sleep(unsigned int milliseconds)
 AuraAddressableController::AuraAddressableController(hid_device* dev_handle)
 {
     dev = dev_handle;
-
-    channel_leds[0] = 40;
 }
 
 AuraAddressableController::~AuraAddressableController()
