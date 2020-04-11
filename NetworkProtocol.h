@@ -1,6 +1,6 @@
 typedef struct NetPacketHeader
 {
-    unsigned char       pkt_magic[4];               /* Magic value "ORGB" identifies beginning of packet    */
+    char                pkt_magic[4];               /* Magic value "ORGB" identifies beginning of packet    */
     unsigned int        pkt_dev_idx;                /* Device index                                         */
     unsigned int        pkt_id;                     /* Packet ID                                            */
     unsigned int        pkt_size;                   /* Packet size                                          */
