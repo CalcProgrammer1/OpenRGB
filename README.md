@@ -73,3 +73,28 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
 
   * Qt-Plus (ColorWheel): https://github.com/liuyanghejerry/Qt-Plus
 
+## Projects Researched
+
+While no code from these projects directly made its way into OpenRGB, these projects have been invaluable resources for protocol information.
+
+  * ckb-next: https://github.com/ckb-next/ckb-next
+
+  * linux_thermaltake_riing: https://github.com/chestm007/linux_thermaltake_riing
+
+  * Aura Addressable Header Controller: https://gitlab.com/cneil02/aura-addressable-header-controller
+
+  * OpenPyAURA: https://gitlab.com/thelastguardian/openpyaura
+
+  * AsrLed: https://github.com/EUA/AsrLed
+
+  * asrock-leds: https://github.com/RattyDAVE/asrock-leds
+
+  * hue-plus: https://github.com/kusti8/hue-plus
+
+  * rogauracore: https://github.com/wroberts/rogauracore
+
+  * msi-rgb: https://github.com/nagisa/msi-rgb
+
+  * OpenCorsairLink: https://github.com/audiohacked/OpenCorsairLink
+
+  * msi-keyboard: https://github.com/bparker06/msi-keyboard
