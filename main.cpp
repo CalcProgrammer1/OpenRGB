@@ -6,6 +6,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
+#include "NetworkServer.h"
 #include "OpenRGB.h"
 #include "ProfileManager.h"
 #include "RGBController.h"
@@ -44,6 +45,8 @@ int main(int argc, char* argv[])
         return cli_main(argc, argv, rgb_controllers, &profile_manager);
     }
 
+    NetworkServer server(rgb_controllers);
+    
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 

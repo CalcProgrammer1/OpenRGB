@@ -10,7 +10,7 @@ public:
     NetworkServer(std::vector<RGBController *>& control);
 
     void        ConnectionThread();
-    void        ListenThread();
+    void        ListenThread(SOCKET * client_sock);
 
 protected:
     std::vector<RGBController *>& controllers;
