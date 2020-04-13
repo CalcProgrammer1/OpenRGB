@@ -68,6 +68,9 @@ SOURCES +=                                                              \
     main.cpp                                                            \
     cli.cpp                                                             \
     OpenRGB.cpp                                                         \
+    NetworkClient.cpp                                                   \
+    NetworkProtocol.cpp                                                 \
+    NetworkServer.cpp                                                   \
     ProfileManager.cpp                                                  \
     qt/OpenRGBDeviceInfoPage.cpp                                        \
     qt/OpenRGBDevicePage.cpp                                            \
@@ -176,6 +179,9 @@ SOURCES +=                                                              \
 
 HEADERS +=                                                              \
     dependencies/ColorWheel/ColorWheel.h                                \
+    NetworkClient.h                                                     \
+    NetworkProtocol.h                                                   \
+    NetworkServer.h                                                     \
     ProfileManager.h                                                    \
     qt/OpenRGBDeviceInfoPage.h                                          \
     qt/OpenRGBDevicePage.h                                              \

@@ -1,9 +1,66 @@
 #include "NetworkServer.h"
 
+//Include thread libraries for Windows or Linux
+#ifdef WIN32
+#include <process.h>
+#else
+#include "pthread.h"
+#include "unistd.h"
+#endif
+
+//Thread functions have different types in Windows and Linux
+#ifdef WIN32
+#define THREAD static void
+#define THREADRETURN
+#else
+#define THREAD static void*
+#define THREADRETURN return(NULL);
+#endif
+
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+
+typedef struct listen_thread_param_type
+{
+    NetworkServer * this_ptr;
+    SOCKET *        sock_ptr;
+};
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
+THREAD connection_thread(void *param)
+{
+    NetworkServer* server = static_cast<NetworkServer*>(param);
+    server->ConnectionThread();
+    THREADRETURN
+}
+
+THREAD listen_thread(void *param)
+{
+    NetworkServer* server = static_cast<listen_thread_param_type*>(param)->this_ptr;
+    SOCKET*        sock   = static_cast<listen_thread_param_type*>(param)->sock_ptr;
+    server->ListenThread(sock);
+    THREADRETURN
+}
+
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
     //Start a TCP server and launch threads
     port.tcp_server("1337");
+
+    //Start the connection thread
+#ifdef WIN32
+    _beginthread(connection_thread, 0, this);
+#else
+    pthread_t thread;
+    pthread_create(&thread, NULL, &connection_thread, this);
+#endif
 }
 
 void NetworkServer::ConnectionThread()
@@ -12,16 +69,25 @@ void NetworkServer::ConnectionThread()
     while(1)
     {
         port.tcp_server_listen();
+
+        //Start a listener thread for the new client socket
+#ifdef WIN32
+        _beginthread(listen_thread, 0, this);
+#else
+        pthread_t thread;
+        pthread_create(&thread, NULL, &listen_thread, this);
+#endif
     }
 }
 
-void NetworkServer::ListenThread()
+void NetworkServer::ListenThread(SOCKET * client_sock)
 {
     //This thread handles messages received from clients
     while(1)
     {
         NetPacketHeader header;
-        int             bytes_read = 0;
+        char *          data        = NULL;
+        int             bytes_read  = 0;
 
         //Read first byte of magic
         do
@@ -35,6 +101,8 @@ void NetworkServer::ListenThread()
             continue;
         }
 
+        printf("Magic: 'O'\r\n");
+
         //Read second byte of magic
         do
         {
@@ -46,6 +114,8 @@ void NetworkServer::ListenThread()
         {
             continue;
         }
+
+        printf("Magic: 'R'\r\n");
 
         //Read third byte of magic
         do
@@ -59,6 +129,8 @@ void NetworkServer::ListenThread()
             continue;
         }
 
+        printf("Magic: 'G'\r\n");
+
         //Read fourth byte of magic
         do
         {
@@ -71,6 +143,8 @@ void NetworkServer::ListenThread()
             continue;
         }
 
+        printf("Magic: 'B'\r\n");
+
         //If we get to this point, the magic is correct.  Read the rest of the header
         do
         {
@@ -80,14 +154,22 @@ void NetworkServer::ListenThread()
         //Header received, now receive the data
         if(header.pkt_size > 0)
         {
+            unsigned int bytes_read = 0;
 
+            data = new char[header.pkt_size];
+
+            do
+            {
+                bytes_read += port.tcp_listen(&data[bytes_read], 128);
+            } while (bytes_read < header.pkt_size);
         }
+
+        printf( "Received header and data\r\n" );
 
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
         {
             NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
-                
                 break;
 
             NET_PACKET_ID_REQUEST_CONTROLLER_DATA:

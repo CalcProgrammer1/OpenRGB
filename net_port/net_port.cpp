@@ -187,6 +187,9 @@ bool net_port::tcp_server(const char * port)
 {
     sockaddr_in myAddress;
 
+    /*-------------------------------------------------*\
+    | Windows requires WSAStartup before using sockets  |
+    \*-------------------------------------------------*/
 #ifdef WIN32
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != NO_ERROR)
     {
@@ -195,6 +198,9 @@ bool net_port::tcp_server(const char * port)
     }
 #endif
 
+    /*-------------------------------------------------*\
+    | Create the server socket                          |
+    \*-------------------------------------------------*/
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == INVALID_SOCKET)
     {
@@ -202,32 +208,61 @@ bool net_port::tcp_server(const char * port)
         return false;
     }
 
+    /*-------------------------------------------------*\
+    | Fill in server address info with port value       |
+    \*-------------------------------------------------*/
     port = strtok((char *)port, "\r");
 
     myAddress.sin_family = AF_INET;
     myAddress.sin_addr.s_addr = inet_addr("0.0.0.0");
     myAddress.sin_port = htons(atoi(port));
 
+    /*-------------------------------------------------*\
+    | Bind the server socket                            |
+    \*-------------------------------------------------*/
     if (bind(sock, (sockaddr*)&myAddress, sizeof(myAddress)) == SOCKET_ERROR)
     {
         WSACleanup();
         return false;
     }
 
+    /*-------------------------------------------------*\
+    | Set socket options - no delay                     |
+    \*-------------------------------------------------*/
     setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
 
     return(true);
 }
 
-void net_port::tcp_server_listen()
+SOCKET * net_port::tcp_server_listen()
 {
+    /*-------------------------------------------------*\
+    | Create new socket for client connection           |
+    \*-------------------------------------------------*/
     SOCKET * client = new SOCKET();
+
+    /*-------------------------------------------------*\
+    | Listen for incoming client connection on the      |
+    | server socket.  This call blocks until a          |
+    | connection is established                         |
+    \*-------------------------------------------------*/
     listen(sock, 10);
+
+    /*-------------------------------------------------*\
+    | Accept the client connection                      |
+    \*-------------------------------------------------*/
     *client = accept(sock, NULL, NULL);
+
+    /*-------------------------------------------------*\
+    | Get the new client socket and store it in the     |
+    | clients vector                                    |
+    \*-------------------------------------------------*/
     u_long arg = 0;
     ioctlsocket(*client, FIONBIO, &arg);
     setsockopt(*client, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
     clients.push_back(client);
+
+    return client;
 }
 
 void net_port::tcp_close()
