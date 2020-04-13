@@ -1,0 +1,5 @@
+openrgb (999-git-upstream) UNRELEASED; urgency=medium
+
+  * Builds from git master.  See git history for more information.
+
+ -- Adam Honse <adam@Adam-Laptop.lan>  Sun, 12 Apr 2020 22:57:34 -0500
