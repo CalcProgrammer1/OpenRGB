@@ -24,11 +24,18 @@ static void Sleep(unsigned int milliseconds)
 AuraAddressableController::AuraAddressableController(hid_device* dev_handle)
 {
     dev = dev_handle;
+
+    GetFirmwareVersion();
 }
 
 AuraAddressableController::~AuraAddressableController()
 {
 
+}
+
+std::string AuraAddressableController::GetDeviceName()
+{
+    return(device_name);
 }
 
 void AuraAddressableController::SetLEDsDirect(std::vector<RGBColor> colors)
@@ -85,6 +92,36 @@ void AuraAddressableController::SetMode
     );
 }
 
+void AuraAddressableController::GetFirmwareVersion()
+{
+    unsigned char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up firmware version request packet                |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0xEC;
+    usb_buf[0x01]   = AURA_REQUEST_FIRMWARE_VERSION;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 65);
+
+    /*-----------------------------------------------------*\
+    | Copy the firmware string if the reply ID is correct   |
+    \*-----------------------------------------------------*/
+    if(usb_buf[1] == 0x02)
+    {
+        memcpy(device_name, &usb_buf[2], 16);
+    }
+}
+
 void AuraAddressableController::SendEffect
     (
     unsigned char   mode,
@@ -119,7 +156,7 @@ void AuraAddressableController::SendEffect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, 65);
 }
 
 void AuraAddressableController::SendDirect
@@ -154,7 +191,7 @@ void AuraAddressableController::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, 65);
 }
 
 void AuraAddressableController::SendDirectBegin()
@@ -176,7 +213,7 @@ void AuraAddressableController::SendDirectBegin()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, 65);
 }
 
 void AuraAddressableController::SendDirectApply()
@@ -198,5 +235,5 @@ void AuraAddressableController::SendDirectApply()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, 65);
 }

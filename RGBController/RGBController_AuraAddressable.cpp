@@ -14,6 +14,7 @@ RGBController_AuraAddressable::RGBController_AuraAddressable(AuraAddressableCont
     aura = aura_ptr;
 
     name        = "ASUS Aura Addressable";
+    version     = aura->GetDeviceName();
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "ASUS Aura Addressable Device";
 

@@ -6,11 +6,12 @@
 
 #define AURA_ADDRESSABLE_VID 0x0B05
 
-#define NUM_PIDS 2
+#define NUM_PIDS 3
 static const unsigned short pid_table[] =
     {
     0x1867,
-    0x1872
+    0x1872,
+    0x1889
     };
 
 /******************************************************************************************\
