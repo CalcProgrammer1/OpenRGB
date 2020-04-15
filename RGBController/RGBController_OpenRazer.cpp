@@ -170,12 +170,14 @@ void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
     logo_led_brightness.open(          dev_path + "/logo_led_brightness");
     logo_matrix_effect_none.open(      dev_path + "/logo_matrix_effect_none");
     logo_matrix_effect_static.open(    dev_path + "/logo_matrix_effect_static");
+    logo_matrix_effect_breath.open(    dev_path + "/logo_matrix_effect_breath");
     logo_matrix_effect_spectrum.open(  dev_path + "/logo_matrix_effect_spectrum");
     logo_matrix_effect_reactive.open(  dev_path + "/logo_matrix_effect_reactive");
 
     scroll_led_brightness.open(        dev_path + "/scroll_led_brightness");
     scroll_matrix_effect_none.open(    dev_path + "/scroll_matrix_effect_none");
     scroll_matrix_effect_static.open(  dev_path + "/scroll_matrix_effect_static");
+    scroll_matrix_effect_breath.open(  dev_path + "/scroll_matrix_effect_breath");
     scroll_matrix_effect_spectrum.open(dev_path + "/scroll_matrix_effect_spectrum");
     scroll_matrix_effect_reactive.open(dev_path + "/scroll_matrix_effect_reactive");
 
@@ -250,7 +252,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Custom);
             }
 
-            if(matrix_effect_none)
+            if(matrix_effect_none || logo_matrix_effect_none || scroll_matrix_effect_none)
             {
                 mode Off;
                 Off.name       = "Off";
@@ -260,7 +262,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Off);
             }
 
-            if(matrix_effect_static)
+            if(matrix_effect_static || logo_matrix_effect_static || scroll_matrix_effect_static)
             {
                 mode Static;
                 Static.name       = "Static";
@@ -273,7 +275,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Static);
             }
 
-            if(matrix_effect_breath)
+            if(matrix_effect_breath || logo_matrix_effect_breath || scroll_matrix_effect_breath)
             {
                 mode Breathing;
                 Breathing.name       = "Breathing";
@@ -286,7 +288,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Breathing);
             }
 
-            if(matrix_effect_spectrum)
+            if(matrix_effect_spectrum|| logo_matrix_effect_spectrum || scroll_matrix_effect_spectrum)
             {
                 mode SpectrumCycle;
                 SpectrumCycle.name       = "Spectrum Cycle";
@@ -307,7 +309,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Wave);
             }
 
-            if(matrix_effect_reactive)
+            if(matrix_effect_reactive || logo_matrix_effect_reactive || scroll_matrix_effect_reactive)
             {
                 mode Reactive;
                 Reactive.name       = "Reactive";
@@ -475,28 +477,83 @@ void RGBController_OpenRazer::UpdateMode()
                 }
             }
             break;
-#if 0
         case RAZER_TYPE_NOMATRIX:
             {
                 switch(active_mode)
                 {
                     case RAZER_MODE_CUSTOM:
-                        update_value = 0;
-                        logo_led_effect.write(&update_value, 1);
-                        scroll_led_effect.write(&update_value, 1);
-                        logo_led_effect.flush();
-                        scroll_led_effect.flush();
+                        matrix_effect_custom.write(update_value, 1);
+                        matrix_effect_custom.flush();
+                        break;
+
+                    case RAZER_MODE_OFF:
+                        logo_matrix_effect_none.write(update_value, 1);
+                        logo_matrix_effect_none.flush();
+                        scroll_matrix_effect_none.write(update_value, 1);
+                        scroll_matrix_effect_none.flush();
+                        break;
+
+                    case RAZER_MODE_STATIC:
+                        update_value[0] = RGBGetRValue(modes[RAZER_MODE_STATIC].colors[0]);
+                        update_value[1] = RGBGetGValue(modes[RAZER_MODE_STATIC].colors[0]);
+                        update_value[2] = RGBGetBValue(modes[RAZER_MODE_STATIC].colors[0]);
+                        logo_matrix_effect_static.write(update_value, 3);
+                        logo_matrix_effect_static.flush();
+                        scroll_matrix_effect_static.write(update_value, 3);
+                        scroll_matrix_effect_static.flush();
+                        break;
+
+                    case RAZER_MODE_BREATHING:
+                        switch(modes[RAZER_MODE_BREATHING].color_mode)
+                        {
+                            case MODE_COLORS_MODE_SPECIFIC:
+                                update_value[0] = RGBGetRValue(modes[RAZER_MODE_BREATHING].colors[0]);
+                                update_value[1] = RGBGetGValue(modes[RAZER_MODE_BREATHING].colors[0]);
+                                update_value[2] = RGBGetBValue(modes[RAZER_MODE_BREATHING].colors[0]);
+
+                                if(modes[RAZER_MODE_BREATHING].colors.size() == 2)
+                                {
+                                    update_value[3] = RGBGetRValue(modes[RAZER_MODE_BREATHING].colors[1]);
+                                    update_value[4] = RGBGetGValue(modes[RAZER_MODE_BREATHING].colors[1]);
+                                    update_value[5] = RGBGetBValue(modes[RAZER_MODE_BREATHING].colors[1]);
+
+                                    logo_matrix_effect_breath.write(update_value, 6);
+                                    logo_matrix_effect_breath.flush();
+                                    scroll_matrix_effect_breath.write(update_value, 6);
+                                    scroll_matrix_effect_breath.flush();
+                                }
+                                else
+                                {
+                                    logo_matrix_effect_breath.write(update_value, 3);
+                                    logo_matrix_effect_breath.flush();
+                                    scroll_matrix_effect_breath.write(update_value, 3);
+                                    scroll_matrix_effect_breath.flush();
+                                }
+                                break;
+
+                            case MODE_COLORS_RANDOM:
+                                matrix_effect_breath.write(update_value, 1);
+                                matrix_effect_breath.flush();
+                                break;
+                        }
                         break;
 
                     case RAZER_MODE_SPECTRUM_CYCLE:
-                        update_value = '4';
-                        logo_led_effect.write(&update_value, 1);
-                        scroll_led_effect.write(&update_value, 1);
-                        logo_led_effect.flush();
-                        scroll_led_effect.flush();
+                        logo_matrix_effect_spectrum.write(update_value, 1);
+                        logo_matrix_effect_spectrum.flush();
+                        scroll_matrix_effect_spectrum.write(update_value, 1);
+                        scroll_matrix_effect_spectrum.flush();
                         break;
-                }
+
+                    case RAZER_MODE_REACTIVE:
+                        logo_matrix_effect_reactive.write(update_value, 1);
+                        logo_matrix_effect_reactive.flush();
+                        scroll_matrix_effect_reactive.write(update_value, 1);
+                        scroll_matrix_effect_reactive.flush();
+                        break;
+                    }
             }
-#endif
+            break;
+
     }
 }

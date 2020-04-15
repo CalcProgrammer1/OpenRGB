@@ -82,12 +82,14 @@ private:
     std::ofstream logo_led_brightness;
     std::ofstream logo_matrix_effect_none;
     std::ofstream logo_matrix_effect_static;
+    std::ofstream logo_matrix_effect_breath;
     std::ofstream logo_matrix_effect_spectrum;
     std::ofstream logo_matrix_effect_reactive;
 
     std::ofstream scroll_led_brightness;
     std::ofstream scroll_matrix_effect_none;
     std::ofstream scroll_matrix_effect_static;
+    std::ofstream scroll_matrix_effect_breath;
     std::ofstream scroll_matrix_effect_spectrum;
     std::ofstream scroll_matrix_effect_reactive;
 
