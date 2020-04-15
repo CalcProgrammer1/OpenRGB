@@ -49,6 +49,8 @@ public:
 
     std::string GetDeviceName();
 
+    int GetChannelCount();
+
     void SetLEDsDirect(std::vector<RGBColor> colors);
 
     void SetMode
@@ -61,9 +63,12 @@ public:
 
 private:
     char                    device_name[16];
+    unsigned char           config_table[60];
     hid_device*             dev;
     unsigned int            led_count;
     
+    void GetConfigTable();
+
     void GetFirmwareVersion();
 
     void SendEffect

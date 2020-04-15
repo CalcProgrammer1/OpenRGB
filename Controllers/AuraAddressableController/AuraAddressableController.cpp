@@ -26,6 +26,7 @@ AuraAddressableController::AuraAddressableController(hid_device* dev_handle)
     dev = dev_handle;
 
     GetFirmwareVersion();
+    GetConfigTable();
 }
 
 AuraAddressableController::~AuraAddressableController()
@@ -90,6 +91,46 @@ void AuraAddressableController::SetMode
         grn,
         blu
     );
+}
+
+void AuraAddressableController::GetConfigTable()
+{
+    unsigned char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up config table request packet                    |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0xEC;
+    usb_buf[0x01]   = AURA_REQUEST_CONFIG_TABLE;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 65);
+
+    /*-----------------------------------------------------*\
+    | Copy the firmware string if the reply ID is correct   |
+    \*-----------------------------------------------------*/
+    if(usb_buf[1] == 0x30)
+    {
+        memcpy(config_table, &usb_buf[4], 60);
+
+        for(int i = 0; i < 60; i+=6)
+        {
+            printf("%02X %02X %02X %02X %02X %02X\r\n", config_table[i + 0],
+                                                        config_table[i + 1],
+                                                        config_table[i + 2],
+                                                        config_table[i + 3],
+                                                        config_table[i + 4],
+                                                        config_table[i + 5]);
+        }
+    }
 }
 
 void AuraAddressableController::GetFirmwareVersion()
