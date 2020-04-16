@@ -89,13 +89,17 @@ void AuraAddressableController::SetMode
     unsigned char blu
     )
 {
-    SendEffect
-    (
-        mode,
-        red,
-        grn,
-        blu
-    );
+    for(int channel_idx = 0; channel_idx < GetChannelCount(); channel_idx++)
+    {
+        SendEffect
+        (
+            channel_idx,
+            mode,
+            red,
+            grn,
+            blu
+        );
+    }
 }
 
 void AuraAddressableController::GetConfigTable()
@@ -170,6 +174,7 @@ void AuraAddressableController::GetFirmwareVersion()
 
 void AuraAddressableController::SendEffect
     (
+    unsigned char   channel,
     unsigned char   mode,
     unsigned char   red,
     unsigned char   grn,
@@ -188,7 +193,7 @@ void AuraAddressableController::SendEffect
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0xEC;
     usb_buf[0x01]   = AURA_CONTROL_MODE_EFFECT;
-    usb_buf[0x02]   = 0x00;
+    usb_buf[0x02]   = channel;
     usb_buf[0x03]   = 0x00;
     usb_buf[0x04]   = mode;
 

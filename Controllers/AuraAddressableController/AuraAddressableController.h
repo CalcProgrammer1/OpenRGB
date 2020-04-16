@@ -78,6 +78,7 @@ private:
 
     void SendEffect
         (
+        unsigned char   channel,
         unsigned char   mode,
         unsigned char   red,
         unsigned char   grn,
