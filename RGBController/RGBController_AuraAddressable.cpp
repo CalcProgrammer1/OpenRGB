@@ -121,12 +121,12 @@ void RGBController_AuraAddressable::SetupZones()
     \*-------------------------------------------------*/
     leds.clear();
     colors.clear();
-    zones.resize(AURA_ADDRESSABLE_NUM_CHANNELS);
+    zones.resize(aura->GetChannelCount());
 
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
-    for (unsigned int channel_idx = 0; channel_idx < AURA_ADDRESSABLE_NUM_CHANNELS; channel_idx++)
+    for (unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
         char ch_idx_string[2];
         sprintf(ch_idx_string, "%d", channel_idx + 1);
@@ -153,9 +153,9 @@ void RGBController_AuraAddressable::SetupZones()
             new_led.name.append(ch_idx_string);
             new_led.name.append(", LED ");
             new_led.name.append(led_idx_string);
+            new_led.value = channel_idx;
 
             leds.push_back(new_led);
-            leds_channel.push_back(channel_idx);
         }
     }
 
@@ -174,20 +174,22 @@ void RGBController_AuraAddressable::ResizeZone(int zone, int new_size)
 
 void RGBController_AuraAddressable::UpdateLEDs()
 {
-    if(modes[active_mode].value ==  0xFFFF)
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        aura->SetLEDsDirect(colors);
+        aura->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
 void RGBController_AuraAddressable::UpdateZoneLEDs(int zone)
 {
-    UpdateLEDs();
+    aura->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_AuraAddressable::UpdateSingleLED(int led)
 {
-    UpdateLEDs();
+    unsigned int channel = leds[led].value;
+
+    aura->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
 void RGBController_AuraAddressable::SetCustomMode()

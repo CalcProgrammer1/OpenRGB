@@ -12,7 +12,6 @@
 #include "AuraAddressableController.h"
 
 #define AURA_ADDRESSABLE_MAX_LEDS       120
-#define AURA_ADDRESSABLE_NUM_CHANNELS   1
 
 class RGBController_AuraAddressable : public RGBController
 {

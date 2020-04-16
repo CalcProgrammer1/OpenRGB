@@ -47,11 +47,16 @@ public:
     AuraAddressableController(hid_device* dev_handle);
     ~AuraAddressableController();
 
+    unsigned int GetChannelCount();
+
     std::string GetDeviceName();
 
-    int GetChannelCount();
-
-    void SetLEDsDirect(std::vector<RGBColor> colors);
+    void SetChannelLEDs
+        (
+        unsigned char   channel,
+        RGBColor *      colors,
+        unsigned int    num_colors
+        );
 
     void SetMode
         (
@@ -87,7 +92,13 @@ private:
         unsigned char*  led_data
         );
     
-    void    SendDirectBegin();
+    void    SendDirectBegin
+                (
+                unsigned char   channel
+                );
 
-    void    SendDirectApply();
+    void    SendDirectApply
+                (
+                unsigned char   channel
+                );
 };
