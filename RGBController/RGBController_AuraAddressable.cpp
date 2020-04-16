@@ -20,7 +20,7 @@ RGBController_AuraAddressable::RGBController_AuraAddressable(AuraAddressableCont
 
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
+    Direct.value      = AURA_MODE_DIRECT;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
@@ -210,8 +210,5 @@ void RGBController_AuraAddressable::UpdateMode()
         blu = RGBGetBValue(modes[active_mode].colors[0]);
     }
 
-    if(modes[active_mode].value != 0xFFFF)
-    {
-        aura->SetMode(modes[active_mode].value, red, grn, blu);
-    }
+    aura->SetMode(modes[active_mode].value, red, grn, blu);
 }

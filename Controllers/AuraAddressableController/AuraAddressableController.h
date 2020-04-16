@@ -31,6 +31,7 @@ enum
     AURA_MODE_CHASE_RAINBOW_PULSE       = 12,       /* Chase with  Rainbow Pulse effect mode*/
     AURA_MODE_RANDOM_FLICKER            = 13,       /* Random flicker effect mode           */
     AURA_MODE_MUSIC                     = 14,       /* Music effect mode                    */
+    AURA_MODE_DIRECT                    = 0xFF,     /* Direct control mode                  */
 };
 
 enum
@@ -92,11 +93,6 @@ private:
         unsigned char   led_count,
         unsigned char*  led_data
         );
-    
-    void    SendDirectBegin
-                (
-                unsigned char   channel
-                );
 
     void    SendDirectApply
                 (
