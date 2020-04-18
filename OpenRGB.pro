@@ -32,6 +32,7 @@ INCLUDEPATH +=                                                          \
     super_io/                                                           \
     Controllers/AMDWraithPrismController/                               \
     Controllers/AuraAddressableController/                              \
+    Controllers/AuraCoreController/                                     \
     Controllers/AuraGPUController/                                      \
     Controllers/AuraSMBusController/                                    \
     Controllers/CorsairPeripheralController/                            \
@@ -85,6 +86,8 @@ SOURCES +=                                                              \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
     Controllers/AuraAddressableController/AuraAddressableController.cpp \
     Controllers/AuraAddressableController/AuraAddressableControllerDetect.cpp \
+    Controllers/AuraCoreController/AuraCoreController.cpp               \
+    Controllers/AuraCoreController/AuraCoreControllerDetect.cpp         \
     Controllers/AuraGPUController/AuraGPUController.cpp                 \
     Controllers/AuraGPUController/AuraGPUControllerDetect.cpp           \
     Controllers/AuraSMBusController/AuraSMBusController.cpp             \
@@ -138,6 +141,7 @@ SOURCES +=                                                              \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_AuraAddressable.cpp                     \
+    RGBController/RGBController_AuraCore.cpp                            \
     RGBController/RGBController_AuraGPU.cpp                             \
     RGBController/RGBController_AuraSMBus.cpp                           \
     RGBController/RGBController_CorsairLightingNode.cpp                 \
@@ -185,6 +189,7 @@ HEADERS +=                                                              \
     super_io/super_io.h                                                 \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
     Controllers/AuraAddressableController/AuraAddressableController.h   \
+    Controllers/AuraCoreController/AuraCoreController.h                 \
     Controllers/AuraGPUController/AuraGPUController.h                   \
     Controllers/AuraSMBusController/AuraSMBusController.h               \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h \
@@ -212,6 +217,7 @@ HEADERS +=                                                              \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_AuraAddressable.h                       \
+    RGBController/RGBController_AuraCore.h                              \
     RGBController/RGBController_AuraGPU.h                               \
     RGBController/RGBController_AuraSMBus.h                             \
     RGBController/RGBController_CorsairLightingNode.h                   \

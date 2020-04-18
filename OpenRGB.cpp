@@ -296,6 +296,7 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
 void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraAddressableControllers(std::vector<RGBController*> &rgb_controllers);
+void DetectAuraCoreControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers);
@@ -340,6 +341,7 @@ void DetectRGBControllers(void)
     DetectMSIRGBControllers(rgb_controllers);
 
     DetectAuraAddressableControllers(rgb_controllers);
+    DetectAuraCoreControllers(rgb_controllers);
     DetectLEDStripControllers(rgb_controllers);
     DetectHue2Controllers(rgb_controllers);
     DetectHuePlusControllers(rgb_controllers);
