@@ -94,6 +94,10 @@ private:
     std::ofstream scroll_matrix_effect_spectrum;
     std::ofstream scroll_matrix_effect_reactive;
 
+    std::ofstream backlight_led_effect;
+    std::ofstream backlight_led_rgb;
+    std::ofstream backlight_led_state;
+    
     std::ofstream logo_led_effect;
     std::ofstream logo_led_rgb;
     std::ofstream logo_led_state;

@@ -1223,6 +1223,51 @@ static const razer_device naga_chroma_device =
     }
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Naga Epic Chroma                                       |
+|                                                               |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad"                                                |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone naga_epic_chroma_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_epic_chroma_numpad_zone =
+{
+    "Numpad",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device naga_epic_chroma_device =
+{
+    "Razer Naga Epic Chroma",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    3,
+    {
+        &naga_epic_chroma_scroll_wheel_zone,
+        &naga_epic_chroma_numpad_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
 /*-------------------------------------------------------------------------*\
 |  KEYPADS                                                                  |
 \*-------------------------------------------------------------------------*/
@@ -1801,6 +1846,7 @@ static const razer_device* device_list[] =
     &deathadder_chroma_device,
     &deathadder_elite_device,
     &naga_chroma_device,
+    &naga_epic_chroma_device,
 /*-----------------------------------------------------------------*\
 |  KEYPADS                                                          |
 \*-----------------------------------------------------------------*/

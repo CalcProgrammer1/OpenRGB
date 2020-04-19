@@ -181,6 +181,10 @@ void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
     scroll_matrix_effect_spectrum.open(dev_path + "/scroll_matrix_effect_spectrum");
     scroll_matrix_effect_reactive.open(dev_path + "/scroll_matrix_effect_reactive");
 
+    backlight_led_effect.open(         dev_path + "/backlight_led_effect");
+    backlight_led_rgb.open(            dev_path + "/backlight_led_rgb");
+    backlight_led_state.open(          dev_path + "/backlight_led_state");
+
     logo_led_effect.open(              dev_path + "/logo_led_effect");
     logo_led_rgb.open(                 dev_path + "/logo_led_rgb");
     logo_led_state.open(               dev_path + "/logo_led_state");
@@ -270,7 +274,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Custom);
             }
 
-            if(matrix_effect_none || logo_matrix_effect_none || scroll_matrix_effect_none || logo_led_state || scroll_led_state)
+            if(matrix_effect_none || logo_matrix_effect_none || scroll_matrix_effect_none || backlight_led_state || logo_led_state || scroll_led_state)
             {
                 mode Off;
                 Off.name       = "Off";
@@ -280,7 +284,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Off);
             }
 
-            if(matrix_effect_static || logo_matrix_effect_static || scroll_matrix_effect_static || logo_led_effect || scroll_led_effect)
+            if(matrix_effect_static || logo_matrix_effect_static || scroll_matrix_effect_static || backlight_led_effect || logo_led_effect || scroll_led_effect)
             {
                 mode Static;
                 Static.name       = "Static";
@@ -306,7 +310,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Breathing);
             }
 
-            if(logo_led_effect || scroll_led_effect)
+            if(backlight_led_effect || logo_led_effect || scroll_led_effect)
             {
                 mode Breathing;
                 Breathing.name       = "Breathing";
@@ -319,7 +323,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Breathing);
             }
 
-            if(logo_led_effect || scroll_led_effect)
+            if(backlight_led_effect || logo_led_effect || scroll_led_effect)
             {
                 mode Flashing;
                 Flashing.name       = "Flashing";
@@ -332,7 +336,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 modes.push_back(Flashing);
             }
 
-            if(matrix_effect_spectrum || logo_matrix_effect_spectrum || scroll_matrix_effect_spectrum || logo_led_effect || scroll_led_effect)
+            if(matrix_effect_spectrum || logo_matrix_effect_spectrum || scroll_matrix_effect_spectrum || backlight_led_effect || logo_led_effect || scroll_led_effect)
             {
                 mode SpectrumCycle;
                 SpectrumCycle.name       = "Spectrum Cycle";
@@ -565,6 +569,13 @@ void RGBController_OpenRazer::UpdateMode()
                             scroll_matrix_effect_none.flush();
                         }
 
+                        if(backlight_led_state)
+                        {
+                            update_value[0] = '0';
+                            backlight_led_state.write(update_value, 1);
+                            backlight_led_state.flush();
+                        }
+
                         if(logo_led_state)
                         {
                             update_value[0] = '0';
@@ -582,6 +593,13 @@ void RGBController_OpenRazer::UpdateMode()
 
                     case RAZER_MODE_STATIC:
                         effect_value[0] = '0';
+
+                        if(backlight_led_state)
+                        {
+                            update_value[0] = '1';
+                            backlight_led_state.write(update_value, 1);
+                            backlight_led_state.flush();
+                        }
 
                         if(logo_led_state)
                         {
@@ -619,6 +637,14 @@ void RGBController_OpenRazer::UpdateMode()
                             scroll_matrix_effect_static.flush();
                         }
 
+                        if(backlight_led_effect && backlight_led_rgb)
+                        {
+                            backlight_led_rgb.write(update_value, 3);
+                            backlight_led_rgb.flush();
+                            backlight_led_effect.write(effect_value, 1);
+                            backlight_led_effect.flush();
+                        }
+
                         if(logo_led_effect && logo_led_rgb)
                         {
                             logo_led_rgb.write(update_value, 3);
@@ -639,6 +665,13 @@ void RGBController_OpenRazer::UpdateMode()
                     case RAZER_MODE_FLASHING:
                         effect_value[0] = '1';
 
+                        if(backlight_led_state)
+                        {
+                            update_value[0] = '1';
+                            backlight_led_state.write(update_value, 1);
+                            backlight_led_state.flush();
+                        }
+
                         if(logo_led_state)
                         {
                             update_value[0] = '1';
@@ -656,6 +689,14 @@ void RGBController_OpenRazer::UpdateMode()
                         update_value[0] = RGBGetRValue(modes[active_mode].colors[0]);
                         update_value[1] = RGBGetGValue(modes[active_mode].colors[0]);
                         update_value[2] = RGBGetBValue(modes[active_mode].colors[0]);
+
+                        if(backlight_led_effect && backlight_led_rgb)
+                        {
+                            backlight_led_rgb.write(update_value, 3);
+                            backlight_led_rgb.flush();
+                            backlight_led_effect.write(effect_value, 1);
+                            backlight_led_effect.flush();
+                        }
 
                         if(logo_led_effect && logo_led_rgb)
                         {
@@ -680,6 +721,13 @@ void RGBController_OpenRazer::UpdateMode()
                         switch(modes[active_mode].color_mode)
                         {
                             case MODE_COLORS_MODE_SPECIFIC:
+                                if(backlight_led_state)
+                                {
+                                    update_value[0] = '1';
+                                    backlight_led_state.write(update_value, 1);
+                                    backlight_led_state.flush();
+                                }
+
                                 if(logo_led_state)
                                 {
                                     update_value[0] = '1';
@@ -742,6 +790,14 @@ void RGBController_OpenRazer::UpdateMode()
                                         scroll_matrix_effect_breath.flush();
                                     }
 
+                                    if(backlight_led_effect && backlight_led_rgb)
+                                    {
+                                        backlight_led_rgb.write(update_value, 3);
+                                        backlight_led_rgb.flush();
+                                        backlight_led_effect.write(effect_value, 1);
+                                        backlight_led_effect.flush();
+                                    }
+                                    
                                     if(logo_led_effect && logo_led_rgb)
                                     {
                                         logo_led_rgb.write(update_value, 3);
@@ -785,6 +841,13 @@ void RGBController_OpenRazer::UpdateMode()
                     case RAZER_MODE_SPECTRUM_CYCLE:
                         effect_value[0] = '4';
 
+                        if(backlight_led_state)
+                        {
+                            update_value[0] = '1';
+                            backlight_led_state.write(update_value, 1);
+                            backlight_led_state.flush();
+                        }
+
                         if(logo_led_state)
                         {
                             update_value[0] = '1';
@@ -815,6 +878,12 @@ void RGBController_OpenRazer::UpdateMode()
                         {
                             scroll_matrix_effect_spectrum.write(update_value, 1);
                             scroll_matrix_effect_spectrum.flush();
+                        }
+
+                        if(backlight_led_effect)
+                        {
+                            backlight_led_effect.write(effect_value, 1);
+                            backlight_led_effect.flush();
                         }
 
                         if(logo_led_effect)
