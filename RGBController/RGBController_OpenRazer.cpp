@@ -188,6 +188,19 @@ void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
     scroll_led_effect.open(            dev_path + "/scroll_led_effect");
     scroll_led_rgb.open(               dev_path + "/scroll_led_rgb");
     scroll_led_state.open(             dev_path + "/scroll_led_state");
+
+    /*-----------------------------------------------------------------*\
+    | The Naga Chroma (and possibly others) expose a useless            |
+    | matrix_effect_custom interface because they use the matrix_ name  |
+    | for the keypad LED.  Close this useless interface in this case.   |
+    | We can detect this when there is a logo matrix or scroll matrix   |
+    | at the same time as matrix_effect_custom.                         |
+    \*-----------------------------------------------------------------*/
+    if((logo_matrix_effect_none || scroll_matrix_effect_none) && matrix_effect_custom)
+    {
+        matrix_effect_custom.close();
+        matrix_effect_custom.setstate(std::ios::failbit);
+    }
 }
 
 RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
@@ -430,7 +443,7 @@ void RGBController_OpenRazer::SetCustomMode()
     else
     {
         active_mode = 1;
-    }    
+    }
 }
 
 void RGBController_OpenRazer::UpdateMode()
@@ -534,6 +547,12 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
 
                     case RAZER_MODE_OFF:
+                        if(matrix_effect_none)
+                        {
+                            matrix_effect_none.write(update_value, 1);
+                            matrix_effect_none.flush();
+                        }
+
                         if(logo_matrix_effect_none)
                         {
                             logo_matrix_effect_none.write(update_value, 1);
@@ -581,6 +600,12 @@ void RGBController_OpenRazer::UpdateMode()
                         update_value[0] = RGBGetRValue(modes[active_mode].colors[0]);
                         update_value[1] = RGBGetGValue(modes[active_mode].colors[0]);
                         update_value[2] = RGBGetBValue(modes[active_mode].colors[0]);
+
+                        if(matrix_effect_static)
+                        {
+                            matrix_effect_static.write(update_value, 3);
+                            matrix_effect_static.flush();
+                        }
 
                         if(logo_matrix_effect_static)
                         {
@@ -679,6 +704,12 @@ void RGBController_OpenRazer::UpdateMode()
                                     update_value[4] = RGBGetGValue(modes[active_mode].colors[1]);
                                     update_value[5] = RGBGetBValue(modes[active_mode].colors[1]);
 
+                                    if(matrix_effect_breath)
+                                    {
+                                        matrix_effect_breath.write(update_value, 6);
+                                        matrix_effect_breath.flush();
+                                    }
+
                                     if(logo_matrix_effect_breath)
                                     {
                                         logo_matrix_effect_breath.write(update_value, 6);
@@ -693,6 +724,12 @@ void RGBController_OpenRazer::UpdateMode()
                                 }
                                 else
                                 {
+                                    if(matrix_effect_breath)
+                                    {
+                                        matrix_effect_breath.write(update_value, 3);
+                                        matrix_effect_breath.flush();
+                                    }
+
                                     if(logo_matrix_effect_breath)
                                     {
                                         logo_matrix_effect_breath.write(update_value, 3);
@@ -724,6 +761,12 @@ void RGBController_OpenRazer::UpdateMode()
                                 break;
 
                             case MODE_COLORS_RANDOM:
+                                if(matrix_effect_breath)
+                                {
+                                    matrix_effect_breath.write(update_value, 1);
+                                    matrix_effect_breath.flush();
+                                }
+
                                 if(logo_matrix_effect_breath)
                                 {
                                     logo_matrix_effect_breath.write(update_value, 1);
@@ -756,6 +799,12 @@ void RGBController_OpenRazer::UpdateMode()
                             scroll_led_state.flush();
                         }
 
+                        if(matrix_effect_spectrum)
+                        {
+                            matrix_effect_spectrum.write(update_value, 1);
+                            matrix_effect_spectrum.flush();
+                        }
+
                         if(logo_matrix_effect_spectrum)
                         {
                             logo_matrix_effect_spectrum.write(update_value, 1);
@@ -782,6 +831,12 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
 
                     case RAZER_MODE_REACTIVE:
+                        if(matrix_effect_reactive)
+                        {
+                            matrix_effect_reactive.write(update_value, 1);
+                            matrix_effect_reactive.flush();
+                        }
+                        
                         if(logo_matrix_effect_reactive)
                         {
                             logo_matrix_effect_reactive.write(update_value, 1);
