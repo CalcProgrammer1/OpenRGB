@@ -222,7 +222,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Custom);
             }
 
-            if(razer_functions->matrix_effect_none)
+            if(razer_functions->matrix_effect_none || razer_functions->logo_matrix_effect_none || razer_functions->scroll_matrix_effect_none)
             {
                 mode Off;
                 Off.name       = "Off";
@@ -232,7 +232,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Off);
             }
 
-            if(razer_functions->matrix_effect_static)
+            if(razer_functions->matrix_effect_static || razer_functions->logo_matrix_effect_static || razer_functions->scroll_matrix_effect_static)
             {
                 mode Static;
                 Static.name       = "Static";
@@ -245,7 +245,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Static);
             }
 
-            if(razer_functions->matrix_effect_breath)
+            if(razer_functions->matrix_effect_breath || razer_functions->logo_matrix_effect_breath || razer_functions->scroll_matrix_effect_breath)
             {
                 mode Breathing;
                 Breathing.name       = "Breathing";
@@ -258,7 +258,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Breathing);
             }
 
-            if(razer_functions->matrix_effect_spectrum)
+            if(razer_functions->matrix_effect_spectrum || razer_functions->logo_matrix_effect_spectrum || razer_functions->scroll_matrix_effect_spectrum)
             {
                 mode SpectrumCycle;
                 SpectrumCycle.name       = "Spectrum Cycle";
@@ -279,7 +279,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Wave);
             }
 
-            if(razer_functions->matrix_effect_reactive)
+            if(razer_functions->matrix_effect_reactive || razer_functions->logo_matrix_effect_reactive || razer_functions->scroll_matrix_effect_reactive)
             {
                 mode Reactive;
                 Reactive.name       = "Reactive";
@@ -381,25 +381,25 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
 
                     case RAZER_MODE_STATIC:
-                        update_value[0] = RGBGetRValue(modes[RAZER_MODE_STATIC].colors[0]);
-                        update_value[1] = RGBGetGValue(modes[RAZER_MODE_STATIC].colors[0]);
-                        update_value[2] = RGBGetBValue(modes[RAZER_MODE_STATIC].colors[0]);
+                        update_value[0] = RGBGetRValue(modes[active_mode].colors[0]);
+                        update_value[1] = RGBGetGValue(modes[active_mode].colors[0]);
+                        update_value[2] = RGBGetBValue(modes[active_mode].colors[0]);
                         razer_functions->matrix_effect_static->store(razer_device, NULL, update_value, 3);
                         break;
 
                     case RAZER_MODE_BREATHING:
-                        switch(modes[RAZER_MODE_BREATHING].color_mode)
+                        switch(modes[active_mode].color_mode)
                         {
                             case MODE_COLORS_MODE_SPECIFIC:
-                                update_value[0] = RGBGetRValue(modes[RAZER_MODE_BREATHING].colors[0]);
-                                update_value[1] = RGBGetGValue(modes[RAZER_MODE_BREATHING].colors[0]);
-                                update_value[2] = RGBGetBValue(modes[RAZER_MODE_BREATHING].colors[0]);
+                                update_value[0] = RGBGetRValue(modes[active_mode].colors[0]);
+                                update_value[1] = RGBGetGValue(modes[active_mode].colors[0]);
+                                update_value[2] = RGBGetBValue(modes[active_mode].colors[0]);
 
-                                if(modes[RAZER_MODE_BREATHING].colors.size() == 2)
+                                if(modes[active_mode].colors.size() == 2)
                                 {
-                                    update_value[3] = RGBGetRValue(modes[RAZER_MODE_BREATHING].colors[1]);
-                                    update_value[4] = RGBGetGValue(modes[RAZER_MODE_BREATHING].colors[1]);
-                                    update_value[5] = RGBGetBValue(modes[RAZER_MODE_BREATHING].colors[1]);
+                                    update_value[3] = RGBGetRValue(modes[active_mode].colors[1]);
+                                    update_value[4] = RGBGetGValue(modes[active_mode].colors[1]);
+                                    update_value[5] = RGBGetBValue(modes[active_mode].colors[1]);
 
                                     razer_functions->matrix_effect_breath->store(razer_device, NULL, update_value, 6);
                                 }
@@ -439,28 +439,71 @@ void RGBController_OpenRazer::UpdateMode()
                 }
             }
             break;
-#if 0
+
         case RAZER_TYPE_NOMATRIX:
             {
                 switch(modes[active_mode].value)
                 {
                     case RAZER_MODE_CUSTOM:
-                        update_value = 0;
-                        logo_led_effect.write(&update_value, 1);
-                        scroll_led_effect.write(&update_value, 1);
-                        logo_led_effect.flush();
-                        scroll_led_effect.flush();
+                        razer_functions->matrix_effect_custom->store(razer_device, NULL, update_value, 1);
+                        break;
+
+                    case RAZER_MODE_OFF:
+                        razer_functions->logo_matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        razer_functions->scroll_matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        break;
+
+                    case RAZER_MODE_STATIC:
+                        update_value[0] = RGBGetRValue(modes[active_mode].colors[0]);
+                        update_value[1] = RGBGetGValue(modes[active_mode].colors[0]);
+                        update_value[2] = RGBGetBValue(modes[active_mode].colors[0]);
+                        razer_functions->logo_matrix_effect_static->store(razer_device, NULL, update_value, 3);
+                        razer_functions->scroll_matrix_effect_static->store(razer_device, NULL, update_value, 3);
+                        break;
+                    
+                    case RAZER_MODE_BREATHING:
+                        switch(modes[active_mode].color_mode)
+                        {
+                            case MODE_COLORS_MODE_SPECIFIC:
+                                update_value[0] = RGBGetRValue(modes[active_mode].colors[0]);
+                                update_value[1] = RGBGetGValue(modes[active_mode].colors[0]);
+                                update_value[2] = RGBGetBValue(modes[active_mode].colors[0]);
+
+                                if(modes[active_mode].colors.size() == 2)
+                                {
+                                    update_value[3] = RGBGetRValue(modes[active_mode].colors[1]);
+                                    update_value[4] = RGBGetGValue(modes[active_mode].colors[1]);
+                                    update_value[5] = RGBGetBValue(modes[active_mode].colors[1]);
+
+                                    razer_functions->logo_matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                    razer_functions->scroll_matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                }
+                                else
+                                {
+                                    razer_functions->logo_matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                    razer_functions->scroll_matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                }
+                                break;
+
+                            case MODE_COLORS_RANDOM:
+                                razer_functions->logo_matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                razer_functions->scroll_matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                break;
+                        }
                         break;
 
                     case RAZER_MODE_SPECTRUM_CYCLE:
-                        update_value = '4';
-                        logo_led_effect.write(&update_value, 1);
-                        scroll_led_effect.write(&update_value, 1);
-                        logo_led_effect.flush();
-                        scroll_led_effect.flush();
+                        razer_functions->logo_matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
+                        razer_functions->scroll_matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
                         break;
-                }
+
+                    case RAZER_MODE_REACTIVE:
+                        razer_functions->logo_matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        razer_functions->scroll_matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        break;
+                    }
             }
-#endif
+            break;
+
     }
 }

@@ -35,12 +35,14 @@ typedef struct
     struct device_attribute *   logo_led_brightness;
     struct device_attribute *   logo_matrix_effect_none;
     struct device_attribute *   logo_matrix_effect_static;
+    struct device_attribute *   logo_matrix_effect_breath;
     struct device_attribute *   logo_matrix_effect_spectrum;
     struct device_attribute *   logo_matrix_effect_reactive;
 
     struct device_attribute *   scroll_led_brightness;
     struct device_attribute *   scroll_matrix_effect_none;
     struct device_attribute *   scroll_matrix_effect_static;
+    struct device_attribute *   scroll_matrix_effect_breath;
     struct device_attribute *   scroll_matrix_effect_spectrum;
     struct device_attribute *   scroll_matrix_effect_reactive;
 
