@@ -416,7 +416,21 @@ void RGBController_OpenRazer::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_OpenRazer::SetCustomMode()
 {
-    active_mode = RAZER_MODE_CUSTOM;
+    /*---------------------------------------------------------*\
+    | If device supports custom mode, it will be mode index 0   |
+    \*---------------------------------------------------------*/
+    if(modes[0].value == RAZER_MODE_CUSTOM)
+    {
+        active_mode = 0;
+    }
+    /*---------------------------------------------------------*\
+    | If not, use static mode.  Static mode should be mode index|
+    | 1 because Off will be index 0                             |
+    \*---------------------------------------------------------*/
+    else
+    {
+        active_mode = 1;
+    }    
 }
 
 void RGBController_OpenRazer::UpdateMode()
