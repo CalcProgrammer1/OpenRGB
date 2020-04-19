@@ -1226,7 +1226,6 @@ static const razer_device naga_chroma_device =
 /*-------------------------------------------------------------*\
 |  Razer Naga Epic Chroma                                       |
 |                                                               |
-|                                                               |
 |  Zone "Scroll Wheel"                                          |
 |       Single                                                  |
 |       1 LED                                                   |
@@ -1257,7 +1256,7 @@ static const razer_device naga_epic_chroma_device =
     DEVICE_TYPE_MOUSE,
     false,
     1,
-    3,
+    2,
     {
         &naga_epic_chroma_scroll_wheel_zone,
         &naga_epic_chroma_numpad_zone,
