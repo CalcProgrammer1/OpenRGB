@@ -7,6 +7,12 @@ OpenRGB is still in its early stages and already supports quite a few products. 
 
 See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) for the current list of supported devices.
 
+## WARNING!
+
+This project provides a tool to probe the SMBus.  This is a potentially dangerous operation if you don't know what you're doing.  Exercise caution when clicking the Detect Devices or Dump Device buttons.  There have been reports of Gigabyte motherboards having serious issues (bricking the RGB or bricking the entire board) when dumping certain devices.  On the same lines, exercise the same caution when using the i2cdump and i2cdetect commands on Linux, as they perform the same functionality.  OpenRGB is not liable for damage caused by improper SMBus access.
+
+As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues.
+
 ![OpenRGB_0.11](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/2a913ece50cfa1ab2210f63e4846df4f/OpenRGB_0.11.PNG)
 
 ## Installation
