@@ -80,33 +80,12 @@ void RGBController_OpenRazer::UpdateLEDs()
                 }
             }
             break;
-#if 0
+
         case RAZER_TYPE_NOMATRIX:
             {
-                unsigned int output_array_size = 3;
-                char output_array[output_array_size];
-                char update_value = 0;
-
-                output_array[0] = (char)RGBGetRValue(colors[0]);
-                output_array[1] = (char)RGBGetGValue(colors[0]);
-                output_array[2] = (char)RGBGetBValue(colors[0]);
-                logo_led_rgb.write(output_array, output_array_size);
-
-                output_array[0] = (char)RGBGetRValue(colors[1]);
-                output_array[1] = (char)RGBGetGValue(colors[1]);
-                output_array[2] = (char)RGBGetBValue(colors[1]);
-                scroll_led_rgb.write(output_array, output_array_size);
-
-                logo_led_rgb.flush();
-                scroll_led_rgb.flush();
-
-                logo_led_effect.write(&update_value, 1);
-                scroll_led_effect.write(&update_value, 1);
-                logo_led_effect.flush();
-                scroll_led_effect.flush();
+                UpdateMode();
             }
             break;
-#endif
     }
 }
 
