@@ -26,6 +26,7 @@ public:
         RAZER_MODE_SPECTRUM_CYCLE,
         RAZER_MODE_WAVE,
         RAZER_MODE_REACTIVE,
+        RAZER_MODE_FLASHING,
         RAZER_NUM_MODES
     };
 
@@ -93,6 +94,11 @@ private:
     std::ofstream scroll_matrix_effect_spectrum;
     std::ofstream scroll_matrix_effect_reactive;
 
+    std::ofstream logo_led_effect;
+    std::ofstream logo_led_rgb;
+    std::ofstream logo_led_state;
+    
     std::ofstream scroll_led_effect;
     std::ofstream scroll_led_rgb;
+    std::ofstream scroll_led_state;
 };
