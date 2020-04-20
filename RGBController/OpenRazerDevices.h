@@ -23,6 +23,38 @@ typedef struct
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------*\
+|  Razer Blackwidow 2019 1532:0241                              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_2019_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_2019_device =
+{
+    "Razer Blackwidow 2019",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_2019_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
 |  Razer BlackWidow Chroma                                      |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -46,6 +78,38 @@ static const razer_device blackwidow_chroma_device =
     22,
     {
         &blackwidow_chroma_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow Chroma Overwatch 1532:0211                  |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_chroma_overwatch_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_chroma_overwatch_device =
+{
+    "Razer Blackwidow Chroma Overwatch",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_chroma_overwatch_zone,
         NULL,
         NULL,
         NULL,
@@ -87,7 +151,103 @@ static const razer_device blackwidow_chroma_te_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer BlackWidow X Chroma Tournament Edition                 |
+|  Razer Blackwidow Elite 1532:0228                             |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_elite_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_elite_device =
+{
+    "Razer Blackwidow Elite",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_elite_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow Chroma V2 1532:0221                         |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_chroma_v2_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_chroma_v2_device =
+{
+    "Razer Blackwidow Chroma V2",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_chroma_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow X Chroma 1532:0216                          |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_x_chroma_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_x_chroma_device =
+{
+    "Razer Blackwidow X Chroma",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_x_chroma_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer BlackWidow X Chroma Tournament Edition 1532:021A       |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
@@ -110,6 +270,38 @@ static const razer_device blackwidow_x_chroma_te_device =
     22,
     {
         &blackwidow_x_chroma_te_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Cynosa Chroma 1532:022A                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone cynosa_chroma_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device cynosa_chroma_device =
+{
+    "Razer Cynosa Chroma",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &cynosa_chroma_zone,
         NULL,
         NULL,
         NULL,
@@ -183,6 +375,38 @@ static const razer_device deathstalker_chroma_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Huntsman 1532:0227                                     |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone huntsman_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device huntsman_device =
+{
+    "Razer Huntsman",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &huntsman_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Huntsman Elite                                         |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -206,6 +430,38 @@ static const razer_device huntsman_elite_device =
     22,
     {
         &huntsman_elite_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Huntsman TE 1532:0243                                  |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone huntsman_te_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device huntsman_te_device =
+{
+    "Razer Huntsman Tournament Edition",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &huntsman_te_zone,
         NULL,
         NULL,
         NULL,
@@ -863,41 +1119,13 @@ static const razer_device blade_pro_late_2019_device =
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------*\
-|  Razer Mamba Tournament Edition                               |
-|                                                               |
-|  Zone "Left"                                                  |
-|       Linear                                                  |
-|       7 LEDs                                                  |
-|                                                               |
-|  Zone "Right"                                                 |
-|       Linear                                                  |
-|       7 LEDs                                                  |
+|  Razer Abyssus Elite DVa Edition 1532:006A                    |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
 |       1 LED                                                   |
-|                                                               |
-|  Zone "Scroll Wheel"                                          |
-|       Single                                                  |
-|       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_te_left_zone =
-{
-    "Left LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    7
-};
-
-static const razer_zone mamba_te_right_zone =
-{
-    "Right LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    7
-};
-
-static const razer_zone mamba_te_logo_zone =
+static const razer_zone abyssus_elite_dva_edition_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -905,60 +1133,31 @@ static const razer_zone mamba_te_logo_zone =
     1
 };
 
-static const razer_zone mamba_te_scroll_wheel_zone =
+static const razer_device abyssus_elite_dva_edition_device =
 {
-    "Scroll Wheel",
-    ZONE_TYPE_SINGLE,
-    1,
-    1
-};
-
-static const razer_device mamba_te_device =
-{
-    "Razer Mamba Tournament Edition",
+    "Razer Abyssus Elite DVa Edition",
     DEVICE_TYPE_MOUSE,
-    true,
+    false,
     1,
-    16,
+    1,
     {
-        &mamba_te_left_zone,
-        &mamba_te_right_zone,
-        &mamba_te_logo_zone,
-        &mamba_te_scroll_wheel_zone,
+        &abyssus_elite_dva_edition_logo_zone,
+        NULL,
+        NULL,
+        NULL,
         NULL,
         NULL
     }
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Mamba Elite                                            |
-|                                                               |
-|  Zone "Scroll Wheel"                                          |
-|       Single                                                  |
-|       1 LED                                                   |
+|  Razer Abyssus Essential 1532:006B                            |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
 |       1 LED                                                   |
-|                                                               |
-|  Zone "Left"                                                  |
-|       Linear                                                  |
-|       9 LEDs                                                  |
-|                                                               |
-|  Zone "Right"                                                 |
-|       Linear                                                  |
-|       9 LEDs                                                  |
-|                                                               |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_elite_scroll_wheel_zone =
-{
-    "Scroll Wheel",
-    ZONE_TYPE_SINGLE,
-    1,
-    1
-};
-
-static const razer_zone mamba_elite_logo_zone =
+static const razer_zone abyssus_essential_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -966,53 +1165,25 @@ static const razer_zone mamba_elite_logo_zone =
     1
 };
 
-static const razer_zone mamba_elite_left_zone =
+static const razer_device abyssus_essential_device =
 {
-    "Left LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    9
-};
-
-static const razer_zone mamba_elite_right_zone =
-{
-    "Right LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    9
-};
-
-static const razer_device mamba_elite_device =
-{
-    "Razer Mamba Elite",
+    "Razer Abyssus Essential",
     DEVICE_TYPE_MOUSE,
-    true,
+    false,
     1,
-    20,
+    1,
     {
-        &mamba_elite_scroll_wheel_zone,
-        &mamba_elite_logo_zone,
-        &mamba_elite_left_zone,
-        &mamba_elite_right_zone,
+        &abyssus_essential_logo_zone,
+        NULL,
+        NULL,
+        NULL,
         NULL,
         NULL
     }
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Diamondback Chroma                                     |
-|                                                               |
-|  Zone "Right"                                                 |
-|       Linear                                                  |
-|       7 LEDs                                                  |
-|                                                               |
-|  Zone "Bottom"                                                |
-|       Linear                                                  |
-|       5 LEDs                                                  |
-|                                                               |
-|  Zone "Left"                                                  |
-|       Linear                                                  |
-|       7 LEDs                                                  |
+|  Razer Basilisk 1532:0064                                     |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -1022,31 +1193,7 @@ static const razer_device mamba_elite_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone diamondback_chroma_right_zone =
-{
-    "Right LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    7
-};
-
-static const razer_zone diamondback_chroma_bottom_zone =
-{
-    "Bottom LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    5
-};
-
-static const razer_zone diamondback_chroma_left_zone =
-{
-    "Left LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    7
-};
-
-static const razer_zone diamondback_chroma_logo_zone =
+static const razer_zone basilisk_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -1054,7 +1201,7 @@ static const razer_zone diamondback_chroma_logo_zone =
     1
 };
 
-static const razer_zone diamondback_chroma_scroll_wheel_zone =
+static const razer_zone basilisk_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -1062,19 +1209,19 @@ static const razer_zone diamondback_chroma_scroll_wheel_zone =
     1
 };
 
-static const razer_device diamondback_chroma_device =
+static const razer_device basilisk_device =
 {
-    "Razer Diamondback Chroma",
+    "Razer Basilisk",
     DEVICE_TYPE_MOUSE,
-    true,
+    false,
     1,
-    21,
+    2,
     {
-        &diamondback_chroma_right_zone,
-        &diamondback_chroma_bottom_zone,
-        &diamondback_chroma_left_zone,
-        &diamondback_chroma_logo_zone,
-        &diamondback_chroma_scroll_wheel_zone,
+        &basilisk_logo_zone,
+        &basilisk_scroll_wheel_zone,
+        NULL,
+        NULL,
+        NULL,
         NULL
     }
 };
@@ -1168,6 +1315,411 @@ static const razer_device deathadder_elite_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Diamondback Chroma                                     |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       7 LEDs                                                  |
+|                                                               |
+|  Zone "Bottom"                                                |
+|       Linear                                                  |
+|       5 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       7 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone diamondback_chroma_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    7
+};
+
+static const razer_zone diamondback_chroma_bottom_zone =
+{
+    "Bottom LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    5
+};
+
+static const razer_zone diamondback_chroma_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    7
+};
+
+static const razer_zone diamondback_chroma_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone diamondback_chroma_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device diamondback_chroma_device =
+{
+    "Razer Diamondback Chroma",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    21,
+    {
+        &diamondback_chroma_right_zone,
+        &diamondback_chroma_bottom_zone,
+        &diamondback_chroma_left_zone,
+        &diamondback_chroma_logo_zone,
+        &diamondback_chroma_scroll_wheel_zone,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Lancehead Tournament Edition 1532:0060                 |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone lancehead_te_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_te_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_te_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone lancehead_te_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device lancehead_te_device =
+{
+    "Razer Lancehead Tournament Edition",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    18,
+    {
+        &lancehead_te_right_zone,
+        &lancehead_te_left_zone,
+        &lancehead_te_logo_zone,
+        &lancehead_te_scroll_wheel_zone,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba Chroma Wired 1532:0044                           |
+|                                                               |
+|  Zone "Chroma Zone"                                           |
+|       Single                                                  |
+|       15 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_chroma_wired_zone =
+{
+    "Chroma Zone",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_device mamba_chroma_wired_device =
+{
+    "Razer Mamba Chroma Wired",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    15,
+    {
+        &mamba_chroma_wired_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba Chroma Wireless 1532:0045                        |
+|                                                               |
+|  Zone "Chroma Zone"                                           |
+|       Single                                                  |
+|       15 LED                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_chroma_wireless_zone =
+{
+    "Chroma Zone",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_device mamba_chroma_wireless_device =
+{
+    "Razer Mamba Chroma Wireless",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    15,
+    {
+        &mamba_chroma_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba Elite                                            |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       9 LEDs                                                  |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       9 LEDs                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_elite_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_elite_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_elite_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_zone mamba_elite_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device mamba_elite_device =
+{
+    "Razer Mamba Elite",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    20,
+    {
+        &mamba_elite_scroll_wheel_zone,
+        &mamba_elite_logo_zone,
+        &mamba_elite_left_zone,
+        &mamba_elite_right_zone,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba Tournament Edition                               |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       7 LEDs                                                  |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       7 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_te_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    7
+};
+
+static const razer_zone mamba_te_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    7
+};
+
+static const razer_zone mamba_te_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_te_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device mamba_te_device =
+{
+    "Razer Mamba Tournament Edition",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    16,
+    {
+        &mamba_te_left_zone,
+        &mamba_te_right_zone,
+        &mamba_te_logo_zone,
+        &mamba_te_scroll_wheel_zone,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba Wireless Wired 1532:0073                         |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Matrix"                                                |
+|       Linear                                                  |
+|       16 LED                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_wireless_logo_zone =
+{
+    "Logo Zone",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel Zone",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_wireless_matrix_zone =
+{
+    "Matrix Zone",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_device mamba_wireless_wired_device =
+{
+    "Razer Mamba Chroma Wireless",
+    DEVICE_TYPE_MOUSE,
+    true,
+    3,
+    18,
+    {
+        &mamba_wireless_logo_zone,
+        &mamba_wireless_scroll_wheel_zone,
+        &mamba_wireless_matrix_zone,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Naga Chroma                                            |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -1217,6 +1769,150 @@ static const razer_device naga_chroma_device =
         &naga_chroma_logo_zone,
         &naga_chroma_scroll_wheel_zone,
         &naga_chroma_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Naga Hex V2 1532:0050                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad"                                                |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone naga_hex_v2_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_hex_v2_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_hex_v2_numpad_zone =
+{
+    "Numpad",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device naga_hex_v2_device =
+{
+    "Razer Naga Hex V2",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    3,
+    {
+        &naga_hex_v2_logo_zone,
+        &naga_hex_v2_scroll_wheel_zone,
+        &naga_hex_v2_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Naga Trinity 1532:0067                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad"                                                |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone naga_trinity_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_trinity_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_trinity_numpad_zone =
+{
+    "Numpad",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device naga_trintiy_device =
+{
+    "Razer Naga Trintiy",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    3,
+    {
+        &naga_trinity_logo_zone,
+        &naga_trinity_scroll_wheel_zone,
+        &naga_trinity_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Viper Ultimate Wired 1532:007A                         |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Linear                                                  |
+|       20 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone viper_ultimate_logo_zone =
+{
+    "Matrix Zone",      //Defined as a logo zone upstream
+    ZONE_TYPE_LINEAR,
+    1,
+    20
+};
+
+static const razer_device viper_ultimate_device =
+{
+    "Razer Viper Ultimate",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    20,
+    {
+        &viper_ultimate_logo_zone,
+        NULL,
+        NULL,
         NULL,
         NULL,
         NULL
@@ -1363,6 +2059,70 @@ static const razer_device firefly_device =
     15,
     {
         &firefly_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Firefly Hyperflux                                      |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       1 LEDs                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone firefly_zone_hyperflux =
+{
+    "LED Strip",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device firefly_device_hyperflux =
+{
+    "Razer Firefly",
+    DEVICE_TYPE_MOUSEMAT,
+    true,
+    1,
+    1,
+    {
+        &firefly_zone_hyperflux,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Goliathus                                              |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone goliathus_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device goliathus_device =
+{
+    "Razer Goliathus Extended",
+    DEVICE_TYPE_MOUSEMAT,
+    true,
+    1,
+    1,
+    {
+        &goliathus_zone,
         NULL,
         NULL,
         NULL,
@@ -1807,12 +2567,20 @@ static const razer_device* device_list[] =
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
+    &blackwidow_2019_device,
     &blackwidow_chroma_device,
+    &blackwidow_chroma_overwatch_device,
     &blackwidow_chroma_te_device,
-    &ornata_chroma_device,
-    &deathstalker_chroma_device,
-    &huntsman_elite_device,
+    &blackwidow_chroma_v2_device,
+    &blackwidow_elite_device,
+    &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
+    &cynosa_chroma_device,
+    &deathstalker_chroma_device,
+    &huntsman_device,
+    &huntsman_elite_device,
+    &huntsman_te_device,
+    &ornata_chroma_device,
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
 \*-----------------------------------------------------------------*/
@@ -1839,13 +2607,23 @@ static const razer_device* device_list[] =
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
 \*-----------------------------------------------------------------*/
-    &mamba_te_device,
-    &mamba_elite_device,
-    &diamondback_chroma_device,
+    &abyssus_elite_dva_edition_device,
+    &abyssus_essential_device,
+    &basilisk_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
+    &diamondback_chroma_device,
+    &lancehead_te_device,
+    &mamba_chroma_wired_device,
+    &mamba_chroma_wireless_device,
+    &mamba_te_device,
+    &mamba_elite_device,
+    &mamba_wireless_wired_device,
     &naga_chroma_device,
     &naga_epic_chroma_device,
+    &naga_hex_v2_device,
+    &naga_trintiy_device,
+    &viper_ultimate_device,
 /*-----------------------------------------------------------------*\
 |  KEYPADS                                                          |
 \*-----------------------------------------------------------------*/
@@ -1855,6 +2633,8 @@ static const razer_device* device_list[] =
 |  MOUSEMATS                                                        |
 \*-----------------------------------------------------------------*/
     &firefly_device,
+    &firefly_device_hyperflux,
+    &goliathus_device,
     &goliathus_extended_device,
 /*-----------------------------------------------------------------*\
 |  HEADSETS                                                         |
