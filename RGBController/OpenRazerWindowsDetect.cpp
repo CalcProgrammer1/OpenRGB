@@ -15,6 +15,91 @@
 #define OPENRAZERDLL            "OpenRazer.dll"
 #endif
 
+typedef struct
+{
+    struct device_attribute* dev_attr_list[44];
+} device_fn_list_type;
+
+/*---------------------------------------------------------*\
+| This is a table of device attribute names.  It should     |
+| always match the order of the entries in the structure    |
+\*---------------------------------------------------------*/
+static const char* device_fn_names[] =
+{
+    "device_type",
+    "device_serial",
+    "firmware_version",
+
+    "matrix_custom_frame",
+    "matrix_brightness",
+
+    "matrix_effect_custom",
+    "matrix_effect_none",
+    "matrix_effect_static",
+    "matrix_effect_breath",
+    "matrix_effect_spectrum",
+    "matrix_effect_reactive",
+    "matrix_effect_wave",
+
+    "logo_led_brightness",
+    "logo_matrix_effect_none",
+    "logo_matrix_effect_static",
+    "logo_matrix_effect_breath",
+    "logo_matrix_effect_spectrum",
+    "logo_matrix_effect_reactive",
+
+    "scroll_led_brightness",
+    "scroll_matrix_effect_none",
+    "scroll_matrix_effect_static",
+    "scroll_matrix_effect_breath",
+    "scroll_matrix_effect_spectrum",
+    "scroll_matrix_effect_reactive",
+
+    "left_led_brightness",
+    "left_matrix_effect_none",
+    "left_matrix_effect_static",
+    "left_matrix_effect_breath",
+    "left_matrix_effect_spectrum",
+    "left_matrix_effect_reactive",
+    "left_matrix_effect_wave",
+
+    "right_led_brightness",
+    "right_matrix_effect_none",
+    "right_matrix_effect_static",
+    "right_matrix_effect_breath",
+    "right_matrix_effect_spectrum",
+    "right_matrix_effect_reactive",
+    "right_matrix_effect_wave",
+
+    "logo_led_effect",
+    "logo_led_rgb",
+    "logo_led_state",
+
+    "scroll_led_effect",
+    "scroll_led_rgb",
+    "scroll_led_state"
+};
+
+/*---------------------------------------------------------*\
+| This function searches the device attribute list of a     |
+| given device to fill in a device_fn_type structure        |
+\*---------------------------------------------------------*/
+static void load_device_fn(device_fn_type* device_fn, device* dev)
+{
+    memset(device_fn, 0, sizeof(device_fn_type));
+
+    for (int table_idx = 0; table_idx < 44; table_idx++)
+    {
+        for (int list_idx = 0; list_idx < dev->attr_count; list_idx++)
+        {
+            if (strcmp(device_fn_names[table_idx], dev->attr_list[list_idx]->name) == 0)
+            {
+                ((device_fn_list_type*)device_fn)->dev_attr_list[table_idx] = dev->attr_list[list_idx];
+            }
+        }
+    }
+}
+
 /******************************************************************************************\
 *                                                                                          *
 *   DetectOpenRazerControllers                                                             *
@@ -32,105 +117,22 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         return;
     }
 
-    // map DLL calls
+    /*---------------------------------------------------------*\
+    | Map DLL functions                                         |
+    \*---------------------------------------------------------*/
 	typedef unsigned int(*INITRAZERDRIVER)(struct hid_device** hdev);
 	
 	INITRAZERDRIVER init_razer_kbd_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_kbd_driver"));
-    static struct device_attribute devkbd_attr_device_type         				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_device_type"));
-    static struct device_attribute devkbd_attr_device_serial       				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_device_serial"));
-    static struct device_attribute devkbd_attr_firmware_version    				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_firmware_version"));
-	static struct device_attribute devkbd_attr_matrix_effect_custom				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_effect_custom"));
-	static struct device_attribute devkbd_attr_matrix_custom_frame 				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_custom_frame"));
-	static struct device_attribute devkbd_attr_matrix_brightness   				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_brightness"));
-	static struct device_attribute devkbd_attr_matrix_effect_none  				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_effect_none"));
-	static struct device_attribute devkbd_attr_matrix_effect_static				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_effect_static"));
-	static struct device_attribute devkbd_attr_matrix_effect_breath			    = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_effect_breath"));
-	static struct device_attribute devkbd_attr_matrix_effect_spectrum			= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_effect_spectrum"));
-	static struct device_attribute devkbd_attr_matrix_effect_reactive			= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_effect_reactive"));
-	static struct device_attribute devkbd_attr_matrix_effect_wave				= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkbd_attr_matrix_effect_wave"));
-
 	INITRAZERDRIVER init_razer_mousemat_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_mousemat_driver"));
-    static struct device_attribute devmousemat_attr_device_type                  = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_device_type"));
-    static struct device_attribute devmousemat_attr_device_serial                = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_device_serial"));
-    static struct device_attribute devmousemat_attr_firmware_version             = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_firmware_version"));
-	static struct device_attribute devmousemat_attr_matrix_effect_custom         = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_effect_custom"));
-	static struct device_attribute devmousemat_attr_matrix_custom_frame          = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_custom_frame"));
-	static struct device_attribute devmousemat_attr_matrix_brightness            = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_brightness"));
-	static struct device_attribute devmousemat_attr_matrix_effect_none           = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_effect_none"));
-	static struct device_attribute devmousemat_attr_matrix_effect_static         = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_effect_static"));
-	static struct device_attribute devmousemat_attr_matrix_effect_breath	        = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_effect_breath"));
-	static struct device_attribute devmousemat_attr_matrix_effect_spectrum       = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_effect_spectrum"));
-	static struct device_attribute devmousemat_attr_matrix_effect_reactive       = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_effect_reactive"));
-	static struct device_attribute devmousemat_attr_matrix_effect_wave           = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmousemat_attr_matrix_effect_wave"));
-	
 	INITRAZERDRIVER init_razer_mouse_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_mouse_driver"));
-    static struct device_attribute devmouse_attr_device_type                   	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_device_type"));
-    static struct device_attribute devmouse_attr_device_serial                 	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_device_serial"));
-    static struct device_attribute devmouse_attr_firmware_version              	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_firmware_version"));
-	static struct device_attribute devmouse_attr_matrix_effect_custom          	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_effect_custom"));
-	static struct device_attribute devmouse_attr_matrix_custom_frame           	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_custom_frame"));
-	static struct device_attribute devmouse_attr_matrix_brightness             	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_brightness"));
-	static struct device_attribute devmouse_attr_logo_led_brightness           	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_logo_led_brightness"));
-	static struct device_attribute devmouse_attr_scroll_led_brightness         	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_led_brightness"));
-	static struct device_attribute devmouse_attr_matrix_effect_none            	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_effect_none"));
-	static struct device_attribute devmouse_attr_logo_matrix_effect_none       	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_logo_matrix_effect_none"));
-	static struct device_attribute devmouse_attr_scroll_matrix_effect_none     	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_matrix_effect_none"));
-	static struct device_attribute devmouse_attr_matrix_effect_static          	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_effect_static"));
-	static struct device_attribute devmouse_attr_logo_matrix_effect_static     	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_logo_matrix_effect_static"));
-	static struct device_attribute devmouse_attr_scroll_matrix_effect_static   	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_matrix_effect_static"));
-	static struct device_attribute devmouse_attr_matrix_effect_breath 	        = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_effect_breath"));
-	static struct device_attribute devmouse_attr_matrix_effect_spectrum        	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_effect_spectrum"));
-	static struct device_attribute devmouse_attr_logo_matrix_effect_spectrum   	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_logo_matrix_effect_spectrum"));
-	static struct device_attribute devmouse_attr_scroll_matrix_effect_spectrum 	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_matrix_effect_spectrum"));
-	static struct device_attribute devmouse_attr_matrix_effect_reactive        	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_effect_reactive"));
-	static struct device_attribute devmouse_attr_logo_matrix_effect_reactive   	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_logo_matrix_effect_reactive"));
-	static struct device_attribute devmouse_attr_scroll_matrix_effect_reactive 	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_matrix_effect_reactive"));
-	static struct device_attribute devmouse_attr_scroll_led_effect             	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_led_effect"));
-	static struct device_attribute devmouse_attr_scroll_led_rgb                	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_led_rgb"));
-	static struct device_attribute devmouse_attr_scroll_led_state              	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_scroll_led_state"));
-	static struct device_attribute devmouse_attr_matrix_effect_wave            	= *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devmouse_attr_matrix_effect_wave"));
-
 	INITRAZERDRIVER init_razer_accessory_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_accessory_driver"));
-    static struct device_attribute devaccessory_attr_device_type                      = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_device_type"));
-    static struct device_attribute devaccessory_attr_device_serial                    = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_device_serial"));
-    static struct device_attribute devaccessory_attr_firmware_version                 = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_firmware_version"));
-	static struct device_attribute devaccessory_attr_matrix_effect_custom             = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_effect_custom"));
-	static struct device_attribute devaccessory_attr_matrix_custom_frame              = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_custom_frame"));
-	static struct device_attribute devaccessory_attr_matrix_brightness                = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_brightness"));
-	static struct device_attribute devaccessory_attr_matrix_effect_none               = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_effect_none"));
-	static struct device_attribute devaccessory_attr_matrix_effect_static             = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_effect_static"));
-	static struct device_attribute devaccessory_attr_matrix_effect_breath	    	    = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_effect_breath"));
-	static struct device_attribute devaccessory_attr_matrix_effect_spectrum           = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_effect_spectrum"));
-	//static struct device_attribute devaccessory_attr_matrix_effect_reactive         = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_effect_reactive"));
-	static struct device_attribute devaccessory_attr_matrix_effect_wave               = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devaccessory_attr_matrix_effect_wave"));
-
 	INITRAZERDRIVER init_razer_kraken_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_kraken_driver"));
-    static struct device_attribute devkraken_attr_device_type                   = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_device_type"));
-    static struct device_attribute devkraken_attr_device_serial                 = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_device_serial"));
-    static struct device_attribute devkraken_attr_firmware_version              = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_firmware_version"));
-	static struct device_attribute devkraken_attr_matrix_effect_custom          = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_custom"));
-    //static struct device_attribute devkraken_attr_matrix_custom_frame           = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_custom_frame"));
-	//static struct device_attribute devkraken_attr_matrix_brightness           = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_brightness"));
-	static struct device_attribute devkraken_attr_matrix_effect_none            = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_none"));
-	static struct device_attribute devkraken_attr_matrix_effect_static          = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_static"));
-	static struct device_attribute devkraken_attr_matrix_effect_breath	        = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_breath"));
-	static struct device_attribute devkraken_attr_matrix_effect_spectrum        = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devkraken_attr_matrix_effect_spectrum"));
-
 	INITRAZERDRIVER init_razer_core_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_core_driver"));
-    static struct device_attribute devcore_attr_device_type                     = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_device_type"));
-    static struct device_attribute devcore_attr_device_serial                   = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_device_serial"));
-    static struct device_attribute devcore_attr_firmware_version                = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_firmware_version"));
-	static struct device_attribute devcore_attr_matrix_effect_custom            = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_effect_custom"));
-	static struct device_attribute devcore_attr_matrix_custom_frame             = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_custom_frame"));
-	static struct device_attribute devcore_attr_matrix_brightness               = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_brightness"));
-	static struct device_attribute devcore_attr_matrix_effect_none              = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_effect_none"));
-	static struct device_attribute devcore_attr_matrix_effect_static            = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_effect_static"));
-	static struct device_attribute devcore_attr_matrix_effect_breath	        = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_effect_breath"));
-	static struct device_attribute devcore_attr_matrix_effect_spectrum          = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_effect_spectrum"));
-	static struct device_attribute devcore_attr_matrix_effect_reactive          = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_effect_reactive"));
-	static struct device_attribute devcore_attr_matrix_effect_wave              = *(struct device_attribute*)reinterpret_cast<void*>(GetProcAddress(module, "devcore_attr_matrix_effect_wave"));
 
-	struct hid_device* hdev;
+    /*---------------------------------------------------------*\
+    | Initialize all OpenRazer driver modules and store devices |
+    \*---------------------------------------------------------*/
+    struct hid_device* hdev;
 	unsigned int num;
 
     hdev = NULL;
@@ -138,30 +140,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 	for (unsigned int i = 0; i < num; i++)
     {
         device_fn_type* device_fn = new device_fn_type;
-        device_fn->device_type             	     = &devkbd_attr_device_type;
-        device_fn->device_serial           	     = &devkbd_attr_device_serial;
-		device_fn->firmware_version			     = &devkbd_attr_firmware_version;
-        device_fn->matrix_effect_custom    	     = &devkbd_attr_matrix_effect_custom;
-        device_fn->matrix_custom_frame     	     = &devkbd_attr_matrix_custom_frame;
-        device_fn->matrix_brightness       	     = &devkbd_attr_matrix_brightness;
-        device_fn->matrix_effect_none      	     = &devkbd_attr_matrix_effect_none;
-        device_fn->matrix_effect_static    	     = &devkbd_attr_matrix_effect_static;
-		device_fn->matrix_effect_breath	         = &devkbd_attr_matrix_effect_breath;
-        device_fn->matrix_effect_spectrum  	     = &devkbd_attr_matrix_effect_spectrum;
-        device_fn->matrix_effect_reactive  	     = &devkbd_attr_matrix_effect_reactive;
-		device_fn->matrix_effect_wave		     = &devkbd_attr_matrix_effect_wave;
-        device_fn->logo_led_brightness           = NULL;
-        device_fn->logo_matrix_effect_none       = NULL;
-        device_fn->logo_matrix_effect_static     = NULL;
-        device_fn->logo_matrix_effect_spectrum   = NULL;
-        device_fn->logo_matrix_effect_reactive   = NULL;
-        device_fn->scroll_led_brightness         = NULL;
-        device_fn->scroll_matrix_effect_none     = NULL;
-        device_fn->scroll_matrix_effect_static   = NULL;
-        device_fn->scroll_matrix_effect_spectrum = NULL;
-        device_fn->scroll_matrix_effect_reactive = NULL;
-        device_fn->scroll_led_effect             = NULL;
-        device_fn->scroll_led_rgb                = NULL;
+        load_device_fn(device_fn, &hdev[i].dev);
+
         RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
 
         if(razer_rgb->device_index != -1)
@@ -179,30 +159,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 	for (unsigned int i = 0; i < num; i++)
     {
         device_fn_type* device_fn = new device_fn_type;
-        device_fn->device_type             	     = &devmouse_attr_device_type;
-        device_fn->device_serial           	     = &devmouse_attr_device_serial;
-		device_fn->firmware_version			     = &devmouse_attr_firmware_version;
-        device_fn->matrix_effect_custom    	     = &devmouse_attr_matrix_effect_custom;
-        device_fn->matrix_custom_frame     	     = &devmouse_attr_matrix_custom_frame;
-        device_fn->matrix_brightness       	     = &devmouse_attr_matrix_brightness;
-        device_fn->matrix_effect_none      	     = &devmouse_attr_matrix_effect_none;
-        device_fn->matrix_effect_static    	     = &devmouse_attr_matrix_effect_static;
-		device_fn->matrix_effect_breath	         = &devmouse_attr_matrix_effect_breath;
-        device_fn->matrix_effect_spectrum  	     = &devmouse_attr_matrix_effect_spectrum;
-        device_fn->matrix_effect_reactive  	     = &devmouse_attr_matrix_effect_reactive;
-		device_fn->matrix_effect_wave		     = &devmouse_attr_matrix_effect_wave;
-        device_fn->logo_led_brightness           = NULL;
-        device_fn->logo_matrix_effect_none       = NULL;
-        device_fn->logo_matrix_effect_static     = NULL;
-        device_fn->logo_matrix_effect_spectrum   = NULL;
-        device_fn->logo_matrix_effect_reactive   = NULL;
-        device_fn->scroll_led_brightness         = NULL;
-        device_fn->scroll_matrix_effect_none     = NULL;
-        device_fn->scroll_matrix_effect_static   = NULL;
-        device_fn->scroll_matrix_effect_spectrum = NULL;
-        device_fn->scroll_matrix_effect_reactive = NULL;
-        device_fn->scroll_led_effect             = NULL;
-        device_fn->scroll_led_rgb                = NULL;
+        load_device_fn(device_fn, &hdev[i].dev);
 
         RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
 
@@ -221,30 +178,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 	for (unsigned int i = 0; i < num; i++)
     {
         device_fn_type* device_fn = new device_fn_type;
-        device_fn->device_type             	     = &devmousemat_attr_device_type;
-        device_fn->device_serial           	     = &devmousemat_attr_device_serial;
-		device_fn->firmware_version			     = &devmousemat_attr_firmware_version;
-        device_fn->matrix_effect_custom    	     = &devmousemat_attr_matrix_effect_custom;
-        device_fn->matrix_custom_frame     	     = &devmousemat_attr_matrix_custom_frame;
-        device_fn->matrix_brightness       	     = &devmousemat_attr_matrix_brightness;
-        device_fn->matrix_effect_none      	     = &devmousemat_attr_matrix_effect_none;
-        device_fn->matrix_effect_static    	     = &devmousemat_attr_matrix_effect_static;
-		device_fn->matrix_effect_breath	         = &devmousemat_attr_matrix_effect_breath;
-        device_fn->matrix_effect_spectrum  	     = &devmousemat_attr_matrix_effect_spectrum;
-        device_fn->matrix_effect_reactive  	     = &devmousemat_attr_matrix_effect_reactive;
-		device_fn->matrix_effect_wave		     = &devmousemat_attr_matrix_effect_wave;
-        device_fn->logo_led_brightness           = NULL;
-        device_fn->logo_matrix_effect_none       = NULL;
-        device_fn->logo_matrix_effect_static     = NULL;
-        device_fn->logo_matrix_effect_spectrum   = NULL;
-        device_fn->logo_matrix_effect_reactive   = NULL;
-        device_fn->scroll_led_brightness         = NULL;
-        device_fn->scroll_matrix_effect_none     = NULL;
-        device_fn->scroll_matrix_effect_static   = NULL;
-        device_fn->scroll_matrix_effect_spectrum = NULL;
-        device_fn->scroll_matrix_effect_reactive = NULL;
-        device_fn->scroll_led_effect             = NULL;
-        device_fn->scroll_led_rgb                = NULL;
+        load_device_fn(device_fn, &hdev[i].dev);
 
         RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
 
@@ -263,30 +197,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 	for (unsigned int i = 0; i < num; i++)
     {
         device_fn_type* device_fn = new device_fn_type;
-        device_fn->device_type                   = &devaccessory_attr_device_type;
-        device_fn->device_serial                 = &devaccessory_attr_device_serial;
-		device_fn->firmware_version			     = &devaccessory_attr_firmware_version;
-        device_fn->matrix_effect_custom          = &devaccessory_attr_matrix_effect_custom;
-        device_fn->matrix_custom_frame           = &devaccessory_attr_matrix_custom_frame;
-        device_fn->matrix_brightness             = &devaccessory_attr_matrix_brightness;
-        device_fn->matrix_effect_none            = &devaccessory_attr_matrix_effect_none;
-        device_fn->matrix_effect_static          = &devaccessory_attr_matrix_effect_static;
-		device_fn->matrix_effect_breath	         = &devaccessory_attr_matrix_effect_breath;
-        device_fn->matrix_effect_spectrum        = &devaccessory_attr_matrix_effect_spectrum;
-        device_fn->matrix_effect_reactive        = NULL;//&devaccessory_attr_matrix_effect_reactive;
-		device_fn->matrix_effect_wave            = &devaccessory_attr_matrix_effect_wave;
-        device_fn->logo_led_brightness           = NULL;
-        device_fn->logo_matrix_effect_none       = NULL;
-        device_fn->logo_matrix_effect_static     = NULL;
-        device_fn->logo_matrix_effect_spectrum   = NULL;
-        device_fn->logo_matrix_effect_reactive   = NULL;
-        device_fn->scroll_led_brightness         = NULL;
-        device_fn->scroll_matrix_effect_none     = NULL;
-        device_fn->scroll_matrix_effect_static   = NULL;
-        device_fn->scroll_matrix_effect_spectrum = NULL;
-        device_fn->scroll_matrix_effect_reactive = NULL;
-        device_fn->scroll_led_effect             = NULL;
-        device_fn->scroll_led_rgb                = NULL;
+        load_device_fn(device_fn, &hdev[i].dev);
 
         RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
 
@@ -305,30 +216,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 	for (unsigned int i = 0; i < num; i++)
     {
         device_fn_type* device_fn = new device_fn_type;
-        device_fn->device_type                   = &devkraken_attr_device_type;
-        device_fn->device_serial                 = &devkraken_attr_device_serial;
-		device_fn->firmware_version			     = &devkraken_attr_firmware_version;
-        device_fn->matrix_effect_custom          = &devkraken_attr_matrix_effect_custom;
-        device_fn->matrix_custom_frame           = NULL;//&devkraken_attr_matrix_custom_frame;
-        device_fn->matrix_brightness             = NULL;//&devkraken_attr_matrix_brightness;
-        device_fn->matrix_effect_none            = &devkraken_attr_matrix_effect_none;
-        device_fn->matrix_effect_static          = &devkraken_attr_matrix_effect_static;
-		device_fn->matrix_effect_breath	         = &devkraken_attr_matrix_effect_breath;
-        device_fn->matrix_effect_spectrum        = &devkraken_attr_matrix_effect_spectrum;
-        device_fn->matrix_effect_reactive        = NULL;//&devkraken_attr_matrix_effect_reactive;
-		device_fn->matrix_effect_wave            = NULL;//&devkraken_attr_matrix_effect_wave;
-        device_fn->logo_led_brightness           = NULL;
-        device_fn->logo_matrix_effect_none       = NULL;
-        device_fn->logo_matrix_effect_static     = NULL;
-        device_fn->logo_matrix_effect_spectrum   = NULL;
-        device_fn->logo_matrix_effect_reactive   = NULL;
-        device_fn->scroll_led_brightness         = NULL;
-        device_fn->scroll_matrix_effect_none     = NULL;
-        device_fn->scroll_matrix_effect_static   = NULL;
-        device_fn->scroll_matrix_effect_spectrum = NULL;
-        device_fn->scroll_matrix_effect_reactive = NULL;
-        device_fn->scroll_led_effect             = NULL;
-        device_fn->scroll_led_rgb                = NULL;
+        load_device_fn(device_fn, &hdev[i].dev);
 
         RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
 
@@ -347,30 +235,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 	for (unsigned int i = 0; i < num; i++)
     {
         device_fn_type* device_fn = new device_fn_type;
-        device_fn->device_type                   = &devcore_attr_device_type;
-        device_fn->device_serial                 = &devcore_attr_device_serial;
-		device_fn->firmware_version			     = &devcore_attr_firmware_version;
-        device_fn->matrix_effect_custom          = &devcore_attr_matrix_effect_custom;
-        device_fn->matrix_custom_frame           = &devcore_attr_matrix_custom_frame;
-        device_fn->matrix_brightness             = &devcore_attr_matrix_brightness;
-        device_fn->matrix_effect_none            = &devcore_attr_matrix_effect_none;
-        device_fn->matrix_effect_static          = &devcore_attr_matrix_effect_static;
-		device_fn->matrix_effect_breath	         = &devcore_attr_matrix_effect_breath;
-        device_fn->matrix_effect_spectrum        = &devcore_attr_matrix_effect_spectrum;
-        device_fn->matrix_effect_reactive        = &devcore_attr_matrix_effect_reactive;
-		device_fn->matrix_effect_wave            = &devcore_attr_matrix_effect_wave;
-        device_fn->logo_led_brightness           = NULL;
-        device_fn->logo_matrix_effect_none       = NULL;
-        device_fn->logo_matrix_effect_static     = NULL;
-        device_fn->logo_matrix_effect_spectrum   = NULL;
-        device_fn->logo_matrix_effect_reactive   = NULL;
-        device_fn->scroll_led_brightness         = NULL;
-        device_fn->scroll_matrix_effect_none     = NULL;
-        device_fn->scroll_matrix_effect_static   = NULL;
-        device_fn->scroll_matrix_effect_spectrum = NULL;
-        device_fn->scroll_matrix_effect_reactive = NULL;
-        device_fn->scroll_led_effect             = NULL;
-        device_fn->scroll_led_rgb                = NULL;
+        load_device_fn(device_fn, &hdev[i].dev);
 
         RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
 

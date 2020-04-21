@@ -1,28 +1,6 @@
 #ifndef INIT_H_
 #define INIT_H_
 
-static inline int sprint_f(char* buf, const char* fmt, ...) {
-	va_list args;
-	int i;
-	va_start(args, fmt);
-	i = sprintf_s(buf, strlen(buf) - 1, fmt, args);
-	va_end(args);
-	return i;
-}
-#define sprintf sprint_f
-
-static inline int strncpy_f(char* dest, const char* source, const size_t sourceLen) {
-	return strncpy_s(dest, strlen(dest) - 1, source, sourceLen);
-}
-#define strncpy strncpy_f
-
-static inline int strcpy_f(char* dest, const char* source) {
-	return strcpy_s(dest, strlen(dest) - 1, source);
-}
-#define strcpy strcpy_f
-
-#define strdup _strdup
-
 #define KERN_WARNING
 #define KERN_ALERT
 #define KERN_CRIT

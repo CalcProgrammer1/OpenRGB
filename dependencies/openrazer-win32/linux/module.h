@@ -35,6 +35,8 @@ struct device {
 	void							*p;
 	const char						*init_name;
 	void							*driver_data;
+	unsigned int                    attr_count;
+	struct device_attribute	*       attr_list[64];
 struct usb_interface *parent_usb_interface;
 };
 
@@ -65,6 +67,9 @@ inline int usb_control_msg(
 	, unsigned char* buf, unsigned int size
 	, unsigned int timeout)
 {
+	/*---------------------------------------------------------*\
+	| Copy Linux API arguments into WinUSB format message       |
+	\*---------------------------------------------------------*/
 	WINUSB_SETUP_PACKET packet;
 	packet.RequestType = request_type;
 	packet.Request = request;
@@ -72,13 +77,17 @@ inline int usb_control_msg(
 	packet.Index = report_index; 
 	packet.Length = size;
 	ULONG cbSent = 0;
+
+	/*---------------------------------------------------------*\
+	| Perform WinUSB USB control transfer                       |
+	\*---------------------------------------------------------*/
 	if (!WinUsb_ControlTransfer(usb_dev->dev->p, packet, buf, size, &cbSent, 0))
+	{
 		printf("WinUsb_ControlTransfer failed\n");
+	}
 
 	return cbSent;
 }
-
-
 
 inline struct usb_interface *to_usb_interface(struct device *dev) {
 	return dev->parent_usb_interface;
@@ -102,8 +111,18 @@ struct device_attribute {
 	ssize_t(*store)(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
 };
 
-inline int device_create_file(struct device *device, struct device_attribute *entry) {
-	printf("device_create_file %s\n", entry->name);
+inline int device_create_file(struct device *device, struct device_attribute *entry)
+{
+	if (device->attr_count < 64)
+	{
+		printf("device_create_file - Adding %s to list\n", entry->name);
+		device->attr_list[device->attr_count] = entry;
+		device->attr_count++;
+	}
+	else
+	{
+		printf("device_create_file - List is full\n");
+	}
 	return 0;
 }
 
@@ -120,7 +139,11 @@ inline void device_remove_file(struct device *device, struct device_attribute *e
 
 // Hack to turn Linux device macros into API calls
 #define DEVICE_ATTR1(_device,_name, _mode, _show, _store)	\
-	struct device_attribute dev_attr_##_name; \
+	struct device_attribute dev_attr_##_name = { \
+		  .name = __stringify(_name)                \
+        , .show   = _show                           \
+        , .store  = _store                          \
+    };                                              \
 	DLL_INTERNAL struct device_attribute dev##_device##_attr_##_name = {	\
           .name = __stringify(_name)				\
         , .show   = _show							\
