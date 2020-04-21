@@ -2084,7 +2084,7 @@ static const razer_zone firefly_zone_hyperflux =
 
 static const razer_device firefly_device_hyperflux =
 {
-    "Razer Firefly",
+    "Razer Firefly Hyperflux",
     DEVICE_TYPE_MOUSEMAT,
     true,
     1,
@@ -2116,7 +2116,7 @@ static const razer_zone goliathus_zone =
 
 static const razer_device goliathus_device =
 {
-    "Razer Goliathus Extended",
+    "Razer Goliathus",
     DEVICE_TYPE_MOUSEMAT,
     true,
     1,
