@@ -17,6 +17,8 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     type        = DEVICE_TYPE_MOUSEMAT;
     description = "Cooler Master Mousepad 750";
     version     = "1.0";
+    serial      = "";
+    location    = cmmp750->GetLocation();
 
     mode Static;
     Static.name       = "Static";
@@ -80,7 +82,7 @@ void RGBController_CMMP750Controller::SetupZones()
     MP_zone.type          = ZONE_TYPE_SINGLE;
     MP_zone.leds_min      = 1;
     MP_zone.leds_max      = 1;
-    MP_zone.leds_count    = 2;
+    MP_zone.leds_count    = 1;
     zones.push_back(MP_zone);
 
     led MP_led;

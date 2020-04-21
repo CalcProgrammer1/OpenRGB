@@ -8,9 +8,17 @@
 
 #define COOLERMASTER_NUM_DEVICES (sizeof(cm_pids) / sizeof(cm_pids[ 0 ]))
 
-static const unsigned int cm_pids[] =
+enum
 {
-    0x0109
+    CM_PID = 0,
+    CM_INADDR = 1,
+    CM_OUTADDR = 2,
+    CM_INTERFACE = 3
+};
+
+static const unsigned int cm_pids[][4] =
+{ //PID, inAddr, outAddr, interface
+    { 0x0109, 0x82, 0x03, 0x00 }        //Coolermaster MP750
 };
 
 /******************************************************************************************\
@@ -29,18 +37,20 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
     for(int cm_pid_idx = 0; cm_pid_idx < COOLERMASTER_NUM_DEVICES; cm_pid_idx++)
     {
         //Look for the passed in cm_pids
-        libusb_device_handle * dev = libusb_open_device_with_vid_pid(context, COOLERMASTER_VID, cm_pids[cm_pid_idx]);
+        libusb_device_handle * dev = libusb_open_device_with_vid_pid(context, COOLERMASTER_VID, cm_pids[cm_pid_idx][CM_PID]);
 
         if(dev)
         {
-            libusb_detach_kernel_driver(dev, 1);
-            libusb_claim_interface(dev, 1);
+            int status = libusb_detach_kernel_driver(dev, cm_pids[cm_pid_idx][CM_INTERFACE]);
+            status = libusb_claim_interface(dev, cm_pids[cm_pid_idx][CM_INTERFACE]);
 
-            CMMP750Controller* controller = new CMMP750Controller(dev);
-
-            RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
-
-            rgb_controllers.push_back(rgb_controller);
+            if(status == 0)
+            {
+                // Success: Device has been claimed
+                CMMP750Controller* controller = new CMMP750Controller(dev, cm_pids[cm_pid_idx][CM_INADDR], cm_pids[cm_pid_idx][CM_OUTADDR], cm_pids[cm_pid_idx][CM_INTERFACE]);
+                RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
+                rgb_controllers.push_back(rgb_controller);
+            }
         }
     }
 
