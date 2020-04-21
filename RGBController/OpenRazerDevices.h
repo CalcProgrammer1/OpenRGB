@@ -2074,7 +2074,7 @@ static const razer_device firefly_device =
 |       Linear                                                  |
 |       1 LEDs                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone firefly_zone_hyperflux =
+static const razer_zone firefly_hyperflux_zone =
 {
     "LED Strip",
     ZONE_TYPE_SINGLE,
@@ -2082,7 +2082,7 @@ static const razer_zone firefly_zone_hyperflux =
     1
 };
 
-static const razer_device firefly_device_hyperflux =
+static const razer_device firefly_hyperflux_device =
 {
     "Razer Firefly Hyperflux",
     DEVICE_TYPE_MOUSEMAT,
@@ -2090,7 +2090,7 @@ static const razer_device firefly_device_hyperflux =
     1,
     1,
     {
-        &firefly_zone_hyperflux,
+        &firefly_hyperflux_zone,
         NULL,
         NULL,
         NULL,
@@ -2633,7 +2633,7 @@ static const razer_device* device_list[] =
 |  MOUSEMATS                                                        |
 \*-----------------------------------------------------------------*/
     &firefly_device,
-    &firefly_device_hyperflux,
+    &firefly_hyperflux_device,
     &goliathus_device,
     &goliathus_extended_device,
 /*-----------------------------------------------------------------*\
