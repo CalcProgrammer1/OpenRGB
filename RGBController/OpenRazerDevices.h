@@ -1463,29 +1463,29 @@ static const razer_device lancehead_te_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Mamba Chroma Wired 1532:0044                           |
+|  Razer Mamba 2012 (Wired)                                     |
 |                                                               |
-|  Zone "Chroma Zone"                                           |
+|  Zone "Scroll Wheel"                                          |
 |       Single                                                  |
-|       15 LEDs                                                 |
+|       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_chroma_wired_zone =
+static const razer_zone mamba_2012_wired_zone =
 {
-    "Chroma Zone",
+    "Scroll Wheel",
     ZONE_TYPE_LINEAR,
     1,
-    15
+    1
 };
 
-static const razer_device mamba_chroma_wired_device =
+static const razer_device mamba_2012_wired_device =
 {
-    "Razer Mamba Chroma Wired",
+    "Razer Mamba 2012 (Wired)",
     DEVICE_TYPE_MOUSE,
     false,
     1,
     15,
     {
-        &mamba_chroma_wired_zone,
+        &mamba_2012_wired_zone,
         NULL,
         NULL,
         NULL,
@@ -1495,13 +1495,45 @@ static const razer_device mamba_chroma_wired_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Mamba Chroma Wireless 1532:0045                        |
+|  Razer Mamba 2012 (Wireless)                                  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_2012_wireless_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_LINEAR,
+    1,
+    1
+};
+
+static const razer_device mamba_2012_wireless_device =
+{
+    "Razer Mamba 2012 (Wireless)",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    15,
+    {
+        &mamba_2012_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba (Wired)                                          |
 |                                                               |
 |  Zone "Chroma Zone"                                           |
 |       Single                                                  |
-|       15 LED                                                  |
+|       15 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_chroma_wireless_zone =
+static const razer_zone mamba_wired_zone =
 {
     "Chroma Zone",
     ZONE_TYPE_LINEAR,
@@ -1509,15 +1541,47 @@ static const razer_zone mamba_chroma_wireless_zone =
     15
 };
 
-static const razer_device mamba_chroma_wireless_device =
+static const razer_device mamba_wired_device =
 {
-    "Razer Mamba Chroma Wireless",
+    "Razer Mamba (Wired)",
     DEVICE_TYPE_MOUSE,
     false,
     1,
     15,
     {
-        &mamba_chroma_wireless_zone,
+        &mamba_wired_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba (Wireless)                                       |
+|                                                               |
+|  Zone "Chroma Zone"                                           |
+|       Single                                                  |
+|       15 LED                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone mamba_wireless_zone =
+{
+    "Chroma Zone",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_device mamba_wireless_device =
+{
+    "Razer Mamba (Wireless)",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    15,
+    {
+        &mamba_wireless_zone,
         NULL,
         NULL,
         NULL,
@@ -2614,8 +2678,10 @@ static const razer_device* device_list[] =
     &deathadder_elite_device,
     &diamondback_chroma_device,
     &lancehead_te_device,
-    &mamba_chroma_wired_device,
-    &mamba_chroma_wireless_device,
+    &mamba_2012_wired_device,
+    &mamba_2012_wireless_device,
+    &mamba_wired_device,
+    &mamba_wireless_device,
     &mamba_te_device,
     &mamba_elite_device,
     &mamba_wireless_wired_device,
