@@ -83,6 +83,7 @@ public:
         RAZER_MODE_SPECTRUM_CYCLE,
         RAZER_MODE_WAVE,
         RAZER_MODE_REACTIVE,
+        RAZER_MODE_FLASHING,
         RAZER_NUM_MODES
     };
 
