@@ -23,17 +23,17 @@
 #else
 #include <unistd.h>
 
-typedef struct listen_thread_param_type
-{
-    NetworkServer * this_ptr;
-    SOCKET *        sock_ptr;
-};
-
 static void Sleep(unsigned int milliseconds)
 {
     usleep(1000 * milliseconds);
 }
 #endif
+
+typedef struct listen_thread_param_type
+{
+    NetworkServer * this_ptr;
+    SOCKET *        sock_ptr;
+};
 
 THREAD connection_thread(void *param)
 {

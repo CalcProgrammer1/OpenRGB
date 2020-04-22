@@ -271,72 +271,9 @@ void net_port::tcp_close()
     connected = false;
 }
 
-int net_port::tcp_listen(char * recv_data, int /*length*/)
+int net_port::tcp_listen(char * recv_data, int length)
 {
-    int ret = 0;
-    int len = 0;
-    int tot = 0;
-    timeval waitd;
-
-    fd_set readfd;
-
-    FD_ZERO(&readfd);
-    FD_SET(sock, &readfd);
-
-    if (connected)
-    {
-        while(ret != sizeof(len))
-        {
-            waitd.tv_sec = 10;
-            waitd.tv_usec = 0;
-
-            if (select(sock + 1, &readfd, NULL, NULL, &waitd))
-            {
-                ret = recv(sock, (char *)&len, sizeof(len), 0);
-
-                if (ret == -1 || ret == 0)
-                {
-                    closesocket(sock);
-                    connected = false;
-                    return(0);
-                }
-            }
-            else
-            {
-                closesocket(sock);
-                connected = false;
-                return(0);
-            }
-        }
-
-        ret = 0;
-        while(tot != len)
-        {
-            waitd.tv_sec = 10;
-            waitd.tv_usec = 0;
-
-            if (select(sock + 1, &readfd, NULL, NULL, &waitd))
-            {
-                ret = recv(sock, recv_data + ret, len - ret, 0);
-
-                if (ret == -1 || ret == 0)
-                {
-                    closesocket(sock);
-                    connected = false;
-                    return(0);
-                }
-
-                tot += ret;
-            }
-            else
-            {
-                closesocket(sock);
-                connected = false;
-                return(0);
-            }
-        }
-    }
-    return(ret);
+    return(read(sock, recv_data, length));
 }
 
 int net_port::tcp_client_write(char * buffer, int length)
