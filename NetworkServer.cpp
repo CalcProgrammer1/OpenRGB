@@ -228,26 +228,70 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
 
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE\r\n" );
+
+                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == (2 * sizeof(int))))
+                {
+                    int zone;
+                    int new_size;
+
+                    memcpy(&zone, data, sizeof(int));
+                    memcpy(&new_size, data + sizeof(int), sizeof(int));
+
+                    controllers[header.pkt_dev_idx]->ResizeZone(zone, new_size);
+                }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS\r\n" );
+
+                if(header.pkt_dev_idx < controllers.size())
+                {
+                    controllers[header.pkt_dev_idx]->UpdateLEDs();
+                }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS\r\n" );
+
+                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == sizeof(int)))
+                {
+                    int zone;
+
+                    memcpy(&zone, data, sizeof(int));
+
+                    controllers[header.pkt_dev_idx]->UpdateZoneLEDs(zone);
+                }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED\r\n" );
+
+                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == sizeof(int)))
+                {
+                    int led;
+
+                    memcpy(&led, data, sizeof(int));
+
+                    controllers[header.pkt_dev_idx]->UpdateSingleLED(led);
+                }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE\r\n" );
+
+                if(header.pkt_dev_idx < controllers.size())
+                {
+                    controllers[header.pkt_dev_idx]->SetCustomMode();
+                }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE\r\n" );
+
+                if(header.pkt_dev_idx < controllers.size())
+                {
+                    controllers[header.pkt_dev_idx]->UpdateMode();
+                }
                 break;
         }
     }
