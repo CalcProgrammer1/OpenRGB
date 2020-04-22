@@ -66,22 +66,28 @@ NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controller
 void NetworkServer::ConnectionThread()
 {
     //This thread handles client connections
+
+    printf("Network connection thread started\n");
     while(1)
     {
-        port.tcp_server_listen();
-
+        SOCKET * client_sock = port.tcp_server_listen();
         //Start a listener thread for the new client socket
 #ifdef WIN32
         _beginthread(listen_thread, 0, this);
 #else
         pthread_t thread;
-        pthread_create(&thread, NULL, &listen_thread, this);
+
+        listen_thread_param_type new_thread_param;
+        new_thread_param.sock_ptr = client_sock;
+        new_thread_param.this_ptr = this;
+        pthread_create(&thread, NULL, &listen_thread, &new_thread_param);
 #endif
     }
 }
 
 void NetworkServer::ListenThread(SOCKET * client_sock)
 {
+    printf("Network server started\n");
     //This thread handles messages received from clients
     while(1)
     {
@@ -92,7 +98,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         //Read first byte of magic
         do
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[0], 1);
+            bytes_read = recv(*client_sock, &header.pkt_magic[0], 1, 0);
         } while(bytes_read == 0);
 
         //Test first character of magic - 'O'
@@ -106,7 +112,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         //Read second byte of magic
         do
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[1], 1);
+            bytes_read = recv(*client_sock, &header.pkt_magic[1], 1, 0);
         } while(bytes_read == 0);
 
         //Test second character of magic - 'R'
@@ -120,11 +126,11 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         //Read third byte of magic
         do
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[2], 1);
+            bytes_read = recv(*client_sock, &header.pkt_magic[2], 1, 0);
         } while(bytes_read == 0);
 
         //Test third character of magic - 'G'
-        if(header.pkt_magic[2] != 'O')
+        if(header.pkt_magic[2] != 'G')
         {
             continue;
         }
@@ -134,11 +140,11 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         //Read fourth byte of magic
         do
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[3], 1);
+            bytes_read = recv(*client_sock, &header.pkt_magic[3], 1, 0);
         } while(bytes_read == 0);
 
         //Test fourth character of magic - 'B'
-        if(header.pkt_magic[3] != 'O')
+        if(header.pkt_magic[3] != 'B')
         {
             continue;
         }
@@ -146,10 +152,13 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         printf("Magic: 'B'\r\n");
 
         //If we get to this point, the magic is correct.  Read the rest of the header
+        bytes_read = 0;
         do
         {
-            bytes_read = port.tcp_listen((char *)&header.pkt_dev_idx, sizeof(header) - sizeof(header.pkt_magic));
-        } while(bytes_read == sizeof(header) - sizeof(header.pkt_magic));
+            bytes_read += recv(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
+        } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
+
+        printf( "Received header, now receiving data of size %d\r\n", header.pkt_size);
 
         //Header received, now receive the data
         if(header.pkt_size > 0)
@@ -160,37 +169,46 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
 
             do
             {
-                bytes_read += port.tcp_listen(&data[bytes_read], 128);
+                bytes_read += recv(*client_sock, &data[bytes_read], 128, 0);
             } while (bytes_read < header.pkt_size);
         }
 
         printf( "Received header and data\r\n" );
+        printf( "Packet ID: %d \r\n", header.pkt_id);
 
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
         {
-            NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
+            case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
+                printf( "NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
                 break;
 
-            NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+            case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+                printf( "NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n" );
                 break;
 
-            NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
+            case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
+                printf( "NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE\r\n" );
                 break;
 
-            NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
+            case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
+                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS\r\n" );
                 break;
 
-            NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
+            case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
+                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS\r\n" );
                 break;
 
-            NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
+            case NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
+                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED\r\n" );
                 break;
 
-            NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE:
+            case NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE:
+                printf( "NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE\r\n" );
                 break;
 
-            NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
+            case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
+                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE\r\n" );
                 break;
         }
     }
