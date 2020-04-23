@@ -12,6 +12,9 @@ public:
     void        ConnectionThread();
     void        ListenThread();
 
+    void        SendRequest_ControllerCount();
+    void        SendRequest_ControllerData(unsigned int idx);
+    
 protected:
     std::vector<RGBController *>& controllers;
 

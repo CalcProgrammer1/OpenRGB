@@ -64,18 +64,7 @@ void NetworkClient::ConnectionThread()
 
         printf( "Send controller count request\n" );
 
-        NetPacketHeader reply_hdr;
-
-        reply_hdr.pkt_magic[0] = 'O';
-        reply_hdr.pkt_magic[1] = 'R';
-        reply_hdr.pkt_magic[2] = 'G';
-        reply_hdr.pkt_magic[3] = 'B';
-
-        reply_hdr.pkt_dev_idx  = 0;
-        reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
-        reply_hdr.pkt_size     = 0;
-
-        port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+        SendRequest_ControllerCount();
 
         //Wait 1 second between tries;
         Sleep(1000);
@@ -180,19 +169,7 @@ void NetworkClient::ListenThread()
 
                     printf( "Client: Now request the first controller\r\n");
 
-                    NetPacketHeader reply_hdr;
-                    unsigned int    reply_data;
-                    
-                    reply_hdr.pkt_magic[0] = 'O';
-                    reply_hdr.pkt_magic[1] = 'R';
-                    reply_hdr.pkt_magic[2] = 'G';
-                    reply_hdr.pkt_magic[3] = 'B';
-
-                    reply_hdr.pkt_dev_idx  = 0;
-                    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
-                    reply_hdr.pkt_size     = 0;
-
-                    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+                    SendRequest_ControllerData(0);
                 }
                 break;
 
@@ -207,4 +184,37 @@ void NetworkClient::ListenThread()
                 }
         }
     }
+}
+
+void NetworkClient::SendRequest_ControllerCount()
+{
+    NetPacketHeader reply_hdr;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
+    reply_hdr.pkt_size     = 0;
+
+    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+}
+
+void NetworkClient::SendRequest_ControllerData(unsigned int idx)
+{
+    NetPacketHeader reply_hdr;
+    unsigned int    reply_data;
+    
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = idx;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
+    reply_hdr.pkt_size     = 0;
+
+    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
 }
