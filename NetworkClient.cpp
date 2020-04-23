@@ -1,4 +1,6 @@
 #include "NetworkClient.h"
+#include "RGBController_Dummy.h"
+#include <cstring>
 
 #ifdef WIN32
 #include <Windows.h>
@@ -58,6 +60,23 @@ void NetworkClient::ConnectionThread()
         //Try to connect to server
         port.tcp_client_connect();
 
+        printf( "Network client connected\n" );
+
+        printf( "Send controller count request\n" );
+
+        NetPacketHeader reply_hdr;
+
+        reply_hdr.pkt_magic[0] = 'O';
+        reply_hdr.pkt_magic[1] = 'R';
+        reply_hdr.pkt_magic[2] = 'G';
+        reply_hdr.pkt_magic[3] = 'B';
+
+        reply_hdr.pkt_dev_idx  = 0;
+        reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
+        reply_hdr.pkt_size     = 0;
+
+        port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+
         //Wait 1 second between tries;
         Sleep(1000);
     }
@@ -85,8 +104,6 @@ void NetworkClient::ListenThread()
             continue;
         }
 
-        printf("Magic: 'O'\r\n");
-
         //Read second byte of magic
         do
         {
@@ -98,8 +115,6 @@ void NetworkClient::ListenThread()
         {
             continue;
         }
-
-        printf("Magic: 'R'\r\n");
 
         //Read third byte of magic
         do
@@ -113,8 +128,6 @@ void NetworkClient::ListenThread()
             continue;
         }
 
-        printf("Magic: 'G'\r\n");
-
         //Read fourth byte of magic
         do
         {
@@ -127,8 +140,6 @@ void NetworkClient::ListenThread()
             continue;
         }
 
-        printf("Magic: 'B'\r\n");
-
         //If we get to this point, the magic is correct.  Read the rest of the header
         bytes_read = 0;
         do
@@ -136,7 +147,7 @@ void NetworkClient::ListenThread()
             bytes_read += port.tcp_listen((char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read);
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        printf( "Received header, now receiving data of size %d\r\n", header.pkt_size);
+        printf( "Client: Received header, now receiving data of size %d\r\n", header.pkt_size);
 
         //Header received, now receive the data
         if(header.pkt_size > 0)
@@ -151,13 +162,49 @@ void NetworkClient::ListenThread()
             } while (bytes_read < header.pkt_size);
         }
 
-        printf( "Received header and data\r\n" );
-        printf( "Packet ID: %d \r\n", header.pkt_id);
+        printf( "Client: Received header and data\r\n" );
+        printf( "Client: Packet ID: %d \r\n", header.pkt_id);
 
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
         {
+            case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
+                printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
+                if(header.pkt_size == sizeof(unsigned int))
+                {
+                    unsigned int controller_count;
 
+                    memcpy(&controller_count, data, sizeof(unsigned int));
+
+                    printf( "Client: Received controller size: %d\r\n", controller_count);
+
+                    printf( "Client: Now request the first controller\r\n");
+
+                    NetPacketHeader reply_hdr;
+                    unsigned int    reply_data;
+                    
+                    reply_hdr.pkt_magic[0] = 'O';
+                    reply_hdr.pkt_magic[1] = 'R';
+                    reply_hdr.pkt_magic[2] = 'G';
+                    reply_hdr.pkt_magic[3] = 'B';
+
+                    reply_hdr.pkt_dev_idx  = 0;
+                    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
+                    reply_hdr.pkt_size     = 0;
+
+                    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+                }
+                break;
+
+            case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
+                printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n");
+                {
+                    RGBController_Dummy new_controller;
+
+                    new_controller.ReadDeviceDescription((unsigned char *)data);
+
+                    printf("Received controller: %s\r\n", new_controller.name.c_str());
+                }
         }
     }
 }

@@ -108,8 +108,6 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             continue;
         }
 
-        printf("Magic: 'O'\r\n");
-
         //Read second byte of magic
         do
         {
@@ -121,8 +119,6 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         {
             continue;
         }
-
-        printf("Magic: 'R'\r\n");
 
         //Read third byte of magic
         do
@@ -136,8 +132,6 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             continue;
         }
 
-        printf("Magic: 'G'\r\n");
-
         //Read fourth byte of magic
         do
         {
@@ -150,8 +144,6 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             continue;
         }
 
-        printf("Magic: 'B'\r\n");
-
         //If we get to this point, the magic is correct.  Read the rest of the header
         bytes_read = 0;
         do
@@ -159,7 +151,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             bytes_read += read(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read);
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        printf( "Received header, now receiving data of size %d\r\n", header.pkt_size);
+        printf( "Server: Received header, now receiving data of size %d\r\n", header.pkt_size);
 
         //Header received, now receive the data
         if(header.pkt_size > 0)
@@ -174,8 +166,8 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             } while (bytes_read < header.pkt_size);
         }
 
-        printf( "Received header and data\r\n" );
-        printf( "Packet ID: %d \r\n", header.pkt_id);
+        printf( "Server: Received header and data\r\n" );
+        printf( "Server: Packet ID: %d \r\n", header.pkt_id);
 
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
@@ -218,7 +210,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
                     reply_hdr.pkt_magic[3] = 'B';
 
                     reply_hdr.pkt_dev_idx  = 0;
-                    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
+                    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
                     reply_hdr.pkt_size     = reply_size;
 
                     write(*client_sock, &reply_hdr, sizeof(NetPacketHeader));
