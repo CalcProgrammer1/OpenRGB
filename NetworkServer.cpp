@@ -174,48 +174,12 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
                 printf( "NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
-
-                NetPacketHeader reply_hdr;
-                unsigned int    reply_data;
-
-                reply_hdr.pkt_magic[0] = 'O';
-                reply_hdr.pkt_magic[1] = 'R';
-                reply_hdr.pkt_magic[2] = 'G';
-                reply_hdr.pkt_magic[3] = 'B';
-
-                reply_hdr.pkt_dev_idx  = 0;
-                reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
-                reply_hdr.pkt_size     = sizeof(unsigned int);
-
-                reply_data             = controllers.size();
-
-                write(*client_sock, &reply_hdr, sizeof(NetPacketHeader));
-                write(*client_sock, &reply_data, sizeof(unsigned int));
+                SendReply_ControllerCount(client_sock);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 printf( "NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n" );
-
-                if(header.pkt_dev_idx < controllers.size())
-                {
-                    NetPacketHeader reply_hdr;
-                    unsigned char *reply_data = controllers[header.pkt_dev_idx]->GetDeviceDescription();
-                    unsigned int   reply_size;
-
-                    memcpy(&reply_size, reply_data, sizeof(reply_size));
-                    
-                    reply_hdr.pkt_magic[0] = 'O';
-                    reply_hdr.pkt_magic[1] = 'R';
-                    reply_hdr.pkt_magic[2] = 'G';
-                    reply_hdr.pkt_magic[3] = 'B';
-
-                    reply_hdr.pkt_dev_idx  = 0;
-                    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
-                    reply_hdr.pkt_size     = reply_size;
-
-                    write(*client_sock, &reply_hdr, sizeof(NetPacketHeader));
-                    write(*client_sock, reply_data, reply_size);
-                }
+                SendReply_ControllerData(client_sock, header.pkt_dev_idx);
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
@@ -286,5 +250,49 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
                 }
                 break;
         }
+    }
+}
+
+void NetworkServer::SendReply_ControllerCount(SOCKET * client_sock)
+{
+    NetPacketHeader reply_hdr;
+    unsigned int    reply_data;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
+    reply_hdr.pkt_size     = sizeof(unsigned int);
+
+    reply_data             = controllers.size();
+
+    write(*client_sock, &reply_hdr, sizeof(NetPacketHeader));
+    write(*client_sock, &reply_data, sizeof(unsigned int));
+}
+
+void NetworkServer::SendReply_ControllerData(SOCKET * client_sock, unsigned int dev_idx)
+{
+    if(dev_idx < controllers.size())
+    {
+        NetPacketHeader reply_hdr;
+        unsigned char *reply_data = controllers[dev_idx]->GetDeviceDescription();
+        unsigned int   reply_size;
+
+        memcpy(&reply_size, reply_data, sizeof(reply_size));
+        
+        reply_hdr.pkt_magic[0] = 'O';
+        reply_hdr.pkt_magic[1] = 'R';
+        reply_hdr.pkt_magic[2] = 'G';
+        reply_hdr.pkt_magic[3] = 'B';
+
+        reply_hdr.pkt_dev_idx  = 0;
+        reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
+        reply_hdr.pkt_size     = reply_size;
+
+        write(*client_sock, &reply_hdr, sizeof(NetPacketHeader));
+        write(*client_sock, reply_data, reply_size);
     }
 }
