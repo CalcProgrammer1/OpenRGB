@@ -1,3 +1,5 @@
+#pragma once
+
 typedef struct NetPacketHeader
 {
     char                pkt_magic[4];               /* Magic value "ORGB" identifies beginning of packet    */
