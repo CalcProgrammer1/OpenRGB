@@ -9,11 +9,12 @@
 #pragma once
 
 #include "RGBController.h"
+#include "NetworkClient.h"
 
 class RGBController_Network : public RGBController
 {
 public:
-    RGBController_Network();
+    RGBController_Network(NetworkClient * client_ptr, unsigned int dev_idx_val);
 
     void        SetupZones();
 
@@ -25,4 +26,8 @@ public:
 
     void        SetCustomMode();
     void        UpdateMode();
+
+private:
+    NetworkClient *     client;
+    unsigned int        dev_idx;
 };

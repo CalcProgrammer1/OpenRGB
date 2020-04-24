@@ -166,6 +166,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_MSI3Zone.cpp                            \
     RGBController/RGBController_MSIMysticLight.cpp                      \
     RGBController/RGBController_MSIRGB.cpp                              \
+    RGBController/RGBController_Network.cpp                             \
     RGBController/RGBController_NZXTKraken.cpp                          \
     RGBController/RGBController_PatriotViper.cpp                        \
     RGBController/RGBController_Polychrome.cpp                          \
@@ -247,6 +248,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_MSI3Zone.h                              \
     RGBController/RGBController_MSIMysticLight.h                        \
     RGBController/RGBController_MSIRGB.h                                \
+    RGBController/RGBController_Network.h                               \
     RGBController/RGBController_PatriotViper.h                          \
     RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_PoseidonZRGB.h                          \
