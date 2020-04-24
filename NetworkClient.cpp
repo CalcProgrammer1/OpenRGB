@@ -38,7 +38,13 @@ THREAD listen_thread(void *param)
 
 NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
 {
+    unsigned int requested_controllers;
+
     port.tcp_client("127.0.0.1", "1337");
+
+    server_connected        = false;
+    server_controller_count = 0;
+    requested_controllers   = 0;
 
     //Start the connection thread
 #ifdef WIN32
@@ -48,6 +54,46 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     pthread_create(&thread, NULL, &connection_thread, this);
     pthread_create(&thread, NULL, &listen_thread, this);
 #endif
+
+    //Wait for server to connect
+    while(!server_connected)
+    {
+        Sleep(100);
+    }
+
+    //Once server is connected, request number of controllers
+    SendRequest_ControllerCount();
+
+    //Wait for server controller count
+    while(server_controller_count == 0)
+    {
+        Sleep(100);
+    }
+
+    printf("Client: Received controller count from server: %d\r\n", server_controller_count);
+
+    //Once count is received, request controllers
+    while(requested_controllers < server_controller_count)
+    {
+        printf("Client: Requesting controller %d\r\n", requested_controllers);
+
+        SendRequest_ControllerData(requested_controllers);
+
+        //Wait until controller is received
+        while(server_controllers.size() == requested_controllers)
+        {
+            Sleep(100);
+        }
+
+        requested_controllers++;
+    }
+
+    //All controllers received, add them to master list
+    printf("Client: All controllers received, adding them to master list\r\n");
+    for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
+    {
+        controllers.push_back(server_controllers[controller_idx]);
+    }
 }
 
 void NetworkClient::ConnectionThread()
@@ -60,11 +106,10 @@ void NetworkClient::ConnectionThread()
         //Try to connect to server
         port.tcp_client_connect();
 
-        printf( "Network client connected\n" );
+        printf( "Connected to server\n" );
 
-        printf( "Send controller count request\n" );
-
-        SendRequest_ControllerCount();
+        server_connected = true;
+        break;
 
         //Wait 1 second between tries;
         Sleep(1000);
@@ -159,31 +204,36 @@ void NetworkClient::ListenThread()
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
                 printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
-                if(header.pkt_size == sizeof(unsigned int))
-                {
-                    unsigned int controller_count;
-
-                    memcpy(&controller_count, data, sizeof(unsigned int));
-
-                    printf( "Client: Received controller size: %d\r\n", controller_count);
-
-                    printf( "Client: Now request the first controller\r\n");
-
-                    SendRequest_ControllerData(0);
-                }
+                
+                ProcessReply_ControllerCount(header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n");
-                {
-                    RGBController_Dummy new_controller;
-
-                    new_controller.ReadDeviceDescription((unsigned char *)data);
-
-                    printf("Received controller: %s\r\n", new_controller.name.c_str());
-                }
+                
+                ProcessReply_ControllerData(header.pkt_size, data);
+                break;
         }
     }
+}
+
+void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * data)
+{
+    if(data_size == sizeof(unsigned int))
+    {
+        memcpy(&server_controller_count, data, sizeof(unsigned int));
+    }
+}
+
+void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * data)
+{
+    RGBController_Dummy * new_controller = new RGBController_Dummy();
+
+    new_controller->ReadDeviceDescription((unsigned char *)data);
+
+    printf("Received controller: %s\r\n", new_controller->name.c_str());
+
+    server_controllers.push_back(new_controller);
 }
 
 void NetworkClient::SendRequest_ControllerCount()
