@@ -15,51 +15,73 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
 
 ![OpenRGB_0.11](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/2a913ece50cfa1ab2210f63e4846df4f/OpenRGB_0.11.PNG)
 
-## Installation
-#### Windows
-  1. Download the latest Visual Studio Community Edition and Qt Creator.
-  2. Open the OpenRGB_Win.pro project.
-  3. Build the project for either the `x86` or `x64` architecture.
-  4. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
+## Windows
+  *  Pre-built binaries are available under the Releases section on GitLab.
 
-**You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
+  *  If you wish to build the application yourself:
 
-#### Linux:
-  1. Either open the project using QT Creator or build it using qmake.  You will need the libusb-1.0-0 (or equivalent) development package from your distribution's package manager installed.
+      1. Download the latest Visual Studio Community Edition and Qt Creator.
+      2. Open the OpenRGB.pro project in Qt Creator.
+      3. Use the MSVC compiler kit, either 32- or 64-bit, to build the application.
+      4. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
+
+  *  **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
+
+## Linux:
+  *  Pre-built binaries are not currently available for Linux
+
+  *  You can build the project using Qt Creator or on the command line.  The commands listed here work for Debian-based distros.
+
+      1.  sudo apt install build-essential qtcreator qt5-default libusb-1.0-0-dev
+      2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
+      3.  cd OpenRGB
+      4.  qmake OpenRGB.pro
+      5.  make -j8
     
-    * sudo apt install build-essential qtcreator qt5-default libusb-1.0-0-dev
 
-    * git clone https://gitlab.com/CalcProgrammer1/OpenRGB
-
-    * cd OpenRGB
-
-    * qmake OpenRGB.pro
-
-    * make -j8
-    
-    * ./OpenRGB
+  *  Run the application with ./OpenRGB
      
+### SMBus Access
+  *  SMBus access is necessary for controlling RGB RAM and certain motherboard on-board LEDs.
 
-  2. Allow access to SMBus:<br>
+  *  If you are not trying to use OpenRGB to control RGB RAM or motherboard LEDs, you may skip this section.
 
-     - This can be identified by your motherboard
-         ##### Intel
-          - `modprobe i2c-dev i2c-i801`
-          - Asus used the SMBus controller on the Super IO chip for on-board Aura chips on Intel motherboards.  I have a kernel patch to add a driver for this chip (OpenRGB.patch).  After patching the kernel, enable the Nuvoton NCT67xx SMBus driver in your kernel configuration.  The driver may be loaded with `modprobe i2c-nct6775`
-         ##### AMD
-          - `modprobe i2c-dev i2c-piix4` 
-          - The second SMBus isn't currently picked up by the kernel driver and that seems to be where Asus wired the Aura controllers so I have a kernel patch (OpenRGB.patch) that will allow the kernel to use the second bus (at `0x0b20`).
+  *  ASUS and ASRock motherboards have their RGB controller on an SMBus interface that is not accessible by an unmodified Linux kernel (for now).  I am working on getting patches submitted upstream, but for now you must patch your kernel with the provided OpenRGB.patch file.
 
-     - Instructions on patching the kernel:
-       - https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Kernel-Patch
+  *  Allowing access to SMBus:
+
+      1. Load the i2c-dev module: `sudo modprobe i2c-dev`
+
+      2. Load the i2c driver for your chipset:
+          -  Intel:
+              - `sudo modprobe i2c-i801`
+              - `sudo modprobe i2c-nct6775` - Secondary controller for motherboard LEDs (requires patch)
+          -  AMD:
+              - `modprobe i2c-piix4` 
+              - Unmodified kernel will have one interface, patched kernel will have two.  The first at 0x0B00 and the second at 0x0B20.  The 0x0B20 interface is for motherboard LEDs.
+
+  *  Instructions on patching the kernel:
+      - https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Kernel-Patch
        
-     - Some Gigabyte/Aorus motherboards have an ACPI conflict with the SMBus controller.
-       - Add `acpi_enforce_resources=lax` to your kernel command line and reboot.  The controller should now show up.
+  *  Some Gigabyte/Aorus motherboards have an ACPI conflict with the SMBus controller.
+      - Add `acpi_enforce_resources=lax` to your kernel command line and reboot.  The controller should now show up.
 
-     - You'll have to enable user access to your SMbus if you don't run as root.
-       - List all SMBus controllers: `sudo i2cdetect -l`
-       - Find out which control your Aura devices (PIIX4, I801, and NCT67xx)
-       - Give user access to those controllers, for instance: `sudo chmod 777 /dev/i2c-0`
+  *  You'll have to enable user access to your SMBus if you don't run as root.
+      - List all SMBus controllers: `sudo i2cdetect -l`
+      - Note the number for PIIX4, I801, and NCT6775 controllers.
+      - Give user access to those controllers, for instance: `sudo chmod 777 /dev/i2c-0`
+
+### USB Access
+
+  *  USB devices require udev rules to access as a normal user.
+
+  *  You can run OpenRGB as root to detect all USB devices.
+
+  *  Udev rules can be found here:
+      - https://drive.google.com/drive/folders/1tWVbeOLiLns_IhgyNDWqSK3ZKtP-6oYM?usp=sharing
+      - Copy the .rules files to /etc/udev/rules.d/
+      - Reload rules with `sudo udevadm control --reload-rules && sudo udevadm trigger`
+      - Add your user to the `plugdev` group:  `sudo adduser username plugdev`
 
 ## Projects Used
 
