@@ -13,10 +13,20 @@ public:
     void        ListenThread();
 
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
-    void        ProcessReply_ControllerData(unsigned int data_size, char * data);
+    void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
     
     void        SendRequest_ControllerCount();
-    void        SendRequest_ControllerData(unsigned int idx);
+    void        SendRequest_ControllerData(unsigned int dev_idx);
+
+    void        SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
+
+    void        SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx);
+    void        SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, int zone);
+    void        SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, int led);
+
+    void        SendRequest_RGBController_SetCustomMode(unsigned int dev_idx);
+
+    void        SendRequest_RGBController_UpdateMode(unsigned int dev_idx);
 
 protected:
     std::vector<RGBController *>& controllers;

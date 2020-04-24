@@ -288,7 +288,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET * client_sock, unsigned int 
         reply_hdr.pkt_magic[2] = 'G';
         reply_hdr.pkt_magic[3] = 'B';
 
-        reply_hdr.pkt_dev_idx  = 0;
+        reply_hdr.pkt_dev_idx  = dev_idx;
         reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
         reply_hdr.pkt_size     = reply_size;
 

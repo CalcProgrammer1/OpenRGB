@@ -8,9 +8,10 @@
 
 #include "RGBController_Network.h"
 
-RGBController_Network::RGBController_Network()
+RGBController_Network::RGBController_Network(NetworkClient * client_ptr, unsigned int dev_idx_val)
 {
-    //Don't need to set up anything, this class should be initialized by network manager
+    client  = client_ptr;
+    dev_idx = dev_idx_val;
 }
 
 void RGBController_Network::SetupZones()
@@ -18,32 +19,32 @@ void RGBController_Network::SetupZones()
     //Don't send anything, this function should only process on host
 }
 
-void RGBController_Network::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_Network::ResizeZone(int zone, int new_size)
 {
-    //Send NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE
+    client->SendRequest_RGBController_ResizeZone(dev_idx, zone, new_size);
 }
 
 void RGBController_Network::UpdateLEDs()
 {
-    //Send NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS
+    client->SendRequest_RGBController_UpdateLEDs(dev_idx);
 }
 
-void RGBController_Network::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Network::UpdateZoneLEDs(int zone)
 {
-    //Send NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS
+    client->SendRequest_RGBController_UpdateZoneLEDs(dev_idx, zone);
 }
 
-void RGBController_Network::UpdateSingleLED(int /*led*/)
+void RGBController_Network::UpdateSingleLED(int led)
 {
-    //Send NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED
+    client->SendRequest_RGBController_UpdateSingleLED(dev_idx, led);
 }
 
 void RGBController_Network::SetCustomMode()
 {
-    //Send NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE
+    client->SendRequest_RGBController_SetCustomMode(dev_idx);
 }
 
 void RGBController_Network::UpdateMode()
 {
-    //Send NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE
+    client->SendRequest_RGBController_UpdateMode(dev_idx);
 }
