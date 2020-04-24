@@ -27,7 +27,15 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
 
   *  **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
 
-## Linux:
+### USB Access
+
+  *  Some USB devices (especially keyboards and mice) require installation of the WinUSB driver.  You can do this with Zadig:
+      - Download Zadig:  https://zadig.akeo.ie/
+      - Select "list all devices" from the menu
+      - Select the last interface of your device
+      - With "WinUSB" selected, click Install
+
+## Linux
   *  Pre-built binaries are not currently available for Linux
 
   *  You can build the project using Qt Creator or on the command line.  The commands listed here work for Debian-based distros.
@@ -42,6 +50,7 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
   *  Run the application with ./OpenRGB
      
 ### SMBus Access
+
   *  SMBus access is necessary for controlling RGB RAM and certain motherboard on-board LEDs.
 
   *  If you are not trying to use OpenRGB to control RGB RAM or motherboard LEDs, you may skip this section.
