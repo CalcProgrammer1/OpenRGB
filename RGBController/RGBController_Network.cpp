@@ -6,6 +6,8 @@
 |  Adam Honse (CalcProgrammer1) 4/11/2020   |
 \*-----------------------------------------*/
 
+#include <cstring>
+
 #include "RGBController_Network.h"
 
 RGBController_Network::RGBController_Network(NetworkClient * client_ptr, unsigned int dev_idx_val)
@@ -46,5 +48,12 @@ void RGBController_Network::SetCustomMode()
 
 void RGBController_Network::UpdateMode()
 {
-    client->SendRequest_RGBController_UpdateMode(dev_idx);
+    unsigned char * data = GetModeDescription(active_mode);
+    unsigned int size;
+
+    memcpy(&size, &data[0], sizeof(unsigned int));
+
+    client->SendRequest_RGBController_UpdateMode(dev_idx, data, size);
+
+    delete[] data;
 }

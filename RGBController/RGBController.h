@@ -160,6 +160,9 @@ public:
     unsigned char *         GetDeviceDescription();
     void                    ReadDeviceDescription(unsigned char* data_buf);
 
+    unsigned char *         GetModeDescription(int mode);
+    void                    SetModeDescription(unsigned char* data_buf);
+
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/

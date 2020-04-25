@@ -623,6 +623,251 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
     }
 }
 
+unsigned char * RGBController::GetModeDescription(int mode)
+{
+    unsigned int data_ptr = 0;
+    unsigned int data_size = 0;
+
+    unsigned short mode_name_len;
+    unsigned short mode_num_colors;
+
+    /*---------------------------------------------------------*\
+    | Calculate data size                                       |
+    \*---------------------------------------------------------*/
+    mode_name_len   = strlen(modes[mode].name.c_str()) + 1;
+    mode_num_colors = modes[mode].colors.size();
+
+    data_size += sizeof(data_size);
+    data_size += sizeof(mode);
+    data_size += sizeof(mode_name_len);
+    data_size += mode_name_len;
+    data_size += sizeof(modes[mode].value);
+    data_size += sizeof(modes[mode].flags);
+    data_size += sizeof(modes[mode].speed_min);
+    data_size += sizeof(modes[mode].speed_max);
+    data_size += sizeof(modes[mode].colors_min);
+    data_size += sizeof(modes[mode].colors_max);
+    data_size += sizeof(modes[mode].speed);
+    data_size += sizeof(modes[mode].direction);
+    data_size += sizeof(modes[mode].color_mode);
+    data_size += sizeof(mode_num_colors);
+    data_size += (mode_num_colors * sizeof(RGBColor));
+
+    printf( "Data size: %d \r\n", data_size );
+
+    /*---------------------------------------------------------*\
+    | Create data buffer                                        |
+    \*---------------------------------------------------------*/
+    unsigned char *data_buf = new unsigned char[data_size];
+
+    /*---------------------------------------------------------*\
+    | Copy in data size                                         |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode index                                        |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &mode, sizeof(int));
+    data_ptr += sizeof(int);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode name (size+data)                             |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &mode_name_len, sizeof(unsigned short));
+    data_ptr += sizeof(unsigned short);
+
+    strcpy((char *)&data_buf[data_ptr], modes[mode].name.c_str());
+    data_ptr += mode_name_len;
+
+    /*---------------------------------------------------------*\
+    | Copy in mode value (data)                                 |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].value, sizeof(modes[mode].value));
+    data_ptr += sizeof(modes[mode].value);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode flags (data)                                 |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].flags, sizeof(modes[mode].flags));
+    data_ptr += sizeof(modes[mode].flags);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode speed_min (data)                             |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].speed_min, sizeof(modes[mode].speed_min));
+    data_ptr += sizeof(modes[mode].speed_min);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode speed_max (data)                             |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].speed_max, sizeof(modes[mode].speed_max));
+    data_ptr += sizeof(modes[mode].speed_max);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode colors_min (data)                            |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].colors_min, sizeof(modes[mode].colors_min));
+    data_ptr += sizeof(modes[mode].colors_min);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode colors_max (data)                            |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].colors_max, sizeof(modes[mode].colors_max));
+    data_ptr += sizeof(modes[mode].colors_max);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode speed (data)                                 |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].speed, sizeof(modes[mode].speed));
+    data_ptr += sizeof(modes[mode].speed);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode direction (data)                             |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].direction, sizeof(modes[mode].direction));
+    data_ptr += sizeof(modes[mode].direction);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode color_mode (data)                            |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &modes[mode].color_mode, sizeof(modes[mode].color_mode));
+    data_ptr += sizeof(modes[mode].color_mode);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode number of colors                             |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &mode_num_colors, sizeof(unsigned short));
+    data_ptr += sizeof(unsigned short);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode mode colors                                  |
+    \*---------------------------------------------------------*/
+    for(int color_index = 0; color_index < mode_num_colors; color_index++)
+    {
+        /*---------------------------------------------------------*\
+        | Copy in color (data)                                      |
+        \*---------------------------------------------------------*/
+        memcpy(&data_buf[data_ptr], &modes[mode].colors[color_index], sizeof(modes[mode].colors[color_index]));
+        data_ptr += sizeof(modes[mode].colors[color_index]);
+    }
+
+    printf( "end data_ptr %d\r\n", data_ptr );
+    return(data_buf);
+}
+
+void RGBController::SetModeDescription(unsigned char* data_buf)
+{
+    int mode_idx;
+    unsigned int data_ptr = sizeof(unsigned int);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode index                                        |
+    \*---------------------------------------------------------*/
+    memcpy(&mode_idx, &data_buf[data_ptr], sizeof(int));
+    data_ptr += sizeof(int);
+
+    /*---------------------------------------------------------*\
+    | Get pointer to target mode                                |
+    \*---------------------------------------------------------*/
+    mode * new_mode = &modes[mode_idx];
+    
+    /*---------------------------------------------------------*\
+    | Set active mode to the new mode                           |
+    \*---------------------------------------------------------*/
+    active_mode = mode_idx;
+
+    /*---------------------------------------------------------*\
+    | Copy in mode name (size+data)                             |
+    \*---------------------------------------------------------*/
+    unsigned short modename_len;
+    memcpy(&modename_len, &data_buf[data_ptr], sizeof(unsigned short));
+    data_ptr += sizeof(unsigned short);
+
+    new_mode->name = (char *)&data_buf[data_ptr];
+    data_ptr += modename_len;
+
+    /*---------------------------------------------------------*\
+    | Copy in mode value (data)                                 |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->value, &data_buf[data_ptr], sizeof(new_mode->value));
+    data_ptr += sizeof(new_mode->value);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode flags (data)                                 |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->flags, &data_buf[data_ptr], sizeof(new_mode->flags));
+    data_ptr += sizeof(new_mode->flags);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode speed_min (data)                             |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->speed_min, &data_buf[data_ptr], sizeof(new_mode->speed_min));
+    data_ptr += sizeof(new_mode->speed_min);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode speed_max (data)                             |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->speed_max, &data_buf[data_ptr], sizeof(new_mode->speed_max));
+    data_ptr += sizeof(new_mode->speed_max);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode colors_min (data)                            |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->colors_min, &data_buf[data_ptr], sizeof(new_mode->colors_min));
+    data_ptr += sizeof(new_mode->colors_min);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode colors_max (data)                            |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->colors_max, &data_buf[data_ptr], sizeof(new_mode->colors_max));
+    data_ptr += sizeof(new_mode->colors_max);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode speed (data)                                 |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->speed, &data_buf[data_ptr], sizeof(new_mode->speed));
+    data_ptr += sizeof(new_mode->speed);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode direction (data)                             |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->direction, &data_buf[data_ptr], sizeof(new_mode->direction));
+    data_ptr += sizeof(new_mode->direction);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode color_mode (data)                            |
+    \*---------------------------------------------------------*/
+    memcpy(&new_mode->color_mode, &data_buf[data_ptr], sizeof(new_mode->color_mode));
+    data_ptr += sizeof(new_mode->color_mode);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode number of colors                             |
+    \*---------------------------------------------------------*/
+    unsigned short mode_num_colors;
+    memcpy(&mode_num_colors, &data_buf[data_ptr], sizeof(unsigned short));
+    data_ptr += sizeof(unsigned short);
+
+    /*---------------------------------------------------------*\
+    | Copy in mode mode colors                                  |
+    \*---------------------------------------------------------*/
+    new_mode->colors.clear();
+    for(int color_index = 0; color_index < mode_num_colors; color_index++)
+    {
+        /*---------------------------------------------------------*\
+        | Copy in color (data)                                      |
+        \*---------------------------------------------------------*/
+        RGBColor new_color;
+        memcpy(&new_color, &data_buf[data_ptr], sizeof(RGBColor));
+        data_ptr += sizeof(RGBColor);
+
+        new_mode->colors.push_back(new_color);
+    }
+
+    printf("read data ptr %d\r\n", data_ptr);
+}
+
 void RGBController::SetupColors()
 {
     unsigned int total_led_count;
