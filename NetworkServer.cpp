@@ -93,8 +93,8 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
     while(1)
     {
         NetPacketHeader header;
-        char *          data        = NULL;
         int             bytes_read  = 0;
+        char *          data        = NULL;
 
         //Read first byte of magic
         do
@@ -162,7 +162,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
 
             do
             {
-                bytes_read += read(*client_sock, &data[bytes_read], 128);
+                bytes_read += read(*client_sock, &data[bytes_read], header.pkt_size - bytes_read);
             } while (bytes_read < header.pkt_size);
         }
 
@@ -246,10 +246,13 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
+                    controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data);
                     controllers[header.pkt_dev_idx]->UpdateMode();
                 }
                 break;
         }
+
+        delete[] data;
     }
 }
 

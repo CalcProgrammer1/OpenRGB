@@ -26,7 +26,7 @@ public:
 
     void        SendRequest_RGBController_SetCustomMode(unsigned int dev_idx);
 
-    void        SendRequest_RGBController_UpdateMode(unsigned int dev_idx);
+    void        SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
 
 protected:
     std::vector<RGBController *>& controllers;
