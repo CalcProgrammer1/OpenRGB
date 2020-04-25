@@ -163,6 +163,15 @@ public:
     unsigned char *         GetModeDescription(int mode);
     void                    SetModeDescription(unsigned char* data_buf);
 
+    unsigned char *         GetColorDescription();
+    void                    SetColorDescription(unsigned char* data_buf);
+
+    unsigned char *         GetZoneColorDescription(int zone);
+    void                    SetZoneColorDescription(unsigned char* data_buf);
+
+    unsigned char *         GetSingleLEDColorDescription(int led);
+    void                    SetSingleLEDColorDescription(unsigned char* data_buf);
+
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/

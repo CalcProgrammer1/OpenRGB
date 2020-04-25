@@ -289,7 +289,7 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
     port.tcp_client_write((char *)&reply_data, sizeof(reply_data));
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx)
+void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
 {
     NetPacketHeader reply_hdr;
     
@@ -300,15 +300,15 @@ void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx)
 
     reply_hdr.pkt_dev_idx  = dev_idx;
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS;
-    reply_hdr.pkt_size     = 0;
+    reply_hdr.pkt_size     = size;
 
     port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+    port.tcp_client_write((char *)data, size);
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, int zone)
+void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
 {
     NetPacketHeader reply_hdr;
-    int             reply_data[1];
     
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
@@ -317,18 +317,15 @@ void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_id
 
     reply_hdr.pkt_dev_idx  = dev_idx;
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS;
-    reply_hdr.pkt_size     = sizeof(reply_data);
-
-    reply_data[0]          = zone;
+    reply_hdr.pkt_size     = size;
 
     port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)&reply_data, sizeof(reply_data));
+    port.tcp_client_write((char *)data, size);
 }
 
-void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, int led)
+void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size)
 {
     NetPacketHeader reply_hdr;
-    int             reply_data[1];
     
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
@@ -337,12 +334,10 @@ void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_i
 
     reply_hdr.pkt_dev_idx  = dev_idx;
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED;
-    reply_hdr.pkt_size     = sizeof(reply_data);
-
-    reply_data[0]          = led;
+    reply_hdr.pkt_size     = size;
 
     port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)&reply_data, sizeof(reply_data));
+    port.tcp_client_write((char *)data, size);
 }
 
 void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx)

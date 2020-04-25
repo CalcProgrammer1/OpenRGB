@@ -20,9 +20,9 @@ public:
 
     void        SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
 
-    void        SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx);
-    void        SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, int zone);
-    void        SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, int led);
+    void        SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void        SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void        SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size);
 
     void        SendRequest_RGBController_SetCustomMode(unsigned int dev_idx);
 
