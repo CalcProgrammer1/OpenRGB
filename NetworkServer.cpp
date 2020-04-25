@@ -202,6 +202,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
+                    controllers[header.pkt_dev_idx]->SetColorDescription((unsigned char *)data);
                     controllers[header.pkt_dev_idx]->UpdateLEDs();
                 }
                 break;
@@ -209,12 +210,13 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS\r\n" );
 
-                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == sizeof(int)))
+                if(header.pkt_dev_idx < controllers.size())
                 {
                     int zone;
 
-                    memcpy(&zone, data, sizeof(int));
+                    memcpy(&zone, &data[sizeof(unsigned int)], sizeof(int));
 
+                    controllers[header.pkt_dev_idx]->SetZoneColorDescription((unsigned char *)data);
                     controllers[header.pkt_dev_idx]->UpdateZoneLEDs(zone);
                 }
                 break;
@@ -222,12 +224,13 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             case NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
                 printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED\r\n" );
 
-                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == sizeof(int)))
+                if(header.pkt_dev_idx < controllers.size())
                 {
                     int led;
 
                     memcpy(&led, data, sizeof(int));
 
+                    controllers[header.pkt_dev_idx]->SetSingleLEDColorDescription((unsigned char *)data);
                     controllers[header.pkt_dev_idx]->UpdateSingleLED(led);
                 }
                 break;
