@@ -126,6 +126,7 @@ void RGBController_Crucial::SetupZones()
     new_zone.leds_min       = 8;
     new_zone.leds_max       = 8;
     new_zone.leds_count     = 8;
+    new_zone.matrix_map     = NULL;
     zones.push_back(new_zone);
 
     /*---------------------------------------------------------*\

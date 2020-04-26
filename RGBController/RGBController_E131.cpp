@@ -79,6 +79,7 @@ void RGBController_E131::SetupZones()
         led_zone.leds_min       = devices[zone_idx].num_leds;
         led_zone.leds_max       = devices[zone_idx].num_leds;
         led_zone.leds_count     = devices[zone_idx].num_leds;
+        led_zone.matrix_map     = NULL;
 
         zones.push_back(led_zone);
     }

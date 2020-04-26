@@ -68,6 +68,7 @@ void RGBController_MSIMysticLight::SetupZones()
         new_zone.leds_min       = controller->GetZoneMinLedCount(zd.value);
         new_zone.leds_max       = controller->GetZoneMaxLedCount(zd.value);
         new_zone.leds_count     = controller->GetZoneLedCount(zd.value);
+        new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
 
         /*---------------------------------------------------------*\

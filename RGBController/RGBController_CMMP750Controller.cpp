@@ -83,6 +83,7 @@ void RGBController_CMMP750Controller::SetupZones()
     MP_zone.leds_min      = 1;
     MP_zone.leds_max      = 1;
     MP_zone.leds_count    = 1;
+    MP_zone.matrix_map    = NULL;
     zones.push_back(MP_zone);
 
     led MP_led;

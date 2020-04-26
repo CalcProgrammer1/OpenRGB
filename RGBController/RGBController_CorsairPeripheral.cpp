@@ -195,6 +195,7 @@ void RGBController_CorsairPeripheral::SetupZones()
                 new_zone.leds_min       = zone_sizes[zone_idx];
                 new_zone.leds_max       = zone_sizes[zone_idx];
                 new_zone.leds_count     = zone_sizes[zone_idx];
+                new_zone.matrix_map     = NULL;
                 break;
 
             case DEVICE_TYPE_MOUSE:
@@ -203,6 +204,7 @@ void RGBController_CorsairPeripheral::SetupZones()
                 new_zone.leds_min       = 15;
                 new_zone.leds_max       = 15;
                 new_zone.leds_count     = 15;
+                new_zone.matrix_map     = NULL;
                 break;
         }
 

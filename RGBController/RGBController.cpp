@@ -1,23 +1,6 @@
 #include "RGBController.h"
 #include <cstring>
 
-//Include thread libraries for Windows or Linux
-#ifdef WIN32
-#include <process.h>
-#else
-#include "pthread.h"
-#include "unistd.h"
-#endif
-
-//Thread functions have different types in Windows and Linux
-#ifdef WIN32
-#define THREAD static void
-#define THREADRETURN
-#else
-#define THREAD static void*
-#define THREADRETURN return(NULL);
-#endif
-
 #ifdef WIN32
 #include <Windows.h>
 #else
@@ -29,25 +12,16 @@ static void Sleep(unsigned int milliseconds)
 }
 #endif
 
-THREAD devicecallthread_thread(void *param)
-{
-    RGBController* controller = static_cast<RGBController*>(param);
-    controller->DeviceCallThread();
-    THREADRETURN
-}
-
 RGBController::RGBController()
 {
-    /*-----------------------------------------------------*\
-    | The RGBController class starts a thread to handle     |
-    | asynchronous device updating                          |
-    \*-----------------------------------------------------*/
-#ifdef WIN32
-    _beginthread(keepalive_thread, 0, this);
-#else
-    pthread_t thread;
-    pthread_create(&thread, NULL, &devicecallthread_thread, this);
-#endif
+    DeviceThreadRunning = true;
+    DeviceCallThread = new std::thread(&RGBController::DeviceCallThreadFunction, this);
+}
+
+RGBController::~RGBController()
+{
+    DeviceThreadRunning = false;
+    DeviceCallThread->join();
 }
 
 unsigned char * RGBController::GetDeviceDescription()
@@ -72,6 +46,7 @@ unsigned char * RGBController::GetDeviceDescription()
     unsigned short *zone_name_len   = new unsigned short[num_zones];
     unsigned short *led_name_len    = new unsigned short[num_leds];
 
+    unsigned short *zone_matrix_len = new unsigned short[num_zones];
     unsigned short *mode_num_colors = new unsigned short[num_modes];
 
     data_size += sizeof(data_size);
@@ -115,6 +90,18 @@ unsigned char * RGBController::GetDeviceDescription()
         data_size += sizeof(zones[zone_index].leds_min);
         data_size += sizeof(zones[zone_index].leds_max);
         data_size += sizeof(zones[zone_index].leds_count);
+
+        if(zones[zone_index].matrix_map == NULL)
+        {
+            zone_matrix_len[zone_index] = 0;
+        }
+        else
+        {
+            zone_matrix_len[zone_index] = (2 * sizeof(unsigned int)) + (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width * sizeof(unsigned int));
+        }
+
+        data_size += sizeof(zone_matrix_len[zone_index]);
+        data_size += zone_matrix_len[zone_index];
     }
 
     data_size += sizeof(num_leds);
@@ -335,6 +322,39 @@ unsigned char * RGBController::GetDeviceDescription()
         \*---------------------------------------------------------*/
         memcpy(&data_buf[data_ptr], &zones[zone_index].leds_count, sizeof(zones[zone_index].leds_count));
         data_ptr += sizeof(zones[zone_index].leds_count);
+
+        /*---------------------------------------------------------*\
+        | Copy in size of zone matrix                               |
+        \*---------------------------------------------------------*/
+        memcpy(&data_buf[data_ptr], &zone_matrix_len[zone_index], sizeof(zone_matrix_len[zone_index]));
+        data_ptr += sizeof(zone_matrix_len[zone_index]);
+
+        /*---------------------------------------------------------*\
+        | Copy in matrix data if size is nonzero                    |
+        \*---------------------------------------------------------*/
+        if(zone_matrix_len[zone_index] > 0)
+        {
+            /*---------------------------------------------------------*\
+            | Copy in matrix height                                     |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &zones[zone_index].matrix_map->height, sizeof(zones[zone_index].matrix_map->height));
+            data_ptr += sizeof(zones[zone_index].matrix_map->height);
+
+            /*---------------------------------------------------------*\
+            | Copy in matrix width                                      |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &zones[zone_index].matrix_map->width, sizeof(zones[zone_index].matrix_map->width));
+            data_ptr += sizeof(zones[zone_index].matrix_map->width);
+
+            /*---------------------------------------------------------*\
+            | Copy in matrix map                                        |
+            \*---------------------------------------------------------*/
+            for(int matrix_idx = 0; matrix_idx < (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width); matrix_idx++)
+            {
+                memcpy(&data_buf[data_ptr], &zones[zone_index].matrix_map->map[matrix_idx], sizeof(zones[zone_index].matrix_map->map[matrix_idx]));
+                data_ptr += sizeof(zones[zone_index].matrix_map->map[matrix_idx]);
+            }
+        }
     }
 
     /*---------------------------------------------------------*\
@@ -383,11 +403,11 @@ unsigned char * RGBController::GetDeviceDescription()
         data_ptr += sizeof(colors[color_index]);
     }
 
-
     delete[] mode_name_len;
     delete[] zone_name_len;
     delete[] led_name_len;
 
+    delete[] zone_matrix_len;
     delete[] mode_num_colors;
 
     return(data_buf);
@@ -612,6 +632,54 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
         memcpy(&new_zone.leds_count, &data_buf[data_ptr], sizeof(new_zone.leds_count));
         data_ptr += sizeof(new_zone.leds_count);
 
+        /*---------------------------------------------------------*\
+        | Copy in size of zone matrix                               |
+        \*---------------------------------------------------------*/
+        unsigned short zone_matrix_len;
+        memcpy(&zone_matrix_len, &data_buf[data_ptr], sizeof(zone_matrix_len));
+        data_ptr += sizeof(zone_matrix_len);
+
+        /*---------------------------------------------------------*\
+        | Copy in matrix data if size is nonzero                    |
+        \*---------------------------------------------------------*/
+        if(zone_matrix_len > 0)
+        {
+            /*---------------------------------------------------------*\
+            | Create a map data structure to fill in and attach it to   |
+            | the new zone                                              |
+            \*---------------------------------------------------------*/
+            matrix_map_type * new_map = new matrix_map_type;
+
+            new_zone.matrix_map = new_map;
+
+            /*---------------------------------------------------------*\
+            | Copy in matrix height                                     |
+            \*---------------------------------------------------------*/
+            memcpy(&new_map->height, &data_buf[data_ptr], sizeof(new_map->height));
+            data_ptr += sizeof(new_map->height);
+
+            /*---------------------------------------------------------*\
+            | Copy in matrix width                                      |
+            \*---------------------------------------------------------*/
+            memcpy(&new_map->width, &data_buf[data_ptr], sizeof(new_map->width));
+            data_ptr += sizeof(new_map->width);
+
+            /*---------------------------------------------------------*\
+            | Copy in matrix map                                        |
+            \*---------------------------------------------------------*/
+            new_map->map = new unsigned int[new_map->height * new_map->width];
+
+            for(int matrix_idx = 0; matrix_idx < (new_map->height * new_map->width); matrix_idx++)
+            {
+                memcpy(&new_map->map[matrix_idx], &data_buf[data_ptr], sizeof(new_map->map[matrix_idx]));
+                data_ptr += sizeof(new_map->map[matrix_idx]);
+            }
+        }
+        else
+        {
+            new_zone.matrix_map = NULL;
+        }
+        
         zones.push_back(new_zone);
     }
 
@@ -1238,12 +1306,13 @@ void RGBController::DeviceUpdateLEDs()
 
 }
 
-void RGBController::DeviceCallThread()
+void RGBController::DeviceCallThreadFunction()
 {
     CallFlag_UpdateLEDs = false;
-    while(1)
+
+    while(DeviceThreadRunning.load() == true)
     {
-        if(CallFlag_UpdateLEDs)
+        if(CallFlag_UpdateLEDs.load() == true)
         {
             DeviceUpdateLEDs();
             CallFlag_UpdateLEDs = false;

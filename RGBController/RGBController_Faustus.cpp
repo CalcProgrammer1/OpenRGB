@@ -68,6 +68,7 @@ void RGBController_Faustus::SetupZones()
     zones[0].leds_min       = 1;
     zones[0].leds_max       = 1;
     zones[0].leds_count     = 1;
+    zones[0].matrix_map     = NULL;
 
     /*---------------------------------------------------------*\
     | Set up LED                                                |

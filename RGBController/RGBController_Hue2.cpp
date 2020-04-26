@@ -144,6 +144,7 @@ void RGBController_Hue2::SetupZones()
         new_zone->leds_min      = 0;
         new_zone->leds_max      = 40;
         new_zone->leds_count    = hue2->channel_leds[zone_idx];
+        new_zone->matrix_map    = NULL;
 
         zones.push_back(*new_zone);
     }
