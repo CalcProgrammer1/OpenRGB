@@ -99,7 +99,7 @@ void RGBController_CMMP750Controller::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_CMMP750Controller::UpdateLEDs()
+void RGBController_CMMP750Controller::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);

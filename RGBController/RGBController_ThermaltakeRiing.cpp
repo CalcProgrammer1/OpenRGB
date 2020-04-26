@@ -176,7 +176,7 @@ void RGBController_ThermaltakeRiing::ResizeZone(int zone, int new_size)
     }
 }
 
-void RGBController_ThermaltakeRiing::UpdateLEDs()
+void RGBController_ThermaltakeRiing::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {

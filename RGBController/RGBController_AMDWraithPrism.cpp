@@ -147,7 +147,7 @@ void RGBController_AMDWraithPrism::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_AMDWraithPrism::UpdateLEDs()
+void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
@@ -230,5 +230,5 @@ void RGBController_AMDWraithPrism::UpdateMode()
             break;
     }
 
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }

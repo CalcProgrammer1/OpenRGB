@@ -142,7 +142,10 @@ public:
     device_type             type;           /* device type              */
     int                     active_mode = 0;/* active mode              */
 
-    virtual ~RGBController() = default;
+    /*---------------------------------------------------------*\
+    | RGBController base class constructor                      |
+    \*---------------------------------------------------------*/
+    RGBController();
 
     /*---------------------------------------------------------*\
     | Generic functions implemented in RGBController.cpp        |
@@ -172,6 +175,14 @@ public:
     unsigned char *         GetSingleLEDColorDescription(int led);
     void                    SetSingleLEDColorDescription(unsigned char* data_buf);
 
+    void                    UpdateLEDs();
+    //void                    UpdateZoneLEDs(int zone);
+    //void                    UpdateSingleLED(int led);
+
+    //void                    UpdateMode();
+
+    void                    DeviceCallThread();
+
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/
@@ -179,10 +190,17 @@ public:
 
     virtual void            ResizeZone(int zone, int new_size)          = 0;
 
-    virtual void            UpdateLEDs()                                = 0;
+    virtual void            DeviceUpdateLEDs()                          = 0;
     virtual void            UpdateZoneLEDs(int zone)                    = 0;
     virtual void            UpdateSingleLED(int led)                    = 0;
 
-    virtual void            SetCustomMode()                             = 0;
     virtual void            UpdateMode()                                = 0;
+
+    virtual void            SetCustomMode()                             = 0;
+
+private:
+    bool                    CallFlag_UpdateLEDs                         = false;
+    //bool                    CallFlag_UpdateZoneLEDs                     = false;
+    //bool                    CallFlag_UpdateSingleLED                    = false;
+    //bool                    CallFlag_UpdateMode                         = false;
 };

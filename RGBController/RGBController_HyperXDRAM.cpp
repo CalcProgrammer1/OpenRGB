@@ -167,7 +167,7 @@ void RGBController_HyperXDRAM::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_HyperXDRAM::UpdateLEDs()
+void RGBController_HyperXDRAM::DeviceUpdateLEDs()
 {
     if(hyperx->GetMode() == HYPERX_MODE_DIRECT)
     {

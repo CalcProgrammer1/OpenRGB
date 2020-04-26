@@ -139,7 +139,7 @@ void RGBController_PatriotViper::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_PatriotViper::UpdateLEDs()
+void RGBController_PatriotViper::DeviceUpdateLEDs()
 {
     if(viper->direct == true)
     {
@@ -167,7 +167,7 @@ void RGBController_PatriotViper::UpdateLEDs()
 
 void RGBController_PatriotViper::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_PatriotViper::UpdateSingleLED(int led)

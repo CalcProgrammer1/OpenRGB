@@ -57,7 +57,7 @@ void RGBController_LEDStrip::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_LEDStrip::UpdateLEDs()
+void RGBController_LEDStrip::DeviceUpdateLEDs()
 {
     strip->SetLEDs(colors);
 }

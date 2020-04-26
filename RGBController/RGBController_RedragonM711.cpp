@@ -79,7 +79,7 @@ void RGBController_RedragonM711::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_RedragonM711::UpdateLEDs()
+void RGBController_RedragonM711::DeviceUpdateLEDs()
 {
     bool random       = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     unsigned char red = RGBGetRValue(colors[0]);
@@ -100,12 +100,12 @@ void RGBController_RedragonM711::UpdateLEDs()
 
 void RGBController_RedragonM711::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RedragonM711::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RedragonM711::SetCustomMode()
@@ -115,5 +115,5 @@ void RGBController_RedragonM711::SetCustomMode()
 
 void RGBController_RedragonM711::UpdateMode()
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }

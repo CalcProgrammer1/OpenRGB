@@ -22,7 +22,7 @@ public:
 
     void        ResizeZone(int zone, int new_size);
 
-    void        UpdateLEDs();
+    void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 

@@ -149,7 +149,7 @@ void RGBController_Crucial::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_Crucial::UpdateLEDs()
+void RGBController_Crucial::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == 0xFFFF)
     {
@@ -163,12 +163,12 @@ void RGBController_Crucial::UpdateLEDs()
 
 void RGBController_Crucial::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_Crucial::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_Crucial::SetCustomMode()
