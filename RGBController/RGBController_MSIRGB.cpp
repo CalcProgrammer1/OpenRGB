@@ -53,7 +53,7 @@ void RGBController_MSIRGB::ResizeZone(int /*zone*/, int /*new_size*/)
 
 }
 
-void RGBController_MSIRGB::UpdateLEDs()
+void RGBController_MSIRGB::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -65,12 +65,12 @@ void RGBController_MSIRGB::UpdateLEDs()
 
 void RGBController_MSIRGB::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_MSIRGB::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_MSIRGB::SetCustomMode()

@@ -107,7 +107,7 @@ void RGBController_RGBFusion::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_RGBFusion::UpdateLEDs()
+void RGBController_RGBFusion::DeviceUpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
     {

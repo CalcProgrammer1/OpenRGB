@@ -290,7 +290,7 @@ void RGBController_HyperXKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_HyperXKeyboard::UpdateLEDs()
+void RGBController_HyperXKeyboard::DeviceUpdateLEDs()
 {
     if(active_mode == 0)
     {
@@ -304,12 +304,12 @@ void RGBController_HyperXKeyboard::UpdateLEDs()
 
 void RGBController_HyperXKeyboard::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_HyperXKeyboard::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_HyperXKeyboard::SetCustomMode()

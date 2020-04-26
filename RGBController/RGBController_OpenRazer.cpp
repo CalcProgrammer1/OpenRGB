@@ -12,7 +12,7 @@
 #include <fstream>
 #include <unistd.h>
 
-void RGBController_OpenRazer::UpdateLEDs()
+void RGBController_OpenRazer::DeviceUpdateLEDs()
 {
     switch(matrix_type)
     {
@@ -93,12 +93,12 @@ void RGBController_OpenRazer::UpdateLEDs()
 
 void RGBController_OpenRazer::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_OpenRazer::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_OpenRazer::SetupMatrixDevice(unsigned int rows, unsigned int cols)

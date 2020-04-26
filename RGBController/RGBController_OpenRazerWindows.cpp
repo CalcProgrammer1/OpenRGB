@@ -16,7 +16,7 @@
 #include <linux/module.h>
 #include <linux/hid.h>
 
-void RGBController_OpenRazer::UpdateLEDs()
+void RGBController_OpenRazer::DeviceUpdateLEDs()
 {
     switch(matrix_type)
     {
@@ -93,12 +93,12 @@ void RGBController_OpenRazer::UpdateLEDs()
 
 void RGBController_OpenRazer::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_OpenRazer::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_OpenRazer::SetupMatrixDevice(device_fn_type* razer_functions, unsigned int rows, unsigned int cols)

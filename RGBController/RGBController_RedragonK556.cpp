@@ -226,7 +226,7 @@ void RGBController_RedragonK556::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_RedragonK556::UpdateLEDs()
+void RGBController_RedragonK556::DeviceUpdateLEDs()
 {
     unsigned char color_data[7*0x36];
 
@@ -246,12 +246,12 @@ void RGBController_RedragonK556::UpdateLEDs()
 
 void RGBController_RedragonK556::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RedragonK556::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RedragonK556::SetCustomMode()

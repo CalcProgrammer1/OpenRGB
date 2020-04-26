@@ -237,7 +237,7 @@ void RGBController_CorsairLightingNode::ResizeZone(int zone, int new_size)
     }
 }
 
-void RGBController_CorsairLightingNode::UpdateLEDs()
+void RGBController_CorsairLightingNode::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -266,7 +266,7 @@ void RGBController_CorsairLightingNode::UpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)
     {
-        UpdateLEDs();
+        DeviceUpdateLEDs();
     }
     else
     {

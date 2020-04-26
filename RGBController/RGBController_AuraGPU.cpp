@@ -138,7 +138,7 @@ void RGBController_AuraGPU::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_AuraGPU::UpdateLEDs()
+void RGBController_AuraGPU::DeviceUpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {
@@ -159,12 +159,12 @@ void RGBController_AuraGPU::UpdateLEDs()
 
 void RGBController_AuraGPU::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_AuraGPU::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_AuraGPU::SetCustomMode()

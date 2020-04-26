@@ -26,7 +26,7 @@ void RGBController_Network::ResizeZone(int zone, int new_size)
     client->SendRequest_RGBController_ResizeZone(dev_idx, zone, new_size);
 }
 
-void RGBController_Network::UpdateLEDs()
+void RGBController_Network::DeviceUpdateLEDs()
 {
     unsigned char * data = GetColorDescription();
     unsigned int size;

@@ -109,7 +109,7 @@ void RGBController_E131::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_E131::UpdateLEDs()
+void RGBController_E131::DeviceUpdateLEDs()
 {
     int color_idx = 0;
 
@@ -172,12 +172,12 @@ void RGBController_E131::UpdateLEDs()
 
 void RGBController_E131::UpdateZoneLEDs(int /*zone*/)
 {
-	UpdateLEDs();
+	DeviceUpdateLEDs();
 }
 
 void RGBController_E131::UpdateSingleLED(int /*led*/)
 {
-	UpdateLEDs();
+	DeviceUpdateLEDs();
 }
 
 void RGBController_E131::SetCustomMode()

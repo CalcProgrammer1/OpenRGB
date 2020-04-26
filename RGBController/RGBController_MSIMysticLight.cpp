@@ -105,7 +105,7 @@ void RGBController_MSIMysticLight::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_MSIMysticLight::UpdateLEDs()
+void RGBController_MSIMysticLight::DeviceUpdateLEDs()
 {
     for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {

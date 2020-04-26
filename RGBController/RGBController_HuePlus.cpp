@@ -227,7 +227,7 @@ void RGBController_HuePlus::ResizeZone(int zone, int new_size)
     }
 }
 
-void RGBController_HuePlus::UpdateLEDs()
+void RGBController_HuePlus::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -256,7 +256,7 @@ void RGBController_HuePlus::UpdateMode()
 {
     if(modes[active_mode].value == HUE_PLUS_MODE_FIXED)
     {
-        UpdateLEDs();
+        DeviceUpdateLEDs();
     }
     else
     {

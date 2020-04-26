@@ -183,7 +183,7 @@ void RGBController_CorsairVengeancePro::ResizeZone(int /*zone*/, int /*new_size*
     \*---------------------------------------------------------*/
 }
 
-void RGBController_CorsairVengeancePro::UpdateLEDs()
+void RGBController_CorsairVengeancePro::DeviceUpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
     {
@@ -199,7 +199,7 @@ void RGBController_CorsairVengeancePro::UpdateLEDs()
 
 void RGBController_CorsairVengeancePro::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_CorsairVengeancePro::UpdateSingleLED(int led)

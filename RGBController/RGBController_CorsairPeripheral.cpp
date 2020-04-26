@@ -241,7 +241,7 @@ void RGBController_CorsairPeripheral::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_CorsairPeripheral::UpdateLEDs()
+void RGBController_CorsairPeripheral::DeviceUpdateLEDs()
 {
     corsair->SetLEDs(colors);
 }

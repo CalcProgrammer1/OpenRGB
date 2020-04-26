@@ -235,7 +235,7 @@ void RGBController_Polychrome::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_Polychrome::UpdateLEDs()
+void RGBController_Polychrome::DeviceUpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
     {
@@ -249,12 +249,12 @@ void RGBController_Polychrome::UpdateLEDs()
 
 void RGBController_Polychrome::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_Polychrome::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_Polychrome::SetCustomMode()

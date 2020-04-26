@@ -299,7 +299,7 @@ void RGBController_NZXTKraken::UpdateChannel(NZXTKrakenChannel_t channel, int zo
     }
 }
 
-void RGBController_NZXTKraken::UpdateLEDs()
+void RGBController_NZXTKraken::DeviceUpdateLEDs()
 {
     if(logo_modes.find(modes[active_mode].value) == logo_modes.end())
     {
@@ -344,5 +344,5 @@ void RGBController_NZXTKraken::SetCustomMode()
 
 void RGBController_NZXTKraken::UpdateMode()
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }

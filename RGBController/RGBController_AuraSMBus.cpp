@@ -56,7 +56,7 @@ int RGBController_AuraSMBus::GetDeviceMode()
     return(active_mode);
 }
 
-void RGBController_AuraSMBus::UpdateLEDs()
+void RGBController_AuraSMBus::DeviceUpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {

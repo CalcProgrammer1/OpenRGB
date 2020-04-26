@@ -82,7 +82,7 @@ void RGBController_MSI3Zone::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_MSI3Zone::UpdateLEDs()
+void RGBController_MSI3Zone::DeviceUpdateLEDs()
 {
     msi->SetLEDs(colors);
 }

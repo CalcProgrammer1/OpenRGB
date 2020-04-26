@@ -1,6 +1,55 @@
 #include "RGBController.h"
 #include <cstring>
 
+//Include thread libraries for Windows or Linux
+#ifdef WIN32
+#include <process.h>
+#else
+#include "pthread.h"
+#include "unistd.h"
+#endif
+
+//Thread functions have different types in Windows and Linux
+#ifdef WIN32
+#define THREAD static void
+#define THREADRETURN
+#else
+#define THREAD static void*
+#define THREADRETURN return(NULL);
+#endif
+
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
+THREAD devicecallthread_thread(void *param)
+{
+    RGBController* controller = static_cast<RGBController*>(param);
+    controller->DeviceCallThread();
+    THREADRETURN
+}
+
+RGBController::RGBController()
+{
+    /*-----------------------------------------------------*\
+    | The RGBController class starts a thread to handle     |
+    | asynchronous device updating                          |
+    \*-----------------------------------------------------*/
+#ifdef WIN32
+    _beginthread(keepalive_thread, 0, this);
+#else
+    pthread_t thread;
+    pthread_create(&thread, NULL, &devicecallthread_thread, this);
+#endif
+}
+
 unsigned char * RGBController::GetDeviceDescription()
 {
     unsigned int data_ptr = 0;
@@ -1177,6 +1226,33 @@ void RGBController::SetMode(int mode)
     active_mode = mode;
 
     UpdateMode();
+}
+
+void RGBController::UpdateLEDs()
+{
+    CallFlag_UpdateLEDs = true;
+}
+
+void RGBController::DeviceUpdateLEDs()
+{
+
+}
+
+void RGBController::DeviceCallThread()
+{
+    CallFlag_UpdateLEDs = false;
+    while(1)
+    {
+        if(CallFlag_UpdateLEDs)
+        {
+            DeviceUpdateLEDs();
+            CallFlag_UpdateLEDs = false;
+        }
+        else
+        {
+            Sleep(1);
+        }
+    }
 }
 
 std::string device_type_to_str(device_type type)

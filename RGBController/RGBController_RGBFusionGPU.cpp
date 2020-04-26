@@ -105,7 +105,7 @@ void RGBController_RGBFusionGPU::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_RGBFusionGPU::UpdateLEDs()
+void RGBController_RGBFusionGPU::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -117,12 +117,12 @@ void RGBController_RGBFusionGPU::UpdateLEDs()
 
 void RGBController_RGBFusionGPU::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RGBFusionGPU::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RGBFusionGPU::SetCustomMode()

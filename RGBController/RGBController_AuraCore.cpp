@@ -66,7 +66,7 @@ void RGBController_AuraCore::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_AuraCore::UpdateLEDs()
+void RGBController_AuraCore::DeviceUpdateLEDs()
 {
     UpdateZoneLEDs(0);
 }
@@ -101,5 +101,5 @@ void RGBController_AuraCore::SetCustomMode()
 
 void RGBController_AuraCore::UpdateMode()
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }

@@ -217,7 +217,7 @@ void RGBController_PoseidonZRGB::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_PoseidonZRGB::UpdateLEDs()
+void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
 {
     if(active_mode == 0)
     {
@@ -231,12 +231,12 @@ void RGBController_PoseidonZRGB::UpdateLEDs()
 
 void RGBController_PoseidonZRGB::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_PoseidonZRGB::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_PoseidonZRGB::SetCustomMode()
