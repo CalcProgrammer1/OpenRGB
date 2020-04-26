@@ -1,10 +1,10 @@
 /*-----------------------------------------*\
-|  AuraAddressableController.h              |
+|  AuraUSBController.h                      |
 |                                           |
 |  Definitions and types for ASUS Aura      |
-|  Addressable RGB lighting controller      |
+|  USB RGB lighting controller              |
 |                                           |
-|  Adam Honse (CalcProgrammer1) 1/18/2020   |
+|  Martin Hartl (inlart) 4/25/2020          |
 \*-----------------------------------------*/
 
 #include "RGBController.h"
@@ -36,66 +36,42 @@ enum
 
 enum
 {
-    AURA_CONTROL_MODE_EFFECT            = 0x3B,     /* Effect control mode                  */
-    AURA_CONTROL_MODE_DIRECT            = 0x40,     /* Direct control mode                  */
     AURA_REQUEST_FIRMWARE_VERSION       = 0x82,     /* Request firmware string              */
     AURA_REQUEST_CONFIG_TABLE           = 0xB0,     /* Request configuration table          */
 };
 
-class AuraAddressableController
+class AuraUSBController
 {
 public:
-    AuraAddressableController(hid_device* dev_handle);
-    ~AuraAddressableController();
+    AuraUSBController(hid_device* dev_handle);
+    virtual ~AuraUSBController();
 
     unsigned int GetChannelCount();
 
     std::string GetDeviceName();
 
-    void SetChannelLEDs
+    virtual void SetChannelLEDs
         (
         unsigned char   channel,
         RGBColor *      colors,
         unsigned int    num_colors
-        );
+        ) = 0;
 
-    void SetMode
+    virtual void SetMode
         (
         unsigned char mode,
         unsigned char red,
         unsigned char grn,
         unsigned char blu
-        );
-
+        ) = 0;
+protected:
+    hid_device*             dev;
 private:
     char                    device_name[16];
     unsigned char           config_table[60];
-    hid_device*             dev;
     unsigned int            led_count;
-    
+
     void GetConfigTable();
 
     void GetFirmwareVersion();
-
-    void SendEffect
-        (
-        unsigned char   channel,
-        unsigned char   mode,
-        unsigned char   red,
-        unsigned char   grn,
-        unsigned char   blu
-        );
-
-    void SendDirect
-        (
-        unsigned char   device,
-        unsigned char   start_led,
-        unsigned char   led_count,
-        unsigned char*  led_data
-        );
-
-    void    SendDirectApply
-                (
-                unsigned char   channel
-                );
 };

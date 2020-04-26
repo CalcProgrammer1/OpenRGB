@@ -254,7 +254,7 @@ void DetectI2CBusses()
                     memset(device_string, 0x00, sizeof(device_string));
                     read(test_fd, device_string, sizeof(device_string));
                     device_string[strlen(device_string) - 1] = 0x00;
-                    
+
                     close(test_fd);
 
                     strcpy(device_string, "/dev/");
@@ -294,7 +294,7 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
 void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectAuraAddressableControllers(std::vector<RGBController*> &rgb_controllers);
+void DetectAuraUSBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraCoreControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers);
@@ -343,7 +343,7 @@ void DetectRGBControllers(void)
     DetectMSIMysticLightControllers(rgb_controllers);
     DetectMSIRGBControllers(rgb_controllers);
 
-    DetectAuraAddressableControllers(rgb_controllers);
+    DetectAuraUSBControllers(rgb_controllers);
     DetectAuraCoreControllers(rgb_controllers);
     DetectLEDStripControllers(rgb_controllers);
     DetectHue2Controllers(rgb_controllers);
