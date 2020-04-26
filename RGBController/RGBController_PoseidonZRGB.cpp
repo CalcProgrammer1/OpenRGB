@@ -9,6 +9,17 @@
 
 #include "RGBController_PoseidonZRGB.h"
 
+//0xFFFFFFFF indicates an unused entry in matrix
+#define NA  0xFFFFFFFF
+
+static unsigned int matrix_map[6][23] =
+    { {   0,  NA,  8,   15,  22,  29,  NA,  37,  44,  51,  58,  NA,  65,  73,  81,  88,  94, 100, 102,  NA,  NA,  NA,  NA },
+      {   1,  9,   16,  23,  30,  38,  45,  52,  59,  66,  74,  NA,  82,  89, 103,  NA,   7,  21,  36,  50,  64,  80,  93 },
+      {   2,  NA,  10,  17,  24,  31,  NA,  39,  46,  53,  60,  67,  75,  83,  90,  95,  14,  28,  43,  57,  72,  87,  86 },
+      {   3,  NA,  11,  18,  25,  32,  NA,  40,  47,  54,  61,  68,  76,  84,  96,  NA,  NA,  NA,  NA,  35,  99,  63,  NA },
+      {   4,  NA,  26,  33,  41,  48,  NA,  55,  NA,  62,  69,  77,  85,  91, 101,  NA,  NA,  27,  NA,  42,  49,  71,  98 },
+      {   5,  12,  19,  NA,  NA,  NA,  NA,  34,  NA,  NA,  NA,  NA,  70,  78,  92,  97,   6,  13,  20,  56,  NA,  79,  NA } };
+
 static const char* zone_names[] =
 {
     "Keyboard"
@@ -196,12 +207,15 @@ void RGBController_PoseidonZRGB::SetupZones()
     for(unsigned int zone_idx = 0; zone_idx < 1; zone_idx++)
     {
         zone new_zone;
-        new_zone.name           = zone_names[zone_idx];
-        new_zone.type           = zone_types[zone_idx];
-        new_zone.leds_min       = zone_sizes[zone_idx];
-        new_zone.leds_max       = zone_sizes[zone_idx];
-        new_zone.leds_count     = zone_sizes[zone_idx];
-        new_zone.matrix_map     = NULL;
+        new_zone.name               = zone_names[zone_idx];
+        new_zone.type               = zone_types[zone_idx];
+        new_zone.leds_min           = zone_sizes[zone_idx];
+        new_zone.leds_max           = zone_sizes[zone_idx];
+        new_zone.leds_count         = zone_sizes[zone_idx];
+        new_zone.matrix_map         = new matrix_map_type;
+        new_zone.matrix_map->height = 6;
+        new_zone.matrix_map->width  = 23;
+        new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
         zones.push_back(new_zone);
 
         total_led_count += zone_sizes[zone_idx];

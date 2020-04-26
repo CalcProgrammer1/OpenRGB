@@ -406,7 +406,6 @@ void RGBController_OpenRazer::SetupZones()
                 new_zone.matrix_map = NULL;
             }
             
-
             zones.push_back(new_zone);
         }
     }
