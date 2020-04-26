@@ -51,6 +51,13 @@ static const char* zone_names[] =
     "Media Keys"
 };
 
+static zone_type zone_types[] =
+{
+    ZONE_TYPE_MATRIX,
+    ZONE_TYPE_LINEAR,
+    ZONE_TYPE_SINGLE
+};
+
 static const unsigned int zone_sizes[] =
 {
     104,
@@ -265,6 +272,7 @@ void RGBController_HyperXKeyboard::SetupZones()
     {
         zone new_zone;
         new_zone.name           = zone_names[zone_idx];
+        new_zone.type           = zone_types[zone_idx];
         new_zone.leds_min       = zone_sizes[zone_idx];
         new_zone.leds_max       = zone_sizes[zone_idx];
         new_zone.leds_count     = zone_sizes[zone_idx];
