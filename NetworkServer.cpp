@@ -97,10 +97,12 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         char *          data        = NULL;
 
         //Read first byte of magic
-        do
+        bytes_read = read(*client_sock, &header.pkt_magic[0], 1);
+
+        if(bytes_read == 0)
         {
-            bytes_read = read(*client_sock, &header.pkt_magic[0], 1);
-        } while(bytes_read == 0);
+            break;
+        }
 
         //Test first character of magic - 'O'
         if(header.pkt_magic[0] != 'O')
@@ -109,10 +111,12 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         }
 
         //Read second byte of magic
-        do
+        bytes_read = read(*client_sock, &header.pkt_magic[1], 1);
+
+        if(bytes_read == 0)
         {
-            bytes_read = read(*client_sock, &header.pkt_magic[1], 1);
-        } while(bytes_read == 0);
+            break;
+        }
 
         //Test second character of magic - 'R'
         if(header.pkt_magic[1] != 'R')
@@ -121,10 +125,12 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         }
 
         //Read third byte of magic
-        do
+        bytes_read = read(*client_sock, &header.pkt_magic[2], 1);
+
+        if(bytes_read == 0)
         {
-            bytes_read = read(*client_sock, &header.pkt_magic[2], 1);
-        } while(bytes_read == 0);
+            break;
+        }
 
         //Test third character of magic - 'G'
         if(header.pkt_magic[2] != 'G')
@@ -133,10 +139,12 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         }
 
         //Read fourth byte of magic
-        do
+        bytes_read = read(*client_sock, &header.pkt_magic[3], 1);
+
+        if(bytes_read == 0)
         {
-            bytes_read = read(*client_sock, &header.pkt_magic[3], 1);
-        } while(bytes_read == 0);
+            break;
+        }
 
         //Test fourth character of magic - 'B'
         if(header.pkt_magic[3] != 'B')
@@ -149,9 +157,14 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         do
         {
             bytes_read += read(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read);
+
+            if(bytes_read == 0)
+            {
+                break;
+            }
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        printf( "Server: Received header, now receiving data of size %d\r\n", header.pkt_size);
+        //printf( "Server: Received header, now receiving data of size %d\r\n", header.pkt_size);
 
         //Header received, now receive the data
         if(header.pkt_size > 0)
@@ -166,24 +179,24 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
             } while (bytes_read < header.pkt_size);
         }
 
-        printf( "Server: Received header and data\r\n" );
-        printf( "Server: Packet ID: %d \r\n", header.pkt_id);
+        //printf( "Server: Received header and data\r\n" );
+        //printf( "Server: Packet ID: %d \r\n", header.pkt_id);
 
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
-                printf( "NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
+                //printf( "NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
                 SendReply_ControllerCount(client_sock);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
-                printf( "NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n" );
+                //printf( "NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n" );
                 SendReply_ControllerData(client_sock, header.pkt_dev_idx);
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
-                printf( "NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE\r\n" );
+                //printf( "NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE\r\n" );
 
                 if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == (2 * sizeof(int))))
                 {
@@ -198,7 +211,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
-                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS\r\n" );
+                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS\r\n" );
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
@@ -208,7 +221,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
-                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS\r\n" );
+                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS\r\n" );
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
@@ -222,7 +235,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
-                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED\r\n" );
+                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED\r\n" );
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
@@ -236,7 +249,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE:
-                printf( "NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE\r\n" );
+                //printf( "NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE\r\n" );
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
@@ -245,7 +258,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
-                printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE\r\n" );
+                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE\r\n" );
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
@@ -257,6 +270,8 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
 
         delete[] data;
     }
+
+    printf("Server connection closed\r\n");
 }
 
 void NetworkServer::SendReply_ControllerCount(SOCKET * client_sock)
