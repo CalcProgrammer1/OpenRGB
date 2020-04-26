@@ -44,6 +44,17 @@ THREAD keepalive_thread(void *param)
     THREADRETURN
 }
 
+//0xFFFFFFFF indicates an unused entry in matrix
+#define NA  0xFFFFFFFF
+
+static unsigned int matrix_map[6][23] =
+    { {   0,  NA,  15,  28,  42,  52,  NA,  63,  73,  82,  93,  NA,   8,  21,  36,   6,  20,  34,  47,  NA,  NA,  NA,  NA },
+      {   1,  16,  29,  43,  53,  64,  74,  83,  94,   9,  22,  NA,  37,   7,  35,  NA,  58,  68,  78,  50,  61,  71,  80 },
+      {   2,  NA,  17,  30,  44,  54,  NA,  65,  75,  84,  95,  10,  23,  38,  88,  99,  48,  59,  69,  49,  60,  70,  91 },
+      {   3,  NA,  18,  31,  45,  55,  NA,  66,  76,  85,  96,  11,  24,  39,  26,  NA,  NA,  NA,  NA,  90, 101,  51,  NA },
+      {   4,  NA,  32,  46,  56,  67,  NA,  77,  NA,  86,  97,  12,  25,  40,  79,  NA,  NA, 100,  NA,  62,  72,  81, 102 },
+      {   5,  19,  33,  NA,  NA,  NA,  NA,  57,  NA,  NA,  NA,  NA,  87,  98,  13,  89,  14,  27,  41,  92,  NA, 103,  NA } };
+
 static const char* zone_names[] =
 {
     "Keyboard",
@@ -276,7 +287,10 @@ void RGBController_HyperXKeyboard::SetupZones()
         new_zone.leds_min       = zone_sizes[zone_idx];
         new_zone.leds_max       = zone_sizes[zone_idx];
         new_zone.leds_count     = zone_sizes[zone_idx];
-        new_zone.matrix_map     = NULL;
+        new_zone.matrix_map         = new matrix_map_type;
+        new_zone.matrix_map->height = 6;
+        new_zone.matrix_map->width  = 23;
+        new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
         zones.push_back(new_zone);
 
         total_led_count += zone_sizes[zone_idx];
