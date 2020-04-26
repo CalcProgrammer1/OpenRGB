@@ -104,6 +104,7 @@ void RGBController_AMDWraithPrism::SetupZones()
     logo_zone.leds_min      = 1;
     logo_zone.leds_max      = 1;
     logo_zone.leds_count    = 1;
+    logo_zone.matrix_map    = NULL;
     zones.push_back(logo_zone);
 
     zone fan_zone;
@@ -112,6 +113,7 @@ void RGBController_AMDWraithPrism::SetupZones()
     fan_zone.leds_min       = 1;
     fan_zone.leds_max       = 1;
     fan_zone.leds_count     = 1;
+    fan_zone.matrix_map     = NULL;
     zones.push_back(fan_zone);
 
     zone ring_zone;
@@ -120,6 +122,7 @@ void RGBController_AMDWraithPrism::SetupZones()
     ring_zone.leds_min      = 1;
     ring_zone.leds_max      = 1;
     ring_zone.leds_count    = 1;
+    ring_zone.matrix_map    = NULL;
     zones.push_back(ring_zone);
 
     /*---------------------------------------------------------*\

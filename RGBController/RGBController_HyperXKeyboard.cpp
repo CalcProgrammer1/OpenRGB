@@ -276,6 +276,7 @@ void RGBController_HyperXKeyboard::SetupZones()
         new_zone.leds_min       = zone_sizes[zone_idx];
         new_zone.leds_max       = zone_sizes[zone_idx];
         new_zone.leds_count     = zone_sizes[zone_idx];
+        new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
 
         total_led_count += zone_sizes[zone_idx];

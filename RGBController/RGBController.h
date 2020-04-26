@@ -9,8 +9,10 @@
 
 #pragma once
 
+#include <atomic>
 #include <vector>
 #include <string>
+#include <thread>
 
 typedef unsigned int RGBColor;
 
@@ -117,6 +119,13 @@ std::string device_type_to_str(device_type type);
 
 typedef struct
 {
+    unsigned int            height;
+    unsigned int            width;
+    unsigned int *          map;
+} matrix_map_type;
+
+typedef struct
+{
     std::string             name;           /* Zone name                */
     zone_type               type;           /* Zone type                */
     led *                   leds;           /* List of LEDs in zone     */
@@ -125,6 +134,7 @@ typedef struct
     unsigned int            leds_count;     /* Number of LEDs in zone   */
     unsigned int            leds_min;       /* Minimum number of LEDs   */
     unsigned int            leds_max;       /* Maximum number of LEDs   */
+    matrix_map_type *       matrix_map;     /* Matrix map pointer       */
 } zone;
 
 class RGBController
@@ -146,6 +156,7 @@ public:
     | RGBController base class constructor                      |
     \*---------------------------------------------------------*/
     RGBController();
+    ~RGBController();
 
     /*---------------------------------------------------------*\
     | Generic functions implemented in RGBController.cpp        |
@@ -181,7 +192,7 @@ public:
 
     //void                    UpdateMode();
 
-    void                    DeviceCallThread();
+    void                    DeviceCallThreadFunction();
 
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
@@ -199,7 +210,9 @@ public:
     virtual void            SetCustomMode()                             = 0;
 
 private:
-    bool                    CallFlag_UpdateLEDs                         = false;
+    std::thread*            DeviceCallThread;
+    std::atomic<bool>       CallFlag_UpdateLEDs;
+    std::atomic<bool>       DeviceThreadRunning;
     //bool                    CallFlag_UpdateZoneLEDs                     = false;
     //bool                    CallFlag_UpdateSingleLED                    = false;
     //bool                    CallFlag_UpdateMode                         = false;

@@ -46,6 +46,7 @@ void RGBController_AuraCore::SetupZones()
     Keyboard.leds_min   = 4;
     Keyboard.leds_max   = 4;
     Keyboard.leds_count = 4;
+    Keyboard.matrix_map = NULL;
     zones.push_back(Keyboard);
 
     for(int led_idx = 0; led_idx < Keyboard.leds_count; led_idx++)

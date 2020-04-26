@@ -193,7 +193,8 @@ void RGBController_RGBFusion2USB::SetupZones()
     {
         zones[zone_idx].name           = led_zones[zone_idx];
         zones[zone_idx].type           = ZONE_TYPE_LINEAR;
-
+        zones[zone_idx].matrix_map     = NULL;
+        
         /*---------------------------------------------------------*\
         | Zone index 0 is motherboard LEDs and has fixed size       |
         \*---------------------------------------------------------*/

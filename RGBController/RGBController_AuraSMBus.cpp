@@ -275,6 +275,8 @@ void RGBController_AuraSMBus::SetupZones()
                 new_zone->type = ZONE_TYPE_SINGLE;
             }
 
+            new_zone->matrix_map = NULL;
+            
             /*---------------------------------------------------------*\
             | Push new zone to zones vector                             |
             \*---------------------------------------------------------*/

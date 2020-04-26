@@ -110,6 +110,7 @@ void RGBController_AuraGPU::SetupZones()
     aura_gpu_zone.leds_min      = 1;
     aura_gpu_zone.leds_max      = 1;
     aura_gpu_zone.leds_count    = 1;
+    aura_gpu_zone.matrix_map    = NULL;
     zones.push_back(aura_gpu_zone);
 
     /*---------------------------------------------------------*\

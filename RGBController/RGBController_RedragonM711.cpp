@@ -63,6 +63,7 @@ void RGBController_RedragonM711::SetupZones()
     m711_zone.leds_min       = 1;
     m711_zone.leds_max       = 1;
     m711_zone.leds_count     = 1;
+    m711_zone.matrix_map     = NULL;
     zones.push_back(m711_zone);
 
     led m711_led;

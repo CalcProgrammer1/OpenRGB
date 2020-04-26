@@ -383,6 +383,30 @@ void RGBController_OpenRazer::SetupZones()
             new_zone.leds_min   = new_zone.leds_count;
             new_zone.leds_max   = new_zone.leds_count;
 
+            if(new_zone.type == ZONE_TYPE_MATRIX)
+            {
+                matrix_map_type * new_map = new matrix_map_type;
+                new_zone.matrix_map = new_map;
+
+                new_map->height = device_list[device_index]->zones[zone_id]->rows;
+                new_map->width  = device_list[device_index]->zones[zone_id]->cols;
+
+                new_map->map = new unsigned int[new_map->height * new_map->width];
+
+                for(int y = 0; y < new_map->height; y++)
+                {
+                    for(int x = 0; x < new_map->width; x++)
+                    {
+                        new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                    }
+                }
+            }
+            else
+            {
+                new_zone.matrix_map = NULL;
+            }
+            
+
             zones.push_back(new_zone);
         }
     }

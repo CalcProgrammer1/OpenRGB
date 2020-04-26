@@ -203,7 +203,8 @@ void RGBController_RedragonK556::SetupZones()
     new_zone.leds_min = 126;
     new_zone.leds_max = 126;
     new_zone.leds_count = 126;
-
+    new_zone.matrix_map = NULL;
+    
     zones.push_back(new_zone);
 
     for(int led_idx = 0; led_idx < 126; led_idx++)

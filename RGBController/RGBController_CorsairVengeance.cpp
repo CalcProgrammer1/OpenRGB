@@ -53,6 +53,7 @@ void RGBController_CorsairVengeance::SetupZones()
     new_zone.leds_min   = corsair->GetLEDCount();
     new_zone.leds_max   = corsair->GetLEDCount();
     new_zone.leds_count = corsair->GetLEDCount();
+    new_zone.matrix_map = NULL;
     zones.push_back(new_zone);
 
     /*---------------------------------------------------------*\
