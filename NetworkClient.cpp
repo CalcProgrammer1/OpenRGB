@@ -215,6 +215,8 @@ void NetworkClient::ListenThread()
                 ProcessReply_ControllerData(header.pkt_size, data, header.pkt_dev_idx);
                 break;
         }
+
+        delete[] data;
     }
 }
 
