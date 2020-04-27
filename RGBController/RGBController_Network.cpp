@@ -34,6 +34,8 @@ void RGBController_Network::DeviceUpdateLEDs()
     memcpy(&size, &data[0], sizeof(unsigned int));
 
     client->SendRequest_RGBController_UpdateLEDs(dev_idx, data, size);
+
+    delete[] data;
 }
 
 void RGBController_Network::UpdateZoneLEDs(int zone)
@@ -44,12 +46,17 @@ void RGBController_Network::UpdateZoneLEDs(int zone)
     memcpy(&size, &data[0], sizeof(unsigned int));
 
     client->SendRequest_RGBController_UpdateZoneLEDs(dev_idx, data, size);
+
+    delete[] data;
 }
 
 void RGBController_Network::UpdateSingleLED(int led)
 {
     unsigned char * data = GetSingleLEDColorDescription(led);
+
     client->SendRequest_RGBController_UpdateSingleLED(dev_idx, data, sizeof(int) + sizeof(RGBColor));
+
+    delete[] data;
 }
 
 void RGBController_Network::SetCustomMode()
