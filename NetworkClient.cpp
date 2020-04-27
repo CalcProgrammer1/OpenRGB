@@ -49,6 +49,7 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     //Start the connection thread
 #ifdef WIN32
     _beginthread(connection_thread, 0, this);
+    _beginthread(listen_thread, 0, this);
 #else
     pthread_t thread;
     pthread_create(&thread, NULL, &connection_thread, this);
