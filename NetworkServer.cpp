@@ -74,7 +74,10 @@ void NetworkServer::ConnectionThread()
         SOCKET * client_sock = port.tcp_server_listen();
         //Start a listener thread for the new client socket
 #ifdef WIN32
-        _beginthread(listen_thread, 0, this);
+        listen_thread_param_type new_thread_param;
+        new_thread_param.sock_ptr = client_sock;
+        new_thread_param.this_ptr = this;
+        _beginthread(listen_thread, 0, &new_thread_param);
 #else
         pthread_t thread;
 
@@ -97,7 +100,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         char *          data        = NULL;
 
         //Read first byte of magic
-        bytes_read = read(*client_sock, &header.pkt_magic[0], 1);
+        bytes_read = recv(*client_sock, &header.pkt_magic[0], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -111,7 +114,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         }
 
         //Read second byte of magic
-        bytes_read = read(*client_sock, &header.pkt_magic[1], 1);
+        bytes_read = recv(*client_sock, &header.pkt_magic[1], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -125,7 +128,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         }
 
         //Read third byte of magic
-        bytes_read = read(*client_sock, &header.pkt_magic[2], 1);
+        bytes_read = recv(*client_sock, &header.pkt_magic[2], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -139,7 +142,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         }
 
         //Read fourth byte of magic
-        bytes_read = read(*client_sock, &header.pkt_magic[3], 1);
+        bytes_read = recv(*client_sock, &header.pkt_magic[3], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -156,7 +159,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
         bytes_read = 0;
         do
         {
-            bytes_read += read(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read);
+            bytes_read += recv(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
 
             if(bytes_read == 0)
             {
@@ -175,7 +178,7 @@ void NetworkServer::ListenThread(SOCKET * client_sock)
 
             do
             {
-                bytes_read += read(*client_sock, &data[bytes_read], header.pkt_size - bytes_read);
+                bytes_read += recv(*client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
             } while (bytes_read < header.pkt_size);
         }
 
@@ -290,8 +293,8 @@ void NetworkServer::SendReply_ControllerCount(SOCKET * client_sock)
 
     reply_data             = controllers.size();
 
-    write(*client_sock, &reply_hdr, sizeof(NetPacketHeader));
-    write(*client_sock, &reply_data, sizeof(unsigned int));
+    send(*client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
+    send(*client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
 }
 
 void NetworkServer::SendReply_ControllerData(SOCKET * client_sock, unsigned int dev_idx)
@@ -313,7 +316,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET * client_sock, unsigned int 
         reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
         reply_hdr.pkt_size     = reply_size;
 
-        write(*client_sock, &reply_hdr, sizeof(NetPacketHeader));
-        write(*client_sock, reply_data, reply_size);
+        send(*client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
+        send(*client_sock, (const char *)reply_data, reply_size, 0);
     }
 }
