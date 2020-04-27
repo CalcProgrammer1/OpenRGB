@@ -21,6 +21,12 @@ static const unsigned int zone_sizes[] =
     7
 };
 
+static const zone_type zone_types[] =
+{
+    ZONE_TYPE_MATRIX,
+    ZONE_TYPE_SINGLE
+};
+
 static const char* led_names[] =
 {
     "Key: Escape",          //0
@@ -192,6 +198,7 @@ void RGBController_CorsairPeripheral::SetupZones()
         {
             case DEVICE_TYPE_KEYBOARD:
                 new_zone.name           = zone_names[zone_idx];
+                new_zone.type           = zone_types[zone_idx];
                 new_zone.leds_min       = zone_sizes[zone_idx];
                 new_zone.leds_max       = zone_sizes[zone_idx];
                 new_zone.leds_count     = zone_sizes[zone_idx];
@@ -199,8 +206,17 @@ void RGBController_CorsairPeripheral::SetupZones()
                 break;
 
             case DEVICE_TYPE_MOUSE:
+                new_zone.name           = "Mousemat Zone";
+                new_zone.type           = ZONE_TYPE_SINGLE;
+                new_zone.leds_min       = 15;
+                new_zone.leds_max       = 15;
+                new_zone.leds_count     = 15;
+                new_zone.matrix_map     = NULL;
+                break;
+
             case DEVICE_TYPE_MOUSEMAT:
                 new_zone.name           = "Mousemat Zone";
+                new_zone.type           = ZONE_TYPE_LINEAR;
                 new_zone.leds_min       = 15;
                 new_zone.leds_max       = 15;
                 new_zone.leds_count     = 15;

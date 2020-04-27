@@ -69,7 +69,6 @@ SOURCES +=                                                              \
     cli.cpp                                                             \
     OpenRGB.cpp                                                         \
     NetworkClient.cpp                                                   \
-    NetworkProtocol.cpp                                                 \
     NetworkServer.cpp                                                   \
     ProfileManager.cpp                                                  \
     qt/OpenRGBDeviceInfoPage.cpp                                        \

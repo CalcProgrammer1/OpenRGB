@@ -273,7 +273,7 @@ void net_port::tcp_close()
 
 int net_port::tcp_listen(char * recv_data, int length)
 {
-    return(read(sock, recv_data, length));
+    return(recv(sock, recv_data, length, 0));
 }
 
 int net_port::tcp_client_write(char * buffer, int length)
