@@ -9,8 +9,10 @@
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
-#define REDRAGON_K556_VID               0x0C45
+#define REDRAGON_KEYBOARD_VID           0x0C45
+#define REDRAGON_K550_PID               0x5204
 #define REDRAGON_K556_PID               0x5004
+
 
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
@@ -34,7 +36,8 @@ static const redragon_device device_list[] =
     /*-----------------------------------------------------------------------------------------------------*\
     | Keyboards                                                                                             |
     \*-----------------------------------------------------------------------------------------------------*/
-    { REDRAGON_K556_VID,    REDRAGON_K556_PID,  1,  DEVICE_TYPE_KEYBOARD,   "Redragon K556 Devarajas"       },
+    { REDRAGON_KEYBOARD_VID,    REDRAGON_K550_PID,  1,  DEVICE_TYPE_KEYBOARD,   "Redragon K550 Yama"        },
+    { REDRAGON_KEYBOARD_VID,    REDRAGON_K556_PID,  1,  DEVICE_TYPE_KEYBOARD,   "Redragon K556 Devarajas"   },
     /*-----------------------------------------------------------------------------------------------------*\
     | Mice                                                                                                  |
     \*-----------------------------------------------------------------------------------------------------*/
@@ -90,6 +93,8 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
                     RedragonK556Controller* controller = new RedragonK556Controller(dev);
 
                     RGBController_RedragonK556* rgb_controller = new RGBController_RedragonK556(controller);
+
+                    rgb_controller->name = device_list[device_idx].name;
                     rgb_controllers.push_back(rgb_controller);
                     }
                     break;
@@ -99,6 +104,8 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
                     RedragonM711Controller* controller = new RedragonM711Controller(dev);
 
                     RGBController_RedragonM711* rgb_controller = new RGBController_RedragonM711(controller);
+
+                    rgb_controller->name = device_list[device_idx].name;
                     rgb_controllers.push_back(rgb_controller);
                     }
                     break;
