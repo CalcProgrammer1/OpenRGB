@@ -17,8 +17,9 @@
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
-#define REDRAGON_M711_VID               0x04D9
+#define REDRAGON_MOUSE_VID              0x04D9
 #define REDRAGON_M711_PID               0xFC30
+#define REDRAGON_M715_PID               0xFC39
 
 typedef struct
 {
@@ -41,7 +42,8 @@ static const redragon_device device_list[] =
     /*-----------------------------------------------------------------------------------------------------*\
     | Mice                                                                                                  |
     \*-----------------------------------------------------------------------------------------------------*/
-    { REDRAGON_M711_VID,    REDRAGON_M711_PID,  2,  DEVICE_TYPE_MOUSE,      "Redragon M711 Cobra"           },
+    { REDRAGON_MOUSE_VID,       REDRAGON_M711_PID,  2,  DEVICE_TYPE_MOUSE,      "Redragon M711 Cobra"       },
+    { REDRAGON_MOUSE_VID,       REDRAGON_M715_PID,  2,  DEVICE_TYPE_MOUSE,      "Redragon M715 Dagger"      },
     /*-----------------------------------------------------------------------------------------------------*\
     | Mousemats                                                                                             |
     \*-----------------------------------------------------------------------------------------------------*/

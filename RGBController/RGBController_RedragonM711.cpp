@@ -13,9 +13,9 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
 {
     redragon = redragon_ptr;
 
-    name        = "Redragon M711 Cobra";
+    name        = "Redragon Mouse Device";
     type        = DEVICE_TYPE_MOUSE;
-    description = "Redragon M711 Device";
+    description = "Redragon Mouse Device";
 
     mode Static;
     Static.name       = "Static";
