@@ -282,15 +282,24 @@ void RGBController_HyperXKeyboard::SetupZones()
     for(unsigned int zone_idx = 0; zone_idx < 3; zone_idx++)
     {
         zone new_zone;
-        new_zone.name           = zone_names[zone_idx];
-        new_zone.type           = zone_types[zone_idx];
-        new_zone.leds_min       = zone_sizes[zone_idx];
-        new_zone.leds_max       = zone_sizes[zone_idx];
-        new_zone.leds_count     = zone_sizes[zone_idx];
-        new_zone.matrix_map         = new matrix_map_type;
-        new_zone.matrix_map->height = 6;
-        new_zone.matrix_map->width  = 23;
-        new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+        new_zone.name                   = zone_names[zone_idx];
+        new_zone.type                   = zone_types[zone_idx];
+        new_zone.leds_min               = zone_sizes[zone_idx];
+        new_zone.leds_max               = zone_sizes[zone_idx];
+        new_zone.leds_count             = zone_sizes[zone_idx];
+
+        if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
+        {
+            new_zone.matrix_map         = new matrix_map_type;
+            new_zone.matrix_map->height = 6;
+            new_zone.matrix_map->width  = 23;
+            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+        }
+        else
+        {
+            new_zone.matrix_map         = NULL;
+        }
+
         zones.push_back(new_zone);
 
         total_led_count += zone_sizes[zone_idx];
