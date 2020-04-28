@@ -9,22 +9,30 @@
 
 #include "RGBController_CorsairPeripheral.h"
 
+//0xFFFFFFFF indicates an unused entry in matrix
+#define NA  0xFFFFFFFF
+
+static unsigned int matrix_map[6][23] =
+    { {   0,  NA,  10,  18,  28,  36,  NA,  46,  55,  64,  74,  NA,  84,  93, 102,   6,  15,  24,  33,  26,  35,  44,  53 },
+      {   1,  11,  19,  29,  37,  47,  56,  65,  75,  85,  94,  NA, 103,   7,  25,  NA,  42,  51,  60,  62,  72,  82,  91 },
+      {   2,  NA,  12,  20,  30,  38,  NA,  48,  57,  66,  76,  86,  95, 104,  70,  80,  34,  43,  52,  9,   17,  27, 100 },
+      {   3,  NA,  13,  21,  31,  39,  NA,  49,  58,  67,  77,  87,  96, 105,  98,  NA,  NA,  NA,  NA,  45,  54,  63,  NA },
+      {   4,  NA,  22,  32,  40,  50,  NA,  59,  NA,  68,  78,  88,  97, 106,  61,  NA,  NA,  81,  NA,  73,  83,  92, 109 },
+      {   5,  14,  23,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  69,  79,  89,  71,  90,  99, 108, 101,  NA, 110,  NA } };
+
 static const char* zone_names[] =
 {
-    "Keyboard",
-    "Media Keys"
+    "Keyboard"
 };
 
 static const unsigned int zone_sizes[] =
 {
-    104,
-    7
+    111
 };
 
 static const zone_type zone_types[] =
 {
-    ZONE_TYPE_MATRIX,
-    ZONE_TYPE_SINGLE
+    ZONE_TYPE_MATRIX
 };
 
 static const char* led_names[] =
@@ -140,7 +148,6 @@ static const char* led_names[] =
     "Key: Right Arrow",     //139
     "Key: Number Pad Enter",//140
     "Key: Number Pad .",    //141
-    "Key: F12"
 };
 
 RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr)
@@ -178,7 +185,7 @@ void RGBController_CorsairPeripheral::SetupZones()
     switch(type)
     {
         case DEVICE_TYPE_KEYBOARD:
-            num_zones = 2;
+            num_zones = 1;
             break;
 
         case DEVICE_TYPE_MOUSE:
@@ -197,12 +204,23 @@ void RGBController_CorsairPeripheral::SetupZones()
         switch(type)
         {
             case DEVICE_TYPE_KEYBOARD:
-                new_zone.name           = zone_names[zone_idx];
-                new_zone.type           = zone_types[zone_idx];
-                new_zone.leds_min       = zone_sizes[zone_idx];
-                new_zone.leds_max       = zone_sizes[zone_idx];
-                new_zone.leds_count     = zone_sizes[zone_idx];
-                new_zone.matrix_map     = NULL;
+                new_zone.name                   = zone_names[zone_idx];
+                new_zone.type                   = zone_types[zone_idx];
+                new_zone.leds_min               = zone_sizes[zone_idx];
+                new_zone.leds_max               = zone_sizes[zone_idx];
+                new_zone.leds_count             = zone_sizes[zone_idx];
+                
+                if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
+                {
+                    new_zone.matrix_map         = new matrix_map_type;
+                    new_zone.matrix_map->height = 6;
+                    new_zone.matrix_map->width  = 23;
+                    new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+                }
+                else
+                {
+                    new_zone.matrix_map         = NULL;
+                }
                 break;
 
             case DEVICE_TYPE_MOUSE:
