@@ -72,6 +72,8 @@ void RGBController_OpenRazer::UpdateLEDs()
                     {
                         razer_functions->matrix_effect_static->store(razer_device, NULL, output_array, output_array_size);
                     }
+
+                    delete[] output_array;
                 }
                 
                 if(matrix_type == RAZER_TYPE_MATRIX_FRAME)

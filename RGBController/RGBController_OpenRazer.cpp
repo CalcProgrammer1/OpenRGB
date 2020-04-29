@@ -39,7 +39,7 @@ void RGBController_OpenRazer::UpdateLEDs()
                         output_offset = 0;
                     }
                     
-                    char output_array[output_array_size];
+                    char* output_array = new char[output_array_size];
 
                     if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
                     {
@@ -71,6 +71,8 @@ void RGBController_OpenRazer::UpdateLEDs()
                         matrix_effect_static.write(output_array, output_array_size);
                         matrix_effect_static.flush();
                     }
+
+                    delete[] output_array;
                 }
                 
                 if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
