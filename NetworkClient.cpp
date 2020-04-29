@@ -13,29 +13,6 @@ static void Sleep(unsigned int milliseconds)
 }
 #endif
 
-//Thread functions have different types in Windows and Linux
-#ifdef WIN32
-#define THREAD static void
-#define THREADRETURN
-#else
-#define THREAD static void*
-#define THREADRETURN return(NULL);
-#endif
-
-THREAD connection_thread(void *param)
-{
-    NetworkClient* client = static_cast<NetworkClient*>(param);
-    client->ConnectionThread();
-    THREADRETURN
-}
-
-THREAD listen_thread(void *param)
-{
-    NetworkClient* client = static_cast<NetworkClient*>(param);
-    client->ListenThread();
-    THREADRETURN
-}
-
 NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
 {
     unsigned int requested_controllers;
@@ -47,14 +24,10 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     requested_controllers   = 0;
 
     //Start the connection thread
-#ifdef WIN32
-    _beginthread(connection_thread, 0, this);
-    _beginthread(listen_thread, 0, this);
-#else
-    pthread_t thread;
-    pthread_create(&thread, NULL, &connection_thread, this);
-    pthread_create(&thread, NULL, &listen_thread, this);
-#endif
+    ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
+
+    //Start the listener thread
+    ListenThread = new std::thread(&NetworkClient::ListenThreadFunction, this);
 
     //Wait for server to connect
     while(!server_connected)
@@ -97,7 +70,7 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     }
 }
 
-void NetworkClient::ConnectionThread()
+void NetworkClient::ConnectionThreadFunction()
 {
     //This thread manages the connection to the server
     while(1)
@@ -117,7 +90,7 @@ void NetworkClient::ConnectionThread()
     }
 }
 
-void NetworkClient::ListenThread()
+void NetworkClient::ListenThreadFunction()
 {
     printf("Network client listener started\n");
     //This thread handles messages received from the server
