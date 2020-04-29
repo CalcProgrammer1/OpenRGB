@@ -1,23 +1,6 @@
 #include "NetworkServer.h"
 #include <cstring>
 
-//Include thread libraries for Windows or Linux
-#ifdef WIN32
-#include <process.h>
-#else
-#include "pthread.h"
-#include "unistd.h"
-#endif
-
-//Thread functions have different types in Windows and Linux
-#ifdef WIN32
-#define THREAD static void
-#define THREADRETURN
-#else
-#define THREAD static void*
-#define THREADRETURN return(NULL);
-#endif
-
 #ifdef WIN32
 #include <Windows.h>
 #else
@@ -29,42 +12,16 @@ static void Sleep(unsigned int milliseconds)
 }
 #endif
 
-typedef struct listen_thread_param_type
-{
-    NetworkServer * this_ptr;
-    SOCKET *        sock_ptr;
-};
-
-THREAD connection_thread(void *param)
-{
-    NetworkServer* server = static_cast<NetworkServer*>(param);
-    server->ConnectionThread();
-    THREADRETURN
-}
-
-THREAD listen_thread(void *param)
-{
-    NetworkServer* server = static_cast<listen_thread_param_type*>(param)->this_ptr;
-    SOCKET*        sock   = static_cast<listen_thread_param_type*>(param)->sock_ptr;
-    server->ListenThread(sock);
-    THREADRETURN
-}
-
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
     //Start a TCP server and launch threads
     port.tcp_server("1337");
 
     //Start the connection thread
-#ifdef WIN32
-    _beginthread(connection_thread, 0, this);
-#else
-    pthread_t thread;
-    pthread_create(&thread, NULL, &connection_thread, this);
-#endif
+    ConnectionThread = new std::thread(&NetworkServer::ConnectionThreadFunction, this);
 }
 
-void NetworkServer::ConnectionThread()
+void NetworkServer::ConnectionThreadFunction()
 {
     //This thread handles client connections
 
@@ -72,24 +29,15 @@ void NetworkServer::ConnectionThread()
     while(1)
     {
         SOCKET * client_sock = port.tcp_server_listen();
-        //Start a listener thread for the new client socket
-#ifdef WIN32
-        listen_thread_param_type new_thread_param;
-        new_thread_param.sock_ptr = client_sock;
-        new_thread_param.this_ptr = this;
-        _beginthread(listen_thread, 0, &new_thread_param);
-#else
-        pthread_t thread;
 
-        listen_thread_param_type new_thread_param;
-        new_thread_param.sock_ptr = client_sock;
-        new_thread_param.this_ptr = this;
-        pthread_create(&thread, NULL, &listen_thread, &new_thread_param);
-#endif
+        //Start a listener thread for the new client socket
+        std::thread * NewListenThread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_sock);
+
+        ListenThreads.push_back(NewListenThread);
     }
 }
 
-void NetworkServer::ListenThread(SOCKET * client_sock)
+void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
 {
     printf("Network server started\n");
     //This thread handles messages received from clients
