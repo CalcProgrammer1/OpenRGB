@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     }
 
     NetworkServer server(rgb_controllers);
-    NetworkClient client(rgb_controllers);
+    //NetworkClient client(rgb_controllers);
     
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
