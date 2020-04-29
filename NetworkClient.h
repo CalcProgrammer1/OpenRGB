@@ -2,6 +2,8 @@
 #include "NetworkProtocol.h"
 #include "net_port.h"
 
+#include <thread>
+
 #pragma once
 
 class NetworkClient
@@ -9,8 +11,8 @@ class NetworkClient
 public:
     NetworkClient(std::vector<RGBController *>& control);
 
-    void        ConnectionThread();
-    void        ListenThread();
+    void        ConnectionThreadFunction();
+    void        ListenThreadFunction();
 
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
@@ -36,4 +38,7 @@ private:
     net_port        port;
     bool            server_connected;
     unsigned int    server_controller_count;
+
+    std::thread *   ConnectionThread;
+    std::thread *   ListenThread;
 };
