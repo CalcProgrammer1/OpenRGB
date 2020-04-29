@@ -368,7 +368,7 @@ void RGBController_HyperXKeyboard::KeepaliveThread()
     {
         if(active_mode == 0)
         {
-            hyperx->SetLEDsDirect(colors);
+            UpdateLEDs();
         }
         Sleep(100);
     }
