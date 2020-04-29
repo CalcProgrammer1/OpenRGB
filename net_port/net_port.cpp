@@ -155,6 +155,11 @@ bool net_port::tcp_client_connect()
         tv.tv_sec =  4;
         tv.tv_usec = 0;
 
+        /*-------------------------------------------------*\
+        | Set socket options - no delay                     |
+        \*-------------------------------------------------*/
+        setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
+
         if (select(sock + 1, NULL, &fdset, NULL, &tv) == 1)
         {
             char so_error;
