@@ -199,33 +199,32 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         InformationTabBar->setTabButton(dev_idx, QTabBar::LeftSide, NewTabLabel);
     }
 
-    OpenRGBSystemInfoPage *SysInfoPage = new OpenRGBSystemInfoPage(bus);
-    ui->InformationTabBar->addTab(SysInfoPage, "");
+    /*-----------------------------------------------------*\
+    | Show the I2C Tools page only if enabled               |
+    \*-----------------------------------------------------*/
+    if(false) //TODO: SMBus Tools enable flag
+    {
+        OpenRGBSystemInfoPage *SMBusToolsPage = new OpenRGBSystemInfoPage(bus);
+        ui->InformationTabBar->addTab(SMBusToolsPage, "");
+
+        QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
+        SMBusToolsLabelString += ":/keyboard.svg";
+        SMBusToolsLabelString += "' height='15' width='15'></td><td>SMBus Tools</td></tr></table></html>";
+
+        QLabel *SMBusToolsTabLabel = new QLabel();
+        SMBusToolsTabLabel->setText(SMBusToolsLabelString);
+        SMBusToolsTabLabel->setIndent(20);
+        SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
+
+        InformationTabBar->setTabButton(control.size(), QTabBar::LeftSide, SMBusToolsTabLabel);
+    }
 
     /*-----------------------------------------------------*\
-    | Use Qt's HTML capabilities to display both icon and   |
-    | text in the tab label.  Choose icon based on device   |
-    | type and append device name string.                   |
+    | Always show the software information page             |
     \*-----------------------------------------------------*/
-    QString SystemLabelString = "<html><table><tr><td width='30'><img src='";
-    SystemLabelString += ":/keyboard.svg";
-    SystemLabelString += "' height='15' width='15'></td><td>System</td></tr></table></html>";
-
-    QLabel *SystemTabLabel = new QLabel();
-    SystemTabLabel->setText(SystemLabelString);
-    SystemTabLabel->setIndent(20);
-    SystemTabLabel->setGeometry(0, 0, 200, 20);
-
-    InformationTabBar->setTabButton(control.size(), QTabBar::LeftSide, SystemTabLabel);
-
     OpenRGBSoftwareInfoPage *SoftInfoPage = new OpenRGBSoftwareInfoPage();
     ui->InformationTabBar->addTab(SoftInfoPage, "");
 
-    /*-----------------------------------------------------*\
-    | Use Qt's HTML capabilities to display both icon and   |
-    | text in the tab label.  Choose icon based on device   |
-    | type and append device name string.                   |
-    \*-----------------------------------------------------*/
     QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
     SoftwareLabelString += ":/keyboard.svg";
     SoftwareLabelString += "' height='15' width='15'></td><td>Software</td></tr></table></html>";
@@ -235,7 +234,14 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     SoftwareTabLabel->setIndent(20);
     SoftwareTabLabel->setGeometry(0, 0, 200, 20);
 
-    InformationTabBar->setTabButton(control.size() + 1, QTabBar::LeftSide, SoftwareTabLabel);
+    if(false) //TODO: SMBus Tools enable flag
+    {
+        InformationTabBar->setTabButton(control.size() + 1, QTabBar::LeftSide, SoftwareTabLabel);
+    }
+    else
+    {
+        InformationTabBar->setTabButton(control.size(), QTabBar::LeftSide, SoftwareTabLabel);
+    }
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
