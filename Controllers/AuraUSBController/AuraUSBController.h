@@ -10,6 +10,7 @@
 #include "RGBController.h"
 
 #include <string>
+#include <vector>
 #include <hidapi/hidapi.h>
 
 #pragma once
@@ -38,6 +39,21 @@ enum
 {
     AURA_REQUEST_FIRMWARE_VERSION       = 0x82,     /* Request firmware string              */
     AURA_REQUEST_CONFIG_TABLE           = 0xB0,     /* Request configuration table          */
+    AURA_CONTROL_MODE_DIRECT            = 0x40,     /* Direct control mode                  */
+};
+
+enum class AuraDeviceType
+{
+    FIXED,
+    ADDRESSABLE,
+};
+
+struct AuraDeviceInfo
+{
+    unsigned char effect_channel;
+    unsigned char direct_channel;
+    unsigned char num_leds;
+    AuraDeviceType device_type;
 };
 
 class AuraUSBController
@@ -49,6 +65,8 @@ public:
     unsigned int GetChannelCount();
 
     std::string GetDeviceName();
+
+    const std::vector<AuraDeviceInfo>& GetAuraDevices() const;
 
     virtual void SetChannelLEDs
         (
@@ -67,13 +85,21 @@ public:
         ) = 0;
 
 protected:
-    hid_device*             dev;
-    unsigned int            channel_count;
-    unsigned char           config_table[60];
+    hid_device*                 dev;
+    unsigned char               config_table[60];
+    std::vector<AuraDeviceInfo> device_info;
 
+    void SendDirect
+        (
+        unsigned char   device,
+        unsigned char   start_led,
+        unsigned char   led_count,
+        unsigned char*  led_data,
+        bool apply = false
+        );
 private:
-    char                    device_name[16];
-    unsigned int            led_count;
+    char                        device_name[16];
+    unsigned int                led_count;
 
     void GetConfigTable();
 

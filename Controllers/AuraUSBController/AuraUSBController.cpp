@@ -25,12 +25,17 @@ AuraUSBController::~AuraUSBController()
 
 unsigned int AuraUSBController::GetChannelCount()
 {
-    return( channel_count );
+    return(device_info.size());
 }
 
 std::string AuraUSBController::GetDeviceName()
 {
     return(device_name);
+}
+
+const std::vector<AuraDeviceInfo>& AuraUSBController::GetAuraDevices() const
+{
+    return(device_info);
 }
 
 void AuraUSBController::GetConfigTable()
@@ -101,4 +106,41 @@ void AuraUSBController::GetFirmwareVersion()
     {
         memcpy(device_name, &usb_buf[2], 16);
     }
+}
+
+void AuraUSBController::SendDirect
+    (
+    unsigned char   device,
+    unsigned char   start_led,
+    unsigned char   led_count,
+    unsigned char*  led_data,
+    bool apply /* = false */
+    )
+{
+    unsigned char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up message packet                                 |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0xEC;
+    usb_buf[0x01]   = AURA_CONTROL_MODE_DIRECT;
+    usb_buf[0x02]   = apply ? 0x80 : 0x00;
+    usb_buf[0x02]  |= device;
+    usb_buf[0x03]   = start_led;
+    usb_buf[0x04]   = led_count;
+
+    /*-----------------------------------------------------*\
+    | Copy in color data bytes                              |
+    \*-----------------------------------------------------*/
+    memcpy(&usb_buf[0x05], led_data, led_count * 3);
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 65);
 }

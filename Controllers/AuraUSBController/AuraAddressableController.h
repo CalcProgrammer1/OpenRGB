@@ -18,7 +18,6 @@
 enum
 {
     AURA_ADDRESSABLE_CONTROL_MODE_EFFECT            = 0x3B,     /* Effect control mode                  */
-    AURA_ADDRESSABLE_CONTROL_MODE_DIRECT            = 0x40,     /* Direct control mode                  */
 };
 
 class AuraAddressableController : public AuraUSBController
@@ -52,14 +51,6 @@ private:
         unsigned char   red,
         unsigned char   grn,
         unsigned char   blu
-        );
-
-    void SendDirect
-        (
-        unsigned char   device,
-        unsigned char   start_led,
-        unsigned char   led_count,
-        unsigned char*  led_data
         );
 
     void    SendDirectApply

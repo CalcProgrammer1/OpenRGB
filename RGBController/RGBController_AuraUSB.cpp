@@ -128,6 +128,7 @@ void RGBController_AuraUSB::SetupZones()
     \*-------------------------------------------------*/
     for (unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
+        AuraDeviceInfo device_info = aura->GetAuraDevices()[channel_idx];
         char ch_idx_string[2];
         sprintf(ch_idx_string, "%d", channel_idx + 1);
 
@@ -135,13 +136,23 @@ void RGBController_AuraUSB::SetupZones()
         zones[channel_idx].name.append(ch_idx_string);
         zones[channel_idx].type     = ZONE_TYPE_LINEAR;
 
-        zones[channel_idx].leds_min   = 0;
-        zones[channel_idx].leds_max   = AURA_ADDRESSABLE_MAX_LEDS;
-
-        if(first_run)
+        if(device_info.device_type == AuraDeviceType::FIXED)
         {
-            zones[channel_idx].leds_count = 0;
+            zones[channel_idx].leds_min   = device_info.num_leds;
+            zones[channel_idx].leds_max   = device_info.num_leds;
+            zones[channel_idx].leds_count = device_info.num_leds;
         }
+        else
+        {
+            zones[channel_idx].leds_min   = 0;
+            zones[channel_idx].leds_max   = AURA_ADDRESSABLE_MAX_LEDS;
+
+            if(first_run)
+            {
+                zones[channel_idx].leds_count = 0;
+            }
+        }
+
 
         for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {

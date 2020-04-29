@@ -18,8 +18,8 @@
 enum
 {
     AURA_MAINBOARD_CONTROL_MODE_EFFECT            = 0x35,     /* Effect control mode                  */
-    AURA_MAINBOARD_CONTROL_MODE_DIRECT            = 0x36,     /* Direct control mode                  */
-    AURA_MAINBOARD_CONTROL_MODE_COMMIT            = 0x3F,     /* Direct control mode                  */
+    AURA_MAINBOARD_CONTROL_MODE_EFFECT_COLOR      = 0x36,     /* Effect color control mode            */
+    AURA_MAINBOARD_CONTROL_MODE_COMMIT            = 0x3F,     /* Commit mode                          */
 };
 
 class AuraMainboardController : public AuraUSBController
@@ -53,12 +53,13 @@ private:
         unsigned char   mode
         );
 
-    void SendDirect
+    void SendColor
         (
-        unsigned char   device,
+        unsigned char   channel,
         unsigned char   start_led,
         unsigned char   led_count,
-        unsigned char*  led_data
+        unsigned char*  led_data,
+        bool            fixed
         );
 
     void SendCommit();

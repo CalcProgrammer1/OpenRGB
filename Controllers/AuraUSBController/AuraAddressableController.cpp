@@ -12,7 +12,13 @@
 
 AuraAddressableController::AuraAddressableController(hid_device* dev_handle) : AuraUSBController(dev_handle)
 {
-    channel_count = config_table[2];
+    /*-----------------------------------------------------*\
+    | Add addressable devices                               |
+    \*-----------------------------------------------------*/
+    for(int i = 0; i < config_table[0x02]; ++i)
+    {
+        device_info.push_back({0x01, (unsigned char)i, 0x01, AuraDeviceType::ADDRESSABLE});
+    }
 }
 
 AuraAddressableController::~AuraAddressableController()
@@ -112,41 +118,6 @@ void AuraAddressableController::SendEffect
     hid_write(dev, usb_buf, 65);
 }
 
-void AuraAddressableController::SendDirect
-    (
-    unsigned char   device,
-    unsigned char   start_led,
-    unsigned char   led_count,
-    unsigned char*  led_data
-    )
-{
-    unsigned char usb_buf[65];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    /*-----------------------------------------------------*\
-    | Set up message packet                                 |
-    \*-----------------------------------------------------*/
-    usb_buf[0x00]   = 0xEC;
-    usb_buf[0x01]   = AURA_ADDRESSABLE_CONTROL_MODE_DIRECT;
-    usb_buf[0x02]   = device;
-    usb_buf[0x03]   = start_led;
-    usb_buf[0x04]   = led_count;
-
-    /*-----------------------------------------------------*\
-    | Copy in color data bytes                              |
-    \*-----------------------------------------------------*/
-    memcpy(&usb_buf[0x05], led_data, led_count * 3);
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-}
-
 void AuraAddressableController::SendDirectApply
     (
     unsigned char   channel
@@ -163,7 +134,7 @@ void AuraAddressableController::SendDirectApply
     | Set up message packet                                 |
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0xEC;
-    usb_buf[0x01]   = AURA_ADDRESSABLE_CONTROL_MODE_DIRECT;
+    usb_buf[0x01]   = AURA_CONTROL_MODE_DIRECT;
     usb_buf[0x02]   = 0x80 | channel;
 
     /*-----------------------------------------------------*\
