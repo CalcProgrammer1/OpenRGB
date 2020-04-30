@@ -11,8 +11,10 @@
 #ifndef I2C_SMBUS_H
 #define I2C_SMBUS_H
 
-#include <thread>
 #include <atomic>
+#include <thread>
+#include <condition_variable>
+#include <mutex>
 
 typedef unsigned char   u8;
 typedef unsigned short  u16;
@@ -83,8 +85,15 @@ public:
 private:
     std::thread *       i2c_smbus_thread;
 
-    std::atomic<bool>   i2c_smbus_done;
-    std::atomic<bool>   i2c_smbus_inuse;
+    std::atomic<bool>       i2c_smbus_start;
+    std::condition_variable i2c_smbus_start_cv;
+    std::mutex              i2c_smbus_start_mutex;
+
+    std::atomic<bool>       i2c_smbus_done;
+    std::condition_variable i2c_smbus_done_cv;
+    std::mutex              i2c_smbus_done_mutex;
+
+    std::mutex              i2c_smbus_xfer_mutex;
 
     u8                  i2c_addr;
     char                i2c_read_write;

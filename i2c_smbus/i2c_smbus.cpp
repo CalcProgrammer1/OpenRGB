@@ -22,8 +22,6 @@ static void Sleep(unsigned int milliseconds)
 
 i2c_smbus_interface::i2c_smbus_interface()
 {
-    i2c_smbus_done   = true;
-    i2c_smbus_inuse  = false;
     i2c_smbus_thread = new std::thread(&i2c_smbus_interface::i2c_smbus_thread_function, this);
 }
 
@@ -151,13 +149,7 @@ s32 i2c_smbus_interface::i2c_smbus_xfer_call(u8 addr, char read_write, u8 comman
 {
     s32 ret_val = 0;
 
-    printf("i2c smbus xfer call\r\n");
-    while(i2c_smbus_inuse.load() == true || i2c_smbus_done.load() == false)
-    {
-        Sleep(1);
-    }
-
-    i2c_smbus_inuse = true;
+    i2c_smbus_xfer_mutex.lock();
 
     i2c_addr        = addr;
     i2c_read_write  = read_write;
@@ -165,35 +157,37 @@ s32 i2c_smbus_interface::i2c_smbus_xfer_call(u8 addr, char read_write, u8 comman
     i2c_size        = size;
     i2c_data        = data;
 
-    i2c_smbus_done  = false;
+    std::unique_lock<std::mutex> start_lock(i2c_smbus_start_mutex);
+    i2c_smbus_start = true;
+    i2c_smbus_start_cv.notify_all();
+    start_lock.unlock();
 
-    while(i2c_smbus_done.load() == false)
-    {
-        Sleep(1);
-    }
+    std::unique_lock<std::mutex> done_lock(i2c_smbus_done_mutex);
+
+    i2c_smbus_done_cv.wait(done_lock, [this]{ return i2c_smbus_done.load(); });
+    i2c_smbus_done  = false;
 
     ret_val         = i2c_ret;
 
-    i2c_smbus_inuse = false;
+    i2c_smbus_xfer_mutex.unlock();
 
     return(i2c_ret);
 }
 
 void i2c_smbus_interface::i2c_smbus_thread_function()
 {
-    printf( "i2c thread function start\r\n" );
-
     while(1)
     {
-        while(i2c_smbus_inuse.load() == false || i2c_smbus_done.load() == true)
-        {
-            Sleep(1);
-        }
+        std::unique_lock<std::mutex> start_lock(i2c_smbus_start_mutex);
 
-        printf("i2c xfer: addr %02X R/W %d command %02X size %02X dataptr %X\r\n", i2c_addr, i2c_read_write, i2c_command, i2c_size, i2c_data);
+        i2c_smbus_start_cv.wait(start_lock, [this]{ return i2c_smbus_start.load(); });
+        i2c_smbus_start = false;
 
         i2c_ret = i2c_smbus_xfer(i2c_addr, i2c_read_write, i2c_command, i2c_size, i2c_data);
 
-        i2c_smbus_done = true;
+        std::unique_lock<std::mutex> done_lock(i2c_smbus_done_mutex);
+        i2c_smbus_done  = true;
+        i2c_smbus_done_cv.notify_all();
+        done_lock.unlock();
     }
 }
