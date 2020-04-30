@@ -325,7 +325,7 @@ void DetectNZXTKrakenControllers(std::vector<RGBController*>& rgb_controllers);
 
 void DetectRGBControllers(void)
 {
-    //DetectI2CBusses();
+    DetectI2CBusses();
 
     DetectAuraSMBusControllers(busses, rgb_controllers);
     DetectAuraGPUControllers(busses, rgb_controllers);

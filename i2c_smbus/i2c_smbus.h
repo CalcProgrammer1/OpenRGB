@@ -11,6 +11,9 @@
 #ifndef I2C_SMBUS_H
 #define I2C_SMBUS_H
 
+#include <thread>
+#include <atomic>
+
 typedef unsigned char   u8;
 typedef unsigned short  u16;
 typedef unsigned int    u32;
@@ -54,7 +57,10 @@ class i2c_smbus_interface
 public:
     char device_name[512];
 
+    i2c_smbus_interface();
     virtual ~i2c_smbus_interface() = default;
+
+    void i2c_smbus_thread_function();
 
     //Functions derived from i2c-core.c
     s32 i2c_smbus_write_quick(u8 addr, u8 value);
@@ -69,8 +75,23 @@ public:
     s32 i2c_smbus_read_i2c_block_data(u8 addr, u8 command, u8 length, u8 *values);
     s32 i2c_smbus_write_i2c_block_data(u8 addr, u8 command, u8 length, const u8 *values);
 
+    s32 i2c_smbus_xfer_call(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
+
     //Virtual function to be implemented by the driver
     virtual s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data) = 0;
+
+private:
+    std::thread *       i2c_smbus_thread;
+
+    std::atomic<bool>   i2c_smbus_done;
+    std::atomic<bool>   i2c_smbus_inuse;
+
+    u8                  i2c_addr;
+    char                i2c_read_write;
+    u16                 i2c_command;
+    int                 i2c_size;
+    i2c_smbus_data*     i2c_data;
+    s32                 i2c_ret;
 };
 
 #endif /* I2C_SMBUS_H */

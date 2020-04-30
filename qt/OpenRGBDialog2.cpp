@@ -202,7 +202,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     /*-----------------------------------------------------*\
     | Show the I2C Tools page only if enabled               |
     \*-----------------------------------------------------*/
-    if(false) //TODO: SMBus Tools enable flag
+    if(true) //TODO: SMBus Tools enable flag
     {
         OpenRGBSystemInfoPage *SMBusToolsPage = new OpenRGBSystemInfoPage(bus);
         ui->InformationTabBar->addTab(SMBusToolsPage, "");
@@ -234,7 +234,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     SoftwareTabLabel->setIndent(20);
     SoftwareTabLabel->setGeometry(0, 0, 200, 20);
 
-    if(false) //TODO: SMBus Tools enable flag
+    if(true) //TODO: SMBus Tools enable flag
     {
         InformationTabBar->setTabButton(control.size() + 1, QTabBar::LeftSide, SoftwareTabLabel);
     }
