@@ -126,26 +126,28 @@ void RGBController_AuraUSB::SetupZones()
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
+    int addressableCounter = 1;
     for (unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
         AuraDeviceInfo device_info = aura->GetAuraDevices()[channel_idx];
-        char ch_idx_string[2];
-        sprintf(ch_idx_string, "%d", channel_idx + 1);
 
-        zones[channel_idx].name     = "Aura Channel ";
-        zones[channel_idx].name.append(ch_idx_string);
         zones[channel_idx].type     = ZONE_TYPE_LINEAR;
 
         if(device_info.device_type == AuraDeviceType::FIXED)
         {
+            zones[channel_idx].name       = "Aura Mainboard";
             zones[channel_idx].leds_min   = device_info.num_leds;
             zones[channel_idx].leds_max   = device_info.num_leds;
             zones[channel_idx].leds_count = device_info.num_leds;
         }
         else
         {
+            zones[channel_idx].name       = "Aura Addressable ";
+            zones[channel_idx].name.append(std::to_string(addressableCounter));
             zones[channel_idx].leds_min   = 0;
             zones[channel_idx].leds_max   = AURA_ADDRESSABLE_MAX_LEDS;
+
+            addressableCounter++;
 
             if(first_run)
             {
@@ -156,14 +158,10 @@ void RGBController_AuraUSB::SetupZones()
 
         for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
-            char led_idx_string[4];
-            sprintf(led_idx_string, "%d", led_ch_idx + 1);
-
             led new_led;
-            new_led.name = "Aura Channel ";
-            new_led.name.append(ch_idx_string);
+            new_led.name = zones[channel_idx].name;
             new_led.name.append(", LED ");
-            new_led.name.append(led_idx_string);
+            new_led.name.append(std::to_string(led_ch_idx + 1));
             new_led.value = channel_idx;
 
             leds.push_back(new_led);

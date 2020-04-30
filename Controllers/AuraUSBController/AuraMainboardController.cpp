@@ -32,69 +32,35 @@ AuraMainboardController::~AuraMainboardController()
 
 void AuraMainboardController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
 {
-    SendEffect(device_info[channel].effect_channel, mode);
+    unsigned char   led_data[60];
+    unsigned int    leds_sent = 0;
 
-    if(mode == AURA_MODE_DIRECT)
+    while(leds_sent < num_colors)
     {
-        unsigned char   led_data[60];
-        unsigned int    leds_sent = 0;
+        unsigned int leds_to_send = 20;
 
-        while(leds_sent < num_colors)
+        if((num_colors - leds_sent) < leds_to_send)
         {
-            unsigned int leds_to_send = 20;
-
-            if((num_colors - leds_sent) < leds_to_send)
-            {
-                leds_to_send = num_colors - leds_sent;
-            }
-
-            for(int led_idx = 0; led_idx < leds_to_send; led_idx++)
-            {
-                led_data[(led_idx * 3) + 0] = RGBGetRValue(colors[led_idx + leds_sent]);
-                led_data[(led_idx * 3) + 1] = RGBGetGValue(colors[led_idx + leds_sent]);
-                led_data[(led_idx * 3) + 2] = RGBGetBValue(colors[led_idx + leds_sent]);
-            }
-
-            SendDirect
-            (
-                device_info[channel].direct_channel,
-                leds_sent,
-                leds_to_send,
-                led_data,
-                leds_sent + leds_to_send >= num_colors
-            );
-
-            leds_sent += leds_to_send;
-        }
-    }
-    else
-    {
-        RGBColor color;
-        unsigned char   led_data[60];
-        unsigned char   start_led = 0;
-
-        for(std::size_t i = 0; i < channel; ++i)
-        {
-            start_led += device_info[i].num_leds;
+            leds_to_send = num_colors - leds_sent;
         }
 
-        color = num_colors < 1 ? ToRGBColor(0x00, 0x00, 0x00) : colors[0];
-
-        for(std::size_t led_idx = 0; led_idx < device_info[channel].num_leds; led_idx++)
+        for(int led_idx = 0; led_idx < leds_to_send; led_idx++)
         {
-            led_data[(led_idx * 3) + 0] = RGBGetRValue(color);
-            led_data[(led_idx * 3) + 1] = RGBGetGValue(color);
-            led_data[(led_idx * 3) + 2] = RGBGetBValue(color);
+            led_data[(led_idx * 3) + 0] = RGBGetRValue(colors[led_idx + leds_sent]);
+            led_data[(led_idx * 3) + 1] = RGBGetGValue(colors[led_idx + leds_sent]);
+            led_data[(led_idx * 3) + 2] = RGBGetBValue(colors[led_idx + leds_sent]);
         }
 
-        SendColor
+        SendDirect
         (
-            channel,
-            start_led,
-            device_info[channel].num_leds,
+            device_info[channel].direct_channel,
+            leds_sent,
+            leds_to_send,
             led_data,
-            device_info[channel].device_type == AuraDeviceType::FIXED
+            leds_sent + leds_to_send >= num_colors
         );
+
+        leds_sent += leds_to_send;
     }
 
     SendCommit();
@@ -112,7 +78,37 @@ void AuraMainboardController::SetMode
     this->mode = mode;
     RGBColor color = ToRGBColor(red, grn, blu);
 
-    SetChannelLEDs(channel, &color, 1);
+    SendEffect(device_info[channel].effect_channel, mode);
+    if(mode == AURA_MODE_DIRECT)
+    {
+        return;
+    }
+
+    unsigned char   led_data[60];
+    unsigned char   start_led = 0;
+
+    for(std::size_t i = 0; i < channel; ++i)
+    {
+        start_led += device_info[i].num_leds;
+    }
+
+    for(std::size_t led_idx = 0; led_idx < device_info[channel].num_leds; led_idx++)
+    {
+        led_data[(led_idx * 3) + 0] = RGBGetRValue(color);
+        led_data[(led_idx * 3) + 1] = RGBGetGValue(color);
+        led_data[(led_idx * 3) + 2] = RGBGetBValue(color);
+    }
+
+    SendColor
+    (
+        channel,
+        start_led,
+        device_info[channel].num_leds,
+        led_data,
+        device_info[channel].device_type == AuraDeviceType::FIXED
+    );
+
+    SendCommit();
 }
 
 void AuraMainboardController::SendEffect
