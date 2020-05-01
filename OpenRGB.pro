@@ -79,6 +79,7 @@ SOURCES +=                                                              \
     net_port/net_port.cpp                                               \
     qt/OpenRGBDialog2.cpp                                               \
     qt/OpenRGBProfileSaveDialog.cpp                                     \
+    qt/OpenRGBServerInfoPage.cpp \
     qt/OpenRGBSoftwareInfoPage.cpp                                      \
     qt/OpenRGBSystemInfoPage.cpp                                        \
     qt/OpenRGBZoneResizeDialog.cpp                                      \
@@ -191,6 +192,7 @@ HEADERS +=                                                              \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBProfileSaveDialog.h                                       \
+    qt/OpenRGBServerInfoPage.h \
     qt/OpenRGBSoftwareInfoPage.h                                        \
     qt/OpenRGBSystemInfoPage.h                                          \
     qt/OpenRGBZoneResizeDialog.h                                        \
@@ -267,6 +269,7 @@ FORMS += \
     qt/OpenRGBDialog.ui \
     qt/OpenRGBDialog2.ui \
     qt/OpenRGBProfileSaveDialog.ui \
+    qt/OpenRGBServerInfoPage.ui \
     qt/OpenRGBSoftwareInfoPage.ui \
     qt/OpenRGBSystemInfoPage.ui \
     qt/OpenRGBZoneResizeDialog.ui
