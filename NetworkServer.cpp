@@ -1,6 +1,18 @@
 #include "NetworkServer.h"
 #include <cstring>
 
+#ifndef WIN32
+#include <sys/ioctl.h>
+#include <netinet/tcp.h>
+#include <sys/types.h>
+#endif
+#include <memory.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <iostream>
+
+const char yes = 1;
+
 #ifdef WIN32
 #include <Windows.h>
 #else
@@ -42,13 +54,56 @@ void NetworkServer::StartServer()
     char port_str[6];
     snprintf(port_str, 6, "%d", port_num);
 
-    if(port.tcp_server(port_str))
-    {
-        server_online = true;
+    sockaddr_in myAddress;
 
-        //Start the connection thread
-        ConnectionThread = new std::thread(&NetworkServer::ConnectionThreadFunction, this);
+    /*-------------------------------------------------*\
+    | Windows requires WSAStartup before using sockets  |
+    \*-------------------------------------------------*/
+#ifdef WIN32
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != NO_ERROR)
+    {
+        WSACleanup();
+        return false;
     }
+#endif
+
+    /*-------------------------------------------------*\
+    | Create the server socket                          |
+    \*-------------------------------------------------*/
+    server_sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_sock == INVALID_SOCKET)
+    {
+        WSACleanup();
+        return;
+    }
+
+    /*-------------------------------------------------*\
+    | Fill in server address info with port value       |
+    \*-------------------------------------------------*/
+    myAddress.sin_family = AF_INET;
+    myAddress.sin_addr.s_addr = inet_addr("0.0.0.0");
+    myAddress.sin_port = htons(atoi(port_str));
+
+    /*-------------------------------------------------*\
+    | Bind the server socket                            |
+    \*-------------------------------------------------*/
+    if (bind(server_sock, (sockaddr*)&myAddress, sizeof(myAddress)) == SOCKET_ERROR)
+    {
+        WSACleanup();
+        return;
+    }
+
+    /*-------------------------------------------------*\
+    | Set socket options - no delay                     |
+    \*-------------------------------------------------*/
+    setsockopt(server_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
+
+    server_online = true;
+
+    /*-------------------------------------------------*\
+    | Start the connection thread                       |
+    \*-------------------------------------------------*/
+    ConnectionThread = new std::thread(&NetworkServer::ConnectionThreadFunction, this);
 }
 
 void NetworkServer::StopServer()
@@ -62,7 +117,8 @@ void NetworkServer::StopServer()
         ListenThreads[client_idx]->join();
     }
 
-    port.tcp_close();
+    shutdown(server_sock, SD_RECEIVE);
+    closesocket(server_sock);
 
     ConnectionThread->join();
 
@@ -77,7 +133,44 @@ void NetworkServer::ConnectionThreadFunction()
     printf("Network connection thread started\n");
     while(server_online == true)
     {
-        SOCKET * client_sock = port.tcp_server_listen();
+        /*-------------------------------------------------*\
+        | Create new socket for client connection           |
+        \*-------------------------------------------------*/
+        SOCKET * client_sock = new SOCKET();
+
+        /*-------------------------------------------------*\
+        | Listen for incoming client connection on the      |
+        | server socket.  This call blocks until a          |
+        | connection is established                         |
+        \*-------------------------------------------------*/
+        if(listen(server_sock, 10) < 0)
+        {
+            printf("Connection thread closed\r\n");
+            server_online = false;
+
+            return;
+        }
+
+        /*-------------------------------------------------*\
+        | Accept the client connection                      |
+        \*-------------------------------------------------*/
+        *client_sock = accept_select(server_sock, NULL, NULL);
+
+        if(*client_sock < 0)
+        {
+            printf("Connection thread closed\r\n");
+            server_online = false;
+
+            return;
+        }
+
+        /*-------------------------------------------------*\
+        | Get the new client socket and store it in the     |
+        | clients vector                                    |
+        \*-------------------------------------------------*/
+        u_long arg = 0;
+        ioctlsocket(*client_sock, FIONBIO, &arg);
+        setsockopt(*client_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
 
         //Start a listener thread for the new client socket
         std::thread * NewListenThread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_sock);
@@ -86,7 +179,38 @@ void NetworkServer::ConnectionThreadFunction()
         ServerClients.push_back(client_sock);
     }
 
+    printf("Connection thread closed\r\n");
     server_online = false;
+}
+
+int NetworkServer::accept_select(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+{
+    fd_set              set;
+    struct timeval      timeout;
+    timeout.tv_sec      = 5;
+    timeout.tv_usec     = 0;
+
+    while(1)
+    {
+        FD_ZERO(&set);      /* clear the set */
+        FD_SET(sockfd, &set);    /* add our file descriptor to the set */
+
+        int rv = select(sockfd + 1, &set, NULL, NULL, &timeout);
+
+        if(rv == SOCKET_ERROR || server_online == false)
+        {
+            return -1;
+        }
+        else if(rv == 0)
+        {
+            continue;
+        }
+        else
+        {
+            // socket has something to read
+            return(accept(sockfd, addr, addrlen));
+        }
+    }
 }
 
 int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)

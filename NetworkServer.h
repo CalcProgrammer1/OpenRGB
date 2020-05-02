@@ -36,7 +36,8 @@ protected:
     std::thread *                   ConnectionThread;
 
 private:
-    net_port    port;
+    SOCKET          server_sock;
 
+    int             accept_select(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
     int             recv_select(SOCKET s, char *buf, int len, int flags);
 };
