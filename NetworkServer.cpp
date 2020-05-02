@@ -14,11 +14,60 @@ static void Sleep(unsigned int milliseconds)
 
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
-    //Start a TCP server and launch threads
-    port.tcp_server("1337");
+    port_num      = 1337;
+    server_online = false;
+}
 
-    //Start the connection thread
-    ConnectionThread = new std::thread(&NetworkServer::ConnectionThreadFunction, this);
+unsigned short NetworkServer::GetPort()
+{
+    return port_num;
+}
+
+bool NetworkServer::GetOnline()
+{
+    return server_online;
+}
+
+void NetworkServer::SetPort(unsigned short new_port)
+{
+    if(server_online == false)
+    {
+        port_num = new_port;
+    }
+}
+
+void NetworkServer::StartServer()
+{
+    //Start a TCP server and launch threads
+    char port_str[6];
+    snprintf(port_str, 6, "%d", port_num);
+
+    if(port.tcp_server(port_str))
+    {
+        server_online = true;
+
+        //Start the connection thread
+        ConnectionThread = new std::thread(&NetworkServer::ConnectionThreadFunction, this);
+    }
+}
+
+void NetworkServer::StopServer()
+{
+    server_online = false;
+
+    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        shutdown(*ServerClients[client_idx], SD_RECEIVE);
+        closesocket(*ServerClients[client_idx]);
+        ListenThreads[client_idx]->join();
+    }
+
+    port.tcp_close();
+
+    ConnectionThread->join();
+
+    ServerClients.clear();
+    ListenThreads.clear();
 }
 
 void NetworkServer::ConnectionThreadFunction()
@@ -26,7 +75,7 @@ void NetworkServer::ConnectionThreadFunction()
     //This thread handles client connections
 
     printf("Network connection thread started\n");
-    while(1)
+    while(server_online == true)
     {
         SOCKET * client_sock = port.tcp_server_listen();
 
@@ -34,6 +83,39 @@ void NetworkServer::ConnectionThreadFunction()
         std::thread * NewListenThread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_sock);
 
         ListenThreads.push_back(NewListenThread);
+        ServerClients.push_back(client_sock);
+    }
+
+    server_online = false;
+}
+
+int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
+{
+    fd_set              set;
+    struct timeval      timeout;
+    timeout.tv_sec      = 5;
+    timeout.tv_usec     = 0;
+
+    while(1)
+    {
+        FD_ZERO(&set);      /* clear the set */
+        FD_SET(s, &set);    /* add our file descriptor to the set */
+
+        int rv = select(s + 1, &set, NULL, NULL, &timeout);
+
+        if(rv == SOCKET_ERROR || server_online == false)
+        {
+            return 0;
+        }
+        else if(rv == 0)
+        {
+            continue;
+        }
+        else
+        {
+            // socket has something to read
+            return(recv(s, buf, len, flags));
+        }
     }
 }
 
@@ -41,14 +123,14 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
 {
     printf("Network server started\n");
     //This thread handles messages received from clients
-    while(1)
+    while(server_online == true)
     {
         NetPacketHeader header;
         int             bytes_read  = 0;
         char *          data        = NULL;
 
         //Read first byte of magic
-        bytes_read = recv(*client_sock, &header.pkt_magic[0], 1, 0);
+        bytes_read = recv_select(*client_sock, &header.pkt_magic[0], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -62,7 +144,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         }
 
         //Read second byte of magic
-        bytes_read = recv(*client_sock, &header.pkt_magic[1], 1, 0);
+        bytes_read = recv_select(*client_sock, &header.pkt_magic[1], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -76,7 +158,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         }
 
         //Read third byte of magic
-        bytes_read = recv(*client_sock, &header.pkt_magic[2], 1, 0);
+        bytes_read = recv_select(*client_sock, &header.pkt_magic[2], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -90,7 +172,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         }
 
         //Read fourth byte of magic
-        bytes_read = recv(*client_sock, &header.pkt_magic[3], 1, 0);
+        bytes_read = recv_select(*client_sock, &header.pkt_magic[3], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -107,12 +189,18 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         bytes_read = 0;
         do
         {
-            bytes_read += recv(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
+            int tmp_bytes_read = 0;
 
-            if(bytes_read == 0)
+            tmp_bytes_read = recv_select(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
+
+            bytes_read += tmp_bytes_read;
+
+            if(tmp_bytes_read == 0)
             {
+                printf("Server connection closed\r\n");
                 break;
             }
+
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
         //printf( "Server: Received header, now receiving data of size %d\r\n", header.pkt_size);
@@ -120,13 +208,23 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         //Header received, now receive the data
         if(header.pkt_size > 0)
         {
-            unsigned int bytes_read = 0;
+            bytes_read = 0;
 
             data = new char[header.pkt_size];
 
             do
             {
-                bytes_read += recv(*client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
+                int tmp_bytes_read = 0;
+
+                tmp_bytes_read = recv_select(*client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
+
+                if(tmp_bytes_read == 0)
+                {
+                    printf("Server connection closed\r\n");
+                    return;
+                }
+                bytes_read += tmp_bytes_read;
+
             } while (bytes_read < header.pkt_size);
         }
 
