@@ -63,7 +63,7 @@ void NetworkServer::StartServer()
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != NO_ERROR)
     {
         WSACleanup();
-        return false;
+        return;
     }
 #endif
 

@@ -36,6 +36,10 @@ protected:
     std::thread *                   ConnectionThread;
 
 private:
+#ifdef WIN32
+    WSADATA     wsa;
+#endif
+
     SOCKET          server_sock;
 
     int             accept_select(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
