@@ -33,6 +33,7 @@
 #define WSACleanup()
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
+#define SD_RECEIVE SHUT_RD
 #endif
 
 //Network Port Class
