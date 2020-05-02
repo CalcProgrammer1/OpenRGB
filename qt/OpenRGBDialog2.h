@@ -7,6 +7,7 @@
 #include "i2c_smbus.h"
 #include "RGBController.h"
 #include "ProfileManager.h"
+#include "NetworkServer.h"
 
 #include <QMainWindow>
 #include <QTimer>
@@ -23,7 +24,7 @@ class Ui::OpenRGBDialog2 : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager& manager, QWidget *parent = 0);
+    explicit OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, NetworkServer* server, QWidget *parent = 0);
     ~OpenRGBDialog2();
 
     void show();
@@ -32,7 +33,8 @@ public:
 protected:
     std::vector<i2c_smbus_interface *>& busses;
     std::vector<RGBController *>&       controllers;
-    ProfileManager&                     profile_manager;
+    ProfileManager*                     profile_manager;
+    NetworkServer*                      network_server;
 
 private:
     Ui::OpenRGBDialog2Ui *ui;

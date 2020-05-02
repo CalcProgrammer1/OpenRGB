@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
-    Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, profile_manager);
+    Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, &profile_manager, &server);
     dlg.show();
 
     return a.exec();
