@@ -15,12 +15,48 @@ static void Sleep(unsigned int milliseconds)
 
 NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
 {
-    unsigned int requested_controllers;
-
-    port.tcp_client("127.0.0.1", "1337");
-
+    strcpy(port_ip, "127.0.0.1");
+    port_num                = 1337;
     server_connected        = false;
     server_controller_count = 0;
+}
+
+unsigned short NetworkClient::GetPort()
+{
+    return port_num;
+}
+
+bool NetworkClient::GetOnline()
+{
+    return server_connected;
+}
+
+void NetworkClient::SetIP(const char *new_ip)
+{
+    if(server_connected == false)
+    {
+        strcpy(port_ip, new_ip);
+    }
+}
+
+void NetworkClient::SetPort(unsigned short new_port)
+{
+    if(server_connected == false)
+    {
+        port_num = new_port;
+    }
+}
+
+void NetworkClient::StartClient()
+{
+    unsigned int requested_controllers;
+
+    //Start a TCP server and launch threads
+    char port_str[6];
+    snprintf(port_str, 6, "%d", port_num);
+
+    port.tcp_client(port_ip, port_str);
+
     requested_controllers   = 0;
 
     //Start the connection thread
@@ -68,6 +104,11 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     {
         controllers.push_back(server_controllers[controller_idx]);
     }
+}
+
+void NetworkClient::StopClient()
+{
+
 }
 
 void NetworkClient::ConnectionThreadFunction()
