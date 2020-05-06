@@ -11,8 +11,18 @@ class NetworkClient
 public:
     NetworkClient(std::vector<RGBController *>& control);
 
-    void        ConnectionThreadFunction();
-    void        ListenThreadFunction();
+    const char *    GetIP();
+    unsigned short  GetPort();
+    bool            GetOnline();
+
+    void            SetIP(const char *new_ip);
+    void            SetPort(unsigned short new_port);
+
+    void            StartClient();
+    void            StopClient();
+
+    void            ConnectionThreadFunction();
+    void            ListenThreadFunction();
 
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
@@ -36,6 +46,8 @@ protected:
 
 private:
     net_port        port;
+    char            port_ip[20];
+    unsigned short  port_num;
     bool            server_connected;
     unsigned int    server_controller_count;
 
