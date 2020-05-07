@@ -35,6 +35,13 @@ enum
     RGB_FUSION_2_MODE_FLASHING      = 0x05,     /* Flashing / Double Flashing mode  */
 };
 
+enum
+{
+    RGB_FUSION_2_SPEED_FAST         = 0x01,
+    RGB_FUSION_2_SPEED_NORMAL       = 0x02,
+    RGB_FUSION_2_SPEED_SLOW         = 0x04
+};
+
 class RGBFusion2SMBusController
 {
 public:
@@ -42,6 +49,7 @@ public:
     ~RGBFusion2SMBusController();
 
     std::string     GetDeviceLocation();
+    unsigned int    GetLEDCount();
     
     void            SetLEDEffect
                         (
@@ -59,4 +67,4 @@ private:
     rgb_fusion_dev_id       dev;
 
     unsigned char           led_data[10][16];
-}
+};

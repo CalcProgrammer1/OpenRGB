@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 
 /******************************************************************************************\
 *                                                                                          *
@@ -20,7 +21,6 @@ bool TestForRGBFusion2SMBusController(i2c_smbus_interface* bus, unsigned char ad
     bool pass = false;
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
-
     if (res >= 0)
     {
         pass = true;
@@ -55,13 +55,18 @@ void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses,
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for RGB Fusion 2 controller at 0x68
-        if (TestForRGBFusion2SMBusController(busses[bus], 0x68))
-        {
-            new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68);
-            new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
-            rgb_controllers.push_back(new_controller);
-        }
+	// TODO - Is this necessary? Or an artifact of my own system?
+	// Skip dmcd devices
+        std::string device_name = std::string(busses[bus]->device_name);
+	if (device_name.find("dmdc") == std::string::npos) {
+		// Check for RGB Fusion 2 controller at 0x68
+		if (TestForRGBFusion2SMBusController(busses[bus], 0x68))
+		{
+		    new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68);
+		    new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
+		    rgb_controllers.push_back(new_controller);
+		}
+	}
     }
 
 }   /* DetectRGBFusion2SMBusControllers() */
