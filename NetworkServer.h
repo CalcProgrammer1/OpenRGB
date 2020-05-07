@@ -11,6 +11,7 @@ struct NetworkClientInfo
     SOCKET          client_sock;
     std::thread *   client_listen_thread;
     std::string     client_string;
+    char            client_ip[INET_ADDRSTRLEN];
 };
 
 class NetworkServer
@@ -21,7 +22,8 @@ public:
     unsigned short                      GetPort();
     bool                                GetOnline();
     unsigned int                        GetNumClients();
-    std::string                         GetClientString(unsigned int client_num);
+    const char *                        GetClientString(unsigned int client_num);
+    const char *                        GetClientIP(unsigned int client_num);
 
     void                                SetPort(unsigned short new_port);
 

@@ -36,6 +36,18 @@ void OpenRGBServerInfoPage::UpdateInfo()
         ui->ServerStopButton->setEnabled(false);
         ui->ServerPortValue->setEnabled(true);
     }
+
+    ui->ServerClientTree->clear();
+    ui->ServerClientTree->setColumnCount(2);
+    for(unsigned int client_idx = 0; client_idx < network_server->GetNumClients(); client_idx++)
+    {
+        QTreeWidgetItem * new_item = new QTreeWidgetItem();
+
+        new_item->setText(0, network_server->GetClientIP(client_idx));
+        new_item->setText(1, network_server->GetClientString(client_idx));
+
+        ui->ServerClientTree->addTopLevelItem(new_item);
+    }
 }
 
 void Ui::OpenRGBServerInfoPage::on_ServerStartButton_clicked()
