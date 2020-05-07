@@ -6,34 +6,42 @@
 
 #pragma once
 
+struct NetworkClientInfo
+{
+    SOCKET          client_sock;
+    std::thread *   client_listen_thread;
+    std::string     client_string;
+};
+
 class NetworkServer
 {
 public:
     NetworkServer(std::vector<RGBController *>& control);
 
-    unsigned short  GetPort();
-    bool            GetOnline();
+    unsigned short                      GetPort();
+    bool                                GetOnline();
+    unsigned int                        GetNumClients();
+    std::string                         GetClientString(unsigned int client_num);
 
-    void            SetPort(unsigned short new_port);
+    void                                SetPort(unsigned short new_port);
 
-    void            StartServer();
-    void            StopServer();
+    void                                StartServer();
+    void                                StopServer();
 
-    void            ConnectionThreadFunction();
-    void            ListenThreadFunction(SOCKET * client_sock);
+    void                                ConnectionThreadFunction();
+    void                                ListenThreadFunction(NetworkClientInfo * client_sock);
 
-    void        SendReply_ControllerCount(SOCKET * client_sock);
-    void        SendReply_ControllerData(SOCKET * client_sock, unsigned int dev_idx);
+    void                                SendReply_ControllerCount(SOCKET client_sock);
+    void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx);
 
 protected:
-    unsigned short                  port_num;
-    bool                            server_online;
+    unsigned short                      port_num;
+    bool                                server_online;
 
-    std::vector<RGBController *>&   controllers;
+    std::vector<RGBController *>&       controllers;
 
-    std::vector<SOCKET *>           ServerClients;
-    std::vector<std::thread *>      ListenThreads;
-    std::thread *                   ConnectionThread;
+    std::vector<NetworkClientInfo *>    ServerClients;
+    std::thread *                       ConnectionThread;
 
 private:
 #ifdef WIN32
