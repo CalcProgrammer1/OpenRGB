@@ -5,6 +5,9 @@
 #include <sys/ioctl.h>
 #include <netinet/tcp.h>
 #include <sys/types.h>
+#include <arpa/inet.h>
+#else
+#include <ws2tcpip.h>
 #endif
 #include <memory.h>
 #include <errno.h>
@@ -38,6 +41,35 @@ unsigned short NetworkServer::GetPort()
 bool NetworkServer::GetOnline()
 {
     return server_online;
+}
+
+unsigned int NetworkServer::GetNumClients()
+{
+    return ServerClients.size();
+}
+
+const char * NetworkServer::GetClientString(unsigned int client_num)
+{
+    if(client_num < ServerClients.size())
+    {
+        return ServerClients[client_num]->client_string.c_str();
+    }
+    else
+    {
+        return "";
+    }
+}
+
+const char * NetworkServer::GetClientIP(unsigned int client_num)
+{
+    if(client_num < ServerClients.size())
+    {
+        return ServerClients[client_num]->client_ip;
+    }
+    else
+    {
+        return "";
+    }
 }
 
 void NetworkServer::SetPort(unsigned short new_port)
@@ -158,7 +190,9 @@ void NetworkServer::ConnectionThreadFunction()
         /*-------------------------------------------------*\
         | Accept the client connection                      |
         \*-------------------------------------------------*/
-        client_info->client_sock = accept_select(server_sock, NULL, NULL);
+        struct sockaddr_in client_addr;
+        socklen_t          client_addr_len = sizeof(client_addr);
+        client_info->client_sock = accept_select(server_sock, (struct sockaddr *)&client_addr, &client_addr_len);
 
         if(client_info->client_sock < 0)
         {
@@ -175,6 +209,10 @@ void NetworkServer::ConnectionThreadFunction()
         u_long arg = 0;
         ioctlsocket(client_info->client_sock, FIONBIO, &arg);
         setsockopt(client_info->client_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
+
+        inet_ntop(AF_INET, &client_addr.sin_addr, client_info->client_ip, INET_ADDRSTRLEN);
+
+        client_info->client_string = "Client";
 
         //Start a listener thread for the new client socket
         client_info->client_listen_thread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_info);
