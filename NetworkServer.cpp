@@ -112,9 +112,9 @@ void NetworkServer::StopServer()
 
     for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
     {
-        shutdown(*ServerClients[client_idx], SD_RECEIVE);
-        closesocket(*ServerClients[client_idx]);
-        ListenThreads[client_idx]->join();
+        shutdown(ServerClients[client_idx]->client_sock, SD_RECEIVE);
+        closesocket(ServerClients[client_idx]->client_sock);
+        ServerClients[client_idx]->client_listen_thread->join();
     }
 
     shutdown(server_sock, SD_RECEIVE);
@@ -122,8 +122,12 @@ void NetworkServer::StopServer()
 
     ConnectionThread->join();
 
+    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        delete[] ServerClients[client_idx];
+    }
+
     ServerClients.clear();
-    ListenThreads.clear();
 }
 
 void NetworkServer::ConnectionThreadFunction()
@@ -136,7 +140,7 @@ void NetworkServer::ConnectionThreadFunction()
         /*-------------------------------------------------*\
         | Create new socket for client connection           |
         \*-------------------------------------------------*/
-        SOCKET * client_sock = new SOCKET();
+        NetworkClientInfo * client_info = new NetworkClientInfo();
 
         /*-------------------------------------------------*\
         | Listen for incoming client connection on the      |
@@ -154,9 +158,9 @@ void NetworkServer::ConnectionThreadFunction()
         /*-------------------------------------------------*\
         | Accept the client connection                      |
         \*-------------------------------------------------*/
-        *client_sock = accept_select(server_sock, NULL, NULL);
+        client_info->client_sock = accept_select(server_sock, NULL, NULL);
 
-        if(*client_sock < 0)
+        if(client_info->client_sock < 0)
         {
             printf("Connection thread closed\r\n");
             server_online = false;
@@ -169,14 +173,13 @@ void NetworkServer::ConnectionThreadFunction()
         | clients vector                                    |
         \*-------------------------------------------------*/
         u_long arg = 0;
-        ioctlsocket(*client_sock, FIONBIO, &arg);
-        setsockopt(*client_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
+        ioctlsocket(client_info->client_sock, FIONBIO, &arg);
+        setsockopt(client_info->client_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
 
         //Start a listener thread for the new client socket
-        std::thread * NewListenThread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_sock);
+        client_info->client_listen_thread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_info);
 
-        ListenThreads.push_back(NewListenThread);
-        ServerClients.push_back(client_sock);
+        ServerClients.push_back(client_info);
     }
 
     printf("Connection thread closed\r\n");
@@ -243,8 +246,10 @@ int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
     }
 }
 
-void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
+void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 {
+    SOCKET client_sock = client_info->client_sock;
+
     printf("Network server started\n");
     //This thread handles messages received from clients
     while(server_online == true)
@@ -254,7 +259,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         char *          data        = NULL;
 
         //Read first byte of magic
-        bytes_read = recv_select(*client_sock, &header.pkt_magic[0], 1, 0);
+        bytes_read = recv_select(client_sock, &header.pkt_magic[0], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -268,7 +273,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         }
 
         //Read second byte of magic
-        bytes_read = recv_select(*client_sock, &header.pkt_magic[1], 1, 0);
+        bytes_read = recv_select(client_sock, &header.pkt_magic[1], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -282,7 +287,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         }
 
         //Read third byte of magic
-        bytes_read = recv_select(*client_sock, &header.pkt_magic[2], 1, 0);
+        bytes_read = recv_select(client_sock, &header.pkt_magic[2], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -296,7 +301,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         }
 
         //Read fourth byte of magic
-        bytes_read = recv_select(*client_sock, &header.pkt_magic[3], 1, 0);
+        bytes_read = recv_select(client_sock, &header.pkt_magic[3], 1, 0);
 
         if(bytes_read == 0)
         {
@@ -315,7 +320,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
         {
             int tmp_bytes_read = 0;
 
-            tmp_bytes_read = recv_select(*client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
+            tmp_bytes_read = recv_select(client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
 
             bytes_read += tmp_bytes_read;
 
@@ -340,7 +345,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
             {
                 int tmp_bytes_read = 0;
 
-                tmp_bytes_read = recv_select(*client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
+                tmp_bytes_read = recv_select(client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
 
                 if(tmp_bytes_read == 0)
                 {
@@ -447,7 +452,7 @@ void NetworkServer::ListenThreadFunction(SOCKET * client_sock)
     printf("Server connection closed\r\n");
 }
 
-void NetworkServer::SendReply_ControllerCount(SOCKET * client_sock)
+void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
 {
     NetPacketHeader reply_hdr;
     unsigned int    reply_data;
@@ -463,11 +468,11 @@ void NetworkServer::SendReply_ControllerCount(SOCKET * client_sock)
 
     reply_data             = controllers.size();
 
-    send(*client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(*client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
+    send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
 }
 
-void NetworkServer::SendReply_ControllerData(SOCKET * client_sock, unsigned int dev_idx)
+void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx)
 {
     if(dev_idx < controllers.size())
     {
@@ -486,7 +491,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET * client_sock, unsigned int 
         reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
         reply_hdr.pkt_size     = reply_size;
 
-        send(*client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-        send(*client_sock, (const char *)reply_data, reply_size, 0);
+        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
+        send(client_sock, (const char *)reply_data, reply_size, 0);
     }
 }

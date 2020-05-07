@@ -256,9 +256,6 @@ void DetectI2CBusses()
                     device_string[strlen(device_string) - 1] = 0x00;
                     
                     close(test_fd);
-                    
-                    bus = new i2c_smbus_linux();
-                    strcpy(bus->device_name, device_string);
 
                     strcpy(device_string, "/dev/");
                     strcat(device_string, ent->d_name);
@@ -266,11 +263,12 @@ void DetectI2CBusses()
 
                     if (test_fd < 0)
                     {
-                        delete bus;
                         ent = readdir(dir);
                         continue;
                     }
 
+                    bus = new i2c_smbus_linux();
+                    strcpy(bus->device_name, device_string);
                     bus->handle = test_fd;
                     busses.push_back(bus);
                 }
