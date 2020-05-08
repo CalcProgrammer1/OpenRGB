@@ -29,6 +29,18 @@ enum
 
 enum
 {
+    RGB_FUSION_2_APPLY_ADDR	    = 0x17,
+    RGB_FUSION_2_LED_START_ADDR     = 0x20,
+    RGB_FUSION_2_SMBUS_ADDR	    = 0x68,
+};
+
+enum
+{
+    RGB_FUSION_2_ACTION_APPLY	    = 0x01ff
+};
+
+enum
+{
     RGB_FUSION_2_MODE_PULSE         = 0x01,     /* Pulse mode                       */
     RGB_FUSION_2_MODE_COLOR_CYCLE   = 0x03,     /* Color cycle mode                 */
     RGB_FUSION_2_MODE_STATIC        = 0x04,     /* Static color mode                */
@@ -50,6 +62,7 @@ public:
 
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
+    void	    Apply();
     
     void            SetLEDEffect
                         (

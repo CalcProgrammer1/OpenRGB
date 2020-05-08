@@ -27,7 +27,6 @@ public:
     void        UpdateSingleLED(int led);
 
     void        SetCustomMode();
-    void        SetMode();
     void        UpdateMode();
 
 private:

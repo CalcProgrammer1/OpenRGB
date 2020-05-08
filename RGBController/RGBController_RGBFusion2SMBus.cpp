@@ -48,10 +48,6 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
 
     type = DEVICE_TYPE_MOTHERBOARD;
 
-    // TODO - Something awry with modes and their default speeds.
-    // Setting individual LEDs work fine, but changing via Mode dropdown causes LEDs
-    // to exceed specified ranges
-
     mode Static;
     Static.name       = "Static";
     Static.value      = RGB_FUSION_2_MODE_STATIC;
@@ -148,8 +144,11 @@ void RGBController_RGBFusion2SMBus::UpdateLEDs()
 
         int mode = modes[active_mode].value;
         unsigned int speed = modes[active_mode].speed;
+
         rgb_fusion->SetLEDEffect(led, mode, speed, red, grn, blu);
     }
+
+    rgb_fusion->Apply();
 }
 
 void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
@@ -161,12 +160,17 @@ void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
 
     int mode = modes[active_mode].value;
     unsigned int speed = modes[active_mode].speed;
+
     rgb_fusion->SetLEDEffect(zone, mode, speed, red, grn, blu);
+    rgb_fusion->Apply();
 }
 
 void RGBController_RGBFusion2SMBus::UpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    // Issuing updates of individual LEDs seems to cause odd speed behavior
+    // Mitigating by writing all LEDs every time
+    // TODO - Further investigation into individual updates may be warranted
+    UpdateLEDs();
 }
 
 // TODO - Research if possible to read device state
@@ -184,3 +188,4 @@ void RGBController_RGBFusion2SMBus::UpdateMode()
 {
 
 }
+
