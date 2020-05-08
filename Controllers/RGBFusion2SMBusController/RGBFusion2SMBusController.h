@@ -98,4 +98,6 @@ private:
     rgb_fusion_dev_id       dev;
 
     unsigned char           led_data[10][16];
+
+    void		    WriteLED(int);
 };

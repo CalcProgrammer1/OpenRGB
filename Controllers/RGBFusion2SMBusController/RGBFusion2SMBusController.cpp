@@ -43,31 +43,38 @@ std::string RGBFusion2SMBusController::GetDeviceLocation()
     return(return_string);
 }
 
-void RGBFusion2SMBusController::Apply()
+/* Writes are performed in 32 byte chunks. If we need to write the second 16 bytes,
+* we must necessarily write the first 16 as well. Given that reading the existing state
+* from the device is not yet possible, unfortunately we may overwrite existing device
+* states if the state transition did not occur within in the same OpenRGB instance.
+* That is to say, the current behavior is non-deal but the best we have
+*/
+void RGBFusion2SMBusController::WriteLED(int led)
 {
-    /*
-     * Given that reading the existing state from the device is not yet possible,
-     * unfortunately we may overwrite existing device states if the state transition did
-     * not occur within in the same OpenRGB instance.
-     * Current behavior is non-ideal but the best we have.
-     */
-    for (int i = 0; i < 5; i++) {
-        #ifdef DEBUG
-        std::cout << "0x" << std::hex << (int)RGB_FUSION_2_LED_START_ADDR + 2*i << "\t";
-	for (int j = 0; j < 2; j++) {
-	    for (int k = 0; k < 16; k++) {
-                std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)led_data[2*i+j][k] << " ";
-	    }
-	}
-	std::cout << std::endl;
-        #endif
+    unsigned short register_offset = led / 2;	// Relying on integer division to truncate
+    unsigned short write_register = RGB_FUSION_2_LED_START_ADDR + 2*register_offset;
 
-	bus->i2c_smbus_write_block_data(RGB_FUSION_2_SMBUS_ADDR,
-					RGB_FUSION_2_LED_START_ADDR + 2*i,
-					32,			// Writes occur in 32 byte blocks
-					led_data[i*2]);
+    // Adjust if we are writing the second 16 bytes
+    if (led % 2) {
+	led -= 1;
     }
 
+    #ifdef DEBUG
+    std::cout << std::hex << write_register << "\t";
+    for (int i = 0; i < 2; i++) {
+	for (int j = 0; j < 16; j++) {
+	    std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)led_data[led+i][j] << " ";
+	}
+	std::cout << " ";
+    }
+    std::cout << std::endl;
+    #endif
+
+    bus->i2c_smbus_write_block_data(RGB_FUSION_2_SMBUS_ADDR, write_register, 32, led_data[led]);
+}
+
+void RGBFusion2SMBusController::Apply()
+{
     // Protocol expects terminating sequence 0x01ff written to register 0x17
     bus->i2c_smbus_write_word_data(RGB_FUSION_2_SMBUS_ADDR,
 				   RGB_FUSION_2_APPLY_ADDR,
@@ -121,7 +128,8 @@ void RGBFusion2SMBusController::SetLEDEffect
 
 	        led_data[led][RGB_FUSION_2_IDX_OPT_1] = speed;		// Controls number of flashes
 		break;
-
 	}
+
+	WriteLED(led);
 }
 

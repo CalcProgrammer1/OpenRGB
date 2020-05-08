@@ -167,10 +167,7 @@ void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
 
 void RGBController_RGBFusion2SMBus::UpdateSingleLED(int led)
 {
-    // Issuing updates of individual LEDs seems to cause odd speed behavior
-    // Mitigating by writing all LEDs every time
-    // TODO - Further investigation into individual updates may be warranted
-    UpdateLEDs();
+    UpdateZoneLEDs(led);
 }
 
 // TODO - Research if possible to read device state
