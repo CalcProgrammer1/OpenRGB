@@ -88,36 +88,40 @@ void RGBFusion2SMBusController::SetLEDEffect
 	led_data[led][RGB_FUSION_2_IDX_RED]         = red;
 	led_data[led][RGB_FUSION_2_IDX_GREEN]       = green;
 	led_data[led][RGB_FUSION_2_IDX_BLUE]        = blue;
-	led_data[led][RGB_FUSION_2_IDX_BRIGHTNESS]  = 0x64;	// TODO - is this *really* the max value?
+	led_data[led][RGB_FUSION_2_IDX_BRIGHTNESS]  = 0x64;
 
-	// TODO - more thorough understanding could lead to better implementation
-	led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x20 * speed;
-	led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x03 * speed;
-	led_data[led][RGB_FUSION_2_TIMER_2_LSB] = 0x20 * speed;
-	led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0x03 * speed;
+	switch (mode) {
+	    case RGB_FUSION_2_MODE_PULSE:
+		// Timer 1: On time
+		// Timer 2: Off time
+		led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x20 * speed;
+		led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x03 * speed;
+		led_data[led][RGB_FUSION_2_TIMER_2_LSB] = 0x20 * speed;
+		led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0x03 * speed;
+		break;
 
-	// Here be dragons
-	// Purpose of each index is not well understood
-	// Existing values taken from Windows dump
-	// TODO - more thorough understanding could lead to better implementation
-	if (mode == RGB_FUSION_2_MODE_FLASHING) {
-	    led_data[led][0xc] = 0xd0;			// ???
-	    led_data[led][0xd] = 0x07;			// ???
-	    led_data[led][0xe] = 0x01 * speed;		// Controls number of flashes
+	    case RGB_FUSION_2_MODE_COLOR_CYCLE:
+	        // Timer 1: Cycle time
+	        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x00;
+	        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x03 * speed;
+	        led_data[led][RGB_FUSION_2_IDX_OPT_1]   = 0x07;		// Number of colors to cycle through. Valid range [1-7]
+	        led_data[led][RGB_FUSION_2_IDX_OPT_2]   = 0x00;		// Color cycle, or color cycle and pulse. [0,1]
+		break;
 
-	    // Following four fields appear to both important, and magic
-	    // No other values appear to work, but it's probably worth further investigation
-	    led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x64;
-            led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0;
-            led_data[led][RGB_FUSION_2_TIMER_2_LSB] = 0xc8;	// 0x64 * 2 = 0xc8 - Potentially significant?
-            led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0;
+	    case RGB_FUSION_2_MODE_FLASHING:
+	        /* Timer 1: On time
+	         * Timer 2: Interval
+	         * Timer 3: Cycle time */
+		led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x64;
+                led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0;
+                led_data[led][RGB_FUSION_2_TIMER_2_LSB] = 0xc8;
+                led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0;
+                led_data[led][RGB_FUSION_2_TIMER_3_LSB] = 0xd0;
+                led_data[led][RGB_FUSION_2_TIMER_3_MSB] = 0x07;
+
+	        led_data[led][RGB_FUSION_2_IDX_OPT_1] = speed;		// Controls number of flashes
+		break;
+
 	}
-
-	if (mode == RGB_FUSION_2_MODE_COLOR_CYCLE) {
-	    led_data[led][0xc] = 0xd0;			// ???
-	    led_data[led][0xd] = 0x07;			// ???
-	    led_data[led][0xe] = 0x07;			// ???
-	}
-	// End dragons. Well, probably.
 }
 
