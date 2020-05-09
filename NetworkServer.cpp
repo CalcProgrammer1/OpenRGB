@@ -541,7 +541,7 @@ listen_done:
     ClientInfoChanged();
 }
 
-void NetworkServer::ProcessRequest_ClientString(int client_sock, unsigned int data_size, char *data)
+void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
 {
     for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
     {
