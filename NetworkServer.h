@@ -6,6 +6,8 @@
 
 #pragma once
 
+typedef void (*NetServerCallback)(void *);
+
 struct NetworkClientInfo
 {
     SOCKET          client_sock;
@@ -24,6 +26,8 @@ public:
     unsigned int                        GetNumClients();
     const char *                        GetClientString(unsigned int client_num);
     const char *                        GetClientIP(unsigned int client_num);
+
+    void                                RegisterClientInfoChangeCallback(NetServerCallback, void * new_callback_arg);
 
     void                                SetPort(unsigned short new_port);
 
@@ -44,6 +48,9 @@ protected:
 
     std::vector<NetworkClientInfo *>    ServerClients;
     std::thread *                       ConnectionThread;
+
+    std::vector<NetServerCallback>      ClientInfoChangeCallbacks;
+    std::vector<void *>                 ClientInfoChangeCallbackArgs;
 
 private:
 #ifdef WIN32

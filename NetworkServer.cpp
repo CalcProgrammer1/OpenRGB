@@ -72,6 +72,12 @@ const char * NetworkServer::GetClientIP(unsigned int client_num)
     }
 }
 
+void NetworkServer::RegisterClientInfoChangeCallback(NetServerCallback new_callback, void * new_callback_arg)
+{
+    ClientInfoChangeCallbacks.push_back(new_callback);
+    ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
+}
+
 void NetworkServer::SetPort(unsigned short new_port)
 {
     if(server_online == false)
@@ -160,6 +166,14 @@ void NetworkServer::StopServer()
     }
 
     ServerClients.clear();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    {
+        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+    }
 }
 
 void NetworkServer::ConnectionThreadFunction()
@@ -218,6 +232,14 @@ void NetworkServer::ConnectionThreadFunction()
         client_info->client_listen_thread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_info);
 
         ServerClients.push_back(client_info);
+
+        /*-------------------------------------------------*\
+        | Client info has changed, call the callbacks       |
+        \*-------------------------------------------------*/
+        for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+        {
+            ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+        }
     }
 
     printf("Connection thread closed\r\n");
@@ -301,7 +323,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
         if(bytes_read == 0)
         {
-            break;
+            goto listen_done;
         }
 
         //Test first character of magic - 'O'
@@ -315,7 +337,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
         if(bytes_read == 0)
         {
-            break;
+            goto listen_done;
         }
 
         //Test second character of magic - 'R'
@@ -329,7 +351,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
         if(bytes_read == 0)
         {
-            break;
+            goto listen_done;
         }
 
         //Test third character of magic - 'G'
@@ -343,7 +365,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
         if(bytes_read == 0)
         {
-            break;
+            goto listen_done;
         }
 
         //Test fourth character of magic - 'B'
@@ -364,8 +386,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
             if(tmp_bytes_read == 0)
             {
-                printf("Server connection closed\r\n");
-                break;
+                goto listen_done;
             }
 
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
@@ -387,8 +408,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(tmp_bytes_read == 0)
                 {
-                    printf("Server connection closed\r\n");
-                    return;
+                    goto listen_done;
                 }
                 bytes_read += tmp_bytes_read;
 
@@ -487,7 +507,27 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         delete[] data;
     }
 
+listen_done:
     printf("Server connection closed\r\n");
+    shutdown(client_info->client_sock, SD_RECEIVE);
+    closesocket(client_info->client_sock);
+
+    for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
+    {
+        if(ServerClients[this_idx] == client_info)
+        {
+            ServerClients.erase(ServerClients.begin() + this_idx);
+            break;
+        }
+    }
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    {
+        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+    }
 }
 
 void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
