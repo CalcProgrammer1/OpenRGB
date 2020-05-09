@@ -2,6 +2,13 @@
 
 using namespace Ui;
 
+static void UpdateInfoCallback(void * this_ptr)
+{
+    OpenRGBServerInfoPage * this_obj = (OpenRGBServerInfoPage *)this_ptr;
+
+    this_obj->UpdateInfo();
+}
+
 OpenRGBServerInfoPage::OpenRGBServerInfoPage(NetworkServer * server, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBServerInfoPageUi)
@@ -11,6 +18,8 @@ OpenRGBServerInfoPage::OpenRGBServerInfoPage(NetworkServer * server, QWidget *pa
     ui->setupUi(this);
 
     UpdateInfo();
+
+    network_server->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
 }
 
 OpenRGBServerInfoPage::~OpenRGBServerInfoPage()
