@@ -75,16 +75,16 @@ void NetworkClient::StartClient()
     //Start the listener thread
     ListenThread = new std::thread(&NetworkClient::ListenThreadFunction, this);
 
-    //Send Client String
-    SendData_ClientString();
-
     //Wait for server to connect
     while(!server_connected)
     {
         Sleep(100);
     }
 
-    //Once server is connected, request number of controllers
+    //Once server is connected, send client string
+    SendData_ClientString();
+
+    //Request number of controllers
     SendRequest_ControllerCount();
 
     //Wait for server controller count
