@@ -33,6 +33,21 @@ NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controller
     server_online = false;
 }
 
+void NetworkServer::ClientInfoChanged()
+{
+    ClientInfoChangeMutex.lock();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    {
+        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+    }
+
+    ClientInfoChangeMutex.unlock();
+}
+
 unsigned short NetworkServer::GetPort()
 {
     return port_num;
@@ -170,10 +185,7 @@ void NetworkServer::StopServer()
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |
     \*-------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
-    {
-        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
-    }
+    ClientInfoChanged();
 }
 
 void NetworkServer::ConnectionThreadFunction()
@@ -236,10 +248,7 @@ void NetworkServer::ConnectionThreadFunction()
         /*-------------------------------------------------*\
         | Client info has changed, call the callbacks       |
         \*-------------------------------------------------*/
-        for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
-        {
-            ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
-        }
+        ClientInfoChanged();
     }
 
     printf("Connection thread closed\r\n");
@@ -432,7 +441,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_SET_CLIENT_NAME:
-                //printf "NET_PACKET_ID_SET_CLIENT_NAME\r\n" );
+                printf( "NET_PACKET_ID_SET_CLIENT_NAME\r\n" );
                 ProcessRequest_ClientString(client_sock, header.pkt_size, data);
                 break;
 
@@ -529,10 +538,7 @@ listen_done:
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |
     \*-------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
-    {
-        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
-    }
+    ClientInfoChanged();
 }
 
 void NetworkServer::ProcessRequest_ClientString(int client_sock, unsigned int data_size, char *data)
@@ -549,10 +555,7 @@ void NetworkServer::ProcessRequest_ClientString(int client_sock, unsigned int da
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |
     \*-------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
-    {
-        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
-    }
+    ClientInfoChanged();
 }
 
 void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
