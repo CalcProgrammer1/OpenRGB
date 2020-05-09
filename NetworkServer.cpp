@@ -431,6 +431,11 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 SendReply_ControllerData(client_sock, header.pkt_dev_idx);
                 break;
 
+            case NET_PACKET_ID_SET_CLIENT_NAME:
+                //printf "NET_PACKET_ID_SET_CLIENT_NAME\r\n" );
+                ProcessRequest_ClientString(client_sock, header.pkt_size, data);
+                break;
+
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
                 //printf( "NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE\r\n" );
 
@@ -517,6 +522,26 @@ listen_done:
         if(ServerClients[this_idx] == client_info)
         {
             ServerClients.erase(ServerClients.begin() + this_idx);
+            break;
+        }
+    }
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    {
+        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+    }
+}
+
+void NetworkServer::ProcessRequest_ClientString(int client_sock, unsigned int data_size, char *data)
+{
+    for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
+    {
+        if(ServerClients[this_idx]->client_sock == client_sock)
+        {
+            ServerClients[this_idx]->client_string = data;
             break;
         }
     }

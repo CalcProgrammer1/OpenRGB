@@ -16,6 +16,7 @@ public:
     bool            GetOnline();
 
     void            SetIP(const char *new_ip);
+    void            SetName(const char *new_name);
     void            SetPort(unsigned short new_port);
 
     void            StartClient();
@@ -27,6 +28,8 @@ public:
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
     
+    void        SendData_ClientString();
+
     void        SendRequest_ControllerCount();
     void        SendRequest_ControllerData(unsigned int dev_idx);
 
@@ -45,6 +48,7 @@ protected:
     std::vector<RGBController *>  server_controllers;
 
 private:
+    std::string     client_name;
     net_port        port;
     char            port_ip[20];
     unsigned short  port_num;
