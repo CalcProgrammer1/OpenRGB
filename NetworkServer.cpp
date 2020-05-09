@@ -185,7 +185,7 @@ void NetworkServer::StopServer()
 
     for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
     {
-        delete[] ServerClients[client_idx];
+        delete ServerClients[client_idx];
     }
 
     ServerClients.clear();
