@@ -1,3 +1,11 @@
+/*-----------------------------------------*\
+|  NetworkServer.h                          |
+|                                           |
+|  Server header for OpenRGB SDK            |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 5/9/2020    |
+\*-----------------------------------------*/
+
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"

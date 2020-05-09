@@ -1,3 +1,11 @@
+/*-----------------------------------------*\
+|  NetworkProtocol.h                        |
+|                                           |
+|  Protocol header for OpenRGB SDK          |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 5/9/2020    |
+\*-----------------------------------------*/
+
 #pragma once
 
 typedef struct NetPacketHeader
@@ -29,10 +37,3 @@ enum
     NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE   = 1100, /* RGBController::SetCustomMode()                       */
     NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE      = 1101, /* RGBController::UpdateMode()                          */
 };
-
-NetPacketHeader * InitNetPacketHeader
-    (
-    unsigned int        pkt_dev_idx,
-    unsigned int        pkt_id,
-    unsigned int        pkt_size
-    );

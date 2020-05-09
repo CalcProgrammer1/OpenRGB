@@ -1,3 +1,11 @@
+/*-----------------------------------------*\
+|  NetworkClient.cpp                        |
+|                                           |
+|  Client code for OpenRGB SDK              |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 5/9/2020    |
+\*-----------------------------------------*/
+
 #include "NetworkClient.h"
 #include "RGBController_Network.h"
 #include <cstring>
