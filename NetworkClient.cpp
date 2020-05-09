@@ -39,6 +39,16 @@ void NetworkClient::SetIP(const char *new_ip)
     }
 }
 
+void NetworkClient::SetName(const char *new_name)
+{
+    client_name = new_name;
+
+    if(server_connected == true)
+    {
+        SendData_ClientString();
+    }
+}
+
 void NetworkClient::SetPort(unsigned short new_port)
 {
     if(server_connected == false)
@@ -64,6 +74,9 @@ void NetworkClient::StartClient()
 
     //Start the listener thread
     ListenThread = new std::thread(&NetworkClient::ListenThreadFunction, this);
+
+    //Send Client String
+    SendData_ClientString();
 
     //Wait for server to connect
     while(!server_connected)
@@ -251,6 +264,23 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
     printf("Received controller: %s\r\n", new_controller->name.c_str());
 
     server_controllers.push_back(new_controller);
+}
+
+void NetworkClient::SendData_ClientString()
+{
+    NetPacketHeader reply_hdr;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_SET_CLIENT_NAME;
+    reply_hdr.pkt_size     = strlen(client_name.c_str()) + 1;
+
+    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+    port.tcp_client_write((char *)client_name.c_str(), reply_hdr.pkt_size);
 }
 
 void NetworkClient::SendRequest_ControllerCount()

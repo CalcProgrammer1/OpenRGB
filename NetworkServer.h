@@ -37,6 +37,8 @@ public:
     void                                ConnectionThreadFunction();
     void                                ListenThreadFunction(NetworkClientInfo * client_sock);
 
+    void                                ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
+
     void                                SendReply_ControllerCount(SOCKET client_sock);
     void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx);
 
