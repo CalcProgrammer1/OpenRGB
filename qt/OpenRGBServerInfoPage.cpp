@@ -48,6 +48,7 @@ void OpenRGBServerInfoPage::UpdateInfo()
 
     ui->ServerClientTree->clear();
     ui->ServerClientTree->setColumnCount(2);
+    ui->ServerClientTree->setHeaderLabels(QStringList() << "Client IP" << "Client Name");
     for(unsigned int client_idx = 0; client_idx < network_server->GetNumClients(); client_idx++)
     {
         QTreeWidgetItem * new_item = new QTreeWidgetItem();
