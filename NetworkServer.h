@@ -2,6 +2,7 @@
 #include "NetworkProtocol.h"
 #include "net_port.h"
 
+#include <mutex>
 #include <thread>
 
 #pragma once
@@ -27,6 +28,7 @@ public:
     const char *                        GetClientString(unsigned int client_num);
     const char *                        GetClientIP(unsigned int client_num);
 
+    void                                ClientInfoChanged();
     void                                RegisterClientInfoChangeCallback(NetServerCallback, void * new_callback_arg);
 
     void                                SetPort(unsigned short new_port);
@@ -51,6 +53,7 @@ protected:
     std::vector<NetworkClientInfo *>    ServerClients;
     std::thread *                       ConnectionThread;
 
+    std::mutex                          ClientInfoChangeMutex;
     std::vector<NetServerCallback>      ClientInfoChangeCallbacks;
     std::vector<void *>                 ClientInfoChangeCallbackArgs;
 
