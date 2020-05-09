@@ -1,3 +1,11 @@
+/*-----------------------------------------*\
+|  NetworkServer.cpp                        |
+|                                           |
+|  Server code for OpenRGB SDK              |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 5/9/2020    |
+\*-----------------------------------------*/
+
 #include "NetworkServer.h"
 #include <cstring>
 
