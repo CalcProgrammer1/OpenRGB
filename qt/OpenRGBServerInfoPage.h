@@ -17,11 +17,12 @@ class Ui::OpenRGBServerInfoPage : public QFrame
 public:
     explicit OpenRGBServerInfoPage(NetworkServer * server, QWidget *parent = nullptr);
     ~OpenRGBServerInfoPage();
+
+public slots:
     void UpdateInfo();
 
 private slots:
     void on_ServerStartButton_clicked();
-
     void on_ServerStopButton_clicked();
 
 private:
