@@ -6,7 +6,7 @@ static void UpdateInfoCallback(void * this_ptr)
 {
     OpenRGBServerInfoPage * this_obj = (OpenRGBServerInfoPage *)this_ptr;
 
-    this_obj->UpdateInfo();
+    QMetaObject::invokeMethod(this_obj, "UpdateInfo", Qt::QueuedConnection);
 }
 
 OpenRGBServerInfoPage::OpenRGBServerInfoPage(NetworkServer * server, QWidget *parent) :
