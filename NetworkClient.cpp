@@ -12,6 +12,7 @@
 
 #ifdef WIN32
 #include <Windows.h>
+#define MSG_NOSIGNAL 0
 #else
 #include <unistd.h>
 
