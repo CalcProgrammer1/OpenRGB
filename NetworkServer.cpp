@@ -338,7 +338,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         //Read first byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[0], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -352,7 +352,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         //Read second byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[1], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -366,7 +366,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         //Read third byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[2], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -380,7 +380,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         //Read fourth byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[3], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -401,7 +401,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
             bytes_read += tmp_bytes_read;
 
-            if(tmp_bytes_read == 0)
+            if(tmp_bytes_read <= 0)
             {
                 goto listen_done;
             }
@@ -423,7 +423,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 tmp_bytes_read = recv_select(client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
 
-                if(tmp_bytes_read == 0)
+                if(tmp_bytes_read <= 0)
                 {
                     goto listen_done;
                 }

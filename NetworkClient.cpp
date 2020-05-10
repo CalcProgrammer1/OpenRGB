@@ -252,7 +252,7 @@ void NetworkClient::ListenThreadFunction()
         //Read first byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[0], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -266,7 +266,7 @@ void NetworkClient::ListenThreadFunction()
         //Read second byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[1], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -280,7 +280,7 @@ void NetworkClient::ListenThreadFunction()
         //Read third byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[2], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -294,7 +294,7 @@ void NetworkClient::ListenThreadFunction()
         //Read fourth byte of magic
         bytes_read = recv_select(client_sock, &header.pkt_magic[3], 1, 0);
 
-        if(bytes_read == 0)
+        if(bytes_read <= 0)
         {
             goto listen_done;
         }
@@ -315,7 +315,7 @@ void NetworkClient::ListenThreadFunction()
 
             bytes_read += tmp_bytes_read;
 
-            if(tmp_bytes_read == 0)
+            if(tmp_bytes_read <= 0)
             {
                 goto listen_done;
             }
@@ -337,7 +337,7 @@ void NetworkClient::ListenThreadFunction()
 
                 tmp_bytes_read = recv_select(client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
 
-                if(tmp_bytes_read == 0)
+                if(tmp_bytes_read <= 0)
                 {
                     goto listen_done;
                 }
@@ -354,13 +354,13 @@ void NetworkClient::ListenThreadFunction()
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
                 printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
-                
+
                 ProcessReply_ControllerCount(header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n");
-                
+
                 ProcessReply_ControllerData(header.pkt_size, data, header.pkt_dev_idx);
                 break;
         }
@@ -450,7 +450,7 @@ void NetworkClient::SendRequest_ControllerCount()
 void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
 {
     NetPacketHeader reply_hdr;
-    
+
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
     reply_hdr.pkt_magic[2] = 'G';
@@ -467,7 +467,7 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
 {
     NetPacketHeader reply_hdr;
     int             reply_data[2];
-    
+
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
     reply_hdr.pkt_magic[2] = 'G';
@@ -487,7 +487,7 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
 void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
 {
     NetPacketHeader reply_hdr;
-    
+
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
     reply_hdr.pkt_magic[2] = 'G';
@@ -504,7 +504,7 @@ void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, u
 void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
 {
     NetPacketHeader reply_hdr;
-    
+
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
     reply_hdr.pkt_magic[2] = 'G';
@@ -521,7 +521,7 @@ void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_id
 void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size)
 {
     NetPacketHeader reply_hdr;
-    
+
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
     reply_hdr.pkt_magic[2] = 'G';
@@ -538,7 +538,7 @@ void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_i
 void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx)
 {
     NetPacketHeader reply_hdr;
-    
+
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
     reply_hdr.pkt_magic[2] = 'G';
@@ -554,7 +554,7 @@ void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx
 void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
 {
     NetPacketHeader reply_hdr;
-    
+
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
     reply_hdr.pkt_magic[2] = 'G';
