@@ -71,12 +71,13 @@ public:
     void tcp_close();
 
     bool connected;
+    SOCKET sock;
 
 private:
 #ifdef WIN32
     WSADATA     wsa;
 #endif
-    SOCKET sock;
+
     std::vector<SOCKET *> clients;
 
     sockaddr addrDest;

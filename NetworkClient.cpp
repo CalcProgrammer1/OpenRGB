@@ -29,6 +29,11 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     server_controller_count = 0;
 }
 
+const char * NetworkClient::GetIP()
+{
+    return(port_ip);
+}
+
 unsigned short NetworkClient::GetPort()
 {
     return port_num;
@@ -67,63 +72,19 @@ void NetworkClient::SetPort(unsigned short new_port)
 
 void NetworkClient::StartClient()
 {
-    unsigned int requested_controllers;
-
     //Start a TCP server and launch threads
     char port_str[6];
     snprintf(port_str, 6, "%d", port_num);
 
     port.tcp_client(port_ip, port_str);
 
-    requested_controllers   = 0;
-
     //Start the connection thread
     ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
 
-    //Start the listener thread
-    ListenThread = new std::thread(&NetworkClient::ListenThreadFunction, this);
-
-    //Wait for server to connect
-    while(!server_connected)
+    //Wait for server to initialize and connect
+    while((server_initialized == false) || (server_connected == false))
     {
         Sleep(100);
-    }
-
-    //Once server is connected, send client string
-    SendData_ClientString();
-
-    //Request number of controllers
-    SendRequest_ControllerCount();
-
-    //Wait for server controller count
-    while(server_controller_count == 0)
-    {
-        Sleep(100);
-    }
-
-    printf("Client: Received controller count from server: %d\r\n", server_controller_count);
-
-    //Once count is received, request controllers
-    while(requested_controllers < server_controller_count)
-    {
-        printf("Client: Requesting controller %d\r\n", requested_controllers);
-
-        SendRequest_ControllerData(requested_controllers);
-
-        //Wait until controller is received
-        while(server_controllers.size() == requested_controllers)
-        {
-            Sleep(100);
-        }
-
-        requested_controllers++;
-    }
-
-    //All controllers received, add them to master list
-    printf("Client: All controllers received, adding them to master list\r\n");
-    for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
-    {
-        controllers.push_back(server_controllers[controller_idx]);
     }
 }
 
@@ -134,21 +95,116 @@ void NetworkClient::StopClient()
 
 void NetworkClient::ConnectionThreadFunction()
 {
+    unsigned int requested_controllers;
+
     //This thread manages the connection to the server
     while(1)
     {
-        //Connect to server and reconnect if the connection is lost
+        if(server_connected == false)
+        {
+            //Connect to server and reconnect if the connection is lost
+            server_initialized = false;
 
-        //Try to connect to server
-        port.tcp_client_connect();
+            //Try to connect to server
+            if(port.tcp_client_connect() == true)
+            {
+                client_sock = port.sock;
+                printf( "Connected to server\n" );
 
-        printf( "Connected to server\n" );
+                //Server is now connected
+                server_connected = true;
 
-        server_connected = true;
-        break;
+                //Start the listener thread
+                ListenThread = new std::thread(&NetworkClient::ListenThreadFunction, this);
 
-        //Wait 1 second between tries;
+                //Server is not initialized
+                server_initialized = false;
+            }
+            else
+            {
+                printf( "Connection attempt failed\n" );
+            }
+        }
+
+        if(server_initialized == false && server_connected == true)
+        {
+            requested_controllers   = 0;
+            server_controller_count = 0;
+
+            //Wait for server to connect
+            Sleep(100);
+
+            //Once server is connected, send client string
+            SendData_ClientString();
+
+            //Request number of controllers
+            SendRequest_ControllerCount();
+
+            //Wait for server controller count
+            while(server_controller_count == 0)
+            {
+                Sleep(100);
+            }
+
+            printf("Client: Received controller count from server: %d\r\n", server_controller_count);
+
+            //Once count is received, request controllers
+            while(requested_controllers < server_controller_count)
+            {
+                printf("Client: Requesting controller %d\r\n", requested_controllers);
+
+                SendRequest_ControllerData(requested_controllers);
+
+                //Wait until controller is received
+                while(server_controllers.size() == requested_controllers)
+                {
+                    Sleep(100);
+                }
+
+                requested_controllers++;
+            }
+
+            //All controllers received, add them to master list
+            printf("Client: All controllers received, adding them to master list\r\n");
+            for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
+            {
+                controllers.push_back(server_controllers[controller_idx]);
+            }
+
+            server_initialized = true;
+        }
+
         Sleep(1000);
+    }
+}
+
+int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
+{
+    fd_set              set;
+    struct timeval      timeout;
+    timeout.tv_sec      = 5;
+    timeout.tv_usec     = 0;
+
+    while(1)
+    {
+        FD_ZERO(&set);      /* clear the set */
+        FD_SET(s, &set);    /* add our file descriptor to the set */
+
+        int rv = select(s + 1, &set, NULL, NULL, &timeout);
+
+        if(rv == SOCKET_ERROR || server_connected == false)
+        {
+            return 0;
+        }
+        else if(rv == 0)
+        {
+            continue;
+        }
+        else
+        {
+            // socket has something to read
+            return(recv(s, buf, len, flags));
+        }
     }
 }
 
@@ -156,17 +212,19 @@ void NetworkClient::ListenThreadFunction()
 {
     printf("Network client listener started\n");
     //This thread handles messages received from the server
-    while(1)
+    while(server_connected = true)
     {
         NetPacketHeader header;
-        char *          data        = NULL;
         int             bytes_read  = 0;
+        char *          data        = NULL;
 
         //Read first byte of magic
-        do
+        bytes_read = recv_select(client_sock, &header.pkt_magic[0], 1, 0);
+
+        if(bytes_read == 0)
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[0], 1);
-        } while(bytes_read == 0);
+            goto listen_done;
+        }
 
         //Test first character of magic - 'O'
         if(header.pkt_magic[0] != 'O')
@@ -175,10 +233,12 @@ void NetworkClient::ListenThreadFunction()
         }
 
         //Read second byte of magic
-        do
+        bytes_read = recv_select(client_sock, &header.pkt_magic[1], 1, 0);
+
+        if(bytes_read == 0)
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[1], 1);
-        } while(bytes_read == 0);
+            goto listen_done;
+        }
 
         //Test second character of magic - 'R'
         if(header.pkt_magic[1] != 'R')
@@ -187,10 +247,12 @@ void NetworkClient::ListenThreadFunction()
         }
 
         //Read third byte of magic
-        do
+        bytes_read = recv_select(client_sock, &header.pkt_magic[2], 1, 0);
+
+        if(bytes_read == 0)
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[2], 1);
-        } while(bytes_read == 0);
+            goto listen_done;
+        }
 
         //Test third character of magic - 'G'
         if(header.pkt_magic[2] != 'G')
@@ -199,10 +261,12 @@ void NetworkClient::ListenThreadFunction()
         }
 
         //Read fourth byte of magic
-        do
+        bytes_read = recv_select(client_sock, &header.pkt_magic[3], 1, 0);
+
+        if(bytes_read == 0)
         {
-            bytes_read = port.tcp_listen(&header.pkt_magic[3], 1);
-        } while(bytes_read == 0);
+            goto listen_done;
+        }
 
         //Test fourth character of magic - 'B'
         if(header.pkt_magic[3] != 'B')
@@ -214,26 +278,45 @@ void NetworkClient::ListenThreadFunction()
         bytes_read = 0;
         do
         {
-            bytes_read += port.tcp_listen((char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read);
+            int tmp_bytes_read = 0;
+
+            tmp_bytes_read = recv_select(client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
+
+            bytes_read += tmp_bytes_read;
+
+            if(tmp_bytes_read == 0)
+            {
+                goto listen_done;
+            }
+
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        printf( "Client: Received header, now receiving data of size %d\r\n", header.pkt_size);
+        //printf( "Client: Received header, now receiving data of size %d\r\n", header.pkt_size);
 
         //Header received, now receive the data
         if(header.pkt_size > 0)
         {
-            unsigned int bytes_read = 0;
+            bytes_read = 0;
 
             data = new char[header.pkt_size];
 
             do
             {
-                bytes_read += port.tcp_listen(&data[bytes_read], header.pkt_size - bytes_read);
+                int tmp_bytes_read = 0;
+
+                tmp_bytes_read = recv_select(client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
+
+                if(tmp_bytes_read == 0)
+                {
+                    goto listen_done;
+                }
+                bytes_read += tmp_bytes_read;
+
             } while (bytes_read < header.pkt_size);
         }
 
-        printf( "Client: Received header and data\r\n" );
-        printf( "Client: Packet ID: %d \r\n", header.pkt_id);
+        //printf( "Client: Received header and data\r\n" );
+        //printf( "Client: Packet ID: %d \r\n", header.pkt_id);
 
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
@@ -253,6 +336,27 @@ void NetworkClient::ListenThreadFunction()
 
         delete[] data;
     }
+
+listen_done:
+    printf( "Client socket has been closed");
+    server_initialized = false;
+    server_connected = false;
+
+    for(int server_controller_idx = 0; server_controller_idx < server_controllers.size(); server_controller_idx++)
+    {
+        for(int controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+        {
+            if(controllers[controller_idx] == server_controllers[server_controller_idx])
+            {
+                controllers.erase(controllers.begin() + controller_idx);
+                break;
+            }
+        }
+
+        delete server_controllers[server_controller_idx];
+    }
+
+    server_controllers.clear();
 }
 
 void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * data)
@@ -287,8 +391,8 @@ void NetworkClient::SendData_ClientString()
     reply_hdr.pkt_id       = NET_PACKET_ID_SET_CLIENT_NAME;
     reply_hdr.pkt_size     = strlen(client_name.c_str()) + 1;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)client_name.c_str(), reply_hdr.pkt_size);
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)client_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
 }
 
 void NetworkClient::SendRequest_ControllerCount()
@@ -304,7 +408,7 @@ void NetworkClient::SendRequest_ControllerCount()
     reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
     reply_hdr.pkt_size     = 0;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 }
 
 void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
@@ -320,7 +424,7 @@ void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
     reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
     reply_hdr.pkt_size     = 0;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 }
 
 void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size)
@@ -340,8 +444,8 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
     reply_data[0]          = zone;
     reply_data[1]          = new_size;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)&reply_data, sizeof(reply_data));
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)&reply_data, sizeof(reply_data), MSG_NOSIGNAL);
 }
 
 void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
@@ -357,8 +461,8 @@ void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, u
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS;
     reply_hdr.pkt_size     = size;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)data, size);
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, 0);
 }
 
 void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
@@ -374,8 +478,8 @@ void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_id
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS;
     reply_hdr.pkt_size     = size;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)data, size);
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
 }
 
 void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size)
@@ -391,8 +495,8 @@ void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_i
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED;
     reply_hdr.pkt_size     = size;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)data, size);
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
 }
 
 void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx)
@@ -408,7 +512,7 @@ void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE;
     reply_hdr.pkt_size     = 0;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 }
 
 void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
@@ -424,6 +528,6 @@ void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, u
     reply_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE;
     reply_hdr.pkt_size     = size;
 
-    port.tcp_client_write((char *)&reply_hdr, sizeof(NetPacketHeader));
-    port.tcp_client_write((char *)data, size);
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
 }

@@ -127,7 +127,8 @@ bool net_port::tcp_client(const char * client_name, const char * port)
 
 bool net_port::tcp_client_connect()
 {
-    if (!connected)
+    connected = false;
+
     {
         sock = socket(AF_INET, SOCK_STREAM, 0);
         if (sock == INVALID_SOCKET)
@@ -185,7 +186,7 @@ bool net_port::tcp_client_connect()
             closesocket(sock);
         }
     }
-    return(true);
+    return(connected);
 }
 
 bool net_port::tcp_server(const char * port)

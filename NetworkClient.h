@@ -51,18 +51,24 @@ public:
 
     void        SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
 
-protected:
-    std::vector<RGBController *>& controllers;
     std::vector<RGBController *>  server_controllers;
 
+protected:
+    std::vector<RGBController *>& controllers;
+
+
 private:
+    SOCKET          client_sock;
     std::string     client_name;
     net_port        port;
     char            port_ip[20];
     unsigned short  port_num;
     bool            server_connected;
+    bool            server_initialized;
     unsigned int    server_controller_count;
 
     std::thread *   ConnectionThread;
     std::thread *   ListenThread;
+
+    int recv_select(SOCKET s, char *buf, int len, int flags);
 };
