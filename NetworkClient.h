@@ -10,18 +10,25 @@
 #include "NetworkProtocol.h"
 #include "net_port.h"
 
+#include <mutex>
 #include <thread>
 
 #pragma once
+
+typedef void (*NetClientCallback)(void *);
 
 class NetworkClient
 {
 public:
     NetworkClient(std::vector<RGBController *>& control);
 
+    void            ClientInfoChanged();
+
     const char *    GetIP();
     unsigned short  GetPort();
     bool            GetOnline();
+
+    void            RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
 
     void            SetIP(const char *new_ip);
     void            SetName(const char *new_name);
@@ -69,6 +76,10 @@ private:
 
     std::thread *   ConnectionThread;
     std::thread *   ListenThread;
+
+    std::mutex                          ClientInfoChangeMutex;
+    std::vector<NetClientCallback>      ClientInfoChangeCallbacks;
+    std::vector<void *>                 ClientInfoChangeCallbackArgs;
 
     int recv_select(SOCKET s, char *buf, int len, int flags);
 };

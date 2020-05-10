@@ -29,6 +29,21 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     server_controller_count = 0;
 }
 
+void NetworkClient::ClientInfoChanged()
+{
+    ClientInfoChangeMutex.lock();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    {
+        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+    }
+
+    ClientInfoChangeMutex.unlock();
+}
+
 const char * NetworkClient::GetIP()
 {
     return(port_ip);
@@ -42,6 +57,12 @@ unsigned short NetworkClient::GetPort()
 bool NetworkClient::GetOnline()
 {
     return server_connected;
+}
+
+void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg)
+{
+    ClientInfoChangeCallbacks.push_back(new_callback);
+    ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
 }
 
 void NetworkClient::SetIP(const char *new_ip)
@@ -81,11 +102,10 @@ void NetworkClient::StartClient()
     //Start the connection thread
     ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
 
-    //Wait for server to initialize and connect
-    while((server_initialized == false) || (server_connected == false))
-    {
-        Sleep(100);
-    }
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    ClientInfoChanged();
 }
 
 void NetworkClient::StopClient()
@@ -119,6 +139,11 @@ void NetworkClient::ConnectionThreadFunction()
 
                 //Server is not initialized
                 server_initialized = false;
+
+                /*-------------------------------------------------*\
+                | Client info has changed, call the callbacks       |
+                \*-------------------------------------------------*/
+                ClientInfoChanged();
             }
             else
             {
@@ -172,6 +197,11 @@ void NetworkClient::ConnectionThreadFunction()
             }
 
             server_initialized = true;
+
+            /*-------------------------------------------------*\
+            | Client info has changed, call the callbacks       |
+            \*-------------------------------------------------*/
+            ClientInfoChanged();
         }
 
         Sleep(1000);
@@ -357,6 +387,11 @@ listen_done:
     }
 
     server_controllers.clear();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    ClientInfoChanged();
 }
 
 void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * data)
