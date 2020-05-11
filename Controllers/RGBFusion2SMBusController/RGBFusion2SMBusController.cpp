@@ -5,7 +5,7 @@
 |  SMBus lighting controller                |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 3/12/2020   |
-|  Matt Harper			5/5/2020    |
+|  Matt Harper                  5/5/2020    |
 \*-----------------------------------------*/
 
 #include "RGBFusion2SMBusController.h"
@@ -30,7 +30,7 @@ RGBFusion2SMBusController::RGBFusion2SMBusController(i2c_smbus_interface* bus, r
 
 unsigned int RGBFusion2SMBusController::GetLEDCount()
 {
-	return(led_count);
+    return(led_count);
 }
 
 std::string RGBFusion2SMBusController::GetDeviceLocation()
@@ -55,17 +55,20 @@ void RGBFusion2SMBusController::WriteLED(int led)
     unsigned short write_register = RGB_FUSION_2_LED_START_ADDR + 2*register_offset;
 
     // Adjust if we are writing the second 16 bytes
-    if (led % 2) {
-	led -= 1;
+    if(led % 2)
+    {
+        led -= 1;
     }
 
     #ifdef DEBUG
     std::cout << std::hex << write_register << "\t";
-    for (int i = 0; i < 2; i++) {
-	for (int j = 0; j < 16; j++) {
-	    std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)led_data[led+i][j] << " ";
-	}
-	std::cout << " ";
+    for(int i = 0; i < 2; i++)
+    {
+        for(int j = 0; j < 16; j++)
+        {
+            std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)led_data[led+i][j] << " ";
+        }
+        std::cout << " ";
     }
     std::cout << std::endl;
     #endif
@@ -77,8 +80,8 @@ void RGBFusion2SMBusController::Apply()
 {
     // Protocol expects terminating sequence 0x01ff written to register 0x17
     bus->i2c_smbus_write_word_data(RGB_FUSION_2_SMBUS_ADDR,
-				   RGB_FUSION_2_APPLY_ADDR,
-				   RGB_FUSION_2_ACTION_APPLY);
+                   RGB_FUSION_2_APPLY_ADDR,
+                   RGB_FUSION_2_ACTION_APPLY);
 }
 
 void RGBFusion2SMBusController::SetLEDEffect
@@ -91,45 +94,46 @@ void RGBFusion2SMBusController::SetLEDEffect
     unsigned char   blue
     )
 {
-	led_data[led][RGB_FUSION_2_IDX_MODE]        = mode;
-	led_data[led][RGB_FUSION_2_IDX_RED]         = red;
-	led_data[led][RGB_FUSION_2_IDX_GREEN]       = green;
-	led_data[led][RGB_FUSION_2_IDX_BLUE]        = blue;
-	led_data[led][RGB_FUSION_2_IDX_BRIGHTNESS]  = 0x64;
+    led_data[led][RGB_FUSION_2_IDX_MODE]        = mode;
+    led_data[led][RGB_FUSION_2_IDX_RED]         = red;
+    led_data[led][RGB_FUSION_2_IDX_GREEN]       = green;
+    led_data[led][RGB_FUSION_2_IDX_BLUE]        = blue;
+    led_data[led][RGB_FUSION_2_IDX_BRIGHTNESS]  = 0x64;
 
-	switch (mode) {
-	    case RGB_FUSION_2_MODE_PULSE:
-		// Timer 1: On time
-		// Timer 2: Off time
-		led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x20 * speed;
-		led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x03 * speed;
-		led_data[led][RGB_FUSION_2_TIMER_2_LSB] = 0x20 * speed;
-		led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0x03 * speed;
-		break;
+    switch (mode)
+    {
+        case RGB_FUSION_2_MODE_PULSE:
+        // Timer 1: On time
+        // Timer 2: Off time
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x20 * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x03 * speed;
+        led_data[led][RGB_FUSION_2_TIMER_2_LSB] = 0x20 * speed;
+        led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0x03 * speed;
+        break;
 
-	    case RGB_FUSION_2_MODE_COLOR_CYCLE:
-	        // Timer 1: Cycle time
-	        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x00;
-	        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x03 * speed;
-	        led_data[led][RGB_FUSION_2_IDX_OPT_1]   = 0x07;		// Number of colors to cycle through. Valid range [1-7]
-	        led_data[led][RGB_FUSION_2_IDX_OPT_2]   = 0x00;		// Color cycle, or color cycle and pulse. [0,1]
-		break;
+        case RGB_FUSION_2_MODE_COLOR_CYCLE:
+            // Timer 1: Cycle time
+            led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x00;
+            led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x03 * speed;
+            led_data[led][RGB_FUSION_2_IDX_OPT_1]   = 0x07;		// Number of colors to cycle through. Valid range [1-7]
+            led_data[led][RGB_FUSION_2_IDX_OPT_2]   = 0x00;		// Color cycle, or color cycle and pulse. [0,1]
+        break;
 
-	    case RGB_FUSION_2_MODE_FLASHING:
-	        /* Timer 1: On time
-	         * Timer 2: Interval
-	         * Timer 3: Cycle time */
-		led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x64;
+        case RGB_FUSION_2_MODE_FLASHING:
+            /* Timer 1: On time
+             * Timer 2: Interval
+             * Timer 3: Cycle time */
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x64;
                 led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0;
                 led_data[led][RGB_FUSION_2_TIMER_2_LSB] = 0xc8;
                 led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0;
                 led_data[led][RGB_FUSION_2_TIMER_3_LSB] = 0xd0;
                 led_data[led][RGB_FUSION_2_TIMER_3_MSB] = 0x07;
 
-	        led_data[led][RGB_FUSION_2_IDX_OPT_1] = speed;		// Controls number of flashes
-		break;
-	}
+            led_data[led][RGB_FUSION_2_IDX_OPT_1] = speed;		// Controls number of flashes
+        break;
+    }
 
-	WriteLED(led);
+    WriteLED(led);
 }
 

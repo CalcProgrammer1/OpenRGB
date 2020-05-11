@@ -1,11 +1,10 @@
-
 /*-----------------------------------------*\
 |  RGBController_RGBFusion2SMBus.cpp        |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion 2SMBUS Driver        |
+|  Gigabyte RGB Fusion 2 SMBUS Driver       |
 |                                           |
-|  Matt Harper (5/5/2020)		    |
+|  Matt Harper (5/5/2020)		            |
 \*-----------------------------------------*/
 
 #include "RGBController_RGBFusion2SMBus.h"
