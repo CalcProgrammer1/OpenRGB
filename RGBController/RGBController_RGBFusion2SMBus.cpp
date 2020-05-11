@@ -133,7 +133,7 @@ void RGBController_RGBFusion2SMBus::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_RGBFusion2SMBus::UpdateLEDs()
+void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
     {
