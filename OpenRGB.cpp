@@ -335,7 +335,9 @@ void DetectRGBControllers(void)
     DetectPatriotViperControllers(busses, rgb_controllers);
     DetectPolychromeControllers(busses, rgb_controllers);
     DetectRGBFusionGPUControllers(busses, rgb_controllers);
-    DetectRGBFusion2SMBusControllers(busses, rgb_controllers);
+
+    //TODO: Implement better detection before enabling this controller
+    //DetectRGBFusion2SMBusControllers(busses, rgb_controllers);
 
     DetectRGBFusionControllers(busses, rgb_controllers);
     DetectMSIMysticLightControllers(rgb_controllers);
