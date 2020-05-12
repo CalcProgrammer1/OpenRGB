@@ -42,7 +42,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt)
     int bytes = hid_send_feature_report(dev, (unsigned char *)usb_pkt, 65);
     bytes++;
 
-    Sleep(1);
+    Sleep(2);
 }
 
 CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle)

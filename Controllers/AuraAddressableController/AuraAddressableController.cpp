@@ -36,7 +36,7 @@ AuraAddressableController::~AuraAddressableController()
 
 unsigned int AuraAddressableController::GetChannelCount()
 {
-    return( 1 );
+    return( 5 );
 }
 
 std::string AuraAddressableController::GetDeviceName()
