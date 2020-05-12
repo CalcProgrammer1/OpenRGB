@@ -18,6 +18,29 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
     type        = DEVICE_TYPE_COOLER;
     description = "Thermaltake Riing Device";
 
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = THERMALTAKE_MODE_PER_LED;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.speed_min  = 0;
+    Direct.speed_max  = 0;
+    Direct.speed      = 0;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
+
+    mode Static;
+    Static.name       = "Static";
+    Static.value      = THERMALTAKE_MODE_FULL;
+    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.colors_min = 1;
+    Static.colors_max = 1;
+    Static.speed_min  = 0;
+    Static.speed_max  = 0;
+    Static.speed      = 0;
+    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors.resize(1);
+    modes.push_back(Static);
+
     mode Flow;
     Flow.name       = "Flow";
     Flow.value      = THERMALTAKE_MODE_FLOW;
@@ -77,29 +100,6 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
     Wave.speed      = THERMALTAKE_SPEED_NORMAL;
     Wave.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Wave);
-
-    mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = THERMALTAKE_MODE_PER_LED;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.speed_min  = 0;
-    Direct.speed_max  = 0;
-    Direct.speed      = 0;
-    Direct.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Direct);
-
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = THERMALTAKE_MODE_FULL;
-    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.colors_min = 1;
-    Static.colors_max = 1;
-    Static.speed_min  = 0;
-    Static.speed_max  = 0;
-    Static.speed      = 0;
-    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors.resize(1);
-    modes.push_back(Static);
 
     SetupZones();
 }
@@ -200,7 +200,7 @@ void RGBController_ThermaltakeRiing::UpdateSingleLED(int led)
 
 void RGBController_ThermaltakeRiing::SetCustomMode()
 {
-    active_mode = 6;
+    active_mode = 0;
 }
 
 void RGBController_ThermaltakeRiing::UpdateMode()
