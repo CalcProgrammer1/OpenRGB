@@ -22,7 +22,7 @@ extern std::vector<i2c_smbus_interface*> busses;
 extern std::vector<RGBController*> rgb_controllers;
 
 // See cli.cpp
-extern int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in);
+extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -40,9 +40,22 @@ int main(int argc, char* argv[])
 
     profile_manager.LoadSizeFromProfile("sizes.ors");
 
-    if (argc > 1 && strcmp(argv[1], "--gui"))
+    unsigned int ret_flags = 0;
+    if(argc > 1)
     {
-        return cli_main(argc, argv, rgb_controllers, &profile_manager);
+        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager);
+    }
+
+    if(ret_flags && 2)
+    {
+        //GUI is enabled
+    }
+
+    bool show_i2c_tools = false;
+    if(ret_flags && 4)
+    {
+        //I2C Tools is enabled
+        show_i2c_tools = true;
     }
 
     NetworkServer server(rgb_controllers);
@@ -50,7 +63,7 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
-    Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, &profile_manager, &server);
+    Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, &profile_manager, &server, show_i2c_tools);
     dlg.show();
 
     return a.exec();

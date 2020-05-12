@@ -11,7 +11,7 @@
 
 using namespace Ui;
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, NetworkServer* server, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), network_server(server), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, NetworkServer* server, bool show_i2c_tools, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), network_server(server), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
@@ -203,7 +203,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     /*-----------------------------------------------------*\
     | Show the I2C Tools page only if enabled               |
     \*-----------------------------------------------------*/
-    if(false) //TODO: SMBus Tools enable flag
+    if(show_i2c_tools)
     {
         OpenRGBSystemInfoPage *SMBusToolsPage = new OpenRGBSystemInfoPage(bus);
         ui->InformationTabBar->addTab(SMBusToolsPage, "");
@@ -235,7 +235,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     SoftwareTabLabel->setIndent(20);
     SoftwareTabLabel->setGeometry(0, 0, 200, 20);
 
-    if(false) //TODO: SMBus Tools enable flag
+    if(show_i2c_tools)
     {
         InformationTabBar->setTabButton(control.size() + 1, QTabBar::LeftSide, SoftwareTabLabel);
     }

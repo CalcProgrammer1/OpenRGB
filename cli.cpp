@@ -422,11 +422,12 @@ bool OptionSaveProfile(std::string argument)
     return(true);
 }
 
-bool ProcessOptions(int argc, char *argv[], Options *options)
+int ProcessOptions(int argc, char *argv[], Options *options)
 {
-    int arg_index       = 1;
-    int current_device  = -1;
-    int current_zone    = -1;
+    unsigned int ret_flags  = 0;
+    int arg_index           = 1;
+    int current_device      = -1;
+    int current_zone        = -1;
 
     options->hasDevice = false;
 
@@ -445,9 +446,25 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         }
 
         /*---------------------------------------------------------*\
+        | --gui                                                     |
+        \*---------------------------------------------------------*/
+        if(option == "--gui")
+        {
+            ret_flags |= 2;
+        }
+
+        /*---------------------------------------------------------*\
+        | --i2c-tools / --yolo                                      |
+        \*---------------------------------------------------------*/
+        else if(option == "--i2c-tools" || option == "--yolo")
+        {
+            ret_flags |= 4;
+        }
+
+        /*---------------------------------------------------------*\
         | -h / --help                                               |
         \*---------------------------------------------------------*/
-        if(option == "--help" || option == "-h")
+        else if(option == "--help" || option == "-h")
         {
             OptionHelp();
             exit(0);
@@ -478,7 +495,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         {
             if(!OptionDevice(&current_device, argument, options))
             {
-                return false;
+                return 1;
             }
         }
 
@@ -489,7 +506,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         {
             if(!OptionZone(&current_device, &current_zone, argument, options))
             {
-                return false;
+                return 1;
             }
         }
 
@@ -500,7 +517,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         {
             if(!OptionColor(&current_device, &current_zone, argument, options))
             {
-                return false;
+                return 1;
             }
         }
 
@@ -511,7 +528,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         {
             if(!OptionMode(&current_device, argument, options))
             {
-                return false;
+                return 1;
             }
         }
 
@@ -522,7 +539,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         {
             if(!OptionSize(&current_device, &current_zone, argument, options))
             {
-                return false;
+                return 1;
             }
         }
 
@@ -549,7 +566,7 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
         else
         {
             std::cout << "Error: Invalid option: " + option << std::endl;
-            return false;
+            return 1;
         }
 
         arg_index++;
@@ -566,16 +583,14 @@ bool ProcessOptions(int argc, char *argv[], Options *options)
             if(!options->devices[option_idx].hasOption)
             {
                 std::cout << "Error: Device " + std::to_string(option_idx) + " specified, but neither mode nor color given" << std::endl;
-                return false;
+                return 1;
             }
         }
     }
     else
     {
-        return options->allDeviceOptions.hasOption;
+        return ret_flags;
     }
-
-    return true;
 }
 
 void ApplyOptions(DeviceOptions& options)
@@ -653,7 +668,7 @@ void ApplyOptions(DeviceOptions& options)
     }
 }
 
-int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in)
+unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in)
 {
     rgb_controllers = rgb_controllers_in;
     profile_manager = profile_manager_in;
@@ -662,10 +677,20 @@ int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controller
     | Process the argument options                              |
     \*---------------------------------------------------------*/
     Options options;
-    if (!ProcessOptions(argc, argv, &options))
+    unsigned int ret_flags = ProcessOptions(argc, argv, &options);
+    switch(ret_flags)
     {
-        OptionHelp();
-        return -1;
+        case 0:
+            break;
+
+        case 1:
+            OptionHelp();
+            exit(-1);
+            break;
+
+        default:
+            return ret_flags;
+            break;
     }
 
     /*---------------------------------------------------------*\
@@ -703,6 +728,8 @@ int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controller
             std::cout << "Profile saving failed" << std::endl;
         }
     }
+
+    exit(0);
 
     return 0;
 }
