@@ -60,8 +60,19 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
         break;
 
     default:
-        led_count = 0;
-        strcpy(device_name, "");
+        unsigned short fw_version = GetFirmwareVersion();
+        printf("Polychrome FW Version: %04X\r\n", fw_version);
+
+        led_count = 1;
+        strcpy(device_name, "ASRock ASR LED/Polychrome Device");
+        if((fw_version >> 8) < 0x03)
+        {
+            asr_led = true;
+        }
+        else
+        {
+            asr_led = false;
+        }        
         break;
     }
 }
