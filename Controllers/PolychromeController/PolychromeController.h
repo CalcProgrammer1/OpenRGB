@@ -16,17 +16,6 @@ typedef unsigned char	polychrome_dev_id;
 
 enum
 {
-    FIRMWARE_VER_1_PT_5             = 0x0105,   /* Firmware nu51_1.5                    */
-    FIRMWARE_VER_1_PT_10            = 0x010A,   /* Firmware nu51_1.10                   */
-    FIRMWARE_VER_2_PT_00            = 0x0200,   /* Firmware nu51_2.00                   */
-    FIRMWARE_VER_2_PT_08            = 0x0208,   /* Firmware nu51_2.08                   */
-    FIRMWARE_VER_2_PT_10            = 0x020A,   /* Firmware nu51_2.10                   */
-    FIRMWARE_VER_3_PT_00            = 0x0300,   /* Firmware nu51_3.00                   */
-    FIRMWARE_VER_3_PT_04            = 0x0304,   /* Firmware nu51_3.04                   */
-};
-
-enum
-{
     ASRLED_REG_FIRMWARE_VER         = 0x00,     /* Firmware version Major.Minor         */
     ASRLED_REG_MODE                 = 0x30,     /* Mode selection register              */
 };
