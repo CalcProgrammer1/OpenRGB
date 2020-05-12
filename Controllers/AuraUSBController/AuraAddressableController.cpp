@@ -12,6 +12,7 @@
 
 AuraAddressableController::AuraAddressableController(hid_device* dev_handle) : AuraUSBController(dev_handle)
 {
+    channel_count = config_table[2];
 }
 
 AuraAddressableController::~AuraAddressableController()

@@ -12,6 +12,7 @@
 
 AuraMainboardController::AuraMainboardController(hid_device* dev_handle) : AuraUSBController(dev_handle), mode(AURA_MODE_DIRECT)
 {
+    channel_count = 5;
 }
 
 AuraMainboardController::~AuraMainboardController()

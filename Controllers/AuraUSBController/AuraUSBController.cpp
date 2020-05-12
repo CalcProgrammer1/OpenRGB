@@ -25,7 +25,7 @@ AuraUSBController::~AuraUSBController()
 
 unsigned int AuraUSBController::GetChannelCount()
 {
-    return( 5 );
+    return( channel_count );
 }
 
 std::string AuraUSBController::GetDeviceName()

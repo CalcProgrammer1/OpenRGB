@@ -68,9 +68,11 @@ public:
 
 protected:
     hid_device*             dev;
+    unsigned int            channel_count;
+    unsigned char           config_table[60];
+
 private:
     char                    device_name[16];
-    unsigned char           config_table[60];
     unsigned int            led_count;
 
     void GetConfigTable();
