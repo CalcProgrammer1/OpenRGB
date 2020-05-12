@@ -56,23 +56,21 @@ void AuraAddressableController::SetChannelLEDs(unsigned char channel, RGBColor *
 
 void AuraAddressableController::SetMode
     (
-    unsigned char mode,
-    unsigned char red,
-    unsigned char grn,
-    unsigned char blu
+    unsigned char   channel,
+    unsigned char   mode,
+    unsigned char   red,
+    unsigned char   grn,
+    unsigned char   blu
     )
 {
-    for(int channel_idx = 0; channel_idx < GetChannelCount(); channel_idx++)
-    {
-        SendEffect
-        (
-            channel_idx,
-            mode,
-            red,
-            grn,
-            blu
-        );
-    }
+    SendEffect
+    (
+        channel,
+        mode,
+        red,
+        grn,
+        blu
+    );
 }
 
 void AuraAddressableController::SendEffect

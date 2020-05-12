@@ -59,11 +59,13 @@ public:
 
     virtual void SetMode
         (
-        unsigned char mode,
-        unsigned char red,
-        unsigned char grn,
-        unsigned char blu
+        unsigned char   channel,
+        unsigned char   mode,
+        unsigned char   red,
+        unsigned char   grn,
+        unsigned char   blu
         ) = 0;
+
 protected:
     hid_device*             dev;
 private:

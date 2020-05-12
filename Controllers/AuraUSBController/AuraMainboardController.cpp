@@ -57,10 +57,11 @@ void AuraMainboardController::SetChannelLEDs(unsigned char channel, RGBColor * c
 
 void AuraMainboardController::SetMode
     (
-    unsigned char mode,
-    unsigned char red,
-    unsigned char grn,
-    unsigned char blu
+    unsigned char   channel,
+    unsigned char   mode,
+    unsigned char   red,
+    unsigned char   grn,
+    unsigned char   blu
     )
 {
     this->mode = mode;
@@ -69,22 +70,19 @@ void AuraMainboardController::SetMode
     led_data[1] = grn;
     led_data[2] = blu;
 
-    for(int channel_idx = 0; channel_idx < GetChannelCount(); channel_idx++)
-    {
-        SendEffect
-        (
-            channel_idx,
-            mode
-        );
-        SendDirect
-        (
-            channel_idx,
-            0,
-            1,
-            led_data
-        );
-        SendCommit();
-    }
+    SendEffect
+    (
+        channel,
+        mode
+    );
+    SendDirect
+    (
+        channel,
+        0,
+        1,
+        led_data
+    );
+    SendCommit();
 }
 
 void AuraMainboardController::SendEffect

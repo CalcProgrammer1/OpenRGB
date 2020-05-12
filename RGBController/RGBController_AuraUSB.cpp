@@ -212,5 +212,11 @@ void RGBController_AuraUSB::UpdateMode()
         blu = RGBGetBValue(modes[active_mode].colors[0]);
     }
 
-    aura->SetMode(modes[active_mode].value, red, grn, blu);
+    for(unsigned int zone_idx; zone_idx < zones.size(); zone_idx++)
+    {
+        if(zones[zone_idx].leds_count > 0)
+        {
+            aura->SetMode(zone_idx, modes[active_mode].value, red, grn, blu);
+        }
+    }
 }

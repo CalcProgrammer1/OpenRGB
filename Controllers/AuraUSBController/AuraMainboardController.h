@@ -37,10 +37,11 @@ public:
 
     void SetMode
         (
-        unsigned char mode,
-        unsigned char red,
-        unsigned char grn,
-        unsigned char blu
+        unsigned char   channel,
+        unsigned char   mode,
+        unsigned char   red,
+        unsigned char   grn,
+        unsigned char   blu
         );
 
 private:
