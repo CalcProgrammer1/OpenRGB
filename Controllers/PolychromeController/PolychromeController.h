@@ -16,6 +16,7 @@ typedef unsigned char	polychrome_dev_id;
 
 enum
 {
+    FIRMWARE_VER_1_PT_5             = 0x0105,   /* Firmware nu51_1.5                    */
     FIRMWARE_VER_1_PT_10            = 0x010A,   /* Firmware nu51_1.10                   */
     FIRMWARE_VER_2_PT_00            = 0x0200,   /* Firmware nu51_2.00                   */
     FIRMWARE_VER_2_PT_08            = 0x0208,   /* Firmware nu51_2.08                   */

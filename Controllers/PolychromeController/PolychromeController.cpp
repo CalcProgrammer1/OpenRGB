@@ -17,6 +17,12 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     
     switch (GetFirmwareVersion())
     {
+    case FIRMWARE_VER_1_PT_5:
+        led_count = 1;
+        asr_led = true;
+        strcpy(device_name, "ASRock ASR LED FW 1.5");
+        break;
+
     case FIRMWARE_VER_1_PT_10:
         led_count = 1;
         asr_led = true;
