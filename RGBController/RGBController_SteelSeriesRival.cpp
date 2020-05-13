@@ -13,9 +13,9 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
 {
     rival = rival_ptr;
     
-    name        = "SteelSeries Rival 110";
+    name        = rival_ptr->GetDeviceName();
     type        = DEVICE_TYPE_MOUSE; 
-    description = "SteelSeries Rival 110";
+    description = "SteelSeries Rival Device";
 
     mode Static;
     Static.name       = "Static";
