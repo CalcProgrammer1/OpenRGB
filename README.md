@@ -135,3 +135,5 @@ While no code from these projects directly made its way into OpenRGB, these proj
   * OpenCorsairLink: https://github.com/audiohacked/OpenCorsairLink
 
   * msi-keyboard: https://github.com/bparker06/msi-keyboard
+
+  * rivalcfg: https://github.com/flozz/rivalcfg

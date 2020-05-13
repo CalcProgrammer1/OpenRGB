@@ -314,6 +314,7 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
 void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectNZXTKrakenControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -362,6 +363,7 @@ void DetectRGBControllers(void)
     DetectRedragonControllers(rgb_controllers);
     DetectLogitechControllers(rgb_controllers);
     DetectNZXTKrakenControllers(rgb_controllers);
+    DetectSteelSeriesControllers(rgb_controllers);
 
     DetectE131Controllers(rgb_controllers);
 
