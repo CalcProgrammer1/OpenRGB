@@ -70,6 +70,7 @@ private:
     net_port        port;
     char            port_ip[20];
     unsigned short  port_num;
+    bool            client_active;
     bool            server_connected;
     bool            server_initialized;
     unsigned int    server_controller_count;

@@ -100,6 +100,8 @@ void NetworkClient::StartClient()
 
     port.tcp_client(port_ip, port_str);
 
+    client_active = true;
+
     //Start the connection thread
     ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
 
@@ -111,7 +113,18 @@ void NetworkClient::StartClient()
 
 void NetworkClient::StopClient()
 {
+    server_connected = false;
+    client_active    = false;
 
+    shutdown(client_sock, SD_RECEIVE);
+    closesocket(client_sock);
+    ListenThread->join();
+    ConnectionThread->join();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    ClientInfoChanged();
 }
 
 void NetworkClient::ConnectionThreadFunction()
@@ -119,7 +132,7 @@ void NetworkClient::ConnectionThreadFunction()
     unsigned int requested_controllers;
 
     //This thread manages the connection to the server
-    while(1)
+    while(client_active == true)
     {
         if(server_connected == false)
         {
@@ -243,7 +256,7 @@ void NetworkClient::ListenThreadFunction()
 {
     printf("Network client listener started\n");
     //This thread handles messages received from the server
-    while(server_connected = true)
+    while(server_connected == true)
     {
         NetPacketHeader header;
         int             bytes_read  = 0;
