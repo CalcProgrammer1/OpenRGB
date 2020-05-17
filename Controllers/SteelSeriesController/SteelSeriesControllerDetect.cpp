@@ -79,12 +79,17 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
                 case DEVICE_TYPE_KEYBOARD:
                     /* Not yet supported */
                     break;
+                case DEVICE_TYPE_HEADSET:
+                    /* Not yet supported */
                 case DEVICE_TYPE_MOUSE:
                     SteelSeriesRivalController* controller = new SteelSeriesRivalController(dev);
 
                     RGBController_SteelSeriesRival* rgb_controller = new RGBController_SteelSeriesRival(controller);
                     rgb_controller->name = device_list[device_idx].name;
                     rgb_controllers.push_back(rgb_controller);
+                    break;
+                case DEVICE_TYPE_MOUSEMAT:
+                    /* Not yet supported */
                     break;
             }
         }
