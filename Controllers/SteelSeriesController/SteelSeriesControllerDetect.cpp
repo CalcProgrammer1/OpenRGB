@@ -7,8 +7,11 @@
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
-#define STEELSERIES_RIVAL_110_VID 0x1038
-#define STEELSERIES_RIVAL_110_PID 0x1729
+#define STEELSERIES_RIVAL_VID           0x1038
+#define STEELSERIES_RIVAL_100_PID       0x1702
+#define STEELSERIES_RIVAL_100_DOTA_PID  0x170c
+#define STEELSERIES_RIVAL_105_PID       0x1814
+#define STEELSERIES_RIVAL_110_PID       0x1729
 
 typedef struct
 {
@@ -19,17 +22,18 @@ typedef struct
     const char *    name;
 } steelseries_device;
 
+#define STEELSERIES_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
 static const steelseries_device device_list[] = 
 {
-    /*-------------------------------------------------------------------------------------------------------------*\
-    | Mice                                                                                                          |
-    \*-------------------------------------------------------------------------------------------------------------*/
-    { STEELSERIES_RIVAL_110_VID,    STEELSERIES_RIVAL_110_PID,  0,  DEVICE_TYPE_MOUSE,      "SteelSeries Rival 110" },
-
+    /*-------------------------------------------------------------------------------------------------------------------------*\
+    | Mice                                                                                                                      |
+    \*-------------------------------------------------------------------------------------------------------------------------*/
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_100_PID,      0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 100"                 },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_100_DOTA_PID, 0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 100 DotA 2 Edition"  },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_105_PID,      0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 105"                 },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_110_PID,      0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 110"                 },
 };
-
-
-#define STEELSERIES_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
 
 /******************************************************************************************\
 *                                                                                          *
