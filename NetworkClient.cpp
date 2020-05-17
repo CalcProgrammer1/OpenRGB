@@ -10,10 +10,22 @@
 #include "RGBController_Network.h"
 #include <cstring>
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <Windows.h>
 #define MSG_NOSIGNAL 0
-#else
+#endif
+
+#ifdef __APPLE__
+#include <unistd.h>
+#define MSG_NOSIGNAL 0
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
+#ifdef __linux__
 #include <unistd.h>
 
 static void Sleep(unsigned int milliseconds)
