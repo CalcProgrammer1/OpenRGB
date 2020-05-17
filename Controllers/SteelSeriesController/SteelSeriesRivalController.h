@@ -10,8 +10,9 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
-#pragma once
+#include "SteelSeriesGeneric.h"
 
+#pragma once
 
 /* Mode, we then use these to set actual effect based on speed. */
 enum
@@ -29,26 +30,39 @@ enum
     STEELSERIES_RIVAL_EFFECT_PULSATE_MAX = 0x04
 };
 
-
 class SteelSeriesRivalController
 {
 public:
-    SteelSeriesRivalController(hid_device* dev_handle);
+    SteelSeriesRivalController
+        (
+        hid_device*         dev_handle,
+        steelseries_type    proto_type
+        );
+
     ~SteelSeriesRivalController();
 
     char* GetDeviceName();
 
+    steelseries_type GetMouseType();
+
     void Save();
-    void SetLightEffect(unsigned char effect);
+
+    void SetLightEffect
+            (
+            unsigned char   zone_id,
+            unsigned char   effect
+            );
+
     void SetColor
             (
-                unsigned char red,
-                unsigned char green,
-                unsigned char blue
+            unsigned char   zone_id,
+            unsigned char   red,
+            unsigned char   green,
+            unsigned char   blue
             );
 
 private:
     char                    device_name[32];
     hid_device*             dev;
-
+    steelseries_type        proto;
 };

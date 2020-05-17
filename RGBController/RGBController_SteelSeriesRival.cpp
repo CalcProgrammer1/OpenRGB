@@ -67,7 +67,7 @@ void RGBController_SteelSeriesRival::DeviceUpdateLEDs()
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
-    rival->SetColor(red, grn, blu);
+    rival->SetColor(0, red, grn, blu);
 }
 
 void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
@@ -76,9 +76,10 @@ void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
     unsigned char red   = RGBGetRValue(color);
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
+
     if(zone == 0)
     {
-        rival->SetColor(red, grn, blu);
+        rival->SetColor(0, red, grn, blu);
     }
 }   
 
@@ -97,10 +98,10 @@ void RGBController_SteelSeriesRival::UpdateMode()
     switch (modes[active_mode].value)
     {
         case STEELSERIES_RIVAL_STATIC:
-            rival->SetLightEffect(STEELSERIES_RIVAL_EFFECT_STATIC);
+            rival->SetLightEffect(0, STEELSERIES_RIVAL_EFFECT_STATIC);
             break;
         case STEELSERIES_RIVAL_PULSATE:
-            rival->SetLightEffect(modes[active_mode].speed);
+            rival->SetLightEffect(0, modes[active_mode].speed);
             break;
     }
 

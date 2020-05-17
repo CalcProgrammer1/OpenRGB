@@ -1,4 +1,5 @@
 #include "SteelSeriesRivalController.h"
+#include "SteelSeriesGeneric.h"
 #include "RGBController.h"
 #include "RGBController_SteelSeriesRival.h"
 #include <vector>
@@ -12,6 +13,8 @@
 #define STEELSERIES_RIVAL_100_DOTA_PID  0x170c
 #define STEELSERIES_RIVAL_105_PID       0x1814
 #define STEELSERIES_RIVAL_110_PID       0x1729
+#define STEELSERIES_RIVAL_300_PID       0x1384
+
 
 typedef struct
 {
@@ -19,6 +22,7 @@ typedef struct
     unsigned short  usb_pid;
     unsigned char   usb_interface;
     device_type     type;
+    steelseries_type    proto_type;
     const char *    name;
 } steelseries_device;
 
@@ -26,13 +30,14 @@ typedef struct
 
 static const steelseries_device device_list[] = 
 {
-    /*-------------------------------------------------------------------------------------------------------------------------*\
-    | Mice                                                                                                                      |
-    \*-------------------------------------------------------------------------------------------------------------------------*/
-    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_100_PID,      0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 100"                 },
-    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_100_DOTA_PID, 0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 100 DotA 2 Edition"  },
-    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_105_PID,      0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 105"                 },
-    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_110_PID,      0,  DEVICE_TYPE_MOUSE,  "SteelSeries Rival 110"                 },
+    /*-------------------------------------------------------------------------------------------------------------------------------------*\
+    | Mice                                                                                                                                  |
+    \*-------------------------------------------------------------------------------------------------------------------------------------*/
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_100_PID,      0,  DEVICE_TYPE_MOUSE,  RIVAL_100,  "SteelSeries Rival 100"                 },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_100_DOTA_PID, 0,  DEVICE_TYPE_MOUSE,  RIVAL_100,  "SteelSeries Rival 100 DotA 2 Edition"  },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_105_PID,      0,  DEVICE_TYPE_MOUSE,  RIVAL_100,  "SteelSeries Rival 105"                 },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_110_PID,      0,  DEVICE_TYPE_MOUSE,  RIVAL_100,  "SteelSeries Rival 110"                 },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_300_PID,      0,  DEVICE_TYPE_MOUSE,  RIVAL_300,  "SteelSeries Rival 300"                 },
 };
 
 /******************************************************************************************\
@@ -79,15 +84,21 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
                 case DEVICE_TYPE_KEYBOARD:
                     /* Not yet supported */
                     break;
+
                 case DEVICE_TYPE_HEADSET:
                     /* Not yet supported */
+                    break;
+
                 case DEVICE_TYPE_MOUSE:
-                    SteelSeriesRivalController* controller = new SteelSeriesRivalController(dev);
+                    {
+                    SteelSeriesRivalController* controller = new SteelSeriesRivalController(dev, device_list[device_idx].proto_type);
 
                     RGBController_SteelSeriesRival* rgb_controller = new RGBController_SteelSeriesRival(controller);
                     rgb_controller->name = device_list[device_idx].name;
                     rgb_controllers.push_back(rgb_controller);
+                    }
                     break;
+
                 case DEVICE_TYPE_MOUSEMAT:
                     /* Not yet supported */
                     break;

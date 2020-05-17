@@ -27,9 +27,14 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
     delete usb_pkt;
 }
 
-SteelSeriesRivalController::SteelSeriesRivalController(hid_device* dev_handle)
+SteelSeriesRivalController::SteelSeriesRivalController
+    (
+    hid_device*         dev_handle,
+    steelseries_type    proto_type
+    )
 {
     dev = dev_handle;
+    proto = proto_type;
 }
 
 SteelSeriesRivalController::~SteelSeriesRivalController()
@@ -40,6 +45,11 @@ SteelSeriesRivalController::~SteelSeriesRivalController()
 char* SteelSeriesRivalController::GetDeviceName()
 {
     return device_name;
+}
+
+steelseries_type SteelSeriesRivalController::GetMouseType()
+{
+    return proto;
 }
 
 /* Saves to the internal configuration */
@@ -54,30 +64,38 @@ void SteelSeriesRivalController::Save()
 
 void SteelSeriesRivalController::SetLightEffect
     (
-        unsigned char effect
+    unsigned char   zone_id,
+    unsigned char   effect
     )
 {
     char usb_buf[9];
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0x00]       = 0x07;
-    usb_buf[0x01]       = 0x00;
+    usb_buf[0x01]       = zone_id; /* Device ID, needs to be zero for the 100
+                                      series */
     usb_buf[0x02]       = effect;
     send_usb_msg(dev, usb_buf, 9);
 }
 
 void SteelSeriesRivalController::SetColor
     (
-            unsigned char   red,
-            unsigned char   green,
-            unsigned char   blue
+    unsigned char   zone_id,
+    unsigned char   red,
+    unsigned char   green,
+    unsigned char   blue
     )
 {
     char usb_buf[9];
     memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    usb_buf[0x00]       = 0x05;
-    usb_buf[0x01]       = 0x00;
+    switch (proto) {
+        case RIVAL_100:
+            usb_buf[0x00]       = 0x05;
+            usb_buf[0x01]       = 0x00;
+        case RIVAL_300:
+            usb_buf[0x00]       = 0x08;
+            usb_buf[0x01]       = zone_id;
+    }
     usb_buf[0x02]       = red;
     usb_buf[0x03]       = green;
     usb_buf[0x04]       = blue;
