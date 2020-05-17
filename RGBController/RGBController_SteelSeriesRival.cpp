@@ -39,19 +39,35 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
 
 void RGBController_SteelSeriesRival::SetupZones()
 {
-    zone main_zone;
-    main_zone.name          = "Main";
-    main_zone.type          = ZONE_TYPE_SINGLE;
-    main_zone.leds_min      = 1;
-    main_zone.leds_max      = 1;
-    main_zone.leds_count    = 1;
-    main_zone.matrix_map    = NULL;
-    zones.push_back(main_zone);
+    /* Rival 100 Series only has one Zone */
+    zone logo_zone;
+    logo_zone.name          = "Logo";
+    logo_zone.type          = ZONE_TYPE_SINGLE;
+    logo_zone.leds_min      = 1;
+    logo_zone.leds_max      = 1;
+    logo_zone.leds_count    = 1;
+    logo_zone.matrix_map    = NULL;
+    zones.push_back(logo_zone);
 
-    led main_led;
-    main_led.name = "Main LED";
-    leds.push_back(main_led);
+    led logo_led;
+    logo_led.name = "Logo LED";
+    leds.push_back(logo_led);
 
+    /* Rival 300 extends this by adding another LED + Zone */
+    if (rival->GetMouseType() == RIVAL_300) {
+        zone wheel_zone;
+        wheel_zone.name         = "Wheel";
+        wheel_zone.type         = ZONE_TYPE_SINGLE;
+        wheel_zone.leds_min     = 1;
+        wheel_zone.leds_max     = 1;
+        wheel_zone.leds_count   = 1;
+        wheel_zone.matrix_map   = NULL;
+        zones.push_back(wheel_zone);
+        
+        led wheel_led;
+        wheel_led.name = "Wheel LED";
+        leds.push_back(wheel_led);
+    }
     SetupColors();
 }
 
@@ -67,7 +83,7 @@ void RGBController_SteelSeriesRival::DeviceUpdateLEDs()
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
-    rival->SetColor(0, red, grn, blu);
+    rival->SetColorAll(red, grn, blu);
 }
 
 void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
@@ -79,12 +95,24 @@ void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
 
     if(zone == 0)
     {
-        rival->SetColor(0, red, grn, blu);
+        rival->SetColorAll(red, grn, blu);
+    }
+    else
+    {
+        /* We can add custom cases depending on different devices here.  */
+        switch(rival->GetMouseType())
+        {
+            case RIVAL_300:
+                rival->SetColor(zone, red, grn, blu);
+                break;
+        }
     }
 }   
 
 void RGBController_SteelSeriesRival::UpdateSingleLED(int led)
 {
+    /* Each zone only has a single LED, so we can use the LED ID to reference
+     * the existing zone code. */
     UpdateZoneLEDs(led);
 }
 
@@ -95,13 +123,16 @@ void RGBController_SteelSeriesRival::SetCustomMode()
 
 void RGBController_SteelSeriesRival::UpdateMode()
 {
+    /* Strictly, the device actually does support different modes for the 
+     * different zones, but we don't support that. */
+    steelseries_type mouse_type = rival->GetMouseType();
     switch (modes[active_mode].value)
     {
         case STEELSERIES_RIVAL_STATIC:
-            rival->SetLightEffect(0, STEELSERIES_RIVAL_EFFECT_STATIC);
+            rival->SetLightEffectAll(STEELSERIES_RIVAL_EFFECT_STATIC);
             break;
         case STEELSERIES_RIVAL_PULSATE:
-            rival->SetLightEffect(0, modes[active_mode].speed);
+            rival->SetLightEffectAll(modes[active_mode].speed);
             break;
     }
 

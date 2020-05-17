@@ -70,13 +70,40 @@ void SteelSeriesRivalController::SetLightEffect
 {
     char usb_buf[9];
     memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    usb_buf[0x00]       = 0x07;
-    usb_buf[0x01]       = zone_id; /* Device ID, needs to be zero for the 100
-                                      series */
+    switch (proto) {
+        case RIVAL_100:
+            usb_buf[0x00]       = 0x07;
+            usb_buf[0x01]       = 0x00;
+            break;
+        case RIVAL_300:
+            usb_buf[0x00]       = 0x07;
+            usb_buf[0x01]       = zone_id + 1;
+            break;
+    }
     usb_buf[0x02]       = effect;
     send_usb_msg(dev, usb_buf, 9);
 }
+
+
+void SteelSeriesRivalController::SetLightEffectAll
+    (
+    unsigned char   effect
+    )
+{
+    switch(proto)
+    {
+        case RIVAL_100:
+            SetLightEffect(0, effect);
+            break;
+
+        case RIVAL_300:
+            SetLightEffect(0, effect);
+            SetLightEffect(1, effect);
+            break;
+    }
+
+}
+
 
 void SteelSeriesRivalController::SetColor
     (
@@ -97,7 +124,7 @@ void SteelSeriesRivalController::SetColor
     
         case RIVAL_300:
             usb_buf[0x00]       = 0x08;
-            usb_buf[0x01]       = zone_id;
+            usb_buf[0x01]       = zone_id + 1;
             break;
     }
     usb_buf[0x02]       = red;
@@ -106,3 +133,24 @@ void SteelSeriesRivalController::SetColor
 
     send_usb_msg(dev, usb_buf, 9);
 }
+
+void SteelSeriesRivalController::SetColorAll
+    (
+        unsigned char   red,
+        unsigned char   green,
+        unsigned char   blue
+    )
+{
+    switch(proto)
+    {
+        case RIVAL_100:
+            SetColor(0, red, green, blue);
+            break;
+
+        case RIVAL_300:
+            SetColor(0, red, green, blue);
+            SetColor(1, red, green, blue);
+            break;
+    }
+}
+

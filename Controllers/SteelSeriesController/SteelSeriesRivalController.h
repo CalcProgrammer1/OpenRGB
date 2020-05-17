@@ -53,12 +53,23 @@ public:
             unsigned char   effect
             );
 
+    void SetLightEffectAll
+            (
+            unsigned char   effect
+            );
+
     void SetColor
             (
             unsigned char   zone_id,
             unsigned char   red,
             unsigned char   green,
             unsigned char   blue
+            );
+    void SetColorAll
+            (
+                unsigned char red,
+                unsigned char green,
+                unsigned char blue
             );
 
 private:
