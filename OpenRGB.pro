@@ -46,6 +46,7 @@ INCLUDEPATH +=                                                          \
     Controllers/HyperXDRAMController/                                   \
     Controllers/HyperXKeyboardController/                               \
     Controllers/LEDStripController/                                     \
+    Controllers/LogitechController/                                     \
     Controllers/MSI3ZoneController/                                     \
     Controllers/MSIMysticLightController/                               \
     Controllers/MSIRGBController/                                       \
@@ -121,6 +122,8 @@ SOURCES +=                                                              \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+    Controllers/LogitechController/LogitechControllerDetect.cpp         \
+    Controllers/LogitechController/LogitechG203Controller.cpp           \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
     Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
     Controllers/MSIMysticLightController/MSIMysticLightController.cpp   \
@@ -168,6 +171,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
+    RGBController/RGBController_LogitechG203.cpp                        \
     RGBController/RGBController_MSI3Zone.cpp                            \
     RGBController/RGBController_MSIMysticLight.cpp                      \
     RGBController/RGBController_MSIRGB.cpp                              \
@@ -223,6 +227,7 @@ HEADERS +=                                                              \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.h     \
     Controllers/LEDStripController/LEDStripController.h                 \
+    Controllers/LogitechController/LogitechG203Controller.h             \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
     Controllers/MSIMysticLightController/MSIMysticLightController.h     \
     Controllers/MSIRGBController/MSIRGBController.h                     \
@@ -255,6 +260,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_HyperXDRAM.h                            \
     RGBController/RGBController_HyperXKeyboard.h                        \
     RGBController/RGBController_LEDStrip.h                              \
+    RGBController/RGBController_LogitechG203.h                          \
     RGBController/RGBController_MSI3Zone.h                              \
     RGBController/RGBController_MSIMysticLight.h                        \
     RGBController/RGBController_MSIRGB.h                                \

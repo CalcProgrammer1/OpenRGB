@@ -31,6 +31,8 @@ static unsigned int keys[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x
                               116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
                               136,  137,  139,  140,  141};
 
+static unsigned int st100[] = { 0x00, 0x01, 0x02, 0x03, 0x05, 0x06, 0x07, 0x08, 0x04 };
+
 static void send_usb_msg(hid_device* dev, char * data_pkt)
 {
     char usb_pkt[65];
@@ -84,6 +86,26 @@ void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
 
         case DEVICE_TYPE_MOUSEMAT:
             SetLEDsMousemat(colors);
+            break;
+
+        case DEVICE_TYPE_HEADSET_STAND:
+            /*-----------------------------------------------------*\
+            | The logo zone of the ST100 is in the middle of the    |
+            | base LED strip, so remap the colors so that the logo  |
+            | is the last LED in the sequence.                      |
+            \*-----------------------------------------------------*/
+            std::vector<RGBColor> remap_colors;
+            remap_colors.resize(colors.size());
+
+            for(int i = 0; i < 9; i++)
+            {
+                remap_colors[st100[i]] = colors[i];
+            }
+
+            /*-----------------------------------------------------*\
+            | The ST100 uses the mousemat protocol                  |
+            \*-----------------------------------------------------*/
+            SetLEDsMousemat(remap_colors);
             break;
     }
 }
@@ -235,8 +257,8 @@ void CorsairPeripheralController::LightingControl()
     usb_buf[0x02]           = CORSAIR_LIGHTING_CONTROL_SOFTWARE;
 
     /*-----------------------------------------------------*\
-    | Lighting control byte needs to be 3 for keyboards, 1  |
-    | for mice and mousepads                                |
+    | Lighting control byte needs to be 3 for keyboards and |
+    | headset stand, 1 for mice and mousepads               |
     \*-----------------------------------------------------*/
     switch(type)
     {
@@ -251,6 +273,10 @@ void CorsairPeripheralController::LightingControl()
 
         case DEVICE_TYPE_MOUSEMAT:
             usb_buf[0x04]   = 0x04;
+            break;
+
+        case DEVICE_TYPE_HEADSET_STAND:
+            usb_buf[0x04]   = 0x03;
             break;
     }
     
@@ -305,12 +331,17 @@ void CorsairPeripheralController::ReadFirmwareInfo()
 
     /*-----------------------------------------------------*\
     | Get device type                                       |
+    |   0x00    Device is a headset stand                   |
     |   0xC0    Device is a keyboard                        |
     |   0xC1    Device is a mouse                           |
     |   0xC2    Device is a mousepad                        |
     \*-----------------------------------------------------*/
     switch((unsigned char)usb_buf[0x14])
     {
+        case 0x00:
+            type = DEVICE_TYPE_HEADSET_STAND;
+            break;
+
         case 0xC0:
             type = DEVICE_TYPE_KEYBOARD;
             break;

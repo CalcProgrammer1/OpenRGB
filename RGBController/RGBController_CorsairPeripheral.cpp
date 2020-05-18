@@ -192,6 +192,10 @@ void RGBController_CorsairPeripheral::SetupZones()
         case DEVICE_TYPE_MOUSEMAT:
             num_zones = 1;
             break;
+
+        case DEVICE_TYPE_HEADSET_STAND:
+            num_zones = 2;
+            break;
     }
 
     /*---------------------------------------------------------*\
@@ -240,6 +244,27 @@ void RGBController_CorsairPeripheral::SetupZones()
                 new_zone.leds_count     = 15;
                 new_zone.matrix_map     = NULL;
                 break;
+
+            case DEVICE_TYPE_HEADSET_STAND:
+                if(zone_idx == 0)
+                {
+                    new_zone.name           = "Base LED Strip";
+                    new_zone.type           = ZONE_TYPE_LINEAR;
+                    new_zone.leds_min       = 8;
+                    new_zone.leds_max       = 8;
+                    new_zone.leds_count     = 8;
+                    new_zone.matrix_map     = NULL;
+                }
+                else
+                {
+                    new_zone.name           = "Logo";
+                    new_zone.type           = ZONE_TYPE_SINGLE;
+                    new_zone.leds_min       = 1;
+                    new_zone.leds_max       = 1;
+                    new_zone.leds_count     = 1;
+                    new_zone.matrix_map     = NULL;
+                }
+                break;
         }
 
         zones.push_back(new_zone);
@@ -259,6 +284,7 @@ void RGBController_CorsairPeripheral::SetupZones()
 
             case DEVICE_TYPE_MOUSE:
             case DEVICE_TYPE_MOUSEMAT:
+            case DEVICE_TYPE_HEADSET_STAND:
                 new_led.name = "Mousemat LED ";
                 new_led.name.append(std::to_string(led_idx + 1));
                 break;
