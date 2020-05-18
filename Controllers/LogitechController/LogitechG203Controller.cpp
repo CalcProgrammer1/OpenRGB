@@ -55,4 +55,5 @@ void LogitechG203Controller::SendMouseMode
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)usb_buf, 20);
+    hid_read(dev, (unsigned char *)usb_buf, 20);
 }
