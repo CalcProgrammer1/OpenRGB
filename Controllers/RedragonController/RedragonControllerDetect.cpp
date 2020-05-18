@@ -11,6 +11,7 @@
 \*-----------------------------------------------------*/
 #define REDRAGON_KEYBOARD_VID           0x0C45
 #define REDRAGON_K550_PID               0x5204
+#define REDRAGON_K552_PID               0x5104
 #define REDRAGON_K556_PID               0x5004
 #define TECWARE_PHANTOM_ELITE_PID       0x652F
 
@@ -39,6 +40,7 @@ static const redragon_device device_list[] =
     | Keyboards                                                                                                     |
     \*-------------------------------------------------------------------------------------------------------------*/
     { REDRAGON_KEYBOARD_VID,    REDRAGON_K550_PID,          1,  DEVICE_TYPE_KEYBOARD,   "Redragon K550 Yama"        },
+    { REDRAGON_KEYBOARD_VID,    REDRAGON_K552_PID,          1,  DEVICE_TYPE_KEYBOARD,   "Redragon K552 Kumara"      },
     { REDRAGON_KEYBOARD_VID,    REDRAGON_K556_PID,          1,  DEVICE_TYPE_KEYBOARD,   "Redragon K556 Devarajas"   },
     { REDRAGON_KEYBOARD_VID,    TECWARE_PHANTOM_ELITE_PID,  1,  DEVICE_TYPE_KEYBOARD,   "Tecware Phantom Elite"     },
     /*-------------------------------------------------------------------------------------------------------------*\
