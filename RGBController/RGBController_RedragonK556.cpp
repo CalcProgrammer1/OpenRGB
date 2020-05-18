@@ -9,6 +9,17 @@
 
 #include "RGBController_RedragonK556.h"
 
+//0xFFFFFFFF indicates an unused entry in matrix
+#define NA  0xFFFFFFFF
+
+static unsigned int matrix_map[6][23] =
+    { {   0,  NA,  1,    2,   3,   4,  NA,   5,   6,   7,   8,  NA,   9,  10,  11,  12,  14,  15,  16,  NA,  NA,  NA,  NA },
+      {  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  NA,  32,  33,  34,  NA,  35,  36,  37,  38,  39,  40,  41 },
+      {  42,  NA,  43,  44,  45,  46,  NA,  47,  48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62 },
+      {  63,  NA,  64,  65,  66,  67,  NA,  68,  69,  70,  71,  72,  73,  74,  76,  NA,  NA,  NA,  NA,  80,  81,  82,  NA },
+      {  84,  NA,  86,  87,  88,  89,  NA,  90,  NA,  91,  92,  93,  94,  95,  97,  NA,  NA,  99,  NA, 101, 102, 103, 104 },
+      { 105, 106, 107,  NA,  NA,  NA,  NA, 108,  NA,  NA,  NA,  NA, 109, 110, 111, 113, 119, 120, 121, 123,  NA, 124,  NA } };
+
 RGBController_RedragonK556::RGBController_RedragonK556(RedragonK556Controller* redragon_ptr)
 {
     redragon = redragon_ptr;
@@ -198,12 +209,15 @@ void RGBController_RedragonK556::SetupZones()
 {
     zone new_zone;
 
-    new_zone.name = "Keyboard";
-    new_zone.type = ZONE_TYPE_MATRIX;
-    new_zone.leds_min = 126;
-    new_zone.leds_max = 126;
-    new_zone.leds_count = 126;
-    new_zone.matrix_map = NULL;
+    new_zone.name               = "Keyboard";
+    new_zone.type               = ZONE_TYPE_MATRIX;
+    new_zone.leds_min           = 126;
+    new_zone.leds_max           = 126;
+    new_zone.leds_count         = 126;
+    new_zone.matrix_map         = new matrix_map_type;
+    new_zone.matrix_map->height = 6;
+    new_zone.matrix_map->width  = 23;
+    new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
     
     zones.push_back(new_zone);
 
