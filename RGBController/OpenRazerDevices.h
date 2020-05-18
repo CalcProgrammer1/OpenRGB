@@ -167,7 +167,7 @@ static const razer_zone blackwidow_elite_zone =
 
 static const razer_device blackwidow_elite_device =
 {
-    "Razer Blackwidow Elite",
+    "Razer BlackWidow Elite",
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
