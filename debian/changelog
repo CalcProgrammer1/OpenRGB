@@ -1,4 +1,4 @@
-openrgb (999-git-upstream) UNRELEASED; urgency=medium
+openrgb (0.21.1) UNRELEASED; urgency=medium
 
   * Builds from git master.  See git history for more information.
 

@@ -1,3 +1,3 @@
-openrgb-dbgsym_999-git-upstream_amd64.deb debug optional automatic=yes
-openrgb_999-git-upstream_amd64.buildinfo misc optional
-openrgb_999-git-upstream_amd64.deb misc optional
+openrgb-dbgsym_0.21.1_amd64.deb debug optional automatic=yes
+openrgb_0.21.1_amd64.buildinfo misc optional
+openrgb_0.21.1_amd64.deb misc optional
