@@ -1,6 +1,8 @@
 #include "LogitechG203Controller.h"
+#include "LogitechG403Controller.h"
 #include "RGBController.h"
 #include "RGBController_LogitechG203.h"
+#include "RGBController_LogitechG403.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -13,6 +15,7 @@
 \*-----------------------------------------------------*/
 #define LOGITECH_MOUSE_VID              0x046D
 #define LOGITECH_G203_PID               0xC084
+#define LOGITECH_G403_PID               0xC083
 
 typedef struct
 {
@@ -34,6 +37,7 @@ static const logitech_device device_list[] =
     | Mice                                                                                                  |
     \*-----------------------------------------------------------------------------------------------------*/
     { LOGITECH_MOUSE_VID,       LOGITECH_G203_PID,  1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Prodigy"     },
+    { LOGITECH_MOUSE_VID,       LOGITECH_G403_PID,  1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Prodigy"     },
     /*-----------------------------------------------------------------------------------------------------*\
     | Mousemats                                                                                             |
     \*-----------------------------------------------------------------------------------------------------*/
@@ -93,15 +97,33 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
 
                 case DEVICE_TYPE_MOUSE:
                     {
-                    LogitechG203Controller* controller = new LogitechG203Controller(dev);
+                    switch(device_list[device_idx].usb_pid)
+                    {
+                        case LOGITECH_G203_PID:
+                        {
+                            LogitechG203Controller* controller = new LogitechG203Controller(dev);
 
-                    RGBController_LogitechG203* rgb_controller = new RGBController_LogitechG203(controller);
+                            RGBController_LogitechG203* rgb_controller = new RGBController_LogitechG203(controller);
 
-                    rgb_controller->name = device_list[device_idx].name;
-                    rgb_controllers.push_back(rgb_controller);
+                            rgb_controller->name = device_list[device_idx].name;
+                            rgb_controllers.push_back(rgb_controller);
+                        }
+                        break;
+                        case LOGITECH_G403_PID:
+                        {
+                            LogitechG403Controller* controller = new LogitechG403Controller(dev);
+
+                            RGBController_LogitechG403* rgb_controller = new RGBController_LogitechG403(controller);
+
+                            rgb_controller->name = device_list[device_idx].name;
+                            rgb_controllers.push_back(rgb_controller);
+                        }
+                    }
+
                     }
                     break;
             }
         }
+        hid_free_enumeration(info);
     }
 }
