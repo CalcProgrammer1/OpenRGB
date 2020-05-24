@@ -10,9 +10,6 @@
 #include <sstream>
 #include <cstring>
 
-const int NZXT_KRAKEN_READ_ENDPOINT = 0x81;
-const int NZXT_KRAKEN_WRITE_ENDPOINT = 0x01;
-
 static void SetColor(const std::vector<RGBColor>& colors, unsigned char* color_data)
 {
     for (std::size_t idx = 0; idx < colors.size(); idx++)
@@ -30,7 +27,7 @@ static RGBColor ToLogoColor(RGBColor rgb)
     return ToRGBColor(RGBGetGValue(rgb), RGBGetRValue(rgb), RGBGetBValue(rgb));
 }
 
-NZXTKrakenController::NZXTKrakenController(libusb_device_handle* dev_handle)
+NZXTKrakenController::NZXTKrakenController(hid_device* dev_handle)
 {
     dev = dev_handle;
 
@@ -42,7 +39,7 @@ NZXTKrakenController::NZXTKrakenController(libusb_device_handle* dev_handle)
 
 NZXTKrakenController::~NZXTKrakenController()
 {
-
+    hid_close(dev);
 }
 
 std::string NZXTKrakenController::GetFirmwareVersion()
@@ -52,11 +49,10 @@ std::string NZXTKrakenController::GetFirmwareVersion()
 
 void NZXTKrakenController::UpdateStatus()
 {
-    int actual;
     unsigned char usb_buf[64];
     memset(usb_buf, 0, sizeof(usb_buf));
 
-    libusb_interrupt_transfer(dev, NZXT_KRAKEN_READ_ENDPOINT, usb_buf, sizeof(usb_buf), &actual, 0);
+    hid_read(dev, usb_buf, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
     | Extract cooler information                            |
@@ -110,7 +106,6 @@ void NZXTKrakenController::SendEffect
     int             size /* = 0 */
     )
 {
-    int actual;
     unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
@@ -154,13 +149,5 @@ void NZXTKrakenController::SendEffect
     /*-----------------------------------------------------*\
     | Send effect                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer
-    (
-        dev,
-        NZXT_KRAKEN_WRITE_ENDPOINT,
-        usb_buf,
-        sizeof(usb_buf),
-        &actual,
-        0
-    );
+    hid_write(dev, usb_buf, sizeof(usb_buf));
 }

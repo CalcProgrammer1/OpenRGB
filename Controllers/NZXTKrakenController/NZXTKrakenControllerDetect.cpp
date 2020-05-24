@@ -2,7 +2,7 @@
 #include "RGBController.h"
 #include "RGBController_NZXTKraken.h"
 #include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #define NZXT_KRAKEN_VID 0x1E71
 #define NZXT_KRAKEN_PID 0x170E
@@ -17,16 +17,12 @@
 
 void DetectNZXTKrakenControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    libusb_context * ctx;
-    libusb_init(&ctx);
+    hid_init();
 
-    libusb_device_handle * dev = libusb_open_device_with_vid_pid(ctx, NZXT_KRAKEN_VID, NZXT_KRAKEN_PID);
+    hid_device* dev = hid_open(NZXT_KRAKEN_VID, NZXT_KRAKEN_PID, nullptr);
 
     if( dev )
     {
-        libusb_detach_kernel_driver(dev, 0);
-        libusb_claim_interface(dev, 0);
-
         NZXTKrakenController* controller = new NZXTKrakenController(dev);
 
         RGBController_NZXTKraken* rgb_controller = new RGBController_NZXTKraken(controller);

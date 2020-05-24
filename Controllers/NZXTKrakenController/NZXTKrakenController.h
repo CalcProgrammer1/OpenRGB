@@ -9,7 +9,7 @@
 #include "RGBController.h"
 #include <vector>
 #include <string>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 enum NZXTKrakenChannel_t
 {
@@ -46,7 +46,7 @@ enum
 class NZXTKrakenController
 {
 public:
-    NZXTKrakenController(libusb_device_handle* dev_handle);
+    NZXTKrakenController(hid_device* dev_handle);
     ~NZXTKrakenController();
 
     std::string GetFirmwareVersion();
@@ -76,7 +76,7 @@ private:
         int             size = 0
         );
 
-    libusb_device_handle*   dev;
+    hid_device*   dev;
 
     // -- status
     std::string             firmware_version;
