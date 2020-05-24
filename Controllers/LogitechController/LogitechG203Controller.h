@@ -22,6 +22,15 @@ enum
     LOGITECH_G203_MODE_BREATHING         = 0x03,
 };
 
+enum
+{
+    LOGITECH_G203_SPEED_SLOWEST          = 0x00, /* Slowest speed                */
+    LOGITECH_G203_SPEED_SLOW             = 0x01, /* Slow speed                   */
+    LOGITECH_G203_SPEED_NORMAL           = 0x02, /* Normal speed                 */
+    LOGITECH_G203_SPEED_FAST             = 0x03, /* Fast speed                   */
+    LOGITECH_G203_SPEED_FASTEST          = 0x04, /* Fastest speed                */
+};
+
 class LogitechG203Controller
 {
 public:
@@ -31,7 +40,7 @@ public:
     void        SendMouseMode
                    (
                    unsigned char       mode,
-                   unsigned char       speed,
+                   unsigned short      speed,
                    unsigned char       red,
                    unsigned char       green,
                    unsigned char       blue

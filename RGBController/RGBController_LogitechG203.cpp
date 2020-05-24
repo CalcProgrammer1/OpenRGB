@@ -34,15 +34,21 @@ RGBController_LogitechG203::RGBController_LogitechG203(LogitechG203Controller* l
     mode Cycle;
     Cycle.name       = "Cycle";
     Cycle.value      = LOGITECH_G203_MODE_CYCLE;
-    Cycle.flags      = 0;
+    Cycle.flags      = MODE_FLAG_HAS_SPEED;
     Cycle.color_mode = MODE_COLORS_NONE;
+    Cycle.speed_min  = LOGITECH_G203_SPEED_SLOWEST;
+    Cycle.speed_max  = LOGITECH_G203_SPEED_FASTEST;
+    Cycle.speed      = LOGITECH_G203_SPEED_NORMAL;
     modes.push_back(Cycle);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = LOGITECH_G203_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
     Breathing.color_mode = MODE_COLORS_PER_LED;
+    Breathing.speed_min  = LOGITECH_G203_SPEED_SLOWEST;
+    Breathing.speed_max  = LOGITECH_G203_SPEED_FASTEST;
+    Breathing.speed      = LOGITECH_G203_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     SetupZones();
@@ -79,7 +85,7 @@ void RGBController_LogitechG203::DeviceUpdateLEDs()
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    logitech->SendMouseMode(modes[active_mode].value, 0, red, grn, blu);
+    logitech->SendMouseMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
 }
 
 void RGBController_LogitechG203::UpdateZoneLEDs(int /*zone*/)

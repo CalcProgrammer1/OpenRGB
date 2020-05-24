@@ -40,7 +40,7 @@ public:
     void        SendMouseMode
                    (
                     unsigned char       mode,
-                    std::uint16_t       speed,
+                    unsigned short      speed,
                     unsigned char       channel,
                     unsigned char       red,
                     unsigned char       green,
