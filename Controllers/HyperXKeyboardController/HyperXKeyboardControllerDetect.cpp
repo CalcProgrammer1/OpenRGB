@@ -4,8 +4,29 @@
 #include <vector>
 #include <hidapi/hidapi.h>
 
+/*-----------------------------------------------------*\
+| HyperX keyboard vendor IDs                            |
+\*-----------------------------------------------------*/
 #define HYPERX_KEYBOARD_VID         0x0951
 #define HYPERX_ALLOY_ELITE_PID      0x16BE
+
+typedef struct
+{
+    unsigned short  usb_vid;
+    unsigned short  usb_pid;
+    unsigned char   usb_interface;
+    const char *    name;
+} hyperx_device;
+
+#define HYPERX_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const hyperx_device device_list[] =
+{
+    /*-----------------------------------------------------------------------------------------------------*\
+    | Keyboards                                                                                             |
+    \*-----------------------------------------------------------------------------------------------------*/
+    { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_ELITE_PID,     2,      "HyperX Alloy Elite RGB"                    },
+};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -22,30 +43,37 @@ void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controller
 
     hid_init();
 
-    info = hid_enumerate(HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_PID);
-
-    //Look for HyperX Keyboard, Interface 2
-    while(info)
+    for(std::size_t device_idx = 0; device_idx < HYPERX_NUM_DEVICES; device_idx++)
     {
-        if((info->vendor_id == HYPERX_KEYBOARD_VID)
-         &&(info->product_id == HYPERX_ALLOY_ELITE_PID)
-         &&(info->interface_number == 2))
+        dev = NULL;
+
+        info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
+
+        //Look for HyperX RGB Peripheral
+        while(info)
         {
-            dev = hid_open_path(info->path);
-            break;
+            if((info->vendor_id == device_list[device_idx].usb_vid)
+            &&(info->product_id == device_list[device_idx].usb_pid)
+            &&(info->interface_number == device_list[device_idx].usb_interface))
+            {
+                dev = hid_open_path(info->path);
+                break;
+            }
+            else
+            {
+                info = info->next;
+            }
         }
-        else
+
+        if( dev )
         {
-            info = info->next;
+            HyperXKeyboardController* controller = new HyperXKeyboardController(dev);
+
+            RGBController_HyperXKeyboard* rgb_controller = new RGBController_HyperXKeyboard(controller);
+
+            rgb_controller->name = device_list[device_idx].name;
+            
+            rgb_controllers.push_back(rgb_controller);
         }
-    }
-
-    if( dev )
-    {
-        HyperXKeyboardController* controller = new HyperXKeyboardController(dev);
-
-        RGBController_HyperXKeyboard* rgb_controller = new RGBController_HyperXKeyboard(controller);
-
-        rgb_controllers.push_back(rgb_controller);
     }
 }
