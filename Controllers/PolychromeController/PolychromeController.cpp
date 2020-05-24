@@ -15,7 +15,9 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     this->bus = bus;
     this->dev = dev;
     
-    unsigned short fw_version = GetFirmwareVersion();
+    unsigned short fw_version    = GetFirmwareVersion();
+    unsigned char  major_version = fw_version >> 8;
+    unsigned char  minor_version = fw_version & 0xFF;
 
     /*-----------------------------------------------------*\
     | Determine whether the device uses ASR LED or          |
@@ -23,15 +25,15 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     | Versions 1.xx and 2.xx use ASR LED, 3.xx uses         |
     | Polychrome                                            |
     \*-----------------------------------------------------*/
-    if(((fw_version >> 8) < 0x03) && ((fw_version >> 8) > 0x00))
+    if((major_version < 0x03) && (major_version > 0x00))
     {
-        snprintf(device_name, 32, "ASRock ASR LED FW %d.%02d", (fw_version >> 8), (fw_version & 0xFF));
+        snprintf(device_name, 32, "ASRock ASR LED FW %d.%02d", major_version, minor_version);
         led_count   = 1;
         asr_led     = true;
     }
-    else if(fw_version == 0x03)
+    else if(major_version == 0x03)
     {
-        snprintf(device_name, 32, "ASRock Polychrome FW %d.%02d", (fw_version >> 8), (fw_version & 0xFF));
+        snprintf(device_name, 32, "ASRock Polychrome FW %d.%02d", major_version, minor_version);
         led_count   = 1;
         asr_led     = false;
     }
