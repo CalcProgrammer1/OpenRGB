@@ -115,30 +115,40 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         switch(control[dev_idx]->type)
         {
         case DEVICE_TYPE_MOTHERBOARD:
-            NewLabelString += ":/motherboard.svg";
+            NewLabelString += ":/motherboard.png";
             break;
         case DEVICE_TYPE_DRAM:
-            NewLabelString += ":/ram.svg";
+            NewLabelString += ":/dram.png";
             break;
         case DEVICE_TYPE_GPU:
-            NewLabelString += ":/graphics-card.svg";
+            NewLabelString += ":/gpu.png";
             break;
         case DEVICE_TYPE_COOLER:
-            NewLabelString += ":/fan.svg";
+            NewLabelString += ":/fan.png";
             break;
         case DEVICE_TYPE_LEDSTRIP:
-            //break;
+            NewLabelString += ":/ledstrip.png";
+            break;
         case DEVICE_TYPE_KEYBOARD:
-            //break;
+            NewLabelString += ":/keyboard.png";
+            break;
         case DEVICE_TYPE_MOUSE:
-            //break;
+            NewLabelString += ":/mouse.png";
+            break;
+        case DEVICE_TYPE_MOUSEMAT:
+            NewLabelString += ":/mousemat.png";
+            break;
         case DEVICE_TYPE_HEADSET:
-            //break;
+            NewLabelString += ":/headset.png";
+            break;
+        case DEVICE_TYPE_HEADSET_STAND:
+            NewLabelString += ":/headsetstand.png";
+            break;
         case DEVICE_TYPE_UNKNOWN:
-            NewLabelString += ":/keyboard.svg";
+            NewLabelString += ":/unknown.png";
             break;
         }
-        NewLabelString += "' height='15' width='15'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
+        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();
         NewTabLabel->setText(NewLabelString);
@@ -167,30 +177,40 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         switch(control[dev_idx]->type)
         {
         case DEVICE_TYPE_MOTHERBOARD:
-            NewLabelString += ":/motherboard.svg";
+            NewLabelString += ":/motherboard.png";
             break;
         case DEVICE_TYPE_DRAM:
-            NewLabelString += ":/ram.svg";
+            NewLabelString += ":/dram.png";
             break;
         case DEVICE_TYPE_GPU:
-            NewLabelString += ":/graphics-card.svg";
+            NewLabelString += ":/gpu.png";
             break;
         case DEVICE_TYPE_COOLER:
-            NewLabelString += ":/fan.svg";
+            NewLabelString += ":/fan.png";
             break;
         case DEVICE_TYPE_LEDSTRIP:
-            //break;
+            NewLabelString += ":/ledstrip.png";
+            break;
         case DEVICE_TYPE_KEYBOARD:
-            //break;
+            NewLabelString += ":/keyboard.png";
+            break;
         case DEVICE_TYPE_MOUSE:
-            //break;
+            NewLabelString += ":/mouse.png";
+            break;
+        case DEVICE_TYPE_MOUSEMAT:
+            NewLabelString += ":/mousemat.png";
+            break;
         case DEVICE_TYPE_HEADSET:
-            //break;
+            NewLabelString += ":/headset.png";
+            break;
+        case DEVICE_TYPE_HEADSET_STAND:
+            NewLabelString += ":/headsetstand.png";
+            break;
         case DEVICE_TYPE_UNKNOWN:
-            NewLabelString += ":/keyboard.svg";
+            NewLabelString += ":/unknown.png";
             break;
         }
-        NewLabelString += "' height='15' width='15'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
+        NewLabelString += "' height='16 width='16'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();
         NewTabLabel->setText(NewLabelString);
@@ -209,8 +229,8 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         ui->InformationTabBar->addTab(SMBusToolsPage, "");
 
         QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
-        SMBusToolsLabelString += ":/keyboard.svg";
-        SMBusToolsLabelString += "' height='15' width='15'></td><td>SMBus Tools</td></tr></table></html>";
+        SMBusToolsLabelString += ":/tools.png";
+        SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
 
         QLabel *SMBusToolsTabLabel = new QLabel();
         SMBusToolsTabLabel->setText(SMBusToolsLabelString);
@@ -227,8 +247,8 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     ui->InformationTabBar->addTab(SoftInfoPage, "");
 
     QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
-    SoftwareLabelString += ":/keyboard.svg";
-    SoftwareLabelString += "' height='15' width='15'></td><td>Software</td></tr></table></html>";
+    SoftwareLabelString += ":/software.png";
+    SoftwareLabelString += "' height='16' width='16'></td><td>Software</td></tr></table></html>";
 
     QLabel *SoftwareTabLabel = new QLabel();
     SoftwareTabLabel->setText(SoftwareLabelString);

@@ -1,11 +1,17 @@
 <RCC>
     <qresource prefix="/">
         <file>OpenRGB.png</file>
-        <file>motherboard.svg</file>
-        <file>ram.svg</file>
-        <file>graphics-card.svg</file>
-        <file>fan.svg</file>
-        <file>keyboard.svg</file>
-        <file>mouse.svg</file>
+        <file>motherboard.png</file>
+        <file>dram.png</file>
+        <file>gpu.png</file>
+        <file>fan.png</file>
+        <file>ledstrip.png</file>
+        <file>keyboard.png</file>
+        <file>mouse.png</file>
+        <file>mousemat.png</file>
+        <file>headset.png</file>
+        <file>headsetstand.png</file>
+        <file>tools.png</file>
+        <file>software.png</file>
     </qresource>
 </RCC>
