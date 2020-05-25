@@ -11,6 +11,46 @@
 
 using namespace Ui;
 
+static QString GetIconString(device_type type)
+{
+    switch(type)
+    {
+    case DEVICE_TYPE_MOTHERBOARD:
+        return("motherboard.png");
+        break;
+    case DEVICE_TYPE_DRAM:
+        return("dram.png");
+        break;
+    case DEVICE_TYPE_GPU:
+        return("gpu.png");
+        break;
+    case DEVICE_TYPE_COOLER:
+        return("fan.png");
+        break;
+    case DEVICE_TYPE_LEDSTRIP:
+        return("ledstrip.png");
+        break;
+    case DEVICE_TYPE_KEYBOARD:
+        return("keyboard.png");
+        break;
+    case DEVICE_TYPE_MOUSE:
+        return("mouse.png");
+        break;
+    case DEVICE_TYPE_MOUSEMAT:
+        return("mousemat.png");
+        break;
+    case DEVICE_TYPE_HEADSET:
+        return("headset.png");
+        break;
+    case DEVICE_TYPE_HEADSET_STAND:
+        return("headsetstand.png");
+        break;
+    case DEVICE_TYPE_UNKNOWN:
+        return("unknown.png");
+        break;
+    }
+}
+
 OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, NetworkServer* server, bool show_i2c_tools, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), network_server(server), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
@@ -111,43 +151,8 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         | text in the tab label.  Choose icon based on device   |
         | type and append device name string.                   |
         \*-----------------------------------------------------*/
-        QString NewLabelString = "<html><table><tr><td width='30'><img src='";
-        switch(control[dev_idx]->type)
-        {
-        case DEVICE_TYPE_MOTHERBOARD:
-            NewLabelString += ":/motherboard.png";
-            break;
-        case DEVICE_TYPE_DRAM:
-            NewLabelString += ":/dram.png";
-            break;
-        case DEVICE_TYPE_GPU:
-            NewLabelString += ":/gpu.png";
-            break;
-        case DEVICE_TYPE_COOLER:
-            NewLabelString += ":/fan.png";
-            break;
-        case DEVICE_TYPE_LEDSTRIP:
-            NewLabelString += ":/ledstrip.png";
-            break;
-        case DEVICE_TYPE_KEYBOARD:
-            NewLabelString += ":/keyboard.png";
-            break;
-        case DEVICE_TYPE_MOUSE:
-            NewLabelString += ":/mouse.png";
-            break;
-        case DEVICE_TYPE_MOUSEMAT:
-            NewLabelString += ":/mousemat.png";
-            break;
-        case DEVICE_TYPE_HEADSET:
-            NewLabelString += ":/headset.png";
-            break;
-        case DEVICE_TYPE_HEADSET_STAND:
-            NewLabelString += ":/headsetstand.png";
-            break;
-        case DEVICE_TYPE_UNKNOWN:
-            NewLabelString += ":/unknown.png";
-            break;
-        }
+        QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
+        NewLabelString += GetIconString(control[dev_idx]->type);
         NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();
@@ -173,44 +178,9 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         | text in the tab label.  Choose icon based on device   |
         | type and append device name string.                   |
         \*-----------------------------------------------------*/
-        QString NewLabelString = "<html><table><tr><td width='30'><img src='";
-        switch(control[dev_idx]->type)
-        {
-        case DEVICE_TYPE_MOTHERBOARD:
-            NewLabelString += ":/motherboard.png";
-            break;
-        case DEVICE_TYPE_DRAM:
-            NewLabelString += ":/dram.png";
-            break;
-        case DEVICE_TYPE_GPU:
-            NewLabelString += ":/gpu.png";
-            break;
-        case DEVICE_TYPE_COOLER:
-            NewLabelString += ":/fan.png";
-            break;
-        case DEVICE_TYPE_LEDSTRIP:
-            NewLabelString += ":/ledstrip.png";
-            break;
-        case DEVICE_TYPE_KEYBOARD:
-            NewLabelString += ":/keyboard.png";
-            break;
-        case DEVICE_TYPE_MOUSE:
-            NewLabelString += ":/mouse.png";
-            break;
-        case DEVICE_TYPE_MOUSEMAT:
-            NewLabelString += ":/mousemat.png";
-            break;
-        case DEVICE_TYPE_HEADSET:
-            NewLabelString += ":/headset.png";
-            break;
-        case DEVICE_TYPE_HEADSET_STAND:
-            NewLabelString += ":/headsetstand.png";
-            break;
-        case DEVICE_TYPE_UNKNOWN:
-            NewLabelString += ":/unknown.png";
-            break;
-        }
-        NewLabelString += "' height='16 width='16'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
+        QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
+        NewLabelString += GetIconString(control[dev_idx]->type);
+        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();
         NewTabLabel->setText(NewLabelString);
