@@ -2517,7 +2517,7 @@ static const razer_zone base_station_zone =
 static const razer_device base_station_device =
 {
     "Razer Base Station Chroma",
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_HEADSET_STAND,
     true,
     1,
     15,
