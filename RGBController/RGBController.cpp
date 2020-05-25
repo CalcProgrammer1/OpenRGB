@@ -1346,6 +1346,8 @@ std::string device_type_to_str(device_type type)
         return "Mousemat";
     case DEVICE_TYPE_HEADSET:
         return "Headset";
+    case DEVICE_TYPE_HEADSET_STAND:
+        return "Headset Stand";
     default:
         return "Unknown";
     }
