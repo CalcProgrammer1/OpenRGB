@@ -41,7 +41,6 @@ DEFINES +=                                                              \
 #-----------------------------------------------------------------------#
 INCLUDEPATH +=                                                          \
     dependencies/ColorWheel                                             \
-    dependencies/hidapi                                                 \
     dependencies/libe131/src/                                           \
     i2c_smbus/                                                          \
     i2c_tools/                                                          \
@@ -173,7 +172,6 @@ HEADERS +=                                                              \
 
 SOURCES +=                                                              \
     dependencies/ColorWheel/ColorWheel.cpp                              \
-    dependencies/hidapi/hidapi.c                                        \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     cli.cpp                                                             \
@@ -316,6 +314,7 @@ FORMS += \
 # Windows-specific Configuration                                        #
 #-----------------------------------------------------------------------#
 win32:INCLUDEPATH +=                                                    \
+    dependencies/hidapi                                                 \
     dependencies/inpout32_1501/Win32/                                   \
     dependencies/libusb-1.0.22/include                                  \
     dependencies/NVFC                                                   \
@@ -323,6 +322,7 @@ win32:INCLUDEPATH +=                                                    \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
+    dependencies/hidapi/hidapi.c                                        \
     dependencies/NVFC/nvapi.cpp                                         \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
@@ -400,6 +400,19 @@ unix:!macx {
     LIBS +=                                                             \
     -lusb-1.0                                                           \
     -lstdc++fs                                                          \
+
+    #-------------------------------------------------------------------#
+    # Determine which hidapi to use based on availability               #
+    #-------------------------------------------------------------------#
+    packagesExist(hidapi-libusb) {
+        LIBS += -lhidapi-libusb
+    } else {
+        packagesExist(hidapi) {
+            LIBS += -lhidapi
+        } else {
+            LIBS += -lhidapi-libusb
+        }
+    }
 
     SOURCES +=                                                          \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
