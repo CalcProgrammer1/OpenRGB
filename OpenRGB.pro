@@ -425,3 +425,10 @@ unix:!macx {
 #-----------------------------------------------------------------------#
 # MacOS-specific Configuration                                          #
 #-----------------------------------------------------------------------#
+unix:macx {
+    INCLUDEPATH +=                                                      \
+    /usr/local/include                                                  \
+
+    LIBS +=                                                             \
+    -L/usr/local/lib -lusb-1.0 -lhidapi                                 \
+}
