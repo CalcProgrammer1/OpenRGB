@@ -425,6 +425,10 @@ unix:!macx {
 #-----------------------------------------------------------------------#
 # MacOS-specific Configuration                                          #
 #-----------------------------------------------------------------------#
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
+
+macx:ICON = qt/OpenRGB.icns
+
 unix:macx {
     INCLUDEPATH +=                                                      \
     /usr/local/include                                                  \
