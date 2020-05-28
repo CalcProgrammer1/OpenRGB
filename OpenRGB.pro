@@ -403,14 +403,15 @@ unix:!macx {
 
     #-------------------------------------------------------------------#
     # Determine which hidapi to use based on availability               #
+    #   Prefer hidraw backend, then libusb                              #
     #-------------------------------------------------------------------#
-    packagesExist(hidapi-libusb) {
-        LIBS += -lhidapi-libusb
+    packagesExist(hidapi-hidraw) {
+        LIBS += -lhidapi-hidraw
     } else {
-        packagesExist(hidapi) {
-            LIBS += -lhidapi
-        } else {
+        packagesExist(hidapi-libusb) {
             LIBS += -lhidapi-libusb
+        } else {
+            LIBS += -lhidapi
         }
     }
 
