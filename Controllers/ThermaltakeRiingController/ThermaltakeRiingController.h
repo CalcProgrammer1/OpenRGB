@@ -9,7 +9,7 @@
 
 #include "RGBController.h"
 #include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #pragma once
 
@@ -47,14 +47,14 @@ enum
 class ThermaltakeRiingController
 {
 public:
-    ThermaltakeRiingController(libusb_device_handle* dev_handle);
+    ThermaltakeRiingController(hid_device* dev_handle);
     ~ThermaltakeRiingController();
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     void            SetMode(unsigned char mode, unsigned char speed);
 
 private:
-    libusb_device_handle*   dev;
+    hid_device*     dev;
 
     unsigned char   current_mode;
     unsigned char   current_speed;

@@ -11,7 +11,7 @@
 
 #include <cstring>
 
-ThermaltakeRiingController::ThermaltakeRiingController(libusb_device_handle* dev_handle)
+ThermaltakeRiingController::ThermaltakeRiingController(hid_device* dev_handle)
 {
     dev = dev_handle;
 
@@ -53,7 +53,6 @@ void ThermaltakeRiingController::SetMode(unsigned char mode, unsigned char speed
 void ThermaltakeRiingController::SendInit()
 {
     unsigned char usb_buf[64];
-    int           actual;
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -69,8 +68,8 @@ void ThermaltakeRiingController::SendInit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
 }
 
 void ThermaltakeRiingController::SendRGB
@@ -83,7 +82,6 @@ void ThermaltakeRiingController::SendRGB
     )
 {
     unsigned char usb_buf[64];
-    int           actual;
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -106,6 +104,6 @@ void ThermaltakeRiingController::SendRGB
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
 }
