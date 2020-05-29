@@ -8,7 +8,7 @@
 \*-----------------------------------------*/
 
 #include <string>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #pragma once
 
@@ -109,7 +109,7 @@ enum
 class AMDWraithPrismController
 {
 public:
-    AMDWraithPrismController(libusb_device_handle* dev_handle);
+    AMDWraithPrismController(hid_device* dev_handle);
     ~AMDWraithPrismController();
 
     char* GetDeviceName();
@@ -130,7 +130,7 @@ public:
 
 private:
     char                    device_name[32];
-    libusb_device_handle*   dev;
+    hid_device*             dev;
 
     unsigned char           current_fan_mode;
     unsigned char           current_fan_speed;
