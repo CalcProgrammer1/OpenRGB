@@ -134,7 +134,7 @@ HEADERS +=                                                              \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.h         \
     Controllers/RedragonController/RedragonK556Controller.h             \
     Controllers/RedragonController/RedragonM711Controller.h             \
-    Controllers/SteelSeriesRivalController/SteelSeriesRivalController.h \
+    Controllers/SteelSeriesController/SteelSeriesRivalController.h      \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
