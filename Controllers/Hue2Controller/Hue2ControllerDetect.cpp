@@ -2,52 +2,75 @@
 #include "RGBController.h"
 #include "RGBController_Hue2.h"
 #include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
-#define NZXT_HUE_2_VID 0x1E71
-#define NZXT_HUE_2_PID 0x2001
-#define NZXT_SMART_DEVICE_V2_PID 0x2006
+#define NZXT_VID                    0x1E71
+#define NZXT_HUE_2_PID              0x2001
+#define NZXT_SMART_DEVICE_V2_PID    0x2006
+
+typedef struct
+{
+    unsigned short  usb_vid;
+    unsigned short  usb_pid;
+    const char *    name;
+} nzxt_hue_2_device;
+
+#define NZXT_HUE_2_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const nzxt_hue_2_device device_list[] =
+{
+    /*-----------------------------------------------------------------------------------------------------*\
+    | NZXT Hue 2 devices                                                                                    |
+    \*-----------------------------------------------------------------------------------------------------*/
+    { NZXT_VID,             NZXT_HUE_2_PID,                             "NZXT Hue 2"                        },
+    { NZXT_VID,          NZXT_SMART_DEVICE_V2_PID,                      "NZXT Smart Device V2"              },
+};
 
 /******************************************************************************************\
 *                                                                                          *
 *   DetectHue2Controllers                                                                  *
 *                                                                                          *
 *       Detect devices supported by the Hue2 driver                                        *
-*                                                                                          *                                                                                          *
+*                                                                                          *
 \******************************************************************************************/
 
 void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers)
 {
-    libusb_context * ctx;
-    libusb_init(&ctx);
+    hid_device_info* info;
+    hid_device* dev;
 
-    //Look for NZXT Hue 2
-    libusb_device_handle * hue_2_dev = libusb_open_device_with_vid_pid(ctx, NZXT_HUE_2_VID, NZXT_HUE_2_PID);
+    hid_init();
 
-    if( hue_2_dev )
+    for(std::size_t device_idx = 0; device_idx < NZXT_HUE_2_NUM_DEVICES; device_idx++)
     {
-        libusb_detach_kernel_driver(hue_2_dev, 0);
-        libusb_claim_interface(hue_2_dev, 0);
+        dev = NULL;
 
-        Hue2Controller* controller = new Hue2Controller(hue_2_dev);
+        info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
 
-        RGBController_Hue2* rgb_controller = new RGBController_Hue2(controller);
+        //Look for NZXT Hue 2 devices
+        while(info)
+        {
+            if((info->vendor_id == device_list[device_idx].usb_vid)
+            &&(info->product_id == device_list[device_idx].usb_pid))
+            {
+                dev = hid_open_path(info->path);
+                break;
+            }
+            else
+            {
+                info = info->next;
+            }
+        }
 
-        rgb_controllers.push_back(rgb_controller);
-    }
+        if( dev )
+        {
+            Hue2Controller* controller = new Hue2Controller(dev);
 
-    //Look for NZXT Smart Device V2
-    libusb_device_handle * smart_dev_2_dev = libusb_open_device_with_vid_pid(ctx, NZXT_HUE_2_VID, NZXT_SMART_DEVICE_V2_PID);
+            RGBController_Hue2* rgb_controller = new RGBController_Hue2(controller);
 
-    if( smart_dev_2_dev )
-    {
-        libusb_detach_kernel_driver(smart_dev_2_dev, 0);
-        libusb_claim_interface(smart_dev_2_dev, 0);
-
-        Hue2Controller* controller = new Hue2Controller(smart_dev_2_dev);
-
-        RGBController_Hue2* rgb_controller = new RGBController_Hue2(controller);
-
-        rgb_controllers.push_back(rgb_controller);
+            rgb_controller->name = device_list[device_idx].name;
+            
+            rgb_controllers.push_back(rgb_controller);
+        }
     }
 }   /* DetectHuePlusControllers() */

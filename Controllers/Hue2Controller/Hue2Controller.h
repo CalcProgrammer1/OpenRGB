@@ -6,7 +6,7 @@
 
 #include "RGBController.h"
 #include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #pragma once
 
@@ -53,7 +53,7 @@ enum
 class Hue2Controller
 {
 public:
-    Hue2Controller(libusb_device_handle* dev_handle);
+    Hue2Controller(hid_device* dev_handle);
     ~Hue2Controller();
 
     unsigned int    GetStripsOnChannel
@@ -81,7 +81,7 @@ public:
     unsigned int    channel_leds[HUE_2_NUM_CHANNELS];
 
 private:
-    libusb_device_handle*   dev;
+    hid_device*     dev;
 
     void            SendApply
                         (

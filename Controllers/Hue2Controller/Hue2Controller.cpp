@@ -11,7 +11,7 @@
 #include <string>
 #include <cstring>
 
-Hue2Controller::Hue2Controller(libusb_device_handle* dev_handle)
+Hue2Controller::Hue2Controller(hid_device* dev_handle)
 {
     dev = dev_handle;
 
@@ -46,10 +46,9 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
         0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00
     };
-    int             actual = 0;
 
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
 
     for(int chan = 0; chan < 4; chan++)
     {
@@ -167,7 +166,6 @@ void Hue2Controller::SendApply
     unsigned char   channel
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -190,8 +188,8 @@ void Hue2Controller::SendApply
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
 }
 
 void Hue2Controller::SendDirect
@@ -202,7 +200,6 @@ void Hue2Controller::SendDirect
     unsigned char*  color_data
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -226,8 +223,8 @@ void Hue2Controller::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
 }
 
 void Hue2Controller::SendEffect
@@ -240,7 +237,6 @@ void Hue2Controller::SendEffect
     unsigned char*  color_data
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -281,6 +277,6 @@ void Hue2Controller::SendEffect
     \*-----------------------------------------------------*/
     memcpy(&usb_buf[0x0A], color_data, color_count * 3);
 
-    libusb_interrupt_transfer(dev, 0x01, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x81, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
 }
