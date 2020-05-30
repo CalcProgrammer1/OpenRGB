@@ -86,11 +86,11 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
 
   *  You can run OpenRGB as root to detect all USB devices.
 
-  *  Udev rules can be found here:
-      - https://drive.google.com/drive/folders/1tWVbeOLiLns_IhgyNDWqSK3ZKtP-6oYM?usp=sharing
-      - Copy the .rules files to /etc/udev/rules.d/
+  *  Udev rules are included in this repo:
+      - Copy the 99-openrgb.rules file to /etc/udev/rules.d/
       - Reload rules with `sudo udevadm control --reload-rules && sudo udevadm trigger`
       - Add your user to the `plugdev` group:  `sudo adduser username plugdev`
+      - Add your user to the `i2c` group:  `sudo adduser username i2c`
 
 ## Projects Used
 
