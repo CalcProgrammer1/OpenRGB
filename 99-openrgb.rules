@@ -1,0 +1,206 @@
+#---------------------------------------------------------------#
+#  OpenRGB udev rules                                           #
+#                                                               #
+#   Adam Honse (CalcProgrammer1)                    5/29/2020   #
+#---------------------------------------------------------------#
+
+#---------------------------------------------------------------#
+#  User I2C/SMBus Access                                        #
+#---------------------------------------------------------------#
+KERNEL=="i2c-[0-99]*", GROUP="i2c"
+
+#---------------------------------------------------------------#
+#  User hidraw Access                                           #
+#---------------------------------------------------------------#
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  AMD Wraith Prism                                             #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0051", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  ASUS Aura Core Devices                                       #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1854", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1869", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1866", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  ASUS Aura USB Devices                                        #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1867", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1872", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1889", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a3", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f3", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  Cooler Master Peripheral Devices                             #
+#                                                               #
+#  Mousemats:                                                   #
+#       Cooler Master MP750                                     #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  Corsair Lighting Node Devices                                #
+#                                                               #
+#       Corsair Lighting Node Core                              #
+#       Corsair Lighting Node Pro                               #
+#       Corsair Commander Pro                                   #
+#       Corsair LS100                                           #
+#       Corsair 1000D Obsidian                                  #
+#       Corsair Spec Omega RGB                                  #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c1a", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c0b", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c10", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c1e", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1d00", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1d04", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  Corsair Peripheral Devices                                   #
+#                                                               #
+#  Keyboards:                                                   #
+#       Corsair K55 RGB                                         #
+#       Corsair K65 RGB                                         #
+#       Corsair K65 RGB Lux                                     #
+#       Corsair K65 RGB Rapidfire                               #
+#       Corsair K68 RGB                                         #
+#       Corsair K70 RGB                                         #
+#       Corsair K70 RGB Lux                                     #
+#       Corsair K70 RGB Rapidfire                               #
+#       Corsair K70 RGB MK2                                     #
+#       Corsair K70 RGB MK2 SE                                  #
+#       Corsair K70 RGB MK2 LP                                  #
+#       Corsair K95 RGB                                         #
+#       Corsair K95 Platinum                                    #
+#       Corsair Strafe                                          #
+#       Corsair Strafe MK2                                      #
+#                                                               #
+#  Mice:                                                        #
+#       Corsair M65 Pro                                         #
+#       Corsair M65 RGB Elite                                   #
+#                                                               #
+#  Mousemats:                                                   #
+#       Corsair MM800 RGB Polaris                               #
+#                                                               #
+#  Headset Stands:                                              #
+#       Corsair ST100                                           #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b3d", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b17", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b37", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b39", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b4f", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b13", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b33", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b38", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b49", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b6b", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b55", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b11", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b2d", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b20", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b48", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b2e", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b5a", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b3b", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0a34", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  HyperX Peripheral Devices                                    #
+#                                                               #
+#  Keyboards:                                                   #
+#       HyperX Alloy Elite                                      #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16be", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  Logitech Peripheral Devices                                  #
+#                                                               #
+#  Mice:                                                        #
+#       Logitech G203 Prodigy                                   #
+#       Logitech G403 Prodigy                                   #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c084", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c083", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  MSI/SteelSeries 3-Zone Laptop Keyboard                       #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1770", ATTR{idProduct}=="FF00", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  NZXT Hue 2 Devices                                           #
+#                                                               #
+#       NZXT Hue 2                                              #
+#       NZXT Smart Device V2                                    #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2001", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2006", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  NZXT Kraken                                                  #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="170e", GROUP="plugdev", MODE="0660", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  Redragon Peripheral Devices                                  #
+#                                                               #
+#  Keyboards:                                                   #
+#       Redragon K550 Yama                                      #
+#       Redragon K552 Kumara                                    #
+#       Redragon K556 Devarajas                                 #
+#       Tecware Phantom Elite                                   #
+#                                                               #
+#  Mice:                                                        #
+#       Redragon M711 Cobra                                     #
+#       Redragon M715 Dagger                                    #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="5204", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="5104", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="5004", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="652f", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc30", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc39", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  SteelSeries Peripheral Devices                               #
+#                                                               #
+#  Mice:                                                        #
+#       SteelSeries Rival 100                                   #
+#       SteelSeries Rival 100 DotA 2 Edition                    #
+#       SteelSeries Rival 105                                   #
+#       SteelSeries Rival 110                                   #
+#       SteelSeries Rival 300                                   #
+#       Acer Predator Gaming Mouse (Rival 300)                  #
+#       SteelSeries Rival 300 CS:GO Fade Edition                #
+#       SteelSeries Rival 300 CS:GO Fade Edition (stm32)        #
+#       SteelSeries Rival 300 CS:GO Hyperbeast Edition          #
+#       SteelSeries Rival 300 Dota 2 Edition                    #
+#       SteelSeries Rival 300 HP Omen Edition                   #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1702", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="170c", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1814", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1729", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1384", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1714", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1394", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1716", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="171a", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1392", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1718", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+
+
+#---------------------------------------------------------------#
+#  Thermaltake Poseidon Z RGB Keyboard                          #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="3006", GROUP="plugdev", MODE="0666", TAG+="uaccess"
