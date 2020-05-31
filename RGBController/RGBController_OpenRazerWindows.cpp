@@ -74,6 +74,8 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
                     }
 
                     delete[] output_array;
+
+                    Sleep(1);
                 }
                 
                 if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
@@ -482,6 +484,8 @@ void RGBController_OpenRazer::UpdateMode()
                         razer_functions->matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
                         break;
                 }
+
+                Sleep(20);
             }
             break;
 

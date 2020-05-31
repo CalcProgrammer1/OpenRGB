@@ -12,6 +12,11 @@
 #include <fstream>
 #include <unistd.h>
 
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+
 void RGBController_OpenRazer::DeviceUpdateLEDs()
 {
     switch(matrix_type)
@@ -73,6 +78,8 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
                     }
 
                     delete[] output_array;
+
+                    Sleep(1);
                 }
                 
                 if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
@@ -542,6 +549,8 @@ void RGBController_OpenRazer::UpdateMode()
                         matrix_effect_reactive.flush();
                         break;
                 }
+
+                Sleep(20);
             }
             break;
 
