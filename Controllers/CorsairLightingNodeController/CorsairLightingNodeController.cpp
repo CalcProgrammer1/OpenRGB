@@ -46,10 +46,9 @@ THREAD keepalive_thread(void *param)
     THREADRETURN
 }
 
-CorsairLightingNodeController::CorsairLightingNodeController(libusb_device_handle* dev_handle, unsigned int dev_endpoint)
+CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_handle)
 {
     dev = dev_handle;
-    endpoint = dev_endpoint;
 
     SendFirmwareRequest();
 
@@ -220,8 +219,8 @@ void CorsairLightingNodeController::SendFirmwareRequest()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
-    libusb_interrupt_transfer(dev, 0x80 + endpoint, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
+    actual = hid_read(dev, usb_buf, 64);
 
     if(actual > 0)
     {
@@ -238,7 +237,6 @@ void CorsairLightingNodeController::SendDirect
     unsigned char*  color_data
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -263,12 +261,11 @@ void CorsairLightingNodeController::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
 }
 
 void CorsairLightingNodeController::SendCommit()
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -285,7 +282,7 @@ void CorsairLightingNodeController::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
 }
 
 void CorsairLightingNodeController::SendBegin
@@ -293,7 +290,6 @@ void CorsairLightingNodeController::SendBegin
     unsigned char   channel
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -310,7 +306,7 @@ void CorsairLightingNodeController::SendBegin
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
 }
 
 void CorsairLightingNodeController::SendEffectConfig
@@ -336,7 +332,6 @@ void CorsairLightingNodeController::SendEffectConfig
     unsigned short  temperature_2
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -387,7 +382,7 @@ void CorsairLightingNodeController::SendEffectConfig
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
 }
 
 void CorsairLightingNodeController::SendTemperature()
@@ -400,7 +395,6 @@ void CorsairLightingNodeController::SendReset
     unsigned char   channel
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -417,7 +411,7 @@ void CorsairLightingNodeController::SendReset
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
 }
 
 void CorsairLightingNodeController::SendPortState
@@ -426,7 +420,6 @@ void CorsairLightingNodeController::SendPortState
     unsigned char   state
     )
 {
-    int             actual;
     unsigned char   usb_buf[64];
 
     /*-----------------------------------------------------*\
@@ -444,7 +437,7 @@ void CorsairLightingNodeController::SendPortState
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_interrupt_transfer(dev, endpoint, usb_buf, 64, &actual, 0);
+    hid_write(dev, usb_buf, 64);
 }
 
 void CorsairLightingNodeController::SendBrightness()

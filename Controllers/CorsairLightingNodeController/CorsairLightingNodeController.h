@@ -6,7 +6,7 @@
 
 #include "RGBController.h"
 #include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #pragma once
 
@@ -78,7 +78,7 @@ enum
 class CorsairLightingNodeController
 {
 public:
-    CorsairLightingNodeController(libusb_device_handle* dev_handle, unsigned int dev_endpoint);
+    CorsairLightingNodeController(hid_device* dev_handle);
     ~CorsairLightingNodeController();
 
     std::string     GetFirmwareString();
@@ -107,8 +107,7 @@ public:
     void            KeepaliveThread();
 
 private:
-    libusb_device_handle*   dev;
-    unsigned int            endpoint;
+    hid_device*             dev;
     std::string             firmware_version;
 
     void            SendFirmwareRequest();
