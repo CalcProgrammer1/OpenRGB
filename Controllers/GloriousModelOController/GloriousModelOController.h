@@ -9,7 +9,7 @@
 
 #include "RGBController.h"
 #include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #pragma once
 
@@ -50,7 +50,7 @@ enum
 class GloriousModelOController
 {
 public:
-    GloriousModelOController(libusb_device_handle* dev_handle);
+    GloriousModelOController(hid_device* dev_handle);
     ~GloriousModelOController();
 
     std::string     GetDeviceName();
@@ -59,7 +59,7 @@ public:
     void            SetLEDColor(unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode, unsigned char speed, unsigned char direction);
 private:
-    libusb_device_handle*   dev;
+    hid_device*             dev;
 
     char                    device_name[32];
     unsigned int            led_count;

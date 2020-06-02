@@ -10,7 +10,7 @@
 #include "GloriousModelOController.h"
 #include <cstring>
 
-GloriousModelOController::GloriousModelOController(libusb_device_handle* dev_handle)
+GloriousModelOController::GloriousModelOController(hid_device* dev_handle)
 {
     dev = dev_handle;
 
@@ -126,7 +126,7 @@ void GloriousModelOController::SetLEDColor(unsigned char red, unsigned char gree
     usb_buf[0x28] = green;
     */
 
-    libusb_control_transfer(dev, 0x21, 0x09, 0x0304, 0x0001, usb_buf, 520, 0);
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 
 void GloriousModelOController::SetMode(unsigned char mode, unsigned char speed, unsigned char direction)
@@ -242,5 +242,5 @@ void GloriousModelOController::SetMode(unsigned char mode, unsigned char speed, 
         break;
     }
 
-    libusb_control_transfer(dev, 0x21, 0x09, 0x0304, 0x0001, usb_buf, 520, 0);
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }

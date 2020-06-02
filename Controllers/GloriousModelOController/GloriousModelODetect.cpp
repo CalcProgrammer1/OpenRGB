@@ -2,7 +2,7 @@
 #include "RGBController.h"
 #include "RGBController_GloriousModelO.h"
 #include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #define Glorious_Model_O_VID 0x258A
 #define Glorious_Model_O_PID 0x0036
@@ -17,20 +17,38 @@
 
 void DetectGloriousModelOControllers(std::vector<RGBController*>& rgb_controllers)
 {
-    libusb_context * ctx;
-    libusb_init(&ctx);
+    hid_device_info* info;
+    hid_device* dev = NULL;
+
+    hid_init();
+
+    dev = NULL;
+
+    info = hid_enumerate(Glorious_Model_O_VID, Glorious_Model_O_PID);
 
     //Look for Glorious Model O
-    libusb_device_handle * dev = libusb_open_device_with_vid_pid(ctx, Glorious_Model_O_VID, Glorious_Model_O_PID);
+    while(info)
+    {
+        if((info->vendor_id == Glorious_Model_O_VID)
+        &&(info->product_id == Glorious_Model_O_PID)
+        &&(info->interface_number == 1))
+        {
+            dev = hid_open_path(info->path);
+            break;
+        }
+        else
+        {
+            info = info->next;
+        }
+    }
 
     if( dev )
     {
-        libusb_detach_kernel_driver(dev, 1);
-        libusb_claim_interface(dev, 1);
-
         GloriousModelOController* controller = new GloriousModelOController(dev);
 
         RGBController_GloriousModelO* rgb_controller = new RGBController_GloriousModelO(controller);
+
+        rgb_controller->name = "Glorious Mouse";
 
         rgb_controllers.push_back(rgb_controller);
     }
