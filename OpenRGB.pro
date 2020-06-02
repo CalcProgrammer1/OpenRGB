@@ -58,6 +58,7 @@ INCLUDEPATH +=                                                          \
     Controllers/CorsairVengeanceController/                             \
     Controllers/CorsairVengeanceProController/                          \
     Controllers/CrucialController/                                      \
+    Controllers/GloriousModelOController/                               \
     Controllers/Hue2Controller/                                         \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXDRAMController/                                   \
@@ -115,6 +116,7 @@ HEADERS +=                                                              \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.h \
     Controllers/CorsairVengeanceProController/CorsairVengeanceProController.h \
     Controllers/CrucialController/CrucialController.h                   \
+    Controllers/GloriousModelOController/GloriousModelOController.h     \
     Controllers/Hue2Controller/Hue2Controller.h                         \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
@@ -150,6 +152,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Crucial.h                               \
     RGBController/RGBController_Dummy.h                                 \
     RGBController/RGBController_E131.h                                  \
+    RGBController/RGBController_GloriousModelO.h                        \
     RGBController/RGBController_Hue2.h                                  \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperXDRAM.h                            \
@@ -221,6 +224,8 @@ SOURCES +=                                                              \
     Controllers/CorsairVengeanceProController/CorsairVengeanceProControllerDetect.cpp \
     Controllers/CrucialController/CrucialController.cpp                 \
     Controllers/CrucialController/CrucialControllerDetect.cpp           \
+    Controllers/GloriousModelOController/GloriousModelOController.cpp   \
+    Controllers/GloriousModelOController/GloriousModelOControllerDetect.cpp \
     Controllers/Hue2Controller/Hue2Controller.cpp                       \
     Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
     Controllers/HuePlusController/HuePlusController.cpp                 \
@@ -277,6 +282,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_CorsairVengeancePro.cpp                 \
     RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Dummy.cpp                               \
+    RGBController/RGBController_GloriousModelO.cpp                      \
     RGBController/RGBController_Hue2.cpp                                \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperXDRAM.cpp                          \
