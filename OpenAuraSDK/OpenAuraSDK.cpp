@@ -574,57 +574,116 @@ int main(int argc, char *argv[])
 {
     DetectI2CBusses();
 
-    FILE* file = freopen("regdump.txt", "w", stdout);
-
     int i801_smba = ((i2c_smbus_i801*)busses[0])->i801_smba;
 
     while(1)
     {
-        //int smbhststs1 = Inp32(SMBHSTSTS);
-        //smbhststs1 = Inp32(SMBHSTSTS);
-        //int smbhststs2 = Inp32(SMBHSTSTS);
         while ((Inp32(SMBHSTSTS) & 0x02) != 0)
         {
-            for (int i = 0; i < 25000; i++);
+            for (int i = 0; i < 5000; i++);
         }
 
         while ((Inp32(SMBHSTSTS) & 0x02) == 0)
         {
-            for (int i = 0; i < 25000; i++);
+            for (int i = 0; i < 5000; i++);
         }
-            //smbhststs2 = Inp32(SMBHSTSTS);
-
-        //printf("cut \n");
-
-        //for (int i = 0; i < 2; i++)
         {
             unsigned char addr = Inp32(SMBHSTADD);
+            unsigned char size = Inp32(SMBHSTCNT);
+            unsigned char cmnd = Inp32(SMBHSTCMD);
+            unsigned char dat0 = Inp32(SMBHSTDAT0);
+            unsigned char dat1 = Inp32(SMBHSTDAT1);
+
             if (addr & 1)
             {
-                printf("Read %02x from %02x, address %02x \n",
-                    Inp32(SMBHSTDAT0),
-                    Inp32(SMBHSTCMD),
-                    Inp32(SMBHSTADD) >> 1);
+                switch (size & 0x1C)
+                {
+                case I801_QUICK:
+                    printf("Read %02x from address %02x \n",
+                        dat0,
+                        addr >> 1);
+                    break;
+
+                case I801_BYTE_DATA:
+                    printf("Read %02x from %02x, address %02x \n",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+                case I801_WORD_DATA:
+                    printf("Read %02x %02x from %02x, address %02x \n",
+                        dat0,
+                        dat1,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+                case I801_BLOCK_DATA:
+                    printf("Read block of length %02x from %02x, address %02x, contents: ",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+
+                    // Read SMBHSTCNT to reset SMBBLKDAT read pointer
+                    Inp32(SMBHSTCNT);
+
+                    for (int byte = 0; byte < dat0; byte++)
+                    {
+                        printf("%02x ", Inp32(SMBBLKDAT));
+                    }
+
+                    printf("\n");
+
+                    break;
+                }
             }
             else
             {
-                printf("Wrote %02x to %02x, address %02x \n",
-                    Inp32(SMBHSTDAT0),
-                    Inp32(SMBHSTCMD),
-                    Inp32(SMBHSTADD) >> 1);
-            }
+                switch (size & 0x1C)
+                {
+                case I801_QUICK:
+                    printf("Wrote %02x to address %02x \n",
+                        dat0,
+                        addr >> 1);
+                    break;
 
-            //printf("%02x %02x %02x %02x %02x %02x \n",
-            //    Inp32(SMBHSTSTS),
-            //    Inp32(SMBHSTCNT),
-            //    Inp32(SMBHSTCMD),
-            //    Inp32(SMBHSTADD) >> 1,
-            //    Inp32(SMBHSTDAT0),
-            //    Inp32(SMBHSTDAT1)
-            //);
+                case I801_BYTE_DATA:
+                    printf("Wrote %02x to %02x, address %02x \n",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+                case I801_WORD_DATA:
+                    printf("Wrote %02x %02x to %02x, address %02x \n",
+                        dat0,
+                        dat1,
+                        cmnd,
+                        addr >> 1);
+                    break;
+
+                case I801_BLOCK_DATA:
+                    printf("Wrote block of length %02x to %02x, address %02x, contents: ",
+                        dat0,
+                        cmnd,
+                        addr >> 1);
+
+                    // Read SMBHSTCNT to reset SMBBLKDAT read pointer
+                    Inp32(SMBHSTCNT);
+
+                    for (int byte = 0; byte < dat0; byte++)
+                    {
+                        printf("%02x ", Inp32(SMBBLKDAT));
+                    }
+
+                    printf("\n");
+
+                    break;
+                }
+            }
         }
     }
-    fclose(file);
 
 #if WIN32
     //OpenAuraSDKDialog dlg(busses, controllers);
