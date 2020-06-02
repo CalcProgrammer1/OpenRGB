@@ -16,12 +16,15 @@
 
 #include <string>
 #include <array>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #pragma once
 
 #define CM_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data) / sizeof(colour_mode_data[0]))
 #define CM_INTERRUPT_TIMEOUT 250
+#define CM_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
+#define CM_SERIAL_SIZE (sizeof(serial) / sizeof(serial[ 0 ]))
+#define HID_MAX_STR 255
 
 enum
 {
@@ -53,10 +56,10 @@ static unsigned char colour_mode_data[][6] =
 static unsigned char speed_mode_data[][9] =
 {
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },/* Static                       */
-    { 0x00, 0x20, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xE0, 0xFF },/* Blinking                     */
-    { 0x00, 0x20, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xE0, 0xFF },/* Breathing                    */
-    { 0x00, 0x20, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xE0, 0xFF },/* Colour Cycle                 */
-    { 0x00, 0x20, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xE0, 0xFF } /* Colour Breath                */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 },/* Blinking                     */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 },/* Breathing                    */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 },/* Colour Cycle                 */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 } /* Colour Breath                */
 };
 
 enum
@@ -75,7 +78,7 @@ enum
 class CMMP750Controller
 {
 public:
-    CMMP750Controller(libusb_device_handle *dev_handle, unsigned int _inAddr, unsigned int _outAddr, int _interface);
+    CMMP750Controller(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path);
     ~CMMP750Controller();
 
     char* GetDeviceName();
@@ -89,10 +92,7 @@ private:
     char                    device_name[32];
     char                    serial[32];
     std::string             location;
-    libusb_device_handle*   dev;
-    unsigned char           inAddr;
-    unsigned char           outAddr;
-    int                     interface;
+    hid_device*             dev;
 
     unsigned char           current_mode;
     unsigned char           current_speed;

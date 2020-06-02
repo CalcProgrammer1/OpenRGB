@@ -8,24 +8,21 @@
 \*-------------------------------------------------------------------*/
 
 #include "CMMP750Controller.h"
-#include <cstring>
-#include <stdio.h>
-#include <stdlib.h>
 
-CMMP750Controller::CMMP750Controller(libusb_device_handle* dev_handle, unsigned int _inAddr, unsigned int _outAddr, int _interface)
+CMMP750Controller::CMMP750Controller(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path)
 {
+    int tmp_size = wcslen(_vendor);
+
     dev = dev_handle;
-    inAddr = _inAddr;
-    outAddr = _outAddr;
-    interface = _interface;
 
-    libusb_device* device = libusb_get_device(dev);
-    int bus = libusb_get_bus_number(device);
-    int bus_addr = libusb_get_device_address(device);
-    int port = libusb_get_port_number(device);
-    location = "Bus: " + std::to_string(bus) + "  Addr: " + std::to_string(bus_addr) + "  Port: " + std::to_string(port);
+    for (int i=0; ( i<tmp_size && i<CM_DEVICE_NAME_SIZE); i++)
+    {
+        device_name[i] = (char)_vendor[i];
+    }
+    for (int j=0; ( j<wcslen(_vendor) && tmp_size+j<CM_DEVICE_NAME_SIZE); j++)
+        device_name[tmp_size+j] = (char)_device_name[j];
 
-    strcpy(device_name, "Cooler Master MP750");
+    location = _path;
 
     current_mode = MP750_MODE_STATIC;
     current_speed = MP750_SPEED_NORMAL;
@@ -33,8 +30,7 @@ CMMP750Controller::CMMP750Controller(libusb_device_handle* dev_handle, unsigned 
 
 CMMP750Controller::~CMMP750Controller()
 {
-    libusb_release_interface(dev, interface);
-    libusb_attach_kernel_driver(dev, interface);
+    hid_close(dev);
 }
 
 char* CMMP750Controller::GetDeviceName()
@@ -71,7 +67,6 @@ void CMMP750Controller::SetColor(unsigned char red, unsigned char green, unsigne
 
 void CMMP750Controller::SendUpdate()
 {
-    int actual = 0;
     unsigned char buffer[0x40] = { 0x00 };
     int buffer_size = (sizeof(buffer) / sizeof(buffer[0]));
 
@@ -94,7 +89,5 @@ void CMMP750Controller::SendUpdate()
         buffer[CM_SPEED_BYTE] = speed_mode_data[current_mode][current_speed];
     }
 
-    //Nothing will be done with the "actual" transfer length
-    libusb_interrupt_transfer(dev, outAddr, buffer, buffer_size, nullptr, CM_INTERRUPT_TIMEOUT);
+    hid_write(dev, buffer, buffer_size);
 }
-

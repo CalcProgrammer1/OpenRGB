@@ -1,8 +1,7 @@
 #include "CMMP750Controller.h"
 #include "RGBController.h"
 #include "RGBController_CMMP750Controller.h"
-#include <vector>
-#include <libusb-1.0/libusb.h>
+#include <hidapi/hidapi.h>
 
 #define COOLERMASTER_VID 0x2516
 
@@ -31,27 +30,37 @@ static const unsigned int cm_pids[][4] =
 
 void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
 {
-    libusb_context * context;
-    libusb_init(&context);
+    hid_device_info* info;
+    hid_device* dev = NULL;
 
     for(int cm_pid_idx = 0; cm_pid_idx < COOLERMASTER_NUM_DEVICES; cm_pid_idx++)
     {
         //Look for the passed in cm_pids
-        libusb_device_handle * dev = libusb_open_device_with_vid_pid(context, COOLERMASTER_VID, cm_pids[cm_pid_idx][CM_PID]);
+        hid_init();
+        info = hid_enumerate(0x0, 0x0);
+
+        while(info)
+        {
+            if((info->vendor_id == COOLERMASTER_VID)
+             &&(info->product_id == cm_pids[cm_pid_idx][CM_PID])
+             &&(info->interface_number == cm_pids[cm_pid_idx][CM_INTERFACE]))
+            {
+                dev = hid_open_path(info->path);
+                break;
+            }
+            else
+            {
+                info = info->next;
+            }
+        }
 
         if(dev)
         {
-            int status = libusb_detach_kernel_driver(dev, cm_pids[cm_pid_idx][CM_INTERFACE]);
-            status = libusb_claim_interface(dev, cm_pids[cm_pid_idx][CM_INTERFACE]);
-
-            if(status == 0)
-            {
-                // Success: Device has been claimed
-                CMMP750Controller* controller = new CMMP750Controller(dev, cm_pids[cm_pid_idx][CM_INADDR], cm_pids[cm_pid_idx][CM_OUTADDR], cm_pids[cm_pid_idx][CM_INTERFACE]);
-                RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
-                rgb_controllers.push_back(rgb_controller);
-            }
+            CMMP750Controller* controller = new CMMP750Controller(dev, info->manufacturer_string, info->product_string, info->path);
+            RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
+            rgb_controllers.push_back(rgb_controller);
         }
-    }
 
+        hid_free_enumeration(info);
+    }
 }

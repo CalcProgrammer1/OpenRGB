@@ -15,7 +15,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
 
     name        = cmmp750->GetDeviceName();
     type        = DEVICE_TYPE_MOUSEMAT;
-    description = "Cooler Master Mousepad 750";
+    description = cmmp750->GetDeviceName();
     version     = "1.0";
     serial      = "";
     location    = cmmp750->GetLocation();
