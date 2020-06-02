@@ -260,6 +260,11 @@ void DetectI2CBusses()
     char                    driver_path[512];
     struct dirent *         ent;
     int                     test_fd;
+    char path[1024];
+    char buff[100];
+    unsigned short pci_device, pci_vendor, pci_subsystem_device, pci_subsystem_vendor;
+    unsigned short port_id;
+    bool info;
 
     // Start looking for I2C adapters in /sys/bus/i2c/devices/
     strcpy(driver_path, "/sys/bus/i2c/devices/");
@@ -291,6 +296,74 @@ void DetectI2CBusses()
 
                     close(test_fd);
 
+                    // For now, only get PCI information from nVidia GPUs
+                    // PCI IDs are not currently obtained from the Nouveau driver
+                    // and GPUs using PCI IDs for detection will not work with it.
+                    if (sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id) == 1)
+                    {
+                        info = true;
+                        
+                        // Get PCI Device
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/device");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_device = strtoul(buff, NULL, 16);
+                        close(test_fd);
+
+                        // Get PCI Vendor
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/vendor");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_vendor = strtoul(buff, NULL, 16);
+                        close(test_fd);
+
+                        // Get PCI Subsystem Device
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_device");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_subsystem_device = strtoul(buff, NULL, 16);
+                        close(test_fd);
+
+                        // Get PCI Subsystem Vendor
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_vendor");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_subsystem_vendor = strtoul(buff, NULL, 16);
+                        close(test_fd);
+                    }
+                    else
+                    {
+                        info = false;
+                    }
+
                     strcpy(device_string, "/dev/");
                     strcat(device_string, ent->d_name);
                     test_fd = open(device_string, O_RDWR);
@@ -304,6 +377,13 @@ void DetectI2CBusses()
                     bus = new i2c_smbus_linux();
                     strcpy(bus->device_name, device_string);
                     bus->handle = test_fd;
+                    if (info) {
+                        bus->pci_device = pci_device;
+                        bus->pci_vendor = pci_vendor;
+                        bus->pci_subsystem_device = pci_subsystem_device;
+                        bus->pci_subsystem_vendor = pci_subsystem_vendor;
+                        bus->port_id = port_id;
+                    }
                     busses.push_back(bus);
                 }
             }
@@ -327,6 +407,7 @@ void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::
 void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
+void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraUSBControllers(std::vector<RGBController*> &rgb_controllers);
@@ -374,6 +455,7 @@ void DetectRGBControllers(void)
     DetectPatriotViperControllers(busses, rgb_controllers);
     DetectPolychromeControllers(busses, rgb_controllers);
     DetectRGBFusionGPUControllers(busses, rgb_controllers);
+    DetectMSIGPUControllers(busses, rgb_controllers);
 
     //TODO: Implement better detection before enabling these controllers
     //DetectRGBFusion2SMBusControllers(busses, rgb_controllers);

@@ -59,6 +59,12 @@ class i2c_smbus_interface
 public:
     char device_name[512];
 
+    int port_id;
+    int pci_device;
+    int pci_vendor;
+    int pci_subsystem_device;
+    int pci_subsystem_vendor;
+
     i2c_smbus_interface();
     virtual ~i2c_smbus_interface() = default;
 

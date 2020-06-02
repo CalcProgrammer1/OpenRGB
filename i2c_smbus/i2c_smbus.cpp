@@ -17,9 +17,14 @@
 
 i2c_smbus_interface::i2c_smbus_interface()
 {
-    i2c_smbus_start  = false;
-    i2c_smbus_done   = false;
-    i2c_smbus_thread = new std::thread(&i2c_smbus_interface::i2c_smbus_thread_function, this);
+    i2c_smbus_start            = false;
+    i2c_smbus_done             = false;
+    this->port_id              = -1;
+    this->pci_device           = -1;
+    this->pci_vendor           = -1;
+    this->pci_subsystem_device = -1;
+    this->pci_subsystem_vendor = -1;
+    i2c_smbus_thread           = new std::thread(&i2c_smbus_interface::i2c_smbus_thread_function, this);
 }
 
 s32 i2c_smbus_interface::i2c_smbus_write_quick(u8 addr, u8 value)
