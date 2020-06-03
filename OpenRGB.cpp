@@ -18,6 +18,7 @@
 #include "i2c_smbus_i801.h"
 #include "i2c_smbus_nct6775.h"
 #include "i2c_smbus_nvapi.h"
+#include "i2c_smbus_amdadl.h"
 #include "super_io.h"
 #include "wmi.h"
 #else /* WIN32 */
@@ -122,6 +123,36 @@ void DetectNvAPII2CBusses()
 
 /******************************************************************************************\
 *                                                                                          *
+*   DetectAMDADLI2CBusses (Windows)                                                        *
+*                                                                                          *
+*       Detects available AMD ADL I2C adapters and enumerates                              *
+*       i2c_smbus_interface objects for them.  Only enumerates Bus Nr 1                    *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectADLI2C()
+{
+    int adl_status;
+    int gpu_count = 0;
+    ADL_CONTEXT_HANDLE gpu_handle;
+
+    i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(gpu_handle);
+
+    adl_status = adl_bus->ADL_Initialize();
+
+    if(0 != adl_status)
+    {
+        printf_s("ADL Status %d \n", adl_status);
+    }
+    else
+    {
+        sprintf(adl_bus->device_name, "AMD ADL I2C on GPU %d", gpu_count);
+        busses.push_back(adl_bus);
+    }
+}   /* DetectAMDADLI2CBusses() */
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectI2CBusses (Windows)                                                              *
 *                                                                                          *
 *       Detects available AMD and Intel SMBUS adapters and enumerates i2c_smbus_interface  *
@@ -204,6 +235,9 @@ void DetectI2CBusses()
 
     // Detect NVidia NvAPI I2C adapters
     DetectNvAPII2CBusses();
+
+    // Detect AMD ADL I2C adadpters
+    DetectADLI2C();
 
 }   /* DetectI2CBusses() */
 

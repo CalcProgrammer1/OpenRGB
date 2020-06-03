@@ -109,7 +109,9 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
   * OpenRazer-Win32: https://github.com/CalcProgrammer1/openrazer-win32
 
   * Qt-Plus (ColorWheel): https://github.com/liuyanghejerry/Qt-Plus
-
+  
+  * AMD ADL Libraries: https://github.com/GPUOpen-LibrariesAndSDKs/display-library
+  
 ## Projects Researched
 
 While no code from these projects directly made its way into OpenRGB, these projects have been invaluable resources for protocol information.
@@ -137,3 +139,5 @@ While no code from these projects directly made its way into OpenRGB, these proj
   * msi-keyboard: https://github.com/bparker06/msi-keyboard
 
   * rivalcfg: https://github.com/flozz/rivalcfg
+  
+  * VRMTool: https://github.com/rbrune/VRMtool

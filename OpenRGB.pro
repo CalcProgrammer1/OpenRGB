@@ -326,6 +326,7 @@ FORMS += \
 # Windows-specific Configuration                                        #
 #-----------------------------------------------------------------------#
 win32:INCLUDEPATH +=                                                    \
+    dependencies/display-library/include                                \
     dependencies/hidapi                                                 \
     dependencies/inpout32_1501/Win32/                                   \
     dependencies/libusb-1.0.22/include                                  \
@@ -336,6 +337,7 @@ win32:INCLUDEPATH +=                                                    \
 win32:SOURCES +=                                                        \
     dependencies/hidapi/hidapi.c                                        \
     dependencies/NVFC/nvapi.cpp                                         \
+    i2c_smbus/i2c_smbus_amdadl.cpp                                      \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
     i2c_smbus/i2c_smbus_nct6775.cpp                                     \
     i2c_smbus/i2c_smbus_nvapi.cpp                                       \
@@ -346,6 +348,9 @@ win32:SOURCES +=                                                        \
     RGBController/RGBController_OpenRazerWindows.cpp                    \
 
 win32:HEADERS +=                                                        \
+    dependencies/display-library/include/adl_defines.h                  \
+    dependencies/display-library/include/adl_sdk.h                      \
+    dependencies/display-library/include/adl_structures.h               \
     dependencies/inpout32_1501/Win32/inpout32.h                         \
     dependencies/NVFC/nvapi.h                                           \
     i2c_smbus/i2c_smbus_i801.h                                          \
