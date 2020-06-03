@@ -393,9 +393,30 @@ win32:DEFINES +=                                                        \
 win32:RC_ICONS +=                                                       \
     qt/OpenRGB.ico
 
-# Copy OpenRazer.dll to output directory
+#-------------------------------------------------------------------#
+# Windows GitLab CI Configuration                                   #
+#-------------------------------------------------------------------#
+win32:CONFIG(debug, debug|release) {
+    win32:DESTDIR = debug
+}
+
+win32:CONFIG(release, debug|release) {
+    win32:DESTDIR = release
+}
+
+win32:OBJECTS_DIR = _intermediate_$$DESTDIR/.obj
+win32:MOC_DIR     = _intermediate_$$DESTDIR/.moc
+win32:RCC_DIR     = _intermediate_$$DESTDIR/.qrc
+win32:UI_DIR      = _intermediate_$$DESTDIR/.ui
+
+#-------------------------------------------------------------------#
+# Copy dependencies to output directory                             #
+#-------------------------------------------------------------------#
+
 win32:contains(QMAKE_TARGET.arch, x86_64) {
-    copydata.commands = $(COPY_FILE) \"$$shell_path($$PWD\\dependencies\\openrazer-win32\\OpenRazer64.dll)\" \"$$shell_path($$OUT_PWD)\"
+    copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer64.dll      )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/inpout32_1501/x64/inpoutx64.dll      )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.22/MS64/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     first.depends = $(first) copydata
     export(first.depends)
     export(copydata.commands)
@@ -403,7 +424,10 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
-    copydata.commands = $(COPY_FILE) \"$$shell_path($$PWD\\dependencies\\openrazer-win32\\OpenRazer.dll)\" \"$$shell_path($$OUT_PWD)\"
+    copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer.dll        )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/inpout32_1501/Win32/inpout32.dll     )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.22/MS32/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+
     first.depends = $(first) copydata
     export(first.depends)
     export(copydata.commands)
