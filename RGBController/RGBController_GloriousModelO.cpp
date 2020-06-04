@@ -44,21 +44,25 @@ RGBController_GloriousModelO::RGBController_GloriousModelO(GloriousModelOControl
 
     mode SpectrumBreathing;
     SpectrumBreathing.name       = "Seemless Breathing";
-    SpectrumBreathing.flags      = MODE_FLAG_HAS_SPEED;
+    SpectrumBreathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
     SpectrumBreathing.speed_min  = GLORIOUS_SPEED_SLOW;
     SpectrumBreathing.speed      = GLORIOUS_SPEED_NORMAL;
     SpectrumBreathing.speed_max  = GLORIOUS_SPEED_FAST;
+    SpectrumBreathing.colors_min = 7;
+    SpectrumBreathing.colors_max = 7;
+    SpectrumBreathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SpectrumBreathing.value      = GLORIOUS_MODE_SPECTRUM_BREATING;
+    SpectrumBreathing.colors.resize(7);
     modes.push_back(SpectrumBreathing);
 
     mode Chase;
-    Chase.name       = "Chase";
+    Chase.name       = "Tail";
     Chase.flags      = MODE_FLAG_HAS_SPEED;
     Chase.speed_min  = GLORIOUS_SPEED_SLOW;
     Chase.speed      = GLORIOUS_SPEED_NORMAL;
     Chase.speed_max  = GLORIOUS_SPEED_FAST;
     Chase.color_mode = MODE_COLORS_NONE;
-    Chase.value      = GLORIOUS_MODE_CHASE;
+    Chase.value      = GLORIOUS_MODE_TAIL;
     modes.push_back(Chase);
 
     mode SpectrumCycle;
@@ -72,13 +76,16 @@ RGBController_GloriousModelO::RGBController_GloriousModelO(GloriousModelOControl
     modes.push_back(SpectrumCycle);
 
     mode Flashing;
-    Flashing.name       = "Flashing";
-    Flashing.flags      = MODE_FLAG_HAS_SPEED;
+    Flashing.name       = "Rave";
+    Flashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
     Flashing.speed_min  = GLORIOUS_SPEED_SLOW;
     Flashing.speed      = GLORIOUS_SPEED_NORMAL;
     Flashing.speed_max  = GLORIOUS_SPEED_FAST;
-    Flashing.color_mode = MODE_COLORS_NONE;
-    Flashing.value      = GLORIOUS_MODE_FLASHING;
+    Flashing.colors_min = 2;
+    Flashing.colors_max = 2;
+    Flashing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Flashing.value      = GLORIOUS_MODE_RAVE;
+    Flashing.colors.resize(2);
     modes.push_back(Flashing);
 
     mode Epilepsy;
@@ -89,23 +96,26 @@ RGBController_GloriousModelO::RGBController_GloriousModelO(GloriousModelOControl
     modes.push_back(Epilepsy);
 
     mode RainbowSlow;
-    RainbowSlow.name       = "Random";
+    RainbowSlow.name       = "Wave";
     RainbowSlow.flags      = MODE_FLAG_HAS_SPEED;
     RainbowSlow.speed_min  = GLORIOUS_SPEED_SLOW;
     RainbowSlow.speed      = GLORIOUS_SPEED_NORMAL;
     RainbowSlow.speed_max  = GLORIOUS_SPEED_FAST;
     RainbowSlow.color_mode = MODE_COLORS_NONE;
-    RainbowSlow.value      = GLORIOUS_MODE_SLOW_RAINBOW;
+    RainbowSlow.value      = GLORIOUS_MODE_WAVE;
     modes.push_back(RainbowSlow);
 
     mode Breathing;
     Breathing.name       = "Breathing";
-    Breathing.flags      = MODE_FLAG_HAS_SPEED;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
     Breathing.speed_min  = GLORIOUS_MODE_BREATING_SLOW;
     Breathing.speed      = GLORIOUS_MODE_BREATING_NORMAL;
     Breathing.speed_max  = GLORIOUS_MODE_BREATING_FAST;
-    Breathing.color_mode = MODE_COLORS_NONE;
+    Breathing.colors_min = 1;
+    Breathing.colors_max = 1;
+    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Breathing.value      = GLORIOUS_MODE_BREATHING;
+    Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     SetupZones();
@@ -147,12 +157,7 @@ void RGBController_GloriousModelO::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_GloriousModelO::DeviceUpdateLEDs()
 {
-    RGBColor      color = colors[0];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
-
-    gmo->SetLEDColor(red, grn, blu);
+    gmo->SetLEDColor(&colors[0]);
 }
 
 void RGBController_GloriousModelO::UpdateZoneLEDs(int /*zone*/)
@@ -171,7 +176,8 @@ void RGBController_GloriousModelO::SetCustomMode()
 
 void RGBController_GloriousModelO::UpdateMode()
 {
-    unsigned int direction;
+    unsigned int direction = 0;
+    unsigned int speed = GLORIOUS_SPEED_NORMAL;
 
     if (modes[active_mode].value == GLORIOUS_MODE_STATIC)
     {
@@ -181,18 +187,43 @@ void RGBController_GloriousModelO::UpdateMode()
     {
         if (modes[active_mode].direction == MODE_DIRECTION_UP)
         {
-            direction = GLORIOUS_DIRECTION_UP;
+            direction = GLORIOUS_DIRECTION_DOWN;
         }
         else
         {
-            direction = GLORIOUS_DIRECTION_DOWN;
+            direction = GLORIOUS_DIRECTION_UP;
         }
 
-        gmo->SetMode(modes[active_mode].value, modes[active_mode].speed, direction);
+        if ((modes[active_mode].speed == GLORIOUS_SPEED_FAST)   ||
+            (modes[active_mode].speed == GLORIOUS_SPEED_SLOW)   ||
+            (modes[active_mode].speed == GLORIOUS_SPEED_NORMAL))
+        {
+            speed = modes[active_mode].speed;
+        }
+        else
+        {
+            if ((modes[active_mode].speed == GLORIOUS_MODE_BREATING_FAST) ||
+                (modes[active_mode].speed == GLORIOUS_MODE_BREATING_SLOW) ||
+                (modes[active_mode].speed == GLORIOUS_MODE_BREATING_NORMAL))
+            {
+                speed = modes[active_mode].speed;
+            }
+            else
+            {
+                speed = GLORIOUS_SPEED_NORMAL;
+            }
+        }
+
+        if (modes[active_mode].color_mode == MODE_COLORS_NONE)
+        {
+            gmo->SetMode(modes[active_mode].value, speed, direction, 0);
+        }
+        else
+        {
+            gmo->SetMode(modes[active_mode].value, speed, direction, &modes[active_mode].colors[0]);
+        }
+
     }
-
-
 }
-
-
+//wave, epilepsy, spectrum cycle, tail, glorious mode, off
 

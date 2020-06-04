@@ -19,11 +19,11 @@ enum
     GLORIOUS_MODE_RAINBOW = 0x01,
     GLORIOUS_MODE_STATIC = 0x02,
     GLORIOUS_MODE_SPECTRUM_BREATING = 0x03,
-    GLORIOUS_MODE_CHASE = 0x04,
+    GLORIOUS_MODE_TAIL = 0x04,
     GLORIOUS_MODE_SPECTRUM_CYCLE = 0x05,
-    GLORIOUS_MODE_FLASHING = 0x07,
+    GLORIOUS_MODE_RAVE = 0x07,
     GLORIOUS_MODE_EPILEPSY = 0x08, //not in the official software
-    GLORIOUS_MODE_SLOW_RAINBOW = 0x09,
+    GLORIOUS_MODE_WAVE = 0x09,
     GLORIOUS_MODE_BREATHING = 0x0a,
 };
 
@@ -56,8 +56,8 @@ public:
     std::string     GetDeviceName();
     unsigned int    GetLEDCount();
 
-    void            SetLEDColor(unsigned char red, unsigned char green, unsigned char blue);
-    void            SetMode(unsigned char mode, unsigned char speed, unsigned char direction);
+    void            SetLEDColor(RGBColor* color_buf);
+    void            SetMode(unsigned char mode, unsigned char speed, unsigned char direction, RGBColor* color_buf);
 private:
     hid_device*             dev;
 
@@ -67,4 +67,5 @@ private:
     unsigned char           current_mode;
     unsigned char           current_speed;
     unsigned char           current_direction;
+
 };

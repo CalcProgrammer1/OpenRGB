@@ -10,6 +10,17 @@
 #include "GloriousModelOController.h"
 #include <cstring>
 
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
 GloriousModelOController::GloriousModelOController(hid_device* dev_handle)
 {
     dev = dev_handle;
@@ -20,6 +31,7 @@ GloriousModelOController::GloriousModelOController(hid_device* dev_handle)
     current_mode      = GLORIOUS_MODE_STATIC;
     current_speed     = GLORIOUS_SPEED_NORMAL;
     current_direction = GLORIOUS_DIRECTION_UP;
+
 }
 
 GloriousModelOController::~GloriousModelOController()
@@ -39,7 +51,7 @@ unsigned int GloriousModelOController::GetLEDCount()
     return(led_count);
 }
 
-void GloriousModelOController::SetLEDColor(unsigned char red, unsigned char green, unsigned char blue)
+void GloriousModelOController::SetLEDColor(RGBColor* color_buf)
 {
     unsigned char usb_buf[520] =
     {
@@ -114,9 +126,9 @@ void GloriousModelOController::SetLEDColor(unsigned char red, unsigned char gree
     usb_buf[0x0B] = 0x24;
     usb_buf[0x35] = GLORIOUS_MODE_STATIC;
     usb_buf[0x38] = 0x40; //max brightness
-    usb_buf[0x39] = red;
-    usb_buf[0x3A] = blue;
-    usb_buf[0x3B] = green;
+    usb_buf[0x39] = RGBGetRValue(color_buf[0]);
+    usb_buf[0x3A] = RGBGetBValue(color_buf[0]);
+    usb_buf[0x3B] = RGBGetGValue(color_buf[0]);
 
     //DPI Button
     /*
@@ -127,9 +139,13 @@ void GloriousModelOController::SetLEDColor(unsigned char red, unsigned char gree
     */
 
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
+    Sleep(1);
 }
 
-void GloriousModelOController::SetMode(unsigned char mode, unsigned char speed, unsigned char direction)
+void GloriousModelOController::SetMode(unsigned char mode,
+                                       unsigned char speed,
+                                       unsigned char direction,
+                                       RGBColor* color_buf)
 {
     unsigned char usb_buf[520] =
     {
@@ -214,33 +230,58 @@ void GloriousModelOController::SetMode(unsigned char mode, unsigned char speed, 
         break;
     case GLORIOUS_MODE_SPECTRUM_BREATING:
         //colours not yet researched
+        usb_buf[0x3C] = speed; //speed for mode 3
+        usb_buf[0x3D] = 0x07;  //maybe some kind of bank change?+
+        //usb_buf[0x3D] = 0x06;
+        usb_buf[0x3E] = RGBGetRValue(color_buf[0]);  //mode 3 red 1
+        usb_buf[0x3F] = RGBGetBValue(color_buf[0]);  //mode 3 blue 1
+        usb_buf[0x40] = RGBGetGValue(color_buf[0]);  //mode 3 green 1
+        usb_buf[0x41] = RGBGetRValue(color_buf[1]);  //mode 3 red 2
+        usb_buf[0x42] = RGBGetBValue(color_buf[1]);  //mode 3 blue 2
+        usb_buf[0x43] = RGBGetGValue(color_buf[1]);  //mode 3 green 2
+        usb_buf[0x44] = RGBGetRValue(color_buf[2]);  //mode 3 red 3
+        usb_buf[0x45] = RGBGetBValue(color_buf[2]);  //mode 3 blue 3
+        usb_buf[0x46] = RGBGetGValue(color_buf[2]);  //mode 3 green 3
+        usb_buf[0x47] = RGBGetRValue(color_buf[3]);  //mode 3 red 4
+        usb_buf[0x48] = RGBGetBValue(color_buf[3]);  //mode 3 blue 4
+        usb_buf[0x49] = RGBGetGValue(color_buf[3]);  //mode 3 green 4
+        usb_buf[0x4A] = RGBGetRValue(color_buf[4]);  //mode 3 red 5
+        usb_buf[0x4B] = RGBGetBValue(color_buf[4]);  //mode 3 blue 5
+        usb_buf[0x4C] = RGBGetGValue(color_buf[4]);  //mode 3 green 5
+        usb_buf[0x4D] = RGBGetRValue(color_buf[5]);  //mode 3 red 6
+        usb_buf[0x4E] = RGBGetBValue(color_buf[5]);  //mode 3 blue 6
+        usb_buf[0x4F] = RGBGetGValue(color_buf[5]);  //mode 3 green 6
+        usb_buf[0x50] = RGBGetRValue(color_buf[6]);  //mode 3 red 7
+        usb_buf[0x51] = RGBGetBValue(color_buf[6]);  //mode 3 blue 7
+        usb_buf[0x52] = RGBGetGValue(color_buf[6]);  //mode 3 green 7
         break;
-    case GLORIOUS_MODE_CHASE:
+    case GLORIOUS_MODE_TAIL:
         usb_buf[0x53] = speed; //Speed for mode 4
         break;
     case GLORIOUS_MODE_SPECTRUM_CYCLE:
         usb_buf[0x54] = speed; //Speed for mode 1,2,5
         break;
-    case GLORIOUS_MODE_FLASHING:
+    case GLORIOUS_MODE_RAVE:
         usb_buf[0x74] = speed; //Speed for mode 7
-        usb_buf[0x75] = 0xff; //mode 7 red 1
-        usb_buf[0x76] = 0x00; //mode 7 blue 1
-        usb_buf[0x77] = 0x00; //mode 7 green 1
-        usb_buf[0x78] = 0x00; //mode 7 red 2
-        usb_buf[0x79] = 0x00; //mode 7 blue 2
-        usb_buf[0x7A] = 0xff; //mode 7 green 2
+        usb_buf[0x75] = RGBGetRValue(color_buf[0]); //mode 7 red 1
+        usb_buf[0x76] = RGBGetBValue(color_buf[0]); //mode 7 blue 1
+        usb_buf[0x77] = RGBGetGValue(color_buf[0]); //mode 7 green 1
+        usb_buf[0x78] = RGBGetRValue(color_buf[1]); //mode 7 red 2
+        usb_buf[0x79] = RGBGetBValue(color_buf[1]); //mode 7 blue 2
+        usb_buf[0x7A] = RGBGetGValue(color_buf[1]); //mode 7 green 2
         break;
-    case GLORIOUS_MODE_SLOW_RAINBOW:
+    case GLORIOUS_MODE_WAVE:
         usb_buf[0x7C] = speed; //Speed for mode 9
         break;
     case GLORIOUS_MODE_BREATHING:
         usb_buf[0x7D] = speed;
-        usb_buf[0x7E] = 0x00; //mode 0a red
-        usb_buf[0x7F] = 0x00; //mode 0a blue
-        usb_buf[0x80] = 0xff; //mode 0a green
+        usb_buf[0x7E] = RGBGetRValue(color_buf[0]); //mode 0a red
+        usb_buf[0x7F] = RGBGetBValue(color_buf[0]); //mode 0a blue
+        usb_buf[0x80] = RGBGetGValue(color_buf[0]); //mode 0a green
     default:
         break;
     }
 
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
+    Sleep(1);
 }
