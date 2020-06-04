@@ -11,9 +11,9 @@
 
 CMMP750Controller::CMMP750Controller(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path)
 {
-    int tmp_size = wcslen(_vendor);
-
-    dev = dev_handle;
+    int tmp_size    = wcslen(_vendor);
+    dev             = dev_handle;
+    location        = _path;
 
     for (int i=0; ( i<tmp_size && i<CM_DEVICE_NAME_SIZE); i++)
     {
@@ -22,15 +22,42 @@ CMMP750Controller::CMMP750Controller(hid_device* dev_handle, wchar_t *_vendor, w
     for (int j=0; ( j<wcslen(_vendor) && tmp_size+j<CM_DEVICE_NAME_SIZE); j++)
         device_name[tmp_size+j] = (char)_device_name[j];
 
-    location = _path;
-
-    current_mode = MP750_MODE_STATIC;
-    current_speed = MP750_SPEED_NORMAL;
+    GetStatus();        //When setting up device get current status
 }
 
 CMMP750Controller::~CMMP750Controller()
 {
     hid_close(dev);
+}
+
+void CMMP750Controller::GetStatus()
+{
+    unsigned char buffer[0x40]  = { 0x00 };
+    int buffer_size             = (sizeof(buffer) / sizeof(buffer[0]));
+    buffer[0]                   = 0x07;
+
+    hid_write(dev, buffer, buffer_size);
+    hid_read(dev, buffer, buffer_size);
+
+    if( buffer[0] == 0x80 && buffer[1] == 0x05 )
+    {
+        current_mode  = buffer[2] - 1;
+        current_red   = buffer[3];
+        current_green = buffer[4];
+        current_blue  = buffer[5];
+
+        for( int i = 0; speed_mode_data[current_mode][i] >= buffer[6]; i++)
+            current_speed = i;
+    }
+    else
+    {
+        //Code should never reach here however just in case there is a failure set something
+        current_mode = MP750_MODE_COLOR_CYCLE;      //Unicorn Spew
+        current_red   = 0xFF;
+        current_green = 0xFF;
+        current_blue  = 0xFF;
+        current_speed = MP750_SPEED_NORMAL;
+    }
 }
 
 char* CMMP750Controller::GetDeviceName()
@@ -46,6 +73,31 @@ char* CMMP750Controller::GetSerial()
 std::string CMMP750Controller::GetLocation()
 {
     return location;
+}
+
+unsigned char CMMP750Controller::GetMode()
+{
+    return current_mode;
+}
+
+unsigned char CMMP750Controller::GetLedRed()
+{
+    return current_red;
+}
+
+unsigned char CMMP750Controller::GetLedGreen()
+{
+    return current_green;
+}
+
+unsigned char CMMP750Controller::GetLedBlue()
+{
+    return current_blue;
+}
+
+unsigned char CMMP750Controller::GetLedSpeed()
+{
+    return current_speed;
 }
 
 void CMMP750Controller::SetMode(unsigned char mode, unsigned char speed)

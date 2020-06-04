@@ -85,6 +85,11 @@ public:
     char* GetSerial();
     std::string GetLocation();
 
+    unsigned char GetMode();
+    unsigned char GetLedRed();
+    unsigned char GetLedGreen();
+    unsigned char GetLedBlue();
+    unsigned char GetLedSpeed();
     void SetMode(unsigned char mode, unsigned char speed);
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
@@ -101,5 +106,6 @@ private:
     unsigned char           current_green;
     unsigned char           current_blue;
 
+    void GetStatus();
     void SendUpdate();
 };

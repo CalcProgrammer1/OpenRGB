@@ -56,7 +56,7 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
 
         if(dev)
         {
-            CMMP750Controller* controller = new CMMP750Controller(dev, info->manufacturer_string, info->product_string, info->path);
+            CMMP750Controller* controller                   = new CMMP750Controller(dev, info->manufacturer_string, info->product_string, info->path);
             RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
             rgb_controllers.push_back(rgb_controller);
         }

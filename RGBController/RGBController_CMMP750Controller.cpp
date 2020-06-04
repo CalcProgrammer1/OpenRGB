@@ -11,14 +11,15 @@
 
 RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controller* cmmp_ptr)
 {
-    cmmp750     = cmmp_ptr;
+    cmmp750             = cmmp_ptr;
+    unsigned char speed = cmmp750->GetLedSpeed();
 
-    name        = cmmp750->GetDeviceName();
-    type        = DEVICE_TYPE_MOUSEMAT;
-    description = cmmp750->GetDeviceName();
-    version     = "1.0";
-    serial      = "";
-    location    = cmmp750->GetLocation();
+    name                = cmmp750->GetDeviceName();
+    type                = DEVICE_TYPE_MOUSEMAT;
+    description         = cmmp750->GetDeviceName();
+    version             = "1.0";
+    serial              = "";
+    location            = cmmp750->GetLocation();
 
     mode Static;
     Static.name       = "Static";
@@ -34,7 +35,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     Blink.speed_min  = MP750_SPEED_SLOWEST;
     Blink.speed_max  = MP750_SPEED_FASTEST;
     Blink.color_mode = MODE_COLORS_PER_LED;
-    Blink.speed      = MP750_SPEED_NORMAL;
+    Blink.speed      = speed;
     modes.push_back(Blink);
 
     mode Breathing;
@@ -44,7 +45,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     Breathing.speed_min  = MP750_SPEED_SLOWEST;
     Breathing.speed_max  = MP750_SPEED_FASTEST;
     Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed      = MP750_SPEED_NORMAL;
+    Breathing.speed      = speed;
     modes.push_back(Breathing);
 
     mode ColorCycle;
@@ -54,7 +55,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     ColorCycle.speed_min  = MP750_SPEED_SLOWEST;
     ColorCycle.speed_max  = MP750_SPEED_FASTEST;
     ColorCycle.color_mode = MODE_COLORS_NONE;
-    ColorCycle.speed      = MP750_SPEED_NORMAL;
+    ColorCycle.speed      = speed;
     modes.push_back(ColorCycle);
 
     mode BreathCycle;
@@ -64,10 +65,11 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     BreathCycle.speed_min  = MP750_SPEED_SLOWEST;
     BreathCycle.speed_max  = MP750_SPEED_FASTEST;
     BreathCycle.color_mode = MODE_COLORS_NONE;
-    BreathCycle.speed      = MP750_SPEED_NORMAL;
+    BreathCycle.speed      = speed;
     modes.push_back(BreathCycle);
 
     SetupZones();
+    active_mode = cmmp750->GetMode();
 }
 
 RGBController_CMMP750Controller::~RGBController_CMMP750Controller()
@@ -91,6 +93,18 @@ void RGBController_CMMP750Controller::SetupZones()
     leds.push_back(MP_led);
 
     SetupColors();
+
+    /*---------------------------------------------------------*\
+    | Initialize colors for each LED                            |
+    \*---------------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        unsigned char red = cmmp750->GetLedRed();
+        unsigned char grn = cmmp750->GetLedGreen();
+        unsigned char blu = cmmp750->GetLedBlue();
+
+        colors[led_idx] = ToRGBColor(red, grn, blu);
+    }
 }
 
 void RGBController_CMMP750Controller::ResizeZone(int /*zone*/, int /*new_size*/)

@@ -28,4 +28,6 @@ public:
     void        UpdateMode();
 private:
     CMMP750Controller* cmmp750;
+
+    int         GetDeviceMode();
 };
