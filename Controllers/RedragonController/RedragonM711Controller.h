@@ -32,6 +32,19 @@ public:
 
     void        SendMouseApply();
 
+    void        SendMouseColor
+                    (
+                    unsigned char       red,
+                    unsigned char       green,
+                    unsigned char       blue
+                    );
+
+    void        SendMouseMode
+                   (
+                   unsigned char       mode,
+                   unsigned char       speed
+                   );
+
     void        SendMouseMode
                    (
                    unsigned char       mode,
@@ -43,4 +56,11 @@ public:
 
 private:
     hid_device*             dev;
+
+    void        SendWritePacket
+                    (
+                    unsigned short      address,
+                    unsigned char       data_size,
+                    unsigned char *     data
+                    );
 };

@@ -82,20 +82,11 @@ void RGBController_RedragonM711::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_RedragonM711::DeviceUpdateLEDs()
 {
-    bool random       = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    if((modes[active_mode].value == REDRAGON_M711_MODE_BREATHING) && random)
-    {
-        redragon->SendMouseMode(REDRAGON_M711_MODE_RANDOM_BREATHING, 0, red, grn, blu);
-    }
-    else
-    {
-        redragon->SendMouseMode(modes[active_mode].value, 0, red, grn, blu);
-    }
-    
+    redragon->SendMouseColor(red, grn, blu);
     redragon->SendMouseApply();
 }
 
@@ -111,10 +102,24 @@ void RGBController_RedragonM711::UpdateSingleLED(int /*led*/)
 
 void RGBController_RedragonM711::SetCustomMode()
 {
-
+    active_mode = 0;
 }
 
 void RGBController_RedragonM711::UpdateMode()
 {
-    DeviceUpdateLEDs();
+    bool random       = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    unsigned char red = RGBGetRValue(colors[0]);
+    unsigned char grn = RGBGetGValue(colors[0]);
+    unsigned char blu = RGBGetBValue(colors[0]);
+
+    if((modes[active_mode].value == REDRAGON_M711_MODE_BREATHING) && random)
+    {
+        redragon->SendMouseMode(REDRAGON_M711_MODE_RANDOM_BREATHING, 0, red, grn, blu);
+    }
+    else
+    {
+        redragon->SendMouseMode(modes[active_mode].value, 0, red, grn, blu);
+    }
+
+    redragon->SendMouseApply();
 }
