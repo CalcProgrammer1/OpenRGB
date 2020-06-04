@@ -106,6 +106,11 @@ void DetectNvAPII2CBusses()
 {
     static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
     static NV_S32                   gpu_count = 0;
+    NV_U32                          device_id;
+    NV_U32                          ext_device_id;
+    NV_STATUS                       res;
+    NV_U32                          revision_id
+    NV_U32                          sub_system_id;
 
     NV_STATUS initialize = NvAPI_Initialize();
 
@@ -116,6 +121,17 @@ void DetectNvAPII2CBusses()
         i2c_smbus_nvapi * nvapi_bus = new i2c_smbus_nvapi(gpu_handles[gpu_idx]);
 
         sprintf(nvapi_bus->device_name, "NVidia NvAPI I2C on GPU %d", gpu_idx);
+
+        res = NvAPI_GPU_GetPCIIdentifiers(gpu_handles[gpu_idx], &device_id, &sub_system_id, &revision_id, &ext_device_id);
+
+        if (res == 0)
+        {
+            nvapi_bus->pci_device           = device_id >> 16;
+            nvapi_bus->pci_vendor           = device_id & 0xffff;
+            nvapi_bus->pci_subsystem_device = sub_system_id >> 16;
+            nvapi_bus->pci_subsystem_vendor = sub_system_id & 0xffff;
+            nvapi_bus->port_id              = 1;
+        }
 
         busses.push_back(nvapi_bus);
     }
