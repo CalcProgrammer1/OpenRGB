@@ -15,6 +15,8 @@
 #include "Detector.h"
 #include "ThermaltakeRiingController.h"
 #include "ThermaltakeRiingQuadController.h"
+#include "FanController.h"
+#include "FanController_ThermaltakeRiing.h"
 #include "RGBController.h"
 #include "RGBController_ThermaltakeRiing.h"
 #include "RGBController_ThermaltakeRiingQuad.h"
@@ -40,6 +42,10 @@ void DetectThermaltakeRiingControllers(hid_device_info* info, const std::string&
         RGBController_ThermaltakeRiing* rgb_controller = new RGBController_ThermaltakeRiing(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
+
+        FanController_ThermaltakeRiing* fan_controller = new FanController_ThermaltakeRiing(controller);
+
+        ResourceManager::get()->RegisterFanController(fan_controller);
     }
 }   /* DetectThermaltakeRiingControllers() */
 
