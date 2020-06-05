@@ -122,6 +122,7 @@ INCLUDEPATH +=                                                                  
     super_io/                                                                                   \
     AutoStart/                                                                                  \
     KeyboardLayoutManager/                                                                      \
+    FanController/                                                                              \
     RGBController/                                                                              \
     qt/
 
@@ -159,6 +160,7 @@ HEADERS +=                                                                      
     super_io/super_io.h                                                                         \
     AutoStart/AutoStart.h                                                                       \
     KeyboardLayoutManager/KeyboardLayoutManager.h                                               \
+    FanController/FanController.h                                                               \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBControllerKeyNames.h                                                       \

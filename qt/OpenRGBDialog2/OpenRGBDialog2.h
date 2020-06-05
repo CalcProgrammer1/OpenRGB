@@ -39,6 +39,7 @@
 #include "PluginManager.h"
 
 #include "i2c_smbus.h"
+#include "FanController.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "ProfileManager.h"

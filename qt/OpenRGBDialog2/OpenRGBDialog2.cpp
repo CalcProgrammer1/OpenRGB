@@ -13,6 +13,7 @@
 #include "PluginManager.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
+#include "OpenRGBFanPage.h"
 #include "OpenRGBServerInfoPage.h"
 #include "OpenRGBConsolePage.h"
 #include "OpenRGBPluginContainer.h"
@@ -1167,6 +1168,7 @@ void OpenRGBDialog2::ClearDevicesList()
 
 void OpenRGBDialog2::UpdateDevicesList()
 {
+    std::vector<FanController *> fan_controllers = ResourceManager::get()->GetFanControllers();
     std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
 
     /*-----------------------------------------------------*\
@@ -1331,6 +1333,31 @@ void OpenRGBDialog2::UpdateDevicesList()
             }
             base_tab += 1;
         }
+    }
+
+    /*-----------------------------------------------------*\
+    | Set up list of fan devices                            |
+    \*-----------------------------------------------------*/
+    QTabBar *FanTabBar = ui->FanTabBar->tabBar();
+
+    for(std::size_t fan_idx = 0; fan_idx < fan_controllers.size(); fan_idx++)
+    {
+        OpenRGBFanPage *NewPage = new OpenRGBFanPage(fan_controllers[fan_idx]);
+        ui->FanTabBar->addTab(NewPage, "");
+
+        /*-----------------------------------------------------*\
+        | Use Qt's HTML capabilities to display both icon and   |
+        | text in the tab label.  Choose icon based on device   |
+        | type and append device name string.                   |
+        \*-----------------------------------------------------*/
+        QString NewLabelString = QString::fromStdString(fan_controllers[fan_idx]->name);
+
+        QLabel *NewTabLabel = new QLabel();
+        NewTabLabel->setText(NewLabelString);
+        NewTabLabel->setIndent(20);
+        NewTabLabel->setGeometry(0, 0, 200, 20);
+
+        FanTabBar->setTabButton(fan_idx, QTabBar::LeftSide, NewTabLabel);
     }
 }
 
