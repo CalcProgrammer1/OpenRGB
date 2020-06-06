@@ -46,6 +46,32 @@ std::string ThermaltakeRiingController::GetSerialString()
     return(return_string);
 }
 
+std::string ThermaltakeRiingController::GetFirmwareVersion()
+{
+    unsigned char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Get Firmware Version packet                    |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x33;
+    usb_buf[0x01]   = 0x50;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
+
+    std::string ret_str = std::to_string(usb_buf[2]) + "." + std::to_string(usb_buf[3]) + "." + std::to_string(usb_buf[4]);
+
+    return(ret_str);
+}
+
 void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
 {
     unsigned char* color_data = new unsigned char[3 * num_colors];
