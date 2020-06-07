@@ -13,6 +13,8 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "CorsairLightingNodeController.h"
+#include "FanController.h"
+#include "FanController_CorsairCommander.h"
 #include "RGBController.h"
 #include "RGBController_CorsairLightingNode.h"
 
@@ -43,6 +45,13 @@ void DetectCorsairLightingNodeControllers(hid_device_info* info, const std::stri
         RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
+
+        if(info->product_id == CORSAIR_COMMANDER_PRO_PID)
+        {
+            FanController_CorsairCommander* fan_controller = new FanController_CorsairCommander(controller);
+            fan_controller->name = name;
+            ResourceManager::get()->RegisterFanController(fan_controller);
+        }
     }
 }   /* DetectCorsairLightingNodeControllers() */
 
