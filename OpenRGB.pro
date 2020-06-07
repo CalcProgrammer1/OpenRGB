@@ -74,6 +74,7 @@ INCLUDEPATH +=                                                          \
     Controllers/PoseidonZRGBController/                                 \
     Controllers/RedragonController/                                     \
     Controllers/RGBFusionController/                                    \
+    Controllers/RGBFusion2DRAMController/                               \
     Controllers/RGBFusion2SMBusController/                              \
     Controllers/RGBFusion2USBController/                                \
     Controllers/RGBFusionGPUController/                                 \
@@ -131,8 +132,9 @@ HEADERS +=                                                              \
     Controllers/PolychromeController/PolychromeController.h             \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
-    Controllers/RGBFusion2USBController/RGBFusion2USBController.h       \
+    Controllers/RGBFusion2DRAMController/RGBFusion2DRAMController.h     \
     Controllers/RGBFusion2SMBusController/RGBFusion2SMBusController.h   \
+    Controllers/RGBFusion2USBController/RGBFusion2USBController.h       \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.h         \
     Controllers/RedragonController/RedragonK556Controller.h             \
     Controllers/RedragonController/RedragonM711Controller.h             \
@@ -170,6 +172,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_RedragonK556.h                          \
     RGBController/RGBController_RedragonM711.h                          \
     RGBController/RGBController_RGBFusion.h                             \
+    RGBController/RGBController_RGBFusion2DRAM.h                        \
     RGBController/RGBController_RGBFusion2SMBus.h                       \
     RGBController/RGBController_RGBFusion2USB.h                         \
     RGBController/RGBController_RGBFusionGPU.h                          \
@@ -255,10 +258,12 @@ SOURCES +=                                                              \
     Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp \
     Controllers/RGBFusionController/RGBFusionController.cpp             \
     Controllers/RGBFusionController/RGBFusionControllerDetect.cpp       \
-    Controllers/RGBFusion2USBController/RGBFusion2USBController.cpp     \
-    Controllers/RGBFusion2USBController/RGBFusion2USBControllerDetect.cpp \
+    Controllers/RGBFusion2DRAMController/RGBFusion2DRAMController.cpp   \
+    Controllers/RGBFusion2DRAMController/RGBFusion2DRAMControllerDetect.cpp \
     Controllers/RGBFusion2SMBusController/RGBFusion2SMBusController.cpp \
     Controllers/RGBFusion2SMBusController/RGBFusion2SMBusControllerDetect.cpp \
+    Controllers/RGBFusion2USBController/RGBFusion2USBController.cpp     \
+    Controllers/RGBFusion2USBController/RGBFusion2USBControllerDetect.cpp \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp       \
     Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp \
     Controllers/RedragonController/RedragonK556Controller.cpp           \
@@ -302,6 +307,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_RedragonK556.cpp                        \
     RGBController/RGBController_RedragonM711.cpp                        \
     RGBController/RGBController_RGBFusion.cpp                           \
+    RGBController/RGBController_RGBFusion2DRAM.cpp                      \
     RGBController/RGBController_RGBFusion2SMBus.cpp                     \
     RGBController/RGBController_RGBFusion2USB.cpp                       \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
