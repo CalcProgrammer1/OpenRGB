@@ -23,6 +23,12 @@
 enum
 {
     CORSAIR_LIGHTING_NODE_PACKET_ID_FIRMWARE         = 0x02,     /* Get firmware version                 */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_CONFIG   = 0x20,     /* Get fan configuration                */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_RPM      = 0x21,     /* Get fan RPM                          */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_PERCENT  = 0x22,     /* Get fan fixed percent command        */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CMD_PERCENT  = 0x23,     /* Set fan fixed percent command        */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CMD_RPM      = 0x24,     /* Set fan fixed RPM command            */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CONFIG       = 0x28,     /* Set fan configuration                */
     CORSAIR_LIGHTING_NODE_PACKET_ID_DIRECT           = 0x32,     /* Direct mode LED update packet        */
     CORSAIR_LIGHTING_NODE_PACKET_ID_COMMIT           = 0x33,     /* Commit changes packet                */
     CORSAIR_LIGHTING_NODE_PACKET_ID_BEGIN            = 0x34,     /* Begin effect packet                  */
@@ -65,6 +71,17 @@ enum
 
 enum
 {
+    CORSAIR_LIGHTING_NODE_FAN_CHANNEL_1              = 0x00,     /* Fan channel 1                        */
+    CORSAIR_LIGHTING_NODE_FAN_CHANNEL_2              = 0x01,     /* Fan channel 2                        */
+    CORSAIR_LIGHTING_NODE_FAN_CHANNEL_3              = 0x02,     /* Fan channel 3                        */
+    CORSAIR_LIGHTING_NODE_FAN_CHANNEL_4              = 0x03,     /* Fan channel 4                        */
+    CORSAIR_LIGHTING_NODE_FAN_CHANNEL_5              = 0x04,     /* Fan channel 5                        */
+    CORSAIR_LIGHTING_NODE_FAN_CHANNEL_6              = 0x05,     /* Fan channel 6                        */
+    CORSAIR_LIGHTING_NODE_NUM_FAN_CHANNELS           = 0x06,     /* Number of fan channels               */
+};
+
+enum
+{
     CORSAIR_LIGHTING_NODE_SPEED_FAST                 = 0x00,     /* Fast speed                           */
     CORSAIR_LIGHTING_NODE_SPEED_MEDIUM               = 0x01,     /* Medium speed                         */
     CORSAIR_LIGHTING_NODE_SPEED_SLOW                 = 0x02,     /* Slow speed                           */
@@ -85,11 +102,22 @@ enum
     CORSAIR_LIGHTING_NODE_MODE_RAINBOW               = 0x0A,     /* Rainbow mode                         */
 };
 
+enum
+{
+    CORSAIR_LIGHTING_NODE_FAN_CONFIG_AUTO            = 0x00,     /* Auto/Disconnected                    */
+    CORSAIR_LIGHTING_NODE_FAN_CONFIG_3_PIN           = 0x01,     /* 3-Pin Fan                            */
+    CORSAIR_LIGHTING_NODE_FAN_CONFIG_4_PIN           = 0x02,     /* 4-Pin Fan                            */
+};
+
 class CorsairLightingNodeController
 {
 public:
     CorsairLightingNodeController(hid_device* dev_handle, const char* path);
     ~CorsairLightingNodeController();
+
+    unsigned char   GetFanPercent(unsigned char fan_channel);
+
+    unsigned short  GetFanRPM(unsigned char fan_channel);
 
     std::string     GetFirmwareString();
     std::string     GetLocationString();
@@ -117,6 +145,24 @@ public:
                                     );
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
+
+    void            SetFanConfiguration
+                        (
+                            unsigned char   fan_channel,
+                            unsigned char   fan_configuration
+                        );
+
+    void            SetFanPercent
+                        (
+                            unsigned char   fan_channel,
+                            unsigned char   fan_cmd
+                        );
+
+    void            SetFanRPM
+                        (
+                            unsigned char   fan_channel,
+                            unsigned short  fan_cmd
+                        );
 
     void            KeepaliveThread();
 
