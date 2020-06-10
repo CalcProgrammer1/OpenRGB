@@ -22,6 +22,8 @@ static void Sleep(unsigned int milliseconds)
 
 i2c_smbus_interface::i2c_smbus_interface()
 {
+    i2c_smbus_start  = false;
+    i2c_smbus_done   = false;
     i2c_smbus_thread = new std::thread(&i2c_smbus_interface::i2c_smbus_thread_function, this);
 }
 
