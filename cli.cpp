@@ -56,7 +56,7 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
         }
 
         // If there are no more colors
-        if (rgb_end == std::string::npos)
+        if (rgb_end == static_cast<int>(std::string::npos))
             break;
         // Remove the current color and the next color's leading comma
         colors_string = colors_string.substr(color.length() + 1);
@@ -90,7 +90,7 @@ DeviceOptions* GetDeviceOptionsForDevID(Options *opts, int device)
         return &opts->allDeviceOptions;
     }
 
-    for (int i = 0; i < opts->devices.size(); i++)
+    for (unsigned int i = 0; i < opts->devices.size(); i++)
     {
         if (opts->devices[i].device == device)
         {
@@ -275,9 +275,9 @@ bool OptionDevice(int *current_device, std::string argument, Options *options)
     {
         *current_device = std::stoi(argument);
 
-        if((*current_device >= rgb_controllers.size()) || (*current_device < 0))
+        if((*current_device >= static_cast<int>(rgb_controllers.size())) || (*current_device < 0))
         {
-            throw;
+            throw nullptr;
         }
 
         DeviceOptions newDev;
@@ -305,11 +305,11 @@ bool OptionZone(int *current_device, int *current_zone, std::string argument, Op
     {
         *current_zone = std::stoi(argument);
 
-        if(*current_device >= rgb_controllers.size())
+        if(*current_device >= static_cast<int>(rgb_controllers.size()))
         {
-            if(*current_zone >= rgb_controllers[*current_device]->zones.size())
+            if(*current_zone >= static_cast<int>(rgb_controllers[*current_device]->zones.size()))
             {
-                throw;
+                throw nullptr;
             }
         }
 
@@ -348,17 +348,17 @@ bool OptionMode(int *currentDev, std::string argument, Options *options)
 
 bool OptionSize(int *current_device, int *current_zone, std::string argument, Options *options)
 {
-    int new_size = std::stoi(argument);
+    const unsigned int new_size = std::stoi(argument);
 
     /*---------------------------------------------------------*\
     | Fail out if device, zone, or size are out of range        |
     \*---------------------------------------------------------*/
-    if((*current_device >= rgb_controllers.size()) || (*current_device < 0))
+    if((*current_device >= static_cast<int>(rgb_controllers.size())) || (*current_device < 0))
     {
         std::cout << "Error: Device is out of range" << std::endl;
         return false;
     }
-    else if((*current_zone >= rgb_controllers[*current_device]->zones.size()) || (*current_zone < 0))
+    else if((*current_zone >= static_cast<int>(rgb_controllers[*current_device]->zones.size())) || (*current_zone < 0))
     {
         std::cout << "Error: Zone is out of range" << std::endl;
         return false;
@@ -399,7 +399,7 @@ bool OptionProfile(std::string argument)
 
             if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
             {
-                device->UpdateLEDs();
+                device->DeviceUpdateLEDs();
             }
         }
 
@@ -586,6 +586,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
                 return 1;
             }
         }
+        return 0;
     }
     else
     {
@@ -664,7 +665,7 @@ void ApplyOptions(DeviceOptions& options)
     \*---------------------------------------------------------*/
     if(device->modes[mode].color_mode == MODE_COLORS_PER_LED)
     {
-        device->UpdateLEDs();
+        device->DeviceUpdateLEDs();
     }
 }
 
@@ -672,7 +673,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_c
 {
     rgb_controllers = rgb_controllers_in;
     profile_manager = profile_manager_in;
-    
+
     /*---------------------------------------------------------*\
     | Process the argument options                              |
     \*---------------------------------------------------------*/
