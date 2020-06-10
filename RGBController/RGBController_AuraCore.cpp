@@ -17,15 +17,17 @@ RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* aura_ptr)
     description = "ASUS Aura Core Device";
 
     mode Static;
-    Static.name  = "Static";
-    Static.value = AURA_CORE_MODE_STATIC;
-    Static.flags = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.name       = "Static";
+    Static.value      = AURA_CORE_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name  = "Breathing";
-    Breathing.value = AURA_CORE_MODE_BREATHING;
-    Breathing.flags = MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.name       = "Breathing";
+    Breathing.value      = AURA_CORE_MODE_BREATHING;
+    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode ColorCycle;
