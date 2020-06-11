@@ -1,2 +1,7 @@
 *.pro.user*
 *.o
+ui_*
+moc_*
+qrc_*
+OpenRGB
+Makefile
