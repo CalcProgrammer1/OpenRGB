@@ -20,6 +20,21 @@ LogitechG810Controller::~LogitechG810Controller()
 
 }
 
+void LogitechG810Controller::Commit()
+{
+    SendCommit();
+}
+
+void LogitechG810Controller::SetDirect
+    (
+    unsigned char       zone,
+    unsigned char       frame_count,
+    unsigned char *     frame_data
+    )
+{
+    SendDirectFrame(zone, frame_count, frame_data);
+}
+
 void LogitechG810Controller::SetMode
     (
     unsigned char       mode,
@@ -29,8 +44,8 @@ void LogitechG810Controller::SetMode
     unsigned char       blue
     )
 {
-    SendMode(LOGITECH_G810_ZONE_KEYBOARD, mode, speed, red, green, blue);
-    SendMode(LOGITECH_G810_ZONE_LOGO,     mode, speed, red, green, blue);
+    SendMode(LOGITECH_G810_ZONE_MODE_KEYBOARD, mode, speed, red, green, blue);
+    SendMode(LOGITECH_G810_ZONE_MODE_LOGO,     mode, speed, red, green, blue);
 
     SendCommit();
 }
@@ -54,7 +69,43 @@ void LogitechG810Controller::SendCommit()
     usb_buf[0x00]           = 0x11;
     usb_buf[0x01]           = 0xFF;
     usb_buf[0x02]           = 0x0C;
-    usb_buf[0x03]           = 0x5A;
+    usb_buf[0x03]           = 0x5D;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 20);
+    hid_read(dev, (unsigned char *)usb_buf, 20);
+}
+
+void LogitechG810Controller::SendDirectFrame
+    (
+    unsigned char       zone,
+    unsigned char       frame_count,
+    unsigned char *     frame_data
+    )
+{
+    char usb_buf[20];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Lighting Control packet                        |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]           = 0x11;
+    usb_buf[0x01]           = 0xFF;
+    usb_buf[0x02]           = 0x0C;
+    usb_buf[0x03]           = 0x3D;
+    usb_buf[0x05]           = zone;
+    usb_buf[0x07]           = frame_count;
+
+    /*-----------------------------------------------------*\
+    | Copy in frame data                                    |
+    \*-----------------------------------------------------*/
+    memcpy(&usb_buf[0x08], frame_data, frame_count * 4);
 
     /*-----------------------------------------------------*\
     | Send packet                                           |

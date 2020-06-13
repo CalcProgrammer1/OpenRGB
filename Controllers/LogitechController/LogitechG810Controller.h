@@ -16,8 +16,16 @@
 
 enum
 {
-    LOGITECH_G810_ZONE_KEYBOARD          = 0x00,
-    LOGITECH_G810_ZONE_LOGO              = 0x01,
+    LOGITECH_G810_ZONE_MODE_KEYBOARD     = 0x00,
+    LOGITECH_G810_ZONE_MODE_LOGO         = 0x01,
+};
+
+enum
+{
+    LOGITECH_G810_ZONE_DIRECT_KEYBOARD   = 0x01,
+    LOGITECH_G810_ZONE_DIRECT_MEDIA      = 0x02,
+    LOGITECH_G810_ZONE_DIRECT_LOGO       = 0x10,
+    LOGITECH_G810_ZONE_DIRECT_INDICATORS = 0x40,
 };
 
 enum
@@ -44,6 +52,15 @@ public:
     LogitechG810Controller(hid_device* dev_handle);
     ~LogitechG810Controller();
 
+    void        Commit();
+    
+    void        SetDirect
+                    (
+                    unsigned char       zone,
+                    unsigned char       frame_count,
+                    unsigned char *     frame_data
+                    );
+
     void        SetMode
                     (
                     unsigned char       mode,
@@ -55,6 +72,13 @@ public:
 
 private:
     hid_device* dev;
+
+    void        SendDirectFrame
+                    (
+                    unsigned char       zone,
+                    unsigned char       frame_count,
+                    unsigned char *     frame_data
+                    );
 
     void        SendMode
                     (
