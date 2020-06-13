@@ -273,13 +273,49 @@ void RGBController_LogitechG810::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_LogitechG810::DeviceUpdateLEDs()
 {
+    #define MAX_FRAMES_PER_PACKET 0x0E
+
+    unsigned char frame_buf[MAX_FRAMES_PER_PACKET * 4];
+    unsigned char frame_cnt = 0;
+    unsigned char prev_zone = 0;
+    unsigned char zone      = 0;
+    unsigned char idx       = 0;
+
     /*---------------------------------------------------------*\
     | TODO: Send packets with multiple LED frames               |
     \*---------------------------------------------------------*/
     for(int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        UpdateSingleLED(led_idx);
+        zone = ( leds[led_idx].value >> 8 );
+        idx  = ( leds[led_idx].value & 0xFF );
+
+        if((zone != prev_zone) && (frame_cnt != 0))
+        {
+            logitech->SetDirect(prev_zone, frame_cnt, frame_buf);
+            frame_cnt = 0;
+        }
+
+        frame_buf[(frame_cnt * 4) + 0] = idx;
+        frame_buf[(frame_cnt * 4) + 1] = RGBGetRValue(colors[led_idx]);
+        frame_buf[(frame_cnt * 4) + 2] = RGBGetGValue(colors[led_idx]);
+        frame_buf[(frame_cnt * 4) + 3] = RGBGetBValue(colors[led_idx]);
+        
+        frame_cnt++;
+        prev_zone = zone;
+
+        if(frame_cnt == MAX_FRAMES_PER_PACKET)
+        {
+            logitech->SetDirect(prev_zone, frame_cnt, frame_buf);
+            frame_cnt = 0;
+        }
     }
+
+    if(frame_cnt != 0)
+    {
+        logitech->SetDirect(prev_zone, frame_cnt, frame_buf);
+    }
+
+    logitech->Commit();
 }
 
 void RGBController_LogitechG810::UpdateZoneLEDs(int /*zone*/)

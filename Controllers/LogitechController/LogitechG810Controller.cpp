@@ -85,7 +85,7 @@ void LogitechG810Controller::SendDirectFrame
     unsigned char *     frame_data
     )
 {
-    char usb_buf[20];
+    char usb_buf[64];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -95,7 +95,7 @@ void LogitechG810Controller::SendDirectFrame
     /*-----------------------------------------------------*\
     | Set up Lighting Control packet                        |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]           = 0x11;
+    usb_buf[0x00]           = 0x12;
     usb_buf[0x01]           = 0xFF;
     usb_buf[0x02]           = 0x0C;
     usb_buf[0x03]           = 0x3D;
@@ -110,7 +110,7 @@ void LogitechG810Controller::SendDirectFrame
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 20);
+    hid_write(dev, (unsigned char *)usb_buf, 64);
     hid_read(dev, (unsigned char *)usb_buf, 20);
 }
 
