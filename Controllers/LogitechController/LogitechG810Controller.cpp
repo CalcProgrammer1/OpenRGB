@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "LogitechG810Controller.h"
+#include <cstring>
 
 LogitechG810Controller::LogitechG810Controller(hid_device* dev_handle)
 {
