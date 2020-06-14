@@ -1317,17 +1317,9 @@ static const razer_device deathadder_elite_device =
 /*-------------------------------------------------------------*\
 |  Razer Diamondback Chroma                                     |
 |                                                               |
-|  Zone "Right"                                                 |
+|  Zone "LED Strip"                                             |
 |       Linear                                                  |
-|       7 LEDs                                                  |
-|                                                               |
-|  Zone "Bottom"                                                |
-|       Linear                                                  |
-|       5 LEDs                                                  |
-|                                                               |
-|  Zone "Left"                                                  |
-|       Linear                                                  |
-|       7 LEDs                                                  |
+|       19 LEDs                                                 |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -1337,28 +1329,12 @@ static const razer_device deathadder_elite_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone diamondback_chroma_right_zone =
+static const razer_zone diamondback_chroma_led_strip_zone =
 {
-    "Right LED Strip",
+    "LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    7
-};
-
-static const razer_zone diamondback_chroma_bottom_zone =
-{
-    "Bottom LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    5
-};
-
-static const razer_zone diamondback_chroma_left_zone =
-{
-    "Left LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    7
+    19
 };
 
 static const razer_zone diamondback_chroma_logo_zone =
@@ -1385,11 +1361,11 @@ static const razer_device diamondback_chroma_device =
     1,
     21,
     {
-        &diamondback_chroma_right_zone,
-        &diamondback_chroma_bottom_zone,
-        &diamondback_chroma_left_zone,
+        &diamondback_chroma_led_strip_zone,
         &diamondback_chroma_logo_zone,
         &diamondback_chroma_scroll_wheel_zone,
+        NULL,
+        NULL,
         NULL
     }
 };
