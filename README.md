@@ -92,6 +92,20 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
       - Add your user to the `plugdev` group:  `sudo adduser username plugdev`
       - Add your user to the `i2c` group:  `sudo adduser username i2c`
 
+## OpenRGB SDK
+
+OpenRGB provides a network interface for controlling supported RGB devices from other software.  These projects implement the OpenRGB SDK and provide additional ways for you to control your lighting setup.
+
+  * Keyboard Visualizer (by me): https://gitlab.com/CalcProgrammer1/KeyboardVisualizer
+
+  * OpenRGB Python Client (by bahorn): https://github.com/bahorn/OpenRGB-PyClient
+
+  * OpenRGB Python Client (by jath03): https://github.com/jath03/openrgb-python
+
+  * OpenRGB Node.js Client (by vlakreeh): https://github.com/vlakreeh/openrgb
+
+  * D-Bus Connector for OpenRGB (by Vinno97): https://github.com/Vinno97/OpenRGB-DBus-Connector
+
 ## Projects Used
 
   * InpOutx64: http://www.highrez.co.uk/downloads/inpout32/
@@ -141,3 +155,5 @@ While no code from these projects directly made its way into OpenRGB, these proj
   * rivalcfg: https://github.com/flozz/rivalcfg
   
   * VRMTool: https://github.com/rbrune/VRMtool
+
+  * g810-led: https://github.com/MatMoul/g810-led
