@@ -324,6 +324,8 @@ void RGBController_HyperXKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_HyperXKeyboard::DeviceUpdateLEDs()
 {
+    last_update_time = clock();
+
     if(active_mode == 0)
     {
         hyperx->SetLEDsDirect(colors);
@@ -368,8 +370,11 @@ void RGBController_HyperXKeyboard::KeepaliveThread()
     {
         if(active_mode == 0)
         {
-            UpdateLEDs();
+            if((clock() - last_update_time) > 50)
+            {
+                UpdateLEDs();
+            }
         }
-        Sleep(100);
+        Sleep(10);
     }
 }

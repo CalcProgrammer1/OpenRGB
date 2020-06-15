@@ -8,6 +8,8 @@
 \*-----------------------------------------*/
 
 #pragma once
+#include <time.h>
+
 #include "RGBController.h"
 #include "HyperXKeyboardController.h"
 
@@ -32,4 +34,6 @@ public:
     
 private:
     HyperXKeyboardController*   hyperx;
+
+    clock_t                     last_update_time;
 };
