@@ -69,7 +69,7 @@ unsigned short NetworkClient::GetPort()
 
 bool NetworkClient::GetOnline()
 {
-    return server_connected;
+    return(server_connected && server_initialized);
 }
 
 void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg)
