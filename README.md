@@ -106,6 +106,8 @@ OpenRGB provides a network interface for controlling supported RGB devices from 
 
   * D-Bus Connector for OpenRGB (by Vinno97): https://github.com/Vinno97/OpenRGB-DBus-Connector
 
+  * OpenRGB E1.31 Receiver (by me): https://gitlab.com/CalcProgrammer1/OpenRGBE131Receiver
+
 ## Projects Used
 
   * InpOutx64: http://www.highrez.co.uk/downloads/inpout32/
