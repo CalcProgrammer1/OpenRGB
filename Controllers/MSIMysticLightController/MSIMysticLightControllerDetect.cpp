@@ -1,52 +1,53 @@
 #include "MSIMysticLightController.h"
 #include "RGBController_MSIMysticLight.h"
-#include <algorithm>
 
-#define MSI_VID 0x1462
+#define MSI_USB_VID 0x1462
 
-constexpr unsigned short SupportedPIDs[41] =
+#define NUM_MSI_PIDS 41
+
+static const unsigned short msi_pid_table[] =
 {
-    31847, // MS_7C67
-    31504, // MS_7B10
-    31879, // MS_7C87
-    31635, // MS_7B93
-    31796, // MS_7C34
-    31797, // MS_7C35
-    31798, // MS_7C36
-    31799, // MS_7C37
-    31810, // MS_7C42
-    31876, // MS_7C84
-    31636, // MS_7B94
-    31638, // MS_7B96
-    31833, // MS_7C59
-    31840, // MS_7C60
-    31856, // MS_7C70
-    31857, // MS_7C71
-    31859, // MS_7C73
-    31861, // MS_7C75
-    31862, // MS_7C76
-    31863, // MS_7C77
-    31865, // MS_7C79
-    31872, // MS_7C80
-    31896, // MS_7C98
-    31897, // MS_7C99
-    31873, // MS_7C81
-    31874, // MS_7C82
-    31875, // MS_7C83
-    31877, // MS_7C85
-    31878, // MS_7C86
-    31880, // MS_7C88
-    31881, // MS_7C89
-    17497, // MS_4459
-    16036, // MS_3EA4
-    36957, // MS_905D
-    31888, // MS_7C90
-    31889, // MS_7C91
-    31890, // MS_7C92
-    31892, // MS_7C94
-    31893, // MS_7C95
-    31894, // MS_7C96
-    31830  // MS_7C56
+    0x7C67, // MS_7C67
+    0x7B10, // MS_7B10
+    0x7C87, // MS_7C87
+    0x7B93, // MS_7B93
+    0x7C34, // MS_7C34
+    0x7C35, // MS_7C35
+    0x7C36, // MS_7C36
+    0x7C37, // MS_7C37
+    0x7C42, // MS_7C42
+    0x7C84, // MS_7C84
+    0x7B94, // MS_7B94
+    0x7B96, // MS_7B96
+    0x7C59, // MS_7C59
+    0x7C60, // MS_7C60
+    0x7C70, // MS_7C70
+    0x7C71, // MS_7C71
+    0x7C73, // MS_7C73
+    0x7C75, // MS_7C75
+    0x7C76, // MS_7C76
+    0x7C77, // MS_7C77
+    0x7C79, // MS_7C79
+    0x7C80, // MS_7C80
+    0x7C98, // MS_7C98
+    0x7C99, // MS_7C99
+    0x7C81, // MS_7C81
+    0x7C82, // MS_7C82
+    0x7C83, // MS_7C83
+    0x7C85, // MS_7C85
+    0x7C86, // MS_7C86
+    0x7C88, // MS_7C88
+    0x7C89, // MS_7C89
+    0x4559, // MS_4459
+    0x3EA4, // MS_3EA4
+    0x905D, // MS_905D
+    0x7C90, // MS_7C90
+    0x7C91, // MS_7C91
+    0x7C92, // MS_7C92
+    0x7C94, // MS_7C94
+    0x7C95, // MS_7C95
+    0x7C96, // MS_7C96
+    0x7C56  // MS_7C56
 };
 
 /******************************************************************************************\
@@ -59,32 +60,39 @@ constexpr unsigned short SupportedPIDs[41] =
 
 void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    if(hid_init() < 0)
-    {
-        return;
-    }
+    hid_device_info* info;
+    hid_device* dev;
 
-    hid_device_info * device_list = hid_enumerate(MSI_VID, 0);
-    if(!device_list)
-    {
-        return;
-    }
+    hid_init();
 
-    hid_device_info * device = device_list;
-    while(device)
+    for(int device_idx = 0; device_idx < NUM_MSI_PIDS; device_idx++)
     {
-        if(std::find(std::begin(SupportedPIDs), std::end(SupportedPIDs), device->product_id) != std::end(SupportedPIDs))
+        dev = NULL;
+
+        info = hid_enumerate(MSI_USB_VID, msi_pid_table[device_idx]);
+
+        //Look for MSI Mystic Light Controller
+        while(info)
         {
-        hid_device * dev = hid_open_path(device->path);
-            if(dev)
+            if((info->vendor_id == MSI_USB_VID)
+            &&(info->product_id == msi_pid_table[device_idx]))
             {
-                MSIMysticLightController * controller = new MSIMysticLightController(dev, device_list->path);
-                RGBController_MSIMysticLight * rgb_controller = new RGBController_MSIMysticLight(controller);
-                rgb_controllers.push_back(rgb_controller);
+                dev = hid_open_path(info->path);
+                break;
+            }
+            else
+            {
+                info = info->next;
             }
         }
-        device = device->next;
-    }
 
-    hid_free_enumeration(device_list);
+        if( dev )
+        {
+            MSIMysticLightController * controller = new MSIMysticLightController(dev, info->path);
+
+            RGBController_MSIMysticLight * rgb_controller = new RGBController_MSIMysticLight(controller);
+            
+            rgb_controllers.push_back(rgb_controller);
+        }
+    }
 }
