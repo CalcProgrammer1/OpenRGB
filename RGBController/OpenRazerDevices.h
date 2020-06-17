@@ -39,7 +39,7 @@ static const razer_zone blackwidow_2019_zone =
 
 static const razer_device blackwidow_2019_device =
 {
-    "Razer Blackwidow 2019",
+    "Razer BlackWidow 2019",
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
