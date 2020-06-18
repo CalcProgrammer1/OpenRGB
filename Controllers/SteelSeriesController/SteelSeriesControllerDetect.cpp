@@ -20,6 +20,7 @@
 #define STEELSERIES_RIVAL_300_CSGO_HYPERBEAST_PID   0x171a
 #define STEELSERIES_RIVAL_300_DOTA_PID              0x1392
 #define STEELSERIES_RIVAL_300_HP_PID                0x1718
+#define STEELSERIES_RIVAL_300_BLACKOPS_PID          0x1710
 
 typedef struct
 {
@@ -49,6 +50,7 @@ static const steelseries_device device_list[] =
     { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_300_CSGO_HYPERBEAST_PID,  0,  DEVICE_TYPE_MOUSE,  RIVAL_300,  "SteelSeries Rival 300 CS:GO Hyperbeast Edition"    },
     { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_300_DOTA_PID,             0,  DEVICE_TYPE_MOUSE,  RIVAL_300,  "SteelSeries Rival 300 Dota 2 Edition"              },
     { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_300_HP_PID,               0,  DEVICE_TYPE_MOUSE,  RIVAL_300,  "SteelSeries Rival 300 HP Omen Edition"             },
+    { STEELSERIES_RIVAL_VID,    STEELSERIES_RIVAL_300_BLACKOPS_PID,         0,  DEVICE_TYPE_MOUSE,  RIVAL_300,  "SteelSeries Rival 300 Black Ops Edition"           },
 };
 
 /******************************************************************************************\
