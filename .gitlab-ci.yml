@@ -12,20 +12,35 @@
   
 stages:
   - build
-  
+
 before_script:
  - echo "started by ${GITLAB_USER_NAME}"
- - $esc = "$([char]27)"
- - $count = 0
- - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
- - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
- - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
 
-build:
+build_linux:
+  image: ubuntu:bionic
+  stage: build
+  script:
+  - apt update
+  - apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
+  - ./scripts/build-appimage.sh
+  
+  artifacts:
+    paths:
+    - OpenRGB-x86_64.AppImage
+    expire_in: 1337 years
+
+build_windows:
   extends:
   - .shared_windows_runners
   stage: build
   script:
+  - $esc = "$([char]27)"
+  - $count = 0
+  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
+  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
+  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
+
+
   - _fold_start_ 'configuring the msvc environment variables'
   - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
   - '& cmd.exe /C "vcvarsall.bat x64 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'

@@ -472,6 +472,21 @@ unix:!macx {
     RGBController/OpenRazerDetect.cpp                                   \
     RGBController/RGBController_Faustus.cpp                             \
     RGBController/RGBController_OpenRazer.cpp                           \
+
+    #-------------------------------------------------------------------#
+    # Set up install paths                                              #
+    # These install paths are used for AppImage and .deb packaging      #
+    #-------------------------------------------------------------------#
+    isEmpty(PREFIX) {
+        PREFIX = /usr
+    }
+
+    target.path=$$PREFIX/bin/
+    desktop.path=$$PREFIX/share/applications/
+    desktop.files+=qt/OpenRGB.desktop
+    pixmap.path=$$PREFIX/share/pixmaps/
+    pixmap.files+=qt/OpenRGB.png
+    INSTALLS += target desktop pixmap
 }
 
 #-----------------------------------------------------------------------#
