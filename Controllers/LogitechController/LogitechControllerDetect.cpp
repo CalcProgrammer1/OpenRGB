@@ -17,6 +17,7 @@
 \*-----------------------------------------------------*/
 #define LOGITECH_G810_1_PID             0xC337
 #define LOGITECH_G810_2_PID             0xC331
+#define LOGITECH_G512_PID               0xC342
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
@@ -41,6 +42,7 @@ static const logitech_device device_list[] =
     \*-------------------------------------------------------------------------------------------------------------*/
     { LOGITECH_VID,             LOGITECH_G810_1_PID,    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"  },
     { LOGITECH_VID,             LOGITECH_G810_2_PID,    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"  },
+    { LOGITECH_VID,             LOGITECH_G512_PID,      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512"                 },
     /*-------------------------------------------------------------------------------------------------------------*\
     | Mice                                                                                                          |
     \*-------------------------------------------------------------------------------------------------------------*/
