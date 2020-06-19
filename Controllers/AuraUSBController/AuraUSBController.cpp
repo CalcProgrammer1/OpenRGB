@@ -9,6 +9,7 @@
 
 #include "AuraUSBController.h"
 #include <cstring>
+#include <stdexcept>
 
 AuraUSBController::AuraUSBController(hid_device* dev_handle)
 {
@@ -75,6 +76,14 @@ void AuraUSBController::GetConfigTable()
                                                         config_table[i + 4],
                                                         config_table[i + 5]);
         }
+    }
+    else
+    {
+        if(dev)
+        {
+            hid_close(dev);
+        }
+        throw std::runtime_error("Could not read config table");
     }
 }
 
