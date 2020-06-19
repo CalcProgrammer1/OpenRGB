@@ -1,12 +1,14 @@
-#include "Hue2Controller.h"
+#include "NZXTHue2Controller.h"
 #include "RGBController.h"
-#include "RGBController_Hue2.h"
+#include "RGBController_NZXTHue2.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
 #define NZXT_VID                    0x1E71
 #define NZXT_HUE_2_PID              0x2001
+#define NZXT_HUE_2_AMBIENT_PID      0x2002
 #define NZXT_SMART_DEVICE_V2_PID    0x2006
+#define NZXT_RGB_FAN_CONTROLLER_PID 0x2009
 
 typedef struct
 {
@@ -23,18 +25,20 @@ static const nzxt_hue_2_device device_list[] =
     | NZXT Hue 2 devices                                                                                    |
     \*-----------------------------------------------------------------------------------------------------*/
     { NZXT_VID,             NZXT_HUE_2_PID,                             "NZXT Hue 2"                        },
-    { NZXT_VID,          NZXT_SMART_DEVICE_V2_PID,                      "NZXT Smart Device V2"              },
+    { NZXT_VID,             NZXT_HUE_2_AMBIENT_PID,                     "NZXT Hue 2 Ambient"                },
+    { NZXT_VID,             NZXT_SMART_DEVICE_V2_PID,                   "NZXT Smart Device V2"              },
+    { NZXT_VID,             NZXT_RGB_FAN_CONTROLLER_PID,                "NZXT RGB & Fan Controller"         },
 };
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectHue2Controllers                                                                  *
+*   DetectNZXTHue2Controllers                                                              *
 *                                                                                          *
-*       Detect devices supported by the Hue2 driver                                        *
+*       Detect devices supported by the NZXT Hue 2 driver                                  *
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers)
+void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers)
 {
     hid_device_info* info;
     hid_device* dev;
@@ -64,13 +68,13 @@ void DetectHue2Controllers(std::vector<RGBController*> &rgb_controllers)
 
         if( dev )
         {
-            Hue2Controller* controller = new Hue2Controller(dev);
+            NZXTHue2Controller* controller = new NZXTHue2Controller(dev);
 
-            RGBController_Hue2* rgb_controller = new RGBController_Hue2(controller);
+            RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
 
             rgb_controller->name = device_list[device_idx].name;
             
             rgb_controllers.push_back(rgb_controller);
         }
     }
-}   /* DetectHuePlusControllers() */
+}   /* DetectNZXTHue2Controllers() */

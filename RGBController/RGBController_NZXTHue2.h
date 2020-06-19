@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_Hue2.h                     |
+|  RGBController_NZXTHue2.h                 |
 |                                           |
 |  Generic RGB Interface for NZXT Hue 2     |
 |                                           |
@@ -8,12 +8,12 @@
 
 #pragma once
 #include "RGBController.h"
-#include "Hue2Controller.h"
+#include "NZXTHue2Controller.h"
 
-class RGBController_Hue2 : public RGBController
+class RGBController_NZXTHue2 : public RGBController
 {
 public:
-    RGBController_Hue2(Hue2Controller* hue2_ptr);
+    RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr);
 
     void        SetupZones();
 
@@ -27,7 +27,7 @@ public:
     void        UpdateMode();
 
 private:
-    Hue2Controller*             hue2;
+    NZXTHue2Controller*         hue2;
     std::vector<unsigned int>   leds_channel;
     std::vector<unsigned int>   zones_channel;
 };

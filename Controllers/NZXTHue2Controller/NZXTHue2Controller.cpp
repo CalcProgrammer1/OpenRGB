@@ -4,26 +4,26 @@
 |  Adam Honse (calcprogrammer1@gmail.com), 12/29/2016       |
 \*---------------------------------------------------------*/
 
-#include "Hue2Controller.h"
+#include "NZXTHue2Controller.h"
 
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <cstring>
 
-Hue2Controller::Hue2Controller(hid_device* dev_handle)
+NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle)
 {
     dev = dev_handle;
 
     GetStripsOnChannel(HUE_2_CHANNEL_1);
 }
 
-Hue2Controller::~Hue2Controller()
+NZXTHue2Controller::~NZXTHue2Controller()
 {
 
 }
 
-unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
+unsigned int NZXTHue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
 {
     unsigned int ret_val = 0;
 
@@ -87,7 +87,7 @@ unsigned int Hue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
     return(ret_val);
 }
 
-void Hue2Controller::SetChannelEffect
+void NZXTHue2Controller::SetChannelEffect
     (
     unsigned char   channel,
     unsigned char   mode,
@@ -117,7 +117,7 @@ void Hue2Controller::SetChannelEffect
     SendEffect(channel, mode, speed, direction, num_colors, &color_data[0]);
 }
 
-void Hue2Controller::SetChannelLEDs
+void NZXTHue2Controller::SetChannelLEDs
     (
     unsigned char   channel,
     RGBColor *      colors,
@@ -161,7 +161,7 @@ void Hue2Controller::SetChannelLEDs
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
-void Hue2Controller::SendApply
+void NZXTHue2Controller::SendApply
     (
     unsigned char   channel
     )
@@ -192,7 +192,7 @@ void Hue2Controller::SendApply
     hid_read(dev, usb_buf, 64);
 }
 
-void Hue2Controller::SendDirect
+void NZXTHue2Controller::SendDirect
     (
     unsigned char   channel,
     unsigned char   group,
@@ -227,7 +227,7 @@ void Hue2Controller::SendDirect
     hid_read(dev, usb_buf, 64);
 }
 
-void Hue2Controller::SendEffect
+void NZXTHue2Controller::SendEffect
     (
     unsigned char   channel,
     unsigned char   mode,

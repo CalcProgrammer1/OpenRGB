@@ -1,15 +1,15 @@
 /*-----------------------------------------*\
-|  RGBController_Hue2.cpp                   |
+|  RGBController_NZXTHue2.cpp               |
 |                                           |
 |  Generic RGB Interface for NZXT Hue 2     |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 12/29/2019  |
 \*-----------------------------------------*/
 
-#include "RGBController_Hue2.h"
+#include "RGBController_NZXTHue2.h"
 
 
-RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
+RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr)
 {
     hue2 = hue2_ptr;
 
@@ -129,7 +129,7 @@ RGBController_Hue2::RGBController_Hue2(Hue2Controller* hue2_ptr)
     SetupZones();
 }
 
-void RGBController_Hue2::SetupZones()
+void RGBController_NZXTHue2::SetupZones()
 {
     /*-------------------------------------------------*\
     | Set up zones                                      |
@@ -170,12 +170,12 @@ void RGBController_Hue2::SetupZones()
     SetupColors();
 }
 
-void RGBController_Hue2::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_NZXTHue2::ResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
 
-void RGBController_Hue2::DeviceUpdateLEDs()
+void RGBController_NZXTHue2::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -183,24 +183,24 @@ void RGBController_Hue2::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_Hue2::UpdateZoneLEDs(int zone)
+void RGBController_NZXTHue2::UpdateZoneLEDs(int zone)
 {
     hue2->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_Hue2::UpdateSingleLED(int led)
+void RGBController_NZXTHue2::UpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 
     hue2->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
 }
 
-void RGBController_Hue2::SetCustomMode()
+void RGBController_NZXTHue2::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_Hue2::UpdateMode()
+void RGBController_NZXTHue2::UpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)
     {

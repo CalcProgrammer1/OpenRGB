@@ -50,11 +50,11 @@ enum
     HUE_2_NUM_MODES                         /* Number of Hue 2 modes        */
 };
 
-class Hue2Controller
+class NZXTHue2Controller
 {
 public:
-    Hue2Controller(hid_device* dev_handle);
-    ~Hue2Controller();
+    NZXTHue2Controller(hid_device* dev_handle);
+    ~NZXTHue2Controller();
 
     unsigned int    GetStripsOnChannel
                         (

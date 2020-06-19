@@ -159,3 +159,5 @@ While no code from these projects directly made its way into OpenRGB, these proj
   * VRMTool: https://github.com/rbrune/VRMtool
 
   * g810-led: https://github.com/MatMoul/g810-led
+
+  * liquidctl: https://github.com/jonasmalacofilho/liquidctl
