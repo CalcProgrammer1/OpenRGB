@@ -24,7 +24,8 @@ Depends:
  ${shlibs:Depends},
  ${misc:Depends},
 Recommends:
- openrgb-udev
+ openrgb-udev,
+ openrgb-dkms-drivers,
 Description: Open source RGB lighting control
  OpenRGB controls RGB lighting
 
