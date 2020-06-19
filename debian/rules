@@ -2,4 +2,4 @@
 export QT_SELECT := qt5
 
 %:
-	dh $@
+	dh $@ --parallel
