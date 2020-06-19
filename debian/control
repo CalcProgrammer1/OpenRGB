@@ -23,6 +23,8 @@ Depends:
  libhidapi-libusb0,
  ${shlibs:Depends},
  ${misc:Depends},
+Recommends:
+ openrgb-udev
 Description: Open source RGB lighting control
  OpenRGB controls RGB lighting
 
