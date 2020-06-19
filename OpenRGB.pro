@@ -128,7 +128,7 @@ HEADERS +=                                                              \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
     Controllers/MSIMysticLightController/MSIMysticLightController.h     \
     Controllers/MSIRGBController/MSIRGBController.h                     \
-    Controllers/NZXTHue2Controller/Hue2Controller.h                     \
+    Controllers/NZXTHue2Controller/NZXTHue2Controller.h                 \
     Controllers/NZXTKrakenController/NZXTKrakenController.h             \
     Controllers/PatriotViperController/PatriotViperController.h         \
     Controllers/PolychromeController/PolychromeController.h             \
