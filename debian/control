@@ -27,7 +27,7 @@ Description: Open source RGB lighting control
  OpenRGB controls RGB lighting
 
 Package: openrgb-udev
-Architecture: any
+Architecture: all
 Depends:
  libqt5gui5,
  libqt5core5a,
