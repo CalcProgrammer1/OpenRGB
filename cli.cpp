@@ -11,6 +11,8 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+/* swy: quirk for MSVC; which doesn't support this case-insensitive function */
+#define strcasecmp strcmpi
 #endif
 
 #ifdef __APPLE__
@@ -101,7 +103,9 @@ unsigned int ParseMode(DeviceOptions& options)
 {
     // no need to check if --mode wasn't passed
     if (options.mode.size() == 0)
+    {
         return false;
+    }
 
     /*---------------------------------------------------------*\
     | Search through all of the device modes and see if there is|
@@ -109,7 +113,7 @@ unsigned int ParseMode(DeviceOptions& options)
     \*---------------------------------------------------------*/
     for(std::size_t mode_idx = 0; mode_idx < rgb_controllers[options.device]->modes.size(); mode_idx++)
     {
-        if (rgb_controllers[options.device]->modes[mode_idx].name == options.mode)
+        if (strcasecmp(rgb_controllers[options.device]->modes[mode_idx].name.c_str(), options.mode.c_str()) == 0)
         {
             return mode_idx;
         }
@@ -378,6 +382,11 @@ bool OptionColor(int *currentDev, int *current_zone, std::string argument, Optio
 
 bool OptionMode(int *currentDev, std::string argument, Options *options)
 {
+    if (argument.size() == 0)
+    {
+        std::cout << "Error: --mode passed with no argument" << std::endl;
+        return false;
+    }
     DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
     currentDevOpts->mode = argument;
     currentDevOpts->hasOption = true;
