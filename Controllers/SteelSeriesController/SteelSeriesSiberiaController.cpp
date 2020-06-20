@@ -1,0 +1,92 @@
+/*-----------------------------------------*\
+|  SteelSeriesSiberiaController.cpp         |
+|                                           |
+|  Definitions and types for SteelSeries    |
+|  Siberia lighting controller              |
+|                                           |
+|  E Karlsson (pilophae) 18/6/2020          |
+|  
+\*-----------------------------------------*/
+
+#include "SteelSeriesSiberiaController.h"
+#include <cstring>
+
+static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
+{
+    char* usb_pkt = new char[16];
+    memset(usb_pkt, 0x00, sizeof(usb_pkt));
+    
+    // Report number
+    usb_pkt[0] = 0x01;
+    // Magic
+    usb_pkt[1] = 0x00;
+    // Command
+    usb_pkt[2] = data_pkt[0];
+    // Payload length
+    usb_pkt[3] = size - 1;
+
+    for(unsigned int i = 0; i < (size - 1); i++)
+    {
+        usb_pkt[4 + i] = data_pkt[1 + i];
+    }
+    
+    hid_write(dev, (unsigned char *)usb_pkt, 16);
+    
+    delete[] usb_pkt;
+}
+
+SteelSeriesSiberiaController::SteelSeriesSiberiaController
+    (
+    hid_device*         dev_handle
+    )
+{
+    dev = dev_handle;
+}
+
+SteelSeriesSiberiaController::~SteelSeriesSiberiaController()
+{
+}
+
+char* SteelSeriesSiberiaController::GetDeviceName()
+{
+    return device_name;
+}
+
+void SteelSeriesSiberiaController::SetColor
+    (
+    unsigned char   red,
+    unsigned char   green,
+    unsigned char   blue
+    )
+{
+    char usb_buf[4];
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    
+    // Command 1
+    usb_buf[0] = 0x95;
+    usb_buf[1] = 0x80;
+    usb_buf[2] = 0xbf;
+    send_usb_msg(dev, usb_buf, 3);
+
+    // Command 2
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0] = 0x80;
+    usb_buf[1] = 0x52;
+    usb_buf[2] = 0x20;
+    send_usb_msg(dev, usb_buf, 3);
+
+    // Command 3 (Set color)
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0] = 0x83;
+    usb_buf[1] = red;
+    usb_buf[2] = green;
+    usb_buf[3] = blue;
+    send_usb_msg(dev, usb_buf, 4);
+
+    // Command 4
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0] = 0x93;
+    usb_buf[1] = 0x03;
+    usb_buf[2] = 0x80;
+    send_usb_msg(dev, usb_buf, 3);
+}

@@ -191,6 +191,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="8297", GROUP="plugd
 #       SteelSeries Rival 300 CS:GO Hyperbeast Edition          #
 #       SteelSeries Rival 300 Dota 2 Edition                    #
 #       SteelSeries Rival 300 HP Omen Edition                   #
+#  Headsets:                                                    #
+#       SteelSeries Siberia 350                                 #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1702", GROUP="plugdev", MODE="0666", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="170c", GROUP="plugdev", MODE="0666", TAG+="uaccess"
@@ -203,6 +205,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1716", GROUP="plugd
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="171a", GROUP="plugdev", MODE="0666", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1392", GROUP="plugdev", MODE="0666", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1718", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1229", GROUP="plugdev", MODE="0666", TAG+="uaccess"
 
 
 #---------------------------------------------------------------#

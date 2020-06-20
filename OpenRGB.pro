@@ -141,6 +141,7 @@ HEADERS +=                                                              \
     Controllers/RedragonController/RedragonK556Controller.h             \
     Controllers/RedragonController/RedragonM711Controller.h             \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h      \
+    Controllers/SteelSeriesController/SteelSeriesSiberiaController.h    \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
@@ -181,6 +182,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_RGBFusion2USB.h                         \
     RGBController/RGBController_RGBFusionGPU.h                          \
     RGBController/RGBController_SteelSeriesRival.h                      \
+    RGBController/RGBController_SteelSeriesSiberia.h                    \
     RGBController/RGBController_ThermaltakeRiing.h                      \
 
 SOURCES +=                                                              \
@@ -275,6 +277,7 @@ SOURCES +=                                                              \
     Controllers/RedragonController/RedragonM711Controller.cpp           \
     Controllers/RedragonController/RedragonControllerDetect.cpp         \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp    \
+    Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp  \
     Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp   \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
@@ -318,6 +321,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_RGBFusion2USB.cpp                       \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
     RGBController/RGBController_SteelSeriesRival.cpp                    \
+    RGBController/RGBController_SteelSeriesSiberia.cpp                  \
     RGBController/RGBController_ThermaltakeRiing.cpp                    \
 
 RESOURCES +=                                                            \

@@ -17,7 +17,8 @@
  * for every possible device. */
 typedef enum
 {
-    RIVAL_100 = 0x00,
-    RIVAL_300 = 0x01
+    RIVAL_100   = 0x00,
+    RIVAL_300   = 0x01,
+    SIBERIA_350 = 0x03,
 } steelseries_type;
 
