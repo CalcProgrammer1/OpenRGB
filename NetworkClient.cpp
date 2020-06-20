@@ -246,6 +246,7 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
         }
         else if(rv == 0)
         {
+            std::this_thread::sleep_for(100ms);
             continue;
         }
         else
@@ -253,6 +254,7 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
             // socket has something to read
             return(recv(s, buf, len, flags));
         }
+        
     }
 }
 

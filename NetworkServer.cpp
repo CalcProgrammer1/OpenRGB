@@ -30,6 +30,9 @@ const char yes = 1;
 #include <unistd.h>
 #endif
 
+using namespace std::chrono_literals;
+
+
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
     port_num      = OPENRGB_SDK_PORT;
@@ -280,6 +283,7 @@ int NetworkServer::accept_select(int sockfd, struct sockaddr *addr, socklen_t *a
         }
         else if(rv == 0)
         {
+            std::this_thread::sleep_for(100ms);
             continue;
         }
         else
@@ -310,6 +314,7 @@ int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
         }
         else if(rv == 0)
         {
+            std::this_thread::sleep_for(100ms);
             continue;
         }
         else
