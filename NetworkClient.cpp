@@ -37,7 +37,7 @@ static void Sleep(unsigned int milliseconds)
 NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
 {
     strcpy(port_ip, "127.0.0.1");
-    port_num                = 1337;
+    port_num                = 6742;
     server_connected        = false;
     server_controller_count = 0;
 }

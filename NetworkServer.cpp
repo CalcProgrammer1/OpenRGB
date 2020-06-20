@@ -37,7 +37,7 @@ static void Sleep(unsigned int milliseconds)
 
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
-    port_num      = 1337;
+    port_num      = 6742;
     server_online = false;
 }
 
@@ -134,6 +134,7 @@ void NetworkServer::StartServer()
     server_sock = socket(AF_INET, SOCK_STREAM, 0);
     if (server_sock == INVALID_SOCKET)
     {
+        printf("Error: network socket could not be created\n");
         WSACleanup();
         return;
     }
@@ -150,6 +151,7 @@ void NetworkServer::StartServer()
     \*-------------------------------------------------*/
     if (bind(server_sock, (sockaddr*)&myAddress, sizeof(myAddress)) == SOCKET_ERROR)
     {
+        printf("Error: Could not bind network socket \nIs port %hu already being used?\n", GetPort());
         WSACleanup();
         return;
     }
@@ -200,7 +202,7 @@ void NetworkServer::ConnectionThreadFunction()
 {
     //This thread handles client connections
 
-    printf("Network connection thread started\n");
+    printf("Network connection thread started on port %hu\n", GetPort());
     while(server_online == true)
     {
         /*-------------------------------------------------*\
