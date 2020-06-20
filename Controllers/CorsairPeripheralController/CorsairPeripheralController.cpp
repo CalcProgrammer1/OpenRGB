@@ -11,16 +11,7 @@
 
 #include <cstring>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 static unsigned int keys[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x12,
                               0x14, 0x15, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x24, 0x25, 0x26,
@@ -44,7 +35,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt)
     int bytes = hid_send_feature_report(dev, (unsigned char *)usb_pkt, 65);
     bytes++;
 
-    Sleep(2);
+    std::this_thread::sleep_for(1ms);
 }
 
 CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle)

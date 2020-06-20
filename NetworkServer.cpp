@@ -28,11 +28,6 @@ const char yes = 1;
 #include <Windows.h>
 #else
 #include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
 #endif
 
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)

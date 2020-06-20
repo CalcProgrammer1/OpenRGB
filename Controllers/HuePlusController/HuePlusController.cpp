@@ -11,16 +11,7 @@
 #include <string>
 #include <cstring>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 HuePlusController::HuePlusController()
 {
@@ -64,7 +55,7 @@ unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)
     serialport->serial_write((char *)serial_buf, 2);
     serialport->serial_flush_tx();
 
-    Sleep(50);
+    std::this_thread::sleep_for(50ms);
 
     int bytes_read = serialport->serial_read((char *)serial_buf, 5);
 
@@ -244,5 +235,5 @@ void HuePlusController::SendPacket
     /*-----------------------------------------------------*\
     | Delay to allow Hue+ device to ready for next packet   |
     \*-----------------------------------------------------*/
-    Sleep(20);
+    std::this_thread::sleep_for(20ms);
 }

@@ -10,16 +10,7 @@
 #include "CorsairVengeanceProController.h"
 #include <cstring>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 CorsairVengeanceProController::CorsairVengeanceProController(i2c_smbus_interface* bus, corsair_dev_id dev)
 {
@@ -89,9 +80,9 @@ void CorsairVengeanceProController::SetLEDColor(unsigned int led, unsigned char 
 void CorsairVengeanceProController::ApplyColors()
 {
     bus->i2c_smbus_write_byte_data(dev, 0x26, 0x02);
-    Sleep(1);
+    std::this_thread::sleep_for(1ms);
     bus->i2c_smbus_write_byte_data(dev, 0x21, 0x00);
-    Sleep(1);
+    std::this_thread::sleep_for(1ms);
 
     for (int i = 0; i < 10; i++)
     {
@@ -119,9 +110,9 @@ void CorsairVengeanceProController::SetEffect(unsigned char mode,
     effect_mode = mode;
 
     bus->i2c_smbus_write_byte_data(dev, 0x26, 0x01);
-    Sleep(1);
+    std::this_thread::sleep_for(1ms);
     bus->i2c_smbus_write_byte_data(dev, 0x21, 0x00);
-    Sleep(1);
+    std::this_thread::sleep_for(1ms);
 
     unsigned char random_byte;
 
@@ -165,7 +156,7 @@ bool CorsairVengeanceProController::WaitReady()
     while (bus->i2c_smbus_read_byte_data(dev, 0x41) != 0x00)
     {
         i++;
-        Sleep(1);
+        std::this_thread::sleep_for(1ms);
     }
 
     return false;

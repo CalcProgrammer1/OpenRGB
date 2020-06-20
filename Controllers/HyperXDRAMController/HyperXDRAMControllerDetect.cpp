@@ -6,16 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 /******************************************************************************************\
 *                                                                                          *
@@ -76,7 +67,7 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
         {
             busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
 
-            Sleep(1);
+            std::this_thread::sleep_for(1ms);
             
             for(int slot_addr = 0x50; slot_addr <= 0x57; slot_addr++)
             {
@@ -89,7 +80,7 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
                     slots_valid |= (1 << (slot_addr - 0x50));
                 }
 
-                Sleep(1);
+                std::this_thread::sleep_for(1ms);
             }
 
             if(slots_valid != 0)

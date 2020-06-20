@@ -26,16 +26,7 @@
 #define THREADRETURN return(NULL);
 #endif
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 THREAD keepalive_thread(void *param)
 {
@@ -375,6 +366,6 @@ void RGBController_HyperXKeyboard::KeepaliveThread()
                 UpdateLEDs();
             }
         }
-        Sleep(10);
+        std::this_thread::sleep_for(10ms);;
     }
 }

@@ -28,16 +28,7 @@
 #define THREADRETURN return(NULL);
 #endif
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 THREAD keepalive_thread(void *param)
 {
@@ -75,7 +66,7 @@ void CorsairLightingNodeController::KeepaliveThread()
     while(1)
     {
         SendCommit();
-        Sleep(5000);
+        std::this_thread::sleep_for(5s);
     }
 }
 

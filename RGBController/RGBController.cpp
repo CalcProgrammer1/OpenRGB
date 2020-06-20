@@ -1,16 +1,7 @@
 #include "RGBController.h"
 #include <cstring>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 RGBController::RGBController()
 {
@@ -1335,7 +1326,7 @@ void RGBController::DeviceCallThreadFunction()
         }
         else
         {
-            Sleep(1);
+           std::this_thread::sleep_for(1ms);
         }
     }
 }

@@ -12,13 +12,11 @@
 #include <fstream>
 #include <unistd.h>
 
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
+using namespace std::chrono_literals;
 
 void RGBController_OpenRazer::DeviceUpdateLEDs()
 {
+
     switch(matrix_type)
     {
         case RAZER_TYPE_MATRIX_FRAME:
@@ -79,7 +77,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
 
                     delete[] output_array;
 
-                    Sleep(1);
+                    std::this_thread::sleep_for(1ms);
                 }
                 
                 if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
@@ -550,7 +548,7 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
                 }
 
-                Sleep(20);
+                std::this_thread::sleep_for(20ms);
             }
             break;
 

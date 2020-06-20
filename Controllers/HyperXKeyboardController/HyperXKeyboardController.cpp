@@ -11,17 +11,7 @@
 
 #include <cstring>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
-
+using namespace std::chrono_literals;
 
 static unsigned int keys[] = {0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14,
                               0x15, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1D, 0x1E, 0x20, 0x21, 0x22, 0x23, 0x24,
@@ -107,7 +97,7 @@ void HyperXKeyboardController::SetMode
         mode_colors[8]
         );
 
-    Sleep(100);
+    std::this_thread::sleep_for(100ms);
 }
 
 void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
@@ -137,7 +127,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         red_color_data
         );
 
-    Sleep(5);
+    std::this_thread::sleep_for(5ms);
 
     SendDirect
         (
@@ -145,7 +135,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         grn_color_data
         );
 
-    Sleep(5);
+    std::this_thread::sleep_for(5ms);
 
     SendDirect
         (
@@ -153,7 +143,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         blu_color_data
         );
 
-    Sleep(5);
+    std::this_thread::sleep_for(5ms);
 
     SendDirectExtended
         (
@@ -189,7 +179,7 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
         red_color_data
         );
 
-    Sleep(5);
+    std::this_thread::sleep_for(5ms);
 
     SendColor
         (
@@ -198,7 +188,7 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
         grn_color_data
         );
 
-    Sleep(5);
+    std::this_thread::sleep_for(5ms);
 
     SendColor
         (
@@ -207,7 +197,7 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
         blu_color_data
         );
 
-    Sleep(5);
+    std::this_thread::sleep_for(5ms);
     
     SendExtendedColor
         (

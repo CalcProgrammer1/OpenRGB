@@ -13,11 +13,6 @@
 #include <Windows.h>
 #else
 #include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
 #endif
 
 i2c_smbus_interface::i2c_smbus_interface()

@@ -6,16 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 /*----------------------------------------------------------------------*\
 | This list contains the available SMBus addresses for mapping Aura RAM  |
@@ -178,7 +169,7 @@ void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::
                 rgb_controllers.push_back(new_controller);
             }
 
-            Sleep(1);
+            std::this_thread::sleep_for(1ms);
         }
 
         // Add Aura-enabled motherboard controllers
@@ -191,7 +182,7 @@ void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::
                 rgb_controllers.push_back(new_controller);
             }
 
-            Sleep(1);
+            std::this_thread::sleep_for(1ms);
         }
     }
 

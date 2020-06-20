@@ -13,6 +13,7 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <chrono>
 
 typedef unsigned int RGBColor;
 

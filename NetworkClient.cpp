@@ -18,21 +18,13 @@
 #ifdef __APPLE__
 #include <unistd.h>
 #define MSG_NOSIGNAL 0
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
 #endif
 
 #ifdef __linux__
 #include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
 #endif
+
+using namespace std::chrono_literals;
 
 NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
 {
@@ -183,7 +175,7 @@ void NetworkClient::ConnectionThreadFunction()
             server_controller_count = 0;
 
             //Wait for server to connect
-            Sleep(100);
+            std::this_thread::sleep_for(100ms);
 
             //Once server is connected, send client string
             SendData_ClientString();
@@ -194,7 +186,7 @@ void NetworkClient::ConnectionThreadFunction()
             //Wait for server controller count
             while(server_controller_count == 0)
             {
-                Sleep(100);
+                std::this_thread::sleep_for(100ms);
             }
 
             printf("Client: Received controller count from server: %d\r\n", server_controller_count);
@@ -209,7 +201,7 @@ void NetworkClient::ConnectionThreadFunction()
                 //Wait until controller is received
                 while(server_controllers.size() == requested_controllers)
                 {
-                    Sleep(100);
+                    std::this_thread::sleep_for(100ms);
                 }
 
                 requested_controllers++;
@@ -230,7 +222,7 @@ void NetworkClient::ConnectionThreadFunction()
             ClientInfoChanged();
         }
 
-        Sleep(1000);
+        std::this_thread::sleep_for(1s);
     }
 }
 

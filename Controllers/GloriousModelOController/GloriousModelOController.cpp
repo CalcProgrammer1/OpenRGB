@@ -10,16 +10,7 @@
 #include "GloriousModelOController.h"
 #include <cstring>
 
-#ifdef WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 GloriousModelOController::GloriousModelOController(hid_device* dev_handle)
 {
@@ -139,7 +130,7 @@ void GloriousModelOController::SetLEDColor(RGBColor* color_buf)
     */
 
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
-    Sleep(1);
+    std::this_thread::sleep_for(1ms);
 }
 
 void GloriousModelOController::SetMode(unsigned char mode,
@@ -283,5 +274,5 @@ void GloriousModelOController::SetMode(unsigned char mode,
     }
 
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
-    Sleep(1);
+    std::this_thread::sleep_for(1ms);
 }

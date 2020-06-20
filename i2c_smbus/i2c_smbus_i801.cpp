@@ -12,6 +12,8 @@
 #include <Windows.h>
 #include "inpout32.h"
 
+using namespace std::chrono_literals;
+
 /* Return negative errno on error. */
 s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
 {
@@ -299,7 +301,7 @@ int i2c_smbus_i801::i801_check_post(int status)
         /* try to stop the current command */
         Out32(SMBHSTCNT, Inp32(SMBHSTCNT) | SMBHSTCNT_KILL);
         //usleep_range(1000, 2000);
-		Sleep(1);
+		std::this_thread::sleep_for(1ms);
         Out32(SMBHSTCNT, Inp32(SMBHSTCNT) & (~SMBHSTCNT_KILL));
 
         Out32(SMBHSTSTS, STATUS_FLAGS);
@@ -437,13 +439,14 @@ int i2c_smbus_i801::i801_transaction(int xact)
 /* Wait for either BYTE_DONE or an error flag being set */
 int i2c_smbus_i801::i801_wait_byte_done()
 {
+
     int timeout = 0;
     int status;
 
     /* We will always wait for a fraction of a second! */
     do
     {
-		Sleep(1);
+		std::this_thread::sleep_for(1ms);
         //usleep_range(250, 500);
         status = Inp32(SMBHSTSTS);
     } while (!(status & (STATUS_ERROR_FLAGS | SMBHSTSTS_BYTE_DONE)) && (timeout++ < MAX_RETRIES));

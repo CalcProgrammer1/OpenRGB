@@ -9,29 +9,15 @@
 #include "i2c_smbus.h"
 #include "NetworkServer.h"
 
+/*-------------------------------------------------------------*\
+| Quirk for MSVC; which doesn't support this case-insensitive   |
+| function                                                      |
+\*-------------------------------------------------------------*/
 #ifdef _WIN32
-#include <Windows.h>
-/* swy: quirk for MSVC; which doesn't support this case-insensitive function */
-#define strcasecmp strcmpi
+    #define strcasecmp strcmpi
 #endif
 
-#ifdef __APPLE__
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
-
-#ifdef __linux__
-#include <unistd.h>
-
-static void Sleep(unsigned int milliseconds)
-{
-    usleep(1000 * milliseconds);
-}
-#endif
+using namespace std::chrono_literals;
 
 static std::vector<RGBController*> rgb_controllers;
 static ProfileManager*             profile_manager;
@@ -943,7 +929,7 @@ void WaitWhileServerOnline(NetworkServer* srv)
 {
     while (network_server->GetOnline())
     {
-        Sleep(1000);
+        std::this_thread::sleep_for(1s);
     };
 }
 
