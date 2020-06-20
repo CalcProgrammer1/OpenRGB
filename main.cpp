@@ -22,7 +22,7 @@ extern std::vector<i2c_smbus_interface*> busses;
 extern std::vector<RGBController*> rgb_controllers;
 
 // See cli.cpp
-extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in);
+extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in, NetworkServer* network_server_in);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -35,6 +35,7 @@ extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *
 int main(int argc, char* argv[])
 {
     ProfileManager profile_manager(rgb_controllers);
+    NetworkServer server(rgb_controllers);
     
     DetectRGBControllers();
 
@@ -43,7 +44,7 @@ int main(int argc, char* argv[])
     unsigned int ret_flags = 0;
     if(argc > 1)
     {
-        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager);
+        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, &server);
     }
 
     if(ret_flags && 2)
@@ -58,7 +59,6 @@ int main(int argc, char* argv[])
         show_i2c_tools = true;
     }
 
-    NetworkServer server(rgb_controllers);
     
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);

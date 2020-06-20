@@ -7,9 +7,34 @@
 #include "ProfileManager.h"
 #include "RGBController.h"
 #include "i2c_smbus.h"
+#include "NetworkServer.h"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+#ifdef __APPLE__
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
+#ifdef __linux__
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
 
 static std::vector<RGBController*> rgb_controllers;
 static ProfileManager*             profile_manager;
+static NetworkServer*              network_server;
 static std::string                 profile_save_filename = "";
 
 struct DeviceOptions
@@ -22,6 +47,12 @@ struct DeviceOptions
     bool            hasOption;
 };
 
+struct ServerOptions
+{
+    bool start = false;
+    unsigned short  port = 6742; //default port
+};
+
 struct Options
 {
     std::vector<DeviceOptions> devices;
@@ -32,6 +63,7 @@ struct Options
     \*---------------------------------------------------------*/
     bool hasDevice;
     DeviceOptions allDeviceOptions;
+    ServerOptions servOpts;
 };
 
 bool ParseColors(std::string colors_string, DeviceOptions *options)
@@ -67,6 +99,10 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
 
 unsigned int ParseMode(DeviceOptions& options)
 {
+    // no need to check if --mode wasn't passed
+    if (options.mode.size() == 0)
+        return false;
+
     /*---------------------------------------------------------*\
     | Search through all of the device modes and see if there is|
     | a match.  If no match is found, print an error message.   |
@@ -128,7 +164,9 @@ void OptionHelp()
     help_text += "Usage: OpenRGB (--device [--mode] [--color])...\n";
     help_text += "\n";
     help_text += "Options:\n";
-    help_text += "--gui                                    Show GUI, also appears when not passing any parameters\n";
+    help_text += "--server                                 Starts the SDK's server\n";
+    help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
+    help_text += "--gui                                    Shows the GUI, also appears when not passing any parameters\n";
     help_text += "-l,  --list-devices                      Lists every compatible device with their number\n";
     help_text += "-d,  --device [0-9]                      Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
@@ -446,9 +484,44 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         }
 
         /*---------------------------------------------------------*\
+        | --server                                                  |
+        \*---------------------------------------------------------*/
+        if(option == "--server")
+        {
+             options->servOpts.start = true;
+        }
+
+        /*---------------------------------------------------------*\
+        | --server-port                                             |
+        \*---------------------------------------------------------*/
+        else if(option == "--server-port")
+        {
+            if (argument != "")
+            {
+                unsigned short port = std::stoi(argument);
+                if (port >= 1024 && port <= 65535)
+                {
+                    options->servOpts.port = port;
+                } 
+                else
+                {
+                    std::cout << "Error: port out of range: " << port << " (1024-65535)" << std::endl;
+                    return 1;
+                }
+            }
+            else
+            {
+                std::cout << "Error: Missing argument for --server-port" << std::endl;
+                return 1;
+            }
+            
+        }
+
+
+        /*---------------------------------------------------------*\
         | --gui                                                     |
         \*---------------------------------------------------------*/
-        if(option == "--gui")
+        else if(option == "--gui")
         {
             ret_flags |= 2;
         }
@@ -669,10 +742,20 @@ void ApplyOptions(DeviceOptions& options)
     }
 }
 
-unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in)
+void WaitWhileServerOnline(NetworkServer* srv)
+{
+    while (network_server->GetOnline())
+    {
+        Sleep(1000);
+    };
+}
+
+unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in, NetworkServer* network_server_in)
 {
     rgb_controllers = rgb_controllers_in;
     profile_manager = profile_manager_in;
+    network_server  = network_server_in;
+
 
     /*---------------------------------------------------------*\
     | Process the argument options                              |
@@ -718,7 +801,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_c
     /*---------------------------------------------------------*\
     | If there is a save filename set, save the profile         |
     \*---------------------------------------------------------*/
-    if(profile_save_filename != "")
+    if (profile_save_filename != "")
     {
         if(profile_manager->SaveProfile(profile_save_filename))
         {
@@ -728,6 +811,25 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_c
         {
             std::cout << "Profile saving failed" << std::endl;
         }
+    }
+
+    if (options.servOpts.start)
+    {
+        network_server->SetPort(options.servOpts.port);
+        network_server->StartServer();
+
+        if(network_server->GetOnline()) 
+        {
+            WaitWhileServerOnline(network_server);
+            return 0;
+        }
+        else
+        {
+            std::cout << "Server failed to start" << std::endl;
+            exit(1);
+        } 
+        
+
     }
 
     exit(0);
