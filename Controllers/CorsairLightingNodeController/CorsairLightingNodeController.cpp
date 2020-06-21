@@ -360,14 +360,14 @@ void CorsairLightingNodeController::SendEffectConfig
     | Set up mode colors                                    |
     \*-----------------------------------------------------*/
     usb_buf[0x09]   = color_0_red;
-    usb_buf[0x10]   = color_0_green;
-    usb_buf[0x11]   = color_0_blue;
-    usb_buf[0x12]   = color_1_red;
-    usb_buf[0x13]   = color_1_green;
-    usb_buf[0x14]   = color_1_blue;
-    usb_buf[0x15]   = color_2_red;
-    usb_buf[0x16]   = color_2_green;
-    usb_buf[0x17]   = color_2_blue;
+    usb_buf[0x0A]   = color_0_green;
+    usb_buf[0x0B]   = color_0_blue;
+    usb_buf[0x0C]   = color_1_red;
+    usb_buf[0x0D]   = color_1_green;
+    usb_buf[0x0E]   = color_1_blue;
+    usb_buf[0x0F]   = color_2_red;
+    usb_buf[0x10]   = color_2_green;
+    usb_buf[0x11]   = color_2_blue;
 
     /*-----------------------------------------------------*\
     | Set up temperatures                                   |
