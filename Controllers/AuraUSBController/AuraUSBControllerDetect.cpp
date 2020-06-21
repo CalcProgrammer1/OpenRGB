@@ -16,10 +16,11 @@ static const unsigned short addressable_pid_table[] =
     0x18A3
     };
 
-#define NUM_MAINBOARD_PIDS 1
+#define NUM_MAINBOARD_PIDS 2
 static const unsigned short mainboard_pid_table[] =
     {
-    0x18f3
+    0x18f3,
+    0x1939
     };
 
 /******************************************************************************************\
