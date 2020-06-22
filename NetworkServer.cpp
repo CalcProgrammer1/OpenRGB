@@ -37,7 +37,7 @@ static void Sleep(unsigned int milliseconds)
 
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
-    port_num      = 6742;
+    port_num      = OPENRGB_SDK_PORT;
     server_online = false;
 }
 

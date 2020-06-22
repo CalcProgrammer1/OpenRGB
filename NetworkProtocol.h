@@ -8,6 +8,12 @@
 
 #pragma once
 
+/*-----------------------------------------*\
+| Default OpenRGB SDK port is 6742          |
+| This is "ORGB" on a phone keypad          |
+\*-----------------------------------------*/
+#define OPENRGB_SDK_PORT 6742
+
 typedef struct NetPacketHeader
 {
     char                pkt_magic[4];               /* Magic value "ORGB" identifies beginning of packet    */
