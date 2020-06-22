@@ -6,7 +6,7 @@
 #define COOLERMASTER_VID                0x2516
 
 #define COOLERMASTER_MP750_PID          0x0109
-#define COOLERMASTER_MP750_SMALL_PID    0x0105
+#define COOLERMASTER_MP750_MEDIUM_PID   0x0105
 
 #define COOLERMASTER_NUM_DEVICES (sizeof(cm_pids) / sizeof(cm_pids[ 0 ]))
 
@@ -18,8 +18,8 @@ enum
 
 static const unsigned int cm_pids[][4] =
 {  // PID,      Interface
-    { COOLERMASTER_MP750_PID,       0x00 },     //Coolermaster MP750
-    { COOLERMASTER_MP750_SMALL_PID, 0x00 }      //Coolermaster MP750 (Small)
+    { COOLERMASTER_MP750_PID,           0x00 },     //Coolermaster MP750
+    { COOLERMASTER_MP750_MEDIUM_PID,    0x00 }      //Coolermaster MP750 (Medium)
 };
 
 /******************************************************************************************\
