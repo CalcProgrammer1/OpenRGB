@@ -3,21 +3,23 @@
 #include "RGBController_CMMP750Controller.h"
 #include <hidapi/hidapi.h>
 
-#define COOLERMASTER_VID 0x2516
+#define COOLERMASTER_VID                0x2516
+
+#define COOLERMASTER_MP750_PID          0x0109
+#define COOLERMASTER_MP750_SMALL_PID    0x0105
 
 #define COOLERMASTER_NUM_DEVICES (sizeof(cm_pids) / sizeof(cm_pids[ 0 ]))
 
 enum
 {
     CM_PID = 0,
-    CM_INADDR = 1,
-    CM_OUTADDR = 2,
-    CM_INTERFACE = 3
+    CM_INTERFACE = 1
 };
 
 static const unsigned int cm_pids[][4] =
-{ //PID, inAddr, outAddr, interface
-    { 0x0109, 0x82, 0x03, 0x00 }        //Coolermaster MP750
+{  // PID,      Interface
+    { COOLERMASTER_MP750_PID,       0x00 },     //Coolermaster MP750
+    { COOLERMASTER_MP750_SMALL_PID, 0x00 }      //Coolermaster MP750 (Small)
 };
 
 /******************************************************************************************\
