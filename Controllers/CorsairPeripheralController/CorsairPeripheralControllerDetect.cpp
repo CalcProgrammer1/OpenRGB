@@ -78,6 +78,8 @@ static const corsair_node_device device_list[] =
     { CORSAIR_VID,          CORSAIR_K70_RGB_MK2_LP_PID,         1,      "Corsair K70 RGB MK.2 Low Profile"  },
     { CORSAIR_VID,          CORSAIR_K95_RGB_PID,                1,      "Corsair K95 RGB"                   },
     { CORSAIR_VID,          CORSAIR_K95_PLATINUM_PID,           1,      "Corsair K95 RGB PLATINUM"          },
+    { CORSAIR_VID,          CORSAIR_STRAFE_PID,                 1,      "Corsair Strafe"                    },
+    { CORSAIR_VID,          CORSAIR_STRAFE_MK2_PID,             1,      "Corsair Strafe MK.2"               },
     /*-----------------------------------------------------------------------------------------------------*\
     | Mice                                                                                                  |
     \*-----------------------------------------------------------------------------------------------------*/
