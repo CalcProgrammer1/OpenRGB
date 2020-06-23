@@ -52,7 +52,7 @@ struct DeviceOptions
 struct ServerOptions
 {
     bool start = false;
-    unsigned short  port = 6742; //default port
+    unsigned short  port = OPENRGB_SDK_PORT;
 };
 
 struct Options
