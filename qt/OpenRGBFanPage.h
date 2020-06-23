@@ -5,6 +5,7 @@
 #include "FanController.h"
 
 #include <QFrame>
+#include <thread>
 
 namespace Ui {
 class OpenRGBFanPage;
@@ -17,7 +18,8 @@ class Ui::OpenRGBFanPage : public QFrame
 public:
     explicit OpenRGBFanPage(FanController *dev, QWidget *parent = nullptr);
     ~OpenRGBFanPage();
-
+    
+    void FanUpdateThreadFunction();
     void SetDevice(unsigned char red, unsigned char green, unsigned char blue);
     void SetCustomMode();
     void UpdateDevice();
@@ -33,6 +35,8 @@ private slots:
 private:
     Ui::OpenRGBFanPageUi *ui;
     FanController *device;
+
+    std::thread* FanUpdateThread;
 
 signals:
 };
