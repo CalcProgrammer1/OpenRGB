@@ -15,12 +15,18 @@ NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle)
 {
     dev = dev_handle;
 
+    SendFirmwareRequest();
     GetStripsOnChannel(HUE_2_CHANNEL_1);
 }
 
 NZXTHue2Controller::~NZXTHue2Controller()
 {
 
+}
+
+std::string NZXTHue2Controller::GetFirmwareVersion()
+{
+    return(firmware_version);
 }
 
 unsigned int NZXTHue2Controller::GetStripsOnChannel(unsigned int /*channel*/)
@@ -279,4 +285,19 @@ void NZXTHue2Controller::SendEffect
 
     hid_write(dev, usb_buf, 64);
     hid_read(dev, usb_buf, 64);
+}
+
+void NZXTHue2Controller::SendFirmwareRequest()
+{
+    unsigned char   usb_buf[64];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x10;
+    usb_buf[0x01]   = 0x01;
+
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
+
+    snprintf(firmware_version, 16, "%u.%u.%u", usb_buf[0x11], usb_buf[0x12], usb_buf[0x13]);
 }

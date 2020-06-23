@@ -5,6 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController.h"
+#include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -56,6 +57,8 @@ public:
     NZXTHue2Controller(hid_device* dev_handle);
     ~NZXTHue2Controller();
 
+    std::string     GetFirmwareVersion();
+
     unsigned int    GetStripsOnChannel
                         (
                         unsigned int    channel
@@ -82,6 +85,7 @@ public:
 
 private:
     hid_device*     dev;
+    char            firmware_version[16];
 
     void            SendApply
                         (
@@ -105,4 +109,6 @@ private:
                         unsigned char   color_count,
                         unsigned char*  color_data
                         );
+
+    void            SendFirmwareRequest();
 };
