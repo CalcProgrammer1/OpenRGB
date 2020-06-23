@@ -1,7 +1,29 @@
-#include "OpenRGBFanPage.h"
 #include <QTimer>
+#include "OpenRGBFanPage.h"
 
 using namespace Ui;
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+#ifdef __APPLE__
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
+
+#ifdef __linux__
+#include <unistd.h>
+
+static void Sleep(unsigned int milliseconds)
+{
+    usleep(1000 * milliseconds);
+}
+#endif
 
 OpenRGBFanPage::OpenRGBFanPage(FanController *dev, QWidget *parent) :
     QFrame(parent),
@@ -13,6 +35,8 @@ OpenRGBFanPage::OpenRGBFanPage(FanController *dev, QWidget *parent) :
     | Store device pointer                                  |
     \*-----------------------------------------------------*/
     device = dev;
+
+    FanUpdateThread = new std::thread(&OpenRGBFanPage::FanUpdateThreadFunction, this);
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, QOverload<>::of(&OpenRGBFanPage::UpdateRPM));
@@ -36,14 +60,22 @@ OpenRGBFanPage::~OpenRGBFanPage()
     delete ui;
 }
 
+void OpenRGBFanPage::FanUpdateThreadFunction()
+{
+    while(1)
+    {
+        device->UpdateControl();
+        device->UpdateReading();
+        Sleep(1000);
+    }
+}
+
 void OpenRGBFanPage::UpdateRPM()
 {
     /*-----------------------------------------------------*\
     | Read selected fan                                     |
     \*-----------------------------------------------------*/
     unsigned int selected_fan   = (unsigned int)ui->FanBox->currentIndex();
-
-    device->UpdateReading();
 
     ui->RPMValue->setText(QString::number(device->fans[selected_fan].rpm_rdg));
 }
@@ -76,6 +108,4 @@ void OpenRGBFanPage::on_SpeedSlider_valueChanged(int /* value */)
     unsigned int speed_cmd      = ui->SpeedSlider->value();
 
     device->fans[selected_fan].speed_cmd = speed_cmd;
-
-    device->UpdateControl();
 }
