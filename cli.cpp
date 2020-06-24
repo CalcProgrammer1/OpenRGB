@@ -33,10 +33,6 @@ static void Sleep(unsigned int milliseconds)
 }
 #endif
 
-#ifdef _WIN32 /* swy: quirk for MSVC; which doesn't support this case-insensitive function */
-    #define strcasecmp strcmpi
-#endif
-
 static std::vector<RGBController*> rgb_controllers;
 static ProfileManager*             profile_manager;
 static NetworkServer*              network_server;
