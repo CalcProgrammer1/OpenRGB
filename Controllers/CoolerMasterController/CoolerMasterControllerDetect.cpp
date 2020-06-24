@@ -5,7 +5,7 @@
 
 #define COOLERMASTER_VID                0x2516
 
-#define COOLERMASTER_MP750_PID          0x0109
+#define COOLERMASTER_MP750_XL_PID       0x0109
 #define COOLERMASTER_MP750_MEDIUM_PID   0x0105
 
 #define COOLERMASTER_NUM_DEVICES (sizeof(cm_pids) / sizeof(cm_pids[ 0 ]))
@@ -18,7 +18,7 @@ enum
 
 static const unsigned int cm_pids[][4] =
 {  // PID,      Interface
-    { COOLERMASTER_MP750_PID,           0x00 },     //Coolermaster MP750
+    { COOLERMASTER_MP750_XL_PID,        0x00 },     //Coolermaster MP750 (Extra Large)
     { COOLERMASTER_MP750_MEDIUM_PID,    0x00 }      //Coolermaster MP750 (Medium)
 };
 
@@ -33,26 +33,24 @@ static const unsigned int cm_pids[][4] =
 void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
 {
     hid_device_info* info;
-    hid_device* dev = NULL;
 
-    for(int cm_pid_idx = 0; cm_pid_idx < COOLERMASTER_NUM_DEVICES; cm_pid_idx++)
+    //Look for the passed in cm_pids
+    hid_init();
+    info = hid_enumerate(0x0, 0x0);
+
+    while(info)
     {
-        //Look for the passed in cm_pids
-        hid_init();
-        info = hid_enumerate(0x0, 0x0);
-
-        while(info)
+        hid_device* dev = NULL;
+        if(info->vendor_id == COOLERMASTER_VID)
         {
-            if((info->vendor_id == COOLERMASTER_VID)
-             &&(info->product_id == cm_pids[cm_pid_idx][CM_PID])
-             &&(info->interface_number == cm_pids[cm_pid_idx][CM_INTERFACE]))
+            for(int cm_pid_idx = 0; cm_pid_idx < COOLERMASTER_NUM_DEVICES; cm_pid_idx++)
             {
-                dev = hid_open_path(info->path);
-                break;
-            }
-            else
-            {
-                info = info->next;
+                if((info->product_id        == cm_pids[cm_pid_idx][CM_PID])
+                 &&(info->interface_number  == cm_pids[cm_pid_idx][CM_INTERFACE]))
+                {
+                    dev = hid_open_path(info->path);
+                    break;
+                }
             }
         }
 
@@ -62,7 +60,7 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
             RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
             rgb_controllers.push_back(rgb_controller);
         }
-
-        hid_free_enumeration(info);
+        info = info->next;
     }
+    hid_free_enumeration(info);
 }
