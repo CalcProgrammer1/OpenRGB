@@ -58,6 +58,7 @@ static const KnownChannels known_channels
                 { "Back I/O",   HDR_BACK_IO },
                 { "CPU",        HDR_CPU },
                 { "PCIe",       HDR_PCIE },
+                { "LED 2",      HDR_LED_2},     // Unique to WiFi models?
                 { "LED C1/C2",  HDR_LED_C1C2 }, // 12VGRB headers seem to be connected
             },
             // Zone 1
