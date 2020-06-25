@@ -58,7 +58,6 @@ static const KnownChannels known_channels
                 { "Back I/O",   HDR_BACK_IO },
                 { "CPU",        HDR_CPU },
                 { "PCIe",       HDR_PCIE },
-                { "LED 2",      HDR_LED_2},     // Unique to WiFi models?
                 { "LED C1/C2",  HDR_LED_C1C2 }, // 12VGRB headers seem to be connected
             },
             // Zone 1
@@ -417,10 +416,6 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
         
         KnownChannels::const_iterator it = known_channels.find(controller->GetDeviceName());
 
-        if (it == known_channels.end() || it->second.size() == 0)
-        {
-            led = it->second[ZONE_MB][led].header;
-        }
 
         /*---------------------------------------------------------*\
         | Motherboard LEDs always use effect mode, so use static for|
@@ -442,6 +437,12 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
             red = RGBGetRValue(modes[active_mode].colors[0]);
             grn = RGBGetGValue(modes[active_mode].colors[0]);
             blu = RGBGetBValue(modes[active_mode].colors[0]);
+        }
+
+        //LED lookup needs to be done after it's used as an index
+        if (it->second.size() > 0)
+        {
+            led = it->second[ZONE_MB][led].header;
         }
 
         controller->SetLEDEffect(led, mode_value, modes[active_mode].speed, random, red, grn, blu);
