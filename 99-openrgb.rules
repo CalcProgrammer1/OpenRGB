@@ -127,9 +127,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16be", GROUP="plugd
 #  Mice:                                                        #
 #       Logitech G203 Prodigy                                   #
 #       Logitech G403 Prodigy                                   #
+#       Logitech G403 Hero                                      #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c084", GROUP="plugdev", MODE="0666", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c083", GROUP="plugdev", MODE="0666", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08f", GROUP="plugdev", MODE="0666", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  MSI/SteelSeries 3-Zone Laptop Keyboard                       #
