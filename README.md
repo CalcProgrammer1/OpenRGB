@@ -38,9 +38,11 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
 ## Linux
   *  Pre-built binaries are not currently available for Linux
 
-  *  You can build the project using Qt Creator or on the command line.  The commands listed here work for Debian-based distros.
+  *  You can build the project using Qt Creator or on the command line.
 
-      1.  sudo apt install build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf
+      1.  Install build dependencies
+          - Debian: sudo apt install build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf
+          - Fedora: sudo dnf install git make automake gcc gcc-c++ qt-creator qt5-devel hidapi-devel libusb-devel
       2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
       3.  cd OpenRGB
       4.  qmake OpenRGB.pro
