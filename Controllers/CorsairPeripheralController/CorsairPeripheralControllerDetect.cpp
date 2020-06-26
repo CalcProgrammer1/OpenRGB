@@ -69,6 +69,10 @@ static const corsair_node_device device_list[] =
     /*-----------------------------------------------------------------------------------------------------*\
     | Keyboards                                                                                             |
     \*-----------------------------------------------------------------------------------------------------*/
+//  { CORSAIR_VID,          CORSAIR_K55_RGB_PID,                1,      "Corsair K55 RGB"                   }, //Not per-key, disabled for now
+    { CORSAIR_VID,          CORSAIR_K65_RGB_PID,                1,      "Corsair K65 RGB"                   },
+    { CORSAIR_VID,          CORSAIR_K65_LUX_RGB_PID,            1,      "Corsair K65 LUX RGB"               },
+    { CORSAIR_VID,          CORSAIR_K65_RGB_RAPIDFIRE_PID,      1,      "Corsair K65 RGB RAPIDFIRE"         },
     { CORSAIR_VID,          CORSAIR_K68_RGB,                    1,      "Corsair K68 RGB"                   },
     { CORSAIR_VID,          CORSAIR_K70_RGB_PID,                1,      "Corsair K70 RGB"                   },
     { CORSAIR_VID,          CORSAIR_K70_LUX_RGB_PID,            1,      "Corsair K70 LUX RGB"               },
