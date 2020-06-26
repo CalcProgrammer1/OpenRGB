@@ -116,9 +116,9 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
 
     for(std::size_t i = 0; i < 22; i++)
     {
-        ext_color_data[extended_red[i]] = RGBGetRValue(colors[i + 104]);
-        ext_color_data[extended_grn[i]] = RGBGetGValue(colors[i + 104]);
-        ext_color_data[extended_blu[i]] = RGBGetBValue(colors[i + 104]);
+        ext_color_data[extended_red[i]] = RGBGetRValue(colors[i + 106]);
+        ext_color_data[extended_grn[i]] = RGBGetGValue(colors[i + 106]);
+        ext_color_data[extended_blu[i]] = RGBGetBValue(colors[i + 106]);
     }
 
     SendDirect
@@ -167,9 +167,9 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
 
     for(std::size_t i = 0; i < 22; i++)
     {
-        ext_color_data[extended_red[i]] = RGBGetRValue(colors[i + 104]);
-        ext_color_data[extended_grn[i]] = RGBGetGValue(colors[i + 104]);
-        ext_color_data[extended_blu[i]] = RGBGetBValue(colors[i + 104]);
+        ext_color_data[extended_red[i]] = RGBGetRValue(colors[i + 106]);
+        ext_color_data[extended_grn[i]] = RGBGetGValue(colors[i + 106]);
+        ext_color_data[extended_blu[i]] = RGBGetBValue(colors[i + 106]);
     }
 
     SendColor
