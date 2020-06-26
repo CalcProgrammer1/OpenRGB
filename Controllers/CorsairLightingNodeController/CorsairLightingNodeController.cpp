@@ -346,7 +346,7 @@ void CorsairLightingNodeController::SendEffectConfig
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_EFFECT_CONFIG;
     usb_buf[0x01]   = channel;
-    usb_buf[0x02]   = count * 10;
+    usb_buf[0x02]   = count;
     usb_buf[0x03]   = led_type;
 
     /*-----------------------------------------------------*\
