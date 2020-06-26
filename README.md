@@ -32,7 +32,7 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
   *  Some USB devices (especially keyboards and mice) require installation of the WinUSB driver.  You can do this with Zadig:
       - Download Zadig:  https://zadig.akeo.ie/
       - Select "list all devices" from the menu
-      - Select the last interface of your device
+      - Select the last interface (highest number) of your device
       - With "WinUSB" selected, click Install
 
 ## Linux
