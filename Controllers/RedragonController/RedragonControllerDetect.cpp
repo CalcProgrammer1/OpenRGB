@@ -14,7 +14,7 @@
 #define REDRAGON_K552_PID               0x5104
 #define REDRAGON_K556_PID               0x5004
 #define TECWARE_PHANTOM_ELITE_PID       0x652F
-
+#define WARRIOR_KANE_TC235              0x8520
 
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
@@ -43,6 +43,7 @@ static const redragon_device device_list[] =
     { REDRAGON_KEYBOARD_VID,    REDRAGON_K552_PID,          1,  DEVICE_TYPE_KEYBOARD,   "Redragon K552 Kumara"      },
     { REDRAGON_KEYBOARD_VID,    REDRAGON_K556_PID,          1,  DEVICE_TYPE_KEYBOARD,   "Redragon K556 Devarajas"   },
     { REDRAGON_KEYBOARD_VID,    TECWARE_PHANTOM_ELITE_PID,  1,  DEVICE_TYPE_KEYBOARD,   "Tecware Phantom Elite"     },
+    { REDRAGON_KEYBOARD_VID,    WARRIOR_KANE_TC235,         1,  DEVICE_TYPE_KEYBOARD,   "Warrior Kane TC235"        },
     /*-------------------------------------------------------------------------------------------------------------*\
     | Mice                                                                                                          |
     \*-------------------------------------------------------------------------------------------------------------*/
