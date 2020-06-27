@@ -60,23 +60,20 @@ void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_contr
             &&(info->product_id == device_list[device_idx].usb_pid))
             {
                 dev = hid_open_path(info->path);
-                break;
+
+                if( dev )
+                {
+                    CorsairLightingNodeController* controller = new CorsairLightingNodeController(dev);
+
+                    RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
+
+                    rgb_controller->name = device_list[device_idx].name;
+
+                    rgb_controllers.push_back(rgb_controller);
+                }
             }
-            else
-            {
-                info = info->next;
-            }
-        }
 
-        if( dev )
-        {
-            CorsairLightingNodeController* controller = new CorsairLightingNodeController(dev);
-
-            RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
-
-            rgb_controller->name = device_list[device_idx].name;
-            
-            rgb_controllers.push_back(rgb_controller);
+            info = info->next;
         }
     }
 }   /* DetectCorsairLightingNodeControllers() */

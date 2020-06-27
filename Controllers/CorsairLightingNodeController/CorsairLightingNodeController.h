@@ -109,6 +109,7 @@ public:
 private:
     hid_device*             dev;
     std::string             firmware_version;
+    clock_t                 last_commit_time;
 
     void            SendFirmwareRequest();
 
