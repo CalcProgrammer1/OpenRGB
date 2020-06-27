@@ -6,6 +6,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
+#include "NetworkClient.h"
 #include "NetworkServer.h"
 #include "OpenRGB.h"
 #include "ProfileManager.h"
@@ -17,6 +18,7 @@
 
 #include "OpenRGBDialog2.h"
 
+using namespace std::chrono_literals;
 
 extern std::vector<i2c_smbus_interface*> busses;
 extern std::vector<RGBController*> rgb_controllers;
@@ -37,7 +39,26 @@ int main(int argc, char* argv[])
     ProfileManager profile_manager(rgb_controllers);
     NetworkServer server(rgb_controllers);
     
-    DetectRGBControllers();
+    NetworkClient * client = new NetworkClient(rgb_controllers);
+    client->StartClient();
+
+    for(int timeout = 0; timeout < 10; timeout++)
+    {
+        if(client->GetOnline())
+        {
+            break;
+        }
+        std::this_thread::sleep_for(100ms);
+    }
+
+    if(!client->GetOnline())
+    {
+        client->StopClient();
+
+        delete client;
+
+        DetectRGBControllers();
+    }
 
     profile_manager.LoadSizeFromProfile("sizes.ors");
 

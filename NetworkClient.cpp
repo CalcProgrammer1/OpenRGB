@@ -32,6 +32,9 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     port_num                = OPENRGB_SDK_PORT;
     server_connected        = false;
     server_controller_count = 0;
+
+    ListenThread            = NULL;
+    ConnectionThread        = NULL;
 }
 
 void NetworkClient::ClientInfoChanged()
@@ -122,7 +125,8 @@ void NetworkClient::StopClient()
 
     shutdown(client_sock, SD_RECEIVE);
     closesocket(client_sock);
-    ListenThread->join();
+    if(ListenThread)
+        ListenThread->join();
     ConnectionThread->join();
 
     /*-------------------------------------------------*\
