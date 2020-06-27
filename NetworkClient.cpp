@@ -32,6 +32,9 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     port_num                = OPENRGB_SDK_PORT;
     server_connected        = false;
     server_controller_count = 0;
+
+    ListenThread            = NULL;
+    ConnectionThread        = NULL;
 }
 
 void NetworkClient::ClientInfoChanged()
@@ -57,6 +60,11 @@ const char * NetworkClient::GetIP()
 unsigned short NetworkClient::GetPort()
 {
     return port_num;
+}
+
+bool NetworkClient::GetConnected()
+{
+    return(server_connected);
 }
 
 bool NetworkClient::GetOnline()
@@ -122,7 +130,8 @@ void NetworkClient::StopClient()
 
     shutdown(client_sock, SD_RECEIVE);
     closesocket(client_sock);
-    ListenThread->join();
+    if(ListenThread)
+        ListenThread->join();
     ConnectionThread->join();
 
     /*-------------------------------------------------*\
@@ -186,7 +195,7 @@ void NetworkClient::ConnectionThreadFunction()
             //Wait for server controller count
             while(server_controller_count == 0)
             {
-                std::this_thread::sleep_for(100ms);
+                std::this_thread::sleep_for(5ms);
             }
 
             printf("Client: Received controller count from server: %d\r\n", server_controller_count);
@@ -196,12 +205,13 @@ void NetworkClient::ConnectionThreadFunction()
             {
                 printf("Client: Requesting controller %d\r\n", requested_controllers);
 
+                controller_data_received = false;
                 SendRequest_ControllerData(requested_controllers);
 
                 //Wait until controller is received
-                while(server_controllers.size() == requested_controllers)
+                while(controller_data_received == false)
                 {
-                    std::this_thread::sleep_for(100ms);
+                    std::this_thread::sleep_for(5ms);
                 }
 
                 requested_controllers++;
@@ -247,7 +257,6 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
         }
         else if(rv == 0)
         {
-            std::this_thread::sleep_for(100ms);
             continue;
         }
         else
@@ -432,6 +441,8 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
     printf("Received controller: %s\r\n", new_controller->name.c_str());
 
     server_controllers.push_back(new_controller);
+
+    controller_data_received = true;
 }
 
 void NetworkClient::SendData_ClientString()

@@ -284,7 +284,6 @@ int NetworkServer::accept_select(int sockfd, struct sockaddr *addr, socklen_t *a
         }
         else if(rv == 0)
         {
-            std::this_thread::sleep_for(100ms);
             continue;
         }
         else
@@ -316,7 +315,6 @@ int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
         }
         else if(rv == 0)
         {
-            std::this_thread::sleep_for(100ms);
             continue;
         }
         else

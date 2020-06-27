@@ -24,6 +24,7 @@ public:
 
     void            ClientInfoChanged();
 
+    bool            GetConnected();
     const char *    GetIP();
     unsigned short  GetPort();
     bool            GetOnline();
@@ -71,6 +72,7 @@ private:
     char            port_ip[20];
     unsigned short  port_num;
     bool            client_active;
+    bool            controller_data_received;
     bool            server_connected;
     bool            server_initialized;
     unsigned int    server_controller_count;

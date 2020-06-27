@@ -6,6 +6,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
+#include "NetworkClient.h"
 #include "NetworkServer.h"
 #include "OpenRGB.h"
 #include "ProfileManager.h"
@@ -17,6 +18,7 @@
 
 #include "OpenRGBDialog2.h"
 
+using namespace std::chrono_literals;
 
 extern std::vector<i2c_smbus_interface*> busses;
 extern std::vector<RGBController*> rgb_controllers;
@@ -47,7 +49,28 @@ int main(int argc, char* argv[])
     ProfileManager profile_manager(rgb_controllers);
     NetworkServer server(rgb_controllers);
     
-    DetectRGBControllers();
+    NetworkClient * client = new NetworkClient(rgb_controllers);
+    client->StartClient();
+
+    for(int timeout = 0; timeout < 10; timeout++)
+    {
+        if(client->GetConnected())
+        {
+            break;
+        }
+        std::this_thread::sleep_for(5ms);
+    }
+
+    if(!client->GetConnected())
+    {
+        client->StopClient();
+
+        delete client;
+
+        client = NULL;
+
+        DetectRGBControllers();
+    }
 
     profile_manager.LoadSizeFromProfile("sizes.ors");
 
@@ -77,17 +100,18 @@ int main(int argc, char* argv[])
             dlg.AddI2CToolsPage();
         }
 
-        //TODO:
-        //  Determine whether or not to add server tab
-        //  If application is open in client mode, do not show server tab
-        dlg.AddServerTab(&server);
+        if(client == NULL)
+        {
+            dlg.AddServerTab(&server);
+        }
 
-        //TODO:
-        //  Determine whether or not to add client tab
-        //  Client tab should probably always show
-        //  Implement client tab
         dlg.AddClientTab();
 
+        if(client != NULL)
+        {
+            dlg.AddClient(client);
+        }
+        
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {
             dlg.hide();
