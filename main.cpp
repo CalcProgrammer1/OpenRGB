@@ -28,9 +28,10 @@ extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *
 
 enum
 {
-    RET_FLAG_PRINT_HELP     = 1,
-    RET_FLAG_START_GUI      = 2,
-    RET_FLAG_I2C_TOOLS      = 4,
+    RET_FLAG_PRINT_HELP         = 1,
+    RET_FLAG_START_GUI          = 2,
+    RET_FLAG_I2C_TOOLS          = 4,
+    RET_FLAG_START_MINIMIZED    = 8,
 };
 
 /******************************************************************************************\
@@ -77,8 +78,16 @@ int main(int argc, char* argv[])
         }
 
         Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, &profile_manager, &server, show_i2c_tools);
-        dlg.show();
 
+        if(ret_flags & RET_FLAG_START_MINIMIZED)
+        {
+            dlg.hide();
+        }
+        else
+        {
+            dlg.show();
+        }
+        
         return a.exec();
     }
     else

@@ -26,9 +26,10 @@ static std::string                 profile_save_filename = "";
 
 enum
 {
-    RET_FLAG_PRINT_HELP     = 1,
-    RET_FLAG_START_GUI      = 2,
-    RET_FLAG_I2C_TOOLS      = 4,
+    RET_FLAG_PRINT_HELP         = 1,
+    RET_FLAG_START_GUI          = 2,
+    RET_FLAG_I2C_TOOLS          = 4,
+    RET_FLAG_START_MINIMIZED    = 8,
 };
 
 struct DeviceOptions
@@ -348,9 +349,10 @@ void OptionHelp()
     help_text += "Usage: OpenRGB (--device [--mode] [--color])...\n";
     help_text += "\n";
     help_text += "Options:\n";
+    help_text += "--gui                                    Shows the GUI. GUI also appears when not passing any parameters\n";
+    help_text += "--startminimized                         Starts the GUI minimized to tray. Implies --gui, even if not specified\n";
     help_text += "--server                                 Starts the SDK's server\n";
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
-    help_text += "--gui                                    Shows the GUI, also appears when not passing any parameters\n";
     help_text += "-l,  --list-devices                      Lists every compatible device with their number\n";
     help_text += "-d,  --device [0-9]                      Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
@@ -721,6 +723,14 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         else if(option == "--i2c-tools" || option == "--yolo")
         {
             ret_flags |= RET_FLAG_I2C_TOOLS;
+        }
+
+        /*---------------------------------------------------------*\
+        | --startminimized                                          |
+        \*---------------------------------------------------------*/
+        else if(option == "--startminimized")
+        {
+            ret_flags |= RET_FLAG_START_GUI | RET_FLAG_START_MINIMIZED;
         }
 
         /*---------------------------------------------------------*\
