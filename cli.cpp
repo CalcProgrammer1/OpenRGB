@@ -831,7 +831,6 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         else if(option == "--profile" || option == "-p")
         {
             OptionProfile(argument);
-            exit(0);
 
             arg_index++;
         }
