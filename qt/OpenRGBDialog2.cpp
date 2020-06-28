@@ -2,8 +2,6 @@
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBServerInfoPage.h"
-#include "OpenRGBSoftwareInfoPage.h"
-#include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBProfileSaveDialog.h"
 #include <QLabel>
 #include <QTabBar>
@@ -13,6 +11,10 @@ using namespace Ui;
 
 static QString GetIconString(device_type type)
 {
+    /*-----------------------------------------------------*\
+    | Return the icon filename string for the given device  |
+    | type value                                            |
+    \*-----------------------------------------------------*/
     switch(type)
     {
     case DEVICE_TYPE_MOTHERBOARD:
@@ -51,12 +53,22 @@ static QString GetIconString(device_type type)
     }
 }
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, NetworkServer* server, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), network_server(server), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
+    /*-----------------------------------------------------*\
+    | Set window icon                                       |
+    \*-----------------------------------------------------*/
     QIcon logo(":OpenRGB.png");
     setWindowIcon(logo);
+
+    /*-----------------------------------------------------*\
+    | Initialize page pointers                              |
+    \*-----------------------------------------------------*/
+    ClientInfoPage  = NULL;
+    SMBusToolsPage  = NULL;
+    SoftInfoPage    = NULL;
 
     /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |
@@ -118,16 +130,134 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
 
-    RefreshProfileList();
+    /*-----------------------------------------------------*\
+    | Update the profile list                               |
+    \*-----------------------------------------------------*/
+    UpdateProfileList();
 
+    /*-----------------------------------------------------*\
+    | Update the device list                                |
+    \*-----------------------------------------------------*/
+    UpdateDevicesList();
+
+    /*-----------------------------------------------------*\
+    | Create the Software Information page                  |
+    \*-----------------------------------------------------*/
+    SoftInfoPage = new OpenRGBSoftwareInfoPage();
+    ui->InformationTabBar->addTab(SoftInfoPage, "");
+
+    QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
+    SoftwareLabelString += ":/software.png";
+    SoftwareLabelString += "' height='16' width='16'></td><td>Software</td></tr></table></html>";
+
+    QLabel *SoftwareTabLabel = new QLabel();
+    SoftwareTabLabel->setText(SoftwareLabelString);
+    SoftwareTabLabel->setIndent(20);
+    SoftwareTabLabel->setGeometry(0, 0, 200, 20);
+
+    ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
+}
+
+OpenRGBDialog2::~OpenRGBDialog2()
+{
+    delete ui;
+}
+
+void OpenRGBDialog2::AddI2CToolsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the I2C Tools page if it doesn't exist yet     |
+    \*-----------------------------------------------------*/
+    if(SMBusToolsPage == NULL)
+    {
+        SMBusToolsPage = new OpenRGBSystemInfoPage(busses);
+
+        /*-----------------------------------------------------*\
+        | Create the I2C Tools tab in the Information bar       |
+        \*-----------------------------------------------------*/
+        ui->InformationTabBar->addTab(SMBusToolsPage, "");
+
+        QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
+        SMBusToolsLabelString += ":/tools.png";
+        SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
+
+        QLabel *SMBusToolsTabLabel = new QLabel();
+        SMBusToolsTabLabel->setText(SMBusToolsLabelString);
+        SMBusToolsTabLabel->setIndent(20);
+        SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
+
+        ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
+    }
+}
+
+void OpenRGBDialog2::AddClientTab()
+{
+    /*-----------------------------------------------------*\
+    | Add client information tab if it doesn't exist yet    |
+    \*-----------------------------------------------------*/
+    if(ClientInfoPage == NULL)
+    {
+        ClientInfoPage = new OpenRGBClientInfoPage(controllers);
+        ui->MainTabBar->addTab(ClientInfoPage, "SDK Client");
+
+        /*-----------------------------------------------------*\
+        | Connect the page's Set All button to the Set All slot |
+        \*-----------------------------------------------------*/
+        connect(ClientInfoPage,
+                SIGNAL(ClientListUpdated()),
+                this,
+                SLOT(on_ClientListUpdated()));
+    }
+}
+
+void OpenRGBDialog2::AddClient(NetworkClient* new_client)
+{
+    /*-----------------------------------------------------*\
+    | Add a client to the client information page           |
+    \*-----------------------------------------------------*/
+    if(ClientInfoPage != NULL)
+    {
+        ClientInfoPage->AddClient(new_client);
+    }
+}
+
+void OpenRGBDialog2::AddServerTab(NetworkServer* network_server)
+{
+    /*-----------------------------------------------------*\
+    | Add server information tab if there is a server       |
+    \*-----------------------------------------------------*/
+    if(network_server != NULL)
+    {
+        OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(network_server);
+        ui->MainTabBar->addTab(ServerInfoPage, "SDK Server");
+    }
+}
+
+void OpenRGBDialog2::ClearDevicesList()
+{
+    for(int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
+    {
+        delete ui->DevicesTabBar->widget(tab_idx);
+    }
+    ui->DevicesTabBar->clear();
+
+    for(int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
+    {
+        delete ui->InformationTabBar->widget(tab_idx);
+    }
+    ui->InformationTabBar->clear();
+}
+
+void OpenRGBDialog2::UpdateDevicesList()
+{
     /*-----------------------------------------------------*\
     | Set up list of devices                                |
     \*-----------------------------------------------------*/
     QTabBar *DevicesTabBar = ui->DevicesTabBar->tabBar();
 
-    for(std::size_t dev_idx = 0; dev_idx < control.size(); dev_idx++)
+    for(std::size_t dev_idx = 0; dev_idx < controllers.size(); dev_idx++)
     {
-        OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(control[dev_idx]);
+        OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(controllers[dev_idx]);
         ui->DevicesTabBar->addTab(NewPage, "");
 
         /*-----------------------------------------------------*\
@@ -152,8 +282,8 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         | type and append device name string.                   |
         \*-----------------------------------------------------*/
         QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-        NewLabelString += GetIconString(control[dev_idx]->type);
-        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
+        NewLabelString += GetIconString(controllers[dev_idx]->type);
+        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();
         NewTabLabel->setText(NewLabelString);
@@ -168,9 +298,9 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     \*-----------------------------------------------------*/
     QTabBar *InformationTabBar = ui->InformationTabBar->tabBar();
 
-    for(std::size_t dev_idx = 0; dev_idx < control.size(); dev_idx++)
+    for(std::size_t dev_idx = 0; dev_idx < controllers.size(); dev_idx++)
     {
-        OpenRGBDeviceInfoPage *NewPage = new OpenRGBDeviceInfoPage(control[dev_idx]);
+        OpenRGBDeviceInfoPage *NewPage = new OpenRGBDeviceInfoPage(controllers[dev_idx]);
         ui->InformationTabBar->addTab(NewPage, "");
 
         /*-----------------------------------------------------*\
@@ -179,8 +309,8 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
         | type and append device name string.                   |
         \*-----------------------------------------------------*/
         QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-        NewLabelString += GetIconString(control[dev_idx]->type);
-        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(control[dev_idx]->name) + "</td></tr></table></html>";
+        NewLabelString += GetIconString(controllers[dev_idx]->type);
+        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();
         NewTabLabel->setText(NewLabelString);
@@ -189,72 +319,9 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
 
         InformationTabBar->setTabButton(dev_idx, QTabBar::LeftSide, NewTabLabel);
     }
-
-    /*-----------------------------------------------------*\
-    | Create the Software Information page                  |
-    \*-----------------------------------------------------*/
-    OpenRGBSoftwareInfoPage *SoftInfoPage = new OpenRGBSoftwareInfoPage();
-    ui->InformationTabBar->addTab(SoftInfoPage, "");
-
-    QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
-    SoftwareLabelString += ":/software.png";
-    SoftwareLabelString += "' height='16' width='16'></td><td>Software</td></tr></table></html>";
-
-    QLabel *SoftwareTabLabel = new QLabel();
-    SoftwareTabLabel->setText(SoftwareLabelString);
-    SoftwareTabLabel->setIndent(20);
-    SoftwareTabLabel->setGeometry(0, 0, 200, 20);
-
-    InformationTabBar->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
 
-OpenRGBDialog2::~OpenRGBDialog2()
-{
-    delete ui;
-}
-
-void OpenRGBDialog2::AddI2CToolsPage()
-{
-    /*-----------------------------------------------------*\
-    | Create the I2C Tools page                             |
-    \*-----------------------------------------------------*/
-    OpenRGBSystemInfoPage *SMBusToolsPage = new OpenRGBSystemInfoPage(busses);
-
-    /*-----------------------------------------------------*\
-    | Create the I2C Tools tab in the Information bar       |
-    \*-----------------------------------------------------*/
-    ui->InformationTabBar->addTab(SMBusToolsPage, "");
-
-    QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
-    SMBusToolsLabelString += ":/tools.png";
-    SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
-
-    QLabel *SMBusToolsTabLabel = new QLabel();
-    SMBusToolsTabLabel->setText(SMBusToolsLabelString);
-    SMBusToolsTabLabel->setIndent(20);
-    SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
-
-    ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
-}
-
-void OpenRGBDialog2::AddServerTab()
-{
-    /*-----------------------------------------------------*\
-    | Add server information tab if there is a server       |
-    \*-----------------------------------------------------*/
-    if(network_server != NULL)
-    {
-        OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(network_server);
-        ui->MainTabBar->addTab(ServerInfoPage, "SDK Server");
-    }
-}
-
-void OpenRGBDialog2::show()
-{
-    QMainWindow::show();
-}
-
-void OpenRGBDialog2::RefreshProfileList()
+void OpenRGBDialog2::UpdateProfileList()
 {
     if(profile_manager != NULL)
     {
@@ -326,6 +393,12 @@ void OpenRGBDialog2::on_QuickMagenta()
 void OpenRGBDialog2::on_QuickWhite()
 {
     on_SetAllDevices(0xFF, 0xFF, 0xFF);
+}
+
+void OpenRGBDialog2::on_ClientListUpdated()
+{
+    ClearDevicesList();
+    UpdateDevicesList();
 }
 
 void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
@@ -403,7 +476,7 @@ void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
         \*---------------------------------------------------------*/
         if(profile_manager->SaveProfile(filename))
         {
-            RefreshProfileList();
+            UpdateProfileList();
         }
     }
 }
@@ -452,7 +525,7 @@ void Ui::OpenRGBDialog2::on_ButtonDeleteProfile_clicked()
         {
             profile_manager->DeleteProfile(profile_name);
 
-            RefreshProfileList();
+            UpdateProfileList();
         }
     }
 }
