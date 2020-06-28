@@ -51,7 +51,7 @@ static QString GetIconString(device_type type)
     }
 }
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, NetworkServer* server, bool show_i2c_tools, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), network_server(server), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, NetworkServer* server, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), network_server(server), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
@@ -191,27 +191,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     }
 
     /*-----------------------------------------------------*\
-    | Show the I2C Tools page only if enabled               |
-    \*-----------------------------------------------------*/
-    if(show_i2c_tools)
-    {
-        OpenRGBSystemInfoPage *SMBusToolsPage = new OpenRGBSystemInfoPage(bus);
-        ui->InformationTabBar->addTab(SMBusToolsPage, "");
-
-        QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
-        SMBusToolsLabelString += ":/tools.png";
-        SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
-
-        QLabel *SMBusToolsTabLabel = new QLabel();
-        SMBusToolsTabLabel->setText(SMBusToolsLabelString);
-        SMBusToolsTabLabel->setIndent(20);
-        SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
-
-        InformationTabBar->setTabButton(control.size(), QTabBar::LeftSide, SMBusToolsTabLabel);
-    }
-
-    /*-----------------------------------------------------*\
-    | Always show the software information page             |
+    | Create the Software Information page                  |
     \*-----------------------------------------------------*/
     OpenRGBSoftwareInfoPage *SoftInfoPage = new OpenRGBSoftwareInfoPage();
     ui->InformationTabBar->addTab(SoftInfoPage, "");
@@ -225,29 +205,48 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     SoftwareTabLabel->setIndent(20);
     SoftwareTabLabel->setGeometry(0, 0, 200, 20);
 
-    if(show_i2c_tools)
-    {
-        InformationTabBar->setTabButton(control.size() + 1, QTabBar::LeftSide, SoftwareTabLabel);
-    }
-    else
-    {
-        InformationTabBar->setTabButton(control.size(), QTabBar::LeftSide, SoftwareTabLabel);
-    }
+    InformationTabBar->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
+}
 
+OpenRGBDialog2::~OpenRGBDialog2()
+{
+    delete ui;
+}
+
+void OpenRGBDialog2::AddI2CToolsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the I2C Tools page                             |
+    \*-----------------------------------------------------*/
+    OpenRGBSystemInfoPage *SMBusToolsPage = new OpenRGBSystemInfoPage(busses);
+
+    /*-----------------------------------------------------*\
+    | Create the I2C Tools tab in the Information bar       |
+    \*-----------------------------------------------------*/
+    ui->InformationTabBar->addTab(SMBusToolsPage, "");
+
+    QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
+    SMBusToolsLabelString += ":/tools.png";
+    SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
+
+    QLabel *SMBusToolsTabLabel = new QLabel();
+    SMBusToolsTabLabel->setText(SMBusToolsLabelString);
+    SMBusToolsTabLabel->setIndent(20);
+    SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
+
+    ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
+}
+
+void OpenRGBDialog2::AddServerTab()
+{
     /*-----------------------------------------------------*\
     | Add server information tab if there is a server       |
     \*-----------------------------------------------------*/
     if(network_server != NULL)
     {
         OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(network_server);
-
         ui->MainTabBar->addTab(ServerInfoPage, "SDK Server");
     }
-}
-
-OpenRGBDialog2::~OpenRGBDialog2()
-{
-    delete ui;
 }
 
 void OpenRGBDialog2::show()

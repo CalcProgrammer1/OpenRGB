@@ -70,14 +70,23 @@ int main(int argc, char* argv[])
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
 
-        bool show_i2c_tools = false;
+        Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, &profile_manager, &server);
+
         if(ret_flags & RET_FLAG_I2C_TOOLS)
         {
-            //I2C Tools is enabled
-            show_i2c_tools = true;
+            dlg.AddI2CToolsPage();
         }
 
-        Ui::OpenRGBDialog2 dlg(busses, rgb_controllers, &profile_manager, &server, show_i2c_tools);
+        //TODO:
+        //  Determine whether or not to add server tab
+        //  If application is open in client mode, do not show server tab
+        dlg.AddServerTab();
+
+        //TODO:
+        //  Determine whether or not to add client tab
+        //  Client tab should probably always show
+        //  Implement client tab
+        //dlg.AddClientTab();
 
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {
