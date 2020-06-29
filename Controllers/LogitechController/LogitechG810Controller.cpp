@@ -10,9 +10,10 @@
 #include "LogitechG810Controller.h"
 #include <cstring>
 
-LogitechG810Controller::LogitechG810Controller(hid_device* dev_handle)
+LogitechG810Controller::LogitechG810Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12)
 {
-    dev = dev_handle;
+    dev_pkt_0x11 = dev_handle_0x11;
+    dev_pkt_0x12 = dev_handle_0x12;
 }
 
 LogitechG810Controller::~LogitechG810Controller()
@@ -74,8 +75,8 @@ void LogitechG810Controller::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 20);
-    hid_read(dev, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
+    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
 }
 
 void LogitechG810Controller::SendDirectFrame
@@ -110,8 +111,8 @@ void LogitechG810Controller::SendDirectFrame
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 64);
-    hid_read(dev, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x12, (unsigned char *)usb_buf, 64);
+    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
 }
 
 void LogitechG810Controller::SendMode
@@ -163,6 +164,6 @@ void LogitechG810Controller::SendMode
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 20);
-    hid_read(dev, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
+    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
 }

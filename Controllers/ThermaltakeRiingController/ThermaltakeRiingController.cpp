@@ -52,7 +52,7 @@ void ThermaltakeRiingController::SetMode(unsigned char mode, unsigned char speed
 
 void ThermaltakeRiingController::SendInit()
 {
-    unsigned char usb_buf[64];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -62,14 +62,15 @@ void ThermaltakeRiingController::SendInit()
     /*-----------------------------------------------------*\
     | Set up Init packet                                    |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = 0xFE;
-    usb_buf[0x01]   = 0x33;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0xFE;
+    usb_buf[0x02]   = 0x33;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 65);
 }
 
 void ThermaltakeRiingController::SendRGB
@@ -81,7 +82,7 @@ void ThermaltakeRiingController::SendRGB
         unsigned char*      color_data
     )
 {
-    unsigned char usb_buf[64];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -91,19 +92,20 @@ void ThermaltakeRiingController::SendRGB
     /*-----------------------------------------------------*\
     | Set up RGB packet                                     |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = 0x32;
-    usb_buf[0x01]   = 0x52;
-    usb_buf[0x02]   = port;
-    usb_buf[0x03]   = mode + ( speed & 0x03 );
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x32;
+    usb_buf[0x02]   = 0x52;
+    usb_buf[0x03]   = port;
+    usb_buf[0x04]   = mode + ( speed & 0x03 );
 
     /*-----------------------------------------------------*\
     | Copy in GRB color data                                |
     \*-----------------------------------------------------*/
-    memcpy(&usb_buf[0x04], color_data, (num_colors * 3));
+    memcpy(&usb_buf[0x05], color_data, (num_colors * 3));
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 64);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 65);
 }

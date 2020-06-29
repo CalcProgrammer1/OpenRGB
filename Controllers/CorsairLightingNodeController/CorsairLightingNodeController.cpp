@@ -198,7 +198,7 @@ void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBCol
 void CorsairLightingNodeController::SendFirmwareRequest()
 {
     int             actual;
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -208,13 +208,14 @@ void CorsairLightingNodeController::SendFirmwareRequest()
     /*-----------------------------------------------------*\
     | Set up Firmware Version Request packet                |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_FIRMWARE;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_FIRMWARE;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    actual = hid_read(dev, usb_buf, 16);
+    hid_write(dev, usb_buf, 65);
+    actual = hid_read(dev, usb_buf, 17);
 
     if(actual > 0)
     {
@@ -231,7 +232,7 @@ void CorsairLightingNodeController::SendDirect
     unsigned char*  color_data
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -241,27 +242,28 @@ void CorsairLightingNodeController::SendDirect
     /*-----------------------------------------------------*\
     | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_DIRECT;
-    usb_buf[0x01]   = channel;
-    usb_buf[0x02]   = start;
-    usb_buf[0x03]   = count;
-    usb_buf[0x04]   = color_channel;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_DIRECT;
+    usb_buf[0x02]   = channel;
+    usb_buf[0x03]   = start;
+    usb_buf[0x04]   = count;
+    usb_buf[0x05]   = color_channel;
 
     /*-----------------------------------------------------*\
     | Copy in color data bytes                              |
     \*-----------------------------------------------------*/
-    memcpy(&usb_buf[0x05], color_data, count);
+    memcpy(&usb_buf[0x06], color_data, count);
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 16);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 17);
 }
 
 void CorsairLightingNodeController::SendCommit()
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -276,14 +278,15 @@ void CorsairLightingNodeController::SendCommit()
     /*-----------------------------------------------------*\
     | Set up Commit packet                                  |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_COMMIT;
-    usb_buf[0x01]   = 0xFF;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_COMMIT;
+    usb_buf[0x02]   = 0xFF;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 16);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 17);
 }
 
 void CorsairLightingNodeController::SendBegin
@@ -291,7 +294,7 @@ void CorsairLightingNodeController::SendBegin
     unsigned char   channel
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -301,14 +304,15 @@ void CorsairLightingNodeController::SendBegin
     /*-----------------------------------------------------*\
     | Set up Begin packet                                   |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_BEGIN;
-    usb_buf[0x01]   = channel;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_BEGIN;
+    usb_buf[0x02]   = channel;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 16);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 17);
 }
 
 void CorsairLightingNodeController::SendEffectConfig
@@ -334,7 +338,7 @@ void CorsairLightingNodeController::SendEffectConfig
     unsigned short  temperature_2
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -344,48 +348,49 @@ void CorsairLightingNodeController::SendEffectConfig
     /*-----------------------------------------------------*\
     | Set up Effect Config packet                           |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_EFFECT_CONFIG;
-    usb_buf[0x01]   = channel;
-    usb_buf[0x02]   = count;
-    usb_buf[0x03]   = led_type;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_EFFECT_CONFIG;
+    usb_buf[0x02]   = channel;
+    usb_buf[0x03]   = count;
+    usb_buf[0x04]   = led_type;
 
     /*-----------------------------------------------------*\
     | Set up mode parameters                                |
     \*-----------------------------------------------------*/
-    usb_buf[0x04]   = mode;
-    usb_buf[0x05]   = speed;
-    usb_buf[0x06]   = direction;
-    usb_buf[0x07]   = change_style;
-    usb_buf[0x08]   = 0;
+    usb_buf[0x05]   = mode;
+    usb_buf[0x06]   = speed;
+    usb_buf[0x07]   = direction;
+    usb_buf[0x08]   = change_style;
+    usb_buf[0x09]   = 0;
 
     /*-----------------------------------------------------*\
     | Set up mode colors                                    |
     \*-----------------------------------------------------*/
-    usb_buf[0x09]   = color_0_red;
-    usb_buf[0x0A]   = color_0_green;
-    usb_buf[0x0B]   = color_0_blue;
-    usb_buf[0x0C]   = color_1_red;
-    usb_buf[0x0D]   = color_1_green;
-    usb_buf[0x0E]   = color_1_blue;
-    usb_buf[0x0F]   = color_2_red;
-    usb_buf[0x10]   = color_2_green;
-    usb_buf[0x11]   = color_2_blue;
+    usb_buf[0x0A]   = color_0_red;
+    usb_buf[0x0B]   = color_0_green;
+    usb_buf[0x0C]   = color_0_blue;
+    usb_buf[0x0D]   = color_1_red;
+    usb_buf[0x0E]   = color_1_green;
+    usb_buf[0x0F]   = color_1_blue;
+    usb_buf[0x10]   = color_2_red;
+    usb_buf[0x11]   = color_2_green;
+    usb_buf[0x12]   = color_2_blue;
 
     /*-----------------------------------------------------*\
     | Set up temperatures                                   |
     \*-----------------------------------------------------*/
-    usb_buf[0x12]   = (temperature_0 >> 8);
-    usb_buf[0x13]   = (temperature_0 & 0xFF);
-    usb_buf[0x14]   = (temperature_1 >> 8);
-    usb_buf[0x15]   = (temperature_1 & 0xFF);
-    usb_buf[0x16]   = (temperature_2 >> 8);
-    usb_buf[0x17]   = (temperature_2 & 0xFF);
+    usb_buf[0x13]   = (temperature_0 >> 8);
+    usb_buf[0x14]   = (temperature_0 & 0xFF);
+    usb_buf[0x15]   = (temperature_1 >> 8);
+    usb_buf[0x16]   = (temperature_1 & 0xFF);
+    usb_buf[0x17]   = (temperature_2 >> 8);
+    usb_buf[0x18]   = (temperature_2 & 0xFF);
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 16);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 17);
 }
 
 void CorsairLightingNodeController::SendTemperature()
@@ -398,7 +403,7 @@ void CorsairLightingNodeController::SendReset
     unsigned char   channel
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -408,14 +413,15 @@ void CorsairLightingNodeController::SendReset
     /*-----------------------------------------------------*\
     | Set up Reset packet                                   |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_RESET;
-    usb_buf[0x01]   = channel;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_RESET;
+    usb_buf[0x02]   = channel;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 16);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 17);
 }
 
 void CorsairLightingNodeController::SendPortState
@@ -424,7 +430,7 @@ void CorsairLightingNodeController::SendPortState
     unsigned char   state
     )
 {
-    unsigned char   usb_buf[64];
+    unsigned char   usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -434,15 +440,16 @@ void CorsairLightingNodeController::SendPortState
     /*-----------------------------------------------------*\
     | Set up Port State packet                              |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_PORT_STATE;
-    usb_buf[0x01]   = channel;
-    usb_buf[0x02]   = state;
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_PORT_STATE;
+    usb_buf[0x02]   = channel;
+    usb_buf[0x03]   = state;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 16);
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 17);
 }
 
 void CorsairLightingNodeController::SendBrightness()

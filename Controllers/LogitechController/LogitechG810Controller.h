@@ -49,7 +49,7 @@ enum
 class LogitechG810Controller
 {
 public:
-    LogitechG810Controller(hid_device* dev_handle);
+    LogitechG810Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12);
     ~LogitechG810Controller();
 
     void        Commit();
@@ -71,7 +71,8 @@ public:
                     );
 
 private:
-    hid_device* dev;
+    hid_device* dev_pkt_0x11;
+    hid_device* dev_pkt_0x12;
 
     void        SendDirectFrame
                     (
