@@ -367,6 +367,9 @@ void OptionHelp()
     help_text += "-v,  --version                           Display version and software build information\n";
     help_text += "-p,  --profile filename.orp              Load the profile from filename.orp\n";
     help_text += "-sp, --save-profile filename.orp         Save the given settings to profile filename.orp\n";
+    help_text += "--i2c-tools                              Shows the I2C/SMBus Tools page in the GUI. Implies --gui, even if not specified.\n";
+    help_text += "                                           USE I2C TOOLS AT YOUR OWN RISK! Don't use this option if you don't know what you're doing!\n";
+    help_text += "                                           There is a risk of bricking your motherboard, RGB controller, and RAM if you send invalid SMBus/I2C transactions.\n";
 
     std::cout << help_text << std::endl;
 }
@@ -722,7 +725,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--i2c-tools" || option == "--yolo")
         {
-            ret_flags |= RET_FLAG_I2C_TOOLS;
+            ret_flags |= RET_FLAG_START_GUI | RET_FLAG_I2C_TOOLS;
         }
 
         /*---------------------------------------------------------*\
