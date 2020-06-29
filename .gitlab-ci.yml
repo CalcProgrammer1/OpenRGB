@@ -4,6 +4,10 @@
 # https://www.kittell.net/code/powershell-unix-sed-equivalent-change-text-file/
 # https://powershell.org/forums/topic/how-to-use-ansi-vt100-formatting-in-powershell-ooh-pretty-colors/
 
+#-----------------------------------------------------------------------#
+# OpenRGB GitLab CI Configuration                                       #
+#-----------------------------------------------------------------------#
+
 .shared_windows_runners:
   tags:
   - shared-windows
@@ -16,6 +20,9 @@ stages:
 before_script:
  - echo "started by ${GITLAB_USER_NAME}"
 
+#-----------------------------------------------------------------------#
+# Linux (AppImage) Build Target                                         #
+#-----------------------------------------------------------------------#
 build_linux:
   image: ubuntu:bionic
   stage: build
@@ -29,7 +36,82 @@ build_linux:
     - OpenRGB-x86_64.AppImage
     expire_in: 1337 years
 
-build_windows:
+#-----------------------------------------------------------------------#
+# Windows (32-bit) Build Target                                         #
+#-----------------------------------------------------------------------#
+build_windows_32:
+  extends:
+  - .shared_windows_runners
+  stage: build
+  script:
+  - $esc = "$([char]27)"
+  - $count = 0
+  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
+  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
+  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
+
+
+  - _fold_start_ 'configuring the msvc environment variables'
+  - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
+  - '& cmd.exe /C "vcvarsall.bat x86 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
+  - Pop-Location
+  - _fold_final_
+  
+  - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
+  - mkdir _qt
+  - mkdir _qt_download
+  - Push-Location _qt_download
+  - curl.exe -LJ -o qt-base.7z  'https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2017/5.15.0-0-202002260536qtbase-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86.7z' 
+  - curl.exe -LJ -o qt-tools.7z 'https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2017/5.15.0-0-202002260536qttools-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86.7z'
+  - curl.exe -LJ -o qt-jom.zip  'https://download.qt.io/official_releases/jom/jom.zip'
+  - _fold_final_
+  
+  - _fold_start_ 'extracting the downloaded qt binaries'
+  - 7z x qt-base.7z  '-o../_qt' -y
+  - 7z x qt-tools.7z '-o../_qt' -y
+  - 7z x qt-jom.zip  '-o../_qt' -y
+  - _fold_final_
+  
+  - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
+  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2017\mkspecs\qconfig.pri'
+  - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
+  - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
+  - Pop-Location
+  - _fold_final_
+  
+  - _fold_start_ 'run qmake and generate the msvc nmake makefile'
+  - mkdir _build; cd _build
+  - ..\_qt\5.15.0\msvc2017\bin\qmake ..\OpenRGB.pro
+  - _fold_final_
+  
+  - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
+  - ..\_qt\jom
+  - _fold_final_
+  
+  - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
+  - ..\_qt\5.15.0\msvc2017\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
+  - _fold_final_
+  
+  - _fold_start_ 'compressing the release folder so that we can upload it as artifact'
+  - mv release 'OpenRGB Windows 32-bit'
+  - ${datetime} = Get-Date ([datetime]::UtcNow) -Format "yyyy-MM-ddTHH-mm-ss"
+  - ${revision} = ((git rev-parse --short HEAD) | Out-String).Trim()
+  - ${rversion} = (((Get-Content '..\OpenRGB.pro' | Select-String -Pattern "VERSION     =") | Out-String).Trim().Split("="))[1].Trim()
+  - 7z a -mx9 -r -y "OpenRGB_${rversion}_32_${revision}_nightly_${datetime}.7z" 'OpenRGB Windows 32-bit'
+  - _fold_final_
+#  cache:
+#    key: same-key
+#    paths:
+#    - C:\vcpkg\installed\
+  artifacts:
+    paths:
+    - _build/*.7z
+    expire_in: 1337 years
+
+#-----------------------------------------------------------------------#
+# Windows (64-bit) Build Target                                         #
+#-----------------------------------------------------------------------#
+build_windows_64:
   extends:
   - .shared_windows_runners
   stage: build
