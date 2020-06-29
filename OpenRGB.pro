@@ -85,6 +85,7 @@ INCLUDEPATH +=                                                          \
     qt/
 
 HEADERS +=                                                              \
+    dependencies/dmiinfo.h                                              \
     dependencies/ColorWheel/ColorWheel.h                                \
     NetworkClient.h                                                     \
     NetworkProtocol.h                                                   \
@@ -192,6 +193,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_ThermaltakeRiing.h                      \
 
 SOURCES +=                                                              \
+    dependencies/dmiinfo.cpp                                            \
     dependencies/ColorWheel/ColorWheel.cpp                              \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \

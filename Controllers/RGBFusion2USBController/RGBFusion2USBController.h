@@ -157,7 +157,7 @@ struct IT8297Report
 class RGBFusion2USBController
 {
 public:
-    RGBFusion2USBController(hid_device* handle, const char *path);
+    RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name);
     ~RGBFusion2USBController();
 
     void            SetStripColors
@@ -175,6 +175,7 @@ public:
     bool            DisableBuiltinEffect(int enable_bit, int mask);
     void            SetCalibration();
     std::string     GetDeviceName();
+    std::string     GetDeviceDescription();
     std::string     GetDeviceLocation();
     std::string     GetFWVersion();
     std::string     GetSerial();
@@ -188,6 +189,7 @@ private:
     int                     mode;
     IT8297Report            report;
     std::string             name;
+    std::string             description;
     std::string             loc;
     std::string             version;
     std::string             chip_id;

@@ -27,7 +27,7 @@ static LEDCount LedCountToEnum(unsigned int c)
     return(LEDS_1024);
 }
 
-RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char *path) : dev(handle)
+RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name) : dev(handle)
 {
     int res = 0;
     char text[64] {};
@@ -48,6 +48,7 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
 
             name = std::string(report.str_product, 32);
             name.erase(std::find(name.begin(), name.end(), '\0'), name.end());
+            description = mb_name;
 
             snprintf(text, 11, "0x%08X", report.fw_ver);
             version = text;
@@ -133,6 +134,11 @@ bool RGBFusion2USBController::EnableBeat(bool e)
 std::string RGBFusion2USBController::GetDeviceName()
 {
     return(name);
+}
+
+std::string RGBFusion2USBController::GetDeviceDescription()
+{
+    return(description);
 }
 
 std::string RGBFusion2USBController::GetFWVersion()
