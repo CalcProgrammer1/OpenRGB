@@ -58,41 +58,50 @@ void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controller
         //Look for HyperX RGB Peripheral
         while(info)
         {
-            if((info->vendor_id == device_list[device_idx].usb_vid)
+            if((device_list[device_idx].usb_pid != HYPERX_ALLOY_ORIGINS_PID)
+            &&(info->vendor_id == device_list[device_idx].usb_vid)
+            &&(info->product_id == device_list[device_idx].usb_pid)
+#ifdef USE_HID_USAGE
+            &&(info->interface_number == device_list[device_idx].usb_interface)
+            &&(info->usage_page == 0xFF01))
+#else
+            &&(info->interface_number == device_list[device_idx].usb_interface))
+#endif
+            {
+                dev = hid_open_path(info->path);
+
+                if( dev )
+                {
+                    HyperXKeyboardController* controller = new HyperXKeyboardController(dev);
+
+                    RGBController_HyperXKeyboard* rgb_controller = new RGBController_HyperXKeyboard(controller);
+
+                    rgb_controller->name = device_list[device_idx].name;
+
+                    rgb_controllers.push_back(rgb_controller);
+                }
+            }
+
+            if((device_list[device_idx].usb_pid == HYPERX_ALLOY_ORIGINS_PID)
+            &&(info->vendor_id == device_list[device_idx].usb_vid)
             &&(info->product_id == device_list[device_idx].usb_pid)
             &&(info->interface_number == device_list[device_idx].usb_interface))
             {
                 dev = hid_open_path(info->path);
-                break;
+
+                if( dev )
+                {
+                    HyperXAlloyOriginsController* controller = new HyperXAlloyOriginsController(dev);
+
+                    RGBController_HyperXAlloyOrigins* rgb_controller = new RGBController_HyperXAlloyOrigins(controller);
+
+                    rgb_controller->name = device_list[device_idx].name;
+                    
+                    rgb_controllers.push_back(rgb_controller);
+                }
             }
-            else
-            {
-                info = info->next;
-            }
-        }
 
-        if( dev )
-        {
-            if(device_list[device_idx].usb_pid == HYPERX_ALLOY_ORIGINS_PID)
-            {
-                HyperXAlloyOriginsController* controller = new HyperXAlloyOriginsController(dev);
-
-                RGBController_HyperXAlloyOrigins* rgb_controller = new RGBController_HyperXAlloyOrigins(controller);
-
-                rgb_controller->name = device_list[device_idx].name;
-                
-                rgb_controllers.push_back(rgb_controller);
-            }
-            else
-            {
-                HyperXKeyboardController* controller = new HyperXKeyboardController(dev);
-
-                RGBController_HyperXKeyboard* rgb_controller = new RGBController_HyperXKeyboard(controller);
-
-                rgb_controller->name = device_list[device_idx].name;
-                
-                rgb_controllers.push_back(rgb_controller);
-            }
+            info = info->next;
         }
     }
 }

@@ -30,23 +30,25 @@ void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers)
     {
         if((info->vendor_id == TT_POSEIDON_Z_RGB_VID)
          &&(info->product_id == TT_POSEIDON_Z_RGB_PID)
-         &&(info->interface_number == 2))
+#ifdef USE_HID_USAGE
+         &&(info->interface_number == 1)
+         &&(info->usage_page == 0xFF01))
+#else
+         &&(info->interface_number == 1))
+#endif
         {
             dev = hid_open_path(info->path);
-            break;
+            if( dev )
+            {
+                PoseidonZRGBController* controller = new PoseidonZRGBController(dev);
+
+                RGBController_PoseidonZRGB* rgb_controller = new RGBController_PoseidonZRGB(controller);
+
+                rgb_controllers.push_back(rgb_controller);
+            }
         }
-        else
-        {
             info = info->next;
-        }
     }
 
-    if( dev )
-    {
-        PoseidonZRGBController* controller = new PoseidonZRGBController(dev);
 
-        RGBController_PoseidonZRGB* rgb_controller = new RGBController_PoseidonZRGB(controller);
-
-        rgb_controllers.push_back(rgb_controller);
-    }
 }

@@ -376,7 +376,7 @@ win32:INCLUDEPATH +=                                                    \
     wmi/                                                                \
 
 win32:SOURCES +=                                                        \
-    dependencies/hidapi/hidapi.c                                        \
+#   dependencies/hidapi/hidapi.c                                        \
     dependencies/NVFC/nvapi.cpp                                         \
     i2c_smbus/i2c_smbus_amdadl.cpp                                      \
     i2c_smbus/i2c_smbus_i801.cpp                                        \
@@ -406,6 +406,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
         -lws2_32                                                        \
         -L"$$PWD/dependencies/inpout32_1501/x64/" -linpoutx64           \
         -L"$$PWD/dependencies/libusb-1.0.22/MS64/dll" -llibusb-1.0      \
+        -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi                 \
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
@@ -413,17 +414,19 @@ win32:contains(QMAKE_TARGET.arch, x86) {
         -lws2_32                                                        \
         -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32          \
         -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0      \
+        -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi                 \
 }
 
 win32:DEFINES -=                                                        \
     UNICODE
 
 win32:DEFINES +=                                                        \
+    USE_HID_USAGE                                                       \
     _MBCS                                                               \
     WIN32                                                               \
     _CRT_SECURE_NO_WARNINGS                                             \
     _WINSOCK_DEPRECATED_NO_WARNINGS                                     \
-    WIN32_LEAN_AND_MEAN
+    WIN32_LEAN_AND_MEAN                                                 \
 
 win32:RC_ICONS +=                                                       \
     qt/OpenRGB.ico
@@ -452,6 +455,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
     copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer64.dll      )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/inpout32_1501/x64/inpoutx64.dll      )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.22/MS64/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/hidapi-win/x64/hidapi.dll            )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     first.depends = $(first) copydata
     export(first.depends)
     export(copydata.commands)
@@ -462,6 +466,7 @@ win32:contains(QMAKE_TARGET.arch, x86) {
     copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer.dll        )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/inpout32_1501/Win32/inpout32.dll     )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.22/MS32/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/hidapi-win/x86/hidapi.dll            )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
 
     first.depends = $(first) copydata
     export(first.depends)

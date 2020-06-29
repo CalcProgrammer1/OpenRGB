@@ -2,21 +2,6 @@
 
 #include <cstring>
 
-static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
-{
-    char* usb_pkt = new char[size + 1];
-    
-    usb_pkt[0] = 0x00;
-    for(int i = 1; i < size + 1; i++)
-    {
-        usb_pkt[i] = data_pkt[i-1];
-    }
-    
-    hid_send_feature_report(dev, (unsigned char *)usb_pkt, size + 1);
-    
-    delete usb_pkt;
-}
-
 RedragonM711Controller::RedragonM711Controller(hid_device* dev_handle)
 {
     dev = dev_handle;
@@ -103,7 +88,7 @@ void RedragonM711Controller::SendMouseApply()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    send_usb_msg(dev, usb_buf, 16);
+    hid_send_feature_report(dev, (unsigned char *)usb_buf, 16);
 }
 
 void RedragonM711Controller::SendWritePacket
@@ -137,5 +122,5 @@ void RedragonM711Controller::SendWritePacket
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    send_usb_msg(dev, usb_buf, 16);
+    hid_send_feature_report(dev, (unsigned char *)usb_buf, 16);
 }
