@@ -10,7 +10,7 @@
 #include "RGBController_CMR6000Controller.h"
 #include <hidapi/hidapi.h>
 
-#define COOLERMASTER_VID                0x2516
+#define COOLERMASTER_VID                        0x2516
 
 #define COOLERMASTER_MP750_XL_PID       0x0109
 #define COOLERMASTER_MP750_MEDIUM_PID   0x0105
