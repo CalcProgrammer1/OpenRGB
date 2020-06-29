@@ -54,14 +54,30 @@ enum
 class NZXTHue2Controller
 {
 public:
-    NZXTHue2Controller(hid_device* dev_handle);
+    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels);
     ~NZXTHue2Controller();
 
     std::string     GetFirmwareVersion();
 
-    unsigned int    GetStripsOnChannel
+    unsigned char   GetFanCommand
                         (
-                        unsigned int    channel
+                        unsigned char   fan_channel
+                        );
+
+    unsigned short  GetFanRPM
+                        (
+                        unsigned char   fan_channel
+                        );
+
+    unsigned int    GetNumFanChannels();
+
+    unsigned int    GetNumRGBChannels();
+
+    void            SendFan
+                        (
+                            unsigned char       port,
+                            unsigned char       mode,
+                            unsigned char       speed
                         );
 
     void            SetChannelEffect
@@ -80,12 +96,22 @@ public:
                         RGBColor *      colors,
                         unsigned int    num_colors
                         );
+
+    void            UpdateDeviceList();
+
+    void            UpdateStatus();
     
     unsigned int    channel_leds[HUE_2_NUM_CHANNELS];
 
 private:
     hid_device*     dev;
+    
+    std::vector<unsigned char>  fan_cmd;
+    std::vector<unsigned short> fan_rpm;
+
     char            firmware_version[16];
+    unsigned int    num_fan_channels;
+    unsigned int    num_rgb_channels;
 
     void            SendApply
                         (

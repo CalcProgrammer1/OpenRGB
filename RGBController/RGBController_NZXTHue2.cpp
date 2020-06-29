@@ -135,7 +135,7 @@ void RGBController_NZXTHue2::SetupZones()
     /*-------------------------------------------------*\
     | Set up zones                                      |
     \*-------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < HUE_2_NUM_CHANNELS; zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < hue2->GetNumRGBChannels(); zone_idx++)
     {
         zone* new_zone = new zone;
 
