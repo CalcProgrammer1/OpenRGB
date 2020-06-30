@@ -426,14 +426,61 @@ void RGBController_OpenRazer::UpdateMode()
                         break;
 
                     case RAZER_MODE_OFF:
-                        razer_functions->matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        if(razer_functions->matrix_effect_none)
+                        {
+                            razer_functions->matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->logo_matrix_effect_none)
+                        {
+                            razer_functions->logo_matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->scroll_matrix_effect_none)
+                        {
+                            razer_functions->scroll_matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->left_matrix_effect_none)
+                        {
+                            razer_functions->left_matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->right_matrix_effect_none)
+                        {
+                            razer_functions->right_matrix_effect_none->store(razer_device, NULL, update_value, 1);
+                        }
                         break;
 
                     case RAZER_MODE_STATIC:
                         update_value[0] = RGBGetRValue(modes[active_mode].colors[0]);
                         update_value[1] = RGBGetGValue(modes[active_mode].colors[0]);
                         update_value[2] = RGBGetBValue(modes[active_mode].colors[0]);
-                        razer_functions->matrix_effect_static->store(razer_device, NULL, update_value, 3);
+
+                        if(razer_functions->matrix_effect_static)
+                        {
+                            razer_functions->matrix_effect_static->store(razer_device, NULL, update_value, 3);
+                        }
+
+                        if(razer_functions->logo_matrix_effect_static)
+                        {
+                            razer_functions->logo_matrix_effect_static->store(razer_device, NULL, update_value, 3);
+                        }
+
+                        if(razer_functions->scroll_matrix_effect_static)
+                        {
+                            razer_functions->scroll_matrix_effect_static->store(razer_device, NULL, update_value, 3);
+                        }
+
+                        if(razer_functions->left_matrix_effect_static)
+                        {
+                            razer_functions->left_matrix_effect_static->store(razer_device, NULL, update_value, 3);
+                        }
+
+                        if(razer_functions->right_matrix_effect_static)
+                        {
+                            razer_functions->right_matrix_effect_static->store(razer_device, NULL, update_value, 3);
+                        }
                         break;
 
                     case RAZER_MODE_BREATHING:
@@ -450,22 +497,114 @@ void RGBController_OpenRazer::UpdateMode()
                                     update_value[4] = RGBGetGValue(modes[active_mode].colors[1]);
                                     update_value[5] = RGBGetBValue(modes[active_mode].colors[1]);
 
-                                    razer_functions->matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                    if(razer_functions->matrix_effect_breath)
+                                    {
+                                        razer_functions->matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                    }
+
+                                    if(razer_functions->logo_matrix_effect_breath)
+                                    {
+                                        razer_functions->logo_matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                    }
+
+                                    if(razer_functions->scroll_matrix_effect_breath)
+                                    {
+                                        razer_functions->scroll_matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                    }
+
+                                    if(razer_functions->left_matrix_effect_breath)
+                                    {
+                                        razer_functions->left_matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                    }
+
+                                    if(razer_functions->right_matrix_effect_breath)
+                                    {
+                                        razer_functions->right_matrix_effect_breath->store(razer_device, NULL, update_value, 6);
+                                    }
                                 }
                                 else
                                 {
-                                    razer_functions->matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                    if(razer_functions->matrix_effect_breath)
+                                    {
+                                        razer_functions->matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                    }
+
+                                    if(razer_functions->logo_matrix_effect_breath)
+                                    {
+                                        razer_functions->logo_matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                    }
+
+                                    if(razer_functions->scroll_matrix_effect_breath)
+                                    {
+                                        razer_functions->scroll_matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                    }
+
+                                    if(razer_functions->left_matrix_effect_breath)
+                                    {
+                                        razer_functions->left_matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                    }
+
+                                    if(razer_functions->right_matrix_effect_breath)
+                                    {
+                                        razer_functions->right_matrix_effect_breath->store(razer_device, NULL, update_value, 3);
+                                    }
                                 }
                                 break;
 
                             case MODE_COLORS_RANDOM:
-                                razer_functions->matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                if(razer_functions->matrix_effect_breath)
+                                {
+                                    razer_functions->matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                }
+
+                                if(razer_functions->logo_matrix_effect_breath)
+                                {
+                                    razer_functions->logo_matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                }
+
+                                if(razer_functions->scroll_matrix_effect_breath)
+                                {
+                                    razer_functions->scroll_matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                }
+
+                                if(razer_functions->left_matrix_effect_breath)
+                                {
+                                    razer_functions->left_matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                }
+
+                                if(razer_functions->right_matrix_effect_breath)
+                                {
+                                    razer_functions->right_matrix_effect_breath->store(razer_device, NULL, update_value, 1);
+                                }
                                 break;
                         }
                         break;
 
                     case RAZER_MODE_SPECTRUM_CYCLE:
-                        razer_functions->matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
+                        if(razer_functions->matrix_effect_spectrum)
+                        {
+                            razer_functions->matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->logo_matrix_effect_spectrum)
+                        {
+                            razer_functions->logo_matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->scroll_matrix_effect_spectrum)
+                        {
+                            razer_functions->scroll_matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->left_matrix_effect_spectrum)
+                        {
+                            razer_functions->left_matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->right_matrix_effect_spectrum)
+                        {
+                            razer_functions->right_matrix_effect_spectrum->store(razer_device, NULL, update_value, 1);
+                        }
                         break;
 
                     case RAZER_MODE_WAVE:
@@ -479,11 +618,48 @@ void RGBController_OpenRazer::UpdateMode()
                                 update_value[0] = '1';
                                 break;
                         }
-                        razer_functions->matrix_effect_wave->store(razer_device, NULL, update_value, 1);
+
+                        if(razer_functions->matrix_effect_wave)
+                        {
+                            razer_functions->matrix_effect_wave->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->left_matrix_effect_wave)
+                        {
+                            razer_functions->left_matrix_effect_wave->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->right_matrix_effect_wave)
+                        {
+                            razer_functions->right_matrix_effect_wave->store(razer_device, NULL, update_value, 1);
+                        }
                         break;
 
                     case RAZER_MODE_REACTIVE:
-                        razer_functions->matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        if(razer_functions->matrix_effect_reactive)
+                        {
+                            razer_functions->matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->logo_matrix_effect_reactive)
+                        {
+                            razer_functions->logo_matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->scroll_matrix_effect_reactive)
+                        {
+                            razer_functions->scroll_matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->left_matrix_effect_reactive)
+                        {
+                            razer_functions->left_matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        }
+
+                        if(razer_functions->right_matrix_effect_reactive)
+                        {
+                            razer_functions->right_matrix_effect_reactive->store(razer_device, NULL, update_value, 1);
+                        }
                         break;
                 }
 
