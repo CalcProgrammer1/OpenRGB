@@ -134,7 +134,8 @@ void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_control
             &&(info->product_id == device_list[device_idx].usb_pid)
             &&(info->usage_page == 0xFFC2))
 #else
-            &&(info->product_id == device_list[device_idx].usb_pid))
+            &&(info->product_id == device_list[device_idx].usb_pid)
+            &&(info->interface_number == device_list[device_idx].usb_interface))
 #endif
             {
                 dev = hid_open_path(info->path);

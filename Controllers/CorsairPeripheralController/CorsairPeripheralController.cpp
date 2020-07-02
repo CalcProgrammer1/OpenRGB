@@ -30,7 +30,6 @@ CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle)
 
     ReadFirmwareInfo();
 
-    SpecialFunctionControl();
     LightingControl();
 }
 
@@ -346,6 +345,7 @@ void CorsairPeripheralController::ReadFirmwareInfo()
 
         case 0xC1:
             type = DEVICE_TYPE_MOUSE;
+            SpecialFunctionControl();
             break;
 
         case 0xC2:
@@ -356,10 +356,12 @@ void CorsairPeripheralController::ReadFirmwareInfo()
                 {
                     case 0x0A34:
                         type = DEVICE_TYPE_HEADSET_STAND;
+                        SpecialFunctionControl();
                         break;
                     
                     default:
                         type = DEVICE_TYPE_MOUSEMAT;
+                        SpecialFunctionControl();
                         break;
                 }
             }
