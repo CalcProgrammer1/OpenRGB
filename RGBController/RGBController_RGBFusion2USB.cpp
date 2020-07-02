@@ -11,63 +11,82 @@
 #include <sstream>
 #include <array>
 
-enum
-{
-    ZONE_MB,
-    ZONE_STRIP1,
-    ZONE_STRIP2,
-};
-
-static const std::array<const char *, 3> led_zones
-{
-    "Motherboard",
-    "LED Strip 1", // WS2812(B) strips
-    "LED Strip 2",
-};
-
-static const KnownChannels known_channels
+static const KnownLayout knownLayoutsLookup
 {
     {
-        "Generic",
+        "IT8297BX-GBX570",  //Left as a catch all
         {
             {
-                { "Led 1", 0x20 },
-                { "Led 2", 0x21 },
-                { "Led 3", 0x22 },
-                { "Led 4", 0x23 },
-                { "Led 5", 0x24 },
-                { "Led 6", 0x25 },
-                { "Led 7", 0x26 },
-                { "Led 8", 0x27 },
+                "Motherboard",
+                {
+                    { "Led 1", 0x20, 1 },
+                    { "Led 2", 0x21, 1 },
+                    { "Led 3", 0x22, 1 },
+                    { "Led 4", 0x23, 1 },
+                    { "Led 5", 0x24, 1 },
+                    { "Led 6", 0x25, 1 },
+                    { "Led 7", 0x26, 1 },
+                    { "Led 8", 0x27, 1 },
+                }
             },
-            // Zone 1
             {
-                { "LED Strip 1, LED 0", HDR_D_LED1 },
+                "D_LED1 Bottom",
+                {
+                    { "LED Strip 1", HDR_D_LED1, 0 },
+                }
             },
-            // Zone 2
             {
-                { "LED Strip 2, LED 0", HDR_D_LED2 },
+                "D_LED2 Top",
+                {
+                    { "LED Strip 2", HDR_D_LED2, 0 },
+                }
             }
         }
     },
     {
-        "IT8297BX-GBX570",
+        "X570 AORUS PRO WIFI",
         {
-            // Zone 0
             {
-                { "Back I/O",   HDR_BACK_IO },
-                { "CPU",        HDR_CPU },
-                { "PCIe",       HDR_PCIE },
-                { "LED 2",      HDR_LED_2},     // Unique to WiFi models?
-                { "LED C1/C2",  HDR_LED_C1C2 }, // 12VGRB headers seem to be connected
+                "Motherboard",
+                {
+                    { "Back I/O",   HDR_BACK_IO, 1 },
+                    { "CPU Header", HDR_CPU, 1 },
+                    { "Rear PCIe",  HDR_PCIE, 1},
+                    { "LED C1/C2",  HDR_LED_C1C2, 1 }, // 12VGRB headers seem to be connected
+                }
             },
-            // Zone 1
             {
-                { "LED Strip 1, LED 0", HDR_D_LED1 },
+                "D_LED1 Bottom",
+                {
+                    { "D_LED1 Bottom", HDR_D_LED1, 0 },
+                }
             },
-            // Zone 2
             {
-                { "LED Strip 2, LED 0", HDR_D_LED2 },
+                "D_LED2 Top",
+                {
+                    { "D_LED2 Top", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "X570 I AORUS PRO WIFI",
+        {
+            {
+                "Motherboard",
+                {
+                    { "LED Group0", HDR_BACK_IO, 1 },
+                    { "LED Group1", HDR_CPU, 1 },
+                    { "LED Group2", HDR_D_LED2, 1 },
+                    { "LED Group3", HDR_PCIE, 1 },
+                    { "LED C1/C2",  HDR_LED_C1C2, 1 }, // 12VGRB headers seem to be connected
+                }
+            },
+            {
+                "D_LED1",
+                {
+                    { "D_LED1", HDR_D_LED1, 0 },
+                }
             }
         }
     },
@@ -77,9 +96,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
 {
     controller = controller_ptr;
 
-    name        = controller->GetDeviceDescription();
+    name        = controller->GetDeviceName();
     type        = DEVICE_TYPE_MOTHERBOARD;
-    description = controller->GetDeviceName();
+    description = controller->GetDeviceDescription();
     version     = controller->GetFWVersion();
     location    = controller->GetDeviceLocation();
     serial      = controller->GetSerial();
@@ -150,99 +169,87 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Flashing.speed      = 2;
     modes.push_back(Flashing);
 
+    Init_Controller();         //Only processed on first run
     SetupZones();
+}
+
+void RGBController_RGBFusion2USB::Init_Controller()
+{
+    /*---------------------------------------------------------*\
+    | Look up channel map based on device name                  |
+    \*---------------------------------------------------------*/
+    if ( knownLayoutsLookup.count(controller->GetDeviceName()) )    //Quick way to get a boolean on find()
+    {
+        layout = knownLayoutsLookup.find(controller->GetDeviceName())->second;
+    }
+    else
+    {
+        layout = knownLayoutsLookup.find("IT8297BX-GBX570")->second;
+    }
+
+    zones.resize(layout.size());
+    int zone_idx = 0;
+    for(ZoneLeds::iterator zl = layout.begin(); zl != layout.end(); ++zl)
+    {
+        std::vector<LedPort> lp = zl->second;
+        int LED_count = 0;                      //We're going to count the leds in the zone
+        bool boolSingleLED = true;              //If all the Ledport.count == 1 then the zone is ZONE_TYPE_SINGLE
+        for(int lp_idx = 0; lp_idx < lp.size(); lp_idx++)
+        {
+            int lp_count = lp[lp_idx].count;
+            boolSingleLED = boolSingleLED && (lp_count == 1);     //Is this a single LED zone??
+            LED_count += lp_count;
+        }
+        zones[zone_idx].name        = zl->first;
+        zones[zone_idx].leds_min    = (boolSingleLED) ? LED_count : RGBFusion2_Digital_LEDS_Min;
+        zones[zone_idx].leds_max    = (boolSingleLED) ? LED_count : RGBFusion2_Digital_LEDS_Max;
+        zones[zone_idx].leds_count  = (boolSingleLED) ? LED_count : 0;   //Digital LEDS will not be set yet
+        zones[zone_idx].type        = (boolSingleLED) ? ZONE_TYPE_SINGLE : ZONE_TYPE_LINEAR;
+        zones[zone_idx].matrix_map  = NULL;
+        zone_idx++;
+    }
 }
 
 void RGBController_RGBFusion2USB::SetupZones()
 {
     /*-------------------------------------------------*\
-    | Only set LED count on the first run               |
-    \*-------------------------------------------------*/
-    bool first_run = false;
-
-    if(zones.size() == 0)
-    {
-        first_run = true;
-    }
-
-    /*---------------------------------------------------------*\
-    | Look up channel map based on device name                  |
-    \*---------------------------------------------------------*/
-    KnownChannels::const_iterator it = known_channels.find(controller->GetDeviceName());
-    if (it == known_channels.end())
-    {
-        it = known_channels.find("Generic");
-    }
-
-    /*---------------------------------------------------------*\
-    | Get number of motherboard LEDs and set addressable LED    |
-    | count                                                     |
-    \*---------------------------------------------------------*/
-    size_t mb_led_cnt = it->second[0].size();
-
-    /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
     leds.clear();
     colors.clear();
-    zones.resize(led_zones.size());
 
-    /*---------------------------------------------------------*\
+    /*---------------------------------------------------------*\ <----DEBUG
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < led_zones.size(); zone_idx++)
+    int zone_idx = 0;
+    for(ZoneLeds::iterator zl = layout.begin(); zl != layout.end(); ++zl)
     {
-        zones[zone_idx].name           = led_zones[zone_idx];
-        zones[zone_idx].type           = ZONE_TYPE_LINEAR;
-        zones[zone_idx].matrix_map     = NULL;
-        
-        /*---------------------------------------------------------*\
-        | Zone index 0 is motherboard LEDs and has fixed size       |
-        \*---------------------------------------------------------*/
-        if(zone_idx == ZONE_MB)
-        {
-            zones[zone_idx].leds_min   = mb_led_cnt;
-            zones[zone_idx].leds_max   = mb_led_cnt;
-            zones[zone_idx].leds_count = mb_led_cnt;
-        }
-        else
-        {
-            zones[zone_idx].leds_min   = 0;
-            zones[zone_idx].leds_max   = 1024;
+        bool boolSingleLED = (zones[zone_idx].type == ZONE_TYPE_SINGLE);    //Calculated for later use
 
-            if(first_run)
-            {
-                zones[zone_idx].leds_count = 0;
-            }
-
+        if (!boolSingleLED)
+        {
             controller->SetLedCount(zones[zone_idx].leds_count);
             controller->DisableBuiltinEffect(0, 0x3);
         }
-    }
 
-    /*---------------------------------------------------------*\
-    | Set up LEDs                                               |
-    \*---------------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        for(int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
         {
             led new_led;
 
-            if( it != known_channels.end() && zone_idx < it->second.size() && led_idx < it->second[zone_idx].size())
+            new_led.value = zl->second.at(lp_idx).header;
+            if(boolSingleLED)
             {
-                new_led.name = it->second[zone_idx][led_idx].name;
+                new_led.name  = zl->second.at(lp_idx).name;
             }
             else
             {
-                new_led.name = zones[zone_idx].name + " LED ";
-                new_led.name.append(std::to_string(led_idx));
+                new_led.name = zl->second.at(lp_idx).name;
+                new_led.name.append(" LED " + std::to_string(lp_idx));
             }
-
-            new_led.value = zone_idx;
 
             leds.push_back(new_led);
         }
+        zone_idx++;
     }
 
     SetupColors();
@@ -279,22 +286,10 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     bool    random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     int     mode_value  = (modes[active_mode].value);
 
-    KnownChannels::const_iterator it = known_channels.find(controller->GetDeviceName());
-
-    if (it == known_channels.end())
-    {
-        it = known_channels.find("Generic");
-    }
-
-    if (it == known_channels.end() || zone >= (int)it->second.size())
-    {
-        return;
-    }
-
     /*---------------------------------------------------------*\
     | Set motherboard LEDs                                      |
     \*---------------------------------------------------------*/
-    if(zone == ZONE_MB)
+    if(zones[zone].type == ZONE_TYPE_SINGLE)
     {
         unsigned char red = 0;
         unsigned char grn = 0;
@@ -332,7 +327,7 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
             /*---------------------------------------------------------*\
             | Apply the mode and color to the zone                      |
             \*---------------------------------------------------------*/
-            controller->SetLEDEffect(it->second[zone][led_idx].header, mode_value, modes[active_mode].speed, random, red, grn, blu);
+            controller->SetLEDEffect(zones[zone].leds[led_idx].value, mode_value, modes[active_mode].speed, random, red, grn, blu);
         }
         
         controller->ApplyEffect();
@@ -342,6 +337,8 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     else
     {
+        unsigned char hdr = zones[zone].start_idx;
+
         /*---------------------------------------------------------*\
         | Direct mode                                               |
         \*---------------------------------------------------------*/
@@ -349,16 +346,6 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
         {
             if(zones[zone].leds_count > 0)
             {
-                unsigned char hdr = 0;
-                if(zone == ZONE_STRIP1)
-                {
-                    hdr = HDR_D_LED1_RGB;
-                }
-                else if(zone == ZONE_STRIP2)
-                {
-                    hdr = HDR_D_LED2_RGB;
-                }
-
                 controller->DisableBuiltinEffect(1, zone == 1 ? 0x01 : 0x02);
                 controller->SetStripColors(hdr, zones[zone].colors, zones[zone].leds_count);
             }
@@ -368,7 +355,7 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
         \*---------------------------------------------------------*/
         else
         {
-            if(it->second[zone].size())
+            if(zones[zone].leds_count)      //If the Digital zone has been resized i.e. > 0
             {
                 unsigned char red = 0;
                 unsigned char grn = 0;
@@ -384,7 +371,7 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
                     blu = RGBGetBValue(modes[active_mode].colors[0]);
                 }
 
-                int hdr = it->second[zone].front().header;
+                //int hdr = it->second[zone].front().header;
 
                 /*---------------------------------------------------------*\
                 | Apply built-in effects to LED strips                      |
@@ -404,20 +391,17 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
     \*---------------------------------------------------------*/
     bool            random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     int             mode_value  = (modes[active_mode].value);
-    unsigned int    zone_idx    = leds[led].value;
+    unsigned int    zone_idx    = GetLED_Zone(led);
 
     /*---------------------------------------------------------*\
     | Set motherboard LEDs                                      |
     \*---------------------------------------------------------*/
-    if(zone_idx == ZONE_MB)
+    if(zones[zone_idx].type == ZONE_TYPE_SINGLE)
     {
         unsigned char red = 0;
         unsigned char grn = 0;
         unsigned char blu = 0;
         
-        KnownChannels::const_iterator it = known_channels.find(controller->GetDeviceName());
-
-
         /*---------------------------------------------------------*\
         | Motherboard LEDs always use effect mode, so use static for|
         | direct mode but get colors from zone                      |
@@ -440,13 +424,7 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
             blu = RGBGetBValue(modes[active_mode].colors[0]);
         }
 
-        //LED lookup needs to be done after it's used as an index
-        if (it->second.size() > 0)
-        {
-            led = it->second[ZONE_MB][led].header;
-        }
-
-        controller->SetLEDEffect(led, mode_value, modes[active_mode].speed, random, red, grn, blu);
+        controller->SetLEDEffect(leds[led].value, mode_value, modes[active_mode].speed, random, red, grn, blu);
         controller->ApplyEffect();
     }
     /*---------------------------------------------------------*\
@@ -461,4 +439,16 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
 void RGBController_RGBFusion2USB::UpdateMode()
 {
     DeviceUpdateLEDs();
+}
+
+int RGBController_RGBFusion2USB::GetLED_Zone(int led_idx)
+{
+    //This may be more useful in the abstract RGBController.cpp
+    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        int zone_start = zones[zone_idx].start_idx;
+        int zone_end = zone_start + zones[zone_idx].leds_count - 1;
+        if( zone_start <= led_idx && zone_end >= led_idx)
+           return(zone_idx);
+    }
 }

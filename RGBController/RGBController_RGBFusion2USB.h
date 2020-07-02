@@ -13,14 +13,18 @@
 #include <map>
 #include <vector>
 
+#define RGBFusion2_Digital_LEDS_Min 0;
+#define RGBFusion2_Digital_LEDS_Max 1024;
+
 struct LedPort
 {
     const char* name;
     int header;
+    int count;
 };
 
-typedef std::vector< std::vector<LedPort> > ZoneLeds;
-typedef std::map< std::string, ZoneLeds > KnownChannels;
+typedef std::map< std::string, std::vector<LedPort> > ZoneLeds;
+typedef std::map< std::string, ZoneLeds> KnownLayout;
 
 class RGBController_RGBFusion2USB: public RGBController
 {
@@ -39,6 +43,10 @@ public:
     void        UpdateMode();
 
 private:
-    RGBFusion2USBController*       controller;
-    IT8297Report                   report;
+    void        Init_Controller();
+    int         GetLED_Zone(int led_idx);
+
+    RGBFusion2USBController*        controller;
+    IT8297Report                    report;
+    ZoneLeds                        layout;
 };
