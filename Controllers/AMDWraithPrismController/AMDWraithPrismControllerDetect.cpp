@@ -28,23 +28,24 @@ void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controller
     {
         if((info->vendor_id == AMD_WRAITH_PRISM_VID)
          &&(info->product_id == AMD_WRAITH_PRISM_PID)
+#if USE_HID_USAGE
+         &&(info->interface_number == 1)
+         &&(info->usage_page == 0xFF00))
+#else
          &&(info->interface_number == 1))
+#endif
         {
             dev = hid_open_path(info->path);
-            break;
+        
+            if( dev )
+            {
+                AMDWraithPrismController* controller = new AMDWraithPrismController(dev);
+
+                RGBController_AMDWraithPrism* rgb_controller = new RGBController_AMDWraithPrism(controller);
+
+                rgb_controllers.push_back(rgb_controller);
+            }
         }
-        else
-        {
-            info = info->next;
-        }
-    }
-
-    if( dev )
-    {
-        AMDWraithPrismController* controller = new AMDWraithPrismController(dev);
-
-        RGBController_AMDWraithPrism* rgb_controller = new RGBController_AMDWraithPrism(controller);
-
-        rgb_controllers.push_back(rgb_controller);
+        info = info->next;
     }
 }
