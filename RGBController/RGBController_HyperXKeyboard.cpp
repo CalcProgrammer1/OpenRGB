@@ -317,7 +317,7 @@ void RGBController_HyperXKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_HyperXKeyboard::DeviceUpdateLEDs()
 {
-    last_update_time = clock();
+    last_update_time = std::chrono::steady_clock::now();
 
     if(active_mode == 0)
     {
@@ -363,7 +363,7 @@ void RGBController_HyperXKeyboard::KeepaliveThread()
     {
         if(active_mode == 0)
         {
-            if((clock() - last_update_time) > 50)
+            if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
             {
                 UpdateLEDs();
             }

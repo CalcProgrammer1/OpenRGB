@@ -5,6 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController.h"
+#include <chrono>
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -109,7 +110,7 @@ public:
 private:
     hid_device*             dev;
     std::string             firmware_version;
-    clock_t                 last_commit_time;
+    std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
 
     void            SendFirmwareRequest();
 

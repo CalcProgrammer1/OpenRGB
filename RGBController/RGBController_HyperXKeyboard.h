@@ -8,7 +8,7 @@
 \*-----------------------------------------*/
 
 #pragma once
-#include <time.h>
+#include <chrono>
 
 #include "RGBController.h"
 #include "HyperXKeyboardController.h"
@@ -35,5 +35,5 @@ public:
 private:
     HyperXKeyboardController*   hyperx;
 
-    clock_t                     last_update_time;
+    std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

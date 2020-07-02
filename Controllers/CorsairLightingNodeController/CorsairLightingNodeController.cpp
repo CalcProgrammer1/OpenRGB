@@ -65,7 +65,7 @@ void CorsairLightingNodeController::KeepaliveThread()
 {
     while(1)
     {
-        if((clock() - last_commit_time) > 5000)
+        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(5))
         {
             SendCommit();
         }
@@ -271,7 +271,7 @@ void CorsairLightingNodeController::SendCommit()
     /*-----------------------------------------------------*\
     | Update last commit time                               |
     \*-----------------------------------------------------*/
-    last_commit_time = clock();
+    last_commit_time = std::chrono::steady_clock::now();
 
     /*-----------------------------------------------------*\
     | Set up Commit packet                                  |
