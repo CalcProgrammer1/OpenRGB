@@ -161,32 +161,35 @@ void NZXTHue2Controller::UpdateStatus()
     unsigned char usb_buf[64];
     unsigned int  ret_val = 0;
 
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(usb_buf, 0, sizeof(usb_buf));
-
-    /*-----------------------------------------------------*\
-    | Read packet                                           |
-    \*-----------------------------------------------------*/
-    do
+    if(num_fan_channels > 0)
     {
-        ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
-    } while( (ret_val != 64) || (usb_buf[0] != 0x67) || (usb_buf[1] != 0x02) );
-    
-    /*-----------------------------------------------------*\
-    | Extract fan information                               |
-    \*-----------------------------------------------------*/
-    for(int fan_idx = 0; fan_idx < num_fan_channels; fan_idx++)
-    {
-        unsigned char  cmd;
-        unsigned short rpm;
+        /*-----------------------------------------------------*\
+        | Zero out buffer                                       |
+        \*-----------------------------------------------------*/
+        memset(usb_buf, 0, sizeof(usb_buf));
 
-        cmd = usb_buf[40 + fan_idx];
-        rpm = ( usb_buf[25 + (2 * fan_idx)] << 8 ) | usb_buf[24 + (2 * fan_idx)];
+        /*-----------------------------------------------------*\
+        | Read packet                                           |
+        \*-----------------------------------------------------*/
+        do
+        {
+            ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
+        } while( (ret_val != 64) || (usb_buf[0] != 0x67) || (usb_buf[1] != 0x02) );
 
-        fan_cmd[fan_idx] = cmd;
-        fan_rpm[fan_idx] = rpm;
+        /*-----------------------------------------------------*\
+        | Extract fan information                               |
+        \*-----------------------------------------------------*/
+        for(int fan_idx = 0; fan_idx < num_fan_channels; fan_idx++)
+        {
+            unsigned char  cmd;
+            unsigned short rpm;
+
+            cmd = usb_buf[40 + fan_idx];
+            rpm = ( usb_buf[25 + (2 * fan_idx)] << 8 ) | usb_buf[24 + (2 * fan_idx)];
+
+            fan_cmd[fan_idx] = cmd;
+            fan_rpm[fan_idx] = rpm;
+        }
     }
 }
 
