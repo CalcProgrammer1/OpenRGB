@@ -18,7 +18,7 @@
 #define STEELSERIES_RIVAL_100_DOTA_PID              0x170c
 #define STEELSERIES_RIVAL_105_PID                   0x1814
 #define STEELSERIES_RIVAL_110_PID                   0x1729
-#define STEELSERIES_RIVAL_300_PID                   0x1384
+#define STEELSERIES_RIVAL_300_PID                   0x1710
 #define ACER_PREDATOR_RIVAL_300_PID                 0x1714
 #define STEELSERIES_RIVAL_300_CSGO_PID              0x1394
 #define STEELSERIES_RIVAL_300_CSGO_STM32_PID        0x1716
