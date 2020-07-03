@@ -642,13 +642,72 @@ void Ui::OpenRGBDevicePage::UpdateDevice()
     UpdateMode();
 }
 
-void Ui::OpenRGBDevicePage::SetCustomMode()
+void Ui::OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green, unsigned char blue)
 {
+    /*-----------------------------------------------------*\
+    | Set the selected mode to the custom mode and update UI|
+    \*-----------------------------------------------------*/
     device->SetCustomMode();
     ui->ModeBox->blockSignals(true);
     ui->ModeBox->setCurrentIndex(device->active_mode);
     ui->ModeBox->blockSignals(false);
     UpdateModeUi();
+
+    /*-----------------------------------------------------*\
+    | Set the color boxes                                   |
+    \*-----------------------------------------------------*/
+    UpdatingColor = true;
+    ui->RedSpinBox->setValue(red);
+    ui->GreenSpinBox->setValue(green);
+    ui->BlueSpinBox->setValue(blue);
+    UpdatingColor = false;
+    updateHSV();
+    updateWheel();
+
+    /*-----------------------------------------------------*\
+    | Read selected mode                                    |
+    \*-----------------------------------------------------*/
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
+
+    switch(device->modes[selected_mode].color_mode)
+    {
+        case MODE_COLORS_PER_LED:
+            {
+                /*-----------------------------------------------------*\
+                | Set all device LEDs to the current color              |
+                \*-----------------------------------------------------*/
+                RGBColor color = ToRGBColor(
+                    ui->RedSpinBox->text().toInt(),
+                    ui->GreenSpinBox->text().toInt(),
+                    ui->BlueSpinBox->text().toInt()
+                );
+
+                device->SetAllLEDs(color);
+            }
+            break;
+
+        case MODE_COLORS_MODE_SPECIFIC:
+            {
+                /*-----------------------------------------------------*\
+                | Set all device LEDs to the current color              |
+                \*-----------------------------------------------------*/
+                RGBColor color = ToRGBColor(
+                    ui->RedSpinBox->text().toInt(),
+                    ui->GreenSpinBox->text().toInt(),
+                    ui->BlueSpinBox->text().toInt()
+                );
+
+                for(std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
+                {
+                    device->modes[selected_mode].colors[i] = color;
+                }
+            }
+            break;
+    }
+
+    /*-----------------------------------------------------*\
+    | Apply mode and colors                                 |
+    \*-----------------------------------------------------*/
     UpdateMode();
 }
 
@@ -673,6 +732,8 @@ void Ui::OpenRGBDevicePage::on_SetDeviceButton_clicked()
                 );
 
                 device->SetAllLEDs(color);
+
+                device->UpdateLEDs();
             }
             break;
 
@@ -729,6 +790,7 @@ void Ui::OpenRGBDevicePage::on_SetZoneButton_clicked()
                     );
 
                     device->SetAllZoneLEDs(index, color);
+                    device->UpdateZoneLEDs(index);
                 }
             }
             break;
@@ -761,12 +823,14 @@ void Ui::OpenRGBDevicePage::on_SetLEDButton_clicked()
                 if(selected_zone == 0)
                 {
                     device->SetLED(index, color);
+                    device->UpdateSingleLED(index);
                 }
                 else
                 {
                     selected_zone = selected_zone - 1;
 
                     device->SetLED(device->zones[selected_zone].start_idx + index, color);
+                    device->UpdateSingleLED(device->zones[selected_zone].start_idx + index);
                 }
             }
             break;
