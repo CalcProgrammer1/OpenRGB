@@ -86,6 +86,14 @@ s32 i2c_smbus_piix4::piix4_access(u16 addr, char read_write, u8 command, int siz
 		Out32(SMBHSTADD, (addr << 1) | read_write);
 		size = PIIX4_QUICK;
 		break;
+    case I2C_SMBUS_BYTE:
+        Out32(SMBHSTADD, (addr << 1) | read_write);
+        if (read_write == I2C_SMBUS_WRITE)
+        {
+            Out32(SMBHSTCMD, command);
+        }
+        size = PIIX4_BYTE;
+        break;
 	case I2C_SMBUS_BYTE_DATA:
 		Out32(SMBHSTADD, (addr << 1) | read_write);
 		Out32(SMBHSTCMD, command);
