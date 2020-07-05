@@ -1,9 +1,11 @@
 #include "SteelSeriesRivalController.h"
 #include "SteelSeriesSiberiaController.h"
+#include "SteelSeriesApexController.h"
 #include "SteelSeriesGeneric.h"
 #include "RGBController.h"
 #include "RGBController_SteelSeriesRival.h"
 #include "RGBController_SteelSeriesSiberia.h"
+#include "RGBController_SteelSeriesApex.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -30,6 +32,10 @@
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
 #define STEELSERIES_SIBERIA_350_PID                 0x1229
+/*-----------------------------------------------------*\
+| Keyboard product IDs                                  |
+\*-----------------------------------------------------*/
+#define STEELSERIES_APEX_7_PID                      0x1612
 
 typedef struct
 {
@@ -64,13 +70,17 @@ static const steelseries_device device_list[] =
     | Headsets                                                                                                                                                          |
     \*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     { STEELSERIES_VID,      STEELSERIES_SIBERIA_350_PID,                3,  DEVICE_TYPE_HEADSET,    SIBERIA_350,    "SteelSeries Siberia 350"                           },
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*\
+    | Keyboards                                                                                                                                                         |
+    \*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    { STEELSERIES_VID,      STEELSERIES_APEX_7_PID,                     1,  DEVICE_TYPE_KEYBOARD,   APEX_7,         "SteelSeries Apex 7"                                },
 };
 
 /******************************************************************************************\
 *                                                                                          *
 *   DetectSteelSeriesControllers                                                           *
 *                                                                                          *
-*       Tests the USB address to find a SteelSeries Rival Mouse or Headset                 *
+*       Tests the USB address to find a SteelSeries Rival Mouse, Headset or Keyboard       *
 *                                                                                          *
 \******************************************************************************************/
 
@@ -108,7 +118,13 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
             switch(device_list[device_idx].type)
             {
                 case DEVICE_TYPE_KEYBOARD:
-                    /* Not yet supported */
+                    {
+                    SteelSeriesApexController* controller = new SteelSeriesApexController(dev);
+                    
+                    RGBController_SteelSeriesApex* rgb_controller = new RGBController_SteelSeriesApex(controller);
+                    rgb_controller->name = device_list[device_idx].name;
+                    rgb_controllers.push_back(rgb_controller);
+                    }
                     break;
 
                 case DEVICE_TYPE_HEADSET:
