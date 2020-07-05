@@ -72,6 +72,7 @@ void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers)
                     rgb_controllers.push_back(rgb_controller);
                 }
             }
+            info = info->next;
         }
     }
 }   /* DetectNZXTHue2Controllers() */
