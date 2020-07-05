@@ -60,23 +60,18 @@ void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers)
             &&(info->product_id == device_list[device_idx].usb_pid))
             {
                 dev = hid_open_path(info->path);
-                break;
+
+                if( dev )
+                {
+                    NZXTHue2Controller* controller = new NZXTHue2Controller(dev, device_list[device_idx].num_rgb_channels, device_list[device_idx].num_fan_channels);
+
+                    RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
+
+                    rgb_controller->name = device_list[device_idx].name;
+                    
+                    rgb_controllers.push_back(rgb_controller);
+                }
             }
-            else
-            {
-                info = info->next;
-            }
-        }
-
-        if( dev )
-        {
-            NZXTHue2Controller* controller = new NZXTHue2Controller(dev, device_list[device_idx].num_rgb_channels, device_list[device_idx].num_fan_channels);
-
-            RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
-
-            rgb_controller->name = device_list[device_idx].name;
-            
-            rgb_controllers.push_back(rgb_controller);
         }
     }
 }   /* DetectNZXTHue2Controllers() */

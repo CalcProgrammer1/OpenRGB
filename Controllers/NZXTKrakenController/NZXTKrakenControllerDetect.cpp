@@ -17,17 +17,35 @@
 
 void DetectNZXTKrakenControllers(std::vector<RGBController*> &rgb_controllers)
 {
+    hid_device_info* info;
+    hid_device* dev;
+
     hid_init();
 
-    hid_device* dev = hid_open(NZXT_KRAKEN_VID, NZXT_KRAKEN_PID, nullptr);
-
-    if( dev )
+    for(std::size_t device_idx = 0; device_idx < 1; device_idx++)
     {
-        NZXTKrakenController* controller = new NZXTKrakenController(dev);
+        dev = NULL;
 
-        RGBController_NZXTKraken* rgb_controller = new RGBController_NZXTKraken(controller);
+        info = hid_enumerate(NZXT_KRAKEN_VID, NZXT_KRAKEN_PID);
 
-        rgb_controllers.push_back(rgb_controller);
+        //Look for NZXT Kraken devices
+        while(info)
+        {
+            if((info->vendor_id == NZXT_KRAKEN_VID)
+            &&(info->product_id == NZXT_KRAKEN_PID))
+            {
+                dev = hid_open_path(info->path);
+                
+                if( dev )
+                {
+                    NZXTKrakenController* controller = new NZXTKrakenController(dev);
+
+                    RGBController_NZXTKraken* rgb_controller = new RGBController_NZXTKraken(controller);
+
+                    rgb_controllers.push_back(rgb_controller);
+                }
+            }
+            info = info->next;
+        }
     }
-
 }
