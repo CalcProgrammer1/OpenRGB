@@ -351,6 +351,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectNZXTKrakenControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectGloriousModelOControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectDuckyKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -402,6 +403,7 @@ void DetectRGBControllers(void)
     DetectNZXTKrakenControllers(rgb_controllers);
     DetectSteelSeriesControllers(rgb_controllers);
     DetectGloriousModelOControllers(rgb_controllers);
+    DetectDuckyKeyboardControllers(rgb_controllers);
 
     DetectE131Controllers(rgb_controllers);
 
