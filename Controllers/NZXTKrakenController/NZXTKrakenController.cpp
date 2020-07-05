@@ -50,9 +50,16 @@ std::string NZXTKrakenController::GetFirmwareVersion()
 void NZXTKrakenController::UpdateStatus()
 {
     unsigned char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
     memset(usb_buf, 0, sizeof(usb_buf));
 
-    hid_read(dev, usb_buf, sizeof(usb_buf));
+    /*-----------------------------------------------------*\
+    | Read packet                                           |
+    \*-----------------------------------------------------*/
+    hid_read(dev, usb_buf, 64);
 
     /*-----------------------------------------------------*\
     | Extract cooler information                            |
@@ -83,14 +90,28 @@ void NZXTKrakenController::UpdateEffect
     )
 {
     unsigned char color_data[9 * 3];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
     memset(color_data, 0, sizeof(color_data));
 
+    /*-----------------------------------------------------*\
+    | Fill in color data                                    |
+    \*-----------------------------------------------------*/
     if(!colors.empty() && channel != NZXT_KRAKEN_CHANNEL_RING)
     {
         colors[0] = ToLogoColor(colors[0]);
     }
 
+    /*-----------------------------------------------------*\
+    | Update color data                                     |
+    \*-----------------------------------------------------*/
     SetColor(colors, color_data);
+
+    /*-----------------------------------------------------*\
+    | Send update packet                                    |
+    \*-----------------------------------------------------*/
     SendEffect(channel, mode, direction, color_data, speed, false, seq);
 }
 
@@ -149,5 +170,5 @@ void NZXTKrakenController::SendEffect
     /*-----------------------------------------------------*\
     | Send effect                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, usb_buf, 65);
 }
