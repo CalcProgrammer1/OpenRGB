@@ -7,6 +7,7 @@
 #include "ProfileManager.h"
 #include "RGBController.h"
 #include "i2c_smbus.h"
+#include "NetworkClient.h"
 #include "NetworkServer.h"
 
 /*-------------------------------------------------------------*\
@@ -19,7 +20,6 @@
 
 using namespace std::chrono_literals;
 
-static std::vector<RGBController*> rgb_controllers;
 static ProfileManager*             profile_manager;
 static NetworkServer*              network_server;
 static std::string                 profile_save_filename = "";
@@ -280,7 +280,7 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
     return options->colors.size() > 0;
 }
 
-unsigned int ParseMode(DeviceOptions& options)
+unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb_controllers)
 {
     // no need to check if --mode wasn't passed
     if (options.mode.size() == 0)
@@ -351,6 +351,7 @@ void OptionHelp()
     help_text += "Options:\n";
     help_text += "--gui                                    Shows the GUI. GUI also appears when not passing any parameters\n";
     help_text += "--startminimized                         Starts the GUI minimized to tray. Implies --gui, even if not specified\n";
+    help_text += "--client [IP]:[Port]                     Starts an SDK client on the given IP:Port (assumes port 6742 if not specified)\n";
     help_text += "--server                                 Starts the SDK's server\n";
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
     help_text += "-l,  --list-devices                      Lists every compatible device with their number\n";
@@ -395,7 +396,7 @@ void OptionVersion()
     std::cout << version_text << std::endl;
 }
 
-void OptionListDevices()
+void OptionListDevices(std::vector<RGBController *> &rgb_controllers)
 {
     for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
     {
@@ -496,7 +497,7 @@ void OptionListDevices()
     }
 }
 
-bool OptionDevice(int *current_device, std::string argument, Options *options)
+bool OptionDevice(int *current_device, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
 {
     try
     {
@@ -526,7 +527,7 @@ bool OptionDevice(int *current_device, std::string argument, Options *options)
     }
 }
 
-bool OptionZone(int *current_device, int *current_zone, std::string argument, Options *options)
+bool OptionZone(int *current_device, int *current_zone, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
 {
     try
     {
@@ -579,7 +580,7 @@ bool OptionMode(int *currentDev, std::string argument, Options *options)
     return true;
 }
 
-bool OptionSize(int *current_device, int *current_zone, std::string argument, Options *options)
+bool OptionSize(int *current_device, int *current_zone, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
 {
     const unsigned int new_size = std::stoi(argument);
 
@@ -614,7 +615,7 @@ bool OptionSize(int *current_device, int *current_zone, std::string argument, Op
     return true;
 }
 
-bool OptionProfile(std::string argument)
+bool OptionProfile(std::string argument, std::vector<RGBController *> &rgb_controllers)
 {
     /*---------------------------------------------------------*\
     | Attempt to load profile                                   |
@@ -655,7 +656,7 @@ bool OptionSaveProfile(std::string argument)
     return(true);
 }
 
-int ProcessOptions(int argc, char *argv[], Options *options)
+int ProcessOptions(int argc, char *argv[], Options *options, std::vector<NetworkClient*> &clients, std::vector<RGBController *> &rgb_controllers)
 {
     unsigned int ret_flags  = 0;
     int arg_index           = 1;
@@ -678,9 +679,53 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         }
 
         /*---------------------------------------------------------*\
+        | --server                                                  |
+        \*---------------------------------------------------------*/
+        if(option == "--client")
+        {
+            NetworkClient * client = new NetworkClient(rgb_controllers);
+
+            std::size_t pos = argument.find(":");
+            std::string ip = argument.substr(0, pos);
+            unsigned short port_val;
+
+            if(pos == -1)
+            {
+                port_val = OPENRGB_SDK_PORT;
+            }
+            else
+            {
+                std::string port = argument.substr(argument.find(":") + 1);
+                port_val = std::stoi(port);
+            }
+
+            std::string titleString = "OpenRGB ";
+            titleString.append(VERSION_STRING);
+
+            client->SetIP(ip.c_str());
+            client->SetName(titleString.c_str());
+            client->SetPort(port_val);
+
+            client->StartClient();
+
+            for(int timeout = 0; timeout < 100; timeout++)
+            {
+                if(client->GetConnected())
+                {
+                    break;
+                }
+                std::this_thread::sleep_for(10ms);
+            }
+            
+            clients.push_back(client);
+
+            arg_index++;
+        }
+
+        /*---------------------------------------------------------*\
         | --server (no arguments)                                   |
         \*---------------------------------------------------------*/
-        if(option == "--server")
+        else if(option == "--server")
         {
             options->servOpts.start = true;
         }
@@ -759,7 +804,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--list-devices" || option == "-l")
         {
-            OptionListDevices();
+            OptionListDevices(rgb_controllers);
             exit(0);
         }
 
@@ -768,7 +813,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--device" || option == "-d")
         {
-            if(!OptionDevice(&current_device, argument, options))
+            if(!OptionDevice(&current_device, argument, options, rgb_controllers))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -781,7 +826,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--zone" || option == "-z")
         {
-            if(!OptionZone(&current_device, &current_zone, argument, options))
+            if(!OptionZone(&current_device, &current_zone, argument, options, rgb_controllers))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -820,7 +865,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--size" || option == "-s")
         {
-            if(!OptionSize(&current_device, &current_zone, argument, options))
+            if(!OptionSize(&current_device, &current_zone, argument, options, rgb_controllers))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -833,7 +878,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
         \*---------------------------------------------------------*/
         else if(option == "--profile" || option == "-p")
         {
-            OptionProfile(argument);
+            OptionProfile(argument, rgb_controllers);
 
             arg_index++;
         }
@@ -882,7 +927,7 @@ int ProcessOptions(int argc, char *argv[], Options *options)
     }
 }
 
-void ApplyOptions(DeviceOptions& options)
+void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_controllers)
 {
     RGBController *device = rgb_controllers[options.device];
 
@@ -890,7 +935,7 @@ void ApplyOptions(DeviceOptions& options)
     | Set mode first, in case it's 'direct' (which affects      |
     | SetLED below)                                             |
     \*---------------------------------------------------------*/
-    unsigned int mode = ParseMode(options);
+    unsigned int mode = ParseMode(options, rgb_controllers);
 
     /*---------------------------------------------------------*\
     | Determine which color mode this mode uses and update      |
@@ -965,9 +1010,8 @@ void WaitWhileServerOnline(NetworkServer* srv)
     };
 }
 
-unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in, NetworkServer* network_server_in)
+unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients)
 {
-    rgb_controllers = rgb_controllers_in;
     profile_manager = profile_manager_in;
     network_server  = network_server_in;
 
@@ -985,7 +1029,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_c
     | Process the argument options                              |
     \*---------------------------------------------------------*/
     Options options;
-    unsigned int ret_flags = ProcessOptions(argc, argv, &options);
+    unsigned int ret_flags = ProcessOptions(argc, argv, &options, clients, rgb_controllers);
 
     /*---------------------------------------------------------*\
     | If the server was told to start, start it before returning|
@@ -1042,7 +1086,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_c
     {
         for(unsigned int device_idx = 0; device_idx < options.devices.size(); device_idx++)
         {
-            ApplyOptions(options.devices[device_idx]);
+            ApplyOptions(options.devices[device_idx], rgb_controllers);
         }
     }
     else
@@ -1050,7 +1094,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_c
         for (unsigned int device_idx = 0; device_idx < rgb_controllers.size(); device_idx++)
         {
             options.allDeviceOptions.device = device_idx;
-            ApplyOptions(options.allDeviceOptions);
+            ApplyOptions(options.allDeviceOptions, rgb_controllers);
         }
     }
 

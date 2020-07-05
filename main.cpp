@@ -20,13 +20,15 @@
 
 using namespace std::chrono_literals;
 
+std::vector<NetworkClient*> clients;
+
 extern std::vector<i2c_smbus_interface*> busses;
 extern std::vector<RGBController*> rgb_controllers;
 
 /*-------------------------------------------------------------*\
 | Command line functionality and return flags                   |
 \*-------------------------------------------------------------*/
-extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> rgb_controllers_in, ProfileManager* profile_manager_in, NetworkServer* network_server_in);
+extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients);
 
 enum
 {
@@ -38,17 +40,16 @@ enum
 
 /******************************************************************************************\
 *                                                                                          *
-*   main                                                                                   *
+*   AttemptLocalConnection                                                                 *
 *                                                                                          *
-*       Main function.  Detects busses and Aura controllers, then opens the main window    *
+*       Attempts an SDK connection to the local server.  Returns true if success           *
 *                                                                                          *
 \******************************************************************************************/
 
-int main(int argc, char* argv[])
+bool AttemptLocalConnection()
 {
-    ProfileManager profile_manager(rgb_controllers);
-    NetworkServer server(rgb_controllers);
-    
+    bool success = false;
+
     NetworkClient * client = new NetworkClient(rgb_controllers);
     client->StartClient();
 
@@ -68,7 +69,32 @@ int main(int argc, char* argv[])
         delete client;
 
         client = NULL;
+    }
+    else
+    {
+        clients.push_back(client);
 
+        success = true;
+    }
+
+    return success;
+}
+
+/******************************************************************************************\
+*                                                                                          *
+*   main                                                                                   *
+*                                                                                          *
+*       Main function.  Detects busses and Aura controllers, then opens the main window    *
+*                                                                                          *
+\******************************************************************************************/
+
+int main(int argc, char* argv[])
+{
+    ProfileManager profile_manager(rgb_controllers);
+    NetworkServer server(rgb_controllers);
+    
+    if(!AttemptLocalConnection())
+    {
         DetectRGBControllers();
     }
 
@@ -80,7 +106,7 @@ int main(int argc, char* argv[])
     unsigned int ret_flags = RET_FLAG_START_GUI;
     if(argc > 1)
     {
-        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, &server);
+        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, &server, clients);
     }
 
     /*---------------------------------------------------------*\
@@ -100,16 +126,16 @@ int main(int argc, char* argv[])
             dlg.AddI2CToolsPage();
         }
 
-        if(client == NULL)
+        if(clients.size() == 0)
         {
             dlg.AddServerTab(&server);
         }
 
         dlg.AddClientTab();
 
-        if(client != NULL)
+        for(int client_idx = 0; client_idx < clients.size(); client_idx++)
         {
-            dlg.AddClient(client);
+            dlg.AddClient(clients[client_idx]);
         }
         
         if(ret_flags & RET_FLAG_START_MINIMIZED)
