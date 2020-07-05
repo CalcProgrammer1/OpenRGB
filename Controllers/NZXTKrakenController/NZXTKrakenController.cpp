@@ -127,7 +127,7 @@ void NZXTKrakenController::SendEffect
     int             size /* = 0 */
     )
 {
-    unsigned char usb_buf[65];
+    unsigned char usb_buf[64];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -170,5 +170,5 @@ void NZXTKrakenController::SendEffect
     /*-----------------------------------------------------*\
     | Send effect                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
+    hid_write(dev, usb_buf, 64);
 }

@@ -113,12 +113,18 @@ std::string MSIMysticLightController::GetSerial()
 
 bool MSIMysticLightController::ReadSettings()
 {
-    return hid_get_feature_report(dev, reinterpret_cast<unsigned char *>(&data), sizeof data) == sizeof data;
+    /*-----------------------------------------------------*\
+    | Read packet from hardware, return true if successful  |
+    \*-----------------------------------------------------*/
+    return(hid_get_feature_report(dev, (unsigned char *)&data, sizeof(data)) == sizeof data);
 }
 
 bool MSIMysticLightController::Update()
 {
-    return hid_send_feature_report(dev, reinterpret_cast<unsigned char *>(&data), sizeof data) == sizeof data;
+    /*-----------------------------------------------------*\
+    | Send packet to hardware, return true if successful    |
+    \*-----------------------------------------------------*/
+    return(hid_send_feature_report(dev, (unsigned char *)&data, sizeof(data)) == sizeof data);
 }
 
 void MSIMysticLightController::SaveOnUpdate(bool save)
@@ -220,39 +226,98 @@ RainbowZoneData *MSIMysticLightController::GetRainbowZoneData(ZONE zone)
 
 bool MSIMysticLightController::ReadFwVersion()
 {
-    // First read the APROM
-    // Checksum also available at report ID 180, with highCheksum stored at index 8, and low at 9
-    int num = 1;
-    unsigned char request[64] = {1, 176};
+    unsigned char request[64];
     unsigned char response[64];
+    int ret_val = 64;
 
-    std::fill_n(request + 2, sizeof request - 2, 204);
-    num &= hid_write(dev, request, 64);
-    num &= hid_read(dev, response, 64);
+    /*-----------------------------------------------------*\
+    | First read the APROM                                  |
+    | Checksum also available at report ID 180, with MSB    |
+    | stored at index 0x08 and LSB at 0x09                  |
+    \*-----------------------------------------------------*/
 
+    /*-----------------------------------------------------*\
+    | Zero out buffers                                      |
+    \*-----------------------------------------------------*/
+    memset(request, 0x00, sizeof(request));
+    memset(response, 0x00, sizeof(response));
+
+    /*-----------------------------------------------------*\
+    | Set up APROM Firmware Version Request packet          |
+    \*-----------------------------------------------------*/
+    request[0x00]   = 0x01;
+    request[0x01]   = 0xB0;
+
+    /*-----------------------------------------------------*\
+    | Fill request from 0x02 to 0x61 with 0xCC              |
+    \*-----------------------------------------------------*/
+    memset(&request[0x02], 0xCC, sizeof(request) - 2);
+
+    /*-----------------------------------------------------*\
+    | Send request and receive response packets             |
+    \*-----------------------------------------------------*/
+    ret_val &= hid_write(dev, request, 64);
+    ret_val &= hid_read(dev, response, 64);
+
+    /*-----------------------------------------------------*\
+    | Extract high and low values from response             |
+    \*-----------------------------------------------------*/
     unsigned char highValue = response[2] >> 4;
-    unsigned char lowValue  = response[2] & 15;
+    unsigned char lowValue  = response[2] & 0x0F;
 
+    /*-----------------------------------------------------*\
+    | Build firmware string <high>.<low>                    |
+    \*-----------------------------------------------------*/
     version_APROM = std::to_string(static_cast<int>(highValue)).append(".").append(std::to_string(static_cast<int>(lowValue)));
 
-    // Now read the LDROM
-    // Checksum also available at report ID 184, with highCheksum stored at index 8, and low at 9
-    request[1] = 182u;
-    num &= hid_write(dev, request, 64);
-    num &= hid_read(dev, response, 64);
+    /*-----------------------------------------------------*\
+    | First read the LDROM                                  |
+    | Checksum also available at report ID 184, with MSB    |
+    | stored at index 0x08 and LSB at 0x09                  |
+    \*-----------------------------------------------------*/
 
-    highValue = response[2] >> 4u;
-    lowValue = response[2] & 15u;
+    /*-----------------------------------------------------*\
+    | Set up LDROM Firmware Version Request packet          |
+    \*-----------------------------------------------------*/
+    request[0x00]   = 0x01;
+    request[0x01]   = 0xB6;
 
+    /*-----------------------------------------------------*\
+    | Send request and receive response packets             |
+    \*-----------------------------------------------------*/
+    ret_val &= hid_write(dev, request, 64);
+    ret_val &= hid_read(dev, response, 64);
+
+    /*-----------------------------------------------------*\
+    | Extract high and low values from response             |
+    \*-----------------------------------------------------*/
+    highValue = response[2] >> 4;
+    lowValue  = response[2] & 0x0F;
+
+    /*-----------------------------------------------------*\
+    | Build firmware string <high>.<low>                    |
+    \*-----------------------------------------------------*/
     version_LDROM = std::to_string(static_cast<int>(highValue)).append(".").append(std::to_string(static_cast<int>(lowValue)));
 
-    return num == 1;
+    /*-----------------------------------------------------*\
+    | If return value is zero it means an HID transfer      |
+    | failed                                                |
+    \*-----------------------------------------------------*/
+    return(ret_val > 0);
 }
 
 void MSIMysticLightController::ReadSerial()
 {
     wchar_t serial[256];
+
+    /*-----------------------------------------------------*\
+    | Get the serial number string from HID                 |
+    \*-----------------------------------------------------*/
     hid_get_serial_number_string(dev, serial, 256);
+
+    /*-----------------------------------------------------*\
+    | Convert wchar_t into std::wstring into std::string    |
+    \*-----------------------------------------------------*/
     std::wstring wserial = std::wstring(serial);
     chip_id = std::string(wserial.begin(), wserial.end());
 }
@@ -260,11 +325,26 @@ void MSIMysticLightController::ReadSerial()
 void MSIMysticLightController::ReadName()
 {
     wchar_t tname[256];
+
+    /*-----------------------------------------------------*\
+    | Get the manufacturer string from HID                  |
+    \*-----------------------------------------------------*/
     hid_get_manufacturer_string(dev, tname, 256);
+
+    /*-----------------------------------------------------*\
+    | Convert wchar_t into std::wstring into std::string    |
+    \*-----------------------------------------------------*/
     std::wstring wname = std::wstring(tname);
     name = std::string(wname.begin(), wname.end());
 
+    /*-----------------------------------------------------*\
+    | Get the product string from HID                       |
+    \*-----------------------------------------------------*/
     hid_get_product_string(dev, tname, 256);
+
+    /*-----------------------------------------------------*\
+    | Append the product string to the manufacturer string  |
+    \*-----------------------------------------------------*/
     wname = std::wstring(tname);
     name.append(" ").append(std::string(wname.begin(), wname.end()));
 }
@@ -309,33 +389,61 @@ bool MSIMysticLightController::SetVolume(unsigned char main, unsigned char left,
     return hid_write(dev, packet, sizeof packet);
 }
 
-void MSIMysticLightController::SetBoardSyncSettings(bool onboard_sync, bool combine_JRGB, bool combine_JPIPE1,
-                                                    bool combine_JPIPE2, bool combine_JRAINBOW1, bool combine_JRAINBOW2,
-                                                    bool combine_crossair)
+void MSIMysticLightController::SetBoardSyncSettings
+    (
+    bool    onboard_sync,
+    bool    combine_JRGB,
+    bool    combine_JPIPE1,
+    bool    combine_JPIPE2,
+    bool    combine_JRAINBOW1,
+    bool    combine_JRAINBOW2,
+    bool    combine_crossair
+    )
 {
     ZoneData &syncZone = data.on_board_led;
-    syncZone.colorFlags = BitSet(syncZone.colorFlags, onboard_sync, 0u);
-    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JRAINBOW1, 1u);
-    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JRAINBOW2, 2u);
-    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_crossair, 3u);
-    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JPIPE1, 4u);
-    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JPIPE2, 5u);
 
-    syncZone.speedAndBrightnessFlags = BitSet(syncZone.speedAndBrightnessFlags, combine_JRGB, 7u);
+    /*-----------------------------------------------------*\
+    | Set sync flags for on-board LED zone                  |
+    \*-----------------------------------------------------*/
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, onboard_sync,      0);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JRAINBOW1, 1);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JRAINBOW2, 2);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_crossair,  3);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JPIPE1,    4);
+    syncZone.colorFlags = BitSet(syncZone.colorFlags, combine_JPIPE2,    5);
+
+    syncZone.speedAndBrightnessFlags = BitSet(syncZone.speedAndBrightnessFlags, combine_JRGB, 7);
 }
 
-void MSIMysticLightController::GetMode(ZONE zone, EFFECT &mode, SPEED &speed, BRIGHTNESS &brightness, bool &rainbow_color) 
+void MSIMysticLightController::GetMode
+    (
+    ZONE        zone,
+    EFFECT      &mode,
+    SPEED       &speed,
+    BRIGHTNESS  &brightness,
+    bool        &rainbow_color
+    ) 
 {
+    /*-----------------------------------------------------*\
+    | Get data for given zone                               |
+    \*-----------------------------------------------------*/
     ZoneData *zoneData = GetZoneData(zone);
+
+    /*-----------------------------------------------------*\
+    | Return if zone is invalid                             |
+    \*-----------------------------------------------------*/
     if (!zoneData)
     {
         return;
     }
 
-    mode = static_cast<EFFECT>(zoneData->effect);
-    speed = static_cast<SPEED>(zoneData->speedAndBrightnessFlags & 3u);
-    brightness = static_cast<BRIGHTNESS>((zoneData->speedAndBrightnessFlags >> 2u) & 31u);
-    rainbow_color = (zoneData->colorFlags & 128u) >> 7u;
+    /*-----------------------------------------------------*\
+    | Update pointers with data                             |
+    \*-----------------------------------------------------*/
+    mode            = (EFFECT)(zoneData->effect);
+    speed           = (SPEED)(zoneData->speedAndBrightnessFlags & 0x03);
+    brightness      = (BRIGHTNESS)((zoneData->speedAndBrightnessFlags >> 2) & 0x1F);
+    rainbow_color   = (zoneData->colorFlags & 0x80) >> 7;
 }
 
 unsigned char MSIMysticLightController::BitSet(unsigned char value, bool bit, unsigned int position)
@@ -367,19 +475,30 @@ unsigned char MSIMysticLightController::GetCycleCount(ZONE zone)
     return requestedZone->cycle_or_led_num;
 }
 
-void MSIMysticLightController::GetBoardSyncSettings(bool &onboard_sync, bool &combine_JRGB, bool &combine_JPIPE1,
-                                                    bool &combine_JPIPE2, bool &combine_JRAINBOW1,
-                                                    bool &combine_JRAINBOW2, bool &combine_crossair)
+void MSIMysticLightController::GetBoardSyncSettings
+    (
+    bool    &onboard_sync,
+    bool    &combine_JRGB,
+    bool    &combine_JPIPE1,
+    bool    &combine_JPIPE2,
+    bool    &combine_JRAINBOW1,
+    bool    &combine_JRAINBOW2,
+    bool    &combine_crossair
+    )
 {
     ZoneData &syncZone = data.on_board_led;
-    onboard_sync = syncZone.colorFlags & 1u;
-    combine_JRAINBOW1 = syncZone.colorFlags >> 1u & 1u;
-    combine_JRAINBOW2 = syncZone.colorFlags >> 1u & 1u;
-    combine_crossair = syncZone.colorFlags >> 3u & 1u;
-    combine_JPIPE1 = syncZone.colorFlags >> 4u & 1u;
-    combine_JPIPE2 = syncZone.colorFlags >> 5u & 1u;
 
-    combine_JRGB = (syncZone.speedAndBrightnessFlags & 128u) >> 7u;
+    /*-----------------------------------------------------*\
+    | Get sync flags for on-board LED zone                  |
+    \*-----------------------------------------------------*/
+    onboard_sync        = (syncZone.colorFlags >> 0) & 0x01;
+    combine_JRAINBOW1   = (syncZone.colorFlags >> 1) & 0x01;
+    combine_JRAINBOW2   = (syncZone.colorFlags >> 2) & 0x01;
+    combine_crossair    = (syncZone.colorFlags >> 3) & 0x01;
+    combine_JPIPE1      = (syncZone.colorFlags >> 4) & 0x01;
+    combine_JPIPE2      = (syncZone.colorFlags >> 5) & 0x01;
+
+    combine_JRGB        = (syncZone.speedAndBrightnessFlags & 0x80) >> 7;
 }
 
 void MSIMysticLightController::GetDeviceSettings(bool &stripe_or_fan, FAN_TYPE &fan_type,
