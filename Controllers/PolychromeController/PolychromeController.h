@@ -36,6 +36,13 @@ enum
 
 enum
 {
+    ASRLED_SPEED_MIN                = 0x00,     /* Slowest speed                        */
+    ASRLED_SPEED_DEFAULT            = 0x7F,     /* Default speed                        */
+    ASRLED_SPEED_MAX                = 0xFF,     /* Fastest speed                        */
+};
+
+enum
+{
     POLYCHROME_REG_FIRMWARE_VER     = 0x00,     /* Firmware version Major.Minor         */
     POLYCHROME_REG_MODE             = 0x30,     /* Mode selection register              */
     POLYCHROME_REG_COLOR            = 0x34,     /* Color register: Red, Green, Blue     */
@@ -61,6 +68,13 @@ enum
     POLYCHROME_MODE_RAINBOW         = 0x1E,     /* Rainbow effect mode                  */
 };
 
+enum
+{
+    POLYCHROME_SPEED_MIN            = 0x00,     /* Slowest speed                        */
+    POLYCHROME_SPEED_DEFAULT        = 0x7F,     /* Default speed                        */
+    POLYCHROME_SPEED_MAX            = 0xFF,     /* Fastest speed                        */
+};
+
 class PolychromeController
 {
 public:
@@ -71,7 +85,7 @@ public:
     unsigned int    GetLEDCount();
     unsigned int    GetMode();
     bool            IsAsrLed();
-    void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
+    void            SetColorsAndSpeed(unsigned char red, unsigned char green, unsigned char blue, unsigned char speed);
     void            SetMode(unsigned char mode);
     unsigned short  GetFirmwareVersion();
 
