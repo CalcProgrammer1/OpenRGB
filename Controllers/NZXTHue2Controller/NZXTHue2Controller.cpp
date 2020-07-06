@@ -161,7 +161,7 @@ void NZXTHue2Controller::UpdateStatus()
     unsigned char usb_buf[64];
     unsigned int  ret_val = 0;
 
-    if(num_fan_channels > 0)
+    if(false)//num_fan_channels > 0)
     {
         /*-----------------------------------------------------*\
         | Zero out buffer                                       |
