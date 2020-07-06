@@ -36,9 +36,9 @@ enum
 
 enum
 {
-    ASRLED_SPEED_MIN                = 0x00,     /* Slowest speed                        */
-    ASRLED_SPEED_DEFAULT            = 0x7F,     /* Default speed                        */
-    ASRLED_SPEED_MAX                = 0xFF,     /* Fastest speed                        */
+    ASRLED_SPEED_MIN                = 0x05,     /* Slowest speed                        */
+    ASRLED_SPEED_DEFAULT            = 0x03,     /* Default speed                        */
+    ASRLED_SPEED_MAX                = 0x00,     /* Fastest speed                        */
 };
 
 enum
@@ -70,9 +70,9 @@ enum
 
 enum
 {
-    POLYCHROME_SPEED_MIN            = 0x00,     /* Slowest speed                        */
-    POLYCHROME_SPEED_DEFAULT        = 0x7F,     /* Default speed                        */
-    POLYCHROME_SPEED_MAX            = 0xFF,     /* Fastest speed                        */
+    POLYCHROME_SPEED_MIN            = 0x05,     /* Slowest speed                        */
+    POLYCHROME_SPEED_DEFAULT        = 0x03,     /* Default speed                        */
+    POLYCHROME_SPEED_MAX            = 0x00,     /* Fastest speed                        */
 };
 
 class PolychromeController
