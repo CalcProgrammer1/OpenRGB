@@ -2,8 +2,16 @@
 #include "RGBController_RGBFusion2USB.h"
 #include "dependencies/dmiinfo.h"
 
-#define IT8297_VID 0x048D
-#define IT8297_PID 0x8297
+#define IT8297_VID              0x048D
+#define IT8297_IFC              0
+#define IT8297_UPG              0xFF89
+#define COUNT_RGBFUSION2_PIDS   (sizeof(RGBFusion2_pids) / sizeof(RGBFusion2_pids[ 0 ]))
+
+static const unsigned short RGBFusion2_pids[] =
+{
+    0x8297,     //PID for the ITE 8595 found on the X570
+    0x5702      //PID for the ITE 8595 found on the B550
+};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -15,33 +23,40 @@
 
 void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    DMIInfo info;
+    hid_device_info*    info;
+    hid_device*         dev;
+    DMIInfo             MB_info;
+    unsigned short      tmpPID;
 
     if (hid_init() < 0)
     {
         return;
     }
 
-    hid_device_info * device_list = hid_enumerate(IT8297_VID, IT8297_PID);
-    
-    if (!device_list)
+    for(int dev_idx = 0; dev_idx < COUNT_RGBFUSION2_PIDS; dev_idx++)
     {
-        return;
-    }
+        dev = NULL;
 
-    hid_device_info * device = device_list;
+        tmpPID = RGBFusion2_pids[dev_idx];
+        info = hid_enumerate(IT8297_VID, tmpPID);
 
-    while (device)
-    {
-        hid_device * dev = hid_open_path(device->path);
-        if (dev)
+        while(info)
         {
-            RGBFusion2USBController * controller = new RGBFusion2USBController(dev, device_list->path, info.getMainboard());
-            RGBController_RGBFusion2USB * rgb_controller = new RGBController_RGBFusion2USB(controller);
-            rgb_controllers.push_back(rgb_controller);
+            if((info->vendor_id == IT8297_VID)
+                &&(info->interface_number == IT8297_IFC)
+                &&(info->product_id == tmpPID))
+            {
+                hid_device * dev = hid_open_path(info->path);
+                if (dev)
+                {
+                    RGBFusion2USBController * controller = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
+                    RGBController_RGBFusion2USB * rgb_controller = new RGBController_RGBFusion2USB(controller);
+                    rgb_controllers.push_back(rgb_controller);
+                }
+            }
+            info = info->next;
         }
-        device = device->next;
     }
 
-    hid_free_enumeration(device_list);
+    hid_free_enumeration(info);
 }
