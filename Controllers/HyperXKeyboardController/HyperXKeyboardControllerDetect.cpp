@@ -9,6 +9,7 @@
 \*-----------------------------------------------------*/
 #define HYPERX_KEYBOARD_VID         0x0951
 #define HYPERX_ALLOY_ELITE_PID      0x16BE
+#define HYPERX_ALLOY_FPS_RGB_PID    0x16DC
 
 typedef struct
 {
@@ -26,6 +27,7 @@ static const hyperx_device device_list[] =
     | Keyboards                                                                                             |
     \*-----------------------------------------------------------------------------------------------------*/
     { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_ELITE_PID,     2,      "HyperX Alloy Elite RGB"                    },
+    { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_FPS_RGB_PID,   2,      "HyperX Alloy FPS RGB"                      },
 };
 
 /******************************************************************************************\
