@@ -71,26 +71,42 @@ unsigned int NetworkServer::GetNumClients()
 
 const char * NetworkServer::GetClientString(unsigned int client_num)
 {
+    const char * result;
+
+    ServerClientsMutex.lock();
+
     if(client_num < ServerClients.size())
     {
-        return ServerClients[client_num]->client_string.c_str();
+        result = ServerClients[client_num]->client_string.c_str();
     }
     else
     {
-        return "";
+        result = "";
     }
+
+    ServerClientsMutex.unlock();
+
+    return result;
 }
 
 const char * NetworkServer::GetClientIP(unsigned int client_num)
 {
+    const char * result;
+
+    ServerClientsMutex.lock();
+
     if(client_num < ServerClients.size())
     {
-        return ServerClients[client_num]->client_ip;
+        result = ServerClients[client_num]->client_ip;
     }
     else
     {
-        return "";
+        result = "";
     }
+
+    ServerClientsMutex.unlock();
+
+    return result;
 }
 
 void NetworkServer::RegisterClientInfoChangeCallback(NetServerCallback new_callback, void * new_callback_arg)
@@ -165,30 +181,26 @@ void NetworkServer::StartServer()
     | Start the connection thread                       |
     \*-------------------------------------------------*/
     ConnectionThread = new std::thread(&NetworkServer::ConnectionThreadFunction, this);
+    ConnectionThread->detach();
 }
 
 void NetworkServer::StopServer()
 {
     server_online = false;
 
+    ServerClientsMutex.lock();
     for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
     {
         shutdown(ServerClients[client_idx]->client_sock, SD_RECEIVE);
         closesocket(ServerClients[client_idx]->client_sock);
-        ServerClients[client_idx]->client_listen_thread->join();
+        delete ServerClients[client_idx];
     }
 
     shutdown(server_sock, SD_RECEIVE);
     closesocket(server_sock);
 
-    ConnectionThread->join();
-
-    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
-    {
-        delete ServerClients[client_idx];
-    }
-
     ServerClients.clear();
+    ServerClientsMutex.unlock();
 
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |
@@ -248,10 +260,15 @@ void NetworkServer::ConnectionThreadFunction()
 
         client_info->client_string = "Client";
 
+        /* We need to lock before the thread could possibly finish */
+        ServerClientsMutex.lock();
+
         //Start a listener thread for the new client socket
         client_info->client_listen_thread = new std::thread(&NetworkServer::ListenThreadFunction, this, client_info);
+        client_info->client_listen_thread->detach();
 
         ServerClients.push_back(client_info);
+        ServerClientsMutex.unlock();
 
         /*-------------------------------------------------*\
         | Client info has changed, call the callbacks       |
@@ -536,14 +553,20 @@ listen_done:
     shutdown(client_info->client_sock, SD_RECEIVE);
     closesocket(client_info->client_sock);
 
+    ServerClientsMutex.lock();
+
     for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
     {
         if(ServerClients[this_idx] == client_info)
         {
+            delete client_info->client_listen_thread;
+            delete client_info;
             ServerClients.erase(ServerClients.begin() + this_idx);
             break;
         }
     }
+
+    ServerClientsMutex.unlock();
 
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |
@@ -553,6 +576,7 @@ listen_done:
 
 void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
 {
+    ServerClientsMutex.lock();
     for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
     {
         if(ServerClients[this_idx]->client_sock == client_sock)
@@ -561,6 +585,7 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
             break;
         }
     }
+    ServerClientsMutex.unlock();
 
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |
