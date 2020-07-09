@@ -22,6 +22,7 @@
 
 #ifdef __linux__
 #include <unistd.h>
+#include <sys/select.h>
 #endif
 
 using namespace std::chrono_literals;
