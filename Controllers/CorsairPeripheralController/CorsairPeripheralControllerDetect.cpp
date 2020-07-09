@@ -39,6 +39,7 @@
 | Mouse product IDs                                     |
 |   List taken from ckb-next                            |
 \*-----------------------------------------------------*/
+#define CORSAIR_HARPOON_RGB_PID         0x1B3C
 #define CORSAIR_HARPOON_RGB_PRO_PID     0x1B75
 #define CORSAIR_M65_PRO_PID             0x1B2E
 #define CORSAIR_M65_RGB_ELITE_PID       0x1B5A
@@ -88,6 +89,7 @@ static const corsair_node_device device_list[] =
     /*-----------------------------------------------------------------------------------------------------*\
     | Mice                                                                                                  |
     \*-----------------------------------------------------------------------------------------------------*/
+    { CORSAIR_VID,          CORSAIR_HARPOON_RGB_PID,            1,      "Corsair Harpoon RGB"               },
     { CORSAIR_VID,          CORSAIR_HARPOON_RGB_PRO_PID,        1,      "Corsair Harpoon RGB PRO"           },
     { CORSAIR_VID,          CORSAIR_M65_PRO_PID,                1,      "Corsair M65 PRO"                   },
     { CORSAIR_VID,          CORSAIR_M65_RGB_ELITE_PID,          1,      "Corsair M65 RGB Elite"             },
