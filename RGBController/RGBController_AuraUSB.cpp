@@ -175,6 +175,11 @@ void RGBController_AuraUSB::SetupZones()
 
 void RGBController_AuraUSB::ResizeZone(int zone, int new_size)
 {
+    if((size_t) zone >= zones.size())
+    {
+        return;
+    }
+
     if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
     {
         zones[zone].leds_count = new_size;

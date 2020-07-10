@@ -93,6 +93,11 @@ void RGBController_MSIMysticLight::SetupZones()
 
 void RGBController_MSIMysticLight::ResizeZone(int zone, int new_size)
 {
+    if((size_t) zone >= zones.size())
+    {
+        return;
+    }
+
     MSI_ZONE zon            = ZoneFromPos(zone);
     unsigned int max_count  = controller->GetZoneMaxLedCount(zon);
     unsigned int min_count  = controller->GetZoneMinLedCount(zon);
