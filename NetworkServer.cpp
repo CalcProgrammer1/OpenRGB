@@ -461,10 +461,20 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_SET_CLIENT_NAME:
+                if(data == NULL)
+                {
+                    break;
+                }
+
                 ProcessRequest_ClientString(client_sock, header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
+                if(data == NULL)
+                {
+                    break;
+                }
+
                 if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == (2 * sizeof(int))))
                 {
                     int zone;
@@ -478,6 +488,11 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
+                if(data == NULL)
+                {
+                    break;
+                }
+
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     controllers[header.pkt_dev_idx]->SetColorDescription((unsigned char *)data);
@@ -486,6 +501,11 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
+                if(data == NULL)
+                {
+                    break;
+                }
+
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     int zone;
@@ -498,6 +518,11 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
+                if(data == NULL)
+                {
+                    break;
+                }
+
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     int led;
@@ -517,6 +542,11 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
+                if(data == NULL)
+                {
+                    break;
+                }
+
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data);
