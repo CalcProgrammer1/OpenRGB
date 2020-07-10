@@ -895,6 +895,14 @@ void RGBController::SetModeDescription(unsigned char* data_buf)
     data_ptr += sizeof(int);
 
     /*---------------------------------------------------------*\
+    | Check if we aren't reading beyond the list of modes.      |
+    \*---------------------------------------------------------*/
+    if(((size_t) mode_idx) >  modes.size())
+    {
+        return;
+    }
+
+    /*---------------------------------------------------------*\
     | Get pointer to target mode                                |
     \*---------------------------------------------------------*/
     mode * new_mode = &modes[mode_idx];
@@ -1050,6 +1058,14 @@ void RGBController::SetColorDescription(unsigned char* data_buf)
     data_ptr += sizeof(unsigned short);
 
     /*---------------------------------------------------------*\
+    | Check if we aren't reading beyond the list of colors.     |
+    \*---------------------------------------------------------*/
+    if(((size_t) num_colors) > colors.size())
+    {
+        return;
+    }
+
+    /*---------------------------------------------------------*\
     | Copy in colors                                            |
     \*---------------------------------------------------------*/
     for(int color_index = 0; color_index < num_colors; color_index++)
@@ -1131,6 +1147,14 @@ void RGBController::SetZoneColorDescription(unsigned char* data_buf)
     data_ptr += sizeof(zone_idx);
 
     /*---------------------------------------------------------*\
+    | Check if we aren't reading beyond the list of zones.      |
+    \*---------------------------------------------------------*/
+    if(((size_t) zone_idx) > zones.size())
+    {
+        return;
+    }
+
+    /*---------------------------------------------------------*\
     | Copy in number of colors (data)                           |
     \*---------------------------------------------------------*/
     unsigned short num_colors;
@@ -1184,11 +1208,19 @@ void RGBController::SetSingleLEDColorDescription(unsigned char* data_buf)
     |       RGBColor: LED color                                 |
     \*---------------------------------------------------------*/
     int led_idx;
-    
+
     /*---------------------------------------------------------*\
     | Copy in LED index                                         |
     \*---------------------------------------------------------*/
     memcpy(&led_idx, &data_buf[0], sizeof(led_idx));
+
+    /*---------------------------------------------------------*\
+    | Check if we aren't reading beyond the list of leds.       |
+    \*---------------------------------------------------------*/
+    if(((size_t) led_idx) > leds.size())
+    {
+        return;
+    }
 
     /*---------------------------------------------------------*\
     | Copy in LED color                                         |
