@@ -536,6 +536,13 @@ unix:!macx {
     INSTALLS += target desktop pixmap
 }
 
+unix:!macx:CONFIG(asan) {
+    message("ASan Mode")
+    QMAKE_CFLAGS=-fsanitize=address
+    QMAKE_CXXFLAGS=-fsanitize=address
+    QMAKE_LFLAGS=-fsanitize=address
+}
+
 #-----------------------------------------------------------------------#
 # MacOS-specific Configuration                                          #
 #-----------------------------------------------------------------------#
