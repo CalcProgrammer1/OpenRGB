@@ -73,7 +73,7 @@ build_windows_32:
   - _fold_final_
   
   - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
-  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2017\mkspecs\qconfig.pri'
+  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019\mkspecs\qconfig.pri'
   - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
   - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
   - Pop-Location
@@ -81,7 +81,7 @@ build_windows_32:
   
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'
   - mkdir _build; cd _build
-  - ..\_qt\5.15.0\msvc2017\bin\qmake ..\OpenRGB.pro
+  - ..\_qt\5.15.0\msvc2019\bin\qmake ..\OpenRGB.pro
   - _fold_final_
   
   - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
@@ -89,7 +89,7 @@ build_windows_32:
   - _fold_final_
   
   - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
-  - ..\_qt\5.15.0\msvc2017\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
+  - ..\_qt\5.15.0\msvc2019\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
   - _fold_final_
   
   - _fold_start_ 'compressing the release folder so that we can upload it as artifact'
@@ -145,7 +145,7 @@ build_windows_64:
   - _fold_final_
   
   - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
-  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2017_64\mkspecs\qconfig.pri'
+  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019_64\mkspecs\qconfig.pri'
   - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
   - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
   - Pop-Location
@@ -153,7 +153,7 @@ build_windows_64:
   
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'
   - mkdir _build; cd _build
-  - ..\_qt\5.15.0\msvc2017_64\bin\qmake ..\OpenRGB.pro
+  - ..\_qt\5.15.0\msvc2019_64\bin\qmake ..\OpenRGB.pro
   - _fold_final_
   
   - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
@@ -161,7 +161,7 @@ build_windows_64:
   - _fold_final_
   
   - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
-  - ..\_qt\5.15.0\msvc2017_64\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
+  - ..\_qt\5.15.0\msvc2019_64\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
   - _fold_final_
   
   - _fold_start_ 'compressing the release folder so that we can upload it as artifact'
