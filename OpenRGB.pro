@@ -124,6 +124,7 @@ HEADERS +=                                                              \
     Controllers/GloriousModelOController/GloriousModelOController.h     \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
+    Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.h     \
     Controllers/LEDStripController/LEDStripController.h                 \
     Controllers/LogitechController/LogitechG203Controller.h             \
@@ -165,6 +166,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_GloriousModelO.h                        \
     RGBController/RGBController_HuePlus.h                               \
+    RGBController/RGBController_HyperXAlloyOrigins.h                    \
     RGBController/RGBController_HyperXDRAM.h                            \
     RGBController/RGBController_HyperXKeyboard.h                        \
     RGBController/RGBController_LEDStrip.h                              \
@@ -250,6 +252,7 @@ SOURCES +=                                                              \
     Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXDRAMController/HyperXDRAMController.cpp           \
     Controllers/HyperXDRAMController/HyperXDRAMControllerDetect.cpp     \
+    Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.cpp \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
     Controllers/LEDStripController/LEDStripController.cpp               \
@@ -310,6 +313,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Dummy.cpp                               \
     RGBController/RGBController_GloriousModelO.cpp                      \
     RGBController/RGBController_HuePlus.cpp                             \
+    RGBController/RGBController_HyperXAlloyOrigins.cpp                  \
     RGBController/RGBController_HyperXDRAM.cpp                          \
     RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_E131.cpp                                \

@@ -1,5 +1,7 @@
+#include "HyperXAlloyOriginsController.h"
 #include "HyperXKeyboardController.h"
 #include "RGBController.h"
+#include "RGBController_HyperXAlloyOrigins.h"
 #include "RGBController_HyperXKeyboard.h"
 #include <vector>
 #include <hidapi/hidapi.h>
@@ -10,6 +12,7 @@
 #define HYPERX_KEYBOARD_VID         0x0951
 #define HYPERX_ALLOY_ELITE_PID      0x16BE
 #define HYPERX_ALLOY_FPS_RGB_PID    0x16DC
+#define HYPERX_ALLOY_ORIGINS_PID    0x16E5
 
 typedef struct
 {
@@ -28,6 +31,7 @@ static const hyperx_device device_list[] =
     \*-----------------------------------------------------------------------------------------------------*/
     { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_ELITE_PID,     2,      "HyperX Alloy Elite RGB"                    },
     { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_FPS_RGB_PID,   2,      "HyperX Alloy FPS RGB"                      },
+    { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_ORIGINS_PID,   2,      "HyperX Alloy Origins"                      },
 };
 
 /******************************************************************************************\
@@ -69,13 +73,26 @@ void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controller
 
         if( dev )
         {
-            HyperXKeyboardController* controller = new HyperXKeyboardController(dev);
+            if(device_list[device_idx].usb_pid == HYPERX_ALLOY_ORIGINS_PID)
+            {
+                HyperXAlloyOriginsController* controller = new HyperXAlloyOriginsController(dev);
 
-            RGBController_HyperXKeyboard* rgb_controller = new RGBController_HyperXKeyboard(controller);
+                RGBController_HyperXAlloyOrigins* rgb_controller = new RGBController_HyperXAlloyOrigins(controller);
 
-            rgb_controller->name = device_list[device_idx].name;
-            
-            rgb_controllers.push_back(rgb_controller);
+                rgb_controller->name = device_list[device_idx].name;
+                
+                rgb_controllers.push_back(rgb_controller);
+            }
+            else
+            {
+                HyperXKeyboardController* controller = new HyperXKeyboardController(dev);
+
+                RGBController_HyperXKeyboard* rgb_controller = new RGBController_HyperXKeyboard(controller);
+
+                rgb_controller->name = device_list[device_idx].name;
+                
+                rgb_controllers.push_back(rgb_controller);
+            }
         }
     }
 }
