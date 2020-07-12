@@ -27,7 +27,7 @@ void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)
     int colors_sent    = 0;
 
     SendDirectInitialization();
-    
+
     for(int pkt_idx = 0; pkt_idx < 9; pkt_idx++)
     {
         if(colors_to_send > 16)
@@ -64,12 +64,12 @@ void HyperXAlloyOriginsController::SendDirectInitialization()
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x00;
     buf[0x01]   = 0x04;
-    buf[0x02]   = 0x02;
+    buf[0x02]   = 0xF2;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 65);
+    hid_send_feature_report(dev, &buf[1], 64);
 }
 
 void HyperXAlloyOriginsController::SendDirectColorPacket
@@ -103,7 +103,7 @@ void HyperXAlloyOriginsController::SendDirectColorPacket
     \*-----------------------------------------------------*/
     for(int color_idx = 0; color_idx < color_count; color_idx++)
     {
-        buf[(color_idx * 4) + 1] = 0x08;
+        buf[(color_idx * 4) + 1] = 0x81;
         buf[(color_idx * 4) + 2] = RGBGetRValue(color_data[color_idx]);
         buf[(color_idx * 4) + 3] = RGBGetGValue(color_data[color_idx]);
         buf[(color_idx * 4) + 4] = RGBGetBValue(color_data[color_idx]);
@@ -112,5 +112,5 @@ void HyperXAlloyOriginsController::SendDirectColorPacket
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 65);
+    hid_send_feature_report(dev, &buf[1], 64);
 }
