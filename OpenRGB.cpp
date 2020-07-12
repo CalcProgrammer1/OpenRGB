@@ -109,7 +109,7 @@ void DetectNvAPII2CBusses()
     NV_U32                          device_id;
     NV_U32                          ext_device_id;
     NV_STATUS                       res;
-    NV_U32                          revision_id
+    NV_U32                          revision_id;
     NV_U32                          sub_system_id;
 
     NV_STATUS initialize = NvAPI_Initialize();
