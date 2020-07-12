@@ -31,7 +31,7 @@ static const hyperx_device device_list[] =
     \*-----------------------------------------------------------------------------------------------------*/
     { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_ELITE_PID,     2,      "HyperX Alloy Elite RGB"                    },
     { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_FPS_RGB_PID,   2,      "HyperX Alloy FPS RGB"                      },
-    { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_ORIGINS_PID,   2,      "HyperX Alloy Origins"                      },
+    { HYPERX_KEYBOARD_VID,  HYPERX_ALLOY_ORIGINS_PID,   3,      "HyperX Alloy Origins"                      },
 };
 
 /******************************************************************************************\
