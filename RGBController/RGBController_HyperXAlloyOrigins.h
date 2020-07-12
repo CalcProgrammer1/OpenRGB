@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #pragma once
+#include <chrono>
 
 #include "RGBController.h"
 #include "HyperXAlloyOriginsController.h"
@@ -29,6 +30,10 @@ public:
     void        SetCustomMode();
     void        UpdateMode();
     
+    void        KeepaliveThread();
+    
 private:
     HyperXAlloyOriginsController*   hyperx;
+
+    std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

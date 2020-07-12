@@ -9,6 +9,32 @@
 
 #include "RGBController_HyperXAlloyOrigins.h"
 
+//Include thread libraries for Windows or Linux
+#ifdef WIN32
+#include <process.h>
+#else
+#include "pthread.h"
+#include "unistd.h"
+#endif
+
+//Thread functions have different types in Windows and Linux
+#ifdef WIN32
+#define THREAD static void
+#define THREADRETURN
+#else
+#define THREAD static void*
+#define THREADRETURN return(NULL);
+#endif
+
+using namespace std::chrono_literals;
+
+THREAD keepalive_thread(void *param)
+{
+    RGBController_HyperXAlloyOrigins* controller = static_cast<RGBController_HyperXAlloyOrigins*>(param);
+    controller->KeepaliveThread();
+    THREADRETURN
+}
+
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
@@ -36,6 +62,19 @@ RGBController_HyperXAlloyOrigins::RGBController_HyperXAlloyOrigins(HyperXAlloyOr
     modes.push_back(Custom);
 
     SetupZones();
+
+    /*-----------------------------------------------------*\
+    | The Corsair Lighting Node Pro requires a packet within|
+    | 20 seconds of sending the lighting change in order    |
+    | to not revert back into rainbow mode.  Start a thread |
+    | to continuously send a keepalive packet every 5s      |
+    \*-----------------------------------------------------*/
+#ifdef WIN32
+    _beginthread(keepalive_thread, 0, this);
+#else
+    pthread_t thread;
+    pthread_create(&thread, NULL, &keepalive_thread, this);
+#endif
 }
 
 RGBController_HyperXAlloyOrigins::~RGBController_HyperXAlloyOrigins()
@@ -100,4 +139,19 @@ void RGBController_HyperXAlloyOrigins::SetCustomMode()
 void RGBController_HyperXAlloyOrigins::UpdateMode()
 {
 
+}
+
+void RGBController_HyperXAlloyOrigins::KeepaliveThread()
+{
+    while(1)
+    {
+        if(active_mode == 0)
+        {
+            if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
+            {
+                UpdateLEDs();
+            }
+        }
+        std::this_thread::sleep_for(10ms);;
+    }
 }
