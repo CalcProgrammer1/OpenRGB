@@ -26,13 +26,16 @@ bool IsMSIGPUController(i2c_smbus_interface* bus)
     bool pass = false;
 
     if (bus->port_id != 1)
+    {
         return(pass);
+    }
 
     // MSI RTX 2080S Gaming X Trio
     if (bus->pci_device == 0x1e81 &&
         bus->pci_vendor == 0x10de &&
         bus->pci_subsystem_device == 0xc724 &&
-        bus->pci_subsystem_vendor == 0x1462) {
+        bus->pci_subsystem_vendor == 0x1462)
+    {
         pass = true;
     }
 
@@ -40,7 +43,8 @@ bool IsMSIGPUController(i2c_smbus_interface* bus)
     if (bus->pci_device == 0x1e84 &&
         bus->pci_vendor == 0x10de &&
         bus->pci_subsystem_device == 0xc726 &&
-        bus->pci_subsystem_vendor == 0x1462) {
+        bus->pci_subsystem_vendor == 0x1462)
+    {
         pass = true;
     }
 
@@ -48,7 +52,8 @@ bool IsMSIGPUController(i2c_smbus_interface* bus)
     if (bus->pci_device == 0x1e07 &&
         bus->pci_vendor == 0x10de &&
         bus->pci_subsystem_device == 0x3717 &&
-        bus->pci_subsystem_vendor == 0x1462) {
+        bus->pci_subsystem_vendor == 0x1462)
+    {
         pass = true;
     }
 
