@@ -431,6 +431,7 @@ void HyperXKeyboardController::SendDirect
     buf[0x00]   = 0x07;
     buf[0x01]   = HYPERX_PACKET_ID_DIRECT;
     buf[0x02]   = color_channel;
+    buf[0x03]   = 0xA0;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
@@ -464,6 +465,7 @@ void HyperXKeyboardController::SendDirectExtended
     buf[0x00]   = 0x07;
     buf[0x01]   = HYPERX_PACKET_ID_DIRECT;
     buf[0x02]   = HYPERX_COLOR_CHANNEL_EXTENDED;
+    buf[0x03]   = 0xA0;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
