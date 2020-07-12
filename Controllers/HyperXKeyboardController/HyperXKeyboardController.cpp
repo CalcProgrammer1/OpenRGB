@@ -144,12 +144,12 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         blu_color_data
         );
 
-    std::this_thread::sleep_for(5ms);
+    //std::this_thread::sleep_for(5ms);
 
-    SendDirectExtended
-        (
-        ext_color_data
-        );
+    //SendDirectExtended
+    //    (
+    //    ext_color_data
+    //    );
 }
 
 void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
