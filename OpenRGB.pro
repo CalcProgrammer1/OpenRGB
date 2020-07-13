@@ -101,6 +101,7 @@ HEADERS +=                                                              \
     i2c_smbus/i2c_smbus.h                                               \
     i2c_tools/i2c_tools.h                                               \
     net_port/net_port.h                                                 \
+    qt/DeviceView.h                                                     \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBProfileSaveDialog.h                                       \
     qt/OpenRGBServerInfoPage.h                                          \
@@ -225,6 +226,7 @@ SOURCES +=                                                              \
     i2c_smbus/i2c_smbus.cpp                                             \
     i2c_tools/i2c_tools.cpp                                             \
     net_port/net_port.cpp                                               \
+    qt/DeviceView.cpp                                                   \
     qt/OpenRGBDialog2.cpp                                               \
     qt/OpenRGBProfileSaveDialog.cpp                                     \
     qt/OpenRGBServerInfoPage.cpp                                        \

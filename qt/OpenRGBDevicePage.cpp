@@ -20,6 +20,8 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     \*-----------------------------------------------------*/
     QPalette pal;
 
+    ui->widget->setController(device);
+
     pal = ui->ButtonRed->palette();
     pal.setColor(QPalette::Button, QColor(255, 0, 0));
     ui->ButtonRed->setAutoFillBackground(true);
