@@ -15,6 +15,7 @@
 
 #define RGBFusion2_Digital_LEDS_Min 0;
 #define RGBFusion2_Digital_LEDS_Max 1024;
+#define RGBFusion2_Digital_Direct_Offset (HDR_D_LED1_RGB - HDR_D_LED1);
 
 struct LedPort
 {

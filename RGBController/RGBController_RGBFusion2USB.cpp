@@ -70,6 +70,32 @@ static const KnownLayout knownLayoutsLookup
         }
     },
     {
+        "B550 AORUS ELITE",
+        {
+            {
+                "Motherboard",
+                {
+                    { "Back I/O",   HDR_BACK_IO, 1 },
+                    { "CPU Header", HDR_CPU, 1 },
+                    { "PCIe",       HDR_PCIE, 1},
+                    { "LED C1/C2",  HDR_LED_C1C2, 1 }, // 12VGRB headers seem to be connected
+                }
+            },
+            {
+                "D_LED1 Bottom",
+                {
+                    { "D_LED1 Bottom", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "D_LED2 Top",
+                {
+                    { "D_LED2 Top", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
         "X570 I AORUS PRO WIFI",
         {
             {
@@ -218,7 +244,7 @@ void RGBController_RGBFusion2USB::SetupZones()
     leds.clear();
     colors.clear();
 
-    /*---------------------------------------------------------*\ <----DEBUG
+    /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
     int zone_idx = 0;
@@ -234,17 +260,18 @@ void RGBController_RGBFusion2USB::SetupZones()
 
         for(int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
         {
-            led new_led;
+            led     new_led;
 
-            new_led.value = zl->second.at(lp_idx).header;
             if(boolSingleLED)
             {
                 new_led.name  = zl->second.at(lp_idx).name;
+                new_led.value = zl->second.at(lp_idx).header;
             }
             else
             {
-                new_led.name = zl->second.at(lp_idx).name;
+                new_led.name = zl->second.at(0).name;
                 new_led.name.append(" LED " + std::to_string(lp_idx));
+                new_led.value = zl->second.at(0).header;
             }
 
             leds.push_back(new_led);
@@ -337,30 +364,28 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     else
     {
-        unsigned char hdr = zones[zone].start_idx;
-
-        /*---------------------------------------------------------*\
-        | Direct mode                                               |
-        \*---------------------------------------------------------*/
-        if(mode_value == 0xFFFF)
+        if(zones[zone].leds_count)          //If the Digital zone has been resized i.e. > 0
         {
-            if(zones[zone].leds_count > 0)
+            unsigned char hdr = zones[zone].leds->value;
+
+            /*---------------------------------------------------------*\
+            | Direct mode                                               |
+            \*---------------------------------------------------------*/
+            if(mode_value == 0xFFFF)
             {
-                controller->DisableBuiltinEffect(1, zone == 1 ? 0x01 : 0x02);
+                hdr += RGBFusion2_Digital_Direct_Offset;        //Direct mode addresses a different register
+                controller->DisableBuiltinEffect(1, hdr == HDR_D_LED1_RGB ? 0x01 : 0x02);
                 controller->SetStripColors(hdr, zones[zone].colors, zones[zone].leds_count);
             }
-        }
-        /*---------------------------------------------------------*\
-        | Effect mode                                               |
-        \*---------------------------------------------------------*/
-        else
-        {
-            if(zones[zone].leds_count)      //If the Digital zone has been resized i.e. > 0
+            /*---------------------------------------------------------*\
+            | Effect mode                                               |
+            \*---------------------------------------------------------*/
+            else
             {
                 unsigned char red = 0;
                 unsigned char grn = 0;
                 unsigned char blu = 0;
-                
+
                 /*---------------------------------------------------------*\
                 | If mode has mode specific color, load color from mode     |
                 \*---------------------------------------------------------*/
@@ -371,12 +396,10 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
                     blu = RGBGetBValue(modes[active_mode].colors[0]);
                 }
 
-                //int hdr = it->second[zone].front().header;
-
                 /*---------------------------------------------------------*\
                 | Apply built-in effects to LED strips                      |
                 \*---------------------------------------------------------*/
-                controller->DisableBuiltinEffect(0, zone == 1 ? 0x01 : 0x02);
+                controller->DisableBuiltinEffect(0, hdr == HDR_D_LED1 ? 0x01 : 0x02);
                 controller->SetLEDEffect(hdr, modes[active_mode].value, modes[active_mode].speed, random, red, grn, blu);
                 controller->ApplyEffect();
             }

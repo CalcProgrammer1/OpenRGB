@@ -85,13 +85,13 @@ void RGBFusion2USBController::SetCalibration()
     buffer[0] = report_id;
     buffer[1] = 0x33;
 
-     // D_LED1 WS2812 GRB, 0x00RRGGBB to 0x00GGRRBB
+    // D_LED1 WS2812 GRB, 0x00RRGGBB to 0x00GGRRBB
     buffer[2] = 0x02; // B
     buffer[3] = 0x00; // G
     buffer[4] = 0x01; // R
     buffer[5] = 0x00;
 
-     // D_LED2 WS2812 GRB
+    // D_LED2 WS2812 GRB
     buffer[6] = 0x02;
     buffer[7] = 0x00;
     buffer[8] = 0x01;
@@ -102,6 +102,12 @@ void RGBFusion2USBController::SetCalibration()
     buffer[11] = 0x01;
     buffer[12] = 0x02;
     buffer[13] = 0x00;
+
+    // Spare set seen in some Motherboard models
+    buffer[14] = 0x00;
+    buffer[15] = 0x01;
+    buffer[16] = 0x02;
+    buffer[17] = 0x00;
 
     SendPacket(buffer);
 }
