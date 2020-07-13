@@ -14,6 +14,7 @@
 #include <string>
 #include <thread>
 #include <chrono>
+#include <mutex>
 
 typedef unsigned int RGBColor;
 
@@ -139,6 +140,8 @@ typedef struct
     matrix_map_type *       matrix_map;     /* Matrix map pointer       */
 } zone;
 
+typedef void (*RGBControllerCallback)(void *);
+
 class RGBController
 {
 public:
@@ -188,6 +191,9 @@ public:
     unsigned char *         GetSingleLEDColorDescription(int led);
     void                    SetSingleLEDColorDescription(unsigned char* data_buf);
 
+    void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
+    void                    SignalUpdate();
+
     void                    UpdateLEDs();
     //void                    UpdateZoneLEDs(int zone);
     //void                    UpdateSingleLED(int led);
@@ -219,4 +225,8 @@ private:
     //bool                    CallFlag_UpdateZoneLEDs                     = false;
     //bool                    CallFlag_UpdateSingleLED                    = false;
     //bool                    CallFlag_UpdateMode                         = false;
+
+    std::mutex                          UpdateMutex;
+    std::vector<RGBControllerCallback>  UpdateCallbacks;
+    std::vector<void *>                 UpdateCallbackArgs;
 };

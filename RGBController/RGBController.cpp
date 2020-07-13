@@ -1328,9 +1328,31 @@ void RGBController::SetMode(int mode)
     UpdateMode();
 }
 
+void RGBController::RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)
+{
+    UpdateCallbacks.push_back(new_callback);
+    UpdateCallbackArgs.push_back(new_callback_arg);
+}
+
+void RGBController::SignalUpdate()
+{
+    UpdateMutex.lock();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < UpdateCallbacks.size(); callback_idx++)
+    {
+        UpdateCallbacks[callback_idx](UpdateCallbackArgs[callback_idx]);
+    }
+
+    UpdateMutex.unlock();
+}
 void RGBController::UpdateLEDs()
 {
     CallFlag_UpdateLEDs = true;
+
+    SignalUpdate();
 }
 
 void RGBController::UpdateMode()

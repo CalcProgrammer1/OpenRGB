@@ -4,6 +4,13 @@
 
 using namespace Ui;
 
+static void UpdateCallback(void * this_ptr)
+{
+    OpenRGBDevicePage * this_obj = (OpenRGBDevicePage *)this_ptr;
+
+    QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
+}
+
 OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBDevicePageUi)
@@ -21,6 +28,8 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     QPalette pal;
 
     ui->widget->setController(device);
+
+    device->RegisterUpdateCallback(UpdateCallback, this);
 
     pal = ui->ButtonRed->palette();
     pal.setColor(QPalette::Button, QColor(255, 0, 0));
@@ -268,6 +277,12 @@ void Ui::OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
     | Change device mode                                    |
     \*-----------------------------------------------------*/
     UpdateMode();
+}
+
+void Ui::OpenRGBDevicePage::UpdateInterface()
+{
+    UpdateModeUi();
+    ui->widget->repaint();
 }
 
 void Ui::OpenRGBDevicePage::UpdateModeUi()
