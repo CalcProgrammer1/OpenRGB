@@ -17,20 +17,9 @@
 DeviceView::DeviceView(QWidget *parent) :
     QWidget(parent),
     initSize(128,128),
-    mouseDown(false),
-    margin(0),
-    wheelWidth(10),
-    current(Qt::red),
-    inWheel(false),
-    inSquare(false)
+    mouseDown(false)
 {
     controller = NULL;
-    current = current.toHsv();
-}
-
-QColor DeviceView::color()
-{
-    return current;
 }
 
 void DeviceView::setController(RGBController * controller_ptr)
@@ -60,12 +49,7 @@ void DeviceView::mouseMoveEvent(QMouseEvent *event)
 
 void DeviceView::mouseReleaseEvent(QMouseEvent *)
 {
-    /*-----------------------------------------------------*\
-    | Clear mouse down and in-region flags                  |
-    \*-----------------------------------------------------*/
-    mouseDown   = false;
-    inWheel     = false;
-    inSquare    = false;
+
 }
 
 void DeviceView::resizeEvent(QResizeEvent *event)
@@ -81,19 +65,18 @@ void DeviceView::resizeEvent(QResizeEvent *event)
         size = event->size().height();
     }
 
-    wheel = QPixmap(event->size());
-    wheel.fill(Qt::transparent);
     update();
 }
 
-void DeviceView::paintEvent(QPaintEvent *)
+void DeviceView::paintEvent(QPaintEvent *event)
 {
-    #define MAX_COLS 100
-
+    int width       = event->rect().width();
+    int height      = event->rect().height();
     int row         = 0;
     int col         = 0;
     int box_size    = 20;
     int box_margin  = 2;
+    int max_cols    = ( width / (box_size + box_margin) ) - 1;
 
     QPainter painter(this);
     QStyleOption opt;
@@ -109,7 +92,7 @@ void DeviceView::paintEvent(QPaintEvent *)
                 painter.drawRect((col * (box_size + box_margin)), (row * (box_size + box_margin)), box_size, box_size);
                 col++;
 
-                if(col > MAX_COLS)
+                if(col > max_cols)
                 {
                     row++;
                     col = 0;

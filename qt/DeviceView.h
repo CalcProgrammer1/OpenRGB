@@ -12,11 +12,8 @@ public:
 
     virtual QSize sizeHint () const;
     virtual QSize minimumSizeHint () const;
-    QColor color();
     
     void setController(RGBController * controller_ptr);
-signals:
-    void colorChanged(const QColor color);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -26,20 +23,8 @@ protected:
     void paintEvent(QPaintEvent *);
 private:
     QSize initSize;
-    QImage wheelImage;
-    QImage squareImage;
-    QPixmap wheel;
     bool mouseDown;
     QPoint lastPos;
-    int margin;
-    int wheelWidth;
-    QRegion wheelRegion;
-    QRegion squareRegion;
-    QColor current;
-    bool inWheel;
-    bool inSquare;
-    int x_offset;
-    int y_offset;
 
     RGBController* controller;
 

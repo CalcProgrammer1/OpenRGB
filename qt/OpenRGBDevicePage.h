@@ -60,6 +60,8 @@ private slots:
 
     void on_ColorWheelBox_colorChanged(const QColor color);
 
+    void UpdateInterface();
+
 private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
