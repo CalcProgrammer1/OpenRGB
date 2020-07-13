@@ -425,6 +425,7 @@ void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses,
 void DetectRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
+void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraUSBControllers(std::vector<RGBController*> &rgb_controllers);
@@ -470,6 +471,7 @@ void DetectRGBControllers(void)
     DetectCorsairVengeanceControllers(busses, rgb_controllers);
     DetectCorsairVengeanceProControllers(busses, rgb_controllers);
     DetectCrucialControllers(busses, rgb_controllers);
+    DetectGalaxGPUControllers(busses, rgb_controllers);
     DetectHyperXDRAMControllers(busses, rgb_controllers);
     DetectPatriotViperControllers(busses, rgb_controllers);
     DetectPolychromeControllers(busses, rgb_controllers);
