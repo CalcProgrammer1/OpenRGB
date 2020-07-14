@@ -92,6 +92,13 @@ void DeviceView::paintEvent(QPaintEvent *event)
                 painter.drawRect((col * (box_size + box_margin)), (row * (box_size + box_margin)), box_size, box_size);
                 col++;
 
+                if(((controller->zones[zone_idx].matrix_map != NULL)
+                  &&(col >= (controller->zones[zone_idx].matrix_map->width))))
+                {
+                    row++;
+                    col = 0;
+                }
+
                 if(col > max_cols)
                 {
                     row++;
