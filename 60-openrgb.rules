@@ -134,6 +134,51 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c083", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08f", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  MSI Mysticlight                                              #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="3EA4", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="4559", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B10", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B93", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B94", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B96", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C34", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C35", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C36", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C37", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C42", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C56", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C59", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C60", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C67", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C70", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C71", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C73", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C75", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C76", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C77", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C79", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C80", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C81", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C82", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C83", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C84", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C85", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C86", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C87", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C88", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C89", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C90", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C91", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C92", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C94", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C95", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C96", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C98", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C99", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="905D", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  MSI/SteelSeries 3-Zone Laptop Keyboard                       #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1770", ATTR{idProduct}=="FF00", TAG+="uaccess"
@@ -177,6 +222,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc39", TAG+="uacces
 #  Gigabyte/Aorus RGB Fusion 2 USB                              #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="8297", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="5702", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  SteelSeries Peripheral Devices                               #

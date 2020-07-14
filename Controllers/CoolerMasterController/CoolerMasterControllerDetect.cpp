@@ -36,7 +36,7 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
 
     //Look for the passed in cm_pids
     hid_init();
-    info = hid_enumerate(0x0, 0x0);
+    info = hid_enumerate(COOLERMASTER_VID, 0x0);
 
     while(info)
     {
