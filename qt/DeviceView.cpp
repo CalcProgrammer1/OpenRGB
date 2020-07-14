@@ -86,23 +86,41 @@ void DeviceView::paintEvent(QPaintEvent *event)
     {
         for(int zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
         {
-            for(int led_idx = 0; led_idx < controller->zones[zone_idx].leds_count; led_idx++)
+            if((controller->zones[zone_idx].type == ZONE_TYPE_MATRIX)
+             &&(controller->zones[zone_idx].matrix_map != NULL))
             {
-                painter.fillRect((col * (box_size + box_margin)), (row * (box_size + box_margin)), box_size, box_size, QColor::fromRgb(RGBGetRValue(controller->zones[zone_idx].colors[led_idx]), RGBGetGValue(controller->zones[zone_idx].colors[led_idx]), RGBGetBValue(controller->zones[zone_idx].colors[led_idx])));
-                painter.drawRect((col * (box_size + box_margin)), (row * (box_size + box_margin)), box_size, box_size);
-                col++;
+                unsigned int x_count = controller->zones[zone_idx].matrix_map->width;
+                unsigned int y_count = controller->zones[zone_idx].matrix_map->height;
 
-                if(((controller->zones[zone_idx].matrix_map != NULL)
-                  &&(col >= (controller->zones[zone_idx].matrix_map->width))))
+                for(int x = 0; x < x_count; x++)
                 {
-                    row++;
-                    col = 0;
+                    for(int y = 0; y < y_count; y++)
+                    {
+                        unsigned int map_idx = (y * x_count) + x;
+                        unsigned int color_idx = controller->zones[zone_idx].matrix_map->map[map_idx];
+
+                        if( color_idx != 0xFFFFFFFF )
+                        {
+                            painter.fillRect((x * (box_size + box_margin)), ((y + row) * (box_size + box_margin)), box_size, box_size, QColor::fromRgb(RGBGetRValue(controller->zones[zone_idx].colors[color_idx]), RGBGetGValue(controller->zones[zone_idx].colors[color_idx]), RGBGetBValue(controller->zones[zone_idx].colors[color_idx])));
+                            painter.drawRect((x * (box_size + box_margin)), ((y + row) * (box_size + box_margin)), box_size, box_size);
+                        }
+                    }
                 }
-
-                if(col > max_cols)
+                row += y_count;
+            }
+            else
+            {
+                for(int led_idx = 0; led_idx < controller->zones[zone_idx].leds_count; led_idx++)
                 {
-                    row++;
-                    col = 0;
+                    painter.fillRect((col * (box_size + box_margin)), (row * (box_size + box_margin)), box_size, box_size, QColor::fromRgb(RGBGetRValue(controller->zones[zone_idx].colors[led_idx]), RGBGetGValue(controller->zones[zone_idx].colors[led_idx]), RGBGetBValue(controller->zones[zone_idx].colors[led_idx])));
+                    painter.drawRect((col * (box_size + box_margin)), (row * (box_size + box_margin)), box_size, box_size);
+                    col++;
+
+                    if(col > max_cols)
+                    {
+                        row++;
+                        col = 0;
+                    }
                 }
             }
 
