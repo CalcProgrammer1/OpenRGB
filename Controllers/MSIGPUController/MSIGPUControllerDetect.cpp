@@ -57,6 +57,15 @@ bool IsMSIGPUController(i2c_smbus_interface* bus)
         pass = true;
     }
 
+    // MSI RTX 2070 ARMOR
+    if (bus->pci_device == 0x1f02 &&
+        bus->pci_vendor == 0x10de &&
+        bus->pci_subsystem_device == 0x3734 &&
+        bus->pci_subsystem_vendor == 0x1462)
+    {
+        pass = true;
+    }
+
     return(pass);
 }   /* IsMSIGPUController() */
 
