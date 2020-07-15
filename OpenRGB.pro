@@ -80,6 +80,7 @@ INCLUDEPATH +=                                                          \
     Controllers/RGBFusion2SMBusController/                              \
     Controllers/RGBFusion2USBController/                                \
     Controllers/RGBFusionGPUController/                                 \
+    Controllers/SapphireGPUController/                                  \
     Controllers/SteelSeriesController/                                  \
     Controllers/ThermaltakeRiingController/                             \
     RGBController/                                                      \
@@ -146,6 +147,7 @@ HEADERS +=                                                              \
     Controllers/RGBFusionGPUController/RGBFusionGPUController.h         \
     Controllers/RedragonController/RedragonK556Controller.h             \
     Controllers/RedragonController/RedragonM711Controller.h             \
+    Controllers/SapphireGPUController/SapphireGPUController.h           \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h      \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h    \
     Controllers/SteelSeriesController/SteelSeriesApexController.h       \
@@ -192,6 +194,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_RGBFusion2SMBus.h                       \
     RGBController/RGBController_RGBFusion2USB.h                         \
     RGBController/RGBController_RGBFusionGPU.h                          \
+    RGBController/RGBController_SapphireGPU.h                           \
     RGBController/RGBController_SteelSeriesRival.h                      \
     RGBController/RGBController_SteelSeriesSiberia.h                    \
     RGBController/RGBController_SteelSeriesApex.h                       \
@@ -295,6 +298,8 @@ SOURCES +=                                                              \
     Controllers/RedragonController/RedragonK556Controller.cpp           \
     Controllers/RedragonController/RedragonM711Controller.cpp           \
     Controllers/RedragonController/RedragonControllerDetect.cpp         \
+    Controllers/SapphireGPUController/SapphireGPUController.cpp         \
+    Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp   \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp    \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp  \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp     \
@@ -343,6 +348,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_RGBFusion2SMBus.cpp                     \
     RGBController/RGBController_RGBFusion2USB.cpp                       \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
+    RGBController/RGBController_SapphireGPU.cpp                         \
     RGBController/RGBController_SteelSeriesRival.cpp                    \
     RGBController/RGBController_SteelSeriesSiberia.cpp                  \
     RGBController/RGBController_SteelSeriesApex.cpp                     \

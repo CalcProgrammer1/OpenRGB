@@ -424,6 +424,7 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
 void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
+void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
 void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraUSBControllers(std::vector<RGBController*> &rgb_controllers);
@@ -472,6 +473,7 @@ void DetectRGBControllers(void)
     DetectPolychromeControllers(busses, rgb_controllers);
     DetectRGBFusionGPUControllers(busses, rgb_controllers);
     DetectMSIGPUControllers(busses, rgb_controllers);
+    DetectSapphireGPUControllers(busses, rgb_controllers);
 
     //TODO: Implement better detection before enabling these controllers
     //DetectRGBFusion2SMBusControllers(busses, rgb_controllers);
