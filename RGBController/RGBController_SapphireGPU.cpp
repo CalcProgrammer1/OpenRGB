@@ -21,10 +21,17 @@ RGBController_SapphireGPU::RGBController_SapphireGPU(SapphireGPUController* sapp
 
     mode Static;
     Static.name       = "Static";
-    Static.value      = 0;
+    Static.value      = 0x04;
     Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
+
+    mode Rainbow;
+    Rainbow.name       = "Rainbow";
+    Rainbow.value      = 0x01;
+    Rainbow.flags      = 0;
+    Rainbow.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Rainbow);
 
     SetupZones();
 

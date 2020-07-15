@@ -20,9 +20,12 @@ bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char addres
     bool pass = false;
     int res;
 
-    //TODO - detection
+    if(bus->i2c_smbus_read_byte_data(address, 0x06) == 0xCC)
+    {
+        pass = true;
+    }
 
-    return(false);
+    return(false); //TODO - better detection, leaving disabled for now
 
 }   /* TestForSapphireGPUController() */
 

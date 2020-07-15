@@ -30,6 +30,21 @@ std::string SapphireGPUController::GetDeviceLocation()
     return(return_string);
 }
 
+unsigned char SapphireGPUController::GetRed()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_GPU_REG_RED));
+}
+
+unsigned char SapphireGPUController::GetGreen()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_GPU_REG_GREEN));
+}
+
+unsigned char SapphireGPUController::GetBlue()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_GPU_REG_BLUE));
+}
+
 void SapphireGPUController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
     bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_GPU_REG_RED,   red);
@@ -39,5 +54,5 @@ void SapphireGPUController::SetColor(unsigned char red, unsigned char green, uns
 
 void SapphireGPUController::SetMode(unsigned char mode, unsigned char speed)
 {
-    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_GPU_REG_MODE,  0x04);
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_GPU_REG_MODE, mode);
 }
