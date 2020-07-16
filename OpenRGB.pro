@@ -122,6 +122,7 @@ HEADERS +=                                                              \
     Controllers/CorsairVengeanceProController/CorsairVengeanceProController.h \
     Controllers/CrucialController/CrucialController.h                   \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h       \
+    Controllers/EKController/EKController.h                             \
     Controllers/GloriousModelOController/GloriousModelOController.h     \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
@@ -166,6 +167,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Crucial.h                               \
     RGBController/RGBController_DuckyKeyboard.h                         \
     RGBController/RGBController_Dummy.h                                 \
+    RGBController/RGBController_EKController.h                          \
     RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_GloriousModelO.h                        \
     RGBController/RGBController_HuePlus.h                               \
@@ -252,6 +254,8 @@ SOURCES +=                                                              \
     Controllers/CrucialController/CrucialControllerDetect.cpp           \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.cpp     \
     Controllers/DuckyKeyboardController/DuckyKeyboardControllerDetect.cpp \
+    Controllers/EKController/EKControllerDetect.cpp                     \
+    Controllers/EKController/EKController.cpp                           \
     Controllers/GloriousModelOController/GloriousModelOController.cpp   \
     Controllers/GloriousModelOController/GloriousModelOControllerDetect.cpp \
     Controllers/HuePlusController/HuePlusController.cpp                 \
@@ -321,6 +325,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_DuckyKeyboard.cpp                       \
     RGBController/RGBController_Dummy.cpp                               \
+    RGBController/RGBController_EKController.cpp                        \
     RGBController/RGBController_GloriousModelO.cpp                      \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperXAlloyOrigins.cpp                  \

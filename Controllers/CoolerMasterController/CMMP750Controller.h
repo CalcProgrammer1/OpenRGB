@@ -20,7 +20,7 @@
 
 #pragma once
 
-#define CM_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data) / sizeof(colour_mode_data[0]))
+#define CM_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data[0]) / sizeof(colour_mode_data[0][0]))
 #define CM_INTERRUPT_TIMEOUT 250
 #define CM_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
 #define CM_SERIAL_SIZE (sizeof(serial) / sizeof(serial[ 0 ]))
