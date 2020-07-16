@@ -84,5 +84,9 @@ void EKController::SendUpdate()
     buffer[EK_BLUE_BYTE] = current_blue;
     buffer[EK_SPEED_BYTE] = speed_mode_data[current_mode][current_speed];
 
+    buffer[10] = 0x10;
+    buffer[47] = 0xFF;
+    buffer[48] = 0x00;
+
     hid_write(dev, buffer, buffer_size);
 }
