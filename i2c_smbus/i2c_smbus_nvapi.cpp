@@ -40,7 +40,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 	i2c_data.i2c_speed_khz = NV_I2C_SPEED::NVAPI_I2C_SPEED_DEFAULT;
 
     // Load device address
-    i2c_data.i2c_dev_address = (addr << 1) | read_write;
+    i2c_data.i2c_dev_address = (addr << 1);
 
 	switch (size)
 	{
