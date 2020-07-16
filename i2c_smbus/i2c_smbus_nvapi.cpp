@@ -44,12 +44,6 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 
 	switch (size)
 	{
-	case I2C_SMBUS_QUICK:
-        // This is not supported by the driver it seems
-        i2c_data.reg_addr_size = 0;
-        i2c_data.size = 0;
-        break;
-
     case I2C_SMBUS_BYTE:
         // One byte of data with no register address
         i2c_data.reg_addr_size = 0;
@@ -71,6 +65,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
         break;
 
     // Not supported
+    case I2C_SMBUS_QUICK:
     case I2C_SMBUS_BLOCK_DATA:
         return -1;
         break;
