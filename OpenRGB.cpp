@@ -481,7 +481,7 @@ void DetectRGBControllers(void)
     //DetectRGBFusion2DRAMControllers(busses, rgb_controllers);
 
     DetectRGBFusionControllers(busses, rgb_controllers);
-    DetectMSIMysticLightControllers(rgb_controllers);
+    //DetectMSIMysticLightControllers(rgb_controllers);
     DetectMSIRGBControllers(rgb_controllers);
 
     DetectAuraUSBControllers(rgb_controllers);
