@@ -59,6 +59,7 @@ INCLUDEPATH +=                                                          \
     Controllers/CorsairVengeanceProController/                          \
     Controllers/CrucialController/                                      \
     Controllers/DuckyKeyboardController/                                \
+    Controllers/GalaxGPUController/                                     \
     Controllers/GloriousModelOController/                               \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXDRAMController/                                   \
@@ -124,6 +125,7 @@ HEADERS +=                                                              \
     Controllers/CrucialController/CrucialController.h                   \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h       \
     Controllers/EKController/EKController.h                             \
+    Controllers/GalaxGPUController/GalaxGPUController.h                 \ 
     Controllers/GloriousModelOController/GloriousModelOController.h     \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
@@ -171,6 +173,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_Dummy.h                                 \
     RGBController/RGBController_EKController.h                          \
     RGBController/RGBController_E131.h                                  \
+    RGBController/RGBController_GalaxGPU.h                              \
     RGBController/RGBController_GloriousModelO.h                        \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperXAlloyOrigins.h                    \
@@ -259,6 +262,8 @@ SOURCES +=                                                              \
     Controllers/DuckyKeyboardController/DuckyKeyboardControllerDetect.cpp \
     Controllers/EKController/EKControllerDetect.cpp                     \
     Controllers/EKController/EKController.cpp                           \
+    Controllers/GalaxGPUController/GalaxGPUController.cpp               \
+    Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp         \
     Controllers/GloriousModelOController/GloriousModelOController.cpp   \
     Controllers/GloriousModelOController/GloriousModelOControllerDetect.cpp \
     Controllers/HuePlusController/HuePlusController.cpp                 \
@@ -331,6 +336,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_DuckyKeyboard.cpp                       \
     RGBController/RGBController_Dummy.cpp                               \
     RGBController/RGBController_EKController.cpp                        \
+    RGBController/RGBController_GalaxGPU.cpp                            \
     RGBController/RGBController_GloriousModelO.cpp                      \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperXAlloyOrigins.cpp                  \
