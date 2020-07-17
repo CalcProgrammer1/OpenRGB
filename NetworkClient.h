@@ -41,6 +41,8 @@ public:
     void            ConnectionThreadFunction();
     void            ListenThreadFunction();
 
+    void            WaitOnControllerData();
+    
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
     

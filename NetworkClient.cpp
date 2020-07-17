@@ -425,6 +425,20 @@ listen_done:
     ClientInfoChanged();
 }
 
+void NetworkClient::WaitOnControllerData()
+{
+    for(int i = 0; i < 1000; i++)
+    {
+        if(controller_data_received)
+        {
+            break;
+        }
+        std::this_thread::sleep_for(1ms);
+    }
+
+    return;
+}
+
 void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * data)
 {
     if(data_size == sizeof(unsigned int))
@@ -441,7 +455,15 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
 
     printf("Received controller: %s\r\n", new_controller->name.c_str());
 
-    server_controllers.push_back(new_controller);
+    if(dev_idx >= server_controllers.size())
+    {
+        server_controllers.push_back(new_controller);
+    }
+    else
+    {
+        server_controllers[dev_idx]->active_mode = new_controller->active_mode;
+        delete new_controller;
+    }
 
     controller_data_received = true;
 }
@@ -482,6 +504,8 @@ void NetworkClient::SendRequest_ControllerCount()
 void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
 {
     NetPacketHeader reply_hdr;
+
+    controller_data_received = false;
 
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
