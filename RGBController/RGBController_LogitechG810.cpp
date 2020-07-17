@@ -348,7 +348,7 @@ void RGBController_LogitechG810::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_LogitechG810::UpdateMode()
+void RGBController_LogitechG810::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\
     | Direct mode does not send a mode packet                   |

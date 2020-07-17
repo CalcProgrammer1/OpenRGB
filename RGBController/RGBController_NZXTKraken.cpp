@@ -344,7 +344,7 @@ void RGBController_NZXTKraken::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_NZXTKraken::UpdateMode()
+void RGBController_NZXTKraken::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }

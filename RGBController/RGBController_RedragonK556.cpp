@@ -274,7 +274,7 @@ void RGBController_RedragonK556::SetCustomMode()
 
 }
 
-void RGBController_RedragonK556::UpdateMode()
+void RGBController_RedragonK556::DeviceUpdateMode()
 {
     unsigned char red    = 0x00;
     unsigned char grn    = 0x00;

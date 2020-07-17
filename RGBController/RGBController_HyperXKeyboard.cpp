@@ -344,7 +344,7 @@ void RGBController_HyperXKeyboard::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_HyperXKeyboard::UpdateMode()
+void RGBController_HyperXKeyboard::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {

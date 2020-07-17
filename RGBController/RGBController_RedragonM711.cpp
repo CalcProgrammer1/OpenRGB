@@ -105,7 +105,7 @@ void RGBController_RedragonM711::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_RedragonM711::UpdateMode()
+void RGBController_RedragonM711::DeviceUpdateMode()
 {
     bool random       = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     unsigned char red = RGBGetRValue(colors[0]);

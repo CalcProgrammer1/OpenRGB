@@ -26,7 +26,7 @@ public:
     void        UpdateSingleLED(int led);
 
     void        SetCustomMode();
-    void        UpdateMode();
+    void        DeviceUpdateMode();
 
 private:
     std::vector<std::vector<RGBColor>> GetColors

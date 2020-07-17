@@ -79,7 +79,7 @@ void RGBController_MSIRGB::SetCustomMode()
 
 }
 
-void RGBController_MSIRGB::UpdateMode()
+void RGBController_MSIRGB::DeviceUpdateMode()
 {
 
 }

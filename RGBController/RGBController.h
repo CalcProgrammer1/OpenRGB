@@ -192,7 +192,7 @@ public:
     //void                    UpdateZoneLEDs(int zone);
     //void                    UpdateSingleLED(int led);
 
-    //void                    UpdateMode();
+    void                    UpdateMode();
 
     void                    DeviceCallThreadFunction();
 
@@ -207,13 +207,14 @@ public:
     virtual void            UpdateZoneLEDs(int zone)                    = 0;
     virtual void            UpdateSingleLED(int led)                    = 0;
 
-    virtual void            UpdateMode()                                = 0;
+    virtual void            DeviceUpdateMode()                          = 0;
 
     virtual void            SetCustomMode()                             = 0;
 
 private:
     std::thread*            DeviceCallThread;
     std::atomic<bool>       CallFlag_UpdateLEDs;
+    std::atomic<bool>       CallFlag_UpdateMode;
     std::atomic<bool>       DeviceThreadRunning;
     //bool                    CallFlag_UpdateZoneLEDs                     = false;
     //bool                    CallFlag_UpdateSingleLED                    = false;

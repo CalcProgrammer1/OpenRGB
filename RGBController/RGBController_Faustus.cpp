@@ -144,7 +144,7 @@ void RGBController_Faustus::SetCustomMode()
     SetMode(0);
 }
 
-void RGBController_Faustus::UpdateMode()
+void RGBController_Faustus::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }

@@ -101,7 +101,7 @@ void RGBController_CorsairVengeance::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_CorsairVengeance::UpdateMode()
+void RGBController_CorsairVengeance::DeviceUpdateMode()
 {
     corsair->SetMode(modes[active_mode].value);
 }

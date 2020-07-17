@@ -89,7 +89,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
 
     case RAZER_TYPE_NOMATRIX:
         {
-            UpdateMode();
+            DeviceUpdateMode();
         }
         break;
     }
@@ -407,7 +407,7 @@ void RGBController_OpenRazer::SetCustomMode()
     }
 }
 
-void RGBController_OpenRazer::UpdateMode()
+void RGBController_OpenRazer::DeviceUpdateMode()
 {
     char update_value[6];
     char effect_value[1];

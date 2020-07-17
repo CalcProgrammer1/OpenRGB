@@ -102,7 +102,7 @@ void RGBController_AuraCore::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_AuraCore::UpdateMode()
+void RGBController_AuraCore::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }

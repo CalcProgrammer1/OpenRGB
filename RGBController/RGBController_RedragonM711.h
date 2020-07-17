@@ -25,7 +25,7 @@ public:
     void        UpdateSingleLED(int led);
 
     void        SetCustomMode();
-    void        UpdateMode();
+    void        DeviceUpdateMode();
 
 private:
     RedragonM711Controller*   redragon;

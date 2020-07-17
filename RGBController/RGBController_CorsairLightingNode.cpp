@@ -264,7 +264,7 @@ void RGBController_CorsairLightingNode::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_CorsairLightingNode::UpdateMode()
+void RGBController_CorsairLightingNode::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)
     {

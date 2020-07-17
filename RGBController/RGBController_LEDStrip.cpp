@@ -78,7 +78,7 @@ void RGBController_LEDStrip::SetCustomMode()
 
 }
 
-void RGBController_LEDStrip::UpdateMode()
+void RGBController_LEDStrip::DeviceUpdateMode()
 {
 
 }

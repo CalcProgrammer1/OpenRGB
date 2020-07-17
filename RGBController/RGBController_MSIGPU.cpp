@@ -316,7 +316,7 @@ void RGBController_MSIGPU::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_MSIGPU::UpdateMode()
+void RGBController_MSIGPU::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }

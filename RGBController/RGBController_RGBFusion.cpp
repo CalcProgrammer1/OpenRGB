@@ -156,7 +156,7 @@ void RGBController_RGBFusion::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_RGBFusion::UpdateMode()
+void RGBController_RGBFusion::DeviceUpdateMode()
 {
     rgb_fusion->SetMode(modes[active_mode].value, modes[active_mode].speed);
 }

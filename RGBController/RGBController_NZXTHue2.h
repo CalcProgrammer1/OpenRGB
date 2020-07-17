@@ -24,7 +24,7 @@ public:
     void        UpdateSingleLED(int led);
 
     void        SetCustomMode();
-    void        UpdateMode();
+    void        DeviceUpdateMode();
 
 private:
     NZXTHue2Controller*         hue2;

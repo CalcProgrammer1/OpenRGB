@@ -103,7 +103,7 @@ void RGBController_LogitechG203::SetCustomMode()
 
 }
 
-void RGBController_LogitechG203::UpdateMode()
+void RGBController_LogitechG203::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }

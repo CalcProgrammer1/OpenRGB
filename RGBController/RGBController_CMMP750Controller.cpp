@@ -141,7 +141,7 @@ void RGBController_CMMP750Controller::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_CMMP750Controller::UpdateMode()
+void RGBController_CMMP750Controller::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)
     {

@@ -208,7 +208,7 @@ void RGBController_AuraUSB::SetCustomMode()
 
 }
 
-void RGBController_AuraUSB::UpdateMode()
+void RGBController_AuraUSB::DeviceUpdateMode()
 {
     unsigned char red = 0;
     unsigned char grn = 0;

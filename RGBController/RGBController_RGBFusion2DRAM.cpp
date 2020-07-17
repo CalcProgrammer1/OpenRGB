@@ -92,7 +92,7 @@ void RGBController_RGBFusion2DRAM::SetCustomMode()
 
 }
 
-void RGBController_RGBFusion2DRAM::UpdateMode()
+void RGBController_RGBFusion2DRAM::DeviceUpdateMode()
 {
 
 }

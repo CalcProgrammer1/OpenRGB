@@ -131,7 +131,7 @@ void RGBController_RGBFusionGPU::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_RGBFusionGPU::UpdateMode()
+void RGBController_RGBFusionGPU::DeviceUpdateMode()
 {
     rgb_fusion->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed);
 }

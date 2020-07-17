@@ -129,7 +129,7 @@ void RGBController_MSIMysticLight::UpdateSingleLED(int led)
     controller->Update();
 }
 
-void RGBController_MSIMysticLight::UpdateMode()
+void RGBController_MSIMysticLight::DeviceUpdateMode()
 {
 }
 

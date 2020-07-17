@@ -168,7 +168,7 @@ void RGBController_EKController::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_EKController::UpdateMode()
+void RGBController_EKController::DeviceUpdateMode()
 {
     EK_dev->SetMode(modes[active_mode].value, modes[active_mode].speed);
 }

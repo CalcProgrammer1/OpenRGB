@@ -180,7 +180,7 @@ void RGBController_RGBFusion2SMBus::SetCustomMode()
 
 }
 
-void RGBController_RGBFusion2SMBus::UpdateMode()
+void RGBController_RGBFusion2SMBus::DeviceUpdateMode()
 {
 
 }

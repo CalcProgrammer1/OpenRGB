@@ -174,7 +174,7 @@ void RGBController_GloriousModelO::SetCustomMode()
     //active_mode = 2;
 }
 
-void RGBController_GloriousModelO::UpdateMode()
+void RGBController_GloriousModelO::DeviceUpdateMode()
 {
     unsigned int direction = 0;
     unsigned int speed = GLORIOUS_SPEED_NORMAL;

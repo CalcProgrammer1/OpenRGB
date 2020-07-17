@@ -248,7 +248,7 @@ void RGBController_SteelSeriesApex::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_SteelSeriesApex::UpdateMode()
+void RGBController_SteelSeriesApex::DeviceUpdateMode()
 {
         std::vector<RGBColor> temp_colors;
         steelseries->SetMode(modes[active_mode].value, temp_colors);

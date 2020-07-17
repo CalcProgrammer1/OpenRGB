@@ -106,7 +106,7 @@ void RGBController_DuckyKeyboard::SetCustomMode()
 
 }
 
-void RGBController_DuckyKeyboard::UpdateMode()
+void RGBController_DuckyKeyboard::DeviceUpdateMode()
 {
 
 }

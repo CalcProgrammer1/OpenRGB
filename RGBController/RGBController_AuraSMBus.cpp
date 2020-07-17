@@ -330,7 +330,7 @@ void RGBController_AuraSMBus::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_AuraSMBus::UpdateMode()
+void RGBController_AuraSMBus::DeviceUpdateMode()
 {
     if (modes[active_mode].value == 0xFFFF)
     {

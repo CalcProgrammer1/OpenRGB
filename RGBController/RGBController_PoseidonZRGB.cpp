@@ -265,7 +265,7 @@ void RGBController_PoseidonZRGB::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_PoseidonZRGB::UpdateMode()
+void RGBController_PoseidonZRGB::DeviceUpdateMode()
 {
     poseidon->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed);
 }

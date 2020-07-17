@@ -121,7 +121,7 @@ void RGBController_SteelSeriesRival::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_SteelSeriesRival::UpdateMode()
+void RGBController_SteelSeriesRival::DeviceUpdateMode()
 {
     /* Strictly, the device actually does support different modes for the 
      * different zones, but we don't support that. */

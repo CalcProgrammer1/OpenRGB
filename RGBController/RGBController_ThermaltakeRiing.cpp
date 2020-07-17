@@ -203,7 +203,7 @@ void RGBController_ThermaltakeRiing::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_ThermaltakeRiing::UpdateMode()
+void RGBController_ThermaltakeRiing::DeviceUpdateMode()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {

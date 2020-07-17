@@ -40,7 +40,7 @@ class RGBController_Faustus : public RGBController
         void        UpdateSingleLED(int led);
 
         void        SetCustomMode();
-        void        UpdateMode();
+        void        DeviceUpdateMode();
 };
 
 #endif // RGBCONTROLLER_FAUSTUS_H

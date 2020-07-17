@@ -219,7 +219,7 @@ void RGBController_CorsairVengeancePro::SetCustomMode()
     active_mode = 9;
 }
 
-void RGBController_CorsairVengeancePro::UpdateMode()
+void RGBController_CorsairVengeancePro::DeviceUpdateMode()
 {
     unsigned int corsair_direction = 0;
     bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);

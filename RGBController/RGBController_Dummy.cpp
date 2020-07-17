@@ -43,7 +43,7 @@ void RGBController_Dummy::SetCustomMode()
 
 }
 
-void RGBController_Dummy::UpdateMode()
+void RGBController_Dummy::DeviceUpdateMode()
 {
     
 }

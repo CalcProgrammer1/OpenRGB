@@ -117,7 +117,7 @@ void RGBController_LogitechG403::SetCustomMode()
 
 }
 
-void RGBController_LogitechG403::UpdateMode()
+void RGBController_LogitechG403::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }

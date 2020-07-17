@@ -136,7 +136,7 @@ void RGBController_HyperXAlloyOrigins::SetCustomMode()
 
 }
 
-void RGBController_HyperXAlloyOrigins::UpdateMode()
+void RGBController_HyperXAlloyOrigins::DeviceUpdateMode()
 {
 
 }

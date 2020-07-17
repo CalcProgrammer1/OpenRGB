@@ -98,7 +98,7 @@ void RGBController_SapphireGPU::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_SapphireGPU::UpdateMode()
+void RGBController_SapphireGPU::DeviceUpdateMode()
 {
     sapphire->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed);
 }

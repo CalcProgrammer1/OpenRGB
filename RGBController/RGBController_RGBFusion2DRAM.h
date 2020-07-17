@@ -26,7 +26,7 @@ public:
     void        UpdateSingleLED(int led);
 
     void        SetCustomMode();
-    void        UpdateMode();
+    void        DeviceUpdateMode();
 
 private:
     RGBFusion2DRAMController* rgb_fusion;

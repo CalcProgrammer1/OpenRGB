@@ -253,7 +253,7 @@ void RGBController_HuePlus::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_HuePlus::UpdateMode()
+void RGBController_HuePlus::DeviceUpdateMode()
 {
     if(modes[active_mode].value == HUE_PLUS_MODE_FIXED)
     {

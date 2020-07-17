@@ -81,7 +81,7 @@ void RGBController_SteelSeriesSiberia::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_SteelSeriesSiberia::UpdateMode()
+void RGBController_SteelSeriesSiberia::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }

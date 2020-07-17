@@ -312,7 +312,7 @@ void RGBController_Polychrome::SetCustomMode()
     active_mode = 1;
 }
 
-void RGBController_Polychrome::UpdateMode()
+void RGBController_Polychrome::DeviceUpdateMode()
 {
     polychrome->SetMode(modes[active_mode].value);
 

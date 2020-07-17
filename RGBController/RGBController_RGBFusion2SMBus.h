@@ -27,7 +27,7 @@ public:
     void        UpdateSingleLED(int led);
 
     void        SetCustomMode();
-    void        UpdateMode();
+    void        DeviceUpdateMode();
 
 private:
     RGBFusion2SMBusController* rgb_fusion;

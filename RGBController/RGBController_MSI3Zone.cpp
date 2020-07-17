@@ -104,7 +104,7 @@ void RGBController_MSI3Zone::SetCustomMode()
 
 }
 
-void RGBController_MSI3Zone::UpdateMode()
+void RGBController_MSI3Zone::DeviceUpdateMode()
 {
 
 }

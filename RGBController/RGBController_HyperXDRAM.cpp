@@ -235,7 +235,7 @@ void RGBController_HyperXDRAM::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_HyperXDRAM::UpdateMode()
+void RGBController_HyperXDRAM::DeviceUpdateMode()
 {
     bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
 

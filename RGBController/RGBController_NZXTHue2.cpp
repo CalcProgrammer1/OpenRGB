@@ -201,7 +201,7 @@ void RGBController_NZXTHue2::SetCustomMode()
     active_mode = 0;
 }
 
-void RGBController_NZXTHue2::UpdateMode()
+void RGBController_NZXTHue2::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)
     {

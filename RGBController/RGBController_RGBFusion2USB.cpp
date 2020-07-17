@@ -459,7 +459,7 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
     }
 }
 
-void RGBController_RGBFusion2USB::UpdateMode()
+void RGBController_RGBFusion2USB::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }
