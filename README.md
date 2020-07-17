@@ -37,11 +37,7 @@ As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues
 
 ### USB Access
 
-  *  Some USB devices (especially keyboards and mice) require installation of the WinUSB driver.  You can do this with Zadig:
-      - Download Zadig:  https://zadig.akeo.ie/
-      - Select "list all devices" from the menu
-      - Select the last interface (highest number) of your device
-      - With "WinUSB" selected, click Install
+  *  Previous versions of OpenRGB used the WinUSB driver, installed using Zadig.  This is no longer required, and you need to uninstall the WinUSB driver if you previously installed it.  You can uninstall the WinUSB driver by following [this guide](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Frequently-Asked-Questions#i-installed-the-winusb-driver-for-a-device-and-i-wish-to-uninstall-it).
 
 ## Linux
 
