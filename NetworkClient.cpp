@@ -352,8 +352,6 @@ void NetworkClient::ListenThreadFunction()
 
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        //printf( "Client: Received header, now receiving data of size %d\r\n", header.pkt_size);
-
         //Header received, now receive the data
         if(header.pkt_size > 0)
         {
@@ -376,21 +374,14 @@ void NetworkClient::ListenThreadFunction()
             } while (bytes_read < header.pkt_size);
         }
 
-        //printf( "Client: Received header and data\r\n" );
-        //printf( "Client: Packet ID: %d \r\n", header.pkt_id);
-
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
-                printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
-
                 ProcessReply_ControllerCount(header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
-                printf( "Client: NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n");
-
                 ProcessReply_ControllerData(header.pkt_size, data, header.pkt_dev_idx);
                 break;
         }
@@ -452,8 +443,6 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
     RGBController_Network * new_controller = new RGBController_Network(this, dev_idx);
 
     new_controller->ReadDeviceDescription((unsigned char *)data);
-
-    printf("Received controller: %s\r\n", new_controller->name.c_str());
 
     if(dev_idx >= server_controllers.size())
     {

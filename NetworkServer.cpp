@@ -427,8 +427,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        //printf( "Server: Received header, now receiving data of size %d\r\n", header.pkt_size);
-
         //Header received, now receive the data
         if(header.pkt_size > 0)
         {
@@ -451,30 +449,22 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
             } while (bytes_read < header.pkt_size);
         }
 
-        //printf( "Server: Received header and data\r\n" );
-        //printf( "Server: Packet ID: %d \r\n", header.pkt_id);
-
         //Entire request received, select functionality based on request ID
         switch(header.pkt_id)
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
-                //printf( "NET_PACKET_ID_REQUEST_CONTROLLER_COUNT\r\n" );
                 SendReply_ControllerCount(client_sock);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
-                //printf( "NET_PACKET_ID_REQUEST_CONTROLLER_DATA\r\n" );
                 SendReply_ControllerData(client_sock, header.pkt_dev_idx);
                 break;
 
             case NET_PACKET_ID_SET_CLIENT_NAME:
-                printf( "NET_PACKET_ID_SET_CLIENT_NAME\r\n" );
                 ProcessRequest_ClientString(client_sock, header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
-                //printf( "NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE\r\n" );
-
                 if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == (2 * sizeof(int))))
                 {
                     int zone;
@@ -488,8 +478,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
-                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS\r\n" );
-
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     controllers[header.pkt_dev_idx]->SetColorDescription((unsigned char *)data);
@@ -498,8 +486,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
-                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS\r\n" );
-
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     int zone;
@@ -512,8 +498,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
-                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED\r\n" );
-
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     int led;
@@ -526,8 +510,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE:
-                //printf( "NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE\r\n" );
-
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     controllers[header.pkt_dev_idx]->SetCustomMode();
@@ -535,8 +517,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
-                //printf( "NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE\r\n" );
-
                 if(header.pkt_dev_idx < controllers.size())
                 {
                     controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data);

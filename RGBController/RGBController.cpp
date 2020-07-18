@@ -990,8 +990,6 @@ void RGBController::SetModeDescription(unsigned char* data_buf)
 
         new_mode->colors.push_back(new_color);
     }
-
-    printf("read data ptr %d\r\n", data_ptr);
 }
 
 unsigned char * RGBController::GetColorDescription()
