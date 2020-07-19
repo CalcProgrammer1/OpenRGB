@@ -88,17 +88,17 @@ static const char *led_names[] =
     "Key: Backspace",
     "Key: Tab",
     "Key: Space",
-    "Key: +", // TODO: Find international name for this key
-    "Key: \\", // TODO: Find international name for this key
-    "Key: Å", // TODO: Find international name for this key
-    "Key: ¨", // TODO: Find international name for this key
-    "Key: '", // TODO: Find international name for this key
-    "Key: Ø", // TODO: Find international name for this key
-    "Key: Æ", // TODO: Find international name for this key
-    "Key: |", // TODO: Find international name for this key
+    "Key: -",
+    "Key: =",
+    "Key: [",
+    "Key: ]",
+    "Key: Non-US #/~",
+    "Key: ;",
+    "Key: '",
+    "Key: Grave Accent/Tilde",
     "Key: ,",
     "Key: .",
-    "Key: -",
+    "Key: /",
     "Key: Caps Lock",
     "Key: F1",
     "Key: F2",
@@ -142,7 +142,7 @@ static const char *led_names[] =
     "Key: Number Pad 9",
     "Key: Number Pad 0",
     "Key: Number Pad .",
-    "Key: <", // TODO: Find international name for this
+    "Key: Non-US \\ and |",
     "Key: Left Control",
     "Key: Left Shift",
     "Key: Left Alt",
