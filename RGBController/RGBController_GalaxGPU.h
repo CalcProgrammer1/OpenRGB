@@ -29,6 +29,4 @@ public:
 
 private:
     GalaxGPUController* galax_gpu;
-
-    //int        GetDeviceMode();
 };

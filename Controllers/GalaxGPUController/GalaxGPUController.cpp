@@ -68,11 +68,31 @@ void GalaxGPUController::SetLEDColorsEffect(unsigned char red, unsigned char gre
 
 void GalaxGPUController::SetMode(unsigned char mode)
 {
-    //not researched yet
+    switch(mode)
+    {
+    case 1:
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_1, GALAX_MODE_STATIC_VALUE_1);
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_2, GALAX_MODE_STATIC_VALUE_2);
+        break;
 
-    /*
-    GalaxGPURegisterWrite(GALAX_MODE_REGISTER, mode);
-    */
+    case 2:
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_1, GALAX_MODE_BREATHING_VALUE_1);
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_2, GALAX_MODE_BREATHING_VALUE_2);
+        break;
+
+    case 3:
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_1, GALAX_MODE_RAINBOW_VALUE_1);
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_2, GALAX_MODE_RAINBOW_VALUE_2);
+        break;
+
+    case 4:
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_1, GALAX_MODE_CYCLE_BREATHING_VALUE_1);
+        GalaxGPURegisterWrite(GALAX_MODE_REGISTER_2, GALAX_MODE_CYCLE_BREATHING_VALUE_2);
+        break;
+
+    default:
+        break;
+    }
 }
 
 unsigned char GalaxGPUController::GalaxGPURegisterRead(unsigned char reg)

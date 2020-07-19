@@ -15,15 +15,29 @@ typedef unsigned char galax_gpu_dev_id;
 
 enum
 {
+    /* RGB Registers */
     GALAX_RED_REGISTER                      = 0x02, /* Red Register */
     GALAX_GREEN_REGISTER                    = 0x03, /* Green Register */
     GALAX_BLUE_REGISTER                     = 0x04, /* Blue Register */
-    //GALAX_MODE_REGISTER                     = 0x07, /* Mode Register */
+    /* MODE Registers */
+    GALAX_MODE_REGISTER_1                   = 0x05, /* Mode Register 1 */
+    GALAX_MODE_REGISTER_2                   = 0x06, /* Mode Register 2 */
 };
 
 enum
 {
-    //GALAX_MODE_STATIC                       = 0x04,
+    /* Static Mode Values */
+    GALAX_MODE_STATIC_VALUE_1               = 0x00,
+    GALAX_MODE_STATIC_VALUE_2               = 0x01,
+    /* Breathing Mode Values */
+    GALAX_MODE_BREATHING_VALUE_1            = 0x04,
+    GALAX_MODE_BREATHING_VALUE_2            = 0x00,
+    /* Rainbow Mode Values */
+    GALAX_MODE_RAINBOW_VALUE_1              = 0x84,
+    GALAX_MODE_RAINBOW_VALUE_2              = 0x02,
+    /* Cycle Breathing Mode Values */
+    GALAX_MODE_CYCLE_BREATHING_VALUE_1      = 0x84,
+    GALAX_MODE_CYCLE_BREATHING_VALUE_2      = 0x40,
 };
 
 class GalaxGPUController
