@@ -39,7 +39,6 @@ void SteelSeriesApexController::SetMode
     std::vector<RGBColor> colors
     )
 {
-    unsigned char color_mode;
     unsigned char mode_colors[9];
 
     active_mode = mode;
