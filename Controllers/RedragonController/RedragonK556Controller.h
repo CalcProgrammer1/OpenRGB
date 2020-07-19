@@ -63,7 +63,7 @@ enum
 enum
 {
     REDRAGON_K556_BRIGHTNESS_LOWEST                 = 0x00, /* Lowest brightness (off)  */
-    REDRAGON_K556_BRIGHTNESS_HIGHEST                = 0x05, /* Highest brightness       */
+    REDRAGON_K556_BRIGHTNESS_HIGHEST                = 0x04, /* Highest brightness       */
 };
 
 enum
