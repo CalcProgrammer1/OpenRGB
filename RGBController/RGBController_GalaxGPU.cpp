@@ -126,7 +126,7 @@ void RGBController_GalaxGPU::SetCustomMode()
     active_mode = 1;
 }
 
-void RGBController_GalaxGPU::UpdateMode()
+void RGBController_GalaxGPU::DeviceUpdateMode()
 {    
     int new_mode = modes[active_mode].value;
 
