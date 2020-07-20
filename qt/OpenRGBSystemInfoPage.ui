@@ -14,38 +14,10 @@
    <string>Frame</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="SMBusAdaptersLabel">
-     <property name="text">
-      <string>SMBus Adapters:</string>
-     </property>
-    </widget>
+   <item row="3" column="0" colspan="4">
+    <widget class="QPlainTextEdit" name="SMBusDataText"/>
    </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="QComboBox" name="SMBusAdaptersBox"/>
-   </item>
-   <item row="0" column="3">
-    <widget class="QPushButton" name="DetectButton">
-     <property name="text">
-      <string>Detect Devices</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="SMBusDumpLabel">
-     <property name="text">
-      <string>SMBus Dumper:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="DumpAddressLabel">
-     <property name="text">
-      <string>Address:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
+   <item row="2" column="2">
     <widget class="QSpinBox" name="DumpAddressBox">
      <property name="suffix">
       <string/>
@@ -61,15 +33,60 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="3">
+   <item row="2" column="3">
     <widget class="QPushButton" name="DumpButton">
      <property name="text">
       <string>Dump Device</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="4">
-    <widget class="QPlainTextEdit" name="SMBusDataText"/>
+   <item row="2" column="1">
+    <widget class="QLabel" name="DumpAddressLabel">
+     <property name="text">
+      <string>Address:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="SMBusDumpLabel">
+     <property name="text">
+      <string>SMBus Dumper:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="SMBusAdaptersLabel">
+     <property name="text">
+      <string>SMBus Adapters:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="DetectButton">
+     <property name="text">
+      <string>Detect Devices</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="QComboBox" name="SMBusAdaptersBox"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="SMBusDetectorLabel">
+     <property name="text">
+      <string>SMBus Detector:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="SMBusDetectModeLabel">
+     <property name="text">
+      <string>Detection Mode:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QComboBox" name="SMBusDetectionModeBox"/>
    </item>
   </layout>
  </widget>

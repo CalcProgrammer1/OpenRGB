@@ -28,6 +28,12 @@ OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>&
     }
 
     ui->SMBusAdaptersBox->setCurrentIndex(0);
+
+    ui->SMBusDetectionModeBox->addItem("Auto");
+    ui->SMBusDetectionModeBox->addItem("Quick");
+    ui->SMBusDetectionModeBox->addItem("Read");
+
+    ui->SMBusDetectionModeBox->setCurrentIndex(0);
 }
 
 OpenRGBSystemInfoPage::~OpenRGBSystemInfoPage()
@@ -47,7 +53,21 @@ void Ui::OpenRGBSystemInfoPage::on_DetectButton_clicked()
     if(busses.size() > current_index)
     {
         i2c_smbus_interface* bus = busses[current_index];
-        ui->SMBusDataText->setPlainText(i2c_detect(bus, MODE_QUICK).c_str());
+
+        switch(ui->SMBusDetectionModeBox->currentIndex())
+        {
+        case 0:
+            ui->SMBusDataText->setPlainText(i2c_detect(bus, MODE_AUTO).c_str());
+            break;
+
+        case 1:
+            ui->SMBusDataText->setPlainText(i2c_detect(bus, MODE_QUICK).c_str());
+            break;
+
+        case 2:
+            ui->SMBusDataText->setPlainText(i2c_detect(bus, MODE_READ).c_str());
+            break;
+        }
     }
 }
 
