@@ -1716,7 +1716,7 @@ static const razer_device mamba_te_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Mamba Wireless Wired 1532:0073                         |
+|  Razer Mamba Wireless (2018) Wired 1532:0073                  |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -1725,12 +1725,8 @@ static const razer_device mamba_te_device =
 |  Zone "Scroll Wheel"                                          |
 |       Single                                                  |
 |       1 LED                                                   |
-|                                                               |
-|  Zone "Matrix"                                                |
-|       Linear                                                  |
-|       16 LED                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_wireless_logo_zone =
+static const razer_zone mamba_wireless_2018_wired_logo_zone =
 {
     "Logo Zone",
     ZONE_TYPE_SINGLE,
@@ -1738,7 +1734,7 @@ static const razer_zone mamba_wireless_logo_zone =
     1
 };
 
-static const razer_zone mamba_wireless_scroll_wheel_zone =
+static const razer_zone mamba_wireless_2018_wired_scroll_wheel_zone =
 {
     "Scroll Wheel Zone",
     ZONE_TYPE_SINGLE,
@@ -1746,25 +1742,62 @@ static const razer_zone mamba_wireless_scroll_wheel_zone =
     1
 };
 
-static const razer_zone mamba_wireless_matrix_zone =
+static const razer_device mamba_wireless_2018_wired_device =
 {
-    "Matrix Zone",
-    ZONE_TYPE_LINEAR,
-    1,
-    16
-};
-
-static const razer_device mamba_wireless_wired_device =
-{
-    "Razer Mamba Chroma Wireless",
+    "Razer Mamba Wireless (Wired)",
     DEVICE_TYPE_MOUSE,
     true,
-    3,
-    18,
+    1,
+    2,
     {
-        &mamba_wireless_logo_zone,
-        &mamba_wireless_scroll_wheel_zone,
-        &mamba_wireless_matrix_zone,
+        &mamba_wireless_2018_wired_scroll_wheel_zone,
+        &mamba_wireless_2018_wired_logo_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Mamba Wireless (2018) Wireless 1532:0072               |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+
+static const razer_zone mamba_wireless_2018_wireless_logo_zone =
+{
+    "Logo Zone",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_wireless_2018_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel Zone",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device mamba_wireless_2018_wireless_device =
+{
+    "Razer Mamba Wireless (Receiver)",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    2,
+    {
+        &mamba_wireless_2018_wireless_scroll_wheel_zone,
+        &mamba_wireless_2018_wireless_logo_zone,
+        NULL,
         NULL,
         NULL,
         NULL
@@ -2672,7 +2705,8 @@ static const razer_device* device_list[] =
     &mamba_wireless_device,
     &mamba_te_device,
     &mamba_elite_device,
-    &mamba_wireless_wired_device,
+    &mamba_wireless_2018_wired_device,
+    &mamba_wireless_2018_wireless_device,
     &naga_chroma_device,
     &naga_epic_chroma_device,
     &naga_hex_v2_device,
