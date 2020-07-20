@@ -11,6 +11,9 @@
 
 #include <cstring>
 
+// Skip these indices in the color output
+static unsigned int skip_idx[] = { 6, 23, 29, 41, 47, 59, 70, 71, 85, 86, 91, 97, 98, 100, 105, 110, 111, 117 };
+
 HyperXAlloyOriginsController::HyperXAlloyOriginsController(hid_device* dev_handle)
 {
     dev = dev_handle;
@@ -25,6 +28,14 @@ void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)
 {
     int colors_to_send = colors.size();
     int colors_sent    = 0;
+
+    /*-----------------------------------------------------*\
+    | Insert color data for unused positions                |
+    \*-----------------------------------------------------*/
+    for(unsigned int skip_cnt = 0; skip_cnt < (sizeof(skip_idx) / sizeof(skip_idx[0])); skip_cnt++)
+    {
+        colors.insert(colors.begin() + skip_idx[skip_cnt], 0x00000000);
+    }
 
     SendDirectInitialization();
 

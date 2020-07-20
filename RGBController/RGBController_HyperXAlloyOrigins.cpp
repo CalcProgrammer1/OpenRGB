@@ -39,12 +39,152 @@ THREAD keepalive_thread(void *param)
 #define NA  0xFFFFFFFF
 
 static unsigned int matrix_map[6][23] =
-    { {   0,  NA,  12,  18,  24,  30,  NA,  42,  48,  54,  60,  NA,  66,  72,  78,  84,  90,  96, 102,  NA,  NA,  NA,  NA },
-      {   1,   7,  13,  19,  25,  31,  37,  43,  49,  55,  61,  NA,  67,  73,  85,  NA,  91,  97, 103,  NA,  NA,  NA,  NA },
-      {   2,  NA,   8,  14,  20,  26,  NA,  32,  38,  44,  50,  56,  62,  68,  74,  86,  92,  98, 104,  NA,  NA,  NA,  NA },
-      {   3,  NA,   9,  15,  21,  27,  NA,  33,  39,  45,  51,  57,  63,  69,  87,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
-      {   4,  NA,  16,  22,  28,  34,  NA,  40,  NA,  46,  52,  58,  64,  70,  82,  NA,  NA, 100,  NA,  NA,  NA,  NA,  NA },
-      {   5,  11,  17,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  65,  77,  83,  89,  95, 101, 107,  NA,  NA,  NA,  NA } };
+    { {   0,  NA,  11,  17,  22,  27,  NA,  33,  38,  43,  49,  NA,  54,  60,  64,  68,  74,  78,  83,  NA,  NA,  NA,  NA },
+      {   1,   6,  12,  18,  23,  28,  34,  39,  44,  50,  55,  NA,  61,  65,  69,  NA,  75,  79,  84,  NA,  NA,  NA,  NA },
+      {   2,  NA,   7,  13,  19,  24,  NA,  29,  35,  40,  45,  51,  56,  62,  66,  70,  76,  80,  85,  NA,  NA,  NA,  NA },
+      {   3,  NA,   8,  14,  20,  25,  NA,  30,  36,  41,  46,  52,  57,  63,  71,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
+      {   4,  NA,   9,  15,  21,  26,  NA,  31,  NA,  37,  42,  47,  53,  58,  72,  NA,  NA,  81,  NA,  NA,  NA,  NA,  NA },
+      {   5,  10,  16,  NA,  NA,  NA,  NA,  32,  NA,  NA,  NA,  NA,  48,  59,  67,  73,  77,  82,  86,  NA,  NA,  NA,  NA } };
+
+static const char* zone_names[] =
+{
+    "Keyboard",
+};
+
+static zone_type zone_types[] =
+{
+    ZONE_TYPE_MATRIX,
+};
+
+static const unsigned int zone_sizes[] =
+{
+    103,
+};
+
+static const char *led_names[] =
+{
+    "Key: Escape",
+    "Key: `",
+    "Key: Tab",
+    "Key: Caps Lock",
+    "Key: Left Shift",
+    "Key: Left Control",
+    // ?
+    "Key: 1",
+    "Key: Q",
+    "Key: A",
+    "Key: Z",
+    "Key: Left Windows",
+    "Key: F1",
+    "Key: 2",
+    "Key: W",
+    "Key: S",
+    "Key: X",
+    "Key: Left Alt",
+    "Key: F2",
+    "Key: 3",
+    "Key: E",
+    "Key: D",
+    "Key: C",
+    // ?
+    "Key: F3",
+    "Key: 4",
+    "Key: R",
+    "Key: F",
+    "Key: V",
+    // ?
+    "Key: F4",
+    "Key: 5",
+    "Key: T",
+    "Key: G",
+    "Key: B",
+    "Key: Space",
+    "Key: F5",
+    "Key: 6",
+    "Key: Y",
+    "Key: H",
+    "Key: N",
+    // ?
+    "Key: F6",
+    "Key: 7",
+    "Key: U",
+    "Key: J",
+    "Key: M",
+    //
+    "Key: F7",
+    "Key: 8",
+    "Key: I",
+    "Key: K",
+    "Key: ,",
+    "Key: Right Alt",
+    "Key: F8",
+    "Key: 9",
+    "Key: O",
+    "Key: L",
+    "Key: .",
+    //
+    "Key: F9",
+    "Key: 0",
+    "Key: P",
+    "Key: ;",
+    "Key: /",
+    "Key: Fn",
+    "Key: F10",
+    "Key: -",
+    "Key: [",
+    "Key: '",
+    //
+    //
+    "Key: F11",
+    "Key: =",
+    "Key: ]",
+    "Key: Context",
+    "Key: F12",
+    "Key: Backspace",
+    "Key: \\",
+    "Key: Enter",
+    "Key: Right Shift",
+    "Key: Right Control",
+    "Key: Print Screen",
+    "Key: Insert",
+    "Key: Delete",
+    //
+    //
+    "Key: Left Arrow",
+    "Key: Scroll Lock",
+    "Key: Home",
+    "Key: End",
+    //
+    "Key: Up Arrow",
+    "Key: Down Arrow",
+    "Key: Pause/Break",
+    "Key: Page Up",
+    "Key: Page Down",
+    //
+    //
+    "Key: Right Arrow",
+    //
+    "Key: Num Lock",
+    "Key: Number Pad 7",
+    "Key: Number Pad 4",
+    "Key: Number Pad 0",
+    //
+    "Key: Number Pad /",
+    "Key: Number Pad 8",
+    "Key: Number Pad 5",
+    "Key: Number Pad 2",
+    //
+    //
+    "Key: Number Pad *",
+    "Key: Number Pad 9",
+    "Key: Number Pad 6",
+    "Key: Number Pad 3",
+    "Key: Number Pad .",
+    //
+    "Key: Number Pad -",
+    "Key: Number Pad +",
+    "Key: Number Pad Enter", 
+};
 
 RGBController_HyperXAlloyOrigins::RGBController_HyperXAlloyOrigins(HyperXAlloyOriginsController* hyperx_ptr)
 {
@@ -84,27 +224,40 @@ RGBController_HyperXAlloyOrigins::~RGBController_HyperXAlloyOrigins()
 
 void RGBController_HyperXAlloyOrigins::SetupZones()
 {
-    zone new_zone;
+    /*---------------------------------------------------------*\
+    | Set up zones                                              |
+    \*---------------------------------------------------------*/
+    unsigned int total_led_count = 0;
+    for(unsigned int zone_idx = 0; zone_idx < 1; zone_idx++)
+    {
+        zone new_zone;
+        new_zone.name                   = zone_names[zone_idx];
+        new_zone.type                   = zone_types[zone_idx];
+        new_zone.leds_min               = zone_sizes[zone_idx];
+        new_zone.leds_max               = zone_sizes[zone_idx];
+        new_zone.leds_count             = zone_sizes[zone_idx];
 
-    new_zone.name               = "Keyboard";
-    new_zone.type               = ZONE_TYPE_MATRIX;
-    new_zone.leds_min           = 155;
-    new_zone.leds_max           = 155;
-    new_zone.leds_count         = 155;
-    new_zone.matrix_map         = new matrix_map_type;
-    new_zone.matrix_map->height = 6;
-    new_zone.matrix_map->width  = 23;
-    new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-    
-    zones.push_back(new_zone);
+        if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
+        {
+            new_zone.matrix_map         = new matrix_map_type;
+            new_zone.matrix_map->height = 6;
+            new_zone.matrix_map->width  = 23;
+            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+        }
+        else
+        {
+            new_zone.matrix_map         = NULL;
+        }
 
-    for(int led_idx = 0; led_idx < 155; led_idx++)
+        zones.push_back(new_zone);
+
+        total_led_count += zone_sizes[zone_idx];
+    }
+
+    for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-
-        new_led.name = "Keyboard LED ";
-        new_led.name.append(std::to_string(led_idx));
-
+        new_led.name = led_names[led_idx];
         leds.push_back(new_led);
     }
 
