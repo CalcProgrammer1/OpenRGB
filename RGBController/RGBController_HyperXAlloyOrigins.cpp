@@ -69,7 +69,7 @@ static const char *led_names[] =
     "Key: Caps Lock",
     "Key: Left Shift",
     "Key: Left Control",
-    // ?
+    // Skip index 6
     "Key: 1",
     "Key: Q",
     "Key: A",
@@ -86,13 +86,13 @@ static const char *led_names[] =
     "Key: E",
     "Key: D",
     "Key: C",
-    // ?
+    // Skip index 23
     "Key: F3",
     "Key: 4",
     "Key: R",
     "Key: F",
     "Key: V",
-    // ?
+    // Skip index 29
     "Key: F4",
     "Key: 5",
     "Key: T",
@@ -104,13 +104,13 @@ static const char *led_names[] =
     "Key: Y",
     "Key: H",
     "Key: N",
-    // ?
+    // Skip index 41
     "Key: F6",
     "Key: 7",
     "Key: U",
     "Key: J",
     "Key: M",
-    //
+    // Skip index 47
     "Key: F7",
     "Key: 8",
     "Key: I",
@@ -122,7 +122,7 @@ static const char *led_names[] =
     "Key: O",
     "Key: L",
     "Key: .",
-    //
+    // Skip index 59
     "Key: F9",
     "Key: 0",
     "Key: P",
@@ -133,11 +133,13 @@ static const char *led_names[] =
     "Key: -",
     "Key: [",
     "Key: '",
-    //
-    //
+    // Skip index 70
+    // Skip index 71
     "Key: F11",
     "Key: =",
     "Key: ]",
+    // Skip index 75
+    // Skip index 76
     "Key: Context",
     "Key: F12",
     "Key: Backspace",
@@ -148,39 +150,39 @@ static const char *led_names[] =
     "Key: Print Screen",
     "Key: Insert",
     "Key: Delete",
-    //
-    //
+    // Skip index 87
+    // Skip index 88
     "Key: Left Arrow",
     "Key: Scroll Lock",
     "Key: Home",
     "Key: End",
-    //
+    // Skip index 93
     "Key: Up Arrow",
     "Key: Down Arrow",
     "Key: Pause/Break",
     "Key: Page Up",
     "Key: Page Down",
-    //
-    //
+    // Skip index 99
+    // Skip index 100
     "Key: Right Arrow",
-    //
+    // Skip index 102
     "Key: Num Lock",
     "Key: Number Pad 7",
     "Key: Number Pad 4",
     "Key: Number Pad 0",
-    //
+    // Skip index 107
     "Key: Number Pad /",
     "Key: Number Pad 8",
     "Key: Number Pad 5",
     "Key: Number Pad 2",
-    //
-    //
+    // Skip index 112
+    // Skip index 113
     "Key: Number Pad *",
     "Key: Number Pad 9",
     "Key: Number Pad 6",
     "Key: Number Pad 3",
     "Key: Number Pad .",
-    //
+    // Skip index 119
     "Key: Number Pad -",
     "Key: Number Pad +",
     "Key: Number Pad Enter", 
