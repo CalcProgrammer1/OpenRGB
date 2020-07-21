@@ -26,9 +26,6 @@ HyperXAlloyOriginsController::~HyperXAlloyOriginsController()
 
 void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)
 {
-    int colors_to_send = colors.size();
-    int colors_sent    = 0;
-
     /*-----------------------------------------------------*\
     | Insert color data for unused positions                |
     \*-----------------------------------------------------*/
@@ -36,6 +33,13 @@ void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)
     {
         colors.insert(colors.begin() + skip_idx[skip_cnt], 0x00000000);
     }
+
+    /*-----------------------------------------------------*\
+    | Set up variables to track progress of color transmit  |
+    | Do this after inserting blanks                        |
+    \*-----------------------------------------------------*/
+    int colors_to_send = colors.size();
+    int colors_sent    = 0;
 
     SendDirectInitialization();
 
