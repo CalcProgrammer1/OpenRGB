@@ -186,6 +186,8 @@ static const char *led_names[] =
     // Skip index 120
     "Key: Number Pad -",
     "Key: Number Pad +",
+    // Skip index 123
+    // Skip index 124
     "Key: Number Pad Enter", 
 };
 
