@@ -40,11 +40,11 @@ THREAD keepalive_thread(void *param)
 
 static unsigned int matrix_map[6][23] =
     { {   0,  NA,  11,  17,  22,  27,  NA,  33,  38,  43,  49,  NA,  54,  60,  64,  68,  74,  78,  83,  NA,  NA,  NA,  NA },
-      {   1,   6,  12,  18,  23,  28,  34,  39,  44,  50,  55,  NA,  61,  65,  69,  NA,  75,  79,  84,  NA,  NA,  NA,  NA },
-      {   2,  NA,   7,  13,  19,  24,  NA,  29,  35,  40,  45,  51,  56,  62,  66,  70,  76,  80,  85,  NA,  NA,  NA,  NA },
-      {   3,  NA,   8,  14,  20,  25,  NA,  30,  36,  41,  46,  52,  57,  63,  71,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
-      {   4,  NA,   9,  15,  21,  26,  NA,  31,  NA,  37,  42,  47,  53,  58,  72,  NA,  NA,  81,  NA,  NA,  NA,  NA,  NA },
-      {   5,  10,  16,  NA,  NA,  NA,  NA,  32,  NA,  NA,  NA,  NA,  48,  59,  67,  73,  77,  82,  86,  NA,  NA,  NA,  NA } };
+      {   1,   6,  12,  18,  23,  28,  34,  39,  44,  50,  55,  NA,  61,  65,  69,  NA,  75,  79,  84,  87,  92,  96, 101 },
+      {   2,  NA,   7,  13,  19,  24,  NA,  29,  35,  40,  45,  51,  56,  62,  66,  70,  76,  80,  85,  88,  93,  97, 102 },
+      {   3,  NA,   8,  14,  20,  25,  NA,  30,  36,  41,  46,  52,  57,  63,  71,  NA,  NA,  NA,  NA,  89,  94,  98,  NA },
+      {   4,  NA,   9,  15,  21,  26,  NA,  31,  NA,  37,  42,  47,  53,  58,  72,  NA,  NA,  81,  NA,  90,  95,  99, 103 },
+      {   5,  10,  16,  NA,  NA,  NA,  NA,  32,  NA,  NA,  NA,  NA,  48,  59,  67,  73,  77,  82,  86,  91,  NA, 100,  NA } };
 
 static const char* zone_names[] =
 {
@@ -58,7 +58,7 @@ static zone_type zone_types[] =
 
 static const unsigned int zone_sizes[] =
 {
-    103,
+    104,
 };
 
 static const char *led_names[] =
@@ -169,20 +169,21 @@ static const char *led_names[] =
     "Key: Num Lock",
     "Key: Number Pad 7",
     "Key: Number Pad 4",
+    "Key: Number Pad 1",
     "Key: Number Pad 0",
-    // Skip index 107
+    // Skip index 108
     "Key: Number Pad /",
     "Key: Number Pad 8",
     "Key: Number Pad 5",
     "Key: Number Pad 2",
-    // Skip index 112
     // Skip index 113
+    // Skip index 114
     "Key: Number Pad *",
     "Key: Number Pad 9",
     "Key: Number Pad 6",
     "Key: Number Pad 3",
     "Key: Number Pad .",
-    // Skip index 119
+    // Skip index 120
     "Key: Number Pad -",
     "Key: Number Pad +",
     "Key: Number Pad Enter", 
