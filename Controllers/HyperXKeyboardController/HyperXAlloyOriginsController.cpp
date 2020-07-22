@@ -84,7 +84,7 @@ void HyperXAlloyOriginsController::SendDirectInitialization()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, &buf[1], 65);
+    hid_send_feature_report(dev, buf, 65);
 }
 
 void HyperXAlloyOriginsController::SendDirectColorPacket
@@ -127,5 +127,5 @@ void HyperXAlloyOriginsController::SendDirectColorPacket
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, &buf[1], 65);
+    hid_send_feature_report(dev, buf, 65);
 }
