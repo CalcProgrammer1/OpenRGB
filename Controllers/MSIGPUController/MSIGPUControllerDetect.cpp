@@ -66,6 +66,15 @@ bool IsMSIGPUController(i2c_smbus_interface* bus)
         pass = true;
     }
 
+    // MSI RTX 2080 Ti Gaming X Trio
+    if (bus->pci_device == 0x1e07 &&
+        bus->pci_vendor == 0x10de &&
+        bus->pci_subsystem_device == 0x3715 &&
+        bus->pci_subsystem_vendor == 0x1462)
+    {
+        pass = true;
+    }
+
     return(pass);
 }   /* IsMSIGPUController() */
 
