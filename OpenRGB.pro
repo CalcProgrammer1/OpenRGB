@@ -16,7 +16,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #-----------------------------------------------------------------------#
 # Application Configuration                                             #
 #-----------------------------------------------------------------------#
-VERSION     = 0.3
+VERSION     = 0.31
 TARGET      = OpenRGB
 TEMPLATE    = app
 
