@@ -29,9 +29,9 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
     bool pass = false;
 
-    unsigned char res = bus->i2c_smbus_read_byte_data(address, 0x00);
-
-    if(res == 0x10 || res == 0x27) //Windows reads 0x10, Linux reads 0x27 which is correct as 0x10 is at 0x01
+    unsigned char res  = bus->i2c_smbus_read_byte_data(address, 0x00);
+    unsigned char res2 = bus->i2c_smbus_read_byte_data(address, 0x01);
+    if(res == 0x27 && res2 == 0x10)
     {
         pass = true;
     }

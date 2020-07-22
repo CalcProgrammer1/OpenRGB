@@ -8,6 +8,40 @@
 
 #include "RGBController_GalaxGPU.h"
 
+int RGBController_GalaxGPU::GetDeviceMode()
+{
+    int modereg1 = galax_gpu->GalaxGPURegisterRead(GALAX_MODE_REGISTER_1);
+    int modereg2 = galax_gpu->GalaxGPURegisterRead(GALAX_MODE_REGISTER_2);
+    int color_mode = MODE_COLORS_PER_LED;
+
+    if (modereg1 == GALAX_MODE_STATIC_VALUE_1 && modereg2 == GALAX_MODE_STATIC_VALUE_2)
+    {
+        active_mode = 1;
+        modes[active_mode].color_mode = MODE_COLORS_PER_LED;
+    }
+
+    if (modereg1 == GALAX_MODE_BREATHING_VALUE_1 && modereg2 == GALAX_MODE_BREATHING_VALUE_2)
+    {
+        active_mode = 2;
+        modes[active_mode].color_mode = MODE_COLORS_PER_LED;
+    }
+
+    if (modereg1 == GALAX_MODE_RAINBOW_VALUE_1 && modereg2 == GALAX_MODE_RAINBOW_VALUE_2)
+    {
+        active_mode = 3;
+        modes[active_mode].color_mode = MODE_COLORS_NONE;
+    }
+
+    if (modereg1 == GALAX_MODE_CYCLE_BREATHING_VALUE_1 && modereg2 == GALAX_MODE_CYCLE_BREATHING_VALUE_2)
+    {
+        active_mode = 4;
+        modes[active_mode].color_mode = MODE_COLORS_NONE;
+    }
+
+
+    return(active_mode);
+}
+
 RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController * galax_gpu_ptr)
 {
     galax_gpu = galax_gpu_ptr;
@@ -49,7 +83,7 @@ RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController * galax_gpu_pt
 
     SetupZones();
 
-    //active_mode = GetDeviceMode();
+    active_mode = GetDeviceMode();
 }
 
 void RGBController_GalaxGPU::SetupZones()
