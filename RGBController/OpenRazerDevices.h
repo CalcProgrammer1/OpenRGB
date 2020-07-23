@@ -2399,9 +2399,9 @@ static const razer_zone naga_trinity_numpad_zone =
     1
 };
 
-static const razer_device naga_trintiy_device =
+static const razer_device naga_trinity_device =
 {
-    "Razer Naga Trintiy",
+    "Razer Naga Trinity",
     DEVICE_TYPE_MOUSE,
     false,
     1,
@@ -3190,7 +3190,7 @@ static const razer_device* device_list[] =
     &naga_chroma_device,
     &naga_epic_chroma_device,
     &naga_hex_v2_device,
-    &naga_trintiy_device,
+    &naga_trinity_device,
     &viper_ultimate_device,
 /*-----------------------------------------------------------------*\
 |  KEYPADS                                                          |
