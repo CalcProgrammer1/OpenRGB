@@ -94,7 +94,7 @@ static const led_type led_names[] =
     { "Key: \\",                LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x31    },//ANSI only
     { "Key: #",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x32    },//ISO only
     { "Key: ;",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x33    },
-    { "Key: /",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x34    },
+    { "Key: '",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x34    },
     { "Key: `",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x35    },
     { "Key: ,",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x36    },
     { "Key: .",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x37    },
