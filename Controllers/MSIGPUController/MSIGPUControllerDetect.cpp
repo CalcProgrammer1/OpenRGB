@@ -13,97 +13,63 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/******************************************************************************************\
-*                                                                                          *
-*   IsMSIGPUController                                                                     *
-*                                                                                          *
-*       Compare PCI IDs                                                                    *
-*                                                                                          *
-\******************************************************************************************/
+/*-----------------------------------------------------*\
+| NVidia vendor ID                                      |
+\*-----------------------------------------------------*/
+#define NVIDIA_VEN                              0x10DE
 
-bool IsMSIGPUController(i2c_smbus_interface* bus)
+/*-----------------------------------------------------*\
+| NVidia device IDs                                     |
+\*-----------------------------------------------------*/
+#define NVIDIA_RTX2060_DEV                      0x1F08
+#define NVIDIA_RTX2060S_DEV                     0x1F06
+#define NVIDIA_RTX2070_DEV                      0x1F02
+#define NVIDIA_RTX2070S_DEV                     0x1E84
+#define NVIDIA_RTX2080_DEV                      0x1E87
+#define NVIDIA_RTX2080S_DEV                     0x1E81
+#define NVIDIA_RTX2080TI_DEV                    0x1E07
+
+/*-----------------------------------------------------*\
+| MSI sub-vendor ID                                     |
+\*-----------------------------------------------------*/
+#define MSI_SUB_VEN                             0x1462
+
+/*-----------------------------------------------------*\
+| MSI sub-device IDs                                    |
+\*-----------------------------------------------------*/
+#define MSI_RTX2060S_GAMING_X_SUB_DEV           0xC752
+#define MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV      0xC726
+#define MSI_RTX2080_GAMING_X_TRIO_SUB_DEV       0x3726
+#define MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV      0xC724
+#define MSI_RTX2080TI_GAMING_X_TRIO_SUB_DEV     0x3715
+#define MSI_RTX2060_GAMING_Z_6G_SUB_DEV         0x3754
+#define MSI_RTX2070_ARMOR_SUB_DEV               0x3734
+#define MSI_RTX2060S_ARMOR_OC_SUB_DEV           0xC754
+#define MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV     0x3717
+
+typedef struct
 {
-    bool pass = false;
+    int             pci_vendor;
+    int             pci_device;
+    int             pci_subsystem_vendor;
+    int             pci_subsystem_device;
+    const char *    name;
+} msi_gpu_pci_device;
 
-    if (bus->port_id != 1)
-    {
-        return(pass);
-    }
+#define MSI_GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
 
-    // MSI RTX 2080S Gaming X Trio
-    if (bus->pci_device == 0x1e81 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0xc724 &&
-        bus->pci_subsystem_vendor == 0x1462)
-    {
-        pass = true;
-    }
-
-    // MSI RTX 2070S Gaming X Trio
-    if (bus->pci_device == 0x1e84 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0xc726 &&
-        bus->pci_subsystem_vendor == 0x1462)
-    {
-        pass = true;
-    }
-
-    // MSI RTX 2080 Ti Sea Hawk EK X
-    if (bus->pci_device == 0x1e07 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0x3717 &&
-        bus->pci_subsystem_vendor == 0x1462)
-    {
-        pass = true;
-    }
-
-    // MSI RTX 2070 ARMOR
-    if (bus->pci_device == 0x1f02 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0x3734 &&
-        bus->pci_subsystem_vendor == 0x1462)
-    {
-        pass = true;
-    }
-
-    // MSI RTX 2080 Ti Gaming X Trio
-    if (bus->pci_device == 0x1e07 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0x3715 &&
-        bus->pci_subsystem_vendor == 0x1462)
-    {
-        pass = true;
-    }
-    
-    // MSI RTX 2080 Gaming X Trio
-    if (bus->pci_device == 0x1e87 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0x3726 &&
-        bus->pci_subsystem_vendor == 0x1462)
-    {
-        pass = true;
-    }
-
-    // MSI RTX 2060 Gaming Z 6G
-    if (bus->pci_device == 0x1f08 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0x3754 &&
-        bus->pci_subsystem_vendor == 0x1462 )
-     {
-        pass = true;
-     }
-
-    // MSI RTX 2060S Gaming X
-    if (bus->pci_device == 0x0300 &&
-        bus->pci_vendor == 0x10de &&
-        bus->pci_subsystem_device == 0x1f06 &&
-        bus->pci_subsystem_vendor == 0x1462 )
-     {
-        pass = true;
-     }
-
-    return(pass);
-}   /* IsMSIGPUController() */
+static const msi_gpu_pci_device device_list[] =
+{
+    { NVIDIA_VEN,   NVIDIA_RTX2060S_DEV,    MSI_SUB_VEN,    MSI_RTX2060S_GAMING_X_SUB_DEV,          "MSI GeForce RTX 2060 Super Gaming X"           },
+    { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,    MSI_SUB_VEN,    MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV,     "MSI GeForce RTX 2070 Super Gaming X Trio"      },
+    { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,     MSI_SUB_VEN,    MSI_RTX2080_GAMING_X_TRIO_SUB_DEV,      "MSI GeForce RTX 2080 Gaming X Trio"            },
+    { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,    MSI_SUB_VEN,    MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV,     "MSI GeForce RTX 2080 Super Gaming X Trio"      },
+    { NVIDIA_VEN,   NVIDIA_RTX2080TI_DEV,   MSI_SUB_VEN,    MSI_RTX2080TI_GAMING_X_TRIO_SUB_DEV,    "MSI GeForce RTX 2080Ti Gaming X Trio"          },
+    { NVIDIA_VEN,   NVIDIA_RTX2060_DEV,     MSI_SUB_VEN,    MSI_RTX2060_GAMING_Z_6G_SUB_DEV,        "MSI GeForce RTX 2060 Gaming Z 6G"              },
+    { NVIDIA_VEN,   NVIDIA_RTX2060S_DEV,    MSI_SUB_VEN,    MSI_RTX2060S_ARMOR_OC_SUB_DEV,          "MSI GeForce RTX 2060 Super ARMOR OC"           },
+    { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,     MSI_SUB_VEN,    MSI_RTX2070_ARMOR_SUB_DEV,              "MSI GeForce RTX 2070 ARMOR"                    },
+    { NVIDIA_VEN,   NVIDIA_RTX2080TI_DEV,   MSI_SUB_VEN,    MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV,    "MSI GeForce RTX 2080Ti Sea Hawk EK X"          },
+};
 
 
 /******************************************************************************************\
@@ -121,11 +87,23 @@ void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        if (IsMSIGPUController(busses[bus]))
+        for(unsigned int dev_idx = 0; dev_idx < MSI_GPU_NUM_DEVICES; dev_idx++)
         {
-            new_msi_gpu = new MSIGPUController(busses[bus]);
-            new_controller = new RGBController_MSIGPU(new_msi_gpu);
-            rgb_controllers.push_back(new_controller);
+            if (busses[bus]->port_id != 1)
+            {
+                break;
+            }
+
+            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
+               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
+               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
+               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
+            {
+                new_msi_gpu = new MSIGPUController(busses[bus]);
+                new_controller = new RGBController_MSIGPU(new_msi_gpu);
+                new_controller->name = device_list[dev_idx].name;
+                rgb_controllers.push_back(new_controller);
+            }
         }
     }
 } /* DetectMSIGPUControllers() */

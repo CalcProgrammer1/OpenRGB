@@ -12,18 +12,11 @@ MSIGPUController::MSIGPUController(i2c_smbus_interface* bus)
 {
     this->bus = bus;
     this->dev = 0x68;
-
-    strcpy(device_name, "MSI RTX GPU");
 }
 
 MSIGPUController::~MSIGPUController()
 {
 
-}
-
-std::string MSIGPUController::GetDeviceName()
-{
-    return(device_name);
 }
 
 std::string MSIGPUController::GetDeviceLocation()

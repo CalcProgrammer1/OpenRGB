@@ -60,7 +60,6 @@ public:
     MSIGPUController(i2c_smbus_interface* bus);
     ~MSIGPUController();
 
-    std::string   GetDeviceName();
     std::string   GetDeviceLocation();
 
     void          SetRGB1(unsigned char red, unsigned char green, unsigned char blue);
@@ -73,7 +72,6 @@ public:
     void          MSIGPURegisterWrite(unsigned char reg, unsigned char val);
 
 private:
-    char                    device_name[16];
     i2c_smbus_interface *   bus;
     msi_gpu_dev_id          dev;
 };
