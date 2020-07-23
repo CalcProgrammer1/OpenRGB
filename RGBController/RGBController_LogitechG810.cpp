@@ -91,7 +91,7 @@ static const led_type led_names[] =
     { "Key: =",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x2E    },
     { "Key: [",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x2F    },
     { "Key: ]",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x30    },
-    { "Key: \\",                LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x31    },//ANSI only
+    { "Key: \\ (ANSI)",         LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x31    },//ANSI only
     { "Key: #",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x32    },//ISO only
     { "Key: ;",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x33    },
     { "Key: '",                 LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x34    },
@@ -142,7 +142,7 @@ static const led_type led_names[] =
     { "Key: Number Pad 9",      LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x61    },
     { "Key: Number Pad 0",      LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x62    },
     { "Key: Number Pad .",      LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x63    },
-    { "Key: \\",                LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x64    },//ISO only
+    { "Key: \\ (ISO)",          LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x64    },//ISO only
     { "Key: Context",           LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x65    },
     { "Key: Left Control",      LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0xE0    },
     { "Key: Left Shift",        LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0xE1    },

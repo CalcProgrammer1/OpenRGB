@@ -143,7 +143,7 @@ static const char *led_names[] =
     "Key: Context",
     "Key: F12",
     "Key: Backspace",
-    "Key: \\",
+    "Key: \\ (ANSI)",
     "Key: Enter",
     "Key: Right Shift",
     "Key: Right Control",

@@ -117,7 +117,7 @@ static const char* led_names[] =
     "Key: K",               //99
     "Key: M",               //100
     "Key: Right Windows",   //101
-    "Key: \\",              //102
+    "Key: \\ (ANSI)",       //102
     "Key: Up Arrow",        //103
     "Key: Number Pad *",    //104
     "Key: Number Pad 2",    //105
