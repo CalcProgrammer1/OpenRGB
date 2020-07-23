@@ -45,6 +45,7 @@
 #define MSI_RTX2060_GAMING_Z_6G_SUB_DEV         0x3754
 #define MSI_RTX2070_ARMOR_SUB_DEV               0x3734
 #define MSI_RTX2060S_ARMOR_OC_SUB_DEV           0xC754
+#define MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV       0x3728
 #define MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV     0x3717
 
 typedef struct
@@ -68,6 +69,7 @@ static const msi_gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2060_DEV,     MSI_SUB_VEN,    MSI_RTX2060_GAMING_Z_6G_SUB_DEV,        "MSI GeForce RTX 2060 Gaming Z 6G"              },
     { NVIDIA_VEN,   NVIDIA_RTX2060S_DEV,    MSI_SUB_VEN,    MSI_RTX2060S_ARMOR_OC_SUB_DEV,          "MSI GeForce RTX 2060 Super ARMOR OC"           },
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,     MSI_SUB_VEN,    MSI_RTX2070_ARMOR_SUB_DEV,              "MSI GeForce RTX 2070 ARMOR"                    },
+    { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,     MSI_SUB_VEN,    MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV,      "MSI GeForce RTX 2080 Sea Hawk EK X"            },
     { NVIDIA_VEN,   NVIDIA_RTX2080TI_DEV,   MSI_SUB_VEN,    MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV,    "MSI GeForce RTX 2080Ti Sea Hawk EK X"          },
 };
 
