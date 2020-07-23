@@ -585,7 +585,7 @@ static const razer_zone blackwidow_x_chroma_zone =
 
 static const razer_device blackwidow_x_chroma_device =
 {
-    "Razer Blackwidow X Chroma",
+    "Razer BlackWidow X Chroma",
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
