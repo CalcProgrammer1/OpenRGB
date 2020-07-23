@@ -70,6 +70,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>ClientIPValue</tabstop>
+  <tabstop>ClientPortValue</tabstop>
+  <tabstop>ClientConnectButton</tabstop>
+  <tabstop>ClientTree</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

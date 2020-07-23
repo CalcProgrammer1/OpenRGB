@@ -90,6 +90,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>SMBusAdaptersBox</tabstop>
+  <tabstop>SMBusDetectionModeBox</tabstop>
+  <tabstop>DetectButton</tabstop>
+  <tabstop>DumpAddressBox</tabstop>
+  <tabstop>DumpButton</tabstop>
+  <tabstop>SMBusDataText</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

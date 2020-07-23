@@ -88,6 +88,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>ServerPortValue</tabstop>
+  <tabstop>ServerStartButton</tabstop>
+  <tabstop>ServerStopButton</tabstop>
+  <tabstop>ServerClientTree</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

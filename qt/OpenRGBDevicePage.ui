@@ -287,6 +287,33 @@
    </slots>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>ZoneBox</tabstop>
+  <tabstop>ResizeButton</tabstop>
+  <tabstop>LEDBox</tabstop>
+  <tabstop>SetDeviceButton</tabstop>
+  <tabstop>SetZoneButton</tabstop>
+  <tabstop>SetLEDButton</tabstop>
+  <tabstop>SetAllButton</tabstop>
+  <tabstop>ModeBox</tabstop>
+  <tabstop>PerLEDCheck</tabstop>
+  <tabstop>ModeSpecificCheck</tabstop>
+  <tabstop>RandomCheck</tabstop>
+  <tabstop>SpeedSlider</tabstop>
+  <tabstop>DirectionBox</tabstop>
+  <tabstop>RedSpinBox</tabstop>
+  <tabstop>GreenSpinBox</tabstop>
+  <tabstop>BlueSpinBox</tabstop>
+  <tabstop>HueSpinBox</tabstop>
+  <tabstop>SatSpinBox</tabstop>
+  <tabstop>ValSpinBox</tabstop>
+  <tabstop>ButtonRed</tabstop>
+  <tabstop>ButtonYellow</tabstop>
+  <tabstop>ButtonGreen</tabstop>
+  <tabstop>ButtonCyan</tabstop>
+  <tabstop>ButtonBlue</tabstop>
+  <tabstop>ButtonMagenta</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
