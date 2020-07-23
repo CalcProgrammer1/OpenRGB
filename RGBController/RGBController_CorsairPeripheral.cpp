@@ -53,7 +53,7 @@ static const char* led_names[] =
     "Key: A",               //15
     "Key: Left Windows",    //17
     "Key: Print Screen",    //18
-    "Media Mute",           //20
+    "Key: Media Mute",      //20
     "Key: Number Pad 8",    //21
     "Key: F2",              //24
     "Key: 2",               //25
@@ -63,7 +63,7 @@ static const char* led_names[] =
     "Key: Left Alt",        //29
     "Key: Scroll Lock",     //30
     "Key: Backspace",       //31
-    "Media Stop",           //32
+    "Key: Media Stop",      //32
     "Key: Number Pad 9",    //33
     "Key: F3",              //36
     "Key: 3",               //37
@@ -72,7 +72,7 @@ static const char* led_names[] =
     "Key: X",               //40
     "Key: Pause/Break",     //42
     "Key: Delete",          //43
-    "Media Previous",       //44
+    "Key: Media Previous",  //44
     "Key: F4",              //48
     "Key: 4",               //49
     "Key: R",               //50
@@ -81,7 +81,7 @@ static const char* led_names[] =
     "Key: Space",           //53
     "Key: Insert",          //54
     "Key: End",             //55
-    "Media Play/Pause",     //56
+    "Key: Media Play/Pause",//56
     "Key: Number Pad 4",    //57
     "Key: F5",              //60
     "Key: 5",               //61
@@ -90,7 +90,7 @@ static const char* led_names[] =
     "Key: V",               //64
     "Key: Home",            //66
     "Key: Page Down",       //67
-    "Media Next",           //68
+    "Key: Media Next",      //68
     "Key: Number Pad 5",    //69
     "Key: F6",              //72
     "Key: 6",               //73
