@@ -991,7 +991,8 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_cont
     /*---------------------------------------------------------*\
     | Set device mode                                           |
     \*---------------------------------------------------------*/
-    device->SetMode(mode);
+    device->active_mode = mode;
+    device->DeviceUpdateMode();
 
     /*---------------------------------------------------------*\
     | Set device per-LED colors if necessary                    |
