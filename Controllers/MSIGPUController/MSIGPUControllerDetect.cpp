@@ -38,6 +38,7 @@
 | MSI sub-device IDs                                    |
 \*-----------------------------------------------------*/
 #define MSI_RTX2060S_GAMING_X_SUB_DEV           0xC752
+#define MSI_RTX2070S_GAMING_X_SUB_DEV           0x373e
 #define MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV      0xC726
 #define MSI_RTX2080_GAMING_X_TRIO_SUB_DEV       0x3726
 #define MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV      0xC724
@@ -62,6 +63,7 @@ typedef struct
 static const msi_gpu_pci_device device_list[] =
 {
     { NVIDIA_VEN,   NVIDIA_RTX2060S_DEV,    MSI_SUB_VEN,    MSI_RTX2060S_GAMING_X_SUB_DEV,          "MSI GeForce RTX 2060 Super Gaming X"           },
+    { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,    MSI_SUB_VEN,    MSI_RTX2070S_GAMING_X_SUB_DEV,          "MSI GeForce RTX 2070 Super Gaming X"           },
     { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,    MSI_SUB_VEN,    MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV,     "MSI GeForce RTX 2070 Super Gaming X Trio"      },
     { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,     MSI_SUB_VEN,    MSI_RTX2080_GAMING_X_TRIO_SUB_DEV,      "MSI GeForce RTX 2080 Gaming X Trio"            },
     { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,    MSI_SUB_VEN,    MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV,     "MSI GeForce RTX 2080 Super Gaming X Trio"      },
