@@ -42,7 +42,7 @@ DMIInfo::DMIInfo()
     for (QueryObj &i : q_res_BaseBoard)
     {
         manufacturer    = i["Manufacturer"].c_str();
-        mainboard       = i["Model"].c_str();
+        mainboard       = i["Product"].c_str();
     }
 }
 #else /* WIN32 */

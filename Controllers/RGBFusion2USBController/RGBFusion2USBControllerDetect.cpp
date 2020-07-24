@@ -4,6 +4,7 @@
 
 #define IT8297_VID              0x048D
 #define IT8297_IFC              0
+#define IT8297_U                0xCC
 #define IT8297_UPG              0xFF89
 #define COUNT_RGBFUSION2_PIDS   (sizeof(RGBFusion2_pids) / sizeof(RGBFusion2_pids[ 0 ]))
 
@@ -43,11 +44,12 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
         while(info)
         {
             if((info->vendor_id        == IT8297_VID)
-            && (info->interface_number == IT8297_IFC)
 #ifdef USE_HID_USAGE
             &&(info->product_id        == tmpPID)
+            &&(info->usage             == IT8297_U)     //Usage and usage page required to get the correct interface
             &&(info->usage_page        == IT8297_UPG))
 #else
+            &&(info->interface_number  == IT8297_IFC)   //Interface is only valid on Windows where there is > 1 interface
             &&(info->product_id        == tmpPID))
 #endif
             {
@@ -57,6 +59,7 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
                     RGBFusion2USBController * controller = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
                     RGBController_RGBFusion2USB * rgb_controller = new RGBController_RGBFusion2USB(controller);
                     rgb_controllers.push_back(rgb_controller);
+                    break;
                 }
             }
             info = info->next;

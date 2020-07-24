@@ -29,14 +29,15 @@ static LEDCount LedCountToEnum(unsigned int c)
 
 RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name) : dev(handle)
 {
-    int res = 0;
-    char text[64] {};
-    unsigned char buffer[64] {};
+    int res                     = 0;
+    char text[64]               = { 0x00 };
+    unsigned char buffer[64]    = { 0x00 };
 
-    if( dev ) {
-
+    if( dev )
+    {
         SetCalibration();
 
+        name = mb_name;
         // hid report read needs 0x60 packet or it gives IO error
         SendPacket(0x60, 0x00);
 
@@ -46,9 +47,8 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
         {
             report = *reinterpret_cast<IT8297Report*>(buffer);
 
-            name = mb_name;
             description = std::string(report.str_product, 32);
-            description.erase(std::find(name.begin(), name.end(), '\0'), name.end());
+            //description.erase(std::find(description.begin(), description.end(), '\0'), name.end());
 
             snprintf(text, 11, "0x%08X", report.fw_ver);
             version = text;
@@ -56,7 +56,6 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
             snprintf(text, 11, "0x%08X", report.chip_id);
             chip_id = text;
         }
-
         loc = path;
 
         EnableBeat(false);
