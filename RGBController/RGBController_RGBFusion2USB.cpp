@@ -103,7 +103,7 @@ static const KnownLayout knownLayoutsLookup
                 {
                     { "LED Group0", HDR_BACK_IO, 1 },
                     { "LED Group1", HDR_CPU, 1 },
-                    { "LED Group2", HDR_D_LED2, 1 },
+                    { "LED Group2", HDR_LED_2, 1 },
                     { "LED Group3", HDR_PCIE, 1 },
                     { "LED C1/C2",  HDR_LED_C1C2, 1 }, // 12VGRB headers seem to be connected
                 }
