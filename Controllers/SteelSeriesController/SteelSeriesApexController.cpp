@@ -49,7 +49,7 @@ void SteelSeriesApexController::SetMode
 
 void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
 {
-    unsigned char buf[642];
+    unsigned char buf[643];
     int num_keys = sizeof(keys)/sizeof(*keys);
 
     /*-----------------------------------------------------*\
@@ -90,28 +90,15 @@ void SteelSeriesApexController::SelectProfile
     unsigned char   profile
     )
 {
-    unsigned char buf[64];
+    unsigned char buf[65];
 
     /*-----------------------------------------------------*\
-    | Zero out buffer, set up first packet and send         |
+    | Zero out buffer, set up packet and send               |
     \*-----------------------------------------------------*/
     memset(buf, 0x00, sizeof(buf));
-    buf[0x00]   = 0x69;
-    hid_send_feature_report(dev, buf, 64);
+    buf[0x00]   = 0;
+    buf[0x01]   = 0x89;
+    buf[0x02]   = profile;
+    hid_send_feature_report(dev, buf, 65);
 
-    /*-----------------------------------------------------*\
-    | Zero out buffer, set up second packet and send        |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-    buf[0x00]   = 0x89;
-    buf[0x01]   = profile;
-    hid_send_feature_report(dev, buf, 64);
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer, set up third packet and send         |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-    buf[0x00]   = 0x41;
-    hid_send_feature_report(dev, buf, 64);
-    
 }
