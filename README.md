@@ -19,9 +19,12 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
 
 ## WARNING!
 
-This project provides a tool to probe the SMBus.  This is a potentially dangerous operation if you don't know what you're doing.  Exercise caution when clicking the Detect Devices or Dump Device buttons.  There have been reports of Gigabyte motherboards having serious issues (bricking the RGB or bricking the entire board) when dumping certain devices.  On the same lines, exercise the same caution when using the i2cdump and i2cdetect commands on Linux, as they perform the same functionality.  OpenRGB is not liable for damage caused by improper SMBus access.
+This project interacts directly with hardware using reverse engineered protocols.  While we do our best to make sure we're sending the right data, there is always some risk in sending data to hardware when we don't understand exactly how that hardware works.
 
-As of now, only Gigabyte RGB Fusion 2.0 boards have been reported to have issues.
+There have been two instances of hardware damage in OpenRGB's development and we've taken precautions to prevent it from happening again.
+    * The MSI Mystic Light code reportedly bricked the RGB on certain MSI boards when sending certain modes.  This code has been disabled and MSI Mystic Light motherboards will not work with OpenRGB at this time.
+    * There were reports of bricked Gigabyte Aorus Z390 motherboards caused by dumping SMBus address 0x68 in an attempt to reverse engineer the RGB.  Due to this, the SMBus Tools page on OpenRGB is hidden by default now as it has no real use to non-developers.  Additionally, the RGB Fusion 2 SMBus code is disabled by default because, although it works on boards it is meant for, probing this address (0x68) could damage Gigabyte Z390 boards.
+    * To enable the MSI Mystic Light or Gigabyte RGB Fusion 2 SMBus code, you must uncomment the functions in main.cpp and recompile.
 
 ![OpenRGB_0.11](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/0ef8eb3936fe715217e7e3430c0aae18/OpenRGB_new_icons.PNG)
 
