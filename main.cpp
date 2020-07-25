@@ -40,6 +40,33 @@ enum
 
 /******************************************************************************************\
 *                                                                                          *
+*   InitializeTimerResolution (Win32)                                                      *
+*                                                                                          *
+*       On Windows, the default timer resolution is 15.6ms.  For higher accuracy delays,   *
+*       the timer resolution should be set to a shorter interval.  The shortest interval   *
+*       that can be set is 0.5ms.                                                          *
+*                                                                                          *
+\******************************************************************************************/
+#ifdef _WIN32
+typedef unsigned int NTSTATUS;
+typedef NTSTATUS (*NTSETTIMERRESOLUTION)(ULONG DesiredResolution, BOOLEAN SetResolution, PULONG CurrentResolution);
+
+void InitializeTimerResolution()
+{
+    NTSETTIMERRESOLUTION NtSetTimerResolution;
+    HMODULE              NtDllHandle;
+    ULONG                CurrentResolution;
+
+    NtDllHandle = LoadLibrary("ntdll.dll");
+
+    NtSetTimerResolution = (NTSETTIMERRESOLUTION)GetProcAddress(NtDllHandle, "NtSetTimerResolution");
+
+    NtSetTimerResolution(5000, TRUE, &CurrentResolution);
+}
+#endif
+
+/******************************************************************************************\
+*                                                                                          *
 *   AttemptLocalConnection                                                                 *
 *                                                                                          *
 *       Attempts an SDK connection to the local server.  Returns true if success           *
@@ -90,6 +117,10 @@ bool AttemptLocalConnection()
 
 int main(int argc, char* argv[])
 {
+#ifdef _WIN32
+    //InitializeTimerResolution();
+#endif
+
     ProfileManager profile_manager(rgb_controllers);
     NetworkServer server(rgb_controllers);
     
