@@ -22,9 +22,10 @@ See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) 
 This project interacts directly with hardware using reverse engineered protocols.  While we do our best to make sure we're sending the right data, there is always some risk in sending data to hardware when we don't understand exactly how that hardware works.
 
 There have been two instances of hardware damage in OpenRGB's development and we've taken precautions to prevent it from happening again.
-    * The MSI Mystic Light code reportedly bricked the RGB on certain MSI boards when sending certain modes.  This code has been disabled and MSI Mystic Light motherboards will not work with OpenRGB at this time.
-    * There were reports of bricked Gigabyte Aorus Z390 motherboards caused by dumping SMBus address 0x68 in an attempt to reverse engineer the RGB.  Due to this, the SMBus Tools page on OpenRGB is hidden by default now as it has no real use to non-developers.  Additionally, the RGB Fusion 2 SMBus code is disabled by default because, although it works on boards it is meant for, probing this address (0x68) could damage Gigabyte Z390 boards.
-    * To enable the MSI Mystic Light or Gigabyte RGB Fusion 2 SMBus code, you must uncomment the functions in main.cpp and recompile.
+
+  * The MSI Mystic Light code reportedly bricked the RGB on certain MSI boards when sending certain modes.  This code has been disabled and MSI Mystic Light motherboards will not work with OpenRGB at this time.
+  * There were reports of bricked Gigabyte Aorus Z390 motherboards caused by dumping SMBus address 0x68 in an attempt to reverse engineer the RGB.  Due to this, the SMBus Tools page on OpenRGB is hidden by default now as it has no real use to non-developers.  Additionally, the RGB Fusion 2 SMBus code is disabled by default because, although it works on boards it is meant for, probing this address (0x68) could damage Gigabyte Z390 boards.
+  * To enable the MSI Mystic Light or Gigabyte RGB Fusion 2 SMBus code, you must uncomment the functions in main.cpp and recompile.
 
 ![OpenRGB_0.11](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/0ef8eb3936fe715217e7e3430c0aae18/OpenRGB_new_icons.PNG)
 
