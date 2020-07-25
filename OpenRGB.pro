@@ -63,6 +63,7 @@ INCLUDEPATH +=                                                          \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXDRAMController/                                   \
     Controllers/HyperXKeyboardController/                               \
+    Controllers/HyperXMouseController/                                  \
     Controllers/LEDStripController/                                     \
     Controllers/LogitechController/                                     \
     Controllers/MSI3ZoneController/                                     \
@@ -128,6 +129,7 @@ HEADERS +=                                                              \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.h     \
+    Controllers/HyperXMouseController/HyperXPulsefireSurgeController..h \
     Controllers/LEDStripController/LEDStripController.h                 \
     Controllers/LogitechController/LogitechG203Controller.h             \
     Controllers/LogitechController/LogitechG403Controller.h             \
@@ -174,6 +176,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_HyperXAlloyOrigins.h                    \
     RGBController/RGBController_HyperXDRAM.h                            \
     RGBController/RGBController_HyperXKeyboard.h                        \
+    RGBController/RGBController_HyperXPulsefireSurge.h                  \
     RGBController/RGBController_LEDStrip.h                              \
     RGBController/RGBController_LogitechG203.h                          \
     RGBController/RGBController_LogitechG403.h                          \
@@ -265,6 +268,8 @@ SOURCES +=                                                              \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.cpp \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
+    Controllers/HyperXMouseController/HyperXMouseControllerDetect.cpp   \
+    Controllers/HyperXMouseController/HyperXPulsefireSurgeController.cpp \
     Controllers/LEDStripController/LEDStripController.cpp               \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     Controllers/LogitechController/LogitechControllerDetect.cpp         \
@@ -331,6 +336,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_HyperXAlloyOrigins.cpp                  \
     RGBController/RGBController_HyperXDRAM.cpp                          \
     RGBController/RGBController_HyperXKeyboard.cpp                      \
+    RGBController/RGBController_HyperXPulsefireSurge.cpp                \
     RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_LogitechG203.cpp                        \
