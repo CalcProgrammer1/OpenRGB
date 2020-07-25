@@ -60,24 +60,25 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     /*-----------------------------------------------------*\
     | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
-    buf[0x00]   = APEX7_PACKET_ID_DIRECT;
-    buf[0x01]   = num_keys;
+    buf[0x00]   = 0;
+    buf[0x01]   = APEX7_PACKET_ID_DIRECT;
+    buf[0x02]   = num_keys;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
     \*-----------------------------------------------------*/
     for(int i = 0; i < num_keys; i++)
     {
-        buf[(i*4)+2] = keys[i];
-        buf[(i*4)+3] = RGBGetRValue(colors[i]);
-        buf[(i*4)+4] = RGBGetGValue(colors[i]);
-        buf[(i*4)+5] = RGBGetBValue(colors[i]);
+        buf[(i*4)+3] = keys[i];
+        buf[(i*4)+4] = RGBGetRValue(colors[i]);
+        buf[(i*4)+5] = RGBGetGValue(colors[i]);
+        buf[(i*4)+6] = RGBGetBValue(colors[i]);
     }
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 642);
+    hid_send_feature_report(dev, buf, 643);
 }
 
 /*-------------------------------------------------------------------------------------------------*\
