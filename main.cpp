@@ -15,6 +15,7 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+#include <thread>
 
 #include "OpenRGBDialog2.h"
 
@@ -62,6 +63,16 @@ void InitializeTimerResolution()
     NtSetTimerResolution = (NTSETTIMERRESOLUTION)GetProcAddress(NtDllHandle, "NtSetTimerResolution");
 
     NtSetTimerResolution(5000, TRUE, &CurrentResolution);
+}
+
+void InitializeTimerResolutionThreadFunction()
+{
+    while(1)
+    {
+        InitializeTimerResolution();
+
+        std::this_thread::sleep_for(500ms);
+    }
 }
 #endif
 
@@ -118,7 +129,9 @@ bool AttemptLocalConnection()
 int main(int argc, char* argv[])
 {
 #ifdef _WIN32
-    InitializeTimerResolution();
+    std::thread * InitializeTimerResolutionThread;
+    InitializeTimerResolutionThread = new std::thread(InitializeTimerResolutionThreadFunction);
+    InitializeTimerResolutionThread->detach();
 #endif
 
     ProfileManager profile_manager(rgb_controllers);
