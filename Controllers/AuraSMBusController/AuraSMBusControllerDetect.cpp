@@ -11,7 +11,7 @@ using namespace std::chrono_literals;
 /*----------------------------------------------------------------------*\
 | This list contains the available SMBus addresses for mapping Aura RAM  |
 \*----------------------------------------------------------------------*/
-#define AURA_RAM_ADDRESS_COUNT  22
+#define AURA_RAM_ADDRESS_COUNT  23
 
 static const unsigned char aura_ram_addresses[] =
 {
@@ -34,6 +34,7 @@ static const unsigned char aura_ram_addresses[] =
     0x66,
     0x67,
     0x39,
+    0x3A,
     0x3B,
     0x3C,
     0x3D
