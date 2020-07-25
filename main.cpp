@@ -118,7 +118,7 @@ bool AttemptLocalConnection()
 int main(int argc, char* argv[])
 {
 #ifdef _WIN32
-    //InitializeTimerResolution();
+    InitializeTimerResolution();
 #endif
 
     ProfileManager profile_manager(rgb_controllers);
