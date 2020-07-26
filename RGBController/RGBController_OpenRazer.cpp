@@ -464,12 +464,18 @@ void RGBController_OpenRazer::SetCustomMode()
         active_mode = 0;
     }
     /*---------------------------------------------------------*\
-    | If not, use static mode.  Static mode should be mode index|
-    | 1 because Off will be index 0                             |
+    | If not, use static mode.                                  |
     \*---------------------------------------------------------*/
     else
     {
-        active_mode = 1;
+        for(int i = 0; i < modes.size(); i++)
+        {
+            if(modes[i].value == RAZER_MODE_STATIC)
+            {
+                active_mode = i;
+                break;
+            } 
+        }
     }
 }
 
