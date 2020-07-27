@@ -11,10 +11,18 @@
 #include <sstream>
 #include <array>
 
+static const MBName MBName2Layout
+{
+    {"B550 AORUS PRO", "STD_ATX"},
+    {"B550 AORUS ELITE", "STD_ATX"},
+    {"X570 AORUS PRO WIFI", "STD_ATX"},
+    {"X570 I AORUS PRO WIFI", "ITX"}
+};
+
 static const KnownLayout knownLayoutsLookup
 {
     {
-        "IT8297BX-GBX570",  //Left as a catch all
+        "IT8297BX-GBX570",    //Left as a catch all
         {
             {
                 "Motherboard",
@@ -42,35 +50,9 @@ static const KnownLayout knownLayoutsLookup
                 }
             }
         }
-    },
+    },    
     {
-        "X570 AORUS PRO WIFI",
-        {
-            {
-                "Motherboard",
-                {
-                    { "Back I/O",   HDR_BACK_IO, 1 },
-                    { "CPU Header", HDR_CPU, 1 },
-                    { "Rear PCIe",  HDR_PCIE, 1},
-                    { "LED C1/C2",  HDR_LED_C1C2, 1 }, // 12VGRB headers seem to be connected
-                }
-            },
-            {
-                "D_LED1 Bottom",
-                {
-                    { "D_LED1 Bottom", HDR_D_LED1, 0 },
-                }
-            },
-            {
-                "D_LED2 Top",
-                {
-                    { "D_LED2 Top", HDR_D_LED2, 0 },
-                }
-            }
-        }
-    },
-    {
-        "B550 AORUS ELITE",
+        "STD_ATX",
         {
             {
                 "Motherboard",
@@ -96,7 +78,7 @@ static const KnownLayout knownLayoutsLookup
         }
     },
     {
-        "X570 I AORUS PRO WIFI",
+        "ITX",
         {
             {
                 "Motherboard",
@@ -204,9 +186,9 @@ void RGBController_RGBFusion2USB::Init_Controller()
     /*---------------------------------------------------------*\
     | Look up channel map based on device name                  |
     \*---------------------------------------------------------*/
-    if ( knownLayoutsLookup.count(controller->GetDeviceName()) )    //Quick way to get a boolean on find()
+    if ( MBName2Layout.count(controller->GetDeviceName()) )         //Quick way to get a boolean on find()
     {
-        layout = knownLayoutsLookup.find(controller->GetDeviceName())->second;
+        layout = knownLayoutsLookup.find(MBName2Layout.find(controller->GetDeviceName())->second )->second;
     }
     else
     {

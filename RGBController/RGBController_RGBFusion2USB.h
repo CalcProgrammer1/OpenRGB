@@ -24,6 +24,7 @@ struct LedPort
     int count;
 };
 
+typedef std::map< std::string, std::string > MBName;
 typedef std::map< std::string, std::vector<LedPort> > ZoneLeds;
 typedef std::map< std::string, ZoneLeds> KnownLayout;
 
