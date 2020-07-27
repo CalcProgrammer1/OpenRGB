@@ -131,7 +131,7 @@ HEADERS +=                                                              \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.h     \
-    Controllers/HyperXMouseController/HyperXPulsefireSurgeController..h \
+    Controllers/HyperXMouseController/HyperXPulsefireSurgeController.h  \
     Controllers/LEDStripController/LEDStripController.h                 \
     Controllers/LogitechController/LogitechG203Controller.h             \
     Controllers/LogitechController/LogitechG403Controller.h             \
