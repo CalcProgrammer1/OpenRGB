@@ -1,8 +1,10 @@
 #include "LogitechG203Controller.h"
+#include "LogitechG203LController.h"
 #include "LogitechG403Controller.h"
 #include "LogitechG810Controller.h"
 #include "RGBController.h"
 #include "RGBController_LogitechG203.h"
+#include "RGBController_LogitechG203L.h"
 #include "RGBController_LogitechG403.h"
 #include "RGBController_LogitechG810.h"
 #include <vector>
@@ -22,6 +24,7 @@
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
 #define LOGITECH_G203_PID               0xC084
+#define LOGITECH_G203L_PID              0xC092
 #define LOGITECH_G403_PID               0xC083
 #define LOGITECH_G403H_PID              0xC08F
 
@@ -48,6 +51,7 @@ static const logitech_device device_list[] =
     | Mice                                                                                                          |
     \*-------------------------------------------------------------------------------------------------------------*/
     { LOGITECH_VID,             LOGITECH_G203_PID,      1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Prodigy"         },
+    { LOGITECH_VID,             LOGITECH_G203L_PID,     1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Lightsync"       },
     { LOGITECH_VID,             LOGITECH_G403_PID,      1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Prodigy"         },
     { LOGITECH_VID,             LOGITECH_G403H_PID,     1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Hero"            },
     /*-------------------------------------------------------------------------------------------------------------*\
@@ -166,6 +170,17 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                                     LogitechG203Controller* controller = new LogitechG203Controller(dev);
 
                                     RGBController_LogitechG203* rgb_controller = new RGBController_LogitechG203(controller);
+
+                                    rgb_controller->name = device_list[device_idx].name;
+                                    rgb_controllers.push_back(rgb_controller);
+                                }
+                                break;
+
+                            case LOGITECH_G203L_PID:
+                                {
+                                    LogitechG203LController* controller = new LogitechG203LController(dev);
+
+                                    RGBController_LogitechG203L* rgb_controller = new RGBController_LogitechG203L(controller);
 
                                     rgb_controller->name = device_list[device_idx].name;
                                     rgb_controllers.push_back(rgb_controller);
