@@ -12,6 +12,7 @@
 
 #include "RGBController.h"
 #include "SteelSeriesApexController.h"
+#include "SteelSeriesGeneric.h"
 
 class RGBController_SteelSeriesApex : public RGBController
 {
@@ -32,6 +33,7 @@ public:
 
 private:
     SteelSeriesApexController*   steelseries;
+    steelseries_type             proto_type;
 
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

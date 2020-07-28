@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController.h"
+#include "SteelSeriesGeneric.h"
 
 #include <string>
 #include <hidapi/hidapi.h>
@@ -22,8 +23,10 @@ enum
 class SteelSeriesApexController
 {
 public:
-    SteelSeriesApexController(hid_device* dev_handle);
+    SteelSeriesApexController(hid_device* dev_handle, steelseries_type type);
     ~SteelSeriesApexController();
+
+    steelseries_type        proto_type;
 
     void SetMode
         (

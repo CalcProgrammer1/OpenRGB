@@ -36,6 +36,7 @@
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
 #define STEELSERIES_APEX_7_PID                      0x1612
+#define STEELSERIES_APEX_7_TKL_PID                  0x1618
 
 typedef struct
 {
@@ -74,6 +75,7 @@ static const steelseries_device device_list[] =
     | Keyboards                                                                                                                                                         |
     \*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     { STEELSERIES_VID,      STEELSERIES_APEX_7_PID,                     1,  DEVICE_TYPE_KEYBOARD,   APEX_7,         "SteelSeries Apex 7"                                },
+    { STEELSERIES_VID,      STEELSERIES_APEX_7_TKL_PID,                 1,  DEVICE_TYPE_KEYBOARD,   APEX_7_TKL,     "SteelSeries Apex 7 TKL"                            },
 };
 
 /******************************************************************************************\
@@ -119,7 +121,7 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
             {
                 case DEVICE_TYPE_KEYBOARD:
                     {
-                    SteelSeriesApexController* controller = new SteelSeriesApexController(dev);
+                    SteelSeriesApexController* controller = new SteelSeriesApexController(dev, device_list[device_idx].proto_type);
                     
                     RGBController_SteelSeriesApex* rgb_controller = new RGBController_SteelSeriesApex(controller);
                     rgb_controller->name = device_list[device_idx].name;
