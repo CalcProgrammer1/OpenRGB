@@ -141,6 +141,7 @@ HEADERS +=                                                              \
     Controllers/LogitechController/LogitechG203Controller.h             \
     Controllers/LogitechController/LogitechG203LController.h            \
     Controllers/LogitechController/LogitechG403Controller.h             \
+    Controllers/LogitechController/LogitechG502PSController.h           \
     Controllers/LogitechController/LogitechG810Controller.h             \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                 \
     Controllers/MSIGPUController/MSIGPUController.h                     \
@@ -191,6 +192,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_LogitechG203.h                          \
     RGBController/RGBController_LogitechG203L.h                         \
     RGBController/RGBController_LogitechG403.h                          \
+    RGBController/RGBController_LogitechG502PS.h                        \
     RGBController/RGBController_LogitechG810.h                          \
     RGBController/RGBController_MSI3Zone.h                              \
     RGBController/RGBController_MSIGPU.h                                \
@@ -292,6 +294,7 @@ SOURCES +=                                                              \
     Controllers/LogitechController/LogitechG203Controller.cpp           \
     Controllers/LogitechController/LogitechG203LController.cpp          \
     Controllers/LogitechController/LogitechG403Controller.cpp           \
+    Controllers/LogitechController/LogitechG502PSController.cpp         \
     Controllers/LogitechController/LogitechG810Controller.cpp           \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp               \
     Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp         \
@@ -361,6 +364,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_LogitechG203.cpp                        \
     RGBController/RGBController_LogitechG203L.cpp                       \
     RGBController/RGBController_LogitechG403.cpp                        \
+    RGBController/RGBController_LogitechG502PS.cpp                      \
     RGBController/RGBController_LogitechG810.cpp                        \
     RGBController/RGBController_MSI3Zone.cpp                            \
     RGBController/RGBController_MSIGPU.cpp                              \
