@@ -20,6 +20,13 @@ public:
     HyperXPulsefireSurgeController(hid_device* dev_handle);
     ~HyperXPulsefireSurgeController();
 
+    void SendData
+            (
+            RGBColor*   color_data
+            );
+
 private:
     hid_device*             dev;
+
+    void SendWakeup();
 };

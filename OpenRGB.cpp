@@ -498,7 +498,7 @@ void DetectRGBControllers(void)
     DetectMSI3ZoneControllers(rgb_controllers);
     DetectPoseidonZRGBControllers(rgb_controllers);
     DetectHyperXKeyboardControllers(rgb_controllers);
-    //DetectHyperXMouseControllers(rgb_controllers);
+    DetectHyperXMouseControllers(rgb_controllers);
     DetectCorsairPeripheralControllers(rgb_controllers);
     DetectCorsairLightingNodeControllers(rgb_controllers);
     DetectThermaltakeRiingControllers(rgb_controllers);

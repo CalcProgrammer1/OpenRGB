@@ -54,7 +54,12 @@ void DetectHyperXMouseControllers(std::vector<RGBController*>& rgb_controllers)
         {
             if((info->vendor_id        == device_list[device_idx].usb_vid)
              &&(info->product_id       == device_list[device_idx].usb_pid)
-             &&(info->interface_number == device_list[device_idx].usb_interface))
+    #ifdef USE_HID_USAGE
+            &&(info->interface_number == device_list[device_idx].usb_interface)
+            &&(info->usage_page       == 0xFF01))
+    #else
+            &&(info->interface_number == device_list[device_idx].usb_interface))
+    #endif
             {
                 dev = hid_open_path(info->path);
 
