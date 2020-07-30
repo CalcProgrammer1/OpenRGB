@@ -128,10 +128,16 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16be", TAG+="uacces
 #       Logitech G203 Prodigy                                   #
 #       Logitech G403 Prodigy                                   #
 #       Logitech G403 Hero                                      #
+#       Logitech G502 Proteus Spectrum                          #
+#                                                               #
+#   Keyboards:                                                  #
+#       Logitech G512 RGB                                       #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c084", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c083", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08f", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c332", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33c", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  MSI Mysticlight                                              #
