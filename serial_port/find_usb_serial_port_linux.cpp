@@ -17,13 +17,14 @@
 |                                                                       |
 \*---------------------------------------------------------------------*/
 
-std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
+std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned short pid)
 {
-    std::string     ret_string              = "";
-    DIR*            dir;
-    char            symlink_path[1024]      = {0};
-    struct dirent*  ent;
-    char            vid_pid[10]             = {0}; //Store VID/PID
+    std::vector<std::string *>  ret_vector;
+    std::string *               tmp_string;
+    DIR*                        dir;
+    char                        symlink_path[1024]  = {0};
+    struct dirent*              ent;
+    char                        vid_pid[10]         = {0}; //Store VID/PID
 
     /*-----------------------------------------------------------------*\
     | Open /sys/class/tty                                               |
@@ -32,7 +33,7 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
 
     if(dir == NULL)
     {
-        return ret_string;
+        return ret_vector;
     }
 
     /*-----------------------------------------------------------------*\
@@ -109,10 +110,10 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
                                 break;
                             }
                         }
-                        ret_string.append("/dev/");
-                        ret_string.append(port_string);
+                        tmp_string = new std::string("/dev/");
+                        tmp_string->append(port_string);
 
-                        return ret_string;
+                        ret_vector.push_back(tmp_string);
                     }
                 }
             }
@@ -121,6 +122,6 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
         ent = readdir(dir);
     }
 
-    return ret_string;
+    return ret_vector;
 
 }   /* find_usb_serial_port() */

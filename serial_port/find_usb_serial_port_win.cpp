@@ -24,18 +24,19 @@
 |                                                                       |
 \*---------------------------------------------------------------------*/
 
-std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
+std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned short pid)
 {
-    std::string     ret_str                 = "";
-    HDEVINFO        DeviceInfoSet;
-    DWORD           DeviceIndex             = 0;
-    SP_DEVINFO_DATA DeviceInfoData;
-    const char *    DevEnum                 = "USB";
-    char            ExpectedDeviceId[80]    = {0}; //Store hardware id
-    char            vid_pid[10]             = {0}; //Store VID/PID
-    char            szBuffer[1024]          = {0};
-    DEVPROPTYPE     ulPropertyType;
-    DWORD           dwSize                  = 0;
+    std::vector<std::string *>  ret_vector;
+    std::string *               tmp_string;
+    HDEVINFO                    DeviceInfoSet;
+    DWORD                       DeviceIndex             = 0;
+    SP_DEVINFO_DATA             DeviceInfoData;
+    const char *                DevEnum                 = "USB";
+    char                        ExpectedDeviceId[80]    = {0};  //Store hardware id
+    char                        vid_pid[10]             = {0};  //Store VID/PID
+    char                        szBuffer[1024]          = {0};
+    DEVPROPTYPE                 ulPropertyType;
+    DWORD                       dwSize                  = 0;
 
     /*-----------------------------------------------------------------*\
     | Create device hardware id                                         |
@@ -55,7 +56,7 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
 
     if (DeviceInfoSet == INVALID_HANDLE_VALUE)
     {
-        return false;
+        return ret_vector;
     }
 
     /*-----------------------------------------------------------------*\
@@ -102,8 +103,8 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
                     {
                         if(strncmp(pszPortName, "COM", 3) == 0)
                         {
-                            ret_str.append(pszPortName);
-                            return ret_str;
+                            tmp_string = new std::string(pszPortName);
+                            ret_vector.push_back(tmp_string);
                         }
                     }
 
@@ -119,6 +120,6 @@ std::string find_usb_serial_port(unsigned short vid, unsigned short pid)
         SetupDiDestroyDeviceInfoList(DeviceInfoSet);
     }
 
-    return ret_str;
+    return ret_vector;
 
 }   /* find_usb_serial_port() */
