@@ -19,12 +19,12 @@ RGBController_NZXTKraken::RGBController_NZXTKraken(NZXTKrakenController* nzxtkra
     description = "NZXT Kraken X42/X52/X62/X72";
     version     = nzxtkraken->GetFirmwareVersion();
 
-    mode Fixed;
-    Fixed.name       = "Fixed";
-    Fixed.value      = NZXT_KRAKEN_MODE_FIXED;
-    Fixed.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Fixed.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Fixed);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = NZXT_KRAKEN_MODE_FIXED;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     mode Fading;
     Fading.name       = "Fading";

@@ -252,12 +252,12 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             \*---------------------------------------------------------*/
             if(matrix_effect_custom)
             {
-                mode Custom;
-                Custom.name       = "Custom";
-                Custom.value      = RAZER_MODE_CUSTOM;
-                Custom.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-                Custom.color_mode = MODE_COLORS_PER_LED;
-                modes.push_back(Custom);
+                mode Direct;
+                Direct.name       = "Direct";
+                Direct.value      = RAZER_MODE_CUSTOM;
+                Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+                Direct.color_mode = MODE_COLORS_PER_LED;
+                modes.push_back(Direct);
             }
 
             if(matrix_effect_none || logo_matrix_effect_none || scroll_matrix_effect_none || backlight_led_state || logo_led_state || scroll_led_state)

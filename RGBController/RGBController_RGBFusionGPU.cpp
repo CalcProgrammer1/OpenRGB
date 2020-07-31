@@ -19,12 +19,12 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* r
 
     type = DEVICE_TYPE_GPU;
 
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = RGB_FUSION_GPU_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = RGB_FUSION_GPU_MODE_STATIC;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     mode Breathing;
     Breathing.name       = "Breathing";

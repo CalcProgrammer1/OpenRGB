@@ -199,12 +199,12 @@ RGBController_HyperXAlloyOrigins::RGBController_HyperXAlloyOrigins(HyperXAlloyOr
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX Alloy Origins Keyboard Device";
 
-    mode Custom;
-    Custom.name       = "Custom";
-    Custom.value      = 0xFFFF;
-    Custom.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Custom.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Custom);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = 0xFFFF;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     SetupZones();
 

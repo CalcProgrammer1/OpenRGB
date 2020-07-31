@@ -18,12 +18,12 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     description = "AMD Wraith Prism Device";
     version     = wraith->GetFirmwareVersionString();
 
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     mode Breathing;
     Breathing.name       = "Breathing";

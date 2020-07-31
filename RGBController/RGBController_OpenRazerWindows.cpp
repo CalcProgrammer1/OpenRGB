@@ -199,12 +199,12 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
             \*---------------------------------------------------------*/
             if(razer_functions->matrix_effect_custom)
             {
-                mode Custom;
-                Custom.name       = "Custom";
-                Custom.value      = RAZER_MODE_CUSTOM;
-                Custom.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-                Custom.color_mode = MODE_COLORS_PER_LED;
-                modes.push_back(Custom);
+                mode Direct;
+                Direct.name       = "Direct";
+                Direct.value      = RAZER_MODE_CUSTOM;
+                Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+                Direct.color_mode = MODE_COLORS_PER_LED;
+                modes.push_back(Direct);
             }
 
             if(razer_functions->matrix_effect_none || razer_functions->logo_matrix_effect_none || razer_functions->scroll_matrix_effect_none /*|| razer_functions->backlight_led_state*/ || razer_functions->logo_led_state || razer_functions->scroll_led_state)

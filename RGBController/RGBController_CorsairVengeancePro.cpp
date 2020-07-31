@@ -18,6 +18,16 @@ RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVeng
     description = "Corsair Vengeance Pro RGB Device";
     location    = corsair->GetDeviceLocation();
 
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = CORSAIR_PRO_MODE_STATIC;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.speed_min  = 0;
+    Direct.speed_max  = 0;
+    Direct.speed      = 0;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
+
     mode ColorShift;
     ColorShift.name       = "Color Shift";
     ColorShift.value      = CORSAIR_PRO_MODE_COLOR_SHIFT;
@@ -134,16 +144,6 @@ RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVeng
     Sequential.colors.resize(1);
     modes.push_back(Sequential);
 
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = CORSAIR_PRO_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.speed_min  = 0;
-    Static.speed_max  = 0;
-    Static.speed      = 0;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
-
     SetupZones();
 
     active_mode = 9;
@@ -216,7 +216,7 @@ void RGBController_CorsairVengeancePro::UpdateSingleLED(int led)
 
 void RGBController_CorsairVengeancePro::SetCustomMode()
 {
-    active_mode = 9;
+    active_mode = 0;
 }
 
 void RGBController_CorsairVengeancePro::DeviceUpdateMode()
