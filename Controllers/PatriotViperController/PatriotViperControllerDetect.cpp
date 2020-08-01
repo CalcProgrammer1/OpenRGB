@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "PatriotViperController.h"
 #include "RGBController.h"
 #include "RGBController_PatriotViper.h"
@@ -70,3 +71,5 @@ void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, st
     }
 
 }   /* DetectPatriotViperControllers() */
+
+REGISTER_I2C_DETECTOR(DetectPatriotViperControllers);

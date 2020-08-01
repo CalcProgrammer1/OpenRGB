@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "PolychromeController.h"
 #include "RGBController.h"
 #include "RGBController_Polychrome.h"
@@ -67,3 +68,5 @@ void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std:
     }
 
 }   /* DetectPolychromeControllers() */
+
+REGISTER_I2C_DETECTOR(DetectPolychromeControllers);

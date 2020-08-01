@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "MSIMysticLightController.h"
 #include "RGBController_MSIMysticLight.h"
 
@@ -98,4 +99,8 @@ void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controller
             rgb_controllers.push_back(rgb_controller);
         }
     }
-}
+}   /* DetectMSIMysticLightControllers() */
+
+// The MSI Mystic Light controller is disabled due to bricking risk
+// Uncomment this line to enable.  Do so at your own risk.
+//REGISTER_DETECTOR(DetectMSIMysticLightControllers);

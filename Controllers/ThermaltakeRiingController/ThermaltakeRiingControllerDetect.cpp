@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "ThermaltakeRiingController.h"
 #include "RGBController.h"
 #include "RGBController_ThermaltakeRiing.h"
@@ -53,4 +54,6 @@ void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controll
             rgb_controllers.push_back(rgb_controller);
         }
     }
-}
+}   /* DetectThermaltakeRiingControllers() */
+
+REGISTER_DETECTOR(DetectThermaltakeRiingControllers);

@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "LEDStripController.h"
 #include "RGBController.h"
 #include "RGBController_LEDStrip.h"
@@ -21,7 +22,7 @@
 *   DetectLEDStripControllers                                                              *
 *                                                                                          *
 *       Detect devices supported by the LEDStrip driver                                    *
-*                                                                                          *                                                                                          *
+*                                                                                          *
 \******************************************************************************************/
 
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
@@ -84,5 +85,6 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
         }
     }
 
-
 }   /* DetectLEDStripControllers() */
+
+REGISTER_DETECTOR(DetectLEDStripControllers);

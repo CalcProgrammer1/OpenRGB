@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "RGBController.h"
 #include "RGBController_OpenRazerWindows.h"
 #include <vector>
@@ -250,3 +251,5 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     }
 
 }   /* DetectOpenRazerControllers() */
+
+REGISTER_DETECTOR(DetectOpenRazerControllers);

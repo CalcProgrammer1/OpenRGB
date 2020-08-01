@@ -6,6 +6,7 @@
 |  Niels Westphal (crashniels)  12.07.2020  |
 \*-----------------------------------------*/
 
+#include "Detector.h"
 #include "GalaxGPUController.h"
 #include "RGBController.h"
 #include "RGBController_GalaxGPU.h"
@@ -66,3 +67,5 @@ void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::v
     }
 
 } /* DetectGalaxGPUControllers() */
+
+REGISTER_I2C_DETECTOR(DetectGalaxGPUControllers);

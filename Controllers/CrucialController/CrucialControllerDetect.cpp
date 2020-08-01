@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "CrucialController.h"
 #include "RGBController.h"
 #include "RGBController_Crucial.h"
@@ -86,3 +87,5 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
     }
 
 }   /* DetectCrucialControllers() */
+
+REGISTER_I2C_DETECTOR(DetectCrucialControllers);

@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "CorsairVengeanceController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairVengeance.h"
@@ -123,3 +124,5 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
     }
 
 }   /* DetectCorsairVengeanceControllers() */
+
+REGISTER_I2C_DETECTOR(DetectCorsairVengeanceControllers);

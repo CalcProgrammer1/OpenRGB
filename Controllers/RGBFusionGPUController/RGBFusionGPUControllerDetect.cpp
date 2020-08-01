@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "RGBFusionGPUController.h"
 #include "RGBController.h"
 #include "RGBController_RGBFusionGPU.h"
@@ -81,3 +82,5 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
     }
 
 }   /* DetectRGBFusionGPUControllers() */
+
+REGISTER_I2C_DETECTOR(DetectRGBFusionGPUControllers);

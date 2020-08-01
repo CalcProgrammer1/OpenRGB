@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "RGBFusion2USBController.h"
 #include "RGBController_RGBFusion2USB.h"
 #include "dependencies/dmiinfo.h"
@@ -67,4 +68,6 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
     }
 
     hid_free_enumeration(info);
-}
+}   /* DetectRGBFusion2USBControllers() */
+
+REGISTER_DETECTOR(DetectRGBFusion2USBControllers);

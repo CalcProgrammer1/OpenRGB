@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "HoltekA070Controller.h"
 #include "RGBController.h"
 #include "RGBController_HoltekA070.h"
@@ -83,4 +84,6 @@ void DetectHoltekControllers(std::vector<RGBController*>& rgb_controllers)
         }
 
     }
-}
+}   /* DetectHoltekControllers() */
+
+REGISTER_DETECTOR(DetectHoltekControllers);

@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "GloriousModelOController.h"
 #include "RGBController.h"
 #include "RGBController_GloriousModelO.h"
@@ -57,4 +58,6 @@ void DetectGloriousModelOControllers(std::vector<RGBController*>& rgb_controller
 
         rgb_controllers.push_back(rgb_controller);
     }
-}
+}   /* DetectGloriousModelOControllers() */
+
+REGISTER_DETECTOR(DetectGloriousModelOControllers);

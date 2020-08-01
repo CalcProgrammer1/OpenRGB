@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "MSIRGBController.h"
 #include "RGBController.h"
 #include "RGBController_MSIRGB.h"
@@ -38,3 +39,5 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
         }
     }
 }   /* DetectMSIRGBControllers() */
+
+REGISTER_DETECTOR(DetectMSIRGBControllers);

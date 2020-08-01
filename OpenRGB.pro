@@ -95,6 +95,9 @@ HEADERS +=                                                              \
     NetworkProtocol.h                                                   \
     NetworkServer.h                                                     \
     ProfileManager.h                                                    \
+    ResourceManager.h                                                   \
+    Detector.h                                                          \
+    DeviceDetector.h                                                    \
     qt/OpenRGBClientInfoPage.h                                          \
     qt/OpenRGBDeviceInfoPage.h                                          \
     qt/OpenRGBDevicePage.h                                              \
@@ -223,6 +226,7 @@ SOURCES +=                                                              \
     NetworkClient.cpp                                                   \
     NetworkServer.cpp                                                   \
     ProfileManager.cpp                                                  \
+    ResourceManager.cpp                                                 \
     qt/OpenRGBClientInfoPage.cpp                                        \
     qt/OpenRGBDeviceInfoPage.cpp                                        \
     qt/OpenRGBDevicePage.cpp                                            \

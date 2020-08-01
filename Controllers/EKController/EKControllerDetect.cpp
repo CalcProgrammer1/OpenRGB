@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "EKController.h"
 #include "RGBController.h"
 #include "RGBController_EKController.h"
@@ -61,4 +62,6 @@ void DetectEKControllers(std::vector<RGBController*>& rgb_controllers)
         info = info->next;
     }
     hid_free_enumeration(info);
-}
+}   /* DetectEKControllers() */
+
+REGISTER_DETECTOR(DetectEKControllers);

@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "HuePlusController.h"
 #include "RGBController.h"
 #include "RGBController_HuePlus.h"
@@ -35,3 +36,5 @@ void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers)
         }
     }
 }   /* DetectHuePlusControllers() */
+
+REGISTER_DETECTOR(DetectHuePlusControllers);

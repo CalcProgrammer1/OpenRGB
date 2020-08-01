@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "NZXTHue2Controller.h"
 #include "RGBController.h"
 #include "RGBController_NZXTHue2.h"
@@ -76,3 +77,5 @@ void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers)
         }
     }
 }   /* DetectNZXTHue2Controllers() */
+
+REGISTER_DETECTOR(DetectNZXTHue2Controllers);

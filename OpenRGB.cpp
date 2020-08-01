@@ -8,6 +8,7 @@
 
 #include "RGBController.h"
 #include "i2c_smbus.h"
+#include "ResourceManager.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,8 +32,6 @@
 
 #endif /* WIN32 */
 
-std::vector<i2c_smbus_interface*> busses;
-std::vector<RGBController*> rgb_controllers;
 
 #ifdef WIN32
 /******************************************************************************************\
@@ -44,7 +43,7 @@ std::vector<RGBController*> rgb_controllers;
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectNuvotonI2CBusses()
+void DetectNuvotonI2CBusses(std::vector<i2c_smbus_interface*> &busses)
 {
     i2c_smbus_interface* bus;
     int sioaddr = 0x2E;
@@ -102,7 +101,7 @@ void DetectNuvotonI2CBusses()
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectNvAPII2CBusses()
+void DetectNvAPII2CBusses(std::vector<i2c_smbus_interface*> &busses)
 {
     static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
     static NV_S32                   gpu_count = 0;
@@ -146,7 +145,7 @@ void DetectNvAPII2CBusses()
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectADLI2C()
+void DetectADLI2C(std::vector<i2c_smbus_interface*> &busses)
 {
     int adl_status;
     int gpu_count = 0;
@@ -176,7 +175,7 @@ void DetectADLI2C()
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectI2CBusses()
+void DetectI2CBusses(std::vector<i2c_smbus_interface*> &busses)
 {
     i2c_smbus_interface * bus;
     HRESULT hres;
@@ -247,13 +246,13 @@ void DetectI2CBusses()
     }
 
     // Detect Nuvoton Super IO SMBus adapters
-    DetectNuvotonI2CBusses();
+    DetectNuvotonI2CBusses(busses);
 
     // Detect NVidia NvAPI I2C adapters
-    DetectNvAPII2CBusses();
+    DetectNvAPII2CBusses(busses);
 
     // Detect AMD ADL I2C adadpters
-    DetectADLI2C();
+    DetectADLI2C(busses);
 
 }   /* DetectI2CBusses() */
 
@@ -268,7 +267,7 @@ void DetectI2CBusses()
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectI2CBusses()
+void DetectI2CBusses(std::vector<i2c_smbus_interface*> &busses)
 {
     i2c_smbus_linux *       bus;
     char                    device_string[1024];
@@ -411,49 +410,6 @@ void DetectI2CBusses()
 
 #endif  /* WIN32 */
 
-void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
-void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers);
-void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectAuraUSBControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectAuraCoreControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers);
-void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
-void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectHyperXMouseControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectNZXTKrakenControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectGloriousModelOControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectHoltekControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectDuckyKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectEKControllers(std::vector<RGBController*>& rgb_controllers);
 
 /******************************************************************************************\
 *                                                                                          *
@@ -465,67 +421,7 @@ void DetectEKControllers(std::vector<RGBController*>& rgb_controllers);
 
 void DetectRGBControllers(void)
 {
-    DetectI2CBusses();
+    DetectI2CBusses(ResourceManager::get()->GetI2CBusses());
 
-    DetectAuraSMBusControllers(busses, rgb_controllers);
-    DetectAuraGPUControllers(busses, rgb_controllers);
-    DetectCorsairVengeanceControllers(busses, rgb_controllers);
-    DetectCorsairVengeanceProControllers(busses, rgb_controllers);
-    DetectCrucialControllers(busses, rgb_controllers);
-    DetectGalaxGPUControllers(busses, rgb_controllers);
-    DetectHyperXDRAMControllers(busses, rgb_controllers);
-    DetectPatriotViperControllers(busses, rgb_controllers);
-    DetectPolychromeControllers(busses, rgb_controllers);
-    DetectRGBFusionGPUControllers(busses, rgb_controllers);
-    DetectMSIGPUControllers(busses, rgb_controllers);
-    DetectSapphireGPUControllers(busses, rgb_controllers);
-
-    //TODO: Implement better detection before enabling these controllers
-    //DetectRGBFusion2SMBusControllers(busses, rgb_controllers);
-    //DetectRGBFusion2DRAMControllers(busses, rgb_controllers);
-
-    DetectRGBFusionControllers(busses, rgb_controllers);
-    //DetectMSIMysticLightControllers(rgb_controllers);
-    DetectMSIRGBControllers(rgb_controllers);
-
-    DetectAuraUSBControllers(rgb_controllers);
-    DetectAuraCoreControllers(rgb_controllers);
-    DetectLEDStripControllers(rgb_controllers);
-    DetectNZXTHue2Controllers(rgb_controllers);
-    DetectHuePlusControllers(rgb_controllers);
-
-    DetectAMDWraithPrismControllers(rgb_controllers);
-    DetectCoolerMasterControllers(rgb_controllers);
-    DetectMSI3ZoneControllers(rgb_controllers);
-    DetectPoseidonZRGBControllers(rgb_controllers);
-    DetectHyperXKeyboardControllers(rgb_controllers);
-    DetectHyperXMouseControllers(rgb_controllers);
-    DetectCorsairPeripheralControllers(rgb_controllers);
-    DetectCorsairLightingNodeControllers(rgb_controllers);
-    DetectThermaltakeRiingControllers(rgb_controllers);
-    DetectRGBFusion2USBControllers(rgb_controllers);
-    DetectRedragonControllers(rgb_controllers);
-    DetectLogitechControllers(rgb_controllers);
-    DetectNZXTKrakenControllers(rgb_controllers);
-    DetectSteelSeriesControllers(rgb_controllers);
-    DetectGloriousModelOControllers(rgb_controllers);
-    DetectHoltekControllers(rgb_controllers);
-    DetectDuckyKeyboardControllers(rgb_controllers);
-    DetectEKControllers(rgb_controllers);
-
-    DetectE131Controllers(rgb_controllers);
-
-    DetectOpenRazerControllers(rgb_controllers);
-
-    /*-------------------------------------*\
-    | Windows-only devices                  |
-    \*-------------------------------------*/
-#ifdef WIN32
-    /*-------------------------------------*\
-    | Linux-only devices                    |
-    \*-------------------------------------*/
-#else
-    DetectFaustusControllers(rgb_controllers);
-#endif
-
+    ResourceManager::get()->DetectDevices();
 }   /* DetectRGBControllers() */

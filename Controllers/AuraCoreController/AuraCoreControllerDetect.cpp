@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "AuraCoreController.h"
 #include "RGBController.h"
 #include "RGBController_AuraCore.h"
@@ -43,3 +44,5 @@ void DetectAuraCoreControllers(std::vector<RGBController*>& rgb_controllers)
         }
     }
 }
+
+REGISTER_DETECTOR(DetectAuraCoreControllers);

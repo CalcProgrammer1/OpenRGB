@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "DuckyKeyboardController.h"
 #include "RGBController.h"
 #include "RGBController_DuckyKeyboard.h"
@@ -78,4 +79,6 @@ void DetectDuckyKeyboardControllers(std::vector<RGBController*>& rgb_controllers
             info = info->next;
         }
     }
-}
+}   /* DetectDuckyKeyboardControllers() */
+
+REGISTER_DETECTOR(DetectDuckyKeyboardControllers);

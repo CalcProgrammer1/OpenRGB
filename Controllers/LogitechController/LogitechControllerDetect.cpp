@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "LogitechG203Controller.h"
 #include "LogitechG203LController.h"
 #include "LogitechG403Controller.h"
@@ -208,4 +209,6 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
         }
 
     }
-}
+}   /* DetectLogitechControllers() */
+
+REGISTER_DETECTOR(DetectLogitechControllers);

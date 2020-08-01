@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "RGBController.h"
 #include "RGBController_OpenRazer.h"
 #include <vector>
@@ -14,7 +15,7 @@
 *   DetectOpenRazerControllers                                                             *
 *                                                                                          *
 *       Detect devices supported by the OpenRazer kernel drivers                           *
-*                                                                                          *                                                                                          *
+*                                                                                          *
 \******************************************************************************************/
 
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
@@ -121,3 +122,5 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     }
 
 }   /* DetectOpenRazerControllers() */
+
+REGISTER_DETECTOR(DetectOpenRazerControllers);

@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "AuraAddressableController.h"
 #include "AuraMainboardController.h"
 #include "RGBController.h"
@@ -74,4 +75,6 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
             }
         }
     }
-}
+}   /* DetectAuraUSBControllers() */
+
+REGISTER_DETECTOR(DetectAuraUSBControllers);

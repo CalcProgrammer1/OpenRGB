@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "HyperXPulsefireSurgeController.h"
 #include "RGBController.h"
 #include "RGBController_HyperXPulsefireSurge.h"
@@ -78,4 +79,6 @@ void DetectHyperXMouseControllers(std::vector<RGBController*>& rgb_controllers)
             info = info->next;
         }
     }
-}
+}   /* DetectHyperXMouseControllers() */
+
+REGISTER_DETECTOR(DetectHyperXMouseControllers);

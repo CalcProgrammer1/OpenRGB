@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "HyperXDRAMController.h"
 #include "RGBController.h"
 #include "RGBController_HyperXDRAM.h"
@@ -93,3 +94,5 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
     }
 
 }   /* DetectHyperXDRAMControllers() */
+
+REGISTER_I2C_DETECTOR(DetectHyperXDRAMControllers);

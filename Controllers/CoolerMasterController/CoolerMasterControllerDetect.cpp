@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "CMMP750Controller.h"
 #include "RGBController.h"
 #include "RGBController_CMMP750Controller.h"
@@ -63,4 +64,6 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
         info = info->next;
     }
     hid_free_enumeration(info);
-}
+}   /* DetectCoolerMasterControllers() */
+
+REGISTER_DETECTOR(DetectCoolerMasterControllers);

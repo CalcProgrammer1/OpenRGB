@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "RedragonK556Controller.h"
 #include "RedragonM711Controller.h"
 #include "RGBController.h"
@@ -123,4 +124,6 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
             info = info->next;
         }
     }
-}
+}   /* DetectRedragonControllers() */
+
+REGISTER_DETECTOR(DetectRedragonControllers);

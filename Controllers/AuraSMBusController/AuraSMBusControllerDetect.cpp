@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "AuraSMBusController.h"
 #include "RGBController.h"
 #include "RGBController_AuraSMBus.h"
@@ -188,3 +189,5 @@ void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::
     }
 
 }   /* DetectAuraSMBusControllers() */
+
+REGISTER_I2C_DETECTOR(DetectAuraSMBusControllers);

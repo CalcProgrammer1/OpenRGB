@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "CorsairPeripheralController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairPeripheral.h"
@@ -157,4 +158,6 @@ void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_control
             info = info->next;
         }
     }
-}
+}   /* DetectCorsairPeripheralControllers() */
+
+REGISTER_DETECTOR(DetectCorsairPeripheralControllers);

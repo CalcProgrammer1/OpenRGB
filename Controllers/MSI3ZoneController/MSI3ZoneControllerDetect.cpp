@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "MSI3ZoneController.h"
 #include "RGBController.h"
 #include "RGBController_MSI3Zone.h"
@@ -33,4 +34,6 @@ void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers)
 
         rgb_controllers.push_back(rgb_controller);
     }
-}
+}   /* DetectMSI3ZoneControllers() */
+
+REGISTER_DETECTOR(DetectMSI3ZoneControllers);

@@ -5,6 +5,7 @@
 |                                           |
 \*-----------------------------------------*/
 
+#include "Detector.h"
 #include "MSIGPUController.h"
 #include "RGBController.h"
 #include "RGBController_MSIGPU.h"
@@ -111,3 +112,5 @@ void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
         }
     }
 } /* DetectMSIGPUControllers() */
+
+REGISTER_I2C_DETECTOR(DetectMSIGPUControllers);

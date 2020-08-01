@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "NZXTKrakenController.h"
 #include "RGBController.h"
 #include "RGBController_NZXTKraken.h"
@@ -48,4 +49,6 @@ void DetectNZXTKrakenControllers(std::vector<RGBController*> &rgb_controllers)
             info = info->next;
         }
     }
-}
+}   /* DetectNZXTKrakenControllers() */
+
+REGISTER_DETECTOR(DetectNZXTKrakenControllers);

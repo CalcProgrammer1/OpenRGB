@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "SapphireGPUController.h"
 #include "RGBController.h"
 #include "RGBController_SapphireGPU.h"
@@ -57,3 +58,6 @@ void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface*>& busses, std
     }
 
 }   /* DetectSapphireGPUControllers() */
+
+// This detector is disabled as it does not properly detect
+//REGISTER_I2C_DETECTOR(DetectSapphireGPUControllers);

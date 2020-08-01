@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "CorsairLightingNodeController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairLightingNode.h"
@@ -77,3 +78,5 @@ void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_contr
         }
     }
 }   /* DetectCorsairLightingNodeControllers() */
+
+REGISTER_DETECTOR(DetectCorsairLightingNodeControllers);

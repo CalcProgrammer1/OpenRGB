@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "RGBFusion2SMBusController.h"
 #include "RGBController.h"
 #include "RGBController_RGBFusion2SMBus.h"
@@ -71,3 +72,6 @@ void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses,
     }
 
 }   /* DetectRGBFusion2SMBusControllers() */
+
+// This detector is disabled as proper detection is not implemented
+//REGISTER_DETECTOR(DetectRGBFusion2SMBusControllers);

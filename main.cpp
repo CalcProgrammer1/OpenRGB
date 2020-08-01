@@ -6,6 +6,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
+#include "ResourceManager.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
 #include "OpenRGB.h"
@@ -22,9 +23,6 @@
 using namespace std::chrono_literals;
 
 std::vector<NetworkClient*> clients;
-
-extern std::vector<i2c_smbus_interface*> busses;
-extern std::vector<RGBController*> rgb_controllers;
 
 /*-------------------------------------------------------------*\
 | Command line functionality and return flags                   |
@@ -84,7 +82,7 @@ void InitializeTimerResolutionThreadFunction()
 *                                                                                          *
 \******************************************************************************************/
 
-bool AttemptLocalConnection()
+bool AttemptLocalConnection(std::vector<RGBController*> &rgb_controllers)
 {
     bool success = false;
 
@@ -134,10 +132,13 @@ int main(int argc, char* argv[])
     InitializeTimerResolutionThread->detach();
 #endif
 
+    std::vector<i2c_smbus_interface*> &busses    = ResourceManager::get()->GetI2CBusses();
+    std::vector<RGBController*> &rgb_controllers = ResourceManager::get()->GetRGBControllers();
+
     ProfileManager profile_manager(rgb_controllers);
     NetworkServer server(rgb_controllers);
     
-    if(!AttemptLocalConnection())
+    if(!AttemptLocalConnection(rgb_controllers))
     {
         DetectRGBControllers();
     }

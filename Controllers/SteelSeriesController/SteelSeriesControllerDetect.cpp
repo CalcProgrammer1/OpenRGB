@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "SteelSeriesRivalController.h"
 #include "SteelSeriesSiberiaController.h"
 #include "SteelSeriesApexController.h"
@@ -155,4 +156,6 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
             }
         }
     }
-}
+}   /* DetectSteelSeriesControllers() */
+
+REGISTER_DETECTOR(DetectSteelSeriesControllers);

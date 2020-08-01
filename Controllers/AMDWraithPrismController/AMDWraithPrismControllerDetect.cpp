@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "AMDWraithPrismController.h"
 #include "RGBController.h"
 #include "RGBController_AMDWraithPrism.h"
@@ -49,3 +50,5 @@ void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controller
         info = info->next;
     }
 }
+
+REGISTER_DETECTOR(DetectAMDWraithPrismControllers);

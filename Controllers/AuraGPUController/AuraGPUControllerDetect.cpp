@@ -6,6 +6,7 @@
 |  Jan Rettig (Klapstuhl) 14.02.2020        |
 \*-----------------------------------------*/
 
+#include "Detector.h"
 #include "AuraGPUController.h"
 #include "RGBController.h"
 #include "RGBController_AuraGPU.h"
@@ -83,3 +84,5 @@ void DetectAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
         }
     }
 } /* DetectAuraGPUControllers() */
+
+REGISTER_I2C_DETECTOR(DetectAuraGPUControllers);

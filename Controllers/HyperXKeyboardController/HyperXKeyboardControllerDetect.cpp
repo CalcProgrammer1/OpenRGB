@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "HyperXAlloyOriginsController.h"
 #include "HyperXKeyboardController.h"
 #include "RGBController.h"
@@ -104,4 +105,6 @@ void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controller
             info = info->next;
         }
     }
-}
+}   /* DetectHyperXKeyboardControllers() */
+
+REGISTER_DETECTOR(DetectHyperXKeyboardControllers);

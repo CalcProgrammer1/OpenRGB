@@ -1,3 +1,4 @@
+#include "Detector.h"
 #include "PoseidonZRGBController.h"
 #include "RGBController.h"
 #include "RGBController_PoseidonZRGB.h"
@@ -50,5 +51,6 @@ void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers)
             info = info->next;
     }
 
+}   /* DetectPoseidonZRGBControllers() */
 
-}
+REGISTER_DETECTOR(DetectPoseidonZRGBControllers);
