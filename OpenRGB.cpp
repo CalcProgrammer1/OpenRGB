@@ -318,7 +318,7 @@ void DetectI2CBusses()
                     if (sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id) == 1)
                     {
                         info = true;
-                        
+
                         // Get PCI Device
                         snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/device");
                         test_fd = open(path, O_RDONLY);
@@ -451,6 +451,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectNZXTKrakenControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectGloriousModelOControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectHoltekControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectDuckyKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectEKControllers(std::vector<RGBController*>& rgb_controllers);
 
@@ -508,6 +509,7 @@ void DetectRGBControllers(void)
     DetectNZXTKrakenControllers(rgb_controllers);
     DetectSteelSeriesControllers(rgb_controllers);
     DetectGloriousModelOControllers(rgb_controllers);
+    DetectHoltekControllers(rgb_controllers);
     DetectDuckyKeyboardControllers(rgb_controllers);
     DetectEKControllers(rgb_controllers);
 

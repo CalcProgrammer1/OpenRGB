@@ -61,6 +61,7 @@ INCLUDEPATH +=                                                          \
     Controllers/DuckyKeyboardController/                                \
     Controllers/GalaxGPUController/                                     \
     Controllers/GloriousModelOController/                               \
+    Controllers/HoltekController/                                       \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXDRAMController/                                   \
     Controllers/HyperXKeyboardController/                               \
@@ -125,8 +126,9 @@ HEADERS +=                                                              \
     Controllers/CrucialController/CrucialController.h                   \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h       \
     Controllers/EKController/EKController.h                             \
-    Controllers/GalaxGPUController/GalaxGPUController.h                 \ 
+    Controllers/GalaxGPUController/GalaxGPUController.h                 \
     Controllers/GloriousModelOController/GloriousModelOController.h     \
+    Controllers/HoltekController/HoltekA070Controller.h                 \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h \
@@ -175,6 +177,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_E131.h                                  \
     RGBController/RGBController_GalaxGPU.h                              \
     RGBController/RGBController_GloriousModelO.h                        \
+    RGBController/RGBController_HoltekA070.h                            \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperXAlloyOrigins.h                    \
     RGBController/RGBController_HyperXDRAM.h                            \
@@ -266,6 +269,8 @@ SOURCES +=                                                              \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp         \
     Controllers/GloriousModelOController/GloriousModelOController.cpp   \
     Controllers/GloriousModelOController/GloriousModelOControllerDetect.cpp \
+    Controllers/HoltekController/HoltekA070Controller.cpp               \
+    Controllers/HoltekController/HoltekControllerDetect.cpp             \
     Controllers/HuePlusController/HuePlusController.cpp                 \
     Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXDRAMController/HyperXDRAMController.cpp           \
@@ -338,6 +343,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_EKController.cpp                        \
     RGBController/RGBController_GalaxGPU.cpp                            \
     RGBController/RGBController_GloriousModelO.cpp                      \
+    RGBController/RGBController_HoltekA070.cpp                          \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperXAlloyOrigins.cpp                  \
     RGBController/RGBController_HyperXDRAM.cpp                          \
