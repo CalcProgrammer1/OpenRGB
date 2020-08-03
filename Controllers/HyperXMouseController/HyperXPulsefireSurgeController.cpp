@@ -149,15 +149,15 @@ void HyperXPulsefireSurgeController::SendWakeup()
 
 void HyperXPulsefireSurgeController::SendData
     (
-    RGBColor*   color_data
+    unsigned char   mode,
+    RGBColor*       color_data
     )
 {
     unsigned char buf[264];
 
-    unsigned char dpi_1 = 100;
-    unsigned char dpi_2 = 100;
-    unsigned char dpi_3 = 100;
-    unsigned char effect = 0;
+    unsigned short dpi_1 = 0x000A;
+    unsigned short dpi_2 = 0x0014;
+    unsigned short dpi_3 = 0x001E;
     unsigned char dpi_r = 255;
     unsigned char dpi_g = 255;
     unsigned char dpi_b = 255;
@@ -187,12 +187,12 @@ void HyperXPulsefireSurgeController::SendData
     /*-----------------------------------------------------*\
     | DPI settings                                          |
     \*-----------------------------------------------------*/
-    buf[0x08]   = dpi_1;
-    buf[0x09]   = dpi_1;
-    buf[0x0A]   = dpi_2;
-    buf[0x0B]   = dpi_2;
-    buf[0x0C]   = dpi_3;
-    buf[0x0D]   = dpi_3;
+    buf[0x08]   = (dpi_1 & 0xFF);
+    buf[0x09]   = dpi_1 >> 8;
+    buf[0x0A]   = (dpi_2 & 0xFF);
+    buf[0x0B]   = dpi_2 >> 8;
+    buf[0x0C]   = (dpi_3 & 0xFF);
+    buf[0x0D]   = dpi_3 >> 8;
 
 
     buf[0x0E]   = 0x80;
@@ -203,12 +203,12 @@ void HyperXPulsefireSurgeController::SendData
     /*-----------------------------------------------------*\
     | DPI settings                                          |
     \*-----------------------------------------------------*/
-    buf[0x14]   = dpi_1;
-    buf[0x15]   = dpi_1;
-    buf[0x16]   = dpi_2;
-    buf[0x17]   = dpi_2;
-    buf[0x18]   = dpi_3;
-    buf[0x19]   = dpi_3;
+    buf[0x14]   = (dpi_1 & 0xFF);
+    buf[0x15]   = dpi_1 >> 8;
+    buf[0x16]   = (dpi_2 & 0xFF);
+    buf[0x17]   = dpi_2 >> 8;
+    buf[0x18]   = (dpi_3 & 0xFF);
+    buf[0x19]   = dpi_3 >> 8;
     
     buf[0x1A]   = 0x80;
     buf[0x1C]   = 0x40;
@@ -239,7 +239,7 @@ void HyperXPulsefireSurgeController::SendData
     buf[0x4E]   = 0x01;
     buf[0x50]   = 0x01;
 
-    buf[0x51]   = effect;
+    buf[0x51]   = mode;
     buf[0x52]   = 0x03;
     buf[0x53]   = 0x03;
     buf[0x54]   = 0x03;

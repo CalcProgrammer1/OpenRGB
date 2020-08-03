@@ -19,10 +19,31 @@ RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPul
 
     mode Direct;
     Direct.name = "Direct";
-    Direct.value = 0;
+    Direct.value = HYPERX_PULSEFIRE_SURGE_MODE_SOLID;
     Direct.flags = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Cycle;
+    Cycle.name = "Cycle";
+    Cycle.value = HYPERX_PULSEFIRE_SURGE_MODE_CYCLE;
+    Cycle.flags = 0;
+    Cycle.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Cycle);
+
+    mode Breathing;
+    Breathing.name = "Breathing";
+    Breathing.value = HYPERX_PULSEFIRE_SURGE_MODE_BREATHING;
+    Breathing.flags = 0;
+    Breathing.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Breathing);
+
+    mode Wave;
+    Wave.name = "Wave";
+    Wave.value = HYPERX_PULSEFIRE_SURGE_MODE_WAVE;
+    Wave.flags = 0;
+    Wave.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Wave);
 
     SetupZones();
 };
@@ -74,7 +95,7 @@ void RGBController_HyperXPulsefireSurge::ResizeZone(int /*zone*/, int /*new_size
 
 void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
 {
-    hyperx->SendData(&colors[0]);
+    hyperx->SendData(active_mode, &colors[0]);
 }
 
 void RGBController_HyperXPulsefireSurge::UpdateZoneLEDs(int /*zone*/)
@@ -94,7 +115,7 @@ void RGBController_HyperXPulsefireSurge::SetCustomMode()
 
 void RGBController_HyperXPulsefireSurge::DeviceUpdateMode()
 {
-
+    DeviceUpdateLEDs();
 }
 
 void RGBController_HyperXPulsefireSurge::KeepaliveThread()

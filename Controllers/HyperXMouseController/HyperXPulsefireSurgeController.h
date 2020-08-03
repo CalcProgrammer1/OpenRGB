@@ -14,6 +14,15 @@
 
 #pragma once
 
+enum
+{
+    HYPERX_PULSEFIRE_SURGE_MODE_SOLID           = 0x00,     /* Solid color mode     */
+    HYPERX_PULSEFIRE_SURGE_MODE_CYCLE           = 0x01,     /* Spectrum cycle mode  */
+    HYPERX_PULSEFIRE_SURGE_MODE_BREATHING       = 0x02,     /* Breathing mode       */
+    HYPERX_PULSEFIRE_SURGE_MODE_WAVE            = 0x03,     /* Wave mode            */
+    HYPERX_PULSEFIRE_SURGE_MODE_TRIGGER         = 0x04,     /* Trigger mode         */
+};
+
 class HyperXPulsefireSurgeController
 {
 public:
@@ -22,7 +31,8 @@ public:
 
     void SendData
             (
-            RGBColor*   color_data
+            unsigned char   mode,
+            RGBColor*       color_data
             );
 
 private:
