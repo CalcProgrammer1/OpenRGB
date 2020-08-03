@@ -32,6 +32,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 ## Windows
 
   *  Pre-built binaries are available under the Releases section on GitLab.
+    - You will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
   *  If you wish to build the application yourself:
       1. Download the latest Visual Studio Community Edition and Qt Creator.
       2. Open the OpenRGB.pro project in Qt Creator.
