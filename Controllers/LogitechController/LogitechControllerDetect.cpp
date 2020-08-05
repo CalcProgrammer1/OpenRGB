@@ -4,34 +4,38 @@
 #include "LogitechG403Controller.h"
 #include "LogitechG502PSController.h"
 #include "LogitechG810Controller.h"
+#include "LogitechGProWirelessController.h"
 #include "RGBController.h"
 #include "RGBController_LogitechG203.h"
 #include "RGBController_LogitechG203L.h"
 #include "RGBController_LogitechG403.h"
 #include "RGBController_LogitechG502PS.h"
 #include "RGBController_LogitechG810.h"
+#include "RGBController_LogitechGProWireless.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Logitech vendor ID                                    |
 \*-----------------------------------------------------*/
-#define LOGITECH_VID                    0x046D
+#define LOGITECH_VID                            0x046D
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
-#define LOGITECH_G810_1_PID             0xC337
-#define LOGITECH_G810_2_PID             0xC331
-#define LOGITECH_G512_PID               0xC342
-#define LOGITECH_G512_RGB_PID           0xC33C
+#define LOGITECH_G810_1_PID                     0xC337
+#define LOGITECH_G810_2_PID                     0xC331
+#define LOGITECH_G512_PID                       0xC342
+#define LOGITECH_G512_RGB_PID                   0xC33C
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
-#define LOGITECH_G203_PID               0xC084
-#define LOGITECH_G203L_PID              0xC092
-#define LOGITECH_G403_PID               0xC083
-#define LOGITECH_G403H_PID              0xC08F
-#define LOGITECH_G502_PS_PID            0xC332
+#define LOGITECH_G203_PID                       0xC084
+#define LOGITECH_G203L_PID                      0xC092
+#define LOGITECH_G403_PID                       0xC083
+#define LOGITECH_G403H_PID                      0xC08F
+#define LOGITECH_G502_PS_PID                    0xC332
+#define LOGITECH_GPRO_WIRELESS_LIGHTSPEED_PID   0xC539
+#define LOGITECH_GPRO_WIRELESS_PID              0xC088
 
 typedef struct
 {
@@ -46,24 +50,26 @@ typedef struct
 
 static const logitech_device device_list[] =
 {
-    /*-------------------------------------------------------------------------------------------------------------*\
-    | Keyboards                                                                                                     |
-    \*-------------------------------------------------------------------------------------------------------------*/
-    { LOGITECH_VID,             LOGITECH_G810_1_PID,    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"  },
-    { LOGITECH_VID,             LOGITECH_G810_2_PID,    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"  },
-    { LOGITECH_VID,             LOGITECH_G512_PID,      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512"                 },
-    { LOGITECH_VID,             LOGITECH_G512_RGB_PID,  1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512 RGB"             },
-    /*-------------------------------------------------------------------------------------------------------------*\
-    | Mice                                                                                                          |
-    \*-------------------------------------------------------------------------------------------------------------*/
-    { LOGITECH_VID,             LOGITECH_G203_PID,      1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Prodigy"         },
-    { LOGITECH_VID,             LOGITECH_G203L_PID,     1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Lightsync"       },
-    { LOGITECH_VID,             LOGITECH_G403_PID,      1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Prodigy"         },
-    { LOGITECH_VID,             LOGITECH_G403H_PID,     1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Hero"            },
-    { LOGITECH_VID,             LOGITECH_G502_PS_PID,   1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Proteus Spectrum"},
-    /*-------------------------------------------------------------------------------------------------------------*\
-    | Mousemats                                                                                                     |
-    \*-------------------------------------------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------------------------------------------------------*\
+    | Keyboards                                                                                                                                     |
+    \*---------------------------------------------------------------------------------------------------------------------------------------------*/
+    { LOGITECH_VID,             LOGITECH_G810_1_PID,                    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"                  },
+    { LOGITECH_VID,             LOGITECH_G810_2_PID,                    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"                  },
+    { LOGITECH_VID,             LOGITECH_G512_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512"                                 },
+    { LOGITECH_VID,             LOGITECH_G512_RGB_PID,                  1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512 RGB"                             },
+    /*---------------------------------------------------------------------------------------------------------------------------------------------*\
+    | Mice                                                                                                                                          |
+    \*---------------------------------------------------------------------------------------------------------------------------------------------*/
+    { LOGITECH_VID,             LOGITECH_G203_PID,                      1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Prodigy"                         },
+    { LOGITECH_VID,             LOGITECH_G203L_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Lightsync"                       },
+    { LOGITECH_VID,             LOGITECH_G403_PID,                      1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Prodigy"                         },
+    { LOGITECH_VID,             LOGITECH_G403H_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Hero"                            },
+    { LOGITECH_VID,             LOGITECH_G502_PS_PID,                   1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Proteus Spectrum"                },
+    { LOGITECH_VID,             LOGITECH_GPRO_WIRELESS_LIGHTSPEED_PID,  2,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Wireless Gaming Mouse"          },
+    { LOGITECH_VID,             LOGITECH_GPRO_WIRELESS_PID,             2,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Wireless Gaming Mouse (Wired)"  },
+    /*---------------------------------------------------------------------------------------------------------------------------------------------*\
+    | Mousemats                                                                                                                                     |
+    \*---------------------------------------------------------------------------------------------------------------------------------------------*/
 };
 
 /******************************************************************************************\
@@ -204,13 +210,30 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                                     rgb_controller->name = device_list[device_idx].name;
                                     rgb_controllers.push_back(rgb_controller);
                                 }
+                                break;
+
                             case LOGITECH_G502_PS_PID:
                                 {
                                     LogitechG502PSController* controller = new LogitechG502PSController(dev);
+
                                     RGBController_LogitechG502PS* rgb_controller = new RGBController_LogitechG502PS(controller);
+
                                     rgb_controller->name = device_list[device_idx].name;
                                     rgb_controllers.push_back(rgb_controller);
                                 }
+                                break;
+                                
+                            case LOGITECH_GPRO_WIRELESS_LIGHTSPEED_PID:
+                            case LOGITECH_GPRO_WIRELESS_PID:
+                                {
+                                    LogitechGProWirelessController* controller = new LogitechGProWirelessController(dev);
+
+                                    RGBController_LogitechGProWireless* rgb_controller = new RGBController_LogitechGProWireless(controller);
+
+                                    rgb_controller->name = device_list[device_idx].name;
+                                    rgb_controllers.push_back(rgb_controller);
+                                }
+                                break;
                             }
                         }
                     }
