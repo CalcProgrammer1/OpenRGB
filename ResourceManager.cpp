@@ -106,6 +106,7 @@ void ResourceManager::DetectDevices()
 
 void ResourceManager::DetectDevicesThreadFunction()
 {
+    DetectDeviceMutex.lock();
     unsigned int prev_count = 0;
     float        percent = 0.0f;
 
@@ -175,4 +176,12 @@ void ResourceManager::DetectDevicesThreadFunction()
     }
 
     profile_manager.LoadSizeFromProfile("sizes.ors");
+    
+    DetectDeviceMutex.unlock();
+}
+
+void ResourceManager::WaitForDeviceDetection()
+{
+    DetectDeviceMutex.lock();
+    DetectDeviceMutex.unlock();
 }

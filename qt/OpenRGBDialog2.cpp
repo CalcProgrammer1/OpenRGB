@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 using namespace Ui;
 
@@ -182,6 +183,12 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
 OpenRGBDialog2::~OpenRGBDialog2()
 {
     delete ui;
+}
+
+void OpenRGBDialog2::closeEvent(QCloseEvent *event)
+{
+    ResourceManager::get()->WaitForDeviceDetection();
+    event->accept();
 }
 
 void OpenRGBDialog2::AddI2CToolsPage()

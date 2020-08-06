@@ -44,6 +44,8 @@ public:
 
     void DetectDevicesThreadFunction();
 
+    void WaitForDeviceDetection();
+
 private:
     static std::unique_ptr<ResourceManager>     instance;
 
@@ -60,6 +62,8 @@ private:
 
     std::thread *                               DetectDevicesThread;
 
+    std::mutex                                  DetectDeviceMutex;
+    
     std::mutex                                  DeviceListChangeMutex;
     std::vector<ResourceManagerCallback>        DeviceListChangeCallbacks;
     std::vector<void *>                         DeviceListChangeCallbackArgs;

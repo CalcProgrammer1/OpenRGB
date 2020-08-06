@@ -66,6 +66,7 @@ private:
     void ClearDevicesList();
     void UpdateDevicesList();
     void UpdateProfileList();
+    void closeEvent(QCloseEvent *event);
 
 private slots:
     void on_Exit();
