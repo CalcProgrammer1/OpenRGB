@@ -1017,16 +1017,6 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
     network_server  = network_server_in;
 
     /*---------------------------------------------------------*\
-    | Windows only - Attach console output                      |
-    \*---------------------------------------------------------*/
-#ifdef _WIN32
-    AttachConsole(-1);
-    freopen("CONIN$", "r", stdin);
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONOUT$", "w", stderr);
-#endif
-
-    /*---------------------------------------------------------*\
     | Process the argument options                              |
     \*---------------------------------------------------------*/
     Options options;

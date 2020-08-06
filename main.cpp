@@ -127,6 +127,20 @@ bool AttemptLocalConnection(std::vector<RGBController*> &rgb_controllers)
 int main(int argc, char* argv[])
 {
 #ifdef _WIN32
+    /*---------------------------------------------------------*\
+    | Windows only - Attach console output                      |
+    \*---------------------------------------------------------*/
+    if (AttachConsole(ATTACH_PARENT_PROCESS))
+    {
+        /*---------------------------------------------------------*\
+        | We are running under some terminal context; otherwise     |
+        | leave the GUI and CRT alone                               |
+        \*---------------------------------------------------------*/
+        freopen("CONIN$",  "r", stdin);
+        freopen("CONOUT$", "w", stdout);
+        freopen("CONOUT$", "w", stderr);
+    }
+
     std::thread * InitializeTimerResolutionThread;
     InitializeTimerResolutionThread = new std::thread(InitializeTimerResolutionThreadFunction);
     InitializeTimerResolutionThread->detach();
