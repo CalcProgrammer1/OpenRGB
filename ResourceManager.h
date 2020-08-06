@@ -3,12 +3,15 @@
 #include <memory>
 #include <vector>
 #include <functional>
+#include <thread>
 
 #include "i2c_smbus.h"
 #include "RGBController.h"
 
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&, std::vector<RGBController*>&)>   I2CDeviceDetectorFunction;
+
+typedef void (*ResourceManagerCallback)(void *);
 
 class ResourceManager
 {
@@ -27,7 +30,13 @@ public:
     void RegisterDeviceDetector         (DeviceDetectorFunction     detector);
     void RegisterI2CDeviceDetector      (I2CDeviceDetectorFunction  detector);
     
+    void RegisterDeviceListChangeCallback(ResourceManagerCallback new_callback, void * new_callback_arg);
+
+    void DeviceListChanged();
+
     void DetectDevices();
+
+    void DetectDevicesThreadFunction();
 
 private:
     static std::unique_ptr<ResourceManager>     instance;
@@ -36,4 +45,10 @@ private:
     std::vector<RGBController*>                 rgb_controllers;
     std::vector<DeviceDetectorFunction>         device_detectors;
     std::vector<I2CDeviceDetectorFunction>      i2c_device_detectors;
+
+    std::thread *                               DetectDevicesThread;
+
+    std::mutex                                  DeviceListChangeMutex;
+    std::vector<ResourceManagerCallback>        DeviceListChangeCallbacks;
+    std::vector<void *>                         DeviceListChangeCallbackArgs;
 };

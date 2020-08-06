@@ -3,6 +3,7 @@
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBServerInfoPage.h"
 #include "OpenRGBProfileSaveDialog.h"
+#include "ResourceManager.h"
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
@@ -53,6 +54,13 @@ static QString GetIconString(device_type type)
     }
 }
 
+static void UpdateInfoCallback(void * this_ptr)
+{
+    OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
+
+    QMetaObject::invokeMethod(this_obj, "on_ClientListUpdated", Qt::QueuedConnection);
+}
+
 OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
@@ -69,6 +77,8 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     ClientInfoPage  = NULL;
     SMBusToolsPage  = NULL;
     SoftInfoPage    = NULL;
+
+    ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateInfoCallback, this);
 
     /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |

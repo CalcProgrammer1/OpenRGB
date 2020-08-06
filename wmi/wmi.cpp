@@ -39,8 +39,8 @@ Wmi::Wmi() : pLoc(nullptr), pSvc(nullptr)
 
 Wmi::~Wmi()
 {
-    pSvc->Release();
-    pLoc->Release();
+    //pSvc->Release();
+    //pLoc->Release();
     CoUninitialize();
 }
 
