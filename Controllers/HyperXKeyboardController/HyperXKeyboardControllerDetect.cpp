@@ -107,4 +107,4 @@ void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controller
     }
 }   /* DetectHyperXKeyboardControllers() */
 
-REGISTER_DETECTOR(DetectHyperXKeyboardControllers);
+REGISTER_DETECTOR("HyperX Keyboard", DetectHyperXKeyboardControllers);

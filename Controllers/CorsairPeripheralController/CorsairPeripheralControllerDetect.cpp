@@ -160,4 +160,4 @@ void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_control
     }
 }   /* DetectCorsairPeripheralControllers() */
 
-REGISTER_DETECTOR(DetectCorsairPeripheralControllers);
+REGISTER_DETECTOR("Corsair Peripheral", DetectCorsairPeripheralControllers);

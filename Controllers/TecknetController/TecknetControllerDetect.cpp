@@ -84,4 +84,4 @@ void DetectTecknetControllers(std::vector<RGBController*>& rgb_controllers)
     hid_free_enumeration(info);
 }   /* DetectTecknetControllers) */
 
-REGISTER_DETECTOR(DetectTecknetControllers);
+REGISTER_DETECTOR("Tecknet", DetectTecknetControllers);

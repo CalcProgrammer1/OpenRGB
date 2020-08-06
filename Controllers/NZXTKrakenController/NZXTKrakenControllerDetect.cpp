@@ -51,4 +51,4 @@ void DetectNZXTKrakenControllers(std::vector<RGBController*> &rgb_controllers)
     }
 }   /* DetectNZXTKrakenControllers() */
 
-REGISTER_DETECTOR(DetectNZXTKrakenControllers);
+REGISTER_DETECTOR("NZXT Kraken", DetectNZXTKrakenControllers);

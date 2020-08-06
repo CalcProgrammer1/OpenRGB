@@ -70,4 +70,4 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
     hid_free_enumeration(info);
 }   /* DetectRGBFusion2USBControllers() */
 
-REGISTER_DETECTOR(DetectRGBFusion2USBControllers);
+REGISTER_DETECTOR("Gigabyte RGB Fusion 2 USB", DetectRGBFusion2USBControllers);

@@ -64,4 +64,4 @@ void DetectEKControllers(std::vector<RGBController*>& rgb_controllers)
     hid_free_enumeration(info);
 }   /* DetectEKControllers() */
 
-REGISTER_DETECTOR(DetectEKControllers);
+REGISTER_DETECTOR("EK", DetectEKControllers);

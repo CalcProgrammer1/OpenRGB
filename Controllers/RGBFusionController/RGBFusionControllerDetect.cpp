@@ -67,4 +67,4 @@ void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::
 
 }   /* DetectRGBFusionControllers() */
 
-REGISTER_I2C_DETECTOR(DetectRGBFusionControllers);
+REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion", DetectRGBFusionControllers);

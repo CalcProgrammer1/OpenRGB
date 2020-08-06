@@ -252,4 +252,4 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
 }   /* DetectOpenRazerControllers() */
 
-REGISTER_DETECTOR(DetectOpenRazerControllers);
+REGISTER_DETECTOR("OpenRazer-Win32", DetectOpenRazerControllers);

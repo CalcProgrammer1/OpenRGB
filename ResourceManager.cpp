@@ -53,13 +53,15 @@ void ResourceManager::RegisterI2CBusDetector(I2CBusDetectorFunction detector)
     i2c_bus_detectors.push_back(detector);
 }
 
-void ResourceManager::RegisterI2CDeviceDetector(I2CDeviceDetectorFunction detector)
+void ResourceManager::RegisterI2CDeviceDetector(std::string name, I2CDeviceDetectorFunction detector)
 {
+    i2c_device_detector_strings.push_back(name);
     i2c_device_detectors.push_back(detector);
 }
 
-void ResourceManager::RegisterDeviceDetector(DeviceDetectorFunction detector)
+void ResourceManager::RegisterDeviceDetector(std::string name, DeviceDetectorFunction detector)
 {
+    device_detector_strings.push_back(name);
     device_detectors.push_back(detector);
 }
 
@@ -87,6 +89,11 @@ void ResourceManager::DeviceListChanged()
 unsigned int ResourceManager::GetDetectionPercent()
 {
     return(detection_percent);
+}
+
+std::string ResourceManager::GetDetectionString()
+{
+    return(detection_string);
 }
 
 void ResourceManager::DetectDevices()
@@ -122,6 +129,9 @@ void ResourceManager::DetectDevicesThreadFunction()
     \*-------------------------------------------------*/
     for(int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size(); i2c_detector_idx++)
     {
+        detection_string = i2c_device_detector_strings[i2c_detector_idx];
+        DeviceListChanged();
+
         i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers);
 
         /*-------------------------------------------------*\
@@ -144,6 +154,9 @@ void ResourceManager::DetectDevicesThreadFunction()
     \*-------------------------------------------------*/
     for(int detector_idx = 0; detector_idx < device_detectors.size(); detector_idx++)
     {
+        detection_string = device_detector_strings[detector_idx];
+        DeviceListChanged();
+
         device_detectors[detector_idx](rgb_controllers);
 
         /*-------------------------------------------------*\

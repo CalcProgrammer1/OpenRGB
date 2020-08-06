@@ -77,4 +77,4 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }   /* DetectAuraUSBControllers() */
 
-REGISTER_DETECTOR(DetectAuraUSBControllers);
+REGISTER_DETECTOR("ASUS Aura USB", DetectAuraUSBControllers);

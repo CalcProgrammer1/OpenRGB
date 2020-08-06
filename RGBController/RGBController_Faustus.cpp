@@ -1,5 +1,5 @@
 #include "RGBController_Faustus.h"
-
+#include "Detector.h"
 #include <dirent.h>
 #include <string.h>
 
@@ -170,4 +170,6 @@ void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers)
     closedir(dir);
     if(found != 6) return;
     rgb_controllers.push_back(new RGBController_Faustus(base_path));
-}
+}   /* DetectFaustusControllers() */
+
+REGISTER_DETECTOR("Faustus", DetectFaustusControllers);

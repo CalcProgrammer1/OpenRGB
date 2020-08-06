@@ -83,4 +83,4 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
 
 }   /* DetectRGBFusionGPUControllers() */
 
-REGISTER_I2C_DETECTOR(DetectRGBFusionGPUControllers);
+REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion GPU", DetectRGBFusionGPUControllers);

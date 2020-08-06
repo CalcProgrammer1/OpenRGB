@@ -45,4 +45,4 @@ void DetectAuraCoreControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }
 
-REGISTER_DETECTOR(DetectAuraCoreControllers);
+REGISTER_DETECTOR("ASUS Aura Core", DetectAuraCoreControllers);

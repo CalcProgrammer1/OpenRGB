@@ -37,4 +37,4 @@ void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers)
     }
 }   /* DetectHuePlusControllers() */
 
-REGISTER_DETECTOR(DetectHuePlusControllers);
+REGISTER_DETECTOR("NZXT Hue+", DetectHuePlusControllers);

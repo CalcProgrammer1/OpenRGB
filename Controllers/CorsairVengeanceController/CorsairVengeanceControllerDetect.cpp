@@ -125,4 +125,4 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
 
 }   /* DetectCorsairVengeanceControllers() */
 
-REGISTER_I2C_DETECTOR(DetectCorsairVengeanceControllers);
+REGISTER_I2C_DETECTOR("Corsair Vengeance", DetectCorsairVengeanceControllers);

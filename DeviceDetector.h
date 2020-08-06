@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 #include <vector>
 
 #include "ResourceManager.h"
@@ -8,18 +9,18 @@
 class DeviceDetector
 {
 public:
-	DeviceDetector(DeviceDetectorFunction detector)
+    DeviceDetector(std::string name, DeviceDetectorFunction detector)
 	{
-		ResourceManager::get()->RegisterDeviceDetector(detector);
+        ResourceManager::get()->RegisterDeviceDetector(name, detector);
 	}
 };
 
 class I2CDeviceDetector
 {
 public:
-	I2CDeviceDetector(I2CDeviceDetectorFunction detector)
+    I2CDeviceDetector(std::string name, I2CDeviceDetectorFunction detector)
 	{
-		ResourceManager::get()->RegisterI2CDeviceDetector(detector);
+        ResourceManager::get()->RegisterI2CDeviceDetector(name, detector);
 	}
 };
 

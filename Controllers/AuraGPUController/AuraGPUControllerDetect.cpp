@@ -85,4 +85,4 @@ void DetectAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
     }
 } /* DetectAuraGPUControllers() */
 
-REGISTER_I2C_DETECTOR(DetectAuraGPUControllers);
+REGISTER_I2C_DETECTOR("ASUS Aura GPU", DetectAuraGPUControllers);

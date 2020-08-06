@@ -81,4 +81,4 @@ void DetectDuckyKeyboardControllers(std::vector<RGBController*>& rgb_controllers
     }
 }   /* DetectDuckyKeyboardControllers() */
 
-REGISTER_DETECTOR(DetectDuckyKeyboardControllers);
+REGISTER_DETECTOR("Ducky Keyboard", DetectDuckyKeyboardControllers);

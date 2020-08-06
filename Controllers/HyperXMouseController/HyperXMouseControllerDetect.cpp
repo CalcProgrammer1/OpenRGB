@@ -81,4 +81,4 @@ void DetectHyperXMouseControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }   /* DetectHyperXMouseControllers() */
 
-REGISTER_DETECTOR(DetectHyperXMouseControllers);
+REGISTER_DETECTOR("HyperX Mouse", DetectHyperXMouseControllers);

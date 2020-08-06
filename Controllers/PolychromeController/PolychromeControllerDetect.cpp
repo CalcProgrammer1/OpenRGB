@@ -69,4 +69,4 @@ void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std:
 
 }   /* DetectPolychromeControllers() */
 
-REGISTER_I2C_DETECTOR(DetectPolychromeControllers);
+REGISTER_I2C_DETECTOR("ASRock Polychrome", DetectPolychromeControllers);

@@ -87,4 +87,4 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
 
 }   /* DetectLEDStripControllers() */
 
-REGISTER_DETECTOR(DetectLEDStripControllers);
+REGISTER_DETECTOR("LED Strip", DetectLEDStripControllers);

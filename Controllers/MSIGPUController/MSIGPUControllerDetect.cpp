@@ -113,4 +113,4 @@ void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
     }
 } /* DetectMSIGPUControllers() */
 
-REGISTER_I2C_DETECTOR(DetectMSIGPUControllers);
+REGISTER_I2C_DETECTOR("MSI GPU", DetectMSIGPUControllers);

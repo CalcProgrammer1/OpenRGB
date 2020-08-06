@@ -60,4 +60,4 @@ void DetectGloriousModelOControllers(std::vector<RGBController*>& rgb_controller
     }
 }   /* DetectGloriousModelOControllers() */
 
-REGISTER_DETECTOR(DetectGloriousModelOControllers);
+REGISTER_DETECTOR("Glorious Model O", DetectGloriousModelOControllers);

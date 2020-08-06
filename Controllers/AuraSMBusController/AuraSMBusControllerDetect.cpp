@@ -190,4 +190,4 @@ void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::
 
 }   /* DetectAuraSMBusControllers() */
 
-REGISTER_I2C_DETECTOR(DetectAuraSMBusControllers);
+REGISTER_I2C_DETECTOR("ASUS Aura SMBus", DetectAuraSMBusControllers);

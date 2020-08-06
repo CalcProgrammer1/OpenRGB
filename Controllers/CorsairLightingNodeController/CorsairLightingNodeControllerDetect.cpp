@@ -79,4 +79,4 @@ void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_contr
     }
 }   /* DetectCorsairLightingNodeControllers() */
 
-REGISTER_DETECTOR(DetectCorsairLightingNodeControllers);
+REGISTER_DETECTOR("Corsair Lighting Node", DetectCorsairLightingNodeControllers);

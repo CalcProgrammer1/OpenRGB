@@ -40,4 +40,4 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
     }
 }   /* DetectMSIRGBControllers() */
 
-REGISTER_DETECTOR(DetectMSIRGBControllers);
+REGISTER_DETECTOR("MSI-RGB", DetectMSIRGBControllers);

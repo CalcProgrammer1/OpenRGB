@@ -158,4 +158,4 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }   /* DetectSteelSeriesControllers() */
 
-REGISTER_DETECTOR(DetectSteelSeriesControllers);
+REGISTER_DETECTOR("SteelSeries", DetectSteelSeriesControllers);

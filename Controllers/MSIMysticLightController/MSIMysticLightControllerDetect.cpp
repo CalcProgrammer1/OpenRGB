@@ -103,4 +103,4 @@ void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controller
 
 // The MSI Mystic Light controller is disabled due to bricking risk
 // Uncomment this line to enable.  Do so at your own risk.
-//REGISTER_DETECTOR(DetectMSIMysticLightControllers);
+//REGISTER_DETECTOR("MSI Mystic Light", DetectMSIMysticLightControllers);

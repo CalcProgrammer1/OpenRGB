@@ -56,4 +56,4 @@ void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controll
     }
 }   /* DetectThermaltakeRiingControllers() */
 
-REGISTER_DETECTOR(DetectThermaltakeRiingControllers);
+REGISTER_DETECTOR("Thermaltake Riing", DetectThermaltakeRiingControllers);

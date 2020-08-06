@@ -133,4 +133,4 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
 
 }   /* DetectCorsairVengeanceProControllers() */
 
-REGISTER_I2C_DETECTOR(DetectCorsairVengeanceProControllers);
+REGISTER_I2C_DETECTOR("Corsair Vengeance Pro", DetectCorsairVengeanceProControllers);

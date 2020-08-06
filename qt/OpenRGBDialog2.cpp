@@ -417,6 +417,9 @@ void OpenRGBDialog2::on_ClientListUpdated()
 
     ui->DetectionProgressBar->setRange(0, 100);
     ui->DetectionProgressBar->setValue(ResourceManager::get()->GetDetectionPercent());
+    ui->DetectionProgressBar->setTextVisible(true);
+    ui->DetectionProgressBar->setFormat("Detecting " + QString::fromStdString(ResourceManager::get()->GetDetectionString()));
+    ui->DetectionProgressBar->setAlignment(Qt::AlignCenter);
 
     if(ResourceManager::get()->GetDetectionPercent() == 100)
     {

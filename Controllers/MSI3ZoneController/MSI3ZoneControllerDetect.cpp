@@ -36,4 +36,4 @@ void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }   /* DetectMSI3ZoneControllers() */
 
-REGISTER_DETECTOR(DetectMSI3ZoneControllers);
+REGISTER_DETECTOR("MSI 3-Zone Laptop", DetectMSI3ZoneControllers);

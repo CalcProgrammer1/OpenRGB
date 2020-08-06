@@ -51,4 +51,4 @@ void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controller
     }
 }
 
-REGISTER_DETECTOR(DetectAMDWraithPrismControllers);
+REGISTER_DETECTOR("AMD Wraith Prism", DetectAMDWraithPrismControllers);

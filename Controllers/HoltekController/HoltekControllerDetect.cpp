@@ -86,4 +86,4 @@ void DetectHoltekControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }   /* DetectHoltekControllers() */
 
-REGISTER_DETECTOR(DetectHoltekControllers);
+REGISTER_DETECTOR("Holtek", DetectHoltekControllers);

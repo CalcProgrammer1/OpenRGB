@@ -68,4 +68,4 @@ void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::v
 
 } /* DetectGalaxGPUControllers() */
 
-REGISTER_I2C_DETECTOR(DetectGalaxGPUControllers);
+REGISTER_I2C_DETECTOR("Galax GPU", DetectGalaxGPUControllers);

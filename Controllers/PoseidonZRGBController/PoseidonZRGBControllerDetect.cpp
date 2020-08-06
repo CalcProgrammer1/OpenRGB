@@ -53,4 +53,4 @@ void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers)
 
 }   /* DetectPoseidonZRGBControllers() */
 
-REGISTER_DETECTOR(DetectPoseidonZRGBControllers);
+REGISTER_DETECTOR("Thermaltake Poseidon Z RGB", DetectPoseidonZRGBControllers);

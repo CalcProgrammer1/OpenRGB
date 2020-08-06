@@ -66,4 +66,4 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
     hid_free_enumeration(info);
 }   /* DetectCoolerMasterControllers() */
 
-REGISTER_DETECTOR(DetectCoolerMasterControllers);
+REGISTER_DETECTOR("Cooler Master", DetectCoolerMasterControllers);

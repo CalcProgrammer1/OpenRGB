@@ -74,4 +74,4 @@ void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses,
 }   /* DetectRGBFusion2SMBusControllers() */
 
 // This detector is disabled as proper detection is not implemented
-//REGISTER_DETECTOR(DetectRGBFusion2SMBusControllers);
+//REGISTER_DETECTOR("Gigabyte RGB Fusion 2 SMBus", DetectRGBFusion2SMBusControllers);

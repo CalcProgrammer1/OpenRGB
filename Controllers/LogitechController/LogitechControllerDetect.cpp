@@ -247,4 +247,4 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }   /* DetectLogitechControllers() */
 
-REGISTER_DETECTOR(DetectLogitechControllers);
+REGISTER_DETECTOR("Logitech", DetectLogitechControllers);
