@@ -83,6 +83,12 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     ui->ButtonDeleteProfile->setVisible(false);
     ui->ProfileBox->setVisible(false);
 
+    ui->DetectionProgressBar->setRange(0, 100);
+    ui->DetectionProgressBar->setValue(0);
+    ui->DetectionProgressBar->setTextVisible(true);
+    ui->DetectionProgressBar->setFormat("");
+    ui->DetectionProgressBar->setAlignment(Qt::AlignCenter);
+
     ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateInfoCallback, this);
 
     /*-----------------------------------------------------*\
@@ -415,11 +421,8 @@ void OpenRGBDialog2::on_ClientListUpdated()
     ClearDevicesList();
     UpdateDevicesList();
 
-    ui->DetectionProgressBar->setRange(0, 100);
     ui->DetectionProgressBar->setValue(ResourceManager::get()->GetDetectionPercent());
-    ui->DetectionProgressBar->setTextVisible(true);
-    ui->DetectionProgressBar->setFormat("Detecting " + QString::fromStdString(ResourceManager::get()->GetDetectionString()));
-    ui->DetectionProgressBar->setAlignment(Qt::AlignCenter);
+    ui->DetectionProgressBar->setFormat(QString::fromStdString(ResourceManager::get()->GetDetectionString()));
 
     if(ResourceManager::get()->GetDetectionPercent() == 100)
     {
