@@ -45,7 +45,7 @@ void LogitechGProWirelessController::SendMouseMode
     usb_buf[0x00]           = 0x11;
     usb_buf[0x01]           = 0x01;
     usb_buf[0x02]           = 0x07;
-    usb_buf[0x03]           = 0x03;
+    usb_buf[0x03]           = 0x3C;
 
     usb_buf[0x04]           = zone;
     usb_buf[0x05]           = mode;
