@@ -27,3 +27,151 @@ s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 
     return ioctl(handle, I2C_SMBUS, &args);
 }
+
+#include "Detector.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <string.h>
+
+void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
+{
+    i2c_smbus_linux *       bus;
+    char                    device_string[1024];
+    DIR *                   dir;
+    char                    driver_path[512];
+    struct dirent *         ent;
+    int                     test_fd;
+    char path[1024];
+    char buff[100];
+    unsigned short pci_device, pci_vendor, pci_subsystem_device, pci_subsystem_vendor;
+    unsigned short port_id;
+    bool info;
+
+    // Start looking for I2C adapters in /sys/bus/i2c/devices/
+    strcpy(driver_path, "/sys/bus/i2c/devices/");
+    dir = opendir(driver_path);
+
+    if(dir == NULL)
+    {
+        return;
+    }
+
+    // Loop through all entries in i2c-adapter list
+    ent = readdir(dir);
+    while(ent != NULL)
+    {
+        if(ent->d_type == DT_DIR || ent->d_type == DT_LNK)
+        {
+            if(strncmp(ent->d_name, "i2c-", 4) == 0)
+            {
+                strcpy(device_string, driver_path);
+                strcat(device_string, ent->d_name);
+                strcat(device_string, "/name");
+                test_fd = open(device_string, O_RDONLY);
+
+                if(test_fd)
+                {
+                    memset(device_string, 0x00, sizeof(device_string));
+                    read(test_fd, device_string, sizeof(device_string));
+                    device_string[strlen(device_string) - 1] = 0x00;
+
+                    close(test_fd);
+
+                    // For now, only get PCI information from nVidia GPUs
+                    // PCI IDs are not currently obtained from the Nouveau driver
+                    // and GPUs using PCI IDs for detection will not work with it.
+                    if (sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id) == 1)
+                    {
+                        info = true;
+
+                        // Get PCI Device
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/device");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_device = strtoul(buff, NULL, 16);
+                        close(test_fd);
+
+                        // Get PCI Vendor
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/vendor");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_vendor = strtoul(buff, NULL, 16);
+                        close(test_fd);
+
+                        // Get PCI Subsystem Device
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_device");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_subsystem_device = strtoul(buff, NULL, 16);
+                        close(test_fd);
+
+                        // Get PCI Subsystem Vendor
+                        snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_vendor");
+                        test_fd = open(path, O_RDONLY);
+                        if (test_fd < 0)
+                        {
+                            ent = readdir(dir);
+                            continue;
+                        }
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_subsystem_vendor = strtoul(buff, NULL, 16);
+                        close(test_fd);
+                    }
+                    else
+                    {
+                        info = false;
+                    }
+
+                    strcpy(device_string, "/dev/");
+                    strcat(device_string, ent->d_name);
+                    test_fd = open(device_string, O_RDWR);
+
+                    if (test_fd < 0)
+                    {
+                        ent = readdir(dir);
+                        continue;
+                    }
+
+                    bus = new i2c_smbus_linux();
+                    strcpy(bus->device_name, device_string);
+                    bus->handle = test_fd;
+                    if (info) {
+                        bus->pci_device = pci_device;
+                        bus->pci_vendor = pci_vendor;
+                        bus->pci_subsystem_device = pci_subsystem_device;
+                        bus->pci_subsystem_vendor = pci_subsystem_vendor;
+                        bus->port_id = port_id;
+                    }
+                    busses.push_back(bus);
+                }
+            }
+        }
+        ent = readdir(dir);
+    }
+}
+
+REGISTER_I2C_BUS_DETECTOR(i2c_smbus_linux_detect);

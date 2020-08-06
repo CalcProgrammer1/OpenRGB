@@ -32,7 +32,7 @@ DMIInfo::DMIInfo()
     // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
     // These devices may be browsed under Device Manager -> System Devices
     std::vector<QueryObj> q_res_BaseBoard;
-    //hres = wmi.query("SELECT * FROM Win32_BaseBoard", q_res_BaseBoard);
+    hres = wmi.query("SELECT * FROM Win32_BaseBoard", q_res_BaseBoard);
 
     if (hres)
     {

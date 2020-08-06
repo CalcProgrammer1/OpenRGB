@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
     
     if(!AttemptLocalConnection(rgb_controllers))
     {
-        DetectRGBControllers();
+        ResourceManager::get()->DetectDevices();
     }
 
     profile_manager.LoadSizeFromProfile("sizes.ors");

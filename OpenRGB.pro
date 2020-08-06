@@ -229,7 +229,6 @@ SOURCES +=                                                              \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     cli.cpp                                                             \
-    OpenRGB.cpp                                                         \
     NetworkClient.cpp                                                   \
     NetworkServer.cpp                                                   \
     ProfileManager.cpp                                                  \

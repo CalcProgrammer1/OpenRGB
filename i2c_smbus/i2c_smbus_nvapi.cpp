@@ -95,3 +95,42 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
     
     return(ret);
 }
+
+#include "Detector.h"
+
+void i2c_smbus_nvapi_detect(std::vector<i2c_smbus_interface*> &busses)
+{
+    static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
+    static NV_S32                   gpu_count = 0;
+    NV_U32                          device_id;
+    NV_U32                          ext_device_id;
+    NV_STATUS                       res;
+    NV_U32                          revision_id;
+    NV_U32                          sub_system_id;
+
+    NV_STATUS initialize = NvAPI_Initialize();
+
+    NvAPI_EnumPhysicalGPUs(gpu_handles, &gpu_count);
+
+    for(NV_S32 gpu_idx = 0; gpu_idx < gpu_count; gpu_idx++)
+    {
+        i2c_smbus_nvapi * nvapi_bus = new i2c_smbus_nvapi(gpu_handles[gpu_idx]);
+
+        sprintf(nvapi_bus->device_name, "NVidia NvAPI I2C on GPU %d", gpu_idx);
+
+        res = NvAPI_GPU_GetPCIIdentifiers(gpu_handles[gpu_idx], &device_id, &sub_system_id, &revision_id, &ext_device_id);
+
+        if (res == 0)
+        {
+            nvapi_bus->pci_device           = device_id >> 16;
+            nvapi_bus->pci_vendor           = device_id & 0xffff;
+            nvapi_bus->pci_subsystem_device = sub_system_id >> 16;
+            nvapi_bus->pci_subsystem_vendor = sub_system_id & 0xffff;
+            nvapi_bus->port_id              = 1;
+        }
+
+        busses.push_back(nvapi_bus);
+    }
+}   /* DetectNvAPII2CBusses() */
+
+REGISTER_I2C_BUS_DETECTOR(i2c_smbus_nvapi_detect);

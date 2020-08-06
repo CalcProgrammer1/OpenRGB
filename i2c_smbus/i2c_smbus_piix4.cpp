@@ -176,3 +176,48 @@ s32 i2c_smbus_piix4::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 {
     return piix4_access(addr, read_write, command, size, data);
 }
+
+#include "Detector.h"
+#include "wmi.h"
+
+void i2c_smbus_piix4_detect(std::vector<i2c_smbus_interface*> &busses)
+{
+    i2c_smbus_interface * bus;
+    HRESULT hres;
+    Wmi wmi;
+    wmi.init();
+
+    // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
+    // These devices may be browsed under Device Manager -> System Devices
+    std::vector<QueryObj> q_res_PnPSignedDriver;
+    hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '\%SMBUS\%' OR Description LIKE '\%SM BUS\%'", q_res_PnPSignedDriver);
+
+    if (hres)
+    {
+        return;
+    }
+
+    // For each detected SMBus adapter, try enumerating it as either AMD or Intel
+    for (QueryObj &i : q_res_PnPSignedDriver)
+    {
+        // AMD SMBus controllers do not show any I/O resources allocated in Device Manager
+        // Analysis of many AMD boards has shown that AMD SMBus controllers have two adapters with fixed I/O spaces at 0x0B00 and 0x0B20
+        // AMD SMBus adapters use the PIIX4 driver
+        if (i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
+        {
+            bus = new i2c_smbus_piix4();
+            strcpy(bus->device_name, i["Description"].c_str());
+            strcat(bus->device_name, " at 0x0B00");
+            ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B00;
+            busses.push_back(bus);
+
+            bus = new i2c_smbus_piix4();
+            ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B20;
+            strcpy(bus->device_name, i["Description"].c_str());
+            strcat(bus->device_name, " at 0x0B20");
+            busses.push_back(bus);
+        }
+    }
+}
+
+REGISTER_I2C_BUS_DETECTOR(i2c_smbus_piix4_detect);

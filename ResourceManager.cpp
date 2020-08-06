@@ -48,6 +48,11 @@ std::vector<RGBController*> & ResourceManager::GetRGBControllers()
     return rgb_controllers;
 }
 
+void ResourceManager::RegisterI2CBusDetector(I2CBusDetectorFunction detector)
+{
+    i2c_bus_detectors.push_back(detector);
+}
+
 void ResourceManager::RegisterI2CDeviceDetector(I2CDeviceDetectorFunction detector)
 {
     i2c_device_detectors.push_back(detector);
@@ -90,6 +95,14 @@ void ResourceManager::DetectDevices()
 void ResourceManager::DetectDevicesThreadFunction()
 {
     unsigned int prev_count = 0;
+
+    /*-------------------------------------------------*\
+    | Detect i2c busses                                 |
+    \*-------------------------------------------------*/
+    for(int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size(); i2c_bus_detector_idx++)
+    {
+        i2c_bus_detectors[i2c_bus_detector_idx](busses);
+    }
 
     /*-------------------------------------------------*\
     | Detect i2c devices                                |

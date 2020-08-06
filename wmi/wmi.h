@@ -33,6 +33,6 @@ public:
                   const AdditionalFilters* filters = nullptr);
 
 private:
-    IWbemLocator *pLoc = nullptr;
-    IWbemServices *pSvc= nullptr;
+    static IWbemLocator *pLoc;
+    static IWbemServices *pSvc;
 };

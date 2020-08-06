@@ -142,3 +142,27 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     return (ret);
 };
 
+#include "Detector.h"
+
+void i2c_smbus_amdadl_detect(std::vector<i2c_smbus_interface*> &busses)
+{
+    int adl_status;
+    int gpu_count = 0;
+    ADL_CONTEXT_HANDLE gpu_handle;
+
+    i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(gpu_handle);
+
+    adl_status = adl_bus->ADL_Initialize();
+
+    if(0 != adl_status)
+    {
+        printf_s("ADL Status %d \n", adl_status);
+    }
+    else
+    {
+        sprintf(adl_bus->device_name, "AMD ADL I2C on GPU %d", gpu_count);
+        busses.push_back(adl_bus);
+    }
+}   /* DetectAMDADLI2CBusses() */
+
+REGISTER_I2C_BUS_DETECTOR(i2c_smbus_amdadl_detect);

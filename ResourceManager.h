@@ -8,6 +8,7 @@
 #include "i2c_smbus.h"
 #include "RGBController.h"
 
+typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&, std::vector<RGBController*>&)>   I2CDeviceDetectorFunction;
 
@@ -27,6 +28,7 @@ public:
     void RegisterRGBController(RGBController *);
     std::vector<RGBController*> & GetRGBControllers();
     
+    void RegisterI2CBusDetector         (I2CBusDetectorFunction     detector);
     void RegisterDeviceDetector         (DeviceDetectorFunction     detector);
     void RegisterI2CDeviceDetector      (I2CDeviceDetectorFunction  detector);
     
@@ -44,6 +46,7 @@ private:
     std::vector<i2c_smbus_interface*>           busses;
     std::vector<RGBController*>                 rgb_controllers;
     std::vector<DeviceDetectorFunction>         device_detectors;
+    std::vector<I2CBusDetectorFunction>         i2c_bus_detectors;
     std::vector<I2CDeviceDetectorFunction>      i2c_device_detectors;
 
     std::thread *                               DetectDevicesThread;

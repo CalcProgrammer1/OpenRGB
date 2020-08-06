@@ -22,3 +22,12 @@ public:
 		ResourceManager::get()->RegisterI2CDeviceDetector(detector);
 	}
 };
+
+class I2CBusDetector
+{
+public:
+    I2CBusDetector(I2CBusDetectorFunction detector)
+    {
+        ResourceManager::get()->RegisterI2CBusDetector(detector);
+    }
+};

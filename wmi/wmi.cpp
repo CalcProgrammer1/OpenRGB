@@ -1,5 +1,8 @@
 #include "wmi.h"
 
+IWbemLocator* Wmi::pLoc = nullptr;
+IWbemServices* Wmi::pSvc = nullptr;
+
 // Taken from https://stackoverflow.com/questions/215963/
 // Convert a wide Unicode string to an UTF8 string
 std::string utf8_encode(const std::wstring& wstr)
@@ -32,21 +35,24 @@ bool isMatch(const std::string& value, const std::regex& re)
     return std::regex_match(value, re);
 }
 
-Wmi::Wmi() : pLoc(nullptr), pSvc(nullptr)
+Wmi::Wmi()
 {
 
 };
 
 Wmi::~Wmi()
 {
-    //pSvc->Release();
-    //pLoc->Release();
-    CoUninitialize();
+
 }
 
 HRESULT Wmi::init()
 {
     HRESULT hres;
+
+    if(pLoc != nullptr && pSvc != nullptr)
+    {
+        return S_OK;
+    }
 
     // Initialize COM. ------------------------------------------
     hres = CoInitializeEx(0, COINIT_MULTITHREADED);
