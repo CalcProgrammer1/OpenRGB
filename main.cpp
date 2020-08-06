@@ -157,8 +157,6 @@ int main(int argc, char* argv[])
         ResourceManager::get()->DetectDevices();
     }
 
-    profile_manager.LoadSizeFromProfile("sizes.ors");
-
     /*---------------------------------------------------------*\
     | Process command line arguments                            |
     \*---------------------------------------------------------*/

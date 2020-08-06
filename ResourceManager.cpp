@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-
+#include "ProfileManager.h"
 
 std::unique_ptr<ResourceManager> ResourceManager::instance;
 
@@ -102,6 +102,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     unsigned int prev_count = 0;
     float        percent = 0.0f;
 
+    ProfileManager profile_manager(rgb_controllers);
+
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
     \*-------------------------------------------------*/
@@ -158,4 +160,6 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         detection_percent = percent * 100.0f;
     }
+
+    profile_manager.LoadSizeFromProfile("sizes.ors");
 }
