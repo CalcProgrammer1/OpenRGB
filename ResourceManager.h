@@ -34,6 +34,8 @@ public:
     
     void RegisterDeviceListChangeCallback(ResourceManagerCallback new_callback, void * new_callback_arg);
 
+    unsigned int GetDetectionPercent();
+
     void DeviceListChanged();
 
     void DetectDevices();
@@ -42,6 +44,8 @@ public:
 
 private:
     static std::unique_ptr<ResourceManager>     instance;
+
+    unsigned int                                detection_percent;
 
     std::vector<i2c_smbus_interface*>           busses;
     std::vector<RGBController*>                 rgb_controllers;

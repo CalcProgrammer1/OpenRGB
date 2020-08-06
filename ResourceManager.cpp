@@ -84,6 +84,11 @@ void ResourceManager::DeviceListChanged()
     DeviceListChangeMutex.unlock();
 }
 
+unsigned int ResourceManager::GetDetectionPercent()
+{
+    return(detection_percent);
+}
+
 void ResourceManager::DetectDevices()
 {
     /*-------------------------------------------------*\
@@ -95,6 +100,12 @@ void ResourceManager::DetectDevices()
 void ResourceManager::DetectDevicesThreadFunction()
 {
     unsigned int prev_count = 0;
+    float        percent = 0.0f;
+
+    /*-------------------------------------------------*\
+    | Start at 0% detection progress                    |
+    \*-------------------------------------------------*/
+    detection_percent = 0;
 
     /*-------------------------------------------------*\
     | Detect i2c busses                                 |
@@ -120,6 +131,10 @@ void ResourceManager::DetectDevicesThreadFunction()
             DeviceListChanged();
         }
         prev_count = rgb_controllers.size();
+
+        percent = (i2c_detector_idx + 1.0f) / (i2c_device_detectors.size() + device_detectors.size());
+
+        detection_percent = percent * 100.0f;
     }
 
     /*-------------------------------------------------*\
@@ -138,5 +153,9 @@ void ResourceManager::DetectDevicesThreadFunction()
             DeviceListChanged();
         }
         prev_count = rgb_controllers.size();
+
+        percent = (detector_idx + 1.0f + i2c_device_detectors.size()) / (i2c_device_detectors.size() + device_detectors.size());
+
+        detection_percent = percent * 100.0f;
     }
 }

@@ -78,6 +78,11 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     SMBusToolsPage  = NULL;
     SoftInfoPage    = NULL;
 
+    ui->ButtonLoadProfile->setVisible(false);
+    ui->ButtonSaveProfile->setVisible(false);
+    ui->ButtonDeleteProfile->setVisible(false);
+    ui->ProfileBox->setVisible(false);
+
     ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateInfoCallback, this);
 
     /*-----------------------------------------------------*\
@@ -409,6 +414,20 @@ void OpenRGBDialog2::on_ClientListUpdated()
 {
     ClearDevicesList();
     UpdateDevicesList();
+
+    ui->DetectionProgressBar->setRange(0, 100);
+    ui->DetectionProgressBar->setValue(ResourceManager::get()->GetDetectionPercent());
+
+    if(ResourceManager::get()->GetDetectionPercent() == 100)
+    {
+        ui->DetectionProgressBar->setVisible(false);
+        ui->DetectionProgressLabel->setVisible(false);
+
+        ui->ButtonLoadProfile->setVisible(true);
+        ui->ButtonSaveProfile->setVisible(true);
+        ui->ButtonDeleteProfile->setVisible(true);
+        ui->ProfileBox->setVisible(true);
+    }
 }
 
 void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
