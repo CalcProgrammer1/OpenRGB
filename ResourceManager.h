@@ -20,7 +20,7 @@ class ResourceManager
 public:
     static ResourceManager *get();
     
-    ResourceManager() = default;
+    ResourceManager();
     ~ResourceManager();
     
     void RegisterI2CBus(i2c_smbus_interface *);

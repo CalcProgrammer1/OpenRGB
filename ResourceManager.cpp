@@ -14,6 +14,12 @@ ResourceManager *ResourceManager::get()
     return instance.get();
 }
 
+ResourceManager::ResourceManager()
+{
+    detection_percent = 100;
+    detection_string = "";
+}
+
 ResourceManager::~ResourceManager()
 {
     for(i2c_smbus_interface* bus : busses)
