@@ -17,7 +17,7 @@
 
 enum
 {
-    APEX7_PACKET_ID_DIRECT             = 0x3a,     /* Direct mode                */
+    APEX_PACKET_ID_DIRECT             = 0x3a,     /* Direct mode                */
 };
 
 class SteelSeriesApexController

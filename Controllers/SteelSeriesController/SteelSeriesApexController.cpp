@@ -61,7 +61,7 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     unsigned char buf[643];
     int num_keys = 0;
 
-    if(proto_type == APEX_7)
+    if(proto_type == APEX)
     {
         num_keys = sizeof(keys) / sizeof(*keys);
     }
@@ -79,7 +79,7 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0;
-    buf[0x01]   = APEX7_PACKET_ID_DIRECT;
+    buf[0x01]   = APEX_PACKET_ID_DIRECT;
     buf[0x02]   = num_keys;
 
     /*-----------------------------------------------------*\
@@ -87,7 +87,7 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     \*-----------------------------------------------------*/
     for(int i = 0; i < num_keys; i++)
     {
-        if(proto_type == APEX_7)
+        if(proto_type == APEX)
         {
             buf[(i*4)+3] = keys[i];
         }

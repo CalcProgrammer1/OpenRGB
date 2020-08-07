@@ -263,9 +263,9 @@ RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexCont
 {
     steelseries = steelseries_ptr;
 
-    name        = "SteelSeries Apex 7 RGB Keyboard";
+    name        = "SteelSeries Apex RGB Keyboard";
     type        = DEVICE_TYPE_KEYBOARD;
-    description = "SteelSeries Apex 7 RGB Device";
+    description = "SteelSeries Apex RGB Device";
 
     proto_type = steelseries->proto_type;
 
@@ -297,7 +297,7 @@ void RGBController_SteelSeriesApex::SetupZones()
         new_zone.name                   = zone_names[zone_idx];
         new_zone.type                   = zone_types[zone_idx];
 
-        if(proto_type == APEX_7)
+        if(proto_type == APEX)
         {
             new_zone.leds_min               = zone_sizes[zone_idx];
             new_zone.leds_max               = zone_sizes[zone_idx];
@@ -314,7 +314,7 @@ void RGBController_SteelSeriesApex::SetupZones()
         {
             new_zone.matrix_map         = new matrix_map_type;
             new_zone.matrix_map->height = 6;
-            if(proto_type == APEX_7)
+            if(proto_type == APEX)
             {
                 new_zone.matrix_map->width  = 23;
                 new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
@@ -332,7 +332,7 @@ void RGBController_SteelSeriesApex::SetupZones()
 
         zones.push_back(new_zone);
 
-        if(proto_type == APEX_7)
+        if(proto_type == APEX)
         {
             total_led_count += zone_sizes[zone_idx];
         }
@@ -345,7 +345,7 @@ void RGBController_SteelSeriesApex::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        if(proto_type == APEX_7)
+        if(proto_type == APEX)
         {
             new_led.name = led_names[led_idx];
         }
