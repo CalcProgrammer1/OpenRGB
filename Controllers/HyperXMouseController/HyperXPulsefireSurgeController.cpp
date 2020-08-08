@@ -15,7 +15,8 @@ HyperXPulsefireSurgeController::HyperXPulsefireSurgeController(hid_device* dev_h
 {
     dev = dev_handle;
 
-    SendWakeup();
+    SelectProfile(0x01);
+    SetProfileBrightness(0x01, 0x64);
 }
 
 HyperXPulsefireSurgeController::~HyperXPulsefireSurgeController()
@@ -27,7 +28,10 @@ HyperXPulsefireSurgeController::~HyperXPulsefireSurgeController()
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
-void HyperXPulsefireSurgeController::SendWakeup()
+void HyperXPulsefireSurgeController::SelectProfile
+    (
+    unsigned char   profile
+    )
 {
     unsigned char buf[264];
 
@@ -37,145 +41,46 @@ void HyperXPulsefireSurgeController::SendWakeup()
     memset(buf, 0x00, sizeof(buf));
 
     /*-----------------------------------------------------*\
-    | Set up Wakeup packet                                  |
-    \*-----------------------------------------------------*/
-      buf[0x00]   = 0x07;
-      buf[0x01]   = 0x07;
-      buf[0x02]   = 0x01;
-//    buf[0x00]   = 0x07;
-//    buf[0x01]   = 0x03;
-//    buf[0x02]   = 0x04;
-//    buf[0x03]   = 0x01;
-//    buf[0x04]   = 0x01;
-//    buf[0x05]   = 0x01;
-//    buf[0x06]   = 0x03;
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 264);
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up Wakeup packet                                  |
-    \*-----------------------------------------------------*/
-      buf[0x00]   = 0x07;
-      buf[0x01]   = 0x03;
-      buf[0x02]   = 0x01;
-      buf[0x03]   = 0x01;
-      buf[0x04]   = 0x01;
-      buf[0x05]   = 0x01;
-      buf[0x06]   = 0x64;
-//    buf[0x00]   = 0x07;
-//    buf[0x01]   = 0x03;
-//    buf[0x02]   = 0x04;
-//    buf[0x03]   = 0x01;
-//    buf[0x04]   = 0x01;
-//    buf[0x05]   = 0x01;
-//    buf[0x06]   = 0x03;
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 264);
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up Wakeup packet                                  |
+    | Set up Select Profile packet                          |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
-    buf[0x01]   = 0x04;
-    buf[0x02]   = 0x04;
-
-    buf[0x0B]   = 0x02;
-    buf[0x0C]   = 0x02;
-    buf[0x0D]   = 0x02;
-    buf[0x0E]   = 0x0A;
-    buf[0x0F]   = 0x0A;
-    buf[0x10]   = 0x0A;
-    buf[0x11]   = 0x0A;
-    buf[0x12]   = 0x16;
-    buf[0x13]   = 0x16;
-    buf[0x14]   = 0x16;
-    buf[0x15]   = 0x28;
-    buf[0x16]   = 0x28;
-    buf[0x17]   = 0x28;
-    buf[0x18]   = 0x28;
-    buf[0x19]   = 0x3F;
-    buf[0x1A]   = 0x3F;
-    buf[0x1B]   = 0x3F;
-    buf[0x1C]   = 0x3F;
-    buf[0x1D]   = 0x5B;
-    buf[0x1E]   = 0x5B;
-    buf[0x1F]   = 0x5B;
-    buf[0x20]   = 0x5B;
-    buf[0x21]   = 0x5B;
-    buf[0x22]   = 0x7B;
-    buf[0x23]   = 0x7B;
-    buf[0x24]   = 0x7B;
-    buf[0x25]   = 0xA2;
-    buf[0x26]   = 0xA2;
-    buf[0x27]   = 0xA2;
-
-    buf[0x68]   = 0xFE;
-    buf[0x69]   = 0xFE;
-    buf[0x6A]   = 0xFE;
-    buf[0x6B]   = 0xFE;
-    buf[0x6C]   = 0xFE;
-    buf[0x6D]   = 0xFE;
-    buf[0x6E]   = 0xFE;
-    buf[0x6F]   = 0xFE;
-    buf[0x70]   = 0xFE;
-    buf[0x71]   = 0xFE;
-    buf[0x72]   = 0xFE;
-    buf[0x73]   = 0xFE;
-    buf[0x74]   = 0xFE;
-    buf[0x75]   = 0xFE;
-    buf[0x76]   = 0xFE;
-    buf[0x77]   = 0xFE;
-    buf[0x78]   = 0xFE;
-    buf[0x79]   = 0xFE;
-    buf[0x7A]   = 0xFE;
-    buf[0x7B]   = 0xFE;
-    buf[0x7C]   = 0xFE;
-    buf[0x7D]   = 0xFE;
-    buf[0x7E]   = 0xFE;
-    buf[0x7F]   = 0xFE;
-    buf[0x80]   = 0xFE;
-    buf[0x81]   = 0xFE;
-    buf[0x82]   = 0xFE;
-    buf[0x83]   = 0xFE;
-    buf[0x84]   = 0xFE;
-    buf[0x85]   = 0xFE;
-    buf[0x86]   = 0xFE;
-    buf[0x87]   = 0xFE;
-
-    buf[0xC9]   = 0xFF;
-    buf[0xCA]   = 0x0E;
-    buf[0xCB]   = 0xFF;
-    buf[0xCC]   = 0xFF;
-    buf[0xCD]   = 0x24;
-    buf[0xCE]   = 0xD8;
-    buf[0xCF]   = 0x8D;
-    buf[0xD0]   = 0xFF;
-    buf[0xD1]   = 0xFF;
-    buf[0xD2]   = 0xFF;
-    buf[0xD4]   = 0x0A;
-    buf[0xD5]   = 0xFF;
-    buf[0xD6]   = 0xFF;
+    buf[0x01]   = HYPERX_PULSEFIRE_SURGE_PACKET_ID_SELECT_PROFILE;
+    buf[0x02]   = profile;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    //hid_send_feature_report(dev, buf, 264);
+    hid_send_feature_report(dev, buf, 264);
+}
+
+void HyperXPulsefireSurgeController::SetProfileBrightness
+    (
+    unsigned char   profile,
+    unsigned char   brightness
+    )
+{
+    unsigned char buf[264];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, sizeof(buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Select Profile packet                          |
+    \*-----------------------------------------------------*/
+    buf[0x00]   = 0x07;
+    buf[0x01]   = HYPERX_PULSEFIRE_SURGE_PACKET_ID_SET_BRIGHTNESS;
+    buf[0x02]   = profile;
+    buf[0x03]   = 0x01;
+    buf[0x04]   = 0x01;
+    buf[0x05]   = 0x01;
+    buf[0x06]   = 0x64;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_send_feature_report(dev, buf, 264);
 }
 
 void HyperXPulsefireSurgeController::SendData

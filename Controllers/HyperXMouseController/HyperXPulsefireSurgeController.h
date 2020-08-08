@@ -17,6 +17,8 @@
 enum
 {
     HYPERX_PULSEFIRE_SURGE_PACKET_ID_SET_CONFIGURATION  = 0x01,     /* Set profile configuration packet     */
+    HYPERX_PULSEFIRE_SURGE_PACKET_ID_SET_BRIGHTNESS     = 0x03,     /* Set profile settings and brightness  */
+    HYPERX_PULSEFIRE_SURGE_PACKET_ID_SELECT_PROFILE     = 0x07,     /* Select profile                       */
     HYPERX_PULSEFIRE_SURGE_PACKET_ID_DIRECT             = 0x14,     /* Direct control packet                */
 };
 
@@ -35,6 +37,17 @@ public:
     HyperXPulsefireSurgeController(hid_device* dev_handle);
     ~HyperXPulsefireSurgeController();
 
+    void SelectProfile
+            (
+            unsigned char   profile
+            );
+
+    void SetProfileBrightness
+            (
+            unsigned char   profile,
+            unsigned char   brightness
+            );
+
     void SendData
             (
             unsigned char   mode,
@@ -48,6 +61,4 @@ public:
 
 private:
     hid_device*             dev;
-
-    void SendWakeup();
 };
