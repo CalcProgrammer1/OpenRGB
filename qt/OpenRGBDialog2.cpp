@@ -161,11 +161,26 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     | Update the device list                                |
     \*-----------------------------------------------------*/
     UpdateDevicesList();
+}
 
+OpenRGBDialog2::~OpenRGBDialog2()
+{
+    delete ui;
+}
+
+void OpenRGBDialog2::closeEvent(QCloseEvent *event)
+{
+    ResourceManager::get()->WaitForDeviceDetection();
+    event->accept();
+}
+
+void OpenRGBDialog2::AddSoftwareInfoPage()
+{
     /*-----------------------------------------------------*\
     | Create the Software Information page                  |
     \*-----------------------------------------------------*/
     SoftInfoPage = new OpenRGBSoftwareInfoPage();
+
     ui->InformationTabBar->addTab(SoftInfoPage, "");
 
     QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
@@ -180,42 +195,30 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
 
-OpenRGBDialog2::~OpenRGBDialog2()
-{
-    delete ui;
-}
-
-void OpenRGBDialog2::closeEvent(QCloseEvent *event)
-{
-    ResourceManager::get()->WaitForDeviceDetection();
-    event->accept();
-}
-
 void OpenRGBDialog2::AddI2CToolsPage()
 {
+    ShowI2CTools = true;
+
     /*-----------------------------------------------------*\
     | Create the I2C Tools page if it doesn't exist yet     |
     \*-----------------------------------------------------*/
-    if(SMBusToolsPage == NULL)
-    {
-        SMBusToolsPage = new OpenRGBSystemInfoPage(busses);
+    SMBusToolsPage = new OpenRGBSystemInfoPage(busses);
 
-        /*-----------------------------------------------------*\
-        | Create the I2C Tools tab in the Information bar       |
-        \*-----------------------------------------------------*/
-        ui->InformationTabBar->addTab(SMBusToolsPage, "");
+    /*-----------------------------------------------------*\
+    | Create the I2C Tools tab in the Information bar       |
+    \*-----------------------------------------------------*/
+    ui->InformationTabBar->addTab(SMBusToolsPage, "");
 
-        QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
-        SMBusToolsLabelString += ":/tools.png";
-        SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
+    QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
+    SMBusToolsLabelString += ":/tools.png";
+    SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
 
-        QLabel *SMBusToolsTabLabel = new QLabel();
-        SMBusToolsTabLabel->setText(SMBusToolsLabelString);
-        SMBusToolsTabLabel->setIndent(20);
-        SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
+    QLabel *SMBusToolsTabLabel = new QLabel();
+    SMBusToolsTabLabel->setText(SMBusToolsLabelString);
+    SMBusToolsTabLabel->setIndent(20);
+    SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
 
-        ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
-    }
+    ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
 }
 
 void OpenRGBDialog2::AddClientTab()
@@ -346,6 +349,19 @@ void OpenRGBDialog2::UpdateDevicesList()
         NewTabLabel->setGeometry(0, 0, 200, 20);
 
         InformationTabBar->setTabButton(dev_idx, QTabBar::LeftSide, NewTabLabel);
+    }
+
+    /*-----------------------------------------------------*\
+    | Add the Software Info page                            |
+    \*-----------------------------------------------------*/
+    AddSoftwareInfoPage();
+
+    /*-----------------------------------------------------*\
+    | Add the SMBus Tools page if enabled                   |
+    \*-----------------------------------------------------*/
+    if(ShowI2CTools)
+    {
+        AddI2CToolsPage();
     }
 }
 

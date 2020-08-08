@@ -52,6 +52,8 @@ private:
     OpenRGBSystemInfoPage *SMBusToolsPage;
     OpenRGBSoftwareInfoPage *SoftInfoPage;
 
+    bool ShowI2CTools = false;
+
     /*-------------------------------------*\
     | System tray icon and menu             |
     \*-------------------------------------*/
@@ -62,6 +64,8 @@ private:
     | User interface                        |
     \*-------------------------------------*/
     Ui::OpenRGBDialog2Ui *ui;
+
+    void AddSoftwareInfoPage();
 
     void ClearDevicesList();
     void UpdateDevicesList();
