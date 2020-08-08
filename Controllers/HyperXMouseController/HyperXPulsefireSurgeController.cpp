@@ -39,13 +39,44 @@ void HyperXPulsefireSurgeController::SendWakeup()
     /*-----------------------------------------------------*\
     | Set up Wakeup packet                                  |
     \*-----------------------------------------------------*/
-    buf[0x00]   = 0x07;
-    buf[0x01]   = 0x03;
-    buf[0x02]   = 0x04;
-    buf[0x03]   = 0x01;
-    buf[0x04]   = 0x01;
-    buf[0x05]   = 0x01;
-    buf[0x06]   = 0x03;
+      buf[0x00]   = 0x07;
+      buf[0x01]   = 0x07;
+      buf[0x02]   = 0x01;
+//    buf[0x00]   = 0x07;
+//    buf[0x01]   = 0x03;
+//    buf[0x02]   = 0x04;
+//    buf[0x03]   = 0x01;
+//    buf[0x04]   = 0x01;
+//    buf[0x05]   = 0x01;
+//    buf[0x06]   = 0x03;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_send_feature_report(dev, buf, 264);
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, sizeof(buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Wakeup packet                                  |
+    \*-----------------------------------------------------*/
+      buf[0x00]   = 0x07;
+      buf[0x01]   = 0x03;
+      buf[0x02]   = 0x01;
+      buf[0x03]   = 0x01;
+      buf[0x04]   = 0x01;
+      buf[0x05]   = 0x01;
+      buf[0x06]   = 0x64;
+//    buf[0x00]   = 0x07;
+//    buf[0x01]   = 0x03;
+//    buf[0x02]   = 0x04;
+//    buf[0x03]   = 0x01;
+//    buf[0x04]   = 0x01;
+//    buf[0x05]   = 0x01;
+//    buf[0x06]   = 0x03;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -144,7 +175,7 @@ void HyperXPulsefireSurgeController::SendWakeup()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 264);
+    //hid_send_feature_report(dev, buf, 264);
 }
 
 void HyperXPulsefireSurgeController::SendData
@@ -178,11 +209,11 @@ void HyperXPulsefireSurgeController::SendData
     memset(buf, 0x00, sizeof(buf));
 
     /*-----------------------------------------------------*\
-    | Set up Select Profile packet                          |
+    | Set up Set Configuration packet                       |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
-    buf[0x01]   = 0x01;
-    buf[0x02]   = 0x04;
+    buf[0x01]   = HYPERX_PULSEFIRE_SURGE_PACKET_ID_SET_CONFIGURATION;
+    buf[0x02]   = 0x01;
 
     /*-----------------------------------------------------*\
     | DPI settings                                          |
@@ -279,6 +310,50 @@ void HyperXPulsefireSurgeController::SendData
     buf[0xE6]   = rgb3_r;
     buf[0xE9]   = rgb3_g;
     buf[0xEC]   = rgb3_b;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_send_feature_report(dev, buf, 264);
+}
+
+void HyperXPulsefireSurgeController::SendDirect
+    (
+    RGBColor*       color_data
+    )
+{
+    unsigned char buf[264];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, sizeof(buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Select Profile packet                          |
+    \*-----------------------------------------------------*/
+    buf[0x00]   = 0x07;
+    buf[0x01]   = HYPERX_PULSEFIRE_SURGE_PACKET_ID_DIRECT;
+    buf[0x03]   = 0xA0;
+
+    for(int red_idx = 0; red_idx < 32; red_idx++)
+    {
+        buf[0x08 + red_idx] = RGBGetRValue(color_data[red_idx]);
+    }
+
+    for(int grn_idx = 0; grn_idx < 32; grn_idx++)
+    {
+        buf[0x28 + grn_idx] = RGBGetGValue(color_data[grn_idx]);
+    }
+
+    for(int blu_idx = 0; blu_idx < 32; blu_idx++)
+    {
+        buf[0x48 + blu_idx] = RGBGetBValue(color_data[blu_idx]);
+    }
+
+    buf[0x6C] = RGBGetRValue(color_data[32]);
+    buf[0x6D] = RGBGetGValue(color_data[32]);
+    buf[0x6E] = RGBGetBValue(color_data[32]);
 
     /*-----------------------------------------------------*\
     | Send packet                                           |

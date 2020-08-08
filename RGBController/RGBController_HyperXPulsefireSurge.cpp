@@ -9,6 +9,32 @@
 
 #include "RGBController_HyperXPulsefireSurge.h"
 
+//Include thread libraries for Windows or Linux
+#ifdef WIN32
+#include <process.h>
+#else
+#include "pthread.h"
+#include "unistd.h"
+#endif
+
+//Thread functions have different types in Windows and Linux
+#ifdef WIN32
+#define THREAD static void
+#define THREADRETURN
+#else
+#define THREAD static void*
+#define THREADRETURN return(NULL);
+#endif
+
+using namespace std::chrono_literals;
+
+THREAD keepalive_thread(void *param)
+{
+    RGBController_HyperXPulsefireSurge* controller = static_cast<RGBController_HyperXPulsefireSurge*>(param);
+    controller->KeepaliveThread();
+    THREADRETURN
+}
+
 RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPulsefireSurgeController* hyperx_ptr)
 {
     hyperx = hyperx_ptr;
@@ -19,10 +45,17 @@ RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPul
 
     mode Direct;
     Direct.name = "Direct";
-    Direct.value = HYPERX_PULSEFIRE_SURGE_MODE_SOLID;
+    Direct.value = 0xFFFF;
     Direct.flags = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Custom;
+    Custom.name = "Custom";
+    Custom.value = HYPERX_PULSEFIRE_SURGE_MODE_SOLID;
+    Custom.flags = MODE_FLAG_HAS_PER_LED_COLOR;
+    Custom.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Custom);
 
     mode Cycle;
     Cycle.name = "Cycle";
@@ -46,6 +79,19 @@ RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPul
     modes.push_back(Wave);
 
     SetupZones();
+
+    /*-----------------------------------------------------*\
+    | The Corsair Lighting Node Pro requires a packet within|
+    | 20 seconds of sending the lighting change in order    |
+    | to not revert back into rainbow mode.  Start a thread |
+    | to continuously send a keepalive packet every 5s      |
+    \*-----------------------------------------------------*/
+#ifdef WIN32
+    _beginthread(keepalive_thread, 0, this);
+#else
+    pthread_t thread;
+    pthread_create(&thread, NULL, &keepalive_thread, this);
+#endif
 };
 
 RGBController_HyperXPulsefireSurge::~RGBController_HyperXPulsefireSurge()
@@ -58,9 +104,9 @@ void RGBController_HyperXPulsefireSurge::SetupZones()
     zone led_strip;
     led_strip.name       = "LED Strip";
     led_strip.type       = ZONE_TYPE_LINEAR;
-    led_strip.leds_min   = 31;
-    led_strip.leds_max   = 31;
-    led_strip.leds_count = 31;
+    led_strip.leds_min   = 32;
+    led_strip.leds_max   = 32;
+    led_strip.leds_count = 32;
     led_strip.matrix_map = NULL;
     zones.push_back(led_strip);
 
@@ -95,7 +141,17 @@ void RGBController_HyperXPulsefireSurge::ResizeZone(int /*zone*/, int /*new_size
 
 void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
 {
-    hyperx->SendData(active_mode, &colors[0]);
+    last_update_time = std::chrono::steady_clock::now();
+
+    if(active_mode == 0)
+    {
+        hyperx->SendDirect(&colors[0]);
+    }
+    else
+    {
+        hyperx->SendData(active_mode, &colors[0]);
+    }
+
 }
 
 void RGBController_HyperXPulsefireSurge::UpdateZoneLEDs(int /*zone*/)
@@ -120,5 +176,15 @@ void RGBController_HyperXPulsefireSurge::DeviceUpdateMode()
 
 void RGBController_HyperXPulsefireSurge::KeepaliveThread()
 {
-
+    while(1)
+    {
+        if(active_mode == 0)
+        {
+            if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
+            {
+                UpdateLEDs();
+            }
+        }
+        std::this_thread::sleep_for(10ms);
+    }
 }
