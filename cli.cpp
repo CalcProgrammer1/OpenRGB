@@ -5,6 +5,7 @@
 #include <iostream>
 #include "OpenRGB.h"
 #include "ProfileManager.h"
+#include "ResourceManager.h"
 #include "RGBController.h"
 #include "i2c_smbus.h"
 #include "NetworkClient.h"
@@ -398,6 +399,8 @@ void OptionVersion()
 
 void OptionListDevices(std::vector<RGBController *> &rgb_controllers)
 {
+    ResourceManager::get()->WaitForDeviceDetection();
+
     for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
     {
         RGBController *controller = rgb_controllers[controller_idx];
@@ -499,6 +502,8 @@ void OptionListDevices(std::vector<RGBController *> &rgb_controllers)
 
 bool OptionDevice(int *current_device, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
 {
+    ResourceManager::get()->WaitForDeviceDetection();
+
     try
     {
         *current_device = std::stoi(argument);
@@ -529,6 +534,8 @@ bool OptionDevice(int *current_device, std::string argument, Options *options, s
 
 bool OptionZone(int *current_device, int *current_zone, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
 {
+    ResourceManager::get()->WaitForDeviceDetection();
+
     try
     {
         *current_zone = std::stoi(argument);
@@ -584,6 +591,8 @@ bool OptionSize(int *current_device, int *current_zone, std::string argument, Op
 {
     const unsigned int new_size = std::stoi(argument);
 
+    ResourceManager::get()->WaitForDeviceDetection();
+
     /*---------------------------------------------------------*\
     | Fail out if device, zone, or size are out of range        |
     \*---------------------------------------------------------*/
@@ -617,6 +626,8 @@ bool OptionSize(int *current_device, int *current_zone, std::string argument, Op
 
 bool OptionProfile(std::string argument, std::vector<RGBController *> &rgb_controllers)
 {
+    ResourceManager::get()->WaitForDeviceDetection();
+
     /*---------------------------------------------------------*\
     | Attempt to load profile                                   |
     \*---------------------------------------------------------*/
@@ -1067,6 +1078,8 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
             return ret_flags;
             break;
     }
+
+    ResourceManager::get()->WaitForDeviceDetection();
 
     /*---------------------------------------------------------*\
     | If the options has one or more specific devices, loop     |

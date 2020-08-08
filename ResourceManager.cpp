@@ -3,6 +3,7 @@
 
 std::unique_ptr<ResourceManager> ResourceManager::instance;
 
+using namespace std::chrono_literals;
 
 ResourceManager *ResourceManager::get()
 {
@@ -22,14 +23,16 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
-    for(i2c_smbus_interface* bus : busses)
-    {
-        delete bus;
-    }
+    ResourceManager::get()->WaitForDeviceDetection();
 
     for(RGBController* rgb_controller : rgb_controllers)
     {
         delete rgb_controller;
+    }
+
+    for(i2c_smbus_interface* bus : busses)
+    {
+        //delete bus;
     }
 }
 
@@ -108,6 +111,12 @@ void ResourceManager::DetectDevices()
     | Start the device detection thread                 |
     \*-------------------------------------------------*/
     DetectDevicesThread = new std::thread(&ResourceManager::DetectDevicesThreadFunction, this);
+
+    /*-------------------------------------------------*\
+    | Release the current thread to allow detection     |
+    | thread to start                                   |
+    \*-------------------------------------------------*/
+    std::this_thread::sleep_for(1ms);
 }
 
 void ResourceManager::DetectDevicesThreadFunction()
