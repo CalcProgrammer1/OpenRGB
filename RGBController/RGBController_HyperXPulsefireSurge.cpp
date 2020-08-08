@@ -50,34 +50,6 @@ RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPul
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-    mode Custom;
-    Custom.name = "Custom";
-    Custom.value = HYPERX_PULSEFIRE_SURGE_MODE_SOLID;
-    Custom.flags = MODE_FLAG_HAS_PER_LED_COLOR;
-    Custom.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Custom);
-
-    mode Cycle;
-    Cycle.name = "Cycle";
-    Cycle.value = HYPERX_PULSEFIRE_SURGE_MODE_CYCLE;
-    Cycle.flags = 0;
-    Cycle.color_mode = MODE_COLORS_NONE;
-    modes.push_back(Cycle);
-
-    mode Breathing;
-    Breathing.name = "Breathing";
-    Breathing.value = HYPERX_PULSEFIRE_SURGE_MODE_BREATHING;
-    Breathing.flags = 0;
-    Breathing.color_mode = MODE_COLORS_NONE;
-    modes.push_back(Breathing);
-
-    mode Wave;
-    Wave.name = "Wave";
-    Wave.value = HYPERX_PULSEFIRE_SURGE_MODE_WAVE;
-    Wave.flags = 0;
-    Wave.color_mode = MODE_COLORS_NONE;
-    modes.push_back(Wave);
-
     SetupZones();
 
     /*-----------------------------------------------------*\
@@ -149,7 +121,6 @@ void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
     }
     else
     {
-        hyperx->SendData(active_mode, &colors[0]);
     }
 
 }

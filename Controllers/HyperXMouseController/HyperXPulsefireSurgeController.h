@@ -48,12 +48,6 @@ public:
             unsigned char   brightness
             );
 
-    void SendData
-            (
-            unsigned char   mode,
-            RGBColor*       color_data
-            );
-
     void SendDirect
             (
             RGBColor*       color_data
