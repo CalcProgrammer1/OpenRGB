@@ -24,7 +24,7 @@ using namespace std::chrono_literals;
 
 static unsigned int matrix_map[6][23] = 
     { {   37,  NA,  53,  54,  55,  56,  NA,  57,  58,  59,  60,  NA,  61 ,  62 ,  63 ,  64 ,  65,  66,  67,  NA,  NA,  NA,  NA },
-      {   48,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  41,  42 ,  NA ,  38 ,  NA ,  68,  69,  70,  78,  79,  80,  81 },
+      {   48,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  41,  42 ,  NA ,  38 ,  105,  68,  69,  70,  78,  79,  80,  81 },
       {   39,  NA,  16,  22,  4 ,  17,  19,  24,  20,  8 ,  14,  15,  43 ,  44 ,  NA ,  36 ,  71,  72,  73,  90,  91,  92,  82 },
       {   52,  NA,  0 ,  18,  3 ,  5 ,  6 ,  7 ,  9 ,  10,  11,  46,  47 ,  45 ,  NA ,  NA ,  NA,  NA,  NA,  87,  88,  89,  NA },
       {   97,  95,  25,  23,  2 ,  21,  NA,  1 ,  13,  12,  49,  50,  51 ,  NA ,  101,  NA ,  NA,  77,  NA,  84,  85,  86,  83 },
@@ -32,7 +32,7 @@ static unsigned int matrix_map[6][23] =
 
 static unsigned int matrix_map_tkl[6][19] = 
     { {   37,  NA,  53,  54,  55,  56,  NA,  57,  58,  59,  60,  NA,  61 ,  62 ,  63 ,  64 ,  65,  66,  67},
-      {   48,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  41,  42 ,  NA ,  38 ,  NA ,  68,  69,  70},
+      {   48,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  41,  42 ,  NA ,  38 ,  105,  68,  69,  70},
       {   39,  NA,  16,  22,  4 ,  17,  19,  24,  20,  8 ,  14,  15,  43 ,  44 ,  NA ,  36 ,  71,  72,  73},
       {   52,  NA,  0 ,  18,  3 ,  5 ,  6 ,  7 ,  9 ,  10,  11,  46,  47 ,  45 ,  NA ,  NA ,  NA,  NA,  NA},
       {   97,  95,  25,  23,  2 ,  21,  NA,  1 ,  13,  12,  49,  50,  51 ,  NA ,  101,  NA ,  NA,  77,  NA},
@@ -50,12 +50,12 @@ static zone_type zone_types[] =
 
 static const unsigned int zone_sizes[] =
 {
-    105,
+    106,
 };
 
 static const unsigned int zone_sizes_tkl[] =
 {
-    88,
+    89,
 };
 
 static const char *led_names[] =
@@ -165,6 +165,7 @@ static const char *led_names[] =
     "Key: Right Alt",
     "Key: Right Windows",
     "Key: Right Fn",
+    "Key: \\ (ANSI)",
 };
 
 static const char *led_names_tkl[] =
@@ -257,6 +258,7 @@ static const char *led_names_tkl[] =
     "Key: Right Alt",
     "Key: Right Windows",
     "Key: Right Fn",
+    "Key: \\",
 };
 
 RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexController* steelseries_ptr)
