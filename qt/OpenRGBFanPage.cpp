@@ -36,6 +36,7 @@ OpenRGBFanPage::OpenRGBFanPage(FanController *dev, QWidget *parent) :
     \*-----------------------------------------------------*/
     device = dev;
 
+    fan_thread_running = true;
     FanUpdateThread = new std::thread(&OpenRGBFanPage::FanUpdateThreadFunction, this);
 
     QTimer *timer = new QTimer(this);
@@ -57,12 +58,14 @@ OpenRGBFanPage::OpenRGBFanPage(FanController *dev, QWidget *parent) :
 
 OpenRGBFanPage::~OpenRGBFanPage()
 {
+    fan_thread_running = false;
+    FanUpdateThread->join();
     delete ui;
 }
 
 void OpenRGBFanPage::FanUpdateThreadFunction()
 {
-    while(1)
+    while(fan_thread_running)
     {
         device->UpdateControl();
         device->UpdateReading();
