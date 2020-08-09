@@ -36,6 +36,7 @@ private:
     Ui::OpenRGBFanPageUi *ui;
     FanController *device;
 
+    bool fan_thread_running;
     std::thread* FanUpdateThread;
 
 signals:
