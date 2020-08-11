@@ -45,6 +45,7 @@
 #define MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV      0xC724
 #define MSI_RTX2080TI_GAMING_X_TRIO_SUB_DEV     0x3715
 #define MSI_RTX2060_GAMING_Z_6G_SUB_DEV         0x3754
+#define MSI_RTX2060_GAMING_Z_6G_SUB_DEV_2       0x3752
 #define MSI_RTX2070_ARMOR_SUB_DEV               0x3734
 #define MSI_RTX2060S_ARMOR_OC_SUB_DEV           0xC754
 #define MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV       0x3728
@@ -70,6 +71,7 @@ static const msi_gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,    MSI_SUB_VEN,    MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV,     "MSI GeForce RTX 2080 Super Gaming X Trio"      },
     { NVIDIA_VEN,   NVIDIA_RTX2080TI_DEV,   MSI_SUB_VEN,    MSI_RTX2080TI_GAMING_X_TRIO_SUB_DEV,    "MSI GeForce RTX 2080Ti Gaming X Trio"          },
     { NVIDIA_VEN,   NVIDIA_RTX2060_DEV,     MSI_SUB_VEN,    MSI_RTX2060_GAMING_Z_6G_SUB_DEV,        "MSI GeForce RTX 2060 Gaming Z 6G"              },
+    { NVIDIA_VEN,   NVIDIA_RTX2060_DEV,     MSI_SUB_VEN,    MSI_RTX2060_GAMING_Z_6G_SUB_DEV_2,      "MSI GeForce RTX 2060 Gaming Z 6G"              },
     { NVIDIA_VEN,   NVIDIA_RTX2060S_DEV,    MSI_SUB_VEN,    MSI_RTX2060S_ARMOR_OC_SUB_DEV,          "MSI GeForce RTX 2060 Super ARMOR OC"           },
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,     MSI_SUB_VEN,    MSI_RTX2070_ARMOR_SUB_DEV,              "MSI GeForce RTX 2070 ARMOR"                    },
     { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,     MSI_SUB_VEN,    MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV,      "MSI GeForce RTX 2080 Sea Hawk EK X"            },
