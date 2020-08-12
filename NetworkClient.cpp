@@ -31,11 +31,17 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
 {
     strcpy(port_ip, "127.0.0.1");
     port_num                = OPENRGB_SDK_PORT;
+    client_sock             = -1;
     server_connected        = false;
     server_controller_count = 0;
 
     ListenThread            = NULL;
     ConnectionThread        = NULL;
+}
+
+NetworkClient::~NetworkClient()
+{
+    delete ConnectionThread;
 }
 
 void NetworkClient::ClientInfoChanged()
@@ -129,8 +135,12 @@ void NetworkClient::StopClient()
     server_connected = false;
     client_active    = false;
 
-    shutdown(client_sock, SD_RECEIVE);
-    closesocket(client_sock);
+    if (server_connected)
+    {
+        shutdown(client_sock, SD_RECEIVE);
+        closesocket(client_sock);
+    }
+
     if(ListenThread)
         ListenThread->join();
     ConnectionThread->join();

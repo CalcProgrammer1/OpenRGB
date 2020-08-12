@@ -22,9 +22,6 @@ void DetectGloriousModelOControllers(std::vector<RGBController*>& rgb_controller
     hid_device* dev = NULL;
 
     hid_init();
-
-    dev = NULL;
-
     info = hid_enumerate(Glorious_Model_O_VID, Glorious_Model_O_PID);
 
     //Look for Glorious Model O

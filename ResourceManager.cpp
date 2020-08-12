@@ -34,6 +34,9 @@ ResourceManager::~ResourceManager()
     {
         //delete bus;
     }
+
+    DetectDevicesThread->join();
+    delete DetectDevicesThread;
 }
 
 void ResourceManager::RegisterI2CBus(i2c_smbus_interface *bus)

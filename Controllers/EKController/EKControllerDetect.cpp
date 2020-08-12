@@ -31,11 +31,11 @@ static const unsigned int ek_pids[][2] =
 
 void DetectEKControllers(std::vector<RGBController*>& rgb_controllers)
 {
-    hid_device_info* info;
+    hid_device_info* info = NULL;
 
     //Look for the passed in cm_pids
     hid_init();
-    info = hid_enumerate(0x0, 0x0);
+    info = hid_enumerate(EK_VID, 0x0);
 
     while(info)
     {

@@ -36,11 +36,15 @@ void superio_enter(int ioreg)
 #else
     unsigned char temp = 0x87;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    lseek(dev_port_fd, ioreg, SEEK_SET);
-    write(dev_port_fd, &temp, 1);
-    lseek(dev_port_fd, ioreg, SEEK_SET);
-    write(dev_port_fd, &temp, 1);
-    close(dev_port_fd);
+    
+    if (dev_port_fd >= 0)
+    {
+        lseek(dev_port_fd, ioreg, SEEK_SET);
+        write(dev_port_fd, &temp, 1);
+        lseek(dev_port_fd, ioreg, SEEK_SET);
+        write(dev_port_fd, &temp, 1);
+        close(dev_port_fd);
+    } 
 #endif
 }
 
@@ -60,10 +64,14 @@ void superio_outb(int ioreg, int reg, int val)
     Out32(ioreg + 1, val);
 #else
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    lseek(dev_port_fd, ioreg, SEEK_SET);
-    write(dev_port_fd, &reg, 1);
-    write(dev_port_fd, &val, 1);
-    close(dev_port_fd);
+    
+    if (dev_port_fd >= 0)
+    {
+        lseek(dev_port_fd, ioreg, SEEK_SET);
+        write(dev_port_fd, &reg, 1);
+        write(dev_port_fd, &val, 1);
+        close(dev_port_fd);
+    }
 #endif
 }
 
@@ -82,12 +90,20 @@ int superio_inb(int ioreg, int reg)
     Out32(ioreg, reg);
     return Inp32(ioreg + 1);
 #else
-    unsigned char temp;
+    unsigned char temp = 0;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    lseek(dev_port_fd, ioreg, SEEK_SET);
-    write(dev_port_fd, &reg, 1);
-    read(dev_port_fd, &temp, 1);
-    close(dev_port_fd);
-    return((int)temp);
+
+    if (dev_port_fd >= 0)  
+    {
+        lseek(dev_port_fd, ioreg, SEEK_SET);
+        write(dev_port_fd, &reg, 1);
+        read(dev_port_fd, &temp, 1);
+        close(dev_port_fd);
+        return((int)temp);
+    }
+    else
+    {
+        return -1;
+    }
 #endif
 }

@@ -13,6 +13,7 @@ RGBController::~RGBController()
 {
     DeviceThreadRunning = false;
     DeviceCallThread->join();
+    delete DeviceCallThread;
 
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |

@@ -36,7 +36,7 @@ net_port::net_port(const char * client_name, const char * port)
 
 net_port::~net_port()
 {
-
+    freeaddrinfo(result_list);
 }
 
 bool net_port::udp_client(const char * client_name, const char * port)

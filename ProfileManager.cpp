@@ -103,7 +103,7 @@ bool ProfileManager::LoadProfileWithOptions
     /*---------------------------------------------------------*\
     | Read and verify file header                               |
     \*---------------------------------------------------------*/
-    char            header_string[16];
+    char            header_string[16]{};
     unsigned int    header_version;
 
     controller_file.read(header_string, 16);

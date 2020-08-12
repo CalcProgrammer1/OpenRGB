@@ -54,6 +54,7 @@ void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
 
     if(dir == NULL)
     {
+        closedir(dir);
         return;
     }
 
@@ -172,6 +173,7 @@ void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
         }
         ent = readdir(dir);
     }
+    closedir(dir);
 }
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_linux_detect);

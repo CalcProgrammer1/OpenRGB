@@ -27,6 +27,11 @@ i2c_smbus_interface::i2c_smbus_interface()
     i2c_smbus_thread           = new std::thread(&i2c_smbus_interface::i2c_smbus_thread_function, this);
 }
 
+i2c_smbus_interface::~i2c_smbus_interface()
+{
+    delete i2c_smbus_thread;
+}
+
 s32 i2c_smbus_interface::i2c_smbus_write_quick(u8 addr, u8 value)
 {
     return i2c_smbus_xfer_call(addr, value, 0, I2C_SMBUS_QUICK, NULL);

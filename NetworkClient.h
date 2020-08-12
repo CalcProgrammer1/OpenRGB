@@ -21,6 +21,7 @@ class NetworkClient
 {
 public:
     NetworkClient(std::vector<RGBController *>& control);
+    ~NetworkClient();
 
     void            ClientInfoChanged();
 

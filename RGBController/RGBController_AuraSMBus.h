@@ -16,6 +16,7 @@ class RGBController_AuraSMBus : public RGBController
 {
 public:
     RGBController_AuraSMBus(AuraSMBusController* aura_ptr);
+    ~RGBController_AuraSMBus();
 
     void        SetupZones();
 

@@ -33,7 +33,10 @@ EKController::EKController(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_d
 
 EKController::~EKController()
 {
-    hid_close(dev);
+    if(dev)
+    {
+        hid_close(dev);
+    }
 }
 
 char* EKController::GetDeviceName()

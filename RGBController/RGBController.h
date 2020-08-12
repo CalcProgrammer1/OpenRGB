@@ -158,7 +158,7 @@ public:
     | RGBController base class constructor                      |
     \*---------------------------------------------------------*/
     RGBController();
-    ~RGBController();
+    virtual ~RGBController();
 
     /*---------------------------------------------------------*\
     | Generic functions implemented in RGBController.cpp        |

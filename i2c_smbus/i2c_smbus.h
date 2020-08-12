@@ -66,7 +66,7 @@ public:
     int pci_subsystem_vendor;
 
     i2c_smbus_interface();
-    virtual ~i2c_smbus_interface() = default;
+    virtual ~i2c_smbus_interface();
 
     void i2c_smbus_thread_function();
 

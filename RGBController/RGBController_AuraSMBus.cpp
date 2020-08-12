@@ -207,6 +207,11 @@ RGBController_AuraSMBus::RGBController_AuraSMBus(AuraSMBusController * aura_ptr)
     active_mode = GetDeviceMode();
 }
 
+RGBController_AuraSMBus::~RGBController_AuraSMBus()
+{
+    delete aura;
+}
+
 void RGBController_AuraSMBus::SetupZones()
 {
     std::vector<int>    aura_led_map;
