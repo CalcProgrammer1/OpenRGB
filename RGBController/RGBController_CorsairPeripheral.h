@@ -17,6 +17,9 @@ public:
     RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr);
     ~RGBController_CorsairPeripheral();
 
+    int         physical_layout;
+    int         logical_layout;
+
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);

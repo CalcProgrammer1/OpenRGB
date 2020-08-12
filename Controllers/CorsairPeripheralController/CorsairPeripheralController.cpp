@@ -22,6 +22,30 @@ static unsigned int keys[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x
                               116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
                               136,  137,  139,  140,  141};
 
+
+static unsigned int keys_k95_plat[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x12,
+                                       0x14, 0x15, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x24, 0x25, 0x26,
+                                       0x27, 0x28, 0x2A, 0x2B, 0x2C, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
+                                       0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x42, 0x43, 0x44, 0x45, 0x48, 73,   74,   75,   76,   78,
+                                       79,   80,   81,   84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   96,   97,
+                                       98,   99,   100,  101,  102,  103,  104,  105,  108,  109,  110,  111,  112,  113,  115,
+                                       116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
+                                       136,  137,  139,  140,  141,
+                                       0x10, 114, 0x0a, 0x16, 0x22, 0x2e, 0x3a, 0x46,
+                                       144,  145,  146,  158,  160,  147,  148,  149,  150,  151,  152,  153,
+                                       154,  155,  159,  162,  161,  156,  157};
+
+static unsigned int keys_k95[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x12,
+                                  0x14, 0x15, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x24, 0x25, 0x26,
+                                  0x27, 0x28, 0x2A, 0x2B, 0x2C, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
+                                  0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x42, 0x43, 0x44, 0x45, 0x48, 73,   74,   75,   76,   78,
+                                  79,   80,   81,   84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   96,   97,
+                                  98,   99,   100,  101,  102,  103,  104,  105,  108,  109,  110,  111,  112,  113,  115,
+                                  116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
+                                  136,  137,  139,  140,  141,
+                                  0x10, 114, 0x0a, 0x16, 0x22, 0x2e, 0x3a, 0x46, 0x52, 0x5e, 0x6a, 0x76, 0x3b, 0x47, 0x53,
+                                  0x5f, 0x6b, 0x77, 0x83, 0x8f, 0x0b, 0x17, 0x23, 0x2f};
+
 static unsigned int st100[] = { 0x00, 0x01, 0x02, 0x03, 0x05, 0x06, 0x07, 0x08, 0x04 };
 
 CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle)
@@ -41,6 +65,16 @@ CorsairPeripheralController::~CorsairPeripheralController()
 device_type CorsairPeripheralController::GetDeviceType()
 {
     return type;
+}
+
+int CorsairPeripheralController::GetPhysicalLayout()
+{
+    return physical_layout;
+}
+
+int CorsairPeripheralController::GetLogicalLayout()
+{
+    return logical_layout;
 }
 
 std::string CorsairPeripheralController::GetFirmwareString()
@@ -88,9 +122,9 @@ void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
 
 void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colors)
 {
-    unsigned char red_val[144];
-    unsigned char grn_val[144];
-    unsigned char blu_val[144];
+    unsigned char red_val[168];
+    unsigned char grn_val[168];
+    unsigned char blu_val[168];
 
     /*-----------------------------------------------------*\
     | Zero out buffers                                      |
@@ -105,9 +139,24 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
     {
         RGBColor           color = colors[color_idx];
-        red_val[keys[color_idx]] = RGBGetRValue(color);
-        grn_val[keys[color_idx]] = RGBGetGValue(color);
-        blu_val[keys[color_idx]] = RGBGetBValue(color);
+        if (logical_layout == CORSAIR_TYPE_K95_PLAT)
+        {
+            red_val[keys_k95_plat[color_idx]] = RGBGetRValue(color);
+            grn_val[keys_k95_plat[color_idx]] = RGBGetGValue(color);
+            blu_val[keys_k95_plat[color_idx]] = RGBGetBValue(color);
+        }
+        else if (logical_layout == CORSAIR_TYPE_K95)
+        {
+            red_val[keys_k95[color_idx]] = RGBGetRValue(color);
+            grn_val[keys_k95[color_idx]] = RGBGetGValue(color);
+            blu_val[keys_k95[color_idx]] = RGBGetBValue(color);
+        }
+        else
+        {
+            red_val[keys[color_idx]] = RGBGetRValue(color);
+            grn_val[keys[color_idx]] = RGBGetGValue(color);
+            blu_val[keys[color_idx]] = RGBGetBValue(color);
+        }
     }
 
     /*-----------------------------------------------------*\
@@ -115,7 +164,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     \*-----------------------------------------------------*/
     StreamPacket(1, 60, &red_val[0]);
     StreamPacket(2, 60, &red_val[60]);
-    StreamPacket(3, 24, &red_val[120]);
+    StreamPacket(3, 48, &red_val[120]);
     SubmitKeyboardFullColors(1, 3, 1);
 
     /*-----------------------------------------------------*\
@@ -123,7 +172,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     \*-----------------------------------------------------*/
     StreamPacket(1, 60, &grn_val[0]);
     StreamPacket(2, 60, &grn_val[60]);
-    StreamPacket(3, 24, &grn_val[120]);
+    StreamPacket(3, 48, &grn_val[120]);
     SubmitKeyboardFullColors(2, 3, 1);
 
     /*-----------------------------------------------------*\
@@ -131,7 +180,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     \*-----------------------------------------------------*/
     StreamPacket(1, 60, &blu_val[0]);
     StreamPacket(2, 60, &blu_val[60]);
-    StreamPacket(3, 24, &blu_val[120]);
+    StreamPacket(3, 48, &blu_val[120]);
     SubmitKeyboardFullColors(3, 3, 2);
 }
 
@@ -286,6 +335,7 @@ void CorsairPeripheralController::SpecialFunctionControl()
     hid_write(dev, (unsigned char *)usb_buf, 65);
 }
 
+
 void CorsairPeripheralController::ReadFirmwareInfo()
 {
     int  actual;
@@ -340,6 +390,23 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     switch((unsigned char)usb_buf[0x14 + offset])
     {
         case 0xC0:
+            {
+                unsigned short pid = (unsigned short)(usb_buf[0x0F] << 8) + (unsigned char)(usb_buf[0x0E]);
+
+                switch(pid)
+                {
+                    case 0x2D1B:
+                    logical_layout = CORSAIR_TYPE_K95_PLAT;
+                    break;
+
+                    case 0x1B11:
+                    logical_layout = CORSAIR_TYPE_K95;
+                    break;
+
+                    default:
+                    logical_layout = CORSAIR_TYPE_NORMAL;
+                }
+            }
             type = DEVICE_TYPE_KEYBOARD;
             break;
 
@@ -378,6 +445,21 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     if(type != DEVICE_TYPE_UNKNOWN)
     {
         firmware_version = std::to_string(usb_buf[0x09 + offset]) + "." + std::to_string(usb_buf[0x08 + offset]);
+    }
+
+    /*-----------------------------------------------------*\
+    | Get the correct Keyboard Layout                       |
+    \*-----------------------------------------------------*/
+    switch((unsigned char)usb_buf[0x17 + offset])
+    {
+        case CORSAIR_LAYOUT_ANSI:
+            physical_layout = CORSAIR_LAYOUT_ANSI;
+            break;
+        case CORSAIR_LAYOUT_ISO:
+            physical_layout = CORSAIR_LAYOUT_ISO;
+            break;
+        default:
+            physical_layout = CORSAIR_LAYOUT_ANSI;
     }
 }
 

@@ -47,12 +47,30 @@ enum
     CORSAIR_COLOR_CHANNEL_BLUE      = 0x03
 };
 
+enum
+{
+    CORSAIR_LAYOUT_ANSI             = 0x00,
+    CORSAIR_LAYOUT_ISO              = 0x01,
+    CORSAIR_LAYOUT_ABNT             = 0x02,
+    CORSAIR_LAYOUT_JIS              = 0x03,
+    CORSAIR_LAYOUT_DUBEOLSIK        = 0x04
+};
+
+enum
+{
+    CORSAIR_TYPE_NORMAL             = 0,
+    CORSAIR_TYPE_K95_PLAT           = 1,
+    CORSAIR_TYPE_K95                = 2
+};
+
 class CorsairPeripheralController
 {
 public:
     CorsairPeripheralController(hid_device* dev_handle);
     ~CorsairPeripheralController();
 
+    int             GetLogicalLayout();
+    int             GetPhysicalLayout();
     device_type     GetDeviceType();
     std::string     GetFirmwareString();
 
@@ -67,6 +85,8 @@ private:
 
     std::string             firmware_version;
     device_type             type;
+    int                     physical_layout;   //ANSI, ISO, etc.
+    int                     logical_layout;    //Normal, K95 or K95 Platinum
 
     void    LightingControl();
     void    SpecialFunctionControl();
