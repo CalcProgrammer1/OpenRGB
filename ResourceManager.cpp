@@ -32,7 +32,7 @@ ResourceManager::~ResourceManager()
 
     for(i2c_smbus_interface* bus : busses)
     {
-        //delete bus;
+        delete bus;
     }
 
     DetectDevicesThread->join();

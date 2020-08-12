@@ -89,7 +89,8 @@ public:
     virtual s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data) = 0;
 
 private:
-    std::thread *       i2c_smbus_thread;
+    std::thread *           i2c_smbus_thread;
+    std::atomic<bool>       i2c_smbus_thread_running;
 
     std::atomic<bool>       i2c_smbus_start;
     std::condition_variable i2c_smbus_start_cv;
