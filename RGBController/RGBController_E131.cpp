@@ -70,7 +70,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
         if(devices[device_idx].type == ZONE_TYPE_MATRIX)
         {
             unsigned int led_idx = 0;
-            matrix_map_type * new_map;
+            matrix_map_type * new_map = new matrix_map_type;
 
             new_map->width = devices[device_idx].matrix_width;
             new_map->height = devices[device_idx].matrix_height;
