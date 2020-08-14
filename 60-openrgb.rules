@@ -20,6 +20,11 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0051", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Aorus Devices                                                #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1044", ATTR{idProduct}=="7a42", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  ASUS Aura Core Devices                                       #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1854", TAG+="uaccess"

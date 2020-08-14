@@ -47,6 +47,7 @@ INCLUDEPATH +=                                                          \
     net_port/                                                           \
     serial_port/                                                        \
     super_io/                                                           \
+    Controllers/AorusCPUCoolerController/                               \
     Controllers/AMDWraithPrismController/                               \
     Controllers/AuraUSBController/                                      \
     Controllers/AuraCoreController/                                     \
@@ -117,6 +118,7 @@ HEADERS +=                                                              \
     serial_port/serial_port.h                                           \
     super_io/super_io.h                                                 \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h     \
+    Controllers/AorusCPUCoolerController/ATC800Controller.h             \
     Controllers/AuraUSBController/AuraUSBController.h                   \
     Controllers/AuraUSBController/AuraAddressableController.h           \
     Controllers/AuraUSBController/AuraMainboardController.h             \
@@ -171,6 +173,7 @@ HEADERS +=                                                              \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
+    RGBController/RGBController_AorusATC800.h                           \
     RGBController/RGBController_AuraUSB.h                               \
     RGBController/RGBController_AuraCore.h                              \
     RGBController/RGBController_AuraGPU.h                               \
@@ -254,6 +257,8 @@ SOURCES +=                                                              \
     super_io/super_io.cpp                                               \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
+    Controllers/AorusCPUCoolerController/ATC800Controller.cpp           \
+    Controllers/AorusCPUCoolerController/AorusCPUCoolerControllerDetect.cpp \
     Controllers/AuraUSBController/AuraUSBController.cpp                 \
     Controllers/AuraUSBController/AuraAddressableController.cpp         \
     Controllers/AuraUSBController/AuraMainboardController.cpp           \
@@ -350,6 +355,7 @@ SOURCES +=                                                              \
     RGBController/RGBController.cpp                                     \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
+    RGBController/RGBController_AorusATC800.cpp                         \
     RGBController/RGBController_AuraUSB.cpp                             \
     RGBController/RGBController_AuraCore.cpp                            \
     RGBController/RGBController_AuraGPU.cpp                             \
