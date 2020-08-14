@@ -63,6 +63,104 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                 dest_addrs.push_back(dest_addr);
             }
         }
+
+        /*-----------------------------------------*\
+        | Generate matrix maps                      |
+        \*-----------------------------------------*/
+        if(devices[device_idx].type == ZONE_TYPE_MATRIX)
+        {
+            unsigned int led_idx = 0;
+            matrix_map_type * new_map;
+
+            new_map->width = devices[device_idx].matrix_width;
+            new_map->height = devices[device_idx].matrix_height;
+            new_map->map = new unsigned int[devices[device_idx].matrix_width * devices[device_idx].matrix_height];
+
+            switch(devices[device_idx].matrix_order)
+            {
+                case E131_MATRIX_ORDER_HORIZONTAL_TOP_LEFT:
+                    for(unsigned int y = 0; y < new_map->height; y++)
+                    {
+                        for(unsigned int x = 0; x < new_map->width; x++)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+                case E131_MATRIX_ORDER_HORIZONTAL_TOP_RIGHT:
+                    for(unsigned int y = 0; y < new_map->height; y++)
+                    {
+                        for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+                case E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_LEFT:
+                    for(unsigned int y = new_map->height; y >= 0; y--)
+                    {
+                        for(unsigned int x = 0; x < new_map->width; x++)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+                case E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_RIGHT:
+                    for(unsigned int y = new_map->height; y >= 0; y--)
+                    {
+                        for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+                case E131_MATRIX_ORDER_VERTICAL_TOP_LEFT:
+                    for(unsigned int x = 0; x < new_map->width; x++)
+                    {
+                        for(unsigned int y = 0; y < new_map->height; y++)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+                case E131_MATRIX_ORDER_VERTICAL_TOP_RIGHT:
+                    for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                    {
+                        for(unsigned int y = 0; y < new_map->height; y++)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+                case E131_MATRIX_ORDER_VERTICAL_BOTTOM_LEFT:
+                    for(unsigned int x = 0; x < new_map->width; x++)
+                    {
+                        for(unsigned int y = new_map->height - 1; y >= 0; y++)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+                case E131_MATRIX_ORDER_VERTICAL_BOTTOM_RIGHT:
+                    for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                    {
+                        for(unsigned int y = new_map->height - 1; y >= 0; y--)
+                        {
+                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            led_idx++;
+                        }
+                    }
+                    break;
+            }
+            zones[device_idx].matrix_map = new_map;
+        }
 	}
 }
 
