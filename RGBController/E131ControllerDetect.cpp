@@ -136,6 +136,53 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
                             dev.rgb_order = atoi(value);
                         }
                     }
+                    else if(strcmp(argument, "matrix_order") == 0)
+                    {
+                        if(strcmp(value, "HORIZONTAL_TOP_LEFT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_TOP_LEFT;
+                        }
+                        else if(strcmp(value, "HORIZONTAL_TOP_RIGHT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_TOP_RIGHT;
+                        }
+                        else if(strcmp(value, "HORIZONTAL_BOTTOM_LEFT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_LEFT;
+                        }
+                        else if(strcmp(value, "HORIZONTAL_BOTTOM_RIGHT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_RIGHT;
+                        }
+                        else if(strcmp(value, "VERTICAL_TOP_LEFT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_TOP_LEFT;
+                        }
+                        else if(strcmp(value, "VERTICAL_TOP_RIGHT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_TOP_RIGHT;
+                        }
+                        else if(strcmp(value, "VERTICAL_BOTTOM_LEFT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_BOTTOM_LEFT;
+                        }
+                        else if(strcmp(value, "VERTICAL_BOTTOM_RIGHT") == 0)
+                        {
+                            dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_BOTTOM_RIGHT; 
+                        }
+                        else
+                        {
+                            dev.matrix_order = atoi(value);
+                        }
+                    }
+                    else if(strcmp(argument, "matrix_width") == 0)
+                    {
+                        dev.matrix_width = atoi(value);
+                    }
+                    else if(strcmp(argument, "matrix_height") == 0)
+                    {
+                        dev.matrix_height = atoi(value);
+                    }
                     else if(strcmp(argument, "type") == 0)
                     {
                         if(strcmp(value, "SINGLE") == 0)
