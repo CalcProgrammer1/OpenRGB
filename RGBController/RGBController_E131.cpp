@@ -11,6 +11,8 @@
 #include <e131.h>
 #include <math.h>
 
+using namespace std::chrono_literals;
+
 RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 {
     name        = "E1.31 Streaming ACN Device";
@@ -28,10 +30,23 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     sockfd = e131_socket();
     
+    keepalive_delay = 0ms;
+
     SetupZones();
 
     for (std::size_t device_idx = 0; device_idx < devices.size(); device_idx++)
     {
+        /*-----------------------------------------*\
+        | Update keepalive delay                    |
+        \*-----------------------------------------*/
+        if(devices[device_idx].keepalive_time > 0)
+        {
+            if(keepalive_delay.count() == 0 || keepalive_delay.count() > devices[device_idx].keepalive_time)
+            {
+                keepalive_delay = std::chrono::milliseconds(devices[device_idx].keepalive_time);
+            }
+        }
+
         /*-----------------------------------------*\
         | Add Universes                             |
         \*-----------------------------------------*/
@@ -162,6 +177,11 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
             zones[device_idx].matrix_map = new_map;
         }
 	}
+
+    if(keepalive_delay.count() > 0)
+    {
+        KeepaliveThread = new std::thread(&RGBController_E131::KeepaliveThreadFunction, this);
+    }
 }
 
 void RGBController_E131::SetupZones()
@@ -212,6 +232,8 @@ void RGBController_E131::DeviceUpdateLEDs()
 {
     int color_idx = 0;
 
+    last_update_time = std::chrono::steady_clock::now();
+    
     for(std::size_t device_idx = 0; device_idx < devices.size(); device_idx++)
     {
         unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
@@ -287,4 +309,16 @@ void RGBController_E131::SetCustomMode()
 void RGBController_E131::DeviceUpdateMode()
 {
 
+}
+
+void RGBController_E131::KeepaliveThreadFunction()
+{
+    while(1)
+    {
+        if((std::chrono::steady_clock::now() - last_update_time) > ( keepalive_delay * 0.95f ) )
+        {
+            UpdateLEDs();
+        }
+        std::this_thread::sleep_for(keepalive_delay / 2);
+    }
 }

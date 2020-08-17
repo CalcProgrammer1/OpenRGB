@@ -56,6 +56,9 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
 	
     bool new_device = false;
 
+    //Clear E131 device data
+    memset(&dev, 0, sizeof(E131Device));
+    
     //Open settings file
     infile.open(filename);
 
@@ -104,6 +107,10 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
                     else if(strcmp(argument, "start_channel") == 0)
                     {
                         dev.start_channel = atoi(value);
+                    }
+                    else if(strcmp(argument, "keepalive_time") == 0)
+                    {
+                        dev.keepalive_time = atoi(value);
                     }
                     else if(strcmp(argument, "rgb_order") == 0)
                     {

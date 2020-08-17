@@ -10,6 +10,8 @@
 #pragma once
 #include "RGBController.h"
 #include <e131.h>
+#include <chrono>
+#include <thread>
 
 typedef unsigned int e131_rgb_order;
 
@@ -43,6 +45,7 @@ struct E131Device
     unsigned int num_leds;
     unsigned int start_universe;
     unsigned int start_channel;
+    unsigned int keepalive_time;
     e131_rgb_order rgb_order;
     zone_type type;
     unsigned int matrix_width;
@@ -66,10 +69,15 @@ public:
     void        SetCustomMode();
     void        DeviceUpdateMode();
 
+    void        KeepaliveThreadFunction();
+
 private:
 	std::vector<E131Device> 	devices;
     std::vector<e131_packet_t> 	packets;
 	std::vector<e131_addr_t> 	dest_addrs;
 	std::vector<unsigned int> 	universes;
 	int 						sockfd;
+    std::thread *               KeepaliveThread;
+    std::chrono::milliseconds                           keepalive_delay;
+    std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };
