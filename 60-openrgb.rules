@@ -44,6 +44,13 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f3", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Corsair Hydro Series Devices                                 #
+#                                                               #
+#       Corsair H100i Pro RGB                                   #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c15", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  Corsair Lighting Node Devices                                #
 #                                                               #
 #       Corsair Lighting Node Core                              #

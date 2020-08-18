@@ -53,6 +53,7 @@ INCLUDEPATH +=                                                          \
     Controllers/AuraGPUController/                                      \
     Controllers/AuraSMBusController/                                    \
     Controllers/CoolerMasterController/                                 \
+    Controllers/CorsairHydroController/                                 \
     Controllers/CorsairPeripheralController/                            \
     Controllers/CorsairLightingNodeController/                          \
     Controllers/CorsairVengeanceController/                             \
@@ -123,6 +124,7 @@ HEADERS +=                                                              \
     Controllers/AuraGPUController/AuraGPUController.h                   \
     Controllers/AuraSMBusController/AuraSMBusController.h               \
     Controllers/CoolerMasterController/CMMP750Controller.h              \
+    Controllers/CorsairHydroController/CorsairHydroController.h         \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.h \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.h \
@@ -174,6 +176,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_AuraGPU.h                               \
     RGBController/RGBController_AuraSMBus.h                             \
     RGBController/RGBController_CMMP750Controller.h                     \
+    RGBController/RGBController_CorsairHydro.h                          \
     RGBController/RGBController_CorsairLightingNode.h                   \
     RGBController/RGBController_CorsairPeripheral.h                     \
     RGBController/RGBController_CorsairVengeance.h                      \
@@ -263,6 +266,8 @@ SOURCES +=                                                              \
     Controllers/AuraSMBusController/AuraSMBusControllerDetect.cpp       \
     Controllers/CoolerMasterController/CMMP750Controller.cpp            \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp \
+    Controllers/CorsairHydroController/CorsairHydroController.cpp       \
+    Controllers/CorsairHydroController/CorsairHydroControllerDetect.cpp \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.cpp \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeControllerDetect.cpp \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.cpp \
@@ -350,6 +355,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_AuraGPU.cpp                             \
     RGBController/RGBController_AuraSMBus.cpp                           \
     RGBController/RGBController_CMMP750Controller.cpp                   \
+    RGBController/RGBController_CorsairHydro.cpp                        \
     RGBController/RGBController_CorsairLightingNode.cpp                 \
     RGBController/RGBController_CorsairPeripheral.cpp                   \
     RGBController/RGBController_CorsairVengeance.cpp                    \
