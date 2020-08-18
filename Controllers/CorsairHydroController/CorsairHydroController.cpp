@@ -9,7 +9,9 @@
 CorsairHydroController::CorsairHydroController(libusb_device_handle* dev_handle)
 {
     dev = dev_handle;
-    
+
+    SendInit();
+
     SendFirmwareRequest();
 }
 
@@ -66,4 +68,10 @@ void CorsairHydroController::SendApply()
 
     libusb_bulk_transfer(dev, 0x01, usb_buf, 2, &actual, 1000);
     libusb_bulk_transfer(dev, 0x81, usb_buf, 3, &actual, 1000);
+}
+
+void CorsairHydroController::SendInit()
+{
+    libusb_control_transfer( dev, 0x40, 0x00, 0xffff, 0x0000, NULL, 0, 0 );
+    libusb_control_transfer( dev, 0x40, 0x02, 0x0002, 0x0000, NULL, 0, 0 );
 }

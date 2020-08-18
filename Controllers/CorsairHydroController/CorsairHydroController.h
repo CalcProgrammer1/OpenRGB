@@ -52,4 +52,5 @@ private:
 
     void            SendApply();
     void            SendFirmwareRequest();
+    void            SendInit();
 };
