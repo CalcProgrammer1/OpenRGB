@@ -57,8 +57,9 @@ private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
 
-    bool UpdatingColor = false;
-    bool InvertedSpeed = false;
+    bool UpdatingColor    = false;
+    bool InvertedSpeed    = false;
+    bool MultipleSelected = false;
 
     void updateRGB();
     void updateHSV();

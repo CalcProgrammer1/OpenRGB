@@ -91,6 +91,8 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     | Update mode user interface elements                   |
     \*-----------------------------------------------------*/
     UpdateModeUi();
+
+    connect(ui->DeviceViewBox, &DeviceView::selectionChanged, this, &OpenRGBDevicePage::on_DeviceViewBox_selectionChanged);
 }
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
@@ -111,6 +113,11 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
             {
                 int selected_zone = ui->ZoneBox->currentIndex();
 
+                QString msLine;
+                if(MultipleSelected)
+                {
+                    msLine = ui->LEDBox->itemText(ui->LEDBox->count() - 1);
+                }
                 ui->LEDBox->blockSignals(true);
                 ui->LEDBox->clear();
 
@@ -131,19 +138,21 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                         {
                             ui->LEDBox->addItem(device->leds[i].name.c_str());
                         }
+                        if(MultipleSelected) // Preserve the multiple() option
+                        {
+                            ui->LEDBox->addItem(msLine);
+                            ui->LEDBox->setCurrentIndex(device->leds.size());
+                        }
 
                         ui->ResizeButton->setEnabled(false);
-                        if(!signalsBlocked())
+                        if(!ui->ZoneBox->signalsBlocked())
                         {
                             ui->DeviceViewBox->blockSignals(true);
                             ui->DeviceViewBox->clearSelection();
                             ui->DeviceViewBox->blockSignals(false);
                         }
                     }
-                    else
-                    {
-                        selected_zone = selected_zone - 1;
-                    }
+                    selected_zone = selected_zone - 1;
                 }
                 if(device->zones.size() == 1 || selected_zone != -1)
                 {
@@ -170,7 +179,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                     {
                         ui->ResizeButton->setEnabled(true);
                     }
-                    if(!signalsBlocked())
+                    if(!ui->ZoneBox->signalsBlocked())
                     {
                         ui->DeviceViewBox->blockSignals(true);
                         ui->DeviceViewBox->selectZone(selected_zone);
@@ -198,6 +207,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
         case MODE_COLORS_PER_LED:
             {
                 int selected_zone = ui->ZoneBox->currentIndex();
+                bool multiple = index == device->leds.size() + 1;
 
                 RGBColor color = 0x00000000;
                 bool updateColor = 0;
@@ -210,23 +220,25 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                         {
                             if(index == 0) // All LEDs on the entire device
                             {
-                                if(!signalsBlocked())
+                                if(!ui->LEDBox->signalsBlocked())
                                 {
                                     ui->DeviceViewBox->blockSignals(true);
                                     ui->DeviceViewBox->clearSelection();
                                     ui->DeviceViewBox->blockSignals(false);
                                 }
                             }
-                            else
-                            {
-                                index = index - 1;
-                            }
+                            index = index - 1;
                         }
-                        if(device->leds.size() == 1 || index != -1)
+                        if((device->leds.size() == 1 || index != -1) && !multiple)
                         {
+                            if(MultipleSelected)
+                            {
+                                ui->LEDBox->removeItem(device->leds.size() + 1);
+                            }
+                            MultipleSelected = 0;
                             color = device->GetLED(index); // One LED, proceed
                             updateColor = 1;
-                            if(!signalsBlocked())
+                            if(!ui->LEDBox->signalsBlocked())
                             {
                                 ui->DeviceViewBox->blockSignals(true);
                                 ui->DeviceViewBox->selectLed(index);
@@ -234,10 +246,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                             }
                         }
                     }
-                    else
-                    {
-                        selected_zone = selected_zone - 1;
-                    }
+                    selected_zone = selected_zone - 1;
                 }
                 if(device->zones.size() == 1 || selected_zone != -1) // A specific zone is selected
                 {
@@ -245,17 +254,14 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                     {
                         if(index == 0) // Entire zone
                         {
-                            if(!signalsBlocked())
+                            if(!ui->LEDBox->signalsBlocked())
                             {
                                 ui->DeviceViewBox->blockSignals(true);
                                 ui->DeviceViewBox->selectZone(selected_zone);
                                 ui->DeviceViewBox->blockSignals(false);
                             }
                         }
-                        else
-                        {
-                            index = index - 1;
-                        }
+                        index = index - 1;
                     }
                     if(device->zones[selected_zone].leds_count == 1 || index != -1)
                     {
@@ -264,7 +270,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                             color = device->zones[selected_zone].colors[index];
                             updateColor = 1;
                             int globalIndex = device->zones[selected_zone].leds - &(device->leds[0]) + index;
-                            if(!signalsBlocked())
+                            if(!ui->LEDBox->signalsBlocked())
                             {
                                 ui->DeviceViewBox->blockSignals(true);
                                 ui->DeviceViewBox->selectLed(globalIndex);
@@ -593,7 +599,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 /*-----------------------------------------------------*\
                 | Update color picker with color of first LED           |
                 \*-----------------------------------------------------*/
-                on_LEDBox_currentIndexChanged(0);
+                //on_LEDBox_currentIndexChanged(0);
                 break;
 
             case MODE_COLORS_MODE_SPECIFIC:
@@ -1000,11 +1006,13 @@ void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int /*arg1*/)
 void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
 {
     ui->ZoneBox->blockSignals(true);
+    ui->LEDBox->blockSignals(true);
     ui->ZoneBox->setCurrentIndex(0);
+    on_ZoneBox_currentIndexChanged(0);
+    //updateLeds(); // We want to update the LED box, but we don't want any of the side effects of that action
     ui->ZoneBox->blockSignals(false);
-    if(indices.size() != 0 && indices.size() != device->leds.size())
+    if(indices.size() != 0 && size_t(indices.size()) != device->leds.size())
     {
-        ui->LEDBox->blockSignals(true);
         if(indices.size() == 1)
         {
             if(device->leds.size() == 1)
@@ -1016,13 +1024,24 @@ void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indic
                 ui->LEDBox->setCurrentIndex(indices[0] + 1);
                 // Set everything to it's color
             }
+            MultipleSelected = 0;
         }
         else
         {
-            ui->LEDBox->setCurrentText("Multiple (" + QVariant(indices.size()).toString() + ")");
+            if(MultipleSelected)
+            {
+                ui->LEDBox->removeItem(device->leds.size() + 1);
+            }
+            ui->LEDBox->addItem("Multiple (" + QVariant(indices.size()).toString() + ")");
+            ui->LEDBox->setCurrentIndex(device->leds.size() + 1);
+            MultipleSelected = 1;
         }
-        ui->LEDBox->blockSignals(false);
     }
+    else
+    {
+        ui->LEDBox->setCurrentIndex(0);
+    }
+    ui->LEDBox->blockSignals(false);
 }
 
 void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()

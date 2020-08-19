@@ -323,8 +323,8 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         int posh = zone_pos[zone_idx].matrix_h * size;
 
         QRect rect = {posx, posy, posw, posh};
-        
-        if(rect.contains(lastMousePos))
+
+        if(rect.contains(lastMousePos) && (!mouseDown || !mouseMoved))
         {
             painter.setPen(palette().highlight().color());
         }
@@ -380,13 +380,15 @@ void DeviceView::updateSelection()
         if(ctrlDown)
         {
             selectionFlags[led_idx] ^= previousFlags[led_idx];
+        }
 
-            if(selectionFlags[led_idx])
-            {
-                selectedLeds.push_back(led_idx);
-            }
+        if(selectionFlags[led_idx])
+        {
+            selectedLeds.push_back(led_idx);
         }
     }
+    
+    update();
 
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
@@ -406,6 +408,8 @@ bool DeviceView::selectLed(int target)
     selectionFlags.clear();
     selectionFlags.resize(controller->leds.size());
     selectionFlags[target] = 1;
+
+    update();
 
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
@@ -448,6 +452,8 @@ bool DeviceView::selectLeds(QVector<int> target)
         }
     }
 
+    update();
+    
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
@@ -481,6 +487,8 @@ bool DeviceView::selectZone(int zone, bool add)
         }
     }
 
+    update();
+    
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
