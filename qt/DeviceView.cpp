@@ -324,7 +324,7 @@ void DeviceView::paintEvent(QPaintEvent *event)
         {
             painter.setPen(palette().windowText().color());
         }
-        painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(controller->zones[zone_idx].name.c_str()));
+        painter.drawText(posx, posy + posh, QString(controller->zones[zone_idx].name.c_str()));
     }
 
     /*-----------------------------------------------------*\
