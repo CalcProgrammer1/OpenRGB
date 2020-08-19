@@ -22,6 +22,8 @@ DeviceView::DeviceView(QWidget *parent) :
 {
     controller = NULL;
     setMouseTracking(1);
+
+    size = width();
 }
 
 void DeviceView::setController(RGBController * controller_ptr)
@@ -121,6 +123,18 @@ void DeviceView::setController(RGBController * controller_ptr)
             }
         }
     }
+
+    /*-----------------------------------------------------*\
+    | Update cached size and offset                         |
+    \*-----------------------------------------------------*/
+    size     = width();
+    offset_x = 0;
+
+    if(height() < size * matrix_h)
+    {
+        size     = height() / matrix_h;
+        offset_x = (width() - size) / 2;
+    }
 }
 
 QSize DeviceView::sizeHint () const
@@ -201,7 +215,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
             offset_x = (width() - size) / 2;
         }
 
-        for(int zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
+        for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
         {
             int posx = zone_pos[zone_idx].matrix_x * size + offset_x;
             int posy = zone_pos[zone_idx].matrix_y * size;
@@ -221,41 +235,26 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
 
 void DeviceView::resizeEvent(QResizeEvent *event)
 {
-    unsigned int size = 0;
-
-    if(event->size().width() < event->size().height())
-    {
-        size = event->size().width();
-    }
-    else
-    {
-        size = event->size().height();
-    }
-
-    update();
-}
-
-void DeviceView::paintEvent(QPaintEvent *event)
-{
-    QPainter painter(this);
-    QFont font = painter.font();
-
-    /*-----------------------------------------------------*\
-    | Figure out the real width of the whole thing          |
-    \*-----------------------------------------------------*/
-    int size     = width();
-    int offset_x = 0;
+    size     = width();
+    offset_x = 0;
 
     if(height() < size * matrix_h)
     {
         size     = height() / matrix_h;
         offset_x = (width() - size) / 2;
     }
+    update();
+}
+
+void DeviceView::paintEvent(QPaintEvent * /* event */)
+{
+    QPainter painter(this);
+    QFont font = painter.font();
 
     /*-----------------------------------------------------*\
     | LED rectangles                                        |
     \*-----------------------------------------------------*/
-    for(int led_idx = 0; led_idx < controller->leds.size(); led_idx++)
+    for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
     {
         int posx = led_pos[led_idx].matrix_x * size + offset_x;
         int posy = led_pos[led_idx].matrix_y * size;
@@ -291,6 +290,7 @@ void DeviceView::paintEvent(QPaintEvent *event)
         | Set the font color so that the text is visible        |
         \*-----------------------------------------------------*/
         font.setPixelSize(posh / 2);
+        painter.setFont(font);
 
         if(currentColor.value() > 127)
         {
@@ -303,10 +303,13 @@ void DeviceView::paintEvent(QPaintEvent *event)
         //painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(controller->leds[led_idx].label.c_str()));
     }
 
+    font.setPixelSize(12);
+    painter.setFont(font);
+
     /*-----------------------------------------------------*\
     | Zone names                                            |
     \*-----------------------------------------------------*/
-    for(int zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
     {
         int posx = zone_pos[zone_idx].matrix_x * size + offset_x;
         int posy = zone_pos[zone_idx].matrix_y * size;
@@ -314,8 +317,7 @@ void DeviceView::paintEvent(QPaintEvent *event)
         int posh = zone_pos[zone_idx].matrix_h * size;
 
         QRect rect = {posx, posy, posw, posh};
-
-        font.setPixelSize(posh / 2);
+        
         if(rect.contains(lastMousePos))
         {
             painter.setPen(palette().highlight().color());
@@ -350,16 +352,7 @@ void DeviceView::updateSelection()
     QRect sel              = selectionRect.normalized();
     std::vector<led>& leds = controller->leds;
 
-    int size     = width();
-    int offset_x = 0;
-
-    if(height() < size * matrix_h)
-    {
-        size     = height() / matrix_h;
-        offset_x = (width() - size) / 2;
-    }
-
-    for(int led_idx = 0; led_idx < leds.size(); ++led_idx)
+    for(std::size_t led_idx = 0; led_idx < leds.size(); ++led_idx)
     {
         /*-----------------------------------------------------*\
         | Check intersection                                    |
@@ -468,7 +461,7 @@ bool DeviceView::selectZone(int zone, bool add)
 
     int zoneStart = controller->zones[zone].start_idx;
 
-    for(int led_idx = 0; led_idx < controller->zones[zone].leds_count; ++led_idx)
+    for(std::size_t led_idx = 0; led_idx < controller->zones[zone].leds_count; ++led_idx)
     {
         if(!selectionFlags[zoneStart + led_idx])
         {

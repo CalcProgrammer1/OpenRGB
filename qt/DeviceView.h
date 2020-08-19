@@ -35,6 +35,8 @@ private:
     bool mouseDown;
     bool ctrlDown;
     bool mouseMoved;
+    int size;
+    int offset_x;
     QRect selectionRect;
     QPoint lastMousePos;
     QVector<int> previousSelection;
