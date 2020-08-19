@@ -8,7 +8,7 @@ static void UpdateCallback(void * this_ptr)
 {
     OpenRGBDevicePage * this_obj = (OpenRGBDevicePage *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
+    //QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
 }
 
 OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
@@ -27,7 +27,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     \*-----------------------------------------------------*/
     QPalette pal;
 
-    ui->widget->setController(device);
+    ui->DeviceViewBox->setController(device);
 
     device->RegisterUpdateCallback(UpdateCallback, this);
 
@@ -109,24 +109,58 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
     {
         case MODE_COLORS_PER_LED:
             {
-                unsigned int selected_zone = ui->ZoneBox->currentIndex();
+                int selected_zone = ui->ZoneBox->currentIndex();
 
                 ui->LEDBox->blockSignals(true);
                 ui->LEDBox->clear();
 
-                if(selected_zone == 0)
+                if(device->zones.size() > 1)
                 {
-                    for (std::size_t i = 0; i < device->leds.size(); i++)
+                    if(selected_zone == 0)
                     {
-                        ui->LEDBox->addItem(device->leds[i].name.c_str());
+                        if(device->leds.size() > 1)
+                        {
+                            ui->LEDBox->addItem("Entire device");
+                            ui->LEDBox->setEnabled(1);
+                            ui->SetLEDButton->setEnabled(1);
+                        }
+                        else
+                        {
+                            ui->LEDBox->setDisabled(1);
+                            ui->SetLEDButton->setDisabled(1);
+                        }
+                        for (std::size_t i = 0; i < device->leds.size(); i++)
+                        {
+                            ui->LEDBox->addItem(device->leds[i].name.c_str());
+                        }
+
+                        ui->ResizeButton->setEnabled(false);
+                        if(!signalsBlocked())
+                        {
+                            ui->DeviceViewBox->blockSignals(true);
+                            ui->DeviceViewBox->clearSelection();
+                            ui->DeviceViewBox->blockSignals(false);
+                        }
                     }
-
-                    ui->ResizeButton->setEnabled(false);
+                    else
+                    {
+                        selected_zone = selected_zone - 1;
+                    }
                 }
-                else
+                if(device->zones.size() == 1 || selected_zone != -1)
                 {
-                    selected_zone = selected_zone - 1;
-
+                    // Disable led box if there's only one LED anyway
+                    if(device->zones[selected_zone].leds_count > 1)
+                    {
+                        ui->LEDBox->addItem("Entire zone");
+                        ui->LEDBox->setEnabled(1);
+                        ui->SetLEDButton->setEnabled(1);
+                    }
+                    else
+                    {
+                        ui->LEDBox->setDisabled(1);
+                        ui->SetLEDButton->setDisabled(1);
+                    }
                     for (std::size_t led_idx = 0; led_idx < device->zones[selected_zone].leds_count; led_idx++)
                     {
                         ui->LEDBox->addItem(device->zones[selected_zone].leds[led_idx].name.c_str());
@@ -139,6 +173,12 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                     else
                     {
                         ui->ResizeButton->setEnabled(true);
+                    }
+                    if(!signalsBlocked())
+                    {
+                        ui->DeviceViewBox->blockSignals(true);
+                        ui->DeviceViewBox->selectZone(selected_zone);
+                        ui->DeviceViewBox->blockSignals(false);
                     }
                 }
 
@@ -164,31 +204,93 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 unsigned int selected_zone = ui->ZoneBox->currentIndex();
 
                 RGBColor color = 0x00000000;
+                bool updateColor = 0;
 
-                if(selected_zone == 0)
+                if(device->zones.size() > 1)
                 {
-                    color = device->GetLED(index);
-                }
-                else
-                {
-                    selected_zone = selected_zone - 1;
-
-                    if((unsigned int)index < device->zones[selected_zone].leds_count)
+                    if(selected_zone == 0) // All zones
                     {
-                        color = device->zones[selected_zone].colors[index];
+                        if(device->leds.size() > 1)
+                        {
+                            if(index == 0) // All LEDs on the entire device
+                            {
+                                if(!signalsBlocked())
+                                {
+                                    ui->DeviceViewBox->blockSignals(true);
+                                    ui->DeviceViewBox->clearSelection();
+                                    ui->DeviceViewBox->blockSignals(false);
+                                }
+                            }
+                            else
+                            {
+                                index = index - 1;
+                            }
+                        }
+                        if(device->leds.size() == 1 || index != -1)
+                        {
+                            color = device->GetLED(index); // One LED, proceed
+                            updateColor = 1;
+                            if(!signalsBlocked())
+                            {
+                                ui->DeviceViewBox->blockSignals(true);
+                                ui->DeviceViewBox->selectLed(index);
+                                ui->DeviceViewBox->blockSignals(false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        selected_zone = selected_zone - 1;
+                    }
+                }
+                if(device->zones.size() == 1 || selected_zone != -1) // A specific zone is selected
+                {
+                    if(device->zones[selected_zone].leds_count > 1)
+                    {
+                        if(index == 0) // Entire zone
+                        {
+                            if(!signalsBlocked())
+                            {
+                                ui->DeviceViewBox->blockSignals(true);
+                                ui->DeviceViewBox->selectZone(selected_zone);
+                                ui->DeviceViewBox->blockSignals(false);
+                            }
+                        }
+                        else
+                        {
+                            index = index - 1;
+                        }
+                    }
+                    if(device->zones[selected_zone].leds_count == 1 || index != -1)
+                    {
+                        if((unsigned int)index < device->zones[selected_zone].leds_count)
+                        {
+                            color = device->zones[selected_zone].colors[index];
+                            updateColor = 1;
+                            int globalIndex = device->zones[selected_zone].leds - &(device->leds[0]) + index;
+                            if(!signalsBlocked())
+                            {
+                                ui->DeviceViewBox->blockSignals(true);
+                                ui->DeviceViewBox->selectLed(globalIndex);
+                                ui->DeviceViewBox->blockSignals(false);
+                            }
+                        }
                     }
                 }
 
                 /*-----------------------------------------------------*\
                 | Update color picker with color of selected LED        |
                 \*-----------------------------------------------------*/
-                UpdatingColor = true;
-                ui->RedSpinBox->setValue(RGBGetRValue(color));
-                ui->GreenSpinBox->setValue(RGBGetGValue(color));
-                ui->BlueSpinBox->setValue(RGBGetBValue(color));
-                UpdatingColor = false;
-                updateHSV();
-                updateWheel();
+                if(updateColor)
+                {
+                    UpdatingColor = true;
+                    ui->RedSpinBox->setValue(RGBGetRValue(color));
+                    ui->GreenSpinBox->setValue(RGBGetGValue(color));
+                    ui->BlueSpinBox->setValue(RGBGetBValue(color));
+                    UpdatingColor = false;
+                    updateHSV();
+                    updateWheel();
+                }
             }
             break;
 
@@ -282,7 +384,7 @@ void Ui::OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
 void Ui::OpenRGBDevicePage::UpdateInterface()
 {
     UpdateModeUi();
-    ui->widget->repaint();
+    ui->DeviceViewBox->repaint();
 }
 
 void Ui::OpenRGBDevicePage::UpdateModeUi()
@@ -469,7 +571,17 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 ui->ZoneBox->blockSignals(true);
                 ui->ZoneBox->clear();
 
-                ui->ZoneBox->addItem("All Zones");
+                if(device->zones.size() > 1)
+                {
+                    ui->ZoneBox->setEnabled(1);
+                    ui->ZoneBox->addItem("All Zones");
+                    ui->SetZoneButton->setEnabled(1);
+                }
+                else
+                {
+                    ui->ZoneBox->setDisabled(1);
+                    ui->SetZoneButton->setDisabled(1);
+                }
 
                 for (std::size_t i = 0; i < device->zones.size(); i++)
                 {
@@ -1052,6 +1164,34 @@ void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int /*arg1*/)
 {
     updateRGB();
     updateWheel();
+}
+
+void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
+{
+    ui->ZoneBox->blockSignals(true);
+    ui->ZoneBox->setCurrentIndex(0);
+    ui->ZoneBox->blockSignals(false);
+    if(indices.size() != 0 && indices.size() != device->leds.size())
+    {
+        ui->LEDBox->blockSignals(true);
+        if(indices.size() == 1)
+        {
+            if(device->leds.size() == 1)
+            {
+                ui->LEDBox->setCurrentIndex(0);
+            }
+            else
+            {
+                ui->LEDBox->setCurrentIndex(indices[0] + 1);
+                // Set everything to it's color
+            }
+        }
+        else
+        {
+            ui->LEDBox->setCurrentText("Multiple (" + QVariant(indices.size()).toString() + ")");
+        }
+        ui->LEDBox->blockSignals(false);
+    }
 }
 
 void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()
