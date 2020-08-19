@@ -49,7 +49,9 @@ void DeviceView::setController(RGBController * controller_ptr)
     \*-----------------------------------------------------*/
     unsigned int maxWidth       = 0;
     unsigned int maxCols        = 20;
-    unsigned int totalHeight    = 0;
+    float        totalHeight    = 0;
+    float        zonePadding    = 1;    // Amount of space between zones
+    float        ledPadding     = 0.1;
 
     for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
     {
@@ -74,7 +76,7 @@ void DeviceView::setController(RGBController * controller_ptr)
     /*-----------------------------------------------------*\
     | Add some space for zone names and padding             |
     \*-----------------------------------------------------*/
-    totalHeight += controller->zones.size();
+    totalHeight += controller->zones.size() * zonePadding;
 
     float atom      = 1.0 / maxWidth;       // Atom is the width of a single square; if the whole thing becomes too tall, we ignore it and let the view widget take care of it
     float current_y = 0;                    // We will be descending, placing each zone one atom below the previous one
@@ -86,7 +88,7 @@ void DeviceView::setController(RGBController * controller_ptr)
         zone_pos[zone_idx].matrix_y = current_y + 0.5 * atom;
         zone_pos[zone_idx].matrix_w *= atom;
         zone_pos[zone_idx].matrix_h = 0.4 * atom;
-        current_y += atom;
+        current_y                  += zonePadding * atom;
 
         /*-----------------------------------------------------*\
         | Now process the position and size for the LEDs        |
@@ -104,23 +106,27 @@ void DeviceView::setController(RGBController * controller_ptr)
 
                     if(color_idx != 0xFFFFFFFF)
                     {
-                        led_pos[color_idx].matrix_x = (zone_pos[zone_idx].matrix_x + led_x + 0.1) * atom;
-                        led_pos[color_idx].matrix_y = (current_y + led_y + 0.1) * atom;
-                        led_pos[color_idx].matrix_w = 0.8 * atom;
-                        led_pos[color_idx].matrix_h = 0.8 * atom;
+                        led_pos[color_idx].matrix_x = (zone_pos[zone_idx].matrix_x + led_x + ledPadding) * atom;
+                        led_pos[color_idx].matrix_y = current_y + (led_y + ledPadding) * atom;
+                        led_pos[color_idx].matrix_w = (1 - (2 * ledPadding)) * atom;
+                        led_pos[color_idx].matrix_h = (1 - (2 * ledPadding)) * atom;
                     }
                 }
             }
+
+            current_y += map->height * atom;
         }
         else
         {
             for(int i = 0; i < controller->zones[zone_idx].leds_count; i++)
             {
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_x = zone_pos[zone_idx].matrix_x + (i % maxCols + 0.1) * atom;
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_y = current_y + (i / maxCols + 0.1) * atom;
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_w = 0.8 * atom;
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_h = 0.8 * atom;
+                led_pos[i + controller->zones[zone_idx].start_idx].matrix_x = zone_pos[zone_idx].matrix_x + (i % maxCols + ledPadding) * atom;
+                led_pos[i + controller->zones[zone_idx].start_idx].matrix_y = current_y + (i / maxCols + ledPadding) * atom;
+                led_pos[i + controller->zones[zone_idx].start_idx].matrix_w = (1 - (2 * ledPadding)) * atom;
+                led_pos[i + controller->zones[zone_idx].start_idx].matrix_h = (1 - (2 * ledPadding)) * atom;
             }
+
+            current_y += (controller->zones[zone_idx].leds_count / maxCols + !!(controller->zones[zone_idx].leds_count % maxCols)) * atom;
         }
     }
 
@@ -233,7 +239,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
     update();
 }
 
-void DeviceView::resizeEvent(QResizeEvent *event)
+void DeviceView::resizeEvent(QResizeEvent* /*event*/)
 {
     size     = width();
     offset_x = 0;
@@ -246,7 +252,7 @@ void DeviceView::resizeEvent(QResizeEvent *event)
     update();
 }
 
-void DeviceView::paintEvent(QPaintEvent * /* event */)
+void DeviceView::paintEvent(QPaintEvent* /* event */)
 {
     QPainter painter(this);
     QFont font = painter.font();
@@ -294,11 +300,11 @@ void DeviceView::paintEvent(QPaintEvent * /* event */)
 
         if(currentColor.value() > 127)
         {
-            painter.setBrush(Qt::black);
+            painter.setPen(Qt::black);
         }
         else
         {
-            painter.setBrush(Qt::white);
+            painter.setPen(Qt::white);
         }
         //painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(controller->leds[led_idx].label.c_str()));
     }
@@ -390,7 +396,7 @@ void DeviceView::updateSelection()
 
 bool DeviceView::selectLed(int target)
 {
-    if(target < 0 || target >= controller->leds.size())
+    if(target < 0 || size_t(target) >= controller->leds.size())
     {
         return false;
     }
@@ -413,7 +419,7 @@ bool DeviceView::selectLeds(QVector<int> target)
 {
     for(int item: target)
     {
-        if(item < 0 || item >= controller->leds.size())
+        if(item < 0 || size_t(item) >= controller->leds.size())
         {
             return false;
         }
@@ -452,7 +458,7 @@ bool DeviceView::selectLeds(QVector<int> target)
 
 bool DeviceView::selectZone(int zone, bool add)
 {
-    if(zone < 0 || zone >= controller->zones.size())
+    if(zone < 0 || size_t(zone) >= controller->zones.size())
     {
         return false;
     }

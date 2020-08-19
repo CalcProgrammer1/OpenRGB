@@ -197,7 +197,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
     {
         case MODE_COLORS_PER_LED:
             {
-                unsigned int selected_zone = ui->ZoneBox->currentIndex();
+                int selected_zone = ui->ZoneBox->currentIndex();
 
                 RGBColor color = 0x00000000;
                 bool updateColor = 0;
