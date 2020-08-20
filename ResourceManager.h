@@ -8,6 +8,7 @@
 
 #include "i2c_smbus.h"
 #include "RGBController.h"
+#include "ProfileManager.h"
 
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
@@ -19,6 +20,7 @@ class ResourceManager
 {
 public:
     static ResourceManager *get();
+    ProfileManager*                             profile_manager;
     
     ResourceManager();
     ~ResourceManager();

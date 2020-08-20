@@ -10,6 +10,7 @@ namespace fs = std::experimental::filesystem;
 
 ProfileManager::ProfileManager(std::vector<RGBController *>& control) : controllers(control)
 {
+    ppath = "./";
     UpdateProfileList();
 }
 
@@ -28,7 +29,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         /*---------------------------------------------------------*\
         | Open an output file in binary mode                        |
         \*---------------------------------------------------------*/
-        std::ofstream controller_file(profile_name, std::ios::out | std::ios::binary);
+	std::ofstream controller_file(ppath+profile_name, std::ios::out | std::ios::binary);
 
         /*---------------------------------------------------------*\
         | Write header                                              |
@@ -98,7 +99,7 @@ bool ProfileManager::LoadProfileWithOptions
     /*---------------------------------------------------------*\
     | Open input file in binary mode                            |
     \*---------------------------------------------------------*/
-    std::ifstream controller_file(filename, std::ios::in | std::ios::binary);
+    std::ifstream controller_file(ppath+filename, std::ios::in | std::ios::binary);
 
     /*---------------------------------------------------------*\
     | Read and verify file header                               |
@@ -251,7 +252,7 @@ bool ProfileManager::LoadProfileWithOptions
 
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
-    remove(profile_name.c_str());
+    remove((ppath+profile_name).c_str());
 
     UpdateProfileList();
 }
@@ -263,7 +264,7 @@ void ProfileManager::UpdateProfileList()
     /*---------------------------------------------------------*\
     | Load profiles by looking for .orp files in current dir    |
     \*---------------------------------------------------------*/
-    for(const auto & entry : fs::directory_iterator("."))
+    for(const auto & entry : fs::directory_iterator(ppath))
     {
         std::string filename = entry.path().filename().string();
 
@@ -272,7 +273,7 @@ void ProfileManager::UpdateProfileList()
             /*---------------------------------------------------------*\
             | Open input file in binary mode                            |
             \*---------------------------------------------------------*/
-            std::ifstream profile_file(filename, std::ios::in | std::ios::binary);
+            std::ifstream profile_file(ppath+filename, std::ios::in | std::ios::binary);
 
             /*---------------------------------------------------------*\
             | Read and verify file header                               |

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
+#include <iostream>
 
 #include "OpenRGBDialog2.h"
 
@@ -27,7 +28,7 @@ std::vector<NetworkClient*> clients;
 /*-------------------------------------------------------------*\
 | Command line functionality and return flags                   |
 \*-------------------------------------------------------------*/
-extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients);
+extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients, bool ddevs);
 
 enum
 {
@@ -150,11 +151,13 @@ int main(int argc, char* argv[])
     std::vector<RGBController*> &rgb_controllers = ResourceManager::get()->GetRGBControllers();
 
     ProfileManager profile_manager(rgb_controllers);
+    ResourceManager::get()->profile_manager = &profile_manager;
     NetworkServer server(rgb_controllers);
-    
+   
+    bool ddevs = false;
     if(!AttemptLocalConnection(rgb_controllers))
     {
-        ResourceManager::get()->DetectDevices();
+        ddevs = true;
     }
 
     /*---------------------------------------------------------*\
@@ -163,7 +166,7 @@ int main(int argc, char* argv[])
     unsigned int ret_flags = RET_FLAG_START_GUI;
     if(argc > 1)
     {
-        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, &server, clients);
+        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, &server, clients, ddevs);
     }
 
     /*---------------------------------------------------------*\
@@ -173,6 +176,8 @@ int main(int argc, char* argv[])
     \*---------------------------------------------------------*/
     if(ret_flags & RET_FLAG_START_GUI)
     {
+        if (ddevs) ResourceManager::get()->DetectDevices();
+
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
 
@@ -203,7 +208,7 @@ int main(int argc, char* argv[])
         {
             dlg.show();
         }
-        
+
         return a.exec();
     }
     else

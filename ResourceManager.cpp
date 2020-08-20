@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-#include "ProfileManager.h"
+#include <iostream>
 
 std::unique_ptr<ResourceManager> ResourceManager::instance;
 
@@ -128,8 +128,6 @@ void ResourceManager::DetectDevicesThreadFunction()
     unsigned int prev_count = 0;
     float        percent = 0.0f;
 
-    ProfileManager profile_manager(rgb_controllers);
-
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
     \*-------------------------------------------------*/
@@ -193,9 +191,11 @@ void ResourceManager::DetectDevicesThreadFunction()
         detection_percent = percent * 100.0f;
     }
 
-    profile_manager.LoadSizeFromProfile("sizes.ors");
-    
+    profile_manager->LoadSizeFromProfile("sizes.ors");
+
     DetectDeviceMutex.unlock();
+
+    std::cout << "Device detection done." << std::endl;
 }
 
 void ResourceManager::WaitForDeviceDetection()

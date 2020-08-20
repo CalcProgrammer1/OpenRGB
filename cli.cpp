@@ -60,6 +60,7 @@ struct Options
     bool hasDevice;
     DeviceOptions allDeviceOptions;
     ServerOptions servOpts;
+    bool isSystemWide;
 };
 
 
@@ -355,6 +356,7 @@ void OptionHelp()
     help_text += "--client [IP]:[Port]                     Starts an SDK client on the given IP:Port (assumes port 6742 if not specified)\n";
     help_text += "--server                                 Starts the SDK's server\n";
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
+    help_text += "-w,  --system-wide                       Sets the SDK to read files from /etc/openrgb.\n";
     help_text += "-l,  --list-devices                      Lists every compatible device with their number\n";
     help_text += "-d,  --device [0-9]                      Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
@@ -675,6 +677,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<Network
     int current_zone        = -1;
 
     options->hasDevice = false;
+    options->isSystemWide = false;
 
     while(arg_index < argc)
     {
@@ -690,7 +693,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<Network
         }
 
         /*---------------------------------------------------------*\
-        | --server                                                  |
+        | --client                                                  |
         \*---------------------------------------------------------*/
         if(option == "--client")
         {
@@ -767,7 +770,16 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<Network
             
             arg_index++;
         }
-
+#ifdef __linux__
+	/*---------------------------------------------------------*\
+        | -w / --system-wide (no arguments)                         |
+        \*---------------------------------------------------------*/
+        else if(option == "--system-wide" || option == "-w")
+        {
+	    //  TODO: check /etc/openrgb exists or create path and set permissions
+	    options->isSystemWide = true;
+	}
+#endif
         /*---------------------------------------------------------*\
         | --gui (no arguments)                                      |
         \*---------------------------------------------------------*/
@@ -1022,7 +1034,7 @@ void WaitWhileServerOnline(NetworkServer* srv)
     };
 }
 
-unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients)
+unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients, bool ddevs)
 {
     profile_manager = profile_manager_in;
     network_server  = network_server_in;
@@ -1032,6 +1044,15 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
     \*---------------------------------------------------------*/
     Options options;
     unsigned int ret_flags = ProcessOptions(argc, argv, &options, clients, rgb_controllers);
+
+    /*---------------------------------------------------------*\
+    | Sets system-wide profiles                                 |
+    \*---------------------------------------------------------*/
+    if (options.isSystemWide) {
+        profile_manager->ppath = "/etc/openrgb/";
+        profile_manager->UpdateProfileList();
+    }
+
 
     /*---------------------------------------------------------*\
     | If the server was told to start, start it before returning|
@@ -1050,6 +1071,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
             \*---------------------------------------------------------*/
             if((ret_flags & RET_FLAG_START_GUI) == 0)
             {
+                if (ddevs) ResourceManager::get()->DetectDevices();
                 WaitWhileServerOnline(network_server);
             }
         }
