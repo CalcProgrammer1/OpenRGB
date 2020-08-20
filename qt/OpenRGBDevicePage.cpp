@@ -386,7 +386,7 @@ void Ui::OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
 
 void Ui::OpenRGBDevicePage::UpdateInterface()
 {
-    UpdateModeUi();
+    //UpdateModeUi();
     ui->DeviceViewBox->repaint();
 }
 
