@@ -57,7 +57,13 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
     bool new_device = false;
 
     //Clear E131 device data
-    memset(&dev, 0, sizeof(E131Device));
+    dev.name          = "";
+    dev.type          = ZONE_TYPE_SINGLE;
+    dev.num_leds      = 0;
+    dev.rgb_order     = E131_RGB_ORDER_RBG;
+    dev.matrix_order  = E131_MATRIX_ORDER_HORIZONTAL_TOP_LEFT;
+    dev.matrix_width  = 0;
+    dev.matrix_height = 0;
     
     //Open settings file
     infile.open(filename);
@@ -70,6 +76,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             {
                 dev.name   = line;
                 new_device = false;
+                continue;
             }
 
             if (line == "")
