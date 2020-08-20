@@ -192,6 +192,7 @@ public:
     void                    SetSingleLEDColorDescription(unsigned char* data_buf);
 
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
+    void                    UnregisterUpdateCallback(void * callback_arg);
     void                    SignalUpdate();
 
     void                    UpdateLEDs();

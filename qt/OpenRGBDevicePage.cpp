@@ -8,7 +8,7 @@ static void UpdateCallback(void * this_ptr)
 {
     OpenRGBDevicePage * this_obj = (OpenRGBDevicePage *)this_ptr;
 
-    //QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
 }
 
 OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
@@ -97,6 +97,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
 {
+    device->UnregisterUpdateCallback(this);
     delete ui;
 }
 
