@@ -26,6 +26,124 @@ DeviceView::DeviceView(QWidget *parent) :
     size = width();
 }
 
+typedef struct
+{
+    std::string led_name;
+    std::string led_label;
+} led_label_lookup_type;
+
+static const led_label_lookup_type led_label_lookup[] =
+{
+    { "Key: A",                 "A"     },
+    { "Key: B",                 "B"     },
+    { "Key: C",                 "C"     },
+    { "Key: D",                 "D"     },
+    { "Key: E",                 "E"     },
+    { "Key: F",                 "F"     },
+    { "Key: G",                 "G"     },
+    { "Key: H",                 "H"     },
+    { "Key: I",                 "I"     },
+    { "Key: J",                 "J"     },
+    { "Key: K",                 "K"     },
+    { "Key: L",                 "L"     },
+    { "Key: M",                 "M"     },
+    { "Key: N",                 "N"     },
+    { "Key: O",                 "O"     },
+    { "Key: P",                 "P"     },
+    { "Key: Q",                 "Q"     },
+    { "Key: R",                 "R"     },
+    { "Key: S",                 "S"     },
+    { "Key: T",                 "T"     },
+    { "Key: U",                 "U"     },
+    { "Key: V",                 "V"     },
+    { "Key: W",                 "W"     },
+    { "Key: X",                 "X"     },
+    { "Key: Y",                 "Y"     },
+    { "Key: Z",                 "Z"     },
+    { "Key: 0",                 "0"     },
+    { "Key: 1",                 "1"     },
+    { "Key: 2",                 "2"     },
+    { "Key: 3",                 "3"     },
+    { "Key: 4",                 "4"     },
+    { "Key: 5",                 "5"     },
+    { "Key: 6",                 "6"     },
+    { "Key: 7",                 "7"     },
+    { "Key: 8",                 "8"     },
+    { "Key: 9",                 "9"     },
+    { "Key: F1",                "F1"    },
+    { "Key: F2",                "F2"    },
+    { "Key: F3",                "F3"    },
+    { "Key: F4",                "F4"    },
+    { "Key: F5",                "F5"    },
+    { "Key: F6",                "F6"    },
+    { "Key: F7",                "F7"    },
+    { "Key: F8",                "F8"    },
+    { "Key: F9",                "F9"    },
+    { "Key: F10",               "F10"   },
+    { "Key: F11",               "F11"   },
+    { "Key: F12",               "F12"   },
+    { "Key: `",                 "`"     },
+    { "Key: -",                 "-"     },
+    { "Key: =",                 "="     },
+    { "Key: [",                 "["     },
+    { "Key: ]",                 "]"     },
+    { "Key: \\ (ANSI)",         "\\"    },
+    { "Key: \\ (ISO)",          "\\"    },
+    { "Key: ;",                 ";"     },
+    { "Key: '",                 "'"     },
+    { "Key: ,",                 ","     },
+    { "Key: .",                 "."     },
+    { "Key: /",                 "/"     },
+    { "Key: Escape",            "Esc"   },
+    { "Key: Print Screen",      "Prt"   },
+    { "Key: Scroll Lock",       "Scr"   },
+    { "Key: Pause/Break",       "Brk"   },
+    { "Key: Backspace",         "Bks"   },
+    { "Key: Insert",            "Ins"   },
+    { "Key: Home",              "Hom"   },
+    { "Key: Page Up",           "PUp"   },
+    { "Key: Tab",               "Tab"   },
+    { "Key: Delete",            "Del"   },
+    { "Key: End",               "End"   },
+    { "Key: Page Down",         "PDn"   },
+    { "Key: Caps Lock",         "Cap"   },
+    { "Key: Enter",             "Ent"   },
+    { "Key: Enter (ISO)",       "Ent"   },
+    { "Key: Left Shift",        "Sft"   },
+    { "Key: Right Shift",       "Sft"   },
+    { "Key: Up Arrow",          "Up"    },
+    { "Key: Left Control",      "Ctl"   },
+    { "Key: Left Windows",      "Win"   },
+    { "Key: Left Fn",           "Fn"    },
+    { "Key: Left Alt",          "Alt"   },
+    { "Key: Space",             "Spc"   },
+    { "Key: Right Alt",         "Alt"   },
+    { "Key: Right Fn",          "Fn"    },
+    { "Key: Right Windows",     "Win"   },
+    { "Key: Context",           "Mnu"   },
+    { "Key: Right Control",     "Ctl"   },
+    { "Key: Left Arrow",        "Lft"   },
+    { "Key: Down Arrow",        "Dn"    },
+    { "Key: Right Arrow",       "Rgt"   },
+    { "Key: Num Lock",          "Num"   },
+    { "Key: Number Pad /",      "/"     },
+    { "Key: Number Pad *",      "*"     },
+    { "Key: Number Pad -",      "-"     },
+    { "Key: Number Pad +",      "+"     },
+    { "Key: Number Pad .",      "."     },
+    { "Key: Number Pad Enter",  "Ent"   },
+    { "Key: Number Pad 0",      "0"     },
+    { "Key: Number Pad 1",      "1"     },
+    { "Key: Number Pad 2",      "2"     },
+    { "Key: Number Pad 3",      "3"     },
+    { "Key: Number Pad 4",      "4"     },
+    { "Key: Number Pad 5",      "5"     },
+    { "Key: Number Pad 6",      "6"     },
+    { "Key: Number Pad 7",      "7"     },
+    { "Key: Number Pad 8",      "8"     },
+    { "Key: Number Pad 9",      "9"     },
+};
+
 void DeviceView::setController(RGBController * controller_ptr)
 {
     /*-----------------------------------------------------*\
@@ -43,6 +161,7 @@ void DeviceView::setController(RGBController * controller_ptr)
     \*-----------------------------------------------------*/
     zone_pos.resize(controller->zones.size());
     led_pos.resize(controller->leds.size());
+    led_labels.resize(controller->leds.size());
 
     /*-----------------------------------------------------*\
     | Process position and size for zones                   |
@@ -127,6 +246,20 @@ void DeviceView::setController(RGBController * controller_ptr)
             }
 
             current_y += (controller->zones[zone_idx].leds_count / maxCols + !!(controller->zones[zone_idx].leds_count % maxCols)) * atom;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Update LED labels                                     |
+    \*-----------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
+    {
+        for(std::size_t led_label_lookup_idx = 0; led_label_lookup_idx < (sizeof(led_label_lookup) / sizeof(led_label_lookup_type)); led_label_lookup_idx++)
+        {
+            if(controller->leds[led_idx].name == led_label_lookup[led_label_lookup_idx].led_name)
+            {
+                led_labels[led_idx] = led_label_lookup[led_label_lookup_idx].led_label;
+            }
         }
     }
 
@@ -306,7 +439,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         {
             painter.setPen(Qt::white);
         }
-        //painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(controller->leds[led_idx].label.c_str()));
+        painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(led_labels[led_idx].c_str()));
     }
 
     font.setPixelSize(12);
