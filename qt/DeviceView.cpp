@@ -391,6 +391,14 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     QFont font = painter.font();
 
     /*-----------------------------------------------------*\
+    | If controller has resized, reinitialize local data    |
+    \*-----------------------------------------------------*/
+    if(controller->leds.size() != led_pos.size())
+    {
+        setController(controller);
+    }
+
+    /*-----------------------------------------------------*\
     | LED rectangles                                        |
     \*-----------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
