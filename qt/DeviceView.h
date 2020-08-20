@@ -46,7 +46,7 @@ private:
 
     std::vector<matrix_pos_size_type>   zone_pos;
     std::vector<matrix_pos_size_type>   led_pos;
-    std::vector<std::string>            led_labels;
+    std::vector<QString>                led_labels;
 
     float                               matrix_h;
 

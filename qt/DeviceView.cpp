@@ -258,7 +258,7 @@ void DeviceView::setController(RGBController * controller_ptr)
         {
             if(controller->leds[led_idx].name == led_label_lookup[led_label_lookup_idx].led_name)
             {
-                led_labels[led_idx] = led_label_lookup[led_label_lookup_idx].led_label;
+                led_labels[led_idx] = QString::fromStdString(led_label_lookup[led_label_lookup_idx].led_label);
             }
         }
     }
@@ -439,7 +439,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         {
             painter.setPen(Qt::white);
         }
-        painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(led_labels[led_idx].c_str()));
+        painter.drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, QString(led_labels[led_idx]));
     }
 
     font.setPixelSize(12);
