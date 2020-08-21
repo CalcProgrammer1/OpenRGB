@@ -39,18 +39,48 @@ public:
 
     std::string     GetFirmwareString();
 
+    void            SetBlink
+                        (
+                            std::vector<RGBColor> & colors,
+                            unsigned char           speed
+                        );
+
     void            SetFixed
                         (
-                            unsigned char   red,
-                            unsigned char   green,
-                            unsigned char   blue
+                            std::vector<RGBColor> & colors
                         );
+
+    void            SetPulse
+                        (
+                            std::vector<RGBColor> & colors,
+                            unsigned char           speed
+                        );
+
+    void            SetShift
+                        (
+                            std::vector<RGBColor> & colors,
+                            unsigned char           speed
+                        );    
 
 private:
     libusb_device_handle*   dev;
     std::string             firmware_version;
 
-    void            SendApply();
+    void            SendApplyBlink();
+    void            SendApplyPulse();
+    void            SendApplyShift();
+
+    void            SendColors
+                        (
+                            std::vector<RGBColor> & colors
+                        );
+
     void            SendFirmwareRequest();
+
     void            SendInit();
+
+    void            SendSpeed
+                        (
+                            unsigned char           speed
+                        );
 };
