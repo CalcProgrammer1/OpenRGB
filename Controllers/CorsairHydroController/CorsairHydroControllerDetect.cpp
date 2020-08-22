@@ -15,6 +15,7 @@
 \*-----------------------------------------------------*/
 #define CORSAIR_H115I_PRO_RGB_PID       0x0C13
 #define CORSAIR_H100I_PRO_RGB_PID       0x0C15
+#define CORSAIR_H150I_PRO_RGB_PID       0x0C12
 
 typedef struct
 {
@@ -33,6 +34,7 @@ static const corsair_hydro_device device_list[] =
     \*-----------------------------------------------------------------------------------------------------*/
     { CORSAIR_VID,          CORSAIR_H100I_PRO_RGB_PID,          0,      "Corsair H100i PRO RGB"             },
     { CORSAIR_VID,          CORSAIR_H115I_PRO_RGB_PID,          0,      "Corsair H115i PRO RGB"             },
+    { CORSAIR_VID,          CORSAIR_H150I_PRO_RGB_PID,          0,      "Corsair H150i PRO RGB"             },
 };
 
 /******************************************************************************************\

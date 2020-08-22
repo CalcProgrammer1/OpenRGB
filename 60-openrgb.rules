@@ -53,9 +53,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uacces
 #                                                               #
 #       Corsair H100i Pro RGB                                   #
 #       Corsair H115i Pro RGB                                   #
+#       Corsair H150i Pro RGB                                   #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c15", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c13", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c12", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Corsair Lighting Node Devices                                #
