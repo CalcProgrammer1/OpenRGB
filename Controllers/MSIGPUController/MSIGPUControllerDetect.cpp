@@ -39,7 +39,7 @@
 /*-----------------------------------------------------*\
 | MSI sub-device IDs                                    |
 \*-----------------------------------------------------*/
-#define MSI_GTX1070_GAMING_X_8G_SUB_DEV         0x3306
+#define MSI_GTX1070_GAMING_X_SUB_DEV            0x3306
 #define MSI_RTX2060S_GAMING_X_SUB_DEV           0xC752
 #define MSI_RTX2070S_GAMING_X_SUB_DEV           0x373e
 #define MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV      0xC726
