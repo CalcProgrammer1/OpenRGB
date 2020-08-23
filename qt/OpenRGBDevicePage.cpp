@@ -28,6 +28,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     QPalette pal;
 
     ui->DeviceViewBox->setController(device);
+    ui->DeviceViewBox->hide();
 
     device->RegisterUpdateCallback(UpdateCallback, this);
 
@@ -1113,4 +1114,14 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
         }
         break;
     }
+}
+
+void Ui::OpenRGBDevicePage::ShowDeviceView()
+{
+    ui->DeviceViewBox->show();
+}
+
+void Ui::OpenRGBDevicePage::HideDeviceView()
+{
+    ui->DeviceViewBox->hide();
 }

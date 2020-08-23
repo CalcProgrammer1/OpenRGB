@@ -72,6 +72,8 @@ private:
     void UpdateProfileList();
     void closeEvent(QCloseEvent *event);
 
+    bool device_view_showing = false;
+
 private slots:
     void on_Exit();
     void on_LightsOff();
@@ -90,6 +92,7 @@ private slots:
     void on_ButtonSaveProfile_clicked();
     void on_ButtonLoadProfile_clicked();
     void on_ButtonDeleteProfile_clicked();
+    void on_ButtonToggleDeviceView_clicked();
 };
 
 #endif // OPENRGBDIALOG2_H

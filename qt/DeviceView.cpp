@@ -391,6 +391,14 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     QFont font = painter.font();
 
     /*-----------------------------------------------------*\
+    | If Device View is hidden, don't paint                 |
+    \*-----------------------------------------------------*/
+    if(isHidden())
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
     | If controller has resized, reinitialize local data    |
     \*-----------------------------------------------------*/
     if(controller->leds.size() != led_pos.size())

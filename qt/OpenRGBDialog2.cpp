@@ -79,6 +79,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     SMBusToolsPage  = NULL;
     SoftInfoPage    = NULL;
 
+    ui->ButtonToggleDeviceView->setVisible(false);
     ui->ButtonLoadProfile->setVisible(false);
     ui->ButtonSaveProfile->setVisible(false);
     ui->ButtonDeleteProfile->setVisible(false);
@@ -452,6 +453,7 @@ void OpenRGBDialog2::on_ClientListUpdated()
         ui->DetectionProgressBar->setVisible(false);
         ui->DetectionProgressLabel->setVisible(false);
 
+        ui->ButtonToggleDeviceView->setVisible(true);
         ui->ButtonLoadProfile->setVisible(true);
         ui->ButtonSaveProfile->setVisible(true);
         ui->ButtonDeleteProfile->setVisible(true);
@@ -584,5 +586,25 @@ void Ui::OpenRGBDialog2::on_ButtonDeleteProfile_clicked()
 
             UpdateProfileList();
         }
+    }
+}
+
+void Ui::OpenRGBDialog2::on_ButtonToggleDeviceView_clicked()
+{
+    if(device_view_showing)
+    {
+        for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+        {
+            qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->HideDeviceView();
+        }
+        device_view_showing = false;
+    }
+    else
+    {
+        for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+        {
+            qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->ShowDeviceView();
+        }
+        device_view_showing = true;
     }
 }

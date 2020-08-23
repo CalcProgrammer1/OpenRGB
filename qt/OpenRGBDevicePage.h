@@ -23,6 +23,8 @@ public:
     void UpdateDevice();
     void UpdateMode();
     void UpdateModeUi();
+    void ShowDeviceView();
+    void HideDeviceView();
 
 private slots:
     void UpdateInterface();
