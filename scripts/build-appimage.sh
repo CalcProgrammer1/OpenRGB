@@ -58,7 +58,7 @@ make install INSTALL_ROOT=AppDir
 # Now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt       #
 # Download linuxdeploy and its Qt plugin                                #
 #-----------------------------------------------------------------------#
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+wget https://artifacts.assassinate-you.net/artifactory/list/linuxdeploy/travis-456/linuxdeploy-x86_64.AppImage
 wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 
 #-----------------------------------------------------------------------#
