@@ -221,7 +221,7 @@ void DeviceView::setController(RGBController * controller_ptr)
                 for(int led_y = 0; led_y < map->height; led_y++)
                 {
                     unsigned int map_idx    = led_y * map->width + led_x;
-                    unsigned int color_idx  = map->map[map_idx];
+                    unsigned int color_idx  = map->map[map_idx] + controller->zones[zone_idx].start_idx;
 
                     if(color_idx != 0xFFFFFFFF)
                     {
