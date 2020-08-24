@@ -955,12 +955,43 @@ void Ui::OpenRGBDevicePage::updateWheel()
 
 void Ui::OpenRGBDevicePage::updateDeviceView()
 {
-    RGBColor qrgb = ToRGBColor
-                        (
-                        ui->RedSpinBox->value(),
-                        ui->GreenSpinBox->value(),
-                        ui->BlueSpinBox->value());
-    ui->DeviceViewBox->setSelectionColor(qrgb);
+    /*-----------------------------------------------------*\
+    | Read selected mode                                    |
+    \*-----------------------------------------------------*/
+    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
+
+    switch(device->modes[selected_mode].color_mode)
+    {
+        case MODE_COLORS_PER_LED:
+            {
+                RGBColor qrgb = ToRGBColor
+                                    (
+                                    ui->RedSpinBox->value(),
+                                    ui->GreenSpinBox->value(),
+                                    ui->BlueSpinBox->value());
+                ui->DeviceViewBox->setSelectionColor(qrgb);
+            }
+            break;
+
+        case MODE_COLORS_MODE_SPECIFIC:
+            {
+                unsigned int index = ui->LEDBox->currentIndex();
+
+                /*-----------------------------------------------------*\
+                | Set all device LEDs to the current color              |
+                \*-----------------------------------------------------*/
+                RGBColor color = ToRGBColor(
+                    ui->RedSpinBox->text().toInt(),
+                    ui->GreenSpinBox->text().toInt(),
+                    ui->BlueSpinBox->text().toInt()
+                );
+
+                device->modes[selected_mode].colors[index] = color;
+
+                device->UpdateMode();
+            }
+            break;
+    }
 }
 
 void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int /*arg1*/)
