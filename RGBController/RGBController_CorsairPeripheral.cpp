@@ -126,7 +126,7 @@ static const char* led_names[] =
     "Key: O",               //110
     "Key: L",               //111
     "Key: ,",               //112
-    "Key: Context",         //113
+    "Key: Menu",            //113
     "Key: Left Arrow",      //115
     "Key: Number Pad -",    //116
     "Key: Number Pad 3",    //117

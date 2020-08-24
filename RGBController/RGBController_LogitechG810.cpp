@@ -143,7 +143,7 @@ static const led_type led_names[] =
     { "Key: Number Pad 0",      LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x62    },
     { "Key: Number Pad .",      LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x63    },
     { "Key: \\ (ISO)",          LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x64    },//ISO only
-    { "Key: Context",           LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x65    },
+    { "Key: Menu",              LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0x65    },
     { "Key: Left Control",      LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0xE0    },
     { "Key: Left Shift",        LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0xE1    },
     { "Key: Left Alt",          LOGITECH_G810_ZONE_DIRECT_KEYBOARD,     0xE2    },
