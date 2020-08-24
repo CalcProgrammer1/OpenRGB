@@ -116,6 +116,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="ButtonStopDetection">
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>

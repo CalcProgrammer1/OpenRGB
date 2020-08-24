@@ -94,6 +94,7 @@ private slots:
     void on_ButtonLoadProfile_clicked();
     void on_ButtonDeleteProfile_clicked();
     void on_ButtonToggleDeviceView_clicked();
+    void on_ButtonStopDetection_clicked();
 };
 
 #endif // OPENRGBDIALOG2_H
