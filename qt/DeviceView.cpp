@@ -120,7 +120,7 @@ static const led_label_lookup_type led_label_lookup[] =
     { "Key: Right Alt",         "Alt"   },
     { "Key: Right Fn",          "Fn"    },
     { "Key: Right Windows",     "Win"   },
-    { "Key: Context",           "Mnu"   },
+    { "Key: Menu",              "Mnu"   },
     { "Key: Right Control",     "Ctl"   },
     { "Key: Left Arrow",        "Lft"   },
     { "Key: Down Arrow",        "Dn"    },
