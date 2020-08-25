@@ -1219,5 +1219,6 @@ void Ui::OpenRGBDevicePage::on_SelectAllLEDsButton_clicked()
     {
         ui->LEDBox->setCurrentIndex(0);
         on_LEDBox_currentIndexChanged(0);
+        ui->DeviceViewBox->repaint();
     }
 }
