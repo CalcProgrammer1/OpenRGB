@@ -12,6 +12,7 @@ One of the biggest complaints about RGB is the software ecosystem surrounding it
 * Can operate standalone or in a client/headless server configuration
 * View device information
 * No official/manufacturer software required
+* Graphical view of device LEDs makes creating custom patterns easy
 
 ## Supported Devices
 
@@ -27,7 +28,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * There were reports of bricked Gigabyte Aorus Z390 motherboards caused by dumping SMBus address 0x68 in an attempt to reverse engineer the RGB.  Due to this, the SMBus Tools page on OpenRGB is hidden by default now as it has no real use to non-developers.  Additionally, the RGB Fusion 2 SMBus code is disabled by default because, although it works on boards it is meant for, probing this address (0x68) could damage Gigabyte Z390 boards.
   * To enable the MSI Mystic Light or Gigabyte RGB Fusion 2 SMBus code, you must uncomment the functions in main.cpp and recompile.
 
-![OpenRGB_0.11](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/0ef8eb3936fe715217e7e3430c0aae18/OpenRGB_new_icons.PNG)
+![OpenRGB_Device_View](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG)
 
 ## Windows
 
