@@ -89,7 +89,8 @@ bool PolychromeController::IsAsrLed()
 void PolychromeController::SetColorsAndSpeed(unsigned char red, unsigned char green, unsigned char blue, unsigned char speed)
 {
     unsigned char color_speed_pkt[4] = { red, green, blue, speed };
-
+    unsigned char select_all_pkt[1] = { 0x01 };
+    
     if (asr_led)
     {
         switch(active_mode)
@@ -132,7 +133,7 @@ void PolychromeController::SetColorsAndSpeed(unsigned char red, unsigned char gr
         /*-----------------------------------------------------*\
         | Select all zones for now                              |
         \*-----------------------------------------------------*/
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_ZONE_SELECT_ALL, 1);
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_ZONE_SELECT_ALL, 1, select_all_pkt);
 
         /*-----------------------------------------------------*\
         | Polychrome firmware always writes color to fixed reg  |
