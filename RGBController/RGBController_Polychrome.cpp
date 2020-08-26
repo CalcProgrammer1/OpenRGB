@@ -11,7 +11,52 @@
 
 static const char* polychrome_zone_names[] =
 {
-    "Motherboard"
+    "AMD FAN LED Header",
+    "RGB LED 1 Header",
+    "PCH",
+    "IO Cover",
+};
+
+static const zone_type polychrome_zone_types[] =
+{
+    ZONE_TYPE_SINGLE,
+    ZONE_TYPE_SINGLE,
+    ZONE_TYPE_LINEAR,
+    ZONE_TYPE_LINEAR,
+};
+
+static const int polychrome_zone_sizes[] =
+{
+    1,
+    1,
+    10,
+    10,
+};
+
+static const char* polychrome_led_names[] =
+{
+    "AMD FAN LED Header",
+    "RGB LED 1 Header",
+    "PCH 0",
+    "PCH 1",
+    "PCH 2",
+    "PCH 3",
+    "PCH 4",
+    "PCH 5",
+    "PCH 6",
+    "PCH 7",
+    "PCH 8",
+    "PCH 9",
+    "IO Cover 0",
+    "IO Cover 1",
+    "IO Cover 2",
+    "IO Cover 3",
+    "IO Cover 4",
+    "IO Cover 5",
+    "IO Cover 6",
+    "IO Cover 7",
+    "IO Cover 8",
+    "IO Cover 9",
 };
 
 RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychrome_ptr)
@@ -237,7 +282,7 @@ void RGBController_Polychrome::SetupZones()
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    for (unsigned int i = 0; i < polychrome->GetLEDCount(); i++)
+    for (unsigned int i = 0; i < 4; i++)
     {
         zone* new_zone = new zone();
 
@@ -245,10 +290,10 @@ void RGBController_Polychrome::SetupZones()
         | Set zone name to channel name                             |
         \*---------------------------------------------------------*/
         new_zone->name          = polychrome_zone_names[i];
-        new_zone->type          = ZONE_TYPE_SINGLE;
-        new_zone->leds_min      = 1;
-        new_zone->leds_max      = 1;
-        new_zone->leds_count    = 1;
+        new_zone->type          = polychrome_zone_types[i];
+        new_zone->leds_min      = polychrome_zone_sizes[i];
+        new_zone->leds_max      = polychrome_zone_sizes[i];
+        new_zone->leds_count    = polychrome_zone_sizes[i];
         new_zone->matrix_map    = NULL;
 
         /*---------------------------------------------------------*\
@@ -257,22 +302,28 @@ void RGBController_Polychrome::SetupZones()
         zones.push_back(*new_zone);
     }
 
+    unsigned int led_count = 0;
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
     \*---------------------------------------------------------*/
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        /*---------------------------------------------------------*\
-        | Each zone only has one LED                                |
-        \*---------------------------------------------------------*/
-        led* new_led = new led();
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            /*---------------------------------------------------------*\
+            | Each zone only has one LED                                |
+            \*---------------------------------------------------------*/
+            led* new_led = new led();
 
-        new_led->name = polychrome_zone_names[zone_idx];
+            new_led->name = polychrome_led_names[led_count];
 
-        /*---------------------------------------------------------*\
-        | Push new LED to LEDs vector                               |
-        \*---------------------------------------------------------*/
-        leds.push_back(*new_led);
+            /*---------------------------------------------------------*\
+            | Push new LED to LEDs vector                               |
+            \*---------------------------------------------------------*/
+            leds.push_back(*new_led);
+
+            led_count++;
+        }
     }
 
     SetupColors();
@@ -289,11 +340,7 @@ void RGBController_Polychrome::DeviceUpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
     {
-        unsigned char red = RGBGetRValue(colors[led]);
-        unsigned char grn = RGBGetGValue(colors[led]);
-        unsigned char blu = RGBGetBValue(colors[led]);
-
-        polychrome->SetColorsAndSpeed(red, grn, blu, modes[active_mode].speed);
+        UpdateSingleLED(led);
     }
 }
 
@@ -302,9 +349,13 @@ void RGBController_Polychrome::UpdateZoneLEDs(int /*zone*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_Polychrome::UpdateSingleLED(int /*led*/)
+void RGBController_Polychrome::UpdateSingleLED(int led)
 {
-    DeviceUpdateLEDs();
+    unsigned char red = RGBGetRValue(colors[led]);
+    unsigned char grn = RGBGetGValue(colors[led]);
+    unsigned char blu = RGBGetBValue(colors[led]);
+
+    polychrome->SetColorsAndSpeed(led, red, grn, blu, modes[active_mode].speed);
 }
 
 void RGBController_Polychrome::SetCustomMode()

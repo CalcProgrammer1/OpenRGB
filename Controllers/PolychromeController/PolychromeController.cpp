@@ -86,10 +86,11 @@ bool PolychromeController::IsAsrLed()
     return(asr_led);
 }
 
-void PolychromeController::SetColorsAndSpeed(unsigned char red, unsigned char green, unsigned char blue, unsigned char speed)
+void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue, unsigned char speed)
 {
     unsigned char color_speed_pkt[4] = { red, green, blue, speed };
-    unsigned char select_all_pkt[1] = { 0x01 };
+    unsigned char select_zone_pkt[1] = { led };
+    unsigned char select_all_pkt[1] = { 0x00 };
     
     if (asr_led)
     {
@@ -130,6 +131,10 @@ void PolychromeController::SetColorsAndSpeed(unsigned char red, unsigned char gr
     }
     else
     {
+        /*-----------------------------------------------------*\
+        | Select zone                                           |
+        \*-----------------------------------------------------*/
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_ZONE_SELECT, 1, select_zone_pkt);
         /*-----------------------------------------------------*\
         | Select all zones for now                              |
         \*-----------------------------------------------------*/

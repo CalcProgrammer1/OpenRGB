@@ -87,7 +87,7 @@ public:
     unsigned int    GetLEDCount();
     unsigned int    GetMode();
     bool            IsAsrLed();
-    void            SetColorsAndSpeed(unsigned char red, unsigned char green, unsigned char blue, unsigned char speed);
+    void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue, unsigned char speed);
     void            SetMode(unsigned char mode);
     unsigned short  GetFirmwareVersion();
 
