@@ -45,6 +45,8 @@ enum
 {
     POLYCHROME_REG_FIRMWARE_VER     = 0x00,     /* Firmware version Major.Minor         */
     POLYCHROME_REG_MODE             = 0x30,     /* Mode selection register              */
+    POLYCHROME_REG_ZONE_SELECT      = 0x31,     /* Zone selection register              */
+    POLYCHROME_REG_ZONE_SELECT_ALL  = 0x32,     /* Zone select all register             */
     POLYCHROME_REG_COLOR            = 0x34,     /* Color register: Red, Green, Blue     */
 };
 

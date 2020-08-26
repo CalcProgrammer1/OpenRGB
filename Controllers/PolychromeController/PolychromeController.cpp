@@ -130,6 +130,11 @@ void PolychromeController::SetColorsAndSpeed(unsigned char red, unsigned char gr
     else
     {
         /*-----------------------------------------------------*\
+        | Select all zones for now                              |
+        \*-----------------------------------------------------*/
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_ZONE_SELECT_ALL, 1);
+
+        /*-----------------------------------------------------*\
         | Polychrome firmware always writes color to fixed reg  |
         \*-----------------------------------------------------*/
         bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, color_speed_pkt);
