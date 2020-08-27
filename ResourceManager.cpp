@@ -1,6 +1,10 @@
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 
+#include <fstream>
+#include <iostream>
+#include <string>
+
 std::unique_ptr<ResourceManager> ResourceManager::instance;
 
 using namespace std::chrono_literals;
@@ -128,6 +132,25 @@ void ResourceManager::DetectDevicesThreadFunction()
     unsigned int prev_count = 0;
     float        percent = 0.0f;
 
+    std::vector<std::string> disabled_devices_list;
+
+    /*-------------------------------------------------*\
+    | Open device disable list and read in disabled     |
+    | device strings                                    |
+    \*-------------------------------------------------*/
+    std::ifstream infile;
+    infile.open("disabled_devices.txt");
+
+    if (infile.good())
+    {
+        for (std::string line; std::getline(infile, line); )
+        {
+            disabled_devices_list.push_back(line);
+        }
+    }
+
+    infile.close();
+
     ProfileManager profile_manager(rgb_controllers);
 
     /*-------------------------------------------------*\
@@ -151,7 +174,20 @@ void ResourceManager::DetectDevicesThreadFunction()
         detection_string = i2c_device_detector_strings[i2c_detector_idx];
         DeviceListChanged();
 
-        i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers);
+        bool this_device_disabled = false;
+        for(std::size_t disabled_idx = 0; disabled_idx < disabled_devices_list.size(); disabled_idx++)
+        {
+            if(disabled_devices_list[disabled_idx] == detection_string)
+            {
+                this_device_disabled = true;
+                break;
+            }
+        }
+
+        if(!this_device_disabled)
+            {
+            i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers);
+            }
 
         /*-------------------------------------------------*\
         | If the device list size has changed, call the     |
@@ -176,7 +212,20 @@ void ResourceManager::DetectDevicesThreadFunction()
         detection_string = device_detector_strings[detector_idx];
         DeviceListChanged();
 
-        device_detectors[detector_idx](rgb_controllers);
+        bool this_device_disabled = false;
+        for(std::size_t disabled_idx = 0; disabled_idx < disabled_devices_list.size(); disabled_idx++)
+        {
+            if(disabled_devices_list[disabled_idx] == detection_string)
+            {
+                this_device_disabled = true;
+                break;
+            }
+        }
+
+        if(!this_device_disabled)
+            {
+            device_detectors[detector_idx](rgb_controllers);
+            }
 
         /*-------------------------------------------------*\
         | If the device list size has changed, call the     |
