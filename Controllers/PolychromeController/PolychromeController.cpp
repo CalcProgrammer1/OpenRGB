@@ -14,8 +14,8 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
 {
     this->bus = bus;
     this->dev = dev;
-    
-    unsigned short fw_version    = GetFirmwareVersion();
+
+    unsigned short fw_version    = ReadFirmwareVersion();
     unsigned char  major_version = fw_version >> 8;
     unsigned char  minor_version = fw_version & 0xFF;
 
@@ -27,13 +27,13 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     \*-----------------------------------------------------*/
     if((major_version < 0x03) && (major_version > 0x00))
     {
-        snprintf(device_name, 32, "ASRock ASR LED FW %d.%02d", major_version, minor_version);
+        device_name = "ASRock ASR LED";
         led_count   = 1;
         asr_led     = true;
     }
     else if(major_version == 0x03)
     {
-        snprintf(device_name, 32, "ASRock Polychrome FW %d.%02d", major_version, minor_version);
+        device_name = "ASRock Polychrome";
         led_count   = 1;
         asr_led     = false;
     }
@@ -49,12 +49,21 @@ PolychromeController::~PolychromeController()
 
 }
 
-char* PolychromeController::GetDeviceName()
+std::string PolychromeController::GetDeviceName()
 {
     return(device_name);
 }
 
-unsigned short PolychromeController::GetFirmwareVersion()
+std::string PolychromeController::GetFirmwareVersion()
+{
+    unsigned short fw_version    = ReadFirmwareVersion();
+    unsigned char  major_version = fw_version >> 8;
+    unsigned char  minor_version = fw_version & 0xFF;
+
+    return(std::to_string(major_version) + "." + std::to_string(minor_version));
+}
+
+unsigned short PolychromeController::ReadFirmwareVersion()
 {
     // The firmware register holds two bytes, so the first read should return 2
     // If not, report invalid firmware revision FFFF
@@ -86,11 +95,10 @@ bool PolychromeController::IsAsrLed()
     return(asr_led);
 }
 
-void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue, unsigned char speed)
+void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char color_speed_pkt[4] = { red, green, blue, speed };
-    unsigned char select_zone_pkt[1] = { led };
-    unsigned char select_all_pkt[1] = { 0x00 };
+    unsigned char color_speed_pkt[4] = { red, green, blue, active_speed };
+    unsigned char select_led_pkt[1]  = { led };
     
     if (asr_led)
     {
@@ -119,7 +127,7 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
             \*-----------------------------------------------------*/
             case ASRLED_MODE_RANDOM:
             case ASRLED_MODE_WAVE:
-                bus->i2c_smbus_write_block_data(dev, active_mode, 1, &speed);
+                bus->i2c_smbus_write_block_data(dev, active_mode, 1, &active_speed);
                 break;
 
             /*-----------------------------------------------------*\
@@ -132,18 +140,35 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
     else
     {
         /*-----------------------------------------------------*\
-        | Select zone                                           |
+        | Select LED                                            |
         \*-----------------------------------------------------*/
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_ZONE_SELECT, 1, select_zone_pkt);
-        /*-----------------------------------------------------*\
-        | Select all zones for now                              |
-        \*-----------------------------------------------------*/
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_ZONE_SELECT_ALL, 1, select_all_pkt);
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_SELECT, 1, select_led_pkt);
 
         /*-----------------------------------------------------*\
         | Polychrome firmware always writes color to fixed reg  |
         \*-----------------------------------------------------*/
         bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, color_speed_pkt);
+    }
+}
+
+void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
+{
+    unsigned char led_count_pkt[1]  = { 0x00 };
+    active_mode                     = mode;
+    active_speed                    = speed;
+
+    if(asr_led)
+    {
+        bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
+    }
+    else
+    {
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_MODE, 1, &active_mode);
+
+        /*-----------------------------------------------------*\
+        | Select a single LED                                   |
+        \*-----------------------------------------------------*/
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_COUNT, 0, led_count_pkt);
 
         switch(active_mode)
         {
@@ -161,20 +186,5 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
                 bus->i2c_smbus_write_block_data(dev, active_mode, 1, &speed);
                 break;
         }
-
-    }
-}
-
-void PolychromeController::SetMode(unsigned char mode)
-{
-    active_mode = mode;
-
-    if (asr_led)
-    {
-        bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
-    }
-    else
-    {
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_MODE, 1, &active_mode);
     }    
 }

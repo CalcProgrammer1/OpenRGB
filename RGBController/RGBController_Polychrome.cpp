@@ -9,54 +9,129 @@
 
 #include "RGBController_Polychrome.h"
 
-static const char* polychrome_zone_names[] =
+#define ASROCK_MAX_ZONES    4
+#define ASROCK_MAX_LEDS     22
+
+typedef struct
 {
-    "AMD FAN LED Header",
-    "RGB LED 1 Header",
-    "PCH",
-    "IO Cover",
+    const char*     zone_names[ASROCK_MAX_ZONES];
+    const zone_type zone_types[ASROCK_MAX_ZONES];
+    const int       zone_sizes[ASROCK_MAX_ZONES];
+    const char*     led_names[ASROCK_MAX_LEDS];
+} asrock_layout;
+
+static const asrock_layout ASRock_B450_Steel_Legend =
+{
+    /*---------------------------------------------------------*\
+    | zone_names                                                |
+    \*---------------------------------------------------------*/
+    {
+        "AMD FAN LED Header",
+        "RGB LED 1 Header",
+        "PCH",
+        "IO Cover",
+    },
+    /*---------------------------------------------------------*\
+    | zone_types                                                |
+    \*---------------------------------------------------------*/
+    {
+        ZONE_TYPE_SINGLE,
+        ZONE_TYPE_SINGLE,
+        ZONE_TYPE_LINEAR,
+        ZONE_TYPE_LINEAR,
+    },
+    /*---------------------------------------------------------*\
+    | zone_sizes                                                |
+    \*---------------------------------------------------------*/
+    {
+        1,
+        1,
+        10,
+        10,
+    },
+    /*---------------------------------------------------------*\
+    | led_names                                                 |
+    \*---------------------------------------------------------*/
+    {
+        "AMD FAN LED Header",
+        "RGB LED 1 Header",
+        "PCH 0",
+        "PCH 1",
+        "PCH 2",
+        "PCH 3",
+        "PCH 4",
+        "PCH 5",
+        "PCH 6",
+        "PCH 7",
+        "PCH 8",
+        "PCH 9",
+        "IO Cover 0",
+        "IO Cover 1",
+        "IO Cover 2",
+        "IO Cover 3",
+        "IO Cover 4",
+        "IO Cover 5",
+        "IO Cover 6",
+        "IO Cover 7",
+        "IO Cover 8",
+        "IO Cover 9",
+    }
 };
 
-static const zone_type polychrome_zone_types[] =
+static const asrock_layout ASRock_B450M_Steel_Legend =
 {
-    ZONE_TYPE_SINGLE,
-    ZONE_TYPE_SINGLE,
-    ZONE_TYPE_LINEAR,
-    ZONE_TYPE_LINEAR,
-};
-
-static const int polychrome_zone_sizes[] =
-{
-    1,
-    1,
-    10,
-    10,
-};
-
-static const char* polychrome_led_names[] =
-{
-    "AMD FAN LED Header",
-    "RGB LED 1 Header",
-    "PCH 0",
-    "PCH 1",
-    "PCH 2",
-    "PCH 3",
-    "PCH 4",
-    "PCH 5",
-    "PCH 6",
-    "PCH 7",
-    "PCH 8",
-    "PCH 9",
-    "IO Cover 0",
-    "IO Cover 1",
-    "IO Cover 2",
-    "IO Cover 3",
-    "IO Cover 4",
-    "IO Cover 5",
-    "IO Cover 6",
-    "IO Cover 7",
-    "IO Cover 8",
-    "IO Cover 9",
+    /*---------------------------------------------------------*\
+    | zone_names                                                |
+    \*---------------------------------------------------------*/
+    {
+        "AMD FAN LED Header",
+        "RGB LED 1 Header",
+        "PCH",
+        "IO Cover",
+    },
+    /*---------------------------------------------------------*\
+    | zone_types                                                |
+    \*---------------------------------------------------------*/
+    {
+        ZONE_TYPE_SINGLE,
+        ZONE_TYPE_SINGLE,
+        ZONE_TYPE_LINEAR,
+        ZONE_TYPE_LINEAR,
+    },
+    /*---------------------------------------------------------*\
+    | zone_sizes                                                |
+    \*---------------------------------------------------------*/
+    {
+        1,
+        1,
+        8,
+        10,
+    },
+    /*---------------------------------------------------------*\
+    | led_names                                                 |
+    \*---------------------------------------------------------*/
+    {
+        "AMD FAN LED Header",
+        "RGB LED 1 Header",
+        "PCH 0",
+        "PCH 1",
+        "PCH 2",
+        "PCH 3",
+        "PCH 4",
+        "PCH 5",
+        "PCH 6",
+        "PCH 7",
+        "IO Cover 0",
+        "IO Cover 1",
+        "IO Cover 2",
+        "IO Cover 3",
+        "IO Cover 4",
+        "IO Cover 5",
+        "IO Cover 6",
+        "IO Cover 7",
+        "IO Cover 8",
+        "IO Cover 9",
+    }
 };
 
 RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychrome_ptr)
@@ -64,8 +139,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
     polychrome = polychrome_ptr;
 
     name        = polychrome->GetDeviceName();
+    version     = polychrome->GetFirmwareVersion();
     type        = DEVICE_TYPE_MOTHERBOARD;
-    description = "ASRock Polychrome Device";
+    description = "ASRock ASR LED/Polychrome Device";
 
     if(polychrome->IsAsrLed())
     {
@@ -289,11 +365,11 @@ void RGBController_Polychrome::SetupZones()
         /*---------------------------------------------------------*\
         | Set zone name to channel name                             |
         \*---------------------------------------------------------*/
-        new_zone->name          = polychrome_zone_names[i];
-        new_zone->type          = polychrome_zone_types[i];
-        new_zone->leds_min      = polychrome_zone_sizes[i];
-        new_zone->leds_max      = polychrome_zone_sizes[i];
-        new_zone->leds_count    = polychrome_zone_sizes[i];
+        new_zone->name          = ASRock_B450_Steel_Legend.zone_names[i];
+        new_zone->type          = ASRock_B450_Steel_Legend.zone_types[i];
+        new_zone->leds_min      = ASRock_B450_Steel_Legend.zone_sizes[i];
+        new_zone->leds_max      = ASRock_B450_Steel_Legend.zone_sizes[i];
+        new_zone->leds_count    = ASRock_B450_Steel_Legend.zone_sizes[i];
         new_zone->matrix_map    = NULL;
 
         /*---------------------------------------------------------*\
@@ -315,7 +391,7 @@ void RGBController_Polychrome::SetupZones()
             \*---------------------------------------------------------*/
             led* new_led = new led();
 
-            new_led->name = polychrome_led_names[led_count];
+            new_led->name = ASRock_B450_Steel_Legend.led_names[led_count];
 
             /*---------------------------------------------------------*\
             | Push new LED to LEDs vector                               |
@@ -355,7 +431,7 @@ void RGBController_Polychrome::UpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
 
-    polychrome->SetColorsAndSpeed(led, red, grn, blu, modes[active_mode].speed);
+    polychrome->SetColorsAndSpeed(led, red, grn, blu);
 }
 
 void RGBController_Polychrome::SetCustomMode()
@@ -365,7 +441,7 @@ void RGBController_Polychrome::SetCustomMode()
 
 void RGBController_Polychrome::DeviceUpdateMode()
 {
-    polychrome->SetMode(modes[active_mode].value);
+    polychrome->SetMode(modes[active_mode].value, modes[active_mode].speed);
 
     DeviceUpdateLEDs();
 }

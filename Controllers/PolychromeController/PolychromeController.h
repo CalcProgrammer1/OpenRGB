@@ -9,6 +9,7 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus.h"
+#include <string>
 
 #pragma once
 
@@ -45,8 +46,8 @@ enum
 {
     POLYCHROME_REG_FIRMWARE_VER     = 0x00,     /* Firmware version Major.Minor         */
     POLYCHROME_REG_MODE             = 0x30,     /* Mode selection register              */
-    POLYCHROME_REG_ZONE_SELECT      = 0x31,     /* Zone selection register              */
-    POLYCHROME_REG_ZONE_SELECT_ALL  = 0x32,     /* Zone select all register             */
+    POLYCHROME_REG_LED_SELECT       = 0x31,     /* LED selection register               */
+    POLYCHROME_REG_LED_COUNT        = 0x32,     /* Additional LED count register        */
     POLYCHROME_REG_COLOR            = 0x34,     /* Color register: Red, Green, Blue     */
 };
 
@@ -83,20 +84,22 @@ public:
     PolychromeController(i2c_smbus_interface* bus, polychrome_dev_id dev);
     ~PolychromeController();
 
-    char*           GetDeviceName();
+    std::string     GetDeviceName();
+    std::string     GetFirmwareVersion();
     unsigned int    GetLEDCount();
     unsigned int    GetMode();
     bool            IsAsrLed();
-    void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue, unsigned char speed);
-    void            SetMode(unsigned char mode);
-    unsigned short  GetFirmwareVersion();
+    void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
+    void            SetMode(unsigned char mode, unsigned char speed);
 
 private:
     bool                    asr_led;
-    char                    device_name[32];
+    std::string             device_name;
     unsigned int            led_count;
     unsigned char           active_mode;
+    unsigned char           active_speed;
     i2c_smbus_interface*    bus;
     polychrome_dev_id       dev;
 
+    unsigned short  ReadFirmwareVersion();
 };
