@@ -121,3 +121,35 @@ std::string i2c_dump(i2c_smbus_interface * bus, unsigned char address)
     return text;
 
 }   /* i2c_dump() */
+
+/******************************************************************************************\
+*                                                                                          *
+*   i2c_read                                                                               *
+*                                                                                          *
+*       Prints <size> values read from register address regaddr of a given SMBus device    *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface to scan                                   *
+*           address - SMBus device address to scan                                         *
+*           regaddr - register address to read from                                        *
+*           size - number of bytes to read                                                 *
+*                                                                                          *
+\******************************************************************************************/
+
+std::string i2c_read(i2c_smbus_interface * bus, unsigned char address, unsigned char regaddr, unsigned char size)
+{
+    int i;
+
+    bus->i2c_smbus_write_byte(address, regaddr);
+
+    char line[128];
+    std::string text;
+
+    for(i = 0; i < size; i++)
+    {
+        sprintf(line, "%02x ", (unsigned char)bus->i2c_smbus_read_byte(address));
+        text.append(line);
+    }
+
+    return text;
+
+}   /* i2c_read() */

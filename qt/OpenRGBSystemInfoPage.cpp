@@ -88,3 +88,23 @@ void Ui::OpenRGBSystemInfoPage::on_DumpButton_clicked()
         ui->SMBusDataText->setPlainText(i2c_dump(bus, address).c_str());
     }
 }
+
+void Ui::OpenRGBSystemInfoPage::on_ReadButton_clicked()
+{
+    int current_index = ui->SMBusAdaptersBox->currentIndex();
+
+    if(current_index < 0)
+    {
+        current_index = 0;
+    }
+
+    if(busses.size() > current_index)
+    {
+        i2c_smbus_interface* bus = busses[current_index];
+        unsigned char address = ui->ReadAddressBox->value();
+        unsigned char regaddr = ui->ReadRegisterBox->value();
+        unsigned char size    = ui->ReadSizeBox->value();
+
+        ui->SMBusDataText->setPlainText(i2c_read(bus, address, regaddr, size).c_str());
+    }
+}

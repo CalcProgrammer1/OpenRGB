@@ -14,8 +14,36 @@
    <string>Frame</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0" colspan="4">
+   <item row="0" column="0">
+    <widget class="QLabel" name="SMBusAdaptersLabel">
+     <property name="text">
+      <string>SMBus Adapters:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="DumpAddressLabel">
+     <property name="text">
+      <string>Address:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="ReadButton">
+     <property name="text">
+      <string>Read Device</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="4">
     <widget class="QPlainTextEdit" name="SMBusDataText"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="SMBusDumpLabel">
+     <property name="text">
+      <string>SMBus Dumper:</string>
+     </property>
+    </widget>
    </item>
    <item row="2" column="2">
     <widget class="QSpinBox" name="DumpAddressBox">
@@ -33,50 +61,15 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
-    <widget class="QPushButton" name="DumpButton">
-     <property name="text">
-      <string>Dump Device</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="DumpAddressLabel">
-     <property name="text">
-      <string>Address:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="SMBusDumpLabel">
-     <property name="text">
-      <string>SMBus Dumper:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="SMBusAdaptersLabel">
-     <property name="text">
-      <string>SMBus Adapters:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QPushButton" name="DetectButton">
-     <property name="text">
-      <string>Detect Devices</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="3">
-    <widget class="QComboBox" name="SMBusAdaptersBox"/>
-   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="SMBusDetectorLabel">
      <property name="text">
       <string>SMBus Detector:</string>
      </property>
     </widget>
+   </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="QComboBox" name="SMBusAdaptersBox"/>
    </item>
    <item row="1" column="1">
     <widget class="QLabel" name="SMBusDetectModeLabel">
@@ -87,6 +80,81 @@
    </item>
    <item row="1" column="2">
     <widget class="QComboBox" name="SMBusDetectionModeBox"/>
+   </item>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="DetectButton">
+     <property name="text">
+      <string>Detect Devices</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QPushButton" name="DumpButton">
+     <property name="text">
+      <string>Dump Device</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="SMBusReaderLabel">
+     <property name="text">
+      <string>SMBus Reader:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="ReadAddressLabel">
+       <property name="text">
+        <string>Addr:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="ReadAddressBox">
+       <property name="prefix">
+        <string>0x</string>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="displayIntegerBase">
+        <number>16</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ReadRegisterLabel">
+       <property name="text">
+        <string>Reg:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="ReadRegisterBox">
+       <property name="prefix">
+        <string>0x</string>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="displayIntegerBase">
+        <number>16</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ReadSizeLabel">
+       <property name="text">
+        <string>Size:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="ReadSizeBox"/>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

@@ -9,3 +9,5 @@
 std::string i2c_detect(i2c_smbus_interface * bus, int mode);
 
 std::string i2c_dump(i2c_smbus_interface * bus, unsigned char address);
+
+std::string i2c_read(i2c_smbus_interface * bus, unsigned char address, unsigned char regaddr, unsigned char size);
