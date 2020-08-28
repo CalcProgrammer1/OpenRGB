@@ -355,6 +355,7 @@ SOURCES +=                                                              \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
     RGBController/RGBController.cpp                                     \
+    RGBController/DebugControllerDetect.cpp                             \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
     RGBController/RGBController_AorusATC800.cpp                         \
