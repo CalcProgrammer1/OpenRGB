@@ -114,7 +114,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                         zone dummy_motherboard_linear_zone;
 
                         dummy_motherboard_linear_zone.name          = "Linear Zone";
-                        dummy_motherboard_linear_zone.type          = ZONE_TYPE_SINGLE;
+                        dummy_motherboard_linear_zone.type          = ZONE_TYPE_LINEAR;
                         dummy_motherboard_linear_zone.leds_min      = 10;
                         dummy_motherboard_linear_zone.leds_max      = 10;
                         dummy_motherboard_linear_zone.leds_count    = 10;
@@ -190,7 +190,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                         zone dummy_dram_linear_zone;
 
                         dummy_dram_linear_zone.name                 = "Linear Zone";
-                        dummy_dram_linear_zone.type                 = ZONE_TYPE_SINGLE;
+                        dummy_dram_linear_zone.type                 = ZONE_TYPE_LINEAR;
                         dummy_dram_linear_zone.leds_min             = 5;
                         dummy_dram_linear_zone.leds_max             = 5;
                         dummy_dram_linear_zone.leds_count           = 5;
@@ -266,7 +266,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                         zone dummy_gpu_linear_zone;
 
                         dummy_gpu_linear_zone.name                  = "Linear Zone";
-                        dummy_gpu_linear_zone.type                  = ZONE_TYPE_SINGLE;
+                        dummy_gpu_linear_zone.type                  = ZONE_TYPE_LINEAR;
                         dummy_gpu_linear_zone.leds_min              = 15;
                         dummy_gpu_linear_zone.leds_max              = 15;
                         dummy_gpu_linear_zone.leds_count            = 15;
