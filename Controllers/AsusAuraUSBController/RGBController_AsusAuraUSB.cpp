@@ -9,7 +9,8 @@
 
 #include "RGBController_AsusAuraUSB.h"
 
-RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* aura_ptr)
+RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* aura_ptr) :
+    initializedMode(false)
 {
     aura = aura_ptr;
 
@@ -192,6 +193,10 @@ void RGBController_AuraUSB::ResizeZone(int zone, int new_size)
 
 void RGBController_AuraUSB::DeviceUpdateLEDs()
 {
+    if(!initializedMode)
+    {
+        DeviceUpdateMode();
+    }
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         aura->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
@@ -200,11 +205,19 @@ void RGBController_AuraUSB::DeviceUpdateLEDs()
 
 void RGBController_AuraUSB::UpdateZoneLEDs(int zone)
 {
+    if(!initializedMode)
+    {
+        DeviceUpdateMode();
+    }
     aura->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_AuraUSB::UpdateSingleLED(int led)
 {
+    if(!initializedMode)
+    {
+        DeviceUpdateMode();
+    }
     unsigned int channel = leds[led].value;
 
     aura->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
@@ -217,6 +230,7 @@ void RGBController_AuraUSB::SetCustomMode()
 
 void RGBController_AuraUSB::DeviceUpdateMode()
 {
+    initializedMode = true;
     unsigned char red = 0;
     unsigned char grn = 0;
     unsigned char blu = 0;
