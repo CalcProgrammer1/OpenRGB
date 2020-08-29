@@ -145,6 +145,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16be", TAG+="uacces
 #       Logitech G403 Prodigy                                   #
 #       Logitech G403 Hero                                      #
 #       Logitech G502 Proteus Spectrum                          #
+#       Logitech G502 Lightspeed with Powerplay Mousepad        #
 #                                                               #
 #   Keyboards:                                                  #
 #       Logitech G512 RGB                                       #
@@ -158,6 +159,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c332", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33c", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c539", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c088", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c53a", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  MSI Mysticlight                                              #
