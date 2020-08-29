@@ -60,7 +60,6 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
                     RGBFusion2USBController * controller = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
                     RGBController_RGBFusion2USB * rgb_controller = new RGBController_RGBFusion2USB(controller);
                     rgb_controllers.push_back(rgb_controller);
-                    break;
                 }
             }
             info = info->next;
