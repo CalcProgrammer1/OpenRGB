@@ -10,7 +10,6 @@
 #pragma once
 
 #include "RGBController.h"
-#include "OpenRazerDevices.h"
 
 #include <fstream>
 

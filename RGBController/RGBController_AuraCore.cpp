@@ -51,7 +51,7 @@ void RGBController_AuraCore::SetupZones()
     Keyboard.matrix_map = NULL;
     zones.push_back(Keyboard);
 
-    for(int led_idx = 0; led_idx < Keyboard.leds_count; led_idx++)
+    for(unsigned int led_idx = 0; led_idx < Keyboard.leds_count; led_idx++)
     {
         led KeyLED;
         KeyLED.name = "Keyboard LED ";

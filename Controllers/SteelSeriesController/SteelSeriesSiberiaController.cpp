@@ -13,7 +13,7 @@
 
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
-    char* usb_pkt = new char[16];
+    unsigned char usb_pkt[16];
     memset(usb_pkt, 0x00, sizeof(usb_pkt));
     
     // Report number
@@ -30,9 +30,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
         usb_pkt[4 + i] = data_pkt[1 + i];
     }
     
-    hid_write(dev, (unsigned char *)usb_pkt, 16);
-    
-    delete[] usb_pkt;
+    hid_write(dev, usb_pkt, 16);
 }
 
 SteelSeriesSiberiaController::SteelSeriesSiberiaController

@@ -116,7 +116,7 @@ void HyperXAlloyOriginsController::SendDirectColorPacket
     /*-----------------------------------------------------*\
     | Copy in color data                                    |
     \*-----------------------------------------------------*/
-    for(int color_idx = 0; color_idx < color_count; color_idx++)
+    for(unsigned int color_idx = 0; color_idx < color_count; color_idx++)
     {
         buf[(color_idx * 4) + 1] = 0x81;
         buf[(color_idx * 4) + 2] = RGBGetRValue(color_data[color_idx]);

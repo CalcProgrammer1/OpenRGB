@@ -12,7 +12,6 @@ int RGBController_GalaxGPU::GetDeviceMode()
 {
     int modereg1 = galax_gpu->GalaxGPURegisterRead(GALAX_MODE_REGISTER_1);
     int modereg2 = galax_gpu->GalaxGPURegisterRead(GALAX_MODE_REGISTER_2);
-    int color_mode = MODE_COLORS_PER_LED;
 
     if (modereg1 == GALAX_MODE_STATIC_VALUE_1 && modereg2 == GALAX_MODE_STATIC_VALUE_2)
     {
@@ -38,14 +37,12 @@ int RGBController_GalaxGPU::GetDeviceMode()
         modes[active_mode].color_mode = MODE_COLORS_NONE;
     }
 
-
     return(active_mode);
 }
 
 RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController * galax_gpu_ptr)
 {
     galax_gpu = galax_gpu_ptr;
-
 
     name        = galax_gpu->GetDeviceName();
     type        = DEVICE_TYPE_GPU;

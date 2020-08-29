@@ -227,16 +227,18 @@ void RGBController_DuckyKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DuckyKeyboard::ResizeZone(int zone, int new_size)
+void RGBController_DuckyKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 {
-    
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
     
 void RGBController_DuckyKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[155*3];
     
-    for(int color_idx = 0; color_idx < colors.size(); color_idx++)
+    for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
     {
         colordata[(color_idx*3)+0] = RGBGetRValue(colors[color_idx]);
         colordata[(color_idx*3)+1] = RGBGetGValue(colors[color_idx]);
@@ -246,12 +248,12 @@ void RGBController_DuckyKeyboard::DeviceUpdateLEDs()
     ducky->SendColors(colordata, sizeof(colordata));
 }
 
-void RGBController_DuckyKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_DuckyKeyboard::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_DuckyKeyboard::UpdateSingleLED(int led)
+void RGBController_DuckyKeyboard::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

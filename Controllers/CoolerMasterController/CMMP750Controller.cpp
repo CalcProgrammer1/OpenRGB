@@ -9,18 +9,38 @@
 
 #include "CMMP750Controller.h"
 
+static unsigned char colour_mode_data[][6] =
+{
+    { 0x01, 0x04, 0xFF, 0x00, 0xFF, 0x00 },                  /* Static                       */
+    { 0x02, 0x04, 0xFF, 0x00, 0xFF, 0x80 },                  /* Blinking                     */
+    { 0x03, 0x04, 0xFF, 0x00, 0xFF, 0x80 },                  /* Breathing                    */
+    { 0x04, 0x04, 0x80, 0x00, 0x00, 0x00 },                  /* Colour Cycle                 */
+    { 0x05, 0x04, 0x80, 0x00, 0x00, 0x00 }                   /* Colour Breath                */
+};
+
+static unsigned char speed_mode_data[][9] =
+{
+    { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },/* Static                       */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 },/* Blinking                     */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 },/* Breathing                    */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 },/* Colour Cycle                 */
+    { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 } /* Colour Breath                */
+};
+
 CMMP750Controller::CMMP750Controller(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path)
 {
-    int tmp_size    = wcslen(_vendor);
-    dev             = dev_handle;
-    location        = _path;
+    std::size_t tmp_size    = wcslen(_vendor);
+    dev                     = dev_handle;
+    location                = _path;
 
-    for (int i=0; ( i<tmp_size && i<CM_DEVICE_NAME_SIZE); i++)
+    for(std::size_t i = 0; (i < tmp_size) && (i < CM_DEVICE_NAME_SIZE); i++)
     {
         device_name[i] = (char)_vendor[i];
     }
-    for (int j=0; ( j<wcslen(_vendor) && tmp_size+j<CM_DEVICE_NAME_SIZE); j++)
-        device_name[tmp_size+j] = (char)_device_name[j];
+    for(std::size_t j = 0; (j < wcslen(_vendor)) && (tmp_size + j < CM_DEVICE_NAME_SIZE); j++)
+    {
+        device_name[tmp_size + j] = (char)_device_name[j];
+    }
 
     GetStatus();        //When setting up device get current status
 }
@@ -39,20 +59,22 @@ void CMMP750Controller::GetStatus()
     hid_write(dev, buffer, buffer_size);
     hid_read(dev, buffer, buffer_size);
 
-    if( buffer[0] == 0x80 && buffer[1] == 0x05 )
+    if((buffer[0] == 0x80) && (buffer[1] == 0x05))
     {
         current_mode  = buffer[2] - 1;
         current_red   = buffer[3];
         current_green = buffer[4];
         current_blue  = buffer[5];
 
-        for( int i = 0; speed_mode_data[current_mode][i] >= buffer[6]; i++)
+        for(int i = 0; speed_mode_data[current_mode][i] >= buffer[6]; i++)
+        {
             current_speed = i;
+        }
     }
     else
     {
         //Code should never reach here however just in case there is a failure set something
-        current_mode = MP750_MODE_COLOR_CYCLE;      //Unicorn Spew
+        current_mode  = MP750_MODE_COLOR_CYCLE;      //Unicorn Spew
         current_red   = 0xFF;
         current_green = 0xFF;
         current_blue  = 0xFF;
@@ -122,7 +144,7 @@ void CMMP750Controller::SendUpdate()
     unsigned char buffer[0x40] = { 0x00 };
     int buffer_size = (sizeof(buffer) / sizeof(buffer[0]));
 
-    for(int i = 0; i < CM_COLOUR_MODE_DATA_SIZE; i++)
+    for(std::size_t i = 0; i < CM_COLOUR_MODE_DATA_SIZE; i++)
     {
         buffer[i] = colour_mode_data[current_mode][i];
     }
@@ -130,15 +152,15 @@ void CMMP750Controller::SendUpdate()
    if(current_mode > MP750_MODE_BREATHING)
     { 
         //If the mode is random colours set SPEED at BYTE2
-        buffer[CM_RED_BYTE] = speed_mode_data[current_mode][current_speed];
+        buffer[CM_RED_BYTE]     = speed_mode_data[current_mode][current_speed];
     }
     else
     { 
         //Otherwise SPEED is BYTE5
-        buffer[CM_RED_BYTE] = current_red;
-        buffer[CM_GREEN_BYTE] = current_green;
-        buffer[CM_BLUE_BYTE] = current_blue;
-        buffer[CM_SPEED_BYTE] = speed_mode_data[current_mode][current_speed];
+        buffer[CM_RED_BYTE]     = current_red;
+        buffer[CM_GREEN_BYTE]   = current_green;
+        buffer[CM_BLUE_BYTE]    = current_blue;
+        buffer[CM_SPEED_BYTE]   = speed_mode_data[current_mode][current_speed];
     }
 
     hid_write(dev, buffer, buffer_size);

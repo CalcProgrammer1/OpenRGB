@@ -41,18 +41,6 @@ enum
     TECKNET_BRIGHTNESS_HIGH     = 0x03
 };
 
-static unsigned char tecknet_colour_mode_data[][16] =
-{
-    { 0x02, 0x04, 0x00, 0x00, 0x00, 0x03, 0x00 },           // Static
-    { 0x02, 0x04, 0x00, 0x00, 0x00, 0x03, 0x00 },           // Breathing
-};
-
-static unsigned char tecknet_speed_mode_data[][9] =
-{
-    { 0x00, 0x00, 0x00, 0x00 },                             // Static
-    { 0x00, 0x06, 0x03, 0x01 },                             // Breathing
-};
-
 enum
 {
     TECKNET_SPEED_OFF             = 0x00,                   // Breathe Off

@@ -18,8 +18,8 @@ public:
 
 OpenRGBClientInfoPage::OpenRGBClientInfoPage(std::vector<RGBController *>& control, QWidget *parent) :
     QFrame(parent),
-    controllers(control),
-    ui(new Ui::OpenRGBClientInfoPageUi)
+    ui(new Ui::OpenRGBClientInfoPageUi),
+    controllers(control)
 {
     /*-----------------------------------------------------*\
     | Set initial values for GUI fields                     |
@@ -80,7 +80,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
     /*-----------------------------------------------------*\
     | Loop through all clients in list and display them     |
     \*-----------------------------------------------------*/
-    for(int client_idx = 0; client_idx < rgb_clients.size(); client_idx++)
+    for(std::size_t client_idx = 0; client_idx < rgb_clients.size(); client_idx++)
     {
         /*-----------------------------------------------------*\
         | Create the top level tree widget items and display the|
@@ -106,7 +106,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
         /*-----------------------------------------------------*\
         | Add child items for each device in the client         |
         \*-----------------------------------------------------*/
-        for(int dev_idx = 0; dev_idx < rgb_clients[client_idx]->server_controllers.size(); dev_idx++)
+        for(std::size_t dev_idx = 0; dev_idx < rgb_clients[client_idx]->server_controllers.size(); dev_idx++)
         {
             /*-----------------------------------------------------*\
             | Create child tree widget items and display the device |
@@ -118,7 +118,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
             /*-----------------------------------------------------*\
             | Add child items for each zone in the device           |
             \*-----------------------------------------------------*/
-            for(int zone_idx = 0; zone_idx < rgb_clients[client_idx]->server_controllers[dev_idx]->zones.size(); zone_idx++)
+            for(std::size_t zone_idx = 0; zone_idx < rgb_clients[client_idx]->server_controllers[dev_idx]->zones.size(); zone_idx++)
             {
                 /*-----------------------------------------------------*\
                 | Create child tree widget items and display the zone   |

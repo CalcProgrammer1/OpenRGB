@@ -159,8 +159,6 @@ s32 i2c_smbus_interface::i2c_smbus_write_i2c_block_data(u8 addr, u8 command, u8 
 
 s32 i2c_smbus_interface::i2c_smbus_xfer_call(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
-    s32 ret_val = 0;
-
     i2c_smbus_xfer_mutex.lock();
 
     i2c_addr        = addr;
@@ -178,8 +176,6 @@ s32 i2c_smbus_interface::i2c_smbus_xfer_call(u8 addr, char read_write, u8 comman
 
     i2c_smbus_done_cv.wait(done_lock, [this]{ return i2c_smbus_done.load(); });
     i2c_smbus_done  = false;
-
-    ret_val         = i2c_ret;
 
     i2c_smbus_xfer_mutex.unlock();
 

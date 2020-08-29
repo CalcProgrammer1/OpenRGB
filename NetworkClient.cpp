@@ -373,7 +373,7 @@ void NetworkClient::ListenThreadFunction()
             {
                 int tmp_bytes_read = 0;
 
-                tmp_bytes_read = recv_select(client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
+                tmp_bytes_read = recv_select(client_sock, &data[(unsigned int)bytes_read], header.pkt_size - bytes_read, 0);
 
                 if(tmp_bytes_read <= 0)
                 {
@@ -404,9 +404,9 @@ listen_done:
     server_initialized = false;
     server_connected = false;
 
-    for(int server_controller_idx = 0; server_controller_idx < server_controllers.size(); server_controller_idx++)
+    for(size_t server_controller_idx = 0; server_controller_idx < server_controllers.size(); server_controller_idx++)
     {
-        for(int controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+        for(size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
         {
             if(controllers[controller_idx] == server_controllers[server_controller_idx])
             {

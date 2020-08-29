@@ -205,6 +205,11 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
 
 void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 {
+    if(index < 0)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Read selected mode                                    |
     \*-----------------------------------------------------*/
@@ -214,11 +219,11 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
     {
         case MODE_COLORS_PER_LED:
             {
-                int selected_zone = ui->ZoneBox->currentIndex();
-                bool multiple = index == device->leds.size() + 1;
+                int selected_zone   = ui->ZoneBox->currentIndex();
+                bool multiple       = (std::size_t(index) == (device->leds.size() + 1));
 
-                RGBColor color = 0x00000000;
-                bool updateColor = 0;
+                RGBColor color      = 0x00000000;
+                bool updateColor    = 0;
 
                 if(device->zones.size() > 1)
                 {

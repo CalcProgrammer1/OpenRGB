@@ -98,12 +98,12 @@ void RGBController_CorsairHydro::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_CorsairHydro::UpdateZoneLEDs(int zone)
+void RGBController_CorsairHydro::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairHydro::UpdateSingleLED(int led)
+void RGBController_CorsairHydro::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

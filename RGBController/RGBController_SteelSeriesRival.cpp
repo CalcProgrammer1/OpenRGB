@@ -125,7 +125,7 @@ void RGBController_SteelSeriesRival::DeviceUpdateMode()
 {
     /* Strictly, the device actually does support different modes for the 
      * different zones, but we don't support that. */
-    steelseries_type mouse_type = rival->GetMouseType();
+    //steelseries_type mouse_type = rival->GetMouseType();
     switch (modes[active_mode].value)
     {
         case STEELSERIES_RIVAL_STATIC:

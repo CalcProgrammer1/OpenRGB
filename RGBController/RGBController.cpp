@@ -357,7 +357,7 @@ unsigned char * RGBController::GetDeviceDescription()
             /*---------------------------------------------------------*\
             | Copy in matrix map                                        |
             \*---------------------------------------------------------*/
-            for(int matrix_idx = 0; matrix_idx < (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width); matrix_idx++)
+            for(unsigned int matrix_idx = 0; matrix_idx < (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width); matrix_idx++)
             {
                 memcpy(&data_buf[data_ptr], &zones[zone_index].matrix_map->map[matrix_idx], sizeof(zones[zone_index].matrix_map->map[matrix_idx]));
                 data_ptr += sizeof(zones[zone_index].matrix_map->map[matrix_idx]);
@@ -677,7 +677,7 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
             \*---------------------------------------------------------*/
             new_map->map = new unsigned int[new_map->height * new_map->width];
 
-            for(int matrix_idx = 0; matrix_idx < (new_map->height * new_map->width); matrix_idx++)
+            for(unsigned int matrix_idx = 0; matrix_idx < (new_map->height * new_map->width); matrix_idx++)
             {
                 memcpy(&new_map->map[matrix_idx], &data_buf[data_ptr], sizeof(new_map->map[matrix_idx]));
                 data_ptr += sizeof(new_map->map[matrix_idx]);

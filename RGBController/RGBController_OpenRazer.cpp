@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController_OpenRazer.h"
+#include "OpenRazerDevices.h"
 
 #include <fstream>
 #include <unistd.h>
@@ -398,9 +399,9 @@ void RGBController_OpenRazer::SetupZones()
 
                 new_map->map = new unsigned int[new_map->height * new_map->width];
 
-                for(int y = 0; y < new_map->height; y++)
+                for(unsigned int y = 0; y < new_map->height; y++)
                 {
-                    for(int x = 0; x < new_map->width; x++)
+                    for(unsigned int x = 0; x < new_map->width; x++)
                     {
                         new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
                     }
@@ -428,7 +429,7 @@ void RGBController_OpenRazer::SetupZones()
 
                 if(device_list[device_index]->keymap != NULL)
                 {
-                    for(int i = 0; i < device_list[device_index]->keymap_size; i++)
+                    for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
                     {
                         if(zone_id == device_list[device_index]->keymap[i].zone &&
                            row_id  == device_list[device_index]->keymap[i].row  &&
@@ -468,7 +469,7 @@ void RGBController_OpenRazer::SetCustomMode()
     \*---------------------------------------------------------*/
     else
     {
-        for(int i = 0; i < modes.size(); i++)
+        for(unsigned int i = 0; i < modes.size(); i++)
         {
             if(modes[i].value == RAZER_MODE_STATIC)
             {

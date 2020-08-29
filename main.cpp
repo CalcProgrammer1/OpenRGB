@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
 
         dlg.AddClientTab();
 
-        for(int client_idx = 0; client_idx < clients.size(); client_idx++)
+        for(std::size_t client_idx = 0; client_idx < clients.size(); client_idx++)
         {
             dlg.AddClient(clients[client_idx]);
         }

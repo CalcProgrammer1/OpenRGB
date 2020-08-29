@@ -700,7 +700,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<Network
             std::string ip = argument.substr(0, pos);
             unsigned short port_val;
 
-            if(pos == -1)
+            if(pos == argument.npos)
             {
                 port_val = OPENRGB_SDK_PORT;
             }
@@ -748,14 +748,22 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<Network
         {
             if (argument != "")
             {
-                unsigned short port = std::stoi(argument);
-                if (port >= 1024 && port <= 65535)
+                try
                 {
-                    options->servOpts.port = port;
-                } 
-                else
+                    int port = std::stoi(argument);
+                    if (port >= 1024 && port <= 65535)
+                    {
+                        options->servOpts.port = port;
+                    }
+                    else
+                    {
+                        std::cout << "Error: Port out of range: " << port << " (1024-65535)" << std::endl;
+                        return RET_FLAG_PRINT_HELP;
+                    }
+                }
+                catch(std::invalid_argument& e)
                 {
-                    std::cout << "Error: port out of range: " << port << " (1024-65535)" << std::endl;
+                    std::cout << "Error: Invalid data in --server-port argument (expected a number in range 1024-65535)" << std::endl;
                     return RET_FLAG_PRINT_HELP;
                 }
             }

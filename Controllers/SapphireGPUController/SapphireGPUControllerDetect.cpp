@@ -18,12 +18,12 @@
 
 bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
-    bool pass = false;
-    int res;
+    //bool pass = false;
+    //int res;
 
     if(bus->i2c_smbus_read_byte_data(address, 0x06) == 0xCC)
     {
-        pass = true;
+        //pass = true;
     }
 
     return(false); //TODO - better detection, leaving disabled for now

@@ -40,7 +40,7 @@ void AuraAddressableController::SetChannelLEDs(unsigned char channel, RGBColor *
             leds_to_send = num_colors - leds_sent;
         }
 
-        for(int led_idx = 0; led_idx < leds_to_send; led_idx++)
+        for(unsigned int led_idx = 0; led_idx < leds_to_send; led_idx++)
         {
             led_data[(led_idx * 3) + 0] = RGBGetRValue(colors[led_idx + leds_sent]);
             led_data[(led_idx * 3) + 1] = RGBGetGValue(colors[led_idx + leds_sent]);

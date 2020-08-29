@@ -24,7 +24,7 @@ ATC800Controller::~ATC800Controller()
 void ATC800Controller::SendCoolerMode
     (
     unsigned char       mode,
-    unsigned short      speed,
+    unsigned short      /*speed*/,
     unsigned char       channel,
     unsigned char       red,
     unsigned char       green,

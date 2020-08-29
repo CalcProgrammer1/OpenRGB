@@ -10,6 +10,21 @@
 #include "AuraSMBusController.h"
 #include <cstring>
 
+static const char* aura_channels[] =                /* Aura channel strings                 */
+{
+    "Audio",
+    "Backplate",
+    "Back I/O",
+    "Center",
+    "Center",
+    "DRAM",
+    "PCIe",
+    "RGB Header",
+    "RGB Header 2",
+    "RGB Header",
+    "Unknown",
+};
+
 AuraSMBusController::AuraSMBusController(i2c_smbus_interface* bus, aura_dev_id dev)
 {
     this->bus = bus;

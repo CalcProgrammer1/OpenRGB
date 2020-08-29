@@ -203,7 +203,7 @@ void RGBController_RGBFusion2USB::Init_Controller()
         std::vector<LedPort> lp = zl->second;
         int LED_count = 0;                      //We're going to count the leds in the zone
         bool boolSingleLED = true;              //If all the Ledport.count == 1 then the zone is ZONE_TYPE_SINGLE
-        for(int lp_idx = 0; lp_idx < lp.size(); lp_idx++)
+        for(std::size_t lp_idx = 0; lp_idx < lp.size(); lp_idx++)
         {
             int lp_count = lp[lp_idx].count;
             boolSingleLED = boolSingleLED && (lp_count == 1);     //Is this a single LED zone??
@@ -241,7 +241,7 @@ void RGBController_RGBFusion2USB::SetupZones()
             controller->DisableBuiltinEffect(0, 0x3);
         }
 
-        for(int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
+        for(unsigned int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
         {
             led     new_led;
 
@@ -310,7 +310,7 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
         unsigned char grn = 0;
         unsigned char blu = 0;
         
-        for(size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
+        for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
         {
             /*---------------------------------------------------------*\
             | Initialize mode value                                     |
@@ -455,11 +455,12 @@ void RGBController_RGBFusion2USB::DeviceUpdateMode()
 int RGBController_RGBFusion2USB::GetLED_Zone(int led_idx)
 {
     //This may be more useful in the abstract RGBController.cpp
-    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         int zone_start = zones[zone_idx].start_idx;
         int zone_end = zone_start + zones[zone_idx].leds_count - 1;
         if( zone_start <= led_idx && zone_end >= led_idx)
            return(zone_idx);
     }
+    return -1; // NotFound error?
 }

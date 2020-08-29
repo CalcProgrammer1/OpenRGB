@@ -106,7 +106,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                 case E131_MATRIX_ORDER_HORIZONTAL_TOP_RIGHT:
                     for(unsigned int y = 0; y < new_map->height; y++)
                     {
-                        for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                        for(int x = new_map->width - 1; x >= 0; x--)
                         {
                             new_map->map[(y * new_map->width) + x] = led_idx;
                             led_idx++;
@@ -114,7 +114,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                     }
                     break;
                 case E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_LEFT:
-                    for(unsigned int y = new_map->height; y >= 0; y--)
+                    for(int y = new_map->height; y >= 0; y--)
                     {
                         for(unsigned int x = 0; x < new_map->width; x++)
                         {
@@ -124,9 +124,9 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                     }
                     break;
                 case E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_RIGHT:
-                    for(unsigned int y = new_map->height; y >= 0; y--)
+                    for(int y = new_map->height; y >= 0; y--)
                     {
-                        for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                        for(int x = new_map->width - 1; x >= 0; x--)
                         {
                             new_map->map[(y * new_map->width) + x] = led_idx;
                             led_idx++;
@@ -144,7 +144,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                     }
                     break;
                 case E131_MATRIX_ORDER_VERTICAL_TOP_RIGHT:
-                    for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                    for(int x = new_map->width - 1; x >= 0; x--)
                     {
                         for(unsigned int y = 0; y < new_map->height; y++)
                         {
@@ -156,7 +156,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                 case E131_MATRIX_ORDER_VERTICAL_BOTTOM_LEFT:
                     for(unsigned int x = 0; x < new_map->width; x++)
                     {
-                        for(unsigned int y = new_map->height - 1; y >= 0; y++)
+                        for(int y = new_map->height - 1; y >= 0; y--)
                         {
                             new_map->map[(y * new_map->width) + x] = led_idx;
                             led_idx++;
@@ -164,9 +164,9 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                     }
                     break;
                 case E131_MATRIX_ORDER_VERTICAL_BOTTOM_RIGHT:
-                    for(unsigned int x = new_map->width - 1; x >= 0; x--)
+                    for(int x = new_map->width - 1; x >= 0; x--)
                     {
-                        for(unsigned int y = new_map->height - 1; y >= 0; y--)
+                        for(int y = new_map->height - 1; y >= 0; y--)
                         {
                             new_map->map[(y * new_map->width) + x] = led_idx;
                             led_idx++;

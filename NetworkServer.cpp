@@ -438,7 +438,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
             {
                 int tmp_bytes_read = 0;
 
-                tmp_bytes_read = recv_select(client_sock, &data[bytes_read], header.pkt_size - bytes_read, 0);
+                tmp_bytes_read = recv_select(client_sock, &data[(unsigned int)bytes_read], header.pkt_size - bytes_read, 0);
 
                 if(tmp_bytes_read <= 0)
                 {

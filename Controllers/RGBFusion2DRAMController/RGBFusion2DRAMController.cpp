@@ -61,9 +61,9 @@ void RGBFusion2DRAMController::Apply()
 
 void RGBFusion2DRAMController::SetLEDEffect
     (
-    unsigned int    led,
+    unsigned int    /*led*/,
     int             mode,
-    unsigned int    speed,
+    unsigned int    /*speed*/,
     unsigned char   red,
     unsigned char   green,
     unsigned char   blue

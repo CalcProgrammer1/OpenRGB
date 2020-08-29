@@ -231,6 +231,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_SteelSeriesApex.h                       \
     RGBController/RGBController_Tecknet.h                               \
     RGBController/RGBController_ThermaltakeRiing.h                      \
+    RGBController/OpenRazerDevices.h                                    \
 
 SOURCES +=                                                              \
     dependencies/dmiinfo.cpp                                            \

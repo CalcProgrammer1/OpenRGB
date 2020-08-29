@@ -29,7 +29,7 @@ enum
     TECKNET_USAGE_PAGE  = 3
 };
 
-static const unsigned int tecknet_pids[][4] =
+static const int tecknet_pids[][4] =
 {  // PID,      Interface,      Usage,          Usage_Page
     { TECKNET_M0008_PID, 0, TECKNET_M0008_U, TECKNET_M0008_UPG }     //Tecknet M008 Mouse
 };

@@ -1,5 +1,8 @@
 #define RAZER_MAX_ZONES 6
 
+#include <string>
+#include "RGBController.h"
+
 typedef struct
 {
     std::string name;

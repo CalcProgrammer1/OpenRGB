@@ -52,7 +52,7 @@ void SapphireGPUController::SetColor(unsigned char red, unsigned char green, uns
     bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_GPU_REG_BLUE,  blue);
 }
 
-void SapphireGPUController::SetMode(unsigned char mode, unsigned char speed)
+void SapphireGPUController::SetMode(unsigned char mode, unsigned char /*speed*/)
 {
     bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_GPU_REG_MODE, mode);
 }

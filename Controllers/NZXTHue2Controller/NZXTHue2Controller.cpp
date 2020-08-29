@@ -65,7 +65,7 @@ std::string NZXTHue2Controller::GetFirmwareVersion()
 void NZXTHue2Controller::SendFan
     (
         unsigned char       port,
-        unsigned char       mode,
+        unsigned char       /*mode*/,
         unsigned char       speed
     )
 {
@@ -120,7 +120,7 @@ void NZXTHue2Controller::UpdateDeviceList()
         ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
     } while( (ret_val != 64) || (usb_buf[0] != 0x21) || (usb_buf[1] != 0x03) );
 
-    for(int chan = 0; chan < num_rgb_channels; chan++)
+    for(unsigned int chan = 0; chan < num_rgb_channels; chan++)
     {
         unsigned int start = 0x0F + (6 * chan);
         unsigned int num_leds_on_channel = 0;
@@ -179,7 +179,7 @@ void NZXTHue2Controller::UpdateStatus()
         /*-----------------------------------------------------*\
         | Extract fan information                               |
         \*-----------------------------------------------------*/
-        for(int fan_idx = 0; fan_idx < num_fan_channels; fan_idx++)
+        for(unsigned int fan_idx = 0; fan_idx < num_fan_channels; fan_idx++)
         {
             unsigned char  cmd;
             unsigned short rpm;

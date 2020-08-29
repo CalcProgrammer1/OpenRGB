@@ -286,7 +286,7 @@ void RGBController_LogitechG810::DeviceUpdateLEDs()
     /*---------------------------------------------------------*\
     | TODO: Send packets with multiple LED frames               |
     \*---------------------------------------------------------*/
-    for(int led_idx = 0; led_idx < leds.size(); led_idx++)
+    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
         zone = ( leds[led_idx].value >> 8 );
         idx  = ( leds[led_idx].value & 0xFF );
