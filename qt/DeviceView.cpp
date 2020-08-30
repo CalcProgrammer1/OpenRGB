@@ -229,6 +229,63 @@ void DeviceView::setController(RGBController * controller_ptr)
                         led_pos[color_idx].matrix_y = current_y + (led_y + ledPadding) * atom;
                         led_pos[color_idx].matrix_w = (1 - (2 * ledPadding)) * atom;
                         led_pos[color_idx].matrix_h = (1 - (2 * ledPadding)) * atom;
+
+                        /*-----------------------------------------------------*\
+                        | Expand large keys to fill empty spaces in matrix, if  |
+                        | possible.  Large keys can fill left, down, up, or wide|
+                        | Fill Left:                                            |
+                        |    Tab                                                |
+                        |    Caps Lock                                          |
+                        |    Left Shift                                         |
+                        |    Right Shift                                        |
+                        |    Backspace                                          |
+                        |    Number Pad 0                                       |
+                        |                                                       |
+                        | Fill Up or Down:                                      |
+                        |    Number Pad Enter                                   |
+                        |    Number Pad +                                       |
+                        |                                                       |
+                        | Fill Wide:                                            |
+                        |    Space                                              |
+                        \*-----------------------------------------------------*/
+                        if(led_x < map->width - 1 && map->map[map_idx + 1] == 0xFFFFFFFF)
+                        {
+                            if( ( controller->leds[color_idx].name == "Key: Tab"          )
+                             || ( controller->leds[color_idx].name == "Key: Caps Lock"    )
+                             || ( controller->leds[color_idx].name == "Key: Left Shift"   )
+                             || ( controller->leds[color_idx].name == "Key: Right Shift"  )
+                             || ( controller->leds[color_idx].name == "Key: Backspace"    )
+                             || ( controller->leds[color_idx].name == "Key: Number Pad 0" ) )
+                            {
+                                led_pos[color_idx].matrix_w += atom;
+                            }
+                        }
+                        if( ( controller->leds[color_idx].name == "Key: Number Pad Enter" )
+                         || ( controller->leds[color_idx].name == "Key: Number Pad +"     ) )
+                        {
+                            if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
+                            {
+                                led_pos[color_idx].matrix_h += atom;
+                            }
+                            /* TODO: check if there isn't another widened key above */
+                            else if(led_y > 0 && map->map[map_idx - map->width] == 0xFFFFFFFF)
+                            {
+                                led_pos[color_idx].matrix_y -= atom;
+                                led_pos[color_idx].matrix_h += atom;
+                            }
+                        }
+                        else if(controller->leds[color_idx].name == "Key: Space")
+                        {
+                            for(int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
+                            {
+                                led_pos[color_idx].matrix_x -= atom;
+                                led_pos[color_idx].matrix_w += atom;
+                            }
+                            for(int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; ++map_idx2)
+                            {
+                                led_pos[color_idx].matrix_w += atom;
+                            }
+                        }
                     }
                 }
             }
