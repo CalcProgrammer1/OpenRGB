@@ -47,7 +47,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## Linux
 
-  *  Pre-built binaries are not currently available for Linux
+  *  Pre-built binaries in AppImage format are available under the Releases section on GitLab.
   *  You can build the project using Qt Creator or on the command line.
       1.  Install build dependencies
           - Debian: sudo apt install build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf
