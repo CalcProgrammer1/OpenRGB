@@ -12,126 +12,14 @@
 #define ASROCK_MAX_ZONES    4
 #define ASROCK_MAX_LEDS     22
 
-typedef struct
+static const char* polychrome_v2_zone_names[] =
 {
-    const char*     zone_names[ASROCK_MAX_ZONES];
-    const zone_type zone_types[ASROCK_MAX_ZONES];
-    const int       zone_sizes[ASROCK_MAX_ZONES];
-    const char*     led_names[ASROCK_MAX_LEDS];
-} asrock_layout;
-
-static const asrock_layout ASRock_B450_Steel_Legend =
-{
-    /*---------------------------------------------------------*\
-    | zone_names                                                |
-    \*---------------------------------------------------------*/
-    {
-        "AMD FAN LED Header",
-        "RGB LED 1 Header",
-        "PCH",
-        "IO Cover",
-    },
-    /*---------------------------------------------------------*\
-    | zone_types                                                |
-    \*---------------------------------------------------------*/
-    {
-        ZONE_TYPE_SINGLE,
-        ZONE_TYPE_SINGLE,
-        ZONE_TYPE_LINEAR,
-        ZONE_TYPE_LINEAR,
-    },
-    /*---------------------------------------------------------*\
-    | zone_sizes                                                |
-    \*---------------------------------------------------------*/
-    {
-        1,
-        1,
-        10,
-        10,
-    },
-    /*---------------------------------------------------------*\
-    | led_names                                                 |
-    \*---------------------------------------------------------*/
-    {
-        "AMD FAN LED Header",
-        "RGB LED 1 Header",
-        "PCH 0",
-        "PCH 1",
-        "PCH 2",
-        "PCH 3",
-        "PCH 4",
-        "PCH 5",
-        "PCH 6",
-        "PCH 7",
-        "PCH 8",
-        "PCH 9",
-        "IO Cover 0",
-        "IO Cover 1",
-        "IO Cover 2",
-        "IO Cover 3",
-        "IO Cover 4",
-        "IO Cover 5",
-        "IO Cover 6",
-        "IO Cover 7",
-        "IO Cover 8",
-        "IO Cover 9",
-    }
-};
-
-static const asrock_layout ASRock_B450M_Steel_Legend =
-{
-    /*---------------------------------------------------------*\
-    | zone_names                                                |
-    \*---------------------------------------------------------*/
-    {
-        "AMD FAN LED Header",
-        "RGB LED 1 Header",
-        "PCH",
-        "IO Cover",
-    },
-    /*---------------------------------------------------------*\
-    | zone_types                                                |
-    \*---------------------------------------------------------*/
-    {
-        ZONE_TYPE_SINGLE,
-        ZONE_TYPE_SINGLE,
-        ZONE_TYPE_LINEAR,
-        ZONE_TYPE_LINEAR,
-    },
-    /*---------------------------------------------------------*\
-    | zone_sizes                                                |
-    \*---------------------------------------------------------*/
-    {
-        1,
-        1,
-        8,
-        10,
-    },
-    /*---------------------------------------------------------*\
-    | led_names                                                 |
-    \*---------------------------------------------------------*/
-    {
-        "AMD FAN LED Header",
-        "RGB LED 1 Header",
-        "PCH 0",
-        "PCH 1",
-        "PCH 2",
-        "PCH 3",
-        "PCH 4",
-        "PCH 5",
-        "PCH 6",
-        "PCH 7",
-        "IO Cover 0",
-        "IO Cover 1",
-        "IO Cover 2",
-        "IO Cover 3",
-        "IO Cover 4",
-        "IO Cover 5",
-        "IO Cover 6",
-        "IO Cover 7",
-        "IO Cover 8",
-        "IO Cover 9",
-    }
+    "RGB Fan Header",
+    "RGB LED Header",
+    "Audio",
+    "PCH",
+    "IO Cover",
+    "Addressable Header"
 };
 
 RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychrome_ptr)
@@ -362,51 +250,121 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 
 void RGBController_Polychrome::SetupZones()
 {
-    /*---------------------------------------------------------*\
-    | Set up zones                                              |
-    \*---------------------------------------------------------*/
-    for (unsigned int i = 0; i < 4; i++)
+    switch(polychrome->GetASRockType())
     {
-        zone* new_zone = new zone();
+        /*---------------------------------------------------------*\
+        | ASR LED motherboards only have a single zone/LED          |
+        \*---------------------------------------------------------*/
+        case ASROCK_TYPE_ASRLED:
+            {
+                /*---------------------------------------------------------*\
+                | Set up zones                                              |
+                \*---------------------------------------------------------*/
+                zone* new_zone = new zone();
+
+                /*---------------------------------------------------------*\
+                | Set single zone name to "Motherboard"                     |
+                \*---------------------------------------------------------*/
+                new_zone->name          = "Motherboard";
+                new_zone->type          = ZONE_TYPE_SINGLE;
+                new_zone->leds_min      = 1;
+                new_zone->leds_max      = 1;
+                new_zone->leds_count    = 1;
+                new_zone->matrix_map    = NULL;
+
+                /*---------------------------------------------------------*\
+                | Push new zone to zones vector                             |
+                \*---------------------------------------------------------*/
+                zones.push_back(*new_zone);
+
+                /*---------------------------------------------------------*\
+                | Set up LEDs                                               |
+                \*---------------------------------------------------------*/
+                led* new_led = new led();
+
+                /*---------------------------------------------------------*\
+                | Set single LED name to "Motherboard"                      |
+                \*---------------------------------------------------------*/
+                new_led->name           = "Motherboard";
+
+                /*---------------------------------------------------------*\
+                | Push new LED to LEDs vector                               |
+                \*---------------------------------------------------------*/
+                leds.push_back(*new_led);
+            }
+            break;
 
         /*---------------------------------------------------------*\
-        | Set zone name to channel name                             |
+        | Polychrome motherboards should set up zones based on LED  |
+        | configuration register read from device                   |
         \*---------------------------------------------------------*/
-        new_zone->name          = ASRock_B450_Steel_Legend.zone_names[i];
-        new_zone->type          = ASRock_B450_Steel_Legend.zone_types[i];
-        new_zone->leds_min      = ASRock_B450_Steel_Legend.zone_sizes[i];
-        new_zone->leds_max      = ASRock_B450_Steel_Legend.zone_sizes[i];
-        new_zone->leds_count    = ASRock_B450_Steel_Legend.zone_sizes[i];
-        new_zone->matrix_map    = NULL;
+        case ASROCK_TYPE_POLYCHROME_V1:
+        case ASROCK_TYPE_POLYCHROME_V2:
+            {
+                /*---------------------------------------------------------*\
+                | Set up zones (ignore addressable zone for now)            |
+                \*---------------------------------------------------------*/
+                for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_ADDRESSABLE; zone_idx++)
+                {
+                    if(polychrome->zone_led_count[zone_idx] > 0)
+                    {
+                        zone* new_zone = new zone();
 
-        /*---------------------------------------------------------*\
-        | Push new zone to zones vector                             |
-        \*---------------------------------------------------------*/
-        zones.push_back(*new_zone);
-    }
+                        /*---------------------------------------------------------*\
+                        | Set zone name to channel name                             |
+                        \*---------------------------------------------------------*/
+                        new_zone->name          = polychrome_v2_zone_names[zone_idx];
 
-    unsigned int led_count = 0;
-    /*---------------------------------------------------------*\
-    | Set up LEDs                                               |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
-        {
-            /*---------------------------------------------------------*\
-            | Each zone only has one LED                                |
-            \*---------------------------------------------------------*/
-            led* new_led = new led();
+                        if(polychrome->zone_led_count[zone_idx] > 1)
+                        {
+                            new_zone->type      = ZONE_TYPE_LINEAR;
+                        }
+                        else
+                        {
+                            new_zone->type      = ZONE_TYPE_SINGLE;
+                        }
+                        
+                        new_zone->leds_min      = polychrome->zone_led_count[zone_idx];
+                        new_zone->leds_max      = polychrome->zone_led_count[zone_idx];
+                        new_zone->leds_count    = polychrome->zone_led_count[zone_idx];
+                        new_zone->matrix_map    = NULL;
 
-            new_led->name = ASRock_B450_Steel_Legend.led_names[led_count];
+                        /*---------------------------------------------------------*\
+                        | Push new zone to zones vector                             |
+                        \*---------------------------------------------------------*/
+                        zones.push_back(*new_zone);
+                    }
+                }
 
-            /*---------------------------------------------------------*\
-            | Push new LED to LEDs vector                               |
-            \*---------------------------------------------------------*/
-            leds.push_back(*new_led);
+                unsigned int led_count = 0;
+                /*---------------------------------------------------------*\
+                | Set up LEDs (ignore addressable zone for now)             |
+                \*---------------------------------------------------------*/
+                for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_ADDRESSABLE; zone_idx++)
+                {
+                    if(polychrome->zone_led_count[zone_idx] > 0)
+                    {
+                        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+                        {
+                            /*---------------------------------------------------------*\
+                            | Each zone only has one LED                                |
+                            \*---------------------------------------------------------*/
+                            led* new_led = new led();
 
-            led_count++;
-        }
+                            new_led->name = polychrome_v2_zone_names[zone_idx];
+                            new_led->name.append(" " + std::to_string(led_idx + 1));
+
+                            /*---------------------------------------------------------*\
+                            | Push new LED to LEDs vector                               |
+                            \*---------------------------------------------------------*/
+                            leds.push_back(*new_led);
+
+                            led_count++;
+                        }
+                    }
+                }
+            }
+            break;
     }
 
     SetupColors();

@@ -95,6 +95,7 @@ enum
     POLYCHROME_ZONE_PCH             = 0x03,     /* PCH Zone LEDs                        */
     POLYCHROME_ZONE_IO_COVER        = 0x04,     /* IO Cover Zone LEDs                   */
     POLYCHROME_ZONE_ADDRESSABLE     = 0x05,     /* Addressable LED header               */
+    POLYCHROME_ZONE_COUNT           = 0x06,     /* Total number of zones                */
 };
 
 class PolychromeController
@@ -110,10 +111,11 @@ public:
     void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode, unsigned char speed);
 
+    unsigned int            zone_led_count[6];
+    
 private:
     unsigned int            asrock_type;
     std::string             device_name;
-    unsigned int            zone_led_count[6];
     unsigned char           active_mode;
     unsigned char           active_speed;
     i2c_smbus_interface*    bus;
