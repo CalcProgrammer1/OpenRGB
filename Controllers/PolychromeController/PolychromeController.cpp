@@ -10,6 +10,8 @@
 #include "PolychromeController.h"
 #include <cstring>
 
+using namespace std::chrono_literals;
+
 PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_dev_id dev)
 {
     this->bus = bus;
@@ -69,7 +71,9 @@ unsigned short PolychromeController::ReadFirmwareVersion()
     // If not, report invalid firmware revision FFFF
     if (bus->i2c_smbus_read_byte_data(dev, POLYCHROME_REG_FIRMWARE_VER) == 0x02)
     {
+        std::this_thread::sleep_for(1ms);
         unsigned char major = bus->i2c_smbus_read_byte(dev);
+        std::this_thread::sleep_for(1ms);
         unsigned char minor = bus->i2c_smbus_read_byte(dev);
 
         return((major << 8) | minor);
@@ -136,6 +140,7 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
             case ASRLED_MODE_OFF:
                 break;
         }
+        std::this_thread::sleep_for(1ms);
     }
     else
     {
@@ -148,6 +153,8 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
         | Polychrome firmware always writes color to fixed reg  |
         \*-----------------------------------------------------*/
         bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, color_speed_pkt);
+
+        std::this_thread::sleep_for(1ms);
     }
 }
 
@@ -160,15 +167,18 @@ void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
     if(asr_led)
     {
         bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
+        std::this_thread::sleep_for(1ms);
     }
     else
     {
         bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_MODE, 1, &active_mode);
+        std::this_thread::sleep_for(1ms);
 
         /*-----------------------------------------------------*\
         | Select a single LED                                   |
         \*-----------------------------------------------------*/
         bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_COUNT, 0, led_count_pkt);
+        std::this_thread::sleep_for(1ms);
 
         switch(active_mode)
         {
@@ -184,6 +194,7 @@ void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
             \*-----------------------------------------------------*/
             default:
                 bus->i2c_smbus_write_block_data(dev, active_mode, 1, &speed);
+                std::this_thread::sleep_for(1ms);
                 break;
         }
     }    
