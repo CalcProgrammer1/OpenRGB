@@ -126,7 +126,7 @@ static const char *led_names[] =
     "Key: \\ (ANSI)",
     "Key: Enter",
     "Unused",
-    "Key: Right Control"
+    "Key: Right Control",
     "Key: Print Screen",
     "Key: Insert",
     "Key: Delete",
