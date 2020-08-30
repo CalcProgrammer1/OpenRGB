@@ -17,6 +17,14 @@ typedef unsigned char	polychrome_dev_id;
 
 enum
 {
+    ASROCK_TYPE_UNKNOWN             = 0x00,     /* Unknown Type or Not ASRock Device    */
+    ASROCK_TYPE_ASRLED              = 0x01,     /* ASRock Firmware 1.x - ASR LED        */
+    ASROCK_TYPE_POLYCHROME_V1       = 0x02,     /* ASRock Firmware 2.x - Polychrome V1  */
+    ASROCK_TYPE_POLYCHROME_V2       = 0x03,     /* ASRock Firmware 3.x - Polychrome V2  */
+};
+
+enum
+{
     ASRLED_REG_FIRMWARE_VER         = 0x00,     /* Firmware version Major.Minor         */
     ASRLED_REG_MODE                 = 0x30,     /* Mode selection register              */
 };
@@ -98,12 +106,12 @@ public:
     std::string     GetDeviceName();
     std::string     GetFirmwareVersion();
     unsigned int    GetMode();
-    bool            IsAsrLed();
+    unsigned int    GetASRockType();
     void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode, unsigned char speed);
 
 private:
-    bool                    asr_led;
+    unsigned int            asrock_type;
     std::string             device_name;
     unsigned int            zone_led_count[6];
     unsigned char           active_mode;

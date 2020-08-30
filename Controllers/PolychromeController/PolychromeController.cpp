@@ -27,30 +27,40 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     | Versions 1.xx and 2.xx use ASR LED, 3.xx uses         |
     | Polychrome                                            |
     \*-----------------------------------------------------*/
-    if((major_version < 0x03) && (major_version > 0x00))
+    switch(major_version)
     {
-        device_name = "ASRock ASR LED";
-        asr_led     = true;
+        case ASROCK_TYPE_ASRLED:
+            device_name = "ASRock ASR LED";
+            asrock_type = ASROCK_TYPE_ASRLED;
+            memset(zone_led_count, 0, sizeof(zone_led_count));
+            break;
 
-        memset(zone_led_count, 0, sizeof(zone_led_count));
-    }
-    else if(major_version == 0x03)
-    {
-        device_name = "ASRock Polychrome";
-        asr_led     = false;
+        case ASROCK_TYPE_POLYCHROME_V1:
+            device_name = "ASRock Polychrome V1";
+            asrock_type = ASROCK_TYPE_POLYCHROME_V1;
+            ReadLEDConfiguration();
+            break;
 
-        ReadLEDConfiguration();
+        case ASROCK_TYPE_POLYCHROME_V2:
+            device_name = "ASRock Polychrome V2";
+            asrock_type = ASROCK_TYPE_POLYCHROME_V2;
+            ReadLEDConfiguration();
+            break;
+
+        default:
+            asrock_type = ASROCK_TYPE_UNKNOWN;
+            break;
     }
-    else
-    {
-        memset(zone_led_count, 0, sizeof(zone_led_count));
-    }
-    
 }
 
 PolychromeController::~PolychromeController()
 {
 
+}
+
+unsigned int PolychromeController::GetASRockType()
+{
+    return(asrock_type);
 }
 
 std::string PolychromeController::GetDeviceName()
@@ -116,69 +126,65 @@ unsigned int PolychromeController::GetMode()
     return(active_mode);
 }
 
-bool PolychromeController::IsAsrLed()
-{
-    return(asr_led);
-}
-
 void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char color_speed_pkt[4] = { red, green, blue, active_speed };
     unsigned char select_led_pkt[1]  = { led };
     
-    if (asr_led)
+    switch(asrock_type)
     {
-        switch(active_mode)
-        {
+        case ASROCK_TYPE_ASRLED:
+            switch(active_mode)
+            {
+                /*-----------------------------------------------------*\
+                | These modes take 4 bytes in R/G/B/S order             |
+                \*-----------------------------------------------------*/
+                case ASRLED_MODE_BREATHING:
+                case ASRLED_MODE_FLASHING:
+                case ASRLED_MODE_SPECTRUM_CYCLE:
+                    bus->i2c_smbus_write_block_data(dev, active_mode, 4, color_speed_pkt);
+                    break;
+
+                /*-----------------------------------------------------*\
+                | These modes take 3 bytes in R/G/B order               |
+                \*-----------------------------------------------------*/
+                default:
+                case ASRLED_MODE_STATIC:
+                case ASRLED_MODE_MUSIC:
+                    bus->i2c_smbus_write_block_data(dev, active_mode, 3, color_speed_pkt);
+                    break;
+
+                /*-----------------------------------------------------*\
+                | These modes take 1 byte - speed                       |
+                \*-----------------------------------------------------*/
+                case ASRLED_MODE_RANDOM:
+                case ASRLED_MODE_WAVE:
+                    bus->i2c_smbus_write_block_data(dev, active_mode, 1, &active_speed);
+                    break;
+
+                /*-----------------------------------------------------*\
+                | These modes take no bytes                             |
+                \*-----------------------------------------------------*/
+                case ASRLED_MODE_OFF:
+                    break;
+            }
+            std::this_thread::sleep_for(1ms);
+            break;
+
+        case ASROCK_TYPE_POLYCHROME_V1:
+        case ASROCK_TYPE_POLYCHROME_V2:
             /*-----------------------------------------------------*\
-            | These modes take 4 bytes in R/G/B/S order             |
+            | Select LED                                            |
             \*-----------------------------------------------------*/
-            case ASRLED_MODE_BREATHING:
-            case ASRLED_MODE_FLASHING:
-            case ASRLED_MODE_SPECTRUM_CYCLE:
-                bus->i2c_smbus_write_block_data(dev, active_mode, 4, color_speed_pkt);
-                break;
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_SELECT, 1, select_led_pkt);
+            std::this_thread::sleep_for(1ms);
 
             /*-----------------------------------------------------*\
-            | These modes take 3 bytes in R/G/B order               |
+            | Polychrome firmware always writes color to fixed reg  |
             \*-----------------------------------------------------*/
-            default:
-            case ASRLED_MODE_STATIC:
-            case ASRLED_MODE_MUSIC:
-                bus->i2c_smbus_write_block_data(dev, active_mode, 3, color_speed_pkt);
-                break;
-
-            /*-----------------------------------------------------*\
-            | These modes take 1 byte - speed                       |
-            \*-----------------------------------------------------*/
-            case ASRLED_MODE_RANDOM:
-            case ASRLED_MODE_WAVE:
-                bus->i2c_smbus_write_block_data(dev, active_mode, 1, &active_speed);
-                break;
-
-            /*-----------------------------------------------------*\
-            | These modes take no bytes                             |
-            \*-----------------------------------------------------*/
-            case ASRLED_MODE_OFF:
-                break;
-        }
-        std::this_thread::sleep_for(1ms);
-    }
-    else
-    {
-        /*-----------------------------------------------------*\
-        | Select LED                                            |
-        \*-----------------------------------------------------*/
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_SELECT, 1, select_led_pkt);
-
-        std::this_thread::sleep_for(1ms);
-
-        /*-----------------------------------------------------*\
-        | Polychrome firmware always writes color to fixed reg  |
-        \*-----------------------------------------------------*/
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, color_speed_pkt);
-
-        std::this_thread::sleep_for(1ms);
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_COLOR, 3, color_speed_pkt);
+            std::this_thread::sleep_for(1ms);
+            break;
     }
 }
 
@@ -188,38 +194,41 @@ void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
     active_mode                     = mode;
     active_speed                    = speed;
 
-    if(asr_led)
+    switch(asrock_type)
     {
-        bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
-        std::this_thread::sleep_for(1ms);
-    }
-    else
-    {
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_MODE, 1, &active_mode);
-        std::this_thread::sleep_for(1ms);
+        case ASROCK_TYPE_ASRLED:
+            bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
+            std::this_thread::sleep_for(1ms);
+            break;
 
-        /*-----------------------------------------------------*\
-        | Select a single LED                                   |
-        \*-----------------------------------------------------*/
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_COUNT, 0, led_count_pkt);
-        std::this_thread::sleep_for(1ms);
-
-        switch(active_mode)
-        {
-            /*-----------------------------------------------------*\
-            | These modes don't take a speed                        |
-            \*-----------------------------------------------------*/
-            case POLYCHROME_MODE_OFF:
-            case POLYCHROME_MODE_STATIC:
-                break;
+        case ASROCK_TYPE_POLYCHROME_V1:
+        case ASROCK_TYPE_POLYCHROME_V2:
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_MODE, 1, &active_mode);
+            std::this_thread::sleep_for(1ms);
 
             /*-----------------------------------------------------*\
-            | All other modes, write speed to active mode register  |
+            | Select a single LED                                   |
             \*-----------------------------------------------------*/
-            default:
-                bus->i2c_smbus_write_block_data(dev, active_mode, 1, &speed);
-                std::this_thread::sleep_for(1ms);
-                break;
-        }
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_COUNT, 0, led_count_pkt);
+            std::this_thread::sleep_for(1ms);
+
+            switch(active_mode)
+            {
+                /*-----------------------------------------------------*\
+                | These modes don't take a speed                        |
+                \*-----------------------------------------------------*/
+                case POLYCHROME_MODE_OFF:
+                case POLYCHROME_MODE_STATIC:
+                    break;
+
+                /*-----------------------------------------------------*\
+                | All other modes, write speed to active mode register  |
+                \*-----------------------------------------------------*/
+                default:
+                    bus->i2c_smbus_write_block_data(dev, active_mode, 1, &speed);
+                    std::this_thread::sleep_for(1ms);
+                    break;
+            }
+            break;
     }    
 }
