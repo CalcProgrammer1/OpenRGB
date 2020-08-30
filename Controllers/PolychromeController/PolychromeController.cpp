@@ -30,18 +30,20 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     if((major_version < 0x03) && (major_version > 0x00))
     {
         device_name = "ASRock ASR LED";
-        led_count   = 1;
         asr_led     = true;
+
+        memset(zone_led_count, 0, sizeof(zone_led_count));
     }
     else if(major_version == 0x03)
     {
         device_name = "ASRock Polychrome";
-        led_count   = 1;
         asr_led     = false;
+
+        ReadLEDConfiguration();
     }
     else
     {
-        led_count   = 0;
+        memset(zone_led_count, 0, sizeof(zone_led_count));
     }
     
 }
@@ -84,9 +86,29 @@ unsigned short PolychromeController::ReadFirmwareVersion()
     }
 }
 
-unsigned int PolychromeController::GetLEDCount()
+void PolychromeController::ReadLEDConfiguration()
 {
-    return(led_count);
+    // The LED configuration register holds 6 bytes, so the first read should return 6
+    // If not, set all zone sizes to zero
+    if (bus->i2c_smbus_read_byte_data(dev, POLYCHROME_REG_LED_CONFIG) == 0x06)
+    {
+        std::this_thread::sleep_for(1ms);
+        zone_led_count[POLYCHROME_ZONE_RGB_FAN_HDR] = bus->i2c_smbus_read_byte(dev);
+        std::this_thread::sleep_for(1ms);
+        zone_led_count[POLYCHROME_ZONE_RGB_LED_HDR] = bus->i2c_smbus_read_byte(dev);
+        std::this_thread::sleep_for(1ms);
+        zone_led_count[POLYCHROME_ZONE_AUDIO]       = bus->i2c_smbus_read_byte(dev);
+        std::this_thread::sleep_for(1ms);
+        zone_led_count[POLYCHROME_ZONE_PCH]         = bus->i2c_smbus_read_byte(dev);
+        std::this_thread::sleep_for(1ms);
+        zone_led_count[POLYCHROME_ZONE_IO_COVER]    = bus->i2c_smbus_read_byte(dev);
+        std::this_thread::sleep_for(1ms);
+        zone_led_count[POLYCHROME_ZONE_ADDRESSABLE] = bus->i2c_smbus_read_byte(dev);
+    }
+    else
+    {
+        memset(zone_led_count, 0, sizeof(zone_led_count));
+    }
 }
 
 unsigned int PolychromeController::GetMode()
@@ -148,6 +170,8 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
         | Select LED                                            |
         \*-----------------------------------------------------*/
         bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_SELECT, 1, select_led_pkt);
+
+        std::this_thread::sleep_for(1ms);
 
         /*-----------------------------------------------------*\
         | Polychrome firmware always writes color to fixed reg  |

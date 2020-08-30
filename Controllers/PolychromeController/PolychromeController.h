@@ -48,6 +48,7 @@ enum
     POLYCHROME_REG_MODE             = 0x30,     /* Mode selection register              */
     POLYCHROME_REG_LED_SELECT       = 0x31,     /* LED selection register               */
     POLYCHROME_REG_LED_COUNT        = 0x32,     /* Additional LED count register        */
+    POLYCHROME_REG_LED_CONFIG       = 0x33,     /* LED configuration register           */
     POLYCHROME_REG_COLOR            = 0x34,     /* Color register: Red, Green, Blue     */
 };
 
@@ -78,6 +79,16 @@ enum
     POLYCHROME_SPEED_MAX            = 0x00,     /* Fastest speed                        */
 };
 
+enum
+{
+    POLYCHROME_ZONE_RGB_FAN_HDR     = 0x00,     /* RGB Fan Header                       */
+    POLYCHROME_ZONE_RGB_LED_HDR     = 0x01,     /* RGB LED Header                       */
+    POLYCHROME_ZONE_AUDIO           = 0x02,     /* Audio Zone LEDs                      */
+    POLYCHROME_ZONE_PCH             = 0x03,     /* PCH Zone LEDs                        */
+    POLYCHROME_ZONE_IO_COVER        = 0x04,     /* IO Cover Zone LEDs                   */
+    POLYCHROME_ZONE_ADDRESSABLE     = 0x05,     /* Addressable LED header               */
+};
+
 class PolychromeController
 {
 public:
@@ -86,7 +97,6 @@ public:
 
     std::string     GetDeviceName();
     std::string     GetFirmwareVersion();
-    unsigned int    GetLEDCount();
     unsigned int    GetMode();
     bool            IsAsrLed();
     void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
@@ -95,11 +105,12 @@ public:
 private:
     bool                    asr_led;
     std::string             device_name;
-    unsigned int            led_count;
+    unsigned int            zone_led_count[6];
     unsigned char           active_mode;
     unsigned char           active_speed;
     i2c_smbus_interface*    bus;
     polychrome_dev_id       dev;
 
     unsigned short  ReadFirmwareVersion();
+    void            ReadLEDConfiguration();
 };

@@ -55,15 +55,15 @@ void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std:
         {
             new_polychrome = new PolychromeController(busses[bus], 0x6A);
 
-            if(new_polychrome->GetLEDCount() != 0)
-            {
+//            if(new_polychrome->GetLEDCount() != 0)
+//            {
                 new_controller = new RGBController_Polychrome(new_polychrome);
                 rgb_controllers.push_back(new_controller);
-            }
-            else
-            {
-                delete new_polychrome;
-            }   
+//            }
+//            else
+//            {
+//                delete new_polychrome;
+//            }
         }
     }
 
