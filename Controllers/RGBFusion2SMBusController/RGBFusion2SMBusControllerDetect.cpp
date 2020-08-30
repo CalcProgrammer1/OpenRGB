@@ -7,6 +7,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include "dependencies/dmiinfo.h"
+
+typedef struct
+{
+    const std::string   manufacturer;
+    const std::string   motherboard;
+} motherboard_info;
+
+#define RGB_FUSION_2_SMBUS_NUM_DEVICES (sizeof(rgb_fusion_2_smbus_motherboards) / sizeof(rgb_fusion_2_smbus_motherboards[ 0 ]))
+
+const motherboard_info rgb_fusion_2_smbus_motherboards[] =
+{
+    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS ELITE"  },
+};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -22,18 +36,12 @@ bool TestForRGBFusion2SMBusController(i2c_smbus_interface* bus, unsigned char ad
     bool pass = false;
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+    
     if (res >= 0)
     {
         pass = true;
-
-        // res = bus->i2c_smbus_read_byte_data(address, 0xF2);
-
-        // if (res != 0xC4)
-        // {
-        //     pass = false;
-        // }
     }
-
+    
     return(pass);
 
 }   /* TestForRGBFusion2SMBusController() */
@@ -54,24 +62,38 @@ void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses,
     RGBFusion2SMBusController* new_rgb_fusion;
     RGBController_RGBFusion2SMBus* new_controller;
 
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    DMIInfo dmi;
+    bool    found = false;
+
+    for(unsigned int mb_idx = 0; mb_idx < RGB_FUSION_2_SMBUS_NUM_DEVICES; mb_idx++)
     {
-        // TODO - Is this necessary? Or an artifact of my own system?
-        // Skip dmcd devices
-        std::string device_name = std::string(busses[bus]->device_name);
-        if (device_name.find("dmdc") == std::string::npos)
+        if( ( dmi.getManufacturer() == rgb_fusion_2_smbus_motherboards[mb_idx].manufacturer )
+         && ( dmi.getMainboard()    == rgb_fusion_2_smbus_motherboards[mb_idx].motherboard  ) )
         {
-            // Check for RGB Fusion 2 controller at 0x68
-            if (TestForRGBFusion2SMBusController(busses[bus], 0x68))
+            found = true;
+        }
+    }
+
+    if(found)
+    {
+        for (unsigned int bus = 0; bus < busses.size(); bus++)
+        {
+            // TODO - Is this necessary? Or an artifact of my own system?
+            // Skip dmcd devices
+            std::string device_name = std::string(busses[bus]->device_name);
+            if (device_name.find("dmdc") == std::string::npos)
             {
-                new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68);
-                new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
-                rgb_controllers.push_back(new_controller);
+                // Check for RGB Fusion 2 controller at 0x68
+                if (TestForRGBFusion2SMBusController(busses[bus], 0x68))
+                {
+                    new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68);
+                    new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
+                    rgb_controllers.push_back(new_controller);
+                }
             }
         }
     }
 
 }   /* DetectRGBFusion2SMBusControllers() */
 
-// This detector is disabled as proper detection is not implemented
-//REGISTER_DETECTOR("Gigabyte RGB Fusion 2 SMBus", DetectRGBFusion2SMBusControllers);
+REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion 2 SMBus", DetectRGBFusion2SMBusControllers);
