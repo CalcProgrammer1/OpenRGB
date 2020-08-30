@@ -185,8 +185,8 @@ void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
             /*-----------------------------------------------------*\
             | These modes don't take a speed                        |
             \*-----------------------------------------------------*/
-            POLYCHROME_MODE_OFF:
-            POLYCHROME_MODE_STATIC:
+            case POLYCHROME_MODE_OFF:
+            case POLYCHROME_MODE_STATIC:
                 break;
 
             /*-----------------------------------------------------*\
