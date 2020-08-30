@@ -302,9 +302,9 @@ void RGBController_Polychrome::SetupZones()
         case ASROCK_TYPE_POLYCHROME_V2:
             {
                 /*---------------------------------------------------------*\
-                | Set up zones (ignore addressable zone for now)            |
+                | Set up zones                                              |
                 \*---------------------------------------------------------*/
-                for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_ADDRESSABLE; zone_idx++)
+                for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_COUNT; zone_idx++)
                 {
                     if(polychrome->zone_led_count[zone_idx] > 0)
                     {
@@ -313,21 +313,31 @@ void RGBController_Polychrome::SetupZones()
                         /*---------------------------------------------------------*\
                         | Set zone name to channel name                             |
                         \*---------------------------------------------------------*/
-                        new_zone->name          = polychrome_v2_zone_names[zone_idx];
-
-                        if(polychrome->zone_led_count[zone_idx] > 1)
+                        new_zone->name              = polychrome_v2_zone_names[zone_idx];
+                        
+                        if(zone_idx == POLYCHROME_ZONE_ADDRESSABLE)
                         {
-                            new_zone->type      = ZONE_TYPE_LINEAR;
+                            new_zone->leds_min      = 1;
+                            new_zone->leds_max      = 1;
+                            new_zone->leds_count    = 1;
                         }
                         else
                         {
-                            new_zone->type      = ZONE_TYPE_SINGLE;
+                            new_zone->leds_min      = polychrome->zone_led_count[zone_idx];
+                            new_zone->leds_max      = polychrome->zone_led_count[zone_idx];
+                            new_zone->leds_count    = polychrome->zone_led_count[zone_idx];
                         }
-                        
-                        new_zone->leds_min      = polychrome->zone_led_count[zone_idx];
-                        new_zone->leds_max      = polychrome->zone_led_count[zone_idx];
-                        new_zone->leds_count    = polychrome->zone_led_count[zone_idx];
-                        new_zone->matrix_map    = NULL;
+
+                        if(new_zone->leds_count > 1)
+                        {
+                            new_zone->type          = ZONE_TYPE_LINEAR;
+                        }
+                        else
+                        {
+                            new_zone->type          = ZONE_TYPE_SINGLE;
+                        }
+
+                        new_zone->matrix_map        = NULL;
 
                         /*---------------------------------------------------------*\
                         | Push new zone to zones vector                             |
@@ -338,13 +348,13 @@ void RGBController_Polychrome::SetupZones()
 
                 unsigned int led_count = 0;
                 /*---------------------------------------------------------*\
-                | Set up LEDs (ignore addressable zone for now)             |
+                | Set up LEDs                                               |
                 \*---------------------------------------------------------*/
-                for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_ADDRESSABLE; zone_idx++)
+                for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_COUNT; zone_idx++)
                 {
                     if(polychrome->zone_led_count[zone_idx] > 0)
                     {
-                        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+                        for(unsigned int led_idx = 0; led_idx < polychrome->zone_led_count[zone_idx]; led_idx++)
                         {
                             /*---------------------------------------------------------*\
                             | Each zone only has one LED                                |
@@ -353,6 +363,12 @@ void RGBController_Polychrome::SetupZones()
 
                             new_led->name = polychrome_v2_zone_names[zone_idx];
                             new_led->name.append(" " + std::to_string(led_idx + 1));
+                            new_led->value = 0;
+
+                            if(zone_idx == POLYCHROME_ZONE_ADDRESSABLE)
+                            {
+                                new_led->value = 1;
+                            }
 
                             /*---------------------------------------------------------*\
                             | Push new LED to LEDs vector                               |
@@ -360,6 +376,11 @@ void RGBController_Polychrome::SetupZones()
                             leds.push_back(*new_led);
 
                             led_count++;
+
+                            if(zone_idx == POLYCHROME_ZONE_ADDRESSABLE)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -395,6 +416,15 @@ void RGBController_Polychrome::UpdateSingleLED(int led)
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
+
+    /*---------------------------------------------------------*\
+    | If the LED value is 1, it is the addressable LED and the  |
+    | address is 0x19                                           |
+    \*---------------------------------------------------------*/
+    if(leds[led].value == 1)
+    {
+        led = 0x19;
+    }
 
     polychrome->SetColorsAndSpeed(led, red, grn, blu);
 }
