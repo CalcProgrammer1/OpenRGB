@@ -19,7 +19,8 @@ typedef struct
 
 const motherboard_info rgb_fusion_2_smbus_motherboards[] =
 {
-    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS ELITE"  },
+    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS ELITE"              },
+    { "Gigabyte Technology Co., Ltd.",      "X470 AORUS ULTRA GAMING-CF"    },
 };
 
 /******************************************************************************************\
