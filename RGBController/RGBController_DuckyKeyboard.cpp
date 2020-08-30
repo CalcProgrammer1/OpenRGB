@@ -20,6 +20,157 @@ static unsigned int matrix_map[6][23] =
       {   4,  NA,  16,  22,  28,  34,  NA,  40,  NA,  46,  52,  58,  64,  70,  82,  NA,  NA, 100,  NA, 112, 118, 124, 131 },
       {   5,  11,  17,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  65,  77,  83,  89,  95, 101, 107, 113,  NA, 125,  NA } };
 
+static const char* zone_names[] =
+{
+    "Keyboard"
+};
+
+static zone_type zone_types[] =
+{
+    ZONE_TYPE_MATRIX,
+};
+
+static const unsigned int zone_sizes[] =
+{
+    132
+};
+
+static const char *led_names[] =
+{
+    "Key: Escape",
+    "Key: `",
+    "Key: Tab",
+    "Key: Caps Lock",
+    "Key: Left Shift",
+    "Key: Left Control",
+    "Unused",
+    "Key: 1",
+    "Key: Q",
+    "Key: A",
+    "Unused",
+    "Key: Left Windows",
+    "Key: F1",
+    "Key: 2",
+    "Key: W",
+    "Key: S",
+    "Key: Z",
+    "Key: Left Alt",
+    "Key: F2",
+    "Key: 3",
+    "Key: E",
+    "Key: D",
+    "Key: X",
+    "Unused",
+    "Key: F3",
+    "Key: 4",
+    "Key: R",
+    "Key: F",
+    "Key: C",
+    "Unused",
+    "Key: F4",
+    "Key: 5",
+    "Key: T",
+    "Key: G",
+    "Key: V",
+    "Unused",
+    "Unused",
+    "Key: 6",
+    "Key: Y",
+    "Key: H",
+    "Key: B",
+    "Key: Space",
+    "Key: F5",
+    "Key: 7",
+    "Key: U",
+    "Key: J",
+    "Key: N",
+    "Unused",
+    "Key: F6",
+    "Key: 8",
+    "Key: I",
+    "Key: K",
+    "Key: M",
+    "Unused",
+    "Key: F7",
+    "Key: 9",
+    "Key: O",
+    "Key: L",
+    "Key: ,",
+    "Unused",
+    "Key: F8",
+    "Key: 0",
+    "Key: P",
+    "Key: ;",
+    "Key: .",
+    "Key: Right Alt",
+    "Key: F9",
+    "Key: -",
+    "Key: [",
+    "Key: '",
+    "Key: /",
+    "Unused",
+    "Key: F10",
+    "Key: =",
+    "Key: ]",
+    "Unused",
+    "Unused",
+    "Key: Right Windows",
+    "Key: F11",
+    "Unused",
+    "Unused",
+    "Unused",
+    "Key: Right Shift",
+    "Key: Right Fn",
+    "Key: F12",
+    "Key: Backspace",
+    "Key: \\ (ANSI)",
+    "Key: Enter",
+    "Unused",
+    "Key: Right Control"
+    "Key: Print Screen",
+    "Key: Insert",
+    "Key: Delete",
+    "Unused",
+    "Unused",
+    "Key: Left Arrow",
+    "Key: Scroll Lock",
+    "Key: Home",
+    "Key: End",
+    "Unused",
+    "Key: Up Arrow",
+    "Key: Down Arrow",
+    "Key: Pause/Break",
+    "Key: Page Up",
+    "Key: Page Down",
+    "Unused",
+    "Unused",
+    "Key: Right Arrow",
+    "Key: Cal",
+    "Key: Num Lock",
+    "Key: Number Pad 7",
+    "Key: Number Pad 4",
+    "Key: Number Pad 1",
+    "Key: Number Pad 0",
+    "Key: Media Mute",
+    "Key: Number Pad /",
+    "Key: Number Pad 8",
+    "Key: Number Pad 5",
+    "Key: Number Pad 2",
+    "Unused",
+    "Key: Media Volume Down",
+    "Key: Number Pad *",
+    "Key: Number Pad 9",
+    "Key: Number Pad 6",
+    "Key: Number Pad 3",
+    "Key: Number Pad .",
+    "Key: Media Volume Up",
+    "Key: Number Pad -",
+    "Key: Number Pad +",
+    "Unused",
+    "Unused",
+    "Key: Number Pad Enter",
+};
+
 RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController* ducky_ptr)
 {
     ducky = ducky_ptr;
@@ -45,27 +196,31 @@ RGBController_DuckyKeyboard::~RGBController_DuckyKeyboard()
 
 void RGBController_DuckyKeyboard::SetupZones()
 {
-    zone new_zone;
+    /*---------------------------------------------------------*\
+    | Set up zones                                              |
+    \*---------------------------------------------------------*/
+    unsigned int total_led_count = 0;
+    for(unsigned int zone_idx = 0; zone_idx < 1; zone_idx++)
+    {
+        zone new_zone;
+        new_zone.name               = zone_names[zone_idx];
+        new_zone.type               = zone_types[zone_idx];
+        new_zone.leds_min           = zone_sizes[zone_idx];
+        new_zone.leds_max           = zone_sizes[zone_idx];
+        new_zone.leds_count         = zone_sizes[zone_idx];
+        new_zone.matrix_map         = new matrix_map_type;
+        new_zone.matrix_map->height = 6;
+        new_zone.matrix_map->width  = 23;
+        new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+        zones.push_back(new_zone);
 
-    new_zone.name               = "Keyboard";
-    new_zone.type               = ZONE_TYPE_MATRIX;
-    new_zone.leds_min           = 155;
-    new_zone.leds_max           = 155;
-    new_zone.leds_count         = 155;
-    new_zone.matrix_map         = new matrix_map_type;
-    new_zone.matrix_map->height = 6;
-    new_zone.matrix_map->width  = 23;
-    new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-    
-    zones.push_back(new_zone);
+        total_led_count += zone_sizes[zone_idx];
+    }
 
-    for(int led_idx = 0; led_idx < 155; led_idx++)
+    for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-
-        new_led.name = "Keyboard LED ";
-        new_led.name.append(std::to_string(led_idx));
-
+        new_led.name = led_names[led_idx];
         leds.push_back(new_led);
     }
 
