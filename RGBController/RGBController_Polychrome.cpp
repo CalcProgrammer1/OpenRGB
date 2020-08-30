@@ -14,8 +14,8 @@
 
 static const char* polychrome_v2_zone_names[] =
 {
-    "RGB Fan Header",
-    "RGB LED Header",
+    "RGB LED 0 Header",
+    "RGB LED 1 Header",
     "Audio",
     "PCH",
     "IO Cover",

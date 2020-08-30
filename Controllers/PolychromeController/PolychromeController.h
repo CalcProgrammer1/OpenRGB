@@ -89,8 +89,8 @@ enum
 
 enum
 {
-    POLYCHROME_ZONE_RGB_FAN_HDR     = 0x00,     /* RGB Fan Header                       */
-    POLYCHROME_ZONE_RGB_LED_HDR     = 0x01,     /* RGB LED Header                       */
+    POLYCHROME_ZONE_RGB_LED_0_HDR   = 0x00,     /* RGB LED 0 Header                     */
+    POLYCHROME_ZONE_RGB_LED_1_HDR   = 0x01,     /* RGB LED 1 Header                     */
     POLYCHROME_ZONE_AUDIO           = 0x02,     /* Audio Zone LEDs                      */
     POLYCHROME_ZONE_PCH             = 0x03,     /* PCH Zone LEDs                        */
     POLYCHROME_ZONE_IO_COVER        = 0x04,     /* IO Cover Zone LEDs                   */
