@@ -11,48 +11,55 @@
 
 using namespace Ui;
 
-static QString GetIconString(device_type type)
+static QString GetIconString(device_type type, bool dark)
 {
     /*-----------------------------------------------------*\
     | Return the icon filename string for the given device  |
     | type value                                            |
     \*-----------------------------------------------------*/
+    QString filename;
     switch(type)
     {
     case DEVICE_TYPE_MOTHERBOARD:
-        return("motherboard.png");
+        filename = "motherboard";
         break;
     case DEVICE_TYPE_DRAM:
-        return("dram.png");
+        filename = "dram";
         break;
     case DEVICE_TYPE_GPU:
-        return("gpu.png");
+        filename = "gpu";
         break;
     case DEVICE_TYPE_COOLER:
-        return("fan.png");
+        filename = "fan";
         break;
     case DEVICE_TYPE_LEDSTRIP:
-        return("ledstrip.png");
+        filename = "ledstrip";
         break;
     case DEVICE_TYPE_KEYBOARD:
-        return("keyboard.png");
+        filename = "keyboard";
         break;
     case DEVICE_TYPE_MOUSE:
-        return("mouse.png");
+        filename = "mouse";
         break;
     case DEVICE_TYPE_MOUSEMAT:
-        return("mousemat.png");
+        filename = "mousemat";
         break;
     case DEVICE_TYPE_HEADSET:
-        return("headset.png");
+        filename = "headset";
         break;
     case DEVICE_TYPE_HEADSET_STAND:
-        return("headsetstand.png");
+        filename = "headsetstand";
         break;
-    case DEVICE_TYPE_UNKNOWN:
-        return("unknown.png");
+    default:
+        filename = "unknown";
         break;
     }
+    if(dark)
+    {
+        filename += "_dark";
+    }
+    filename += ".png";
+    return filename;
 }
 
 static void UpdateInfoCallback(void * this_ptr)
@@ -152,6 +159,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     trayIcon->setToolTip("OpenRGB");
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
+    darkTheme = palette().window().color().value() < 127; // Adjust
 
     /*-----------------------------------------------------*\
     | Update the profile list                               |
@@ -185,8 +193,9 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
     ui->InformationTabBar->addTab(SoftInfoPage, "");
 
     QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
-    SoftwareLabelString += ":/software.png";
-    SoftwareLabelString += "' height='16' width='16'></td><td>Software</td></tr></table></html>";
+    SoftwareLabelString += ":/software";
+    if(darkTheme) SoftwareLabelString += "_dark";
+    SoftwareLabelString += ".png' height='16' width='16'></td><td>Software</td></tr></table></html>";
 
     QLabel *SoftwareTabLabel = new QLabel();
     SoftwareTabLabel->setText(SoftwareLabelString);
@@ -211,8 +220,9 @@ void OpenRGBDialog2::AddI2CToolsPage()
     ui->InformationTabBar->addTab(SMBusToolsPage, "");
 
     QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
-    SMBusToolsLabelString += ":/tools.png";
-    SMBusToolsLabelString += "' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
+    SMBusToolsLabelString += ":/tools";
+    if(darkTheme) SMBusToolsLabelString += "_dark";
+    SMBusToolsLabelString += ".png' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
 
     QLabel *SMBusToolsTabLabel = new QLabel();
     SMBusToolsTabLabel->setText(SMBusToolsLabelString);
@@ -314,7 +324,7 @@ void OpenRGBDialog2::UpdateDevicesList()
         | type and append device name string.                   |
         \*-----------------------------------------------------*/
         QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-        NewLabelString += GetIconString(controllers[dev_idx]->type);
+        NewLabelString += GetIconString(controllers[dev_idx]->type, darkTheme);
         NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();
@@ -341,7 +351,7 @@ void OpenRGBDialog2::UpdateDevicesList()
         | type and append device name string.                   |
         \*-----------------------------------------------------*/
         QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-        NewLabelString += GetIconString(controllers[dev_idx]->type);
+        NewLabelString += GetIconString(controllers[dev_idx]->type, darkTheme);
         NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[dev_idx]->name) + "</td></tr></table></html>";
 
         QLabel *NewTabLabel = new QLabel();

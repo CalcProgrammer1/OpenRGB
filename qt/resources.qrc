@@ -13,5 +13,17 @@
         <file>headsetstand.png</file>
         <file>tools.png</file>
         <file>software.png</file>
+        <file>dram_dark.png</file>
+        <file>fan_dark.png</file>
+        <file>gpu_dark.png</file>
+        <file>headset_dark.png</file>
+        <file>headsetstand_dark.png</file>
+        <file>keyboard_dark.png</file>
+        <file>ledstrip_dark.png</file>
+        <file>mousemat_dark.png</file>
+        <file>mouse_dark.png</file>
+        <file>motherboard_dark.png</file>
+        <file>software_dark.png</file>
+        <file>tools_dark.png</file>
     </qresource>
 </RCC>

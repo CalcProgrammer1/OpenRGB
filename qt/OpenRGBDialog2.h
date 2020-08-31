@@ -73,6 +73,7 @@ private:
     void closeEvent(QCloseEvent *event);
 
     bool device_view_showing = false;
+    bool darkTheme = false;
 
 private slots:
     void on_Exit();
