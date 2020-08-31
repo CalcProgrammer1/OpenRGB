@@ -20,15 +20,6 @@ RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
     serial      = Tecknet_dev->GetSerial();
     location    = Tecknet_dev->GetLocation();
 
-    mode Off;
-    Off.name                        = "Off";
-    Off.value                       = TECKNET_MODE_OFF;
-    Off.color_mode                  = MODE_COLORS_NONE;
-    Off.speed_min                   = TECKNET_SPEED_OFF;
-    Off.speed_max                   = TECKNET_SPEED_OFF;
-    Off.speed                       = TECKNET_SPEED_OFF;
-    modes.push_back(Off);
-
     mode Static;
     Static.name                     = "Static";
     Static.value                    = TECKNET_MODE_STATIC;
@@ -38,6 +29,15 @@ RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
     Static.speed_max                = TECKNET_SPEED_OFF;
     Static.speed                    = TECKNET_SPEED_OFF;
     modes.push_back(Static);
+
+    mode Off;
+    Off.name                        = "Off";
+    Off.value                       = TECKNET_MODE_OFF;
+    Off.color_mode                  = MODE_COLORS_NONE;
+    Off.speed_min                   = TECKNET_SPEED_OFF;
+    Off.speed_max                   = TECKNET_SPEED_OFF;
+    Off.speed                       = TECKNET_SPEED_OFF;
+    modes.push_back(Off);
 
     mode Breathing;
     Breathing.name                  = "Breathing";
