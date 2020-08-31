@@ -14,6 +14,7 @@
 #include <QStyleOption>
 #include <QtCore/qmath.h>
 #include <QDebug>
+#include <QPainterPath>
 
 ColorWheel::ColorWheel(QWidget *parent) :
     QWidget(parent),
@@ -283,11 +284,6 @@ void ColorWheel::paintEvent(QPaintEvent *)
 
 void ColorWheel::drawWheelImage(const QSize &newSize)
 {
-    QStyleOption option;
-    option.initFrom(this);
-
-    QBrush background = option.palette.base();
-
     /*-----------------------------------------------------*\
     | Create image canvas                                   |
     \*-----------------------------------------------------*/
@@ -296,7 +292,7 @@ void ColorWheel::drawWheelImage(const QSize &newSize)
     /*-----------------------------------------------------*\
     | Paint the background                                  |
     \*-----------------------------------------------------*/
-    wheelImage.fill(background.color());
+    wheelImage.fill(Qt::transparent);
 
     /*-----------------------------------------------------*\
     | Create rainbow gradient for wheel                     |
@@ -317,24 +313,24 @@ void ColorWheel::drawWheelImage(const QSize &newSize)
     painter.setRenderHint(QPainter::Antialiasing);
 
     /*-----------------------------------------------------*\
-    | Paint the outer circle                                |
+    | Paint the wheel                                       |
     \*-----------------------------------------------------*/
     int size = qMin(newSize.width(), newSize.height());
     x_offset = (newSize.width() - size) / 2;
     y_offset = (newSize.height() - size) / 2;
     int r = size;
+
+    QPainterPath painterpath;
+    painterpath.addEllipse(QPoint(0,0),r/2-margin,r/2-margin);
+    painterpath.addEllipse(QPoint(0,0),r/2-margin-wheelWidth,r/2-margin-wheelWidth);
+
     painter.translate(x_offset + (size / 2), y_offset + (size / 2));
 
     QBrush brush(conicalGradient);
     painter.setPen(Qt::NoPen);
     painter.setBrush(brush);
-    painter.drawEllipse(QPoint(0,0),r/2-margin,r/2-margin);
 
-    /*-----------------------------------------------------*\
-    | Paint the inner circle                                |
-    \*-----------------------------------------------------*/
-    painter.setBrush(background);
-    painter.drawEllipse(QPoint(0,0),r/2-margin-wheelWidth,r/2-margin-wheelWidth);
+    painter.drawPath(painterpath);
 
     /*-----------------------------------------------------*\
     | Calculate wheel region and subtract out the inner     |
