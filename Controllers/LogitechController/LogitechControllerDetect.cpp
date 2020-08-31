@@ -35,9 +35,9 @@
 #define LOGITECH_G403H_PID                      0xC08F
 #define LOGITECH_G502_PS_PID                    0xC332
 #define LOGITECH_G502H_PID                      0xC08B
-#define LOGITECH_GPRO_WIRELESS_LIGHTSPEED_PID   0xC539
+#define LOGITECH_G_LIGHTSPEED_WIRELESS_PID      0xC539
 #define LOGITECH_GPRO_WIRELESS_PID              0xC088
-#define LOGITECH_G502_LIGHTSPEED_POWERPLAY_PID  0xC53A
+#define LOGITECH_G_LIGHTSPEED_POWERPLAY_PID     0xC53A
 
 typedef struct
 {
@@ -68,9 +68,9 @@ static const logitech_device device_list[] =
     { LOGITECH_VID,             LOGITECH_G403H_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Hero"                                },
     { LOGITECH_VID,             LOGITECH_G502_PS_PID,                   1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Proteus Spectrum"                    },
     { LOGITECH_VID,             LOGITECH_G502H_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Hero"                                },
-    { LOGITECH_VID,             LOGITECH_GPRO_WIRELESS_LIGHTSPEED_PID,  2,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Wireless Gaming Mouse"              },
+    { LOGITECH_VID,             LOGITECH_G_LIGHTSPEED_WIRELESS_PID,     2,  DEVICE_TYPE_MOUSE,      "Logitech G Lightspeed Wireless Gaming Mouse"       },
     { LOGITECH_VID,             LOGITECH_GPRO_WIRELESS_PID,             2,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Wireless Gaming Mouse (Wired)"      },
-    { LOGITECH_VID,             LOGITECH_G502_LIGHTSPEED_POWERPLAY_PID, 2,  DEVICE_TYPE_MOUSE,      "Logitech G502 Lightspeed With Powerplay Mousepad"  },
+    { LOGITECH_VID,             LOGITECH_G_LIGHTSPEED_POWERPLAY_PID,    2,  DEVICE_TYPE_MOUSE,      "Logitech G Powerplay Mousepad with Lightspeed"     },
     /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
     | Mousemats                                                                                                                                         |
     \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -227,10 +227,10 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                                     rgb_controllers.push_back(rgb_controller);
                                 }
                                 break;
-                                
-                            case LOGITECH_GPRO_WIRELESS_LIGHTSPEED_PID:
+                            
                             case LOGITECH_GPRO_WIRELESS_PID:
-                            case LOGITECH_G502_LIGHTSPEED_POWERPLAY_PID:
+                            case LOGITECH_G_LIGHTSPEED_WIRELESS_PID:
+                            case LOGITECH_G_LIGHTSPEED_POWERPLAY_PID:
                                 {
                                     LogitechGProWirelessController* controller = new LogitechGProWirelessController(dev);
 
