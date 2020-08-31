@@ -145,7 +145,7 @@ static const char *led_names[] =
     "Unused",
     "Unused",
     "Key: Right Arrow",
-    "Key: Cal",
+    "Key: Calculator",
     "Key: Num Lock",
     "Key: Number Pad 7",
     "Key: Number Pad 4",
