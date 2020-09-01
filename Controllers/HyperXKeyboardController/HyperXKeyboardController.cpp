@@ -401,7 +401,7 @@ void HyperXKeyboardController::SendExtendedColor
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
     \*-----------------------------------------------------*/
-    for(int i = 0x08; i <= 0x93; i++)
+    for(int i = 0x08; i < 0x94; i++)
     {
         buf[i] = color_data[i];
     }
@@ -470,7 +470,7 @@ void HyperXKeyboardController::SendDirectExtended
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
     \*-----------------------------------------------------*/
-    for(int i = 0x08; i <= 0x93; i++)
+    for(int i = 0x08; i < 0x94; i++)
     {
         buf[i] = color_data[i];
     }
