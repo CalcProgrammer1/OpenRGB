@@ -24,11 +24,9 @@ enum
 
 enum
 {
-    LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST          = 0x00,   /* Slowest speed                */
-    LOGITECH_G_PRO_WIRELESS_SPEED_SLOW             = 0x01,   /* Slow speed                   */
-    LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL           = 0x02,   /* Normal speed                 */
-    LOGITECH_G_PRO_WIRELESS_SPEED_FAST             = 0x03,   /* Fast speed                   */
-    LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST          = 0x04,   /* Fastest speed                */
+    LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST          = 0x01,   /* Slowest speed                */
+    LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL           = 0x32,   /* Normal speed                 */
+    LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST          = 0xC8,   /* Fastest speed                */
 };
 
 class LogitechGProWirelessController

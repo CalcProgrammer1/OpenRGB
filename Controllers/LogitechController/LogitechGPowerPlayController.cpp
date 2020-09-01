@@ -1,27 +1,27 @@
 /*-----------------------------------------*\
-|  LogitechGProWirelessController.cpp       |
+|  LogitechGPowerPlayController.cpp         |
 |                                           |
-|  Driver for Logitech G Pro Wireless Gaming|
-|  Mouse lighting controller                |
+|  Driver for Logitech G PowerPlay Wireless |
+|  Charging System                          |
 |                                           |
-|  TheRogueZeta   8/5/2020                  |
+|  TheRogueZeta   8/31/2020                 |
 \*-----------------------------------------*/
 
-#include "LogitechGProWirelessController.h"
+#include "LogitechGPowerPlayController.h"
 
 #include <cstring>
 
-LogitechGProWirelessController::LogitechGProWirelessController(hid_device* dev_handle)
+LogitechGPowerPlayController::LogitechGPowerPlayController(hid_device* dev_handle)
 {
     dev = dev_handle;
 }
 
-LogitechGProWirelessController::~LogitechGProWirelessController()
+LogitechGPowerPlayController::~LogitechGPowerPlayController()
 {
     hid_close(dev);
 }
 
-void LogitechGProWirelessController::SendMouseMode
+void LogitechGPowerPlayController::SendMouseMatMode
     (
     unsigned char       mode,
     std::uint16_t       speed,
@@ -43,9 +43,9 @@ void LogitechGProWirelessController::SendMouseMode
     | Set up Lighting Control packet                        |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x11;
-    usb_buf[0x01]           = 0x01;
-    usb_buf[0x02]           = 0x07;
-    usb_buf[0x03]           = 0x3C;
+    usb_buf[0x01]           = 0x07;
+    usb_buf[0x02]           = 0x0B;
+    usb_buf[0x03]           = 0x3E;
 
     usb_buf[0x04]           = zone;
     usb_buf[0x05]           = mode;
@@ -54,19 +54,19 @@ void LogitechGProWirelessController::SendMouseMode
     usb_buf[0x07]           = green;
     usb_buf[0x08]           = blue;
 
-    speed = 1000 * (LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST - speed);
-    if(mode == LOGITECH_G_PRO_WIRELESS_MODE_STATIC)
+    speed = 1000 * (LOGITECH_G_POWERPLAY_SPEED_FASTEST - speed);
+    if(mode == LOGITECH_G_POWERPLAY_MODE_STATIC)
     {
         usb_buf[0x09]   = 0x02;
     }
-    if(mode == LOGITECH_G_PRO_WIRELESS_MODE_CYCLE)
+    if(mode == LOGITECH_G_POWERPLAY_MODE_CYCLE)
     {
         usb_buf[0x0B]   = speed >> 8;
         usb_buf[0x0C]   = speed & 0xFF;
         //usb_buf[0x0D]   = brightness;
         usb_buf[0x0D]   = 0x64;
     }
-    else if(mode == LOGITECH_G_PRO_WIRELESS_MODE_BREATHING)
+    else if(mode == LOGITECH_G_POWERPLAY_MODE_BREATHING)
     {
         usb_buf[0x09]   = speed >> 8;
         usb_buf[0x0A]   = speed & 0xFF;

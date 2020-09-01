@@ -5,6 +5,7 @@
 #include "LogitechG502PSController.h"
 #include "LogitechG810Controller.h"
 #include "LogitechGProWirelessController.h"
+#include "LogitechGPowerPlayController.h"
 #include "RGBController.h"
 #include "RGBController_LogitechG203.h"
 #include "RGBController_LogitechG203L.h"
@@ -12,6 +13,7 @@
 #include "RGBController_LogitechG502PS.h"
 #include "RGBController_LogitechG810.h"
 #include "RGBController_LogitechGProWireless.h"
+#include "RGBController_LogitechGPowerPlay.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -230,7 +232,6 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             
                             case LOGITECH_GPRO_WIRELESS_PID:
                             case LOGITECH_G_LIGHTSPEED_WIRELESS_PID:
-                            case LOGITECH_G_LIGHTSPEED_POWERPLAY_PID:
                                 {
                                     LogitechGProWirelessController* controller = new LogitechGProWirelessController(dev);
 
@@ -238,6 +239,25 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
 
                                     rgb_controller->name = device_list[device_idx].name;
                                     rgb_controllers.push_back(rgb_controller);
+                                }
+                                break;
+                            case LOGITECH_G_LIGHTSPEED_POWERPLAY_PID:
+                                {
+                                    //Add mouse
+                                    LogitechGProWirelessController* mouse_controller = new LogitechGProWirelessController(dev);
+
+                                    RGBController_LogitechGProWireless* mouse_rgb_controller = new RGBController_LogitechGProWireless(mouse_controller);
+
+                                    mouse_rgb_controller->name = device_list[device_idx].name;
+                                    rgb_controllers.push_back(mouse_rgb_controller);
+                                    
+                                    //Add Powerplay mousemat
+                                    LogitechGPowerPlayController* mousemat_controller = new LogitechGPowerPlayController(dev);
+
+                                    RGBController_LogitechGPowerPlay* mousemat_rgb_controller = new RGBController_LogitechGPowerPlay(mousemat_controller);
+
+                                    mousemat_rgb_controller->name = device_list[device_idx].name;
+                                    rgb_controllers.push_back(mousemat_rgb_controller);
                                 }
                                 break;
                             }
