@@ -56,19 +56,6 @@ RGBController_LogitechGProWireless::RGBController_LogitechGProWireless(LogitechG
 
 void RGBController_LogitechGProWireless::SetupZones()
 {
-    zone GProWireless_logo_zone;
-    GProWireless_logo_zone.name           = "Logo Zone";
-    GProWireless_logo_zone.type           = ZONE_TYPE_SINGLE;
-    GProWireless_logo_zone.leds_min       = 1;
-    GProWireless_logo_zone.leds_max       = 1;
-    GProWireless_logo_zone.leds_count     = 1;
-    GProWireless_logo_zone.matrix_map     = NULL;
-    zones.push_back(GProWireless_logo_zone);
-
-    led GProWireless_logo_led;
-    GProWireless_logo_led.name = "Logo LED";
-    leds.push_back(GProWireless_logo_led);
-
     zone GProWireless_primary_zone;
     GProWireless_primary_zone.name           = "DPI Zone";
     GProWireless_primary_zone.type           = ZONE_TYPE_SINGLE;
@@ -81,6 +68,19 @@ void RGBController_LogitechGProWireless::SetupZones()
     led GProWireless_primary_led;
     GProWireless_primary_led.name = "DPI LED";
     leds.push_back(GProWireless_primary_led);
+
+    zone GProWireless_logo_zone;
+    GProWireless_logo_zone.name           = "Logo Zone";
+    GProWireless_logo_zone.type           = ZONE_TYPE_SINGLE;
+    GProWireless_logo_zone.leds_min       = 1;
+    GProWireless_logo_zone.leds_max       = 1;
+    GProWireless_logo_zone.leds_count     = 1;
+    GProWireless_logo_zone.matrix_map     = NULL;
+    zones.push_back(GProWireless_logo_zone);
+
+    led GProWireless_logo_led;
+    GProWireless_logo_led.name = "Logo LED";
+    leds.push_back(GProWireless_logo_led);
 
     SetupColors();
 }
