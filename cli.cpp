@@ -532,7 +532,7 @@ bool OptionDevice(int *current_device, std::string argument, Options *options, s
     }
 }
 
-bool OptionZone(int *current_device, int *current_zone, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
+bool OptionZone(int *current_device, int *current_zone, std::string argument, Options */*options*/, std::vector<RGBController *> &rgb_controllers)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
@@ -557,7 +557,7 @@ bool OptionZone(int *current_device, int *current_zone, std::string argument, Op
     }
 }
 
-bool OptionColor(int *currentDev, int *current_zone, std::string argument, Options *options)
+bool OptionColor(int *currentDev, int */*current_zone*/, std::string argument, Options *options)
 {
     DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
 
@@ -587,7 +587,7 @@ bool OptionMode(int *currentDev, std::string argument, Options *options)
     return true;
 }
 
-bool OptionSize(int *current_device, int *current_zone, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
+bool OptionSize(int *current_device, int *current_zone, std::string argument, Options */*options*/, std::vector<RGBController *> &rgb_controllers)
 {
     const unsigned int new_size = std::stoi(argument);
 
@@ -1024,7 +1024,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_cont
 
 void WaitWhileServerOnline(NetworkServer* srv)
 {
-    while (network_server->GetOnline())
+    while (srv->GetOnline())
     {
         std::this_thread::sleep_for(1s);
     };

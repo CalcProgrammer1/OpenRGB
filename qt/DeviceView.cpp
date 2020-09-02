@@ -216,9 +216,9 @@ void DeviceView::setController(RGBController * controller_ptr)
         {
             matrix_map_type * map = controller->zones[zone_idx].matrix_map;
 
-            for(int led_x = 0; led_x < map->width; led_x++)
+            for(unsigned int led_x = 0; led_x < map->width; led_x++)
             {
-                for(int led_y = 0; led_y < map->height; led_y++)
+                for(unsigned int led_y = 0; led_y < map->height; led_y++)
                 {
                     unsigned int map_idx    = led_y * map->width + led_x;
                     unsigned int color_idx  = map->map[map_idx] + controller->zones[zone_idx].start_idx;
@@ -281,7 +281,7 @@ void DeviceView::setController(RGBController * controller_ptr)
                                 led_pos[color_idx].matrix_x -= atom;
                                 led_pos[color_idx].matrix_w += atom;
                             }
-                            for(int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; ++map_idx2)
+                            for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; ++map_idx2)
                             {
                                 led_pos[color_idx].matrix_w += atom;
                             }
@@ -294,7 +294,7 @@ void DeviceView::setController(RGBController * controller_ptr)
         }
         else
         {
-            for(int i = 0; i < controller->zones[zone_idx].leds_count; i++)
+            for(unsigned int i = 0; i < controller->zones[zone_idx].leds_count; i++)
             {
                 led_pos[i + controller->zones[zone_idx].start_idx].matrix_x = zone_pos[zone_idx].matrix_x + (i % maxCols + ledPadding) * atom;
                 led_pos[i + controller->zones[zone_idx].start_idx].matrix_y = current_y + (i / maxCols + ledPadding) * atom;

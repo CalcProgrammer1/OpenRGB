@@ -161,7 +161,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     /*-------------------------------------------------*\
     | Detect i2c busses                                 |
     \*-------------------------------------------------*/
-    for(int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size(); i2c_bus_detector_idx++)
+    for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size(); i2c_bus_detector_idx++)
     {
         i2c_bus_detectors[i2c_bus_detector_idx](busses);
     }
@@ -169,7 +169,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     /*-------------------------------------------------*\
     | Detect i2c devices                                |
     \*-------------------------------------------------*/
-    for(int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size(); i2c_detector_idx++)
+    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size(); i2c_detector_idx++)
     {
         detection_string = i2c_device_detector_strings[i2c_detector_idx];
         DeviceListChanged();
@@ -207,7 +207,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     /*-------------------------------------------------*\
     | Detect other devices                              |
     \*-------------------------------------------------*/
-    for(int detector_idx = 0; detector_idx < device_detectors.size(); detector_idx++)
+    for(unsigned int detector_idx = 0; detector_idx < device_detectors.size(); detector_idx++)
     {
         detection_string = device_detector_strings[detector_idx];
         DeviceListChanged();

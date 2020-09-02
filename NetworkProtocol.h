@@ -20,7 +20,7 @@ typedef struct NetPacketHeader
     unsigned int        pkt_dev_idx;                /* Device index                                         */
     unsigned int        pkt_id;                     /* Packet ID                                            */
     unsigned int        pkt_size;                   /* Packet size                                          */
-};
+} NetPacketHeader;
 
 enum
 {

@@ -640,7 +640,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 for (std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
                 {
                     char id_buf[32];
-                    snprintf(id_buf, 16, "Mode Color %lu", i);
+                    snprintf(id_buf, 16, "Mode Color %u", i);
                     ui->LEDBox->addItem(id_buf);
                 }
 

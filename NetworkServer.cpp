@@ -446,7 +446,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 }
                 bytes_read += tmp_bytes_read;
 
-            } while (bytes_read < header.pkt_size);
+            } while ((unsigned int)bytes_read < header.pkt_size);
         }
 
         //Entire request received, select functionality based on request ID
@@ -584,7 +584,7 @@ listen_done:
     ClientInfoChanged();
 }
 
-void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
+void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int /*data_size*/, char * data)
 {
     ServerClientsMutex.lock();
     for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)

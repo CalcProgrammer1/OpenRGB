@@ -381,7 +381,7 @@ void NetworkClient::ListenThreadFunction()
                 }
                 bytes_read += tmp_bytes_read;
 
-            } while (bytes_read < header.pkt_size);
+            } while ((unsigned int)bytes_read < header.pkt_size);
         }
 
         //Entire request received, select functionality based on request ID
@@ -448,7 +448,7 @@ void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * 
     }
 }
 
-void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx)
+void NetworkClient::ProcessReply_ControllerData(unsigned int /*data_size*/, char * data, unsigned int dev_idx)
 {
     RGBController_Network * new_controller = new RGBController_Network(this, dev_idx);
 
