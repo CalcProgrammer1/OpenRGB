@@ -90,7 +90,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
 {
     hid_init();
 
-    for(int device_idx = 0; device_idx < LOGITECH_NUM_DEVICES; device_idx++)
+    for(unsigned int device_idx = 0; device_idx < LOGITECH_NUM_DEVICES; device_idx++)
     {
         switch(device_list[device_idx].type)
         {

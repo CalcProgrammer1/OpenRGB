@@ -276,7 +276,7 @@ void DeviceView::setController(RGBController * controller_ptr)
                         }
                         else if(controller->leds[color_idx].name == "Key: Space")
                         {
-                            for(int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
+                            for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
                             {
                                 led_pos[color_idx].matrix_x -= atom;
                                 led_pos[color_idx].matrix_w += atom;

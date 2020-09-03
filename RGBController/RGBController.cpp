@@ -18,7 +18,7 @@ RGBController::~RGBController()
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
     \*---------------------------------------------------------*/
-    for(int zone_index = 0; zone_index < zones.size(); zone_index++)
+    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
     {
         if(zones[zone_index].matrix_map != NULL)
         {

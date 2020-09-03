@@ -35,7 +35,7 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
         return;
     }
 
-    for(int dev_idx = 0; dev_idx < COUNT_RGBFUSION2_PIDS; dev_idx++)
+    for(unsigned int dev_idx = 0; dev_idx < COUNT_RGBFUSION2_PIDS; dev_idx++)
     {
         dev = NULL;
 
@@ -54,7 +54,8 @@ void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers
             &&(info->product_id        == tmpPID))
 #endif
             {
-                hid_device * dev = hid_open_path(info->path);
+                dev = hid_open_path(info->path);
+                
                 if (dev)
                 {
                     RGBFusion2USBController * controller = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());

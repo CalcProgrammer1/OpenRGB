@@ -45,7 +45,7 @@ SteelSeriesApexController::~SteelSeriesApexController()
 void SteelSeriesApexController::SetMode
     (
     unsigned char mode,
-    std::vector<RGBColor> colors
+    std::vector<RGBColor> /*colors*/
     )
 {
     unsigned char mode_colors[9];

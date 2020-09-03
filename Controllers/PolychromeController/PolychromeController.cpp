@@ -19,7 +19,6 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
 
     unsigned short fw_version    = ReadFirmwareVersion();
     unsigned char  major_version = fw_version >> 8;
-    unsigned char  minor_version = fw_version & 0xFF;
 
     /*-----------------------------------------------------*\
     | Determine whether the device uses ASR LED or          |

@@ -44,7 +44,7 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
         hid_device* dev = NULL;
         if(info->vendor_id == COOLERMASTER_VID)
         {
-            for(int cm_pid_idx = 0; cm_pid_idx < COOLERMASTER_NUM_DEVICES; cm_pid_idx++)
+            for(unsigned int cm_pid_idx = 0; cm_pid_idx < COOLERMASTER_NUM_DEVICES; cm_pid_idx++)
             {
                 if((info->product_id        == cm_pids[cm_pid_idx][CM_PID])
                  &&(info->interface_number  == cm_pids[cm_pid_idx][CM_INTERFACE]))

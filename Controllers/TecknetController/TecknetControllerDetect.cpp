@@ -55,7 +55,7 @@ void DetectTecknetControllers(std::vector<RGBController*>& rgb_controllers)
         hid_device* dev = NULL;
         if(info->vendor_id == TECKNET_VID)
         {
-            for(int pid_idx = 0; pid_idx < TECKNET_NUM_DEVICES; pid_idx++)
+            for(unsigned int pid_idx = 0; pid_idx < TECKNET_NUM_DEVICES; pid_idx++)
             {
                 if((info->vendor_id         == TECKNET_VID)
 #ifdef USE_HID_USAGE

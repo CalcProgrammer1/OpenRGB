@@ -98,7 +98,7 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
 
     hid_init();
 
-    for(int device_idx = 0; device_idx < STEELSERIES_NUM_DEVICES; device_idx++)
+    for(unsigned int device_idx = 0; device_idx < STEELSERIES_NUM_DEVICES; device_idx++)
     {
         dev = NULL;
 

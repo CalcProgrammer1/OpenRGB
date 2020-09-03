@@ -43,7 +43,7 @@ void DetectAorusCPUCoolerControllers(std::vector<RGBController*>& rgb_controller
 {
     hid_init();
 
-    for(int device_idx = 0; device_idx < NUM_DEVICES; device_idx++)
+    for(unsigned int device_idx = 0; device_idx < NUM_DEVICES; device_idx++)
     {
         hid_device_info* info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
 

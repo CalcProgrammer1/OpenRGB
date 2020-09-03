@@ -42,7 +42,7 @@ void DetectEKControllers(std::vector<RGBController*>& rgb_controllers)
         hid_device* dev = NULL;
         if(info->vendor_id == EK_VID)
         {
-            for(int ek_pid_idx = 0; ek_pid_idx < EK_NUM_DEVICES; ek_pid_idx++)
+            for(unsigned int ek_pid_idx = 0; ek_pid_idx < EK_NUM_DEVICES; ek_pid_idx++)
             {
                 if((info->product_id        == ek_pids[ek_pid_idx][EK_PID])
                  &&(info->interface_number  == ek_pids[ek_pid_idx][EK_INTERFACE]))

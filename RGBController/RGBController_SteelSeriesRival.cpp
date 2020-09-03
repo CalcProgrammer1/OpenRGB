@@ -105,6 +105,9 @@ void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
             case RIVAL_300:
                 rival->SetColor(zone, red, grn, blu);
                 break;
+
+            default:
+                break;
         }
     }
 }   

@@ -72,7 +72,7 @@ void HyperXPulsefireSurgeController::SetProfileBrightness
     buf[0x03]   = 0x01;
     buf[0x04]   = 0x01;
     buf[0x05]   = 0x01;
-    buf[0x06]   = 0x64;
+    buf[0x06]   = brightness;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |

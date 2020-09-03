@@ -33,7 +33,6 @@ std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned sho
 
     if(dir == NULL)
     {
-        closedir(dir);
         return ret_vector;
     }
 

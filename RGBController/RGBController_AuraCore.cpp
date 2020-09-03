@@ -76,7 +76,7 @@ void RGBController_AuraCore::DeviceUpdateLEDs()
 
 void RGBController_AuraCore::UpdateZoneLEDs(int /*zone*/)
 {
-    for(int led_idx = 0; led_idx < leds.size(); led_idx++)
+    for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
         UpdateSingleLED(led_idx);
     }

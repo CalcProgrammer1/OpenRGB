@@ -54,7 +54,6 @@ void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
 
     if(dir == NULL)
     {
-        closedir(dir);
         return;
     }
 
