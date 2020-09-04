@@ -503,7 +503,9 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         font.setPixelSize(posh / 2);
         painter.setFont(font);
 
-        if(currentColor.value() > 127)
+        unsigned int luma = (unsigned int)(0.2126f * currentColor.red() + 0.7152f * currentColor.green() + 0.0722f * currentColor.blue());
+
+        if(luma > 127)
         {
             painter.setPen(Qt::black);
         }
