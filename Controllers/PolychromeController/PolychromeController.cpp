@@ -133,7 +133,6 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
     switch(asrock_type)
     {
         case ASROCK_TYPE_ASRLED:
-        case ASROCK_TYPE_POLYCHROME_V1:
             switch(active_mode)
             {
                 /*-----------------------------------------------------*\
@@ -171,6 +170,7 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
             std::this_thread::sleep_for(1ms);
             break;
 
+        case ASROCK_TYPE_POLYCHROME_V1:
         case ASROCK_TYPE_POLYCHROME_V2:
             /*-----------------------------------------------------*\
             | Select LED                                            |
