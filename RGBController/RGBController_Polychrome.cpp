@@ -12,6 +12,16 @@
 #define ASROCK_MAX_ZONES    4
 #define ASROCK_MAX_LEDS     22
 
+static const char* polychrome_v1_zone_names[] =
+{
+    "RGB LED 0 Header",
+    "RGB LED 1 Header",
+    "PCH",
+    "IO Cover",
+    "Audio",
+    "Addressable Header"
+};
+
 static const char* polychrome_v2_zone_names[] =
 {
     "RGB LED 0 Header",
@@ -313,7 +323,14 @@ void RGBController_Polychrome::SetupZones()
                         /*---------------------------------------------------------*\
                         | Set zone name to channel name                             |
                         \*---------------------------------------------------------*/
-                        new_zone->name              = polychrome_v2_zone_names[zone_idx];
+                        if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
+                        {
+                            new_zone->name          = polychrome_v1_zone_names[zone_idx];
+                        }
+                        else
+                        {
+                            new_zone->name          = polychrome_v2_zone_names[zone_idx];
+                        }
                         
                         if(zone_idx == POLYCHROME_ZONE_ADDRESSABLE)
                         {
@@ -361,13 +378,25 @@ void RGBController_Polychrome::SetupZones()
                             \*---------------------------------------------------------*/
                             led* new_led = new led();
 
-                            new_led->name = polychrome_v2_zone_names[zone_idx];
+                            if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
+                                {
+                                    new_led->name           = polychrome_v1_zone_names[zone_idx];
+                                }
+                                else
+                                {
+                                    new_led->name           = polychrome_v2_zone_names[zone_idx];
+                                }
+
                             new_led->name.append(" " + std::to_string(led_idx + 1));
                             new_led->value = 0;
 
-                            if(zone_idx == POLYCHROME_ZONE_ADDRESSABLE)
+                            if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
                             {
-                                new_led->value = 1;
+                                new_led->value              = zone_idx;
+                            }
+                            else if(zone_idx == POLYCHROME_ZONE_ADDRESSABLE)
+                            {
+                                new_led->value              = 0x19;
                             }
 
                             /*---------------------------------------------------------*\
@@ -418,12 +447,12 @@ void RGBController_Polychrome::UpdateSingleLED(int led)
     unsigned char blu = RGBGetBValue(colors[led]);
 
     /*---------------------------------------------------------*\
-    | If the LED value is 1, it is the addressable LED and the  |
-    | address is 0x19                                           |
+    | If the LED value is non-zero, this LED overrides the LED  |
+    | index                                                     |
     \*---------------------------------------------------------*/
-    if(leds[led].value == 1)
+    if(leds[led].value != 0)
     {
-        led = 0x19;
+        led = leds[led].value;
     }
 
     polychrome->SetColorsAndSpeed(led, red, grn, blu);
