@@ -133,6 +133,13 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
     switch(asrock_type)
     {
         case ASROCK_TYPE_ASRLED:
+        case ASROCK_TYPE_POLYCHROME_V1:
+            /*-----------------------------------------------------*\
+            | Select LED                                            |
+            \*-----------------------------------------------------*/
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_SELECT, 1, select_led_pkt);
+            std::this_thread::sleep_for(1ms);
+
             switch(active_mode)
             {
                 /*-----------------------------------------------------*\
@@ -170,7 +177,6 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
             std::this_thread::sleep_for(1ms);
             break;
 
-        case ASROCK_TYPE_POLYCHROME_V1:
         case ASROCK_TYPE_POLYCHROME_V2:
             /*-----------------------------------------------------*\
             | Select LED                                            |
@@ -196,8 +202,18 @@ void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
     switch(asrock_type)
     {
         case ASROCK_TYPE_ASRLED:
+            bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
+            std::this_thread::sleep_for(1ms);
+            break;
+
         case ASROCK_TYPE_POLYCHROME_V1:
             bus->i2c_smbus_write_block_data(dev, ASRLED_REG_MODE, 1, &active_mode);
+            std::this_thread::sleep_for(1ms);
+
+            /*-----------------------------------------------------*\
+            | Select a single LED                                   |
+            \*-----------------------------------------------------*/
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_REG_LED_COUNT, 0, led_count_pkt);
             std::this_thread::sleep_for(1ms);
             break;
 

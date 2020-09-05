@@ -27,6 +27,7 @@ enum
 {
     ASRLED_REG_FIRMWARE_VER         = 0x00,     /* Firmware version Major.Minor         */
     ASRLED_REG_MODE                 = 0x30,     /* Mode selection register              */
+    ASRLED_REG_LED_SELECT           = 0x31,     /* LED selection register               */
 };
 
 #define ASRLED_NUM_MODES             8          /* Number of ASR LED modes              */
