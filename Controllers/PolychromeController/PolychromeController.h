@@ -105,6 +105,7 @@ public:
     PolychromeController(i2c_smbus_interface* bus, polychrome_dev_id dev);
     ~PolychromeController();
 
+    std::string     GetDeviceLocation();
     std::string     GetDeviceName();
     std::string     GetFirmwareVersion();
     unsigned int    GetMode();

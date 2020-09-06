@@ -62,6 +62,16 @@ unsigned int PolychromeController::GetASRockType()
     return(asrock_type);
 }
 
+std::string PolychromeController::GetDeviceLocation()
+{
+    std::string return_string(bus->device_name);
+    char addr[5];
+    snprintf(addr, 5, "0x%02X", dev);
+    return_string.append(", address ");
+    return_string.append(addr);
+    return(return_string);
+}
+
 std::string PolychromeController::GetDeviceName()
 {
     return(device_name);

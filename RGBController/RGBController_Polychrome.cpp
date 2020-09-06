@@ -40,6 +40,7 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
     version     = polychrome->GetFirmwareVersion();
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "ASRock ASR LED/Polychrome Device";
+    location    = polychrome->GetDeviceLocation();
 
     switch(polychrome->GetASRockType())
     {
