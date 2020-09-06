@@ -35,21 +35,8 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
 {
     RGBController_E131* new_controller;
 
-    //Get file path in executable directory
     std::ifstream infile;
-    char filename[2048];
     char arg1[64];
-
-#ifdef WIN32
-    GetModuleFileName(NULL, filename, 2048);
-    strcpy(filename, std::string(filename).substr(0, std::string(filename).find_last_of("\\/")).c_str());
-    strcat(filename, "\\e131.txt");
-#else
-    snprintf(arg1, 64, "/proc/%d/exe", getpid());
-    readlink(arg1, filename, 1024);
-    strcpy(filename, std::string(filename).substr(0, std::string(filename).find_last_of("\\/")).c_str());
-    strcat(filename, "/e131.txt");
-#endif
 
 	E131Device dev;
     std::vector<E131Device> devices;
@@ -66,7 +53,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
     dev.matrix_height = 0;
     
     //Open settings file
-    infile.open(filename);
+    infile.open("e131.txt");
 
     if (infile.good())
     {
