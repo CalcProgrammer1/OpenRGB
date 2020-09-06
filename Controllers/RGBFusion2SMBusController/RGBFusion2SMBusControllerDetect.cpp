@@ -23,6 +23,11 @@ const motherboard_info rgb_fusion_2_smbus_motherboards[] =
     { "Gigabyte Technology Co., Ltd.",      "X470 AORUS ULTRA GAMING-CF"    },
     { "Gigabyte Technology Co., Ltd.",      "X470 AORUS ULTRA GAMING"       },
     { "Gigabyte Technology Co., Ltd.",      "X470 AORUS GAMING 5 WIFI"      },
+    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS M"                  },
+    { "Gigabyte Technology Co., Ltd.",      "X399 AORUS XTREME-CF"          },
+    { "Gigabyte Technology Co., Ltd.",      "X399 DESIGNARE EX-CF"          },
+    { "Gigabyte Technology Co., Ltd.",      "B450 I AORUS PRO WIFI-CF"      },
+    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS PRO-CF4"            },
 };
 
 /******************************************************************************************\
