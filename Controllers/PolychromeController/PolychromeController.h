@@ -112,7 +112,7 @@ public:
     void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode, unsigned char speed);
 
-    unsigned int            zone_led_count[6];
+    unsigned char           zone_led_count[6];
     
 private:
     unsigned int            asrock_type;
