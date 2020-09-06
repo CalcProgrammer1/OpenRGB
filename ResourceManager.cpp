@@ -282,6 +282,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     detection_percent = 100;
     detection_string = "";
 
+    DeviceListChanged();
+    
     DetectDeviceMutex.unlock();
 }
 
