@@ -257,9 +257,10 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
     }
 }
 
-void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
+void PolychromeController::SetMode(unsigned char zone,unsigned char mode, unsigned char speed)
 {
     unsigned char led_count_pkt[1]  = { 0x00 };
+    active_zone                     = zone;
     active_mode                     = mode;
     active_speed                    = speed;
 
@@ -271,13 +272,22 @@ void PolychromeController::SetMode(unsigned char mode, unsigned char speed)
             break;
 
         case ASROCK_TYPE_POLYCHROME_V1:
-            bus->i2c_smbus_write_block_data(dev, ASROCK_REG_MODE, 1, &active_mode);
+            /*-----------------------------------------------------*\
+            | Make sure set all register is set to 0                |
+            \*-----------------------------------------------------*/
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_SET_ALL, 1, led_count_pkt);
             std::this_thread::sleep_for(1ms);
 
             /*-----------------------------------------------------*\
-            | Select a single LED                                   |
+            | Set the zone we are working on                        |
             \*-----------------------------------------------------*/
-            bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_SET_ALL, 0, led_count_pkt);
+            bus->i2c_smbus_write_block_data(dev, ASROCK_REG_LED_SELECT, 1, &active_zone);
+            std::this_thread::sleep_for(1ms);
+
+            /*-----------------------------------------------------*\
+            | Write the mode                                        |
+            \*-----------------------------------------------------*/
+            bus->i2c_smbus_write_block_data(dev, ASROCK_REG_MODE, 1, &active_mode);
             std::this_thread::sleep_for(1ms);
             break;
 

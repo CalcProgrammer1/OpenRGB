@@ -203,13 +203,14 @@ public:
     unsigned int    GetMode();
     unsigned int    GetASRockType();
     void            SetColorsAndSpeed(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
-    void            SetMode(unsigned char mode, unsigned char speed);
+    void            SetMode(unsigned char zone, unsigned char mode, unsigned char speed);
 
     unsigned char           zone_led_count[6];
     
 private:
     unsigned int            asrock_type;
     std::string             device_name;
+    unsigned char           active_zone;
     unsigned char           active_mode;
     unsigned char           active_speed;
     i2c_smbus_interface*    bus;

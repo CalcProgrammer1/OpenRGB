@@ -613,7 +613,17 @@ void RGBController_Polychrome::SetCustomMode()
 
 void RGBController_Polychrome::DeviceUpdateMode()
 {
-    polychrome->SetMode(modes[active_mode].value, modes[active_mode].speed);
+    if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
+    {
+        for(unsigned int led_idx = 0; led_idx <= leds.size(); led_idx++)
+        {
+            polychrome->SetMode(led_idx, modes[active_mode].value, modes[active_mode].speed);
+        }
+    }
+    else
+    {
+        polychrome->SetMode(0, modes[active_mode].value, modes[active_mode].speed);
+    }
 
     DeviceUpdateLEDs();
 }
