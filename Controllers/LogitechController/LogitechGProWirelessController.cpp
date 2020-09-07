@@ -54,7 +54,7 @@ void LogitechGProWirelessController::SendMouseMode
     usb_buf[0x07]           = green;
     usb_buf[0x08]           = blue;
 
-    speed = 1000 * (LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST - speed);
+    speed = 100 * speed;
     if(mode == LOGITECH_G_PRO_WIRELESS_MODE_STATIC)
     {
         usb_buf[0x09]   = 0x02;
