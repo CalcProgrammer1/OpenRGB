@@ -53,7 +53,7 @@ void LogitechG403Controller::SendMouseMode
     usb_buf[0x07]           = green;
     usb_buf[0x08]           = blue;
 
-    speed = 1000 + 4750 * (LOGITECH_G403_SPEED_FASTEST - speed);
+    speed = 100 * speed;
     if(mode == LOGITECH_G403_MODE_CYCLE)
     {
         usb_buf[0x0B]   = speed >> 8;

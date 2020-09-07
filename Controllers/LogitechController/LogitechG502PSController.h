@@ -23,13 +23,15 @@ enum
     LOGITECH_G502_PS_MODE_BREATHING         = 0x02
 };
 
+/*---------------------------------------------------------------------------------------------*\
+| Speed is 1000 for fast and 20000 for slow.                                                    |
+| Values are mutipled by 100 later to give lots of GUI steps.                                   |
+\*---------------------------------------------------------------------------------------------*/
 enum
 {
-    LOGITECH_G502_PS_SPEED_SLOWEST          = 0x00, /* Slowest speed                */
-    LOGITECH_G502_PS_SPEED_SLOW             = 0x01, /* Slow speed                   */
-    LOGITECH_G502_PS_SPEED_NORMAL           = 0x02, /* Normal speed                 */
-    LOGITECH_G502_PS_SPEED_FAST             = 0x03, /* Fast speed                   */
-    LOGITECH_G502_PS_SPEED_FASTEST          = 0x04, /* Fastest speed                */
+    LOGITECH_G502_PS_SPEED_SLOWEST          = 0xC8,     /* Slowest speed                       */
+    LOGITECH_G502_PS_SPEED_NORMAL           = 0x32,     /* Normal speed                        */
+    LOGITECH_G502_PS_SPEED_FASTEST          = 0x0A,     /* Fastest speed                       */
 };
 
 class LogitechG502PSController

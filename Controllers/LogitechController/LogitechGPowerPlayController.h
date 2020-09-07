@@ -22,11 +22,15 @@ enum
     LOGITECH_G_POWERPLAY_MODE_BREATHING         = 0x03,
 };
 
+/*---------------------------------------------------------------------------------------------*\
+| Speed is 1000 for fast and 20000 for slow.                                                    |
+| Values are mutipled by 100 later to give lots of GUI steps.                                   |
+\*---------------------------------------------------------------------------------------------*/
 enum
 {
-    LOGITECH_G_POWERPLAY_SPEED_SLOWEST          = 0x01,   /* Slowest speed                */
-    LOGITECH_G_POWERPLAY_SPEED_NORMAL           = 0x32,   /* Normal speed                 */
-    LOGITECH_G_POWERPLAY_SPEED_FASTEST          = 0xC8,   /* Fastest speed                */
+    LOGITECH_G_POWERPLAY_SPEED_SLOWEST          = 0xC8,     /* Slowest speed                   */
+    LOGITECH_G_POWERPLAY_SPEED_NORMAL           = 0x32,     /* Normal speed                    */
+    LOGITECH_G_POWERPLAY_SPEED_FASTEST          = 0x0A,     /* Fastest speed                   */
 };
 
 class LogitechGPowerPlayController
