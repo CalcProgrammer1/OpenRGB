@@ -148,8 +148,11 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
             /*-----------------------------------------------------*\
             | Select LED                                            |
             \*-----------------------------------------------------*/
-            bus->i2c_smbus_write_block_data(dev, ASROCK_REG_LED_SELECT, 1, select_led_pkt);
-            std::this_thread::sleep_for(1ms);
+            if(active_mode != ASRLED_MODE_OFF)
+            {
+                bus->i2c_smbus_write_block_data(dev, ASROCK_REG_LED_SELECT, 1, select_led_pkt);
+                std::this_thread::sleep_for(1ms);
+            }
 
             switch(active_mode)
             {
@@ -192,8 +195,11 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
             /*-----------------------------------------------------*\
             | Select LED                                            |
             \*-----------------------------------------------------*/
-            bus->i2c_smbus_write_block_data(dev, ASROCK_REG_LED_SELECT, 1, select_led_pkt);
-            std::this_thread::sleep_for(1ms);
+            if(active_mode != ASRLED_MODE_OFF)
+            {
+                bus->i2c_smbus_write_block_data(dev, ASROCK_REG_LED_SELECT, 1, select_led_pkt);
+                std::this_thread::sleep_for(1ms);
+            }
 
             switch(active_mode)
             {
@@ -245,14 +251,24 @@ void PolychromeController::SetColorsAndSpeed(unsigned char led, unsigned char re
             /*-----------------------------------------------------*\
             | Select LED                                            |
             \*-----------------------------------------------------*/
-            bus->i2c_smbus_write_block_data(dev, ASROCK_REG_LED_SELECT, 1, select_led_pkt);
-            std::this_thread::sleep_for(1ms);
+            switch(active_mode)
+            {
+                case POLYCHROME_V2_MODE_OFF:
+                case POLYCHROME_V2_MODE_RAINBOW:
+                case POLYCHROME_V2_MODE_SPECTRUM_CYCLE:
+                    break;
 
-            /*-----------------------------------------------------*\
-            | Polychrome firmware always writes color to fixed reg  |
-            \*-----------------------------------------------------*/
-            bus->i2c_smbus_write_block_data(dev, POLYCHROME_V2_REG_COLOR, 3, color_speed_pkt);
-            std::this_thread::sleep_for(1ms);
+                default:
+                    bus->i2c_smbus_write_block_data(dev, ASROCK_REG_LED_SELECT, 1, select_led_pkt);
+                    std::this_thread::sleep_for(1ms);
+
+                    /*-----------------------------------------------------*\
+                    | Polychrome firmware always writes color to fixed reg  |
+                    \*-----------------------------------------------------*/
+                    bus->i2c_smbus_write_block_data(dev, POLYCHROME_V2_REG_COLOR, 3, color_speed_pkt);
+                    std::this_thread::sleep_for(1ms);
+                    break;
+            }
             break;
     }
 }
