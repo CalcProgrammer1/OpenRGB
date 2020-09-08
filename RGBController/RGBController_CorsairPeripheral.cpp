@@ -499,7 +499,7 @@ static const char* corsair_mouse_leds[] =
     "Mouse LED 1",
     "Mouse LED 2",
     "Mouse LED 3",
-    "Logo",
+    "Mouse LED 4",
     "Mouse LED 5",
     "Mouse LED 6",
     "Mouse LED 7",
@@ -511,6 +511,44 @@ static const char* corsair_mouse_leds[] =
     "Mouse LED 13",
     "Mouse LED 14",
     "Mouse LED 15",
+};
+
+static const char* corsair_sabre_rgb_leds[] =
+{
+    "",
+    "Underglow",
+    "Logo",
+    "DPI",
+    "Scroll Wheel",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+};
+
+static const char* corsair_harpoon_pro_leds[] =
+{
+    "",
+    "",
+    "",
+    "Logo",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
 };
 
 RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr)
