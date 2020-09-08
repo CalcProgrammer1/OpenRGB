@@ -97,11 +97,14 @@ void RGBController_HyperXPulsefireSurge::SetupZones()
         {
             led new_led;
             
+            new_led.name = zones[zone_idx].name;
+
             if(zones[zone_idx].leds_count > 1)
             {
-                new_led.name = zones[zone_idx].name + " LED";
-            }
-            
+                new_led.name.append(" LED ");
+                new_led.name.append(std::to_string(led_idx + 1));
+            }  
+
             leds.push_back(new_led);
         }
     }
