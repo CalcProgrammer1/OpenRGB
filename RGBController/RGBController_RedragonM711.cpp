@@ -58,7 +58,7 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
 void RGBController_RedragonM711::SetupZones()
 {
     zone m711_zone;
-    m711_zone.name           = "Mouse Zone";
+    m711_zone.name           = "Mouse";
     m711_zone.type           = ZONE_TYPE_SINGLE;
     m711_zone.leds_min       = 1;
     m711_zone.leds_max       = 1;
@@ -67,7 +67,7 @@ void RGBController_RedragonM711::SetupZones()
     zones.push_back(m711_zone);
 
     led m711_led;
-    m711_led.name = "Mouse LED";
+    m711_led.name = "Mouse";
     leds.push_back(m711_led);
 
     SetupColors();

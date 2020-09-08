@@ -57,7 +57,7 @@ RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGPowe
 void RGBController_LogitechGPowerPlay::SetupZones()
 {
     zone GPowerPlay_logo_zone;
-    GPowerPlay_logo_zone.name           = "Logo Zone";
+    GPowerPlay_logo_zone.name           = "Logo";
     GPowerPlay_logo_zone.type           = ZONE_TYPE_SINGLE;
     GPowerPlay_logo_zone.leds_min       = 1;
     GPowerPlay_logo_zone.leds_max       = 1;
@@ -66,7 +66,7 @@ void RGBController_LogitechGPowerPlay::SetupZones()
     zones.push_back(GPowerPlay_logo_zone);
 
     led GPowerPlay_logo_led;
-    GPowerPlay_logo_led.name = "Logo LED";
+    GPowerPlay_logo_led.name = "Logo";
     leds.push_back(GPowerPlay_logo_led);
 
     SetupColors();

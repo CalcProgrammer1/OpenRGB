@@ -57,7 +57,7 @@ RGBController_LogitechG203::RGBController_LogitechG203(LogitechG203Controller* l
 void RGBController_LogitechG203::SetupZones()
 {
     zone g203_zone;
-    g203_zone.name           = "Mouse Zone";
+    g203_zone.name           = "Mouse";
     g203_zone.type           = ZONE_TYPE_SINGLE;
     g203_zone.leds_min       = 1;
     g203_zone.leds_max       = 1;
@@ -66,7 +66,7 @@ void RGBController_LogitechG203::SetupZones()
     zones.push_back(g203_zone);
 
     led g203_led;
-    g203_led.name = "Mouse LED";
+    g203_led.name = "Mouse";
     leds.push_back(g203_led);
 
     SetupColors();

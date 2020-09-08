@@ -57,7 +57,7 @@ RGBController_LogitechG502PS::RGBController_LogitechG502PS(LogitechG502PSControl
 void RGBController_LogitechG502PS::SetupZones()
 {
     zone G502_PS_side_zone;
-    G502_PS_side_zone.name           = "Mouse Side Zone";
+    G502_PS_side_zone.name           = "DPI";
     G502_PS_side_zone.type           = ZONE_TYPE_SINGLE;
     G502_PS_side_zone.leds_min       = 1;
     G502_PS_side_zone.leds_max       = 1;
@@ -66,11 +66,11 @@ void RGBController_LogitechG502PS::SetupZones()
     zones.push_back(G502_PS_side_zone);
 
     led G502_PS_side_led;
-    G502_PS_side_led.name = "Mouse Wheel LED";
+    G502_PS_side_led.name = "DPI";
     leds.push_back(G502_PS_side_led);
 
     zone G502_logo_zone;
-    G502_logo_zone.name           = "Logo Zone";
+    G502_logo_zone.name           = "Logo";
     G502_logo_zone.type           = ZONE_TYPE_SINGLE;
     G502_logo_zone.leds_min       = 1;
     G502_logo_zone.leds_max       = 1;
@@ -79,7 +79,7 @@ void RGBController_LogitechG502PS::SetupZones()
     zones.push_back(G502_logo_zone);
 
     led G502_logo_led;
-    G502_logo_led.name = "Logo LED";
+    G502_logo_led.name = "Logo";
     leds.push_back(G502_logo_led);
 
     SetupColors();

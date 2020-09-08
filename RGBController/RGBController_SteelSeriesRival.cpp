@@ -50,13 +50,13 @@ void RGBController_SteelSeriesRival::SetupZones()
     zones.push_back(logo_zone);
 
     led logo_led;
-    logo_led.name = "Logo LED";
+    logo_led.name = "Logo";
     leds.push_back(logo_led);
 
     /* Rival 300 extends this by adding another LED + Zone */
     if (rival->GetMouseType() == RIVAL_300) {
         zone wheel_zone;
-        wheel_zone.name         = "Wheel";
+        wheel_zone.name         = "Scroll Wheel";
         wheel_zone.type         = ZONE_TYPE_SINGLE;
         wheel_zone.leds_min     = 1;
         wheel_zone.leds_max     = 1;
@@ -65,7 +65,7 @@ void RGBController_SteelSeriesRival::SetupZones()
         zones.push_back(wheel_zone);
         
         led wheel_led;
-        wheel_led.name = "Wheel LED";
+        wheel_led.name = "Scroll Wheel";
         leds.push_back(wheel_led);
     }
     SetupColors();

@@ -60,7 +60,7 @@ RGBController_Tecknet::~RGBController_Tecknet()
 void RGBController_Tecknet::SetupZones()
 {
     zone Tecknet_zone;
-    Tecknet_zone.name          = "Tecknet Logo";
+    Tecknet_zone.name          = "Logo";
     Tecknet_zone.type          = ZONE_TYPE_SINGLE;
     Tecknet_zone.leds_min      = 1;
     Tecknet_zone.leds_max      = 1;
@@ -69,7 +69,7 @@ void RGBController_Tecknet::SetupZones()
     zones.push_back(Tecknet_zone);
 
     led Tecknet_led;
-    Tecknet_led.name = "Logo LED";
+    Tecknet_led.name = "Logo";
     leds.push_back(Tecknet_led);
 
     SetupColors();

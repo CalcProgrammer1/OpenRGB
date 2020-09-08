@@ -38,7 +38,7 @@ RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* holtek_
 void RGBController_HoltekA070::SetupZones()
 {
     zone mouse_zone;
-    mouse_zone.name          = "Mouse Zone";
+    mouse_zone.name          = "Mouse";
     mouse_zone.type          = ZONE_TYPE_SINGLE;
     mouse_zone.leds_min      = 1;
     mouse_zone.leds_max      = 1;
@@ -47,7 +47,7 @@ void RGBController_HoltekA070::SetupZones()
     zones.push_back(mouse_zone);
 
     led mouse_led;
-    mouse_led.name = "All LEDs";
+    mouse_led.name = "Mouse";
     leds.push_back(mouse_led);
 
     SetupColors();

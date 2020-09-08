@@ -57,7 +57,7 @@ RGBController_LogitechGProWireless::RGBController_LogitechGProWireless(LogitechG
 void RGBController_LogitechGProWireless::SetupZones()
 {
     zone GProWireless_primary_zone;
-    GProWireless_primary_zone.name           = "DPI Zone";
+    GProWireless_primary_zone.name           = "DPI";
     GProWireless_primary_zone.type           = ZONE_TYPE_SINGLE;
     GProWireless_primary_zone.leds_min       = 1;
     GProWireless_primary_zone.leds_max       = 1;
@@ -66,11 +66,11 @@ void RGBController_LogitechGProWireless::SetupZones()
     zones.push_back(GProWireless_primary_zone);
 
     led GProWireless_primary_led;
-    GProWireless_primary_led.name = "DPI LED";
+    GProWireless_primary_led.name = "DPI";
     leds.push_back(GProWireless_primary_led);
 
     zone GProWireless_logo_zone;
-    GProWireless_logo_zone.name           = "Logo Zone";
+    GProWireless_logo_zone.name           = "Logo";
     GProWireless_logo_zone.type           = ZONE_TYPE_SINGLE;
     GProWireless_logo_zone.leds_min       = 1;
     GProWireless_logo_zone.leds_max       = 1;
@@ -79,7 +79,7 @@ void RGBController_LogitechGProWireless::SetupZones()
     zones.push_back(GProWireless_logo_zone);
 
     led GProWireless_logo_led;
-    GProWireless_logo_led.name = "Logo LED";
+    GProWireless_logo_led.name = "Logo";
     leds.push_back(GProWireless_logo_led);
 
     SetupColors();

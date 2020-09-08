@@ -57,7 +57,7 @@ RGBController_LogitechG403::RGBController_LogitechG403(LogitechG403Controller* l
 void RGBController_LogitechG403::SetupZones()
 {
     zone G403_wheel_zone;
-    G403_wheel_zone.name           = "Mouse Wheel Zone";
+    G403_wheel_zone.name           = "Scroll Wheel";
     G403_wheel_zone.type           = ZONE_TYPE_SINGLE;
     G403_wheel_zone.leds_min       = 1;
     G403_wheel_zone.leds_max       = 1;
@@ -66,11 +66,11 @@ void RGBController_LogitechG403::SetupZones()
     zones.push_back(G403_wheel_zone);
 
     led G403_wheel_led;
-    G403_wheel_led.name = "Mouse Wheel LED";
+    G403_wheel_led.name = "Scroll Wheel";
     leds.push_back(G403_wheel_led);
 
     zone G403_logo_zone;
-    G403_logo_zone.name           = "Logo Zone";
+    G403_logo_zone.name           = "Logo";
     G403_logo_zone.type           = ZONE_TYPE_SINGLE;
     G403_logo_zone.leds_min       = 1;
     G403_logo_zone.leds_max       = 1;
@@ -79,7 +79,7 @@ void RGBController_LogitechG403::SetupZones()
     zones.push_back(G403_logo_zone);
 
     led G403_logo_led;
-    G403_logo_led.name = "Logo LED";
+    G403_logo_led.name = "Logo";
     leds.push_back(G403_logo_led);
 
     SetupColors();

@@ -371,8 +371,13 @@ void RGBController_OpenRazer::SetupZones()
             {
                 led* new_led = new led();
 
-                new_led->name = device_list[device_index]->zones[zone_id]->name + " LED ";
-                new_led->name.append(std::to_string(col_id + 1));
+                new_led->name = device_list[device_index]->zones[zone_id]->name;
+                
+                if(zones[zone_id].leds_count > 1)
+                {
+                    new_led->name.append(" LED ");
+                    new_led->name.append(std::to_string(col_id + 1));
+                }                
 
                 if(device_list[device_index]->keymap != NULL)
                 {
