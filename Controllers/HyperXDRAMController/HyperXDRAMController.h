@@ -188,8 +188,8 @@ enum
 static const unsigned char slot_base[4] =
 {
     HYPERX_REG_SLOT0_LED0_RED,                      /* SPD 0x50 maps to slot 0              */
-    HYPERX_REG_SLOT1_LED0_RED,                      /* SPD 0x51 maps to slot 1              */
-    HYPERX_REG_SLOT2_LED0_RED,                      /* SPD 0x52 maps to slot 2              */
+    HYPERX_REG_SLOT2_LED0_RED,                      /* SPD 0x51 maps to slot 2              */
+    HYPERX_REG_SLOT1_LED0_RED,                      /* SPD 0x52 maps to slot 1              */
     HYPERX_REG_SLOT3_LED0_RED                       /* SPD 0x53 maps to slot 3              */
 };
 
