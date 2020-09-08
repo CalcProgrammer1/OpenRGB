@@ -494,6 +494,25 @@ static const char* led_names_k95[] =
     "Key: M3",
 };
 
+static const char* corsair_mouse_leds[] =
+{
+    "Mouse LED 1",
+    "Mouse LED 2",
+    "Mouse LED 3",
+    "Logo",
+    "Mouse LED 5",
+    "Mouse LED 6",
+    "Mouse LED 7",
+    "Mouse LED 8",
+    "Mouse LED 9",
+    "Mouse LED 10",
+    "Mouse LED 11",
+    "Mouse LED 12",
+    "Mouse LED 13",
+    "Mouse LED 14",
+    "Mouse LED 15",
+};
+
 RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr)
 {
     corsair = corsair_ptr;
@@ -624,7 +643,7 @@ void RGBController_CorsairPeripheral::SetupZones()
 
 
             case DEVICE_TYPE_MOUSE:
-                new_zone.name           = "Mousemat Zone";
+                new_zone.name           = "Mouse Zone";
                 new_zone.type           = ZONE_TYPE_SINGLE;
                 new_zone.leds_min       = 15;
                 new_zone.leds_max       = 15;
@@ -690,6 +709,9 @@ void RGBController_CorsairPeripheral::SetupZones()
                 break;
 
             case DEVICE_TYPE_MOUSE:
+                new_led.name = corsair_mouse_leds[led_idx];
+                break;
+            
             case DEVICE_TYPE_MOUSEMAT:
             case DEVICE_TYPE_HEADSET_STAND:
                 new_led.name = "Mousemat LED ";
