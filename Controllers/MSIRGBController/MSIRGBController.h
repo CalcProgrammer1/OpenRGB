@@ -11,7 +11,6 @@
 \*-----------------------------------------*/
 
 #include <string>
-
 #pragma once
 
 #define MSI_SIO_LOGDEV_RGB      0x12
