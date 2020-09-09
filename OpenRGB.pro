@@ -524,6 +524,7 @@ win32:INCLUDEPATH +=                                                            
     dependencies/NVFC                                                                           \
     dependencies/openrazer-win32                                                                \
     wmi/                                                                                        \
+    Controllers/AsusTUFLaptopController                                                         \
 
 win32:SOURCES +=                                                                                \
 #   dependencies/hidapi/hidapi.c                                                                \
@@ -535,6 +536,9 @@ win32:SOURCES +=                                                                
     i2c_smbus/i2c_smbus_piix4.cpp                                                               \
     serial_port/find_usb_serial_port_win.cpp                                                    \
     wmi/wmi.cpp                                                                                 \
+    wmi/acpiwmi.cpp                                                                             \
+    Controllers/AsusTUFLaptopController/AsusTUFLaptopWMIDetect.cpp                              \
+    Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.cpp                      \
     Controllers/OpenRazerController/OpenRazerWindowsDetect.cpp                                  \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.cpp                          \
 
@@ -549,6 +553,8 @@ win32:HEADERS +=                                                                
     i2c_smbus/i2c_smbus_nvapi.h                                                                 \
     i2c_smbus/i2c_smbus_piix4.h                                                                 \
     wmi/wmi.h                                                                                   \
+    wmi/acpiwmi.h                                                                               \
+    Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {

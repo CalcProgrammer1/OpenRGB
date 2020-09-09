@@ -33,11 +33,8 @@ RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
 
     modes[3].name       = "Strobe";
     modes[3].value      = FAUSTUS_MODE_STROBE;
-    modes[3].flags      = MODE_FLAG_HAS_SPEED;
-    modes[3].speed_min  = FAUSTUS_SPEED_SLOWEST;
-    modes[3].speed_max  = FAUSTUS_SPEED_FASTEST;
-    modes[3].color_mode = MODE_COLORS_NONE;
-    modes[3].speed      = FAUSTUS_SPEED_NORMAL;
+    modes[3].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    modes[3].color_mode = MODE_COLORS_PER_LED;
 
     SetupZones();
 
