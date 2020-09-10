@@ -201,7 +201,7 @@ void RGBController_CorsairLightingNode::SetupZones()
         | can support is 200.                               |
         \*-------------------------------------------------*/
         zones[channel_idx].leds_min   = 0;
-        zones[channel_idx].leds_max   = 200;
+        zones[channel_idx].leds_max   = 204;
 
         if(first_run)
         {
