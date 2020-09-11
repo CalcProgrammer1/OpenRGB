@@ -61,6 +61,8 @@ INCLUDEPATH +=                                                          \
     Controllers/CorsairVengeanceProController/                          \
     Controllers/CrucialController/                                      \
     Controllers/DuckyKeyboardController/                                \
+    Controllers/EKController/                                           \
+    Controllers/EspurnaController/                                      \
     Controllers/GalaxGPUController/                                     \
     Controllers/GloriousModelOController/                               \
     Controllers/HoltekController/                                       \
@@ -135,6 +137,7 @@ HEADERS +=                                                              \
     Controllers/CrucialController/CrucialController.h                   \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h       \
     Controllers/EKController/EKController.h                             \
+    Controllers/EspurnaController/EspurnaController.h                   \
     Controllers/GalaxGPUController/GalaxGPUController.h                 \
     Controllers/GloriousModelOController/GloriousModelOController.h     \
     Controllers/HoltekController/HoltekA070Controller.h                 \
@@ -189,8 +192,9 @@ HEADERS +=                                                              \
     RGBController/RGBController_Crucial.h                               \
     RGBController/RGBController_DuckyKeyboard.h                         \
     RGBController/RGBController_Dummy.h                                 \
-    RGBController/RGBController_EKController.h                          \
     RGBController/RGBController_E131.h                                  \
+    RGBController/RGBController_EKController.h                          \
+    RGBController/RGBController_Espurna.h                               \
     RGBController/RGBController_GalaxGPU.h                              \
     RGBController/RGBController_GloriousModelO.h                        \
     RGBController/RGBController_HoltekA070.h                            \
@@ -292,6 +296,8 @@ SOURCES +=                                                              \
     Controllers/DuckyKeyboardController/DuckyKeyboardControllerDetect.cpp \
     Controllers/EKController/EKControllerDetect.cpp                     \
     Controllers/EKController/EKController.cpp                           \
+    Controllers/EspurnaController/EspurnaController.cpp                 \
+    Controllers/EspurnaController/EspurnaControllerDetect.cpp           \
     Controllers/GalaxGPUController/GalaxGPUController.cpp               \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp         \
     Controllers/GloriousModelOController/GloriousModelOController.cpp   \
@@ -376,7 +382,9 @@ SOURCES +=                                                              \
     RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_DuckyKeyboard.cpp                       \
     RGBController/RGBController_Dummy.cpp                               \
+    RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_EKController.cpp                        \
+    RGBController/RGBController_Espurna.cpp                             \
     RGBController/RGBController_GalaxGPU.cpp                            \
     RGBController/RGBController_GloriousModelO.cpp                      \
     RGBController/RGBController_HoltekA070.cpp                          \
@@ -385,7 +393,6 @@ SOURCES +=                                                              \
     RGBController/RGBController_HyperXDRAM.cpp                          \
     RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_HyperXPulsefireSurge.cpp                \
-    RGBController/RGBController_E131.cpp                                \
     RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_LogitechG203.cpp                        \
     RGBController/RGBController_LogitechG203L.cpp                       \
