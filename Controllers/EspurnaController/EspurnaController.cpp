@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <string.h>
 
 EspurnaController::EspurnaController()
 {

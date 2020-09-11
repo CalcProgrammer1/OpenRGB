@@ -8,8 +8,6 @@
 
 #include "RGBController_Espurna.h"
 
-#include <string.h>
-
 RGBController_Espurna::RGBController_Espurna(EspurnaController* espurna_ptr)
 {
     espurna = espurna_ptr;
