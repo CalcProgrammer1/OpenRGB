@@ -22,13 +22,9 @@ EspurnaController::~EspurnaController()
 void EspurnaController::Initialize(char* ledstring)
 {
     LPSTR   apikey = NULL;
-    LPSTR   numleds = NULL;
     LPSTR   source = NULL;
     LPSTR   udpport_baud = NULL;
     LPSTR   next = NULL;
-    
-    //Assume serial device unless a different protocol is specified
-    bool    serial = TRUE;
     
     source = strtok_s(ledstring, ",", &next);
     
