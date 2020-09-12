@@ -7,28 +7,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/******************************************************************************************\
-*                                                                                          *
-*   TestForSapphireGPUController                                                           *
-*                                                                                          *
-*       Tests the given address to see if a Sapphire GPU controller exists there.  First   *
-*       does a quick write to test for a response                                          *
-*                                                                                          *
-\******************************************************************************************/
+/*-----------------------------------------------------*\
+| AMD vendor ID                                         |
+\*-----------------------------------------------------*/
+#define AMD_VEN                                 0x1002
 
-bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char address)
+/*-----------------------------------------------------*\
+| AMD device IDs                                        |
+\*-----------------------------------------------------*/
+#define AMD_RX580_DEV                           0x67DF
+
+/*-----------------------------------------------------*\
+| Sapphire sub-vendor ID                                |
+\*-----------------------------------------------------*/
+#define SAPPHIRE_SUB_VEN                        0x1DA2
+
+/*-----------------------------------------------------*\
+| Sapphire sub-device IDs                               |
+\*-----------------------------------------------------*/
+#define SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV       0xE366
+
+typedef struct
 {
-    //bool pass = false;
-    //int res;
+    int             pci_vendor;
+    int             pci_device;
+    int             pci_subsystem_vendor;
+    int             pci_subsystem_device;
+    const char *    name;
+} gpu_pci_device;
 
-    if(bus->i2c_smbus_read_byte_data(address, 0x06) == 0xCC)
-    {
-        //pass = true;
-    }
+#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
 
-    return(false); //TODO - better detection, leaving disabled for now
-
-}   /* TestForSapphireGPUController() */
+static const gpu_pci_device device_list[] =
+{
+    { AMD_VEN,      AMD_RX580_DEV,  SAPPHIRE_SUB_VEN,   SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV,  "Sapphire RX580 Nitro+" },
+};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -43,21 +56,30 @@ bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char addres
 
 void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers)
 {
-    SapphireGPUController* new_sapphire;
+    SapphireGPUController* new_sapphire_gpu;
     RGBController_SapphireGPU* new_controller;
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for Sapphire GPU controller at 0x55
-        if (TestForSapphireGPUController(busses[bus], 0x55))
+        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
-            new_sapphire   = new SapphireGPUController(busses[bus], 0x55);
-            new_controller = new RGBController_SapphireGPU(new_sapphire);
-            rgb_controllers.push_back(new_controller);
+            if (busses[bus]->port_id != 1)
+            {
+                break;
+            }
+
+            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
+               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
+               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
+               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
+            {
+                new_sapphire_gpu     = new SapphireGPUController(busses[bus], 0x55);
+                new_controller       = new RGBController_SapphireGPU(new_sapphire_gpu);
+                new_controller->name = device_list[dev_idx].name;
+                rgb_controllers.push_back(new_controller);
+            }
         }
     }
-
 }   /* DetectSapphireGPUControllers() */
 
-// This detector is disabled as it does not properly detect
-//REGISTER_I2C_DETECTOR("Sapphire GPU", DetectSapphireGPUControllers);
+REGISTER_I2C_DETECTOR("Sapphire GPU", DetectSapphireGPUControllers);
