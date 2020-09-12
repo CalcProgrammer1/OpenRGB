@@ -63,11 +63,6 @@ void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface*>& busses, std
     {
         for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
-            if (busses[bus]->port_id != 1)
-            {
-                break;
-            }
-
             if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
                busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&

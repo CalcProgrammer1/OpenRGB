@@ -8,23 +8,28 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus_amdadl.h"
+#include <string>
 
 typedef int ( *ADL2_MAIN_CONTROL_CREATE )(ADL_MAIN_MALLOC_CALLBACK, int, ADL_CONTEXT_HANDLE*);
 typedef int ( *ADL2_MAIN_CONTROL_DESTROY )(ADL_CONTEXT_HANDLE);
 typedef int ( *ADL2_ADAPTER_NUMBEROFADAPTERS_GET ) ( ADL_CONTEXT_HANDLE , int* );
 typedef int ( *ADL2_ADAPTER_PRIMARY_GET) (ADL_CONTEXT_HANDLE, int* lpPrimaryAdapterIndex);
+typedef int ( *ADL2_ADAPTER_ADAPTERINFOX2_GET) (ADL_CONTEXT_HANDLE, AdapterInfo**);
 typedef int ( *ADL2_DISPLAY_WRITEANDREADI2C) (ADL_CONTEXT_HANDLE, int iAdapterIndex, ADLI2C* plI2C);
 
 ADL2_MAIN_CONTROL_CREATE          ADL2_Main_Control_Create;
 ADL2_MAIN_CONTROL_DESTROY         ADL2_Main_Control_Destroy;
 ADL2_ADAPTER_NUMBEROFADAPTERS_GET ADL2_Adapter_NumberOfAdapters_Get;
 ADL2_ADAPTER_PRIMARY_GET          ADL2_Adapter_Primary_Get;
+ADL2_ADAPTER_ADAPTERINFOX2_GET    ADL2_Adapter_AdapterInfoX2_Get;
 ADL2_DISPLAY_WRITEANDREADI2C      ADL2_Display_WriteAndReadI2C;
 
-int i2c_smbus_amdadl::LoadLibraries()
+int LoadLibraries()
 {
     HINSTANCE hDLL;
+
     hDLL = LoadLibrary("atiadlxx.dll");
+
     if (hDLL == NULL)
     {
         // A 32 bit calling application on 64 bit OS will fail to LoadLIbrary.
@@ -38,6 +43,7 @@ int i2c_smbus_amdadl::LoadLibraries()
         ADL2_Main_Control_Destroy = (ADL2_MAIN_CONTROL_DESTROY)GetProcAddress(hDLL, "ADL2_Main_Control_Destroy");
         ADL2_Adapter_NumberOfAdapters_Get = (ADL2_ADAPTER_NUMBEROFADAPTERS_GET)GetProcAddress(hDLL, "ADL2_Adapter_NumberOfAdapters_Get");
         ADL2_Adapter_Primary_Get = (ADL2_ADAPTER_PRIMARY_GET)GetProcAddress(hDLL, "ADL2_Adapter_Primary_Get");
+        ADL2_Adapter_AdapterInfoX2_Get = (ADL2_ADAPTER_ADAPTERINFOX2_GET)GetProcAddress(hDLL, "ADL2_Adapter_AdapterInfoX2_Get");
         ADL2_Display_WriteAndReadI2C = (ADL2_DISPLAY_WRITEANDREADI2C)GetProcAddress(hDLL, "ADL2_Display_WriteAndReadI2C");
         return ADL_OK;
     }
@@ -62,14 +68,39 @@ void __stdcall ADL_Main_Memory_Free ( void* lpBuffer )
 
 i2c_smbus_amdadl::i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context)
 {
-    this->context = context;
-};
+    AdapterInfo * info;
 
-int i2c_smbus_amdadl::ADL_Initialize()
-{
-    return LoadLibraries();
-    //ADL2_Main_Control_Create(::ADL_Main_Memory_Alloc, 1, &_context);
-};
+    this->context = context;
+
+    if (ADL_OK != ADL2_Adapter_AdapterInfoX2_Get(context, &info))
+    {
+        printf("Cannot get Adapter Info!\n");
+    }
+    else
+    {
+        std::string pnp_str = info->strPNPString;
+
+        std::size_t ven_loc = pnp_str.find("VEN_");
+        std::size_t dev_loc = pnp_str.find("DEV_");
+        std::size_t sub_loc = pnp_str.find("SUBSYS_");
+
+        std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
+        std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
+        std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
+        std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
+
+        int ven_id = (int)std::stoul(ven_str, nullptr, 16);
+        int dev_id = (int)std::stoul(dev_str, nullptr, 16);
+        int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
+        int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
+
+        this->pci_vendor           = ven_id;
+        this->pci_device           = dev_id;
+        this->pci_subsystem_vendor = sbv_id;
+        this->pci_subsystem_device = sbd_id;
+        strcpy(this->device_name, "AMD ADL");
+    }
+}
 
 s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
@@ -148,19 +179,17 @@ void i2c_smbus_amdadl_detect(std::vector<i2c_smbus_interface*> &busses)
 {
     int adl_status;
     int gpu_count = 0;
-    ADL_CONTEXT_HANDLE gpu_handle;
+    ADL_CONTEXT_HANDLE context;
 
-    i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(gpu_handle);
+    LoadLibraries();
 
-    adl_status = adl_bus->ADL_Initialize();
-
-    if(0 != adl_status)
+    if (ADL_OK != ADL2_Main_Control_Create(::ADL_Main_Memory_Alloc, 1, &context))
     {
-        printf_s("ADL Status %d \n", adl_status);
+        printf("Cannot get handle!\n");
     }
     else
     {
-        sprintf(adl_bus->device_name, "AMD ADL I2C on GPU %d", gpu_count);
+        i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context);
         busses.push_back(adl_bus);
     }
 }   /* DetectAMDADLI2CBusses() */
