@@ -40,6 +40,7 @@
 #define STEELSERIES_APEX_7_PID                      0x1612
 #define STEELSERIES_APEX_7_TKL_PID                  0x1618
 #define STEELSERIES_APEX_PRO_PID                    0x1610
+#define STEELSERIES_APEX_PRO_TKL_PID                0x1614
 
 typedef struct
 {
@@ -81,6 +82,7 @@ static const steelseries_device device_list[] =
     { STEELSERIES_VID,      STEELSERIES_APEX_7_PID,                     1,  DEVICE_TYPE_KEYBOARD,   APEX,           "SteelSeries Apex 7"                                },
     { STEELSERIES_VID,      STEELSERIES_APEX_7_TKL_PID,                 1,  DEVICE_TYPE_KEYBOARD,   APEX_TKL,       "SteelSeries Apex 7 TKL"                            },
     { STEELSERIES_VID,      STEELSERIES_APEX_PRO_PID,                   1,  DEVICE_TYPE_KEYBOARD,   APEX,           "SteelSeries Apex Pro"                              },
+    { STEELSERIES_VID,      STEELSERIES_APEX_PRO_TKL_PID,               1,  DEVICE_TYPE_KEYBOARD,   APEX_TKL,       "SteelSeries Apex Pro TKL"                          },
 };
 
 /******************************************************************************************\
