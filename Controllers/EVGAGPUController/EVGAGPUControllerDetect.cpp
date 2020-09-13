@@ -7,19 +7,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/******************************************************************************************\
-*                                                                                          *
-*   TestForEVGAGPUController                                                               *
-*                                                                                          *
-*       Tests the given address to see if a EVGA GPU controller exists there.  First       *
-*       does a quick write to test for a response                                          *
-*                                                                                          *
-\******************************************************************************************/
+/*-----------------------------------------------------*\
+| NVidia vendor ID                                      |
+\*-----------------------------------------------------*/
+#define NVIDIA_VEN                              0x10DE
 
-bool TestForEVGAGPUController(i2c_smbus_interface* bus, unsigned char address)
+/*-----------------------------------------------------*\
+| NVidia device IDs                                     |
+\*-----------------------------------------------------*/
+#define NVIDIA_GTX1070_DEV                      0x1B81
+
+/*-----------------------------------------------------*\
+| EVGA sub-vendor ID                                    |
+\*-----------------------------------------------------*/
+#define EVGA_SUB_VEN                            0x3842
+
+/*-----------------------------------------------------*\
+| EVGA sub-device IDs                                   |
+\*-----------------------------------------------------*/
+#define EVGA_GTX1070_FTW_SUB_DEV                0x6276
+
+typedef struct
 {
-    return(false);
-}   /* TestForEVGAGPUController() */
+    int             pci_vendor;
+    int             pci_device;
+    int             pci_subsystem_vendor;
+    int             pci_subsystem_device;
+    const char *    name;
+} gpu_pci_device;
+
+#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const gpu_pci_device device_list[] =
+{
+    { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,     EVGA_SUB_VEN,   EVGA_GTX1070_FTW_SUB_DEV,       "EVGA GeForce GTX 1070 FTW"     },
+};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -34,21 +56,30 @@ bool TestForEVGAGPUController(i2c_smbus_interface* bus, unsigned char address)
 
 void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers)
 {
-    EVGAGPUController* new_evga;
+    EVGAGPUController* new_evga_gpu;
     RGBController_EVGAGPU* new_controller;
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for EVGA GPU controller at 0x49
-        if (TestForEVGAGPUController(busses[bus], 0x49))
+        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
-            new_evga       = new EVGAGPUController(busses[bus], 0x49);
-            new_controller = new RGBController_EVGAGPU(new_evga);
-            rgb_controllers.push_back(new_controller);
+            if (busses[bus]->port_id != 1)
+            {
+                break;
+            }
+
+            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
+               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
+               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
+               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
+            {
+                new_evga_gpu = new EVGAGPUController(busses[bus], 0x49);
+                new_controller = new RGBController_EVGAGPU(new_evga_gpu);
+                new_controller->name = device_list[dev_idx].name;
+                rgb_controllers.push_back(new_controller);
+            }
         }
     }
-
 }   /* DetectEVGAGPUControllers() */
 
-// This detector is disabled as it does not properly detect
-//REGISTER_I2C_DETECTOR("EVGA GPU", DetectEVGAGPUControllers);
+REGISTER_I2C_DETECTOR("EVGA GPU", DetectEVGAGPUControllers);
