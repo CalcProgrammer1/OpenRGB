@@ -181,16 +181,17 @@ void i2c_smbus_amdadl_detect(std::vector<i2c_smbus_interface*> &busses)
     int gpu_count = 0;
     ADL_CONTEXT_HANDLE context;
 
-    LoadLibraries();
-
-    if (ADL_OK != ADL2_Main_Control_Create(::ADL_Main_Memory_Alloc, 1, &context))
+    if(ADL_OK == LoadLibraries())
     {
-        printf("Cannot get handle!\n");
-    }
-    else
-    {
-        i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context);
-        busses.push_back(adl_bus);
+        if (ADL_OK != ADL2_Main_Control_Create(::ADL_Main_Memory_Alloc, 1, &context))
+        {
+            printf("Cannot get handle!\n");
+        }
+        else
+        {
+            i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context);
+            busses.push_back(adl_bus);
+        }
     }
 }   /* DetectAMDADLI2CBusses() */
 
