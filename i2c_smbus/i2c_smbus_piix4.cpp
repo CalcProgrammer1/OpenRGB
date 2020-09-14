@@ -205,13 +205,37 @@ void i2c_smbus_piix4_detect(std::vector<i2c_smbus_interface*> &busses)
         // AMD SMBus adapters use the PIIX4 driver
         if (i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
         {
-            bus = new i2c_smbus_piix4();
+            std::string pnp_str = i["DeviceID"];
+
+            std::size_t ven_loc = pnp_str.find("VEN_");
+            std::size_t dev_loc = pnp_str.find("DEV_");
+            std::size_t sub_loc = pnp_str.find("SUBSYS_");
+
+            std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
+            std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
+            std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
+            std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
+
+            int ven_id = (int)std::stoul(ven_str, nullptr, 16);
+            int dev_id = (int)std::stoul(dev_str, nullptr, 16);
+            int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
+            int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
+
+            bus                         = new i2c_smbus_piix4();
+            bus->pci_vendor             = ven_id;
+            bus->pci_device             = dev_id;
+            bus->pci_subsystem_vendor   = sbv_id;
+            bus->pci_subsystem_device   = sbd_id;
             strcpy(bus->device_name, i["Description"].c_str());
             strcat(bus->device_name, " at 0x0B00");
             ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B00;
             busses.push_back(bus);
 
-            bus = new i2c_smbus_piix4();
+            bus                         = new i2c_smbus_piix4();
+            bus->pci_vendor             = ven_id;
+            bus->pci_device             = dev_id;
+            bus->pci_subsystem_vendor   = sbv_id;
+            bus->pci_subsystem_device   = sbd_id;
             ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B20;
             strcpy(bus->device_name, i["Description"].c_str());
             strcat(bus->device_name, " at 0x0B20");
