@@ -1,0 +1,8 @@
+ignore:
+    - "/usr/**/*"                       # ingnore all unix system ressources
+    - "**/json*.*"                      # ignore all json files
+    - "**/hueplusplus/include/json/*"   # ignore all files in json folder
+    - "**/hueplusplus/test/*"           # ignore all files in test folder
+    - "**/hueplusplus/build/**/*"       # ignore all files in build folder
+    - "**/test/**/*"                    # ignore all files in test folders
+    - "**/v1/**/*"                      # ignore all macros files  
