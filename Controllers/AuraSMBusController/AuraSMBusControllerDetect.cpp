@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_AuraSMBus.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -130,61 +131,69 @@ void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::
     {
         int address_list_idx = -1;
 
-        // Remap Aura-enabled RAM modules on 0x77
-        for (unsigned int slot = 0; slot < 8; slot++)
+        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
-
-            if (res < 0)
+            // Remap Aura-enabled RAM modules on 0x77
+            for (unsigned int slot = 0; slot < 8; slot++)
             {
-                break;
-            }
+                int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
 
-            do
-            {
-                address_list_idx++;
-
-                if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
-                {
-                    res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
-                }
-                else
+                if (res < 0)
                 {
                     break;
                 }
-            } while (res >= 0);
 
-            if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
-            {
-                AuraRegisterWrite(busses[bus], 0x77, AURA_REG_SLOT_INDEX, slot);
-                AuraRegisterWrite(busses[bus], 0x77, AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
+                do
+                {
+                    address_list_idx++;
+
+                    if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
+                    {
+                        res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                } while (res >= 0);
+
+                if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
+                {
+                    AuraRegisterWrite(busses[bus], 0x77, AURA_REG_SLOT_INDEX, slot);
+                    AuraRegisterWrite(busses[bus], 0x77, AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
+                }
             }
-        }
 
-        // Add Aura-enabled controllers at their remapped addresses
-        for (unsigned int address_list_idx = 0; address_list_idx < AURA_RAM_ADDRESS_COUNT; address_list_idx++)
-        {
-            if (TestForAuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]))
+            // Add Aura-enabled controllers at their remapped addresses
+            for (unsigned int address_list_idx = 0; address_list_idx < AURA_RAM_ADDRESS_COUNT; address_list_idx++)
             {
-                new_aura = new AuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]);
-                new_controller = new RGBController_AuraSMBus(new_aura);
-                rgb_controllers.push_back(new_controller);
-            }
+                if (TestForAuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]))
+                {
+                    new_aura = new AuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]);
+                    new_controller = new RGBController_AuraSMBus(new_aura);
+                    rgb_controllers.push_back(new_controller);
+                }
 
-            std::this_thread::sleep_for(1ms);
+                std::this_thread::sleep_for(1ms);
+            }
         }
 
         // Add Aura-enabled motherboard controllers
-        for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
+        if(busses[bus]->pci_vendor           == AMD_VEN           &&
+           busses[bus]->pci_device           == AMD_FCH_SMBUS_DEV &&
+           busses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN)
         {
-            if (TestForAuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
+            for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
             {
-                new_aura = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
-                new_controller = new RGBController_AuraSMBus(new_aura);
-                rgb_controllers.push_back(new_controller);
-            }
+                if (TestForAuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
+                {
+                    new_aura = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
+                    new_controller = new RGBController_AuraSMBus(new_aura);
+                    rgb_controllers.push_back(new_controller);
+                }
 
-            std::this_thread::sleep_for(1ms);
+                std::this_thread::sleep_for(1ms);
+            }
         }
     }
 

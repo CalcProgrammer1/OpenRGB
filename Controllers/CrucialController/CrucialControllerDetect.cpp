@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_Crucial.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -74,14 +75,17 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Add Crucial controllers
-        for (unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)
+        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            if (TestForCrucialController(busses[bus], crucial_addresses[address_list_idx]))
+            // Add Crucial controllers
+            for (unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)
             {
-                new_crucial = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
-                new_controller = new RGBController_Crucial(new_crucial);
-                rgb_controllers.push_back(new_controller);
+                if (TestForCrucialController(busses[bus], crucial_addresses[address_list_idx]))
+                {
+                    new_crucial = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
+                    new_controller = new RGBController_Crucial(new_crucial);
+                    rgb_controllers.push_back(new_controller);
+                }
             }
         }
     }

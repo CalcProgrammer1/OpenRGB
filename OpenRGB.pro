@@ -45,6 +45,7 @@ INCLUDEPATH +=                                                          \
     i2c_smbus/                                                          \
     i2c_tools/                                                          \
     net_port/                                                           \
+    pci_ids/                                                            \
     serial_port/                                                        \
     super_io/                                                           \
     Controllers/AorusCPUCoolerController/                               \
@@ -111,6 +112,7 @@ HEADERS +=                                                              \
     i2c_smbus/i2c_smbus.h                                               \
     i2c_tools/i2c_tools.h                                               \
     net_port/net_port.h                                                 \
+    pci_ids/pci_ids.h                                                   \
     qt/DeviceView.h                                                     \
     qt/OpenRGBDialog2.h                                                 \
     qt/OpenRGBProfileSaveDialog.h                                       \

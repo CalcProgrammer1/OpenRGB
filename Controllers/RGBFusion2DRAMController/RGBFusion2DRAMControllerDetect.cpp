@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_RGBFusion2DRAM.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,12 +57,15 @@ void DetectRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses, 
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for RGB Fusion 2 DRAM controller at 0x67
-        if (TestForRGBFusion2DRAMController(busses[bus], 0x67))
+        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            new_rgb_fusion = new RGBFusion2DRAMController(busses[bus], 0x67);
-            new_controller = new RGBController_RGBFusion2DRAM(new_rgb_fusion);
-            rgb_controllers.push_back(new_controller);
+            // Check for RGB Fusion 2 DRAM controller at 0x67
+            if (TestForRGBFusion2DRAMController(busses[bus], 0x67))
+            {
+                new_rgb_fusion = new RGBFusion2DRAMController(busses[bus], 0x67);
+                new_controller = new RGBController_RGBFusion2DRAM(new_rgb_fusion);
+                rgb_controllers.push_back(new_controller);
+            }
         }
     }
 

@@ -3,29 +3,10 @@
 #include "RGBController.h"
 #include "RGBController_SapphireGPU.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
-
-/*-----------------------------------------------------*\
-| AMD vendor ID                                         |
-\*-----------------------------------------------------*/
-#define AMD_VEN                                 0x1002
-
-/*-----------------------------------------------------*\
-| AMD device IDs                                        |
-\*-----------------------------------------------------*/
-#define AMD_RX580_DEV                           0x67DF
-
-/*-----------------------------------------------------*\
-| Sapphire sub-vendor ID                                |
-\*-----------------------------------------------------*/
-#define SAPPHIRE_SUB_VEN                        0x1DA2
-
-/*-----------------------------------------------------*\
-| Sapphire sub-device IDs                               |
-\*-----------------------------------------------------*/
-#define SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV       0xE366
 
 typedef struct
 {

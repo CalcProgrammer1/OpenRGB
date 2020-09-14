@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_HyperXDRAM.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,32 +64,35 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
     {
         unsigned char slots_valid = 0x00;
 
-        // Check for HyperX controller at 0x27
-        if (TestForHyperXDRAMController(busses[bus], 0x27))
+        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
-
-            std::this_thread::sleep_for(1ms);
-            
-            for(int slot_addr = 0x50; slot_addr <= 0x57; slot_addr++)
+            // Check for HyperX controller at 0x27
+            if (TestForHyperXDRAMController(busses[bus], 0x27))
             {
-                // Test for HyperX SPD at slot_addr
-                // This test was copied from NGENUITY software
-                // Tests SPD addresses in order: 0x40, 0x41
-                if((busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x40) == 0x01)
-                 &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x41) == 0x98))
-                {
-                    slots_valid |= (1 << (slot_addr - 0x50));
-                }
+                busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
 
                 std::this_thread::sleep_for(1ms);
-            }
+                
+                for(int slot_addr = 0x50; slot_addr <= 0x57; slot_addr++)
+                {
+                    // Test for HyperX SPD at slot_addr
+                    // This test was copied from NGENUITY software
+                    // Tests SPD addresses in order: 0x40, 0x41
+                    if((busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x40) == 0x01)
+                    &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x41) == 0x98))
+                    {
+                        slots_valid |= (1 << (slot_addr - 0x50));
+                    }
 
-            if(slots_valid != 0)
-            {
-                new_hyperx = new HyperXDRAMController(busses[bus], 0x27, slots_valid);
-                new_controller = new RGBController_HyperXDRAM(new_hyperx);
-                rgb_controllers.push_back(new_controller);
+                    std::this_thread::sleep_for(1ms);
+                }
+
+                if(slots_valid != 0)
+                {
+                    new_hyperx = new HyperXDRAMController(busses[bus], 0x27, slots_valid);
+                    new_controller = new RGBController_HyperXDRAM(new_hyperx);
+                    rgb_controllers.push_back(new_controller);
+                }
             }
         }
     }

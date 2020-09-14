@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_CorsairVengeancePro.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,68 +67,71 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for Corsair controller at 0x58
-        if (TestForCorsairVengeanceProController(busses[bus], 0x58))
+        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x58);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
-        }
+            // Check for Corsair controller at 0x58
+            if (TestForCorsairVengeanceProController(busses[bus], 0x58))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x58);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Corsair controller at 0x59
-        if (TestForCorsairVengeanceProController(busses[bus], 0x59))
-        {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x59);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
-        }
+            // Check for Corsair controller at 0x59
+            if (TestForCorsairVengeanceProController(busses[bus], 0x59))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x59);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Corsair controller at 0x5A
-        if (TestForCorsairVengeanceProController(busses[bus], 0x5A))
-        {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5A);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
-        }
+            // Check for Corsair controller at 0x5A
+            if (TestForCorsairVengeanceProController(busses[bus], 0x5A))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5A);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Corsair controller at 0x5B
-        if (TestForCorsairVengeanceProController(busses[bus], 0x5B))
-        {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5B);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
-        }
+            // Check for Corsair controller at 0x5B
+            if (TestForCorsairVengeanceProController(busses[bus], 0x5B))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5B);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Corsair controller at 0x5C
-        if (TestForCorsairVengeanceProController(busses[bus], 0x5C))
-        {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5C);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
-        }
+            // Check for Corsair controller at 0x5C
+            if (TestForCorsairVengeanceProController(busses[bus], 0x5C))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5C);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Corsair controller at 0x5D
-        if (TestForCorsairVengeanceProController(busses[bus], 0x5D))
-        {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5D);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
-        }
+            // Check for Corsair controller at 0x5D
+            if (TestForCorsairVengeanceProController(busses[bus], 0x5D))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5D);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Corsair controller at 0x5E
-        if (TestForCorsairVengeanceProController(busses[bus], 0x5E))
-        {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5E);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
-        }
+            // Check for Corsair controller at 0x5E
+            if (TestForCorsairVengeanceProController(busses[bus], 0x5E))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5E);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
 
-        // Check for Corsair controller at 0x5F
-        if (TestForCorsairVengeanceProController(busses[bus], 0x5F))
-        {
-            new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5F);
-            new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-            rgb_controllers.push_back(new_controller);
+            // Check for Corsair controller at 0x5F
+            if (TestForCorsairVengeanceProController(busses[bus], 0x5F))
+            {
+                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5F);
+                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
+                rgb_controllers.push_back(new_controller);
+            }
         }
     }
 

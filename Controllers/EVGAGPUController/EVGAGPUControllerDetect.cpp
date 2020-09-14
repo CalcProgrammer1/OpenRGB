@@ -5,31 +5,10 @@
 #include "RGBController_EVGAGPUv1.h"
 #include "RGBController_EVGAGPUv2.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
-
-/*-----------------------------------------------------*\
-| NVidia vendor ID                                      |
-\*-----------------------------------------------------*/
-#define NVIDIA_VEN                              0x10DE
-
-/*-----------------------------------------------------*\
-| NVidia device IDs                                     |
-\*-----------------------------------------------------*/
-#define NVIDIA_GTX1070_DEV                      0x1B81
-#define NVIDIA_RTX2080_DEV                      0x1E87
-
-/*-----------------------------------------------------*\
-| EVGA sub-vendor ID                                    |
-\*-----------------------------------------------------*/
-#define EVGA_SUB_VEN                            0x3842
-
-/*-----------------------------------------------------*\
-| EVGA sub-device IDs                                   |
-\*-----------------------------------------------------*/
-#define EVGA_GTX1070_FTW_SUB_DEV                0x6276
-#define EVGA_RTX2080_XC_GAMING_SUB_DEV          0x2182
 
 enum
 {
