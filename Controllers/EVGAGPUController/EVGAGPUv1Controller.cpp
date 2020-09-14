@@ -1,26 +1,26 @@
 /*-----------------------------------------*\
 |  EVGAGPUController.cpp                    |
 |                                           |
-|  Driver for EVGA GPU RGB lighting         |
-|  controller                               |
+|  Driver for EVGA GPU RGB V1 (Pascal)      |
+|  lighting controller                      |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 9/11/2020   |
 \*-----------------------------------------*/
 
-#include "EVGAGPUController.h"
+#include "EVGAGPUv1Controller.h"
 
-EVGAGPUController::EVGAGPUController(i2c_smbus_interface* bus, evga_dev_id dev)
+EVGAGPUv1Controller::EVGAGPUv1Controller(i2c_smbus_interface* bus, evga_dev_id dev)
 {
     this->bus = bus;
     this->dev = dev;
 }
 
-EVGAGPUController::~EVGAGPUController()
+EVGAGPUv1Controller::~EVGAGPUv1Controller()
 {
 
 }
 
-std::string EVGAGPUController::GetDeviceLocation()
+std::string EVGAGPUv1Controller::GetDeviceLocation()
 {
     std::string return_string(bus->device_name);
     char addr[5];
@@ -30,29 +30,29 @@ std::string EVGAGPUController::GetDeviceLocation()
     return(return_string);
 }
 
-unsigned char EVGAGPUController::GetRed()
+unsigned char EVGAGPUv1Controller::GetRed()
 {
     return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_REG_RED));
 }
 
-unsigned char EVGAGPUController::GetGreen()
+unsigned char EVGAGPUv1Controller::GetGreen()
 {
     return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_REG_GREEN));
 }
 
-unsigned char EVGAGPUController::GetBlue()
+unsigned char EVGAGPUv1Controller::GetBlue()
 {
     return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_REG_BLUE));
 }
 
-void EVGAGPUController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
+void EVGAGPUv1Controller::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_RED,   red);
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_GREEN, green);
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_BLUE,  blue);
 }
 
-void EVGAGPUController::SetMode(unsigned char mode)
+void EVGAGPUv1Controller::SetMode(unsigned char mode)
 {
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_MODE, mode);
 }

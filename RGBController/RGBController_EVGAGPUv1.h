@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  RGBController_EVGAGPU.h                  |
+|  RGBController_EVGAv1GPU.h                |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
-|  EVGA GPU RGB Driver                      |
+|  EVGA GPU RGB V1 (Pascal) Driver          |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 9/11/2020   |
 \*-----------------------------------------*/
@@ -10,12 +10,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "EVGAGPUController.h"
+#include "EVGAGPUv1Controller.h"
 
-class RGBController_EVGAGPU : public RGBController
+class RGBController_EVGAGPUv1 : public RGBController
 {
 public:
-    RGBController_EVGAGPU(EVGAGPUController* evga_ptr);
+    RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr);
 
     void        SetupZones();
 
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    EVGAGPUController* evga;
+    EVGAGPUv1Controller* evga;
 };

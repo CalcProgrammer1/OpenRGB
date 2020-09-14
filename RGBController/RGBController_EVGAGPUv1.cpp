@@ -2,19 +2,19 @@
 |  RGBController_EVGAGPU.cpp                |
 |                                           |
 |  Generic RGB Interface for OpenRGB EVGA   |
-|  GPU Driver                               |
+|  GPU V1 (Pascal) Driver                   |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 9/11/2020   |
 \*-----------------------------------------*/
 
-#include "RGBController_EVGAGPU.h"
+#include "RGBController_EVGAGPUv1.h"
 
-RGBController_EVGAGPU::RGBController_EVGAGPU(EVGAGPUController* evga_ptr)
+RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
 {
     evga = evga_ptr;
 
     name        = "EVGA GPU";
-    description = "EVGA GPU";
+    description = "EVGA RGB v1 GPU Device";
     location    = evga->GetDeviceLocation();
 
     type = DEVICE_TYPE_GPU;
@@ -53,7 +53,7 @@ RGBController_EVGAGPU::RGBController_EVGAGPU(EVGAGPUController* evga_ptr)
     active_mode = 0;
 }
 
-void RGBController_EVGAGPU::SetupZones()
+void RGBController_EVGAGPUv1::SetupZones()
 {
     /*---------------------------------------------------------*\
     | This device only has one LED, so create a single zone and |
@@ -80,14 +80,14 @@ void RGBController_EVGAGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_EVGAGPUv1::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_EVGAGPU::DeviceUpdateLEDs()
+void RGBController_EVGAGPUv1::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -97,22 +97,22 @@ void RGBController_EVGAGPU::DeviceUpdateLEDs()
     evga->SetColor(red, grn, blu);
 }
 
-void RGBController_EVGAGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVGAGPUv1::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPU::UpdateSingleLED(int /*led*/)
+void RGBController_EVGAGPUv1::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPU::SetCustomMode()
+void RGBController_EVGAGPUv1::SetCustomMode()
 {
     active_mode = 1;
 }
 
-void RGBController_EVGAGPU::DeviceUpdateMode()
+void RGBController_EVGAGPUv1::DeviceUpdateMode()
 {
     evga->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
 }

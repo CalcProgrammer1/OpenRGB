@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  EVGAGPUController.h                      |
+|  EVGAGPUv1Controller.h                    |
 |                                           |
 |  Definitions and types for EVGA GPU RGB   |
-|  lighting controller                      |
+|  V1 (Pascal) lighting controller          |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 9/11/2020   |
 \*-----------------------------------------*/
@@ -30,11 +30,11 @@ enum
     EVGA_GPU_MODE_BREATHING             = 0x05,
 };
 
-class EVGAGPUController
+class EVGAGPUv1Controller
 {
 public:
-    EVGAGPUController(i2c_smbus_interface* bus, evga_dev_id dev);
-    ~EVGAGPUController();
+    EVGAGPUv1Controller(i2c_smbus_interface* bus, evga_dev_id dev);
+    ~EVGAGPUv1Controller();
 
     std::string     GetDeviceLocation();
 
