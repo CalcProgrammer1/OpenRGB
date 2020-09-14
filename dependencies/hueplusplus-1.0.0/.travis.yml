@@ -1,0 +1,76 @@
+language: generic
+
+env:
+  global:
+    # Ubuntu version
+    - LINUX_DIST=bionic
+    - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
+    # compiler settings
+    - COMPILER_NAME=gcc
+    - CXX=g++
+    - CC=gcc
+    # Misc
+    - RUN_TESTS=true
+    - COVERAGE=false
+    - PATH=${DEPS_DIR}/cmake/bin:${PATH}
+
+matrix:
+  include:
+    - os: linux
+      dist: bionic
+      sudo: true
+      compiler: gcc
+      addons:
+       apt:
+         packages:
+           # Misc
+           - python-yaml
+           - doxygen
+           - graphviz
+before_install:
+    # Combine global build options with OS/compiler-dependent options
+    - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
+    - export CXX_FLAGS=${CXX_FLAGS}" "${ENV_CXX_FLAGS}
+    # c++14
+    - sudo apt-get update -qq
+
+install:
+    # CodeCov
+    - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90
+    # we have to build lcov on our own, because it is not possible to install lcov-1.13 with apt
+    - wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.13.orig.tar.gz && tar xf lcov_1.13.orig.tar.gz && make -C lcov-1.13 "PREFIX=${HOME}/.local" install && export PATH="${PATH}:${HOME}/.local/bin";
+    # show info
+    - echo ${PATH}
+    - echo ${CXX}
+    - ${CXX} --version
+    - ${CXX} -v
+    - cmake --version
+    - lcov --version
+
+script:
+    ############################################################################
+    # Build main, tests and examples
+    ############################################################################
+     - mkdir -p build
+     - cd build
+     - cmake .. -Dhueplusplus_TESTS=ON -DCMAKE_BUILD_TYPE=Debug -Dhueplusplus_EXAMPLES=ON
+     - make hueplusplus_examples hueplusplus_snippets
+     - make coveragetest
+     - cd ..
+     - doxygen Doxyfile
+     # .nojekyll file prevents hiding of files starting with _
+     - touch doc/html/.nojekyll
+
+
+after_success:
+    # upload result to codecov
+    - bash <(curl -s https://codecov.io/bash)
+    
+deploy:
+    provider: pages
+    skip_cleanup: true
+    local_dir: doc/html
+    github_token: $GH_REPO_TOKEN
+    on:
+        branch: master
+    

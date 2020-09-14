@@ -1,0 +1,61 @@
+---
+# Based on Webkit style
+BasedOnStyle: Webkit
+IndentWidth: 4
+ColumnLimit: 120
+---
+Language: Cpp
+Standard: Cpp11
+# Pointers aligned to the left
+DerivePointerAlignment: false
+PointerAlignment: Left
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: Inline
+AlwaysBreakTemplateDeclarations: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterClass: true
+    AfterControlStatement: true
+    AfterEnum: true
+    AfterFunction: true
+    AfterNamespace: true
+    AfterStruct: true
+    AfterUnion: true
+    AfterExternBlock: true
+    BeforeCatch: true
+    BeforeElse: true
+    SplitEmptyFunction: false
+    SplitEmptyRecord: false
+    SplitEmptyNamespace: false
+BreakConstructorInitializers: BeforeColon
+CompactNamespaces: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
+Cpp11BracedListStyle: true
+FixNamespaceComments: true
+IncludeBlocks: Regroup
+IncludeCategories:
+    # C++ standard headers (no .h)
+    - Regex: '<[[:alnum:]_-]+>'
+      Priority: 1
+    # Hueplusplus library
+    - Regex: '<hueplusplus/[[:alnum:]_./-]+>'
+      Priority: 2
+    # Extenal libraries (with .h)
+    - Regex: '<[[:alnum:]_./-]+>'
+      Priority: 3
+    # Headers from same folder
+    - Regex: '"[[:alnum:]_.-]+"'
+      Priority: 4
+    # Headers from other folders
+    - Regex: '"[[:alnum:]_/.-]+"'
+      Priority: 5
+IndentCaseLabels: false
+NamespaceIndentation: None
+SortIncludes: true
+SortUsingDeclarations: true
+SpaceAfterTemplateKeyword: true
+SpacesInAngles: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+UseTab: Never

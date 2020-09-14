@@ -49,6 +49,8 @@ DEFINES +=                                                                      
 INCLUDEPATH +=                                                                                  \
     dependencies/ColorWheel                                                                     \
     dependencies/CRCpp/                                                                         \
+    dependencies/hueplusplus-1.0.0/include                                                      \
+    dependencies/hueplusplus-1.0.0/include/hueplusplus                                          \
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
     dependencies/libcmmk/include/                                                               \
@@ -110,6 +112,7 @@ INCLUDEPATH +=                                                                  
     Controllers/NZXTKrakenController/                                                           \
     Controllers/OpenRazerController/                                                            \
     Controllers/PatriotViperController/                                                         \
+    Controllers/PhilipsHueController/                                                           \
     Controllers/PhilipsWizController/                                                           \
     Controllers/QMKOpenRGBController/                                                           \
     Controllers/RazerController/                                                                \
@@ -316,6 +319,8 @@ HEADERS +=                                                                      
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
     Controllers/PatriotViperController/PatriotViperController.h                                 \
     Controllers/PatriotViperController/RGBController_PatriotViper.h                             \
+    Controllers/PhilipsHueController/PhilipsHueController.h                                     \
+    Controllers/PhilipsHueController/RGBController_PhilipsHue.h                                 \
     Controllers/PhilipsWizController/PhilipsWizController.h                                     \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.h                                 \
     Controllers/QMKOpenRGBController/QMKOpenRGBController.h                                     \
@@ -376,6 +381,35 @@ SOURCES +=                                                                      
     Controllers/LogitechController/LogitechProtocolCommon.cpp \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
+    dependencies/hueplusplus-1.0.0/src/Action.cpp                                               \
+    dependencies/hueplusplus-1.0.0/src/APICache.cpp                                             \
+    dependencies/hueplusplus-1.0.0/src/BaseDevice.cpp                                           \
+    dependencies/hueplusplus-1.0.0/src/BaseHttpHandler.cpp                                      \
+    dependencies/hueplusplus-1.0.0/src/Bridge.cpp                                               \
+    dependencies/hueplusplus-1.0.0/src/BridgeConfig.cpp                                         \
+    dependencies/hueplusplus-1.0.0/src/CLIPSensors.cpp                                          \
+    dependencies/hueplusplus-1.0.0/src/ColorUnits.cpp                                           \
+    dependencies/hueplusplus-1.0.0/src/EntertainmentMode.cpp                                    \
+    dependencies/hueplusplus-1.0.0/src/ExtendedColorHueStrategy.cpp                             \
+    dependencies/hueplusplus-1.0.0/src/ExtendedColorTemperatureStrategy.cpp                     \
+    dependencies/hueplusplus-1.0.0/src/Group.cpp                                                \
+    dependencies/hueplusplus-1.0.0/src/HueCommandAPI.cpp                                        \
+    dependencies/hueplusplus-1.0.0/src/HueDeviceTypes.cpp                                       \
+    dependencies/hueplusplus-1.0.0/src/HueException.cpp                                         \
+    dependencies/hueplusplus-1.0.0/src/Light.cpp                                                \
+    dependencies/hueplusplus-1.0.0/src/ModelPictures.cpp                                        \
+    dependencies/hueplusplus-1.0.0/src/NewDeviceList.cpp                                        \
+    dependencies/hueplusplus-1.0.0/src/Scene.cpp                                                \
+    dependencies/hueplusplus-1.0.0/src/Schedule.cpp                                             \
+    dependencies/hueplusplus-1.0.0/src/Sensor.cpp                                               \
+    dependencies/hueplusplus-1.0.0/src/SimpleBrightnessStrategy.cpp                             \
+    dependencies/hueplusplus-1.0.0/src/SimpleColorHueStrategy.cpp                               \
+    dependencies/hueplusplus-1.0.0/src/SimpleColorTemperatureStrategy.cpp                       \
+    dependencies/hueplusplus-1.0.0/src/StateTransaction.cpp                                     \
+    dependencies/hueplusplus-1.0.0/src/TimePattern.cpp                                          \
+    dependencies/hueplusplus-1.0.0/src/UPnP.cpp                                                 \
+    dependencies/hueplusplus-1.0.0/src/Utils.cpp                                                \
+    dependencies/hueplusplus-1.0.0/src/ZLLSensors.cpp                                           \
     dependencies/libe131/src/e131.c                                                             \
     dependencies/libcmmk/src/libcmmk.c                                                          \
     main.cpp                                                                                    \
@@ -606,6 +640,11 @@ SOURCES +=                                                                      
     Controllers/PatriotViperController/PatriotViperController.cpp                               \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp                         \
     Controllers/PatriotViperController/RGBController_PatriotViper.cpp                           \
+    Controllers/PhilipsHueController/PhilipsHueController.cpp                                   \
+    Controllers/PhilipsHueController/PhilipsHueControllerDetect.cpp                             \
+    Controllers/PhilipsHueController/PhilipsHueEntertainmentController.cpp                      \
+    Controllers/PhilipsHueController/RGBController_PhilipsHue.cpp                               \
+    Controllers/PhilipsHueController/RGBController_PhilipsHueEntertainment.cpp                  \
     Controllers/PhilipsWizController/PhilipsWizController.cpp                                   \
     Controllers/PhilipsWizController/PhilipsWizControllerDetect.cpp                             \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.cpp                               \
@@ -699,6 +738,7 @@ win32:INCLUDEPATH +=                                                            
     dependencies/hidapi                                                                         \
     dependencies/inpout32_1501/Win32/                                                           \
     dependencies/libusb-1.0.22/include                                                          \
+    dependencies/mbedtls-2.24.0/include                                                         \
     dependencies/NVFC                                                                           \
     dependencies/openrazer-win32                                                                \
     wmi/                                                                                        \
@@ -706,6 +746,91 @@ win32:INCLUDEPATH +=                                                            
 
 win32:SOURCES +=                                                                                \
 #   dependencies/hidapi/hidapi.c                                                                \
+    dependencies/hueplusplus-1.0.0/src/WinHttpHandler.cpp                                       \
+    dependencies/mbedtls-2.24.0/library/aes.c                                                   \
+    dependencies/mbedtls-2.24.0/library/aesni.c                                                 \
+    dependencies/mbedtls-2.24.0/library/arc4.c                                                  \
+    dependencies/mbedtls-2.24.0/library/aria.c                                                  \
+    dependencies/mbedtls-2.24.0/library/asn1parse.c                                             \
+    dependencies/mbedtls-2.24.0/library/asn1write.c                                             \
+    dependencies/mbedtls-2.24.0/library/base64.c                                                \
+    dependencies/mbedtls-2.24.0/library/bignum.c                                                \
+    dependencies/mbedtls-2.24.0/library/blowfish.c                                              \
+    dependencies/mbedtls-2.24.0/library/camellia.c                                              \
+    dependencies/mbedtls-2.24.0/library/ccm.c                                                   \
+    dependencies/mbedtls-2.24.0/library/certs.c                                                 \
+    dependencies/mbedtls-2.24.0/library/chacha20.c                                              \
+    dependencies/mbedtls-2.24.0/library/chachapoly.c                                            \
+    dependencies/mbedtls-2.24.0/library/cipher.c                                                \
+    dependencies/mbedtls-2.24.0/library/cipher_wrap.c                                           \
+    dependencies/mbedtls-2.24.0/library/cmac.c                                                  \
+    dependencies/mbedtls-2.24.0/library/ctr_drbg.c                                              \
+    dependencies/mbedtls-2.24.0/library/debug.c                                                 \
+    dependencies/mbedtls-2.24.0/library/des.c                                                   \
+    dependencies/mbedtls-2.24.0/library/dhm.c                                                   \
+    dependencies/mbedtls-2.24.0/library/ecdh.c                                                  \
+    dependencies/mbedtls-2.24.0/library/ecdsa.c                                                 \
+    dependencies/mbedtls-2.24.0/library/ecjpake.c                                               \
+    dependencies/mbedtls-2.24.0/library/ecp.c                                                   \
+    dependencies/mbedtls-2.24.0/library/ecp_curves.c                                            \
+    dependencies/mbedtls-2.24.0/library/entropy.c                                               \
+    dependencies/mbedtls-2.24.0/library/entropy_poll.c                                          \
+    dependencies/mbedtls-2.24.0/library/error.c                                                 \
+    dependencies/mbedtls-2.24.0/library/gcm.c                                                   \
+    dependencies/mbedtls-2.24.0/library/havege.c                                                \
+    dependencies/mbedtls-2.24.0/library/hkdf.c                                                  \
+    dependencies/mbedtls-2.24.0/library/hmac_drbg.c                                             \
+    dependencies/mbedtls-2.24.0/library/md.c                                                    \
+    dependencies/mbedtls-2.24.0/library/md2.c                                                   \
+    dependencies/mbedtls-2.24.0/library/md4.c                                                   \
+    dependencies/mbedtls-2.24.0/library/md5.c                                                   \
+    dependencies/mbedtls-2.24.0/library/memory_buffer_alloc.c                                   \
+    dependencies/mbedtls-2.24.0/library/net_sockets.c                                           \
+    dependencies/mbedtls-2.24.0/library/nist_kw.c                                               \
+    dependencies/mbedtls-2.24.0/library/oid.c                                                   \
+    dependencies/mbedtls-2.24.0/library/padlock.c                                               \
+    dependencies/mbedtls-2.24.0/library/pem.c                                                   \
+    dependencies/mbedtls-2.24.0/library/pk.c                                                    \
+    dependencies/mbedtls-2.24.0/library/pk_wrap.c                                               \
+    dependencies/mbedtls-2.24.0/library/pkcs5.c                                                 \
+    dependencies/mbedtls-2.24.0/library/pkcs11.c                                                \
+    dependencies/mbedtls-2.24.0/library/pkcs12.c                                                \
+    dependencies/mbedtls-2.24.0/library/pkparse.c                                               \
+    dependencies/mbedtls-2.24.0/library/pkwrite.c                                               \
+    dependencies/mbedtls-2.24.0/library/platform.c                                              \
+    dependencies/mbedtls-2.24.0/library/platform_util.c                                         \
+    dependencies/mbedtls-2.24.0/library/poly1305.c                                              \
+    dependencies/mbedtls-2.24.0/library/psa_crypto.c                                            \
+    dependencies/mbedtls-2.24.0/library/psa_crypto_se.c                                         \
+    dependencies/mbedtls-2.24.0/library/psa_crypto_slot_management.c                            \
+    dependencies/mbedtls-2.24.0/library/psa_crypto_storage.c                                    \
+    dependencies/mbedtls-2.24.0/library/psa_its_file.c                                          \
+    dependencies/mbedtls-2.24.0/library/ripemd160.c                                             \
+    dependencies/mbedtls-2.24.0/library/rsa.c                                                   \
+    dependencies/mbedtls-2.24.0/library/rsa_internal.c                                          \
+    dependencies/mbedtls-2.24.0/library/sha1.c                                                  \
+    dependencies/mbedtls-2.24.0/library/sha256.c                                                \
+    dependencies/mbedtls-2.24.0/library/sha512.c                                                \
+    dependencies/mbedtls-2.24.0/library/ssl_cache.c                                             \
+    dependencies/mbedtls-2.24.0/library/ssl_ciphersuites.c                                      \
+    dependencies/mbedtls-2.24.0/library/ssl_cli.c                                               \
+    dependencies/mbedtls-2.24.0/library/ssl_cookie.c                                            \
+    dependencies/mbedtls-2.24.0/library/ssl_msg.c                                               \
+    dependencies/mbedtls-2.24.0/library/ssl_srv.c                                               \
+    dependencies/mbedtls-2.24.0/library/ssl_ticket.c                                            \
+    dependencies/mbedtls-2.24.0/library/ssl_tls.c                                               \
+    dependencies/mbedtls-2.24.0/library/threading.c                                             \
+    dependencies/mbedtls-2.24.0/library/timing.c                                                \
+    dependencies/mbedtls-2.24.0/library/version.c                                               \
+    dependencies/mbedtls-2.24.0/library/version_features.c                                      \
+    dependencies/mbedtls-2.24.0/library/x509.c                                                  \
+    dependencies/mbedtls-2.24.0/library/x509_create.c                                           \
+    dependencies/mbedtls-2.24.0/library/x509_crl.c                                              \
+    dependencies/mbedtls-2.24.0/library/x509_crt.c                                              \
+    dependencies/mbedtls-2.24.0/library/x509_csr.c                                              \
+    dependencies/mbedtls-2.24.0/library/x509write_crt.c                                         \
+    dependencies/mbedtls-2.24.0/library/x509write_csr.c                                         \
+    dependencies/mbedtls-2.24.0/library/xtea.c                                                  \
     dependencies/NVFC/nvapi.cpp                                                                 \
     i2c_smbus/i2c_smbus_amdadl.cpp                                                              \
     i2c_smbus/i2c_smbus_i801.cpp                                                                \
@@ -828,6 +953,9 @@ unix:!macx {
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
     -lstdc++fs                                                                                  \
+    -lmbedx509                                                                                  \
+    -lmbedcrypto                                                                                \
+    -lmbedtls                                                                                   \
 
     #-------------------------------------------------------------------------------------------#
     # Determine which hidapi to use based on availability                                       #
@@ -853,6 +981,7 @@ unix:!macx {
     }
 
     SOURCES +=                                                                                  \
+    dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
     i2c_smbus/i2c_smbus_linux.cpp                                                               \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     Controllers/FaustusController/RGBController_Faustus.cpp                                     \
@@ -902,11 +1031,15 @@ macx {
     USE_HID_USAGE                                                                               \
 
     SOURCES +=                                                                                  \
+    dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
     -lhidapi                                                                                    \
+    -lmbedx509                                                                                  \
+    -lmbedcrypto                                                                                \
+    -lmbedtls                                                                                   \
 }
 
 #-------------------------------------------------------------------------------------------#
@@ -926,9 +1059,11 @@ macx:contains(QMAKE_HOST.arch, arm64) {
 macx:contains(QMAKE_HOST.arch, x86_64) {
     INCLUDEPATH +=                                                                              \
     /usr/local/include                                                                          \
+    /usr/local/homebrew/include                                                                 \
 
     LIBS +=                                                                                     \
     -L/usr/local/lib                                                                            \
+    -L/usr/local/homebrew/lib                                                                   \
 }
 
 DISTFILES += \

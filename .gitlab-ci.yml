@@ -143,7 +143,7 @@ before_script:
   stage: build
   script:
   - apt update
-  - apt install -y build-essential qtcreator qtbase5-dev libusb-1.0-0-dev libhidapi-dev pkgconf wget git file debhelper
+  - apt install -y build-essential qtcreator qtbase5-dev libusb-1.0-0-dev libhidapi-dev libmbedtls-dev pkgconf wget git file debhelper
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
   - rm -v ../openrgb-dbgsym*.deb
@@ -166,7 +166,7 @@ before_script:
   stage: build
   script:
   - apt update
-  - apt install -y build-essential qtcreator qtbase5-dev libusb-1.0-0-dev libhidapi-dev pkgconf wget git file debhelper
+  - apt install -y build-essential qtcreator qtbase5-dev libusb-1.0-0-dev libhidapi-dev libmbedtls-dev pkgconf wget git file debhelper
   - dpkg-architecture -l
   - dpkg-buildpackage -us -B
   - rm -v ../openrgb-dbgsym*.deb
