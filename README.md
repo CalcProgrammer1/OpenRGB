@@ -121,6 +121,7 @@ While OpenRGB itself only provides control over the lighting effects built into 
   * OpenRazer-Win32: https://github.com/CalcProgrammer1/openrazer-win32
   * Qt-Plus (ColorWheel): https://github.com/liuyanghejerry/Qt-Plus
   * AMD ADL Libraries: https://github.com/GPUOpen-LibrariesAndSDKs/display-library
+  * hueplusplus: https://github.com/enwi/hueplusplus
   
 ## Projects Researched
 

@@ -41,6 +41,7 @@ DEFINES +=                                                              \
 #-----------------------------------------------------------------------#
 INCLUDEPATH +=                                                          \
     dependencies/ColorWheel                                             \
+    dependencies/hueplusplus/hueplusplus/include                        \
     dependencies/libe131/src/                                           \
     i2c_smbus/                                                          \
     i2c_tools/                                                          \
@@ -245,6 +246,19 @@ HEADERS +=                                                              \
 SOURCES +=                                                              \
     dependencies/dmiinfo.cpp                                            \
     dependencies/ColorWheel/ColorWheel.cpp                              \
+    dependencies/hueplusplus/hueplusplus/BaseHttpHandler.cpp            \
+    dependencies/hueplusplus/hueplusplus/ExtendedColorHueStrategy.cpp   \
+    dependencies/hueplusplus/hueplusplus/ExtendedColorTemperatureStrategy.cpp \
+    dependencies/hueplusplus/hueplusplus/Hue.cpp                        \
+    dependencies/hueplusplus/hueplusplus/HueCommandAPI.cpp              \
+    dependencies/hueplusplus/hueplusplus/HueException.cpp               \
+    dependencies/hueplusplus/hueplusplus/HueLight.cpp                   \
+    dependencies/hueplusplus/hueplusplus/SimpleBrightnessStrategy.cpp   \
+    dependencies/hueplusplus/hueplusplus/SimpleColorHueStrategy.cpp     \
+    dependencies/hueplusplus/hueplusplus/SimpleColorTemperatureStrategy.cpp \
+    dependencies/hueplusplus/hueplusplus/UPnP.cpp                       \
+    dependencies/hueplusplus/hueplusplus/Utils.cpp                      \
+    dependencies/hueplusplus/hueplusplus/WinHttpHandler.cpp             \
     dependencies/libe131/src/e131.c                                     \
     main.cpp                                                            \
     cli.cpp                                                             \
@@ -345,6 +359,7 @@ SOURCES +=                                                              \
     Controllers/NZXTKrakenController/NZXTKrakenControllerDetect.cpp     \
     Controllers/PatriotViperController/PatriotViperController.cpp       \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
+    Controllers/PhilipsHueController/PhilipsHueControllerDetect.cpp     \
     Controllers/PolychromeController/PolychromeController.cpp           \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp       \
