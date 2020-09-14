@@ -196,6 +196,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * Qt-Plus (ColorWheel): https://github.com/liuyanghejerry/Qt-Plus
   * AMD ADL Libraries: https://github.com/GPUOpen-LibrariesAndSDKs/display-library
   * libcmmk: https://github.com/chmod222/libcmmk
+  * hueplusplus: https://github.com/enwi/hueplusplus
   
 ## Projects Researched
 
