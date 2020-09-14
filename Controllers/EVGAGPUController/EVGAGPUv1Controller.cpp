@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  EVGAGPUController.cpp                    |
+|  EVGAGPUv1Controller.cpp                  |
 |                                           |
 |  Driver for EVGA GPU RGB V1 (Pascal)      |
 |  lighting controller                      |
@@ -32,27 +32,27 @@ std::string EVGAGPUv1Controller::GetDeviceLocation()
 
 unsigned char EVGAGPUv1Controller::GetRed()
 {
-    return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_REG_RED));
+    return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V1_REG_RED));
 }
 
 unsigned char EVGAGPUv1Controller::GetGreen()
 {
-    return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_REG_GREEN));
+    return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V1_REG_GREEN));
 }
 
 unsigned char EVGAGPUv1Controller::GetBlue()
 {
-    return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_REG_BLUE));
+    return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V1_REG_BLUE));
 }
 
 void EVGAGPUv1Controller::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_RED,   red);
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_GREEN, green);
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_BLUE,  blue);
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V1_REG_RED,   red);
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V1_REG_GREEN, green);
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V1_REG_BLUE,  blue);
 }
 
 void EVGAGPUv1Controller::SetMode(unsigned char mode)
 {
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_REG_MODE, mode);
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V1_REG_MODE, mode);
 }

@@ -1,51 +1,51 @@
 /*-----------------------------------------*\
-|  RGBController_EVGAGPUv1.cpp              |
+|  RGBController_EVGAGPUv2.cpp              |
 |                                           |
 |  Generic RGB Interface for OpenRGB EVGA   |
-|  GPU V1 (Pascal) Driver                   |
+|  GPU V2 (Pascal) Driver                   |
 |                                           |
-|  Adam Honse (CalcProgrammer1) 9/11/2020   |
+|  Adam Honse (CalcProgrammer1) 9/13/2020   |
 \*-----------------------------------------*/
 
-#include "RGBController_EVGAGPUv1.h"
+#include "RGBController_EVGAGPUv2.h"
 
-RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
+RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
 {
     evga = evga_ptr;
 
     name        = "EVGA GPU";
-    description = "EVGA RGB v1 GPU Device";
+    description = "EVGA RGB v2 GPU Device";
     location    = evga->GetDeviceLocation();
 
     type = DEVICE_TYPE_GPU;
 
     mode Off;
     Off.name       = "Off";
-    Off.value      = EVGA_GPU_V1_MODE_OFF;
+    Off.value      = EVGA_GPU_V2_MODE_OFF;
     Off.flags      = 0;
     Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = EVGA_GPU_V1_MODE_CUSTOM;
+    Direct.value      = EVGA_GPU_V2_MODE_CUSTOM;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-    mode Rainbow;
-    Rainbow.name       = "Rainbow";
-    Rainbow.value      = EVGA_GPU_V1_MODE_RAINBOW;
-    Rainbow.flags      = 0;
-    Rainbow.color_mode = MODE_COLORS_NONE;
-    modes.push_back(Rainbow);
+    // mode Rainbow;
+    // Rainbow.name       = "Rainbow";
+    // Rainbow.value      = EVGA_GPU_V2_MODE_RAINBOW;
+    // Rainbow.flags      = 0;
+    // Rainbow.color_mode = MODE_COLORS_NONE;
+    // modes.push_back(Rainbow);
 
-    mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = EVGA_GPU_V1_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Breathing);
+    // mode Breathing;
+    // Breathing.name       = "Breathing";
+    // Breathing.value      = EVGA_GPU_V2_MODE_BREATHING;
+    // Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    // Breathing.color_mode = MODE_COLORS_PER_LED;
+    // modes.push_back(Breathing);
 
     SetupZones();
 
@@ -53,7 +53,7 @@ RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
     active_mode = 0;
 }
 
-void RGBController_EVGAGPUv1::SetupZones()
+void RGBController_EVGAGPUv2::SetupZones()
 {
     /*---------------------------------------------------------*\
     | This device only has one LED, so create a single zone and |
@@ -80,14 +80,14 @@ void RGBController_EVGAGPUv1::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPUv1::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_EVGAGPUv2::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_EVGAGPUv1::DeviceUpdateLEDs()
+void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -97,22 +97,22 @@ void RGBController_EVGAGPUv1::DeviceUpdateLEDs()
     evga->SetColor(red, grn, blu);
 }
 
-void RGBController_EVGAGPUv1::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVGAGPUv2::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPUv1::UpdateSingleLED(int /*led*/)
+void RGBController_EVGAGPUv2::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPUv1::SetCustomMode()
+void RGBController_EVGAGPUv2::SetCustomMode()
 {
     active_mode = 1;
 }
 
-void RGBController_EVGAGPUv1::DeviceUpdateMode()
+void RGBController_EVGAGPUv2::DeviceUpdateMode()
 {
     evga->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
 }

@@ -140,6 +140,7 @@ HEADERS +=                                                              \
     Controllers/EKController/EKController.h                             \
     Controllers/EspurnaController/EspurnaController.h                   \
     Controllers/EVGAGPUController/EVGAGPUv1Controller.h                 \
+    Controllers/EVGAGPUController/EVGAGPUv2Controller.h                 \
     Controllers/GalaxGPUController/GalaxGPUController.h                 \
     Controllers/GloriousModelOController/GloriousModelOController.h     \
     Controllers/HoltekController/HoltekA070Controller.h                 \
@@ -198,6 +199,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_EKController.h                          \
     RGBController/RGBController_Espurna.h                               \
     RGBController/RGBController_EVGAGPUv1.h                             \
+    RGBController/RGBController_EVGAGPUv2.h                             \
     RGBController/RGBController_GalaxGPU.h                              \
     RGBController/RGBController_GloriousModelO.h                        \
     RGBController/RGBController_HoltekA070.h                            \
@@ -302,6 +304,7 @@ SOURCES +=                                                              \
     Controllers/EspurnaController/EspurnaController.cpp                 \
     Controllers/EspurnaController/EspurnaControllerDetect.cpp           \
     Controllers/EVGAGPUController/EVGAGPUv1Controller.cpp               \
+    Controllers/EVGAGPUController/EVGAGPUv2Controller.cpp               \
     Controllers/EVGAGPUController/EVGAGPUControllerDetect.cpp           \
     Controllers/GalaxGPUController/GalaxGPUController.cpp               \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp         \
@@ -391,6 +394,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_EKController.cpp                        \
     RGBController/RGBController_Espurna.cpp                             \
     RGBController/RGBController_EVGAGPUv1.cpp                           \
+    RGBController/RGBController_EVGAGPUv2.cpp                           \
     RGBController/RGBController_GalaxGPU.cpp                            \
     RGBController/RGBController_GloriousModelO.cpp                      \
     RGBController/RGBController_HoltekA070.cpp                          \

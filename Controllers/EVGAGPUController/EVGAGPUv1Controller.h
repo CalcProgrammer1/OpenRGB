@@ -16,18 +16,18 @@ typedef unsigned char	evga_dev_id;
 
 enum
 {
-    EVGA_GPU_REG_MODE                   = 0x0C,
-    EVGA_GPU_REG_RED                    = 0x09,
-    EVGA_GPU_REG_GREEN                  = 0x0A,
-    EVGA_GPU_REG_BLUE                   = 0x0B,
+    EVGA_GPU_V1_REG_MODE                = 0x0C,
+    EVGA_GPU_V1_REG_RED                 = 0x09,
+    EVGA_GPU_V1_REG_GREEN               = 0x0A,
+    EVGA_GPU_V1_REG_BLUE                = 0x0B,
 };
 
 enum
 {
-    EVGA_GPU_MODE_OFF                   = 0x00,
-    EVGA_GPU_MODE_CUSTOM                = 0x01,
-    EVGA_GPU_MODE_RAINBOW               = 0x02,
-    EVGA_GPU_MODE_BREATHING             = 0x05,
+    EVGA_GPU_V1_MODE_OFF                = 0x00,
+    EVGA_GPU_V1_MODE_CUSTOM             = 0x01,
+    EVGA_GPU_V1_MODE_RAINBOW            = 0x02,
+    EVGA_GPU_V1_MODE_BREATHING          = 0x05,
 };
 
 class EVGAGPUv1Controller
