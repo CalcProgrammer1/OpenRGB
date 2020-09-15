@@ -78,62 +78,60 @@ void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
 
                     close(test_fd);
 
-                    // Get PCI Device
-                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/device");
-                    test_fd = open(path, O_RDONLY);
-                    if (test_fd < 0)
-                    {
-                        ent = readdir(dir);
-                        continue;
-                    }
-                    memset(buff, 0x00, sizeof(buff));
-                    read(test_fd, buff, sizeof(buff));
-                    buff[strlen(buff) - 1] = 0x00;
-                    pci_device = strtoul(buff, NULL, 16);
-                    close(test_fd);
+                    // Clear PCI Information
+                    pci_vendor              = 0;
+                    pci_device              = 0;
+                    pci_subsystem_vendor    = 0;
+                    pci_subsystem_device    = 0;
 
                     // Get PCI Vendor
                     snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/vendor");
                     test_fd = open(path, O_RDONLY);
-                    if (test_fd < 0)
+                    if (test_fd >= 0)
                     {
-                        ent = readdir(dir);
-                        continue;
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_vendor = strtoul(buff, NULL, 16);
+                        close(test_fd);
                     }
-                    memset(buff, 0x00, sizeof(buff));
-                    read(test_fd, buff, sizeof(buff));
-                    buff[strlen(buff) - 1] = 0x00;
-                    pci_vendor = strtoul(buff, NULL, 16);
-                    close(test_fd);
 
-                    // Get PCI Subsystem Device
-                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_device");
+                    // Get PCI Device
+                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/device");
                     test_fd = open(path, O_RDONLY);
-                    if (test_fd < 0)
+                    if (test_fd >= 0)
                     {
-                        ent = readdir(dir);
-                        continue;
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_device = strtoul(buff, NULL, 16);
+                        close(test_fd);
                     }
-                    memset(buff, 0x00, sizeof(buff));
-                    read(test_fd, buff, sizeof(buff));
-                    buff[strlen(buff) - 1] = 0x00;
-                    pci_subsystem_device = strtoul(buff, NULL, 16);
-                    close(test_fd);
 
                     // Get PCI Subsystem Vendor
                     snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_vendor");
                     test_fd = open(path, O_RDONLY);
-                    if (test_fd < 0)
+                    if (test_fd >= 0)
                     {
-                        ent = readdir(dir);
-                        continue;
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_subsystem_vendor = strtoul(buff, NULL, 16);
+                        close(test_fd);
                     }
-                    memset(buff, 0x00, sizeof(buff));
-                    read(test_fd, buff, sizeof(buff));
-                    buff[strlen(buff) - 1] = 0x00;
-                    pci_subsystem_vendor = strtoul(buff, NULL, 16);
-                    close(test_fd);
 
+                    // Get PCI Subsystem Device
+                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_device");
+                    test_fd = open(path, O_RDONLY);
+                    if (test_fd >= 0)
+                    {
+                        memset(buff, 0x00, sizeof(buff));
+                        read(test_fd, buff, sizeof(buff));
+                        buff[strlen(buff) - 1] = 0x00;
+                        pci_subsystem_device = strtoul(buff, NULL, 16);
+                        close(test_fd);
+                    }
+                    
                     strcpy(device_string, "/dev/");
                     strcat(device_string, ent->d_name);
                     test_fd = open(device_string, O_RDWR);
