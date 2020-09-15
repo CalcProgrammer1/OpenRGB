@@ -53,6 +53,9 @@ static QString GetIconString(device_type type, bool dark)
     case DEVICE_TYPE_GAMEPAD:
         filename = "gamepad";
         break;
+    case DEVICE_TYPE_LIGHT:
+        filename = "light";
+        break;
     default:
         filename = "unknown";
         break;
