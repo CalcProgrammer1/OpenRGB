@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_RGBFusion2SMBus.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -87,17 +88,20 @@ void DetectRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses,
     {
         for (unsigned int bus = 0; bus < busses.size(); bus++)
         {
-            // TODO - Is this necessary? Or an artifact of my own system?
-            // Skip dmcd devices
-            std::string device_name = std::string(busses[bus]->device_name);
-            if (device_name.find("dmdc") == std::string::npos)
+            IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
             {
-                // Check for RGB Fusion 2 controller at 0x68
-                if (TestForRGBFusion2SMBusController(busses[bus], 0x68))
+                // TODO - Is this necessary? Or an artifact of my own system?
+                // Skip dmcd devices
+                std::string device_name = std::string(busses[bus]->device_name);
+                if (device_name.find("dmdc") == std::string::npos)
                 {
-                    new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68);
-                    new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
-                    rgb_controllers.push_back(new_controller);
+                    // Check for RGB Fusion 2 controller at 0x68
+                    if (TestForRGBFusion2SMBusController(busses[bus], 0x68))
+                    {
+                        new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68);
+                        new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
+                        rgb_controllers.push_back(new_controller);
+                    }
                 }
             }
         }

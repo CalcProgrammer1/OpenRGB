@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_RGBFusion.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,12 +57,15 @@ void DetectRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for RGB Fusion controller at 0x28
-        if (TestForRGBFusionController(busses[bus], 0x28))
+        IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            new_rgb_fusion = new RGBFusionController(busses[bus], 0x28);
-            new_controller = new RGBController_RGBFusion(new_rgb_fusion);
-            rgb_controllers.push_back(new_controller);
+            // Check for RGB Fusion controller at 0x28
+            if (TestForRGBFusionController(busses[bus], 0x28))
+            {
+                new_rgb_fusion = new RGBFusionController(busses[bus], 0x28);
+                new_controller = new RGBController_RGBFusion(new_rgb_fusion);
+                rgb_controllers.push_back(new_controller);
+            }
         }
     }
 

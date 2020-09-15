@@ -3,6 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_Polychrome.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,19 +51,22 @@ void DetectPolychromeControllers(std::vector<i2c_smbus_interface*>& busses, std:
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for Polychrome controller at 0x6A
-        if (TestForPolychromeController(busses[bus], 0x6A))
+        IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            new_polychrome = new PolychromeController(busses[bus], 0x6A);
+            // Check for Polychrome controller at 0x6A
+            if (TestForPolychromeController(busses[bus], 0x6A))
+            {
+                new_polychrome = new PolychromeController(busses[bus], 0x6A);
 
-            if(new_polychrome->GetASRockType() != ASROCK_TYPE_UNKNOWN)
-            {
-                new_controller = new RGBController_Polychrome(new_polychrome);
-                rgb_controllers.push_back(new_controller);
-            }
-            else
-            {
-                delete new_polychrome;
+                if(new_polychrome->GetASRockType() != ASROCK_TYPE_UNKNOWN)
+                {
+                    new_controller = new RGBController_Polychrome(new_polychrome);
+                    rgb_controllers.push_back(new_controller);
+                }
+                else
+                {
+                    delete new_polychrome;
+                }
             }
         }
     }

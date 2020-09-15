@@ -75,3 +75,6 @@
 \*---------------------------------------------------------*/
 #define IF_DRAM_SMBUS(ven, dev)                             \
     if((ven == AMD_VEN) || (ven == INTEL_VEN))
+
+#define IF_MOBO_SMBUS(ven, dev)                             \
+    if((ven == 0) || (ven == AMD_VEN) || (ven == INTEL_VEN))
