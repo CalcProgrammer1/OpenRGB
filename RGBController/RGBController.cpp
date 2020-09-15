@@ -1432,6 +1432,8 @@ std::string device_type_to_str(device_type type)
         return "Headset";
     case DEVICE_TYPE_HEADSET_STAND:
         return "Headset Stand";
+    case DEVICE_TYPE_LIGHT:
+        return "Light";
     default:
         return "Unknown";
     }

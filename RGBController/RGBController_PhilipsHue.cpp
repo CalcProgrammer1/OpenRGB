@@ -12,9 +12,11 @@ RGBController_PhilipsHue::RGBController_PhilipsHue(PhilipsHueController* light_p
 {
     light = light_ptr;
 
-    name        = "Philips Hue";
-    type        = DEVICE_TYPE_LEDSTRIP;
+    name        = light->GetManufacturer() + " " + light->GetName();
+    type        = DEVICE_TYPE_LIGHT;
+    version     = light->GetVersion();
     description = "Philips Hue Device";
+    serial      = light->GetUniqueID();
 
     mode Direct;
     Direct.name       = "Direct";

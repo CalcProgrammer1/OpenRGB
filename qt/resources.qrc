@@ -25,5 +25,7 @@
         <file>motherboard_dark.png</file>
         <file>software_dark.png</file>
         <file>tools_dark.png</file>
+        <file>light.png</file>
+        <file>light_dark.png</file>
     </qresource>
 </RCC>
