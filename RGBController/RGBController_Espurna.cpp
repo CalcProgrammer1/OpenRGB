@@ -13,7 +13,7 @@ RGBController_Espurna::RGBController_Espurna(EspurnaController* espurna_ptr)
     espurna = espurna_ptr;
 
     name        = "Espurna";
-    type        = DEVICE_TYPE_LEDSTRIP;
+    type        = DEVICE_TYPE_LIGHT;
     description = "Espurna Device";
 
     mode Direct;
