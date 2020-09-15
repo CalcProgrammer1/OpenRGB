@@ -530,7 +530,27 @@ void i2c_smbus_i801_detect(std::vector<i2c_smbus_interface*> &busses)
             {
                 unsigned int IORangeStart = std::stoi(matches[1].str());
 
-                bus = new i2c_smbus_i801();
+                std::string pnp_str = i["DeviceID"];
+
+                std::size_t ven_loc = pnp_str.find("VEN_");
+                std::size_t dev_loc = pnp_str.find("DEV_");
+                std::size_t sub_loc = pnp_str.find("SUBSYS_");
+
+                std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
+                std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
+                std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
+                std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
+
+                int ven_id = (int)std::stoul(ven_str, nullptr, 16);
+                int dev_id = (int)std::stoul(dev_str, nullptr, 16);
+                int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
+                int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
+
+                bus                         = new i2c_smbus_i801();
+                bus->pci_vendor             = ven_id;
+                bus->pci_device             = dev_id;
+                bus->pci_subsystem_vendor   = sbv_id;
+                bus->pci_subsystem_device   = sbd_id;
                 strcpy(bus->device_name, i["Description"].c_str());
                 ((i2c_smbus_i801 *)bus)->i801_smba = IORangeStart;
                 busses.push_back(bus);

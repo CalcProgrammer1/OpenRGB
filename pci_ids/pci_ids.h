@@ -3,6 +3,7 @@
 \*---------------------------------------------------------*/
 #define AMD_VEN                                 0x1022
 #define AMD_GPU_VEN                             0x1002
+#define INTEL_VEN                               0x8086
 #define NVIDIA_VEN                              0x10DE
 
 /*-----------------------------------------------------*\
@@ -14,6 +15,11 @@
 | AMD GPU Device IDs                                    |
 \*-----------------------------------------------------*/
 #define AMD_RX580_DEV                           0x67DF
+
+/*-----------------------------------------------------*\
+| Intel Device IDs                                      |
+\*-----------------------------------------------------*/
+#define INTEL_ICH10_SMBUS_DEV                   0x3A30
 
 /*-----------------------------------------------------*\
 | nVidia Device IDs                                     |
@@ -32,6 +38,7 @@
 \*---------------------------------------------------------*/
 #define ASUS_SUB_VEN                            0x1043
 #define EVGA_SUB_VEN                            0x3842
+#define GIGABYTE_SUB_VEN                        0x1458
 #define MSI_SUB_VEN                             0x1462
 #define SAPPHIRE_SUB_VEN                        0x1DA2
 
@@ -67,4 +74,4 @@
 | PCI ID Macros                                             |
 \*---------------------------------------------------------*/
 #define IF_DRAM_SMBUS(ven, dev)                             \
-    if((ven == AMD_VEN) && (dev == AMD_FCH_SMBUS_DEV))
+    if((ven == AMD_VEN) || (ven == INTEL_VEN))
