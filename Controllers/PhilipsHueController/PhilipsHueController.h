@@ -18,6 +18,11 @@ public:
     PhilipsHueController(HueLight& light_ptr);
     ~PhilipsHueController();
 
+    std::string GetName();
+    std::string GetVersion();
+    std::string GetManufacturer();
+    std::string GetUniqueID();
+
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
