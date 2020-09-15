@@ -87,6 +87,7 @@ INCLUDEPATH +=                                                                  
     Controllers/NZXTKrakenController/                                                           \
     Controllers/OpenRazerController/                                                            \
     Controllers/PatriotViperController/                                                         \
+    Controllers/PhilipsHueController/                                                           \
     Controllers/PolychromeController/                                                           \
     Controllers/PoseidonZRGBController/                                                         \
     Controllers/RedragonController/                                                             \
@@ -223,6 +224,7 @@ HEADERS +=                                                                      
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
     Controllers/PatriotViperController/PatriotViperController.h                                 \
     Controllers/PatriotViperController/RGBController_PatriotViper.h                             \
+    Controllers/PhilipsHueController/PhilipsHueController.h                                     \
     Controllers/PolychromeController/PolychromeController.h                                     \
     Controllers/PolychromeController/RGBController_Polychrome.h                                 \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h                                 \
@@ -262,10 +264,12 @@ HEADERS +=                                                                      
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBController_Network.h                                                       \
+    RGBController/RGBController_PhilipsHue.h                                                    \
 
 
 SOURCES +=                                                                                      \
     dependencies/dmiinfo.cpp                                                                    \
+    dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/hueplusplus/hueplusplus/BaseHttpHandler.cpp                                    \
     dependencies/hueplusplus/hueplusplus/ExtendedColorHueStrategy.cpp                           \
@@ -431,6 +435,7 @@ SOURCES +=                                                                      
     Controllers/PatriotViperController/PatriotViperController.cpp                               \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp                         \
     Controllers/PatriotViperController/RGBController_PatriotViper.cpp                           \
+    Controllers/PhilipsHueController/PhilipsHueController.cpp                                   \
     Controllers/PhilipsHueController/PhilipsHueControllerDetect.cpp                             \
     Controllers/PolychromeController/PolychromeController.cpp                                   \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp                             \
@@ -484,6 +489,7 @@ SOURCES +=                                                                      
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBController_Network.cpp                                                     \
+    RGBController/RGBController_PhilipsHue.cpp                                                  \
 
 RESOURCES +=                                                                                    \
     qt/resources.qrc
