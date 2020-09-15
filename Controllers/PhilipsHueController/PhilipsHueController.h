@@ -5,7 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController.h"
-#include "Hue.h"
+#include "HueDeviceTypes.h"
 
 #include <string>
 #include <vector>
@@ -15,7 +15,7 @@
 class PhilipsHueController
 {
 public:
-    PhilipsHueController(HueLight& light_ptr);
+    PhilipsHueController(hueplusplus::Light& light_ptr);
     ~PhilipsHueController();
 
     std::string GetName();
@@ -26,5 +26,5 @@ public:
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    HueLight    light;
+    hueplusplus::Light light;
 };

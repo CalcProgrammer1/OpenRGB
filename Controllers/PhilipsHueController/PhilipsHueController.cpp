@@ -6,7 +6,7 @@
 
 #include "PhilipsHueController.h"
 
-PhilipsHueController::PhilipsHueController(HueLight& light_ptr):light(light_ptr)
+PhilipsHueController::PhilipsHueController(hueplusplus::Light& light_ptr):light(light_ptr)
 {
 
 }
@@ -38,5 +38,10 @@ std::string PhilipsHueController::GetUniqueID()
 
 void PhilipsHueController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
-    light.setColorRGB(red, green, blue, 0);
+    hueplusplus::RGB rgb;
+    rgb.r = red;
+    rgb.g = green;
+    rgb.b = blue;
+
+    light.setColorRGB(rgb, 0);
 }

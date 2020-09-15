@@ -3,7 +3,7 @@ language: generic
 env:
   global:
     # Ubuntu version
-    - LINUX_DIST=trusty
+    - LINUX_DIST=xenial
     - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
     # compiler settings
     - COMPILER_NAME=gcc
@@ -17,7 +17,7 @@ env:
 matrix:
   include:
     - os: linux
-      dist: trusty
+      dist: xenial
       sudo: true
       compiler: gcc
       addons:
@@ -31,7 +31,7 @@ matrix:
            - graphviz
          sources: &sources
            - ubuntu-toolchain-r-test
-           - llvm-toolchain-trusty-6.0
+           - llvm-toolchain-xenial-6.0
 
 before_install:
     # Combine global build options with OS/compiler-dependent options
@@ -43,13 +43,6 @@ before_install:
 install:
     # CodeCov
     - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
-    # Download and install recent cmake
-    - if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then
-        CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.0-Linux-x86_64.tar.gz";
-        mkdir -p ${DEPS_DIR}/cmake;
-        travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake;
-        export PATH=${DEPS_DIR}/cmake/bin:${PATH};
-      fi
     # we have to build lcov on our own, because it is not possible to install lcov-1.13 with apt
     - wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.13.orig.tar.gz && tar xf lcov_1.13.orig.tar.gz && make -C lcov-1.13 "PREFIX=${HOME}/.local" install && export PATH="${PATH}:${HOME}/.local/bin";
     # show info
@@ -66,7 +59,7 @@ script:
     ############################################################################
      - mkdir -p build
      - cd build
-     - cmake .. -Dhueplusplus_TESTS=ON
+     - cmake .. -Dhueplusplus_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
      - make coveragetest
      - cd ..
      - doxygen Doxyfile

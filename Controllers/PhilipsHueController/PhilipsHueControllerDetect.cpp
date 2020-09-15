@@ -1,7 +1,8 @@
 #include "Detector.h"
 #include "PhilipsHueController.h"
 #include "RGBController_PhilipsHue.h"
-#include "Hue.h"
+#include "Bridge.h"
+#include "HueDeviceTypes.h"
 #include "WinHttpHandler.h"
 
 #include <fstream>
@@ -20,13 +21,13 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
     /*-------------------------------------------------*\
     | Create an HTTP handler                            |
     \*-------------------------------------------------*/
-    std::shared_ptr<const IHttpHandler> handler = std::make_shared<WinHttpHandler>();
+    std::shared_ptr<const hueplusplus::IHttpHandler> handler = std::make_shared<hueplusplus::WinHttpHandler>();
 
     /*-------------------------------------------------*\
     | Create a finder and find bridges                  |
     \*-------------------------------------------------*/
-    HueFinder finder(handler);
-    std::vector<HueFinder::HueIdentification> bridges = finder.FindBridges();
+    hueplusplus::BridgeFinder finder(handler);
+    std::vector<hueplusplus::BridgeFinder::BridgeIdentification> bridges = finder.FindBridges();
 
     /*-------------------------------------------------*\
     | If no bridges were detected, manually add bridge  |
@@ -34,7 +35,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
     \*-------------------------------------------------*/
     if(bridges.empty())
     {
-        HueFinder::HueIdentification ident;
+        hueplusplus::BridgeFinder::BridgeIdentification ident;
         ident.ip = "192.168.3.242";
         ident.mac = "00:17:88:0A:23:60";
         bridges.push_back(ident);
@@ -74,7 +75,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         | away.  If not, the user will have to push the     |
         | connect button on the bridge.                     |
         \*-------------------------------------------------*/
-        Hue bridge = finder.GetBridge(bridges[0]);
+        hueplusplus::Bridge bridge = finder.GetBridge(bridges[0]);
 
         /*-------------------------------------------------*\
         | Save the username                                 |
@@ -89,7 +90,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         /*-------------------------------------------------*\
         | Get all lights from the bridge                    |
         \*-------------------------------------------------*/
-        std::vector<std::reference_wrapper<HueLight>> lights = bridge.getAllLights();
+        std::vector<std::reference_wrapper<hueplusplus::Light>> lights = bridge.lights().getAll();
 
         if(lights.size() > 0)
         {

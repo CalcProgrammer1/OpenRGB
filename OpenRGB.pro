@@ -42,7 +42,9 @@ DEFINES +=                                                                      
 INCLUDEPATH +=                                                                                  \
     dependencies/ColorWheel                                                                     \
     dependencies/CRCpp/                                                                         \
-    dependencies/hueplusplus/hueplusplus/include                                                \
+    dependencies/hueplusplus/include                                                            \
+    dependencies/hueplusplus/include/hueplusplus                                                \
+    dependencies/hueplusplus/include/json                                                       \
     dependencies/libe131/src/                                                                   \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
@@ -271,19 +273,34 @@ SOURCES +=                                                                      
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
-    dependencies/hueplusplus/hueplusplus/BaseHttpHandler.cpp                                    \
-    dependencies/hueplusplus/hueplusplus/ExtendedColorHueStrategy.cpp                           \
-    dependencies/hueplusplus/hueplusplus/ExtendedColorTemperatureStrategy.cpp                   \
-    dependencies/hueplusplus/hueplusplus/Hue.cpp                                                \
-    dependencies/hueplusplus/hueplusplus/HueCommandAPI.cpp                                      \
-    dependencies/hueplusplus/hueplusplus/HueException.cpp                                       \
-    dependencies/hueplusplus/hueplusplus/HueLight.cpp                                           \
-    dependencies/hueplusplus/hueplusplus/SimpleBrightnessStrategy.cpp                           \
-    dependencies/hueplusplus/hueplusplus/SimpleColorHueStrategy.cpp                             \
-    dependencies/hueplusplus/hueplusplus/SimpleColorTemperatureStrategy.cpp                     \
-    dependencies/hueplusplus/hueplusplus/UPnP.cpp                                               \
-    dependencies/hueplusplus/hueplusplus/Utils.cpp                                              \
-    dependencies/hueplusplus/hueplusplus/WinHttpHandler.cpp                                     \
+    dependencies/hueplusplus/src/APICache.cpp                                                   \
+    dependencies/hueplusplus/src/BaseDevice.cpp                                                 \
+    dependencies/hueplusplus/src/BaseHttpHandler.cpp                                            \
+    dependencies/hueplusplus/src/Bridge.cpp                                                     \
+    dependencies/hueplusplus/src/BridgeConfig.cpp                                               \
+    dependencies/hueplusplus/src/CLIPSensors.cpp                                                \
+    dependencies/hueplusplus/src/ColorUnits.cpp                                                 \
+    dependencies/hueplusplus/src/ExtendedColorHueStrategy.cpp                                   \
+    dependencies/hueplusplus/src/ExtendedColorTemperatureStrategy.cpp                           \
+    dependencies/hueplusplus/src/Group.cpp                                                      \
+    dependencies/hueplusplus/src/HueCommandAPI.cpp                                              \
+    dependencies/hueplusplus/src/HueDeviceTypes.cpp                                             \
+    dependencies/hueplusplus/src/HueException.cpp                                               \
+    dependencies/hueplusplus/src/Light.cpp                                                      \
+    dependencies/hueplusplus/src/ModelPictures.cpp                                              \
+    dependencies/hueplusplus/src/NewDeviceList.cpp                                              \
+    dependencies/hueplusplus/src/Scene.cpp                                                      \
+    dependencies/hueplusplus/src/Schedule.cpp                                                   \
+    dependencies/hueplusplus/src/Sensor.cpp                                                     \
+    dependencies/hueplusplus/src/SimpleBrightnessStrategy.cpp                                   \
+    dependencies/hueplusplus/src/SimpleColorHueStrategy.cpp                                     \
+    dependencies/hueplusplus/src/SimpleColorTemperatureStrategy.cpp                             \
+    dependencies/hueplusplus/src/StateTransaction.cpp                                           \
+    dependencies/hueplusplus/src/TimePattern.cpp                                                \
+    dependencies/hueplusplus/src/UPnP.cpp                                                       \
+    dependencies/hueplusplus/src/Utils.cpp                                                      \
+    dependencies/hueplusplus/src/WinHttpHandler.cpp                                             \
+    dependencies/hueplusplus/src/ZLLSensors.cpp                                                 \
     dependencies/libe131/src/e131.c                                                             \
     main.cpp                                                                                    \
     cli.cpp                                                                                     \

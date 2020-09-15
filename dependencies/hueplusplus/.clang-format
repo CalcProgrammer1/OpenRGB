@@ -38,17 +38,20 @@ IncludeCategories:
     # C++ standard headers (no .h)
     - Regex: '<[[:alnum:]_-]+>'
       Priority: 1
+    # Hueplusplus library
+    - Regex: '<hueplusplus/[[:alnum:]_./-]+>'
+      Priority: 2
     # Extenal libraries (with .h)
     - Regex: '<[[:alnum:]_./-]+>'
-      Priority: 2
+      Priority: 3
     # Headers from same folder
     - Regex: '"[[:alnum:]_.-]+"'
-      Priority: 3
+      Priority: 4
     # Headers from other folders
     - Regex: '"[[:alnum:]_/.-]+"'
-      Priority: 4
+      Priority: 5
 IndentCaseLabels: false
-NamespaceIndentation: All
+NamespaceIndentation: None
 SortIncludes: true
 SortUsingDeclarations: true
 SpaceAfterTemplateKeyword: true
