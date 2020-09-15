@@ -81,6 +81,7 @@ INCLUDEPATH +=                                                          \
     Controllers/NZXTHue2Controller/                                     \
     Controllers/NZXTKrakenController/                                   \
     Controllers/PatriotViperController/                                 \
+    Controllers/PhilipsHueController/                                   \
     Controllers/PolychromeController/                                   \
     Controllers/PoseidonZRGBController/                                 \
     Controllers/RedragonController/                                     \
@@ -165,6 +166,7 @@ HEADERS +=                                                              \
     Controllers/NZXTHue2Controller/NZXTHue2Controller.h                 \
     Controllers/NZXTKrakenController/NZXTKrakenController.h             \
     Controllers/PatriotViperController/PatriotViperController.h         \
+    Controllers/PhilipsHueController/PhilipsHueController.h             \
     Controllers/PolychromeController/PolychromeController.h             \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h         \
     Controllers/RGBFusionController/RGBFusionController.h               \
@@ -226,6 +228,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_NZXTHue2.h                              \
     RGBController/RGBController_NZXTKraken.h                            \
     RGBController/RGBController_PatriotViper.h                          \
+    RGBController/RGBController_PhilipsHue.h                            \
     RGBController/RGBController_Polychrome.h                            \
     RGBController/RGBController_PoseidonZRGB.h                          \
     RGBController/RGBController_RedragonK556.h                          \
@@ -359,6 +362,7 @@ SOURCES +=                                                              \
     Controllers/NZXTKrakenController/NZXTKrakenControllerDetect.cpp     \
     Controllers/PatriotViperController/PatriotViperController.cpp       \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp \
+    Controllers/PhilipsHueController/PhilipsHueController.cpp           \
     Controllers/PhilipsHueController/PhilipsHueControllerDetect.cpp     \
     Controllers/PolychromeController/PolychromeController.cpp           \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp     \
@@ -434,6 +438,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_NZXTHue2.cpp                            \
     RGBController/RGBController_NZXTKraken.cpp                          \
     RGBController/RGBController_PatriotViper.cpp                        \
+    RGBController/RGBController_PhilipsHue.cpp                          \
     RGBController/RGBController_Polychrome.cpp                          \
     RGBController/RGBController_PoseidonZRGB.cpp                        \
     RGBController/RGBController_RedragonK556.cpp                        \
