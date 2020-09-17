@@ -28,6 +28,7 @@
 #define NVIDIA_RTX2060_DEV                      0x1F08
 #define NVIDIA_RTX2060S_DEV                     0x1F06
 #define NVIDIA_RTX2070_DEV                      0x1F02
+#define NVIDIA_RTX2070_OC_DEV                   0x1F07
 #define NVIDIA_RTX2070S_DEV                     0x1E84
 #define NVIDIA_RTX2080_DEV                      0x1E87
 #define NVIDIA_RTX2080S_DEV                     0x1E81
@@ -46,6 +47,7 @@
 | EVGA Sub-Device IDs                                   |
 \*-----------------------------------------------------*/
 #define EVGA_GTX1070_FTW_SUB_DEV                0x6276
+#define EVGA_RTX2070_XC_OC_SUB_DEV              0x2173
 #define EVGA_RTX2080_XC_GAMING_SUB_DEV          0x2182
 
 /*-----------------------------------------------------*\
