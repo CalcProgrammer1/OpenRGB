@@ -44,6 +44,7 @@
 #define GIGABYTE_SUB_VEN                        0x1458
 #define MSI_SUB_VEN                             0x1462
 #define SAPPHIRE_SUB_VEN                        0x1DA2
+#define GALAX_SUB_VEN                           0x10DE
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
@@ -76,6 +77,11 @@
 | Sapphire Sub-Device IDs                               |
 \*-----------------------------------------------------*/
 #define SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV       0xE366
+
+/*-----------------------------------------------------*\
+| GALAX / KFA2 Sub-Device IDs                           |
+\*-----------------------------------------------------*/
+#define KFA2_RTX_2070_EX                        0x12FE
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |

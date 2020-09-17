@@ -138,7 +138,7 @@ void RGBController_GalaxGPU::DeviceUpdateLEDs()
         else
         {
             galax_gpu->SetLEDColorsEffect(red, grn, blu);
-        }        
+        }
     }
 }
 
@@ -158,8 +158,8 @@ void RGBController_GalaxGPU::SetCustomMode()
 }
 
 void RGBController_GalaxGPU::DeviceUpdateMode()
-{    
+{
     int new_mode = modes[active_mode].value;
 
-    galax_gpu->SetMode(new_mode);    
+    galax_gpu->SetMode(new_mode);
 }

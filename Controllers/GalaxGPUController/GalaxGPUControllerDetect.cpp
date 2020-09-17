@@ -11,13 +11,28 @@
 #include "RGBController.h"
 #include "RGBController_GalaxGPU.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
 
 using namespace std::chrono_literals;
 
+typedef struct
+{
+    int             pci_vendor;
+    int             pci_device;
+    int             pci_subsystem_vendor;
+    int             pci_subsystem_device;
+    const char *    name;
+} gpu_pci_device;
 
+#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const gpu_pci_device device_list[] =
+{
+    { NVIDIA_VEN,      NVIDIA_RTX2070_DEV,  GALAX_SUB_VEN,   KFA2_RTX_2070_EX,  "KFA2 RTX 2070 EX" },
+};
 /******************************************************************************************\
 *                                                                                          *
 *   TestForGalaxGPUController                                                              *
@@ -58,11 +73,21 @@ void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::v
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
         // Check for GALAX controller at 0x23
-        if (TestForGalaxGPUController(busses[bus], 0x23))
+        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
-            new_GalaxGPU = new GalaxGPUController(busses[bus], 0x23);
-            new_controller = new RGBController_GalaxGPU(new_GalaxGPU);
-            rgb_controllers.push_back(new_controller);
+            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
+               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
+               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
+               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
+            {
+                if (TestForGalaxGPUController(busses[bus], 0x23))
+                {
+                    new_GalaxGPU         = new GalaxGPUController(busses[bus], 0x23);
+                    new_controller       = new RGBController_GalaxGPU(new_GalaxGPU);
+                    new_controller->name = device_list[dev_idx].name;
+                    rgb_controllers.push_back(new_controller);
+                }
+            }
         }
     }
 
