@@ -47,7 +47,7 @@ const std::set<std::string>& getGamutBTypes()
 const std::set<std::string>& getGamutCTypes()
 {
     static const std::set<std::string> c_EXTENDEDCOLORLIGHT_GAMUTC_TYPES
-        = {"LCT010", "LCT011", "LCT012", "LCT014", "LCT015", "LCT016", "LLC020", "LST002", "LCA003"};
+        = {"LCT010", "LCT011", "LCT012", "LCT014", "LCT015", "LCT016", "LLC020", "LST002", "LCA003", "LCB001"};
     return c_EXTENDEDCOLORLIGHT_GAMUTC_TYPES;
 }
 

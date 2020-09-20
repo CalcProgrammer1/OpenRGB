@@ -62,6 +62,7 @@ public:
     //! 100ms, 4 = 400ms and should be seen as the default
     //! \param light A reference of the light
     virtual bool setColorHueSaturation(const HueSaturation& hueSat, uint8_t transition, Light& light) const = 0;
+    virtual bool setColorHueSaturationBrightness(const HueSaturationBrightness& hueSat, uint8_t transition, Light& light) const = 0;
     //! \brief Virtual function for changing a lights color in CIE format with a
     //! specified transition.
     //!

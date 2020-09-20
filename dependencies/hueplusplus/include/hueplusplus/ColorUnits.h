@@ -43,6 +43,26 @@ struct HueSaturation
     bool operator!=(const HueSaturation& other) const { return !(*this == other); }
 };
 
+//! \brief Color in hue, saturation, brightness
+struct HueSaturationBrightness
+{
+    //! \brief Color hue
+    //!
+    //! Ranges from 0 to 65535 (16 bit), where 65535 and 0 are red, 25500 is green and 46920 is blue.
+    int hue;
+    //! \brief Color saturation
+    //!
+    //! Ranges from 0 to 254 (8 bit), where 0 is least saturated (white) and 254 is most saturated (vibrant).
+    int saturation;
+    //! \brief Color brightness
+    //!
+    //! Ranges from 0 to 254 (8 bit), where 0 is least bright (black) and 254 is most bright (white).
+    int brightness;
+
+    bool operator==(const HueSaturationBrightness& other) const { return hue == other.hue && saturation == other.saturation && brightness == other.brightness; }
+    bool operator!=(const HueSaturationBrightness& other) const { return !(*this == other); }
+};
+
 //! \brief Color in CIE x and y coordinates
 struct XY
 {
@@ -117,6 +137,8 @@ struct RGB
     bool operator==(const RGB& other) const { return r == other.r && g == other.g && b == other.b; }
     bool operator!=(const RGB& other) const { return !(*this == other); }
 
+    HueSaturationBrightness toHSB() const;
+    
     //! \brief Convert to XYBrightness without clamping
     //!
     //! Performs gamma correction so the light color matches the screen color better.

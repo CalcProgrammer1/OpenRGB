@@ -20,6 +20,7 @@
 **/
 
 #include <cmath>
+#include <algorithm>
 
 #include <hueplusplus/ColorUnits.h>
 
@@ -105,6 +106,49 @@ XY ColorGamut::corrected(const XY& xy) const
     return xy;
 }
 
+HueSaturationBrightness RGB::toHSB() const
+{
+    const uint8_t cmax = std::max(r, std::max(g, b));
+    const uint8_t cmin = std::min(r, std::min(g, b));
+    const float diff = cmax - cmin;
+    
+    float h = -1;
+    float s = -1;
+
+    if(cmax == cmin)
+    {
+        h = 0;
+    }
+    else if(cmax == r)
+    {
+        h = (int)(9307 * ((g - b) / diff) + 65535) % 65535;
+    }
+    else if(cmax == g)
+    {
+        h = (int)(12750 * ((b - r) / diff) + 25500) % 65535;
+    }
+    else if(cmax == b)
+    {
+        h = (int)(10710 * ((r - g) / diff) + 46920) % 65535;
+    }
+
+    if(cmax == 0)
+    {
+        s = 0;
+    }
+    else
+    {
+        s = (diff / cmax) * 254;
+    }
+
+    HueSaturationBrightness hsb;
+    hsb.hue = h;
+    hsb.saturation = s;
+    hsb.brightness = cmax;
+
+    return(hsb);
+}
+
 XYBrightness RGB::toXY() const
 {
     const float red = r / 255.f;
@@ -119,9 +163,23 @@ XYBrightness RGB::toXY() const
     const float Y = redCorrected * 0.283881f + greenCorrected * 0.668433f + blueCorrected * 0.047685f;
     const float Z = redCorrected * 0.000088f + greenCorrected * 0.072310f + blueCorrected * 0.986039f;
 
+    float brightness = r;
+
+    if(g > brightness)
+    {
+        brightness = g;
+    }
+
+    if(b > brightness)
+    {
+        brightness = b;
+    }
+
+    brightness = brightness / 255.f;
+
     const float x = X / (X + Y + Z);
     const float y = Y / (X + Y + Z);
-    return XYBrightness {XY {x, y}, Y};
+    return XYBrightness {XY {x, y}, brightness};
 }
 
 XYBrightness RGB::toXY(const ColorGamut& gamut) const

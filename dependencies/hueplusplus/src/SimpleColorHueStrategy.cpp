@@ -48,6 +48,12 @@ bool SimpleColorHueStrategy::setColorHueSaturation(
     return light.transaction().setColor(hueSat).setTransition(transition).commit();
 }
 
+bool SimpleColorHueStrategy::setColorHueSaturationBrightness(
+    const HueSaturationBrightness& hueSat, uint8_t transition, Light& light) const
+{
+    return light.transaction().setColor(hueSat).setTransition(transition).commit();
+}
+
 bool SimpleColorHueStrategy::setColorXY(const XYBrightness& xy, uint8_t transition, Light& light) const
 {
     return light.transaction().setColor(xy).setTransition(transition).commit();

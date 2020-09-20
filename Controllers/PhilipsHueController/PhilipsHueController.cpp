@@ -6,14 +6,20 @@
 
 #include "PhilipsHueController.h"
 
-PhilipsHueController::PhilipsHueController(hueplusplus::Light& light_ptr):light(light_ptr)
+PhilipsHueController::PhilipsHueController(hueplusplus::Light& light_ptr, std::string bridge_ip):light(light_ptr)
 {
-
+    dark        = false;
+    location    = "IP: " + bridge_ip;
 }
 
 PhilipsHueController::~PhilipsHueController()
 {
 
+}
+
+std::string PhilipsHueController::GetLocation()
+{
+    return(location);
 }
 
 std::string PhilipsHueController::GetName()
@@ -43,5 +49,18 @@ void PhilipsHueController::SetColor(unsigned char red, unsigned char green, unsi
     rgb.g = green;
     rgb.b = blue;
 
-    light.setColorRGB(rgb, 0);
+    if((red == 0) && (green == 0) && (blue == 0))
+    {
+        if(!dark)
+        {
+            light.setColorRGB(rgb, 1);
+        }
+
+        dark = true;    
+    }
+    else
+    {
+        dark = false;
+        light.setColorRGB(rgb, 1);
+    }
 }

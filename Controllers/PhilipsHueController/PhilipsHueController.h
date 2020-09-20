@@ -15,9 +15,10 @@
 class PhilipsHueController
 {
 public:
-    PhilipsHueController(hueplusplus::Light& light_ptr);
+    PhilipsHueController(hueplusplus::Light& light_ptr, std::string bridge_ip);
     ~PhilipsHueController();
 
+    std::string GetLocation();
     std::string GetName();
     std::string GetVersion();
     std::string GetManufacturer();
@@ -26,5 +27,7 @@ public:
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    hueplusplus::Light light;
+    hueplusplus::Light  light;
+    std::string         location;
+    bool                dark;
 };

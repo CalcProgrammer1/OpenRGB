@@ -102,7 +102,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
             {
                 if(lights[light_idx].get().hasColorControl())
                 {
-                    PhilipsHueController*       new_controller = new PhilipsHueController(lights[light_idx].get());
+                    PhilipsHueController*       new_controller = new PhilipsHueController(lights[light_idx].get(), bridge.getBridgeIP());
                     RGBController_PhilipsHue*   new_rgbcontroller = new RGBController_PhilipsHue(new_controller);
                     rgb_controllers.push_back(new_rgbcontroller);
                 }

@@ -17,6 +17,7 @@ RGBController_PhilipsHue::RGBController_PhilipsHue(PhilipsHueController* light_p
     version     = light->GetVersion();
     description = "Philips Hue Device";
     serial      = light->GetUniqueID();
+    location    = light->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";

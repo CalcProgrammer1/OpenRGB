@@ -60,6 +60,8 @@ public:
     //! 100ms, 4 = 400ms and should be seen as the default
     //! \param light A reference of the light
     bool setColorHueSaturation(const HueSaturation& hueSat, uint8_t transition, Light& light) const override;
+
+    bool setColorHueSaturationBrightness(const HueSaturationBrightness& hueSat, uint8_t transition, Light& light) const override;
     //! \brief Function for changing a lights color in CIE format with a specified
     //! transition.
     //!

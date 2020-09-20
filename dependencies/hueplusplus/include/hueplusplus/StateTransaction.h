@@ -118,7 +118,7 @@ public:
     //! \note If this transaction is for a light, the light needs to have rgb color control.
     //! \note Will also turn on the light if nothing else is specified
     StateTransaction& setColor(const HueSaturation& hueSat);
-
+    StateTransaction& setColor(const HueSaturationBrightness& hueSatBri);
     //! \brief Set light color in xy space (without brightness).
     //! \param xy x and y coordinates in CIE color space
     //! \returns This transaction for chaining calls

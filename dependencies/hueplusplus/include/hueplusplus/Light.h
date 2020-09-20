@@ -442,7 +442,7 @@ public:
     {
         if (colorHueStrategy)
         {
-            return colorHueStrategy->setColorXY(rgb.toXY(getColorGamut()), transition, *this);
+            return colorHueStrategy->setColorHueSaturationBrightness(rgb.toHSB(), transition, *this);
         }
         return false;
     }

@@ -122,6 +122,14 @@ StateTransaction& StateTransaction::setColor(const HueSaturation& hueSat)
     return *this;
 }
 
+StateTransaction& StateTransaction::setColor(const HueSaturationBrightness& hueSatBri)
+{
+    request["hue"] = std::max(0, std::min(hueSatBri.hue, (1 << 16) - 1));
+    request["sat"] = std::max(0, std::min(hueSatBri.saturation, 254));
+    request["bri"] = std::max(0, std::min(hueSatBri.brightness, 254));
+    return *this;
+}
+
 StateTransaction& StateTransaction::setColor(const XY& xy)
 {
     float clampedX = std::max(0.f, std::min(xy.x, 1.f));
