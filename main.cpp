@@ -150,7 +150,6 @@ int main(int argc, char* argv[])
     std::vector<RGBController*> &rgb_controllers = ResourceManager::get()->GetRGBControllers();
 
     ProfileManager profile_manager(rgb_controllers);
-    NetworkServer server(rgb_controllers);
     
     if(!AttemptLocalConnection(rgb_controllers))
     {
@@ -163,7 +162,7 @@ int main(int argc, char* argv[])
     unsigned int ret_flags = RET_FLAG_START_GUI;
     if(argc > 1)
     {
-        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, &server, clients);
+        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, ResourceManager::get()->GetServer(), clients);
     }
 
     /*---------------------------------------------------------*\
@@ -185,7 +184,7 @@ int main(int argc, char* argv[])
 
         if(clients.size() == 0)
         {
-            dlg.AddServerTab(&server);
+            dlg.AddServerTab(ResourceManager::get()->GetServer());
         }
 
         dlg.AddClientTab();

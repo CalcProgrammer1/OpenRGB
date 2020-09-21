@@ -7,6 +7,8 @@
 #include <string>
 
 #include "i2c_smbus.h"
+#include "NetworkClient.h"
+#include "NetworkServer.h"
 #include "RGBController.h"
 
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
@@ -37,6 +39,7 @@ public:
 
     unsigned int GetDetectionPercent();
     const char*  GetDetectionString();
+    NetworkServer* GetServer();
 
     void DeviceListChanged();
 
@@ -53,22 +56,49 @@ public:
 private:
     static std::unique_ptr<ResourceManager>     instance;
 
-    std::atomic<bool>                           detection_is_required;
-    std::atomic<unsigned int>                   detection_percent;
-    const char*                                 detection_string;
-
+    /*-------------------------------------------------------------------------------------*\
+    | I2C/SMBus Interfaces                                                                  |
+    \*-------------------------------------------------------------------------------------*/
     std::vector<i2c_smbus_interface*>           busses;
+
+    /*-------------------------------------------------------------------------------------*\
+    | RGBControllers                                                                        |
+    \*-------------------------------------------------------------------------------------*/
+    //std::vector<RGBController*>                 rgb_controllers_hw;
     std::vector<RGBController*>                 rgb_controllers;
+
+    /*-------------------------------------------------------------------------------------*\
+    | Network Server                                                                        |
+    \*-------------------------------------------------------------------------------------*/
+    NetworkServer*                              server;
+
+    /*-------------------------------------------------------------------------------------*\
+    | Network Clients                                                                       |
+    \*-------------------------------------------------------------------------------------*/
+    //std::vector<NetworkClient*>                 clients;
+
+    /*-------------------------------------------------------------------------------------*\
+    | Detectors                                                                             |
+    \*-------------------------------------------------------------------------------------*/
     std::vector<DeviceDetectorFunction>         device_detectors;
     std::vector<std::string>                    device_detector_strings;
     std::vector<I2CBusDetectorFunction>         i2c_bus_detectors;
     std::vector<I2CDeviceDetectorFunction>      i2c_device_detectors;
     std::vector<std::string>                    i2c_device_detector_strings;
 
+    /*-------------------------------------------------------------------------------------*\
+    | Detection Thread and Detection State                                                  |
+    \*-------------------------------------------------------------------------------------*/
     std::thread *                               DetectDevicesThread;
-
     std::mutex                                  DetectDeviceMutex;
+
+    std::atomic<bool>                           detection_is_required;
+    std::atomic<unsigned int>                   detection_percent;
+    const char*                                 detection_string;
     
+    /*-------------------------------------------------------------------------------------*\
+    | Device List Changed Callback                                                          |
+    \*-------------------------------------------------------------------------------------*/
     std::mutex                                  DeviceListChangeMutex;
     std::vector<ResourceManagerCallback>        DeviceListChangeCallbacks;
     std::vector<void *>                         DeviceListChangeCallbackArgs;

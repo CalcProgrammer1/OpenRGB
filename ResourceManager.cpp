@@ -25,6 +25,11 @@ ResourceManager::ResourceManager()
     detection_string = "";
     detection_is_required = false;
     DetectDevicesThread = nullptr;
+
+    /*-------------------------------------------------------------------------*\
+    | Initialize Server Instance                                                |
+    \*-------------------------------------------------------------------------*/
+    server = new NetworkServer(rgb_controllers);
 }
 
 ResourceManager::~ResourceManager()
@@ -89,6 +94,11 @@ void ResourceManager::DeviceListChanged()
     }
 
     DeviceListChangeMutex.unlock();
+}
+
+NetworkServer* ResourceManager::GetServer()
+{
+    return(server);
 }
 
 unsigned int ResourceManager::GetDetectionPercent()
