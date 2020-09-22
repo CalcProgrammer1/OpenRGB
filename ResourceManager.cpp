@@ -101,7 +101,7 @@ NetworkServer* ResourceManager::GetServer()
     return(server);
 }
 
-std::vector<NetworkClient*> ResourceManager::GetClients()
+std::vector<NetworkClient*>& ResourceManager::GetClients()
 {
     return(clients);
 }

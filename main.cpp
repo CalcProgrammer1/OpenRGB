@@ -180,17 +180,7 @@ int main(int argc, char* argv[])
             dlg.AddI2CToolsPage();
         }
 
-        if(ResourceManager::get()->GetClients().size() == 0)
-        {
-            dlg.AddServerTab(ResourceManager::get()->GetServer());
-        }
-
         dlg.AddClientTab();
-
-        for(std::size_t client_idx = 0; client_idx < ResourceManager::get()->GetClients().size(); client_idx++)
-        {
-            dlg.AddClient(ResourceManager::get()->GetClients()[client_idx]);
-        }
         
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {

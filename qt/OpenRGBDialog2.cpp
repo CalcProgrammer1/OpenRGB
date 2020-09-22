@@ -171,6 +171,16 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     | ProgressBar gets a proper value                       |
     \*-----------------------------------------------------*/
     UpdateDevicesList();
+
+    /*-----------------------------------------------------*\
+    | Add Server Tab                                        |
+    \*-----------------------------------------------------*/
+    AddServerTab();
+
+    /*-----------------------------------------------------*\
+    | Add Client Tab                                        |
+    \*-----------------------------------------------------*/
+    AddClientTab();
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
@@ -264,16 +274,13 @@ void OpenRGBDialog2::AddClient(NetworkClient* new_client)
     }
 }
 
-void OpenRGBDialog2::AddServerTab(NetworkServer* network_server)
+void OpenRGBDialog2::AddServerTab()
 {
     /*-----------------------------------------------------*\
     | Add server information tab if there is a server       |
     \*-----------------------------------------------------*/
-    if(network_server != NULL)
-    {
-        OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(network_server);
-        ui->MainTabBar->addTab(ServerInfoPage, "SDK Server");
-    }
+    OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(ResourceManager::get()->GetServer());
+    ui->MainTabBar->addTab(ServerInfoPage, "SDK Server");
 }
 
 void OpenRGBDialog2::ClearDevicesList()

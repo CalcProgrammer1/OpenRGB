@@ -30,9 +30,6 @@ private slots:
 private:
     Ui::OpenRGBClientInfoPageUi *ui;
 
-    std::vector<RGBController *>&       controllers;
-    std::vector<NetworkClient*> rgb_clients;
-
 signals:
     void ClientListUpdated();
 };

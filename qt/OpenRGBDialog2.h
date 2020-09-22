@@ -35,7 +35,7 @@ public:
     void AddClient(NetworkClient* new_client);
     void AddClientTab();
     void AddI2CToolsPage();
-    void AddServerTab(NetworkServer* network_server);
+    void AddServerTab();
 
     void setMode(unsigned char mode_val);
 
