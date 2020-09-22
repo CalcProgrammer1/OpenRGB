@@ -124,8 +124,13 @@ void NZXTHue2Controller::UpdateDeviceList()
     {
         unsigned int start = 0x0F + (6 * chan);
         unsigned int num_leds_on_channel = 0;
+
+        printf("NZXT Hue 2 Devices: ");
+
         for(int dev = 0; dev < 6; dev++)
         {
+            printf("%02X, ", usb_buf[start + dev]);
+
             switch(usb_buf[start + dev])
             {
             case 0x01: //Hue 1 strip
@@ -152,6 +157,9 @@ void NZXTHue2Controller::UpdateDeviceList()
                 break;
             }
         }
+
+        printf("\r\n");
+        
         channel_leds[chan] = num_leds_on_channel;
     }
 }
