@@ -13,10 +13,13 @@
 #include <string.h>
 #include <stdio.h>
 
-#ifdef WIN32
+#ifdef _WIN32
+
 #include <windows.h>
 
-#else
+#endif /* _WIN32 */
+
+#ifdef __linux__
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -35,7 +38,7 @@
 #include <asm-generic/ioctls.h>
 
 
-#endif
+#endif /* __linux__ */
 
 
 //Serial Port Class

@@ -40,7 +40,7 @@ bool serial_port::serial_open()
 {
 //    printf("SerialPort: Opening serial port %s at baud rate %d.\n", port_name, baud_rate);
 
-    #ifdef WIN32
+#ifdef _WIN32
     file_descriptor = CreateFile(port_name, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
     if((int)file_descriptor < 0)
@@ -74,7 +74,9 @@ bool serial_port::serial_open()
     timeouts.WriteTotalTimeoutMultiplier=10;
     SetCommTimeouts(file_descriptor, &timeouts);
 
-    #else
+#endif  /* _WIN32 */
+
+#ifdef __linux__
 
     file_descriptor = open(port_name, O_RDWR | O_NOCTTY | O_NDELAY);
 
@@ -116,7 +118,7 @@ bool serial_port::serial_open()
     //}
 
     //fcntl(file_descriptor, F_SETFL, 0);
-    #endif
+#endif  /* __linux__ */
 
 //  printf("SerialPort: Serial port %s opened successfully.\n", port_name);
     return true;
@@ -143,12 +145,15 @@ bool serial_port::serial_open(const char* name, unsigned int baud)
 void serial_port::serial_close()
 {
 //  printf("SerialPort: Closing port %s.\n", port_name);
-    #ifdef WIN32
+#ifdef _WIN32
 
-    #else
+#endif  /* _WIN32 */
+
+#ifdef __linux__
 
     close(file_descriptor);
-    #endif
+
+#endif  /* __linux__ */
 }
 
 // read
@@ -158,18 +163,24 @@ void serial_port::serial_close()
 //	available bytes
 int serial_port::serial_read(char * buffer, int length)
 {
-    #ifdef WIN32
+#ifdef _WIN32
+
     DWORD bytesread;
     ReadFile(file_descriptor, buffer, length, &bytesread, NULL);
+    return bytesread;
 
-    #else
+#endif  /* _WIN32 */
+
+#ifdef __linux__
 
     int bytesread;
     bytesread = read(file_descriptor, buffer, length);
-    #endif
+    return bytesread;
+
+#endif  /* __linux__ */
 
     //printf("SerialPort: Read %d bytes on port %s.\n", bytesread, port_name);
-    return bytesread;
+    return 0;
 }
 
 //write
@@ -180,40 +191,53 @@ int serial_port::serial_read(char * buffer, int length)
 //	past <buffer> and may cause a segfault
 int serial_port::serial_write(char * buffer, int length)
 {
-    #ifdef WIN32
+#ifdef _WIN32
+
     DWORD byteswritten;
     WriteFile(file_descriptor, buffer, length, &byteswritten, NULL);
+    return byteswritten;
 
-    #else
+#endif  /* _WIN32 */
+
+#ifdef __linux__
 
     int byteswritten;
     byteswritten = write(file_descriptor, buffer, length);
-    #endif
+    return byteswritten;
+
+#endif  /* __linux__ */
 
     //printf("SerialPort: Wrote %d bytes on port %s.\n", byteswritten, port_name);
-    return byteswritten;
+    return 0;
 }
 
 //flush
 void serial_port::serial_flush_rx()
 {
-    #ifdef WIN32
+#ifdef _WIN32
+
     PurgeComm(file_descriptor, PURGE_RXABORT | PURGE_RXCLEAR);
 
-    #else
+#endif  /* _WIN32 */
+
+#ifdef __linux__
 
     tcflush(file_descriptor, TCIFLUSH);
-    #endif
+
+#endif  /* __linux__ */
 }
 
 void serial_port::serial_flush_tx()
 {
+#ifdef _WIN32
 
-    #ifdef WIN32
     PurgeComm(file_descriptor, PURGE_TXABORT | PURGE_TXCLEAR);
 
-    #else
+#endif  /* _WIN32 */
+
+#ifdef __linux__
 
     tcflush(file_descriptor, TCOFLUSH);
-    #endif
+
+#endif  /* __linux__ */
 }

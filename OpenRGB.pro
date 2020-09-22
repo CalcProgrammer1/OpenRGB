@@ -629,9 +629,15 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 macx:ICON = qt/OpenRGB.icns
 
 unix:macx {
+    SOURCES +=                                                          \
+    serial_port/find_usb_serial_port_linux.cpp                          \
+
     INCLUDEPATH +=                                                      \
     /usr/local/include                                                  \
 
     LIBS +=                                                             \
     -L/usr/local/lib -lusb-1.0 -lhidapi                                 \
+
+    CONFIG +=                                                           \
+    c++14                                                               \
 }
