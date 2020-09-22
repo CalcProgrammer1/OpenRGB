@@ -153,13 +153,21 @@ void NZXTHue2Controller::UpdateDeviceList()
                 num_leds_on_channel += 8;
                 break;
 
+            case 0x10: //Kraken X3 ring
+                num_leds_on_channel += 8;
+                break;
+            
+            case 0x11: //Kraken X3 logo
+                num_leds_on_channel += 1;
+                break;
+
             default:
                 break;
             }
         }
 
         printf("\r\n");
-        
+
         channel_leds[chan] = num_leds_on_channel;
     }
 }
