@@ -9,6 +9,7 @@
 #define NZXT_HUE_2_PID              0x2001
 #define NZXT_HUE_2_AMBIENT_PID      0x2002
 #define NZXT_SMART_DEVICE_V2_PID    0x2006
+#define NZXT_KRAKEN_X3_PID          0x2007
 #define NZXT_RGB_FAN_CONTROLLER_PID 0x2009
 
 typedef struct
@@ -30,6 +31,7 @@ static const nzxt_hue_2_device device_list[] =
     { NZXT_VID,             NZXT_HUE_2_PID,                 4,  0,      "NZXT Hue 2"                        },
     { NZXT_VID,             NZXT_HUE_2_AMBIENT_PID,         2,  0,      "NZXT Hue 2 Ambient"                },
     { NZXT_VID,             NZXT_SMART_DEVICE_V2_PID,       2,  3,      "NZXT Smart Device V2"              },
+    { NZXT_VID,             NZXT_KRAKEN_X3_PID,             2,  0,      "NZXT Kraken X3"                    },
     { NZXT_VID,             NZXT_RGB_FAN_CONTROLLER_PID,    2,  3,      "NZXT RGB & Fan Controller"         },
 };
 
