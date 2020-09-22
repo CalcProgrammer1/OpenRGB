@@ -22,12 +22,10 @@
 
 using namespace std::chrono_literals;
 
-std::vector<NetworkClient*> clients;
-
 /*-------------------------------------------------------------*\
 | Command line functionality and return flags                   |
 \*-------------------------------------------------------------*/
-extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients);
+extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in);
 
 enum
 {
@@ -108,7 +106,7 @@ bool AttemptLocalConnection(std::vector<RGBController*> &rgb_controllers)
     }
     else
     {
-        clients.push_back(client);
+        ResourceManager::get()->GetClients().push_back(client);
 
         success = true;
     }
@@ -162,7 +160,7 @@ int main(int argc, char* argv[])
     unsigned int ret_flags = RET_FLAG_START_GUI;
     if(argc > 1)
     {
-        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager, ResourceManager::get()->GetServer(), clients);
+        ret_flags = cli_main(argc, argv, rgb_controllers, &profile_manager);
     }
 
     /*---------------------------------------------------------*\
@@ -182,16 +180,16 @@ int main(int argc, char* argv[])
             dlg.AddI2CToolsPage();
         }
 
-        if(clients.size() == 0)
+        if(ResourceManager::get()->GetClients().size() == 0)
         {
             dlg.AddServerTab(ResourceManager::get()->GetServer());
         }
 
         dlg.AddClientTab();
 
-        for(std::size_t client_idx = 0; client_idx < clients.size(); client_idx++)
+        for(std::size_t client_idx = 0; client_idx < ResourceManager::get()->GetClients().size(); client_idx++)
         {
-            dlg.AddClient(clients[client_idx]);
+            dlg.AddClient(ResourceManager::get()->GetClients()[client_idx]);
         }
         
         if(ret_flags & RET_FLAG_START_MINIMIZED)

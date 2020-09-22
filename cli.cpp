@@ -22,7 +22,6 @@
 using namespace std::chrono_literals;
 
 static ProfileManager*             profile_manager;
-static NetworkServer*              network_server;
 static std::string                 profile_save_filename = "";
 
 enum
@@ -667,7 +666,7 @@ bool OptionSaveProfile(std::string argument)
     return(true);
 }
 
-int ProcessOptions(int argc, char *argv[], Options *options, std::vector<NetworkClient*> &clients, std::vector<RGBController *> &rgb_controllers)
+int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBController *> &rgb_controllers)
 {
     unsigned int ret_flags  = 0;
     int arg_index           = 1;
@@ -728,7 +727,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<Network
                 std::this_thread::sleep_for(10ms);
             }
             
-            clients.push_back(client);
+            ResourceManager::get()->GetClients().push_back(client);
 
             arg_index++;
         }
@@ -1030,26 +1029,25 @@ void WaitWhileServerOnline(NetworkServer* srv)
     };
 }
 
-unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in, NetworkServer* network_server_in, std::vector<NetworkClient*> &clients)
+unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in)
 {
     profile_manager = profile_manager_in;
-    network_server  = network_server_in;
 
     /*---------------------------------------------------------*\
     | Process the argument options                              |
     \*---------------------------------------------------------*/
     Options options;
-    unsigned int ret_flags = ProcessOptions(argc, argv, &options, clients, rgb_controllers);
+    unsigned int ret_flags = ProcessOptions(argc, argv, &options, rgb_controllers);
 
     /*---------------------------------------------------------*\
     | If the server was told to start, start it before returning|
     \*---------------------------------------------------------*/
     if(options.servOpts.start)
     {
-        network_server->SetPort(options.servOpts.port);
-        network_server->StartServer();
+        ResourceManager::get()->GetServer()->SetPort(options.servOpts.port);
+        ResourceManager::get()->GetServer()->StartServer();
 
-        if(network_server->GetOnline()) 
+        if(ResourceManager::get()->GetServer()->GetOnline()) 
         {
             /*---------------------------------------------------------*\
             | If the GUI has been started, return from cli_main.        |
@@ -1058,7 +1056,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
             \*---------------------------------------------------------*/
             if((ret_flags & RET_FLAG_START_GUI) == 0)
             {
-                WaitWhileServerOnline(network_server);
+                WaitWhileServerOnline(ResourceManager::get()->GetServer());
             }
         }
         else

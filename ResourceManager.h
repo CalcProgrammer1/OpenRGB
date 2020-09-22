@@ -39,7 +39,9 @@ public:
 
     unsigned int GetDetectionPercent();
     const char*  GetDetectionString();
-    NetworkServer* GetServer();
+    
+    std::vector<NetworkClient*> GetClients();
+    NetworkServer*              GetServer();
 
     void DeviceListChanged();
 
@@ -75,7 +77,7 @@ private:
     /*-------------------------------------------------------------------------------------*\
     | Network Clients                                                                       |
     \*-------------------------------------------------------------------------------------*/
-    //std::vector<NetworkClient*>                 clients;
+    std::vector<NetworkClient*>                 clients;
 
     /*-------------------------------------------------------------------------------------*\
     | Detectors                                                                             |

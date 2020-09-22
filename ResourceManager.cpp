@@ -101,6 +101,11 @@ NetworkServer* ResourceManager::GetServer()
     return(server);
 }
 
+std::vector<NetworkClient*> ResourceManager::GetClients()
+{
+    return(clients);
+}
+
 unsigned int ResourceManager::GetDetectionPercent()
 {
     return (detection_percent.load());
