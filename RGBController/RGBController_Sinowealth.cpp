@@ -1,21 +1,22 @@
 /*-----------------------------------------*\
-|  RGBController_GloriousModelO.cpp         |
+|  RGBController_Sinowealth.cpp             |
 |                                           |
-|  Definitions and types for Glorious       |
-|  and other Mice                           |
+|  Definitions and types for Sinowealth     |
+|  mice, including Glorious                 |
 |                                           |
 |  Niels Westphal (crashniels) 20/5/2020    |
 \*-----------------------------------------*/
 
-#include "RGBController_GloriousModelO.h"
+#include "RGBController_Sinowealth.h"
 
-RGBController_GloriousModelO::RGBController_GloriousModelO(GloriousModelOController* gmo_ptr)
+RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowealth_ptr)
 {
-    gmo = gmo_ptr;
+    sinowealth = sinowealth_ptr;
 
-    name        = gmo->GetDeviceName();
+    name        = "Sinowealth Device";
     type        = DEVICE_TYPE_MOUSE;
-    description = "Glorious Device";
+    description = "Sinowealth Device";
+    location    = sinowealth->GetLocation();
 
     mode Static;
     Static.name       = "Static";
@@ -121,17 +122,17 @@ RGBController_GloriousModelO::RGBController_GloriousModelO(GloriousModelOControl
     SetupZones();
 }
 
-void RGBController_GloriousModelO::SetupZones()
+void RGBController_Sinowealth::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Create a single zone                                      |
     \*---------------------------------------------------------*/
     zone new_zone;
-    new_zone.name       = "Glorious Zone";
+    new_zone.name       = "Mouse";
     new_zone.type       = ZONE_TYPE_SINGLE;
-    new_zone.leds_min   = gmo->GetLEDCount();
-    new_zone.leds_max   = gmo->GetLEDCount();
-    new_zone.leds_count = gmo->GetLEDCount();
+    new_zone.leds_min   = sinowealth->GetLEDCount();
+    new_zone.leds_max   = sinowealth->GetLEDCount();
+    new_zone.leds_count = sinowealth->GetLEDCount();
     new_zone.matrix_map = NULL;
     zones.push_back(new_zone);
 
@@ -141,40 +142,42 @@ void RGBController_GloriousModelO::SetupZones()
     for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         led* new_led = new led();
-        new_led->name = "Glorious LED";
+        new_led->name = "Mouse LED";
         leds.push_back(*new_led);
     }
 
     SetupColors();
 }
 
-void RGBController_GloriousModelO::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_Sinowealth::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_GloriousModelO::DeviceUpdateLEDs()
+void RGBController_Sinowealth::DeviceUpdateLEDs()
 {
-    gmo->SetLEDColor(&colors[0]);
+    sinowealth->SetLEDColor(&colors[0]);
 }
 
-void RGBController_GloriousModelO::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Sinowealth::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GloriousModelO::UpdateSingleLED(int /*led*/)
+void RGBController_Sinowealth::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_GloriousModelO::SetCustomMode()
+void RGBController_Sinowealth::SetCustomMode()
 {
-    //active_mode = 2;
+    active_mode = 0;
 }
 
-void RGBController_GloriousModelO::DeviceUpdateMode()
+
+void RGBController_Sinowealth::DeviceUpdateMode()
+
 {
     unsigned int direction = 0;
     unsigned int speed = GLORIOUS_SPEED_NORMAL;
@@ -216,13 +219,12 @@ void RGBController_GloriousModelO::DeviceUpdateMode()
 
         if (modes[active_mode].color_mode == MODE_COLORS_NONE)
         {
-            gmo->SetMode(modes[active_mode].value, speed, direction, 0);
+            sinowealth->SetMode(modes[active_mode].value, speed, direction, 0);
         }
         else
         {
-            gmo->SetMode(modes[active_mode].value, speed, direction, &modes[active_mode].colors[0]);
+            sinowealth->SetMode(modes[active_mode].value, speed, direction, &modes[active_mode].colors[0]);
         }
-
     }
 }
 //wave, epilepsy, spectrum cycle, tail, glorious mode, off

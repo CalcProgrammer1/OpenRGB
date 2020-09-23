@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  RGBController_GloriousModelO.h           |
+|  RGBController_Sinowealth.h               |
 |                                           |
-|  Definitions and types for Glorious       |
-|  and other Mice                           |
+|  Definitions and types for Sinowealth     |
+|  mice, including Glorious                 |
 |                                           |
 |  Niels Westphal (crashniels) 20/5/2020    |
 \*-----------------------------------------*/
@@ -10,12 +10,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "GloriousModelOController.h"
+#include "SinowealthController.h"
 
-class RGBController_GloriousModelO : public RGBController
+class RGBController_Sinowealth : public RGBController
 {
 public:
-    RGBController_GloriousModelO(GloriousModelOController* gmo_ptr);
+    RGBController_Sinowealth(SinowealthController* sinowealth_ptr);
 
     void        SetupZones();
 
@@ -26,8 +26,10 @@ public:
     void        UpdateSingleLED(int led);
 
     void        SetCustomMode();
+
     void        DeviceUpdateMode();
 
+
 private:
-    GloriousModelOController* gmo;
+    SinowealthController* sinowealth;
 };

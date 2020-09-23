@@ -66,7 +66,6 @@ INCLUDEPATH +=                                                          \
     Controllers/EspurnaController/                                      \
     Controllers/EVGAGPUController/                                      \
     Controllers/GalaxGPUController/                                     \
-    Controllers/GloriousModelOController/                               \
     Controllers/HoltekController/                                       \
     Controllers/HuePlusController/                                      \
     Controllers/HyperXDRAMController/                                   \
@@ -90,6 +89,7 @@ INCLUDEPATH +=                                                          \
     Controllers/RGBFusion2USBController/                                \
     Controllers/RGBFusionGPUController/                                 \
     Controllers/SapphireGPUController/                                  \
+    Controllers/SinowealthController/                                   \
     Controllers/SteelSeriesController/                                  \
     Controllers/TecknetController/                                      \
     Controllers/ThermaltakeRiingController/                             \
@@ -144,7 +144,6 @@ HEADERS +=                                                              \
     Controllers/EVGAGPUController/EVGAGPUv1Controller.h                 \
     Controllers/EVGAGPUController/EVGAGPUv2Controller.h                 \
     Controllers/GalaxGPUController/GalaxGPUController.h                 \
-    Controllers/GloriousModelOController/GloriousModelOController.h     \
     Controllers/HoltekController/HoltekA070Controller.h                 \
     Controllers/HuePlusController/HuePlusController.h                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.h             \
@@ -176,6 +175,7 @@ HEADERS +=                                                              \
     Controllers/RedragonController/RedragonK556Controller.h             \
     Controllers/RedragonController/RedragonM711Controller.h             \
     Controllers/SapphireGPUController/SapphireGPUController.h           \
+    Controllers/SinowealthController/SinowealthController.h             \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h      \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h    \
     Controllers/SteelSeriesController/SteelSeriesApexController.h       \
@@ -203,7 +203,6 @@ HEADERS +=                                                              \
     RGBController/RGBController_EVGAGPUv1.h                             \
     RGBController/RGBController_EVGAGPUv2.h                             \
     RGBController/RGBController_GalaxGPU.h                              \
-    RGBController/RGBController_GloriousModelO.h                        \
     RGBController/RGBController_HoltekA070.h                            \
     RGBController/RGBController_HuePlus.h                               \
     RGBController/RGBController_HyperXAlloyOrigins.h                    \
@@ -237,6 +236,7 @@ HEADERS +=                                                              \
     RGBController/RGBController_RGBFusion2USB.h                         \
     RGBController/RGBController_RGBFusionGPU.h                          \
     RGBController/RGBController_SapphireGPU.h                           \
+    RGBController/RGBController_Sinowealth.h                            \
     RGBController/RGBController_SteelSeriesRival.h                      \
     RGBController/RGBController_SteelSeriesSiberia.h                    \
     RGBController/RGBController_SteelSeriesApex.h                       \
@@ -310,8 +310,6 @@ SOURCES +=                                                              \
     Controllers/EVGAGPUController/EVGAGPUControllerDetect.cpp           \
     Controllers/GalaxGPUController/GalaxGPUController.cpp               \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp         \
-    Controllers/GloriousModelOController/GloriousModelOController.cpp   \
-    Controllers/GloriousModelOController/GloriousModelOControllerDetect.cpp \
     Controllers/HoltekController/HoltekA070Controller.cpp               \
     Controllers/HoltekController/HoltekControllerDetect.cpp             \
     Controllers/HuePlusController/HuePlusController.cpp                 \
@@ -366,6 +364,8 @@ SOURCES +=                                                              \
     Controllers/RedragonController/RedragonControllerDetect.cpp         \
     Controllers/SapphireGPUController/SapphireGPUController.cpp         \
     Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp   \
+    Controllers/SinowealthController/SinowealthController.cpp           \
+    Controllers/SinowealthController/SinowealthControllerDetect.cpp     \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp    \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp  \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp     \
@@ -398,7 +398,6 @@ SOURCES +=                                                              \
     RGBController/RGBController_EVGAGPUv1.cpp                           \
     RGBController/RGBController_EVGAGPUv2.cpp                           \
     RGBController/RGBController_GalaxGPU.cpp                            \
-    RGBController/RGBController_GloriousModelO.cpp                      \
     RGBController/RGBController_HoltekA070.cpp                          \
     RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperXAlloyOrigins.cpp                  \
@@ -431,6 +430,7 @@ SOURCES +=                                                              \
     RGBController/RGBController_RGBFusion2USB.cpp                       \
     RGBController/RGBController_RGBFusionGPU.cpp                        \
     RGBController/RGBController_SapphireGPU.cpp                         \
+    RGBController/RGBController_Sinowealth.cpp                          \
     RGBController/RGBController_SteelSeriesRival.cpp                    \
     RGBController/RGBController_SteelSeriesSiberia.cpp                  \
     RGBController/RGBController_SteelSeriesApex.cpp                     \

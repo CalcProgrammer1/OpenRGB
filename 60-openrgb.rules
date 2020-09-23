@@ -262,6 +262,16 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="8297", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="5702", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Sinowealth USB                                               #
+#  Glorious Model O / O-                                        #
+#  Glorious Model D / D-                                        #
+#  Everest GT-100 RGB                                           #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="0036", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="0033", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="0029", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  SteelSeries Peripheral Devices                               #
 #                                                               #
 #  Mice:                                                        #
