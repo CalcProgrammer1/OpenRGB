@@ -33,6 +33,7 @@
 #define NVIDIA_RTX2080_DEV                      0x1E87
 #define NVIDIA_RTX2080S_DEV                     0x1E81
 #define NVIDIA_RTX2080TI_DEV                    0x1E07
+#define NVIDIA_RTX3080_DEV                      0x2206
 
 /*---------------------------------------------------------*\
 | PCI Sub-Vendor IDs                                        |
@@ -66,6 +67,7 @@
 #define MSI_RTX2060S_ARMOR_OC_SUB_DEV           0xC754
 #define MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV       0x3728
 #define MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV     0x3717
+#define MSI_RTX3080_GAMING_X_TRIO_SUB_DEV       0x3892
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |

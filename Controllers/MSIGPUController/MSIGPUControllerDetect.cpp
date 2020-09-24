@@ -41,6 +41,7 @@ static const msi_gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,     MSI_SUB_VEN,    MSI_RTX2070_ARMOR_SUB_DEV,              "MSI GeForce RTX 2070 ARMOR"                    },
     { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,     MSI_SUB_VEN,    MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV,      "MSI GeForce RTX 2080 Sea Hawk EK X"            },
     { NVIDIA_VEN,   NVIDIA_RTX2080TI_DEV,   MSI_SUB_VEN,    MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV,    "MSI GeForce RTX 2080Ti Sea Hawk EK X"          },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,     MSI_SUB_VEN,    MSI_RTX3080_GAMING_X_TRIO_SUB_DEV,      "MSI GeForce RTX 3080 10GB Gaming X Trio"       },
 };
 
 
