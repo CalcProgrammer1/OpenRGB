@@ -75,7 +75,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
     | Set up a signal mapper to handle disconnect buttons   |
     \*-----------------------------------------------------*/
     QSignalMapper* signalMapper = new QSignalMapper(this);
-    connect(signalMapper, SIGNAL(mapped(QObject *)), this, SLOT(on_ClientDisconnectButton_clicked(QObject *)));
+    connect(signalMapper, SIGNAL(mapped(QObject *)), this, SLOT(onClientDisconnectButton_clicked(QObject *)));
 
     /*-----------------------------------------------------*\
     | Loop through all clients in list and display them     |
@@ -188,7 +188,7 @@ void Ui::OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
     rgb_client->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
 }
 
-void Ui::OpenRGBClientInfoPage::on_ClientDisconnectButton_clicked(QObject * arg)
+void Ui::OpenRGBClientInfoPage::onClientDisconnectButton_clicked(QObject * arg)
 {
     /*-----------------------------------------------------*\
     | Get the pointer to the disconnecting client from args |
