@@ -568,10 +568,13 @@ win32:contains(QMAKE_TARGET.arch, x86) {
 #-----------------------------------------------------------------------#
 unix:!macx {
     INCLUDEPATH +=                                                      \
+    Controllers/LinuxLEDController                                      \
 
     HEADERS +=                                                          \
     i2c_smbus/i2c_smbus_linux.h                                         \
+    Controllers/LinuxLEDController/LinuxLEDController.h                 \
     RGBController/RGBController_Faustus.h                               \
+    RGBController/RGBController_LinuxLED.h                              \
 
     LIBS +=                                                             \
     -lusb-1.0                                                           \
@@ -594,8 +597,11 @@ unix:!macx {
     SOURCES +=                                                          \
     i2c_smbus/i2c_smbus_linux.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                          \
+    Controllers/LinuxLEDController/LinuxLEDController.cpp               \
+    Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp         \
     RGBController/OpenRazerDetect.cpp                                   \
     RGBController/RGBController_Faustus.cpp                             \
+    RGBController/RGBController_LinuxLED.cpp                            \
     RGBController/RGBController_OpenRazer.cpp                           \
 
     #-------------------------------------------------------------------#
