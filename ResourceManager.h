@@ -1,3 +1,14 @@
+/*-----------------------------------------*\
+|  ResourceManager.h                        |
+|                                           |
+|  OpenRGB Resource Manager controls access |
+|  to application components including      |
+|  RGBControllers, I2C interfaces, and      |
+|  network SDK components                   |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 9/27/2020   |
+\*-----------------------------------------*/
+
 #pragma once
 
 #include <memory>

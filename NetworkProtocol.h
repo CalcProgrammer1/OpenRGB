@@ -29,8 +29,10 @@ enum
     \*----------------------------------------------------------------------------------------------------------*/
     NET_PACKET_ID_REQUEST_CONTROLLER_COUNT      = 0,    /* Request RGBController device count from server       */
     NET_PACKET_ID_REQUEST_CONTROLLER_DATA       = 1,    /* Request RGBController data block                     */
+
     NET_PACKET_ID_SET_CLIENT_NAME               = 50,   /* Send client name string to server                    */
 
+    NET_PACKET_ID_DEVICE_LIST_UPDATED           = 100,  /* Indicate to clients that device list has updated     */
     /*----------------------------------------------------------------------------------------------------------*\
     | RGBController class functions                                                                              |
     \*----------------------------------------------------------------------------------------------------------*/

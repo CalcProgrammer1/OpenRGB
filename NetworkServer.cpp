@@ -54,6 +54,18 @@ void NetworkServer::ClientInfoChanged()
     ClientInfoChangeMutex.unlock();
 }
 
+void NetworkServer::DeviceListChanged()
+{
+    /*-------------------------------------------------*\
+    | Indicate to the clients that the controller list  |
+    | has changed                                       |
+    \*-------------------------------------------------*/
+    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        SendRequest_DeviceListChanged(ServerClients[client_idx]->client_sock);
+    }
+}
+
 unsigned short NetworkServer::GetPort()
 {
     return port_num;
@@ -645,4 +657,20 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
         send(client_sock, (const char *)reply_data, reply_size, 0);
     }
+}
+
+void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
+{
+    NetPacketHeader pkt_hdr;
+
+    pkt_hdr.pkt_magic[0] = 'O';
+    pkt_hdr.pkt_magic[1] = 'R';
+    pkt_hdr.pkt_magic[2] = 'G';
+    pkt_hdr.pkt_magic[3] = 'B';
+
+    pkt_hdr.pkt_dev_idx  = 0;
+    pkt_hdr.pkt_id       = NET_PACKET_ID_DEVICE_LIST_UPDATED;
+    pkt_hdr.pkt_size     = 0;
+
+    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 }

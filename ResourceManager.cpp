@@ -1,3 +1,14 @@
+/*-----------------------------------------*\
+|  ResourceManager.cpp                      |
+|                                           |
+|  OpenRGB Resource Manager controls access |
+|  to application components including      |
+|  RGBControllers, I2C interfaces, and      |
+|  network SDK components                   |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 9/27/2020   |
+\*-----------------------------------------*/
+
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 
@@ -21,10 +32,13 @@ ResourceManager *ResourceManager::get()
 
 ResourceManager::ResourceManager()
 {
-    detection_percent = 100;
-    detection_string = "";
+    /*-------------------------------------------------------------------------*\
+    | Initialize Detection Variables                                            |
+    \*-------------------------------------------------------------------------*/
+    detection_percent     = 100;
+    detection_string      = "";
     detection_is_required = false;
-    DetectDevicesThread = nullptr;
+    DetectDevicesThread   = nullptr;
 
     /*-------------------------------------------------------------------------*\
     | Initialize Server Instance                                                |
@@ -86,12 +100,18 @@ void ResourceManager::DeviceListChanged()
     DeviceListChangeMutex.lock();
 
     /*-------------------------------------------------*\
-    | Client info has changed, call the callbacks       |
+    | Device list has changed, call the callbacks       |
     \*-------------------------------------------------*/
     for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
     {
         DeviceListChangeCallbacks[callback_idx](DeviceListChangeCallbackArgs[callback_idx]);
     }
+
+    /*-------------------------------------------------*\
+    | Device list has changed, inform all clients       |
+    | connected to this server                          |
+    \*-------------------------------------------------*/
+    server->DeviceListChanged();
 
     DeviceListChangeMutex.unlock();
 }

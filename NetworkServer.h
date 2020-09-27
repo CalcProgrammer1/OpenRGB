@@ -38,6 +38,7 @@ public:
     const char *                        GetClientIP(unsigned int client_num);
 
     void                                ClientInfoChanged();
+    void                                DeviceListChanged();
     void                                RegisterClientInfoChangeCallback(NetServerCallback, void * new_callback_arg);
 
     void                                SetPort(unsigned short new_port);
@@ -52,6 +53,8 @@ public:
 
     void                                SendReply_ControllerCount(SOCKET client_sock);
     void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx);
+
+    void                                SendRequest_DeviceListChanged(SOCKET client_sock);
 
 protected:
     unsigned short                      port_num;
