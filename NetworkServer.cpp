@@ -672,5 +672,5 @@ void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
     pkt_hdr.pkt_id       = NET_PACKET_ID_DEVICE_LIST_UPDATED;
     pkt_hdr.pkt_size     = 0;
 
-    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
 }
