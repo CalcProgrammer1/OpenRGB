@@ -29,6 +29,14 @@ OpenRGBClientInfoPage::OpenRGBClientInfoPage(std::vector<RGBController *>& contr
     ui->ClientPortValue->setText(QString::number(OPENRGB_SDK_PORT));
 
     /*-----------------------------------------------------*\
+    | Register callbacks for existing clients               |
+    \*-----------------------------------------------------*/
+    for(unsigned int client_idx = 0; client_idx < ResourceManager::get()->GetClients().size(); client_idx++)
+    {
+        ResourceManager::get()->GetClients()[client_idx]->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
+    }
+
+    /*-----------------------------------------------------*\
     | Update the information view                           |
     \*-----------------------------------------------------*/
     UpdateInfo();

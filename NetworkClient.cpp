@@ -191,8 +191,9 @@ void NetworkClient::ConnectionThreadFunction()
 
         if(server_initialized == false && server_connected == true)
         {
-            requested_controllers   = 0;
-            server_controller_count = 0;
+            requested_controllers            = 0;
+            server_controller_count          = 0;
+            server_controller_count_received = false;
 
             //Wait for server to connect
             std::this_thread::sleep_for(100ms);
@@ -204,7 +205,7 @@ void NetworkClient::ConnectionThreadFunction()
             SendRequest_ControllerCount();
 
             //Wait for server controller count
-            while(server_controller_count == 0)
+            while(!server_controller_count_received)
             {
                 std::this_thread::sleep_for(5ms);
             }
@@ -394,6 +395,10 @@ void NetworkClient::ListenThreadFunction()
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 ProcessReply_ControllerData(header.pkt_size, data, header.pkt_dev_idx);
                 break;
+
+            case NET_PACKET_ID_DEVICE_LIST_UPDATED:
+                ProcessRequest_DeviceListChanged();
+                break;
         }
 
         delete[] data;
@@ -445,6 +450,7 @@ void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * 
     if(data_size == sizeof(unsigned int))
     {
         memcpy(&server_controller_count, data, sizeof(unsigned int));
+        server_controller_count_received = true;
     }
 }
 
@@ -465,6 +471,35 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int /*data_size*/, char
     }
 
     controller_data_received = true;
+}
+
+void NetworkClient::ProcessRequest_DeviceListChanged()
+{
+    for(size_t server_controller_idx = 0; server_controller_idx < server_controllers.size(); server_controller_idx++)
+    {
+        for(size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+        {
+            if(controllers[controller_idx] == server_controllers[server_controller_idx])
+            {
+                controllers.erase(controllers.begin() + controller_idx);
+                break;
+            }
+        }
+
+        delete server_controllers[server_controller_idx];
+    }
+
+    server_controllers.clear();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    ClientInfoChanged();
+
+    /*-------------------------------------------------*\
+    | Mark server as uninitialized and delete the list  |
+    \*-------------------------------------------------*/
+    server_initialized = false;
 }
 
 void NetworkClient::SendData_ClientString()

@@ -46,7 +46,8 @@ public:
     
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
-    
+    void        ProcessRequest_DeviceListChanged();
+
     void        SendData_ClientString();
 
     void        SendRequest_ControllerCount();
@@ -79,6 +80,7 @@ private:
     bool            server_connected;
     bool            server_initialized;
     unsigned int    server_controller_count;
+    bool            server_controller_count_received;
 
     std::thread *   ConnectionThread;
     std::thread *   ListenThread;
