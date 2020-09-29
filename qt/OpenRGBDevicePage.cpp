@@ -1,5 +1,6 @@
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBZoneResizeDialog.h"
+#include "ResourceManager.h"
 #include "hsv.h"
 
 using namespace Ui;
@@ -104,7 +105,19 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
 {
-    device->UnregisterUpdateCallback(this);
+    /*-----------------------------------------------------*\
+    | Unregister update callback from the controller if the |
+    | controller still exists                               |
+    \*-----------------------------------------------------*/
+    for(unsigned int controller_idx = 0; controller_idx < ResourceManager::get()->GetRGBControllers().size(); controller_idx++)
+    {
+        if(ResourceManager::get()->GetRGBControllers()[controller_idx] == device)
+        {
+            device->UnregisterUpdateCallback(this);
+            break;
+        }
+    }
+
     delete ui;
 }
 
