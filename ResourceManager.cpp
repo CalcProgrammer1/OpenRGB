@@ -89,10 +89,16 @@ void ResourceManager::RegisterDeviceDetector(std::string name, DeviceDetectorFun
     device_detectors.push_back(detector);
 }
 
-void ResourceManager::RegisterDeviceListChangeCallback(ResourceManagerCallback new_callback, void * new_callback_arg)
+void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)
 {
     DeviceListChangeCallbacks.push_back(new_callback);
     DeviceListChangeCallbackArgs.push_back(new_callback_arg);
+}
+
+void ResourceManager::RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void *new_callback_arg)
+{
+    DetectionProgressCallbacks.push_back(new_callback);
+    DetectionProgressCallbackArgs.push_back(new_callback_arg);
 }
 
 void ResourceManager::DeviceListChanged()
@@ -114,6 +120,27 @@ void ResourceManager::DeviceListChanged()
     server->DeviceListChanged();
 
     DeviceListChangeMutex.unlock();
+}
+
+void ResourceManager::DetectionProgressChanged()
+{
+    DetectionProgressMutex.lock();
+
+    /*-------------------------------------------------*\
+    | Detection progress has changed, call the callbacks|
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < DetectionProgressCallbacks.size(); callback_idx++)
+    {
+        DetectionProgressCallbacks[callback_idx](DetectionProgressCallbackArgs[callback_idx]);
+    }
+
+    /*-------------------------------------------------*\
+    | Device list has changed, inform all clients       |
+    | connected to this server                          |
+    \*-------------------------------------------------*/
+    server->DeviceListChanged();
+
+    DetectionProgressMutex.unlock();
 }
 
 NetworkServer* ResourceManager::GetServer()
@@ -236,7 +263,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
-        DeviceListChanged();
+        DetectionProgressChanged();
 
         bool this_device_disabled = false;
         for(std::size_t disabled_idx = 0; disabled_idx < disabled_devices_list.size(); disabled_idx++)
@@ -274,7 +301,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     for(unsigned int detector_idx = 0; detector_idx < device_detectors.size() && detection_is_required.load(); detector_idx++)
     {
         detection_string = device_detector_strings[detector_idx].c_str();
-        DeviceListChanged();
+        DetectionProgressChanged();
 
         bool this_device_disabled = false;
         for(std::size_t disabled_idx = 0; disabled_idx < disabled_devices_list.size(); disabled_idx++)
@@ -317,7 +344,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     detection_percent = 100;
     detection_string = "";
 
-    DeviceListChanged();
+    DetectionProgressChanged();
     
     DetectDeviceMutex.unlock();
 }

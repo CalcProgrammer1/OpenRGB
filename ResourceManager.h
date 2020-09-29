@@ -26,7 +26,8 @@ typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                 
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&, std::vector<RGBController*>&)>   I2CDeviceDetectorFunction;
 
-typedef void (*ResourceManagerCallback)(void *);
+typedef void (*DeviceListChangeCallback)(void *);
+typedef void (*DetectionProgressCallback)(void *);
 
 class ResourceManager
 {
@@ -46,7 +47,8 @@ public:
     void RegisterDeviceDetector         (std::string name, DeviceDetectorFunction     detector);
     void RegisterI2CDeviceDetector      (std::string name, I2CDeviceDetectorFunction  detector);
     
-    void RegisterDeviceListChangeCallback(ResourceManagerCallback new_callback, void * new_callback_arg);
+    void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
+    void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
 
     unsigned int GetDetectionPercent();
     const char*  GetDetectionString();
@@ -55,6 +57,7 @@ public:
     NetworkServer*                  GetServer();
 
     void DeviceListChanged();
+    void DetectionProgressChanged();
 
     void Cleanup();
 
@@ -113,6 +116,13 @@ private:
     | Device List Changed Callback                                                          |
     \*-------------------------------------------------------------------------------------*/
     std::mutex                                  DeviceListChangeMutex;
-    std::vector<ResourceManagerCallback>        DeviceListChangeCallbacks;
+    std::vector<DeviceListChangeCallback>       DeviceListChangeCallbacks;
     std::vector<void *>                         DeviceListChangeCallbackArgs;
+
+    /*-------------------------------------------------------------------------------------*\
+    | Detection Progress Callback                                                           |
+    \*-------------------------------------------------------------------------------------*/
+    std::mutex                                  DetectionProgressMutex;
+    std::vector<DeviceListChangeCallback>       DetectionProgressCallbacks;
+    std::vector<void *>                         DetectionProgressCallbackArgs;
 };
