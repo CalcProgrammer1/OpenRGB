@@ -134,12 +134,6 @@ void ResourceManager::DetectionProgressChanged()
         DetectionProgressCallbacks[callback_idx](DetectionProgressCallbackArgs[callback_idx]);
     }
 
-    /*-------------------------------------------------*\
-    | Device list has changed, inform all clients       |
-    | connected to this server                          |
-    \*-------------------------------------------------*/
-    server->DeviceListChanged();
-
     DetectionProgressMutex.unlock();
 }
 
