@@ -72,6 +72,8 @@ private:
     void UpdateProfileList();
     void closeEvent(QCloseEvent *event);
 
+    void SetDetectionViewState(bool detection_showing);
+
     bool device_view_showing = false;
     bool darkTheme = false;
 
@@ -86,6 +88,8 @@ private slots:
     void on_QuickMagenta();
     void on_QuickWhite();
     void on_ClientListUpdated();
+    void onDeviceListUpdated();
+    void onDetectionProgressUpdated();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_SaveSizeProfile();
     void on_ShowHide();
@@ -95,6 +99,7 @@ private slots:
     void on_ButtonDeleteProfile_clicked();
     void on_ButtonToggleDeviceView_clicked();
     void on_ButtonStopDetection_clicked();
+    void on_ButtonRescan_clicked();
 };
 
 #endif // OPENRGBDIALOG2_H

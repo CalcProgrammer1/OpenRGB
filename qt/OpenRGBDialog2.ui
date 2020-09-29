@@ -72,6 +72,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="ButtonRescan">
+        <property name="text">
+         <string>Rescan Devices</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="ButtonSaveProfile">
         <property name="text">
          <string>Save Profile</string>

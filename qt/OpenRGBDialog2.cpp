@@ -62,11 +62,18 @@ static QString GetIconString(device_type type, bool dark)
     return filename;
 }
 
-static void UpdateInfoCallback(void * this_ptr)
+static void UpdateDeviceListCallback(void * this_ptr)
 {
     OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "on_ClientListUpdated", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::QueuedConnection);
+}
+
+static void UpdateDetectionProgressCallback(void * this_ptr)
+{
+    OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
+
+    QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
 }
 
 OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), ui(new OpenRGBDialog2Ui)
@@ -80,25 +87,26 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     setWindowIcon(logo);
 
     /*-----------------------------------------------------*\
+    | Register detection progress callback with resource    |
+    | manager                                               |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->RegisterDetectionProgressCallback(UpdateDetectionProgressCallback, this);
+    ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateDeviceListCallback, this);
+
+    /*-----------------------------------------------------*\
     | Initialize page pointers                              |
     \*-----------------------------------------------------*/
     ClientInfoPage  = NULL;
     SMBusToolsPage  = NULL;
     SoftInfoPage    = NULL;
 
-    ui->ButtonToggleDeviceView->setVisible(false);
-    ui->ButtonLoadProfile->setVisible(false);
-    ui->ButtonSaveProfile->setVisible(false);
-    ui->ButtonDeleteProfile->setVisible(false);
-    ui->ProfileBox->setVisible(false);
+    onDetectionProgressUpdated();
 
     ui->DetectionProgressBar->setRange(0, 100);
     ui->DetectionProgressBar->setValue(0);
     ui->DetectionProgressBar->setTextVisible(true);
     ui->DetectionProgressBar->setFormat("");
     ui->DetectionProgressBar->setAlignment(Qt::AlignCenter);
-
-    ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateInfoCallback, this);
 
     /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |
@@ -466,21 +474,25 @@ void OpenRGBDialog2::on_QuickWhite()
 void OpenRGBDialog2::on_ClientListUpdated()
 {
     UpdateDevicesList();
+}
 
+void OpenRGBDialog2::onDeviceListUpdated()
+{
+    UpdateDevicesList();
+}
+
+void OpenRGBDialog2::onDetectionProgressUpdated()
+{
     ui->DetectionProgressBar->setValue(ResourceManager::get()->GetDetectionPercent());
     ui->DetectionProgressBar->setFormat(QString::fromStdString(ResourceManager::get()->GetDetectionString()));
 
     if(ResourceManager::get()->GetDetectionPercent() == 100)
     {
-        ui->DetectionProgressBar->setVisible(false);
-        ui->DetectionProgressLabel->setVisible(false);
-        ui->ButtonStopDetection->setVisible(false);
-
-        ui->ButtonToggleDeviceView->setVisible(true);
-        ui->ButtonLoadProfile->setVisible(true);
-        ui->ButtonSaveProfile->setVisible(true);
-        ui->ButtonDeleteProfile->setVisible(true);
-        ui->ProfileBox->setVisible(true);
+        SetDetectionViewState(false);
+    }
+    else
+    {
+        SetDetectionViewState(true);
     }
 }
 
@@ -642,12 +654,47 @@ void Ui::OpenRGBDialog2::on_ButtonStopDetection_clicked()
     /*---------------------------------------------------------*\
     | Pretend we're done already by hiding the progress bar     |
     \*---------------------------------------------------------*/
-    ui->DetectionProgressBar->setVisible(false);
-    ui->DetectionProgressLabel->setVisible(false);
-    ui->ButtonStopDetection->setVisible(false);
+    SetDetectionViewState(false);
+}
 
-    ui->ButtonLoadProfile->setVisible(true);
-    ui->ButtonSaveProfile->setVisible(true);
-    ui->ButtonDeleteProfile->setVisible(true);
-    ui->ProfileBox->setVisible(true);
+void Ui::OpenRGBDialog2::SetDetectionViewState(bool detection_showing)
+{
+    if(detection_showing)
+    {
+        /*---------------------------------------------------------*\
+        | Show the detection progress and hide the normal buttons   |
+        \*---------------------------------------------------------*/
+        ui->DetectionProgressBar->setVisible(true);
+        ui->DetectionProgressLabel->setVisible(true);
+        ui->ButtonStopDetection->setVisible(true);
+
+        ui->ButtonToggleDeviceView->setVisible(false);
+        ui->ButtonRescan->setVisible(false);
+        ui->ButtonLoadProfile->setVisible(false);
+        ui->ButtonSaveProfile->setVisible(false);
+        ui->ButtonDeleteProfile->setVisible(false);
+        ui->ProfileBox->setVisible(false);
+    }
+    else
+    {
+        /*---------------------------------------------------------*\
+        | Hide the detection progress and show the normal buttons   |
+        \*---------------------------------------------------------*/
+        ui->DetectionProgressBar->setVisible(false);
+        ui->DetectionProgressLabel->setVisible(false);
+        ui->ButtonStopDetection->setVisible(false);
+
+        ui->ButtonToggleDeviceView->setVisible(true);
+        ui->ButtonRescan->setVisible(true);
+        ui->ButtonLoadProfile->setVisible(true);
+        ui->ButtonSaveProfile->setVisible(true);
+        ui->ButtonDeleteProfile->setVisible(true);
+        ui->ProfileBox->setVisible(true);
+    }
+}
+void Ui::OpenRGBDialog2::on_ButtonRescan_clicked()
+{
+    SetDetectionViewState(true);
+
+    ResourceManager::get()->DetectDevices();
 }
