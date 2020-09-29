@@ -15,6 +15,7 @@ class RGBController_RedragonK556 : public RGBController
 {
 public:
     RGBController_RedragonK556(RedragonK556Controller* redragon_ptr);
+    ~RGBController_RedragonK556();
 
     void        SetupZones();
 

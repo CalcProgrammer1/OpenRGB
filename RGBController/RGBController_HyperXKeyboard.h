@@ -8,7 +8,9 @@
 \*-----------------------------------------*/
 
 #pragma once
+#include <atomic>
 #include <chrono>
+#include <thread>
 
 #include "RGBController.h"
 #include "HyperXKeyboardController.h"
@@ -30,10 +32,13 @@ public:
     void        SetCustomMode();
     void        DeviceUpdateMode();
 
-    void        KeepaliveThread();
+    void        KeepaliveThreadFunction();
     
 private:
     HyperXKeyboardController*   hyperx;
+
+    std::atomic<bool>   KeepaliveThreadRunning;
+    std::thread*        KeepaliveThread;
 
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

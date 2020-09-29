@@ -223,6 +223,20 @@ RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* l
     SetupZones();
 }
 
+RGBController_LogitechG810::~RGBController_LogitechG810()
+{
+    /*---------------------------------------------------------*\
+    | Delete the matrix map                                     |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
+    {
+        if(zones[zone_index].matrix_map != NULL)
+        {
+            delete zones[zone_index].matrix_map;
+        }
+    }
+}
+
 void RGBController_LogitechG810::SetupZones()
 {
     /*---------------------------------------------------------*\

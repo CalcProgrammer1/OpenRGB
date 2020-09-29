@@ -40,6 +40,7 @@ public:
 
 public:
     RGBController_OpenRazer(std::string dev_path);
+    ~RGBController_OpenRazer();
 
     void        SetupZones();
 

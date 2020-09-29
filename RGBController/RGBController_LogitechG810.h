@@ -15,6 +15,7 @@ class RGBController_LogitechG810 : public RGBController
 {
 public:
     RGBController_LogitechG810(LogitechG810Controller* logitech_ptr);
+    ~RGBController_LogitechG810();
 
     void        SetupZones();
 

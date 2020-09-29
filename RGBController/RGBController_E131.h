@@ -57,6 +57,7 @@ class RGBController_E131 : public RGBController
 {
 public:
     RGBController_E131(std::vector<E131Device> device_list);
+    ~RGBController_E131();
 
     void        SetupZones();
 

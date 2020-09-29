@@ -98,6 +98,7 @@ public:
 
 public:
     RGBController_OpenRazer(device * razer_device, device_fn_type* razer_functions);
+    ~RGBController_OpenRazer();
 
     void        SetupZones();
 

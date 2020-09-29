@@ -9,31 +9,7 @@
 
 #include "RGBController_HyperXKeyboard.h"
 
-//Include thread libraries for Windows or Linux
-#ifdef WIN32
-#include <process.h>
-#else
-#include "pthread.h"
-#include "unistd.h"
-#endif
-
-//Thread functions have different types in Windows and Linux
-#ifdef WIN32
-#define THREAD static void
-#define THREADRETURN
-#else
-#define THREAD static void*
-#define THREADRETURN return(NULL);
-#endif
-
 using namespace std::chrono_literals;
-
-THREAD keepalive_thread(void *param)
-{
-    RGBController_HyperXKeyboard* controller = static_cast<RGBController_HyperXKeyboard*>(param);
-    controller->KeepaliveThread();
-    THREADRETURN
-}
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
@@ -253,17 +229,26 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
     | to not revert back into rainbow mode.  Start a thread |
     | to continuously send a keepalive packet every 5s      |
     \*-----------------------------------------------------*/
-#ifdef WIN32
-    _beginthread(keepalive_thread, 0, this);
-#else
-    pthread_t thread;
-    pthread_create(&thread, NULL, &keepalive_thread, this);
-#endif
+    KeepaliveThreadRunning = true;
+    KeepaliveThread = new std::thread(&RGBController_HyperXKeyboard::KeepaliveThreadFunction, this);
 }
 
 RGBController_HyperXKeyboard::~RGBController_HyperXKeyboard()
 {
+    KeepaliveThreadRunning = false;
+    KeepaliveThread->join();
+    delete KeepaliveThread;
 
+    /*---------------------------------------------------------*\
+    | Delete the matrix map                                     |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
+    {
+        if(zones[zone_index].matrix_map != NULL)
+        {
+            delete zones[zone_index].matrix_map;
+        }
+    }
 }
 
 void RGBController_HyperXKeyboard::SetupZones()
@@ -357,9 +342,9 @@ void RGBController_HyperXKeyboard::DeviceUpdateMode()
     }
 }
 
-void RGBController_HyperXKeyboard::KeepaliveThread()
+void RGBController_HyperXKeyboard::KeepaliveThreadFunction()
 {
-    while(1)
+    while(KeepaliveThreadRunning)
     {
         if(active_mode == 0)
         {

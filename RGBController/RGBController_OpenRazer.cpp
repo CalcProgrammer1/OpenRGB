@@ -371,6 +371,25 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     }
 }
 
+RGBController_OpenRazer::~RGBController_OpenRazer()
+{
+    /*---------------------------------------------------------*\
+    | Delete the matrix map                                     |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
+    {
+        if(zones[zone_index].matrix_map != NULL)
+        {
+            if(zones[zone_index].matrix_map->map != NULL)
+            {
+                delete zones[zone_index].matrix_map->map;
+            }
+
+            delete zones[zone_index].matrix_map;
+        }
+    }
+}
+
 void RGBController_OpenRazer::SetupZones()
 {
     /*---------------------------------------------------------*\

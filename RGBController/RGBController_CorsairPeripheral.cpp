@@ -575,7 +575,16 @@ RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripher
 
 RGBController_CorsairPeripheral::~RGBController_CorsairPeripheral()
 {
-
+    /*---------------------------------------------------------*\
+    | Delete the matrix map                                     |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
+    {
+        if(zones[zone_index].matrix_map != NULL)
+        {
+            delete zones[zone_index].matrix_map;
+        }
+    }
 }
 
 void RGBController_CorsairPeripheral::SetupZones()

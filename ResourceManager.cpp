@@ -196,7 +196,13 @@ void ResourceManager::DetectDevices()
     | we shall remove it first                          |
     \*-------------------------------------------------*/
     detection_percent = 0;
+    detection_string  = "";
+
+    DetectionProgressChanged();
+
     Cleanup();
+
+    DeviceListChanged();
 
     /*-------------------------------------------------*\
     | Start the device detection thread                 |
