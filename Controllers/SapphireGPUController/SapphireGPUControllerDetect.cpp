@@ -21,7 +21,7 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
-    { AMD_VEN,      AMD_RX580_DEV,  SAPPHIRE_SUB_VEN,   SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV,  "Sapphire RX580 Nitro+" },
+    { AMD_GPU_VEN,  AMD_RX580_DEV,  SAPPHIRE_SUB_VEN,   SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV,  "Sapphire RX580 Nitro+" },
 };
 
 /******************************************************************************************\
