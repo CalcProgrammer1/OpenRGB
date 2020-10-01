@@ -65,6 +65,8 @@ public:
 
     std::vector<RGBController *>  server_controllers;
 
+    std::mutex                          ControllerListMutex;
+
 protected:
     std::vector<RGBController *>& controllers;
 
@@ -81,6 +83,7 @@ private:
     bool            server_initialized;
     unsigned int    server_controller_count;
     bool            server_controller_count_received;
+    bool            change_in_progress;
 
     std::thread *   ConnectionThread;
     std::thread *   ListenThread;
