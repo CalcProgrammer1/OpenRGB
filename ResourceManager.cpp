@@ -161,17 +161,23 @@ void ResourceManager::Cleanup()
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    for(RGBController* rgb_controller : rgb_controllers)
+    std::vector<RGBController *> rgb_controllers_copy = rgb_controllers;
+
+    rgb_controllers.clear();
+
+    for(RGBController* rgb_controller : rgb_controllers_copy)
     {
         delete rgb_controller;
     }
-    rgb_controllers.clear();
 
-    for(i2c_smbus_interface* bus : busses)
+    std::vector<i2c_smbus_interface *> busses_copy = busses;
+
+    busses.clear();
+
+    for(i2c_smbus_interface* bus : busses_copy)
     {
         delete bus;
     }
-    busses.clear();
 
     if(DetectDevicesThread)
     {
