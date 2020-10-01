@@ -17,8 +17,11 @@ public:
     explicit OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent = nullptr);
     ~OpenRGBDeviceInfoPage();
 
+    RGBController* GetController();
+
 private:
-    Ui::OpenRGBDeviceInfoPageUi *ui;
+    RGBController*                  controller;
+    Ui::OpenRGBDeviceInfoPageUi*    ui;
 };
 
 #endif // OPENRGBDEVICEINFOPAGE_H

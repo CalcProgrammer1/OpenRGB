@@ -121,6 +121,11 @@ OpenRGBDevicePage::~OpenRGBDevicePage()
     delete ui;
 }
 
+RGBController* Ui::OpenRGBDevicePage::GetController()
+{
+    return device;
+}
+
 void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
 {
     /*-----------------------------------------------------*\

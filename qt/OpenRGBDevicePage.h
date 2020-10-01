@@ -18,6 +18,8 @@ public:
     explicit OpenRGBDevicePage(RGBController *dev, QWidget *parent = nullptr);
     ~OpenRGBDevicePage();
 
+    RGBController* GetController();
+
     void SetDevice(unsigned char red, unsigned char green, unsigned char blue); // Could be moved to private
     void SetCustomMode(unsigned char red, unsigned char green, unsigned char blue);
     void UpdateDevice();

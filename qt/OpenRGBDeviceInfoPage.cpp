@@ -6,6 +6,8 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
     QFrame(parent),
     ui(new Ui::OpenRGBDeviceInfoPageUi)
 {
+    controller = dev;
+
     ui->setupUi(this);
 
     ui->TypeValue->setText(device_type_to_str(dev->type).c_str());
@@ -20,4 +22,9 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
 OpenRGBDeviceInfoPage::~OpenRGBDeviceInfoPage()
 {
     delete ui;
+}
+
+RGBController* OpenRGBDeviceInfoPage::GetController()
+{
+    return controller;
 }

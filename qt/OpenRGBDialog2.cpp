@@ -309,91 +309,154 @@ void OpenRGBDialog2::ClearDevicesList()
 void OpenRGBDialog2::UpdateDevicesList()
 {
     /*-----------------------------------------------------*\
-    | Clear on each update                                  |
+    | Loop through each controller in the list.             |
     \*-----------------------------------------------------*/
-    ClearDevicesList();
-
-    /*-----------------------------------------------------*\
-    | Set up list of devices                                |
-    \*-----------------------------------------------------*/
-    QTabBar *DevicesTabBar = ui->DevicesTabBar->tabBar();
-
-    for(std::size_t dev_idx = 0; dev_idx < controllers.size(); dev_idx++)
+    for(unsigned int controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
     {
-        OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(controllers[dev_idx]);
-        ui->DevicesTabBar->addTab(NewPage, "");
+        /*-----------------------------------------------------*\
+        | Loop through each tab in the devices tab bar          |
+        \*-----------------------------------------------------*/
+        bool found = false;
+
+        for(unsigned int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
+        {
+            OpenRGBDevicePage* page = (OpenRGBDevicePage*) ui->DevicesTabBar->widget(tab_idx);
+
+            /*-----------------------------------------------------*\
+            | If the current tab matches the current controller,    |
+            | move the tab to the correct position                  |
+            \*-----------------------------------------------------*/
+            if(controllers[controller_idx] == page->GetController())
+            {
+                found = true;
+                ui->DevicesTabBar->tabBar()->moveTab(tab_idx, controller_idx);
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            /*-----------------------------------------------------*\
+            | The controller does not have a tab already created    |
+            | Create a new tab and move it to the correct position  |
+            \*-----------------------------------------------------*/
+            OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(controllers[controller_idx]);
+            ui->DevicesTabBar->addTab(NewPage, "");
+
+            /*-----------------------------------------------------*\
+            | Connect the page's Set All button to the Set All slot |
+            \*-----------------------------------------------------*/
+            connect(NewPage,
+                    SIGNAL(SetAllDevices(unsigned char, unsigned char, unsigned char)),
+                    this,
+                    SLOT(on_SetAllDevices(unsigned char, unsigned char, unsigned char)));
+
+            /*-----------------------------------------------------*\
+            | Connect the page's Resize signal to the Save Size slot|
+            \*-----------------------------------------------------*/
+            connect(NewPage,
+                    SIGNAL(SaveSizeProfile()),
+                    this,
+                    SLOT(on_SaveSizeProfile()));
+
+            /*-----------------------------------------------------*\
+            | Use Qt's HTML capabilities to display both icon and   |
+            | text in the tab label.  Choose icon based on device   |
+            | type and append device name string.                   |
+            \*-----------------------------------------------------*/
+            QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
+            NewLabelString += GetIconString(controllers[controller_idx]->type, darkTheme);
+            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
+
+            QLabel *NewTabLabel = new QLabel();
+            NewTabLabel->setText(NewLabelString);
+            NewTabLabel->setIndent(20);
+            NewTabLabel->setGeometry(0, 0, 200, 20);
+
+            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+
+            /*-----------------------------------------------------*\
+            | Now move the new tab to the correct position          |
+            \*-----------------------------------------------------*/
+            ui->DevicesTabBar->tabBar()->moveTab(ui->DevicesTabBar->count() - 1, controller_idx);
+        }
 
         /*-----------------------------------------------------*\
-        | Connect the page's Set All button to the Set All slot |
+        | Loop through each tab in the information tab bar      |
         \*-----------------------------------------------------*/
-        connect(NewPage,
-                SIGNAL(SetAllDevices(unsigned char, unsigned char, unsigned char)),
-                this,
-                SLOT(on_SetAllDevices(unsigned char, unsigned char, unsigned char)));
+        found = false;
 
-        /*-----------------------------------------------------*\
-        | Connect the page's Resize signal to the Save Size slot|
-        \*-----------------------------------------------------*/
-        connect(NewPage,
-                SIGNAL(SaveSizeProfile()),
-                this,
-                SLOT(on_SaveSizeProfile()));
+        for(unsigned int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        {
+            OpenRGBDeviceInfoPage* page = (OpenRGBDeviceInfoPage*) ui->InformationTabBar->widget(tab_idx);
 
-        /*-----------------------------------------------------*\
-        | Use Qt's HTML capabilities to display both icon and   |
-        | text in the tab label.  Choose icon based on device   |
-        | type and append device name string.                   |
-        \*-----------------------------------------------------*/
-        QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-        NewLabelString += GetIconString(controllers[dev_idx]->type, darkTheme);
-        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[dev_idx]->name) + "</td></tr></table></html>";
+            /*-----------------------------------------------------*\
+            | If the current tab matches the current controller,    |
+            | move the tab to the correct position                  |
+            \*-----------------------------------------------------*/
+            if(controllers[controller_idx] == page->GetController())
+            {
+                found = true;
+                ui->InformationTabBar->tabBar()->moveTab(tab_idx, controller_idx);
+                break;
+            }
+        }
 
-        QLabel *NewTabLabel = new QLabel();
-        NewTabLabel->setText(NewLabelString);
-        NewTabLabel->setIndent(20);
-        NewTabLabel->setGeometry(0, 0, 200, 20);
+        if(!found)
+        {
+            /*-----------------------------------------------------*\
+            | The controller does not have a tab already created    |
+            | Create a new tab and move it to the correct position  |
+            \*-----------------------------------------------------*/
+            OpenRGBDeviceInfoPage *NewPage = new OpenRGBDeviceInfoPage(controllers[controller_idx]);
+            ui->InformationTabBar->addTab(NewPage, "");
 
-        DevicesTabBar->setTabButton(dev_idx, QTabBar::LeftSide, NewTabLabel);
+            /*-----------------------------------------------------*\
+            | Use Qt's HTML capabilities to display both icon and   |
+            | text in the tab label.  Choose icon based on device   |
+            | type and append device name string.                   |
+            \*-----------------------------------------------------*/
+            QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
+            NewLabelString += GetIconString(controllers[controller_idx]->type, darkTheme);
+            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
+
+            QLabel *NewTabLabel = new QLabel();
+            NewTabLabel->setText(NewLabelString);
+            NewTabLabel->setIndent(20);
+            NewTabLabel->setGeometry(0, 0, 200, 20);
+
+            ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+
+            /*-----------------------------------------------------*\
+            | Now move the new tab to the correct position          |
+            \*-----------------------------------------------------*/
+            ui->InformationTabBar->tabBar()->moveTab(ui->InformationTabBar->count() - 1, controller_idx);
+        }
     }
 
-    /*-----------------------------------------------------*\
-    | Set up list of information                            |
-    \*-----------------------------------------------------*/
-    QTabBar *InformationTabBar = ui->InformationTabBar->tabBar();
-
-    for(std::size_t dev_idx = 0; dev_idx < controllers.size(); dev_idx++)
+    unsigned int tab_count = ui->DevicesTabBar->count();
+    for(unsigned int tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
     {
-        OpenRGBDeviceInfoPage *NewPage = new OpenRGBDeviceInfoPage(controllers[dev_idx]);
-        ui->InformationTabBar->addTab(NewPage, "");
+        ui->DevicesTabBar->removeTab(ui->DevicesTabBar->count() - 1);
+    }
 
-        /*-----------------------------------------------------*\
-        | Use Qt's HTML capabilities to display both icon and   |
-        | text in the tab label.  Choose icon based on device   |
-        | type and append device name string.                   |
-        \*-----------------------------------------------------*/
-        QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-        NewLabelString += GetIconString(controllers[dev_idx]->type, darkTheme);
-        NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[dev_idx]->name) + "</td></tr></table></html>";
-
-        QLabel *NewTabLabel = new QLabel();
-        NewTabLabel->setText(NewLabelString);
-        NewTabLabel->setIndent(20);
-        NewTabLabel->setGeometry(0, 0, 200, 20);
-
-        InformationTabBar->setTabButton(dev_idx, QTabBar::LeftSide, NewTabLabel);
+    tab_count = ui->InformationTabBar->count();
+    for(unsigned int tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
+    {
+        ui->InformationTabBar->removeTab(ui->InformationTabBar->count() - 1);
     }
 
     /*-----------------------------------------------------*\
     | Add the Software Info page                            |
     \*-----------------------------------------------------*/
-    AddSoftwareInfoPage();
+    //AddSoftwareInfoPage();
 
     /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
     \*-----------------------------------------------------*/
     if(ShowI2CTools)
     {
-        AddI2CToolsPage();
+        //AddI2CToolsPage();
     }
 }
 
