@@ -83,6 +83,7 @@ void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
                     pci_device              = 0;
                     pci_subsystem_vendor    = 0;
                     pci_subsystem_device    = 0;
+                    port_id                 = 0;
 
                     // Get PCI Vendor
                     snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/vendor");
@@ -95,6 +96,9 @@ void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
                         pci_vendor = strtoul(buff, NULL, 16);
                         close(test_fd);
                     }
+
+                    // Get port ID for NVidia GPUs
+                    sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id);
 
                     // Get PCI Device
                     snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/device");
