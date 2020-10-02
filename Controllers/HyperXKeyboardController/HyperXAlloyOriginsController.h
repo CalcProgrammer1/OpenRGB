@@ -17,13 +17,16 @@
 class HyperXAlloyOriginsController
 {
 public:
-    HyperXAlloyOriginsController(hid_device* dev_handle);
+    HyperXAlloyOriginsController(hid_device* dev_handle, const char* path);
     ~HyperXAlloyOriginsController();
+
+    std::string     GetDeviceLocation();
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
 
 private:
     hid_device*             dev;
+    std::string             location;
 
     void    SendDirectInitialization();
     void    SendDirectColorPacket

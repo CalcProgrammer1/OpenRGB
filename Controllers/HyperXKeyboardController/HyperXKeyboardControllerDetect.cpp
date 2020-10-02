@@ -94,7 +94,7 @@ void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controller
 
                 if( dev )
                 {
-                    HyperXAlloyOriginsController* controller = new HyperXAlloyOriginsController(dev);
+                    HyperXAlloyOriginsController* controller = new HyperXAlloyOriginsController(dev, info->path);
 
                     RGBController_HyperXAlloyOrigins* rgb_controller = new RGBController_HyperXAlloyOrigins(controller);
 
