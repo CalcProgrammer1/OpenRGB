@@ -189,6 +189,19 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     | Add Client Tab                                        |
     \*-----------------------------------------------------*/
     AddClientTab();
+
+    /*-----------------------------------------------------*\
+    | Add the Software Info page                            |
+    \*-----------------------------------------------------*/
+    AddSoftwareInfoPage();
+
+    /*-----------------------------------------------------*\
+    | Add the SMBus Tools page if enabled                   |
+    \*-----------------------------------------------------*/
+    if(ShowI2CTools)
+    {
+        AddI2CToolsPage();
+    }
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
@@ -388,17 +401,24 @@ void OpenRGBDialog2::UpdateDevicesList()
 
         for(unsigned int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
         {
-            OpenRGBDeviceInfoPage* page = (OpenRGBDeviceInfoPage*) ui->InformationTabBar->widget(tab_idx);
-
             /*-----------------------------------------------------*\
-            | If the current tab matches the current controller,    |
-            | move the tab to the correct position                  |
+            | If type is a device info page, check it               |
             \*-----------------------------------------------------*/
-            if(controllers[controller_idx] == page->GetController())
+            std::string type_str = ui->InformationTabBar->widget(tab_idx)->metaObject()->className();
+            if(type_str == "Ui::OpenRGBDeviceInfoPage")
             {
-                found = true;
-                ui->InformationTabBar->tabBar()->moveTab(tab_idx, controller_idx);
-                break;
+                OpenRGBDeviceInfoPage* page = (OpenRGBDeviceInfoPage*) ui->InformationTabBar->widget(tab_idx);
+
+                /*-----------------------------------------------------*\
+                | If the current tab matches the current controller,    |
+                | move the tab to the correct position                  |
+                \*-----------------------------------------------------*/
+                if(controllers[controller_idx] == page->GetController())
+                {
+                    found = true;
+                    ui->InformationTabBar->tabBar()->moveTab(tab_idx, controller_idx);
+                    break;
+                }
             }
         }
 
@@ -434,29 +454,34 @@ void OpenRGBDialog2::UpdateDevicesList()
         }
     }
 
+    /*-----------------------------------------------------*\
+    | Remove all remaining device tabs                      |
+    \*-----------------------------------------------------*/
     unsigned int tab_count = ui->DevicesTabBar->count();
     for(unsigned int tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
     {
         ui->DevicesTabBar->removeTab(ui->DevicesTabBar->count() - 1);
     }
 
-    tab_count = ui->InformationTabBar->count();
-    for(unsigned int tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
+    bool found = true;
+    while(found)
     {
-        ui->InformationTabBar->removeTab(ui->InformationTabBar->count() - 1);
-    }
+        found = false;
 
-    /*-----------------------------------------------------*\
-    | Add the Software Info page                            |
-    \*-----------------------------------------------------*/
-    //AddSoftwareInfoPage();
-
-    /*-----------------------------------------------------*\
-    | Add the SMBus Tools page if enabled                   |
-    \*-----------------------------------------------------*/
-    if(ShowI2CTools)
-    {
-        //AddI2CToolsPage();
+        /*-----------------------------------------------------*\
+        | Remove all remaining device information tabs, leaving |
+        | other information tabs alone                          |
+        \*-----------------------------------------------------*/
+        for(unsigned int tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        {
+            std::string type_str = ui->InformationTabBar->widget(tab_idx)->metaObject()->className();
+            if(type_str == "Ui::OpenRGBDeviceInfoPage")
+            {
+                found = true;
+                ui->InformationTabBar->removeTab(tab_idx);
+                break;
+            }
+        }
     }
 }
 
