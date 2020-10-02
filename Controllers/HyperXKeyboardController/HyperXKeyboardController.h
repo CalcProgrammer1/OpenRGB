@@ -65,8 +65,10 @@ enum
 class HyperXKeyboardController
 {
 public:
-    HyperXKeyboardController(hid_device* dev_handle);
+    HyperXKeyboardController(hid_device* dev_handle, const char* path);
     ~HyperXKeyboardController();
+
+    std::string     GetDeviceLocation();
 
     void SetMode
         (
@@ -84,6 +86,7 @@ private:
     unsigned char           active_mode;
     unsigned char           active_direction;
     unsigned char           active_speed;
+    std::string             location;
 
     void    SelectProfile
                 (

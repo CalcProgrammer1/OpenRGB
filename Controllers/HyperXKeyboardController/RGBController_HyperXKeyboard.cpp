@@ -182,6 +182,7 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
     name        = "HyperX RGB Keyboard";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX RGB Keyboard Device";
+    location    = hyperx->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";

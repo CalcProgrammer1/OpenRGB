@@ -75,7 +75,7 @@ void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controller
 
                 if( dev )
                 {
-                    HyperXKeyboardController* controller = new HyperXKeyboardController(dev);
+                    HyperXKeyboardController* controller = new HyperXKeyboardController(dev, info->path);
 
                     RGBController_HyperXKeyboard* rgb_controller = new RGBController_HyperXKeyboard(controller);
 
