@@ -30,6 +30,7 @@ const motherboard_info rgb_fusion_2_smbus_motherboards[] =
     { "Gigabyte Technology Co., Ltd.",      "B450 I AORUS PRO WIFI-CF"      },
     { "Gigabyte Technology Co., Ltd.",      "B450 AORUS PRO-CF4"            },
     { "Gigabyte Technology Co., Ltd.",      "X470 AORUS GAMING 7 WIFI-CF"   },
+    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS PRO WIFI-CF"        },
 };
 
 /******************************************************************************************\
