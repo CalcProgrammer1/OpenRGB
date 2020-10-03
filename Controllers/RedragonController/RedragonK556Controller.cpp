@@ -2,9 +2,15 @@
 
 #include <cstring>
 
-RedragonK556Controller::RedragonK556Controller(hid_device* dev_handle)
+RedragonK556Controller::RedragonK556Controller(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
+}
+
+std::string RedragonK556Controller::GetDeviceLocation()
+{
+    return(location);
 }
 
 void RedragonK556Controller::SetKeyboardColors

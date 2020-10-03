@@ -99,7 +99,7 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
                     {
                         case DEVICE_TYPE_KEYBOARD:
                             {
-                            RedragonK556Controller* controller = new RedragonK556Controller(dev);
+                            RedragonK556Controller* controller = new RedragonK556Controller(dev, info->path);
 
                             RGBController_RedragonK556* rgb_controller = new RGBController_RedragonK556(controller);
 
@@ -110,7 +110,7 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
 
                         case DEVICE_TYPE_MOUSE:
                             {
-                            RedragonM711Controller* controller = new RedragonM711Controller(dev);
+                            RedragonM711Controller* controller = new RedragonM711Controller(dev, info->path);
 
                             RGBController_RedragonM711* rgb_controller = new RGBController_RedragonM711(controller);
 

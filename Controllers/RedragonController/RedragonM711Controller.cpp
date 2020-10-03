@@ -2,14 +2,20 @@
 
 #include <cstring>
 
-RedragonM711Controller::RedragonM711Controller(hid_device* dev_handle)
+RedragonM711Controller::RedragonM711Controller(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     unsigned char active_profile = 0x00;
 
     SendWritePacket(0x002C, 1, &active_profile);
     SendMouseApply();
+}
+
+std::string RedragonM711Controller::GetDeviceLocation()
+{
+    return(location);
 }
 
 void RedragonM711Controller::SendMouseColor

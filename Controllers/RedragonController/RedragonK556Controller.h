@@ -92,8 +92,10 @@ enum
 class RedragonK556Controller
 {
 public:
-    RedragonK556Controller(hid_device* dev_handle);
+    RedragonK556Controller(hid_device* dev_handle, const char* path);
     ~RedragonK556Controller();
+
+    std::string GetDeviceLocation();
 
     void        SetKeyboardColors
                     (
@@ -131,6 +133,7 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 
     void        ComputeChecksum
                     (
