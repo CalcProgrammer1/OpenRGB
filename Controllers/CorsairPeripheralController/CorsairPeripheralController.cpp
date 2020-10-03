@@ -48,9 +48,10 @@ static unsigned int keys_k95[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
 
 static unsigned int st100[] = { 0x00, 0x01, 0x02, 0x03, 0x05, 0x06, 0x07, 0x08, 0x04 };
 
-CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle)
+CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     ReadFirmwareInfo();
 
@@ -65,6 +66,11 @@ CorsairPeripheralController::~CorsairPeripheralController()
 device_type CorsairPeripheralController::GetDeviceType()
 {
     return type;
+}
+
+std::string CorsairPeripheralController::GetDeviceLocation()
+{
+    return(location);
 }
 
 int CorsairPeripheralController::GetPhysicalLayout()

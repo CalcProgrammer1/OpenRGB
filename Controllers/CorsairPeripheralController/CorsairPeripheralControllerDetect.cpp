@@ -147,7 +147,7 @@ void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_control
 
                 if( dev )
                 {
-                    CorsairPeripheralController* controller = new CorsairPeripheralController(dev);
+                    CorsairPeripheralController* controller = new CorsairPeripheralController(dev, info->path);
 
                     if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
                     {

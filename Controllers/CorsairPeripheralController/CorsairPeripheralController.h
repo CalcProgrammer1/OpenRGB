@@ -66,12 +66,13 @@ enum
 class CorsairPeripheralController
 {
 public:
-    CorsairPeripheralController(hid_device* dev_handle);
+    CorsairPeripheralController(hid_device* dev_handle, const char* path);
     ~CorsairPeripheralController();
 
     int             GetLogicalLayout();
     int             GetPhysicalLayout();
     device_type     GetDeviceType();
+    std::string     GetDeviceLocation();
     std::string     GetFirmwareString();
 
     void            SetLEDs(std::vector<RGBColor> colors);
@@ -84,6 +85,7 @@ private:
     hid_device*             dev;
 
     std::string             firmware_version;
+    std::string             location;
     device_type             type;
     int                     physical_layout;   //ANSI, ISO, etc.
     int                     logical_layout;    //Normal, K95 or K95 Platinum

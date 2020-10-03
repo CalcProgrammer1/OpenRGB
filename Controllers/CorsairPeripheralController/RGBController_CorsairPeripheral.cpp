@@ -559,6 +559,7 @@ RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripher
     description = "Corsair RGB Peripheral Device";
     type        = corsair->GetDeviceType();
     version     = corsair->GetFirmwareString();
+    location    = corsair->GetDeviceLocation();
 
     physical_layout = corsair->GetPhysicalLayout();
     logical_layout  = corsair->GetLogicalLayout();
