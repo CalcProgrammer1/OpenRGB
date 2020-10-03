@@ -25,6 +25,7 @@
 | nVidia Device IDs                                     |
 \*-----------------------------------------------------*/
 #define NVIDIA_GTX1070_DEV                      0x1B81
+#define NVIDIA_GTX1660_DEV                      0x2184
 #define NVIDIA_RTX2060_DEV                      0x1F08
 #define NVIDIA_RTX2060S_DEV                     0x1F06
 #define NVIDIA_RTX2070_DEV                      0x1F02
@@ -55,6 +56,7 @@
 | MSI Sub-Device IDs                                    |
 \*-----------------------------------------------------*/
 #define MSI_GTX1070_GAMING_X_SUB_DEV            0x3306
+#define MSI_GTX1660_GAMING_X_6G_SUB_DEV         0x3790
 #define MSI_RTX2060S_GAMING_X_SUB_DEV           0xC752
 #define MSI_RTX2070S_GAMING_X_SUB_DEV           0x373e
 #define MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV      0xC726
