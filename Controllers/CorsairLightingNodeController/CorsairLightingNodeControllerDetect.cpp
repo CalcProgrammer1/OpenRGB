@@ -64,7 +64,7 @@ void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_contr
 
                 if( dev )
                 {
-                    CorsairLightingNodeController* controller = new CorsairLightingNodeController(dev);
+                    CorsairLightingNodeController* controller = new CorsairLightingNodeController(dev, info->path);
 
                     RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
 

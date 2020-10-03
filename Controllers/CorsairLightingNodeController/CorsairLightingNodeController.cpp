@@ -37,9 +37,10 @@ THREAD keepalive_thread(void *param)
     THREADRETURN
 }
 
-CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_handle)
+CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     SendFirmwareRequest();
 
@@ -76,6 +77,11 @@ void CorsairLightingNodeController::KeepaliveThread()
 std::string CorsairLightingNodeController::GetFirmwareString()
 {
     return(firmware_version);
+}
+
+std::string CorsairLightingNodeController::GetLocationString()
+{
+    return(location);
 }
 
 void CorsairLightingNodeController::SetChannelEffect(unsigned char channel,

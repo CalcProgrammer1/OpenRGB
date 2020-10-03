@@ -18,6 +18,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     description = "Corsair Lighting Node Device";
     type        = DEVICE_TYPE_LEDSTRIP;
     version     = corsair->GetFirmwareString();
+    location    = corsair->GetLocationString();
 
     mode Direct;
     Direct.name       = "Direct";
