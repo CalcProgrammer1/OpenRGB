@@ -40,7 +40,7 @@ void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controller
         
             if( dev )
             {
-                AMDWraithPrismController* controller = new AMDWraithPrismController(dev);
+                AMDWraithPrismController* controller = new AMDWraithPrismController(dev, info->path);
 
                 RGBController_AMDWraithPrism* rgb_controller = new RGBController_AMDWraithPrism(controller);
 

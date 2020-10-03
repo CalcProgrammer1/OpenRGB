@@ -12,9 +12,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-AMDWraithPrismController::AMDWraithPrismController(hid_device* dev_handle)
+AMDWraithPrismController::AMDWraithPrismController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     strcpy(device_name, "AMD Wraith Prism");
 
@@ -36,6 +37,11 @@ AMDWraithPrismController::AMDWraithPrismController(hid_device* dev_handle)
 AMDWraithPrismController::~AMDWraithPrismController()
 {
 
+}
+
+std::string AMDWraithPrismController::GetLocationString()
+{
+    return(location);
 }
 
 char* AMDWraithPrismController::GetDeviceName()

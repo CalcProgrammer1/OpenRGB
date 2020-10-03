@@ -109,13 +109,14 @@ enum
 class AMDWraithPrismController
 {
 public:
-    AMDWraithPrismController(hid_device* dev_handle);
+    AMDWraithPrismController(hid_device* dev_handle, const char* path);
     ~AMDWraithPrismController();
 
     char* GetDeviceName();
 
     std::string GetEffectChannelString(unsigned char channel);
     std::string GetFirmwareVersionString();
+    std::string GetLocationString();
 
     void SetRingEffectChannel(unsigned char channel);
 
@@ -131,6 +132,7 @@ public:
 private:
     char                    device_name[32];
     hid_device*             dev;
+    std::string             location;
 
     unsigned char           current_fan_mode;
     unsigned char           current_fan_speed;

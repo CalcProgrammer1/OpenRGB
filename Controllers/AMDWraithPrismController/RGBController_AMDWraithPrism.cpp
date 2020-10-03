@@ -17,6 +17,7 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     type        = DEVICE_TYPE_COOLER;
     description = "AMD Wraith Prism Device";
     version     = wraith->GetFirmwareVersionString();
+    location    = wraith->GetLocationString();
 
     mode Direct;
     Direct.name       = "Direct";
