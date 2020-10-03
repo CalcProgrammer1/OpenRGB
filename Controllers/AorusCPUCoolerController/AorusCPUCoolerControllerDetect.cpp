@@ -67,7 +67,7 @@ void DetectAorusCPUCoolerControllers(std::vector<RGBController*>& rgb_controller
                     {
                     case ATC_800_CONTROLLER_PID:
                         {
-                            ATC800Controller* controller = new ATC800Controller(dev);
+                            ATC800Controller* controller = new ATC800Controller(dev, info->path);
 
                             RGBController_AorusATC800* rgb_controller = new RGBController_AorusATC800(controller);
 

@@ -11,14 +11,20 @@
 
 #include <cstring>
 
-ATC800Controller::ATC800Controller(hid_device* dev_handle)
+ATC800Controller::ATC800Controller(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 ATC800Controller::~ATC800Controller()
 {
     hid_close(dev);
+}
+
+std::string ATC800Controller::GetDeviceLocation()
+{
+    return(location);
 }
 
 void ATC800Controller::SendCoolerMode

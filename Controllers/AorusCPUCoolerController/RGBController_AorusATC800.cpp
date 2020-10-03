@@ -16,6 +16,7 @@ RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* cooler_pt
     name        = "Aorus ATC800 CPU Cooler";
     type        = DEVICE_TYPE_COOLER;
     description = "Aorus ATC800 CPU Cooler";
+    location    = cooler->GetDeviceLocation();
 
     mode Static;
     Static.name       = "Static";

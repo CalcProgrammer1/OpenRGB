@@ -41,8 +41,10 @@ enum
 class ATC800Controller
 {
 public:
-    ATC800Controller(hid_device* dev_handle);
+    ATC800Controller(hid_device* dev_handle, const char* path);
     ~ATC800Controller();
+
+    std::string GetDeviceLocation();
 
     void        SendCoolerMode
                     (
@@ -56,4 +58,5 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 };
