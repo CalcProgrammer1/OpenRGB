@@ -17,8 +17,10 @@
 class DuckyKeyboardController
 {
 public:
-    DuckyKeyboardController(hid_device* dev_handle);
+    DuckyKeyboardController(hid_device* dev_handle, const char* path);
     ~DuckyKeyboardController();
+
+    std::string GetDeviceLocation();
 
     void SendColors
             (
@@ -28,6 +30,7 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 
     void SendInitialize();
     void SendInitializeColorPacket();

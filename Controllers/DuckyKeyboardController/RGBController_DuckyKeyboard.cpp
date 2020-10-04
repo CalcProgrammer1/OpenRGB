@@ -178,6 +178,7 @@ RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController
     name        = "Ducky Keyboard Device";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Ducky Keyboard Device";
+    location    = ducky->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";

@@ -67,7 +67,7 @@ void DetectDuckyKeyboardControllers(std::vector<RGBController*>& rgb_controllers
 
                 if( dev )
                 {
-                    DuckyKeyboardController* controller = new DuckyKeyboardController(dev);
+                    DuckyKeyboardController* controller = new DuckyKeyboardController(dev, info->path);
 
                     RGBController_DuckyKeyboard* rgb_controller = new RGBController_DuckyKeyboard(controller);
 

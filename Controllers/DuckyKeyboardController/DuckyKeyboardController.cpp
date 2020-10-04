@@ -10,9 +10,10 @@
 #include <cstring>
 #include "DuckyKeyboardController.h"
 
-DuckyKeyboardController::DuckyKeyboardController(hid_device* dev_handle)
+DuckyKeyboardController::DuckyKeyboardController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     SendInitialize();
 }
@@ -20,6 +21,11 @@ DuckyKeyboardController::DuckyKeyboardController(hid_device* dev_handle)
 DuckyKeyboardController::~DuckyKeyboardController()
 {
     
+}
+
+std::string DuckyKeyboardController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void DuckyKeyboardController::SendColors
