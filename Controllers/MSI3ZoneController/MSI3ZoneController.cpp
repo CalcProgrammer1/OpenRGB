@@ -9,9 +9,10 @@
 
 #include "MSI3ZoneController.h"
 
-MSI3ZoneController::MSI3ZoneController(hid_device* dev_handle)
+MSI3ZoneController::MSI3ZoneController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     //strcpy(device_name, "MSI 3-Zone Keyboard");
 }
@@ -24,6 +25,11 @@ MSI3ZoneController::~MSI3ZoneController()
 char* MSI3ZoneController::GetDeviceName()
 {
     return device_name;
+}
+
+std::string MSI3ZoneController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void MSI3ZoneController::SetLEDs(std::vector<RGBColor> colors)

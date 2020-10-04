@@ -19,20 +19,32 @@
 
 void DetectMSI3ZoneControllers(std::vector<RGBController*>& rgb_controllers)
 {
-    hid_device* dev;
+    hid_device_info* info;
+    hid_device* dev = NULL;
 
-    //Look for MSI/Steelseries 3-zone Keyboard
     hid_init();
 
-    dev = hid_open(MSI_3_ZONE_KEYBOARD_VID, MSI_3_ZONE_KEYBOARD_PID, 0);
+    info = hid_enumerate(MSI_3_ZONE_KEYBOARD_VID, MSI_3_ZONE_KEYBOARD_PID);
 
-    if( dev )
+    //Look for MSI/Steelseries 3-zone Keyboard
+    while(info)
     {
-        MSI3ZoneController* controller = new MSI3ZoneController(dev);
+        if((info->vendor_id        == MSI_3_ZONE_KEYBOARD_VID)
+         &&(info->product_id       == MSI_3_ZONE_KEYBOARD_PID))
+        {
+            dev = hid_open_path(info->path);
 
-        RGBController_MSI3Zone* rgb_controller = new RGBController_MSI3Zone(controller);
+            if( dev )
+            {
+                MSI3ZoneController* controller = new MSI3ZoneController(dev, info->path);
 
-        rgb_controllers.push_back(rgb_controller);
+                RGBController_MSI3Zone* rgb_controller = new RGBController_MSI3Zone(controller);
+
+                rgb_controllers.push_back(rgb_controller);
+            }
+        }
+
+        info = info->next;
     }
 }   /* DetectMSI3ZoneControllers() */
 

@@ -17,14 +17,16 @@
 class MSI3ZoneController
 {
 public:
-    MSI3ZoneController(hid_device* dev_handle);
+    MSI3ZoneController(hid_device* dev_handle, const char* path);
     ~MSI3ZoneController();
 
     char* GetDeviceName();
+    std::string GetDeviceLocation();
 
     void SetLEDs(std::vector<RGBColor> colors);
     
 private:
     char                    device_name[32];
     hid_device*             dev;
+    std::string             location;
 };
