@@ -24,8 +24,10 @@ enum
 class HoltekA070Controller
 {
 public:
-    HoltekA070Controller(hid_device* dev_handle);
+    HoltekA070Controller(hid_device* dev_handle, const char* path);
     ~HoltekA070Controller();
+
+    std::string GetDeviceLocation();
 
     void        SendCustomColor
                    (
@@ -41,4 +43,5 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 };

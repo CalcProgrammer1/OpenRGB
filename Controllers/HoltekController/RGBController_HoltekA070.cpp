@@ -15,6 +15,7 @@ RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* holtek_
     name        = "Holtek USB Gaming Mouse Device";
     type        = DEVICE_TYPE_MOUSE;
     description = "Holtek USB Gaming Mouse Device";
+    location    = holtek->GetDeviceLocation();
 
     mode Static;
     Static.name       = "Static";

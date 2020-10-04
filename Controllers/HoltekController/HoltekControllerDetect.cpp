@@ -65,7 +65,7 @@ void DetectHoltekControllers(std::vector<RGBController*>& rgb_controllers)
                             {
                             case HOLTEK_A070_PID:
                                 {
-                                    HoltekA070Controller* controller = new HoltekA070Controller(dev);
+                                    HoltekA070Controller* controller = new HoltekA070Controller(dev, info->path);
 
                                     RGBController_HoltekA070* rgb_controller = new RGBController_HoltekA070(controller);
 

@@ -10,9 +10,15 @@
 
 #include <cstring>
 
-HoltekA070Controller::HoltekA070Controller(hid_device* dev_handle)
+HoltekA070Controller::HoltekA070Controller(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
+}
+
+std::string HoltekA070Controller::GetDeviceLocation()
+{
+    return(location);
 }
 
 /*-------------------------------------------------------------------------------------------------*\
