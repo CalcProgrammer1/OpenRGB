@@ -11,14 +11,20 @@
 
 #include <cstring>
 
-HyperXPulsefireSurgeController::HyperXPulsefireSurgeController(hid_device* dev_handle)
+HyperXPulsefireSurgeController::HyperXPulsefireSurgeController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 HyperXPulsefireSurgeController::~HyperXPulsefireSurgeController()
 {
 
+}
+
+std::string HyperXPulsefireSurgeController::GetDeviceLocation()
+{
+    return(location);
 }
 
 /*-------------------------------------------------------------------------------------------------*\

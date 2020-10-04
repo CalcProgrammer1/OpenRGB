@@ -66,7 +66,7 @@ void DetectHyperXMouseControllers(std::vector<RGBController*>& rgb_controllers)
 
                 if( dev )
                 {
-                    HyperXPulsefireSurgeController* controller = new HyperXPulsefireSurgeController(dev);
+                    HyperXPulsefireSurgeController* controller = new HyperXPulsefireSurgeController(dev, info->path);
 
                     RGBController_HyperXPulsefireSurge* rgb_controller = new RGBController_HyperXPulsefireSurge(controller);
 
