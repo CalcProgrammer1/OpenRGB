@@ -41,7 +41,7 @@ void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers)
             dev = hid_open_path(info->path);
             if( dev )
             {
-                PoseidonZRGBController* controller = new PoseidonZRGBController(dev);
+                PoseidonZRGBController* controller = new PoseidonZRGBController(dev, info->path);
 
                 RGBController_PoseidonZRGB* rgb_controller = new RGBController_PoseidonZRGB(controller);
 

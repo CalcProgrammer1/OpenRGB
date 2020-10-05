@@ -22,14 +22,20 @@ static unsigned int keys[] = {0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x
                               0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63, 0x64, 0x66, 0x67, 0x68, 0x69, 0x6A,
                               0x6C, 0x6D, 0x6F, 0x70, 0x72, 0x73, 0x75, 0x76, 0x77, 0x78, 0x7C, 0x80, 0x81 };
 
-PoseidonZRGBController::PoseidonZRGBController(hid_device* dev_handle)
+PoseidonZRGBController::PoseidonZRGBController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 PoseidonZRGBController::~PoseidonZRGBController()
 {
 
+}
+
+std::string PoseidonZRGBController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void PoseidonZRGBController::SetMode(unsigned char mode, unsigned char direction, unsigned char speed)

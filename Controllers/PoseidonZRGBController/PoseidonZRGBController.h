@@ -74,8 +74,10 @@ enum
 class PoseidonZRGBController
 {
 public:
-    PoseidonZRGBController(hid_device* dev_handle);
+    PoseidonZRGBController(hid_device* dev_handle, const char* path);
     ~PoseidonZRGBController();
+
+    std::string GetDeviceLocation();
 
     void SetMode(unsigned char mode, unsigned char direction, unsigned char speed);
     void SetLEDsDirect(std::vector<RGBColor> colors);
@@ -86,6 +88,7 @@ private:
     unsigned char           active_mode;
     unsigned char           active_direction;
     unsigned char           active_speed;
+    std::string             location;
 
     void SendControl
         (
