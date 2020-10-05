@@ -35,14 +35,21 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 
 SteelSeriesSiberiaController::SteelSeriesSiberiaController
     (
-    hid_device*         dev_handle
+    hid_device*         dev_handle,
+    const char*         path
     )
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 SteelSeriesSiberiaController::~SteelSeriesSiberiaController()
 {
+}
+
+std::string SteelSeriesSiberiaController::GetDeviceLocation()
+{
+    return(location);
 }
 
 char* SteelSeriesSiberiaController::GetDeviceName()

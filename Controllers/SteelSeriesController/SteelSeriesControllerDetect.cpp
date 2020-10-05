@@ -138,7 +138,7 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
 
                 case DEVICE_TYPE_HEADSET:
                     {
-                    SteelSeriesSiberiaController* controller = new SteelSeriesSiberiaController(dev);
+                    SteelSeriesSiberiaController* controller = new SteelSeriesSiberiaController(dev, info->path);
 
                     RGBController_SteelSeriesSiberia* rgb_controller = new RGBController_SteelSeriesSiberia(controller);
                     rgb_controller->name = device_list[device_idx].name;
