@@ -111,10 +111,10 @@ void RGBFusion2USBController::SetCalibration()
     SendPacket(buffer);
 }
 
-void RGBFusion2USBController::SetLedCount(unsigned int count)
+void RGBFusion2USBController::SetLedCount(unsigned int led, unsigned int count)
 {
-    LEDCount s0 = LedCountToEnum(count);
-    SendPacket(0x34, s0 | (s0 << 4)); // D_LED1 | D_LED2
+    led == HDR_D_LED1_RGB ? D_LED1_count = LedCountToEnum(count) : D_LED1_count = LedCountToEnum(count);
+    SendPacket(0x34, D_LED1_count | (D_LED2_count << 4));
 }
 
 bool RGBFusion2USBController::DisableBuiltinEffect(int enable_bit, int mask)

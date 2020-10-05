@@ -169,7 +169,7 @@ public:
                         );
 
     void            SetLEDEffect(unsigned int led, int mode, unsigned int speed, bool random, unsigned char red, unsigned char green, unsigned char blue);
-    void            SetLedCount(unsigned int count);
+    void            SetLedCount(unsigned int led, unsigned int count);
     void            SetMode(int mode);
     bool            ApplyEffect();
     bool            DisableBuiltinEffect(int enable_bit, int mask);
@@ -195,4 +195,6 @@ private:
     std::string             chip_id;
     int                     effect_disabled = 0;
     int                     report_id = 0xCC;
+    LEDCount                D_LED1_count;
+    LEDCount                D_LED2_count;
 };

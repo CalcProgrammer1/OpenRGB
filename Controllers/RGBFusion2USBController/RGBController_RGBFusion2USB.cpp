@@ -239,7 +239,7 @@ void RGBController_RGBFusion2USB::SetupZones()
 
         if (!boolSingleLED)
         {
-            controller->SetLedCount(zones[zone_idx].leds_count);
+            controller->SetLedCount(zl->second.at(0).header, zones[zone_idx].leds_count);
             controller->DisableBuiltinEffect(0, 0x3);
         }
 
