@@ -123,12 +123,12 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     \*---------------------------------------------------------*/
 	typedef unsigned int(*INITRAZERDRIVER)(struct hid_device** hdev);
 	
-	INITRAZERDRIVER init_razer_kbd_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_kbd_driver"));
-	INITRAZERDRIVER init_razer_mousemat_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_mousemat_driver"));
+    INITRAZERDRIVER init_razer_kbd_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_kbd_driver"));
+    INITRAZERDRIVER init_razer_mousemat_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_mousemat_driver"));
 	INITRAZERDRIVER init_razer_mouse_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_mouse_driver"));
 	INITRAZERDRIVER init_razer_accessory_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_accessory_driver"));
-	INITRAZERDRIVER init_razer_kraken_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_kraken_driver"));
-	INITRAZERDRIVER init_razer_core_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_core_driver"));
+    INITRAZERDRIVER init_razer_kraken_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_kraken_driver"));
+    INITRAZERDRIVER init_razer_core_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_core_driver"));
 
     /*---------------------------------------------------------*\
     | Initialize all OpenRazer driver modules and store devices |
@@ -136,117 +136,135 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     struct hid_device* hdev;
 	unsigned int num;
 
-    hdev = NULL;
-	num = init_razer_kbd_driver(&hdev);
-	for (unsigned int i = 0; i < num; i++)
+    if(init_razer_kbd_driver != NULL)
     {
-        device_fn_type* device_fn = new device_fn_type;
-        load_device_fn(device_fn, &hdev[i].dev);
-
-        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
-
-        if(razer_rgb->device_index != -1)
+        hdev = NULL;
+        num = init_razer_kbd_driver(&hdev);
+        for (unsigned int i = 0; i < num; i++)
         {
-            rgb_controllers.push_back(razer_rgb);
-        }
-        else
-        {
-            delete razer_rgb;
+            device_fn_type* device_fn = new device_fn_type;
+            load_device_fn(device_fn, &hdev[i].dev);
+
+            RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+            if(razer_rgb->device_index != -1)
+            {
+                rgb_controllers.push_back(razer_rgb);
+            }
+            else
+            {
+                delete razer_rgb;
+            }
         }
     }
 
-    hdev = NULL;
-	num = init_razer_mouse_driver(&hdev);
-	for (unsigned int i = 0; i < num; i++)
+    if(init_razer_mouse_driver != NULL)
     {
-        device_fn_type* device_fn = new device_fn_type;
-        load_device_fn(device_fn, &hdev[i].dev);
-
-        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
-
-        if(razer_rgb->device_index != -1)
+        hdev = NULL;
+        num = init_razer_mouse_driver(&hdev);
+        for (unsigned int i = 0; i < num; i++)
         {
-            rgb_controllers.push_back(razer_rgb);
-        }
-        else
-        {
-            delete razer_rgb;
+            device_fn_type* device_fn = new device_fn_type;
+            load_device_fn(device_fn, &hdev[i].dev);
+
+            RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+            if(razer_rgb->device_index != -1)
+            {
+                rgb_controllers.push_back(razer_rgb);
+            }
+            else
+            {
+                delete razer_rgb;
+            }
         }
     }
 
-    hdev = NULL;
-	num = init_razer_mousemat_driver(&hdev);
-	for (unsigned int i = 0; i < num; i++)
+    if(init_razer_mousemat_driver != NULL)
     {
-        device_fn_type* device_fn = new device_fn_type;
-        load_device_fn(device_fn, &hdev[i].dev);
-
-        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
-
-        if(razer_rgb->device_index != -1)
+        hdev = NULL;
+        num = init_razer_mousemat_driver(&hdev);
+        for (unsigned int i = 0; i < num; i++)
         {
-            rgb_controllers.push_back(razer_rgb);
-        }
-        else
-        {
-            delete razer_rgb;
+            device_fn_type* device_fn = new device_fn_type;
+            load_device_fn(device_fn, &hdev[i].dev);
+
+            RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+            if(razer_rgb->device_index != -1)
+            {
+                rgb_controllers.push_back(razer_rgb);
+            }
+            else
+            {
+                delete razer_rgb;
+            }
         }
     }
 
-    hdev = NULL;
-	num = init_razer_accessory_driver(&hdev);
-	for (unsigned int i = 0; i < num; i++)
+    if(init_razer_accessory_driver != NULL)
     {
-        device_fn_type* device_fn = new device_fn_type;
-        load_device_fn(device_fn, &hdev[i].dev);
-
-        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
-
-        if(razer_rgb->device_index != -1)
+        hdev = NULL;
+        num = init_razer_accessory_driver(&hdev);
+        for (unsigned int i = 0; i < num; i++)
         {
-            rgb_controllers.push_back(razer_rgb);
-        }
-        else
-        {
-            delete razer_rgb;
+            device_fn_type* device_fn = new device_fn_type;
+            load_device_fn(device_fn, &hdev[i].dev);
+
+            RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+            if(razer_rgb->device_index != -1)
+            {
+                rgb_controllers.push_back(razer_rgb);
+            }
+            else
+            {
+                delete razer_rgb;
+            }
         }
     }
 
-    hdev = NULL;
-	num = init_razer_kraken_driver(&hdev);
-	for (unsigned int i = 0; i < num; i++)
+    if(init_razer_kraken_driver != NULL)
     {
-        device_fn_type* device_fn = new device_fn_type;
-        load_device_fn(device_fn, &hdev[i].dev);
-
-        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
-
-        if(razer_rgb->device_index != -1)
+        hdev = NULL;
+        num = init_razer_kraken_driver(&hdev);
+        for (unsigned int i = 0; i < num; i++)
         {
-            rgb_controllers.push_back(razer_rgb);
-        }
-        else
-        {
-            delete razer_rgb;
+            device_fn_type* device_fn = new device_fn_type;
+            load_device_fn(device_fn, &hdev[i].dev);
+
+            RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+            if(razer_rgb->device_index != -1)
+            {
+                rgb_controllers.push_back(razer_rgb);
+            }
+            else
+            {
+                delete razer_rgb;
+            }
         }
     }
 
-    hdev = NULL;
-	num = init_razer_core_driver(&hdev);
-	for (unsigned int i = 0; i < num; i++)
+    if(init_razer_core_driver != NULL)
     {
-        device_fn_type* device_fn = new device_fn_type;
-        load_device_fn(device_fn, &hdev[i].dev);
-
-        RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
-
-        if(razer_rgb->device_index != -1)
+        hdev = NULL;
+        num = init_razer_core_driver(&hdev);
+        for (unsigned int i = 0; i < num; i++)
         {
-            rgb_controllers.push_back(razer_rgb);
-        }
-        else
-        {
-            delete razer_rgb;
+            device_fn_type* device_fn = new device_fn_type;
+            load_device_fn(device_fn, &hdev[i].dev);
+
+            RGBController_OpenRazer * razer_rgb = new RGBController_OpenRazer(&hdev[i].dev, device_fn);
+
+            if(razer_rgb->device_index != -1)
+            {
+                rgb_controllers.push_back(razer_rgb);
+            }
+            else
+            {
+                delete razer_rgb;
+            }
         }
     }
 
