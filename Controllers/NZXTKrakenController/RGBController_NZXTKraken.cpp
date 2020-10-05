@@ -18,6 +18,7 @@ RGBController_NZXTKraken::RGBController_NZXTKraken(NZXTKrakenController* nzxtkra
     type        = DEVICE_TYPE_COOLER;
     description = "NZXT Kraken X42/X52/X62/X72/M22";
     version     = nzxtkraken->GetFirmwareVersion();
+    location    = nzxtkraken->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";

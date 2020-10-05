@@ -58,7 +58,7 @@ void DetectNZXTKrakenControllers(std::vector<RGBController*> &rgb_controllers)
                 
                 if( dev )
                 {
-                    NZXTKrakenController* controller = new NZXTKrakenController(dev);
+                    NZXTKrakenController* controller = new NZXTKrakenController(dev, info->path);
 
                     RGBController_NZXTKraken* rgb_controller = new RGBController_NZXTKraken(controller);
 

@@ -27,9 +27,10 @@ static RGBColor ToLogoColor(RGBColor rgb)
     return ToRGBColor(RGBGetGValue(rgb), RGBGetRValue(rgb), RGBGetBValue(rgb));
 }
 
-NZXTKrakenController::NZXTKrakenController(hid_device* dev_handle)
+NZXTKrakenController::NZXTKrakenController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     /*-----------------------------------------------------*\
     | Get the firmware version                              |
@@ -45,6 +46,11 @@ NZXTKrakenController::~NZXTKrakenController()
 std::string NZXTKrakenController::GetFirmwareVersion()
 {
     return firmware_version;
+}
+
+std::string NZXTKrakenController::GetLocation()
+{
+    return(location);
 }
 
 void NZXTKrakenController::UpdateStatus()
