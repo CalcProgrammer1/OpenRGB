@@ -31,15 +31,21 @@ static unsigned int keys_tkl[] = {0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b
                                   0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f, 0x50, 0x51, 0x52,
                                   0x64, 0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xf0, 0x31 };
 
-SteelSeriesApexController::SteelSeriesApexController(hid_device* dev_handle, steelseries_type type)
+SteelSeriesApexController::SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path)
 {
-    dev = dev_handle;
-    proto_type = type;
+    dev         = dev_handle;
+    location    = path;
+    proto_type  = type;
 }
 
 SteelSeriesApexController::~SteelSeriesApexController()
 {
 
+}
+
+std::string SteelSeriesApexController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void SteelSeriesApexController::SetMode

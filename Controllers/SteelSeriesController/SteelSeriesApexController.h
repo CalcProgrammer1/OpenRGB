@@ -23,8 +23,10 @@ enum
 class SteelSeriesApexController
 {
 public:
-    SteelSeriesApexController(hid_device* dev_handle, steelseries_type type);
+    SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path);
     ~SteelSeriesApexController();
+
+    std::string GetDeviceLocation();
 
     steelseries_type        proto_type;
 
@@ -39,6 +41,7 @@ public:
 private:
     hid_device*             dev;
     unsigned char           active_mode;
+    std::string             location;
 
     void    SelectProfile
                 (

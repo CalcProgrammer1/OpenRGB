@@ -128,7 +128,7 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
             {
                 case DEVICE_TYPE_KEYBOARD:
                     {
-                    SteelSeriesApexController* controller = new SteelSeriesApexController(dev, device_list[device_idx].proto_type);
+                    SteelSeriesApexController* controller = new SteelSeriesApexController(dev, device_list[device_idx].proto_type, info->path);
                     
                     RGBController_SteelSeriesApex* rgb_controller = new RGBController_SteelSeriesApex(controller);
                     rgb_controller->name = device_list[device_idx].name;
