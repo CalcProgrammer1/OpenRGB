@@ -17,6 +17,7 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
     name        = "Thermaltake Riing";
     type        = DEVICE_TYPE_COOLER;
     description = "Thermaltake Riing Device";
+    location    = riing->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";

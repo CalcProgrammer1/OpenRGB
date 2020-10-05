@@ -11,9 +11,10 @@
 
 #include <cstring>
 
-ThermaltakeRiingController::ThermaltakeRiingController(hid_device* dev_handle)
+ThermaltakeRiingController::ThermaltakeRiingController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     SendInit();
 }
@@ -21,6 +22,11 @@ ThermaltakeRiingController::ThermaltakeRiingController(hid_device* dev_handle)
 ThermaltakeRiingController::~ThermaltakeRiingController()
 {
 
+}
+
+std::string ThermaltakeRiingController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)

@@ -47,7 +47,7 @@ void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controll
 
         if(dev)
         {
-            ThermaltakeRiingController* controller = new ThermaltakeRiingController(dev);
+            ThermaltakeRiingController* controller = new ThermaltakeRiingController(dev, info->path);
 
             RGBController_ThermaltakeRiing* rgb_controller = new RGBController_ThermaltakeRiing(controller);
 

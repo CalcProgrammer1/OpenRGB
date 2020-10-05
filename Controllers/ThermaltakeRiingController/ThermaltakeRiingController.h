@@ -47,8 +47,10 @@ enum
 class ThermaltakeRiingController
 {
 public:
-    ThermaltakeRiingController(hid_device* dev_handle);
+    ThermaltakeRiingController(hid_device* dev_handle, const char* path);
     ~ThermaltakeRiingController();
+
+    std::string     GetDeviceLocation();
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     void            SetMode(unsigned char mode, unsigned char speed);
@@ -58,6 +60,7 @@ private:
 
     unsigned char   current_mode;
     unsigned char   current_speed;
+    std::string     location;
 
     void    SendInit();
 
