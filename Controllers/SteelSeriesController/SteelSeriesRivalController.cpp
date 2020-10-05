@@ -30,16 +30,23 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 SteelSeriesRivalController::SteelSeriesRivalController
     (
     hid_device*         dev_handle,
-    steelseries_type    proto_type
+    steelseries_type    proto_type,
+    const char*         path
     )
 {
-    dev = dev_handle;
-    proto = proto_type;
+    dev         = dev_handle;
+    location    = path;
+    proto       = proto_type;
 }
 
 SteelSeriesRivalController::~SteelSeriesRivalController()
 {
 
+}
+
+std::string SteelSeriesRivalController::GetDeviceLocation()
+{
+    return(location);
 }
 
 char* SteelSeriesRivalController::GetDeviceName()

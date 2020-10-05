@@ -148,7 +148,7 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
 
                 case DEVICE_TYPE_MOUSE:
                     {
-                    SteelSeriesRivalController* controller = new SteelSeriesRivalController(dev, device_list[device_idx].proto_type);
+                    SteelSeriesRivalController* controller = new SteelSeriesRivalController(dev, device_list[device_idx].proto_type, info->path);
 
                     RGBController_SteelSeriesRival* rgb_controller = new RGBController_SteelSeriesRival(controller);
                     rgb_controller->name = device_list[device_idx].name;

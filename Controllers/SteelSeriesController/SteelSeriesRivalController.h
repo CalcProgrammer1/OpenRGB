@@ -36,12 +36,14 @@ public:
     SteelSeriesRivalController
         (
         hid_device*         dev_handle,
-        steelseries_type    proto_type
+        steelseries_type    proto_type,
+        const char*         path
         );
 
     ~SteelSeriesRivalController();
 
-    char* GetDeviceName();
+    std::string GetDeviceLocation();
+    char*       GetDeviceName();
 
     steelseries_type GetMouseType();
 
@@ -75,5 +77,6 @@ public:
 private:
     char                    device_name[32];
     hid_device*             dev;
+    std::string             location;
     steelseries_type        proto;
 };
