@@ -66,7 +66,7 @@ void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers)
 
                 if( dev )
                 {
-                    NZXTHue2Controller* controller = new NZXTHue2Controller(dev, device_list[device_idx].num_rgb_channels, device_list[device_idx].num_fan_channels);
+                    NZXTHue2Controller* controller = new NZXTHue2Controller(dev, device_list[device_idx].num_rgb_channels, device_list[device_idx].num_fan_channels, info->path);
 
                     RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
 

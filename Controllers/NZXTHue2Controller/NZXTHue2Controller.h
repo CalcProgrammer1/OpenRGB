@@ -54,10 +54,11 @@ enum
 class NZXTHue2Controller
 {
 public:
-    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels);
+    NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path);
     ~NZXTHue2Controller();
 
     std::string     GetFirmwareVersion();
+    std::string     GetLocation();
 
     unsigned char   GetFanCommand
                         (
@@ -110,6 +111,7 @@ private:
     std::vector<unsigned short> fan_rpm;
 
     char            firmware_version[16];
+    std::string     location;
     unsigned int    num_fan_channels;
     unsigned int    num_rgb_channels;
 
