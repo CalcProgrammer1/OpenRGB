@@ -26,17 +26,26 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 
-//winsize, termio, and termios structs are redefined in
-//asm/termios.h, to prevent compiler errors from multply
+//these types are redefined in asm/termios.h
+//to prevent compiler errors from multply
 //defining them, use a #define to rename them -
 //essentially to undef them before they are redefined
 #define winsize undefine_winsize
 #define termio undefine_termio
 #define termios undefine_termios
+#define sgttyb undefine_sgttyb
+#define tchars undefine_tchars
+#define ltchars undefine_ltchars
 
 #include <asm/termios.h>
-#include <asm-generic/ioctls.h>
+#include <asm/ioctls.h>
 
+//ppc has c_ispeed/c_ospeed in termios and termios2 doesn't exist
+#if defined(__powerpc__)
+#define termios2 termios
+#define TCGETS2 TCGETS
+#define TCSETS2 TCSETS
+#endif
 
 #endif /* __linux__ */
 
