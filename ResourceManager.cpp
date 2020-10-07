@@ -43,7 +43,7 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Initialize Server Instance                                                |
     \*-------------------------------------------------------------------------*/
-    server = new NetworkServer(rgb_controllers);
+    server = new NetworkServer(rgb_controllers_hw);
 }
 
 ResourceManager::~ResourceManager()
@@ -106,6 +106,43 @@ void ResourceManager::DeviceListChanged()
     DeviceListChangeMutex.lock();
 
     /*-------------------------------------------------*\
+    | Insert hardware controllers into controller list  |
+    \*-------------------------------------------------*/
+    for(unsigned int hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
+    {
+        /*-------------------------------------------------*\
+        | Check if the controller is already in the list    |
+        | at the correct index                              |
+        \*-------------------------------------------------*/
+        if(hw_controller_idx < rgb_controllers.size())
+        {
+            if(rgb_controllers[hw_controller_idx] == rgb_controllers_hw[hw_controller_idx])
+            {
+                continue;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | If not, check if the controller is already in the |
+        | list at a different index                         |
+        \*-------------------------------------------------*/
+        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+        {
+            if(rgb_controllers[controller_idx] == rgb_controllers_hw[hw_controller_idx])
+            {
+                rgb_controllers.erase(rgb_controllers.begin() + controller_idx);
+                rgb_controllers.insert(rgb_controllers.begin() + hw_controller_idx, rgb_controllers_hw[hw_controller_idx]);
+                break;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | If it still hasn't been found, add it to the list |
+        \*-------------------------------------------------*/
+        rgb_controllers.insert(rgb_controllers.begin() + hw_controller_idx, rgb_controllers_hw[hw_controller_idx]);
+    }
+
+    /*-------------------------------------------------*\
     | Device list has changed, call the callbacks       |
     \*-------------------------------------------------*/
     for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
@@ -161,11 +198,23 @@ void ResourceManager::Cleanup()
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    std::vector<RGBController *> rgb_controllers_copy = rgb_controllers;
+    std::vector<RGBController *> rgb_controllers_hw_copy = rgb_controllers_hw;
 
-    rgb_controllers.clear();
+    for(unsigned int hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
+    {
+        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+        {
+            if(rgb_controllers[controller_idx] == rgb_controllers_hw[hw_controller_idx])
+            {
+                rgb_controllers.erase(rgb_controllers.begin() + controller_idx);
+                break;
+            }
+        }
+    }
 
-    for(RGBController* rgb_controller : rgb_controllers_copy)
+    rgb_controllers_hw.clear();
+
+    for(RGBController* rgb_controller : rgb_controllers_hw_copy)
     {
         delete rgb_controller;
     }
@@ -283,18 +332,18 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         if(!this_device_disabled)
             {
-            i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers);
+            i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers_hw);
             }
 
         /*-------------------------------------------------*\
         | If the device list size has changed, call the     |
         | device list changed callbacks                     |
         \*-------------------------------------------------*/
-        if(rgb_controllers.size() != prev_count)
+        if(rgb_controllers_hw.size() != prev_count)
         {
             DeviceListChanged();
         }
-        prev_count = rgb_controllers.size();
+        prev_count = rgb_controllers_hw.size();
 
         percent = (i2c_detector_idx + 1.0f) / (i2c_device_detectors.size() + device_detectors.size());
 
@@ -321,18 +370,18 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         if(!this_device_disabled)
             {
-            device_detectors[detector_idx](rgb_controllers);
+            device_detectors[detector_idx](rgb_controllers_hw);
             }
 
         /*-------------------------------------------------*\
         | If the device list size has changed, call the     |
         | device list changed callbacks                     |
         \*-------------------------------------------------*/
-        if(rgb_controllers.size() != prev_count)
+        if(rgb_controllers_hw.size() != prev_count)
         {
             DeviceListChanged();
         }
-        prev_count = rgb_controllers.size();
+        prev_count = rgb_controllers_hw.size();
 
         percent = (detector_idx + 1.0f + i2c_device_detectors.size()) / (i2c_device_detectors.size() + device_detectors.size());
 
