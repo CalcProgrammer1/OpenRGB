@@ -15,6 +15,11 @@ public:
 
     std::vector<std::string> profile_list;
     
+    std::vector<RGBController*> ProfileManager::LoadProfileToList
+        (
+        std::string     profile_name
+        );
+
 protected:
     std::vector<RGBController *>& controllers;
 
