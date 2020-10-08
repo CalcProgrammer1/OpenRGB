@@ -41,6 +41,7 @@ DEFINES +=                                                                      
 #-----------------------------------------------------------------------------------------------#
 INCLUDEPATH +=                                                                                  \
     dependencies/ColorWheel                                                                     \
+    dependencies/CRCpp/                                                                         \
     dependencies/libe131/src/                                                                   \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
@@ -94,6 +95,7 @@ INCLUDEPATH +=                                                                  
     Controllers/RGBFusionGPUController/                                                         \
     Controllers/SapphireGPUController/                                                          \
     Controllers/SinowealthController/                                                           \
+    Controllers/SonyDS4Controller/                                                              \
     Controllers/SteelSeriesController/                                                          \
     Controllers/TecknetController/                                                              \
     Controllers/ThermaltakeRiingController/                                                     \
@@ -235,6 +237,8 @@ HEADERS +=                                                                      
     Controllers/SapphireGPUController/RGBController_SapphireGPU.h                               \
     Controllers/SinowealthController/SinowealthController.h                                     \
     Controllers/SinowealthController/RGBController_Sinowealth.h                                 \
+    Controllers/SonyDS4Controller/SonyDS4Controller.h                                           \
+    Controllers/SonyDS4Controller/RGBController_SonyDS4.h                                       \
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h                              \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h                            \
@@ -429,6 +433,9 @@ SOURCES +=                                                                      
     Controllers/SinowealthController/SinowealthController.cpp                                   \
     Controllers/SinowealthController/SinowealthControllerDetect.cpp                             \
     Controllers/SinowealthController/RGBController_Sinowealth.cpp                               \
+    Controllers/SonyDS4Controller/SonyDS4Controller.cpp                                         \
+    Controllers/SonyDS4Controller/SonyDS4ControllerDetect.cpp                                   \
+    Controllers/SonyDS4Controller/RGBController_SonyDS4.cpp                                     \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp                          \
