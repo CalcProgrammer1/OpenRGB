@@ -44,6 +44,12 @@ ResourceManager::ResourceManager()
     | Initialize Server Instance                                                |
     \*-------------------------------------------------------------------------*/
     server = new NetworkServer(rgb_controllers_hw);
+
+    /*-------------------------------------------------------------------------*\
+    | Load sizes list from file                                                 |
+    \*-------------------------------------------------------------------------*/
+    profile_manager         = new ProfileManager(rgb_controllers);
+    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
 }
 
 ResourceManager::~ResourceManager()
@@ -184,6 +190,11 @@ std::vector<NetworkClient*>& ResourceManager::GetClients()
     return(clients);
 }
 
+ProfileManager* ResourceManager::GetProfileManager()
+{
+    return(profile_manager);
+}
+
 unsigned int ResourceManager::GetDetectionPercent()
 {
     return (detection_percent.load());
@@ -275,8 +286,17 @@ void ResourceManager::DetectDevices()
 void ResourceManager::DetectDevicesThreadFunction()
 {
     DetectDeviceMutex.lock();
-    unsigned int prev_count = 0;
-    float        percent = 0.0f;
+
+    unsigned int        prev_count = 0;
+    float               percent = 0.0f;
+    std::vector<bool>   size_used;
+
+    size_used.resize(rgb_controllers_sizes.size());
+
+    for(unsigned int size_idx = 0; size_idx < size_used.size(); size_idx++)
+    {
+        size_used[size_idx] = false;
+    }
 
     std::vector<std::string> disabled_devices_list;
 
@@ -296,8 +316,6 @@ void ResourceManager::DetectDevicesThreadFunction()
     }
 
     infile.close();
-
-    ProfileManager profile_manager(rgb_controllers);
 
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
@@ -341,6 +359,14 @@ void ResourceManager::DetectDevicesThreadFunction()
         \*-------------------------------------------------*/
         if(rgb_controllers_hw.size() != prev_count)
         {
+            /*-------------------------------------------------*\
+            | First, load sizes for the new controllers         |
+            \*-------------------------------------------------*/
+            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            {
+                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+            }
+
             DeviceListChanged();
         }
         prev_count = rgb_controllers_hw.size();
@@ -379,6 +405,14 @@ void ResourceManager::DetectDevicesThreadFunction()
         \*-------------------------------------------------*/
         if(rgb_controllers_hw.size() != prev_count)
         {
+            /*-------------------------------------------------*\
+            | First, load sizes for the new controllers         |
+            \*-------------------------------------------------*/
+            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            {
+                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+            }
+
             DeviceListChanged();
         }
         prev_count = rgb_controllers_hw.size();
@@ -387,8 +421,6 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         detection_percent = percent * 100.0f;
     }
-
-    profile_manager.LoadSizeFromProfile("sizes.ors");
 
     /*-------------------------------------------------*\
     | Make sure that when the detection is done,        |

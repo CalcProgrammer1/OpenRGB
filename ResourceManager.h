@@ -20,6 +20,7 @@
 #include "i2c_smbus.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
+#include "ProfileManager.h"
 #include "RGBController.h"
 
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
@@ -56,6 +57,8 @@ public:
     std::vector<NetworkClient*>&    GetClients();
     NetworkServer*                  GetServer();
 
+    ProfileManager*                 GetProfileManager();
+
     void DeviceListChanged();
     void DetectionProgressChanged();
 
@@ -73,6 +76,11 @@ private:
     static std::unique_ptr<ResourceManager>     instance;
 
     /*-------------------------------------------------------------------------------------*\
+    | Profile Manager                                                                       |
+    \*-------------------------------------------------------------------------------------*/
+    ProfileManager*                             profile_manager;
+
+    /*-------------------------------------------------------------------------------------*\
     | I2C/SMBus Interfaces                                                                  |
     \*-------------------------------------------------------------------------------------*/
     std::vector<i2c_smbus_interface*>           busses;
@@ -80,6 +88,7 @@ private:
     /*-------------------------------------------------------------------------------------*\
     | RGBControllers                                                                        |
     \*-------------------------------------------------------------------------------------*/
+    std::vector<RGBController*>                 rgb_controllers_sizes;
     std::vector<RGBController*>                 rgb_controllers_hw;
     std::vector<RGBController*>                 rgb_controllers;
 

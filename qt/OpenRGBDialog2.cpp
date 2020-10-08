@@ -76,7 +76,7 @@ static void UpdateDetectionProgressCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
 }
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
@@ -487,6 +487,8 @@ void OpenRGBDialog2::UpdateDevicesList()
 
 void OpenRGBDialog2::UpdateProfileList()
 {
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
     if(profile_manager != NULL)
     {
         /*-----------------------------------------------------*\
@@ -594,6 +596,8 @@ void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, un
 
 void OpenRGBDialog2::on_SaveSizeProfile()
 {
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
     if(profile_manager != NULL)
     {
         /*---------------------------------------------------------*\
@@ -617,6 +621,8 @@ void OpenRGBDialog2::on_ShowHide()
 
 void Ui::OpenRGBDialog2::on_ProfileSelected()
 {
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
     if(profile_manager != NULL)
     {
         /*---------------------------------------------------------*\
@@ -640,6 +646,7 @@ void Ui::OpenRGBDialog2::on_ProfileSelected()
 void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
 {
     OpenRGBProfileSaveDialog dialog;
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
     if(profile_manager != NULL)
     {
@@ -665,6 +672,8 @@ void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
 
 void Ui::OpenRGBDialog2::on_ButtonLoadProfile_clicked()
 {
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
     if(profile_manager != NULL)
     {
         /*---------------------------------------------------------*\
@@ -687,6 +696,8 @@ void Ui::OpenRGBDialog2::on_ButtonLoadProfile_clicked()
 
 void Ui::OpenRGBDialog2::on_ButtonDeleteProfile_clicked()
 {
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
     if(profile_manager != NULL)
     {
         /*---------------------------------------------------------*\
