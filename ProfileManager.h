@@ -14,8 +14,17 @@ public:
     void DeleteProfile(std::string profile_name);
 
     std::vector<std::string> profile_list;
-    
-    std::vector<RGBController*> ProfileManager::LoadProfileToList
+
+    void LoadDeviceFromListWithOptions
+        (
+        std::vector<RGBController*>&    temp_controllers,
+        std::vector<bool>&              temp_controller_used,
+        RGBController*                  load_controller,
+        bool                            load_size,
+        bool                            load_settings
+        );
+
+    std::vector<RGBController*> LoadProfileToList
         (
         std::string     profile_name
         );
