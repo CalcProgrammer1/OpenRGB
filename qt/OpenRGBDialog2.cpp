@@ -766,16 +766,16 @@ void Ui::OpenRGBDialog2::SetDetectionViewState(bool detection_showing)
         /*---------------------------------------------------------*\
         | Show the detection progress and hide the normal buttons   |
         \*---------------------------------------------------------*/
-        ui->DetectionProgressBar->setVisible(true);
-        ui->DetectionProgressLabel->setVisible(true);
-        ui->ButtonStopDetection->setVisible(true);
-
         ui->ButtonToggleDeviceView->setVisible(false);
         ui->ButtonRescan->setVisible(false);
         ui->ButtonLoadProfile->setVisible(false);
         ui->ButtonSaveProfile->setVisible(false);
         ui->ButtonDeleteProfile->setVisible(false);
         ui->ProfileBox->setVisible(false);
+
+        ui->DetectionProgressBar->setVisible(true);
+        ui->DetectionProgressLabel->setVisible(true);
+        ui->ButtonStopDetection->setVisible(true);
     }
     else
     {
