@@ -15,7 +15,7 @@ public:
 
     std::vector<std::string> profile_list;
 
-    void LoadDeviceFromListWithOptions
+    bool LoadDeviceFromListWithOptions
         (
         std::vector<RGBController*>&    temp_controllers,
         std::vector<bool>&              temp_controller_used,

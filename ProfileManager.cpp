@@ -145,7 +145,7 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
     return(temp_controllers);
 }
 
-void ProfileManager::LoadDeviceFromListWithOptions
+bool ProfileManager::LoadDeviceFromListWithOptions
     (
     std::vector<RGBController*>&    temp_controllers,
     std::vector<bool>&              temp_controller_used,
@@ -240,10 +240,12 @@ void ProfileManager::LoadDeviceFromListWithOptions
 
                 temp_controller_used[temp_index] = true;
 
-                break;
+                return(true);
             }
         }
     }
+
+    return(false);
 }
 
 bool ProfileManager::LoadProfileWithOptions
@@ -280,7 +282,10 @@ bool ProfileManager::LoadProfileWithOptions
     \*---------------------------------------------------------*/
     for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
     {
-        LoadDeviceFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings);
+        if(LoadDeviceFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings))
+        {
+            ret_val = true;
+        }
     }
 
     /*---------------------------------------------------------*\
