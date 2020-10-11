@@ -29,7 +29,7 @@ enum
 enum
 {
     TECKNET_MODE_OFF            = 0xFF,                     //LEDs Off
-    TECKNET_MODE_STATIC         = 0x00,                     //Static Mode
+    TECKNET_MODE_DIRECT         = 0x00,                     //Direct Mode
     TECKNET_MODE_BREATHING      = 0x01,                     //Breathing Mode
 };
 
