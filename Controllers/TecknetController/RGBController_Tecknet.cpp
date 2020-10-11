@@ -20,15 +20,15 @@ RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
     serial      = Tecknet_dev->GetSerial();
     location    = Tecknet_dev->GetLocation();
 
-    mode Static;
-    Static.name                     = "Static";
-    Static.value                    = TECKNET_MODE_STATIC;
-    Static.flags                    = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Static.color_mode               = MODE_COLORS_PER_LED;
-    Static.speed_min                = TECKNET_SPEED_OFF;
-    Static.speed_max                = TECKNET_SPEED_OFF;
-    Static.speed                    = TECKNET_SPEED_OFF;
-    modes.push_back(Static);
+    mode Direct;
+    Direct.name                     = "Direct";
+    Direct.value                    = TECKNET_MODE_DIRECT;
+    Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode               = MODE_COLORS_PER_LED;
+    Direct.speed_min                = TECKNET_SPEED_OFF;
+    Direct.speed_max                = TECKNET_SPEED_OFF;
+    Direct.speed                    = TECKNET_SPEED_OFF;
+    modes.push_back(Direct);
 
     mode Off;
     Off.name                        = "Off";
