@@ -11,13 +11,13 @@
 
 static unsigned char tecknet_colour_mode_data[][16] =
 {
-    { 0x02, 0x04, 0x00, 0x00, 0x00, 0x03, 0x00 },           // Static
+    { 0x02, 0x04, 0x00, 0x00, 0x00, 0x03, 0x00 },           // Direct
     { 0x02, 0x04, 0x00, 0x00, 0x00, 0x03, 0x00 },           // Breathing
 };
 
 static unsigned char tecknet_speed_mode_data[][9] =
 {
-    { 0x00, 0x00, 0x00, 0x00 },                             // Static
+    { 0x00, 0x00, 0x00, 0x00 },                             // Direct
     { 0x00, 0x06, 0x03, 0x01 },                             // Breathing
 };
 
@@ -42,7 +42,7 @@ TecknetController::TecknetController(hid_device* dev_handle, char *_path)
 
     location = _path;
 
-    current_mode        = TECKNET_MODE_STATIC;
+    current_mode        = TECKNET_MODE_DIRECT;
     current_speed       = TECKNET_SPEED_NORMAL;
     current_brightness  = TECKNET_BRIGHTNESS_HIGH;
 }
