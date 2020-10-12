@@ -21,6 +21,11 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     devices = device_list;
 
+    if(devices.size() == 1)
+    {
+        name    = devices[0].name;
+    }
+    
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0;
