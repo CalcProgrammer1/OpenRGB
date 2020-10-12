@@ -149,6 +149,7 @@ HEADERS +=                                                                      
     Controllers/AuraGPUController/RGBController_AuraGPU.h                                       \
     Controllers/AuraSMBusController/AuraSMBusController.h                                       \
     Controllers/AuraSMBusController/RGBController_AuraSMBus.h                                   \
+    Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
     Controllers/CoolerMasterController/CMMP750Controller.h                                      \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.h                        \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.h         \
@@ -317,6 +318,7 @@ SOURCES +=                                                                      
     Controllers/AuraSMBusController/AuraSMBusController.cpp                                     \
     Controllers/AuraSMBusController/AuraSMBusControllerDetect.cpp                               \
     Controllers/AuraSMBusController/RGBController_AuraSMBus.cpp                                 \
+    Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.cpp                      \

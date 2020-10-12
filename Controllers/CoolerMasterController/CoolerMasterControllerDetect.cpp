@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "CMMP750Controller.h"
+#include "CMARGBcontroller.h"
 #include "RGBController.h"
 #include "RGBController_CMMP750Controller.h"
 #include <hidapi/hidapi.h>
@@ -8,19 +9,21 @@
 
 #define COOLERMASTER_MP750_XL_PID       0x0109
 #define COOLERMASTER_MP750_MEDIUM_PID   0x0105
+#define COOLERMASTER_ARGB_PID           0x1011
 
 #define COOLERMASTER_NUM_DEVICES (sizeof(cm_pids) / sizeof(cm_pids[ 0 ]))
 
 enum
 {
-    CM_PID = 0,
-    CM_INTERFACE = 1
+    CM_PID          = 0,
+    CM_INTERFACE    = 1
 };
 
 static const unsigned int cm_pids[][4] =
-{  // PID,      Interface
-    { COOLERMASTER_MP750_XL_PID,        0x00 },     //Coolermaster MP750 (Extra Large)
-    { COOLERMASTER_MP750_MEDIUM_PID,    0x00 }      //Coolermaster MP750 (Medium)
+{  // PID,                              Interface   Type
+    { COOLERMASTER_MP750_XL_PID,        0x00,       DEVICE_TYPE_MOUSEMAT    },    //Coolermaster MP750 (Extra Large)
+    { COOLERMASTER_MP750_MEDIUM_PID,    0x00,       DEVICE_TYPE_MOUSEMAT    },    //Coolermaster MP750 (Medium)
+    { COOLERMASTER_ARGB_PID,            0x01,       DEVICE_TYPE_LEDSTRIP    }     //Coolermaster ARGB Controller
 };
 
 /******************************************************************************************\
@@ -57,13 +60,21 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
 
         if(dev)
         {
-            CMMP750Controller* controller                   = new CMMP750Controller(dev, info->manufacturer_string, info->product_string, info->path);
-            RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
-            rgb_controllers.push_back(rgb_controller);
+            if (dev_type == DEVICE_TYPE_MOUSEMAT)
+            {
+                CMMP750Controller* controller                   = new CMMP750Controller(dev, info->manufacturer_string, info->product_string, info->path);
+                RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
+                rgb_controllers.push_back(rgb_controller);
+            }
+            else if(dev_type == DEVICE_TYPE_LEDSTRIP)
+            {
+                //Add controllers here
+            }
         }
         info = info->next;
     }
     hid_free_enumeration(info);
+
 }   /* DetectCoolerMasterControllers() */
 
 REGISTER_DETECTOR("Cooler Master", DetectCoolerMasterControllers);
