@@ -97,8 +97,12 @@ MSIRGBController::MSIRGBController(int sioaddr)
             break;
         }
     }
-
     superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_CFG_3, ff_val);
+    
+    /*-----------------------------------------------------------*\
+    | This seems to be related to some rainbow mode. Deactivated  |
+    \*-----------------------------------------------------------*/
+    superio_outb(msi_sioaddr, 0xFD, 0x00);
 }
 
 MSIRGBController::~MSIRGBController()
