@@ -76,7 +76,7 @@ MSIRGBController::MSIRGBController(int sioaddr)
 
     if((enable & MSI_SIO_RGB_ENABLE_MASK) != MSI_SIO_RGB_ENABLE_MASK)
     {
-        superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_ENABLE, MSI_SIO_RGB_ENABLE_MASK & (enable & !MSI_SIO_RGB_ENABLE_MASK));
+        superio_outb(msi_sioaddr, MSI_SIO_RGB_REG_ENABLE, 0xE0);
     }
 
     /*-----------------------------------------------------*\
