@@ -28,7 +28,7 @@
 *   DetectE131Controllers                                                                  *
 *                                                                                          *
 *       Detect devices supported by the E131 driver                                        *
-*                                                                                          *                                                                                          *
+*                                                                                          *
 \******************************************************************************************/
 
 void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
@@ -38,8 +38,8 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
     std::ifstream infile;
     char arg1[64];
 
+    std::vector<std::vector<E131Device>> device_lists; 
 	E131Device dev;
-    std::vector<E131Device> devices;
 	
     bool new_device = false;
 
@@ -205,17 +205,60 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
                     }
                     else if(strcmp(argument, "e131_device_end") == 0)
                     {
-                        devices.push_back(dev);
+                        /*---------------------------------------------------------*\
+                        | Determine whether to create a new list or add this device |
+                        | to an existing list.  A device is added to an existing    |
+                        | list if both devices share one or more universes for the  |
+                        | same output destination                                   |
+                        \*---------------------------------------------------------*/
+                        bool device_added_to_existing_list = false;
+
+                        for(unsigned int list_idx = 0; list_idx < device_lists.size(); list_idx++)
+                        {
+                            for(unsigned int device_idx = 0; device_idx < device_lists[list_idx].size(); device_idx++)
+                            {
+                                /*---------------------------------------------------------*\
+                                | Check if any universes used by this new device exist in   |
+                                | the existing device.  If so, add the new device to the    |
+                                | existing list.                                            |
+                                \*---------------------------------------------------------*/
+                                if(dev.start_universe == device_lists[list_idx][device_idx].start_universe)
+                                {
+                                    device_lists[list_idx].push_back(dev);
+                                    device_added_to_existing_list = true;
+                                    break;
+                                }
+                            }
+
+                            if(device_added_to_existing_list)
+                            {
+                                break;
+                            }
+                        }
+
+                        /*---------------------------------------------------------*\
+                        | If the device did not overlap with existing devices,      |
+                        | create a new list for it                                  |
+                        \*---------------------------------------------------------*/
+                        if(!device_added_to_existing_list)
+                        {
+                            std::vector<E131Device> new_list;
+
+                            new_list.push_back(dev);
+
+                            device_lists.push_back(new_list);
+                        }
                     }
                 }
             }
         }
 
-        if(devices.size() > 0)
-            {
-            new_controller = new RGBController_E131(devices);
-            rgb_controllers.push_back(new_controller);
-            }
+        for(unsigned int list_idx = 0; list_idx < device_lists.size(); list_idx++)
+        {
+            RGBController_E131* rgb_controller;
+            rgb_controller = new RGBController_E131(device_lists[list_idx]);
+            rgb_controllers.push_back(rgb_controller);
+        }
     }
 
 }   /* DetectE131Controllers() */
