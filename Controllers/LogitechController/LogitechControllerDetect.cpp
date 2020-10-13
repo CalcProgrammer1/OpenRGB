@@ -4,6 +4,7 @@
 #include "LogitechG403Controller.h"
 #include "LogitechG502PSController.h"
 #include "LogitechG810Controller.h"
+#include "LogitechG213Controller.h"
 #include "LogitechGProWirelessController.h"
 #include "LogitechGPowerPlayController.h"
 #include "RGBController.h"
@@ -12,6 +13,7 @@
 #include "RGBController_LogitechG403.h"
 #include "RGBController_LogitechG502PS.h"
 #include "RGBController_LogitechG810.h"
+#include "RGBController_LogitechG213.h"
 #include "RGBController_LogitechGProWireless.h"
 #include "RGBController_LogitechGPowerPlay.h"
 #include <vector>
@@ -28,6 +30,7 @@
 #define LOGITECH_G810_2_PID                     0xC331
 #define LOGITECH_G512_PID                       0xC342
 #define LOGITECH_G512_RGB_PID                   0xC33C
+#define LOGITECH_G213_PID                       0xC336
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
@@ -61,6 +64,7 @@ static const logitech_device device_list[] =
     { LOGITECH_VID,             LOGITECH_G810_2_PID,                    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"                      },
     { LOGITECH_VID,             LOGITECH_G512_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512"                                     },
     { LOGITECH_VID,             LOGITECH_G512_RGB_PID,                  1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512 RGB"                                 },
+    { LOGITECH_VID,             LOGITECH_G213_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G213"                                     },
     /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
     | Mice                                                                                                                                              |
     \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -119,37 +123,77 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                         if(dev_usage_0x0602)
                         {
 #ifdef USE_HID_USAGE
-                            hid_device_info* tmp_info_0x0604 = info;
-
-                            while(tmp_info_0x0604)
+                            switch(device_list[device_idx].usb_pid)
                             {
-                                if((tmp_info_0x0604->vendor_id == device_list[device_idx].usb_vid)
-                                &&(tmp_info_0x0604->product_id == device_list[device_idx].usb_pid)
-                                &&(tmp_info_0x0604->interface_number == device_list[device_idx].usb_interface)
-                                &&(tmp_info_0x0604->usage_page == 0xFF43)
-                                &&(tmp_info_0x0604->usage == 0x0604))
+                            case LOGITECH_G810_1_PID:
+                            case LOGITECH_G810_2_PID:
                                 {
-                                    hid_device* dev_usage_0x0604 = hid_open_path(tmp_info_0x0604->path);
+                                    hid_device_info* tmp_info_0x0604 = info;
 
-                                    if(dev_usage_0x0604)
+                                    while(tmp_info_0x0604)
                                     {
-                                        LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0604);
+                                        if((tmp_info_0x0604->vendor_id == device_list[device_idx].usb_vid)
+                                        &&(tmp_info_0x0604->product_id == device_list[device_idx].usb_pid)
+                                        &&(tmp_info_0x0604->interface_number == device_list[device_idx].usb_interface)
+                                        &&(tmp_info_0x0604->usage_page == 0xFF43)
+                                        &&(tmp_info_0x0604->usage == 0x0604))
+                                        {
+                                            hid_device* dev_usage_0x0604 = hid_open_path(tmp_info_0x0604->path);
 
-                                        RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
+                                            if(dev_usage_0x0604)
+                                            {
+                                                LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0604);
 
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
+                                                RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
+
+                                                rgb_controller->name = device_list[device_idx].name;
+                                                rgb_controllers.push_back(rgb_controller);
+                                            }
+                                        }
+                                        tmp_info_0x0604 = tmp_info_0x0604->next;
                                     }
                                 }
-                                tmp_info_0x0604 = tmp_info_0x0604->next;
+                                break;
+
+                            case LOGITECH_G213_PID:
+                                {
+                                    LogitechG213Controller* controller = new LogitechG213Controller(dev_usage_0x0602);
+
+                                    RGBController_LogitechG213* rgb_controller = new RGBController_LogitechG213(controller);
+
+                                    rgb_controller->name = device_list[device_idx].name;
+                                    rgb_controllers.push_back(rgb_controller);
+                                }
+                                break;
+
                             }
 #else
-                            LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0602);
+                            switch(device_list[device_idx].usb_pid)
+                            {
+                            case LOGITECH_G810_1_PID:
+                            case LOGITECH_G810_2_PID:
+                                {
+                                    LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0602);
 
-                            RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
+                                    RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
 
-                            rgb_controller->name = device_list[device_idx].name;
-                            rgb_controllers.push_back(rgb_controller);
+                                    rgb_controller->name = device_list[device_idx].name;
+                                    rgb_controllers.push_back(rgb_controller);
+                                }
+                                break;
+
+                            case LOGITECH_G213_PID:
+                                {
+                                    LogitechG213Controller* controller = new LogitechG213Controller(dev_usage_0x0602);
+
+                                    RGBController_LogitechG213* rgb_controller = new RGBController_LogitechG213(controller);
+
+                                    rgb_controller->name = device_list[device_idx].name;
+                                    rgb_controllers.push_back(rgb_controller);
+                                }
+                                break;
+                            }
+
 #endif
                         }
                     }
