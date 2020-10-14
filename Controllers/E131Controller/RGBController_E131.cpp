@@ -15,17 +15,90 @@ using namespace std::chrono_literals;
 
 RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 {
-    name        = "E1.31 Streaming ACN Device";
-    type        = DEVICE_TYPE_LEDSTRIP;
-    description = "E1.31 Streaming ACN Device";
-
     devices = device_list;
 
+    name        = "E1.31 Device Group";
+    type        = DEVICE_TYPE_LEDSTRIP;
+    description = "E1.31 Streaming ACN Device";
+    location    = "E1.31: ";
+
+    /*-----------------------------------------*\
+    | If this controller only represents a      |
+    | single device, use the device name for the|
+    | controller name                           |
+    \*-----------------------------------------*/
     if(devices.size() == 1)
     {
         name    = devices[0].name;
     }
-    
+
+    /*-----------------------------------------*\
+    | Append the destination address to the     |
+    | location field (multicast only for now)   |
+    \*-----------------------------------------*/
+    location   += "Multicast, ";
+
+    /*-----------------------------------------*\
+    | Calculate universe list                   |
+    | Use this to fill in the location field    |
+    \*-----------------------------------------*/
+    std::vector<unsigned int> universe_list;
+
+    for(unsigned int device_idx = 0; device_idx < devices.size(); device_idx++)
+    {
+        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
+
+        for(unsigned int univ_idx = 0; univ_idx < total_universes; univ_idx++)
+        {
+            bool found = false;
+
+            for(unsigned int univ_list_idx = 0; univ_list_idx < universe_list.size(); univ_list_idx++)
+            {
+                if((devices[device_idx].start_universe + univ_idx) == universe_list[univ_list_idx])
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found)
+            {
+                universe_list.push_back(devices[device_idx].start_universe + univ_idx);
+            }
+        }
+    }
+
+    /*-----------------------------------------*\
+    | Append "Universe" and make plural if there|
+    | are multiple universes in use             |
+    \*-----------------------------------------*/
+    location   += "Universe";
+
+    if(universe_list.size() > 1)
+    {
+        location += "s ";
+    }
+    else
+    {
+        location += " ";
+    }
+
+    /*-----------------------------------------*\
+    | Append comma separated list of universes  |
+    \*-----------------------------------------*/
+    for(unsigned int univ_list_idx = 0; univ_list_idx < universe_list.size(); univ_list_idx++)
+    {
+        location += std::to_string(universe_list[univ_list_idx]);
+        
+        if(univ_list_idx < (universe_list.size() - 1))
+        {
+            location += ", ";
+        }
+    }
+
+    /*-----------------------------------------*\
+    | Set up modes                              |
+    \*-----------------------------------------*/
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0;
@@ -33,6 +106,9 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    /*-----------------------------------------*\
+    | Create E1.31 socket                       |
+    \*-----------------------------------------*/
     sockfd = e131_socket();
     
     keepalive_delay = 0ms;
