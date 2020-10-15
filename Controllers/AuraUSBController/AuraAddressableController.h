@@ -23,7 +23,7 @@ enum
 class AuraAddressableController : public AuraUSBController
 {
 public:
-    AuraAddressableController(hid_device* dev_handle);
+    AuraAddressableController(hid_device* dev_handle, const char* path);
     ~AuraAddressableController();
 
     void SetChannelLEDs

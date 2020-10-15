@@ -10,7 +10,7 @@
 #include "AuraMainboardController.h"
 #include <cstring>
 
-AuraMainboardController::AuraMainboardController(hid_device* dev_handle) : AuraUSBController(dev_handle), mode(AURA_MODE_DIRECT)
+AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path), mode(AURA_MODE_DIRECT)
 {
     /*-----------------------------------------------------*\
     | Add mainboard device                                  |

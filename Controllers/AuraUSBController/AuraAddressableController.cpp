@@ -10,7 +10,7 @@
 #include "AuraAddressableController.h"
 #include <cstring>
 
-AuraAddressableController::AuraAddressableController(hid_device* dev_handle) : AuraUSBController(dev_handle)
+AuraAddressableController::AuraAddressableController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path)
 {
     /*-----------------------------------------------------*\
     | Add addressable devices                               |

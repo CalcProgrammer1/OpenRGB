@@ -25,7 +25,7 @@ enum
 class AuraMainboardController : public AuraUSBController
 {
 public:
-    AuraMainboardController(hid_device* dev_handle);
+    AuraMainboardController(hid_device* dev_handle, const char* path);
     ~AuraMainboardController();
 
     void SetChannelLEDs

@@ -69,7 +69,7 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
 
                 if(dev)
                 {
-                    AuraAddressableController* controller = new AuraAddressableController(dev);
+                    AuraAddressableController* controller = new AuraAddressableController(dev, info->path);
                     RGBController_AuraUSB* rgb_controller = new RGBController_AuraUSB(controller);
                     rgb_controllers.push_back(rgb_controller);
                 }
@@ -99,7 +99,7 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
                 {
                     try
                     {
-                        AuraMainboardController* controller = new AuraMainboardController(dev);
+                        AuraMainboardController* controller = new AuraMainboardController(dev, info->path);
                         RGBController_AuraUSB* rgb_controller = new RGBController_AuraUSB(controller);
                         rgb_controllers.push_back(rgb_controller);
                     }

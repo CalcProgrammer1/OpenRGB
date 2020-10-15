@@ -59,11 +59,12 @@ struct AuraDeviceInfo
 class AuraUSBController
 {
 public:
-    AuraUSBController(hid_device* dev_handle);
+    AuraUSBController(hid_device* dev_handle, const char* path);
     virtual ~AuraUSBController();
 
     unsigned int GetChannelCount();
 
+    std::string GetDeviceLocation();
     std::string GetDeviceName();
 
     const std::vector<AuraDeviceInfo>& GetAuraDevices() const;
@@ -88,6 +89,7 @@ protected:
     hid_device*                 dev;
     unsigned char               config_table[60];
     std::vector<AuraDeviceInfo> device_info;
+    std::string                 location;
 
     void SendDirect
         (

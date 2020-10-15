@@ -11,9 +11,10 @@
 #include <cstring>
 #include <stdexcept>
 
-AuraUSBController::AuraUSBController(hid_device* dev_handle)
+AuraUSBController::AuraUSBController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 
     GetFirmwareVersion();
     GetConfigTable();
@@ -27,6 +28,11 @@ AuraUSBController::~AuraUSBController()
 unsigned int AuraUSBController::GetChannelCount()
 {
     return(device_info.size());
+}
+
+std::string AuraUSBController::GetDeviceLocation()
+{
+    return(location);
 }
 
 std::string AuraUSBController::GetDeviceName()
