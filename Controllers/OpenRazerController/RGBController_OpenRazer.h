@@ -94,6 +94,22 @@ private:
     std::ofstream scroll_matrix_effect_spectrum;
     std::ofstream scroll_matrix_effect_reactive;
 
+    std::ofstream left_led_brightness;
+    std::ofstream left_matrix_effect_none;
+    std::ofstream left_matrix_effect_static;
+    std::ofstream left_matrix_effect_breath;
+    std::ofstream left_matrix_effect_spectrum;
+    std::ofstream left_matrix_effect_reactive;
+    std::ofstream left_matrix_effect_wave;
+
+    std::ofstream right_led_brightness;
+    std::ofstream right_matrix_effect_none;
+    std::ofstream right_matrix_effect_static;
+    std::ofstream right_matrix_effect_breath;
+    std::ofstream right_matrix_effect_spectrum;
+    std::ofstream right_matrix_effect_reactive;
+    std::ofstream right_matrix_effect_wave;
+
     std::ofstream backlight_led_effect;
     std::ofstream backlight_led_rgb;
     std::ofstream backlight_led_state;
