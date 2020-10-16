@@ -70,6 +70,7 @@
 #define MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV       0x3728
 #define MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV     0x3717
 #define MSI_RTX3080_GAMING_X_TRIO_SUB_DEV       0x3892
+#define MSI_RTX2070_GAMING_Z_SUB_DEV            0x3732
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |
