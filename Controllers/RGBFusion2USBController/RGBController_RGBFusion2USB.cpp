@@ -17,6 +17,7 @@ static const MBName MBName2Layout
     {"B550 AORUS ELITE", "STD_ATX"},
     {"X570 AORUS PRO WIFI", "STD_ATX"},
     {"X570 AORUS ULTRA", "STD_ATX"},
+    {"B550I AORUS PRO AX", "ITX"},
     {"X570 I AORUS PRO WIFI", "ITX"}
 };
 
