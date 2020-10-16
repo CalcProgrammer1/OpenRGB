@@ -6,7 +6,7 @@
 |  Chris M (Dr_No)          10th Oct 2020                             |
 |                                                                     |
 |  Simple RGB device with 5 modes                                     |
-|  BYTE0 = Mode (0x01 thru 0x05                                       |
+|  BYTE0 = Mode 0x01 thru 0x05                                        |
 |  BYTE1 = ?? Must be set to 0x04 for colour modes otherwise ignored  |
 |  BYTE2 = Colour Modes: RED    else Cycle SPEED                      |
 |  BYTE3 = Colour Modes: GREEN  else ignored                          |
@@ -22,9 +22,10 @@
 #pragma once
 
 #define CM_ARGB_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data[0]) / sizeof(colour_mode_data[0][0]))
+#define CM_ARGB_HEADER_DATA_SIZE (sizeof(argb_header_data) / sizeof(argb_headers) )
 #define CM_ARGB_INTERRUPT_TIMEOUT 250
 #define CM_ARGB_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
-#define CM_ARGB_SERIAL_SIZE (sizeof(serial) / sizeof(serial[ 0 ]))
+//#define CM_ARGB_SERIAL_SIZE (sizeof(serial) / sizeof(serial[ 0 ]))
 #define HID_MAX_STR 255
 
 enum
@@ -35,6 +36,22 @@ enum
     CM_ARGB_ZONE_BYTE           = 3,
     CM_ARGB_COLOUR_INDEX_BYTE	= 5,
     CM_ARGB_SPEED_BYTE          = 6
+};
+
+struct argb_headers
+{
+    const char*     name;
+    unsigned char   header;
+    unsigned int    count;
+};
+
+static argb_headers argb_header_data[5] =
+{
+    { "RGB Header",     0xFF, 1 },
+    { "Digital ARGB1",  0x01, 0 },
+    { "Digital ARGB2",  0x02, 0 },
+    { "Digital ARGB3",  0x04, 0 },
+    { "Digital ARGB4",  0x08, 0 }
 };
 
 // ARGB Modes
@@ -84,13 +101,14 @@ enum
 class CMARGBController
 {
 public:
-    CMARGBController(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path);
+    CMARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx);
     ~CMARGBController();
 
-    char* GetDeviceName();
-    char* GetSerial();
+    std::string GetDeviceName();
+    std::string GetSerial();
     std::string GetLocation();
 
+    unsigned char GetZoneIndex();
     unsigned char GetMode();
     unsigned char GetLedRed();
     unsigned char GetLedGreen();
@@ -100,11 +118,12 @@ public:
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    char                    device_name[32];
-    char                    serial[32];
+    std::string             device_name;
+    std::string             serial;
     std::string             location;
     hid_device*             dev;
 
+    unsigned char           zone_index;
     unsigned char           current_mode;
     unsigned char           current_speed;
 
@@ -112,8 +131,8 @@ private:
     unsigned char           current_green;
     unsigned char           current_blue;
 
-    unsigned char GetLargestColour(unsigned char red, unsigned char green, unsigned char blue);
+    unsigned int GetLargestColour(unsigned int red, unsigned int green, unsigned int blue);
     unsigned char GetColourIndex(unsigned char red, unsigned char green, unsigned char blue);
     void GetStatus();
-    void SendUpdate(unsigned char zone);
+    void SendUpdate();
 };

@@ -23,20 +23,26 @@ static unsigned char argb_mode_data[2][9] =
     { 0x0A, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09 }     //5v ARGB Mode values
 };
 
-CMARGBController::CMARGBController(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path)
+CMARGBController::CMARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx)
 {
-    std::size_t tmp_size    = wcslen(_vendor);
+    const int szTemp = 256;
+    wchar_t tmpName[szTemp];
+
     dev                     = dev_handle;
     location                = _path;
+    zone_index              = _zone_idx;
 
-    for(std::size_t i = 0; (i < tmp_size) && (i < CM_ARGB_DEVICE_NAME_SIZE); i++)
-    {
-        device_name[i] = (char)_vendor[i];
-    }
-    for(std::size_t j = 0; (j < wcslen(_vendor)) && (tmp_size + j < CM_ARGB_DEVICE_NAME_SIZE); j++)
-    {
-        device_name[tmp_size + j] = (char)_device_name[j];
-    }
+    hid_get_manufacturer_string(dev, tmpName, szTemp);
+    std::wstring wName = std::wstring(tmpName);
+    device_name = std::string(wName.begin(), wName.end());
+
+    hid_get_product_string(dev, tmpName, szTemp);
+    wName = std::wstring(tmpName);
+    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+
+    hid_get_serial_number_string(dev, tmpName, szTemp);
+    wName = std::wstring(tmpName);
+    serial = std::string(wName.begin(), wName.end());
 }
 
 CMARGBController::~CMARGBController()
@@ -44,12 +50,12 @@ CMARGBController::~CMARGBController()
     hid_close(dev);
 }
 
-char* CMARGBController::GetDeviceName()
+std::string CMARGBController::GetDeviceName()
 {
     return device_name;
 }
 
-char* CMARGBController::GetSerial()
+std::string CMARGBController::GetSerial()
 {
     return serial;
 }
@@ -57,6 +63,11 @@ char* CMARGBController::GetSerial()
 std::string CMARGBController::GetLocation()
 {
     return location;
+}
+
+unsigned char CMARGBController::GetZoneIndex()
+{
+    return zone_index;
 }
 
 unsigned char CMARGBController::GetMode()
@@ -84,9 +95,9 @@ unsigned char CMARGBController::GetLedSpeed()
     return current_speed;
 }
 
-unsigned char CMARGBController::GetLargestColour(unsigned char red, unsigned char green, unsigned char blue)
+unsigned int CMARGBController::GetLargestColour(unsigned int red, unsigned int green, unsigned int blue)
 {
-    unsigned char largest;
+    unsigned int largest;
     if ( red > green )
     {
         ( red > blue ) ? largest = red : largest = blue;
@@ -96,7 +107,7 @@ unsigned char CMARGBController::GetLargestColour(unsigned char red, unsigned cha
         ( green > blue ) ? largest = green : largest = blue;
     }
 
-    return largest;
+    return (largest == 0) ? 1 : largest;
 }
 
 unsigned char CMARGBController::GetColourIndex(unsigned char red, unsigned char green, unsigned char blue)
@@ -105,7 +116,7 @@ unsigned char CMARGBController::GetColourIndex(unsigned char red, unsigned char 
     //Starting at 0x00 Random, 0x01 Red, 0x02 Green, 0x03 Blue, 0x04 Yellow, 0x05 Purple, 0x06 Cyan, 0x07 White
     //The index can be calculated by normalising the input colour, rounding those values 
     //and using them as the indicies of a 3d array containing the correct index
-    unsigned char divisor   = GetLargestColour( red, green, blue);
+    unsigned int divisor    = GetLargestColour( red, green, blue);
     unsigned int r          = round( red / divisor )+1;
     unsigned int g          = round( green / divisor )+1;
     unsigned int b          = round( blue / divisor )+1;
@@ -129,7 +140,7 @@ void CMARGBController::SetColor(unsigned char red, unsigned char green, unsigned
     SendUpdate();
 }
 
-void CMARGBController::SendUpdate(unsigned char zone)
+void CMARGBController::SendUpdate()
 {
     unsigned char buffer[0x40]          = { 0x00 };
     int buffer_size                     = (sizeof(buffer) / sizeof(buffer[0]));
@@ -143,7 +154,7 @@ void CMARGBController::SendUpdate(unsigned char zone)
 
     buffer[CM_ARGB_COMMAND_BYTE]        = (boolARGB_header) ? 0x0b : 0x04; //ARGB sends 0x0b (1011) RGB sends 0x04 (0100)
     buffer[CM_ARGB_MODE_BYTE]           = current_mode;
-    buffer[CM_ARGB_ZONE_BYTE]           = zone;
+    buffer[CM_ARGB_ZONE_BYTE]           = argb_header_data[zone_index].header;
     buffer[CM_ARGB_COLOUR_INDEX_BYTE]   = GetColourIndex( current_red, current_green, current_blue );
     buffer[CM_ARGB_SPEED_BYTE]          = current_speed;
 

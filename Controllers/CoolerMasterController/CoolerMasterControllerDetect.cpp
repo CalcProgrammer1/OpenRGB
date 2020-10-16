@@ -3,6 +3,7 @@
 #include "CMARGBcontroller.h"
 #include "RGBController.h"
 #include "RGBController_CMMP750Controller.h"
+#include "RGBController_CMARGBController.h"
 #include <hidapi/hidapi.h>
 
 #define COOLERMASTER_VID                0x2516
@@ -68,7 +69,12 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
             }
             else if(dev_type == DEVICE_TYPE_LEDSTRIP)
             {
-                //Add controllers here
+                for(std::size_t i = 0; i < CM_ARGB_HEADER_DATA_SIZE; i++)
+                {
+                    CMARGBController* controller = new CMARGBController(dev, info->path, i);
+                    RGBController_CMARGBController* rgb_controller = new RGBController_CMARGBController(controller);
+                    rgb_controllers.push_back(rgb_controller);
+                }
             }
         }
         info = info->next;
