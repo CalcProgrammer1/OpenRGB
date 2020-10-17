@@ -195,7 +195,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
             type = device_list[i]->type;
 
             /*---------------------------------------------------------*\
-            | Initialize modes                                          |
+            | Device has Direct mode if matrix_custom_frame exists      |
             \*---------------------------------------------------------*/
             if(razer_functions->matrix_effect_custom)
             {
@@ -207,7 +207,18 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Direct);
             }
 
-            if(razer_functions->matrix_effect_none || razer_functions->logo_matrix_effect_none || razer_functions->scroll_matrix_effect_none /*|| razer_functions->backlight_led_state*/ || razer_functions->logo_led_state || razer_functions->scroll_led_state)
+            /*---------------------------------------------------------*\
+            | Device has Off mode if any _effect_none or any _state     |
+            | exists                                                    |
+            \*---------------------------------------------------------*/
+            if( razer_functions->matrix_effect_none
+             || razer_functions->logo_matrix_effect_none
+             || razer_functions->scroll_matrix_effect_none
+             || razer_functions->left_matrix_effect_none
+             || razer_functions->right_matrix_effect_none
+             /*|| razer_functions->backlight_led_state*/
+             || razer_functions->logo_led_state
+             || razer_functions->scroll_led_state)
             {
                 mode Off;
                 Off.name       = "Off";
@@ -217,7 +228,18 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Off);
             }
 
-            if(razer_functions->matrix_effect_static || razer_functions->logo_matrix_effect_static || razer_functions->scroll_matrix_effect_static /*|| razer_functions->backlight_led_effect*/ || razer_functions->logo_led_effect || razer_functions->scroll_led_effect)
+            /*---------------------------------------------------------*\
+            | Device has Static mode if any _effect_static or any       |
+            | _effect exists                                            |
+            \*---------------------------------------------------------*/
+            if( razer_functions->matrix_effect_static
+             || razer_functions->logo_matrix_effect_static
+             || razer_functions->scroll_matrix_effect_static
+             || razer_functions->left_matrix_effect_static
+             || razer_functions->right_matrix_effect_static
+           /*|| razer_functions->backlight_led_effect*/
+             || razer_functions->logo_led_effect
+             || razer_functions->scroll_led_effect)
             {
                 mode Static;
                 Static.name       = "Static";
@@ -230,7 +252,14 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Static);
             }
 
-            if(razer_functions->matrix_effect_breath || razer_functions->logo_matrix_effect_breath || razer_functions->scroll_matrix_effect_breath)
+            /*---------------------------------------------------------*\
+            | Device has Breathing mode if any _effect_breath exists    |
+            \*---------------------------------------------------------*/
+            if( razer_functions->matrix_effect_breath
+             || razer_functions->logo_matrix_effect_breath
+             || razer_functions->scroll_matrix_effect_breath
+             || razer_functions->left_matrix_effect_breath
+             || razer_functions->right_matrix_effect_breath)
             {
                 mode Breathing;
                 Breathing.name       = "Breathing";
@@ -243,7 +272,12 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Breathing);
             }
 
-            if(/*razer_functions->backlight_led_effect ||*/ razer_functions->logo_led_effect || razer_functions->scroll_led_effect)
+            /*---------------------------------------------------------*\
+            | Device has limited Breathing mode if any _effect exists   |
+            \*---------------------------------------------------------*/
+            if( /*razer_functions->backlight_led_effect ||*/
+                razer_functions->logo_led_effect
+             || razer_functions->scroll_led_effect)
             {
                 mode Breathing;
                 Breathing.name       = "Breathing";
@@ -256,7 +290,12 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Breathing);
             }
 
-            if(/*razer_functions->backlight_led_effect ||*/ razer_functions->logo_led_effect || razer_functions->scroll_led_effect)
+            /*---------------------------------------------------------*\
+            | Device has Flashing mode if any _effect exists            |
+            \*---------------------------------------------------------*/
+            if( /*razer_functions->backlight_led_effect ||*/
+                razer_functions->logo_led_effect
+             || razer_functions->scroll_led_effect)
             {
                 mode Flashing;
                 Flashing.name       = "Flashing";
@@ -269,7 +308,18 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Flashing);
             }
 
-            if(razer_functions->matrix_effect_spectrum || razer_functions->logo_matrix_effect_spectrum || razer_functions->scroll_matrix_effect_spectrum /*|| razer_functions->backlight_led_effect*/ || razer_functions->logo_led_effect || razer_functions->scroll_led_effect)
+            /*---------------------------------------------------------*\
+            | Device has Spectrum Cycle mode if any _effect_spectrum or |
+            | _effect exists                                            |
+            \*---------------------------------------------------------*/
+            if( razer_functions->matrix_effect_spectrum
+             || razer_functions->logo_matrix_effect_spectrum
+             || razer_functions->scroll_matrix_effect_spectrum
+             || razer_functions->left_matrix_effect_spectrum
+             || razer_functions->right_matrix_effect_spectrum
+           /*|| razer_functions->backlight_led_effect*/
+             || razer_functions->logo_led_effect
+             || razer_functions->scroll_led_effect)
             {
                 mode SpectrumCycle;
                 SpectrumCycle.name       = "Spectrum Cycle";
@@ -279,7 +329,12 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(SpectrumCycle);
             }
 
-            if(razer_functions->matrix_effect_wave)
+            /*---------------------------------------------------------*\
+            | Device has Wave mode if any _effect_wave exists           |
+            \*---------------------------------------------------------*/
+            if( razer_functions->matrix_effect_wave
+             || razer_functions->left_matrix_effect_wave
+             || razer_functions->right_matrix_effect_wave)
             {
                 mode Wave;
                 Wave.name       = "Wave";
@@ -290,7 +345,14 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
                 modes.push_back(Wave);
             }
 
-            if(razer_functions->matrix_effect_reactive || razer_functions->logo_matrix_effect_reactive || razer_functions->scroll_matrix_effect_reactive)
+            /*---------------------------------------------------------*\
+            | Device has Reactive mode if any _effect_reactive exists   |
+            \*---------------------------------------------------------*/
+            if( razer_functions->matrix_effect_reactive
+             || razer_functions->logo_matrix_effect_reactive
+             || razer_functions->scroll_matrix_effect_reactive
+             || razer_functions->left_matrix_effect_reactive
+             || razer_functions->right_matrix_effect_reactive)
             {
                 mode Reactive;
                 Reactive.name       = "Reactive";
