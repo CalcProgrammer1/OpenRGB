@@ -90,6 +90,34 @@ There have been two instances of hardware damage in OpenRGB's development and we
       - Copy the 60-openrgb.rules file to /etc/udev/rules.d/
       - Reload rules with `sudo udevadm control --reload-rules && sudo udevadm trigger`
 
+## Join Our Discord
+
+* https://discord.gg/AQwjJPY
+
+## Visit Our Subreddit
+
+* https://www.reddit.com/r/OpenRGB
+
+## How-Tos and FAQs
+
+* [Windows Setup and Usage](OpenRGB-Windows-Setup-and-Usage)
+* [Frequently Asked Questions](Frequently-Asked-Questions)
+
+## Support OpenRGB
+
+* OpenRGB is a project I created to solve a problem I had with the RGB ecosystem.  My goal isn't to make money off of this project.  That said, people have requested to donate, and donations allow me to buy more RGB stuff to reverse engineer.
+* [Donate via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4VPTFMD3G4QVG&item_name=OpenRGB+Development&currency_code=USD&source=url)
+* [Become a Patron](https://www.patreon.com/CalcProgrammer1) (I'm not doing any Patreon-exclusive content, it's purely for donation)
+* Donate via Bitcoin: 1N83YPu7btXYadPS1neB9zX7X1QTdpyZQ
+
+## History of OpenRGB
+
+* OpenRGB is a continuation of OpenAuraSDK, which itself was created out of reverse engineering work done on the Keyboard Visualizer project.  For a complete history of the RGB projects that led to OpenRGB's creation, see the [History page](History-of-OpenRGB).
+
+## Contributing
+
+* Want to contribute support for a new device?  Check out the [RGBController API](The-RGBController-API) page for documentation of how OpenRGB implements device control.
+
 ## OpenRGB SDK
 
 OpenRGB provides a network interface for controlling supported RGB devices from other software.  These projects implement the OpenRGB SDK and provide additional ways for you to control your lighting setup.
