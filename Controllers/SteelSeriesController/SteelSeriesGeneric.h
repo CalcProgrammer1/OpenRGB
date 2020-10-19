@@ -22,5 +22,6 @@ typedef enum
     SIBERIA_350 = 0x03,
     APEX		= 0x04,
     APEX_TKL	= 0x05,
+    APEX_M      = 0x06,
 } steelseries_type;
 

@@ -246,7 +246,9 @@ HEADERS +=                                                                      
     Controllers/SinowealthController/RGBController_Sinowealth.h                                 \
     Controllers/SonyDS4Controller/SonyDS4Controller.h                                           \
     Controllers/SonyDS4Controller/RGBController_SonyDS4.h                                       \
+    Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
+    Controllers/SteelSeriesController/SteelSeriesApexMController.h                              \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h                              \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h                            \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.h                           \
@@ -451,6 +453,7 @@ SOURCES +=                                                                      
     Controllers/SonyDS4Controller/SonyDS4ControllerDetect.cpp                                   \
     Controllers/SonyDS4Controller/RGBController_SonyDS4.cpp                                     \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
+    Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp                           \

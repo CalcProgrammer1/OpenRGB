@@ -261,7 +261,7 @@ static const char *led_names_tkl[] =
     "Key: \\",
 };
 
-RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexController* steelseries_ptr)
+RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBaseController* steelseries_ptr)
 {
     steelseries = steelseries_ptr;
 
@@ -309,7 +309,7 @@ void RGBController_SteelSeriesApex::SetupZones()
         new_zone.name                   = zone_names[zone_idx];
         new_zone.type                   = zone_types[zone_idx];
 
-        if(proto_type == APEX)
+        if((proto_type == APEX) || (proto_type == APEX_M))
         {
             new_zone.leds_min               = zone_sizes[zone_idx];
             new_zone.leds_max               = zone_sizes[zone_idx];
@@ -326,7 +326,7 @@ void RGBController_SteelSeriesApex::SetupZones()
         {
             new_zone.matrix_map         = new matrix_map_type;
             new_zone.matrix_map->height = 6;
-            if(proto_type == APEX)
+            if((proto_type == APEX) || (proto_type == APEX_M))
             {
                 new_zone.matrix_map->width  = 23;
                 new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
@@ -344,7 +344,7 @@ void RGBController_SteelSeriesApex::SetupZones()
 
         zones.push_back(new_zone);
 
-        if(proto_type == APEX)
+        if((proto_type == APEX) || (proto_type == APEX_M))
         {
             total_led_count += zone_sizes[zone_idx];
         }
@@ -357,7 +357,7 @@ void RGBController_SteelSeriesApex::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        if(proto_type == APEX)
+        if((proto_type == APEX) || (proto_type == APEX_M))
         {
             new_led.name = led_names[led_idx];
         }

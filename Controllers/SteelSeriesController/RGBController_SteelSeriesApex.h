@@ -11,13 +11,13 @@
 #include <chrono>
 
 #include "RGBController.h"
-#include "SteelSeriesApexController.h"
+#include "SteelSeriesApexBaseController.h"
 #include "SteelSeriesGeneric.h"
 
 class RGBController_SteelSeriesApex : public RGBController
 {
 public:
-    RGBController_SteelSeriesApex(SteelSeriesApexController* steelseries_ptr);
+    RGBController_SteelSeriesApex(SteelSeriesApexBaseController* steelseries_ptr);
     ~RGBController_SteelSeriesApex();
 
     void        SetupZones();
@@ -32,7 +32,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    SteelSeriesApexController*   steelseries;
+    SteelSeriesApexBaseController*   steelseries;
     steelseries_type             proto_type;
 
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;

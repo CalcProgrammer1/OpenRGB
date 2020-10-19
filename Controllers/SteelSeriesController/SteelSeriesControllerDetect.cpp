@@ -2,6 +2,7 @@
 #include "SteelSeriesRivalController.h"
 #include "SteelSeriesSiberiaController.h"
 #include "SteelSeriesApexController.h"
+#include "SteelSeriesApexMController.h"
 #include "SteelSeriesGeneric.h"
 #include "RGBController.h"
 #include "RGBController_SteelSeriesRival.h"
@@ -41,6 +42,7 @@
 #define STEELSERIES_APEX_7_TKL_PID                  0x1618
 #define STEELSERIES_APEX_PRO_PID                    0x1610
 #define STEELSERIES_APEX_PRO_TKL_PID                0x1614
+#define STEELSERIES_APEX_M750_PID                   0x0616
 
 typedef struct
 {
@@ -83,6 +85,7 @@ static const steelseries_device device_list[] =
     { STEELSERIES_VID,      STEELSERIES_APEX_7_TKL_PID,                 1,  DEVICE_TYPE_KEYBOARD,   APEX_TKL,       "SteelSeries Apex 7 TKL"                            },
     { STEELSERIES_VID,      STEELSERIES_APEX_PRO_PID,                   1,  DEVICE_TYPE_KEYBOARD,   APEX,           "SteelSeries Apex Pro"                              },
     { STEELSERIES_VID,      STEELSERIES_APEX_PRO_TKL_PID,               1,  DEVICE_TYPE_KEYBOARD,   APEX_TKL,       "SteelSeries Apex Pro TKL"                          },
+    { STEELSERIES_VID,      STEELSERIES_APEX_M750_PID,                  2,  DEVICE_TYPE_KEYBOARD,   APEX_M,         "SteelSeries Apex M750"                             },
 };
 
 /******************************************************************************************\
@@ -128,11 +131,22 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers)
             {
                 case DEVICE_TYPE_KEYBOARD:
                     {
-                    SteelSeriesApexController* controller = new SteelSeriesApexController(dev, device_list[device_idx].proto_type, info->path);
-                    
-                    RGBController_SteelSeriesApex* rgb_controller = new RGBController_SteelSeriesApex(controller);
-                    rgb_controller->name = device_list[device_idx].name;
-                    rgb_controllers.push_back(rgb_controller);
+                    if ((device_list[device_idx].proto_type == APEX) || (device_list[device_idx].proto_type == APEX_TKL)) {
+                        SteelSeriesApexController* controller = new SteelSeriesApexController(dev, device_list[device_idx].proto_type, info->path);
+
+                        RGBController_SteelSeriesApex* rgb_controller = new RGBController_SteelSeriesApex(controller);
+                        rgb_controller->name = device_list[device_idx].name;
+                        rgb_controllers.push_back(rgb_controller);
+                    }
+                    else
+                    {
+                        SteelSeriesApexMController* controller = new SteelSeriesApexMController(dev, device_list[device_idx].proto_type, info->path);
+
+                        RGBController_SteelSeriesApex* rgb_controller = new RGBController_SteelSeriesApex(controller);
+                        rgb_controller->name = device_list[device_idx].name;
+                        rgb_controllers.push_back(rgb_controller);
+                    }
+
                     }
                     break;
 

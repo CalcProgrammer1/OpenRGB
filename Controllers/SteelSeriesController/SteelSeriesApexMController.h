@@ -1,10 +1,10 @@
 /*-----------------------------------------*\
-|  SteelSeriesApexController.h              |
+|  SteelSeriesApexMController.h             |
 |                                           |
 |  Definitions and types for SteelSeries    |
-|  Apex 7 Keyboard lighting controller      |
+|  Apex M750 Keyboard lighting controller   |
 |                                           |
-|  Eric Samuelson (edbgon) 7/5/2020         |
+|  Florian Heilmann (FHeilmann) 12/10/2020  |
 \*-----------------------------------------*/
 
 #include "RGBController.h"
@@ -16,29 +16,25 @@
 
 #pragma once
 
-enum
-{
-    APEX_PACKET_ID_DIRECT             = 0x3a,     /* Direct mode                */
-};
-
-class SteelSeriesApexController : public SteelSeriesApexBaseController
+class SteelSeriesApexMController : public SteelSeriesApexBaseController
 {
 public:
-    SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path);
-    ~SteelSeriesApexController();
+    SteelSeriesApexMController(hid_device* dev_handle, steelseries_type type, const char* path);
+    ~SteelSeriesApexMController();
 
     void SetMode
-        (
+    (
         unsigned char mode,
         std::vector<RGBColor> colors
-        );
+    );
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
 
 private:
 
+    void EnableLEDControl();
     void    SelectProfile
-                (
-                unsigned char   profile
-                );
+    (
+        unsigned char   profile
+    );
 };

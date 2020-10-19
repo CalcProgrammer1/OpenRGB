@@ -43,11 +43,6 @@ SteelSeriesApexController::~SteelSeriesApexController()
 
 }
 
-std::string SteelSeriesApexController::GetDeviceLocation()
-{
-    return(location);
-}
-
 void SteelSeriesApexController::SetMode
     (
     unsigned char mode,
