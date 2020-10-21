@@ -33,9 +33,12 @@ std::string CorsairDominatorPlatinumController::GetDeviceName()
 
 std::string CorsairDominatorPlatinumController::GetDeviceLocation()
 {
-    char loc[128];
-    snprintf(loc, sizeof(loc), "%s, address 0x%02X", bus->device_name, dev);
-    return std::string(loc);
+    std::string return_string(bus->device_name);
+    char addr[5];
+    snprintf(addr, 5, "0x%02X", dev);
+    return_string.append(", address ");
+    return_string.append(addr);
+    return("I2C: " + return_string);
 }
 
 void CorsairDominatorPlatinumController::SetAllColors

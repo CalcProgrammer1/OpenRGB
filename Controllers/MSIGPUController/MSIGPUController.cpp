@@ -26,7 +26,7 @@ std::string MSIGPUController::GetDeviceLocation()
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");
     return_string.append(addr);
-    return(return_string);
+    return("I2C: " + return_string);
 }
 
 void MSIGPUController::SetRGB1(unsigned char red, unsigned char green, unsigned char blue)

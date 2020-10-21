@@ -40,7 +40,7 @@ std::string RGBFusion2SMBusController::GetDeviceLocation()
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");
     return_string.append(addr);
-    return(return_string);
+    return("I2C: " + return_string);
 }
 
 /* Writes are performed in 32 byte chunks. If we need to write the second 16 bytes,

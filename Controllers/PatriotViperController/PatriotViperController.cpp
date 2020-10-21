@@ -46,7 +46,7 @@ std::string PatriotViperController::GetDeviceLocation()
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");
     return_string.append(addr);
-    return(return_string);
+    return("I2C: " + return_string);
 }
 
 unsigned int PatriotViperController::GetLEDCount()
