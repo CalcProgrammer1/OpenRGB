@@ -9,9 +9,10 @@
 
 #define AURA_USB_VID                            0x0B05
 #define AURA_TERMINAL_PID                       0x1889
-#define AURA_PRODUCT_1_PID                      0x1867
-#define AURA_PRODUCT_2_PID                      0x1872
-#define AURA_PRODUCT_3_PID                      0x18A3
+#define AURA_ADDRESSABLE_1_PID                  0x1867
+#define AURA_ADDRESSABLE_2_PID                  0x1872
+#define AURA_ADDRESSABLE_3_PID                  0x18A3
+#define AURA_ADDRESSABLE_4_PID                  0x18A5
 #define AURA_MOTHERBOARD_1_PID                  0x18F3
 #define AURA_MOTHERBOARD_2_PID                  0x1939
 
@@ -30,9 +31,10 @@ static const aura_device addressable_device_list[] =
 | ASUS AURA Addressable                                                         |
 \*-----------------------------------------------------------------------------*/
     { AURA_USB_VID,     AURA_TERMINAL_PID,          "ASUS ROG AURA Terminal"    },
-    { AURA_USB_VID,     AURA_PRODUCT_1_PID,         "ASUS Aura Addressable"     },
-    { AURA_USB_VID,     AURA_PRODUCT_2_PID,         "ASUS Aura Addressable"     },
-    { AURA_USB_VID,     AURA_PRODUCT_3_PID,         "ASUS Aura Addressable"     },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_1_PID,     "ASUS Aura Addressable"     },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_2_PID,     "ASUS Aura Addressable"     },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_3_PID,     "ASUS Aura Addressable"     },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_4_PID,     "ASUS Aura Addressable"     },
 };
 
 #define MOTHERBOARD_NUM_DEVICES (sizeof(motherboard_device_list) / sizeof(motherboard_device_list[ 0 ]))
