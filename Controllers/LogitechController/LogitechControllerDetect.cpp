@@ -127,6 +127,8 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             {
                             case LOGITECH_G810_1_PID:
                             case LOGITECH_G810_2_PID:
+                            case LOGITECH_G512_PID:
+                            case LOGITECH_G512_RGB_PID:
                                 {
                                     hid_device_info* tmp_info_0x0604 = info;
 
@@ -172,6 +174,8 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             {
                             case LOGITECH_G810_1_PID:
                             case LOGITECH_G810_2_PID:
+                            case LOGITECH_G512_PID:
+                            case LOGITECH_G512_RGB_PID:                            
                                 {
                                     LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0602);
 
