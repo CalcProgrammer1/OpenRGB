@@ -106,17 +106,14 @@ void RGBController_PatriotViper::SetupZones()
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    for(unsigned int slot = 0; slot < viper->GetSlotCount(); slot++)
-    {
-        zone* new_zone = new zone;
-        new_zone->name          = "Patriot Viper RGB";
-        new_zone->type          = ZONE_TYPE_LINEAR;
-        new_zone->leds_min      = 5;
-        new_zone->leds_max      = 5;
-        new_zone->leds_count    = 5;
-        new_zone->matrix_map    = NULL;
-        zones.push_back(*new_zone);
-    }
+    zone* new_zone          = new zone;
+    new_zone->name          = "Patriot Viper RGB";
+    new_zone->type          = ZONE_TYPE_LINEAR;
+    new_zone->leds_min      = 5;
+    new_zone->leds_max      = 5;
+    new_zone->leds_count    = 5;
+    new_zone->matrix_map    = NULL;
+    zones.push_back(*new_zone);
 
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
