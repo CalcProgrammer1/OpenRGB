@@ -47,11 +47,19 @@ unsigned char EVGAGPUv2Controller::GetBlue()
 
 void EVGAGPUv2Controller::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
+    bus->i2c_smbus_write_byte_data(dev, 0x0E,                               0xE5);
+    bus->i2c_smbus_write_byte_data(dev, 0x0E,                               0xE9);
+    bus->i2c_smbus_write_byte_data(dev, 0x0E,                               0xF5);
+    bus->i2c_smbus_write_byte_data(dev, 0x0E,                               0xF9);
+    
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_RED,        red);
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_GREEN,      green);
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_BLUE,       blue);
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_BRIGHTNESS, 0x64);
+
     bus->i2c_smbus_write_byte_data(dev, 0x08,                               0x01);
+    bus->i2c_smbus_write_byte_data(dev, 0x0E,                               0xF0);
+    bus->i2c_smbus_write_byte_data(dev, 0x0E,                               0xE0);
 }
 
 void EVGAGPUv2Controller::SetMode(unsigned char mode)
