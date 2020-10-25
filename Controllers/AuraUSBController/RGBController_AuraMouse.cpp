@@ -46,13 +46,6 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* aura_ptr)
     Reactive.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Reactive);
 
-    mode Off;
-    Off.name       = "Off";
-    Off.value      = AURA_MOUSE_MODE_OFF;
-    Off.flags      = 0;
-    Off.color_mode = MODE_COLORS_NONE;
-    modes.push_back(Off);
-
     SetupZones();
 }
 

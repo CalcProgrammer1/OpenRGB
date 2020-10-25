@@ -17,8 +17,8 @@
 
 enum
 {
-    AURA_MOUSE_ZONE_SCROLL      = 0,
-    AURA_MOUSE_ZONE_LOGO        = 1,
+    AURA_MOUSE_ZONE_LOGO        = 0,
+    AURA_MOUSE_ZONE_SCROLL      = 1,
     AURA_MOUSE_ZONE_ALL         = 3,
 };
 
@@ -28,7 +28,6 @@ enum
     AURA_MOUSE_MODE_BREATHING   = 1,
     AURA_MOUSE_MODE_COLOR_CYCLE = 2,
     AURA_MOUSE_MODE_REACTIVE    = 3,
-    AURA_MOUSE_MODE_OFF         = 4,
 };
 
 class AuraMouseController
