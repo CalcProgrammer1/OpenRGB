@@ -56,8 +56,8 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
             snprintf(text, 11, "0x%08X", report.chip_id);
             chip_id = text;
 
-            D_LED1_count = report.total_leds & 0x0F;
-            D_LED2_count = report.total_leds & 0xF0;
+            D_LED1_count = LedCountToEnum(report.total_leds & 0x0F);
+            D_LED2_count = LedCountToEnum(report.total_leds & 0xF0);
         }
         loc = path;
 
