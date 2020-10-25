@@ -136,6 +136,8 @@ HEADERS +=                                                                      
     Controllers/AuraUSBController/AuraUSBController.h                                           \
     Controllers/AuraUSBController/AuraAddressableController.h                                   \
     Controllers/AuraUSBController/AuraMainboardController.h                                     \
+    Controllers/AuraUSBController/AuraMouseController.h                                         \
+    Controllers/AuraUSBController/RGBController_AuraMouse.h                                     \
     Controllers/AuraUSBController/RGBController_AuraUSB.h                                       \
     Controllers/AuraCoreController/AuraCoreController.h                                         \
     Controllers/AuraCoreController/RGBController_AuraCore.h                                     \
@@ -292,7 +294,9 @@ SOURCES +=                                                                      
     Controllers/AuraUSBController/AuraUSBController.cpp                                         \
     Controllers/AuraUSBController/AuraAddressableController.cpp                                 \
     Controllers/AuraUSBController/AuraMainboardController.cpp                                   \
+    Controllers/AuraUSBController/AuraMouseController.cpp                                       \
     Controllers/AuraUSBController/AuraUSBControllerDetect.cpp                                   \
+    Controllers/AuraUSBController/RGBController_AuraMouse.cpp                                   \
     Controllers/AuraUSBController/RGBController_AuraUSB.cpp                                     \
     Controllers/AuraCoreController/AuraCoreController.cpp                                       \
     Controllers/AuraCoreController/AuraCoreControllerDetect.cpp                                 \

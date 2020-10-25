@@ -1,8 +1,10 @@
 #include "Detector.h"
 #include "AuraAddressableController.h"
 #include "AuraMainboardController.h"
+#include "AuraMouseController.h"
 #include "RGBController.h"
 #include "RGBController_AuraUSB.h"
+#include "RGBController_AuraMouse.h"
 #include <vector>
 #include <stdexcept>
 #include <hidapi/hidapi.h>
@@ -15,7 +17,7 @@
 #define AURA_ADDRESSABLE_4_PID                  0x18A5
 #define AURA_MOTHERBOARD_1_PID                  0x18F3
 #define AURA_MOTHERBOARD_2_PID                  0x1939
-
+#define AURA_ROG_GLADIUS_II_CORE_PID            0x18DD
 typedef struct
 {
     unsigned short  usb_vid;
@@ -48,6 +50,12 @@ static const aura_device motherboard_device_list[] =
     { AURA_USB_VID,     AURA_MOTHERBOARD_2_PID,     "ASUS Aura Motherboard"     },
 };
 
+#define MOUSE_NUM_DEVICES (sizeof(mouse_device_list) / sizeof(mouse_device_list[ 0 ]))
+
+static const aura_device mouse_device_list[] =
+{
+    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_CORE_PID,   "ASUS ROG Gladius II Core"  },
+};
 
 void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
 {
@@ -73,6 +81,7 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
                 {
                     AuraAddressableController* controller = new AuraAddressableController(dev, info->path);
                     RGBController_AuraUSB* rgb_controller = new RGBController_AuraUSB(controller);
+                    rgb_controller->name = addressable_device_list[pid_idx].name;
                     rgb_controllers.push_back(rgb_controller);
                 }
             }
@@ -103,12 +112,40 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
                     {
                         AuraMainboardController* controller = new AuraMainboardController(dev, info->path);
                         RGBController_AuraUSB* rgb_controller = new RGBController_AuraUSB(controller);
+                        rgb_controller->name = motherboard_device_list[pid_idx].name;
                         rgb_controllers.push_back(rgb_controller);
                     }
                     catch(std::runtime_error&)
                     {
                         // reading the config table failed
                     }
+                }
+            }
+
+            info = info->next;
+        }
+    }
+
+    /*ASUS AURA Mouse*/
+    for(unsigned int pid_idx = 0; pid_idx < MOUSE_NUM_DEVICES; pid_idx++)
+    {
+        info = hid_enumerate(mouse_device_list[pid_idx].usb_vid, mouse_device_list[pid_idx].usb_pid);
+
+        while(info)
+        {
+            hid_device* dev = NULL;
+
+            if((info->vendor_id  == mouse_device_list[pid_idx].usb_vid)
+             &&(info->product_id == mouse_device_list[pid_idx].usb_pid))
+            {
+                dev = hid_open_path(info->path);
+
+                if(dev)
+                {
+                    AuraMouseController* controller = new AuraMouseController(dev, info->path);
+                    RGBController_AuraMouse* rgb_controller = new RGBController_AuraMouse(controller);
+                    rgb_controller->name = mouse_device_list[pid_idx].name;
+                    rgb_controllers.push_back(rgb_controller);
                 }
             }
 
