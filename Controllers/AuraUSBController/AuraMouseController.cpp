@@ -9,6 +9,8 @@
 
 #include "AuraMouseController.h"
 
+#include <cstring>
+
 AuraMouseController::AuraMouseController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
