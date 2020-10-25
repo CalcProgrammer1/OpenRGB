@@ -136,7 +136,13 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
             hid_device* dev = NULL;
 
             if((info->vendor_id  == mouse_device_list[pid_idx].usb_vid)
-             &&(info->product_id == mouse_device_list[pid_idx].usb_pid))
+             &&(info->product_id == mouse_device_list[pid_idx].usb_pid)
+#ifdef USE_HID_USAGE
+             &&(info->interface_number == 0 )
+             &&(info->usage_page == 0xFF01))
+#else
+             &&(info->interface_number == 0 ))
+#endif
             {
                 dev = hid_open_path(info->path);
 

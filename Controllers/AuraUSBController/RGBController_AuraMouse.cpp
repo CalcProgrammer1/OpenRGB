@@ -125,17 +125,17 @@ void RGBController_AuraMouse::UpdateSingleLED(int led)
     {
         if(led == 0)
         {
-            red = RGBGetRValue(modes[active_mode].colors[led]);
-            grn = RGBGetGValue(modes[active_mode].colors[led]);
-            blu = RGBGetBValue(modes[active_mode].colors[led]);
+            red = RGBGetRValue(colors[led]);
+            grn = RGBGetGValue(colors[led]);
+            blu = RGBGetBValue(colors[led]);
 
             aura->SendUpdate(AURA_MOUSE_ZONE_LOGO, modes[active_mode].value, red, grn, blu);
         }
         else
         {
-            red = RGBGetRValue(modes[active_mode].colors[led]);
-            grn = RGBGetGValue(modes[active_mode].colors[led]);
-            blu = RGBGetBValue(modes[active_mode].colors[led]);
+            red = RGBGetRValue(colors[led]);
+            grn = RGBGetGValue(colors[led]);
+            blu = RGBGetBValue(colors[led]);
 
             aura->SendUpdate(AURA_MOUSE_ZONE_SCROLL, modes[active_mode].value, red, grn, blu);
         }
@@ -148,7 +148,7 @@ void RGBController_AuraMouse::UpdateSingleLED(int led)
 
 void RGBController_AuraMouse::SetCustomMode()
 {
-
+    active_mode = 0;
 }
 
 void RGBController_AuraMouse::DeviceUpdateMode()
@@ -159,15 +159,15 @@ void RGBController_AuraMouse::DeviceUpdateMode()
 
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        red = RGBGetRValue(modes[active_mode].colors[0]);
-        grn = RGBGetGValue(modes[active_mode].colors[0]);
-        blu = RGBGetBValue(modes[active_mode].colors[0]);
+        red = RGBGetRValue(colors[0]);
+        grn = RGBGetGValue(colors[0]);
+        blu = RGBGetBValue(colors[0]);
 
         aura->SendUpdate(AURA_MOUSE_ZONE_LOGO, modes[active_mode].value, red, grn, blu);
 
-        red = RGBGetRValue(modes[active_mode].colors[1]);
-        grn = RGBGetGValue(modes[active_mode].colors[1]);
-        blu = RGBGetBValue(modes[active_mode].colors[1]);
+        red = RGBGetRValue(colors[1]);
+        grn = RGBGetGValue(colors[1]);
+        blu = RGBGetBValue(colors[1]);
 
         aura->SendUpdate(AURA_MOUSE_ZONE_SCROLL, modes[active_mode].value, red, grn, blu);
     }
