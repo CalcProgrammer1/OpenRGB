@@ -55,6 +55,9 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
 
             snprintf(text, 11, "0x%08X", report.chip_id);
             chip_id = text;
+
+            D_LED1_count = total_leds & 0x0F;
+            D_LED2_count = total_leds & 0xF0;
         }
         loc = path;
 
@@ -113,7 +116,7 @@ void RGBFusion2USBController::SetCalibration()
 
 void RGBFusion2USBController::SetLedCount(unsigned int led, unsigned int count)
 {
-    led == HDR_D_LED1_RGB ? D_LED1_count = LedCountToEnum(count) : D_LED1_count = LedCountToEnum(count);
+    led == HDR_D_LED1_RGB ? D_LED1_count = LedCountToEnum(count) : D_LED2_count = LedCountToEnum(count);
     SendPacket(0x34, D_LED1_count | (D_LED2_count << 4));
 }
 
