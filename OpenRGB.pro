@@ -75,6 +75,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXDRAMController/                                                           \
     Controllers/HyperXKeyboardController/                                                       \
     Controllers/HyperXMouseController/                                                          \
+    Controllers/HyperXMousematController/                                                       \
     Controllers/LEDStripController/                                                             \
     Controllers/LogitechController/                                                             \
     Controllers/MSI3ZoneController/                                                             \
@@ -186,6 +187,8 @@ HEADERS +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXKeyboard.h                         \
     Controllers/HyperXMouseController/HyperXPulsefireSurgeController.h                          \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireSurge.h                      \
+    Controllers/HyperXMousematController/HyperXMousematController.h                             \
+    Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
     Controllers/LogitechController/LogitechG203Controller.h                                     \
@@ -368,6 +371,9 @@ SOURCES +=                                                                      
     Controllers/HyperXMouseController/HyperXMouseControllerDetect.cpp                           \
     Controllers/HyperXMouseController/HyperXPulsefireSurgeController.cpp                        \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireSurge.cpp                    \
+    Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
+    Controllers/HyperXMousematController/HyperXMousematControllerDetect.cpp                     \
+    Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
