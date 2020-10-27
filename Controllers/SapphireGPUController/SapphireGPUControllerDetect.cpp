@@ -26,6 +26,32 @@ static const gpu_pci_device device_list[] =
 
 /******************************************************************************************\
 *                                                                                          *
+*   TestForSapphireGPUController                                                           *
+*                                                                                          *
+*       Tests the given address to see if an Sapphire controller exists there.  First      *
+*       does a quick write to test for a response                                          *
+*                                                                                          *
+\******************************************************************************************/
+
+bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char address)
+{
+    bool pass = false;
+    int res;
+
+    //Read a byte to test for presence
+    res = bus->i2c_smbus_read_byte(address);
+
+    if (res >= 0)
+    {
+        pass = true;
+    }
+
+    return(pass);
+
+}   /* TestForSapphireGPUController() */
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectSapphireGPUControllers                                                           *
 *                                                                                          *
 *       Detect Sapphire GPU controllers on the enumerated I2C busses at address 0x55.      *
@@ -49,10 +75,13 @@ void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface*>& busses, std
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
-                new_sapphire_gpu     = new SapphireGPUController(busses[bus], 0x55);
-                new_controller       = new RGBController_SapphireGPU(new_sapphire_gpu);
-                new_controller->name = device_list[dev_idx].name;
-                rgb_controllers.push_back(new_controller);
+                if(TestForSapphireGPUController(busses[bus], 0x55))
+                {
+                    new_sapphire_gpu     = new SapphireGPUController(busses[bus], 0x55);
+                    new_controller       = new RGBController_SapphireGPU(new_sapphire_gpu);
+                    new_controller->name = device_list[dev_idx].name;
+                    rgb_controllers.push_back(new_controller);
+                }
             }
         }
     }
