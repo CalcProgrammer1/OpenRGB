@@ -147,17 +147,25 @@ void CMARGBController::SendUpdate()
     bool boolARGB_header                = true;
     buffer[CM_ARGB_REPORT_BYTE]         = 0x80;
     buffer[CM_ARGB_COMMAND_BYTE]        = 0x01;
-    buffer[CM_ARGB_MODE_BYTE]           = 0x01;
+    buffer[CM_ARGB_FUNCTION_BYTE]       = 0x01;
 
     hid_write(dev, buffer, buffer_size);
-    hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT );
+    hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT);
 
-    buffer[CM_ARGB_COMMAND_BYTE]        = (boolARGB_header) ? 0x0b : 0x04; //ARGB sends 0x0b (1011) RGB sends 0x04 (0100)
-    buffer[CM_ARGB_MODE_BYTE]           = current_mode;
-    buffer[CM_ARGB_ZONE_BYTE]           = argb_header_data[zone_index].header;
-    buffer[CM_ARGB_COLOUR_INDEX_BYTE]   = GetColourIndex( current_red, current_green, current_blue );
-    buffer[CM_ARGB_SPEED_BYTE]          = current_speed;
+    if ( boolARGB_header )
+    {
+        buffer[CM_ARGB_COMMAND_BYTE]        = 0x0b; //ARGB sends 0x0b (1011) RGB sends 0x04 (0100)
+        buffer[CM_ARGB_FUNCTION_BYTE]       = (false) ? 0x01 : 0x02; //This controls custom mode TODO
+        buffer[CM_ARGB_ZONE_BYTE]           = argb_header_data[zone_index].header;
+        buffer[CM_ARGB_MODE_BYTE]           = argb_mode_data[1][current_mode];
+        buffer[CM_ARGB_COLOUR_INDEX_BYTE]   = GetColourIndex( current_red, current_green, current_blue );
+        buffer[CM_ARGB_SPEED_BYTE]          = current_speed;
+    }
+    else
+    {
+        //Todo: 12V Analogue Header
+    }
 
     hid_write(dev, buffer, buffer_size);
-    hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT );
+    hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT);
 }

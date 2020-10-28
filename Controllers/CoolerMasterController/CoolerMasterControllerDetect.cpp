@@ -24,7 +24,7 @@ static const unsigned int cm_pids[][4] =
 {  // PID,                              Interface   Type
     { COOLERMASTER_MP750_XL_PID,        0x00,       DEVICE_TYPE_MOUSEMAT    },    //Coolermaster MP750 (Extra Large)
     { COOLERMASTER_MP750_MEDIUM_PID,    0x00,       DEVICE_TYPE_MOUSEMAT    },    //Coolermaster MP750 (Medium)
-    { COOLERMASTER_ARGB_PID,            0x01,       DEVICE_TYPE_LEDSTRIP    }     //Coolermaster ARGB Controller
+    { COOLERMASTER_ARGB_PID,            0x00,       DEVICE_TYPE_LEDSTRIP    }     //Coolermaster ARGB Controller
 };
 
 /******************************************************************************************\

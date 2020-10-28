@@ -32,8 +32,9 @@ enum
 {
     CM_ARGB_REPORT_BYTE         = 0,
     CM_ARGB_COMMAND_BYTE        = 1,
-    CM_ARGB_MODE_BYTE           = 2,
+    CM_ARGB_FUNCTION_BYTE       = 2,
     CM_ARGB_ZONE_BYTE           = 3,
+    CM_ARGB_MODE_BYTE           = 4,
     CM_ARGB_COLOUR_INDEX_BYTE	= 5,
     CM_ARGB_SPEED_BYTE          = 6
 };
@@ -78,15 +79,15 @@ static argb_headers argb_header_data[5] =
 
 enum
 {
-    CM_ARGB_MODE_OFF            = 1,    //Turn off
-    CM_ARGB_MODE_SPECTRUM       = 2,    //Spectrum Mode
-    CM_ARGB_MODE_RELOAD         = 3,    //Reload Mode
-    CM_ARGB_MODE_RECOIL         = 4,    //Recoil Mode
-    CM_ARGB_MODE_BREATHING      = 5,    //Breathing Mode
-    CM_ARGB_MODE_REFILL         = 6,    //Refill Mode
-    CM_ARGB_MODE_DEMO           = 7,    //Demo Mode
-    CM_ARGB_MODE_FILLFLOW       = 8,    //Fill Flow Mode
-    CM_ARGB_MODE_RAINBOW        = 9     //Rainbow Mode
+    CM_ARGB_MODE_OFF            = 0,    //Turn off
+    CM_ARGB_MODE_SPECTRUM       = 1,    //Spectrum Mode
+    CM_ARGB_MODE_RELOAD         = 2,    //Reload Mode
+    CM_ARGB_MODE_RECOIL         = 3,    //Recoil Mode
+    CM_ARGB_MODE_BREATHING      = 4,    //Breathing Mode
+    CM_ARGB_MODE_REFILL         = 5,    //Refill Mode
+    CM_ARGB_MODE_DEMO           = 6,    //Demo Mode
+    CM_ARGB_MODE_FILLFLOW       = 7,    //Fill Flow Mode
+    CM_ARGB_MODE_RAINBOW        = 8     //Rainbow Mode
 };
 
 enum
