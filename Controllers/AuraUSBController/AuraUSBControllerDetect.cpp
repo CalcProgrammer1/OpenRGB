@@ -18,10 +18,13 @@
 #define AURA_MOTHERBOARD_1_PID                  0x18F3
 #define AURA_MOTHERBOARD_2_PID                  0x1939
 #define AURA_ROG_GLADIUS_II_CORE_PID            0x18DD
+#define AURA_ROG_GLADIUS_II_PID                 0x1845
+
 typedef struct
 {
     unsigned short  usb_vid;
     unsigned short  usb_pid;
+    unsigned short  usb_interface;
     const char *    name;
 } aura_device;
 
@@ -29,32 +32,33 @@ typedef struct
 
 static const aura_device addressable_device_list[] =
 {
-/*-----------------------------------------------------------------------------*\
-| ASUS AURA Addressable                                                         |
-\*-----------------------------------------------------------------------------*/
-    { AURA_USB_VID,     AURA_TERMINAL_PID,          "ASUS ROG AURA Terminal"    },
-    { AURA_USB_VID,     AURA_ADDRESSABLE_1_PID,     "ASUS Aura Addressable"     },
-    { AURA_USB_VID,     AURA_ADDRESSABLE_2_PID,     "ASUS Aura Addressable"     },
-    { AURA_USB_VID,     AURA_ADDRESSABLE_3_PID,     "ASUS Aura Addressable"     },
-    { AURA_USB_VID,     AURA_ADDRESSABLE_4_PID,     "ASUS Aura Addressable"     },
+/*---------------------------------------------------------------------------------*\
+| ASUS AURA Addressable                                                             |
+\*---------------------------------------------------------------------------------*/
+    { AURA_USB_VID,     AURA_TERMINAL_PID,          0,  "ASUS ROG AURA Terminal"    },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_1_PID,     0,  "ASUS Aura Addressable"     },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_2_PID,     0,  "ASUS Aura Addressable"     },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_3_PID,     0,  "ASUS Aura Addressable"     },
+    { AURA_USB_VID,     AURA_ADDRESSABLE_4_PID,     0,  "ASUS Aura Addressable"     },
 };
 
 #define MOTHERBOARD_NUM_DEVICES (sizeof(motherboard_device_list) / sizeof(motherboard_device_list[ 0 ]))
 
 static const aura_device motherboard_device_list[] =
 {
-/*-----------------------------------------------------------------------------*\
-| ASUS AURA Motherboard                                                         |
-\*-----------------------------------------------------------------------------*/
-    { AURA_USB_VID,     AURA_MOTHERBOARD_1_PID,     "ASUS Aura Motherboard"     },
-    { AURA_USB_VID,     AURA_MOTHERBOARD_2_PID,     "ASUS Aura Motherboard"     },
+/*---------------------------------------------------------------------------------*\
+| ASUS AURA Motherboard                                                             |
+\*---------------------------------------------------------------------------------*/
+    { AURA_USB_VID,     AURA_MOTHERBOARD_1_PID,     0,  "ASUS Aura Motherboard"     },
+    { AURA_USB_VID,     AURA_MOTHERBOARD_2_PID,     0,  "ASUS Aura Motherboard"     },
 };
 
 #define MOUSE_NUM_DEVICES (sizeof(mouse_device_list) / sizeof(mouse_device_list[ 0 ]))
 
 static const aura_device mouse_device_list[] =
 {
-    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_CORE_PID,   "ASUS ROG Gladius II Core"  },
+    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_CORE_PID,   0,  "ASUS ROG Gladius II Core"  },
+    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_PID,        2,  "ASUS ROG Gladius II"       },
 };
 
 void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
@@ -138,10 +142,10 @@ void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
             if((info->vendor_id  == mouse_device_list[pid_idx].usb_vid)
              &&(info->product_id == mouse_device_list[pid_idx].usb_pid)
 #ifdef USE_HID_USAGE
-             &&(info->interface_number == 0 )
+             &&(info->interface_number == mouse_device_list[pid_idx].usb_interface )
              &&(info->usage_page == 0xFF01))
 #else
-             &&(info->interface_number == 0 ))
+             &&(info->interface_number == mouse_device_list[pid_idx].usb_interface ))
 #endif
             {
                 dev = hid_open_path(info->path);

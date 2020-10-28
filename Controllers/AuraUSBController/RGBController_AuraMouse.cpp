@@ -90,6 +90,23 @@ void RGBController_AuraMouse::SetupZones()
 
     leds.push_back(scroll_led);
 
+    zone underglow_zone;
+
+    underglow_zone.name       = "Underglow";
+    underglow_zone.type       = ZONE_TYPE_SINGLE;
+    underglow_zone.leds_min   = 1;
+    underglow_zone.leds_max   = 1;
+    underglow_zone.leds_count = 1;
+    underglow_zone.matrix_map = NULL;
+
+    zones.push_back(underglow_zone);
+
+    led underglow_led;
+
+    underglow_led.name        = "Underglow";
+
+    leds.push_back(underglow_led);
+
     SetupColors();
 }
 
@@ -124,13 +141,21 @@ void RGBController_AuraMouse::UpdateSingleLED(int led)
 
             aura->SendUpdate(AURA_MOUSE_ZONE_LOGO, modes[active_mode].value, red, grn, blu);
         }
-        else
+        else if(led == 1)
         {
             red = RGBGetRValue(colors[led]);
             grn = RGBGetGValue(colors[led]);
             blu = RGBGetBValue(colors[led]);
 
             aura->SendUpdate(AURA_MOUSE_ZONE_SCROLL, modes[active_mode].value, red, grn, blu);
+        }
+        else
+        {
+            red = RGBGetRValue(colors[led]);
+            grn = RGBGetGValue(colors[led]);
+            blu = RGBGetBValue(colors[led]);
+
+            aura->SendUpdate(AURA_MOUSE_ZONE_UNDERGLOW, modes[active_mode].value, red, grn, blu);
         }
     }
     else
@@ -163,6 +188,12 @@ void RGBController_AuraMouse::DeviceUpdateMode()
         blu = RGBGetBValue(colors[1]);
 
         aura->SendUpdate(AURA_MOUSE_ZONE_SCROLL, modes[active_mode].value, red, grn, blu);
+
+        red = RGBGetRValue(colors[2]);
+        grn = RGBGetGValue(colors[2]);
+        blu = RGBGetBValue(colors[2]);
+
+        aura->SendUpdate(AURA_MOUSE_ZONE_UNDERGLOW, modes[active_mode].value, red, grn, blu);
     }
     else
     {

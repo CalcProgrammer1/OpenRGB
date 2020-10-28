@@ -19,6 +19,7 @@ enum
 {
     AURA_MOUSE_ZONE_LOGO        = 0,
     AURA_MOUSE_ZONE_SCROLL      = 1,
+    AURA_MOUSE_ZONE_UNDERGLOW   = 2,
     AURA_MOUSE_ZONE_ALL         = 3,
 };
 
