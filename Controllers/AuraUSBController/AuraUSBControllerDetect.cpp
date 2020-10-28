@@ -19,6 +19,7 @@
 #define AURA_MOTHERBOARD_2_PID                  0x1939
 #define AURA_ROG_GLADIUS_II_CORE_PID            0x18DD
 #define AURA_ROG_GLADIUS_II_PID                 0x1845
+#define AURA_ROG_GLADIUS_II_ORIGIN_PID          0x1877
 
 typedef struct
 {
@@ -57,8 +58,9 @@ static const aura_device motherboard_device_list[] =
 
 static const aura_device mouse_device_list[] =
 {
-    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_CORE_PID,   0,  "ASUS ROG Gladius II Core"  },
-    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_PID,        2,  "ASUS ROG Gladius II"       },
+    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_CORE_PID,   0,  "ASUS ROG Gladius II Core"      },
+    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_PID,        2,  "ASUS ROG Gladius II"           },
+    { AURA_USB_VID,     AURA_ROG_GLADIUS_II_ORIGIN_PID, 2,  "ASUS ROG Gladius II Origin"    },
 };
 
 void DetectAuraUSBControllers(std::vector<RGBController*>& rgb_controllers)
