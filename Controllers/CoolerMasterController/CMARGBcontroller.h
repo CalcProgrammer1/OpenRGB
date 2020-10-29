@@ -49,10 +49,10 @@ struct argb_headers
 static argb_headers argb_header_data[5] =
 {
     { "RGB Header",     0xFF, 1 },
-    { "Digital ARGB1",  0x01, 0 },
-    { "Digital ARGB2",  0x02, 0 },
-    { "Digital ARGB3",  0x04, 0 },
-    { "Digital ARGB4",  0x08, 0 }
+    { "Digital ARGB1",  0x01, 12 },
+    { "Digital ARGB2",  0x02, 12 },
+    { "Digital ARGB3",  0x04, 12 },
+    { "Digital ARGB4",  0x08, 12 }
 };
 
 // ARGB Modes
@@ -87,7 +87,9 @@ enum
     CM_ARGB_MODE_REFILL         = 5,    //Refill Mode
     CM_ARGB_MODE_DEMO           = 6,    //Demo Mode
     CM_ARGB_MODE_FILLFLOW       = 7,    //Fill Flow Mode
-    CM_ARGB_MODE_RAINBOW        = 8     //Rainbow Mode
+    CM_ARGB_MODE_RAINBOW        = 8,    //Rainbow Mode
+    CM_ARGB_MODE_DIRECT         = -1,   //Direct Led Control
+    CM_ARGB_MODE_PASSTHRU       = -2    //Motherboard Mode
 };
 
 enum

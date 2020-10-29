@@ -10,11 +10,11 @@
 #include "CMARGBcontroller.h"
 
 static unsigned char argb_colour_index_data[2][2][2] =
-{     //R0    R1
-    { { 0x00, 0x01 },    //G0 B0 
-      { 0x02, 0x04 }, }, //G1 B0
-    { { 0x03, 0x05 }, 	 //G0 B1
-      { 0x06, 0x07 }, }  //G1 B1
+{     //B0    B1
+    { { 0x00, 0x03 },    //G0 R0
+      { 0x02, 0x06 }, }, //G1 R0
+    { { 0x01, 0x05 }, 	 //G0 R1
+      { 0x04, 0x07 }, }  //G1 R1
 };
 
 static unsigned char argb_mode_data[2][9] =
@@ -31,6 +31,7 @@ CMARGBController::CMARGBController(hid_device* dev_handle, char *_path, unsigned
     dev                     = dev_handle;
     location                = _path;
     zone_index              = _zone_idx;
+    current_speed           = CM_ARGB_SPEED_NORMAL;
 
     hid_get_manufacturer_string(dev, tmpName, szTemp);
     std::wstring wName = std::wstring(tmpName);
@@ -117,10 +118,11 @@ unsigned char CMARGBController::GetColourIndex(unsigned char red, unsigned char 
     //The index can be calculated by normalising the input colour, rounding those values 
     //and using them as the indicies of a 3d array containing the correct index
     unsigned int divisor    = GetLargestColour( red, green, blue);
-    unsigned int r          = round( red / divisor )+1;
-    unsigned int g          = round( green / divisor )+1;
-    unsigned int b          = round( blue / divisor )+1;
-    return argb_colour_index_data[r][g][b];
+    unsigned int r          = round( red / divisor );
+    unsigned int g          = round( green / divisor );
+    unsigned int b          = round( blue / divisor );
+    unsigned char idx       = argb_colour_index_data[r][g][b];
+    return idx;
 }
 
 void CMARGBController::SetMode(unsigned char mode, unsigned char speed)
@@ -145,14 +147,15 @@ void CMARGBController::SendUpdate()
     unsigned char buffer[0x40]          = { 0x00 };
     int buffer_size                     = (sizeof(buffer) / sizeof(buffer[0]));
     bool boolARGB_header                = true;
+    bool boolPassthru                   = ( current_mode == CM_ARGB_MODE_PASSTHRU );
     buffer[CM_ARGB_REPORT_BYTE]         = 0x80;
     buffer[CM_ARGB_COMMAND_BYTE]        = 0x01;
-    buffer[CM_ARGB_FUNCTION_BYTE]       = 0x01;
+    buffer[CM_ARGB_FUNCTION_BYTE]       = boolPassthru ? 0x02 : 0x01;
 
     hid_write(dev, buffer, buffer_size);
     hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT);
 
-    if ( boolARGB_header )
+    if ( boolARGB_header & !boolPassthru )
     {
         buffer[CM_ARGB_COMMAND_BYTE]        = 0x0b; //ARGB sends 0x0b (1011) RGB sends 0x04 (0100)
         buffer[CM_ARGB_FUNCTION_BYTE]       = (false) ? 0x01 : 0x02; //This controls custom mode TODO
@@ -160,12 +163,13 @@ void CMARGBController::SendUpdate()
         buffer[CM_ARGB_MODE_BYTE]           = argb_mode_data[1][current_mode];
         buffer[CM_ARGB_COLOUR_INDEX_BYTE]   = GetColourIndex( current_red, current_green, current_blue );
         buffer[CM_ARGB_SPEED_BYTE]          = current_speed;
+
+        hid_write(dev, buffer, buffer_size);
+        hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT);
     }
     else
     {
         //Todo: 12V Analogue Header
     }
 
-    hid_write(dev, buffer, buffer_size);
-    hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT);
 }
