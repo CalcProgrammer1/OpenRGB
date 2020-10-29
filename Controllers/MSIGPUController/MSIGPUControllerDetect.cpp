@@ -29,7 +29,8 @@ typedef struct
 static const msi_gpu_pci_device device_list[] =
 {
     { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         MSI_SUB_VEN,    MSI_GTX1070_GAMING_X_SUB_DEV,           "MSI GeForce GTX 1070 Gaming X"                 },
-    { NVIDIA_VEN,   NVIDIA_GTX1660_DEV,         MSI_SUB_VEN,    MSI_GTX1660_GAMING_X_6G_SUB_DEV,        "MSI GeForce GTX 1660 GAMING X 6G"              },
+    { NVIDIA_VEN,   NVIDIA_GTX1660_DEV,         MSI_SUB_VEN,    MSI_GTX1660_GAMING_X_6G_SUB_DEV,        "MSI GeForce GTX 1660 Gaming X 6G"              },
+    { NVIDIA_VEN,   NVIDIA_GTX1660S_DEV,        MSI_SUB_VEN,    MSI_GTX1660S_GAMING_X_6G_SUB_DEV,       "MSI GeForce GTX 1660 Super Gaming X 6G"        },
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU104_DEV,   MSI_SUB_VEN,    MSI_RTX2060_GAMING_Z_6G_SUB_DEV,        "MSI GeForce RTX 2060 Gaming Z 6G"              },
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   MSI_SUB_VEN,    MSI_RTX2060_GAMING_Z_6G_SUB_DEV,        "MSI GeForce RTX 2060 Gaming Z 6G"              },
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   MSI_SUB_VEN,    MSI_RTX2060_GAMING_Z_6G_SUB_DEV_2,      "MSI GeForce RTX 2060 Gaming Z 6G"              },
