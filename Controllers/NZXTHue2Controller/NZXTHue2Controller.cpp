@@ -147,8 +147,16 @@ void NZXTHue2Controller::UpdateDeviceList()
                 num_leds_on_channel += 8;
                 break;
 
-            case 0x04: //Hue 2 strip
+            case 0x04: //Hue 2 strip (10 LEDs)
                 num_leds_on_channel += 10;
+                break;
+
+            case 0x05: //Hue 2 strip (8 LEDs)
+                num_leds_on_channel += 8;
+                break;
+            
+            case 0x06: //Hue 2 strip (6 LEDs)
+                num_leds_on_channel += 6;
                 break;
             
             case 0x0B: //Aer 2 fan (120mm)
