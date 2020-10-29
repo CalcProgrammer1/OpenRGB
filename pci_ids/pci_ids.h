@@ -43,10 +43,12 @@
 \*---------------------------------------------------------*/
 #define ASUS_SUB_VEN                            0x1043
 #define EVGA_SUB_VEN                            0x3842
+#define GALAX_SUB_VEN                           0x10DE
 #define GIGABYTE_SUB_VEN                        0x1458
 #define MSI_SUB_VEN                             0x1462
+#define PNY_SUB_VEN                             0x196E
 #define SAPPHIRE_SUB_VEN                        0x1DA2
-#define GALAX_SUB_VEN                           0x10DE
+#define ZOTAC_SUB_VEN                           0x19DA
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
