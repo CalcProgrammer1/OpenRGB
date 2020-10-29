@@ -3,9 +3,26 @@
 #include "RGBController.h"
 #include "RGBController_RGBFusionGPU.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+
+typedef struct
+{
+    int             pci_vendor;
+    int             pci_device;
+    int             pci_subsystem_vendor;
+    int             pci_subsystem_device;
+    const char *    name;
+} gpu_pci_device;
+
+#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const gpu_pci_device device_list[] =
+{
+    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_SUB_DEV,  "Gigabyte GTX1080Ti Xtreme Edition" },
+};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -72,12 +89,22 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Check for RGB Fusion controller at 0x47
-        if (TestForRGBFusionGPUController(busses[bus], 0x47))
+        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
-            new_rgb_fusion = new RGBFusionGPUController(busses[bus], 0x47);
-            new_controller = new RGBController_RGBFusionGPU(new_rgb_fusion);
-            rgb_controllers.push_back(new_controller);
+            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
+               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
+               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
+               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
+            {
+                // Check for RGB Fusion controller at 0x47
+                if (TestForRGBFusionGPUController(busses[bus], 0x47))
+                {
+                    new_rgb_fusion = new RGBFusionGPUController(busses[bus], 0x47);
+                    new_controller = new RGBController_RGBFusionGPU(new_rgb_fusion);
+                    new_controller->name = device_list[dev_idx].name;
+                    rgb_controllers.push_back(new_controller);
+                }
+            }
         }
     }
 
