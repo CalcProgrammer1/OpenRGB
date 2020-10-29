@@ -48,7 +48,7 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
             report = *reinterpret_cast<IT8297Report*>(buffer);
 
             description = std::string(report.str_product, 32);
-            //description.erase(std::find(description.begin(), description.end(), '\0'), name.end());
+            description.erase(std::find(description.begin(), description.end(), '\0'), description.end());
 
             snprintf(text, 11, "0x%08X", report.fw_ver);
             version = text;
