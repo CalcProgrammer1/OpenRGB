@@ -34,7 +34,7 @@ build_linux_32:
   artifacts:
     paths:
     - OpenRGB-i386.AppImage
-    expire_in: 1337 years
+    expire_in: 30 days
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 64-bit Build Target                                  #
@@ -50,7 +50,7 @@ build_linux_64:
   artifacts:
     paths:
     - OpenRGB-x86_64.AppImage
-    expire_in: 1337 years
+    expire_in: 30 days
   
 #-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #
@@ -122,7 +122,7 @@ build_windows_32:
   artifacts:
     paths:
     - _build/*.7z
-    expire_in: 1337 years
+    expire_in: 30 days
 
 #-----------------------------------------------------------------------#
 # Windows (64-bit) Build Target                                         #
@@ -194,4 +194,4 @@ build_windows_64:
   artifacts:
     paths:
     - _build/*.7z
-    expire_in: 1337 years
+    expire_in: 30 days
