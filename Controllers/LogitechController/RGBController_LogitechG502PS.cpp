@@ -16,6 +16,7 @@ RGBController_LogitechG502PS::RGBController_LogitechG502PS(LogitechG502PSControl
     name        = "Logitech Mouse Device";
     type        = DEVICE_TYPE_MOUSE;
     description = "Logitech Mouse Device";
+    location    = logitech->GetDeviceLocation();
 
     mode Static;
     Static.name       = "Static";

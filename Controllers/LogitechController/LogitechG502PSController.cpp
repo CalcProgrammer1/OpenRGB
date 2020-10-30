@@ -11,14 +11,20 @@
 
 #include <cstring>
 
-LogitechG502PSController::LogitechG502PSController(hid_device* dev_handle)
+LogitechG502PSController::LogitechG502PSController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 LogitechG502PSController::~LogitechG502PSController()
 {
     hid_close(dev);
+}
+
+std::string LogitechG502PSController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void LogitechG502PSController::SendMouseMode

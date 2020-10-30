@@ -11,9 +11,15 @@
 
 #include <cstring>
 
-LogitechG203Controller::LogitechG203Controller(hid_device* dev_handle)
+LogitechG203Controller::LogitechG203Controller(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
+}
+
+std::string LogitechG203Controller::GetDeviceLocation()
+{
+    return(location);
 }
 
 /*-------------------------------------------------------------------------------------------------*\

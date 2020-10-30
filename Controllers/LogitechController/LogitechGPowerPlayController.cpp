@@ -11,14 +11,20 @@
 
 #include <cstring>
 
-LogitechGPowerPlayController::LogitechGPowerPlayController(hid_device* dev_handle)
+LogitechGPowerPlayController::LogitechGPowerPlayController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 LogitechGPowerPlayController::~LogitechGPowerPlayController()
 {
     hid_close(dev);
+}
+
+std::string LogitechGPowerPlayController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void LogitechGPowerPlayController::SendMouseMatMode

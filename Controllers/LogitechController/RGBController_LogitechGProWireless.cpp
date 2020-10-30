@@ -16,6 +16,7 @@ RGBController_LogitechGProWireless::RGBController_LogitechGProWireless(LogitechG
     name        = "Logitech G Pro Wireless Gaming Mouse";
     type        = DEVICE_TYPE_MOUSE;
     description = "Logitech G Pro Wireless Gaming Mouse";
+    location    = logitech->GetDeviceLocation();
 
     mode Off;
     Off.name       = "Off";

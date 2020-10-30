@@ -11,14 +11,20 @@
 
 #include <cstring>
 
-LogitechG403Controller::LogitechG403Controller(hid_device* dev_handle)
+LogitechG403Controller::LogitechG403Controller(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 LogitechG403Controller::~LogitechG403Controller()
 {
     hid_close(dev);
+}
+
+std::string LogitechG403Controller::GetDeviceLocation()
+{
+    return(location);
 }
 
 void LogitechG403Controller::SendMouseMode

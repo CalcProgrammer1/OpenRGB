@@ -11,14 +11,20 @@
 
 #include <cstring>
 
-LogitechGProWirelessController::LogitechGProWirelessController(hid_device* dev_handle)
+LogitechGProWirelessController::LogitechGProWirelessController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 LogitechGProWirelessController::~LogitechGProWirelessController()
 {
     hid_close(dev);
+}
+
+std::string LogitechGProWirelessController::GetDeviceLocation()
+{
+    return(location);
 }
 
 void LogitechGProWirelessController::SendMouseMode

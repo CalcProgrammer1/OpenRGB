@@ -36,8 +36,10 @@ enum
 class LogitechGProWirelessController
 {
 public:
-    LogitechGProWirelessController(hid_device* dev_handle);
+    LogitechGProWirelessController(hid_device* dev_handle, const char* path);
     ~LogitechGProWirelessController();
+
+    std::string GetDeviceLocation();
 
     void        SendMouseMode
                    (
@@ -52,4 +54,5 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 };

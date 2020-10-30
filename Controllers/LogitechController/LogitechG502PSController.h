@@ -37,8 +37,10 @@ enum
 class LogitechG502PSController
 {
 public:
-    LogitechG502PSController(hid_device* dev_handle);
+    LogitechG502PSController(hid_device* dev_handle, const char* path);
     ~LogitechG502PSController();
+
+    std::string GetDeviceLocation();
 
     void        SendMouseMode
                    (
@@ -52,4 +54,5 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 };

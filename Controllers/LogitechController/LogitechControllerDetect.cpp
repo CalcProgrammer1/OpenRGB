@@ -234,7 +234,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             {
                             case LOGITECH_G203_PID:
                                 {
-                                    LogitechG203Controller* controller = new LogitechG203Controller(dev);
+                                    LogitechG203Controller* controller = new LogitechG203Controller(dev, info->path);
 
                                     RGBController_LogitechG203* rgb_controller = new RGBController_LogitechG203(controller);
 
@@ -245,7 +245,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
 
                             case LOGITECH_G203L_PID:
                                 {
-                                    LogitechG203LController* controller = new LogitechG203LController(dev);
+                                    LogitechG203LController* controller = new LogitechG203LController(dev, info->path);
 
                                     RGBController_LogitechG203L* rgb_controller = new RGBController_LogitechG203L(controller);
 
@@ -257,7 +257,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             case LOGITECH_G403_PID:
                             case LOGITECH_G403H_PID:
                                 {
-                                    LogitechG403Controller* controller = new LogitechG403Controller(dev);
+                                    LogitechG403Controller* controller = new LogitechG403Controller(dev, info->path);
 
                                     RGBController_LogitechG403* rgb_controller = new RGBController_LogitechG403(controller);
 
@@ -269,7 +269,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             case LOGITECH_G502_PS_PID:
                             case LOGITECH_G502H_PID:
                                 {
-                                    LogitechG502PSController* controller = new LogitechG502PSController(dev);
+                                    LogitechG502PSController* controller = new LogitechG502PSController(dev, info->path);
 
                                     RGBController_LogitechG502PS* rgb_controller = new RGBController_LogitechG502PS(controller);
 
@@ -281,7 +281,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             case LOGITECH_GPRO_WIRELESS_PID:
                             case LOGITECH_G_LIGHTSPEED_WIRELESS_PID:
                                 {
-                                    LogitechGProWirelessController* controller = new LogitechGProWirelessController(dev);
+                                    LogitechGProWirelessController* controller = new LogitechGProWirelessController(dev, info->path);
 
                                     RGBController_LogitechGProWireless* rgb_controller = new RGBController_LogitechGProWireless(controller);
 
@@ -292,7 +292,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             case LOGITECH_G_LIGHTSPEED_POWERPLAY_PID:
                                 {
                                     //Add mouse
-                                    LogitechGProWirelessController* mouse_controller = new LogitechGProWirelessController(dev);
+                                    LogitechGProWirelessController* mouse_controller = new LogitechGProWirelessController(dev, info->path);
 
                                     RGBController_LogitechGProWireless* mouse_rgb_controller = new RGBController_LogitechGProWireless(mouse_controller);
 
@@ -300,7 +300,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                                     rgb_controllers.push_back(mouse_rgb_controller);
                                     
                                     //Add Powerplay mousemat
-                                    LogitechGPowerPlayController* mousemat_controller = new LogitechGPowerPlayController(dev);
+                                    LogitechGPowerPlayController* mousemat_controller = new LogitechGPowerPlayController(dev, info->path);
 
                                     RGBController_LogitechGPowerPlay* mousemat_rgb_controller = new RGBController_LogitechGPowerPlay(mousemat_controller);
 

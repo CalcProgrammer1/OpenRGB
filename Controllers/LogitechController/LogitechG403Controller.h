@@ -36,8 +36,10 @@ enum
 class LogitechG403Controller
 {
 public:
-    LogitechG403Controller(hid_device* dev_handle);
+    LogitechG403Controller(hid_device* dev_handle, const char* path);
     ~LogitechG403Controller();
+
+    std::string GetDeviceLocation();
 
     void        SendMouseMode
                    (
@@ -51,4 +53,5 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 };

@@ -7,6 +7,7 @@ RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController
     name        = "Logitech Mouse Device";
     type        = DEVICE_TYPE_MOUSE;
     description = "Logitech Mouse Device";
+    location    = logitech->GetDeviceLocation();
 
     mode Direct;
     Direct.name             = "Direct";

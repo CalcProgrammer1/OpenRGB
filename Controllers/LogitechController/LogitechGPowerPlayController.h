@@ -36,8 +36,10 @@ enum
 class LogitechGPowerPlayController
 {
 public:
-    LogitechGPowerPlayController(hid_device* dev_handle);
+    LogitechGPowerPlayController(hid_device* dev_handle, const char* path);
     ~LogitechGPowerPlayController();
+
+    std::string GetDeviceLocation();
 
     void        SendMouseMatMode
                    (
@@ -52,4 +54,5 @@ public:
 
 private:
     hid_device*             dev;
+    std::string             location;
 };
