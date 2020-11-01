@@ -25,18 +25,17 @@
 #define CM_ARGB_HEADER_DATA_SIZE (sizeof(argb_header_data) / sizeof(argb_headers) )
 #define CM_ARGB_INTERRUPT_TIMEOUT 250
 #define CM_ARGB_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
-//#define CM_ARGB_SERIAL_SIZE (sizeof(serial) / sizeof(serial[ 0 ]))
 #define HID_MAX_STR 255
 
 enum
 {
-    CM_ARGB_REPORT_BYTE         = 0,
-    CM_ARGB_COMMAND_BYTE        = 1,
-    CM_ARGB_FUNCTION_BYTE       = 2,
-    CM_ARGB_ZONE_BYTE           = 3,
-    CM_ARGB_MODE_BYTE           = 4,
-    CM_ARGB_COLOUR_INDEX_BYTE	= 5,
-    CM_ARGB_SPEED_BYTE          = 6
+    CM_ARGB_REPORT_BYTE         = 1,
+    CM_ARGB_COMMAND_BYTE        = 2,
+    CM_ARGB_FUNCTION_BYTE       = 3,
+    CM_ARGB_ZONE_BYTE           = 4,
+    CM_ARGB_MODE_BYTE           = 5,
+    CM_ARGB_COLOUR_INDEX_BYTE	= 6,
+    CM_ARGB_SPEED_BYTE          = 7
 };
 
 struct argb_headers

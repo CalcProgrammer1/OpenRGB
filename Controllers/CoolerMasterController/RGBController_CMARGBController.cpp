@@ -27,16 +27,6 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
     Off.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Off);
 
-    mode Spectrum;
-    Spectrum.name           = "Spectrum";
-    Spectrum.value          = CM_ARGB_MODE_SPECTRUM;
-    Spectrum.flags          = MODE_FLAG_HAS_SPEED;
-    Spectrum.speed_min      = CM_ARGB_SPEED_SLOWEST;
-    Spectrum.speed_max      = CM_ARGB_SPEED_FASTEST;
-    Spectrum.color_mode     = MODE_COLORS_NONE;
-    Spectrum.speed          = speed;
-    modes.push_back(Spectrum);
-
     mode Reload;
     Reload.name             = "Reload";
     Reload.value            = CM_ARGB_MODE_RELOAD;
@@ -98,6 +88,16 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
     Demo.color_mode         = MODE_COLORS_NONE;
     Demo.speed              = speed;
     modes.push_back(Demo);
+
+    mode Spectrum;
+    Spectrum.name           = "Spectrum";
+    Spectrum.value          = CM_ARGB_MODE_SPECTRUM;
+    Spectrum.flags          = MODE_FLAG_HAS_SPEED;
+    Spectrum.speed_min      = CM_ARGB_SPEED_SLOWEST;
+    Spectrum.speed_max      = CM_ARGB_SPEED_FASTEST;
+    Spectrum.color_mode     = MODE_COLORS_NONE;
+    Spectrum.speed          = speed;
+    modes.push_back(Spectrum);
 
     mode FillFlow;
     FillFlow.name           = "Fill Flow";

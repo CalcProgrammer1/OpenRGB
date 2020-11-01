@@ -14,17 +14,20 @@
 
 #define COOLERMASTER_NUM_DEVICES (sizeof(cm_pids) / sizeof(cm_pids[ 0 ]))
 
-enum
+struct coolermaster_device
 {
-    CM_PID          = 0,
-    CM_INTERFACE    = 1
+    unsigned int    product_id;
+    unsigned short  interface;
+    unsigned int    usage_page;
+    unsigned int    usage;
+    device_type     type;
 };
 
-static const unsigned int cm_pids[][4] =
-{  // PID,                              Interface   Type
-    { COOLERMASTER_MP750_XL_PID,        0x00,       DEVICE_TYPE_MOUSEMAT    },    //Coolermaster MP750 (Extra Large)
-    { COOLERMASTER_MP750_MEDIUM_PID,    0x00,       DEVICE_TYPE_MOUSEMAT    },    //Coolermaster MP750 (Medium)
-    { COOLERMASTER_ARGB_PID,            0x00,       DEVICE_TYPE_LEDSTRIP    }     //Coolermaster ARGB Controller
+static const coolermaster_device cm_pids[] =
+{  // PID,                              Interface,  Usage_Page, Usage,  Device_Type
+    { COOLERMASTER_MP750_XL_PID,        0x00,       0xFF00,     0x01,   DEVICE_TYPE_MOUSEMAT  },    //Coolermaster MP750 (Extra Large)
+    { COOLERMASTER_MP750_MEDIUM_PID,    0x00,       0xFF00,     0x01,   DEVICE_TYPE_MOUSEMAT  },    //Coolermaster MP750 (Medium)
+    { COOLERMASTER_ARGB_PID,            0x00,       0xFF00,     0x01,   DEVICE_TYPE_LEDSTRIP  }     //Coolermaster ARGB Controller
 };
 
 /******************************************************************************************\
@@ -46,14 +49,22 @@ void DetectCoolerMasterControllers(std::vector<RGBController*>& rgb_controllers)
     while(info)
     {
         hid_device* dev = NULL;
+        device_type dev_type;
+
         if(info->vendor_id == COOLERMASTER_VID)
         {
             for(unsigned int cm_pid_idx = 0; cm_pid_idx < COOLERMASTER_NUM_DEVICES; cm_pid_idx++)
             {
-                if((info->product_id        == cm_pids[cm_pid_idx][CM_PID])
-                 &&(info->interface_number  == cm_pids[cm_pid_idx][CM_INTERFACE]))
+                if((info->product_id        == cm_pids[cm_pid_idx].product_id)
+#ifdef USE_HID_USAGE
+                    &&(info->usage             == cm_pids[cm_pid_idx].usage)     //Usage and usage page required to get the correct interface
+                    &&(info->usage_page        == cm_pids[cm_pid_idx].usage_page))
+#else
+                    &&(info->interface_number  == cm_pids[cm_pid_idx].interface))
+#endif  //USE_HID_USAGE
                 {
-                    dev = hid_open_path(info->path);
+                    dev         = hid_open_path(info->path);
+                    dev_type    = cm_pids[cm_pid_idx].type;
                     break;
                 }
             }

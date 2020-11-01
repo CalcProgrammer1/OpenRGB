@@ -153,9 +153,16 @@ void CMARGBController::SendUpdate()
     buffer[CM_ARGB_FUNCTION_BYTE]       = boolPassthru ? 0x02 : 0x01;
 
     hid_write(dev, buffer, buffer_size);
-    hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT);
+    //hid_read_timeout(dev, buffer, buffer_size, CM_ARGB_INTERRUPT_TIMEOUT);
 
-    if ( boolARGB_header & !boolPassthru )
+    if ( boolPassthru )
+    {
+        //If setting pass thru mode send the init packet again
+        hid_write(dev, buffer, buffer_size);
+        hid_write(dev, buffer, buffer_size);
+        hid_write(dev, buffer, buffer_size);
+    }
+    else if ( boolARGB_header )
     {
         buffer[CM_ARGB_COMMAND_BYTE]        = 0x0b; //ARGB sends 0x0b (1011) RGB sends 0x04 (0100)
         buffer[CM_ARGB_FUNCTION_BYTE]       = (false) ? 0x01 : 0x02; //This controls custom mode TODO
