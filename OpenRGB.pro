@@ -299,7 +299,6 @@ SOURCES +=                                                                      
     dependencies/hueplusplus/src/TimePattern.cpp                                                \
     dependencies/hueplusplus/src/UPnP.cpp                                                       \
     dependencies/hueplusplus/src/Utils.cpp                                                      \
-    dependencies/hueplusplus/src/WinHttpHandler.cpp                                             \
     dependencies/hueplusplus/src/ZLLSensors.cpp                                                 \
     dependencies/libe131/src/e131.c                                                             \
     main.cpp                                                                                    \
@@ -537,6 +536,7 @@ win32:INCLUDEPATH +=                                                            
 
 win32:SOURCES +=                                                                                \
 #   dependencies/hidapi/hidapi.c                                                                \
+    dependencies/hueplusplus/src/WinHttpHandler.cpp                                             \
     dependencies/NVFC/nvapi.cpp                                                                 \
     i2c_smbus/i2c_smbus_amdadl.cpp                                                              \
     i2c_smbus/i2c_smbus_i801.cpp                                                                \
@@ -669,6 +669,7 @@ unix:!macx {
     }
 
     SOURCES +=                                                                                  \
+    dependencies/hueplusplus/src/LinHttpHandler.cpp                                             \
     i2c_smbus/i2c_smbus_linux.cpp                                                               \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     Controllers/FaustusController/RGBController_Faustus.cpp                                     \

@@ -3,7 +3,12 @@
 #include "RGBController_PhilipsHue.h"
 #include "Bridge.h"
 #include "HueDeviceTypes.h"
+
+#ifdef _WIN32
 #include "WinHttpHandler.h"
+#else
+#include "LinHttpHandler.h"
+#endif
 
 #include <fstream>
 #include <iostream>
@@ -21,7 +26,11 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
     /*-------------------------------------------------*\
     | Create an HTTP handler                            |
     \*-------------------------------------------------*/
+#ifdef _WIN32
     std::shared_ptr<const hueplusplus::IHttpHandler> handler = std::make_shared<hueplusplus::WinHttpHandler>();
+#else
+    std::shared_ptr<const hueplusplus::IHttpHandler> handler = std::make_shared<hueplusplus::LinHttpHandler>();
+#endif
 
     /*-------------------------------------------------*\
     | Create a finder and find bridges                  |
