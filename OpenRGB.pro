@@ -272,7 +272,6 @@ HEADERS +=                                                                      
 SOURCES +=                                                                                      \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
-    dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/hueplusplus/src/APICache.cpp                                                   \
     dependencies/hueplusplus/src/BaseDevice.cpp                                                 \
     dependencies/hueplusplus/src/BaseHttpHandler.cpp                                            \
