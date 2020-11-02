@@ -6,12 +6,7 @@
 |  Chris M (Dr_No)          10th Oct 2020                             |
 |                                                                     |
 |  Simple RGB device with 5 modes                                     |
-|  BYTE0 = Mode 0x01 thru 0x05                                        |
-|  BYTE1 = ?? Must be set to 0x04 for colour modes otherwise ignored  |
-|  BYTE2 = Colour Modes: RED    else Cycle SPEED                      |
-|  BYTE3 = Colour Modes: GREEN  else ignored                          |
-|  BYTE4 = Colour Modes: BLUE   else ignored                          |
-|  BYTE5 = Colour Modes: SPEED  else ignored                          |
+|                                                                     |
 \*-------------------------------------------------------------------*/
 
 #include <string>
@@ -25,6 +20,7 @@
 #define CM_ARGB_HEADER_DATA_SIZE (sizeof(argb_header_data) / sizeof(argb_headers) )
 #define CM_ARGB_INTERRUPT_TIMEOUT 250
 #define CM_ARGB_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
+#define CM_RGB_OFFSET -2
 #define HID_MAX_STR 255
 
 enum
@@ -42,39 +38,28 @@ struct argb_headers
 {
     const char*     name;
     unsigned char   header;
+    bool            digital;
     unsigned int    count;
 };
 
-static argb_headers argb_header_data[5] =
+static argb_headers argb_header_data[6] =
 {
-    { "RGB Header",     0xFF, 1 },
-    { "Digital ARGB1",  0x01, 12 },
-    { "Digital ARGB2",  0x02, 12 },
-    { "Digital ARGB3",  0x04, 12 },
-    { "Digital ARGB4",  0x08, 12 }
+    { "RGB Header",         0xFF, false,  1 },
+    { "Digital ARGB1",      0x01, true,  12 },
+    { "Digital ARGB2",      0x02, true,  12 },
+    { "Digital ARGB3",      0x04, true,  12 },
+    { "Digital ARGB4",      0x08, true,  12 },
+    { "All Digital ARGB",   0xFF, true,  12 }
 };
 
-// ARGB Modes
-/*
- * 01 Spectrum  (random)
- * 02 Reload
- * 03 Recoil
- * 04 Breathing
- * 05 Refill
- * 06 Demo Mode (random)
- * 08 Fill Flow (random)
- * 09 Rainbow   (random)
- * 0a Turn Off
- */
-
-// RGB Modes
-/*
- * 01 Colour Cycle
- * 02 Flash
- * 03 Breathing
- * 04 Motherboard (Pass Thru)
- * 05 Turn Off
- */
+enum
+{
+    CM_RGB_MODE_OFF             = 0,    //Turn off
+    CM_RGB_MODE_COLOUR_CYCLE    = 1,    //Colour Cycle
+    CM_RGB_MODE_FLASH           = 2,    //Flash
+    CM_RGB_MODE_BREATHING       = 3,    //Breathing
+    CM_RGB_MODE_PASSTHRU        = 4     //Motherboard Pass Thru Mode
+};
 
 enum
 {
@@ -87,8 +72,8 @@ enum
     CM_ARGB_MODE_DEMO           = 6,    //Demo Mode
     CM_ARGB_MODE_FILLFLOW       = 7,    //Fill Flow Mode
     CM_ARGB_MODE_RAINBOW        = 8,    //Rainbow Mode
-    CM_ARGB_MODE_DIRECT         = -1,   //Direct Led Control
-    CM_ARGB_MODE_PASSTHRU       = -2    //Motherboard Mode
+    CM_ARGB_MODE_DIRECT         = 0xFE, //Direct Led Control
+    CM_ARGB_MODE_PASSTHRU       = 0xFF  //Motherboard Pass Thru Mode
 };
 
 enum
