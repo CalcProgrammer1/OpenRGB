@@ -35,10 +35,22 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
     \*-------------------------------------------------*/
     if(bridges.empty())
     {
-        hueplusplus::BridgeFinder::BridgeIdentification ident;
-        ident.ip = "192.168.3.242";
-        ident.mac = "00:17:88:0A:23:60";
-        bridges.push_back(ident);
+        std::ifstream infile;
+        infile.open("huebridge.txt");
+
+        if(infile.good())
+        {
+            std::string bridge_ip;
+            std::string bridge_mac;
+
+            std::getline(infile, bridge_ip);
+            std::getline(infile, bridge_mac);
+
+            hueplusplus::BridgeFinder::BridgeIdentification ident;
+            ident.ip    = bridge_ip;
+            ident.mac   = bridge_mac;
+            bridges.push_back(ident);
+        }
     }
 
     /*-------------------------------------------------*\
@@ -55,7 +67,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         | Check if a saved username exists                  |
         \*-------------------------------------------------*/
         std::ifstream infile;
-        infile.open("hue.txt");
+        infile.open("hueusername.txt");
 
         if(infile.good())
         {
@@ -81,7 +93,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         | Save the username                                 |
         \*-------------------------------------------------*/
         std::ofstream outfile;
-        outfile.open("hue.txt");
+        outfile.open("hueusername.txt");
 
         outfile << bridge.getUsername();
 
