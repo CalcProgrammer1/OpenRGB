@@ -227,6 +227,7 @@ HEADERS +=                                                                      
     Controllers/PatriotViperController/PatriotViperController.h                                 \
     Controllers/PatriotViperController/RGBController_PatriotViper.h                             \
     Controllers/PhilipsHueController/PhilipsHueController.h                                     \
+    Controllers/PhilipsHueController/RGBController_PhilipsHue.h                                 \
     Controllers/PolychromeController/PolychromeController.h                                     \
     Controllers/PolychromeController/RGBController_Polychrome.h                                 \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h                                 \
@@ -266,7 +267,6 @@ HEADERS +=                                                                      
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBController_Network.h                                                       \
-    RGBController/RGBController_PhilipsHue.h                                                    \
 
 
 SOURCES +=                                                                                      \
@@ -454,6 +454,7 @@ SOURCES +=                                                                      
     Controllers/PatriotViperController/RGBController_PatriotViper.cpp                           \
     Controllers/PhilipsHueController/PhilipsHueController.cpp                                   \
     Controllers/PhilipsHueController/PhilipsHueControllerDetect.cpp                             \
+    Controllers/PhilipsHueController/RGBController_PhilipsHue.cpp                               \
     Controllers/PolychromeController/PolychromeController.cpp                                   \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp                             \
     Controllers/PolychromeController/RGBController_Polychrome.cpp                               \
@@ -506,7 +507,6 @@ SOURCES +=                                                                      
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBController_Network.cpp                                                     \
-    RGBController/RGBController_PhilipsHue.cpp                                                  \
 
 RESOURCES +=                                                                                    \
     qt/resources.qrc
