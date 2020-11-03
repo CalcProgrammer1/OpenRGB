@@ -124,9 +124,17 @@ StateTransaction& StateTransaction::setColor(const HueSaturation& hueSat)
 
 StateTransaction& StateTransaction::setColor(const HueSaturationBrightness& hueSatBri)
 {
-    request["hue"] = std::max(0, std::min(hueSatBri.hue, (1 << 16) - 1));
-    request["sat"] = std::max(0, std::min(hueSatBri.saturation, 254));
-    request["bri"] = std::max(0, std::min(hueSatBri.brightness, 254));
+    if(hueSatBri.brightness == 0)
+    {
+        request["bri"] = std::max(0, std::min(hueSatBri.brightness, 254));
+    }
+    else
+    {
+        request["hue"] = std::max(0, std::min(hueSatBri.hue, (1 << 16) - 1));
+        request["sat"] = std::max(0, std::min(hueSatBri.saturation, 254));
+        request["bri"] = std::max(0, std::min(hueSatBri.brightness, 254));
+    }
+
     return *this;
 }
 

@@ -53,7 +53,14 @@ void PhilipsHueController::SetColor(unsigned char red, unsigned char green, unsi
     {
         if(!dark)
         {
-            light.setColorRGB(rgb, 1);
+            try
+            {
+                light.setColorRGB(rgb, 0);
+            }
+            catch(std::exception& e)
+            {
+
+            }
         }
 
         dark = true;    
@@ -61,6 +68,14 @@ void PhilipsHueController::SetColor(unsigned char red, unsigned char green, unsi
     else
     {
         dark = false;
-        light.setColorRGB(rgb, 1);
+
+        try
+        {
+            light.setColorRGB(rgb, 0);
+        }
+        catch(std::exception& e)
+        {
+            
+        }
     }
 }
