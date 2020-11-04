@@ -13,7 +13,7 @@ RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* light_p
     light = light_ptr;
 
     name        = light->GetManufacturer() + " " + light->GetName();
-    type        = DEVICE_TYPE_UNKNOWN;
+    type        = DEVICE_TYPE_LIGHT;
     version     = light->GetVersion();
     description = "Philips Wiz Device";
     serial      = light->GetUniqueID();
