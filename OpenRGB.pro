@@ -42,6 +42,7 @@ DEFINES +=                                                                      
 INCLUDEPATH +=                                                                                  \
     dependencies/ColorWheel                                                                     \
     dependencies/CRCpp/                                                                         \
+    dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
@@ -106,6 +107,7 @@ INCLUDEPATH +=                                                                  
 
 HEADERS +=                                                                                      \
     dependencies/ColorWheel/ColorWheel.h                                                        \
+    dependencies/json/json.hpp                                                                  \
     NetworkClient.h                                                                             \
     NetworkProtocol.h                                                                           \
     NetworkServer.h                                                                             \
