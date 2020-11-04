@@ -86,6 +86,7 @@ INCLUDEPATH +=                                                                  
     Controllers/NZXTKrakenController/                                                           \
     Controllers/OpenRazerController/                                                            \
     Controllers/PatriotViperController/                                                         \
+    Controllers/PhilipsWizController/                                                           \
     Controllers/PolychromeController/                                                           \
     Controllers/PoseidonZRGBController/                                                         \
     Controllers/RedragonController/                                                             \
@@ -222,6 +223,8 @@ HEADERS +=                                                                      
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
     Controllers/PatriotViperController/PatriotViperController.h                                 \
     Controllers/PatriotViperController/RGBController_PatriotViper.h                             \
+    Controllers/PhilipsWizController/PhilipsWizController.h                                     \
+    Controllers/PhilipsWizController/RGBController_PhilipsWiz.h                                 \
     Controllers/PolychromeController/PolychromeController.h                                     \
     Controllers/PolychromeController/RGBController_Polychrome.h                                 \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h                                 \
@@ -417,6 +420,9 @@ SOURCES +=                                                                      
     Controllers/PatriotViperController/PatriotViperController.cpp                               \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp                         \
     Controllers/PatriotViperController/RGBController_PatriotViper.cpp                           \
+    Controllers/PhilipsWizController/PhilipsWizController.cpp                                   \
+    Controllers/PhilipsWizController/PhilipsWizControllerDetect.cpp                             \
+    Controllers/PhilipsWizController/RGBController_PhilipsWiz.cpp                               \
     Controllers/PolychromeController/PolychromeController.cpp                                   \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp                             \
     Controllers/PolychromeController/RGBController_Polychrome.cpp                               \
