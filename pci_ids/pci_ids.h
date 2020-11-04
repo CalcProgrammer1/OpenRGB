@@ -38,15 +38,17 @@
 #define NVIDIA_RTX2080S_DEV                     0x1E81
 #define NVIDIA_RTX2080TI_DEV                    0x1E07
 #define NVIDIA_RTX3080_DEV                      0x2206
+#define NVIDIA_RTX3090_DEV                      0x2204
 
 /*---------------------------------------------------------*\
 | PCI Sub-Vendor IDs                                        |
 \*---------------------------------------------------------*/
 #define ASUS_SUB_VEN                            0x1043
 #define EVGA_SUB_VEN                            0x3842
-#define GALAX_SUB_VEN                           0x10DE
+#define GALAX_SUB_VEN                           0x1B4C
 #define GIGABYTE_SUB_VEN                        0x1458
 #define MSI_SUB_VEN                             0x1462
+#define NVIDIA_SUB_VEN                          0x10DE
 #define PNY_SUB_VEN                             0x196E
 #define SAPPHIRE_SUB_VEN                        0x1DA2
 #define ZOTAC_SUB_VEN                           0x19DA
@@ -85,6 +87,7 @@
 #define MSI_RTX2080TI_GAMING_X_TRIO_SUB_DEV     0x3715
 #define MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV     0x3717
 #define MSI_RTX3080_GAMING_X_TRIO_SUB_DEV       0x3892
+#define MSI_RTX3090_GAMING_X_TRIO_SUB_DEV       0x3884
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |
