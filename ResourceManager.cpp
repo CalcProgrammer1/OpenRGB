@@ -191,6 +191,7 @@ std::string ResourceManager::GetConfigurationDirectory()
 {
     std::string config_dir      = "";
     const char* xdg_config_home = getenv("XDG_CONFIG_HOME");
+    const char* home            = getenv("HOME");
     const char* appdata         = getenv("APPDATA");
 
     /*-----------------------------------------------------*\
@@ -201,12 +202,14 @@ std::string ResourceManager::GetConfigurationDirectory()
     {
         config_dir = xdg_config_home;
     }
-    else
+    else if(appdata != NULL)
     {
-        if(appdata != NULL)
-        {
-            config_dir = appdata;
-        }
+        config_dir = appdata;
+    }
+    else if(home != NULL)
+    {
+        config_dir = home;
+        config_dir = config_dir + "/.config";
     }
 
     /*-----------------------------------------------------*\
