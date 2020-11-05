@@ -324,7 +324,7 @@ void ProfileManager::UpdateProfileList()
             /*---------------------------------------------------------*\
             | Open input file in binary mode                            |
             \*---------------------------------------------------------*/
-            std::ifstream profile_file(filename, std::ios::in | std::ios::binary);
+            std::ifstream profile_file(configuration_directory + filename, std::ios::in | std::ios::binary);
 
             /*---------------------------------------------------------*\
             | Read and verify file header                               |
