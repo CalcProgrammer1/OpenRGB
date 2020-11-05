@@ -12,6 +12,8 @@
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
 #include <stdlib.h>
 #include <string>
 
@@ -43,6 +45,11 @@ ResourceManager::ResourceManager()
     | Initialize Server Instance                                                |
     \*-------------------------------------------------------------------------*/
     server = new NetworkServer(rgb_controllers_hw);
+
+    /*-------------------------------------------------------------------------*\
+    | Create OpenRGB configuration directory if it doesn't exist                |
+    \*-------------------------------------------------------------------------*/
+    std::experimental::filesystem::create_directories(GetConfigurationDirectory());
 
     /*-------------------------------------------------------------------------*\
     | Load sizes list from file                                                 |
