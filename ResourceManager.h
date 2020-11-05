@@ -22,6 +22,7 @@
 #include "NetworkServer.h"
 #include "ProfileManager.h"
 #include "RGBController.h"
+#include "SettingsManager.h"
 
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
@@ -58,6 +59,7 @@ public:
     NetworkServer*                  GetServer();
 
     ProfileManager*                 GetProfileManager();
+    SettingsManager*                GetSettingsManager();
 
     void DeviceListChanged();
     void DetectionProgressChanged();
@@ -79,6 +81,11 @@ private:
     | Profile Manager                                                                       |
     \*-------------------------------------------------------------------------------------*/
     ProfileManager*                             profile_manager;
+
+    /*-------------------------------------------------------------------------------------*\
+    | Settings Manager                                                                      |
+    \*-------------------------------------------------------------------------------------*/
+    SettingsManager*                            settings_manager;
 
     /*-------------------------------------------------------------------------------------*\
     | I2C/SMBus Interfaces                                                                  |

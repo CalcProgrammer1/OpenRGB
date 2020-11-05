@@ -50,6 +50,12 @@ ResourceManager::ResourceManager()
     \*-------------------------------------------------------------------------*/
     profile_manager         = new ProfileManager(rgb_controllers);
     rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
+
+    /*-------------------------------------------------------------------------*\
+    | Load settings from file                                                   |
+    \*-------------------------------------------------------------------------*/
+    settings_manager        = new SettingsManager();
+    settings_manager->LoadSettings("OpenRGB.json");
 }
 
 ResourceManager::~ResourceManager()
@@ -193,6 +199,11 @@ std::vector<NetworkClient*>& ResourceManager::GetClients()
 ProfileManager* ResourceManager::GetProfileManager()
 {
     return(profile_manager);
+}
+
+SettingsManager* ResourceManager::GetSettingsManager()
+{
+    return(settings_manager);
 }
 
 unsigned int ResourceManager::GetDetectionPercent()
