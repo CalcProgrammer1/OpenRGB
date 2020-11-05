@@ -47,11 +47,6 @@ ResourceManager::ResourceManager()
     server = new NetworkServer(rgb_controllers_hw);
 
     /*-------------------------------------------------------------------------*\
-    | Create OpenRGB configuration directory if it doesn't exist                |
-    \*-------------------------------------------------------------------------*/
-    std::experimental::filesystem::create_directories(GetConfigurationDirectory());
-
-    /*-------------------------------------------------------------------------*\
     | Load sizes list from file                                                 |
     \*-------------------------------------------------------------------------*/
     profile_manager         = new ProfileManager(rgb_controllers, GetConfigurationDirectory());
@@ -220,6 +215,15 @@ std::string ResourceManager::GetConfigurationDirectory()
     if(config_dir != "")
     {
         config_dir = config_dir + "/OpenRGB/";
+
+        /*-------------------------------------------------------------------------*\
+        | Create OpenRGB configuration directory if it doesn't exist                |
+        \*-------------------------------------------------------------------------*/
+        std::experimental::filesystem::create_directories(config_dir);
+    }
+    else
+    {
+        config_dir = "./";
     }
 
     return(config_dir);
@@ -355,7 +359,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     | Open device disable list and read in disabled     |
     | device strings                                    |
     \*-------------------------------------------------*/
-    disabled_devices_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_DisabledDevices");
+    disabled_devices_settings = settings_manager->GetSettings("Setting_DisabledDevices");
 
     if(disabled_devices_settings.contains("disabled"))
     {

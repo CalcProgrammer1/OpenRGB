@@ -26,10 +26,22 @@ SettingsManager::~SettingsManager()
 
 json SettingsManager::GetSettings(std::string settings_key)
 {
+    /*---------------------------------------------------------*\
+    | Check to see if the key exists in the settings store and  |
+    | return the settings associated with the key if it exists  |
+    \*---------------------------------------------------------*/
     if(settings_data.contains(settings_key))
     {
         return(settings_data[settings_key]);
     }
+
+    /*---------------------------------------------------------*\
+    | If the settings store doesn't contain the key, create an  |
+    | empty json and return it                                  |
+    \*---------------------------------------------------------*/
+    json empty;
+
+    return(empty);
 }
 
 void SettingsManager::LoadSettings(std::string filename)
