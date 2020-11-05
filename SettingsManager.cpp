@@ -44,6 +44,18 @@ void SettingsManager::LoadSettings(std::string filename)
     \*---------------------------------------------------------*/
     if(settings_file)
     {
-        settings_file >> settings_data;
+        try
+        {
+            settings_file >> settings_data;
+        }
+        catch(std::exception e)
+        {
+            /*-------------------------------------------------*\
+            | If an exception was caught, that means the JSON   |
+            | parsing failed.  Clear out any data in the store  |
+            | as it is corrupt.                                 |
+            \*-------------------------------------------------*/
+            settings_data.clear();
+        }
     }
 }
