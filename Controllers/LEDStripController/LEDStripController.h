@@ -23,6 +23,13 @@
 #define strtok_s        strtok_r
 #endif
 
+struct LEDStripDevice
+{
+    std::string     port;
+    unsigned int    baud;
+    unsigned int    num_leds;
+};
+
 class LEDStripController
 {
 public:

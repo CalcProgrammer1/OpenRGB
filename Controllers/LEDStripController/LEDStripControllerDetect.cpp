@@ -2,20 +2,10 @@
 #include "LEDStripController.h"
 #include "RGBController.h"
 #include "RGBController_LEDStrip.h"
+#include "SettingsManager.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <fcntl.h>
-#include <string.h>
-#include <fstream>
-#include <iostream>
-#include <string>
-
-#ifndef WIN32
-#include <unistd.h>
-#include <dirent.h>
-#endif
 
 /******************************************************************************************\
 *                                                                                          *
@@ -27,48 +17,45 @@
 
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    LEDStripController* new_ledstrip;
+    LEDStripController*     new_ledstrip;
     RGBController_LEDStrip* new_controller;
+    json                    ledstrip_settings;
+    LEDStripDevice          dev;
 
-    std::ifstream infile;
-    char arg1[64];
+    /*-------------------------------------------------*\
+    | Get LED Strip settings from settings manager      |
+    \*-------------------------------------------------*/
+    ledstrip_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_LEDStripDevices");
 
-    //Open settings file
-    infile.open("ledstrip.txt");
-
-    if (infile.good())
+    /*-------------------------------------------------*\
+    | If the LEDStrip settings contains devices, process|
+    \*-------------------------------------------------*/
+    if(ledstrip_settings.contains("devices"))
     {
-        for (std::string line; std::getline(infile, line); )
+        for(unsigned int device_idx = 0; device_idx < ledstrip_settings["devices"].size(); device_idx++)
         {
-            if (line == "")
+            if(ledstrip_settings["devices"][device_idx].contains("port"))
             {
-                continue;
+                dev.port = ledstrip_settings["devices"][device_idx]["port"];
             }
-            if ((line[0] != ';') && (line[0] != '#') && (line[0] != '/'))
+
+            if(ledstrip_settings["devices"][device_idx].contains("baud"))
             {
-                char * argument;
-                char * value;
-
-                value = (char *)line.c_str();
-
-                argument = strtok_s(value, "=", &value);
-
-                //Strip off new line characters if present
-                argument = strtok(argument, "\r\n");
-                value    = strtok(value, "\r\n");
-
-                if(argument)
-                {
-                    if (strcmp(argument, "ledstrip") == 0)
-                    {
-                        new_ledstrip = new LEDStripController();
-                        new_ledstrip->Initialize(value);
-
-                        new_controller = new RGBController_LEDStrip(new_ledstrip);
-                        rgb_controllers.push_back(new_controller);
-                    }
-                }
+                dev.baud = ledstrip_settings["devices"][device_idx]["baud"];
             }
+
+            if(ledstrip_settings["devices"][device_idx].contains("num_leds"))
+            {
+                dev.num_leds = ledstrip_settings["devices"][device_idx]["num_leds"];
+            }
+
+            std::string value = dev.port + "," + std::to_string(dev.baud) + "," + std::to_string(dev.num_leds);
+
+            new_ledstrip = new LEDStripController();
+            new_ledstrip->Initialize((char *)value.c_str());
+
+            new_controller = new RGBController_LEDStrip(new_ledstrip);
+            rgb_controllers.push_back(new_controller);
         }
     }
 
