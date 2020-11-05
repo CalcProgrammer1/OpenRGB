@@ -12,8 +12,6 @@
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 
-#include <fstream>
-#include <iostream>
 #include <string>
 
 std::unique_ptr<ResourceManager> ResourceManager::instance;
@@ -301,6 +299,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     unsigned int        prev_count = 0;
     float               percent = 0.0f;
     std::vector<bool>   size_used;
+    json                disabled_devices_settings;
 
     size_used.resize(rgb_controllers_sizes.size());
 
@@ -315,18 +314,16 @@ void ResourceManager::DetectDevicesThreadFunction()
     | Open device disable list and read in disabled     |
     | device strings                                    |
     \*-------------------------------------------------*/
-    std::ifstream infile;
-    infile.open("disabled_devices.txt");
+    disabled_devices_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_DisabledDevices");
 
-    if (infile.good())
+    if(disabled_devices_settings.contains("disabled"))
     {
-        for (std::string line; std::getline(infile, line); )
+        for(unsigned disabled_idx = 0; disabled_idx < disabled_devices_settings["disabled"].size(); disabled_idx++)
         {
+            std::string line = disabled_devices_settings["disabled"][disabled_idx];
             disabled_devices_list.push_back(line);
         }
     }
-
-    infile.close();
 
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
