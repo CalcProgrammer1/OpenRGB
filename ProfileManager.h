@@ -5,7 +5,7 @@
 class ProfileManager
 {
 public:
-    ProfileManager(std::vector<RGBController *>& control);
+    ProfileManager(std::vector<RGBController *>& control, std::string config_dir);
     ~ProfileManager();
 
     bool SaveProfile(std::string profile_name);
@@ -33,6 +33,8 @@ protected:
     std::vector<RGBController *>& controllers;
 
 private:
+    std::string                         configuration_directory;
+
     void UpdateProfileList();
     bool LoadProfileWithOptions
             (

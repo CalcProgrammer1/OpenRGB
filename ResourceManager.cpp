@@ -12,6 +12,7 @@
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 
+#include <stdlib.h>
 #include <string>
 
 std::unique_ptr<ResourceManager> ResourceManager::instance;
@@ -46,14 +47,14 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Load sizes list from file                                                 |
     \*-------------------------------------------------------------------------*/
-    profile_manager         = new ProfileManager(rgb_controllers);
+    profile_manager         = new ProfileManager(rgb_controllers, GetConfigurationDirectory());
     rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
 
     /*-------------------------------------------------------------------------*\
     | Load settings from file                                                   |
     \*-------------------------------------------------------------------------*/
     settings_manager        = new SettingsManager();
-    settings_manager->LoadSettings("OpenRGB.json");
+    settings_manager->LoadSettings(GetConfigurationDirectory() + "OpenRGB.json");
 }
 
 ResourceManager::~ResourceManager()
@@ -182,6 +183,39 @@ void ResourceManager::DetectionProgressChanged()
     }
 
     DetectionProgressMutex.unlock();
+}
+
+std::string ResourceManager::GetConfigurationDirectory()
+{
+    std::string config_dir      = "";
+    const char* xdg_config_home = getenv("XDG_CONFIG_HOME");
+    const char* appdata         = getenv("APPDATA");
+
+    /*-----------------------------------------------------*\
+    | Check both XDG_CONFIG_HOME and APPDATA environment    |
+    | variables.  If neither exist, use current directory   |
+    \*-----------------------------------------------------*/
+    if(xdg_config_home != NULL)
+    {
+        config_dir = xdg_config_home;
+    }
+    else
+    {
+        if(appdata != NULL)
+        {
+            config_dir = appdata;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | If a configuration directory was found, append OpenRGB|
+    \*-----------------------------------------------------*/
+    if(config_dir != "")
+    {
+        config_dir = config_dir + "/OpenRGB/";
+    }
+
+    return(config_dir);
 }
 
 NetworkServer* ResourceManager::GetServer()

@@ -54,7 +54,9 @@ public:
 
     unsigned int GetDetectionPercent();
     const char*  GetDetectionString();
-    
+
+    std::string                     GetConfigurationDirectory();
+
     std::vector<NetworkClient*>&    GetClients();
     NetworkServer*                  GetServer();
 

@@ -1,4 +1,5 @@
 #include "ProfileManager.h"
+#include "ResourceManager.h"
 #include "RGBController_Dummy.h"
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <experimental/filesystem>
@@ -8,8 +9,9 @@
 
 namespace fs = std::experimental::filesystem;
 
-ProfileManager::ProfileManager(std::vector<RGBController *>& control) : controllers(control)
+ProfileManager::ProfileManager(std::vector<RGBController *>& control, std::string config_dir) : controllers(control)
 {
+    configuration_directory = config_dir;
     UpdateProfileList();
 }
 
@@ -28,7 +30,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         /*---------------------------------------------------------*\
         | Open an output file in binary mode                        |
         \*---------------------------------------------------------*/
-        std::ofstream controller_file(profile_name, std::ios::out | std::ios::binary);
+        std::ofstream controller_file(configuration_directory + profile_name, std::ios::out | std::ios::binary);
 
         /*---------------------------------------------------------*\
         | Write header                                              |
@@ -90,7 +92,7 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
     unsigned int                controller_offset = 0;
     bool                        ret_val = false;
 
-    std::string filename = profile_name;
+    std::string filename = configuration_directory + profile_name;
 
     /*---------------------------------------------------------*\
     | Open input file in binary mode                            |
@@ -259,7 +261,7 @@ bool ProfileManager::LoadProfileWithOptions
     std::vector<bool>           temp_controller_used;
     bool                        ret_val = false;
 
-    std::string filename = profile_name;
+    std::string filename = configuration_directory + profile_name;
 
     /*---------------------------------------------------------*\
     | Open input file in binary mode                            |
@@ -313,7 +315,7 @@ void ProfileManager::UpdateProfileList()
     /*---------------------------------------------------------*\
     | Load profiles by looking for .orp files in current dir    |
     \*---------------------------------------------------------*/
-    for(const auto & entry : fs::directory_iterator("."))
+    for(const auto & entry : fs::directory_iterator(configuration_directory))
     {
         std::string filename = entry.path().filename().string();
 
