@@ -2,27 +2,12 @@
 #include "LinuxLEDController.h"
 #include "RGBController.h"
 #include "RGBController_LinuxLED.h"
+#include "SettingsManager.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <fcntl.h>
-#include <string.h>
-#include <fstream>
-#include <iostream>
 #include <string>
-
-#ifndef WIN32
-#include <unistd.h>
-#include <dirent.h>
-#else
-#include <windows.h>
-#endif
-
-#ifndef WIN32
-#define LPSTR           char *
-#define strtok_s        strtok_r
-#endif
 
 
 /******************************************************************************************\
@@ -35,75 +20,58 @@
 
 void DetectLinuxLEDControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    std::ifstream   infile;
-    char            arg1[64];
-    bool            new_device = false;
-    std::string     new_name;
-
-    //Open settings file
-    infile.open("linuxled.txt");
-
     LinuxLEDController*     new_controller;
     RGBController_LinuxLED* new_rgbcontroller;
+    json                    linux_led_settings;
 
-    if (infile.good())
+    /*-------------------------------------------------*\
+    | Get Linux LED settings from settings manager      |
+    \*-------------------------------------------------*/
+    linux_led_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_LinuxLEDDevices");
+
+    /*-------------------------------------------------*\
+    | If the LinuxLED settings contains devices, process|
+    \*-------------------------------------------------*/
+    if(linux_led_settings.contains("devices"))
     {
-        for (std::string line; std::getline(infile, line); )
+        for(unsigned int device_idx = 0; device_idx < linux_led_settings["devices"].size(); device_idx++)
         {
-            if (new_device)
+            std::string name;
+            std::string red_path;
+            std::string green_path;
+            std::string blue_path;
+
+            if(linux_led_settings["devices"][device_idx].contains("name"))
             {
-                new_name    = line;
-                new_device  = false;
-                continue;
+                name = linux_led_settings["devices"][device_idx]["name"];
             }
 
-            if (line == "")
+            if(linux_led_settings["devices"][device_idx].contains("red_path"))
             {
-                continue;
+                red_path = linux_led_settings["devices"][device_idx]["red_path"];
             }
 
-            if ((line[0] != ';') && (line[0] != '#') && (line[0] != '/'))
+            if(linux_led_settings["devices"][device_idx].contains("green_path"))
             {
-                char * argument;
-                char * value;
-
-                value = (char *)line.c_str();
-
-                argument = strtok_s(value, "=", &value);
-
-                //Strip off new line characters if present
-                argument = strtok(argument, "\r\n");
-                value    = strtok(value, "\r\n");
-
-                if(argument)
-                {
-                    if (strcmp(argument, "linux_led_start") == 0)
-                    {
-                        new_controller      = new LinuxLEDController();
-                        new_device          = true;
-                    }
-                    else if(strcmp(argument, "red_path") == 0)
-                    {
-                        new_controller->OpenRedPath(value);
-                    }
-                    else if(strcmp(argument, "green_path") == 0)
-                    {
-                        new_controller->OpenGreenPath(value);
-                    }
-                    else if(strcmp(argument, "blue_path") == 0)
-                    {
-                        new_controller->OpenBluePath(value);
-                    }
-                    else if(strcmp(argument, "linux_led_end") == 0)
-                    {
-                        new_rgbcontroller       = new RGBController_LinuxLED(new_controller);
-                        new_rgbcontroller->name = new_name;
-                        rgb_controllers.push_back(new_rgbcontroller);
-                    }
-                }
+                green_path = linux_led_settings["devices"][device_idx]["green_path"];
             }
+
+            if(linux_led_settings["devices"][device_idx].contains("blue_path"))
+            {
+                blue_path = linux_led_settings["devices"][device_idx]["blue_path"];
+            }
+
+            new_controller      = new LinuxLEDController();
+            new_controller->OpenRedPath(red_path);
+            new_controller->OpenGreenPath(green_path);
+            new_controller->OpenBluePath(blue_path);
+
+            new_rgbcontroller       = new RGBController_LinuxLED(new_controller);
+            new_rgbcontroller->name = name;
+            rgb_controllers.push_back(new_rgbcontroller);
         }
     }
+
 }   /* DetectLinuxLEDControllers() */
 
 REGISTER_DETECTOR("Linux LED", DetectLinuxLEDControllers);
