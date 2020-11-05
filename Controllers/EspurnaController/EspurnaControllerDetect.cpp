@@ -2,20 +2,10 @@
 #include "EspurnaController.h"
 #include "RGBController.h"
 #include "RGBController_Espurna.h"
+#include "SettingsManager.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <fcntl.h>
-#include <string.h>
-#include <fstream>
-#include <iostream>
-#include <string>
-
-#ifndef WIN32
-#include <unistd.h>
-#include <dirent.h>
-#endif
 
 /******************************************************************************************\
 *                                                                                          *
@@ -27,48 +17,55 @@
 
 void DetectEspurnaControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    EspurnaController* new_espurna;
-    RGBController_Espurna* new_controller;
+    EspurnaController*      new_espurna;
+    RGBController_Espurna*  new_controller;
+    json                    espurna_settings;
 
-    std::ifstream infile;
-    char arg1[64];
+    /*-------------------------------------------------*\
+    | Get Espurna settings from settings manager        |
+    \*-------------------------------------------------*/
+    espurna_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_EspurnaDevices");
 
-    //Open settings file
-    infile.open("espurna.txt");
-
-    if (infile.good())
+    /*-------------------------------------------------*\
+    | If the Espurna settings contains devices, process |
+    \*-------------------------------------------------*/
+    if(espurna_settings.contains("devices"))
     {
-        for (std::string line; std::getline(infile, line); )
+        for(unsigned int device_idx = 0; device_idx < espurna_settings["devices"].size(); device_idx++)
         {
-            if (line == "")
+            std::string ip;
+            std::string port;
+            std::string apikey;
+
+            if(espurna_settings["devices"][device_idx].contains("ip"))
             {
-                continue;
+                ip = espurna_settings["devices"][device_idx]["ip"];
             }
-            if ((line[0] != ';') && (line[0] != '#') && (line[0] != '/'))
+
+            if(espurna_settings["devices"][device_idx].contains("port"))
             {
-                char * argument;
-                char * value;
-
-                value = (char *)line.c_str();
-
-                argument = strtok_s(value, "=", &value);
-
-                //Strip off new line characters if present
-                argument = strtok(argument, "\r\n");
-                value    = strtok(value, "\r\n");
-
-                if(argument)
+                if(espurna_settings["devices"][device_idx]["port"].type() == json::value_t::string)
                 {
-                    if (strcmp(argument, "espurna") == 0)
-                    {
-                        new_espurna = new EspurnaController();
-                        new_espurna->Initialize(value);
-
-                        new_controller = new RGBController_Espurna(new_espurna);
-                        rgb_controllers.push_back(new_controller);
-                    }
+                    port = espurna_settings["devices"][device_idx]["port"];
+                }
+                else
+                {
+                    port = std::to_string((unsigned int)espurna_settings["devices"][device_idx]["port"]);
                 }
             }
+
+            if(espurna_settings["devices"][device_idx].contains("apikey"))
+            {
+                apikey = espurna_settings["devices"][device_idx]["apikey"];
+            }
+
+            std::string value = ip + "," + port + "," + apikey;
+
+            new_espurna = new EspurnaController();
+            new_espurna->Initialize((char *)value.c_str());
+
+            new_controller = new RGBController_Espurna(new_espurna);
+            rgb_controllers.push_back(new_controller);
         }
     }
 
