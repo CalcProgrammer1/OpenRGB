@@ -13,6 +13,7 @@
 #include <array>
 #include <cmath>            //Needed by round()
 #include <hidapi/hidapi.h>
+#include "RGBController.h"  //Needed to set the direct mode
 
 #pragma once
 
@@ -103,7 +104,7 @@ public:
     unsigned char GetLedSpeed();
     void SetMode(unsigned char mode, unsigned char speed);
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
-
+    void SetLedsDirect(RGBColor * led_colours, unsigned int led_count);
 private:
     std::string             device_name;
     std::string             serial;
@@ -122,4 +123,5 @@ private:
     unsigned char GetColourIndex(unsigned char red, unsigned char green, unsigned char blue);
     void GetStatus();
     void SendUpdate();
+
 };

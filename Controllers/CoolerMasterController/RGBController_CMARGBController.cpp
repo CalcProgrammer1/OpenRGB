@@ -121,6 +121,13 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
         Rainbow.speed           = speed;
         modes.push_back(Rainbow);
 
+        mode Direct;
+        Direct.name             = "Direct";
+        Direct.value            = CM_ARGB_MODE_DIRECT;
+        Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+        Direct.color_mode       = MODE_COLORS_PER_LED;
+        modes.push_back(Direct);
+
         mode PassThru;
         PassThru.name           = "Pass Thru";
         PassThru.value          = CM_ARGB_MODE_PASSTHRU;
@@ -260,50 +267,48 @@ void RGBController_CMARGBController::ResizeZone(int zone, int new_size)
 
 void RGBController_CMARGBController::DeviceUpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
+    /*unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
-    cmargb->SetColor(red, grn, blu);
+    cmargb->SetColor(red, grn, blu);*/
+
+    //this one
+    cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed );
+    cmargb->SetLedsDirect( zones[0].colors, zones[0].leds_count );
 }
 
 void RGBController_CMARGBController::UpdateZoneLEDs(int zone)
 {
-    RGBColor      color = colors[zone];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
+    RGBColor      colour    = colors[zone];
+    unsigned char red       = RGBGetRValue(colour);
+    unsigned char grn       = RGBGetGValue(colour);
+    unsigned char blu       = RGBGetBValue(colour);
     cmargb->SetColor(red, grn, blu);
 }
 
 void RGBController_CMARGBController::UpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+        //cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed );
+        //cmargb->SetLedsDirect( zones[0].colors, zones[0].leds_count );
 }
 
 void RGBController_CMARGBController::SetCustomMode()
 {
-    active_mode = 0;
+    active_mode = CM_ARGB_MODE_DIRECT;
 }
 
 void RGBController_CMARGBController::DeviceUpdateMode()
 {
-    if ( active_mode == CM_ARGB_MODE_DIRECT )
+    if( modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC )
     {
-        //TODO
+        unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
+        unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
+        unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
+        cmargb->SetColor(red, grn, blu);
     }
     else
     {
-        if( modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC )
-        {
-            unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
-            unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
-            unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
-            cmargb->SetColor(red, grn, blu);
-        }
-        else
-        {
-            cmargb->SetColor(0, 0, 0);        //If the mode is not colour specific then set colour to black for the random index
-        }
-        cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed );
+        cmargb->SetColor(0, 0, 0);        //If the mode is not colour specific then set colour to black for the random index
     }
+    cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed );
 }
