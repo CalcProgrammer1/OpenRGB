@@ -97,6 +97,12 @@ public:
     //! \param username Username that is used to control the Hue bridge
     void AddUsername(const std::string& mac, const std::string& username);
 
+    //! \brief Function that adds a client key to the clientkeys map
+    //!
+    //! \param mac MAC address of Hue bridge
+    //! \param clientkey Client key that is used to control the Hue bridge in entertainment mode
+    void AddClientKey(const std::string& mac, const std::string& clientkey);
+
     //! \brief Function that returns a map of mac addresses and usernames.
     //!
     //! Note these should be saved at the end and re-loaded with \ref AddUsername
@@ -118,6 +124,8 @@ private:
 
     std::map<std::string, std::string> usernames; //!< Maps all macs to usernames added by \ref
                                                   //!< BridgeFinder::AddUsername
+    std::map<std::string, std::string> clientkeys; //!< Maps all macs to clientkeys added by \ref
+                                                   //!< BridgeFinder::AddClientKey
     std::shared_ptr<const IHttpHandler> http_handler;
 };
 
@@ -145,6 +153,7 @@ public:
     //! \param refreshDuration Time between refreshing the cached state.
     Bridge(const std::string& ip, const int port, const std::string& username,
         std::shared_ptr<const IHttpHandler> handler,
+        const std::string& clientkey = "",
         std::chrono::steady_clock::duration refreshDuration = std::chrono::seconds(10));
 
     //! \brief Refreshes the bridge state.
@@ -162,6 +171,16 @@ public:
     //!
     //! \return string containing ip
     std::string getBridgeIP() const;
+
+    //! \brief Function to set stream mode to active for entertainment mode
+    //!
+    //! \return bool - whether stream request was successful
+    bool StartStreaming(std::string group_identifier);
+
+    //! \brief Function to set stream mode to active for entertainment mode
+    //!
+    //! \return bool - whether stream request was successful
+    bool StopStreaming(std::string group_identifier);
 
     //! \brief Function to get the port of the hue bridge
     //!
@@ -183,6 +202,11 @@ public:
     //!
     //! \return The username used for API access
     std::string getUsername() const;
+
+    //! \brief Function that returns the client key
+    //!
+    //! \return The client key used for Entertainment Mode API access
+    std::string getClientKey() const;
 
     //! \brief Function to set the ip address of this class representing a bridge
     //!
@@ -245,6 +269,7 @@ private:
     std::string ip; //!< IP-Address of the hue bridge in dotted decimal notation
                     //!< like "192.168.2.1"
     std::string username; //!< Username that is ussed to access the hue bridge
+    std::string clientkey; //!< Client key that is used for entertainment mode
     int port;
 
     std::shared_ptr<const IHttpHandler> http_handler; //!< A IHttpHandler that is used to communicate with the

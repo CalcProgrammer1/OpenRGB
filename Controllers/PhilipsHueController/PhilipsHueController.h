@@ -27,7 +27,7 @@ public:
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    hueplusplus::Light  light;
+    hueplusplus::Light& light;
     std::string         location;
     bool                dark;
 };

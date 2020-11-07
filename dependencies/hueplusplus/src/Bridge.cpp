@@ -78,9 +78,17 @@ Bridge BridgeFinder::GetBridge(const BridgeIdentification& identification)
 {
     std::string normalizedMac = NormalizeMac(identification.mac);
     auto pos = usernames.find(normalizedMac);
+    auto key = clientkeys.find(normalizedMac);
     if (pos != usernames.end())
     {
-        return Bridge(identification.ip, identification.port, pos->second, http_handler);
+        if (key != clientkeys.end())
+        {
+            return Bridge(identification.ip, identification.port, pos->second, http_handler, key->second);
+        }
+        else
+        {
+            return Bridge(identification.ip, identification.port, pos->second, http_handler);
+        }
     }
     Bridge bridge(identification.ip, identification.port, "", http_handler);
     bridge.requestUsername();
@@ -90,6 +98,7 @@ Bridge BridgeFinder::GetBridge(const BridgeIdentification& identification)
         throw HueException(CURRENT_FILE_INFO, "Failed to request username!");
     }
     AddUsername(normalizedMac, bridge.getUsername());
+    AddClientKey(normalizedMac, bridge.getClientKey());
 
     return bridge;
 }
@@ -97,6 +106,11 @@ Bridge BridgeFinder::GetBridge(const BridgeIdentification& identification)
 void BridgeFinder::AddUsername(const std::string& mac, const std::string& username)
 {
     usernames[NormalizeMac(mac)] = username;
+}
+
+void BridgeFinder::AddClientKey(const std::string& mac, const std::string& clientkey)
+{
+    clientkeys[NormalizeMac(mac)] = clientkey;
 }
 
 const std::map<std::string, std::string>& BridgeFinder::GetAllUsernames() const
@@ -137,9 +151,11 @@ std::string BridgeFinder::ParseDescription(const std::string& description)
 }
 
 Bridge::Bridge(const std::string& ip, const int port, const std::string& username,
-    std::shared_ptr<const IHttpHandler> handler, std::chrono::steady_clock::duration refreshDuration)
+    std::shared_ptr<const IHttpHandler> handler, const std::string& clientkey,
+    std::chrono::steady_clock::duration refreshDuration)
     : ip(ip),
       username(username),
+      clientkey(clientkey),
       port(port),
       http_handler(std::move(handler)),
       refreshDuration(refreshDuration),
@@ -180,6 +196,7 @@ std::string Bridge::requestUsername()
     // when the link button was pressed we got 30 seconds to get our username for control
     nlohmann::json request;
     request["devicetype"] = "HuePlusPlus#User";
+    request["generateclientkey"] = true;
 
     nlohmann::json answer;
     std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
@@ -189,6 +206,7 @@ std::string Bridge::requestUsername()
         std::this_thread::sleep_for(checkInterval);
         answer = http_handler->POSTJson("/api", request, ip, port);
         nlohmann::json jsonUser = utils::safeGetMember(answer, 0, "success", "username");
+        nlohmann::json jsonKey = utils::safeGetMember(answer, 0, "success", "clientkey");
         if (jsonUser != nullptr)
         {
             // [{"success":{"username": "<username>"}}]
@@ -197,6 +215,12 @@ std::string Bridge::requestUsername()
             setHttpHandler(http_handler);
             std::cout << "Success! Link button was pressed!\n";
             std::cout << "Username is \"" << username << "\"\n";
+
+            if (jsonKey != nullptr)
+            {
+                clientkey = jsonKey.get<std::string>();
+                std::cout << "Client key is \"" << clientkey << "\"\n";
+            }
             break;
         }
         else if (answer.size() > 0 && answer[0].count("error"))
@@ -213,9 +237,70 @@ std::string Bridge::requestUsername()
     return username;
 }
 
+bool Bridge::StartStreaming(std::string group_identifier)
+{
+    nlohmann::json request;
+
+    request["stream"]["active"] = true;
+
+    nlohmann::json answer;
+
+    std::string uri = "/api/" + username + "/groups/" + group_identifier;
+
+    answer = http_handler->PUTJson(uri, request, ip, port);
+
+    if(answer[0].contains("success"))
+    {
+        std::string key = "/groups/" + group_identifier + "/stream/active";
+
+        if(answer[0]["success"].contains(key))
+        {
+            if(answer[0]["success"][key] == true)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Bridge::StopStreaming(std::string group_identifier)
+{
+    nlohmann::json request;
+
+    request["stream"]["active"] = false;
+
+    nlohmann::json answer;
+
+    std::string uri = "/api/" + username + "/groups/" + group_identifier;
+
+    answer = http_handler->PUTJson(uri, request, ip, port);
+
+    if(answer[0].contains("success"))
+    {
+        std::string key = "/groups/" + group_identifier + "/stream/active";
+
+        if(answer[0]["success"].contains(key))
+        {
+            if(answer[0]["success"][key] == false)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 std::string Bridge::getUsername() const
 {
     return username;
+}
+
+std::string Bridge::getClientKey() const
+{
+    return clientkey;
 }
 
 void Bridge::setIP(const std::string& ip)

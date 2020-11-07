@@ -46,6 +46,7 @@ INCLUDEPATH +=                                                                  
     dependencies/hueplusplus/include/hueplusplus                                                \
     dependencies/hueplusplus/include/json                                                       \
     dependencies/libe131/src/                                                                   \
+    dependencies/mbedtls/include                                                                \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
     net_port/                                                                                   \
@@ -300,6 +301,92 @@ SOURCES +=                                                                      
     dependencies/hueplusplus/src/Utils.cpp                                                      \
     dependencies/hueplusplus/src/ZLLSensors.cpp                                                 \
     dependencies/libe131/src/e131.c                                                             \
+    dependencies/mbedtls/library/aes.c                                                          \
+    dependencies/mbedtls/library/aesni.c                                                        \
+    dependencies/mbedtls/library/arc4.c                                                         \
+    dependencies/mbedtls/library/aria.c                                                         \
+    dependencies/mbedtls/library/asn1parse.c                                                    \
+    dependencies/mbedtls/library/asn1write.c                                                    \
+    dependencies/mbedtls/library/base64.c                                                       \
+    dependencies/mbedtls/library/bignum.c                                                       \
+    dependencies/mbedtls/library/blowfish.c                                                     \
+    dependencies/mbedtls/library/camellia.c                                                     \
+    dependencies/mbedtls/library/ccm.c                                                          \
+    dependencies/mbedtls/library/certs.c                                                        \
+    dependencies/mbedtls/library/chacha20.c                                                     \
+    dependencies/mbedtls/library/chachapoly.c                                                   \
+    dependencies/mbedtls/library/cipher.c                                                       \
+    dependencies/mbedtls/library/cipher_wrap.c                                                  \
+    dependencies/mbedtls/library/cmac.c                                                         \
+    dependencies/mbedtls/library/ctr_drbg.c                                                     \
+    dependencies/mbedtls/library/debug.c                                                        \
+    dependencies/mbedtls/library/des.c                                                          \
+    dependencies/mbedtls/library/dhm.c                                                          \
+    dependencies/mbedtls/library/ecdh.c                                                         \
+    dependencies/mbedtls/library/ecdsa.c                                                        \
+    dependencies/mbedtls/library/ecjpake.c                                                      \
+    dependencies/mbedtls/library/ecp.c                                                          \
+    dependencies/mbedtls/library/ecp_curves.c                                                   \
+    dependencies/mbedtls/library/entropy.c                                                      \
+    dependencies/mbedtls/library/entropy_poll.c                                                 \
+    dependencies/mbedtls/library/error.c                                                        \
+    dependencies/mbedtls/library/gcm.c                                                          \
+    dependencies/mbedtls/library/havege.c                                                       \
+    dependencies/mbedtls/library/hkdf.c                                                         \
+    dependencies/mbedtls/library/hmac_drbg.c                                                    \
+    dependencies/mbedtls/library/md.c                                                           \
+    dependencies/mbedtls/library/md2.c                                                          \
+    dependencies/mbedtls/library/md4.c                                                          \
+    dependencies/mbedtls/library/md5.c                                                          \
+    dependencies/mbedtls/library/memory_buffer_alloc.c                                          \
+    dependencies/mbedtls/library/net_sockets.c                                                  \
+    dependencies/mbedtls/library/nist_kw.c                                                      \
+    dependencies/mbedtls/library/oid.c                                                          \
+    dependencies/mbedtls/library/padlock.c                                                      \
+    dependencies/mbedtls/library/pem.c                                                          \
+    dependencies/mbedtls/library/pk.c                                                           \
+    dependencies/mbedtls/library/pk_wrap.c                                                      \
+    dependencies/mbedtls/library/pkcs5.c                                                        \
+    dependencies/mbedtls/library/pkcs11.c                                                       \
+    dependencies/mbedtls/library/pkcs12.c                                                       \
+    dependencies/mbedtls/library/pkparse.c                                                      \
+    dependencies/mbedtls/library/pkwrite.c                                                      \
+    dependencies/mbedtls/library/platform.c                                                     \
+    dependencies/mbedtls/library/platform_util.c                                                \
+    dependencies/mbedtls/library/poly1305.c                                                     \
+    dependencies/mbedtls/library/psa_crypto.c                                                   \
+    dependencies/mbedtls/library/psa_crypto_driver_wrappers.c                                   \
+    dependencies/mbedtls/library/psa_crypto_se.c                                                \
+    dependencies/mbedtls/library/psa_crypto_slot_management.c                                   \
+    dependencies/mbedtls/library/psa_crypto_storage.c                                           \
+    dependencies/mbedtls/library/psa_its_file.c                                                 \
+    dependencies/mbedtls/library/ripemd160.c                                                    \
+    dependencies/mbedtls/library/rsa.c                                                          \
+    dependencies/mbedtls/library/rsa_internal.c                                                 \
+    dependencies/mbedtls/library/sha1.c                                                         \
+    dependencies/mbedtls/library/sha256.c                                                       \
+    dependencies/mbedtls/library/sha512.c                                                       \
+    dependencies/mbedtls/library/ssl_cache.c                                                    \
+    dependencies/mbedtls/library/ssl_ciphersuites.c                                             \
+    dependencies/mbedtls/library/ssl_cli.c                                                      \
+    dependencies/mbedtls/library/ssl_cookie.c                                                   \
+    dependencies/mbedtls/library/ssl_msg.c                                                      \
+    dependencies/mbedtls/library/ssl_srv.c                                                      \
+    dependencies/mbedtls/library/ssl_ticket.c                                                   \
+    dependencies/mbedtls/library/ssl_tls.c                                                      \
+    dependencies/mbedtls/library/ssl_tls13_keys.c                                               \
+    dependencies/mbedtls/library/threading.c                                                    \
+    dependencies/mbedtls/library/timing.c                                                       \
+    dependencies/mbedtls/library/version.c                                                      \
+    dependencies/mbedtls/library/version_features.c                                             \
+    dependencies/mbedtls/library/x509.c                                                         \
+    dependencies/mbedtls/library/x509_create.c                                                  \
+    dependencies/mbedtls/library/x509_crl.c                                                     \
+    dependencies/mbedtls/library/x509_crt.c                                                     \
+    dependencies/mbedtls/library/x509_csr.c                                                     \
+    dependencies/mbedtls/library/x509write_crt.c                                                \
+    dependencies/mbedtls/library/x509write_csr.c                                                \
+    dependencies/mbedtls/library/xtea.c                                                         \
     main.cpp                                                                                    \
     cli.cpp                                                                                     \
     NetworkClient.cpp                                                                           \
@@ -452,7 +539,9 @@ SOURCES +=                                                                      
     Controllers/PatriotViperController/RGBController_PatriotViper.cpp                           \
     Controllers/PhilipsHueController/PhilipsHueController.cpp                                   \
     Controllers/PhilipsHueController/PhilipsHueControllerDetect.cpp                             \
+    Controllers/PhilipsHueController/PhilipsHueEntertainmentController.cpp                      \
     Controllers/PhilipsHueController/RGBController_PhilipsHue.cpp                               \
+    Controllers/PhilipsHueController/RGBController_PhilipsHueEntertainment.cpp                  \
     Controllers/PolychromeController/PolychromeController.cpp                                   \
     Controllers/PolychromeController/PolychromeControllerDetect.cpp                             \
     Controllers/PolychromeController/RGBController_Polychrome.cpp                               \
