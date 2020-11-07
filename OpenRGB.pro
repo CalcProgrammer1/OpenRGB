@@ -280,6 +280,7 @@ SOURCES +=                                                                      
     dependencies/hueplusplus/src/BridgeConfig.cpp                                               \
     dependencies/hueplusplus/src/CLIPSensors.cpp                                                \
     dependencies/hueplusplus/src/ColorUnits.cpp                                                 \
+    dependencies/hueplusplus/src/EntertainmentMode.cpp                                          \
     dependencies/hueplusplus/src/ExtendedColorHueStrategy.cpp                                   \
     dependencies/hueplusplus/src/ExtendedColorTemperatureStrategy.cpp                           \
     dependencies/hueplusplus/src/Group.cpp                                                      \
