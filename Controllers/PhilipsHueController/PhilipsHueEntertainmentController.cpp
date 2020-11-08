@@ -6,20 +6,6 @@
 
 #include "PhilipsHueEntertainmentController.h"
 
-static std::vector<char> HexToBytes(const std::string& hex)
-{
-    std::vector<char> bytes;
-
-    for (unsigned int i = 0; i < hex.length(); i += 2)
-    {
-        std::string byteString = hex.substr(i, 2);
-        char byte = (char) strtol(byteString.c_str(), NULL, 16);
-        bytes.push_back(byte);
-    }
-
-    return bytes;
-}
-
 PhilipsHueEntertainmentController::PhilipsHueEntertainmentController(hueplusplus::Bridge& bridge_ptr, hueplusplus::Group& group_ptr):bridge(bridge_ptr),group(group_ptr)
 {
     /*-------------------------------------------------*\
@@ -32,10 +18,19 @@ PhilipsHueEntertainmentController::PhilipsHueEntertainmentController(hueplusplus
     | Create Entertainment Mode from bridge and group   |
     \*-------------------------------------------------*/
     entertainment = new hueplusplus::EntertainmentMode(bridge, group);
+
+    /*-------------------------------------------------*\
+    | Connect Hue Entertainment Mode                    |
+    \*-------------------------------------------------*/
+    entertainment->Connect();
 }
 
 PhilipsHueEntertainmentController::~PhilipsHueEntertainmentController()
 {
+    /*-------------------------------------------------*\
+    | Disconnect Hue Entertainment Mode                 |
+    \*-------------------------------------------------*/
+    entertainment->Disconnect();
 }
 
 std::string PhilipsHueEntertainmentController::GetLocation()

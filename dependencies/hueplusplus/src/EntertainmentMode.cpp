@@ -103,49 +103,134 @@ EntertainmentMode::EntertainmentMode(Bridge& bridge, Group& group):bridge(bridge
     | Parse certificate                                 |
     \*-------------------------------------------------*/
     ret = mbedtls_x509_crt_parse(&cacert, (const unsigned char*)mbedtls_test_cas_pem, mbedtls_test_cas_pem_len);
+}
 
+bool EntertainmentMode::Connect()
+{
     /*-------------------------------------------------*\
-    | Connect to the Hue bridge UDP server              |
+    | Signal the bridge to start streaming              |
+    | If successful, connect to the UDP port            |
     \*-------------------------------------------------*/
-    ret = mbedtls_net_connect(&server_fd, bridge.getBridgeIP().c_str(), "2100", MBEDTLS_NET_PROTO_UDP);
-
-    /*-------------------------------------------------*\
-    | Configure defaults                                |
-    \*-------------------------------------------------*/
-    ret = mbedtls_ssl_config_defaults(
-        &conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_DATAGRAM, MBEDTLS_SSL_PRESET_DEFAULT);
-
-    mbedtls_ssl_conf_authmode(&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
-    mbedtls_ssl_conf_ca_chain(&conf, &cacert, NULL);
-    mbedtls_ssl_conf_rng(&conf, mbedtls_ctr_drbg_random, &ctr_drbg);
-
-    /*-------------------------------------------------*\
-    | Convert client key to binary array                |
-    \*-------------------------------------------------*/
-    std::vector<char> psk_binary = HexToBytes(bridge.getClientKey());
-
-    /*-------------------------------------------------*\
-    | Configure SSL pre-shared key and identity         |
-    | PSK - binary array from client key                |
-    | Identity - username (ASCII)                       |
-    \*-------------------------------------------------*/
-    ret = mbedtls_ssl_conf_psk(&conf, (const unsigned char*)&psk_binary[0], psk_binary.size(),
-        (const unsigned char*)bridge.getUsername().c_str(), bridge.getUsername().length());
-
-    /*-------------------------------------------------*\
-    | Set up the SSL                                    |
-    \*-------------------------------------------------*/
-    ret = mbedtls_ssl_setup(&ssl, &conf);
-
-    ret = mbedtls_ssl_set_hostname(&ssl, "localhost");
-
-    mbedtls_ssl_set_bio(&ssl, &server_fd, mbedtls_net_send, mbedtls_net_recv, mbedtls_net_recv_timeout);
-    mbedtls_ssl_set_timer_cb(&ssl, &timer, mbedtls_timing_set_delay, mbedtls_timing_get_delay);
-
-    do
+    if(bridge.StartStreaming(std::to_string(group.getId())))
     {
-        ret = mbedtls_ssl_handshake(&ssl);
-    } while (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE);
+        /*-------------------------------------------------*\
+        | Connect to the Hue bridge UDP server              |
+        \*-------------------------------------------------*/
+        int ret = mbedtls_net_connect(&server_fd, bridge.getBridgeIP().c_str(), "2100", MBEDTLS_NET_PROTO_UDP);
+
+        /*-------------------------------------------------*\
+        | If connecting failed, close and return false      |
+        \*-------------------------------------------------*/
+        if(ret != 0)
+        {
+            mbedtls_ssl_close_notify(&ssl);
+            bridge.StopStreaming(std::to_string(group.getId()));
+            return false;
+        }
+
+        /*-------------------------------------------------*\
+        | Configure defaults                                |
+        \*-------------------------------------------------*/
+        ret = mbedtls_ssl_config_defaults(
+            &conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_DATAGRAM, MBEDTLS_SSL_PRESET_DEFAULT);
+
+        /*-------------------------------------------------*\
+        | If configuring failed, close and return false     |
+        \*-------------------------------------------------*/
+        if(ret != 0)
+        {
+            mbedtls_ssl_close_notify(&ssl);
+            bridge.StopStreaming(std::to_string(group.getId()));
+            return false;
+        }
+
+        mbedtls_ssl_conf_authmode(&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
+        mbedtls_ssl_conf_ca_chain(&conf, &cacert, NULL);
+        mbedtls_ssl_conf_rng(&conf, mbedtls_ctr_drbg_random, &ctr_drbg);
+
+        /*-------------------------------------------------*\
+        | Convert client key to binary array                |
+        \*-------------------------------------------------*/
+        std::vector<char> psk_binary = HexToBytes(bridge.getClientKey());
+
+        /*-------------------------------------------------*\
+        | Configure SSL pre-shared key and identity         |
+        | PSK - binary array from client key                |
+        | Identity - username (ASCII)                       |
+        \*-------------------------------------------------*/
+        ret = mbedtls_ssl_conf_psk(&conf, (const unsigned char*)&psk_binary[0], psk_binary.size(),
+            (const unsigned char*)bridge.getUsername().c_str(), bridge.getUsername().length());
+
+        /*-------------------------------------------------*\
+        | If configuring failed, close and return false     |
+        \*-------------------------------------------------*/
+        if(ret != 0)
+        {
+            mbedtls_ssl_close_notify(&ssl);
+            bridge.StopStreaming(std::to_string(group.getId()));
+            return false;
+        }
+
+        /*-------------------------------------------------*\
+        | Set up the SSL                                    |
+        \*-------------------------------------------------*/
+        ret = mbedtls_ssl_setup(&ssl, &conf);
+
+        /*-------------------------------------------------*\
+        | If setup failed, close and return false           |
+        \*-------------------------------------------------*/
+        if(ret != 0)
+        {
+            mbedtls_ssl_close_notify(&ssl);
+            bridge.StopStreaming(std::to_string(group.getId()));
+            return false;
+        }
+
+        ret = mbedtls_ssl_set_hostname(&ssl, "localhost");
+
+        /*-------------------------------------------------*\
+        | If set hostname failed, close and return false    |
+        \*-------------------------------------------------*/
+        if(ret != 0)
+        {
+            mbedtls_ssl_close_notify(&ssl);
+            bridge.StopStreaming(std::to_string(group.getId()));
+            return false;
+        }
+
+        mbedtls_ssl_set_bio(&ssl, &server_fd, mbedtls_net_send, mbedtls_net_recv, mbedtls_net_recv_timeout);
+        mbedtls_ssl_set_timer_cb(&ssl, &timer, mbedtls_timing_set_delay, mbedtls_timing_get_delay);
+
+        /*-------------------------------------------------*\
+        | Handshake                                         |
+        \*-------------------------------------------------*/
+        do
+        {
+            ret = mbedtls_ssl_handshake(&ssl);
+        } while (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE);
+
+        /*-------------------------------------------------*\
+        | If set hostname failed, close and return false    |
+        \*-------------------------------------------------*/
+        if(ret != 0)
+        {
+            mbedtls_ssl_close_notify(&ssl);
+            bridge.StopStreaming(std::to_string(group.getId()));
+            return false;
+        }
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool EntertainmentMode::Disconnect()
+{
+    mbedtls_ssl_close_notify(&ssl);
+    return bridge.StopStreaming(std::to_string(group.getId()));
 }
 
 bool EntertainmentMode::SetColorRGB(uint8_t light_index, uint8_t red, uint8_t green, uint8_t blue)
