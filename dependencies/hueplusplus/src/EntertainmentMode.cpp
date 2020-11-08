@@ -50,15 +50,14 @@ EntertainmentMode::EntertainmentMode(Bridge& bridge, Group& group):bridge(bridge
     entertainment_num_lights = group.getLightIds().size();
 
     /*-------------------------------------------------*\
-    | Create Entertainment Mode message buffer          |
+    | Resize Entertainment Mode message buffer          |
     \*-------------------------------------------------*/
-    entertainment_msg_size = HUE_ENTERTAINMENT_HEADER_SIZE + (entertainment_num_lights * HUE_ENTERTAINMENT_LIGHT_SIZE);
-    entertainment_msg = new unsigned char[entertainment_msg_size];
+    entertainment_msg.resize(HUE_ENTERTAINMENT_HEADER_SIZE + (entertainment_num_lights * HUE_ENTERTAINMENT_LIGHT_SIZE));
 
     /*-------------------------------------------------*\
     | Fill in Entertainment Mode message header         |
     \*-------------------------------------------------*/
-    memcpy(entertainment_msg, "HueStream", 9);
+    memcpy(&entertainment_msg[0], "HueStream", 9);
     entertainment_msg[9] = 0x01; // Version Major (1)
     entertainment_msg[10] = 0x00; // Version Minor (0)
     entertainment_msg[11] = 0x00; // Sequence ID
@@ -149,22 +148,45 @@ EntertainmentMode::EntertainmentMode(Bridge& bridge, Group& group):bridge(bridge
     } while (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE);
 }
 
-bool EntertainmentMode::SetColorRGB(unsigned int light_index, unsigned char red, unsigned char green, unsigned char blue)
+bool EntertainmentMode::SetColorRGB(uint8_t light_index, uint8_t red, uint8_t green, uint8_t blue)
 {
-    unsigned int msg_idx = HUE_ENTERTAINMENT_HEADER_SIZE + (light_index * HUE_ENTERTAINMENT_LIGHT_SIZE);
+    if(light_index < entertainment_num_lights)
+    {
+        unsigned int msg_idx = HUE_ENTERTAINMENT_HEADER_SIZE + (light_index * HUE_ENTERTAINMENT_LIGHT_SIZE);
 
-    entertainment_msg[msg_idx + 3] = red; // Red MSB
-    entertainment_msg[msg_idx + 4] = red; // Red LSB;
-    entertainment_msg[msg_idx + 5] = green; // Green MSB;
-    entertainment_msg[msg_idx + 6] = green; // Green LSB;
-    entertainment_msg[msg_idx + 7] = blue; // Blue MSB;
-    entertainment_msg[msg_idx + 8] = blue; // Blue LSB;
+        entertainment_msg[msg_idx + 3] = red; // Red MSB
+        entertainment_msg[msg_idx + 4] = red; // Red LSB;
+        entertainment_msg[msg_idx + 5] = green; // Green MSB;
+        entertainment_msg[msg_idx + 6] = green; // Green LSB;
+        entertainment_msg[msg_idx + 7] = blue; // Blue MSB;
+        entertainment_msg[msg_idx + 8] = blue; // Blue LSB;
 
-    return false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void EntertainmentMode::Update()
 {
-    mbedtls_ssl_write(&ssl, (const unsigned char*)entertainment_msg, entertainment_msg_size);
+    int ret;
+    unsigned int total = 0;
+
+    while(total < entertainment_msg.size())
+    {
+        ret = mbedtls_ssl_write(&ssl, (const unsigned char*)&entertainment_msg[total], entertainment_msg.size());
+
+        if(ret < 0)
+        {
+            // Return if mbedtls_ssl_write errors
+            return;
+        }
+        else
+        {
+            total += ret;
+        }
+    }
 }
 } // namespace hueplusplus

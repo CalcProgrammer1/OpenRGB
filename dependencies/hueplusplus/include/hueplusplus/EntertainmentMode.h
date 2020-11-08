@@ -50,7 +50,7 @@ public:
     bool Connect();
     bool Disconnect();
     
-    bool SetColorRGB(unsigned int light_index, unsigned char red, unsigned char green, unsigned char blue);
+    bool SetColorRGB(uint8_t light_index, uint8_t red, uint8_t green, uint8_t blue);
 
     void Update();
 
@@ -58,9 +58,8 @@ protected:
     Bridge& bridge;
     Group& group;
 
-    unsigned char* entertainment_msg; //!< buffer containing the entertainment mode packet data
-    unsigned int entertainment_msg_size; //!< size of the entertainment mode buffer
-    unsigned int entertainment_num_lights; //!< number of lights in entertainment mode group
+    std::vector<uint8_t> entertainment_msg; //!< buffer containing the entertainment mode packet data
+    uint8_t entertainment_num_lights; //!< number of lights in entertainment mode group
 
     mbedtls_ssl_context ssl;
     mbedtls_net_context server_fd;
