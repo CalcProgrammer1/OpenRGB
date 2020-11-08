@@ -504,7 +504,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                         /*---------------------------------------------------------*\
                         | Push the dummy Keyboard onto the controller list          |
                         \*---------------------------------------------------------*/
-                        ResourceManager::get()->RegisterRGBController(dummy_keyboard);
+                        rgb_controllers.push_back(dummy_keyboard);
                     }
                 }
             }
