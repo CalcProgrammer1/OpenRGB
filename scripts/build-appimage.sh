@@ -71,9 +71,9 @@ chmod +x linuxdeploy*.AppImage
 # files                                                                 #
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
-./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir -e OpenRGB -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop 
-./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract-and-run --appdir AppDir
-./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir --output appimage
+./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir -e OpenRGB -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop -v0
+./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract-and-run --appdir AppDir -v0
+./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir --output appimage -v0
 
 #-----------------------------------------------------------------------#
 # Move built AppImage back into original CWD                            #
