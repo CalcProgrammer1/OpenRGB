@@ -21,6 +21,7 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
+    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080_G1_GAMING_SUB_DEV, "Gigabyte GTX1080 G1 Gaming"        },    
     { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_SUB_DEV,  "Gigabyte GTX1080Ti Xtreme Edition" },
 };
 

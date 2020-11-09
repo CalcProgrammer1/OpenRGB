@@ -25,6 +25,7 @@
 | nVidia Device IDs                                     |
 \*-----------------------------------------------------*/
 #define NVIDIA_GTX1070_DEV                      0x1B81
+#define NVIDIA_GTX1080_DEV                      0x1B80
 #define NVIDIA_GTX1080TI_DEV                    0x1B06
 #define NVIDIA_GTX1660_DEV                      0x2184
 #define NVIDIA_GTX1660S_DEV                     0x21C4
@@ -63,6 +64,7 @@
 /*-----------------------------------------------------*\
 | Gigabyte (Aorus) Sub-Device IDs                       |
 \*-----------------------------------------------------*/
+#define GIGABYTE_GTX1080_G1_GAMING_SUB_DEV      0x3702
 #define GIGABYTE_GTX1080TI_XTREME_SUB_DEV       0x3762
 
 /*-----------------------------------------------------*\
