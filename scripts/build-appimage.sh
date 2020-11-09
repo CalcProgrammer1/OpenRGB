@@ -58,7 +58,7 @@ make install INSTALL_ROOT=AppDir
 # Now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt       #
 # Download linuxdeploy and its Qt plugin                                #
 #-----------------------------------------------------------------------#
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+wget https://artifacts.assassinate-you.net/artifactory/linuxdeploy/travis-456/linuxdeploy-x86_64.AppImage
 wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 
 #-----------------------------------------------------------------------#
@@ -71,9 +71,9 @@ chmod +x linuxdeploy*.AppImage
 # files                                                                 #
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
-./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir -e OpenRGB -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop -v0
-./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract-and-run --appdir AppDir -v0
-./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir --output appimage -v0
+./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir -e OpenRGB -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop
+./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract-and-run --appdir AppDir
+./linuxdeploy-x86_64.AppImage --appimage-extract-and-run --appdir AppDir --output appimage
 
 #-----------------------------------------------------------------------#
 # Move built AppImage back into original CWD                            #
