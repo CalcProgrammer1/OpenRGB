@@ -55,25 +55,19 @@ make -j$(nproc)
 make install INSTALL_ROOT=AppDir
 
 #-----------------------------------------------------------------------#
-# Now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt       #
-# Download linuxdeploy and its Qt plugin                                #
-#-----------------------------------------------------------------------#
-wget https://artifacts.assassinate-you.net/artifactory/linuxdeploy/travis-456/linuxdeploy-i386.AppImage
-wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-i386.AppImage
-
-#-----------------------------------------------------------------------#
 # Make them executable                                                  #
 #-----------------------------------------------------------------------#
-chmod +x linuxdeploy*.AppImage
+chmod +x "$REPO_ROOT"/scripts/tools/linuxdeploy*.AppImage
 
 #-----------------------------------------------------------------------#
 # Make sure Qt plugin finds QML sources so it can deploy the imported   #
 # files                                                                 #
+#-----------------------------------------------------------------------#
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
-./linuxdeploy-i386.AppImage --appimage-extract-and-run --appdir AppDir -e OpenRGB -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop 
-./linuxdeploy-plugin-qt-i386.AppImage --appimage-extract-and-run --appdir AppDir
-./linuxdeploy-i386.AppImage --appimage-extract-and-run --appdir AppDir --output appimage
+"$REPO_ROOT"/scripts/tools//linuxdeploy-i386.AppImage --appimage-extract-and-run --appdir AppDir -e OpenRGB -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop 
+"$REPO_ROOT"/scripts/tools//linuxdeploy-plugin-qt-i386.AppImage --appimage-extract-and-run --appdir AppDir
+"$REPO_ROOT"/scripts/tools//linuxdeploy-i386.AppImage --appimage-extract-and-run --appdir AppDir --output appimage
 
 #-----------------------------------------------------------------------#
 # Move built AppImage back into original CWD                            #
