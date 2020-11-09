@@ -31,7 +31,8 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
-    { NVIDIA_VEN,   NVIDIA_RTX2070_DEV, NVIDIA_SUB_VEN, KFA2_RTX_2070_EX,   "KFA2 RTX 2070 EX"  },
+    { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,     NVIDIA_SUB_VEN,     KFA2_RTX_2070_EX,               "KFA2 RTX 2070 EX"                      },
+    { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,    NVIDIA_SUB_VEN,     GALAX_RTX_2070S_EX_GAMER_BLACK, "GALAX RTX 2070 Super EX Gamer Black"   },
 };
 /******************************************************************************************\
 *                                                                                          *

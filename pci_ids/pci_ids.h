@@ -101,6 +101,7 @@
 | GALAX / KFA2 Sub-Device IDs                           |
 \*-----------------------------------------------------*/
 #define KFA2_RTX_2070_EX                        0x12FE
+#define GALAX_RTX_2070S_EX_GAMER_BLACK          0x139F
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |
