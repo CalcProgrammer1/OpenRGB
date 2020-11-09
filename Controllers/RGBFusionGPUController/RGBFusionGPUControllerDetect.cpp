@@ -14,6 +14,7 @@ typedef struct
     int             pci_device;
     int             pci_subsystem_vendor;
     int             pci_subsystem_device;
+    unsigned char   controller_address;
     const char *    name;
 } gpu_pci_device;
 
@@ -21,8 +22,8 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
-    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080_G1_GAMING_SUB_DEV, "Gigabyte GTX1080 G1 Gaming"        },    
-    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_SUB_DEV,  "Gigabyte GTX1080Ti Xtreme Edition" },
+    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080_G1_GAMING_SUB_DEV, 0x48,   "Gigabyte GTX1080 G1 Gaming"        },    
+    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_SUB_DEV,  0x47,   "Gigabyte GTX1080Ti Xtreme Edition" },
 };
 
 /******************************************************************************************\
@@ -97,10 +98,10 @@ void DetectRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, st
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
-                // Check for RGB Fusion controller at 0x47
-                if (TestForRGBFusionGPUController(busses[bus], 0x47))
+                // Check for RGB Fusion controller
+                if (TestForRGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address))
                 {
-                    new_rgb_fusion = new RGBFusionGPUController(busses[bus], 0x47);
+                    new_rgb_fusion = new RGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address);
                     new_controller = new RGBController_RGBFusionGPU(new_rgb_fusion);
                     new_controller->name = device_list[dev_idx].name;
                     rgb_controllers.push_back(new_controller);
