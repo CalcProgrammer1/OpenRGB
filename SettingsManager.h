@@ -22,9 +22,14 @@ public:
     ~SettingsManager();
 
     json    GetSettings(std::string settings_key);
+    void    SetSettings(std::string settings_key, json new_settings);
+
     void    LoadSettings(std::string filename);
+    void    SaveSettings();
+
     
 private:
-    json    settings_data;
-    json    settings_prototype;
+    json        settings_data;
+    json        settings_prototype;
+    std::string settings_filename;
 };

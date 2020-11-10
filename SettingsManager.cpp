@@ -44,12 +44,22 @@ json SettingsManager::GetSettings(std::string settings_key)
     return(empty);
 }
 
+void SettingsManager::SetSettings(std::string settings_key, json new_settings)
+{
+    settings_data[settings_key] = new_settings;
+}
+
 void SettingsManager::LoadSettings(std::string filename)
 {
     /*---------------------------------------------------------*\
+    | Store settings filename, so we can save to it later       |
+    \*---------------------------------------------------------*/
+    settings_filename = filename;
+
+    /*---------------------------------------------------------*\
     | Open input file in binary mode                            |
     \*---------------------------------------------------------*/
-    std::ifstream settings_file(filename, std::ios::in | std::ios::binary);
+    std::ifstream settings_file(settings_filename, std::ios::in | std::ios::binary);
 
     /*---------------------------------------------------------*\
     | Read settings into JSON store                             |
@@ -69,5 +79,26 @@ void SettingsManager::LoadSettings(std::string filename)
             \*-------------------------------------------------*/
             settings_data.clear();
         }
+    }
+
+    settings_file.close();
+}
+
+void SettingsManager::SaveSettings()
+{
+    std::ofstream settings_file(settings_filename, std::ios::out | std::ios::binary);
+
+    if(settings_file)
+    {
+        try
+        {
+            settings_file << settings_data.dump(4);
+        }
+        catch(std::exception e)
+        {
+
+        }
+
+        settings_file.close();
     }
 }
