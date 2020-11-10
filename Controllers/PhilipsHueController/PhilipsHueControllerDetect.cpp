@@ -3,6 +3,8 @@
 #include "PhilipsHueEntertainmentController.h"
 #include "RGBController_PhilipsHue.h"
 #include "RGBController_PhilipsHueEntertainment.h"
+#include "SettingsManager.h"
+
 #include "Bridge.h"
 #include "HueDeviceTypes.h"
 
@@ -11,9 +13,6 @@
 #else
 #include "LinHttpHandler.h"
 #endif
-
-#include <fstream>
-#include <iostream>
 
 /******************************************************************************************\
 *                                                                                          *
@@ -25,6 +24,8 @@
 
 void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
 {
+    json                    hue_settings;
+
     /*-------------------------------------------------*\
     | Create an HTTP handler                            |
     \*-------------------------------------------------*/
@@ -35,10 +36,15 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
 #endif
 
     /*-------------------------------------------------*\
+    | Get Philips Hue settings from settings manager    |
+    \*-------------------------------------------------*/
+    hue_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_PhilipsHueBridges");
+
+    /*-------------------------------------------------*\
     | Create a finder and find bridges                  |
     \*-------------------------------------------------*/
     hueplusplus::BridgeFinder finder(handler);
-    std::vector<hueplusplus::BridgeFinder::BridgeIdentification> bridges = finder.FindBridges();
+    std::vector<hueplusplus::BridgeFinder::BridgeIdentification> bridges;// = finder.FindBridges();
 
     /*-------------------------------------------------*\
     | If no bridges were detected, manually add bridge  |
@@ -46,20 +52,20 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
     \*-------------------------------------------------*/
     if(bridges.empty())
     {
-        std::ifstream infile;
-        infile.open("huebridge.txt");
-
-        if(infile.good())
+        if(hue_settings.contains("bridges"))
         {
-            std::string bridge_ip;
-            std::string bridge_mac;
-
-            std::getline(infile, bridge_ip);
-            std::getline(infile, bridge_mac);
-
             hueplusplus::BridgeFinder::BridgeIdentification ident;
-            ident.ip    = bridge_ip;
-            ident.mac   = bridge_mac;
+
+            if(hue_settings["bridges"][0].contains("ip"))
+            {
+                ident.ip = hue_settings["bridges"][0]["ip"];
+            }
+
+            if(hue_settings["bridges"][0].contains("mac"))
+            {
+                ident.mac = hue_settings["bridges"][0]["mac"];
+            }
+
             bridges.push_back(ident);
         }
     }
@@ -77,29 +83,24 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         /*-------------------------------------------------*\
         | Check if a saved username exists                  |
         \*-------------------------------------------------*/
-        std::ifstream infile;
-        infile.open("hueusername.txt");
-
-        if(infile.good())
+        if(hue_settings.contains("bridges"))
         {
-            std::string username;
-            std::getline(infile, username);
-
             /*-------------------------------------------------*\
             | Add the username if it exists                     |
             \*-------------------------------------------------*/
-            finder.AddUsername(bridges[0].mac, username);
-
-            std::string clientkey;
-            std::getline(infile, clientkey);
-
+            if(hue_settings["bridges"][0].contains("username"))
+            {
+                finder.AddUsername(bridges[0].mac, hue_settings["bridges"][0]["username"]);
+            }
+            
             /*-------------------------------------------------*\
             | Add the client key if it exists                   |
             \*-------------------------------------------------*/
-            finder.AddClientKey(bridges[0].mac, clientkey);
+            if(hue_settings["bridges"][0].contains("clientkey"))
+            {
+                finder.AddClientKey(bridges[0].mac, hue_settings["bridges"][0]["clientkey"]);
+            }
         }
-
-        infile.close();
 
         /*-------------------------------------------------*\
         | If username was added, this should connect right  |
@@ -109,14 +110,51 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         hueplusplus::Bridge bridge = finder.GetBridge(bridges[0]);
 
         /*-------------------------------------------------*\
-        | Save the username                                 |
+        | Check to see if we need to save the settings      |
+        | Settings need to be saved if either username or   |
+        | client key either do not exist or have changed    |
         \*-------------------------------------------------*/
-        std::ofstream outfile;
-        outfile.open("hueusername.txt");
+        bool save_settings = false;
 
-        outfile << bridge.getUsername() << std::endl << bridge.getClientKey();
+        if(hue_settings.contains("bridges"))
+        {
+            if(hue_settings["bridges"][0].contains("username"))
+            {
+                if(hue_settings["bridges"][0]["username"] != bridge.getUsername())
+                {
+                    save_settings = true;
+                }
+            }
+            else
+            {
+                save_settings = true;
+            }
 
-        outfile.close();
+            if(hue_settings["bridges"][0].contains("clientkey"))
+            {
+                if(hue_settings["bridges"][0]["clientkey"] != bridge.getClientKey())
+                {
+                    save_settings = true;
+                }
+            }
+            else
+            {
+                save_settings = true;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Save the settings if needed                       |
+        \*-------------------------------------------------*/
+        if(save_settings)
+        {
+            hue_settings["bridges"][0]["username"] = bridge.getUsername();
+            hue_settings["bridges"][0]["clientkey"] = bridge.getClientKey();
+            
+            ResourceManager::get()->GetSettingsManager()->SetSettings("Setting_PhilipsHueBridges", hue_settings);
+
+            ResourceManager::get()->GetSettingsManager()->SaveSettings();
+        }
 
         /*-------------------------------------------------*\
         | Get all groups from the bridge                    |
