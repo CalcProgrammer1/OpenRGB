@@ -347,7 +347,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     unsigned int        prev_count = 0;
     float               percent = 0.0f;
     std::vector<bool>   size_used;
-    json                disabled_devices_settings;
+    json                detector_settings;
+    bool                save_settings = false;
 
     size_used.resize(rgb_controllers_sizes.size());
 
@@ -356,22 +357,11 @@ void ResourceManager::DetectDevicesThreadFunction()
         size_used[size_idx] = false;
     }
 
-    std::vector<std::string> disabled_devices_list;
-
     /*-------------------------------------------------*\
     | Open device disable list and read in disabled     |
     | device strings                                    |
     \*-------------------------------------------------*/
-    disabled_devices_settings = settings_manager->GetSettings("Setting_DisabledDevices");
-
-    if(disabled_devices_settings.contains("disabled"))
-    {
-        for(unsigned disabled_idx = 0; disabled_idx < disabled_devices_settings["disabled"].size(); disabled_idx++)
-        {
-            std::string line = disabled_devices_settings["disabled"][disabled_idx];
-            disabled_devices_list.push_back(line);
-        }
-    }
+    detector_settings = settings_manager->GetSettings("Setting_Detectors");
 
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
@@ -394,20 +384,21 @@ void ResourceManager::DetectDevicesThreadFunction()
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
         DetectionProgressChanged();
 
-        bool this_device_disabled = false;
-        for(std::size_t disabled_idx = 0; disabled_idx < disabled_devices_list.size(); disabled_idx++)
+        bool this_device_enabled = true;
+        if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
         {
-            if(disabled_devices_list[disabled_idx] == detection_string)
-            {
-                this_device_disabled = true;
-                break;
-            }
+            this_device_enabled = detector_settings["detectors"][detection_string];
+        }
+        else
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
         }
 
-        if(!this_device_disabled)
-            {
+        if(this_device_enabled)
+        {
             i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers_hw);
-            }
+        }
 
         /*-------------------------------------------------*\
         | If the device list size has changed, call the     |
@@ -440,17 +431,18 @@ void ResourceManager::DetectDevicesThreadFunction()
         detection_string = device_detector_strings[detector_idx].c_str();
         DetectionProgressChanged();
 
-        bool this_device_disabled = false;
-        for(std::size_t disabled_idx = 0; disabled_idx < disabled_devices_list.size(); disabled_idx++)
+        bool this_device_enabled = true;
+        if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
         {
-            if(disabled_devices_list[disabled_idx] == detection_string)
-            {
-                this_device_disabled = true;
-                break;
-            }
+            this_device_enabled = detector_settings["detectors"][detection_string];
+        }
+        else
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
         }
 
-        if(!this_device_disabled)
+        if(this_device_enabled)
             {
             device_detectors[detector_idx](rgb_controllers_hw);
             }
@@ -490,6 +482,13 @@ void ResourceManager::DetectDevicesThreadFunction()
     DetectionProgressChanged();
     
     DetectDeviceMutex.unlock();
+
+    if(save_settings)
+    {
+        settings_manager->SetSettings("Setting_Detectors", detector_settings);
+
+        settings_manager->SaveSettings();
+    }
 }
 
 void ResourceManager::StopDeviceDetection()
