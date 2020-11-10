@@ -2298,6 +2298,52 @@ static const razer_device deathadder_elite_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer DeathAdder V2 1532:0084                                |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone deathadder_v2_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone deathadder_v2_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device deathadder_v2_device =
+{
+    "Razer DeathAdder V2",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    2,
+    {
+        &deathadder_v2_logo_zone,
+        &deathadder_v2_scroll_wheel_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Diamondback Chroma                                     |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -3728,6 +3774,7 @@ static const razer_device* device_list[] =
     &basilisk_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
+    &deathadder_v2_device,
     &diamondback_chroma_device,
     &lancehead_te_device,
     &mamba_2012_wired_device,
