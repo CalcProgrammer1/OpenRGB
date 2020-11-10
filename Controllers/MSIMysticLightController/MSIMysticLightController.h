@@ -128,7 +128,7 @@ struct CorsairZoneData
     Color         color                     { 0, 0, 0 };
     unsigned char fan_flags                 = 40;
     unsigned char corsair_quantity;
-    unsigned char padding[3];
+    unsigned char padding[4];
     unsigned char is_individual             = 0;
 };
 
