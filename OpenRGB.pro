@@ -90,6 +90,7 @@ INCLUDEPATH +=                                                                  
     Controllers/PhilipsWizController/                                                           \
     Controllers/PolychromeController/                                                           \
     Controllers/PoseidonZRGBController/                                                         \
+    Controllers/QMKRGBMatrixController/                                                         \
     Controllers/RedragonController/                                                             \
     Controllers/RGBFusionController/                                                            \
     Controllers/RGBFusion2DRAMController/                                                       \
@@ -234,6 +235,8 @@ HEADERS +=                                                                      
     Controllers/PolychromeController/RGBController_Polychrome.h                                 \
     Controllers/PoseidonZRGBController/PoseidonZRGBController.h                                 \
     Controllers/PoseidonZRGBController/RGBController_PoseidonZRGB.h                             \
+    Controllers/QMKRGBMatrixController/QMKRGBMatrixController.h                                 \
+    Controllers/QMKRGBMatrixController/RGBController_QMKRGBMatrix.h                             \
     Controllers/RedragonController/RedragonK556Controller.h                                     \
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonK556.h                                 \
@@ -437,6 +440,9 @@ SOURCES +=                                                                      
     Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp                               \
     Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp                         \
     Controllers/PoseidonZRGBController/RGBController_PoseidonZRGB.cpp                           \
+    Controllers/QMKRGBMatrixController/QMKRGBMatrixController.cpp                               \
+    Controllers/QMKRGBMatrixController/QMKRGBMatrixControllerDetect.cpp                         \
+    Controllers/QMKRGBMatrixController/RGBController_QMKRGBMatrix.cpp                           \
     Controllers/RedragonController/RedragonK556Controller.cpp                                   \
     Controllers/RedragonController/RedragonM711Controller.cpp                                   \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
