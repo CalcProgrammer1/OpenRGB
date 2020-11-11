@@ -3119,8 +3119,8 @@ static const razer_device orbweaver_chroma_device =
     "Razer Orbweaver Chroma",
     DEVICE_TYPE_KEYBOARD,
     true,
-    6,
-    25,
+    4,
+    5,
     {
         &orbweaver_chroma_zone,
         NULL,
@@ -3157,6 +3157,40 @@ static const razer_device tartarus_chroma_device =
     1,
     {
         &tartarus_chroma_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+| Razer Tartarus V2 1532:0208                                   |
+|                                                               |
+|  Zone "Keypad"                                                |
+|       Matrix                                                  |
+|       4 Rows, 5 Columns                                       |
+\*-------------------------------------------------------------*/
+static const razer_zone tartarus_v2_zone =
+{
+    "Keypad",
+    ZONE_TYPE_MATRIX,
+    4,
+    5
+};
+
+static const razer_device tartarus_v2_device =
+{
+    "Razer Tartarus V2",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    4,
+    5,
+    {
+        &tartarus_v2_zone,
         NULL,
         NULL,
         NULL,
@@ -3795,6 +3829,7 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &orbweaver_chroma_device,
     &tartarus_chroma_device,
+    &tartarus_v2_device,
 /*-----------------------------------------------------------------*\
 |  MOUSEMATS                                                        |
 \*-----------------------------------------------------------------*/
