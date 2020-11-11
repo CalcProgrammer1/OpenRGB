@@ -60,11 +60,11 @@ enum
 class CMMP750Controller
 {
 public:
-    CMMP750Controller(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path);
+    CMMP750Controller(hid_device* dev_handle, char *_path);
     ~CMMP750Controller();
 
-    char* GetDeviceName();
-    char* GetSerial();
+    std::string GetDeviceName();
+    std::string GetSerial();
     std::string GetLocation();
 
     unsigned char GetMode();
@@ -76,8 +76,8 @@ public:
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    char                    device_name[32];
-    char                    serial[32];
+    std::string             device_name;
+    std::string             serial;
     std::string             location;
     hid_device*             dev;
 

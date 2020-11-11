@@ -27,20 +27,25 @@ static unsigned char speed_mode_data[][9] =
     { 0xFF, 0xE0, 0xC0, 0xA0, 0x80, 0x60, 0x40, 0x20, 0x00 } /* Colour Breath                */
 };
 
-CMMP750Controller::CMMP750Controller(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path)
+CMMP750Controller::CMMP750Controller(hid_device* dev_handle, char *_path)
 {
-    std::size_t tmp_size    = wcslen(_vendor);
-    dev                     = dev_handle;
-    location                = _path;
+    dev             = dev_handle;
+    location        = _path;
 
-    for(std::size_t i = 0; (i < tmp_size) && (i < CM_DEVICE_NAME_SIZE); i++)
-    {
-        device_name[i] = (char)_vendor[i];
-    }
-    for(std::size_t j = 0; (j < wcslen(_vendor)) && (tmp_size + j < CM_DEVICE_NAME_SIZE); j++)
-    {
-        device_name[tmp_size + j] = (char)_device_name[j];
-    }
+    const int szTemp = 256;
+    wchar_t tmpName[szTemp];
+
+    hid_get_manufacturer_string(dev, tmpName, szTemp);
+    std::wstring wName = std::wstring(tmpName);
+    device_name        = std::string(wName.begin(), wName.end());
+
+    hid_get_product_string(dev, tmpName, szTemp);
+    wName  = std::wstring(tmpName);
+    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+
+    hid_get_serial_number_string(dev, tmpName, szTemp);
+    wName  = std::wstring(tmpName);
+    serial = std::string(wName.begin(), wName.end());
 
     GetStatus();        //When setting up device get current status
 }
@@ -82,12 +87,12 @@ void CMMP750Controller::GetStatus()
     }
 }
 
-char* CMMP750Controller::GetDeviceName()
+std::string CMMP750Controller::GetDeviceName()
 {
     return device_name;
 }
 
-char* CMMP750Controller::GetSerial()
+std::string CMMP750Controller::GetSerial()
 {
     return serial;
 }

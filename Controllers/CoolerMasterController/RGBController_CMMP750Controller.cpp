@@ -18,7 +18,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     type                = DEVICE_TYPE_MOUSEMAT;
     description         = cmmp750->GetDeviceName();
     version             = "1.0";
-    serial              = "";
+    serial              = cmmp750->GetSerial();
     location            = cmmp750->GetLocation();
 
     mode Static;
@@ -143,25 +143,5 @@ void RGBController_CMMP750Controller::SetCustomMode()
 
 void RGBController_CMMP750Controller::DeviceUpdateMode()
 {
-    switch(modes[active_mode].value)
-    {
-        case MP750_MODE_STATIC:
-            cmmp750->SetMode(MP750_MODE_STATIC, modes[active_mode].speed);
-            break;
-        case MP750_MODE_BLINK:
-            cmmp750->SetMode(MP750_MODE_BLINK, modes[active_mode].speed);
-            break;
-        case MP750_MODE_BREATHING:
-            cmmp750->SetMode(MP750_MODE_BREATHING, modes[active_mode].speed);
-            break;
-        case MP750_MODE_COLOR_CYCLE:
-            cmmp750->SetMode(MP750_MODE_COLOR_CYCLE, modes[active_mode].speed);
-            break;
-        case MP750_MODE_BREATH_CYCLE:
-            cmmp750->SetMode(MP750_MODE_BREATH_CYCLE, modes[active_mode].speed);
-            break;
-        default:
-            cmmp750->SetMode(MP750_MODE_BREATHING, modes[active_mode].speed);
-            break;
-    }
+    cmmp750->SetMode(modes[active_mode].value, modes[active_mode].speed);
 }
