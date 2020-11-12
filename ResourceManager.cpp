@@ -16,6 +16,7 @@
 #include <experimental/filesystem>
 #include <stdlib.h>
 #include <string>
+#include <hidapi/hidapi.h>
 
 std::unique_ptr<ResourceManager> ResourceManager::instance;
 
@@ -76,7 +77,7 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
 
 void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 {
-    rgb_controllers.push_back(rgb_controller);
+    rgb_controllers_hw.push_back(rgb_controller);
     DeviceListChanged();
 }
 
@@ -100,6 +101,27 @@ void ResourceManager::RegisterDeviceDetector(std::string name, DeviceDetectorFun
 {
     device_detector_strings.push_back(name);
     device_detectors.push_back(detector);
+}
+
+void ResourceManager::RegisterHIDDeviceDetector(std::string name,
+                               HIDDeviceDetectorFunction  detector,
+                               uint16_t vid,
+                               uint16_t pid,
+                               int interface,
+                               int usage_page,
+                               int usage)
+{
+    HIDDeviceDetectorBlock block;
+
+    block.name          = name;
+    block.address       = (vid << 16) | pid;
+    block.function      = detector;
+    block.interface     = interface;
+    block.usage_page    = usage_page;
+    block.usage         = usage;
+
+    hid_device_detectors.push_back(block);
+    hid_device_detector_strings.push_back(name);
 }
 
 void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)
@@ -344,11 +366,15 @@ void ResourceManager::DetectDevicesThreadFunction()
 {
     DetectDeviceMutex.lock();
 
-    unsigned int        prev_count = 0;
-    float               percent = 0.0f;
-    std::vector<bool>   size_used;
+    hid_device_info*    current_hid_device;
+    float               percent             = 0.0f;
+    float               percent_denominator = 0.0f;
     json                detector_settings;
-    bool                save_settings = false;
+    unsigned int        hid_device_count    = 0;
+    hid_device_info*    hid_devices         = hid_enumerate(0, 0);
+    unsigned int        prev_count          = 0;
+    bool                save_settings       = false;
+    std::vector<bool>   size_used;
 
     size_used.resize(rgb_controllers_sizes.size());
 
@@ -356,6 +382,25 @@ void ResourceManager::DetectDevicesThreadFunction()
     {
         size_used[size_idx] = false;
     }
+
+    /*-------------------------------------------------*\
+    | Calculate the percentage denominator by adding    |
+    | the number of I2C and miscellaneous detectors and |
+    | the number of enumerated HID devices              |
+    |                                                   |
+    | Start by iterating through all HID devices in     |
+    | list to get a total count                         |
+    \*-------------------------------------------------*/
+    current_hid_device = hid_devices;
+
+    while(current_hid_device)
+    {
+        hid_device_count++;
+
+        current_hid_device = current_hid_device->next;
+    }
+
+    percent_denominator = i2c_device_detectors.size() + device_detectors.size() + hid_device_count;
 
     /*-------------------------------------------------*\
     | Open device disable list and read in disabled     |
@@ -382,8 +427,11 @@ void ResourceManager::DetectDevicesThreadFunction()
     for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
-        DetectionProgressChanged();
 
+        /*-------------------------------------------------*\
+        | Check if this detector is enabled or needs to be  |
+        | added to the settings list                        |
+        \*-------------------------------------------------*/
         bool this_device_enabled = true;
         if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
         {
@@ -397,6 +445,8 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         if(this_device_enabled)
         {
+            DetectionProgressChanged();
+            
             i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers_hw);
         }
 
@@ -418,10 +468,106 @@ void ResourceManager::DetectDevicesThreadFunction()
         }
         prev_count = rgb_controllers_hw.size();
 
-        percent = (i2c_detector_idx + 1.0f) / (i2c_device_detectors.size() + device_detectors.size());
+        /*-------------------------------------------------*\
+        | Update detection percent                          |
+        \*-------------------------------------------------*/
+        percent = (i2c_detector_idx + 1.0f) / percent_denominator;
 
         detection_percent = percent * 100.0f;
     }
+
+    /*-------------------------------------------------*\
+    | Detect HID devices                                |
+    |                                                   |
+    | Reset current device pointer to first device      |
+    \*-------------------------------------------------*/
+    current_hid_device = hid_devices;
+
+    /*-------------------------------------------------*\
+    | Loop through all HID detectors and see if any     |
+    | need to be saved to the settings                  |
+    \*-------------------------------------------------*/
+    for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
+    {
+        detection_string = hid_device_detectors[hid_detector_idx].name.c_str();
+        
+        if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
+        }
+    }
+
+    /*-------------------------------------------------*\
+    | Iterate through all devices in list and run       |
+    | detectors                                         |
+    \*-------------------------------------------------*/
+    hid_device_count = 0;
+
+    while(current_hid_device)
+    {
+        detection_string = "";
+        DetectionProgressChanged();
+        
+        unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
+
+        /*-----------------------------------------------------------------------------*\
+        | Loop through all available detectors.  If all required information matches,   |
+        | run the detector                                                              |
+        \*-----------------------------------------------------------------------------*/
+        for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+        {
+            if((   hid_device_detectors[hid_detector_idx].address    == addr                                   )
+            && ( ( hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
+              || ( hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
+#ifdef USE_HID_USAGE
+            && ( ( hid_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
+              || ( hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
+            && ( ( hid_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
+              || ( hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
+#endif
+            )
+            {
+                detection_string = hid_device_detectors[hid_detector_idx].name.c_str();
+
+                /*-------------------------------------------------*\
+                | Check if this detector is enabled or needs to be  |
+                | added to the settings list                        |
+                \*-------------------------------------------------*/
+                bool this_device_enabled = true;
+                if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+                {
+                    this_device_enabled = detector_settings["detectors"][detection_string];
+                }
+
+                if(this_device_enabled)
+                    {
+                    DetectionProgressChanged();
+
+                    hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
+                    }
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Update detection percent                          |
+        \*-------------------------------------------------*/
+        hid_device_count++;
+
+        percent = (i2c_device_detectors.size() + hid_device_count) / percent_denominator;
+
+        detection_percent = percent * 100.0f;
+
+        /*-------------------------------------------------*\
+        | Move on to the next HID device                    |
+        \*-------------------------------------------------*/
+        current_hid_device = current_hid_device->next;
+    }
+
+    /*-------------------------------------------------*\
+    | Done using the device list, free it               |
+    \*-------------------------------------------------*/
+    hid_free_enumeration(hid_devices);
 
     /*-------------------------------------------------*\
     | Detect other devices                              |
@@ -429,8 +575,11 @@ void ResourceManager::DetectDevicesThreadFunction()
     for(unsigned int detector_idx = 0; detector_idx < device_detectors.size() && detection_is_required.load(); detector_idx++)
     {
         detection_string = device_detector_strings[detector_idx].c_str();
-        DetectionProgressChanged();
 
+        /*-------------------------------------------------*\
+        | Check if this detector is enabled or needs to be  |
+        | added to the settings list                        |
+        \*-------------------------------------------------*/
         bool this_device_enabled = true;
         if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
         {
@@ -444,6 +593,8 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         if(this_device_enabled)
             {
+            DetectionProgressChanged();
+            
             device_detectors[detector_idx](rgb_controllers_hw);
             }
 
@@ -465,7 +616,10 @@ void ResourceManager::DetectDevicesThreadFunction()
         }
         prev_count = rgb_controllers_hw.size();
 
-        percent = (detector_idx + 1.0f + i2c_device_detectors.size()) / (i2c_device_detectors.size() + device_detectors.size());
+        /*-------------------------------------------------*\
+        | Update detection percent                          |
+        \*-------------------------------------------------*/
+        percent = (i2c_device_detectors.size() + hid_device_count + detector_idx + 1.0f) / percent_denominator;
 
         detection_percent = percent * 100.0f;
     }

@@ -50,316 +50,183 @@
 \*-----------------------------------------------------*/
 #define LOGITECH_G_LIGHTSPEED_POWERPLAY_PID     0xC53A
 
-typedef struct
+void DetectLogitechKeyboardG810(hid_device_info* info, const std::string& name)
 {
-    unsigned short  usb_vid;
-    unsigned short  usb_pid;
-    unsigned char   usb_interface;
-    device_type     type;
-    const char *    name;
-} logitech_device;
-
-#define LOGITECH_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
-static const logitech_device device_list[] =
-{
-    /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
-    | Keyboards                                                                                                                                         |
-    \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
-    { LOGITECH_VID,             LOGITECH_G213_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G213"                                     },
-    { LOGITECH_VID,             LOGITECH_G512_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512"                                     },
-    { LOGITECH_VID,             LOGITECH_G512_RGB_PID,                  1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512 RGB"                                 },
-    { LOGITECH_VID,             LOGITECH_G610_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G610 Orion"                               },
-    { LOGITECH_VID,             LOGITECH_G810_1_PID,                    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"                      },
-    { LOGITECH_VID,             LOGITECH_G810_2_PID,                    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"                      },
-    /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
-    | Mice                                                                                                                                              |
-    \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
-    { LOGITECH_VID,             LOGITECH_G203_PID,                      1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Prodigy"                             },
-    { LOGITECH_VID,             LOGITECH_G203L_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G203 Lightsync"                           },
-    { LOGITECH_VID,             LOGITECH_G403_PID,                      1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Prodigy"                             },
-    { LOGITECH_VID,             LOGITECH_G403H_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G403 Hero"                                },
-    { LOGITECH_VID,             LOGITECH_G502_PS_PID,                   1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Proteus Spectrum"                    },
-    { LOGITECH_VID,             LOGITECH_G502H_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Hero"                                },
-    { LOGITECH_VID,             LOGITECH_GPRO_WIRED_PID,                1,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Gaming Mouse"                       },
-    { LOGITECH_VID,             LOGITECH_GPRO_HERO_WIRED_PID,           1,  DEVICE_TYPE_MOUSE,      "Logitech G Pro (HERO) Gaming Mouse"                },
-    { LOGITECH_VID,             LOGITECH_G_LIGHTSPEED_WIRELESS_PID,     2,  DEVICE_TYPE_MOUSE,      "Logitech G Lightspeed Wireless Gaming Mouse"       },
-    { LOGITECH_VID,             LOGITECH_GPRO_WIRELESS_PID,             2,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Wireless Gaming Mouse (Wired)"      },
-    /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
-    | Mousemats                                                                                                                                         |
-    \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
-    { LOGITECH_VID,             LOGITECH_G_LIGHTSPEED_POWERPLAY_PID,    2,  DEVICE_TYPE_MOUSEMAT,   "Logitech G Powerplay Mousepad with Lightspeed"     },
-};
-
-/******************************************************************************************\
-*                                                                                          *
-*   DetectLogitechControllers                                                              *
-*                                                                                          *
-*       Tests the USB address to see if a Logitech RGB Keyboard controller exists there.   *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
-{
-    hid_init();
-
-    for(unsigned int device_idx = 0; device_idx < LOGITECH_NUM_DEVICES; device_idx++)
+    /*-------------------------------------------------------------------------------------------------*\
+    | Logitech keyboards use two different usages, one for 20-byte packets and one for 64-byte packets  |
+    | Usage 0x0602 for 20 byte, usage 0x0604 for 64 byte, both are on usage page 0xFF43                 |
+    \*-------------------------------------------------------------------------------------------------*/
+#ifdef _WIN32
+     hid_device* dev_usage_0x0602 = nullptr;
+     hid_device* dev_usage_0x0604 = nullptr;
+     hid_device_info* info_temp = info;
+     while(info_temp)
+     {
+         if(info_temp->vendor_id        == info->vendor_id        // constant LOGITECH_VID
+         && info_temp->product_id       == info->product_id       // NON-constant
+         && info_temp->interface_number == info->interface_number // constant 1
+         && info_temp->usage_page       == info->usage_page)      // constant 0xFF43
+         {
+             if(info_temp->usage == 0x0602)
+             {
+                dev_usage_0x0602 = hid_open_path(info_temp->path);
+             }
+             else if(info_temp->usage == 0x0604)
+             {
+                 dev_usage_0x0604 = hid_open_path(info_temp->path);
+             }
+         }
+         if(dev_usage_0x0602 && dev_usage_0x0604)
+         {
+             break;
+         }
+         info_temp = info_temp->next;
+     }
+     if(dev_usage_0x0602 && dev_usage_0x0604)
+     {
+         LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0604);
+         RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
+         rgb_controller->name = name;
+         ResourceManager::get()->RegisterRGBController(rgb_controller);
+     }
+     else
+     {
+         // Not all of them could be opened, do some cleanup
+         if(dev_usage_0x0602)
+         {
+             hid_close(dev_usage_0x0602);
+         }
+         if(dev_usage_0x0604)
+         {
+             hid_close(dev_usage_0x0604);
+         }
+     }
+#else
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
     {
-        switch(device_list[device_idx].type)
-        {
-        /*-------------------------------------------------------------------------------------------------*\
-        | Logitech keyboards use two different usages, one for 20-byte packets and one for 64-byte packets  |
-        | Usage 0x0602 for 20 byte, usage 0x0604 for 64 byte, both are on usage page 0xFF43                 |
-        \*-------------------------------------------------------------------------------------------------*/
-        case DEVICE_TYPE_KEYBOARD:
-            {
-                hid_device_info* info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
-
-                while(info)
-                {
-                    if((info->vendor_id == device_list[device_idx].usb_vid)
-                    &&(info->product_id == device_list[device_idx].usb_pid)
-#ifdef USE_HID_USAGE
-                    &&(info->interface_number == device_list[device_idx].usb_interface)
-                    &&(info->usage_page == 0xFF43)
-                    &&(info->usage == 0x0602))
-#else
-                    &&(info->interface_number == device_list[device_idx].usb_interface))
-#endif
-                    {
-                        hid_device* dev_usage_0x0602 = hid_open_path(info->path);
-
-                        if(dev_usage_0x0602)
-                        {
-#ifdef USE_HID_USAGE
-                            switch(device_list[device_idx].usb_pid)
-                            {
-                                case LOGITECH_G213_PID:
-                                    {
-                                        LogitechG213Controller* controller = new LogitechG213Controller(dev_usage_0x0602);
-
-                                        RGBController_LogitechG213* rgb_controller = new RGBController_LogitechG213(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-
-                                case LOGITECH_G512_PID:
-                                case LOGITECH_G512_RGB_PID:
-                                case LOGITECH_G610_PID:
-                                case LOGITECH_G810_1_PID:
-                                case LOGITECH_G810_2_PID:
-                                    {
-                                        hid_device_info* tmp_info_0x0604 = info;
-
-                                        while(tmp_info_0x0604)
-                                        {
-                                            if((tmp_info_0x0604->vendor_id == device_list[device_idx].usb_vid)
-                                            &&(tmp_info_0x0604->product_id == device_list[device_idx].usb_pid)
-                                            &&(tmp_info_0x0604->interface_number == device_list[device_idx].usb_interface)
-                                            &&(tmp_info_0x0604->usage_page == 0xFF43)
-                                            &&(tmp_info_0x0604->usage == 0x0604))
-                                            {
-                                                hid_device* dev_usage_0x0604 = hid_open_path(tmp_info_0x0604->path);
-
-                                                if(dev_usage_0x0604)
-                                                {
-                                                    LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0604);
-
-                                                    RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
-
-                                                    rgb_controller->name = device_list[device_idx].name;
-                                                    rgb_controllers.push_back(rgb_controller);
-                                                }
-                                            }
-                                            tmp_info_0x0604 = tmp_info_0x0604->next;
-                                        }
-                                    }
-                                    break;
-                            }
-#else
-                            switch(device_list[device_idx].usb_pid)
-                            {
-                                case LOGITECH_G213_PID:
-                                    {
-                                        LogitechG213Controller* controller = new LogitechG213Controller(dev_usage_0x0602);
-
-                                        RGBController_LogitechG213* rgb_controller = new RGBController_LogitechG213(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-
-                                case LOGITECH_G512_PID:
-                                case LOGITECH_G512_RGB_PID:
-                                case LOGITECH_G610_PID:
-                                case LOGITECH_G810_1_PID:
-                                case LOGITECH_G810_2_PID:
-                                    {
-                                        LogitechG810Controller* controller = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0602);
-
-                                        RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-                            }
-#endif
-                        }
-                    }
-                    info = info->next;
-                }
-                hid_free_enumeration(info);
-            }
-            break;
-
-        /*-------------------------------------------------------------------------------------------------*\
-        | Logitech mice use a single usage on page 0xFF00                                                   |
-        \*-------------------------------------------------------------------------------------------------*/
-        case DEVICE_TYPE_MOUSE:
-            {
-                hid_device_info* info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
-
-                while(info)
-                {
-                    if((info->vendor_id == device_list[device_idx].usb_vid)
-                    &&(info->product_id == device_list[device_idx].usb_pid)
-#ifdef USE_HID_USAGE                    
-                    &&(info->interface_number == device_list[device_idx].usb_interface)
-                    &&(info->usage_page == 0xFF00)
-                    &&(info->usage == 2))
-#else
-                    &&(info->interface_number == device_list[device_idx].usb_interface))
-#endif
-                    {
-                        hid_device* dev = hid_open_path(info->path);
-
-                        if(dev)
-                        {
-                            switch(device_list[device_idx].usb_pid)
-                            {
-                                case LOGITECH_G203_PID:
-                                case LOGITECH_GPRO_WIRED_PID:
-                                case LOGITECH_GPRO_HERO_WIRED_PID:
-                                    {
-                                        LogitechG203Controller* controller = new LogitechG203Controller(dev, info->path);
-
-                                        RGBController_LogitechG203* rgb_controller = new RGBController_LogitechG203(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-
-                                case LOGITECH_G203L_PID:
-                                    {
-                                        LogitechG203LController* controller = new LogitechG203LController(dev, info->path);
-
-                                        RGBController_LogitechG203L* rgb_controller = new RGBController_LogitechG203L(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-
-                                case LOGITECH_G403_PID:
-                                case LOGITECH_G403H_PID:
-                                    {
-                                        LogitechG403Controller* controller = new LogitechG403Controller(dev, info->path);
-
-                                        RGBController_LogitechG403* rgb_controller = new RGBController_LogitechG403(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-
-                                case LOGITECH_G502_PS_PID:
-                                case LOGITECH_G502H_PID:
-                                    {
-                                        LogitechG502PSController* controller = new LogitechG502PSController(dev, info->path);
-
-                                        RGBController_LogitechG502PS* rgb_controller = new RGBController_LogitechG502PS(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-
-                                case LOGITECH_GPRO_WIRELESS_PID:
-                                case LOGITECH_G_LIGHTSPEED_WIRELESS_PID:
-                                    {
-                                        LogitechGProWirelessController* controller = new LogitechGProWirelessController(dev, info->path);
-
-                                        RGBController_LogitechGProWireless* rgb_controller = new RGBController_LogitechGProWireless(controller);
-
-                                        rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(rgb_controller);
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                    info = info->next;
-                }
-                hid_free_enumeration(info);
-            }
-            break;
-        case DEVICE_TYPE_MOUSEMAT:
-            {
-                hid_device_info* info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
-
-                while(info)
-                {
-                    if((info->vendor_id == device_list[device_idx].usb_vid)
-                    &&(info->product_id == device_list[device_idx].usb_pid)
-#ifdef USE_HID_USAGE                    
-                    &&(info->interface_number == device_list[device_idx].usb_interface)
-                    &&(info->usage_page == 0xFF00)
-                    &&(info->usage == 2))
-#else
-                    &&(info->interface_number == device_list[device_idx].usb_interface))
-#endif
-                    {
-                        hid_device* dev = hid_open_path(info->path);
-
-                        if(dev)
-                        {
-                            switch(device_list[device_idx].usb_pid)
-                            {
-                                case LOGITECH_G_LIGHTSPEED_POWERPLAY_PID:
-                                    {
-                                        //Add mouse
-                                        LogitechGProWirelessController* mouse_controller = new LogitechGProWirelessController(dev, info->path);
-
-                                        RGBController_LogitechGProWireless* mouse_rgb_controller = new RGBController_LogitechGProWireless(mouse_controller);
-
-                                        mouse_rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(mouse_rgb_controller);
-
-                                        //Add Powerplay mousemat
-                                        LogitechGPowerPlayController* mousemat_controller = new LogitechGPowerPlayController(dev, info->path);
-
-                                        RGBController_LogitechGPowerPlay* mousemat_rgb_controller = new RGBController_LogitechGPowerPlay(mousemat_controller);
-
-                                        mousemat_rgb_controller->name = device_list[device_idx].name;
-                                        rgb_controllers.push_back(mousemat_rgb_controller);
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                    info = info->next;
-                }
-                hid_free_enumeration(info);
-            }
-            break;
-        }
-
+        LogitechG810Controller* controller = new LogitechG810Controller(dev, dev);
+        RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
-}   /* DetectLogitechControllers() */
+#endif
+}
 
-REGISTER_DETECTOR("Logitech", DetectLogitechControllers);
+void DetectLogitechKeyboardG213(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        LogitechG213Controller* controller = new LogitechG213Controller(dev);
+        RGBController_LogitechG213* rgb_controller = new RGBController_LogitechG213(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectLogitechMouseG203(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        LogitechG203Controller* controller = new LogitechG203Controller(dev, info->path);
+        RGBController_LogitechG203* rgb_controller = new RGBController_LogitechG203(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectLogitechMouseG203L(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        LogitechG203LController* controller = new LogitechG203LController(dev, info->path);
+        RGBController_LogitechG203L* rgb_controller = new RGBController_LogitechG203L(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectLogitechMouseG403(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        LogitechG403Controller* controller = new LogitechG403Controller(dev, info->path);
+        RGBController_LogitechG403* rgb_controller = new RGBController_LogitechG403(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectLogitechMouseG502PS(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        LogitechG502PSController* controller = new LogitechG502PSController(dev, info->path);
+        RGBController_LogitechG502PS* rgb_controller = new RGBController_LogitechG502PS(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectLogitechMouseGPRO(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        LogitechGProWirelessController* controller = new LogitechGProWirelessController(dev, info->path);
+        RGBController_LogitechGProWireless* rgb_controller = new RGBController_LogitechGProWireless(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectLogitechMouseGLS(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        //Add mouse
+        LogitechGProWirelessController* mouse_controller = new LogitechGProWirelessController(dev, info->path);
+        RGBController_LogitechGProWireless* mouse_rgb_controller = new RGBController_LogitechGProWireless(mouse_controller);
+        mouse_rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(mouse_rgb_controller);
+
+        //Add Powerplay mousemat
+        LogitechGPowerPlayController* mousemat_controller = new LogitechGPowerPlayController(dev, info->path);
+        RGBController_LogitechGPowerPlay* mousemat_rgb_controller = new RGBController_LogitechGPowerPlay(mousemat_controller);
+        mousemat_rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(mousemat_rgb_controller);
+    }
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Keyboards                                                                                                                                         |
+\*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Logitech G213",                                 DetectLogitechKeyboardG213, LOGITECH_VID, LOGITECH_G213_PID,                   1, 0xFF43, 0x0602);
+REGISTER_HID_DETECTOR_IP ("Logitech G512",                                 DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G512_PID,                   1, 0xFF43);
+REGISTER_HID_DETECTOR_IP ("Logitech G512 RGB",                             DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G512_RGB_PID,               1, 0xFF43);
+REGISTER_HID_DETECTOR_IP ("Logitech G610 Orion",                           DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G610_PID,                   1, 0xFF43);
+REGISTER_HID_DETECTOR_IP ("Logitech G810 Orion Spectrum",                  DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G810_1_PID,                 1, 0xFF43);
+REGISTER_HID_DETECTOR_IP ("Logitech G810 Orion Spectrum",                  DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G810_2_PID,                 1, 0xFF43);
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Mice                                                                                                                                              |
+\*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Logitech G203 Prodigy",                         DetectLogitechMouseG203,    LOGITECH_VID, LOGITECH_G203_PID,                   1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G203 Lightsync",                       DetectLogitechMouseG203L,   LOGITECH_VID, LOGITECH_G203L_PID,                  1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G403 Prodigy",                         DetectLogitechMouseG403,    LOGITECH_VID, LOGITECH_G403_PID,                   1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G403 Hero",                            DetectLogitechMouseG403,    LOGITECH_VID, LOGITECH_G403H_PID,                  1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G502 Proteus Spectrum",                DetectLogitechMouseG502PS,  LOGITECH_VID, LOGITECH_G502_PS_PID,                1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G502 Hero",                            DetectLogitechMouseG502PS,  LOGITECH_VID, LOGITECH_G502H_PID,                  1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G Pro Gaming Mouse",                   DetectLogitechMouseG203,    LOGITECH_VID, LOGITECH_GPRO_WIRED_PID,             1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G Pro (HERO) Gaming Mouse",            DetectLogitechMouseG203,    LOGITECH_VID, LOGITECH_GPRO_HERO_WIRED_PID,        1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G Lightspeed Wireless Gaming Mouse",   DetectLogitechMouseGPRO,    LOGITECH_VID, LOGITECH_G_LIGHTSPEED_WIRELESS_PID,  2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse (Wired)",  DetectLogitechMouseGPRO,    LOGITECH_VID, LOGITECH_GPRO_WIRELESS_PID,          2, 0xFF00, 2);
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Mousemats                                                                                                                                         |
+\*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Logitech G Powerplay Mousepad with Lightspeed", DetectLogitechMouseGLS,     LOGITECH_VID, LOGITECH_G_LIGHTSPEED_POWERPLAY_PID, 2, 0xFF00, 2);

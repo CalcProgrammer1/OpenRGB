@@ -17,40 +17,16 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectPoseidonZRGBControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectPoseidonZRGBControllers(hid_device_info* info, const std::string&)
 {
-    hid_device_info* info;
-    hid_device* dev = NULL;
-
-    hid_init();
-
-    info = hid_enumerate(TT_POSEIDON_Z_RGB_VID, TT_POSEIDON_Z_RGB_PID);
-
-    //Look for Thermaltake Poseidon Z RGB, Interface 2
-    while(info)
+    hid_device* dev = hid_open_path(info->path);
+    if( dev )
     {
-        if((info->vendor_id == TT_POSEIDON_Z_RGB_VID)
-         &&(info->product_id == TT_POSEIDON_Z_RGB_PID)
-#ifdef USE_HID_USAGE
-         &&(info->interface_number == 1)
-         &&(info->usage_page == 0xFF01))
-#else
-         &&(info->interface_number == 1))
-#endif
-        {
-            dev = hid_open_path(info->path);
-            if( dev )
-            {
-                PoseidonZRGBController* controller = new PoseidonZRGBController(dev, info->path);
-
-                RGBController_PoseidonZRGB* rgb_controller = new RGBController_PoseidonZRGB(controller);
-
-                rgb_controllers.push_back(rgb_controller);
-            }
-        }
-            info = info->next;
+        PoseidonZRGBController* controller = new PoseidonZRGBController(dev, info->path);
+        RGBController_PoseidonZRGB* rgb_controller = new RGBController_PoseidonZRGB(controller);
+        // Constructor sets the name
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
-
 }   /* DetectPoseidonZRGBControllers() */
 
-REGISTER_DETECTOR("Thermaltake Poseidon Z RGB", DetectPoseidonZRGBControllers);
+REGISTER_HID_DETECTOR_IP("Thermaltake Poseidon Z RGB", DetectPoseidonZRGBControllers, TT_POSEIDON_Z_RGB_VID, TT_POSEIDON_Z_RGB_PID, 1, 0xFF01);

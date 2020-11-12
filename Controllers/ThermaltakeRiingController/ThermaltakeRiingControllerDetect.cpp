@@ -17,43 +17,32 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectThermaltakeRiingControllers(hid_device_info* info, const std::string&)
 {
-    hid_device_info* info;
-    hid_device* dev;
-
-    hid_init();
-
-    for(int pid = THERMALTAKE_RIING_PID_BEGIN; pid <= THERMALTAKE_RIING_PID_END; pid++)
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
     {
-        dev = NULL;
-
-        info = hid_enumerate(THERMALTAKE_RIING_VID, pid);
-
-        //Look for Thermaltake Riing device
-        while(info)
-        {
-            if((info->vendor_id == THERMALTAKE_RIING_VID)
-            &&(info->product_id == pid))
-            {
-                dev = hid_open_path(info->path);
-                break;
-            }
-            else
-            {
-                info = info->next;
-            }
-        }
-
-        if(dev)
-        {
-            ThermaltakeRiingController* controller = new ThermaltakeRiingController(dev, info->path);
-
-            RGBController_ThermaltakeRiing* rgb_controller = new RGBController_ThermaltakeRiing(controller);
-
-            rgb_controllers.push_back(rgb_controller);
-        }
+        ThermaltakeRiingController* controller = new ThermaltakeRiingController(dev, info->path);
+        RGBController_ThermaltakeRiing* rgb_controller = new RGBController_ThermaltakeRiing(controller);
+        // Constructor sets the name
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectThermaltakeRiingControllers() */
 
-REGISTER_DETECTOR("Thermaltake Riing", DetectThermaltakeRiingControllers);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FA5)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FA5);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FA6)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FA6);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FA7)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FA7);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FA8)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FA8);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FA9)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FA9);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FAA)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FAA);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FAB)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FAB);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FAC)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FAC);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FAD)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FAD);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FAE)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FAE);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FAF)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FAF);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FB0)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FB0);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FB1)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FB1);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FB2)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FB2);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FB3)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FB3);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FB4)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FB4);
+REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FB5)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FB5);

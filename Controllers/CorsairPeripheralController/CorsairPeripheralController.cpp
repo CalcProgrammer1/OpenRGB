@@ -60,7 +60,10 @@ CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle,
 
 CorsairPeripheralController::~CorsairPeripheralController()
 {
-
+    if(dev)
+    {
+        hid_close(dev);
+    }
 }
 
 device_type CorsairPeripheralController::GetDeviceType()

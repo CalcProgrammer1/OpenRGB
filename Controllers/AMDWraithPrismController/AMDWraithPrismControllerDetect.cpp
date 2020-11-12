@@ -2,8 +2,8 @@
 #include "AMDWraithPrismController.h"
 #include "RGBController.h"
 #include "RGBController_AMDWraithPrism.h"
-#include <vector>
 #include <hidapi/hidapi.h>
+
 #define AMD_WRAITH_PRISM_VID 0x2516
 #define AMD_WRAITH_PRISM_PID 0x0051
 
@@ -15,40 +15,16 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAMDWraithPrismControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectAMDWraithPrismControllers(hid_device_info* info, const std::string&)
 {
-    hid_device_info* info;
-    hid_device* dev = NULL;
-
-    hid_init();
-
-    info = hid_enumerate(AMD_WRAITH_PRISM_VID, AMD_WRAITH_PRISM_PID);
-
-    //Look for AMD Wraith Prism
-    while(info)
+    hid_device* dev = hid_open_path(info->path);
+    if( dev )
     {
-        if((info->vendor_id == AMD_WRAITH_PRISM_VID)
-         &&(info->product_id == AMD_WRAITH_PRISM_PID)
-#if USE_HID_USAGE
-         &&(info->interface_number == 1)
-         &&(info->usage_page == 0xFF00))
-#else
-         &&(info->interface_number == 1))
-#endif
-        {
-            dev = hid_open_path(info->path);
-        
-            if( dev )
-            {
-                AMDWraithPrismController* controller = new AMDWraithPrismController(dev, info->path);
-
-                RGBController_AMDWraithPrism* rgb_controller = new RGBController_AMDWraithPrism(controller);
-
-                rgb_controllers.push_back(rgb_controller);
-            }
-        }
-        info = info->next;
+        AMDWraithPrismController* controller = new AMDWraithPrismController(dev, info->path);
+        RGBController_AMDWraithPrism* rgb_controller = new RGBController_AMDWraithPrism(controller);
+        // Constructor sets the name
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
-REGISTER_DETECTOR("AMD Wraith Prism", DetectAMDWraithPrismControllers);
+REGISTER_HID_DETECTOR_IP("AMD Wraith Prism", DetectAMDWraithPrismControllers, AMD_WRAITH_PRISM_VID, AMD_WRAITH_PRISM_PID, 1, 0xFF00);

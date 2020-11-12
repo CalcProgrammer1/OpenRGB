@@ -26,38 +26,6 @@
 #define REDRAGON_M711_PID               0xFC30
 #define REDRAGON_M715_PID               0xFC39
 
-typedef struct
-{
-    unsigned short  usb_vid;
-    unsigned short  usb_pid;
-    unsigned char   usb_interface;
-    unsigned short  usb_usage_page;
-    device_type     type;
-    const char *    name;
-} redragon_device;
-
-#define REDRAGON_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
-static const redragon_device device_list[] =
-{
-    /*---------------------------------------------------------------------------------------------------------------------------------------------*\
-    | Keyboards                                                                                                                                     |
-    \*---------------------------------------------------------------------------------------------------------------------------------------------*/
-    { REDRAGON_KEYBOARD_VID,    REDRAGON_K550_PID,          1,  REDRAGON_KEYBOARD_USAGE_PAGE,   DEVICE_TYPE_KEYBOARD,   "Redragon K550 Yama"        },
-    { REDRAGON_KEYBOARD_VID,    REDRAGON_K552_PID,          1,  REDRAGON_KEYBOARD_USAGE_PAGE,   DEVICE_TYPE_KEYBOARD,   "Redragon K552 Kumara"      },
-    { REDRAGON_KEYBOARD_VID,    REDRAGON_K556_PID,          1,  REDRAGON_KEYBOARD_USAGE_PAGE,   DEVICE_TYPE_KEYBOARD,   "Redragon K556 Devarajas"   },
-    { REDRAGON_KEYBOARD_VID,    TECWARE_PHANTOM_ELITE_PID,  1,  REDRAGON_KEYBOARD_USAGE_PAGE,   DEVICE_TYPE_KEYBOARD,   "Tecware Phantom Elite"     },
-    { REDRAGON_KEYBOARD_VID,    WARRIOR_KANE_TC235,         1,  REDRAGON_KEYBOARD_USAGE_PAGE,   DEVICE_TYPE_KEYBOARD,   "Warrior Kane TC235"        },
-    /*---------------------------------------------------------------------------------------------------------------------------------------------*\
-    | Mice                                                                                                                                          |
-    \*---------------------------------------------------------------------------------------------------------------------------------------------*/
-    { REDRAGON_MOUSE_VID,       REDRAGON_M711_PID,          2,  REDRAGON_MOUSE_USAGE_PAGE,      DEVICE_TYPE_MOUSE,      "Redragon M711 Cobra"       },
-    { REDRAGON_MOUSE_VID,       REDRAGON_M715_PID,          2,  REDRAGON_MOUSE_USAGE_PAGE,      DEVICE_TYPE_MOUSE,      "Redragon M715 Dagger"      },
-    /*---------------------------------------------------------------------------------------------------------------------------------------------*\
-    | Mousemats                                                                                                                                     |
-    \*---------------------------------------------------------------------------------------------------------------------------------------------*/
-};
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectRedragonControllers                                                              *
@@ -66,64 +34,43 @@ static const redragon_device device_list[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectRedragonKeyboards(hid_device_info* info, const std::string& name)
 {
-    hid_device_info* info;
-    hid_device* dev;
-
-    hid_init();
-
-    for(unsigned int device_idx = 0; device_idx < REDRAGON_NUM_DEVICES; device_idx++)
+    hid_device* dev = hid_open_path(info->path);
+    if( dev )
     {
-        dev = NULL;
-
-        info = hid_enumerate(device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
-
-        //Look for Redragon RGB Peripheral
-        while(info)
-        {
-            if((info->vendor_id       == device_list[device_idx].usb_vid)
-            &&(info->product_id       == device_list[device_idx].usb_pid)
-#ifdef USE_HID_USAGE
-            &&(info->interface_number == device_list[device_idx].usb_interface)
-            &&(info->usage_page       == device_list[device_idx].usb_usage_page))
-#else
-            &&(info->interface_number == device_list[device_idx].usb_interface))
-#endif
-            {
-                dev = hid_open_path(info->path);
-
-                if( dev )
-                {
-                    switch(device_list[device_idx].type)
-                    {
-                        case DEVICE_TYPE_KEYBOARD:
-                            {
-                            RedragonK556Controller* controller = new RedragonK556Controller(dev, info->path);
-
-                            RGBController_RedragonK556* rgb_controller = new RGBController_RedragonK556(controller);
-
-                            rgb_controller->name = device_list[device_idx].name;
-                            rgb_controllers.push_back(rgb_controller);
-                            }
-                            break;
-
-                        case DEVICE_TYPE_MOUSE:
-                            {
-                            RedragonM711Controller* controller = new RedragonM711Controller(dev, info->path);
-
-                            RGBController_RedragonM711* rgb_controller = new RGBController_RedragonM711(controller);
-
-                            rgb_controller->name = device_list[device_idx].name;
-                            rgb_controllers.push_back(rgb_controller);
-                            }
-                            break;
-                    }
-                }
-            }
-            info = info->next;
-        }
+        RedragonK556Controller* controller = new RedragonK556Controller(dev, info->path);
+        RGBController_RedragonK556* rgb_controller = new RGBController_RedragonK556(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
-}   /* DetectRedragonControllers() */
+}
 
-REGISTER_DETECTOR("Redragon Peripheral", DetectRedragonControllers);
+void DetectRedragonMice(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if( dev )
+    {
+        RedragonM711Controller* controller = new RedragonM711Controller(dev, info->path);
+        RGBController_RedragonM711* rgb_controller = new RGBController_RedragonM711(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*\
+| Keyboards                                                                                                                                     |
+\*---------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IP("Redragon K550 Yama",      DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, REDRAGON_K550_PID,         1, REDRAGON_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Redragon K552 Kumara",    DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, REDRAGON_K552_PID,         1, REDRAGON_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Redragon K556 Devarajas", DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, REDRAGON_K556_PID,         1, REDRAGON_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Tecware Phantom Elite",   DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, TECWARE_PHANTOM_ELITE_PID, 1, REDRAGON_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Warrior Kane TC235",      DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, WARRIOR_KANE_TC235,        1, REDRAGON_KEYBOARD_USAGE_PAGE);
+/*---------------------------------------------------------------------------------------------------------------------------------------------*\
+| Mice                                                                                                                                          |
+\*---------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IP("Redragon M711 Cobra",     DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M711_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Redragon M715 Dagger",    DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M715_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
+/*---------------------------------------------------------------------------------------------------------------------------------------------*\
+| Mousemats                                                                                                                                     |
+\*---------------------------------------------------------------------------------------------------------------------------------------------*/

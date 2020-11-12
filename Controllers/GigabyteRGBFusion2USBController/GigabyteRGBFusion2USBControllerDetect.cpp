@@ -7,13 +7,6 @@
 #define IT8297_IFC              0
 #define IT8297_U                0xCC
 #define IT8297_UPG              0xFF89
-#define COUNT_RGBFUSION2_PIDS   (sizeof(RGBFusion2_pids) / sizeof(RGBFusion2_pids[ 0 ]))
-
-static const unsigned short RGBFusion2_pids[] =
-{
-    0x8297,     //PID for the ITE 8595 found on the X570
-    0x5702      //PID for the ITE 8595 found on the B550
-};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -23,51 +16,18 @@ static const unsigned short RGBFusion2_pids[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectGigabyteRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::string&)
 {
-    hid_device_info*    info;
-    hid_device*         dev;
-    DMIInfo             MB_info;
-    unsigned short      tmpPID;
-
-    if (hid_init() < 0)
+    DMIInfo     MB_info;
+    hid_device* dev = hid_open_path(info->path);
+    if (dev)
     {
-        return;
+        RGBFusion2USBController * controller = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
+        RGBController_RGBFusion2USB * rgb_controller = new RGBController_RGBFusion2USB(controller);
+        // Constructor sets the name
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
+}   /* DetectRGBFusion2USBControllers() */
 
-    for(unsigned int dev_idx = 0; dev_idx < COUNT_RGBFUSION2_PIDS; dev_idx++)
-    {
-        dev = NULL;
-
-        tmpPID = RGBFusion2_pids[dev_idx];
-        info = hid_enumerate(IT8297_VID, tmpPID);
-
-        while(info)
-        {
-            if((info->vendor_id        == IT8297_VID)
-#ifdef USE_HID_USAGE
-            &&(info->product_id        == tmpPID)
-            &&(info->usage             == IT8297_U)     //Usage and usage page required to get the correct interface
-            &&(info->usage_page        == IT8297_UPG))
-#else
-            &&(info->interface_number  == IT8297_IFC)   //Interface is only valid on Windows where there is > 1 interface
-            &&(info->product_id        == tmpPID))
-#endif
-            {
-                dev = hid_open_path(info->path);
-                
-                if (dev)
-                {
-                    RGBFusion2USBController * controller = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
-                    RGBController_RGBFusion2USB * rgb_controller = new RGBController_RGBFusion2USB(controller);
-                    rgb_controllers.push_back(rgb_controller);
-                }
-            }
-            info = info->next;
-        }
-    }
-
-    hid_free_enumeration(info);
-}   /* DetectGigabyteRGBFusion2USBControllers() */
-
-REGISTER_DETECTOR("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers);
+REGISTER_HID_DETECTOR_IPU("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_IFC, IT8297_UPG, IT8297_U);
+REGISTER_HID_DETECTOR_IPU("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_IFC, IT8297_UPG, IT8297_U);

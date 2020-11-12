@@ -24,9 +24,27 @@
 #include "RGBController.h"
 #include "SettingsManager.h"
 
+#define HID_INTERFACE_ANY   -1
+#define HID_USAGE_ANY       -1
+#define HID_USAGE_PAGE_ANY  -1L
+
+#define CONTROLLER_LIST_HID 0
+
+struct hid_device_info;
+
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&, std::vector<RGBController*>&)>   I2CDeviceDetectorFunction;
+typedef std::function<void(hid_device_info*, const std::string&)>                               HIDDeviceDetectorFunction;
+typedef struct
+{
+    std::string                 name;
+    HIDDeviceDetectorFunction   function;
+    unsigned int                address;
+    int                         interface;
+    int                         usage_page;
+    int                         usage;
+} HIDDeviceDetectorBlock;
 
 typedef void (*DeviceListChangeCallback)(void *);
 typedef void (*DetectionProgressCallback)(void *);
@@ -42,12 +60,20 @@ public:
     void RegisterI2CBus(i2c_smbus_interface *);
     std::vector<i2c_smbus_interface*> & GetI2CBusses();
     
-    void RegisterRGBController(RGBController *);
+    void RegisterRGBController(RGBController *rgb_controller);
+
     std::vector<RGBController*> & GetRGBControllers();
     
     void RegisterI2CBusDetector         (I2CBusDetectorFunction     detector);
     void RegisterDeviceDetector         (std::string name, DeviceDetectorFunction     detector);
     void RegisterI2CDeviceDetector      (std::string name, I2CDeviceDetectorFunction  detector);
+    void RegisterHIDDeviceDetector      (std::string name,
+                                         HIDDeviceDetectorFunction  detector,
+                                         uint16_t vid,
+                                         uint16_t pid,
+                                         int interface  = HID_INTERFACE_ANY,
+                                         int usage_page = HID_USAGE_PAGE_ANY,
+                                         int usage      = HID_USAGE_ANY);
     
     void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
     void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
@@ -70,13 +96,13 @@ public:
 
     void DetectDevices();
 
-    void DetectDevicesThreadFunction();
-
     void StopDeviceDetection();
 
     void WaitForDeviceDetection();
 
 private:
+    void DetectDevicesThreadFunction();
+
     static std::unique_ptr<ResourceManager>     instance;
 
     /*-------------------------------------------------------------------------------------*\
@@ -119,6 +145,8 @@ private:
     std::vector<I2CBusDetectorFunction>         i2c_bus_detectors;
     std::vector<I2CDeviceDetectorFunction>      i2c_device_detectors;
     std::vector<std::string>                    i2c_device_detector_strings;
+    std::vector<HIDDeviceDetectorBlock>         hid_device_detectors;
+    std::vector<std::string>                    hid_device_detector_strings;
 
     /*-------------------------------------------------------------------------------------*\
     | Detection Thread and Detection State                                                  |

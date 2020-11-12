@@ -32,3 +32,12 @@ public:
         ResourceManager::get()->RegisterI2CBusDetector(detector);
     }
 };
+
+class HIDDeviceDetector
+{
+public:
+    HIDDeviceDetector(std::string name, HIDDeviceDetectorFunction detector, uint16_t vid, uint16_t pid, int64_t interface, int usage_page, int usage)
+    {
+        ResourceManager::get()->RegisterHIDDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
+    }
+};

@@ -16,33 +16,17 @@ const unsigned short vendor_id     = 0x054C;
 const unsigned short product_id_v1 = 0x05C4;
 const unsigned short product_id_v2 = 0x09CC;
 
-void DetectSonyDS4Controllers(std::vector<RGBController*>& rgb_controllers)
+void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
 {
-    hid_device_info* info;
-    hid_init();
-
-    info = hid_enumerate(0x00, 0x00);
-
-    while (info)
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
     {
-        if(info->vendor_id == vendor_id)
-        {
-            if(info->product_id == product_id_v1 || info->product_id == product_id_v2)
-            {
-                hid_device* dev = hid_open_path(info->path);
-
-                if (dev != NULL)
-                {
-                    SonyDS4Controller*      controller      = new SonyDS4Controller(dev, info->path);
-                    RGBController_SonyDS4*  rgb_controller  = new RGBController_SonyDS4(controller);
-                    rgb_controllers.push_back(rgb_controller);
-                }
-            }
-        }
-        info = info->next;
+        SonyDS4Controller*      controller      = new SonyDS4Controller(dev, info->path);
+        RGBController_SonyDS4*  rgb_controller  = new RGBController_SonyDS4(controller);
+        // Constructor sets the name
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
-
-    hid_free_enumeration(info);
 }
 
-REGISTER_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, product_id_v1);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, product_id_v2);

@@ -4,56 +4,6 @@
 
 #define MSI_USB_VID 0x1462
 
-#define NUM_MSI_PIDS 41
-
-static const unsigned short msi_pid_table[] =
-{
-    0x3EA4, // MS_3EA4
-    0x4559, // MS_4459
-
-    0x7B10, // MS_7B10
-    0x7B93, // MSI B450 Gaming Pro Carbon AC
-    0x7B94, // MS_7B94
-    0x7B96, // MS_7B96
-
-    0x7C34, // MS_7C34
-    0x7C35, // MS_7C35
-    0x7C36, // MS_7C36
-    0x7C37, // MS_7C37
-    0x7C42, // MS_7C42
-    0x7C56, // MS_7C56
-    0x7C59, // MS_7C59
-    0x7C60, // MS_7C60
-    0x7C67, // MS_7C67
-    0x7C70, // MS_7C70
-    0x7C71, // MS_7C71
-    0x7C73, // MS_7C73
-    0x7C75, // MS_7C75
-    0x7C76, // MS_7C76
-    0x7C77, // MS_7C77
-    0x7C79, // MS_7C79
-    0x7C80, // MS_7C80
-    0x7C81, // MS_7C81
-    0x7C82, // MS_7C82
-    0x7C83, // MS_7C83
-    0x7C84, // MS_7C84
-    0x7C85, // MS_7C85
-    0x7C86, // MS_7C86
-    0x7C87, // MS_7C87
-    0x7C88, // MS_7C88
-    0x7C89, // MS_7C89
-    0x7C90, // MS_7C90
-    0x7C91, // MS_7C91
-    0x7C92, // MS_7C92
-    0x7C94, // MS_7C94
-    0x7C95, // MS_7C95
-    0x7C96, // MS_7C96
-    0x7C98, // MS_7C98
-    0x7C99, // MS_7C99
-
-    0x905D  // MS_905D
-};
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectMSIMysticLightControllers                                                        *
@@ -62,45 +12,68 @@ static const unsigned short msi_pid_table[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectMSIMysticLightControllers(std::vector<RGBController*> &rgb_controllers)
+//         WARNING!
+//
+// The MSI Mystic Light controller is disabled due to bricking risk
+// Uncomment this line to enable.  Do so at your own risk.
+// #define ENABLE_MYSTIC_LIGHT
+
+void DetectMSIMysticLightControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device_info* info;
-    hid_device* dev;
+    hid_device* dev = hid_open_path(info->path);
 
-    hid_init();
-
-    for(int device_idx = 0; device_idx < NUM_MSI_PIDS; device_idx++)
+    if( dev )
     {
-        dev = NULL;
-
-        info = hid_enumerate(MSI_USB_VID, msi_pid_table[device_idx]);
-
-        //Look for MSI Mystic Light Controller
-        while(info)
-        {
-            if((info->vendor_id == MSI_USB_VID)
-            &&(info->product_id == msi_pid_table[device_idx]))
-            {
-                dev = hid_open_path(info->path);
-                break;
-            }
-            else
-            {
-                info = info->next;
-            }
-        }
-
-        if( dev )
-        {
-            MSIMysticLightController * controller = new MSIMysticLightController(dev, info->path);
-
-            RGBController_MSIMysticLight * rgb_controller = new RGBController_MSIMysticLight(controller);
-            
-            rgb_controllers.push_back(rgb_controller);
-        }
+        MSIMysticLightController * controller = new MSIMysticLightController(dev, info->path);
+        RGBController_MSIMysticLight * rgb_controller = new RGBController_MSIMysticLight(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMSIMysticLightControllers() */
 
-// The MSI Mystic Light controller is disabled due to bricking risk
-// Uncomment this line to enable.  Do so at your own risk.
-//REGISTER_DETECTOR("MSI Mystic Light", DetectMSIMysticLightControllers);
+#ifdef ENABLE_MYSTIC_LIGHT
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_3EA4", DetectMSIMysticLightControllers, MSI_USB_VID, 0x3EA4);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_4459", DetectMSIMysticLightControllers, MSI_USB_VID, 0x4459);
+
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B10", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B10);
+REGISTER_HID_DETECTOR("MSI B450 Pro Carbon AC",   DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B93);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B94", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B94);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B96", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B96);
+
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C34", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C34);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C35", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C35);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C36", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C36);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C37", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C37);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C42", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C42);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C56", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C56);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C59", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C59);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C60", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C60);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C67", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C67);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C70", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C70);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C71", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C71);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C73", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C73);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C75", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C75);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C76", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C76);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C77", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C77);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C79", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C79);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C80", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C80);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C81", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C81);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C82", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C82);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C83", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C83);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C84", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C84);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C85", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C85);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C86", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C86);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C87", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C87);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C88", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C88);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C89", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C89);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C90", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C90);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C91", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C91);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C92", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C92);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C94", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C94);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C95", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C95);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C96", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C96);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C98", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C98);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C99", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7C99);
+
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_905D", DetectMSIMysticLightControllers, MSI_USB_VID, 0x905D);
+#endif
