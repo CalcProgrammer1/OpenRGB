@@ -8,6 +8,7 @@
 \*-------------------------------------------------------------------*/
 
 #include "QMKRGBMatrixController.h"
+#include <cstring>
 
 QMKRGBMatrixController::QMKRGBMatrixController(hid_device* dev_handle, const char* path)
 {
