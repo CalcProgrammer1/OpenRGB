@@ -156,6 +156,8 @@ bool ProfileManager::LoadDeviceFromListWithOptions
     bool                            load_settings
     )
 {
+    temp_controller_used.resize(temp_controllers.size(), false); // Failsafe
+
     for(std::size_t temp_index = 0; temp_index < temp_controllers.size(); temp_index++)
     {
         RGBController *temp_controller = temp_controllers[temp_index];

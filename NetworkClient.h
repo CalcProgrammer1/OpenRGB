@@ -15,22 +15,41 @@
 
 #pragma once
 
-typedef void (*NetClientCallback)(void *);
+class NetworkClient;
+
+typedef void (*NetClientClientInfoChangeCallback)(void *);
+typedef void (*NetClientDeviceListChangeCallback)(void* receiver, NetworkClient* client, RGBController* controller, bool removed);
+
+typedef struct
+{
+    NetClientClientInfoChangeCallback   callback;
+    void*                               receiver;
+} NetClientClientInfoChangeCallbackBlock;
+
+typedef struct
+{
+    NetClientDeviceListChangeCallback   callback;
+    void*                               receiver;
+} NetClientDeviceListChangeCallbackBlock;
 
 class NetworkClient
 {
 public:
-    NetworkClient(std::vector<RGBController *>& control);
+    NetworkClient();
     ~NetworkClient();
 
     void            ClientInfoChanged();
+    void            DeviceListChanged(RGBController *controller, bool removed);
 
     bool            GetConnected();
     const char *    GetIP();
     unsigned short  GetPort();
     bool            GetOnline();
 
-    void            RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
+    void            RegisterClientInfoChangeCallback(NetClientClientInfoChangeCallback callback, void* receiver);
+    void            UnregisterClientInfoChangedCallback(NetClientClientInfoChangeCallback callback, void* receiver);
+    void            RegisterDeviceListChangeCallback(NetClientDeviceListChangeCallback callback, void* receiver);
+    void            UnregisterDeviceListChangeCallback(NetClientDeviceListChangeCallback callback, void* receiver);
 
     void            SetIP(const char *new_ip);
     void            SetName(const char *new_name);
@@ -65,11 +84,7 @@ public:
 
     std::vector<RGBController *>  server_controllers;
 
-    std::mutex                          ControllerListMutex;
-
-protected:
-    std::vector<RGBController *>& controllers;
-
+    std::mutex                    ControllerListMutex;
 
 private:
     SOCKET          client_sock;
@@ -88,9 +103,9 @@ private:
     std::thread *   ConnectionThread;
     std::thread *   ListenThread;
 
-    std::mutex                          ClientInfoChangeMutex;
-    std::vector<NetClientCallback>      ClientInfoChangeCallbacks;
-    std::vector<void *>                 ClientInfoChangeCallbackArgs;
+    std::mutex                                          ClientInfoChangeMutex;
+    std::vector<NetClientClientInfoChangeCallbackBlock> ClientInfoChangeCallbacks;
+    std::vector<NetClientDeviceListChangeCallbackBlock> DeviceListChangeCallbacks;
 
     int recv_select(SOCKET s, char *buf, int len, int flags);
 };

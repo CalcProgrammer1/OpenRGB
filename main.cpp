@@ -25,7 +25,7 @@ using namespace std::chrono_literals;
 /*-------------------------------------------------------------*\
 | Command line functionality and return flags                   |
 \*-------------------------------------------------------------*/
-extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in);
+extern unsigned int cli_main(int argc, char *argv[], ProfileManager* profile_manager_in);
 
 enum
 {
@@ -80,11 +80,11 @@ void InitializeTimerResolutionThreadFunction()
 *                                                                                          *
 \******************************************************************************************/
 
-bool AttemptLocalConnection(std::vector<RGBController*> &rgb_controllers)
+bool AttemptLocalConnection()
 {
     bool success = false;
 
-    NetworkClient * client = new NetworkClient(rgb_controllers);
+    NetworkClient * client = new NetworkClient();
     client->StartClient();
 
     for(int timeout = 0; timeout < 10; timeout++)
@@ -106,7 +106,7 @@ bool AttemptLocalConnection(std::vector<RGBController*> &rgb_controllers)
     }
     else
     {
-        ResourceManager::get()->GetClients().push_back(client);
+        ResourceManager::get()->RegisterClient(client);
 
         success = true;
     }
@@ -145,9 +145,8 @@ int main(int argc, char* argv[])
 #endif
 
     std::vector<i2c_smbus_interface*> &busses    = ResourceManager::get()->GetI2CBusses();
-    std::vector<RGBController*> &rgb_controllers = ResourceManager::get()->GetRGBControllers();
     
-    if(!AttemptLocalConnection(rgb_controllers))
+    if(!AttemptLocalConnection())
     {
         ResourceManager::get()->DetectDevices();
     }
@@ -158,7 +157,7 @@ int main(int argc, char* argv[])
     unsigned int ret_flags = RET_FLAG_START_GUI;
     if(argc > 1)
     {
-        ret_flags = cli_main(argc, argv, rgb_controllers, ResourceManager::get()->GetProfileManager());
+        ret_flags = cli_main(argc, argv, ResourceManager::get()->GetProfileManager());
     }
 
     /*---------------------------------------------------------*\
@@ -171,7 +170,7 @@ int main(int argc, char* argv[])
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
 
-        Ui::OpenRGBDialog2 dlg(busses, rgb_controllers);
+        Ui::OpenRGBDialog2 dlg(busses);
 
         if(ret_flags & RET_FLAG_I2C_TOOLS)
         {

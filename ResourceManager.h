@@ -28,8 +28,27 @@ typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                 
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&, std::vector<RGBController*>&)>   I2CDeviceDetectorFunction;
 
-typedef void (*DeviceListChangeCallback)(void *);
-typedef void (*DetectionProgressCallback)(void *);
+enum ControllerList
+{
+    CONTROLLER_LIST_UI = 0, // Merges all lists
+    CONTROLLER_LIST_HW,
+    CONTROLLER_LIST_REMOTE
+};
+
+typedef void (*DeviceListChangeCallback)(void* receiver, int index, ControllerList list, bool removed);
+typedef void (*DetectionProgressCallback)(void* receiver);
+
+typedef struct
+{
+    DeviceListChangeCallback    callback;
+    void*                       receiver;
+} DeviceListChangeCallbackBlock;
+
+typedef struct
+{
+    DetectionProgressCallback   callback;
+    void*                       receiver;
+ } DetectionProgressCallbackBlock;
 
 class ResourceManager
 {
@@ -42,28 +61,38 @@ public:
     void RegisterI2CBus(i2c_smbus_interface *);
     std::vector<i2c_smbus_interface*> & GetI2CBusses();
     
-    void RegisterRGBController(RGBController *);
-    std::vector<RGBController*> & GetRGBControllers();
+    void RegisterRGBController(RGBController*, ControllerList list = CONTROLLER_LIST_HW);
+    bool RemoveRGBController(RGBController*, ControllerList list = CONTROLLER_LIST_UI);
+
+    unsigned int GetControllerCount(ControllerList list = CONTROLLER_LIST_UI);
+    RGBController* GetController(size_t, ControllerList list = CONTROLLER_LIST_UI);
+
+    int GetUIListIndex(size_t, ControllerList list);
     
     void RegisterI2CBusDetector         (I2CBusDetectorFunction     detector);
     void RegisterDeviceDetector         (std::string name, DeviceDetectorFunction     detector);
     void RegisterI2CDeviceDetector      (std::string name, I2CDeviceDetectorFunction  detector);
     
-    void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
-    void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
+    void RegisterDeviceListChangeCallback(DeviceListChangeCallback, void * receiver);
+    void RegisterDetectionProgressCallback(DetectionProgressCallback callback, void* receiver);
+    void UnregisterDeviceListChangeCallback(DeviceListChangeCallback, void* receiver);
+    void UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void* receiver);
 
     unsigned int GetDetectionPercent();
     const char*  GetDetectionString();
 
     std::string                     GetConfigurationDirectory();
 
-    std::vector<NetworkClient*>&    GetClients();
+    void                            RegisterClient(NetworkClient*);
+    unsigned int                    GetClientCount();
+    NetworkClient*                  GetClient(size_t id);
+    std::vector<NetworkClient*>&    GetClients(); // TODO: hide the vector; do NOT push in here! Use RegisterClient instead
     NetworkServer*                  GetServer();
 
     ProfileManager*                 GetProfileManager();
     SettingsManager*                GetSettingsManager();
 
-    void DeviceListChanged();
+    void DeviceListChanged(int id, ControllerList list, bool removed);
     void DetectionProgressChanged();
 
     void Cleanup();
@@ -97,9 +126,10 @@ private:
     /*-------------------------------------------------------------------------------------*\
     | RGBControllers                                                                        |
     \*-------------------------------------------------------------------------------------*/
-    std::vector<RGBController*>                 rgb_controllers_sizes;
+    std::vector<RGBController*>                 rgb_controllers_hw_sizes;
+    std::vector<bool>                           rgb_controllers_hw_sizes_used;
     std::vector<RGBController*>                 rgb_controllers_hw;
-    std::vector<RGBController*>                 rgb_controllers;
+    std::vector<RGBController*>                 rgb_controllers_remote;
 
     /*-------------------------------------------------------------------------------------*\
     | Network Server                                                                        |
@@ -134,13 +164,11 @@ private:
     | Device List Changed Callback                                                          |
     \*-------------------------------------------------------------------------------------*/
     std::mutex                                  DeviceListChangeMutex;
-    std::vector<DeviceListChangeCallback>       DeviceListChangeCallbacks;
-    std::vector<void *>                         DeviceListChangeCallbackArgs;
+    std::vector<DeviceListChangeCallbackBlock>  DeviceListChangeCallbacks;
 
     /*-------------------------------------------------------------------------------------*\
     | Detection Progress Callback                                                           |
     \*-------------------------------------------------------------------------------------*/
     std::mutex                                  DetectionProgressMutex;
-    std::vector<DeviceListChangeCallback>       DetectionProgressCallbacks;
-    std::vector<void *>                         DetectionProgressCallbackArgs;
+    std::vector<DetectionProgressCallbackBlock> DetectionProgressCallbacks;
 };

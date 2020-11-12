@@ -15,10 +15,10 @@ class Ui::OpenRGBClientInfoPage : public QFrame
     Q_OBJECT
 
 public:
-    explicit OpenRGBClientInfoPage(std::vector<RGBController *>& control, QWidget *parent = nullptr);
+    explicit OpenRGBClientInfoPage(QWidget *parent = nullptr);
     ~OpenRGBClientInfoPage();
 
-    void AddClient(NetworkClient* new_client);
+    void AddClient(NetworkClient* new_client); // Deprecated and possibly unused
 
 public slots:
     void UpdateInfo();

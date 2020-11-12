@@ -109,9 +109,11 @@ OpenRGBDevicePage::~OpenRGBDevicePage()
     | Unregister update callback from the controller if the |
     | controller still exists                               |
     \*-----------------------------------------------------*/
-    for(unsigned int controller_idx = 0; controller_idx < ResourceManager::get()->GetRGBControllers().size(); controller_idx++)
+    ResourceManager* manager = ResourceManager::get();
+    size_t count = manager->GetControllerCount();
+    for(unsigned int controller_idx = 0; controller_idx < count; controller_idx++)
     {
-        if(ResourceManager::get()->GetRGBControllers()[controller_idx] == device)
+        if(manager->GetController(controller_idx) == device)
         {
             device->UnregisterUpdateCallback(this);
             break;

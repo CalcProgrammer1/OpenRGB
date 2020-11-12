@@ -13,6 +13,7 @@
 #include "ProfileManager.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
+#include "ResourceManager.h"
 
 #include <QMainWindow>
 #include <QTimer>
@@ -29,10 +30,10 @@ class Ui::OpenRGBDialog2 : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent = 0);
+    explicit OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, QWidget *parent = 0);
     ~OpenRGBDialog2();
 
-    void AddClient(NetworkClient* new_client);
+    void AddClient(NetworkClient* new_client); // Deprecated and possibly unused
     void AddClientTab();
     void AddI2CToolsPage();
     void AddServerTab();
@@ -41,7 +42,6 @@ public:
 
 protected:
     std::vector<i2c_smbus_interface *>& busses;
-    std::vector<RGBController *>&       controllers;
 
 private:
     /*-------------------------------------*\
@@ -67,7 +67,9 @@ private:
     void AddSoftwareInfoPage();
 
     void ClearDevicesList();
-    void UpdateDevicesList();
+    //void UpdateDevicesList(); // Deprecated
+    void LoadDevicesList();
+    void UpdateDevicesList(int index, bool remove);
     void UpdateProfileList();
     void closeEvent(QCloseEvent *event);
 
@@ -87,7 +89,7 @@ private slots:
     void on_QuickMagenta();
     void on_QuickWhite();
     void on_ClientListUpdated();
-    void onDeviceListUpdated();
+    void onDeviceListUpdated(int index, int list, bool removed);
     void onDetectionProgressUpdated();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_SaveSizeProfile();

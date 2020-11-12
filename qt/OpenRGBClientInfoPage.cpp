@@ -17,7 +17,7 @@ public:
     NetworkClient * net_client;
 };
 
-OpenRGBClientInfoPage::OpenRGBClientInfoPage(std::vector<RGBController *>& control, QWidget *parent) :
+OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBClientInfoPageUi)
 {
@@ -177,7 +177,7 @@ void Ui::OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
     /*-----------------------------------------------------*\
     | Create a new client and set name, IP, and port values |
     \*-----------------------------------------------------*/
-    NetworkClient * rgb_client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
+    NetworkClient * rgb_client = new NetworkClient();
 
     std::string titleString = "OpenRGB ";
     titleString.append(VERSION_STRING);

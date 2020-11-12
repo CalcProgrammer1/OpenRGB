@@ -27,7 +27,7 @@ ResourceManager *ResourceManager::get()
     {
         instance = std::make_unique<ResourceManager>();
     }
-        
+
     return instance.get();
 }
 
@@ -49,8 +49,8 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Load sizes list from file                                                 |
     \*-------------------------------------------------------------------------*/
-    profile_manager         = new ProfileManager(rgb_controllers, GetConfigurationDirectory());
-    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
+    profile_manager             = new ProfileManager(rgb_controllers_remote, GetConfigurationDirectory());
+    rgb_controllers_hw_sizes    = profile_manager->LoadProfileToList("sizes.ors");
 
     /*-------------------------------------------------------------------------*\
     | Load settings from file                                                   |
@@ -74,15 +74,142 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
     return busses;
 }
 
-void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
+void ResourceManager::RegisterRGBController(RGBController *rgb_controller, ControllerList list)
 {
-    rgb_controllers.push_back(rgb_controller);
-    DeviceListChanged();
+    switch(list)
+    {
+        case CONTROLLER_LIST_HW:
+            rgb_controllers_hw.push_back(rgb_controller);
+            profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_hw_sizes, rgb_controllers_hw_sizes_used, rgb_controller, true, false);
+            DeviceListChanged(rgb_controllers_hw.size() - 1, list, false);
+            break;
+
+        case CONTROLLER_LIST_REMOTE:
+            rgb_controllers_remote.push_back(rgb_controller);
+            DeviceListChanged(rgb_controllers_remote.size() - 1, list, false);
+            break;
+
+        default:
+            break;
+    }
 }
 
-std::vector<RGBController*> & ResourceManager::GetRGBControllers()
+bool ResourceManager::RemoveRGBController(RGBController* rgb_controller, ControllerList list)
 {
-    return rgb_controllers;
+    switch(list)
+    {
+        case CONTROLLER_LIST_HW:
+            for(size_t idx = 0; idx < rgb_controllers_hw.size(); ++idx)
+            {
+                if(rgb_controllers_hw[idx] == rgb_controller)
+                {
+                    RGBController * controller_to_delete = rgb_controllers_hw[idx];
+                    rgb_controllers_hw.erase(rgb_controllers_hw.begin() + idx);
+                    DeviceListChanged(idx, CONTROLLER_LIST_HW, true);
+                    delete controller_to_delete;
+                    return true;
+                }
+            }
+            return false;
+
+        case CONTROLLER_LIST_REMOTE:
+            for(size_t idx = 0; idx < rgb_controllers_remote.size(); ++idx)
+            {
+                if(rgb_controllers_remote[idx] == rgb_controller)
+                {
+                    RGBController * controller_to_delete = rgb_controllers_remote[idx];
+                    rgb_controllers_remote.erase(rgb_controllers_remote.begin() + idx);
+                    DeviceListChanged(idx, CONTROLLER_LIST_REMOTE, true);
+                    delete controller_to_delete;
+                    return true;
+                }
+            }
+            return false;
+
+        /*-------------------------------------------------------------------------*\
+        | If the list ID is invalid, try all of the lists                           |
+        \*-------------------------------------------------------------------------*/
+        default:
+            return RemoveRGBController(rgb_controller, CONTROLLER_LIST_HW) |
+                RemoveRGBController(rgb_controller, CONTROLLER_LIST_REMOTE);
+    }
+}
+
+unsigned int ResourceManager::GetControllerCount(ControllerList list)
+{
+    switch(list)
+    {
+        case CONTROLLER_LIST_UI:
+            return rgb_controllers_hw.size() + rgb_controllers_remote.size();
+
+        case CONTROLLER_LIST_HW:
+            return rgb_controllers_hw.size();
+
+        case CONTROLLER_LIST_REMOTE:
+            return rgb_controllers_remote.size();
+    }
+    return 0;
+}
+
+RGBController* ResourceManager::GetController(size_t id, ControllerList list)
+{
+    switch(list)
+    {
+        case CONTROLLER_LIST_UI:
+            /*-------------------------------------------------------------------------*\
+            | If the ID is within the hardware list, return the controller              |
+            \*-------------------------------------------------------------------------*/
+            if(id < rgb_controllers_hw.size())
+            {
+                return rgb_controllers_hw[id];
+            }
+
+            /*-------------------------------------------------------------------------*\
+            | Otherwise, offset the ID and check the remote list                        |
+            \*-------------------------------------------------------------------------*/
+            id -= rgb_controllers_hw.size();
+            
+            if(id < rgb_controllers_remote.size())
+            {
+                return rgb_controllers_remote[id];
+            }
+
+            /*-------------------------------------------------------------------------*\
+            | If the ID is not in either list, return null pointer                      |
+            \*-------------------------------------------------------------------------*/
+            return nullptr;
+
+        case CONTROLLER_LIST_HW:
+            if(id < rgb_controllers_hw.size())
+            {
+                return rgb_controllers_hw[id];
+            }
+            return nullptr;
+
+        case CONTROLLER_LIST_REMOTE:
+            if(id < rgb_controllers_remote.size())
+            {
+                return rgb_controllers_remote[id];
+            }
+            return nullptr;
+    }
+
+    return nullptr;
+}
+
+int ResourceManager::GetUIListIndex(size_t id, ControllerList list)
+{
+    switch(list)
+    {
+        case CONTROLLER_LIST_REMOTE:
+            id += rgb_controllers_hw.size();
+            break;
+
+        default:
+            break;
+    }
+
+    return id;
 }
 
 void ResourceManager::RegisterI2CBusDetector(I2CBusDetectorFunction detector)
@@ -102,72 +229,78 @@ void ResourceManager::RegisterDeviceDetector(std::string name, DeviceDetectorFun
     device_detectors.push_back(detector);
 }
 
-void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)
+void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * receiver)
 {
-    DeviceListChangeCallbacks.push_back(new_callback);
-    DeviceListChangeCallbackArgs.push_back(new_callback_arg);
+    DeviceListChangeCallbackBlock block;
+
+    block.callback = callback;
+    block.receiver = receiver;
+
+    DeviceListChangeCallbacks.push_back(block);
 }
 
-void ResourceManager::RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void *new_callback_arg)
+void ResourceManager::RegisterDetectionProgressCallback(DetectionProgressCallback callback, void * receiver)
 {
-    DetectionProgressCallbacks.push_back(new_callback);
-    DetectionProgressCallbackArgs.push_back(new_callback_arg);
+    DetectionProgressCallbackBlock block;
+
+    block.callback = callback;
+    block.receiver = receiver;
+
+    DetectionProgressCallbacks.push_back(block);
 }
 
-void ResourceManager::DeviceListChanged()
+void ResourceManager::UnregisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * receiver)
+{
+    /*-------------------------------------------------------------------------*\
+    | Loop through the Device List Change Callbacks list and remove the given   |
+    | entry                                                                     |
+    \*-------------------------------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
+    {
+        if(DeviceListChangeCallbacks[callback_idx].callback == callback && DeviceListChangeCallbacks[callback_idx].receiver == receiver)
+        {
+            DeviceListChangeCallbacks.erase(DeviceListChangeCallbacks.begin() + callback_idx);
+            break;
+        }
+    }
+}
+
+void ResourceManager::UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void * receiver)
+{
+    /*-------------------------------------------------------------------------*\
+    | Loop through the Detection Progress Callbacks list and remove the given   |
+    | entry                                                                     |
+    \*-------------------------------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < DetectionProgressCallbacks.size(); callback_idx++)
+    {
+        if(DetectionProgressCallbacks[callback_idx].callback == callback && DetectionProgressCallbacks[callback_idx].receiver == receiver)
+        {
+            DetectionProgressCallbacks.erase(DetectionProgressCallbacks.begin() + callback_idx);
+            break;
+        }
+    }
+}
+
+void ResourceManager::DeviceListChanged(int id, ControllerList list, bool removed)
 {
     DeviceListChangeMutex.lock();
-
-    /*-------------------------------------------------*\
-    | Insert hardware controllers into controller list  |
-    \*-------------------------------------------------*/
-    for(unsigned int hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
-    {
-        /*-------------------------------------------------*\
-        | Check if the controller is already in the list    |
-        | at the correct index                              |
-        \*-------------------------------------------------*/
-        if(hw_controller_idx < rgb_controllers.size())
-        {
-            if(rgb_controllers[hw_controller_idx] == rgb_controllers_hw[hw_controller_idx])
-            {
-                continue;
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | If not, check if the controller is already in the |
-        | list at a different index                         |
-        \*-------------------------------------------------*/
-        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
-        {
-            if(rgb_controllers[controller_idx] == rgb_controllers_hw[hw_controller_idx])
-            {
-                rgb_controllers.erase(rgb_controllers.begin() + controller_idx);
-                rgb_controllers.insert(rgb_controllers.begin() + hw_controller_idx, rgb_controllers_hw[hw_controller_idx]);
-                break;
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | If it still hasn't been found, add it to the list |
-        \*-------------------------------------------------*/
-        rgb_controllers.insert(rgb_controllers.begin() + hw_controller_idx, rgb_controllers_hw[hw_controller_idx]);
-    }
 
     /*-------------------------------------------------*\
     | Device list has changed, call the callbacks       |
     \*-------------------------------------------------*/
     for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
     {
-        DeviceListChangeCallbacks[callback_idx](DeviceListChangeCallbackArgs[callback_idx]);
+        DeviceListChangeCallbacks[callback_idx].callback(DeviceListChangeCallbacks[callback_idx].receiver, id, list, removed);
     }
 
     /*-------------------------------------------------*\
     | Device list has changed, inform all clients       |
     | connected to this server                          |
     \*-------------------------------------------------*/
-    server->DeviceListChanged();
+    if(server)
+    {
+        server->DeviceListChanged();
+    }
 
     DeviceListChangeMutex.unlock();
 }
@@ -181,7 +314,7 @@ void ResourceManager::DetectionProgressChanged()
     \*-------------------------------------------------*/
     for(unsigned int callback_idx = 0; callback_idx < DetectionProgressCallbacks.size(); callback_idx++)
     {
-        DetectionProgressCallbacks[callback_idx](DetectionProgressCallbackArgs[callback_idx]);
+        DetectionProgressCallbacks[callback_idx].callback(DetectionProgressCallbacks[callback_idx].receiver);
     }
 
     DetectionProgressMutex.unlock();
@@ -237,6 +370,43 @@ NetworkServer* ResourceManager::GetServer()
     return(server);
 }
 
+unsigned int ResourceManager::GetClientCount()
+{
+    return clients.size();
+}
+
+static void OnNetworkClientDeviceListChange(void*, NetworkClient*, RGBController* controller, bool removed)
+{
+    if(removed)
+    {
+        ResourceManager::get()->RemoveRGBController(controller, CONTROLLER_LIST_REMOTE);
+    }
+    else
+    {
+        ResourceManager::get()->RegisterRGBController(controller, CONTROLLER_LIST_REMOTE);
+    }
+}
+
+void ResourceManager::RegisterClient(NetworkClient* client)
+{
+    client->RegisterDeviceListChangeCallback(OnNetworkClientDeviceListChange, NULL);
+    clients.push_back(client);
+    // Notify about client list change?
+}
+
+NetworkClient* ResourceManager::GetClient(size_t id)
+{
+    /*-------------------------------------------------------------------------*\
+    | Verify ID is valid, return null pointer if it is out of range             |
+    \*-------------------------------------------------------------------------*/
+    if(id >= clients.size())
+    {
+        return nullptr;
+    }
+
+    return clients[id];
+}
+
 std::vector<NetworkClient*>& ResourceManager::GetClients()
 {
     return(clients);
@@ -266,25 +436,9 @@ void ResourceManager::Cleanup()
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    std::vector<RGBController *> rgb_controllers_hw_copy = rgb_controllers_hw;
-
-    for(unsigned int hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
+    for(int controller_idx = GetControllerCount() - 1; controller_idx >= 0; --controller_idx)
     {
-        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
-        {
-            if(rgb_controllers[controller_idx] == rgb_controllers_hw[hw_controller_idx])
-            {
-                rgb_controllers.erase(rgb_controllers.begin() + controller_idx);
-                break;
-            }
-        }
-    }
-
-    rgb_controllers_hw.clear();
-
-    for(RGBController* rgb_controller : rgb_controllers_hw_copy)
-    {
-        delete rgb_controller;
+        RemoveRGBController(GetController(controller_idx));
     }
 
     std::vector<i2c_smbus_interface *> busses_copy = busses;
@@ -325,8 +479,6 @@ void ResourceManager::DetectDevices()
 
     Cleanup();
 
-    DeviceListChanged();
-
     /*-------------------------------------------------*\
     | Start the device detection thread                 |
     \*-------------------------------------------------*/
@@ -344,18 +496,9 @@ void ResourceManager::DetectDevicesThreadFunction()
 {
     DetectDeviceMutex.lock();
 
-    unsigned int        prev_count = 0;
     float               percent = 0.0f;
-    std::vector<bool>   size_used;
     json                detector_settings;
     bool                save_settings = false;
-
-    size_used.resize(rgb_controllers_sizes.size());
-
-    for(unsigned int size_idx = 0; size_idx < size_used.size(); size_idx++)
-    {
-        size_used[size_idx] = false;
-    }
 
     /*-------------------------------------------------*\
     | Open device disable list and read in disabled     |
@@ -397,26 +540,13 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         if(this_device_enabled)
         {
-            i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers_hw);
-        }
-
-        /*-------------------------------------------------*\
-        | If the device list size has changed, call the     |
-        | device list changed callbacks                     |
-        \*-------------------------------------------------*/
-        if(rgb_controllers_hw.size() != prev_count)
-        {
-            /*-------------------------------------------------*\
-            | First, load sizes for the new controllers         |
-            \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            std::vector<RGBController*> tempVector; // To be removed
+            i2c_device_detectors[i2c_detector_idx](busses, tempVector);
+            for(size_t id = 0; id < tempVector.size(); ++id)
             {
-                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+                RegisterRGBController(tempVector[id]);
             }
-
-            DeviceListChanged();
         }
-        prev_count = rgb_controllers_hw.size();
 
         percent = (i2c_detector_idx + 1.0f) / (i2c_device_detectors.size() + device_detectors.size());
 
@@ -443,27 +573,14 @@ void ResourceManager::DetectDevicesThreadFunction()
         }
 
         if(this_device_enabled)
-            {
-            device_detectors[detector_idx](rgb_controllers_hw);
-            }
-
-        /*-------------------------------------------------*\
-        | If the device list size has changed, call the     |
-        | device list changed callbacks                     |
-        \*-------------------------------------------------*/
-        if(rgb_controllers_hw.size() != prev_count)
         {
-            /*-------------------------------------------------*\
-            | First, load sizes for the new controllers         |
-            \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            std::vector<RGBController*> tempVector; // To be removed
+            device_detectors[detector_idx](tempVector);
+            for(size_t id = 0; id < tempVector.size(); ++id)
             {
-                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+                RegisterRGBController(tempVector[id]);
             }
-
-            DeviceListChanged();
         }
-        prev_count = rgb_controllers_hw.size();
 
         percent = (detector_idx + 1.0f + i2c_device_detectors.size()) / (i2c_device_detectors.size() + device_detectors.size());
 

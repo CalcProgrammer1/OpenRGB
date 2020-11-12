@@ -280,8 +280,9 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
     return options->colors.size() > 0;
 }
 
-unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb_controllers)
+unsigned int ParseMode(DeviceOptions& options)
 {
+    ResourceManager* manager = ResourceManager::get();
     // no need to check if --mode wasn't passed
     if (options.mode.size() == 0)
     {
@@ -292,15 +293,16 @@ unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb
     | Search through all of the device modes and see if there is|
     | a match.  If no match is found, print an error message.   |
     \*---------------------------------------------------------*/
-    for(unsigned int mode_idx = 0; mode_idx < rgb_controllers[options.device]->modes.size(); mode_idx++)
+    RGBController* device = manager->GetController(options.device);
+    for(unsigned int mode_idx = 0; mode_idx < device->modes.size(); mode_idx++)
     {
-        if (strcasecmp(rgb_controllers[options.device]->modes[mode_idx].name.c_str(), options.mode.c_str()) == 0)
+        if (strcasecmp(device->modes[mode_idx].name.c_str(), options.mode.c_str()) == 0)
         {
             return mode_idx;
         }
     }
 
-    std::cout << "Error: Mode '" + options.mode + "' not available for device '" + rgb_controllers[options.device]->name + "'" << std::endl;
+    std::cout << "Error: Mode '" + options.mode + "' not available for device '" + device->name + "'" << std::endl;
     return false;
 }
 
@@ -396,13 +398,15 @@ void OptionVersion()
     std::cout << version_text << std::endl;
 }
 
-void OptionListDevices(std::vector<RGBController *> &rgb_controllers)
+void OptionListDevices()
 {
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager* manager = ResourceManager::get();
+    manager->WaitForDeviceDetection();
+    size_t count = manager->GetControllerCount();
 
-    for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+    for(std::size_t controller_idx = 0; controller_idx < count; controller_idx++)
     {
-        RGBController *controller = rgb_controllers[controller_idx];
+        RGBController *controller = manager->GetController(controller_idx);
 
         /*---------------------------------------------------------*\
         | Print device name                                         |
@@ -499,15 +503,17 @@ void OptionListDevices(std::vector<RGBController *> &rgb_controllers)
     }
 }
 
-bool OptionDevice(int *current_device, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
+bool OptionDevice(int *current_device, std::string argument, Options *options)
 {
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager* manager = ResourceManager::get();
+    manager->WaitForDeviceDetection();
+    size_t count = manager->GetControllerCount();
 
     try
     {
         *current_device = std::stoi(argument);
 
-        if((*current_device >= static_cast<int>(rgb_controllers.size())) || (*current_device < 0))
+        if((*current_device >= int(count)) || (*current_device < 0))
         {
             throw nullptr;
         }
@@ -531,17 +537,19 @@ bool OptionDevice(int *current_device, std::string argument, Options *options, s
     }
 }
 
-bool OptionZone(int *current_device, int *current_zone, std::string argument, Options */*options*/, std::vector<RGBController *> &rgb_controllers)
+bool OptionZone(int *current_device, int *current_zone, std::string argument, Options */*options*/)
 {
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager* manager = ResourceManager::get();
+    manager->WaitForDeviceDetection();
+    size_t count = manager->GetControllerCount();
 
     try
     {
         *current_zone = std::stoi(argument);
 
-        if(*current_device >= static_cast<int>(rgb_controllers.size()))
+        if(*current_device >= int(count))
         {
-            if(*current_zone >= static_cast<int>(rgb_controllers[*current_device]->zones.size()))
+            if(*current_zone >= int(manager->GetController(*current_device)->zones.size()))
             {
                 throw nullptr;
             }
@@ -586,26 +594,29 @@ bool OptionMode(int *currentDev, std::string argument, Options *options)
     return true;
 }
 
-bool OptionSize(int *current_device, int *current_zone, std::string argument, Options */*options*/, std::vector<RGBController *> &rgb_controllers)
+bool OptionSize(int *current_device, int *current_zone, std::string argument, Options */*options*/)
 {
     const unsigned int new_size = std::stoi(argument);
 
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager* manager = ResourceManager::get();
+    manager->WaitForDeviceDetection();
+    size_t count = manager->GetControllerCount();
 
     /*---------------------------------------------------------*\
     | Fail out if device, zone, or size are out of range        |
     \*---------------------------------------------------------*/
-    if((*current_device >= static_cast<int>(rgb_controllers.size())) || (*current_device < 0))
+    if((*current_device >= int(count)) || (*current_device < 0))
     {
         std::cout << "Error: Device is out of range" << std::endl;
         return false;
     }
-    else if((*current_zone >= static_cast<int>(rgb_controllers[*current_device]->zones.size())) || (*current_zone < 0))
+    RGBController* rgb_controller = manager->GetController(*current_device);
+    if((*current_zone >= int(rgb_controller->zones.size())) || (*current_zone < 0))
     {
         std::cout << "Error: Zone is out of range" << std::endl;
         return false;
     }
-    else if((new_size < rgb_controllers[*current_device]->zones[*current_zone].leds_min) || (new_size > rgb_controllers[*current_device]->zones[*current_zone].leds_max))
+    if((new_size < rgb_controller->zones[*current_zone].leds_min) || (new_size > rgb_controller->zones[*current_zone].leds_max))
     {
         std::cout << "Error: New size is out of range" << std::endl;
     }
@@ -613,7 +624,7 @@ bool OptionSize(int *current_device, int *current_zone, std::string argument, Op
     /*---------------------------------------------------------*\
     | Resize the zone                                           |
     \*---------------------------------------------------------*/
-    rgb_controllers[*current_device]->ResizeZone(*current_zone, new_size);
+    rgb_controller->ResizeZone(*current_zone, new_size);
 
     /*---------------------------------------------------------*\
     | Save the profile                                          |
@@ -623,9 +634,11 @@ bool OptionSize(int *current_device, int *current_zone, std::string argument, Op
     return true;
 }
 
-bool OptionProfile(std::string argument, std::vector<RGBController *> &rgb_controllers)
+bool OptionProfile(std::string argument)
 {
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager* manager = ResourceManager::get();
+    manager->WaitForDeviceDetection();
+    size_t count = manager->GetControllerCount();
 
     /*---------------------------------------------------------*\
     | Attempt to load profile                                   |
@@ -635,9 +648,9 @@ bool OptionProfile(std::string argument, std::vector<RGBController *> &rgb_contr
         /*-----------------------------------------------------*\
         | Change device mode if profile loading was successful  |
         \*-----------------------------------------------------*/
-        for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+        for(std::size_t controller_idx = 0; controller_idx < count; controller_idx++)
         {
-            RGBController* device = rgb_controllers[controller_idx];
+            RGBController* device = manager->GetController(controller_idx);
 
             device->SetMode(device->active_mode);
 
@@ -666,7 +679,7 @@ bool OptionSaveProfile(std::string argument)
     return(true);
 }
 
-int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBController *> &rgb_controllers)
+int ProcessOptions(int argc, char *argv[], Options *options)
 {
     unsigned int ret_flags  = 0;
     int arg_index           = 1;
@@ -693,7 +706,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         if(option == "--client")
         {
-            NetworkClient * client = new NetworkClient(rgb_controllers);
+            NetworkClient * client = new NetworkClient();
 
             std::size_t pos = argument.find(":");
             std::string ip = argument.substr(0, pos);
@@ -727,7 +740,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
                 std::this_thread::sleep_for(10ms);
             }
             
-            ResourceManager::get()->GetClients().push_back(client);
+            ResourceManager::get()->RegisterClient(client);
 
             arg_index++;
         }
@@ -822,7 +835,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--list-devices" || option == "-l")
         {
-            OptionListDevices(rgb_controllers);
+            OptionListDevices();
             exit(0);
         }
 
@@ -831,7 +844,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--device" || option == "-d")
         {
-            if(!OptionDevice(&current_device, argument, options, rgb_controllers))
+            if(!OptionDevice(&current_device, argument, options))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -844,7 +857,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--zone" || option == "-z")
         {
-            if(!OptionZone(&current_device, &current_zone, argument, options, rgb_controllers))
+            if(!OptionZone(&current_device, &current_zone, argument, options))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -883,7 +896,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--size" || option == "-s")
         {
-            if(!OptionSize(&current_device, &current_zone, argument, options, rgb_controllers))
+            if(!OptionSize(&current_device, &current_zone, argument, options))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -896,7 +909,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--profile" || option == "-p")
         {
-            OptionProfile(argument, rgb_controllers);
+            OptionProfile(argument);
 
             arg_index++;
         }
@@ -945,15 +958,16 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
     }
 }
 
-void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_controllers)
+void ApplyOptions(DeviceOptions& options)
 {
-    RGBController *device = rgb_controllers[options.device];
+    ResourceManager* manager = ResourceManager::get();
+    RGBController *device = manager->GetController(options.device);
 
     /*---------------------------------------------------------*\
     | Set mode first, in case it's 'direct' (which affects      |
     | SetLED below)                                             |
     \*---------------------------------------------------------*/
-    unsigned int mode = ParseMode(options, rgb_controllers);
+    unsigned int mode = ParseMode(options);
 
     /*---------------------------------------------------------*\
     | Determine which color mode this mode uses and update      |
@@ -1029,7 +1043,7 @@ void WaitWhileServerOnline(NetworkServer* srv)
     };
 }
 
-unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in)
+unsigned int cli_main(int argc, char *argv[], ProfileManager* profile_manager_in)
 {
     profile_manager = profile_manager_in;
 
@@ -1037,7 +1051,7 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
     | Process the argument options                              |
     \*---------------------------------------------------------*/
     Options options;
-    unsigned int ret_flags = ProcessOptions(argc, argv, &options, rgb_controllers);
+    unsigned int ret_flags = ProcessOptions(argc, argv, &options);
 
     /*---------------------------------------------------------*\
     | If the server was told to start, start it before returning|
@@ -1085,7 +1099,9 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
             break;
     }
 
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager* manager = ResourceManager::get();
+    manager->WaitForDeviceDetection();
+    size_t count = manager->GetControllerCount();
 
     /*---------------------------------------------------------*\
     | If the options has one or more specific devices, loop     |
@@ -1096,15 +1112,15 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
     {
         for(unsigned int device_idx = 0; device_idx < options.devices.size(); device_idx++)
         {
-            ApplyOptions(options.devices[device_idx], rgb_controllers);
+            ApplyOptions(options.devices[device_idx]);
         }
     }
     else
     {
-        for (unsigned int device_idx = 0; device_idx < rgb_controllers.size(); device_idx++)
+        for (unsigned int device_idx = 0; device_idx < count; device_idx++)
         {
             options.allDeviceOptions.device = device_idx;
-            ApplyOptions(options.allDeviceOptions, rgb_controllers);
+            ApplyOptions(options.allDeviceOptions);
         }
     }
 

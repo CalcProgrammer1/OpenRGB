@@ -72,11 +72,11 @@ static QString GetIconString(device_type type, bool dark)
     return filename;
 }
 
-static void UpdateDeviceListCallback(void * this_ptr)
+static void UpdateDeviceListCallback(void* this_ptr, int index, ControllerList list, bool removed)
 {
     OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::QueuedConnection, Q_ARG(int, index), Q_ARG(int, list), Q_ARG(bool, removed));
 }
 
 static void UpdateDetectionProgressCallback(void * this_ptr)
@@ -86,7 +86,7 @@ static void UpdateDetectionProgressCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
 }
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, QWidget *parent) : QMainWindow(parent), busses(bus), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
@@ -100,8 +100,9 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     | Register detection progress callback with resource    |
     | manager                                               |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->RegisterDetectionProgressCallback(UpdateDetectionProgressCallback, this);
-    ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateDeviceListCallback, this);
+    ResourceManager* manager = ResourceManager::get();
+    manager->RegisterDetectionProgressCallback(UpdateDetectionProgressCallback, this);
+    manager->RegisterDeviceListChangeCallback(UpdateDeviceListCallback, this);
 
     /*-----------------------------------------------------*\
     | Initialize page pointers                              |
@@ -245,7 +246,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     | Update the device list and make sure the              |
     | ProgressBar gets a proper value                       |
     \*-----------------------------------------------------*/
-    UpdateDevicesList();
+    LoadDevicesList();
 
     /*-----------------------------------------------------*\
     | Add Server Tab                                        |
@@ -338,7 +339,7 @@ void OpenRGBDialog2::AddClientTab()
     \*-----------------------------------------------------*/
     if(ClientInfoPage == NULL)
     {
-        ClientInfoPage = new OpenRGBClientInfoPage(controllers);
+        ClientInfoPage = new OpenRGBClientInfoPage();
         ui->MainTabBar->addTab(ClientInfoPage, "SDK Client");
 
         /*-----------------------------------------------------*\
@@ -386,42 +387,37 @@ void OpenRGBDialog2::ClearDevicesList()
     ui->InformationTabBar->clear();
 }
 
-void OpenRGBDialog2::UpdateDevicesList()
+void OpenRGBDialog2::LoadDevicesList()
 {
-    /*-----------------------------------------------------*\
-    | Loop through each controller in the list.             |
-    \*-----------------------------------------------------*/
-    for(unsigned int controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+    ResourceManager* manager = ResourceManager::get();
+    size_t count = manager->GetControllerCount();
+    for(size_t idx = 0; idx < count; ++idx)
     {
-        /*-----------------------------------------------------*\
-        | Loop through each tab in the devices tab bar          |
-        \*-----------------------------------------------------*/
-        bool found = false;
+        UpdateDevicesList(idx, false);
+    }
+}
 
-        for(unsigned int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
-        {
-            OpenRGBDevicePage* page = (OpenRGBDevicePage*) ui->DevicesTabBar->widget(tab_idx);
-
-            /*-----------------------------------------------------*\
-            | If the current tab matches the current controller,    |
-            | move the tab to the correct position                  |
-            \*-----------------------------------------------------*/
-            if(controllers[controller_idx] == page->GetController())
-            {
-                found = true;
-                ui->DevicesTabBar->tabBar()->moveTab(tab_idx, controller_idx);
-                break;
-            }
-        }
-
-        if(!found)
+void OpenRGBDialog2::UpdateDevicesList(int index, bool remove)
+{
+    ResourceManager* manager = ResourceManager::get();
+    if(remove)
+    {
+        QWidget* device_page = ui->DevicesTabBar->widget(index);
+        QWidget* info_page = ui->InformationTabBar->widget(index);
+        ui->DevicesTabBar->removeTab(index);
+        ui->InformationTabBar->removeTab(index);
+        delete device_page;
+        delete info_page;
+    }
+    else
+    {
+        RGBController* device = manager->GetController(index);
         {
             /*-----------------------------------------------------*\
-            | The controller does not have a tab already created    |
             | Create a new tab and move it to the correct position  |
             \*-----------------------------------------------------*/
-            OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(controllers[controller_idx]);
-            ui->DevicesTabBar->addTab(NewPage, "");
+            OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(device);
+            ui->DevicesTabBar->insertTab(index, NewPage, "");
 
             /*-----------------------------------------------------*\
             | Connect the page's Set All button to the Set All slot |
@@ -445,58 +441,23 @@ void OpenRGBDialog2::UpdateDevicesList()
             | type and append device name string.                   |
             \*-----------------------------------------------------*/
             QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-            NewLabelString += GetIconString(controllers[controller_idx]->type, darkTheme);
-            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
+            NewLabelString += GetIconString(device->type, darkTheme);
+            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(device->name) + "</td></tr></table></html>";
 
             QLabel *NewTabLabel = new QLabel();
             NewTabLabel->setText(NewLabelString);
             NewTabLabel->setIndent(20);
             NewTabLabel->setGeometry(0, 0, 200, 20);
 
-            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-
-            /*-----------------------------------------------------*\
-            | Now move the new tab to the correct position          |
-            \*-----------------------------------------------------*/
-            ui->DevicesTabBar->tabBar()->moveTab(ui->DevicesTabBar->count() - 1, controller_idx);
+            ui->DevicesTabBar->tabBar()->setTabButton(index, QTabBar::LeftSide, NewTabLabel);
         }
-
-        /*-----------------------------------------------------*\
-        | Loop through each tab in the information tab bar      |
-        \*-----------------------------------------------------*/
-        found = false;
-
-        for(unsigned int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
-        {
-            /*-----------------------------------------------------*\
-            | If type is a device info page, check it               |
-            \*-----------------------------------------------------*/
-            std::string type_str = ui->InformationTabBar->widget(tab_idx)->metaObject()->className();
-            if(type_str == "Ui::OpenRGBDeviceInfoPage")
-            {
-                OpenRGBDeviceInfoPage* page = (OpenRGBDeviceInfoPage*) ui->InformationTabBar->widget(tab_idx);
-
-                /*-----------------------------------------------------*\
-                | If the current tab matches the current controller,    |
-                | move the tab to the correct position                  |
-                \*-----------------------------------------------------*/
-                if(controllers[controller_idx] == page->GetController())
-                {
-                    found = true;
-                    ui->InformationTabBar->tabBar()->moveTab(tab_idx, controller_idx);
-                    break;
-                }
-            }
-        }
-
-        if(!found)
         {
             /*-----------------------------------------------------*\
             | The controller does not have a tab already created    |
             | Create a new tab and move it to the correct position  |
             \*-----------------------------------------------------*/
-            OpenRGBDeviceInfoPage *NewPage = new OpenRGBDeviceInfoPage(controllers[controller_idx]);
-            ui->InformationTabBar->addTab(NewPage, "");
+            OpenRGBDeviceInfoPage *NewPage = new OpenRGBDeviceInfoPage(device);
+            ui->InformationTabBar->insertTab(index, NewPage, "");
 
             /*-----------------------------------------------------*\
             | Use Qt's HTML capabilities to display both icon and   |
@@ -504,50 +465,15 @@ void OpenRGBDialog2::UpdateDevicesList()
             | type and append device name string.                   |
             \*-----------------------------------------------------*/
             QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-            NewLabelString += GetIconString(controllers[controller_idx]->type, darkTheme);
-            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
+            NewLabelString += GetIconString(device->type, darkTheme);
+            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(device->name) + "</td></tr></table></html>";
 
             QLabel *NewTabLabel = new QLabel();
             NewTabLabel->setText(NewLabelString);
             NewTabLabel->setIndent(20);
             NewTabLabel->setGeometry(0, 0, 200, 20);
 
-            ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-
-            /*-----------------------------------------------------*\
-            | Now move the new tab to the correct position          |
-            \*-----------------------------------------------------*/
-            ui->InformationTabBar->tabBar()->moveTab(ui->InformationTabBar->count() - 1, controller_idx);
-        }
-    }
-
-    /*-----------------------------------------------------*\
-    | Remove all remaining device tabs                      |
-    \*-----------------------------------------------------*/
-    unsigned int tab_count = ui->DevicesTabBar->count();
-    for(unsigned int tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
-    {
-        ui->DevicesTabBar->removeTab(ui->DevicesTabBar->count() - 1);
-    }
-
-    bool found = true;
-    while(found)
-    {
-        found = false;
-
-        /*-----------------------------------------------------*\
-        | Remove all remaining device information tabs, leaving |
-        | other information tabs alone                          |
-        \*-----------------------------------------------------*/
-        for(unsigned int tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
-        {
-            std::string type_str = ui->InformationTabBar->widget(tab_idx)->metaObject()->className();
-            if(type_str == "Ui::OpenRGBDeviceInfoPage")
-            {
-                found = true;
-                ui->InformationTabBar->removeTab(tab_idx);
-                break;
-            }
+            ui->InformationTabBar->tabBar()->setTabButton(index, QTabBar::LeftSide, NewTabLabel);
         }
     }
 }
@@ -630,12 +556,14 @@ void OpenRGBDialog2::on_QuickWhite()
 
 void OpenRGBDialog2::on_ClientListUpdated()
 {
-    UpdateDevicesList();
+    //UpdateDevicesList();
 }
 
-void OpenRGBDialog2::onDeviceListUpdated()
+void OpenRGBDialog2::onDeviceListUpdated(int index, int list, bool removed)
 {
-    UpdateDevicesList();
+    ResourceManager* manager = ResourceManager::get();
+    int idx = manager->GetUIListIndex(index, ControllerList(list));
+    UpdateDevicesList(idx, removed);
 }
 
 void OpenRGBDialog2::onDetectionProgressUpdated()
