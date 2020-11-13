@@ -3159,26 +3159,60 @@ static const razer_device naga_trinity_device =
 |  Razer Viper Ultimate Wired 1532:007A                         |
 |                                                               |
 |  Zone "Logo"                                                  |
-|       Linear                                                  |
-|       20 LEDs                                                 |
+|       Matrix                                                  |
+|       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone viper_ultimate_logo_zone =
+static const razer_zone viper_ultimate_wired_logo_zone =
 {
-    "Matrix Zone",      //Defined as a logo zone upstream
-    ZONE_TYPE_LINEAR,
+    "Logo",      //Matrix of one as per https://github.com/openrazer/openrazer/blob/master/daemon/openrazer_daemon/hardware/mouse.py#L1690
+    ZONE_TYPE_SINGLE,
     1,
-    20
+    1
 };
 
-static const razer_device viper_ultimate_device =
+static const razer_device viper_ultimate_wired_device =
 {
-    "Razer Viper Ultimate",
+    "Razer Viper Ultimate (Wired)",
     DEVICE_TYPE_MOUSE,
     true,
     1,
-    20,
+    1,
     {
-        &viper_ultimate_logo_zone,
+        &viper_ultimate_wired_logo_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Viper Ultimate Wireless 1532:007B                      |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Matrix                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone viper_ultimate_wireless_logo_zone =
+{
+    "Logo",      //Matrix of one as per https://github.com/openrazer/openrazer/blob/master/daemon/openrazer_daemon/hardware/mouse.py#L1690
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device viper_ultimate_wireless_device =
+{
+    "Razer Viper Ultimate (Wireless)",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    1,
+    {
+        &viper_ultimate_wireless_logo_zone,
         NULL,
         NULL,
         NULL,
@@ -3965,7 +3999,8 @@ static const razer_device* device_list[] =
     &naga_epic_chroma_device,
     &naga_hex_v2_device,
     &naga_trinity_device,
-    &viper_ultimate_device,
+    &viper_ultimate_wired_device,
+    &viper_ultimate_wireless_device,
 /*-----------------------------------------------------------------*\
 |  KEYPADS                                                          |
 \*-----------------------------------------------------------------*/
