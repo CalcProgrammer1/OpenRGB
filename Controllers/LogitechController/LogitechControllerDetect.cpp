@@ -28,6 +28,7 @@
 \*-----------------------------------------------------*/
 #define LOGITECH_G810_1_PID                     0xC337
 #define LOGITECH_G810_2_PID                     0xC331
+#define LOGITECH_G610_PID                       0xC333
 #define LOGITECH_G512_PID                       0xC342
 #define LOGITECH_G512_RGB_PID                   0xC33C
 #define LOGITECH_G213_PID                       0xC336
@@ -62,6 +63,7 @@ static const logitech_device device_list[] =
     \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
     { LOGITECH_VID,             LOGITECH_G810_1_PID,                    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"                      },
     { LOGITECH_VID,             LOGITECH_G810_2_PID,                    1,  DEVICE_TYPE_KEYBOARD,   "Logitech G810 Orion Spectrum"                      },
+    { LOGITECH_VID,             LOGITECH_G610_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G610 Orion"                               },
     { LOGITECH_VID,             LOGITECH_G512_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512"                                     },
     { LOGITECH_VID,             LOGITECH_G512_RGB_PID,                  1,  DEVICE_TYPE_KEYBOARD,   "Logitech G512 RGB"                                 },
     { LOGITECH_VID,             LOGITECH_G213_PID,                      1,  DEVICE_TYPE_KEYBOARD,   "Logitech G213"                                     },
@@ -174,6 +176,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             {
                             case LOGITECH_G810_1_PID:
                             case LOGITECH_G810_2_PID:
+                            case LOGITECH_G610_PID:
                             case LOGITECH_G512_PID:
                             case LOGITECH_G512_RGB_PID:                            
                                 {
