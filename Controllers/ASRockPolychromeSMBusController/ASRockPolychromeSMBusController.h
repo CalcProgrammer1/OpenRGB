@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  ASRockPolyChromeSMBusController.h        |
+|  ASRockPolychromeSMBusController.h        |
 |                                           |
 |  Definitions and types for ASRock         |
 |  ASR LED and Polychrome RGB lighting      |

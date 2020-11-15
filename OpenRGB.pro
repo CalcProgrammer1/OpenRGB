@@ -51,7 +51,7 @@ INCLUDEPATH +=                                                                  
     serial_port/                                                                                \
     super_io/                                                                                   \
     Controllers/AMDWraithPrismController/                                                       \
-    Controllers/ASRockPolyChromeSMBusController/                                                \
+    Controllers/ASRockPolychromeSMBusController/                                                \
     Controllers/AsusAuraCoreController/                                                         \
     Controllers/AsusAuraGPUController/                                                          \
     Controllers/AsusAuraSMBusController/                                                        \
@@ -136,8 +136,8 @@ HEADERS +=                                                                      
     super_io/super_io.h                                                                         \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h                             \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
-    Controllers/ASRockPolyChromeSMBusController/ASRockPolyChromeSMBusController.h               \
-    Controllers/ASRockPolyChromeSMBusController/RGBController_ASRockPolyChromeSMBus.h           \
+    Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.h               \
+    Controllers/ASRockPolychromeSMBusController/RGBController_ASRockPolychromeSMBus.h           \
     Controllers/AsusAuraCoreController/AsusAuraCoreController.h                                 \
     Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.h                             \
     Controllers/AsusAuraGPUController/AsusAuraGPUController.h                                   \
@@ -302,9 +302,9 @@ SOURCES +=                                                                      
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp                           \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp                     \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.cpp                       \
-    Controllers/ASRockPolyChromeSMBusController/ASRockPolyChromeSMBusController.cpp             \
-    Controllers/ASRockPolyChromeSMBusController/ASRockPolyChromeSMBusControllerDetect.cpp       \
-    Controllers/ASRockPolyChromeSMBusController/RGBController_ASRockPolychromeSMBus.cpp         \
+    Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.cpp             \
+    Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusControllerDetect.cpp       \
+    Controllers/ASRockPolychromeSMBusController/RGBController_ASRockPolychromeSMBus.cpp         \
     Controllers/AsusAuraCoreController/AsusAuraCoreController.cpp                               \
     Controllers/AsusAuraCoreController/AsusAuraCoreControllerDetect.cpp                         \
     Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.cpp                           \

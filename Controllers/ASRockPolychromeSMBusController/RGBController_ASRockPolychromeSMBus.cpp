@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  ASRockSMBusRGBController_Polychrome.cpp  |
+|  RGBController_ASRockPolychromeSMBus.cpp  |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
 |  ASRock ASR LED and Polychrome RGB Driver |

@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  ASRockPolyChromeSMBusController.cpp      |
+|  ASRockPolychromeSMBusController.cpp      |
 |                                           |
 |  Driver for for ASRock ASR LED and        |
 |  Polychrome RGB lighting controller       |
