@@ -7,7 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 12/14/2019  |
 \*-----------------------------------------*/
 
-#include "ASRockPolyChromeSMBusController.h"
+#include "ASRockPolychromeSMBusController.h"
 #include <cstring>
 
 using namespace std::chrono_literals;

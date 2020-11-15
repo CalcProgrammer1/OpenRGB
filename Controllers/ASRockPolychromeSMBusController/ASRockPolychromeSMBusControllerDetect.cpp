@@ -1,7 +1,7 @@
 #include "Detector.h"
-#include "ASRockPolyChromeSMBusController.h"
+#include "ASRockPolychromeSMBusController.h"
 #include "RGBController.h"
-#include "RGBController_ASRockPolyChromeSMBus.h"
+#include "RGBController_ASRockPolychromeSMBus.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 #include <vector>
