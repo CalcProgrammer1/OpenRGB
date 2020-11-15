@@ -50,12 +50,12 @@ INCLUDEPATH +=                                                                  
     pci_ids/                                                                                    \
     serial_port/                                                                                \
     super_io/                                                                                   \
-    Controllers/AorusCPUCoolerController/                                                       \
     Controllers/AMDWraithPrismController/                                                       \
-    Controllers/AuraUSBController/                                                              \
-    Controllers/AuraCoreController/                                                             \
-    Controllers/AuraGPUController/                                                              \
-    Controllers/AuraSMBusController/                                                            \
+    Controllers/ASRockPolyChromeSMBusController/                                                \
+    Controllers/AsusAuraCoreController/                                                         \
+    Controllers/AsusAuraGPUController/                                                          \
+    Controllers/AsusAuraSMBusController/                                                        \
+    Controllers/AsusAuraUSBController/                                                          \
     Controllers/CoolerMasterController/                                                         \
     Controllers/CorsairDominatorPlatinumController/                                             \
     Controllers/CorsairHydroController/                                                         \
@@ -70,9 +70,14 @@ INCLUDEPATH +=                                                                  
     Controllers/EKController/                                                                   \
     Controllers/EspurnaController/                                                              \
     Controllers/EVGAGPUController/                                                              \
+    Controllers/GigabyteAorusCPUCoolerController/                                               \
+    Controllers/GigabyteRGBFusion2DRAMController/                                               \
+    Controllers/GigabyteRGBFusion2SMBusController/                                              \
+    Controllers/GigabyteRGBFusion2USBController/                                                \
+    Controllers/GigabyteRGBFusionController/                                                    \
+    Controllers/GigabyteRGBFusionGPUController/                                                 \
     Controllers/GalaxGPUController/                                                             \
     Controllers/HoltekController/                                                               \
-    Controllers/HuePlusController/                                                              \
     Controllers/HyperXDRAMController/                                                           \
     Controllers/HyperXKeyboardController/                                                       \
     Controllers/HyperXMouseController/                                                          \
@@ -84,23 +89,18 @@ INCLUDEPATH +=                                                                  
     Controllers/MSIMysticLightController/                                                       \
     Controllers/MSIRGBController/                                                               \
     Controllers/NZXTHue2Controller/                                                             \
+    Controllers/NZXTHuePlusController/                                                          \
     Controllers/NZXTKrakenController/                                                           \
     Controllers/OpenRazerController/                                                            \
     Controllers/PatriotViperController/                                                         \
     Controllers/PhilipsWizController/                                                           \
-    Controllers/PolychromeController/                                                           \
-    Controllers/PoseidonZRGBController/                                                         \
     Controllers/RedragonController/                                                             \
-    Controllers/RGBFusionController/                                                            \
-    Controllers/RGBFusion2DRAMController/                                                       \
-    Controllers/RGBFusion2SMBusController/                                                      \
-    Controllers/RGBFusion2USBController/                                                        \
-    Controllers/RGBFusionGPUController/                                                         \
     Controllers/SapphireGPUController/                                                          \
     Controllers/SinowealthController/                                                           \
     Controllers/SonyDS4Controller/                                                              \
     Controllers/SteelSeriesController/                                                          \
     Controllers/TecknetController/                                                              \
+    Controllers/ThermaltakePoseidonZRGBController/                                              \
     Controllers/ThermaltakeRiingController/                                                     \
     RGBController/                                                                              \
     qt/
@@ -136,20 +136,20 @@ HEADERS +=                                                                      
     super_io/super_io.h                                                                         \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h                             \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
-    Controllers/AorusCPUCoolerController/ATC800Controller.h                                     \
-    Controllers/AorusCPUCoolerController/RGBController_AorusATC800.h                            \
-    Controllers/AuraUSBController/AuraUSBController.h                                           \
-    Controllers/AuraUSBController/AuraAddressableController.h                                   \
-    Controllers/AuraUSBController/AuraMainboardController.h                                     \
-    Controllers/AuraUSBController/AuraMouseController.h                                         \
-    Controllers/AuraUSBController/RGBController_AuraMouse.h                                     \
-    Controllers/AuraUSBController/RGBController_AuraUSB.h                                       \
-    Controllers/AuraCoreController/AuraCoreController.h                                         \
-    Controllers/AuraCoreController/RGBController_AuraCore.h                                     \
-    Controllers/AuraGPUController/AuraGPUController.h                                           \
-    Controllers/AuraGPUController/RGBController_AuraGPU.h                                       \
-    Controllers/AuraSMBusController/AuraSMBusController.h                                       \
-    Controllers/AuraSMBusController/RGBController_AuraSMBus.h                                   \
+    Controllers/ASRockPolyChromeSMBusController/ASRockPolyChromeSMBusController.h               \
+    Controllers/ASRockPolyChromeSMBusController/RGBController_ASRockPolyChromeSMBus.h           \
+    Controllers/AsusAuraCoreController/AsusAuraCoreController.h                                 \
+    Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.h                             \
+    Controllers/AsusAuraGPUController/AsusAuraGPUController.h                                   \
+    Controllers/AsusAuraGPUController/RGBController_AsusAuraGPU.h                               \
+    Controllers/AsusAuraSMBusController/AsusAuraSMBusController.h                               \
+    Controllers/AsusAuraSMBusController/RGBController_AsusAuraSMBus.h                           \
+    Controllers/AsusAuraUSBController/AsusAuraUSBController.h                                   \
+    Controllers/AsusAuraUSBController/AsusAuraAddressableController.h                           \
+    Controllers/AsusAuraUSBController/AsusAuraMainboardController.h                             \
+    Controllers/AsusAuraUSBController/AsusAuraMouseController.h                                 \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.h                             \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.h                               \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
     Controllers/CoolerMasterController/CMMP750Controller.h                                      \
     Controllers/CoolerMasterController/RGBController_CMARGBController.h                         \
@@ -179,12 +179,22 @@ HEADERS +=                                                                      
     Controllers/EVGAGPUController/EVGAGPUv2Controller.h                                         \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.h                                     \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.h                                     \
+    Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
+    Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.h                    \
+    Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.h             \
+    Controllers/GigabyteRGBFusion2DRAMController/RGBController_GigabyteRGBFusion2DRAM.h         \
+    Controllers/GigabyteRGBFusion2SMBusController/GigabyteRGBFusion2SMBusController.h           \
+    Controllers/GigabyteRGBFusion2SMBusController/RGBController_GigabyteRGBFusion2SMBus.h       \
+    Controllers/GigabyteRGBFusion2USBController/GigabyteRGBFusion2USBController.h               \
+    Controllers/GigabyteRGBFusion2USBController/RGBController_GigabyteRGBFusion2USB.h           \
+    Controllers/GigabyteRGBFusionController/GigabyteRGBFusionController.h                       \
+    Controllers/GigabyteRGBFusionController/RGBController_GigabyteRGBFusion.h                   \
+    Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUController.h                 \
+    Controllers/GigabyteRGBFusionGPUController/RGBController_GigabyteRGBFusionGPU.h             \
     Controllers/GalaxGPUController/GalaxGPUController.h                                         \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/HoltekController/HoltekA070Controller.h                                         \
     Controllers/HoltekController/RGBController_HoltekA070.h                                     \
-    Controllers/HuePlusController/HuePlusController.h                                           \
-    Controllers/HuePlusController/RGBController_HuePlus.h                                       \
     Controllers/HyperXDRAMController/HyperXDRAMController.h                                     \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.h                                 \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h                         \
@@ -223,6 +233,8 @@ HEADERS +=                                                                      
     Controllers/MSIRGBController/RGBController_MSIRGB.h                                         \
     Controllers/NZXTHue2Controller/NZXTHue2Controller.h                                         \
     Controllers/NZXTHue2Controller/RGBController_NZXTHue2.h                                     \
+    Controllers/NZXTHuePlusController/NZXTHuePlusController.h                                   \
+    Controllers/NZXTHuePlusController/RGBController_NZXTHuePlus.h                               \
     Controllers/NZXTKrakenController/NZXTKrakenController.h                                     \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.h                                 \
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
@@ -230,24 +242,10 @@ HEADERS +=                                                                      
     Controllers/PatriotViperController/RGBController_PatriotViper.h                             \
     Controllers/PhilipsWizController/PhilipsWizController.h                                     \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.h                                 \
-    Controllers/PolychromeController/PolychromeController.h                                     \
-    Controllers/PolychromeController/RGBController_Polychrome.h                                 \
-    Controllers/PoseidonZRGBController/PoseidonZRGBController.h                                 \
-    Controllers/PoseidonZRGBController/RGBController_PoseidonZRGB.h                             \
     Controllers/RedragonController/RedragonK556Controller.h                                     \
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonK556.h                                 \
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
-    Controllers/RGBFusionController/RGBFusionController.h                                       \
-    Controllers/RGBFusionController/RGBController_RGBFusion.h                                   \
-    Controllers/RGBFusion2DRAMController/RGBFusion2DRAMController.h                             \
-    Controllers/RGBFusion2DRAMController/RGBController_RGBFusion2DRAM.h                         \
-    Controllers/RGBFusion2SMBusController/RGBFusion2SMBusController.h                           \
-    Controllers/RGBFusion2SMBusController/RGBController_RGBFusion2SMBus.h                       \
-    Controllers/RGBFusion2USBController/RGBFusion2USBController.h                               \
-    Controllers/RGBFusion2USBController/RGBController_RGBFusion2USB.h                           \
-    Controllers/RGBFusionGPUController/RGBFusionGPUController.h                                 \
-    Controllers/RGBFusionGPUController/RGBController_RGBFusionGPU.h                             \
     Controllers/SapphireGPUController/SapphireGPUController.h                                   \
     Controllers/SapphireGPUController/RGBController_SapphireGPU.h                               \
     Controllers/SinowealthController/SinowealthController.h                                     \
@@ -264,6 +262,8 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/RGBController_SteelSeriesSiberia.h                        \
     Controllers/TecknetController/TecknetController.h                                           \
     Controllers/TecknetController/RGBController_Tecknet.h                                       \
+    Controllers/ThermaltakePoseidonZRGBController/ThermaltakePoseidonZRGBController.h           \
+    Controllers/ThermaltakePoseidonZRGBController/RGBController_ThermaltakePoseidonZRGB.h       \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h                         \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.h                     \
     RGBController/RGBController.h                                                               \
@@ -302,25 +302,25 @@ SOURCES +=                                                                      
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp                           \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp                     \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.cpp                       \
-    Controllers/AorusCPUCoolerController/ATC800Controller.cpp                                   \
-    Controllers/AorusCPUCoolerController/AorusCPUCoolerControllerDetect.cpp                     \
-    Controllers/AorusCPUCoolerController/RGBController_AorusATC800.cpp                          \
-    Controllers/AuraUSBController/AuraUSBController.cpp                                         \
-    Controllers/AuraUSBController/AuraAddressableController.cpp                                 \
-    Controllers/AuraUSBController/AuraMainboardController.cpp                                   \
-    Controllers/AuraUSBController/AuraMouseController.cpp                                       \
-    Controllers/AuraUSBController/AuraUSBControllerDetect.cpp                                   \
-    Controllers/AuraUSBController/RGBController_AuraMouse.cpp                                   \
-    Controllers/AuraUSBController/RGBController_AuraUSB.cpp                                     \
-    Controllers/AuraCoreController/AuraCoreController.cpp                                       \
-    Controllers/AuraCoreController/AuraCoreControllerDetect.cpp                                 \
-    Controllers/AuraCoreController/RGBController_AuraCore.cpp                                   \
-    Controllers/AuraGPUController/AuraGPUController.cpp                                         \
-    Controllers/AuraGPUController/AuraGPUControllerDetect.cpp                                   \
-    Controllers/AuraGPUController/RGBController_AuraGPU.cpp                                     \
-    Controllers/AuraSMBusController/AuraSMBusController.cpp                                     \
-    Controllers/AuraSMBusController/AuraSMBusControllerDetect.cpp                               \
-    Controllers/AuraSMBusController/RGBController_AuraSMBus.cpp                                 \
+    Controllers/ASRockPolyChromeSMBusController/ASRockPolyChromeSMBusController.cpp             \
+    Controllers/ASRockPolyChromeSMBusController/ASRockPolyChromeSMBusControllerDetect.cpp       \
+    Controllers/ASRockPolyChromeSMBusController/RGBController_ASRockPolychromeSMBus.cpp         \
+    Controllers/AsusAuraCoreController/AsusAuraCoreController.cpp                               \
+    Controllers/AsusAuraCoreController/AsusAuraCoreControllerDetect.cpp                         \
+    Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.cpp                           \
+    Controllers/AsusAuraGPUController/AsusAuraGPUController.cpp                                 \
+    Controllers/AsusAuraGPUController/AsusAuraGPUControllerDetect.cpp                           \
+    Controllers/AsusAuraGPUController/RGBController_AsusAuraGPU.cpp                             \
+    Controllers/AsusAuraSMBusController/AsusAuraSMBusController.cpp                             \
+    Controllers/AsusAuraSMBusController/AsusAuraSMBusControllerDetect.cpp                       \
+    Controllers/AsusAuraSMBusController/RGBController_AsusAuraSMBus.cpp                         \
+    Controllers/AsusAuraUSBController/AsusAuraUSBController.cpp                                 \
+    Controllers/AsusAuraUSBController/AsusAuraAddressableController.cpp                         \
+    Controllers/AsusAuraUSBController/AsusAuraMainboardController.cpp                           \
+    Controllers/AsusAuraUSBController/AsusAuraMouseController.cpp                               \
+    Controllers/AsusAuraUSBController/AsusAuraUSBControllerDetect.cpp                           \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.cpp                           \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.cpp                             \
     Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp                         \
@@ -364,15 +364,30 @@ SOURCES +=                                                                      
     Controllers/EVGAGPUController/EVGAGPUControllerDetect.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.cpp                                   \
+    Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.cpp                           \
+    Controllers/GigabyteAorusCPUCoolerController/GigabyteAorusCPUCoolerControllerDetect.cpp     \
+    Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.cpp                  \
+    Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.cpp           \
+    Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMControllerDetect.cpp     \
+    Controllers/GigabyteRGBFusion2DRAMController/RGBController_GigabyteRGBFusion2DRAM.cpp       \
+    Controllers/GigabyteRGBFusion2SMBusController/GigabyteRGBFusion2SMBusController.cpp         \
+    Controllers/GigabyteRGBFusion2SMBusController/GigabyteRGBFusion2SMBusControllerDetect.cpp   \
+    Controllers/GigabyteRGBFusion2SMBusController/RGBController_GigabyteRGBFusion2SMBus.cpp     \
+    Controllers/GigabyteRGBFusion2USBController/GigabyteRGBFusion2USBController.cpp             \
+    Controllers/GigabyteRGBFusion2USBController/GigabyteRGBFusion2USBControllerDetect.cpp       \
+    Controllers/GigabyteRGBFusion2USBController/RGBController_GigabyteRGBFusion2USB.cpp         \
+    Controllers/GigabyteRGBFusionController/GigabyteRGBFusionController.cpp                     \
+    Controllers/GigabyteRGBFusionController/GigabyteRGBFusionControllerDetect.cpp               \
+    Controllers/GigabyteRGBFusionController/RGBController_GigabyteRGBFusion.cpp                 \
+    Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUController.cpp               \
+    Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUControllerDetect.cpp         \
+    Controllers/GigabyteRGBFusionGPUController/RGBController_GigabyteRGBFusionGPU.cpp           \
     Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
     Controllers/HoltekController/HoltekA070Controller.cpp                                       \
     Controllers/HoltekController/HoltekControllerDetect.cpp                                     \
     Controllers/HoltekController/RGBController_HoltekA070.cpp                                   \
-    Controllers/HuePlusController/HuePlusController.cpp                                         \
-    Controllers/HuePlusController/HuePlusControllerDetect.cpp                                   \
-    Controllers/HuePlusController/RGBController_HuePlus.cpp                                     \
     Controllers/HyperXDRAMController/HyperXDRAMController.cpp                                   \
     Controllers/HyperXDRAMController/HyperXDRAMControllerDetect.cpp                             \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.cpp                               \
@@ -422,6 +437,9 @@ SOURCES +=                                                                      
     Controllers/NZXTHue2Controller/NZXTHue2Controller.cpp                                       \
     Controllers/NZXTHue2Controller/NZXTHue2ControllerDetect.cpp                                 \
     Controllers/NZXTHue2Controller/RGBController_NZXTHue2.cpp                                   \
+    Controllers/NZXTHuePlusController/NZXTHuePlusController.cpp                                 \
+    Controllers/NZXTHuePlusController/NZXTHuePlusControllerDetect.cpp                           \
+    Controllers/NZXTHuePlusController/RGBController_NZXTHuePlus.cpp                             \
     Controllers/NZXTKrakenController/NZXTKrakenController.cpp                                   \
     Controllers/NZXTKrakenController/NZXTKrakenControllerDetect.cpp                             \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.cpp                               \
@@ -431,32 +449,11 @@ SOURCES +=                                                                      
     Controllers/PhilipsWizController/PhilipsWizController.cpp                                   \
     Controllers/PhilipsWizController/PhilipsWizControllerDetect.cpp                             \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.cpp                               \
-    Controllers/PolychromeController/PolychromeController.cpp                                   \
-    Controllers/PolychromeController/PolychromeControllerDetect.cpp                             \
-    Controllers/PolychromeController/RGBController_Polychrome.cpp                               \
-    Controllers/PoseidonZRGBController/PoseidonZRGBController.cpp                               \
-    Controllers/PoseidonZRGBController/PoseidonZRGBControllerDetect.cpp                         \
-    Controllers/PoseidonZRGBController/RGBController_PoseidonZRGB.cpp                           \
     Controllers/RedragonController/RedragonK556Controller.cpp                                   \
     Controllers/RedragonController/RedragonM711Controller.cpp                                   \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
     Controllers/RedragonController/RGBController_RedragonK556.cpp                               \
     Controllers/RedragonController/RGBController_RedragonM711.cpp                               \
-    Controllers/RGBFusionController/RGBFusionController.cpp                                     \
-    Controllers/RGBFusionController/RGBFusionControllerDetect.cpp                               \
-    Controllers/RGBFusionController/RGBController_RGBFusion.cpp                                 \
-    Controllers/RGBFusion2DRAMController/RGBFusion2DRAMController.cpp                           \
-    Controllers/RGBFusion2DRAMController/RGBFusion2DRAMControllerDetect.cpp                     \
-    Controllers/RGBFusion2DRAMController/RGBController_RGBFusion2DRAM.cpp                       \
-    Controllers/RGBFusion2SMBusController/RGBFusion2SMBusController.cpp                         \
-    Controllers/RGBFusion2SMBusController/RGBFusion2SMBusControllerDetect.cpp                   \
-    Controllers/RGBFusion2SMBusController/RGBController_RGBFusion2SMBus.cpp                     \
-    Controllers/RGBFusion2USBController/RGBFusion2USBController.cpp                             \
-    Controllers/RGBFusion2USBController/RGBFusion2USBControllerDetect.cpp                       \
-    Controllers/RGBFusion2USBController/RGBController_RGBFusion2USB.cpp                         \
-    Controllers/RGBFusionGPUController/RGBFusionGPUController.cpp                               \
-    Controllers/RGBFusionGPUController/RGBFusionGPUControllerDetect.cpp                         \
-    Controllers/RGBFusionGPUController/RGBController_RGBFusionGPU.cpp                           \
     Controllers/SapphireGPUController/SapphireGPUController.cpp                                 \
     Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp                           \
     Controllers/SapphireGPUController/RGBController_SapphireGPU.cpp                             \
@@ -477,6 +474,9 @@ SOURCES +=                                                                      
     Controllers/TecknetController/TecknetController.cpp                                         \
     Controllers/TecknetController/TecknetControllerDetect.cpp                                   \
     Controllers/TecknetController/RGBController_Tecknet.cpp                                     \
+    Controllers/ThermaltakePoseidonZRGBController/ThermaltakePoseidonZRGBController.cpp         \
+    Controllers/ThermaltakePoseidonZRGBController/ThermaltakePoseidonZRGBControllerDetect.cpp   \
+    Controllers/ThermaltakePoseidonZRGBController/RGBController_ThermaltakePoseidonZRGB.cpp     \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp                       \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp                 \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.cpp                   \
