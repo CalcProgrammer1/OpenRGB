@@ -2472,6 +2472,146 @@ static const razer_device lancehead_te_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Lancehead V2 (Wired) 1532:0070                         |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone lancehead_v2_wired_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_v2_wired_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_v2_wired_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone lancehead_v2_wired_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device lancehead_v2_wired_device =
+{
+    "Razer Lancehead Wireless (Wired)",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    18,
+    {
+        &lancehead_v2_wired_right_zone,
+        &lancehead_v2_wired_left_zone,
+        &lancehead_v2_wired_logo_zone,
+        &lancehead_v2_wired_scroll_wheel_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Lancehead V2 (Wireless) 1532:006F                      |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone lancehead_v2_wireless_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_v2_wireless_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_v2_wireless_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone lancehead_v2_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device lancehead_v2_wireless_device =
+{
+    "Razer Lancehead Wireless (Receiver)",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    18,
+    {
+        &lancehead_v2_wireless_right_zone,
+        &lancehead_v2_wireless_left_zone,
+        &lancehead_v2_wireless_logo_zone,
+        &lancehead_v2_wireless_scroll_wheel_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Mamba 2012 (Wired)                                     |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -3811,6 +3951,8 @@ static const razer_device* device_list[] =
     &deathadder_v2_device,
     &diamondback_chroma_device,
     &lancehead_te_device,
+    &lancehead_v2_wired_device,
+    &lancehead_v2_wireless_device,
     &mamba_2012_wired_device,
     &mamba_2012_wireless_device,
     &mamba_wired_device,
