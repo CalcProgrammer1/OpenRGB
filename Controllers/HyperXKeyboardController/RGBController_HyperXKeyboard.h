@@ -36,9 +36,7 @@ public:
     
 private:
     HyperXKeyboardController*   hyperx;
-
-    std::atomic<bool>   KeepaliveThreadRunning;
-    std::thread*        KeepaliveThread;
-
+    std::atomic<bool>   keepalive_thread_run;
+    std::thread*        keepalive_thread;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

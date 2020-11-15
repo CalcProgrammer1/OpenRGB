@@ -112,6 +112,8 @@ private:
     hid_device*             dev;
     std::string             firmware_version;
     std::string             location;
+    std::thread*            keepalive_thread;
+    std::atomic<bool>       keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
 
     void            SendFirmwareRequest();

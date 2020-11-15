@@ -37,6 +37,12 @@ NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controller
 {
     port_num      = OPENRGB_SDK_PORT;
     server_online = false;
+    ConnectionThread = nullptr;
+}
+
+NetworkServer::~NetworkServer()
+{
+    StopServer();
 }
 
 void NetworkServer::ClientInfoChanged()
@@ -213,6 +219,13 @@ void NetworkServer::StopServer()
 
     ServerClients.clear();
     ServerClientsMutex.unlock();
+
+    if(ConnectionThread)
+    {
+        ConnectionThread->join();
+        delete ConnectionThread;
+        ConnectionThread = nullptr;
+    }
 
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |

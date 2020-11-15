@@ -42,7 +42,7 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
 
 NetworkClient::~NetworkClient()
 {
-    delete ConnectionThread;
+    StopClient();
 }
 
 void NetworkClient::ClientInfoChanged()
@@ -145,8 +145,17 @@ void NetworkClient::StopClient()
     }
 
     if(ListenThread)
+    {
         ListenThread->join();
-    ConnectionThread->join();
+        delete ListenThread;
+        ListenThread = nullptr;
+    }
+    if(ConnectionThread)
+    {
+        ConnectionThread->join();
+        delete ConnectionThread;
+        ConnectionThread = nullptr;
+    }
 
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |

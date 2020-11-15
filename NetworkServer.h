@@ -30,6 +30,7 @@ class NetworkServer
 {
 public:
     NetworkServer(std::vector<RGBController *>& control);
+    ~NetworkServer();
 
     unsigned short                      GetPort();
     bool                                GetOnline();

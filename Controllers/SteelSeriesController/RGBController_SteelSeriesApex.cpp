@@ -9,14 +9,6 @@
 
 #include "RGBController_SteelSeriesApex.h"
 
-//Include thread libraries for Windows or Linux
-#ifdef WIN32
-#include <process.h>
-#else
-#include "pthread.h"
-#include "unistd.h"
-#endif
-
 using namespace std::chrono_literals;
 
 //0xFFFFFFFF indicates an unused entry in matrix

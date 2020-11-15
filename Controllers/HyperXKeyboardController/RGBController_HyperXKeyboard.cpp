@@ -230,15 +230,15 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
     | to not revert back into rainbow mode.  Start a thread |
     | to continuously send a keepalive packet every 5s      |
     \*-----------------------------------------------------*/
-    KeepaliveThreadRunning = true;
-    KeepaliveThread = new std::thread(&RGBController_HyperXKeyboard::KeepaliveThreadFunction, this);
+    keepalive_thread_run = true;
+    keepalive_thread = new std::thread(&RGBController_HyperXKeyboard::KeepaliveThreadFunction, this);
 }
 
 RGBController_HyperXKeyboard::~RGBController_HyperXKeyboard()
 {
-    KeepaliveThreadRunning = false;
-    KeepaliveThread->join();
-    delete KeepaliveThread;
+    keepalive_thread_run = false;
+    keepalive_thread->join();
+    delete keepalive_thread;
 
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
@@ -345,7 +345,7 @@ void RGBController_HyperXKeyboard::DeviceUpdateMode()
 
 void RGBController_HyperXKeyboard::KeepaliveThreadFunction()
 {
-    while(KeepaliveThreadRunning)
+    while(keepalive_thread_run)
     {
         if(active_mode == 0)
         {

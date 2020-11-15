@@ -37,4 +37,5 @@ private:
     std::string         location;
     net_port            port;
     std::thread*        ReceiveThread;
+    std::atomic<bool>   ReceiveThreadRun;
 };

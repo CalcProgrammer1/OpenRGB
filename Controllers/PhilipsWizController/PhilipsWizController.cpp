@@ -25,6 +25,7 @@ PhilipsWizController::PhilipsWizController(std::string ip)
     /*-----------------------------------------------------------------*\
     | Start a thread to handle responses received from the Wiz device   |
     \*-----------------------------------------------------------------*/
+    ReceiveThreadRun = 1;
     ReceiveThread = new std::thread(&PhilipsWizController::ReceiveThreadFunction, this);
 
     /*-----------------------------------------------------------------*\
@@ -35,7 +36,9 @@ PhilipsWizController::PhilipsWizController(std::string ip)
 
 PhilipsWizController::~PhilipsWizController()
 {
-
+    ReceiveThreadRun = 0;
+    ReceiveThread->join();
+    delete ReceiveThread;
 }
 
 std::string PhilipsWizController::GetLocation()
@@ -90,7 +93,7 @@ void PhilipsWizController::ReceiveThreadFunction()
 {
     char recv_buf[1024];
 
-    while(1)
+    while(ReceiveThreadRun.load())
     {
         /*-----------------------------------------------------------------*\
         | Receive up to 1024 bytes from the device                          |

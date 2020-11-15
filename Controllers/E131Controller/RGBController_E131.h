@@ -78,7 +78,8 @@ private:
 	std::vector<e131_addr_t> 	dest_addrs;
 	std::vector<unsigned int> 	universes;
 	int 						sockfd;
-    std::thread *               KeepaliveThread;
+    std::thread *               keepalive_thread;
+    std::atomic<bool>           keepalive_thread_run;
     std::chrono::milliseconds                           keepalive_delay;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

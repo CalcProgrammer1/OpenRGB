@@ -261,12 +261,21 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     if(keepalive_delay.count() > 0)
     {
-        KeepaliveThread = new std::thread(&RGBController_E131::KeepaliveThreadFunction, this);
+        keepalive_thread_run = 1;
+        keepalive_thread = new std::thread(&RGBController_E131::KeepaliveThreadFunction, this);
+    }
+    else
+    {
+        keepalive_thread_run = 0;
+        keepalive_thread = nullptr;
     }
 }
 
 RGBController_E131::~RGBController_E131()
 {
+    keepalive_thread_run = 0;
+    keepalive_thread->join();
+    delete keepalive_thread;
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
     \*---------------------------------------------------------*/
@@ -413,7 +422,7 @@ void RGBController_E131::DeviceUpdateMode()
 
 void RGBController_E131::KeepaliveThreadFunction()
 {
-    while(1)
+    while(keepalive_thread_run.load())
     {
         if((std::chrono::steady_clock::now() - last_update_time) > ( keepalive_delay * 0.95f ) )
         {

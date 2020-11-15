@@ -11,31 +11,7 @@
 #include <string>
 #include <cstring>
 
-//Include thread libraries for Windows or Linux
-#ifdef WIN32
-#include <process.h>
-#else
-#include "pthread.h"
-#include "unistd.h"
-#endif
-
-//Thread functions have different types in Windows and Linux
-#ifdef WIN32
-#define THREAD static void
-#define THREADRETURN
-#else
-#define THREAD static void*
-#define THREADRETURN return(NULL);
-#endif
-
 using namespace std::chrono_literals;
-
-THREAD keepalive_thread(void *param)
-{
-    CorsairLightingNodeController* corsair = static_cast<CorsairLightingNodeController*>(param);
-    corsair->KeepaliveThread();
-    THREADRETURN
-}
 
 CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_handle, const char* path)
 {
@@ -50,21 +26,20 @@ CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_han
     | to not revert back into rainbow mode.  Start a thread |
     | to continuously send a keepalive packet every 5s      |
     \*-----------------------------------------------------*/
-#ifdef WIN32
-    _beginthread(keepalive_thread, 0, this);
-#else
-    pthread_t thread;
-    pthread_create(&thread, NULL, &keepalive_thread, this);
-#endif
+    keepalive_thread_run = 1;
+    keepalive_thread = new std::thread(&CorsairLightingNodeController::KeepaliveThread, this);
 }
 
 CorsairLightingNodeController::~CorsairLightingNodeController()
 {
+    keepalive_thread_run = 0;
+    keepalive_thread->join();
+    delete keepalive_thread;
 }
 
 void CorsairLightingNodeController::KeepaliveThread()
 {
-    while(1)
+    while(keepalive_thread_run.load())
     {
         if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(5))
         {
