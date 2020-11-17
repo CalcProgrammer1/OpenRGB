@@ -147,18 +147,18 @@ void LogitechG810Controller::SendMode
     usb_buf[0x07]           = green;
     usb_buf[0x08]           = blue;
 
-    speed = 1000 + 4750 * (LOGITECH_G810_SPEED_FASTEST - speed);
+    speed = 100 * speed;
     if(mode == LOGITECH_G810_MODE_CYCLE)
     {
-        usb_buf[0x0B]   = speed >> 8;
-        usb_buf[0x0C]   = speed & 0xFF;
-        usb_buf[0x0D]   = 0x64;
+        usb_buf[0x0B]       = speed >> 8;
+        usb_buf[0x0C]       = speed & 0xFF;
+        usb_buf[0x0D]       = 0x64;
     }
     else if(mode == LOGITECH_G810_MODE_BREATHING)
     {
-        usb_buf[0x09]   = speed >> 8;
-        usb_buf[0x0A]   = speed & 0xFF;
-        usb_buf[0x0C]   = 0x64;
+        usb_buf[0x09]       = speed >> 8;
+        usb_buf[0x0A]       = speed & 0xFF;
+        usb_buf[0x0C]       = 0x64;
     }
 
     /*-----------------------------------------------------*\

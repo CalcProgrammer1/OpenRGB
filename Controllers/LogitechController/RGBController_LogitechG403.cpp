@@ -19,37 +19,37 @@ RGBController_LogitechG403::RGBController_LogitechG403(LogitechG403Controller* l
     location    = logitech->GetDeviceLocation();
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = LOGITECH_G403_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name                     = "Static";
+    Static.value                    = LOGITECH_G403_MODE_STATIC;
+    Static.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode               = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Off;
-    Off.name       = "Off";
-    Off.value      = LOGITECH_G403_MODE_OFF;
-    Off.flags      = 0;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name                        = "Off";
+    Off.value                       = LOGITECH_G403_MODE_OFF;
+    Off.flags                       = 0;
+    Off.color_mode                  = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Cycle;
-    Cycle.name       = "Cycle";
-    Cycle.value      = LOGITECH_G403_MODE_CYCLE;
-    Cycle.flags      = MODE_FLAG_HAS_SPEED;
-    Cycle.color_mode = MODE_COLORS_NONE;
-    Cycle.speed_min  = LOGITECH_G403_SPEED_SLOWEST;
-    Cycle.speed_max  = LOGITECH_G403_SPEED_FASTEST;
-    Cycle.speed      = LOGITECH_G403_SPEED_NORMAL;
+    Cycle.name                      = "Cycle";
+    Cycle.value                     = LOGITECH_G403_MODE_CYCLE;
+    Cycle.flags                     = MODE_FLAG_HAS_SPEED;
+    Cycle.color_mode                = MODE_COLORS_NONE;
+    Cycle.speed_min                 = LOGITECH_G403_SPEED_SLOWEST;
+    Cycle.speed_max                 = LOGITECH_G403_SPEED_FASTEST;
+    Cycle.speed                     = LOGITECH_G403_SPEED_NORMAL;
     modes.push_back(Cycle);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = LOGITECH_G403_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed_min  = LOGITECH_G403_SPEED_SLOWEST;
-    Breathing.speed_max  = LOGITECH_G403_SPEED_FASTEST;
-    Breathing.speed      = LOGITECH_G403_SPEED_NORMAL;
+    Breathing.name                  = "Breathing";
+    Breathing.value                 = LOGITECH_G403_MODE_BREATHING;
+    Breathing.flags                 = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
+    Breathing.color_mode            = MODE_COLORS_PER_LED;
+    Breathing.speed_min             = LOGITECH_G403_SPEED_SLOWEST;
+    Breathing.speed_max             = LOGITECH_G403_SPEED_FASTEST;
+    Breathing.speed                 = LOGITECH_G403_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     SetupZones();

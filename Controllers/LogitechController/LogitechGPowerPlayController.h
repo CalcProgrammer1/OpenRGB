@@ -24,7 +24,7 @@ enum
 
 /*---------------------------------------------------------------------------------------------*\
 | Speed is 1000 for fast and 20000 for slow.                                                    |
-| Values are mutipled by 100 later to give lots of GUI steps.                                   |
+| Values are multiplied by 100 later to give lots of GUI steps.                                 |
 \*---------------------------------------------------------------------------------------------*/
 enum
 {

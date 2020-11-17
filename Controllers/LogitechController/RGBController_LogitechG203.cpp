@@ -19,37 +19,37 @@ RGBController_LogitechG203::RGBController_LogitechG203(LogitechG203Controller* l
     location    = logitech->GetDeviceLocation();
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = LOGITECH_G203_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name                     = "Static";
+    Static.value                    = LOGITECH_G203_MODE_STATIC;
+    Static.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode               = MODE_COLORS_PER_LED;
     modes.push_back(Static);
     
     mode Off;
-    Off.name       = "Off";
-    Off.value      = LOGITECH_G203_MODE_OFF;
-    Off.flags      = 0;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name                        = "Off";
+    Off.value                       = LOGITECH_G203_MODE_OFF;
+    Off.flags                       = 0;
+    Off.color_mode                  = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Cycle;
-    Cycle.name       = "Cycle";
-    Cycle.value      = LOGITECH_G203_MODE_CYCLE;
-    Cycle.flags      = MODE_FLAG_HAS_SPEED;
-    Cycle.color_mode = MODE_COLORS_NONE;
-    Cycle.speed_min  = LOGITECH_G203_SPEED_SLOWEST;
-    Cycle.speed_max  = LOGITECH_G203_SPEED_FASTEST;
-    Cycle.speed      = LOGITECH_G203_SPEED_NORMAL;
+    Cycle.name                      = "Cycle";
+    Cycle.value                     = LOGITECH_G203_MODE_CYCLE;
+    Cycle.flags                     = MODE_FLAG_HAS_SPEED;
+    Cycle.color_mode                = MODE_COLORS_NONE;
+    Cycle.speed_min                 = LOGITECH_G203_SPEED_SLOWEST;
+    Cycle.speed_max                 = LOGITECH_G203_SPEED_FASTEST;
+    Cycle.speed                     = LOGITECH_G203_SPEED_NORMAL;
     modes.push_back(Cycle);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = LOGITECH_G203_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed_min  = LOGITECH_G203_SPEED_SLOWEST;
-    Breathing.speed_max  = LOGITECH_G203_SPEED_FASTEST;
-    Breathing.speed      = LOGITECH_G203_SPEED_NORMAL;
+    Breathing.name                  = "Breathing";
+    Breathing.value                 = LOGITECH_G203_MODE_BREATHING;
+    Breathing.flags                 = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
+    Breathing.color_mode            = MODE_COLORS_PER_LED;
+    Breathing.speed_min             = LOGITECH_G203_SPEED_SLOWEST;
+    Breathing.speed_max             = LOGITECH_G203_SPEED_FASTEST;
+    Breathing.speed                 = LOGITECH_G203_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     SetupZones();
@@ -58,12 +58,12 @@ RGBController_LogitechG203::RGBController_LogitechG203(LogitechG203Controller* l
 void RGBController_LogitechG203::SetupZones()
 {
     zone g203_zone;
-    g203_zone.name           = "Mouse";
-    g203_zone.type           = ZONE_TYPE_SINGLE;
-    g203_zone.leds_min       = 1;
-    g203_zone.leds_max       = 1;
-    g203_zone.leds_count     = 1;
-    g203_zone.matrix_map     = NULL;
+    g203_zone.name                  = "Mouse";
+    g203_zone.type                  = ZONE_TYPE_SINGLE;
+    g203_zone.leds_min              = 1;
+    g203_zone.leds_max              = 1;
+    g203_zone.leds_count            = 1;
+    g203_zone.matrix_map            = NULL;
     zones.push_back(g203_zone);
 
     led g203_led;

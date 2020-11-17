@@ -37,10 +37,10 @@ RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* l
     description = "Logitech G213 Keyboard Device";
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name                     = "Direct";
+    Direct.value                    = 0xFFFF;
+    Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode               = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();
