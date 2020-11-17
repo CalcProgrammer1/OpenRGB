@@ -80,6 +80,8 @@ void CrucialController::SendEffectMode(unsigned char mode, unsigned char speed)
 
 void CrucialController::SendDirectColors(RGBColor* color_buf)
 {
+    SetMode(CRUCIAL_MODE_STATIC);
+
     //Red Channels
     CrucialRegisterWrite(0x8300, RGBGetRValue(color_buf[0]));
     CrucialRegisterWrite(0x8301, RGBGetRValue(color_buf[1]));
