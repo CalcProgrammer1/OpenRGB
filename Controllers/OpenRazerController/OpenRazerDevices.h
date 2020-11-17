@@ -1222,6 +1222,74 @@ static const razer_device cynosa_chroma_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Cynosa v2 1532:025E                                    |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone cynosa_v2_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device cynosa_v2_device =
+{
+    "Razer Cynosa v2",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &cynosa_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Cynosa Lite 1532:023F                                  |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone cynosa_lite_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device cynosa_lite_device =
+{
+    "Razer Cynosa Lite",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    1,
+    1,
+    {
+        &cynosa_lite_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Ornata Chroma                                          |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -1610,6 +1678,39 @@ static const razer_device blade_stealth_late_2019_device =
     NULL,
     0
 };
+/*-------------------------------------------------------------*\
+|  Razer Blade Stealth (Early 2020) 1532:0252                   |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_stealth_early_2020_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device blade_stealth_early_2020_device =
+{
+    "Razer Blade Stealth (Early 2020)",
+    DEVICE_TYPE_KEYBOARD,
+    false,
+    1,
+    1,
+    {
+        &blade_stealth_late_2019_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
 
 /*-------------------------------------------------------------*\
 |  Razer Blade (Late 2016)                                      |
@@ -1885,6 +1986,40 @@ static const razer_device blade_15_mid_2019_base_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Blade 15 (Early 2020) Base Model 1532:0255             |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Linear                                                  |
+|       1 Row, 16 Columns                                       |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_early_2020_base_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_device blade_15_early_2020_base_device =
+{
+    "Razer Blade 15 Base (Early 2020)",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    1,
+    16,
+    {
+        &blade_15_early_2020_base_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Blade 15 Studio Edition (2019)                         |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -2077,6 +2212,40 @@ static const razer_device blade_pro_late_2019_device =
     16,
     {
         &blade_pro_late_2019_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Advanced (2020) 1532:0253                        |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_advanced_2020_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_advanced_2020_device =
+{
+    "Razer Blade 15 Advanced (2020)",
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_advanced_2020_zone,
         NULL,
         NULL,
         NULL,
@@ -3156,6 +3325,40 @@ static const razer_device naga_trinity_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Viper Mini 1532:008A                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Matrix                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone viper_mini_logo_zone =
+{
+    "Logo",      //Matrix of one as per https://github.com/openrazer/openrazer/blob/master/daemon/openrazer_daemon/hardware/mouse.py#L27
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device viper_mini_device =
+{
+    "Razer Viper Mini",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    1,
+    {
+        &viper_mini_logo_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Viper Ultimate Wired 1532:007A                         |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -3588,6 +3791,74 @@ static const razer_device kraken_v2_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Kraken Ultimate 1532:0527                              |
+|                                                               |
+|  Zone "Headset"                                               |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone kraken_ultimate_zone =
+{
+    "Headset",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device kraken_ultimate_device =
+{
+    "Razer Kraken Ultimate",
+    DEVICE_TYPE_HEADSET,
+    true,
+    1,
+    1,
+    {
+        &kraken_ultimate_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Kraken Kitty Edition 1532:0F19                         |
+|                                                               |
+|  Zone "Headset"                                               |
+|       Matrix                                                  |
+|       4 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone kraken_kitty_zone =
+{
+    "Headset",
+    ZONE_TYPE_LINEAR,
+    1,
+    4
+};
+
+static const razer_device kraken_kitty_device =
+{
+    "Razer Kraken Kitty Edition",
+    DEVICE_TYPE_HEADSET,
+    true,
+    1,
+    4,
+    {
+        &kraken_kitty_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Tiamat 7.1 V2                                          |
 |                                                               |
 |  Zone "Controller"                                            |
@@ -3946,6 +4217,8 @@ static const razer_device* device_list[] =
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
     &cynosa_chroma_device,
+    &cynosa_v2_device,
+    &cynosa_lite_device,
     &deathstalker_chroma_device,
     &huntsman_device,
     &huntsman_elite_device,
@@ -3960,6 +4233,7 @@ static const razer_device* device_list[] =
     &blade_stealth_late_2017_device,
     &blade_stealth_2019_device,
     &blade_stealth_late_2019_device,
+    &blade_stealth_early_2020_device,
     &blade_late_2016_device,
     &blade_qhd_device,
     &blade_15_2018_device,
@@ -3968,12 +4242,14 @@ static const razer_device* device_list[] =
     &blade_15_2019_advanced_device,
     &blade_15_mid_2019_mercury_device,
     &blade_15_mid_2019_base_device,
+    &blade_15_early_2020_base_device,
     &blade_15_studio_2019_device,
     &blade_pro_late_2016_device,
     &blade_pro_2017_device,
     &blade_pro_2017_fullhd_device,
     &blade_pro_17_2019_device,
     &blade_pro_late_2019_device,
+    &blade_15_advanced_2020_device,
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
 \*-----------------------------------------------------------------*/
@@ -3999,6 +4275,7 @@ static const razer_device* device_list[] =
     &naga_epic_chroma_device,
     &naga_hex_v2_device,
     &naga_trinity_device,
+    &viper_mini_device,
     &viper_ultimate_wired_device,
     &viper_ultimate_wireless_device,
 /*-----------------------------------------------------------------*\
@@ -4019,6 +4296,8 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &kraken_chroma_device,
     &kraken_v2_device,
+    &kraken_ultimate_device,
+    &kraken_kitty_device,
     &tiamat_71_v2_device,
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
