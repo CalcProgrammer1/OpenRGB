@@ -139,10 +139,7 @@ RGBController_NZXTKraken::RGBController_NZXTKraken(NZXTKrakenController* nzxtkra
     WaterCooler.speed_min  = NZXT_KRAKEN_SPEED_SLOWEST;
     WaterCooler.speed_max  = NZXT_KRAKEN_SPEED_FASTEST;
     WaterCooler.speed      = NZXT_KRAKEN_SPEED_NORMAL;
-    WaterCooler.colors_min = 1;
-    WaterCooler.colors_max = 1;
     WaterCooler.color_mode = MODE_COLORS_NONE;
-    WaterCooler.colors.resize(1);
     modes.push_back(WaterCooler);
 
     mode Loading;
