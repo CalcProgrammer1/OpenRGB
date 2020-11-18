@@ -95,6 +95,7 @@ INCLUDEPATH +=                                                                  
     Controllers/PatriotViperController/                                                         \
     Controllers/PhilipsWizController/                                                           \
     Controllers/RedragonController/                                                             \
+    Controllers/RoccatController/                                                               \
     Controllers/SapphireGPUController/                                                          \
     Controllers/SinowealthController/                                                           \
     Controllers/SonyDS4Controller/                                                              \
@@ -246,6 +247,8 @@ HEADERS +=                                                                      
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonK556.h                                 \
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
+    Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
+    Controllers/RoccatController/RoccatKoneAimoController.h                                     \
     Controllers/SapphireGPUController/SapphireGPUController.h                                   \
     Controllers/SapphireGPUController/RGBController_SapphireGPU.h                               \
     Controllers/SinowealthController/SinowealthController.h                                     \
@@ -454,6 +457,9 @@ SOURCES +=                                                                      
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
     Controllers/RedragonController/RGBController_RedragonK556.cpp                               \
     Controllers/RedragonController/RGBController_RedragonM711.cpp                               \
+    Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
+    Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
+    Controllers/RoccatController/RoccatControllerDetect.cpp                                     \
     Controllers/SapphireGPUController/SapphireGPUController.cpp                                 \
     Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp                           \
     Controllers/SapphireGPUController/RGBController_SapphireGPU.cpp                             \
