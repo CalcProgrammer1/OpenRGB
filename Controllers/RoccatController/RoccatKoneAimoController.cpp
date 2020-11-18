@@ -9,6 +9,8 @@
 
 #include "RoccatKoneAimoController.h"
 
+#include <cstring>
+
 RoccatKoneAimoController::RoccatKoneAimoController(hid_device* dev_handle, char *_path)
 {
     dev                 = dev_handle;
