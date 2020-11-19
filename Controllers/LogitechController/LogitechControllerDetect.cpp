@@ -43,6 +43,7 @@
 #define LOGITECH_G502H_PID                      0xC08B
 #define LOGITECH_G_LIGHTSPEED_WIRELESS_PID      0xC539
 #define LOGITECH_GPRO_WIRED_PID                 0xC085
+#define LOGITECH_GPRO_HERO_WIRED_PID            0xC08C
 #define LOGITECH_GPRO_WIRELESS_PID              0xC088
 #define LOGITECH_G_LIGHTSPEED_POWERPLAY_PID     0xC53A
 
@@ -78,6 +79,7 @@ static const logitech_device device_list[] =
     { LOGITECH_VID,             LOGITECH_G502_PS_PID,                   1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Proteus Spectrum"                    },
     { LOGITECH_VID,             LOGITECH_G502H_PID,                     1,  DEVICE_TYPE_MOUSE,      "Logitech G502 Hero"                                },
     { LOGITECH_VID,             LOGITECH_GPRO_WIRED_PID,                1,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Gaming Mouse"                       },
+    { LOGITECH_VID,             LOGITECH_GPRO_HERO_WIRED_PID,           1,  DEVICE_TYPE_MOUSE,      "Logitech G Pro (HERO) Gaming Mouse"                },
     { LOGITECH_VID,             LOGITECH_G_LIGHTSPEED_WIRELESS_PID,     2,  DEVICE_TYPE_MOUSE,      "Logitech G Lightspeed Wireless Gaming Mouse"       },
     { LOGITECH_VID,             LOGITECH_GPRO_WIRELESS_PID,             2,  DEVICE_TYPE_MOUSE,      "Logitech G Pro Wireless Gaming Mouse (Wired)"      },
     { LOGITECH_VID,             LOGITECH_G_LIGHTSPEED_POWERPLAY_PID,    2,  DEVICE_TYPE_MOUSE,      "Logitech G Powerplay Mousepad with Lightspeed"     },
@@ -239,6 +241,7 @@ void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers)
                             {
                             case LOGITECH_G203_PID:
                             case LOGITECH_GPRO_WIRED_PID:
+                            case LOGITECH_GPRO_HERO_WIRED_PID:
                                 {
                                     LogitechG203Controller* controller = new LogitechG203Controller(dev, info->path);
 
