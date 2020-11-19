@@ -22,8 +22,9 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
-    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080_G1_GAMING_SUB_DEV, 0x48,   "Gigabyte GTX1080 G1 Gaming"        },    
-    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_SUB_DEV,  0x47,   "Gigabyte GTX1080Ti Xtreme Edition" },
+    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080_G1_GAMING_SUB_DEV, 0x48,   "Gigabyte GTX1080 G1 Gaming"        },    
+    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_SUB_DEV,  0x47,   "Gigabyte GTX1080Ti Xtreme Edition" },
+    { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060_GAMING_OC_SUB_DEV, 0x47,   "Gigabyte RTX2060 Gaming OC"        },
 };
 
 /******************************************************************************************\
