@@ -38,6 +38,7 @@ public:
 
     std::string     GetDeviceLocation();
 
+    unsigned char   GetMode();
     unsigned char   GetRed();
     unsigned char   GetGreen();
     unsigned char   GetBlue();

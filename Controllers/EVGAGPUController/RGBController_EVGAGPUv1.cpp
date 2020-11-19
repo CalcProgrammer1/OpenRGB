@@ -49,8 +49,26 @@ RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
 
     SetupZones();
 
-    // Initialize active mode
+    // Initialize active mode and stored color
+
+    unsigned char raw_active_mode = evga->GetMode();
+
     active_mode = 0;
+    for(unsigned int i = 0; i < modes.size(); i++)
+    {
+        if (modes[i].value == raw_active_mode)
+        {
+            active_mode = i;
+            break;
+        }
+    }
+
+    unsigned char r = evga->GetRed();
+    unsigned char g = evga->GetGreen();
+    unsigned char b = evga->GetBlue();
+
+    RGBColor color = ToRGBColor(r, g, b);
+    colors[0] = color;
 }
 
 void RGBController_EVGAGPUv1::SetupZones()

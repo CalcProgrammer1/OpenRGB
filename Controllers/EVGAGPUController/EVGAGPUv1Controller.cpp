@@ -30,6 +30,11 @@ std::string EVGAGPUv1Controller::GetDeviceLocation()
     return("I2C: " + return_string);
 }
 
+unsigned char EVGAGPUv1Controller::GetMode()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V1_REG_MODE));
+}
+
 unsigned char EVGAGPUv1Controller::GetRed()
 {
     return(bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V1_REG_RED));
