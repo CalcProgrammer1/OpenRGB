@@ -171,6 +171,7 @@ HEADERS +=                                                                      
     Controllers/CrucialController/RGBController_Crucial.h                                       \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h                               \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.h                           \
+    Controllers/DebugController/RGBController_Debug.h                                           \
     Controllers/E131Controller/RGBController_E131.h                                             \
     Controllers/EKController/EKController.h                                                     \
     Controllers/EKController/RGBController_EKController.h                                       \
@@ -358,6 +359,7 @@ SOURCES +=                                                                      
     Controllers/DuckyKeyboardController/DuckyKeyboardController.cpp                             \
     Controllers/DuckyKeyboardController/DuckyKeyboardControllerDetect.cpp                       \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.cpp                         \
+    Controllers/DebugController/RGBController_Debug.cpp                                         \
     Controllers/E131Controller/E131ControllerDetect.cpp                                         \
     Controllers/E131Controller/RGBController_E131.cpp                                           \
     Controllers/EKController/EKControllerDetect.cpp                                             \

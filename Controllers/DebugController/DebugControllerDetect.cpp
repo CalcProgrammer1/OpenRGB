@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "RGBController.h"
+#include "RGBController_Debug.h"
 #include "RGBController_Dummy.h"
 #include "SettingsManager.h"
 #include <vector>
@@ -161,7 +162,7 @@ static const char *led_names[] =
 *                                                                                          *
 *   DetectDebugControllers                                                                 *
 *                                                                                          *
-*       Add dummy controllers based on debug.txt                                           *
+*       Add dummy controllers based on the Setting_DebugDevices key in the settings json   *
 *                                                                                          *
 \******************************************************************************************/
 
@@ -486,6 +487,54 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                 | Push the dummy Keyboard onto the controller list          |
                 \*---------------------------------------------------------*/
                 rgb_controllers.push_back(dummy_keyboard);
+            }
+            else if(type == "argb")
+            {
+                /*---------------------------------------------------------*\
+                | Create a dummy ARGB                                       |
+                \*---------------------------------------------------------*/
+                RGBController_Debug* dummy_argb = new RGBController_Debug();
+
+                dummy_argb->name                            = "Debug ARGB";
+                dummy_argb->type                            = DEVICE_TYPE_LEDSTRIP;
+                dummy_argb->description                     = "Debug ARGB Device";
+                dummy_argb->location                        = "Debug ARGB Location";
+                dummy_argb->version                         = "Debug ARGB Version";
+                dummy_argb->serial                          = "Debug ARGB Serial";
+
+                /*---------------------------------------------------------*\
+                | Create a direct mode for the dummy ARGB                   |
+                \*---------------------------------------------------------*/
+                mode dummy_argb_direct_mode;
+
+                dummy_argb_direct_mode.name                 = "Direct";
+                dummy_argb_direct_mode.value                = 0;
+                dummy_argb_direct_mode.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+                dummy_argb_direct_mode.color_mode           = MODE_COLORS_PER_LED;
+
+                dummy_argb->modes.push_back(dummy_argb_direct_mode);
+                
+                /*---------------------------------------------------------*\
+                | Create a linear zone for the dummy ARGB                   |
+                \*---------------------------------------------------------*/
+                zone dummy_argb_linear_zone;
+
+                dummy_argb_linear_zone.name                 = "Resizable zone";
+                dummy_argb_linear_zone.type                 = ZONE_TYPE_LINEAR;
+                dummy_argb_linear_zone.leds_min             = 1;
+                dummy_argb_linear_zone.leds_max             = 100;
+                dummy_argb_linear_zone.leds_count           = 0;
+                dummy_argb_linear_zone.matrix_map           = NULL;
+
+                dummy_argb->zones.push_back(dummy_argb_linear_zone);
+
+                dummy_argb->SetupColors();
+                dummy_argb->ResizeZone(0, 60);
+
+                /*---------------------------------------------------------*\
+                | Push the dummy ARGB onto the controller list              |
+                \*---------------------------------------------------------*/
+                rgb_controllers.push_back(dummy_argb);
             }
         }
     }
