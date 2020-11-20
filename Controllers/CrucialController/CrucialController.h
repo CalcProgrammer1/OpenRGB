@@ -18,6 +18,7 @@ typedef unsigned short	crucial_register;
 
 enum
 {
+    CRUCIAL_MODE_UNKNOWN            = 0x00,     /* We don't know what the mode is   */
     CRUCIAL_MODE_SHIFT              = 0x1F,     /* Shift effect mode                */
     CRUCIAL_MODE_GRADIENT_SHIFT     = 0x2F,     /* Gradient shift mode              */
     CRUCIAL_MODE_FILL               = 0x3F,     /* Fill effect mode                 */
@@ -53,6 +54,7 @@ private:
     unsigned char           config_table[64];
     unsigned int            led_count;
     unsigned char           channel_cfg;
+    unsigned char           last_mode;
     i2c_smbus_interface *   bus;
     crucial_dev_id          dev;
 

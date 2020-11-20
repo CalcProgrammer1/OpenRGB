@@ -15,6 +15,9 @@ CrucialController::CrucialController(i2c_smbus_interface* bus, crucial_dev_id de
 {
     this->bus = bus;
     this->dev = dev;
+
+    // We don't know what mode the sticks are in until we set one.
+    this->last_mode = CRUCIAL_MODE_UNKNOWN;
 }
 
 CrucialController::~CrucialController()
@@ -44,7 +47,11 @@ unsigned int CrucialController::GetLEDCount()
 
 void CrucialController::SetMode(unsigned char mode)
 {
+    // Don't set a mode if we've already set the same one before.
+    // This is mostly useful for direct mode and updating colors often.
+    if (mode == last_mode) return;
     SendEffectMode(mode, 0x10);
+    last_mode = mode;
 }
 
 void CrucialController::SetAllColorsDirect(RGBColor* colors)
