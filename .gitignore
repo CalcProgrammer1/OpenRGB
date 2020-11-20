@@ -6,3 +6,4 @@ qrc_*
 OpenRGB
 Makefile
 OpenRGB-x86_64.AppImage
+.qmake.stash
