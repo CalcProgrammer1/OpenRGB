@@ -115,6 +115,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         | client key either do not exist or have changed    |
         \*-------------------------------------------------*/
         bool save_settings = false;
+        bool use_entertainment = false;
 
         if(hue_settings.contains("bridges"))
         {
@@ -134,6 +135,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
             {
                 if(hue_settings["bridges"][0]["clientkey"] != bridge.getClientKey())
                 {
+                    use_entertainment = true;
                     save_settings = true;
                 }
             }
@@ -150,6 +152,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         {
             hue_settings["bridges"][0]["username"] = bridge.getUsername();
             hue_settings["bridges"][0]["clientkey"] = bridge.getClientKey();
+            hue_settings["bridges"][0]["entertainment"] = use_entertainment;
             
             ResourceManager::get()->GetSettingsManager()->SetSettings("Setting_PhilipsHueBridges", hue_settings);
 
@@ -159,21 +162,32 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         /*-------------------------------------------------*\
         | Get all groups from the bridge                    |
         \*-------------------------------------------------*/
-        std::vector<std::reference_wrapper<hueplusplus::Group>> groups = bridge.groups().getAll();
-
-        if(groups.size() > 0)
+        if(hue_settings["bridges"][0].contains("entertainment"))
         {
-            /*-------------------------------------------------*\
-            | Loop through all available groups and check to    |
-            | see if any are Entertainment groups               |
-            \*-------------------------------------------------*/
-            for(unsigned int group_idx = 0; group_idx < groups.size(); group_idx++)
+            use_entertainment = hue_settings["bridges"][0]["entertainment"];
+        }
+
+        /*-------------------------------------------------*\
+        | Get all groups from the bridge                    |
+        \*-------------------------------------------------*/
+        if(use_entertainment)
+        {
+            std::vector<std::reference_wrapper<hueplusplus::Group>> groups = bridge.groups().getAll();
+
+            if(groups.size() > 0)
             {
-                if(groups[group_idx].get().getType() == "Entertainment")
+                /*-------------------------------------------------*\
+                | Loop through all available groups and check to    |
+                | see if any are Entertainment groups               |
+                \*-------------------------------------------------*/
+                for(unsigned int group_idx = 0; group_idx < groups.size(); group_idx++)
                 {
-                    PhilipsHueEntertainmentController*       new_controller = new PhilipsHueEntertainmentController(bridge, groups[group_idx].get());
-                    RGBController_PhilipsHueEntertainment*   new_rgbcontroller = new RGBController_PhilipsHueEntertainment(new_controller);
-                    rgb_controllers.push_back(new_rgbcontroller);
+                    if(groups[group_idx].get().getType() == "Entertainment")
+                    {
+                        PhilipsHueEntertainmentController*       new_controller = new PhilipsHueEntertainmentController(bridge, groups[group_idx].get());
+                        RGBController_PhilipsHueEntertainment*   new_rgbcontroller = new RGBController_PhilipsHueEntertainment(new_controller);
+                        rgb_controllers.push_back(new_rgbcontroller);
+                    }
                 }
             }
         }
@@ -181,21 +195,24 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         /*-------------------------------------------------*\
         | Get all lights from the bridge                    |
         \*-------------------------------------------------*/
-        std::vector<std::reference_wrapper<hueplusplus::Light>> lights = bridge.lights().getAll();
-
-        if(lights.size() > 0)
+        else
         {
-            /*-------------------------------------------------*\
-            | Loop through all available lights and add those   |
-            | that have color (RGB) control capability          |
-            \*-------------------------------------------------*/
-            for(unsigned int light_idx = 0; light_idx < lights.size(); light_idx++)
+            std::vector<std::reference_wrapper<hueplusplus::Light>> lights = bridge.lights().getAll();
+
+            if(lights.size() > 0)
             {
-                if(lights[light_idx].get().hasColorControl())
+                /*-------------------------------------------------*\
+                | Loop through all available lights and add those   |
+                | that have color (RGB) control capability          |
+                \*-------------------------------------------------*/
+                for(unsigned int light_idx = 0; light_idx < lights.size(); light_idx++)
                 {
-                    PhilipsHueController*       new_controller = new PhilipsHueController(lights[light_idx].get(), bridge.getBridgeIP());
-                    RGBController_PhilipsHue*   new_rgbcontroller = new RGBController_PhilipsHue(new_controller);
-                    //rgb_controllers.push_back(new_rgbcontroller);
+                    if(lights[light_idx].get().hasColorControl())
+                    {
+                        PhilipsHueController*       new_controller = new PhilipsHueController(lights[light_idx].get(), bridge.getBridgeIP());
+                        RGBController_PhilipsHue*   new_rgbcontroller = new RGBController_PhilipsHue(new_controller);
+                        rgb_controllers.push_back(new_rgbcontroller);
+                    }
                 }
             }
         }
