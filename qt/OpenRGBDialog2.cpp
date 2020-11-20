@@ -9,6 +9,10 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 
+#ifdef _WIN32
+#include <QSettings>
+#endif
+
 using namespace Ui;
 
 static QString GetIconString(device_type type, bool dark)
@@ -174,6 +178,63 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
     darkTheme = palette().window().color().value() < 127; // Adjust
+
+#ifdef _WIN32
+    /*-------------------------------------------------*\
+    | Windows dark theme settings                       |
+    \*-------------------------------------------------*/
+    json            theme_settings;
+
+    /*-------------------------------------------------*\
+    | Get prefered theme from settings manager          |
+    \*-------------------------------------------------*/
+    theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_Theme");
+
+    /*-------------------------------------------------*\
+    | Read the theme key and adjust accordingly         |
+    \*-------------------------------------------------*/
+    std::string current_theme = "light";
+
+    if(theme_settings.contains("theme"))
+    {
+        current_theme = theme_settings["theme"];
+    }
+
+    if((current_theme == "auto") || (current_theme == "dark"))
+    {
+        darkTheme = true;
+
+        if(current_theme == "auto")
+        {
+            QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
+
+            if(settings.value("AppsUseLightTheme") != 0)
+            {
+                darkTheme = false;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Apply dark theme on Windows if configured         |
+        \*-------------------------------------------------*/
+        if(darkTheme)
+        {
+            darkTheme = 1;
+            QPalette pal = palette();
+            pal.setColor(QPalette::WindowText, Qt::white);
+            QApplication::setPalette(pal);
+            QFile darkTheme(":/windows_dark.qss");
+            darkTheme.open(QFile::ReadOnly);
+            setStyleSheet(darkTheme.readAll());
+        }
+    }
+    else if (current_theme == "light")
+    {
+        /*-----------------------------------------------------------------*\
+        | It defaults to light theme so just an empty statement should work |
+        \*-----------------------------------------------------------------*/
+    }
+#endif
 
     /*-----------------------------------------------------*\
     | Update the profile list                               |
