@@ -75,9 +75,10 @@ enum
 class RGBFusion2SMBusController
 {
 public:
-    RGBFusion2SMBusController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev);
+    RGBFusion2SMBusController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string mb_name);
     ~RGBFusion2SMBusController();
 
+    std::string     GetDeviceName();
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     void	        Apply();
@@ -96,6 +97,7 @@ private:
     unsigned int            led_count;
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
+    std::string             name;
 
     unsigned char           led_data[10][16];
 

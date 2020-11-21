@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string>
 #include "dependencies/dmiinfo.h"
+#define DETECTOR_NAME "Gigabyte RGB Fusion 2 SMBus"
+#define VENDOR_NAME "Gigabyte Technology Co., Ltd."
 
 typedef struct
 {
@@ -18,21 +20,22 @@ typedef struct
 
 #define RGB_FUSION_2_SMBUS_NUM_DEVICES (sizeof(rgb_fusion_2_smbus_motherboards) / sizeof(rgb_fusion_2_smbus_motherboards[ 0 ]))
 
-const motherboard_info rgb_fusion_2_smbus_motherboards[] =
+json rgb_fusion_2_smbus_motherboards[] =
 {
-    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS ELITE"              },
-    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS M"                  },
-    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS PRO WIFI-CF"        },
-    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS PRO-CF"             },
-    { "Gigabyte Technology Co., Ltd.",      "B450 AORUS PRO-CF4"            },
-    { "Gigabyte Technology Co., Ltd.",      "B450 I AORUS PRO WIFI-CF"      },
-    { "Gigabyte Technology Co., Ltd.",      "B450M DS3H-CF"                 },
-    { "Gigabyte Technology Co., Ltd.",      "X399 AORUS XTREME-CF"          },
-    { "Gigabyte Technology Co., Ltd.",      "X399 DESIGNARE EX-CF"          },
-    { "Gigabyte Technology Co., Ltd.",      "X470 AORUS GAMING 5 WIFI"      },
-    { "Gigabyte Technology Co., Ltd.",      "X470 AORUS GAMING 7 WIFI-CF"   },
-    { "Gigabyte Technology Co., Ltd.",      "X470 AORUS ULTRA GAMING"       },
-    { "Gigabyte Technology Co., Ltd.",      "X470 AORUS ULTRA GAMING-CF"    },
+    "B450 AORUS ELITE",
+    "B450 AORUS M",
+    "B450 AORUS PRO WIFI-CF",
+    "B450 AORUS PRO-CF",
+    "B450 AORUS PRO-CF4",
+    "B450 I AORUS PRO WIFI-CF",
+    "B450M DS3H-CF",
+    "X399 AORUS XTREME-CF",
+    "X399 DESIGNARE EX-CF",
+    "X470 AORUS GAMING 5 WIFI",
+    "X470 AORUS GAMING 7 WIFI-CF",
+    "X470 AORUS ULTRA GAMING",
+    "X470 AORUS ULTRA GAMING-CF",
+    "Z370 AORUS Gaming 5-CF"
 };
 
 /******************************************************************************************\
@@ -72,20 +75,36 @@ bool TestForGigabyteRGBFusion2SMBusController(i2c_smbus_interface* bus, unsigned
 
 void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers)
 {
-    RGBFusion2SMBusController* new_rgb_fusion;
-    RGBController_RGBFusion2SMBus* new_controller;
+    RGBFusion2SMBusController*          new_rgb_fusion;
+    RGBController_RGBFusion2SMBus*      new_controller;
+    SettingsManager*                    set_man = ResourceManager::get()->GetSettingsManager();
+    json                                device_settings;
 
-    DMIInfo dmi;
-    bool    found = false;
+    DMIInfo                             dmi;
+    bool                                found = false;
 
-    for(unsigned int mb_idx = 0; mb_idx < RGB_FUSION_2_SMBUS_NUM_DEVICES; mb_idx++)
+    /*-------------------------------------------------*\
+    | Get Linux LED settings from settings manager      |
+    \*-------------------------------------------------*/
+    device_settings = set_man->GetSettings(DETECTOR_NAME);
+    
+    if (!device_settings.contains("SupportedDevices"))
     {
-        if( ( dmi.getManufacturer() == rgb_fusion_2_smbus_motherboards[mb_idx].manufacturer )
-         && ( dmi.getMainboard()    == rgb_fusion_2_smbus_motherboards[mb_idx].motherboard  ) )
-        {
-            found = true;
-        }
+        //If supported devices is not found then write it to settings
+        device_settings["SupportedDevices"] = rgb_fusion_2_smbus_motherboards;
+        set_man->SetSettings(DETECTOR_NAME, device_settings);
+        set_man->SaveSettings();
     }
+
+    bool boolVendor                                    = ( dmi.getManufacturer() == VENDOR_NAME );
+    bool boolMotherboard                               = false;
+    nlohmann::detail::iter_impl<nlohmann::json> result = std::find(std::begin(device_settings["SupportedDevices"]), std::end(device_settings["SupportedDevices"]), dmi.getMainboard() );
+
+    if(result != std::end(device_settings["SupportedDevices"]))
+    {
+        boolMotherboard = true;
+    }
+    found = ( boolVendor && boolMotherboard );
 
     if(found)
     {
@@ -101,7 +120,7 @@ void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>&
                     // Check for RGB Fusion 2 controller at 0x68
                     if (TestForGigabyteRGBFusion2SMBusController(busses[bus], 0x68))
                     {
-                        new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68);
+                        new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68, dmi.getMainboard() );
                         new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
                         rgb_controllers.push_back(new_controller);
                     }
@@ -112,4 +131,4 @@ void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>&
 
 }   /* DetectRGBFusion2SMBusControllers() */
 
-REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion 2 SMBus", DetectGigabyteRGBFusion2SMBusControllers);
+REGISTER_I2C_DETECTOR(DETECTOR_NAME, DetectGigabyteRGBFusion2SMBusControllers);

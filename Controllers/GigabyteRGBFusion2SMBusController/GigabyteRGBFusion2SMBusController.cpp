@@ -18,19 +18,25 @@
 #include <iomanip>
 #endif
 
-RGBFusion2SMBusController::RGBFusion2SMBusController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev)
+RGBFusion2SMBusController::RGBFusion2SMBusController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string mb_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = mb_name;
 
     memset(led_data, 0, 10*16);
 
-    led_count = 10;	// Protocol supports 10 'slots'
+    led_count   = 10;	// Protocol supports 10 'slots'
 }
 
 unsigned int RGBFusion2SMBusController::GetLEDCount()
 {
     return(led_count);
+}
+
+std::string RGBFusion2SMBusController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string RGBFusion2SMBusController::GetDeviceLocation()
