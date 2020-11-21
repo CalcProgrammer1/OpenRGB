@@ -43,7 +43,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
     /*-------------------------------------------------*\
     | Create a finder and find bridges                  |
     \*-------------------------------------------------*/
-    hueplusplus::BridgeFinder finder(handler);
+    static hueplusplus::BridgeFinder finder(handler);
     std::vector<hueplusplus::BridgeFinder::BridgeIdentification> bridges;// = finder.FindBridges();
 
     /*-------------------------------------------------*\
@@ -107,7 +107,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
         | away.  If not, the user will have to push the     |
         | connect button on the bridge.                     |
         \*-------------------------------------------------*/
-        hueplusplus::Bridge bridge = finder.GetBridge(bridges[0]);
+        static hueplusplus::Bridge bridge = finder.GetBridge(bridges[0]);
 
         /*-------------------------------------------------*\
         | Check to see if we need to save the settings      |
