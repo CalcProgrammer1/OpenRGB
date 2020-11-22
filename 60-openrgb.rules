@@ -134,8 +134,16 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0a34", TAG+="uacces
 #                                                               #
 #  Keyboards:                                                   #
 #       HyperX Alloy Elite                                      #
+#                                                               #
+#  Mice:                                                        #
+#       HyperX Pulsefire Surge                                  #
+#                                                               #
+#  Mousemats:                                                   #
+#       HyperX Fury Ultra                                       #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16be", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16d3", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="1705", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Logitech Peripheral Devices                                  #
