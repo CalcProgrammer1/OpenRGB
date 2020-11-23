@@ -17,6 +17,9 @@
 #define MASSDROP_ALT_PID  0xEED3
 #define MASSDROP_CTRL_PID 0xEED2
 
+#define REDRAGON_KEYBOARD_VID           0x0C45
+#define REDRAGON_K556_PID               0x5004
+
 typedef struct
 {
     unsigned short  usb_vid;
@@ -31,6 +34,7 @@ static const qmk_rgb_matrix_device device_list[] =
 {
     { MASSDROP_VID, MASSDROP_ALT_PID, 1, "Massdrop Alt" },
     { MASSDROP_VID, MASSDROP_CTRL_PID, 1, "Massdrop Ctrl" },
+    { REDRAGON_KEYBOARD_VID, REDRAGON_K556_PID, 1, "Redragon K556 QMK" },
 };
 
 /******************************************************************************************\
@@ -71,6 +75,7 @@ void DetectQMKRGBMatrixControllers(std::vector<RGBController*>& rgb_controllers)
                     RGBController_QMKRGBMatrix* rgb_controller = new RGBController_QMKRGBMatrix(controller);
 
                     rgb_controllers.push_back(rgb_controller);
+                    break;
                 }
             }
             info = info->next;

@@ -10,6 +10,8 @@
 #include "QMKRGBMatrixController.h"
 #include <cstring>
 
+#include <cstring>
+
 QMKRGBMatrixController::QMKRGBMatrixController(hid_device* dev_handle, const char* path)
 {
     dev = dev_handle;
@@ -45,7 +47,7 @@ void QMKRGBMatrixController::SetSingleLED(unsigned int led, unsigned char red, u
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 65);
+    hid_read_timeout(dev, usb_buf, 65, 10);
 }
 
 void QMKRGBMatrixController::SetLEDs(RGBColor* colors, unsigned int num_colors)
@@ -54,7 +56,7 @@ void QMKRGBMatrixController::SetLEDs(RGBColor* colors, unsigned int num_colors)
 
     while(leds_sent < num_colors)
     {
-        unsigned int leds_to_send = 2;
+        unsigned int leds_to_send = 20;
 
         if((num_colors - leds_sent) < leds_to_send)
         {
@@ -83,6 +85,7 @@ void QMKRGBMatrixController::SetLEDs(RGBColor* colors, unsigned int num_colors)
         }
 
         hid_write(dev, usb_buf, 65);
+        hid_read_timeout(dev, usb_buf, 65, 5);
 
         leds_sent += leds_to_send;
     }
@@ -109,7 +112,7 @@ void QMKRGBMatrixController::SetMode(unsigned char mode)
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 65);
+    hid_read_timeout(dev, usb_buf, 65, 100);
 }
 
 void QMKRGBMatrixController::SetModeAndSpeed(unsigned char mode, unsigned char speed)
@@ -190,8 +193,12 @@ std::string QMKRGBMatrixController::GetVersion()
     usb_buf[0x00] = 0x00;
     usb_buf[0x01] = QMK_RGBMATRIX_GET_QMK_VERSION;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     int i = 1;
     std::string name;
@@ -218,8 +225,12 @@ std::string QMKRGBMatrixController::GetName()
     usb_buf[0x00] = 0x00;
     usb_buf[0x01] = QMK_RGBMATRIX_GET_DEVICE_NAME;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     int i = 1;
     std::string name;
@@ -246,8 +257,12 @@ unsigned int QMKRGBMatrixController::GetZonesCount()
     usb_buf[0x00] = 0x00;
     usb_buf[0x01] = QMK_RGBMATRIX_GET_ZONES_COUNT;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     return usb_buf[1];
 }
@@ -267,8 +282,12 @@ std::string QMKRGBMatrixController::GetZoneName(int zone)
     usb_buf[0x01] = QMK_RGBMATRIX_GET_ZONE_NAME;
     usb_buf[0x02] = zone;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     int i = 1;
     std::string name;
@@ -296,8 +315,12 @@ unsigned int QMKRGBMatrixController::GetZoneType(int zone)
     usb_buf[0x01] = QMK_RGBMATRIX_GET_ZONE_TYPE;
     usb_buf[0x02] = zone;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     return usb_buf[1];
 }
@@ -317,8 +340,12 @@ unsigned int QMKRGBMatrixController::GetZoneSize(int zone)
     usb_buf[0x01] = QMK_RGBMATRIX_GET_ZONE_SIZE;
     usb_buf[0x02] = zone;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     return usb_buf[1];
 }
@@ -338,8 +365,12 @@ std::string QMKRGBMatrixController::GetLEDName(int led)
     usb_buf[0x01] = QMK_RGBMATRIX_GET_LED_NAME;
     usb_buf[0x02] = led;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     int i = 1;
     std::string name;
@@ -366,8 +397,12 @@ unsigned int QMKRGBMatrixController::GetLEDMatirxRows()
     usb_buf[0x00] = 0x00;
     usb_buf[0x01] = QMK_RGBMATRIX_GET_LED_MATRIX_ROWS;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     return usb_buf[1];
 }
@@ -386,8 +421,12 @@ unsigned int QMKRGBMatrixController::GetLEDMatirxColumns()
     usb_buf[0x00] = 0x00;
     usb_buf[0x01] = QMK_RGBMATRIX_GET_LED_MATRIX_COLUMNS;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 100);
+    }
 
     return usb_buf[1];
 }
@@ -408,8 +447,12 @@ unsigned int QMKRGBMatrixController::GetLEDValueInMatrix(int column, int row)
     usb_buf[0x02] = column;
     usb_buf[0x03] = row;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 100);
+    }
 
     return usb_buf[1];
 }
@@ -429,8 +472,12 @@ RGBColor QMKRGBMatrixController::GetLEDColor(unsigned int led)
     usb_buf[0x01] = QMK_RGBMATRIX_GET_LED_COLOR;
     usb_buf[0x02] = led;
 
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    int read = 0;
+    while(read == 0)
+    {
+        hid_write(dev, (unsigned char*)usb_buf, 65);
+        read = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    }
 
     return ToRGBColor(usb_buf[1], usb_buf[2], usb_buf[3]);
 }

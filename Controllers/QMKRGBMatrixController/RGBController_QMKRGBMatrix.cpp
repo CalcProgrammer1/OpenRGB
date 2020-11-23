@@ -10,6 +10,8 @@
 #include "hsv.h"
 #include "RGBController_QMKRGBMatrix.h"
 
+#include <cstring>
+
 RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* qmk_rgb_matrix_ptr)
 {
     qmk_rgb_matrix = qmk_rgb_matrix_ptr;
@@ -38,7 +40,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     Static.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
-    Static.colors[0] = qmk_rgb_matrix->GetHSV();
+    //Static.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(Static);
 
     /*mode AlphaMod;
@@ -74,7 +76,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     Breathing.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize(1);
-    Breathing.colors[0] = qmk_rgb_matrix->GetHSV();
+    //Breathing.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(Breathing);
 
     mode ScrollOnWhite;
@@ -88,7 +90,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     ScrollOnWhite.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     ScrollOnWhite.color_mode = MODE_COLORS_MODE_SPECIFIC;
     ScrollOnWhite.colors.resize(1);
-    ScrollOnWhite.colors[0] = qmk_rgb_matrix->GetHSV();
+    //ScrollOnWhite.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(ScrollOnWhite);
 
     mode Scroll;
@@ -102,7 +104,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     Scroll.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     Scroll.color_mode = MODE_COLORS_MODE_SPECIFIC;
     Scroll.colors.resize(1);
-    Scroll.colors[0] = qmk_rgb_matrix->GetHSV();
+    //Scroll.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(Scroll);
 
     mode PinWheelSpinOnWhite;
@@ -116,7 +118,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     PinWheelSpinOnWhite.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     PinWheelSpinOnWhite.color_mode = MODE_COLORS_MODE_SPECIFIC;
     PinWheelSpinOnWhite.colors.resize(1);
-    PinWheelSpinOnWhite.colors[0] = qmk_rgb_matrix->GetHSV();
+    //PinWheelSpinOnWhite.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(PinWheelSpinOnWhite);
 
     mode PinWheelSpin;
@@ -130,7 +132,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     PinWheelSpin.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     PinWheelSpin.color_mode = MODE_COLORS_MODE_SPECIFIC;
     PinWheelSpin.colors.resize(1);
-    PinWheelSpin.colors[0] = qmk_rgb_matrix->GetHSV();
+    //PinWheelSpin.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(PinWheelSpin);
 
     mode SpiralSpinOnWhite;
@@ -144,7 +146,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SpiralSpinOnWhite.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SpiralSpinOnWhite.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SpiralSpinOnWhite.colors.resize(1);
-    SpiralSpinOnWhite.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SpiralSpinOnWhite.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SpiralSpinOnWhite);
 
     mode SpiralSpin;
@@ -158,7 +160,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SpiralSpin.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SpiralSpin.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SpiralSpin.colors.resize(1);
-    SpiralSpin.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SpiralSpin.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SpiralSpin);
 
     mode ColorCycle;
@@ -295,7 +297,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SolidReactive.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SolidReactive.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SolidReactive.colors.resize(1);
-    SolidReactive.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SolidReactive.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SolidReactive);
 
     mode SolidReactiveSimple;
@@ -309,7 +311,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SolidReactiveSimple.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SolidReactiveSimple.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SolidReactiveSimple.colors.resize(1);
-    SolidReactiveSimple.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SolidReactiveSimple.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SolidReactiveSimple);
 
     mode SolidReactiveWide;
@@ -323,7 +325,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SolidReactiveWide.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SolidReactiveWide.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SolidReactiveWide.colors.resize(1);
-    SolidReactiveWide.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SolidReactiveWide.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SolidReactiveWide);
 
 
@@ -351,7 +353,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SolidReactiveCross.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SolidReactiveCross.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SolidReactiveCross.colors.resize(1);
-    SolidReactiveCross.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SolidReactiveCross.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SolidReactiveCross);
 
     /*mode SolidReactiveMultiCross;
@@ -378,7 +380,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SolidReactiveNexus.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SolidReactiveNexus.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SolidReactiveNexus.colors.resize(1);
-    SolidReactiveNexus.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SolidReactiveNexus.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SolidReactiveNexus);
 
     /*mode SolidReactiveMultiNexus;
@@ -423,7 +425,7 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     SolidSplash.speed         = QMK_RGBMATRIX_SPEED_NORMAL;
     SolidSplash.color_mode = MODE_COLORS_MODE_SPECIFIC;
     SolidSplash.colors.resize(1);
-    SolidSplash.colors[0] = qmk_rgb_matrix->GetHSV();
+    //SolidSplash.colors[0] = qmk_rgb_matrix->GetHSV();
     modes.push_back(SolidSplash);
 
     /*mode SolidMultiSplash;
@@ -469,21 +471,36 @@ void RGBController_QMKRGBMatrix::SetupZones()
         keyboard_zone.leds_max = zone_led_count;
         keyboard_zone.leds_count = zone_led_count;
 
+        printf("zone led coutn %d \r\n", zone_led_count);
+
         if(keyboard_zone.type == ZONE_TYPE_MATRIX)
         {
             unsigned int led_matrix_columns = qmk_rgb_matrix->GetLEDMatirxColumns();
             unsigned int led_matrix_rows = qmk_rgb_matrix->GetLEDMatirxRows();
 
+            printf("matrix %d by %d\r\n", led_matrix_rows, led_matrix_columns);
             keyboard_zone.matrix_map = new matrix_map_type;
-            keyboard_zone.matrix_map->height = led_matrix_columns;
-            keyboard_zone.matrix_map->width = led_matrix_rows;
+            keyboard_zone.matrix_map->height = led_matrix_rows;
+            keyboard_zone.matrix_map->width = led_matrix_columns;
 
             unsigned int* matrix_map = new unsigned int[led_matrix_rows * led_matrix_columns];
-            for(unsigned int y = 0; y < led_matrix_columns; y++)
+            memset(matrix_map, 0, led_matrix_rows * led_matrix_columns * sizeof(unsigned int));
+            for(unsigned int y = 0; y < led_matrix_rows; y++)
             {
-                for(unsigned int x = 0; x < led_matrix_rows; x++)
+                for(unsigned int x = 0; x < led_matrix_columns; x++)
                 {
-                    matrix_map[led_matrix_rows * y + x] = qmk_rgb_matrix->GetLEDValueInMatrix(y, x);
+                    unsigned int matrix_val = qmk_rgb_matrix->GetLEDValueInMatrix(x, y);
+
+                    if(matrix_val == 255)
+                    {
+                        matrix_map[led_matrix_columns * y + x] = 0xFFFFFFFF;
+                    }
+                    else
+                    {
+                        matrix_map[led_matrix_columns * y + x] = matrix_val;
+                    }
+
+                    printf("at %d %d: %d\r\n", y, x, matrix_val);
                 }
             }
 
@@ -491,14 +508,14 @@ void RGBController_QMKRGBMatrix::SetupZones()
         }
         else
         {
-            keyboard_zone.matrix_map = NULL;
+           keyboard_zone.matrix_map = NULL;
         }
 
-        zones.push_back(keyboard_zone);
+       zones.push_back(keyboard_zone);
 
         for(std::size_t led_idx = 0; led_idx < zone_led_count; led_idx++)
         {
-            led keyboard_led;
+             led keyboard_led;
             keyboard_led.name = qmk_rgb_matrix->GetLEDName(led_index);
             leds.push_back(keyboard_led);
             led_index++;
@@ -509,7 +526,7 @@ void RGBController_QMKRGBMatrix::SetupZones()
 
     for(int i = 0; i < led_index; i++)
     {
-        colors[i] = qmk_rgb_matrix->GetLEDColor(i);
+        //colors[i] = qmk_rgb_matrix->GetLEDColor(i);
     }
 }
 

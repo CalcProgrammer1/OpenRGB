@@ -126,4 +126,4 @@ void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers)
     }
 }   /* DetectRedragonControllers() */
 
-REGISTER_DETECTOR("Redragon Peripheral", DetectRedragonControllers);
+//REGISTER_DETECTOR("Redragon Peripheral", DetectRedragonControllers);
