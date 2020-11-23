@@ -13,7 +13,7 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
-#define EK_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data[0]) / sizeof(colour_mode_data[0][0]))
+#define EK_COLOUR_MODE_DATA_SIZE (sizeof(ek_colour_mode_data[0]) / sizeof(ek_colour_mode_data[0][0]))
 #define EK_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
 #define EK_PACKET_LENGTH    0x3F
 
@@ -55,19 +55,19 @@ enum
 class EKController
 {
 public:
-    EKController(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path);
+    EKController(hid_device* dev_handle, char *_path);
     ~EKController();
 
-    char* GetDeviceName();
-    char* GetSerial();
+    std::string GetDeviceName();
+    std::string GetSerial();
     std::string GetLocation();
 
     void SetMode(unsigned char mode, unsigned char speed);
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    char                    device_name[32];
-    char                    serial[32];
+    std::string             device_name;
+    std::string             serial;
     std::string             location;
     hid_device*             dev;
 

@@ -9,7 +9,7 @@
 
 #include "EKController.h"
 
-static unsigned char colour_mode_data[][16] =
+static unsigned char ek_colour_mode_data[][16] =
 {
     { 0x10, 0x12, 0x29, 0xAA, 0x01, 0x10, 0xA2, 0x60,
       0x00, 0x10, 0x20, 0x01, 0x01, 0x00, 0xFF, 0x64},          // Static
@@ -31,7 +31,7 @@ static unsigned char colour_mode_data[][16] =
       0x00, 0x10, 0x20, 0x01, 0x09, 0x00, 0xFF, 0x64},          // Candle
 };
 
-static unsigned char speed_mode_data[][9] =
+static unsigned char ek_speed_mode_data[][9] =
 {
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },   // Static
     { 0x00, 0x0C, 0x19, 0x25, 0x32, 0x3E, 0x4B, 0x57, 0x64 },   // Breathing
@@ -44,21 +44,24 @@ static unsigned char speed_mode_data[][9] =
     { 0x00, 0x0C, 0x19, 0x25, 0x32, 0x3E, 0x4B, 0x57, 0x64 }    // Candle
 };
 
-EKController::EKController(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_device_name, char *_path)
+EKController::EKController(hid_device* dev_handle, char *_path)
 {
-    std::size_t tmp_size = wcslen(_vendor);
+    const int szTemp = 256;
+    wchar_t tmpName[szTemp];
 
     dev = dev_handle;
 
-    for(std::size_t i = 0; (i < tmp_size) && (i < EK_DEVICE_NAME_SIZE); i++)
-    {
-        device_name[i] = (char)_vendor[i];
-    }
+    hid_get_manufacturer_string(dev, tmpName, szTemp);
+    std::wstring wName = std::wstring(tmpName);
+    device_name = std::string(wName.begin(), wName.end());
 
-    for(std::size_t j = 0; (j < wcslen(_vendor)) && ((tmp_size + j) < EK_DEVICE_NAME_SIZE); j++)
-    {
-        device_name[tmp_size + j] = (char)_device_name[j];
-    }
+    hid_get_product_string(dev, tmpName, szTemp);
+    wName = std::wstring(tmpName);
+    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+
+    hid_get_serial_number_string(dev, tmpName, szTemp);
+    wName = std::wstring(tmpName);
+    serial = std::string(wName.begin(), wName.end());
 
     location = _path;
 
@@ -68,18 +71,15 @@ EKController::EKController(hid_device* dev_handle, wchar_t *_vendor, wchar_t *_d
 
 EKController::~EKController()
 {
-    if(dev)
-    {
-        hid_close(dev);
-    }
+    hid_close(dev);
 }
 
-char* EKController::GetDeviceName()
+std::string EKController::GetDeviceName()
 {
     return device_name;
 }
 
-char* EKController::GetSerial()
+std::string EKController::GetSerial()
 {
     return serial;
 }
@@ -113,14 +113,14 @@ void EKController::SendUpdate()
 
     for(std::size_t i = 0; i < EK_COLOUR_MODE_DATA_SIZE; i++)
     {
-        buffer[i] = colour_mode_data[current_mode][i];
+        buffer[i] = ek_colour_mode_data[current_mode][i];
     }
 
     //Set the relevant colour info
     buffer[EK_RED_BYTE]   = current_red;
     buffer[EK_GREEN_BYTE] = current_green;
     buffer[EK_BLUE_BYTE]  = current_blue;
-    buffer[EK_SPEED_BYTE] = speed_mode_data[current_mode][current_speed];
+    buffer[EK_SPEED_BYTE] = ek_speed_mode_data[current_mode][current_speed];
 
     buffer[10] = 0x10;
     buffer[47] = 0xFF;

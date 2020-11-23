@@ -7,7 +7,6 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-
 #include "RGBController_EKController.h"
 
 RGBController_EKController::RGBController_EKController(EKController* _dev)
