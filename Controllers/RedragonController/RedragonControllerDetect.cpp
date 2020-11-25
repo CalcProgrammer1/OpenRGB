@@ -25,6 +25,7 @@
 #define REDRAGON_MOUSE_USAGE_PAGE       0xFFA0
 #define REDRAGON_M711_PID               0xFC30
 #define REDRAGON_M715_PID               0xFC39
+#define REDRAGON_M908_PID               0xFC4D
 
 /******************************************************************************************\
 *                                                                                          *
@@ -71,6 +72,7 @@ REGISTER_HID_DETECTOR_IP("Warrior Kane TC235",      DetectRedragonKeyboards, RED
 \*---------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Redragon M711 Cobra",     DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M711_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon M715 Dagger",    DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M715_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Redragon M908 Impact",    DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M908_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 /*---------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mousemats                                                                                                                                     |
 \*---------------------------------------------------------------------------------------------------------------------------------------------*/
