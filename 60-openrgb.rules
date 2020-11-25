@@ -271,6 +271,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="652f", TAG+="uacces
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc30", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc39", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc4d", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Gigabyte/Aorus RGB Fusion 2 USB                              #
