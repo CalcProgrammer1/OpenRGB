@@ -33,11 +33,11 @@ QTabBar::tab:hover
 {
     background-color: #757575;
     border: 1px solid #404040;
-    border-bottom: 1px solid #2B2B2B;
 }
 
 QTabWidget::pane
 {
+    /* This is the housing for all of the tabs*/
     background-color: #5c5c5c;
     border: 1px solid #2e2e2e;
     position: absolute;
@@ -49,43 +49,36 @@ QTabWidget::pane
 QTabWidget::pane QTabBar
 {
     background-color: #5c5c5c;
+    border-right: 1px solid #2e2e2e;
 }
 
 QTabWidget QWidget QTabBar::tab
 {
     background-color: #5c5c5c;
-    /*padding: 5px;*/
     padding-top: 4px;
     padding-bottom: 5px;
     height: 50px;
     border: 10px;
-    border-bottom: 1px;
-    border-right: 1px solid #5c5c5c;
+    border-right: 1px solid #2e2e2e;
     margin-right: 0px;
-    /*margin-bottom: 1px;*/
-}
-
-QTabWidget QWidget QTabBar::tab QLabel
-{
-    /*background-color: darkred;*/
+    margin-bottom: 2px;
 }
 
 QTabWidget QWidget QTabBar::tab:selected
 {
     background-color: #454545;
     border: 1px solid #2e2e2e;
-    border-top: 1px solid #2e2e2e;
     border-right: 1px solid #454545;
 }
 
 QTabWidget QWidget QTabBar::tab:hover
 {
     background-color: #757575;
-    border: 1px solid #2e2e2e;
-    /*border-right: 1px solid #2e2e2e;*/
+    border: 1px solid #5c5c5c;
+    border-right: 1px solid #2e2e2e;
 }
 
-QTabWidget QWidget QTabWidget::pane
+QTabWidget QWidget QTabWidget::pane /* The contents of the tab (colors, modes, leds, etc.) */
 {
     background-color: #454545;
     border-top: 1px solid #2e2e2e;
@@ -93,6 +86,33 @@ QTabWidget QWidget QTabWidget::pane
     position: absolute;
     top: 0px;
     left: -1px;
+}
+
+/* QDialog boxes */
+
+QDialog::QWidget
+{
+    background: #454545;
+    background-color: #454545;
+    color: white;
+}
+
+QDialog QWidget::QDialogButtonBox
+{
+    background-color: #454545;
+    color: white;
+}
+
+QDialog QWidget::QLabel
+{
+    background-color: #454545;
+    color: white;
+}
+
+QDialog QWidget::QLineEdit
+{
+    background-color: #454545;
+    color: white;
 }
 
 /* Buttons and combo boxes */

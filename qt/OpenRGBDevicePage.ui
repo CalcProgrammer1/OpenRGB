@@ -16,6 +16,9 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="12" column="8">
     <widget class="QPushButton" name="ButtonCyan">
+     <property name="styleSheet">
+      <string notr="true">background-color: #00ffff</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -43,6 +46,9 @@
    </item>
    <item row="12" column="9">
     <widget class="QPushButton" name="ButtonBlue">
+     <property name="styleSheet">
+      <string notr="true">background-color: #0000ff</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -64,6 +70,9 @@
    </item>
    <item row="12" column="6">
     <widget class="QPushButton" name="ButtonYellow">
+     <property name="styleSheet">
+      <string notr="true">background-color: #ffff00</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -122,6 +131,9 @@
    </item>
    <item row="12" column="5">
     <widget class="QPushButton" name="ButtonRed">
+     <property name="styleSheet">
+      <string notr="true">background-color: #ff0000</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -164,6 +176,9 @@
    </item>
    <item row="12" column="10">
     <widget class="QPushButton" name="ButtonMagenta">
+     <property name="styleSheet">
+      <string notr="true">background-color: #ff00ff</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -220,6 +235,9 @@
    </item>
    <item row="12" column="7">
     <widget class="QPushButton" name="ButtonGreen">
+     <property name="styleSheet">
+      <string notr="true">background-color: #00ff00</string>
+     </property>
      <property name="text">
       <string/>
      </property>

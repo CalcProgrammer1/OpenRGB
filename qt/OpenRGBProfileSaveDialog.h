@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_OpenRGBProfileSaveDialog.h"
+#include "OpenRGBDialog2.h"
 
 namespace Ui
 {
@@ -21,6 +22,7 @@ public:
 
 private:
     Ui::OpenRGBProfileSaveDialogUi *ui;
+    bool darkTheme = false;
 };
 
 #endif // OPENRGBPROFILESAVEDIALOG_H

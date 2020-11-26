@@ -86,6 +86,61 @@ static void UpdateDetectionProgressCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
 }
 
+bool OpenRGBDialog2::IsDarkTheme()
+    {
+    #ifdef _WIN32
+    /*-------------------------------------------------*\
+    | Windows dark theme settings                       |
+    \*-------------------------------------------------*/
+    json            theme_settings;
+
+    /*-------------------------------------------------*\
+    | Get prefered theme from settings manager          |
+    \*-------------------------------------------------*/
+    theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_Theme");
+
+    /*-------------------------------------------------*\
+    | Read the theme key and adjust accordingly         |
+    \*-------------------------------------------------*/
+    std::string current_theme = "light";
+
+    if(theme_settings.contains("theme"))
+    {
+        current_theme = theme_settings["theme"];
+    }
+
+    if((current_theme == "auto") || (current_theme == "dark"))
+    {
+        if(current_theme == "auto")
+        {
+            QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
+
+            if(settings.value("AppsUseLightTheme") != 0)
+            {
+                return false;
+            }
+            else if(settings.value("AppsUseLightTheme") == 0)
+            {
+                return true;
+            }
+        }
+        else if(current_theme == "dark")
+        {
+            return true;
+        }
+    }
+    return false;
+
+    #else
+    if(QPalette().window().color().value() < 127)
+    {
+        return true;
+    }
+    #endif
+    
+    return false;
+}
+
 OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
@@ -154,7 +209,7 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     QAction* actionQuickBlue = new QAction("Blue", this);
     connect(actionQuickBlue, SIGNAL(triggered()), this, SLOT(on_QuickBlue()));
     quickColorsMenu->addAction(actionQuickBlue);
-    
+
     QAction* actionQuickMagenta = new QAction("Magenta", this);
     connect(actionQuickMagenta, SIGNAL(triggered()), this, SLOT(on_QuickMagenta()));
     quickColorsMenu->addAction(actionQuickMagenta);
@@ -177,62 +232,20 @@ OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vec
     trayIcon->setToolTip("OpenRGB");
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
-    darkTheme = palette().window().color().value() < 127; // Adjust
 
 #ifdef _WIN32
     /*-------------------------------------------------*\
-    | Windows dark theme settings                       |
+    | Apply dark theme on Windows if configured         |
     \*-------------------------------------------------*/
-    json            theme_settings;
 
-    /*-------------------------------------------------*\
-    | Get prefered theme from settings manager          |
-    \*-------------------------------------------------*/
-    theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_Theme");
-
-    /*-------------------------------------------------*\
-    | Read the theme key and adjust accordingly         |
-    \*-------------------------------------------------*/
-    std::string current_theme = "light";
-
-    if(theme_settings.contains("theme"))
+    if(IsDarkTheme())
     {
-        current_theme = theme_settings["theme"];
-    }
-
-    if((current_theme == "auto") || (current_theme == "dark"))
-    {
-        darkTheme = true;
-
-        if(current_theme == "auto")
-        {
-            QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
-
-            if(settings.value("AppsUseLightTheme") != 0)
-            {
-                darkTheme = false;
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | Apply dark theme on Windows if configured         |
-        \*-------------------------------------------------*/
-        if(darkTheme)
-        {
-            darkTheme = 1;
-            QPalette pal = palette();
-            pal.setColor(QPalette::WindowText, Qt::white);
-            QApplication::setPalette(pal);
-            QFile darkTheme(":/windows_dark.qss");
-            darkTheme.open(QFile::ReadOnly);
-            setStyleSheet(darkTheme.readAll());
-        }
-    }
-    else if (current_theme == "light")
-    {
-        /*-----------------------------------------------------------------*\
-        | It defaults to light theme so just an empty statement should work |
-        \*-----------------------------------------------------------------*/
+        QPalette pal = palette();
+        pal.setColor(QPalette::WindowText, Qt::white);
+        QApplication::setPalette(pal);
+        QFile darkTheme(":/windows_dark.qss");
+        darkTheme.open(QFile::ReadOnly);
+        setStyleSheet(darkTheme.readAll());
     }
 #endif
 
@@ -293,13 +306,20 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
 
     QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
     SoftwareLabelString += ":/software";
-    if(darkTheme) SoftwareLabelString += "_dark";
+    if(IsDarkTheme()) SoftwareLabelString += "_dark";
     SoftwareLabelString += ".png' height='16' width='16'></td><td>Software</td></tr></table></html>";
 
     QLabel *SoftwareTabLabel = new QLabel();
     SoftwareTabLabel->setText(SoftwareLabelString);
     SoftwareTabLabel->setIndent(20);
-    SoftwareTabLabel->setGeometry(0, 0, 200, 20);
+    if(IsDarkTheme())
+    {
+        SoftwareTabLabel->setGeometry(0, 25, 200, 50);
+    }
+    else
+    {
+        SoftwareTabLabel->setGeometry(0, 0, 200, 25);
+    }
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
@@ -320,14 +340,20 @@ void OpenRGBDialog2::AddI2CToolsPage()
 
     QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
     SMBusToolsLabelString += ":/tools";
-    if(darkTheme) SMBusToolsLabelString += "_dark";
+    if(IsDarkTheme()) SMBusToolsLabelString += "_dark";
     SMBusToolsLabelString += ".png' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
 
     QLabel *SMBusToolsTabLabel = new QLabel();
     SMBusToolsTabLabel->setText(SMBusToolsLabelString);
     SMBusToolsTabLabel->setIndent(20);
-    SMBusToolsTabLabel->setGeometry(0, 0, 200, 20);
-
+    if(IsDarkTheme())
+    {
+    SMBusToolsTabLabel->setGeometry(0, 25, 200, 50);
+    }
+    else
+    {
+        SMBusToolsTabLabel->setGeometry(0, 0, 200, 25);
+    }
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
 }
 
@@ -445,13 +471,20 @@ void OpenRGBDialog2::UpdateDevicesList()
             | type and append device name string.                   |
             \*-----------------------------------------------------*/
             QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-            NewLabelString += GetIconString(controllers[controller_idx]->type, darkTheme);
+            NewLabelString += GetIconString(controllers[controller_idx]->type, IsDarkTheme());
             NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
 
             QLabel *NewTabLabel = new QLabel();
             NewTabLabel->setText(NewLabelString);
             NewTabLabel->setIndent(20);
-            NewTabLabel->setGeometry(0, 0, 200, 20);
+            if(IsDarkTheme())
+            {
+                NewTabLabel->setGeometry(0, 25, 200, 50);
+            }
+            else
+            {
+                NewTabLabel->setGeometry(0, 0, 200, 25);
+            }
 
             ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
 
@@ -504,13 +537,20 @@ void OpenRGBDialog2::UpdateDevicesList()
             | type and append device name string.                   |
             \*-----------------------------------------------------*/
             QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-            NewLabelString += GetIconString(controllers[controller_idx]->type, darkTheme);
+            NewLabelString += GetIconString(controllers[controller_idx]->type, IsDarkTheme());
             NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
 
             QLabel *NewTabLabel = new QLabel();
             NewTabLabel->setText(NewLabelString);
             NewTabLabel->setIndent(20);
-            NewTabLabel->setGeometry(0, 0, 200, 20);
+            if(IsDarkTheme())
+            {
+                NewTabLabel->setGeometry(0, 25, 200, 50);
+            }
+            else
+            {
+                NewTabLabel->setGeometry(0, 0, 200, 25);
+            }
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
 

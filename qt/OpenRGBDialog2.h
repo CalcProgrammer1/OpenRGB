@@ -39,6 +39,8 @@ public:
 
     void setMode(unsigned char mode_val);
 
+    static bool IsDarkTheme();
+
 protected:
     std::vector<i2c_smbus_interface *>& busses;
     std::vector<RGBController *>&       controllers;
@@ -74,7 +76,6 @@ private:
     void SetDetectionViewState(bool detection_showing);
 
     bool device_view_showing = false;
-    bool darkTheme = false;
 
 private slots:
     void on_Exit();
