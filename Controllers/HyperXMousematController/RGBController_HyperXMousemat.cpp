@@ -48,23 +48,23 @@ RGBController_HyperXMousemat::~RGBController_HyperXMousemat()
 
 void RGBController_HyperXMousemat::SetupZones()
 {
+    zone underglow;
+    underglow.name       = "Underglow";
+    underglow.type       = ZONE_TYPE_LINEAR;
+    underglow.leds_min   = 15;
+    underglow.leds_max   = 15;
+    underglow.leds_count = 15;
+    underglow.matrix_map = NULL;
+    zones.push_back(underglow);
+
     zone led_strip;
     led_strip.name       = "LED Strip";
     led_strip.type       = ZONE_TYPE_LINEAR;
-    led_strip.leds_min   = 32;
-    led_strip.leds_max   = 32;
-    led_strip.leds_count = 32;
+    led_strip.leds_min   = 5;
+    led_strip.leds_max   = 5;
+    led_strip.leds_count = 5;
     led_strip.matrix_map = NULL;
     zones.push_back(led_strip);
-
-    zone logo;
-    logo.name       = "Logo";
-    logo.type       = ZONE_TYPE_SINGLE;
-    logo.leds_min   = 1;
-    logo.leds_max   = 1;
-    logo.leds_count = 1;
-    logo.matrix_map = NULL;
-    zones.push_back(logo);
 
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
