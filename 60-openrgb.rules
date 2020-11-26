@@ -68,6 +68,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c12", TAG+="uacces
 #       Corsair LS100                                           #
 #       Corsair 1000D Obsidian                                  #
 #       Corsair Spec Omega RGB                                  #
+#       Corsair LT100                                           #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c1a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c0b", TAG+="uaccess"
@@ -75,6 +76,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c10", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c1e", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1d00", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1d04", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0a32", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Corsair Peripheral Devices                                   #
