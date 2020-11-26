@@ -69,6 +69,12 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 
         bus->i2c_smbus_read_byte(address);
         bus->i2c_smbus_read_byte(address);
+
+        //We don't know what the 0x48 controller returns, so for now just assume it exists
+        if(address == 0x48)
+        {
+            pass = true;
+        }
     }
 
     return(pass);
