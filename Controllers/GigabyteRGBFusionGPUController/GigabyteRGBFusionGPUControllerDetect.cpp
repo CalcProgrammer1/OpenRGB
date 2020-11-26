@@ -76,34 +76,36 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
             break;
 
         case 0x48:
+            pass = true;
+
             //Write out 0xCC 0x01 0x00 0x00 sequence
-            res = bus->i2c_smbus_write_byte(address, 0xCC);
+            // res = bus->i2c_smbus_write_byte(address, 0xCC);
 
-            if (res >= 0)
-            {
-                bus->i2c_smbus_write_byte(address, 0x01);
-                bus->i2c_smbus_write_byte(address, 0x00);
-                bus->i2c_smbus_write_byte(address, 0x00);
+            // if (res >= 0)
+            // {
+            //     bus->i2c_smbus_write_byte(address, 0x01);
+            //     bus->i2c_smbus_write_byte(address, 0x00);
+            //     bus->i2c_smbus_write_byte(address, 0x00);
 
-                pass = true;
+            //     pass = true;
 
-                res = bus->i2c_smbus_read_byte(address);
+            //     res = bus->i2c_smbus_read_byte(address);
 
-                if (res != 0xCC)
-                {
-                    pass = false;
-                }
+            //     if (res != 0xCC)
+            //     {
+            //         pass = false;
+            //     }
 
-                res = bus->i2c_smbus_read_byte(address);
+            //     res = bus->i2c_smbus_read_byte(address);
 
-                if(res != 0x01)
-                {
-                    pass = false;
-                }
+            //     if(res != 0x01)
+            //     {
+            //         pass = false;
+            //     }
 
-                bus->i2c_smbus_read_byte(address);
-                bus->i2c_smbus_read_byte(address);
-            }
+            //     bus->i2c_smbus_read_byte(address);
+            //     bus->i2c_smbus_read_byte(address);
+            // }
             break;
     }
 
