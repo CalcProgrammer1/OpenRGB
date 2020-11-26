@@ -71,6 +71,7 @@
 #define GIGABYTE_GTX1080_G1_GAMING_SUB_DEV      0x3702
 #define GIGABYTE_GTX1080TI_XTREME_SUB_DEV       0x3762
 #define GIGABYTE_RTX2060_GAMING_OC_SUB_DEV      0x37CE
+#define GIGABYTE_RTX2060S_GAMING_SUB_DEV        0x404A
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |
