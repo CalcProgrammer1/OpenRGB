@@ -1132,7 +1132,10 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
         {
             int selected_zone = ui->ZoneBox->currentIndex();
 
-            selected_zone -= 1;
+            if (device->zones.size() > 1)
+            {
+                selected_zone -= 1;
+            }
 
             if(device->zones[selected_zone].type == ZONE_TYPE_LINEAR)
             {
