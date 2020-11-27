@@ -29,5 +29,11 @@ void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::st
     }
 }   /* DetectRGBFusion2USBControllers() */
 
-REGISTER_HID_DETECTOR_IPU("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_IFC, IT8297_UPG, IT8297_U);
-REGISTER_HID_DETECTOR_IPU("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_IFC, IT8297_UPG, IT8297_U);
+#ifdef USE_HID_USAGE
+REGISTER_HID_DETECTOR_PU("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_UPG, IT8297_U);
+REGISTER_HID_DETECTOR_PU("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_UPG, IT8297_U);
+#else
+REGISTER_HID_DETECTOR_I("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_IFC);
+REGISTER_HID_DETECTOR_I("Gigabyte RGB Fusion 2 USB", DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_IFC);
+#endif
+

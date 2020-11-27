@@ -114,11 +114,20 @@ REGISTER_HID_DETECTOR_IP("Corsair M65 PRO",                  DetectCorsairPeriph
 REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Elite" ,           DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_M65_RGB_ELITE_PID,     1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Scimitar PRO RGB",         DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SCIMITAR_PRO_RGB_PID,  1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Sabre RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SABRE_RGB_PID,         1, 0xFFC2);
+
 /*-----------------------------------------------------------------------------------------------------*\
 | Mousemats                                                                                             |
 \*-----------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("Corsair MM800 RGB Polaris",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM800_RGB_POLARIS_PID, 0, 0xFFC2);
+#ifdef USE_HID_USAGE
+REGISTER_HID_DETECTOR_P("Corsair MM800 RGB Polaris",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM800_RGB_POLARIS_PID, 0xFFC2);
+#else
+REGISTER_HID_DETECTOR_I("Corsair MM800 RGB Polaris",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM800_RGB_POLARIS_PID, 0);
+#endif
 /*-----------------------------------------------------------------------------------------------------*\
 | Headset Stands                                                                                        |
 \*-----------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("Corsair ST100 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_ST100_PID,             0, 0xFFC2);
+#ifdef USE_HID_USAGE
+REGISTER_HID_DETECTOR_P("Corsair ST100 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_ST100_PID,             0xFFC2);
+#else
+REGISTER_HID_DETECTOR_I("Corsair ST100 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_ST100_PID,             0);
+#endif
