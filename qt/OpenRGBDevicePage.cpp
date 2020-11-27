@@ -1,3 +1,4 @@
+#include "OpenRGBDialog2.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBZoneResizeDialog.h"
 #include "ResourceManager.h"
@@ -39,49 +40,80 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     /*-----------------------------------------------------*\
     | Set up the color palette buttons                      |
     \*-----------------------------------------------------*/
-    QPalette pal;
+#ifdef _WIN32
+    if(((OpenRGBDialog2 *)parent)->IsDarkTheme())
+    {
+        ui->ButtonRed->setStyleSheet("QPushButton {background-color: rgb(255,0,0); color: rgb(255,0,0);}");
+        ui->ButtonRed->setFlat(true);
+        ui->ButtonRed->update();
 
-    pal = ui->ButtonRed->palette();
-    pal.setColor(QPalette::Button, QColor(255, 0, 0));
-    ui->ButtonRed->setAutoFillBackground(true);
-    ui->ButtonRed->setPalette(pal);
-    ui->ButtonRed->setFlat(true);
-    ui->ButtonRed->update();
+        ui->ButtonYellow->setStyleSheet("QPushButton {background-color: rgb(255,255,0); color: rgb(255,255,0);}");
+        ui->ButtonYellow->setFlat(true);
+        ui->ButtonYellow->update();
 
-    pal = ui->ButtonYellow->palette();
-    pal.setColor(QPalette::Button, QColor(255, 255, 0));
-    ui->ButtonYellow->setAutoFillBackground(true);
-    ui->ButtonYellow->setPalette(pal);
-    ui->ButtonYellow->setFlat(true);
-    ui->ButtonYellow->update();
+        ui->ButtonGreen->setStyleSheet("QPushButton {background-color: rgb(0,255,0); color: rgb(0,255,0);}");
+        ui->ButtonGreen->setFlat(true);
+        ui->ButtonGreen->update();
 
-    pal = ui->ButtonGreen->palette();
-    pal.setColor(QPalette::Button, QColor(0, 255, 0));
-    ui->ButtonGreen->setAutoFillBackground(true);
-    ui->ButtonGreen->setPalette(pal);
-    ui->ButtonGreen->setFlat(true);
-    ui->ButtonGreen->update();
+        ui->ButtonCyan->setStyleSheet("QPushButton {background-color: rgb(0,255,255); color: rgb(0,255,255);}");
+        ui->ButtonCyan->setFlat(true);
+        ui->ButtonCyan->update();
 
-    pal = ui->ButtonCyan->palette();
-    pal.setColor(QPalette::Button, QColor(0, 255, 255));
-    ui->ButtonCyan->setAutoFillBackground(true);
-    ui->ButtonCyan->setPalette(pal);
-    ui->ButtonCyan->setFlat(true);
-    ui->ButtonCyan->update();
+        ui->ButtonBlue->setStyleSheet("QPushButton {background-color: rgb(0,0,255); color: rgb(0,0,255);}");
+        ui->ButtonBlue->setFlat(true);
+        ui->ButtonBlue->update();
 
-    pal = ui->ButtonBlue->palette();
-    pal.setColor(QPalette::Button, QColor(0, 0, 255));
-    ui->ButtonBlue->setAutoFillBackground(true);
-    ui->ButtonBlue->setPalette(pal);
-    ui->ButtonBlue->setFlat(true);
-    ui->ButtonBlue->update();
+        ui->ButtonMagenta->setStyleSheet("QPushButton {background-color: rgb(255,0,255); color: rgb(255,0,255);}");
+        ui->ButtonMagenta->setFlat(true);
+        ui->ButtonMagenta->update();
+    }
+    else
+#endif
+    {
+        QPalette pal;
 
-    pal = ui->ButtonMagenta->palette();
-    pal.setColor(QPalette::Button, QColor(255, 0, 255));
-    ui->ButtonMagenta->setAutoFillBackground(true);
-    ui->ButtonMagenta->setPalette(pal);
-    ui->ButtonMagenta->setFlat(true);
-    ui->ButtonMagenta->update();
+        pal = ui->ButtonRed->palette();
+        pal.setColor(QPalette::Button, QColor(255, 0, 0));
+        ui->ButtonRed->setAutoFillBackground(true);
+        ui->ButtonRed->setPalette(pal);
+        ui->ButtonRed->setFlat(true);
+        ui->ButtonRed->update();
+
+        pal = ui->ButtonYellow->palette();
+        pal.setColor(QPalette::Button, QColor(255, 255, 0));
+        ui->ButtonYellow->setAutoFillBackground(true);
+        ui->ButtonYellow->setPalette(pal);
+        ui->ButtonYellow->setFlat(true);
+        ui->ButtonYellow->update();
+
+        pal = ui->ButtonGreen->palette();
+        pal.setColor(QPalette::Button, QColor(0, 255, 0));
+        ui->ButtonGreen->setAutoFillBackground(true);
+        ui->ButtonGreen->setPalette(pal);
+        ui->ButtonGreen->setFlat(true);
+        ui->ButtonGreen->update();
+
+        pal = ui->ButtonCyan->palette();
+        pal.setColor(QPalette::Button, QColor(0, 255, 255));
+        ui->ButtonCyan->setAutoFillBackground(true);
+        ui->ButtonCyan->setPalette(pal);
+        ui->ButtonCyan->setFlat(true);
+        ui->ButtonCyan->update();
+
+        pal = ui->ButtonBlue->palette();
+        pal.setColor(QPalette::Button, QColor(0, 0, 255));
+        ui->ButtonBlue->setAutoFillBackground(true);
+        ui->ButtonBlue->setPalette(pal);
+        ui->ButtonBlue->setFlat(true);
+        ui->ButtonBlue->update();
+
+        pal = ui->ButtonMagenta->palette();
+        pal.setColor(QPalette::Button, QColor(255, 0, 255));
+        ui->ButtonMagenta->setAutoFillBackground(true);
+        ui->ButtonMagenta->setPalette(pal);
+        ui->ButtonMagenta->setFlat(true);
+        ui->ButtonMagenta->update();
+    }
 
     /*-----------------------------------------------------*\
     | Fill in the mode selection box                        |
