@@ -1,5 +1,6 @@
 #include "RGBController_Debug.h"
 
+#include <algorithm>
 #include <cstring>
 
 RGBController_Debug::RGBController_Debug()
