@@ -136,7 +136,6 @@ void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
     if (serialport != NULL)
     {
         serialport->serial_write((char *)serial_buf, (num_leds * 3) + 3);
-        serialport->serial_flush_tx();
     }
     else if (udpport != NULL)
     {
