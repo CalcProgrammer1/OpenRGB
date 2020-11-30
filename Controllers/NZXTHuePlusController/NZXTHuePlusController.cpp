@@ -53,7 +53,6 @@ unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)
 
     serialport->serial_flush_rx();
     serialport->serial_write((char *)serial_buf, 2);
-    serialport->serial_flush_tx();
 
     std::this_thread::sleep_for(50ms);
 
@@ -230,7 +229,6 @@ void HuePlusController::SendPacket
     | Send packet                                           |
     \*-----------------------------------------------------*/
     serialport->serial_write((char *)serial_buf, HUE_PLUS_PACKET_SIZE);
-    serialport->serial_flush_tx();
 
     /*-----------------------------------------------------*\
     | Delay to allow Hue+ device to ready for next packet   |
