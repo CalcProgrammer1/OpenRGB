@@ -240,6 +240,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="905D", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1770", ATTR{idProduct}=="FF00", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  NZXT Hue+                                                    #
+#---------------------------------------------------------------#
+KERNEL=="ttyACM[0-9]*", ATTR{idVendor}=="04D8", ATTR{idProduct}=="00DF", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  NZXT Hue 2 Devices                                           #
 #                                                               #
 #       NZXT Hue 2                                              #
