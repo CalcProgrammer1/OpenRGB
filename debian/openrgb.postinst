@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# -e is not set should this step fail for whatever reason the installation is still valid
+set -u -o pipefail
+
+# Reload rules
+if [ -f /bin/udevadm ]; then
+    udevadm control --reload-rules && udevadm trigger;
+else
+    echo
+    echo "\/-------------------------------------------------------\\"
+    echo "\|  Critical: This system does not have udev installed.  \|"
+    echo "\|                                                       \|"
+    echo "\|  Please install udev with: sudo apt -y install udev   \|"
+    echo "\\-------------------------------------------------------\/"
+    echo
+fi

@@ -1,3 +1,4 @@
 /usr/bin/
 /usr/share/applications/
 /usr/share/pixmaps
+/lib/udev/rules.d/

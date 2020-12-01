@@ -20,15 +20,20 @@ stages:
 before_script:
  - echo "started by ${GITLAB_USER_NAME}"
 
+#reusable templates
+.ccache_init: &ccache_init
+  before_script:
+    - apt update
+    - apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
+
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
 #-----------------------------------------------------------------------#
 build_linux_32:
+  <<: *ccache_init
   image: i386/ubuntu:bionic
   stage: build
   script:
-  - apt update
-  - apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
   - ./scripts/build-appimage-32.sh
   
   artifacts:
@@ -40,18 +45,60 @@ build_linux_32:
 # Linux (AppImage) 64-bit Build Target                                  #
 #-----------------------------------------------------------------------#
 build_linux_64:
+  <<: *ccache_init
   image: ubuntu:bionic
   stage: build
   script:
-  - apt update
-  - apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
   - ./scripts/build-appimage.sh
   
   artifacts:
     paths:
     - OpenRGB-x86_64.AppImage
     expire_in: 30 days
-  
+
+#-----------------------------------------------------------------------#
+# Linux (.deb) 32-bit Build Target                                      #
+#-----------------------------------------------------------------------#
+build_linux_deb32:
+  <<: *ccache_init
+  image: i386/ubuntu:bionic
+  stage: build
+  script:
+  - apt install -y debhelper
+  - export $( dpkg-architecture -s --target-arch i386; )
+  - dpkg-architecture -l
+  - dpkg-buildpackage --target-arch i386 -us -B
+  - rm -v ../openrgb-dbgsym*.ddeb
+  - mv -v ../openrgb*.deb ./
+
+  artifacts:
+    paths:
+    - openrgb*.deb
+    exclude:
+    - openrgb-dbgsym*.deb
+    expire_in: 30 days
+
+#-----------------------------------------------------------------------#
+# Linux (.deb) 64-bit Build Target                                      #
+#-----------------------------------------------------------------------#
+build_linux_deb64:
+  <<: *ccache_init
+  image: ubuntu:bionic
+  stage: build
+  script:
+  - apt install -y debhelper
+  - dpkg-architecture -l
+  - dpkg-buildpackage -us -B
+  - rm -v ../openrgb-dbgsym*.ddeb
+  - mv -v ../openrgb*.deb ./
+
+  artifacts:
+    paths:
+    - openrgb*.deb
+    exclude:
+    - openrgb-dbgsym*.deb
+    expire_in: 30 days
+
 #-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #
 #-----------------------------------------------------------------------#

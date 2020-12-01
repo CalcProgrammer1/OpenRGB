@@ -681,7 +681,9 @@ unix:!macx {
     desktop.files+=qt/OpenRGB.desktop
     pixmap.path=$$PREFIX/share/pixmaps/
     pixmap.files+=qt/OpenRGB.png
-    INSTALLS += target desktop pixmap
+    rules.path=/lib/udev/rules.d/
+    rules.files+=60-openrgb.rules
+    INSTALLS += target desktop pixmap rules
 }
 
 unix:!macx:CONFIG(asan) {
@@ -711,3 +713,7 @@ unix:macx {
     CONFIG +=                                                                                   \
     c++14                                                                                       \
 }
+
+DISTFILES += \
+    debian/openrgb-udev.postinst \
+    debian/openrgb.postinst
