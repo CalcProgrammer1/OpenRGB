@@ -100,8 +100,8 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## How-Tos and FAQs
 
-* [Windows Setup and Usage](OpenRGB-Windows-Setup-and-Usage)
-* [Frequently Asked Questions](Frequently-Asked-Questions)
+* [Windows Setup and Usage](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Windows-Setup-and-Usage)
+* [Frequently Asked Questions](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Frequently-Asked-Questions)
 
 ## Support OpenRGB
 
@@ -112,11 +112,11 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## History of OpenRGB
 
-* OpenRGB is a continuation of OpenAuraSDK, which itself was created out of reverse engineering work done on the Keyboard Visualizer project.  For a complete history of the RGB projects that led to OpenRGB's creation, see the [History page](History-of-OpenRGB).
+* OpenRGB is a continuation of OpenAuraSDK, which itself was created out of reverse engineering work done on the Keyboard Visualizer project.  For a complete history of the RGB projects that led to OpenRGB's creation, see the [History page](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/History-of-OpenRGB).
 
 ## Contributing
 
-* Want to contribute support for a new device?  Check out the [RGBController API](The-RGBController-API) page for documentation of how OpenRGB implements device control.
+* Want to contribute support for a new device?  Check out the [RGBController API](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/The-RGBController-API) page for documentation of how OpenRGB implements device control.
 
 ## OpenRGB SDK
 
