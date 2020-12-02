@@ -85,6 +85,11 @@ bool AttemptLocalConnection(std::vector<RGBController*> &rgb_controllers)
     bool success = false;
 
     NetworkClient * client = new NetworkClient(rgb_controllers);
+
+    std::string titleString = "OpenRGB ";
+    titleString.append(VERSION_STRING);
+
+    client->SetName(titleString.c_str());
     client->StartClient();
 
     for(int timeout = 0; timeout < 10; timeout++)

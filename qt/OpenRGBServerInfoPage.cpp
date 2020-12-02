@@ -47,14 +47,15 @@ void OpenRGBServerInfoPage::UpdateInfo()
     }
 
     ui->ServerClientTree->clear();
-    ui->ServerClientTree->setColumnCount(2);
-    ui->ServerClientTree->setHeaderLabels(QStringList() << "Client IP" << "Client Name");
+    ui->ServerClientTree->setColumnCount(3);
+    ui->ServerClientTree->setHeaderLabels(QStringList() << "Client IP" << "Protocol Version" << "Client Name");
     for(unsigned int client_idx = 0; client_idx < network_server->GetNumClients(); client_idx++)
     {
         QTreeWidgetItem * new_item = new QTreeWidgetItem();
 
         new_item->setText(0, network_server->GetClientIP(client_idx));
-        new_item->setText(1, network_server->GetClientString(client_idx));
+        new_item->setText(1, QString::number(network_server->GetClientProtocolVersion(client_idx)));
+        new_item->setText(2, network_server->GetClientString(client_idx));
 
         ui->ServerClientTree->addTopLevelItem(new_item);
     }

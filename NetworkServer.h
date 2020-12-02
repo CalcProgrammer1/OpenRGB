@@ -23,6 +23,7 @@ struct NetworkClientInfo
     SOCKET          client_sock;
     std::thread *   client_listen_thread;
     std::string     client_string;
+    unsigned int    client_protocol_version;
     char            client_ip[INET_ADDRSTRLEN];
 };
 
@@ -37,6 +38,7 @@ public:
     unsigned int                        GetNumClients();
     const char *                        GetClientString(unsigned int client_num);
     const char *                        GetClientIP(unsigned int client_num);
+    unsigned int                        GetClientProtocolVersion(unsigned int client_num);
 
     void                                ClientInfoChanged();
     void                                DeviceListChanged();
@@ -50,10 +52,12 @@ public:
     void                                ConnectionThreadFunction();
     void                                ListenThreadFunction(NetworkClientInfo * client_sock);
 
+    void                                ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data);
     void                                ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
 
     void                                SendReply_ControllerCount(SOCKET client_sock);
-    void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx);
+    void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx, unsigned int protocol_version);
+    void                                SendReply_ProtocolVersion(SOCKET client_sock);
 
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
 

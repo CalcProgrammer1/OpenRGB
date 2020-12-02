@@ -28,6 +28,7 @@ public:
     bool            GetConnected();
     const char *    GetIP();
     unsigned short  GetPort();
+    unsigned int    GetProtocolVersion();
     bool            GetOnline();
 
     void            RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
@@ -46,12 +47,15 @@ public:
     
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
+    void        ProcessReply_ProtocolVersion(unsigned int data_size, char * data);
+
     void        ProcessRequest_DeviceListChanged();
 
     void        SendData_ClientString();
 
     void        SendRequest_ControllerCount();
     void        SendRequest_ControllerData(unsigned int dev_idx);
+    void        SendRequest_ProtocolVersion();
 
     void        SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
 
@@ -83,6 +87,8 @@ private:
     bool            server_initialized;
     unsigned int    server_controller_count;
     bool            server_controller_count_received;
+    unsigned int    server_protocol_version;
+    bool            server_protocol_version_received;
     bool            change_in_progress;
 
     std::thread *   ConnectionThread;

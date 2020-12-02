@@ -46,7 +46,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
         \*---------------------------------------------------------*/
         for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
         {
-            unsigned char *controller_data = controllers[controller_index]->GetDeviceDescription();
+            unsigned char *controller_data = controllers[controller_index]->GetDeviceDescription(0);
             unsigned int controller_size;
 
             memcpy(&controller_size, controller_data, sizeof(controller_size));
@@ -130,7 +130,7 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
 
                 RGBController_Dummy *temp_controller = new RGBController_Dummy();
 
-                temp_controller->ReadDeviceDescription(controller_data);
+                temp_controller->ReadDeviceDescription(controller_data, 0);
 
                 temp_controllers.push_back(temp_controller);
 

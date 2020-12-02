@@ -73,11 +73,12 @@ void OpenRGBClientInfoPage::UpdateInfo()
     /*-----------------------------------------------------*\
     | Set up the tree view header                           |
     \*-----------------------------------------------------*/
-    ui->ClientTree->setColumnCount(2);
+    ui->ClientTree->setColumnCount(3);
     ui->ClientTree->header()->setStretchLastSection(false);
     ui->ClientTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->ClientTree->setColumnWidth(1, 100);
-    ui->ClientTree->setHeaderLabels(QStringList() << "Connected Clients" << "");
+    ui->ClientTree->setColumnWidth(2, 100);
+    ui->ClientTree->setHeaderLabels(QStringList() << "Connected Clients" << "Protocol Version" << "");
 
     /*-----------------------------------------------------*\
     | Set up a signal mapper to handle disconnect buttons   |
@@ -92,17 +93,18 @@ void OpenRGBClientInfoPage::UpdateInfo()
     {
         /*-----------------------------------------------------*\
         | Create the top level tree widget items and display the|
-        | client IP addresses in them                           |
+        | client IP addresses and protocol versions in them     |
         \*-----------------------------------------------------*/
         QTreeWidgetItem* new_top_item = new QTreeWidgetItem(ui->ClientTree);
         new_top_item->setText(0, QString::fromStdString(ResourceManager::get()->GetClients()[client_idx]->GetIP()));
+        new_top_item->setText(1, QString::number(ResourceManager::get()->GetClients()[client_idx]->GetProtocolVersion()));
 
         /*-----------------------------------------------------*\
         | Create the disconnect buttons and connect them to the |
         | signal mapper                                         |
         \*-----------------------------------------------------*/
         QPushButton* new_button = new QPushButton( "Disconnect" );
-        ui->ClientTree->setItemWidget(new_top_item, 1, new_button);
+        ui->ClientTree->setItemWidget(new_top_item, 2, new_button);
 
         connect(new_button, SIGNAL(clicked()), signalMapper, SLOT(map()));
 

@@ -127,6 +127,26 @@ const char * NetworkServer::GetClientIP(unsigned int client_num)
     return result;
 }
 
+unsigned int NetworkServer::GetClientProtocolVersion(unsigned int client_num)
+{
+    unsigned int result;
+
+    ServerClientsMutex.lock();
+
+    if(client_num < ServerClients.size())
+    {
+        result = ServerClients[client_num]->client_protocol_version;
+    }
+    else
+    {
+        result = 0;
+    }
+
+    ServerClientsMutex.unlock();
+
+    return result;
+}
+
 void NetworkServer::RegisterClientInfoChangeCallback(NetServerCallback new_callback, void * new_callback_arg)
 {
     ClientInfoChangeCallbacks.push_back(new_callback);
@@ -482,7 +502,21 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
-                SendReply_ControllerData(client_sock, header.pkt_dev_idx);
+                {
+                    unsigned int protocol_version = 0;
+
+                    if(header.pkt_size == sizeof(unsigned int))
+                    {
+                        memcpy(&protocol_version, data, sizeof(unsigned int));
+                    }
+
+                    SendReply_ControllerData(client_sock, header.pkt_dev_idx, protocol_version);
+                }
+                break;
+
+            case NET_PACKET_ID_REQUEST_PROTOCOL_VERSION:
+                SendReply_ProtocolVersion(client_sock);
+                ProcessRequest_ClientProtocolVersion(client_sock, header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_SET_CLIENT_NAME:
@@ -609,6 +643,37 @@ listen_done:
     ClientInfoChanged();
 }
 
+void NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data)
+{
+    unsigned int protocol_version = 0;
+
+    if(data_size == sizeof(unsigned int) && (data != NULL))
+    {
+        memcpy(&protocol_version, data, sizeof(unsigned int));
+    }
+
+    if(protocol_version > OPENRGB_SDK_PROTOCOL_VERSION)
+    {
+        protocol_version = OPENRGB_SDK_PROTOCOL_VERSION;
+    }
+
+    ServerClientsMutex.lock();
+    for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
+    {
+        if(ServerClients[this_idx]->client_sock == client_sock)
+        {
+            ServerClients[this_idx]->client_protocol_version = protocol_version;
+            break;
+        }
+    }
+    ServerClientsMutex.unlock();
+
+    /*-------------------------------------------------*\
+    | Client info has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    ClientInfoChanged();
+}
+
 void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int /*data_size*/, char * data)
 {
     ServerClientsMutex.lock();
@@ -648,12 +713,12 @@ void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
     send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
 }
 
-void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx)
+void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx, unsigned int protocol_version)
 {
     if(dev_idx < controllers.size())
     {
         NetPacketHeader reply_hdr;
-        unsigned char *reply_data = controllers[dev_idx]->GetDeviceDescription();
+        unsigned char *reply_data = controllers[dev_idx]->GetDeviceDescription(protocol_version);
         unsigned int   reply_size;
 
         memcpy(&reply_size, reply_data, sizeof(reply_size));
@@ -670,6 +735,26 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
         send(client_sock, (const char *)reply_data, reply_size, 0);
     }
+}
+
+void NetworkServer::SendReply_ProtocolVersion(SOCKET client_sock)
+{
+    NetPacketHeader reply_hdr;
+    unsigned int    reply_data;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PROTOCOL_VERSION;
+    reply_hdr.pkt_size     = sizeof(unsigned int);
+
+    reply_data             = OPENRGB_SDK_PROTOCOL_VERSION;
+
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
+    send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
 }
 
 void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)

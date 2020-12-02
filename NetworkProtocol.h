@@ -8,10 +8,18 @@
 
 #pragma once
 
-/*-----------------------------------------*\
-| Default OpenRGB SDK port is 6742          |
-| This is "ORGB" on a phone keypad          |
-\*-----------------------------------------*/
+/*-----------------------------------------------------*\
+| OpenRGB SDK protocol version                          |
+|                                                       |
+|   0:      Initial (unversioned) protocol              |
+|   1:      Add versioning, vendor string (Release 0.5) |
+\*-----------------------------------------------------*/
+#define OPENRGB_SDK_PROTOCOL_VERSION    1
+
+/*-----------------------------------------------------*\
+| Default OpenRGB SDK port is 6742                      |
+| This is "ORGB" on a phone keypad                      |
+\*-----------------------------------------------------*/
 #define OPENRGB_SDK_PORT 6742
 
 typedef struct NetPacketHeader
@@ -29,6 +37,8 @@ enum
     \*----------------------------------------------------------------------------------------------------------*/
     NET_PACKET_ID_REQUEST_CONTROLLER_COUNT      = 0,    /* Request RGBController device count from server       */
     NET_PACKET_ID_REQUEST_CONTROLLER_DATA       = 1,    /* Request RGBController data block                     */
+
+    NET_PACKET_ID_REQUEST_PROTOCOL_VERSION      = 40,   /* Request OpenRGB SDK protocol version from server     */
 
     NET_PACKET_ID_SET_CLIENT_NAME               = 50,   /* Send client name string to server                    */
 

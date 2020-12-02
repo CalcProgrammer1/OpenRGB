@@ -16,7 +16,7 @@ RGBController::~RGBController()
     delete DeviceCallThread;
 }
 
-unsigned char * RGBController::GetDeviceDescription()
+unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_version)
 {
     unsigned int data_ptr = 0;
     unsigned int data_size = 0;
@@ -25,6 +25,7 @@ unsigned char * RGBController::GetDeviceDescription()
     | Calculate data size                                       |
     \*---------------------------------------------------------*/
     unsigned short name_len         = strlen(name.c_str())          + 1;
+    unsigned short vendor_len       = strlen(vendor.c_str())        + 1;
     unsigned short description_len  = strlen(description.c_str())   + 1;
     unsigned short version_len      = strlen(version.c_str())       + 1;
     unsigned short serial_len       = strlen(serial.c_str())        + 1;
@@ -44,6 +45,12 @@ unsigned char * RGBController::GetDeviceDescription()
     data_size += sizeof(data_size);
     data_size += sizeof(device_type);
     data_size += name_len           + sizeof(name_len);
+
+    if(protocol_version >= 1)
+    {
+        data_size += vendor_len     + sizeof(vendor_len);
+    }
+
     data_size += description_len    + sizeof(description_len);
     data_size += version_len        + sizeof(version_len);
     data_size += serial_len         + sizeof(serial_len);
@@ -135,6 +142,18 @@ unsigned char * RGBController::GetDeviceDescription()
 
     strcpy((char *)&data_buf[data_ptr], name.c_str());
     data_ptr += name_len;
+
+    /*---------------------------------------------------------*\
+    | Copy in vendor (size+data) if protocol 1 or higher        |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 1)
+    {
+        memcpy(&data_buf[data_ptr], &vendor_len, sizeof(unsigned short));
+        data_ptr += sizeof(unsigned short);
+
+        strcpy((char *)&data_buf[data_ptr], vendor.c_str());
+        data_ptr += vendor_len;
+    }
 
     /*---------------------------------------------------------*\
     | Copy in description (size+data)                           |
@@ -405,7 +424,7 @@ unsigned char * RGBController::GetDeviceDescription()
     return(data_buf);
 }
 
-void RGBController::ReadDeviceDescription(unsigned char* data_buf)
+void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version)
 {
     unsigned int data_ptr = 0;
 
@@ -426,6 +445,19 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf)
 
     name = (char *)&data_buf[data_ptr];
     data_ptr += name_len;
+
+    /*---------------------------------------------------------*\
+    | Copy in vendor if profile version is 1 or higher          |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 1)
+    {
+        unsigned short vendor_len;
+        memcpy(&vendor_len, &data_buf[data_ptr], sizeof(unsigned short));
+        data_ptr += sizeof(unsigned short);
+
+        vendor = (char *)&data_buf[data_ptr];
+        data_ptr += vendor_len;
+    }
 
     /*---------------------------------------------------------*\
     | Copy in description                                       |

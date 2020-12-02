@@ -179,8 +179,8 @@ public:
     int                     GetMode();
     void                    SetMode(int mode);
 
-    unsigned char *         GetDeviceDescription();
-    void                    ReadDeviceDescription(unsigned char* data_buf);
+    unsigned char *         GetDeviceDescription(unsigned int protocol_version);
+    void                    ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version);
 
     unsigned char *         GetModeDescription(int mode);
     void                    SetModeDescription(unsigned char* data_buf);
