@@ -15,6 +15,8 @@ using namespace std::chrono_literals;
 
 RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 {
+    bool multicast = false;
+
     devices = device_list;
 
     name        = "E1.31 Device Group";
@@ -34,9 +36,17 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     /*-----------------------------------------*\
     | Append the destination address to the     |
-    | location field (multicast only for now)   |
+    | location field                            |
     \*-----------------------------------------*/
-    location   += "Multicast, ";
+    if((devices.size() == 1) && (devices[0].ip != ""))
+    {
+        location += "Unicast " + devices[0].ip + ", ";
+    }
+    else
+    {
+        location   += "Multicast, ";
+        multicast = true;
+    }
 
     /*-----------------------------------------*\
     | Calculate universe list                   |
@@ -152,7 +162,15 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                 e131_addr_t     dest_addr;
 
                 e131_pkt_init(&packet, universe, 512);
-                e131_multicast_dest(&dest_addr, universe, E131_DEFAULT_PORT);
+
+                if(multicast)
+                {
+                    e131_multicast_dest(&dest_addr, universe, E131_DEFAULT_PORT);
+                }
+                else
+                {
+                    e131_unicast_dest(&dest_addr, devices[0].ip.c_str(), E131_DEFAULT_PORT);
+                }
 
                 packets.push_back(packet);
                 universes.push_back(universe);

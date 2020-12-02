@@ -42,6 +42,7 @@ typedef unsigned int e131_matrix_order;
 struct E131Device
 {
     std::string name;
+    std::string ip;
     unsigned int num_leds;
     unsigned int start_universe;
     unsigned int start_channel;
