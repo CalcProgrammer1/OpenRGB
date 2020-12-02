@@ -634,6 +634,8 @@ win32:contains(QMAKE_TARGET.arch, x86) {
 # Linux-specific Configuration                                                                  #
 #-----------------------------------------------------------------------------------------------#
 unix:!macx {
+    TARGET = $$lower($$TARGET)
+
     INCLUDEPATH +=                                                                              \
     Controllers/FaustusController                                                               \
     Controllers/LinuxLEDController                                                              \

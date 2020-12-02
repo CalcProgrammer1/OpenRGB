@@ -1,0 +1,28 @@
+
+
+diff --git a/OpenRGB.pro b/OpenRGB.pro
+index 0b308bb9..75a2199f 100644
+--- a/OpenRGB.pro
++++ b/OpenRGB.pro
+@@ -634,8 +634,6 @@ win32:contains(QMAKE_TARGET.arch, x86) {
+ # Linux-specific Configuration                                                                  #
+ #-----------------------------------------------------------------------------------------------#
+ unix:!macx {
+-    TARGET = $$lower($$TARGET)
+-
+     INCLUDEPATH +=                                                                              \
+     Controllers/FaustusController                                                               \
+     Controllers/LinuxLEDController                                                              \
+diff --git a/qt/OpenRGB.desktop b/qt/OpenRGB.desktop
+index bd71a38a..b4a0f86a 100644
+--- a/qt/OpenRGB.desktop
++++ b/qt/OpenRGB.desktop
+@@ -3,7 +3,7 @@ Type=Application
+ Encoding=UTF-8
+ Name=OpenRGB
+ Comment=Control RGB lighting
+-Exec=openrgb
++Exec=OpenRGB
+ Icon=OpenRGB
+ Terminal=false
+ Categories=Utility;

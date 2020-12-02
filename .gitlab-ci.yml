@@ -34,11 +34,14 @@ build_linux_32:
   image: i386/ubuntu:bionic
   stage: build
   script:
-  - ./scripts/build-appimage-32.sh
+  - export $(dpkg-architecture)
+  - ./scripts/build-appimage.sh
   
   artifacts:
     paths:
     - OpenRGB-i386.AppImage
+    - 60-openrgb.rules
+    - README.md
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
@@ -49,11 +52,14 @@ build_linux_64:
   image: ubuntu:bionic
   stage: build
   script:
+  - export $(dpkg-architecture)
   - ./scripts/build-appimage.sh
   
   artifacts:
     paths:
     - OpenRGB-x86_64.AppImage
+    - 60-openrgb.rules
+    - README.md
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
@@ -65,7 +71,6 @@ build_linux_deb32:
   stage: build
   script:
   - apt install -y debhelper
-  - export $( dpkg-architecture -s --target-arch i386; )
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
   - rm -v ../openrgb-dbgsym*.ddeb
