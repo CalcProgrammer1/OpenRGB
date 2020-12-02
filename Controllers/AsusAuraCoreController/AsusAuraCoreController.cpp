@@ -10,14 +10,20 @@
 #include "AsusAuraCoreController.h"
 #include <cstring>
 
-AuraCoreController::AuraCoreController(hid_device* dev_handle)
+AuraCoreController::AuraCoreController(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 AuraCoreController::~AuraCoreController()
 {
 
+}
+
+std::string AuraCoreController::GetDeviceLocation()
+{
+    return("HID: " + location);
 }
 
 void AuraCoreController::SendBrightness

@@ -31,9 +31,9 @@ SonyDS4Controller::SonyDS4Controller(hid_device * device_handle, const char * de
     location = device_path;
 }
 
-const char * SonyDS4Controller::GetLocation()
+std::string SonyDS4Controller::GetLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 void SonyDS4Controller::SetColors(unsigned char red, unsigned char green, unsigned char blue)

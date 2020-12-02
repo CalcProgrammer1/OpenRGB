@@ -24,7 +24,7 @@ LogitechGProWirelessController::~LogitechGProWirelessController()
 
 std::string LogitechGProWirelessController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void LogitechGProWirelessController::SendMouseMode

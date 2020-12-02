@@ -24,7 +24,7 @@ LogitechG502PSController::~LogitechG502PSController()
 
 std::string LogitechG502PSController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void LogitechG502PSController::SendMouseMode

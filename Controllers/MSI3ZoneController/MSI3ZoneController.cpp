@@ -29,7 +29,7 @@ char* MSI3ZoneController::GetDeviceName()
 
 std::string MSI3ZoneController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void MSI3ZoneController::SetLEDs(std::vector<RGBColor> colors)

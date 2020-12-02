@@ -64,7 +64,7 @@ std::string TecknetController::GetSerial()
 
 std::string TecknetController::GetLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 void TecknetController::SetMode(unsigned char mode, unsigned char speed, unsigned char brightness)

@@ -10,7 +10,7 @@ RedragonK556Controller::RedragonK556Controller(hid_device* dev_handle, const cha
 
 std::string RedragonK556Controller::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void RedragonK556Controller::SetKeyboardColors

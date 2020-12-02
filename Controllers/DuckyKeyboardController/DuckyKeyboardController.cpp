@@ -25,7 +25,7 @@ DuckyKeyboardController::~DuckyKeyboardController()
 
 std::string DuckyKeyboardController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void DuckyKeyboardController::SendColors

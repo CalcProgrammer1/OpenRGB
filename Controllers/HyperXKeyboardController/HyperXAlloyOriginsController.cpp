@@ -27,7 +27,7 @@ HyperXAlloyOriginsController::~HyperXAlloyOriginsController()
 
 std::string HyperXAlloyOriginsController::GetDeviceLocation()
 {
-    return(location);
+    return("HID " + location);
 }
 
 void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)

@@ -35,7 +35,7 @@ PoseidonZRGBController::~PoseidonZRGBController()
 
 std::string PoseidonZRGBController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void PoseidonZRGBController::SetMode(unsigned char mode, unsigned char direction, unsigned char speed)

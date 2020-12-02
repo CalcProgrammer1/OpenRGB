@@ -15,7 +15,7 @@ RedragonM711Controller::RedragonM711Controller(hid_device* dev_handle, const cha
 
 std::string RedragonM711Controller::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void RedragonM711Controller::SendMouseColor

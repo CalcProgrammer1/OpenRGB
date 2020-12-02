@@ -190,7 +190,7 @@ private:
     IT8297Report            report;
     std::string             name;
     std::string             description;
-    std::string             loc;
+    std::string             location;
     std::string             version;
     std::string             chip_id;
     int                     effect_disabled = 0;

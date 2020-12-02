@@ -50,7 +50,7 @@ unsigned short NZXTHue2Controller::GetFanRPM
 
 std::string NZXTHue2Controller::GetLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 unsigned int NZXTHue2Controller::GetNumFanChannels()

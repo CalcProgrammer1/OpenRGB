@@ -24,7 +24,7 @@ AuraMouseController::~AuraMouseController()
 
 std::string AuraMouseController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void AuraMouseController::SendUpdate

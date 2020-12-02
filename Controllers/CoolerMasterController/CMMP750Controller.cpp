@@ -99,7 +99,7 @@ std::string CMMP750Controller::GetSerial()
 
 std::string CMMP750Controller::GetLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 unsigned char CMMP750Controller::GetMode()

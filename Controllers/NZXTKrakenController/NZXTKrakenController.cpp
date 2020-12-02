@@ -50,7 +50,7 @@ std::string NZXTKrakenController::GetFirmwareVersion()
 
 std::string NZXTKrakenController::GetLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void NZXTKrakenController::UpdateStatus()

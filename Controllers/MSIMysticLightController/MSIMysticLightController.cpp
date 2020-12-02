@@ -18,7 +18,7 @@ MSIMysticLightController::MSIMysticLightController(hid_device* handle, const cha
 
     if(dev)
     {
-        loc = path;
+        location = path;
 
         ReadName();
         ReadSerial();
@@ -123,7 +123,7 @@ std::string MSIMysticLightController::GetFWVersion()
 
 std::string MSIMysticLightController::GetDeviceLocation()
 {
-    return loc;
+    return("HID: " + location);
 }
 
 std::string MSIMysticLightController::GetSerial()

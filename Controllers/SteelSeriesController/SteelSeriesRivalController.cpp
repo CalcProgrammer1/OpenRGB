@@ -46,7 +46,7 @@ SteelSeriesRivalController::~SteelSeriesRivalController()
 
 std::string SteelSeriesRivalController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 char* SteelSeriesRivalController::GetDeviceName()

@@ -41,7 +41,7 @@ AMDWraithPrismController::~AMDWraithPrismController()
 
 std::string AMDWraithPrismController::GetLocationString()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 char* AMDWraithPrismController::GetDeviceName()

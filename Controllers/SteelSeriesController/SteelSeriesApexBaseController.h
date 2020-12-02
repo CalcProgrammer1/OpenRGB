@@ -20,7 +20,7 @@ public:
 
     std::string GetDeviceLocation()
     {
-        return(location);
+        return("HID: " + location);
     };
 
     steelseries_type        proto_type;

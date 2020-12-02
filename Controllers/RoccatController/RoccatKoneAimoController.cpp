@@ -58,7 +58,7 @@ std::string RoccatKoneAimoController::GetSerial()
 
 std::string RoccatKoneAimoController::GetLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 void RoccatKoneAimoController::SendInit()

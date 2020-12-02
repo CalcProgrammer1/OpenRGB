@@ -86,7 +86,7 @@ std::string EKController::GetSerial()
 
 std::string EKController::GetLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 void EKController::SetMode(unsigned char mode, unsigned char speed)

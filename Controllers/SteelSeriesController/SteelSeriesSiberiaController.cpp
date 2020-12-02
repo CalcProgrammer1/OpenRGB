@@ -49,7 +49,7 @@ SteelSeriesSiberiaController::~SteelSeriesSiberiaController()
 
 std::string SteelSeriesSiberiaController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 char* SteelSeriesSiberiaController::GetDeviceName()

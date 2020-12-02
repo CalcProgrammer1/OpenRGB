@@ -92,7 +92,7 @@ std::string CMARGBController::GetSerial()
 
 std::string CMARGBController::GetLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 unsigned char CMARGBController::GetZoneIndex()

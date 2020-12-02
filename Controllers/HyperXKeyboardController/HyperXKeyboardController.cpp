@@ -40,7 +40,7 @@ HyperXKeyboardController::~HyperXKeyboardController()
 
 std::string HyperXKeyboardController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void HyperXKeyboardController::SetMode

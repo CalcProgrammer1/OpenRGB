@@ -55,7 +55,7 @@ SteelSeriesOldApexController::~SteelSeriesOldApexController()
 
 std::string SteelSeriesOldApexController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 char* SteelSeriesOldApexController::GetDeviceName()

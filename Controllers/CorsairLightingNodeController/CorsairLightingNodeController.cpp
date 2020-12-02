@@ -56,7 +56,7 @@ std::string CorsairLightingNodeController::GetFirmwareString()
 
 std::string CorsairLightingNodeController::GetLocationString()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void CorsairLightingNodeController::SetChannelEffect(unsigned char channel,

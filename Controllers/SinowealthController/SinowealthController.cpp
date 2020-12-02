@@ -31,7 +31,7 @@ SinowealthController::~SinowealthController()
 
 std::string SinowealthController::GetLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 unsigned int SinowealthController::GetLEDCount()

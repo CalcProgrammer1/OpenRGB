@@ -307,7 +307,7 @@ private:
 
     hid_device*             dev;
     std::string             name;
-    std::string             loc;
+    std::string             location;
     std::string             version_APROM;
     std::string             version_LDROM;
     std::string             chip_id;

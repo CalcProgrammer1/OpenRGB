@@ -118,7 +118,7 @@ void DetectLogitechKeyboardG213(hid_device_info* info, const std::string& name)
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        LogitechG213Controller* controller = new LogitechG213Controller(dev);
+        LogitechG213Controller* controller = new LogitechG213Controller(dev, info->path);
         RGBController_LogitechG213* rgb_controller = new RGBController_LogitechG213(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);

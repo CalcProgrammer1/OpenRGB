@@ -73,7 +73,7 @@ device_type CorsairPeripheralController::GetDeviceType()
 
 std::string CorsairPeripheralController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 int CorsairPeripheralController::GetPhysicalLayout()

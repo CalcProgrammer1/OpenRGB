@@ -9,14 +9,20 @@
 #include "LogitechG213Controller.h"
 #include <cstring>
 
-LogitechG213Controller::LogitechG213Controller(hid_device* dev_handle)
+LogitechG213Controller::LogitechG213Controller(hid_device* dev_handle, const char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 LogitechG213Controller::~LogitechG213Controller()
 {
+    hid_close(dev);
+}
 
+std::string LogitechG213Controller::GetDeviceLocation()
+{
+    return("HID: " + location);
 }
 
 void LogitechG213Controller::SetDirect

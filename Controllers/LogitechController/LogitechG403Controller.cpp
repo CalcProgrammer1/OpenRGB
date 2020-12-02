@@ -24,7 +24,7 @@ LogitechG403Controller::~LogitechG403Controller()
 
 std::string LogitechG403Controller::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void LogitechG403Controller::SendMouseMode

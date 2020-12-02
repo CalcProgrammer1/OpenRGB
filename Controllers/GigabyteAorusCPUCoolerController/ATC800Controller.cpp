@@ -24,7 +24,7 @@ ATC800Controller::~ATC800Controller()
 
 std::string ATC800Controller::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void ATC800Controller::SendCoolerMode

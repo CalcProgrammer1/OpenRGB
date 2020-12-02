@@ -32,7 +32,7 @@ unsigned int AuraUSBController::GetChannelCount()
 
 std::string AuraUSBController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 std::string AuraUSBController::GetDeviceName()

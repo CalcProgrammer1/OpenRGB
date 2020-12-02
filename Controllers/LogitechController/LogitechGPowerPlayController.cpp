@@ -24,7 +24,7 @@ LogitechGPowerPlayController::~LogitechGPowerPlayController()
 
 std::string LogitechGPowerPlayController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 void LogitechGPowerPlayController::SendMouseMatMode
