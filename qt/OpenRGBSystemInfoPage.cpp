@@ -1,7 +1,15 @@
 #include "OpenRGBSystemInfoPage.h"
+#include "ResourceManager.h"
 #include "i2c_tools.h"
 
 using namespace Ui;
+
+static void UpdateBusListCallback(void * this_ptr)
+{
+    OpenRGBSystemInfoPage * this_obj = (OpenRGBSystemInfoPage *)this_ptr;
+
+    QMetaObject::invokeMethod(this_obj, "UpdateBusList", Qt::QueuedConnection);
+}
 
 OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>& bus, QWidget *parent) :
     QFrame(parent),
@@ -18,16 +26,14 @@ OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>&
     ui->SMBusDataText->setFont(MonoFont);
 
     /*-----------------------------------------------------*\
-    | Fill in the combo boxes with device information       |
+    | Register I2C bus list change callback                 |
     \*-----------------------------------------------------*/
-    ui->SMBusAdaptersBox->clear();
+    ResourceManager::get()->RegisterI2CBusListChangeCallback(UpdateBusListCallback, this);
 
-    for (std::size_t i = 0; i < busses.size(); i++)
-    {
-        ui->SMBusAdaptersBox->addItem(busses[i]->device_name);
-    }
-
-    ui->SMBusAdaptersBox->setCurrentIndex(0);
+    /*-----------------------------------------------------*\
+    | Update the bus list                                   |
+    \*-----------------------------------------------------*/
+    UpdateBusList();
 
     ui->SMBusDetectionModeBox->addItem("Auto");
     ui->SMBusDetectionModeBox->addItem("Quick");
@@ -39,6 +45,21 @@ OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>&
 OpenRGBSystemInfoPage::~OpenRGBSystemInfoPage()
 {
     delete ui;
+}
+
+void Ui::OpenRGBSystemInfoPage::UpdateBusList()
+{
+    /*-----------------------------------------------------*\
+    | Fill in the combo boxes with device information       |
+    \*-----------------------------------------------------*/
+    ui->SMBusAdaptersBox->clear();
+
+    for (std::size_t i = 0; i < busses.size(); i++)
+    {
+        ui->SMBusAdaptersBox->addItem(busses[i]->device_name);
+    }
+
+    ui->SMBusAdaptersBox->setCurrentIndex(0);
 }
 
 void Ui::OpenRGBSystemInfoPage::on_DetectButton_clicked()

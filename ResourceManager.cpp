@@ -130,6 +130,12 @@ void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback 
     DeviceListChangeCallbackArgs.push_back(new_callback_arg);
 }
 
+void ResourceManager::RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg)
+{
+    I2CBusListChangeCallbacks.push_back(new_callback);
+    I2CBusListChangeCallbackArgs.push_back(new_callback_arg);
+}
+
 void ResourceManager::RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void *new_callback_arg)
 {
     DetectionProgressCallbacks.push_back(new_callback);
@@ -207,6 +213,21 @@ void ResourceManager::DetectionProgressChanged()
     }
 
     DetectionProgressMutex.unlock();
+}
+
+void ResourceManager::I2CBusListChanged()
+{
+    I2CBusListChangeMutex.lock();
+
+    /*-------------------------------------------------*\
+    | Detection progress has changed, call the callbacks|
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < I2CBusListChangeCallbacks.size(); callback_idx++)
+    {
+        I2CBusListChangeCallbacks[callback_idx](I2CBusListChangeCallbackArgs[callback_idx]);
+    }
+
+    I2CBusListChangeMutex.unlock();
 }
 
 std::string ResourceManager::GetConfigurationDirectory()
@@ -439,6 +460,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
     {
         i2c_bus_detectors[i2c_bus_detector_idx](busses);
+        I2CBusListChanged();
     }
 
     /*-------------------------------------------------*\

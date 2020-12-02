@@ -17,6 +17,9 @@ public:
     explicit OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>& bus, QWidget *parent = nullptr);
     ~OpenRGBSystemInfoPage();
 
+public slots:
+    void UpdateBusList();
+
 private slots:
     void on_DetectButton_clicked();
 
