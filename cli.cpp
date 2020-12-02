@@ -375,6 +375,7 @@ void OptionHelp()
     help_text += "                                           USE I2C TOOLS AT YOUR OWN RISK! Don't use this option if you don't know what you're doing!\n";
     help_text += "                                           There is a risk of bricking your motherboard, RGB controller, and RAM if you send invalid SMBus/I2C transactions.\n";
     help_text += "--localconfig                            Use the current working directory instead of the global configuration directory.\n";
+    help_text += "--config path                            Use a custom path instead of the global configuration directory.\n";
     help_text += "--nodetect                               Do not try to detect hardware or autoconnect to a local server at startup.\n";
 
     std::cout << help_text << std::endl;
@@ -807,7 +808,8 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
                 | and this parser should ignore them                |
                 \*-------------------------------------------------*/
             }
-            else if(option == "--server-port")
+            else if((option == "--server-port")
+                  ||(option == "--config"))
             {
                 /*-------------------------------------------------*\
                 | Increment index for pre-detection arguments with  |
@@ -966,6 +968,15 @@ unsigned int cli_pre_detection(int argc, char *argv[])
         if(option == "--localconfig")
         {
             ResourceManager::get()->SetConfigurationDirectory("./");
+        }
+
+        /*---------------------------------------------------------*\
+        | --config                                                  |
+        \*---------------------------------------------------------*/
+        else if(option == "--config")
+        {
+            ResourceManager::get()->SetConfigurationDirectory(argument);
+            arg_index++;
         }
 
         /*---------------------------------------------------------*\
