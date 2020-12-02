@@ -12,6 +12,7 @@
 RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoController* mouse_ptr)
 {
     name        = "Roccat Kone Aimo";
+    vendor      = "Roccat";
     type        = DEVICE_TYPE_MOUSE;
     description = "Roccat Kone Aimo Mouse";
     mouse       = mouse_ptr;

@@ -13,6 +13,7 @@ RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* aura_ptr)
     aura = aura_ptr;
 
     name        = "ASUS Aura Core";
+    vendor      = "ASUS";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "ASUS Aura Core Device";
 

@@ -45,6 +45,7 @@ RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController * galax_gpu_pt
     galax_gpu = galax_gpu_ptr;
 
     name        = galax_gpu->GetDeviceName();
+    vendor      = "GALAX";
     type        = DEVICE_TYPE_GPU;
     description = "GALAX / KFA2 RTX GPU";
     version     = "1.0";

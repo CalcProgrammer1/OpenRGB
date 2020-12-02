@@ -14,6 +14,7 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     wraith = wraith_ptr;
 
     name        = "AMD Wraith Prism";
+    vendor      = "Cooler Master";
     type        = DEVICE_TYPE_COOLER;
     description = "AMD Wraith Prism Device";
     version     = wraith->GetFirmwareVersionString();

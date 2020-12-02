@@ -129,6 +129,7 @@ RGBController_AuraSMBus::RGBController_AuraSMBus(AuraSMBusController * aura_ptr)
         type = DEVICE_TYPE_MOTHERBOARD;
         name = "ASUS Aura Motherboard";
     }
+    vendor      = "ASUS";
     description = "ASUS Aura SMBus Device";
 
     mode Direct;

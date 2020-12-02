@@ -14,6 +14,7 @@ RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
     Tecknet_dev = _dev;
 
     name        = Tecknet_dev->GetDeviceName();
+    vendor      = "Tecknet";
     type        = DEVICE_TYPE_MOUSE;
     description = Tecknet_dev->GetDeviceName();
     version     = "1.0";

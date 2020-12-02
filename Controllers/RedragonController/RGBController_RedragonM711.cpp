@@ -14,6 +14,7 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
     redragon = redragon_ptr;
 
     name        = "Redragon Mouse Device";
+    vendor      = "Redragon";
     type        = DEVICE_TYPE_MOUSE;
     description = "Redragon Mouse Device";
     location    = redragon->GetDeviceLocation();

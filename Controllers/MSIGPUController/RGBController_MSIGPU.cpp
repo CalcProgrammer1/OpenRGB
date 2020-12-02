@@ -31,6 +31,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     msi_gpu = msi_gpu_ptr;
 
     name        = "MSI GPU Device";
+    vendor      = "MSI";
     type        = DEVICE_TYPE_GPU;
     description = "MSI GPU Device";
     location    = msi_gpu->GetDeviceLocation();

@@ -14,6 +14,7 @@ RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSi
     siberia = siberia_ptr;
     
     name        = siberia->GetDeviceName();
+    vendor      = "SteelSeries";
     type        = DEVICE_TYPE_HEADSET; 
     description = "SteelSeries Siberia Device";
     location    = siberia->GetDeviceLocation();

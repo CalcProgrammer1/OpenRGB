@@ -14,6 +14,7 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     viper = viper_ptr;
 
     name        = viper->GetDeviceName();
+    vendor      = "Patriot";
     type        = DEVICE_TYPE_DRAM;
     description = "Patriot Viper Device";
     location    = viper->GetDeviceLocation();

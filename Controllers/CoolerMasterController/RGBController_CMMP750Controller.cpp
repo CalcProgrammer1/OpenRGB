@@ -15,6 +15,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     unsigned char speed = cmmp750->GetLedSpeed();
 
     name                = cmmp750->GetDeviceName();
+    vendor              = "Cooler Master";
     type                = DEVICE_TYPE_MOUSEMAT;
     description         = cmmp750->GetDeviceName();
     version             = "1.0";

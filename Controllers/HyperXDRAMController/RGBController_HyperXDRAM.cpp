@@ -15,6 +15,7 @@ RGBController_HyperXDRAM::RGBController_HyperXDRAM(HyperXDRAMController* hyperx_
     hyperx = hyperx_ptr;
 
     name        = hyperx->GetDeviceName();
+    vendor      = "HyperX";
     type        = DEVICE_TYPE_DRAM;
     description = "HyperX DRAM Device";
     location    = hyperx->GetDeviceLocation();

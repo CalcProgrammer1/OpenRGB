@@ -15,6 +15,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     corsair = corsair_ptr;
 
     name        = "Corsair Lighting Node Device";
+    vendor      = "Corsair";
     description = "Corsair Lighting Node Device";
     type        = DEVICE_TYPE_LEDSTRIP;
     version     = corsair->GetFirmwareString();

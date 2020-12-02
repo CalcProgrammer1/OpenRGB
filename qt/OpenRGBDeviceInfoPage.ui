@@ -22,41 +22,27 @@
     </widget>
    </item>
    <item row="1" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="VendorLabel">
+     <property name="text">
+      <string>Vendor:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="TypeLabel">
      <property name="text">
       <string>Type:</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="DescriptionValue">
-     <property name="text">
-      <string>Description Value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="VersionValue">
-     <property name="text">
-      <string>Version Value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="LocationValue">
-     <property name="text">
-      <string>Location Value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="TypeValue">
-     <property name="text">
-      <string>Type Value</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="DescriptionLabel">
+     <property name="text">
+      <string>Description:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="VersionLabel">
      <property name="text">
       <string>Version:</string>
@@ -64,23 +50,16 @@
     </widget>
    </item>
    <item row="5" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="SerialLabel">
-     <property name="text">
-      <string>Serial:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="LocationLabel">
      <property name="text">
       <string>Location:</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="QLabel" name="SerialValue">
+   <item row="6" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="SerialLabel">
      <property name="text">
-      <string>Serial Value</string>
+      <string>Serial:</string>
      </property>
     </widget>
    </item>
@@ -91,10 +70,45 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="DescriptionLabel">
+   <item row="1" column="1">
+    <widget class="QLabel" name="VendorValue">
      <property name="text">
-      <string>Description:</string>
+      <string>Vendor Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="TypeValue">
+     <property name="text">
+      <string>Type Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="DescriptionValue">
+     <property name="text">
+      <string>Description Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLabel" name="VersionValue">
+     <property name="text">
+      <string>Version Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLabel" name="LocationValue">
+     <property name="text">
+      <string>Location Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLabel" name="SerialValue">
+     <property name="text">
+      <string>Serial Value</string>
      </property>
     </widget>
    </item>

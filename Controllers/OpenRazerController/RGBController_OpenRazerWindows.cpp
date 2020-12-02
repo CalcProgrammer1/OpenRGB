@@ -178,6 +178,11 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
     version = string_buf;
 
     /*-----------------------------------------------------------------*\
+    | Vendor is always Razer                                            |
+    \*-----------------------------------------------------------------*/
+    vendor = "Razer";
+
+    /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |
     \*-----------------------------------------------------------------*/
     for (unsigned int i = 0; i < RAZER_NUM_DEVICES; i++)

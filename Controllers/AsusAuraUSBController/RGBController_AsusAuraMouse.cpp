@@ -14,6 +14,7 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* aura_ptr)
     aura = aura_ptr;
 
     name        = "ASUS Aura Mouse";
+    vendor      = "ASUS";
     type        = DEVICE_TYPE_MOUSE;
     description = "ASUS Aura Mouse Device";
     location    = aura->GetDeviceLocation();

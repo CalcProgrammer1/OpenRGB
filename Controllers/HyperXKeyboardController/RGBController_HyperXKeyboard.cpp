@@ -180,6 +180,7 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
     hyperx = hyperx_ptr;
 
     name        = "HyperX RGB Keyboard";
+    vendor      = "HyperX";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX RGB Keyboard Device";
     location    = hyperx->GetDeviceLocation();

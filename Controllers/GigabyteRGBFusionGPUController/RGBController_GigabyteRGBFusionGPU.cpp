@@ -14,6 +14,7 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* r
     rgb_fusion = rgb_fusion_ptr;
 
     name        = "Gigabyte GPU";
+    vendor      = "Gigabyte";
     description = "RGB Fusion GPU";
     location    = rgb_fusion->GetDeviceLocation();
 

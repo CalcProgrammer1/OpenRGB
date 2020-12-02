@@ -33,6 +33,7 @@ RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* l
     logitechG213 = logitech_ptr;
 
     name        = "Logitech G213 Keyboard Device";
+    vendor      = "Logitech";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Logitech G213 Keyboard Device";
 

@@ -42,6 +42,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     rgb_fusion = rgb_fusion_ptr;
 
     name        = rgb_fusion->GetDeviceName();
+    vendor      = "Gigabyte";
     description = "RGB Fusion 2 SMBus";
     location    = rgb_fusion->GetDeviceLocation();
 

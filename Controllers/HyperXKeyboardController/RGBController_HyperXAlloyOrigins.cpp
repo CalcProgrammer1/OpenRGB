@@ -172,6 +172,7 @@ RGBController_HyperXAlloyOrigins::RGBController_HyperXAlloyOrigins(HyperXAlloyOr
     hyperx = hyperx_ptr;
 
     name        = "HyperX Alloy Origins Keyboard Device";
+    vendor      = "HyperX";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX Alloy Origins Keyboard Device";
     location    = hyperx->GetDeviceLocation();

@@ -14,6 +14,7 @@ RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* aura_ptr)
     aura = aura_ptr;
 
     name        = "ASUS Aura USB";
+    vendor      = "ASUS";
     version     = aura->GetDeviceName();
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "ASUS Aura USB Device";

@@ -15,6 +15,7 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
     riing = riing_ptr;
 
     name        = "Thermaltake Riing";
+    vendor      = "Thermaltake";
     type        = DEVICE_TYPE_COOLER;
     description = "Thermaltake Riing Device";
     location    = riing->GetDeviceLocation();

@@ -47,6 +47,7 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
 
 
     name        = aura_gpu->GetDeviceName();
+    vendor      = "ASUS";
     type        = DEVICE_TYPE_GPU;
     description = "ASUS Aura GPU Device";
     version     = "0.00.1";

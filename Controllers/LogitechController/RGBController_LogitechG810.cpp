@@ -170,6 +170,7 @@ RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* l
     logitech = logitech_ptr;
 
     name        = "Logitech Keyboard Device";
+    vendor      = "Logitech";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Logitech Keyboard Device";
 

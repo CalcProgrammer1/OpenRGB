@@ -15,6 +15,7 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
     unsigned char speed     = cmargb->GetLedSpeed();
 
     name                    = argb_header_data[cmargb->GetZoneIndex()].name;
+    vendor                  = "Cooler Master";
     type                    = DEVICE_TYPE_LEDSTRIP;
     description             = cmargb->GetDeviceName();
     version                 = "1.0";

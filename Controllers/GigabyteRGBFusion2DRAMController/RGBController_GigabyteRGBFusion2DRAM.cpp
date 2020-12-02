@@ -14,6 +14,7 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
     rgb_fusion = rgb_fusion_ptr;
 
     name        = "RGB Fusion 2 DRAM";
+    vendor      = "Gigabyte";
     description = "RGB Fusion 2 DRAM Device";
     location    = rgb_fusion->GetDeviceLocation();
 

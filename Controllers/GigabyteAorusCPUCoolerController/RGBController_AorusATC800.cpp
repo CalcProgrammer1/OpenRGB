@@ -14,6 +14,7 @@ RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* cooler_pt
     cooler = cooler_ptr;
 
     name        = "Aorus ATC800 CPU Cooler";
+    vendor      = "Gigabyte";
     type        = DEVICE_TYPE_COOLER;
     description = "Aorus ATC800 CPU Cooler";
     location    = cooler->GetDeviceLocation();

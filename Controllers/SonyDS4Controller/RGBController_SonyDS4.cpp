@@ -15,6 +15,7 @@ RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* dualshock)
     this->dualshock = dualshock;
     
     name        = "Sony DualShock 4";
+    vendor      = "Sony";
     type        = DEVICE_TYPE_GAMEPAD;
     description = "Sony DualShock 4 Device";
     location    = dualshock->GetLocation();

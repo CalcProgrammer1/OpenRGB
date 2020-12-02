@@ -14,6 +14,7 @@ RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
     evga = evga_ptr;
 
     name        = "EVGA GPU";
+    vendor      = "EVGA";
     description = "EVGA RGB v1 GPU Device";
     location    = evga->GetDeviceLocation();
 

@@ -148,6 +148,7 @@ class RGBController
 {
 public:
     std::string             name;           /* controller name          */
+    std::string             vendor;         /* controller vendor        */
     std::string             description;    /* controller description   */
     std::string             version;        /* controller version       */
     std::string             serial;         /* controller serial number */

@@ -13,6 +13,7 @@ RGBController_CorsairDominatorPlatinum::RGBController_CorsairDominatorPlatinum(C
     corsair = corsair_ptr;
 
     name        = corsair->GetDeviceName();
+    vendor      = "Corsair";
     type        = DEVICE_TYPE_DRAM;
     description = "Corsair Dominator Platinum RGB Device";
     location    = corsair->GetDeviceLocation();

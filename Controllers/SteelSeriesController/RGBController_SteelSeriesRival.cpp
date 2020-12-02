@@ -14,6 +14,7 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     rival = rival_ptr;
     
     name        = rival->GetDeviceName();
+    vendor      = "SteelSeries";
     type        = DEVICE_TYPE_MOUSE; 
     description = "SteelSeries Rival Device";
     location    = rival->GetDeviceLocation();

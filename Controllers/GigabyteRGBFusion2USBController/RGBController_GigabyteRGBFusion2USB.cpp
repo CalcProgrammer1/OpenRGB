@@ -108,6 +108,7 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     controller = controller_ptr;
 
     name        = controller->GetDeviceName();
+    vendor      = "Gigabyte";
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = controller->GetDeviceDescription();
     version     = controller->GetFWVersion();

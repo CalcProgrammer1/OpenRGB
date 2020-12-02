@@ -13,6 +13,7 @@ RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* holtek_
     holtek = holtek_ptr;
 
     name        = "Holtek USB Gaming Mouse Device";
+    vendor      = "Holtek";
     type        = DEVICE_TYPE_MOUSE;
     description = "Holtek USB Gaming Mouse Device";
     location    = holtek->GetDeviceLocation();

@@ -6,6 +6,7 @@
 RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
 {
     name        = "ASUS TUF Keyboard";
+    vendor      = "ASUS";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Faustus Device";
 

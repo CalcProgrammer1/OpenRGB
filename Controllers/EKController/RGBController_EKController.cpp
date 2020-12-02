@@ -14,6 +14,7 @@ RGBController_EKController::RGBController_EKController(EKController* _dev)
     EK_dev  = _dev;
 
     name        = EK_dev->GetDeviceName();
+    vendor      = "EK";
     type        = DEVICE_TYPE_LEDSTRIP;
     description = EK_dev->GetDeviceName();
     version     = "1.0";

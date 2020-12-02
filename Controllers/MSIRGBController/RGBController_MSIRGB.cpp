@@ -13,6 +13,7 @@ RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* msi_ptr)
     msi = msi_ptr;
 
     name        = "MSI Motherboard";
+    vendor      = "MSI";
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "MSI-RGB Device";
     

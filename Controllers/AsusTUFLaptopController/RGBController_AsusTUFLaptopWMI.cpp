@@ -13,6 +13,7 @@ using namespace std::chrono_literals;
 RGBController_AsusTUFLaptopWMI::RGBController_AsusTUFLaptopWMI()
 {
     name        = "ASUS TUF Keyboard";
+    vendor      = "ASUS";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "WMI Device";
     location    = "\\\\.\\ATKACPI";

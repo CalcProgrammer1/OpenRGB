@@ -258,6 +258,7 @@ RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBase
     steelseries = steelseries_ptr;
 
     name        = "SteelSeries Apex RGB Keyboard";
+    vendor      = "SteelSeries";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "SteelSeries Apex RGB Device";
     location    = steelseries->GetDeviceLocation();

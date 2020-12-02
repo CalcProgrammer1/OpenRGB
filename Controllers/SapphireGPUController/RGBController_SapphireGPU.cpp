@@ -14,6 +14,7 @@ RGBController_SapphireGPU::RGBController_SapphireGPU(SapphireGPUController* sapp
     sapphire = sapphire_ptr;
 
     name        = "Sapphire GPU";
+    vendor      = "Sapphire";
     description = "Sapphire GPU";
     location    = sapphire->GetDeviceLocation();
 

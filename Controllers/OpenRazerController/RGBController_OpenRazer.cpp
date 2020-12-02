@@ -248,6 +248,11 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     std::getline(firmware_version, version);
 
     /*-----------------------------------------------------------------*\
+    | Vendor is always Razer                                            |
+    \*-----------------------------------------------------------------*/
+    vendor = "Razer";
+
+    /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |
     \*-----------------------------------------------------------------*/
     for (std::size_t i = 0; i < RAZER_NUM_DEVICES; i++)

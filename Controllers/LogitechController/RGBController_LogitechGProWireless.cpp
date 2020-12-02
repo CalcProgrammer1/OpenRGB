@@ -14,6 +14,7 @@ RGBController_LogitechGProWireless::RGBController_LogitechGProWireless(LogitechG
     logitech = logitech_ptr;
 
     name                        = "Logitech G Pro Wireless Gaming Mouse";
+    vendor                      = "Logitech";
     type                        = DEVICE_TYPE_MOUSE;
     description                 = "Logitech G Pro Wireless Gaming Mouse";
     location                    = logitech->GetDeviceLocation();

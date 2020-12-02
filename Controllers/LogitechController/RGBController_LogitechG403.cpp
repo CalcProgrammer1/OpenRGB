@@ -14,6 +14,7 @@ RGBController_LogitechG403::RGBController_LogitechG403(LogitechG403Controller* l
     logitech = logitech_ptr;
 
     name        = "Logitech Mouse Device";
+    vendor      = "Logitech";
     type        = DEVICE_TYPE_MOUSE;
     description = "Logitech Mouse Device";
     location    = logitech->GetDeviceLocation();

@@ -25,6 +25,7 @@ RGBController_RedragonK556::RGBController_RedragonK556(RedragonK556Controller* r
     redragon = redragon_ptr;
 
     name        = "Redragon Keyboard Device";
+    vendor      = "Redragon";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Redragon Keyboard Device";
 

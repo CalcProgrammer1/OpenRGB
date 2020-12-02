@@ -23,6 +23,7 @@ RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOl
     OldApex     = old_apex_ptr;
     
     name        = OldApex->GetDeviceName();
+    vendor      = "SteelSeries";
     type        = DEVICE_TYPE_KEYBOARD; 
     description = "SteelSeries old Apex device";
     location    = OldApex->GetDeviceLocation();

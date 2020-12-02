@@ -176,6 +176,7 @@ RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController
     ducky = ducky_ptr;
 
     name        = "Ducky Keyboard Device";
+    vendor      = "Ducky";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Ducky Keyboard Device";
     location    = ducky->GetDeviceLocation();

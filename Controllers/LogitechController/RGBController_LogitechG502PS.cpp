@@ -14,6 +14,7 @@ RGBController_LogitechG502PS::RGBController_LogitechG502PS(LogitechG502PSControl
     logitech = logitech_ptr;
 
     name                            = "Logitech Mouse Device";
+    vendor                          = "Logitech";
     type                            = DEVICE_TYPE_MOUSE;
     description                     = "Logitech Mouse Device";
     location                        = logitech->GetDeviceLocation();

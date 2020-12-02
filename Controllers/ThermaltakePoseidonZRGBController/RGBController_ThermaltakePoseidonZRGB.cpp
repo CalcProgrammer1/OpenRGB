@@ -148,6 +148,7 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* p
     poseidon = poseidon_ptr;
 
     name        = "Thermaltake Poseidon Z RGB";
+    vendor      = "Thermaltake";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Thermaltake Poseidon Z RGB Device";
     location    = poseidon->GetDeviceLocation();
