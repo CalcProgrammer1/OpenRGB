@@ -141,7 +141,7 @@ bool OpenRGBDialog2::IsDarkTheme()
     return false;
 }
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
@@ -331,7 +331,7 @@ void OpenRGBDialog2::AddI2CToolsPage()
     /*-----------------------------------------------------*\
     | Create the I2C Tools page if it doesn't exist yet     |
     \*-----------------------------------------------------*/
-    SMBusToolsPage = new OpenRGBSystemInfoPage(busses);
+    SMBusToolsPage = new OpenRGBSystemInfoPage(ResourceManager::get()->GetI2CBusses());
 
     /*-----------------------------------------------------*\
     | Create the I2C Tools tab in the Information bar       |
@@ -364,7 +364,7 @@ void OpenRGBDialog2::AddClientTab()
     \*-----------------------------------------------------*/
     if(ClientInfoPage == NULL)
     {
-        ClientInfoPage = new OpenRGBClientInfoPage(controllers);
+        ClientInfoPage = new OpenRGBClientInfoPage();
         ui->MainTabBar->addTab(ClientInfoPage, "SDK Client");
 
         /*-----------------------------------------------------*\
@@ -414,6 +414,8 @@ void OpenRGBDialog2::ClearDevicesList()
 
 void OpenRGBDialog2::UpdateDevicesList()
 {
+    std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
+
     /*-----------------------------------------------------*\
     | Loop through each controller in the list.             |
     \*-----------------------------------------------------*/

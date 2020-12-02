@@ -29,6 +29,8 @@ public:
         std::string     profile_name
         );
 
+    void SetConfigurationDirectory(std::string directory);
+
 protected:
     std::vector<RGBController *>& controllers;
 

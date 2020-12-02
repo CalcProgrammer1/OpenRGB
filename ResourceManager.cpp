@@ -284,6 +284,12 @@ const char *ResourceManager::GetDetectionString()
     return (detection_string);
 }
 
+void ResourceManager::SetConfigurationDirectory(std::string directory)
+{
+    settings_manager->LoadSettings(directory + "OpenRGB.json");
+    profile_manager->SetConfigurationDirectory(directory);
+}
+
 void ResourceManager::Cleanup()
 {
     ResourceManager::get()->WaitForDeviceDetection();

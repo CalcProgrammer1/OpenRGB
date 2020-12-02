@@ -52,6 +52,11 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings)
 void SettingsManager::LoadSettings(std::string filename)
 {
     /*---------------------------------------------------------*\
+    | Clear any stored settings before loading                  |
+    \*---------------------------------------------------------*/
+    settings_data.clear();
+
+    /*---------------------------------------------------------*\
     | Store settings filename, so we can save to it later       |
     \*---------------------------------------------------------*/
     settings_filename = filename;

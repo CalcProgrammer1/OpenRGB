@@ -89,6 +89,8 @@ public:
     ProfileManager*                 GetProfileManager();
     SettingsManager*                GetSettingsManager();
 
+    void                            SetConfigurationDirectory(std::string directory);
+
     void DeviceListChanged();
     void DetectionProgressChanged();
 

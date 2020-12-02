@@ -17,7 +17,7 @@ public:
     NetworkClient * net_client;
 };
 
-OpenRGBClientInfoPage::OpenRGBClientInfoPage(std::vector<RGBController *>& control, QWidget *parent) :
+OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBClientInfoPageUi)
 {

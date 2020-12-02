@@ -25,7 +25,8 @@ using namespace std::chrono_literals;
 /*-------------------------------------------------------------*\
 | Command line functionality and return flags                   |
 \*-------------------------------------------------------------*/
-extern unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in);
+extern unsigned int cli_pre_detection(int argc, char *argv[]);
+extern unsigned int cli_post_detection(int argc, char *argv[]);
 
 enum
 {
@@ -33,6 +34,9 @@ enum
     RET_FLAG_START_GUI          = 2,
     RET_FLAG_I2C_TOOLS          = 4,
     RET_FLAG_START_MINIMIZED    = 8,
+    RET_FLAG_NO_DETECT          = 16,
+    RET_FLAG_CLI_POST_DETECTION = 32,
+    RET_FLAG_START_SERVER       = 64,
 };
 
 /******************************************************************************************\
@@ -80,11 +84,11 @@ void InitializeTimerResolutionThreadFunction()
 *                                                                                          *
 \******************************************************************************************/
 
-bool AttemptLocalConnection(std::vector<RGBController*> &rgb_controllers)
+bool AttemptLocalConnection()
 {
     bool success = false;
 
-    NetworkClient * client = new NetworkClient(rgb_controllers);
+    NetworkClient * client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
 
     std::string titleString = "OpenRGB ";
     titleString.append(VERSION_STRING);
@@ -144,26 +148,53 @@ int main(int argc, char* argv[])
         freopen("CONOUT$", "w", stderr);
     }
 
+    /*---------------------------------------------------------*\
+    | Windows only - Start timer resolution correction thread   |
+    \*---------------------------------------------------------*/
     std::thread * InitializeTimerResolutionThread;
     InitializeTimerResolutionThread = new std::thread(InitializeTimerResolutionThreadFunction);
     InitializeTimerResolutionThread->detach();
 #endif
 
-    std::vector<i2c_smbus_interface*> &busses    = ResourceManager::get()->GetI2CBusses();
-    std::vector<RGBController*> &rgb_controllers = ResourceManager::get()->GetRGBControllers();
-    
-    if(!AttemptLocalConnection(rgb_controllers))
+    /*---------------------------------------------------------*\
+    | Process command line arguments before detection           |
+    \*---------------------------------------------------------*/
+    unsigned int ret_flags = RET_FLAG_START_GUI;
+    ret_flags |= cli_pre_detection(argc, argv);
+
+    /*---------------------------------------------------------*\
+    | Perform local connection and/or hardware detection if not |
+    | disabled from CLI                                         |
+    \*---------------------------------------------------------*/
+    if(!(ret_flags & RET_FLAG_NO_DETECT))
     {
-        ResourceManager::get()->DetectDevices();
+        if(!AttemptLocalConnection())
+        {
+            ResourceManager::get()->DetectDevices();
+        }
     }
 
     /*---------------------------------------------------------*\
-    | Process command line arguments                            |
+    | Start the server if requested from CLI (this must be done |
+    | after attempting local connection!)                       |
     \*---------------------------------------------------------*/
-    unsigned int ret_flags = RET_FLAG_START_GUI;
-    if(argc > 1)
+    if(ret_flags & RET_FLAG_START_SERVER)
     {
-        ret_flags = cli_main(argc, argv, rgb_controllers, ResourceManager::get()->GetProfileManager());
+        ResourceManager::get()->GetServer()->StartServer();
+
+        if(!ResourceManager::get()->GetServer()->GetOnline())
+        {
+            printf("Server failed to start\r\n");
+        }
+    }
+
+    /*---------------------------------------------------------*\
+    | Process command line arguments after detection only if the|
+    | pre-detection parsing indicated it should be run          |
+    \*---------------------------------------------------------*/
+    if(ret_flags & RET_FLAG_CLI_POST_DETECTION)
+    {
+        ret_flags |= cli_post_detection(argc, argv);
     }
 
     /*---------------------------------------------------------*\
@@ -176,7 +207,7 @@ int main(int argc, char* argv[])
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
 
-        Ui::OpenRGBDialog2 dlg(busses, rgb_controllers);
+        Ui::OpenRGBDialog2 dlg;
 
         if(ret_flags & RET_FLAG_I2C_TOOLS)
         {

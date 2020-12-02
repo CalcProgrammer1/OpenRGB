@@ -72,6 +72,12 @@ bool ProfileManager::SaveProfile(std::string profile_name)
     }
 }
 
+void ProfileManager::SetConfigurationDirectory(std::string directory)
+{
+    configuration_directory = directory;
+    UpdateProfileList();
+}
+
 bool ProfileManager::LoadProfile(std::string profile_name)
 {
     return(LoadProfileWithOptions(profile_name, false, true));

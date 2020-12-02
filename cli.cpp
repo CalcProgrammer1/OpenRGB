@@ -30,6 +30,9 @@ enum
     RET_FLAG_START_GUI          = 2,
     RET_FLAG_I2C_TOOLS          = 4,
     RET_FLAG_START_MINIMIZED    = 8,
+    RET_FLAG_NO_DETECT          = 16,
+    RET_FLAG_CLI_POST_DETECTION = 32,
+    RET_FLAG_START_SERVER       = 64,
 };
 
 struct DeviceOptions
@@ -371,6 +374,8 @@ void OptionHelp()
     help_text += "--i2c-tools                              Shows the I2C/SMBus Tools page in the GUI. Implies --gui, even if not specified.\n";
     help_text += "                                           USE I2C TOOLS AT YOUR OWN RISK! Don't use this option if you don't know what you're doing!\n";
     help_text += "                                           There is a risk of bricking your motherboard, RGB controller, and RAM if you send invalid SMBus/I2C transactions.\n";
+    help_text += "--localconfig                            Use the current working directory instead of the global configuration directory.\n";
+    help_text += "--nodetect                               Do not try to detect hardware or autoconnect to a local server at startup.\n";
 
     std::cout << help_text << std::endl;
 }
@@ -689,138 +694,9 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         }
 
         /*---------------------------------------------------------*\
-        | --server                                                  |
-        \*---------------------------------------------------------*/
-        if(option == "--client")
-        {
-            NetworkClient * client = new NetworkClient(rgb_controllers);
-
-            std::size_t pos = argument.find(":");
-            std::string ip = argument.substr(0, pos);
-            unsigned short port_val;
-
-            if(pos == argument.npos)
-            {
-                port_val = OPENRGB_SDK_PORT;
-            }
-            else
-            {
-                std::string port = argument.substr(argument.find(":") + 1);
-                port_val = std::stoi(port);
-            }
-
-            std::string titleString = "OpenRGB ";
-            titleString.append(VERSION_STRING);
-
-            client->SetIP(ip.c_str());
-            client->SetName(titleString.c_str());
-            client->SetPort(port_val);
-
-            client->StartClient();
-
-            for(int timeout = 0; timeout < 100; timeout++)
-            {
-                if(client->GetConnected())
-                {
-                    break;
-                }
-                std::this_thread::sleep_for(10ms);
-            }
-            
-            ResourceManager::get()->GetClients().push_back(client);
-
-            arg_index++;
-        }
-
-        /*---------------------------------------------------------*\
-        | --server (no arguments)                                   |
-        \*---------------------------------------------------------*/
-        else if(option == "--server")
-        {
-            options->servOpts.start = true;
-        }
-
-        /*---------------------------------------------------------*\
-        | --server-port                                             |
-        \*---------------------------------------------------------*/
-        else if(option == "--server-port")
-        {
-            if (argument != "")
-            {
-                try
-                {
-                    int port = std::stoi(argument);
-                    if (port >= 1024 && port <= 65535)
-                    {
-                        options->servOpts.port = port;
-                    }
-                    else
-                    {
-                        std::cout << "Error: Port out of range: " << port << " (1024-65535)" << std::endl;
-                        return RET_FLAG_PRINT_HELP;
-                    }
-                }
-                catch(std::invalid_argument& e)
-                {
-                    std::cout << "Error: Invalid data in --server-port argument (expected a number in range 1024-65535)" << std::endl;
-                    return RET_FLAG_PRINT_HELP;
-                }
-            }
-            else
-            {
-                std::cout << "Error: Missing argument for --server-port" << std::endl;
-                return RET_FLAG_PRINT_HELP;
-            }
-            
-            arg_index++;
-        }
-
-        /*---------------------------------------------------------*\
-        | --gui (no arguments)                                      |
-        \*---------------------------------------------------------*/
-        else if(option == "--gui")
-        {
-            ret_flags |= RET_FLAG_START_GUI;
-        }
-
-        /*---------------------------------------------------------*\
-        | --i2c-tools / --yolo (no arguments)                       |
-        \*---------------------------------------------------------*/
-        else if(option == "--i2c-tools" || option == "--yolo")
-        {
-            ret_flags |= RET_FLAG_START_GUI | RET_FLAG_I2C_TOOLS;
-        }
-
-        /*---------------------------------------------------------*\
-        | --startminimized                                          |
-        \*---------------------------------------------------------*/
-        else if(option == "--startminimized")
-        {
-            ret_flags |= RET_FLAG_START_GUI | RET_FLAG_START_MINIMIZED;
-        }
-
-        /*---------------------------------------------------------*\
-        | -h / --help (no arguments)                                |
-        \*---------------------------------------------------------*/
-        else if(option == "--help" || option == "-h")
-        {
-            OptionHelp();
-            exit(0);
-        }
-
-        /*---------------------------------------------------------*\
-        | -v / --version (no arguments)                             |
-        \*---------------------------------------------------------*/
-        else if(option == "--version" || option == "-v")
-        {
-            OptionVersion();
-            exit(0);
-        }
-
-        /*---------------------------------------------------------*\
         | -l / --list-devices (no arguments)                        |
         \*---------------------------------------------------------*/
-        else if(option == "--list-devices" || option == "-l")
+        if(option == "--list-devices" || option == "-l")
         {
             OptionListDevices(rgb_controllers);
             exit(0);
@@ -916,8 +792,38 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else
         {
-            std::cout << "Error: Invalid option: " + option << std::endl;
-            return RET_FLAG_PRINT_HELP;
+            if((option == "--localconfig")
+             ||(option == "--nodetect")
+             ||(option == "--client")
+             ||(option == "--server")
+             ||(option == "--gui")
+             ||(option == "--i2c-tools" || option == "--yolo")
+             ||(option == "--startminimized")
+             ||(option == "--help" || option == "-h")
+             ||(option == "--version" || option == "-v"))
+            {
+                /*-------------------------------------------------*\
+                | Do nothing, these are pre-detection arguments     |
+                | and this parser should ignore them                |
+                \*-------------------------------------------------*/
+            }
+            else if(option == "--server-port")
+            {
+                /*-------------------------------------------------*\
+                | Increment index for pre-detection arguments with  |
+                | parameter                                         |
+                \*-------------------------------------------------*/
+                arg_index++;
+            }
+            else
+            {
+                /*-------------------------------------------------*\
+                | If the argument is not a pre-detection argument,  |
+                | throw an error and print help                     |
+                \*-------------------------------------------------*/
+                std::cout << "Error: Invalid option: " + option << std::endl;
+                return RET_FLAG_PRINT_HELP;
+            }
         }
 
         arg_index++;
@@ -1029,42 +935,223 @@ void WaitWhileServerOnline(NetworkServer* srv)
     };
 }
 
-unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_controllers, ProfileManager* profile_manager_in)
+unsigned int cli_pre_detection(int argc, char *argv[])
 {
-    profile_manager = profile_manager_in;
+    /*---------------------------------------------------------*\
+    | Process only the arguments that should be performed prior |
+    | to detecting devices and/or starting clients              |
+    \*---------------------------------------------------------*/
+    int             arg_index    = 1;
+    unsigned int    ret_flags    = 0;
+    unsigned short  server_port  = OPENRGB_SDK_PORT;
+    bool            server_start = false;
+    bool            print_help   = false;
+
+    while(arg_index < argc)
+    {
+        std::string option   = argv[arg_index];
+        std::string argument = "";
+
+        /*---------------------------------------------------------*\
+        | Handle options that take an argument                      |
+        \*---------------------------------------------------------*/
+        if(arg_index + 1 < argc)
+        {
+            argument = argv[arg_index + 1];
+        }
+
+        /*---------------------------------------------------------*\
+        | --localconfig                                             |
+        \*---------------------------------------------------------*/
+        if(option == "--localconfig")
+        {
+            ResourceManager::get()->SetConfigurationDirectory("./");
+        }
+
+        /*---------------------------------------------------------*\
+        | --nodetect                                                |
+        \*---------------------------------------------------------*/
+        else if(option == "--nodetect")
+        {
+            ret_flags |= RET_FLAG_NO_DETECT;
+        }
+
+        /*---------------------------------------------------------*\
+        | --client                                                  |
+        \*---------------------------------------------------------*/
+        else if(option == "--client")
+        {
+            NetworkClient * client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
+
+            std::size_t pos = argument.find(":");
+            std::string ip = argument.substr(0, pos);
+            unsigned short port_val;
+
+            if(pos == argument.npos)
+            {
+                port_val = OPENRGB_SDK_PORT;
+            }
+            else
+            {
+                std::string port = argument.substr(argument.find(":") + 1);
+                port_val = std::stoi(port);
+            }
+
+            std::string titleString = "OpenRGB ";
+            titleString.append(VERSION_STRING);
+
+            client->SetIP(ip.c_str());
+            client->SetName(titleString.c_str());
+            client->SetPort(port_val);
+
+            client->StartClient();
+
+            for(int timeout = 0; timeout < 100; timeout++)
+            {
+                if(client->GetConnected())
+                {
+                    break;
+                }
+                std::this_thread::sleep_for(10ms);
+            }
+
+            ResourceManager::get()->GetClients().push_back(client);
+
+            arg_index++;
+        }
+
+        /*---------------------------------------------------------*\
+        | --server (no arguments)                                   |
+        \*---------------------------------------------------------*/
+        else if(option == "--server")
+        {
+            server_start = true;
+        }
+
+        /*---------------------------------------------------------*\
+        | --server-port                                             |
+        \*---------------------------------------------------------*/
+        else if(option == "--server-port")
+        {
+            if (argument != "")
+            {
+                try
+                {
+                    int port = std::stoi(argument);
+                    if (port >= 1024 && port <= 65535)
+                    {
+                        server_port  = port;
+                        server_start = true;
+                    }
+                    else
+                    {
+                        std::cout << "Error: Port out of range: " << port << " (1024-65535)" << std::endl;
+                        print_help = true;
+                        break;
+                    }
+                }
+                catch(std::invalid_argument& e)
+                {
+                    std::cout << "Error: Invalid data in --server-port argument (expected a number in range 1024-65535)" << std::endl;
+                    print_help = true;
+                    break;
+                }
+            }
+            else
+            {
+                std::cout << "Error: Missing argument for --server-port" << std::endl;
+                print_help = true;
+                break;
+            }
+
+            arg_index++;
+        }
+
+        /*---------------------------------------------------------*\
+        | --gui (no arguments)                                      |
+        \*---------------------------------------------------------*/
+        else if(option == "--gui")
+        {
+            ret_flags |= RET_FLAG_START_GUI;
+        }
+
+        /*---------------------------------------------------------*\
+        | --i2c-tools / --yolo (no arguments)                       |
+        \*---------------------------------------------------------*/
+        else if(option == "--i2c-tools" || option == "--yolo")
+        {
+            ret_flags |= RET_FLAG_START_GUI | RET_FLAG_I2C_TOOLS;
+        }
+
+        /*---------------------------------------------------------*\
+        | --startminimized                                          |
+        \*---------------------------------------------------------*/
+        else if(option == "--startminimized")
+        {
+            ret_flags |= RET_FLAG_START_GUI | RET_FLAG_START_MINIMIZED;
+        }
+
+        /*---------------------------------------------------------*\
+        | -h / --help (no arguments)                                |
+        \*---------------------------------------------------------*/
+        else if(option == "--help" || option == "-h")
+        {
+            print_help = true;
+            break;
+        }
+
+        /*---------------------------------------------------------*\
+        | -v / --version (no arguments)                             |
+        \*---------------------------------------------------------*/
+        else if(option == "--version" || option == "-v")
+        {
+            OptionVersion();
+            exit(0);
+        }
+
+        /*---------------------------------------------------------*\
+        | Any unrecognized arguments trigger the post-detection CLI |
+        \*---------------------------------------------------------*/
+        else
+        {
+            ret_flags |= RET_FLAG_CLI_POST_DETECTION;
+        }
+
+        arg_index++;
+    }
+
+    if(print_help)
+    {
+        OptionHelp();
+        exit(0);
+    }
+
+    if(server_start)
+    {
+        ResourceManager::get()->GetServer()->SetPort(server_port);
+        ret_flags |= RET_FLAG_START_SERVER;
+    }
+
+    return(ret_flags);
+}
+
+unsigned int cli_post_detection(int argc, char *argv[])
+{
+    /*---------------------------------------------------------*\
+    | Wait for device detection                                 |
+    \*---------------------------------------------------------*/
+    ResourceManager::get()->WaitForDeviceDetection();
+
+    /*---------------------------------------------------------*\
+    | Get controller list from resource manager                 |
+    \*---------------------------------------------------------*/
+    std::vector<RGBController *> rgb_controllers = ResourceManager::get()->GetRGBControllers();
 
     /*---------------------------------------------------------*\
     | Process the argument options                              |
     \*---------------------------------------------------------*/
     Options options;
     unsigned int ret_flags = ProcessOptions(argc, argv, &options, rgb_controllers);
-
-    /*---------------------------------------------------------*\
-    | If the server was told to start, start it before returning|
-    \*---------------------------------------------------------*/
-    if(options.servOpts.start)
-    {
-        ResourceManager::get()->GetServer()->SetPort(options.servOpts.port);
-        ResourceManager::get()->GetServer()->StartServer();
-
-        if(ResourceManager::get()->GetServer()->GetOnline()) 
-        {
-            /*---------------------------------------------------------*\
-            | If the GUI has been started, return from cli_main.        |
-            | Otherwise, we are in daemon mode and cli_main should wait |
-            | to keep the program alive as long as the server is online |
-            \*---------------------------------------------------------*/
-            if((ret_flags & RET_FLAG_START_GUI) == 0)
-            {
-                WaitWhileServerOnline(ResourceManager::get()->GetServer());
-            }
-        }
-        else
-        {
-            std::cout << "Server failed to start" << std::endl;
-            exit(1);
-        } 
-    }
 
     /*---------------------------------------------------------*\
     | If the return flags are set, exit CLI mode without        |
@@ -1084,8 +1171,6 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
             return ret_flags;
             break;
     }
-
-    ResourceManager::get()->WaitForDeviceDetection();
 
     /*---------------------------------------------------------*\
     | If the options has one or more specific devices, loop     |
@@ -1121,6 +1206,14 @@ unsigned int cli_main(int argc, char *argv[], std::vector<RGBController *> &rgb_
         {
             std::cout << "Profile saving failed" << std::endl;
         }
+    }
+
+    /*---------------------------------------------------------*\
+    | If the server is online, keep running while it is online  |
+    \*---------------------------------------------------------*/
+    if(ResourceManager::get()->GetServer()->GetOnline())
+    {
+        WaitWhileServerOnline(ResourceManager::get()->GetServer());
     }
 
     exit(0);

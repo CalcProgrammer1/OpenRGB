@@ -29,7 +29,7 @@ class Ui::OpenRGBDialog2 : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, QWidget *parent = 0);
+    explicit OpenRGBDialog2(QWidget *parent = 0);
     ~OpenRGBDialog2();
 
     void AddClient(NetworkClient* new_client);
@@ -40,10 +40,6 @@ public:
     void setMode(unsigned char mode_val);
 
     static bool IsDarkTheme();
-
-protected:
-    std::vector<i2c_smbus_interface *>& busses;
-    std::vector<RGBController *>&       controllers;
 
 private:
     /*-------------------------------------*\
