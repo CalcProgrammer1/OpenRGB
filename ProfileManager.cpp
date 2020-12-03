@@ -195,6 +195,11 @@ bool ProfileManager::LoadDeviceFromListWithOptions
          &&((temp_controller->location       == load_controller->location   ) || (!compare_location)))
         {
             /*---------------------------------------------------------*\
+            | Set used flag for this temp device                        |
+            \*---------------------------------------------------------*/
+            temp_controller_used[temp_index] = true;
+
+            /*---------------------------------------------------------*\
             | Update zone sizes if requested                            |
             \*---------------------------------------------------------*/
             if(load_size)
@@ -262,8 +267,6 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                         load_controller->colors[color_index] = temp_controller->colors[color_index];
                     }
                 }
-
-                temp_controller_used[temp_index] = true;
 
                 return(true);
             }

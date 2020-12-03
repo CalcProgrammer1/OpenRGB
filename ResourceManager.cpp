@@ -502,7 +502,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             /*-------------------------------------------------*\
             | First, load sizes for the new controllers         |
             \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
             {
                 profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
             }
@@ -595,7 +595,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                             /*-------------------------------------------------*\
                             | First, load sizes for the new controllers         |
                             \*-------------------------------------------------*/
-                            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+                            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
                             {
                                 profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
                             }
@@ -724,7 +724,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             /*-------------------------------------------------*\
             | First, load sizes for the new controllers         |
             \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
             {
                 profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
             }
