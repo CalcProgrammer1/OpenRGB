@@ -574,7 +574,7 @@ RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripher
 {
     corsair = corsair_ptr;
 
-    name        = "Corsair RGB Peripheral Device";
+    name        = corsair->GetName();
     vendor      = "Corsair";
     description = "Corsair RGB Peripheral Device";
     type        = corsair->GetDeviceType();

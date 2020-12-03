@@ -91,6 +91,11 @@ std::string CorsairPeripheralController::GetFirmwareString()
     return firmware_version;
 }
 
+std::string CorsairPeripheralController::GetName()
+{
+    return name;
+}
+
 void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
 {
     switch(type)
@@ -268,6 +273,11 @@ void CorsairPeripheralController::SetLEDsKeyboardLimited(std::vector<RGBColor> c
     StreamPacket(4, 36, &data_pkt[180]);
     
     SubmitKeyboardLimitedColors(216);
+}
+
+void CorsairPeripheralController::SetName(std::string device_name)
+{
+    name = device_name;
 }
 
 /*-------------------------------------------------------------------------------------------------*\

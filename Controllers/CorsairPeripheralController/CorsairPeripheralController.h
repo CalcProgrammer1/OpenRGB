@@ -74,18 +74,21 @@ public:
     device_type     GetDeviceType();
     std::string     GetDeviceLocation();
     std::string     GetFirmwareString();
+    std::string     GetName();
 
     void            SetLEDs(std::vector<RGBColor> colors);
     void            SetLEDsKeyboardFull(std::vector<RGBColor> colors);
     void            SetLEDsKeyboardLimited(std::vector<RGBColor> colors);
     void            SetLEDsMouse(std::vector<RGBColor> colors);
     void            SetLEDsMousemat(std::vector<RGBColor> colors);
+    void            SetName(std::string device_name);
 
 private:
     hid_device*             dev;
 
     std::string             firmware_version;
     std::string             location;
+    std::string             name;
     device_type             type;
     int                     physical_layout;   //ANSI, ISO, etc.
     int                     logical_layout;    //Normal, K95 or K95 Platinum

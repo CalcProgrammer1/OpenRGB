@@ -73,10 +73,11 @@ void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string
     if( dev )
     {
         CorsairPeripheralController* controller = new CorsairPeripheralController(dev, info->path);
+        controller->SetName(name);
+
         if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
             RGBController_CorsairPeripheral* rgb_controller = new RGBController_CorsairPeripheral(controller);
-            rgb_controller->name = name;
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
         else
