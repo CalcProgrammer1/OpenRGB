@@ -36,11 +36,14 @@ public:
     LEDStripController();
     ~LEDStripController();
 
-    void Initialize(char* ledstring);
-    void InitializeSerial(char* portname, int baud);
-    void InitializeUDP(char* clientname, char* port);
-    char* GetLEDString();
-    void SetLEDs(std::vector<RGBColor> colors);
+    void        Initialize(char* ledstring);
+    void        InitializeSerial(char* portname, int baud);
+    void        InitializeUDP(char* clientname, char* port);
+
+    char*       GetLEDString();
+    std::string GetLocation();
+
+    void        SetLEDs(std::vector<RGBColor> colors);
 
     int num_leds;
 
@@ -48,8 +51,8 @@ private:
     int baud_rate;
 
     char led_string[1024];
-    char port_name[128];
-    char client_name[1024];
+    std::string port_name;
+    std::string client_name;
     serial_port *serialport;
     net_port *udpport;
 };

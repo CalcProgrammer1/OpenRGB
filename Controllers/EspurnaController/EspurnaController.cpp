@@ -46,11 +46,17 @@ void EspurnaController::Initialize(char* ledstring)
 
 void EspurnaController::InitializeEspurna(char * clientname, char * port, char * apikey)
 {
-    strcpy(client_name, clientname);
-    strcpy(port_name, port);
+    client_name = clientname;
+    port_name   = port;
+
     strcpy(espurna_apikey, apikey);
     tcpport = new net_port;
-    tcpport->tcp_client(client_name, port_name);
+    tcpport->tcp_client(client_name.c_str(), port_name.c_str());
+}
+
+std::string EspurnaController::GetLocation()
+{
+    return("TCP: " + client_name + ":" + port_name);
 }
 
 void EspurnaController::SetLEDs(std::vector<RGBColor> colors)
@@ -60,7 +66,7 @@ void EspurnaController::SetLEDs(std::vector<RGBColor> colors)
         RGBColor color = colors[0];
 
         char get_request[1024];
-        snprintf(get_request, 1024, "GET /api/rgb?apikey=%s&value=%%23%02X%02X%02X HTTP/1.1\r\nHost: %s\r\n\r\n", espurna_apikey, RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color), client_name);
+        snprintf(get_request, 1024, "GET /api/rgb?apikey=%s&value=%%23%02X%02X%02X HTTP/1.1\r\nHost: %s\r\n\r\n", espurna_apikey, RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color), client_name.c_str());
         tcpport->tcp_client_connect();
         tcpport->tcp_client_write(get_request, strlen(get_request));
         tcpport->tcp_close();

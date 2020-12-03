@@ -17,6 +17,7 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     name        = "LED Strip";
     type        = DEVICE_TYPE_LEDSTRIP;
     description = "Keyboard Visualizer Arduino LED Strip Device";
+    location    = strip->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";

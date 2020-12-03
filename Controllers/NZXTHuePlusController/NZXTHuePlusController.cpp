@@ -24,17 +24,17 @@ HuePlusController::~HuePlusController()
 
 void HuePlusController::Initialize(char* port)
 {
-    strcpy(port_name, port);
+    port_name = port;
     
-    serialport = new serial_port(port_name, HUE_PLUS_BAUD);
+    serialport = new serial_port(port_name.c_str(), HUE_PLUS_BAUD);
 
     channel_leds[HUE_PLUS_CHANNEL_1_IDX] = GetLEDsOnChannel(HUE_PLUS_CHANNEL_1);
     channel_leds[HUE_PLUS_CHANNEL_2_IDX] = GetLEDsOnChannel(HUE_PLUS_CHANNEL_2);
 }
 
-char* HuePlusController::GetLocation()
+std::string HuePlusController::GetLocation()
 {
-    return(port_name);
+    return("COM: " + port_name);
 }
 
 unsigned int HuePlusController::GetLEDsOnChannel(unsigned int channel)

@@ -28,16 +28,19 @@ public:
     EspurnaController();
     ~EspurnaController();
 
-    void Initialize(char* ledstring);
-    void InitializeEspurna(char* clientname, char* port, char * apikey);
-    void SetLEDs(std::vector<RGBColor> colors);
+    void        Initialize(char* ledstring);
+    void        InitializeEspurna(char* clientname, char* port, char * apikey);
+
+    std::string GetLocation();
+
+    void        SetLEDs(std::vector<RGBColor> colors);
 
 private:
     int baud_rate;
 
     char led_string[1024];
-    char port_name[128];
-    char client_name[1024];
+    std::string port_name;
+    std::string client_name;
     char espurna_apikey[128];
 
     net_port *tcpport;

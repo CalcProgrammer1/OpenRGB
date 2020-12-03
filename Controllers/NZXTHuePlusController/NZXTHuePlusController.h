@@ -71,7 +71,7 @@ public:
     ~HuePlusController();
 
     void            Initialize(char* port);
-    char*           GetLocation();
+    std::string     GetLocation();
     unsigned int    GetLEDsOnChannel(unsigned int channel);
 
     void            SetChannelEffect
@@ -94,7 +94,7 @@ public:
     unsigned int    channel_leds[HUE_PLUS_NUM_CHANNELS];
 
 private:
-    char            port_name[128];
+    std::string     port_name;
     serial_port     *serialport;
 
     void            SendPacket

@@ -86,19 +86,35 @@ void LEDStripController::Initialize(char* ledstring)
 void LEDStripController::InitializeSerial(char* portname, int baud)
 {
     portname = strtok(portname, "\r");
-    strcpy(port_name, portname);
+    port_name = portname;
     baud_rate = baud;
-    serialport = new serial_port(port_name, baud_rate);
+    serialport = new serial_port(port_name.c_str(), baud_rate);
     udpport = NULL;
 }
 
 void LEDStripController::InitializeUDP(char * clientname, char * port)
 {
-    strcpy(client_name, clientname);
-    strcpy(port_name, port);
+    client_name = clientname;
+    port_name   = port;
 
-    udpport = new net_port(client_name, port_name);
+    udpport = new net_port(client_name.c_str(), port_name.c_str());
     serialport = NULL;
+}
+
+std::string LEDStripController::GetLocation()
+{
+    if(serialport != NULL)
+    {
+        return("COM: " + port_name);
+    }
+    else if(udpport != NULL)
+    {
+        return("UDP: " + client_name + ":" + port_name);
+    }
+    else
+    {
+        return("");
+    }
 }
 
 char* LEDStripController::GetLEDString()

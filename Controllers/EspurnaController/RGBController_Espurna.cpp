@@ -15,6 +15,7 @@ RGBController_Espurna::RGBController_Espurna(EspurnaController* espurna_ptr)
     name        = "Espurna";
     type        = DEVICE_TYPE_LIGHT;
     description = "Espurna Device";
+    location    = espurna->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";
