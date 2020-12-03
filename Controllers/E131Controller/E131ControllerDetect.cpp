@@ -205,11 +205,25 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
                     for(unsigned int device_idx = 0; device_idx < device_lists[list_idx].size(); device_idx++)
                     {
                         /*---------------------------------------------------------*\
+                        | Determine if there is any overlap between this device and |
+                        | any existing device list                                  |
+                        | Offset the end by two - one because the range is 1-512    |
+                        | rather than 0-511, and one because the start channel is   |
+                        | included in the first set of 3 channels.                  |
+                        \*---------------------------------------------------------*/
+                        unsigned int dev_start  = dev.start_universe;
+                        unsigned int list_start = device_lists[list_idx][device_idx].start_universe;
+                        unsigned int dev_end    = dev.start_universe + ((dev.start_channel + (3 * dev.num_leds) - 2) / 512);
+                        unsigned int list_end   = device_lists[list_idx][device_idx].start_universe + ((device_lists[list_idx][device_idx].start_channel + (3 * device_lists[list_idx][device_idx].num_leds) - 2) / 512);
+
+                        bool overlap = !(dev_end < list_start || list_end < dev_start);
+
+                        /*---------------------------------------------------------*\
                         | Check if any universes used by this new device exist in   |
                         | the existing device.  If so, add the new device to the    |
                         | existing list.                                            |
                         \*---------------------------------------------------------*/
-                        if(dev.start_universe == device_lists[list_idx][device_idx].start_universe)
+                        if(overlap)
                         {
                             device_lists[list_idx].push_back(dev);
                             device_added_to_existing_list = true;
