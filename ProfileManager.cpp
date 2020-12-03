@@ -172,15 +172,27 @@ bool ProfileManager::LoadDeviceFromListWithOptions
         RGBController *temp_controller = temp_controllers[temp_index];
 
         /*---------------------------------------------------------*\
+        | Do not compare location string for HID devices, as the    |
+        | location string may change between runs as devices are    |
+        | connected and disconnected                                |
+        \*---------------------------------------------------------*/
+        bool compare_location = true;
+
+        if(load_controller->location.find("HID: ") == 0)
+        {
+            compare_location = false;
+        }
+
+        /*---------------------------------------------------------*\
         | Test if saved controller data matches this controller     |
         \*---------------------------------------------------------*/
-        if((temp_controller_used[temp_index] == false                   )
-         &&(temp_controller->type        == load_controller->type       )
-         &&(temp_controller->name        == load_controller->name       )
-         &&(temp_controller->description == load_controller->description)
-         &&(temp_controller->version     == load_controller->version    )
-         &&(temp_controller->serial      == load_controller->serial     )
-         &&(temp_controller->location    == load_controller->location   ))
+        if((temp_controller_used[temp_index] == false                                               )
+         &&(temp_controller->type            == load_controller->type                               )
+         &&(temp_controller->name            == load_controller->name                               )
+         &&(temp_controller->description     == load_controller->description                        )
+         &&(temp_controller->version         == load_controller->version                            )
+         &&(temp_controller->serial          == load_controller->serial                             )
+         &&((temp_controller->location       == load_controller->location   ) || (!compare_location)))
         {
             /*---------------------------------------------------------*\
             | Update zone sizes if requested                            |
