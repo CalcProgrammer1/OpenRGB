@@ -5,7 +5,7 @@
 class ProfileManager
 {
 public:
-    ProfileManager(std::vector<RGBController *>& control, std::string config_dir);
+    ProfileManager(std::string config_dir);
     ~ProfileManager();
 
     bool SaveProfile(std::string profile_name);
@@ -30,9 +30,6 @@ public:
         );
 
     void SetConfigurationDirectory(std::string directory);
-
-protected:
-    std::vector<RGBController *>& controllers;
 
 private:
     std::string                         configuration_directory;

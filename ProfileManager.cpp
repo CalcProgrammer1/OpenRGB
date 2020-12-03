@@ -9,7 +9,7 @@
 
 namespace fs = std::experimental::filesystem;
 
-ProfileManager::ProfileManager(std::vector<RGBController *>& control, std::string config_dir) : controllers(control)
+ProfileManager::ProfileManager(std::string config_dir)
 {
     configuration_directory = config_dir;
     UpdateProfileList();
@@ -22,6 +22,11 @@ ProfileManager::~ProfileManager()
 
 bool ProfileManager::SaveProfile(std::string profile_name)
 {
+    /*---------------------------------------------------------*\
+    | Get the list of controllers from the resource manager     |
+    \*---------------------------------------------------------*/
+    std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
+
     /*---------------------------------------------------------*\
     | If a name was entered, save the profile file              |
     \*---------------------------------------------------------*/
@@ -268,6 +273,11 @@ bool ProfileManager::LoadProfileWithOptions
     bool                        ret_val = false;
 
     std::string filename = configuration_directory + profile_name;
+
+    /*---------------------------------------------------------*\
+    | Get the list of controllers from the resource manager     |
+    \*---------------------------------------------------------*/
+    std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
 
     /*---------------------------------------------------------*\
     | Open input file in binary mode                            |

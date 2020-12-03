@@ -50,7 +50,7 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Load sizes list from file                                                 |
     \*-------------------------------------------------------------------------*/
-    profile_manager         = new ProfileManager(rgb_controllers, GetConfigurationDirectory());
+    profile_manager         = new ProfileManager(GetConfigurationDirectory());
     rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
 
     /*-------------------------------------------------------------------------*\
