@@ -78,6 +78,7 @@ public:
     ~PoseidonZRGBController();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void SetMode(unsigned char mode, unsigned char direction, unsigned char speed);
     void SetLEDsDirect(std::vector<RGBColor> colors);

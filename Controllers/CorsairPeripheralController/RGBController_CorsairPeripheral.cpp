@@ -580,6 +580,7 @@ RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripher
     type        = corsair->GetDeviceType();
     version     = corsair->GetFirmwareString();
     location    = corsair->GetDeviceLocation();
+    serial      = corsair->GetSerialString();
 
     physical_layout = corsair->GetPhysicalLayout();
     logical_layout  = corsair->GetLogicalLayout();

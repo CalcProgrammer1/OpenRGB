@@ -17,6 +17,7 @@ RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* aura_ptr)
     type        = DEVICE_TYPE_KEYBOARD;
     description = "ASUS Aura Core Device";
     location    = aura->GetDeviceLocation();
+    serial      = aura->GetSerialString();
 
     mode Static;
     Static.name       = "Static";

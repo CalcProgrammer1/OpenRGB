@@ -17,6 +17,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
     type        = DEVICE_TYPE_MOUSE;
     description = "Sinowealth Device";
     location    = sinowealth->GetLocation();
+    serial      = sinowealth->GetSerialString();
 
     mode Static;
     Static.name       = "Static";

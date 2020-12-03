@@ -18,6 +18,7 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* msi_ptr)
     type        = DEVICE_TYPE_KEYBOARD;
     description = "MSI 3-Zone Keyboard Device";
     location    = msi->GetDeviceLocation();
+    serial      = msi->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";

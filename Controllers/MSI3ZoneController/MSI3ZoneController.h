@@ -20,8 +20,9 @@ public:
     MSI3ZoneController(hid_device* dev_handle, const char* path);
     ~MSI3ZoneController();
 
-    char* GetDeviceName();
+    char*       GetDeviceName();
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void SetLEDs(std::vector<RGBColor> colors);
     

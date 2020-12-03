@@ -29,6 +29,17 @@ std::string ThermaltakeRiingController::GetDeviceLocation()
     return("HID: " + location);
 }
 
+std::string ThermaltakeRiingController::GetSerialString()
+{
+    wchar_t serial_string[128];
+    hid_get_serial_number_string(dev, serial_string, 128);
+
+    std::wstring return_wstring = serial_string;
+    std::string return_string(return_wstring.begin(), return_wstring.end());
+
+    return(return_string);
+}
+
 void ThermaltakeRiingController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
 {
     unsigned char* color_data = new unsigned char[3 * num_colors];

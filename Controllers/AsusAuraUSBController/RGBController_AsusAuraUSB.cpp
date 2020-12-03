@@ -20,6 +20,7 @@ RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* aura_ptr) :
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "ASUS Aura USB Device";
     location    = aura->GetDeviceLocation();
+    serial      = aura->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";

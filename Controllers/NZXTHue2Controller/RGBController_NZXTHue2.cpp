@@ -19,6 +19,7 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr)
     description = "NZXT Hue 2 Device";
     version     = hue2->GetFirmwareVersion();
     location    = hue2->GetLocation();
+    serial      = hue2->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";

@@ -75,6 +75,7 @@ public:
     std::string     GetDeviceLocation();
     std::string     GetFirmwareString();
     std::string     GetName();
+    std::string     GetSerialString();
 
     void            SetLEDs(std::vector<RGBColor> colors);
     void            SetLEDsKeyboardFull(std::vector<RGBColor> colors);

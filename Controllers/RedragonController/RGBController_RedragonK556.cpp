@@ -28,6 +28,8 @@ RGBController_RedragonK556::RGBController_RedragonK556(RedragonK556Controller* r
     vendor      = "Redragon";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Redragon Keyboard Device";
+    location    = redragon->GetDeviceLocation();
+    serial      = redragon->GetSerialString();
 
     mode Custom;
     Custom.name       = "Custom";

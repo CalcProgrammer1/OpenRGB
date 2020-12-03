@@ -36,6 +36,17 @@ std::string SonyDS4Controller::GetLocation()
     return("HID: " + location);
 }
 
+std::string SonyDS4Controller::GetSerialString()
+{
+    wchar_t serial_string[128];
+    hid_get_serial_number_string(device_handle, serial_string, 128);
+
+    std::wstring return_wstring = serial_string;
+    std::string return_string(return_wstring.begin(), return_wstring.end());
+
+    return(return_string);
+}
+
 void SonyDS4Controller::SetColors(unsigned char red, unsigned char green, unsigned char blue)
 {
     if(is_bluetooth)

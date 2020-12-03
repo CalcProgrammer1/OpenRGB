@@ -24,7 +24,8 @@ public:
     ~SteelSeriesSiberiaController();
 
     std::string GetDeviceLocation();
-    char* GetDeviceName();
+    char*       GetDeviceName();
+    std::string GetSerialString();
 
     void SetColor
             (

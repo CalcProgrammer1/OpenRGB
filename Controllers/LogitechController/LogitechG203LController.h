@@ -23,6 +23,7 @@ public:
     ~LogitechG203LController();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
     
     void        SetSingleLED(int led, unsigned char red, unsigned char green, unsigned char blue);
     void        SetMode(int mode, int speed, unsigned char brightness, unsigned char dir, unsigned char red, unsigned char green, unsigned char blue);

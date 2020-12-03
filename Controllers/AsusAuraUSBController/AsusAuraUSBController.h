@@ -66,6 +66,7 @@ public:
 
     std::string GetDeviceLocation();
     std::string GetDeviceName();
+    std::string GetSerialString();
 
     const std::vector<AuraDeviceInfo>& GetAuraDevices() const;
 

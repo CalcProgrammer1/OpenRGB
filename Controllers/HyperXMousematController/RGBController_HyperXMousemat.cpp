@@ -20,6 +20,7 @@ RGBController_HyperXMousemat::RGBController_HyperXMousemat(HyperXMousematControl
     type        = DEVICE_TYPE_MOUSEMAT;
     description = "HyperX Mousemat Device";
     location    = hyperx->GetDeviceLocation();
+    serial      = hyperx->GetSerialString();
 
     mode Direct;
     Direct.name = "Direct";

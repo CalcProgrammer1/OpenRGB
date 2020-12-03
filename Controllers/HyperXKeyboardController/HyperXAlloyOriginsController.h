@@ -21,6 +21,7 @@ public:
     ~HyperXAlloyOriginsController();
 
     std::string     GetDeviceLocation();
+    std::string     GetSerialString();
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
 

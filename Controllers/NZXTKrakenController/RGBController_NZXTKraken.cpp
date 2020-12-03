@@ -20,6 +20,7 @@ RGBController_NZXTKraken::RGBController_NZXTKraken(NZXTKrakenController* nzxtkra
     description = "NZXT Kraken X42/X52/X62/X72/M22";
     version     = nzxtkraken->GetFirmwareVersion();
     location    = nzxtkraken->GetLocation();
+    serial      = nzxtkraken->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";

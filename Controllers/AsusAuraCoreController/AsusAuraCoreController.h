@@ -52,6 +52,7 @@ public:
     ~AuraCoreController();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void    SendBrightness
                 (

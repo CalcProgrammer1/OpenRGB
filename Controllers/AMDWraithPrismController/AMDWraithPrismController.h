@@ -117,6 +117,7 @@ public:
     std::string GetEffectChannelString(unsigned char channel);
     std::string GetFirmwareVersionString();
     std::string GetLocationString();
+    std::string GetSerialString();
 
     void SetRingEffectChannel(unsigned char channel);
 

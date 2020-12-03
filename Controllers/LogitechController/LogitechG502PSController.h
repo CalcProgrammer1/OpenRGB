@@ -41,6 +41,7 @@ public:
     ~LogitechG502PSController();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void        SendMouseMode
                    (

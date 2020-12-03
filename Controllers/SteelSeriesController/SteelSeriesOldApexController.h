@@ -63,6 +63,7 @@ public:
 
     std::string GetDeviceLocation();
     char*       GetDeviceName();
+    std::string GetSerialString();
 
     steelseries_type GetKeyboardType();
 

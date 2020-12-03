@@ -27,6 +27,7 @@ RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOl
     type        = DEVICE_TYPE_KEYBOARD; 
     description = "SteelSeries old Apex device";
     location    = OldApex->GetDeviceLocation();
+    serial      = OldApex->GetSerialString();
 
     mode Brightness8;
     Brightness8.name       = "Brightness 8";

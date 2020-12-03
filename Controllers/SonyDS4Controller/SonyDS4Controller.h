@@ -16,6 +16,7 @@ public:
     SonyDS4Controller(hid_device * device_handle, const char * device_path);
     
     std::string GetLocation();
+    std::string GetSerialString();
 
     void SetColors(unsigned char red, unsigned char green, unsigned char blue);
 

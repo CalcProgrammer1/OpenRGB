@@ -18,6 +18,7 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* aura_ptr)
     type        = DEVICE_TYPE_MOUSE;
     description = "ASUS Aura Mouse Device";
     location    = aura->GetDeviceLocation();
+    serial      = aura->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";

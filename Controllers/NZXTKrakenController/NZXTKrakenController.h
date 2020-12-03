@@ -51,6 +51,7 @@ public:
 
     std::string GetFirmwareVersion();
     std::string GetLocation();
+    std::string GetSerialString();
 
     void UpdateEffect
         (

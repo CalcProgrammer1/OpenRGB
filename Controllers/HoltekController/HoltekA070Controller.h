@@ -28,6 +28,7 @@ public:
     ~HoltekA070Controller();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void        SendCustomColor
                    (

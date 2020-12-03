@@ -18,6 +18,7 @@ RGBController_LogitechG203::RGBController_LogitechG203(LogitechG203Controller* l
     type        = DEVICE_TYPE_MOUSE;
     description = "Logitech Mouse Device";
     location    = logitech->GetDeviceLocation();
+    serial      = logitech->GetSerialString();
 
     mode Static;
     Static.name                     = "Static";

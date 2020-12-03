@@ -38,6 +38,7 @@ public:
     ~HyperXPulsefireSurgeController();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void SelectProfile
             (

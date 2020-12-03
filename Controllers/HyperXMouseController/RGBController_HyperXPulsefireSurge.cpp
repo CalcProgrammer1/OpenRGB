@@ -20,6 +20,7 @@ RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPul
     type        = DEVICE_TYPE_MOUSE;
     description = "HyperX Pulsefire Surge Device";
     location    = hyperx->GetDeviceLocation();
+    serial      = hyperx->GetSerialString();
 
     mode Direct;
     Direct.name = "Direct";

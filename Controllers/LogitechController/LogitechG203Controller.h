@@ -40,6 +40,7 @@ public:
     ~LogitechG203Controller();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void        SendMouseMode
                    (

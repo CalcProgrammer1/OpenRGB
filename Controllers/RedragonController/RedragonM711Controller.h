@@ -31,6 +31,7 @@ public:
     ~RedragonM711Controller();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void        SendMouseApply();
 

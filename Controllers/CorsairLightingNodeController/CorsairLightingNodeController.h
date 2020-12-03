@@ -84,6 +84,7 @@ public:
 
     std::string     GetFirmwareString();
     std::string     GetLocationString();
+    std::string     GetSerialString();
 
     unsigned int    GetStripsOnChannel(unsigned int channel);
 

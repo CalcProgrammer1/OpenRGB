@@ -96,6 +96,7 @@ public:
     ~RedragonK556Controller();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void        SetKeyboardColors
                     (

@@ -59,6 +59,7 @@ public:
 
     std::string     GetFirmwareVersion();
     std::string     GetLocation();
+    std::string     GetSerialString();
 
     unsigned char   GetFanCommand
                         (

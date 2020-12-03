@@ -152,6 +152,7 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* p
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Thermaltake Poseidon Z RGB Device";
     location    = poseidon->GetDeviceLocation();
+    serial      = poseidon->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";

@@ -45,6 +45,7 @@ public:
     ~ATC800Controller();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void        SendCoolerMode
                     (

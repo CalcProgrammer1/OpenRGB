@@ -20,6 +20,7 @@ public:
     ~LogitechG213Controller();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void        SetDirect
                     (

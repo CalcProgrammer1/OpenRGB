@@ -17,6 +17,8 @@ RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGPowe
     vendor      = "Logitech";
     type        = DEVICE_TYPE_MOUSEMAT;
     description = "Logitech G PowerPlay Wireless Charging System";
+    location    = logitech->GetDeviceLocation();
+    serial      = logitech->GetSerialString();
 
     mode Off;
     Off.name                            = "Off";

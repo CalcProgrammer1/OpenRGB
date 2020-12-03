@@ -51,6 +51,7 @@ public:
     ~ThermaltakeRiingController();
 
     std::string     GetDeviceLocation();
+    std::string     GetSerialString();
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     void            SetMode(unsigned char mode, unsigned char speed);

@@ -69,6 +69,7 @@ public:
     ~HyperXKeyboardController();
 
     std::string     GetDeviceLocation();
+    std::string     GetSerialString();
 
     void SetMode
         (

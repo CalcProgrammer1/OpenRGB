@@ -19,6 +19,7 @@ RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* dualshock)
     type        = DEVICE_TYPE_GAMEPAD;
     description = "Sony DualShock 4 Device";
     location    = dualshock->GetLocation();
+    serial      = dualshock->GetSerialString();
     
     mode Direct;
     Direct.value      = 0;

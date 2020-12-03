@@ -21,6 +21,7 @@ public:
     ~HyperXMousematController();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void SendDirect
             (

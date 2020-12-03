@@ -54,6 +54,8 @@ public:
     LogitechG810Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12);
     ~LogitechG810Controller();
 
+    std::string GetSerialString();
+
     void        Commit();
     
     void        SetDirect

@@ -21,6 +21,7 @@ public:
     ~DuckyKeyboardController();
 
     std::string GetDeviceLocation();
+    std::string GetSerialString();
 
     void SendColors
             (

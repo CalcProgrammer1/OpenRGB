@@ -173,6 +173,7 @@ RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* l
     vendor      = "Logitech";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Logitech Keyboard Device";
+    serial      = logitech->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";
