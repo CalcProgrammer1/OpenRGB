@@ -58,10 +58,10 @@ QTabWidget QWidget QTabBar::tab
     padding-top: 4px;
     padding-bottom: 5px;
     height: 50px;
-    border: 10px;
     border-right: 1px solid #2e2e2e;
     margin-right: 0px;
-    margin-bottom: 2px;
+    margin-bottom: 0px;
+    border: 1px solid #2e2e2e;
 }
 
 QTabWidget QWidget QTabBar::tab:selected
