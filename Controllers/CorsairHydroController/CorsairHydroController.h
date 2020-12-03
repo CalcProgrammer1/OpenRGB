@@ -39,6 +39,8 @@ public:
 
     std::string     GetFirmwareString();
 
+    std::string     GetLocation();
+
     void            SetBlink
                         (
                             std::vector<RGBColor> & colors,
@@ -65,6 +67,7 @@ public:
 private:
     libusb_device_handle*   dev;
     std::string             firmware_version;
+    std::string             location;
 
     void            SendApplyBlink();
     void            SendApplyPulse();

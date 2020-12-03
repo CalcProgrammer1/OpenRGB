@@ -17,6 +17,7 @@ RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* c
     description = "Corsair Hydro Series Device";
     version     = corsair->GetFirmwareString();
     type        = DEVICE_TYPE_COOLER;
+    location    = corsair->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";

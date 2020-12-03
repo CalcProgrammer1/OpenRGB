@@ -7,10 +7,22 @@
 #include "CorsairHydroController.h"
 
 #include <cstring>
+#include <iomanip>
+#include <sstream>
 
 CorsairHydroController::CorsairHydroController(libusb_device_handle* dev_handle)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+
+    /*-----------------------------------------------------*\
+    | Fill in location string with USB ID                   |
+    \*-----------------------------------------------------*/
+    libusb_device_descriptor descriptor;
+    libusb_get_device_descriptor(libusb_get_device(dev_handle), &descriptor);
+
+    std::stringstream location_stream;
+    location_stream << std::hex << std::setfill('0') << std::setw(4) << descriptor.idVendor << ":" << std::hex << std::setfill('0') << std::setw(4) << descriptor.idProduct;
+    location = location_stream.str();
 
     SendInit();
 
@@ -20,6 +32,11 @@ CorsairHydroController::CorsairHydroController(libusb_device_handle* dev_handle)
 std::string CorsairHydroController::GetFirmwareString()
 {
     return(firmware_version);
+}
+
+std::string CorsairHydroController::GetLocation()
+{
+    return("USB: " + location);
 }
 
 void CorsairHydroController::SetBlink
