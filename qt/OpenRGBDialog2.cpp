@@ -97,7 +97,7 @@ bool OpenRGBDialog2::IsDarkTheme()
     /*-------------------------------------------------*\
     | Get prefered theme from settings manager          |
     \*-------------------------------------------------*/
-    theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_Theme");
+    theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Theme");
 
     /*-------------------------------------------------*\
     | Read the theme key and adjust accordingly         |

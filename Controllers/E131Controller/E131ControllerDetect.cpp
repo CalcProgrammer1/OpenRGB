@@ -30,7 +30,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
     /*-------------------------------------------------*\
     | Get E1.31 settings from settings manager          |
     \*-------------------------------------------------*/
-    e131_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_E131Devices");
+    e131_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("E131Devices");
 
     /*-------------------------------------------------*\
     | If the E1.31 settings contains devices, process   |

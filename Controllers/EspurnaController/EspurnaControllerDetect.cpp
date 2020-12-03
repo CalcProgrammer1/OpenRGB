@@ -24,7 +24,7 @@ void DetectEspurnaControllers(std::vector<RGBController*> &rgb_controllers)
     /*-------------------------------------------------*\
     | Get Espurna settings from settings manager        |
     \*-------------------------------------------------*/
-    espurna_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_EspurnaDevices");
+    espurna_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("EspurnaDevices");
 
     /*-------------------------------------------------*\
     | If the Espurna settings contains devices, process |

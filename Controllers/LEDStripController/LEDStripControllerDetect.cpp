@@ -25,7 +25,7 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
     /*-------------------------------------------------*\
     | Get LED Strip settings from settings manager      |
     \*-------------------------------------------------*/
-    ledstrip_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_LEDStripDevices");
+    ledstrip_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LEDStripDevices");
 
     /*-------------------------------------------------*\
     | If the LEDStrip settings contains devices, process|

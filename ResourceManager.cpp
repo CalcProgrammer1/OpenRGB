@@ -416,7 +416,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     | Open device disable list and read in disabled     |
     | device strings                                    |
     \*-------------------------------------------------*/
-    detector_settings = settings_manager->GetSettings("Setting_Detectors");
+    detector_settings = settings_manager->GetSettings("Detectors");
 
     /*-------------------------------------------------*\
     | Check HID safe mode setting                       |
@@ -756,7 +756,7 @@ void ResourceManager::DetectDevicesThreadFunction()
 
     if(save_settings)
     {
-        settings_manager->SetSettings("Setting_Detectors", detector_settings);
+        settings_manager->SetSettings("Detectors", detector_settings);
 
         settings_manager->SaveSettings();
     }

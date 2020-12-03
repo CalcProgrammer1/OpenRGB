@@ -162,7 +162,7 @@ static const char *led_names[] =
 *                                                                                          *
 *   DetectDebugControllers                                                                 *
 *                                                                                          *
-*       Add dummy controllers based on the Setting_DebugDevices key in the settings json   *
+*       Add dummy controllers based on the DebugDevices key in the settings json           *
 *                                                                                          *
 \******************************************************************************************/
 
@@ -173,7 +173,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
     /*-------------------------------------------------*\
     | Get Debug Device settings from settings manager   |
     \*-------------------------------------------------*/
-    debug_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_DebugDevices");
+    debug_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("DebugDevices");
 
     /*-------------------------------------------------*\
     | If the Debug settings contains devices, process   |

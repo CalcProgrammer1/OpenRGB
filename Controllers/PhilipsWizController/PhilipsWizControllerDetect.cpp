@@ -25,7 +25,7 @@ void DetectPhilipsWizControllers(std::vector<RGBController*> &rgb_controllers)
     /*-------------------------------------------------*\
     | Get Philips Wiz settings from settings manager    |
     \*-------------------------------------------------*/
-    wiz_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_PhilipsWizDevices");
+    wiz_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("PhilipsWizDevices");
 
     /*-------------------------------------------------*\
     | If the Wiz settings contains devices, process     |

@@ -27,7 +27,7 @@ void DetectLinuxLEDControllers(std::vector<RGBController*> &rgb_controllers)
     /*-------------------------------------------------*\
     | Get Linux LED settings from settings manager      |
     \*-------------------------------------------------*/
-    linux_led_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_LinuxLEDDevices");
+    linux_led_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LinuxLEDDevices");
 
     /*-------------------------------------------------*\
     | If the LinuxLED settings contains devices, process|
