@@ -513,6 +513,25 @@ static const char* corsair_mouse_leds[] =
     "Mouse LED 15",
 };
 
+static const char* corsair_m65_elite_leds[] =
+{
+    "",
+    "",
+    "Logo",
+    "DPI",
+    "Scroll Wheel",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+};
+
 static const char* corsair_sabre_rgb_leds[] =
 {
     "",
@@ -758,7 +777,22 @@ void RGBController_CorsairPeripheral::SetupZones()
                 break;
 
             case DEVICE_TYPE_MOUSE:
-                new_led.name = corsair_mouse_leds[led_idx];
+                if(name == "Corsair M65 RGB Elite")
+                {
+                    new_led.name = corsair_m65_elite_leds[led_idx];
+                }
+                else if(name == "Corsair Harpoon RGB PRO")
+                {
+                    new_led.name = corsair_harpoon_pro_leds[led_idx];
+                }
+                else if(name == "Corsair Sabre RGB")
+                {
+                    new_led.name = corsair_sabre_rgb_leds[led_idx];
+                }
+                else
+                {
+                    new_led.name = corsair_mouse_leds[led_idx];
+                }
                 break;
             
             case DEVICE_TYPE_MOUSEMAT:
