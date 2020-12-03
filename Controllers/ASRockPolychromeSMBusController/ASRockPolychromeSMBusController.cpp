@@ -9,6 +9,7 @@
 
 #include "ASRockPolychromeSMBusController.h"
 #include <cstring>
+#include "dependencies/dmiinfo.h"
 
 using namespace std::chrono_literals;
 
@@ -16,6 +17,8 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
 {
     this->bus = bus;
     this->dev = dev;
+
+    DMIInfo dmi;
 
     unsigned short fw_version    = ReadFirmwareVersion();
     unsigned char  major_version = fw_version >> 8;
@@ -29,19 +32,19 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     switch(major_version)
     {
         case ASROCK_TYPE_ASRLED:
-            device_name = "ASRock ASR LED";
+            device_name = "ASRock " + dmi.getMainboard();
             asrock_type = ASROCK_TYPE_ASRLED;
             memset(zone_led_count, 0, sizeof(zone_led_count));
             break;
 
         case ASROCK_TYPE_POLYCHROME_V1:
-            device_name = "ASRock Polychrome V1";
+            device_name = "ASRock " + dmi.getMainboard();
             asrock_type = ASROCK_TYPE_POLYCHROME_V1;
             ReadLEDConfiguration();
             break;
 
         case ASROCK_TYPE_POLYCHROME_V2:
-            device_name = "ASRock Polychrome V2";
+            device_name = "ASRock " + dmi.getMainboard();
             asrock_type = ASROCK_TYPE_POLYCHROME_V2;
             ReadLEDConfiguration();
             break;

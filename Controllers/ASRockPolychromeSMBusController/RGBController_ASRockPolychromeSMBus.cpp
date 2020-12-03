@@ -40,13 +40,14 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
     vendor      = "ASRock";
     version     = polychrome->GetFirmwareVersion();
     type        = DEVICE_TYPE_MOTHERBOARD;
-    description = "ASRock ASR LED/Polychrome Device";
     location    = polychrome->GetDeviceLocation();
 
     switch(polychrome->GetASRockType())
     {
         case ASROCK_TYPE_ASRLED:
             {
+                description = "ASRock ASR LED Device";
+
                 mode Off;
                 Off.name       = "Off";
                 Off.value      = ASRLED_MODE_OFF;
@@ -122,6 +123,8 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 
         case ASROCK_TYPE_POLYCHROME_V1:
             {
+                description = "ASRock Polychrome v1 Device";
+
                 mode Off;
                 Off.name                    = "Off";
                 Off.value                   = POLYCHROME_V1_MODE_OFF;
@@ -270,6 +273,8 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 
         case ASROCK_TYPE_POLYCHROME_V2:
             {
+                description = "ASRock Polychrome v2 Device";
+
                 mode Off;
                 Off.name       = "Off";
                 Off.value      = POLYCHROME_V2_MODE_OFF;
