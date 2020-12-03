@@ -78,6 +78,7 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
 void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 {
     rgb_controllers_hw.push_back(rgb_controller);
+
     DeviceListChanged();
 }
 
@@ -584,6 +585,24 @@ void ResourceManager::DetectDevicesThreadFunction()
                         DetectionProgressChanged();
 
                         hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
+
+                        /*-------------------------------------------------*\
+                        | If the device list size has changed, call the     |
+                        | device list changed callbacks                     |
+                        \*-------------------------------------------------*/
+                        if(rgb_controllers_hw.size() != prev_count)
+                        {
+                            /*-------------------------------------------------*\
+                            | First, load sizes for the new controllers         |
+                            \*-------------------------------------------------*/
+                            for(unsigned int controller_size_idx = prev_count - 1; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+                            {
+                                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+                            }
+
+                            DeviceListChanged();
+                        }
+                        prev_count = rgb_controllers_hw.size();
                     }
                 }
 
