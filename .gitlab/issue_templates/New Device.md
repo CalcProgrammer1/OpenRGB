@@ -17,7 +17,9 @@ Please link us to the manufacturer's product page beneath this line
 
 
 ### Please select what type of device/interface the device uses:
-
+<!--
+Place an x between the brackets to check the box
+-->
 - [ ] Motherboard (SMBus)
 - [ ] Motherboard (USB)
 - [ ] RAM (SMBus)
@@ -29,7 +31,7 @@ Please link us to the manufacturer's product page beneath this line
 ### ID information:
 <!--
 For PCI (GPU) devices we will need the Vendor ID, Device ID, Sub-Vendor ID and Sub-Device IDs
-In Windows this can be found under the device manager and on Linux this can be found wit lspci -vv
+In Windows this can be found under the device manager and on Linux this can be found with lspci -vv
 For USB devices we will need the USB VID and PID
 -->
 

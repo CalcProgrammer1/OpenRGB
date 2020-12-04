@@ -4,7 +4,7 @@ Found a bug?  Something isn't working as expected?  To help us keep track of the
 
 ### Description of Bug
 <!--
-Please describe the bug.  Explain steps taken to reproduct the bug and what you expect the correct behavior to be.
+Please describe the bug.  Explain steps taken to reproduce the bug and what you expect the correct behavior to be.
 -->
 
 
