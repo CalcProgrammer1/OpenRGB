@@ -38,7 +38,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
     /*-------------------------------------------------*\
     | Get Philips Hue settings from settings manager    |
     \*-------------------------------------------------*/
-    hue_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Setting_PhilipsHueBridges");
+    hue_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("PhilipsHue");
 
     /*-------------------------------------------------*\
     | Create a finder and find bridges                  |
@@ -154,7 +154,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
             hue_settings["bridges"][0]["clientkey"] = bridge.getClientKey();
             hue_settings["bridges"][0]["entertainment"] = use_entertainment;
             
-            ResourceManager::get()->GetSettingsManager()->SetSettings("Setting_PhilipsHueBridges", hue_settings);
+            ResourceManager::get()->GetSettingsManager()->SetSettings("PhilipsHue", hue_settings);
 
             ResourceManager::get()->GetSettingsManager()->SaveSettings();
         }
