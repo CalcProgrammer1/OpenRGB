@@ -169,7 +169,7 @@ void HuePlusController::SetChannelLEDs
     /*-----------------------------------------------------*\
     | Send color data                                       |
     \*-----------------------------------------------------*/
-    SendPacket(channel, HUE_PLUS_MODE_FIXED, false, 0, 0, num_colors, &color_data[0]);
+    SendPacket(channel, HUE_PLUS_MODE_DIRECT, false, 0, 0, num_colors, &color_data[0]);
 }
 
 /*-------------------------------------------------------------------------------------------------*\
@@ -187,7 +187,7 @@ void HuePlusController::SendPacket
     unsigned char*  color_data
     )
 {
-    unsigned char serial_buf[125];
+    unsigned char serial_buf[HUE_PLUS_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -233,5 +233,5 @@ void HuePlusController::SendPacket
     /*-----------------------------------------------------*\
     | Delay to allow Hue+ device to ready for next packet   |
     \*-----------------------------------------------------*/
-    std::this_thread::sleep_for(20ms);
+    std::this_thread::sleep_for(5ms);
 }

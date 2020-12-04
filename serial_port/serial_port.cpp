@@ -202,7 +202,9 @@ int serial_port::serial_write(char * buffer, int length)
 #ifdef __linux__
 
     int byteswritten;
+    tcdrain(file_descriptor);
     byteswritten = write(file_descriptor, buffer, length);
+    tcdrain(file_descriptor);
     return byteswritten;
 
 #endif  /* __linux__ */

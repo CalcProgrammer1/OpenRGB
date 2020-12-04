@@ -62,6 +62,7 @@ enum
     HUE_PLUS_MODE_CANDLELIGHT   = 0x09, /* Candlelight mode             */
     HUE_PLUS_MODE_WINGS         = 0x0C, /* Wings mode                   */
     HUE_PLUS_MODE_WAVE          = 0x0D, /* Wave mode                    */
+    HUE_PLUS_MODE_DIRECT        = 0x0E, /* Direct mode                  */
 };
 
 class HuePlusController
