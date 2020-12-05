@@ -212,8 +212,11 @@ public:
     unsigned int    GetLEDCount();
     unsigned int    GetSlotCount();
     unsigned int    GetMode();
-    void            SetMode(unsigned char new_mode, bool random, unsigned short new_speed);
 
+    void            SendApply();
+
+    void            SetMode(unsigned char new_mode, bool random, unsigned short new_speed);
+    
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SetEffectColor(unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
