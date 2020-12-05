@@ -697,6 +697,7 @@ static const razer_key huntsman_keymap[] =
     {   0,      0,      14,             "Key: F12"                          },
     {   0,      0,      15,             "Key: Print Screen"                 },
     {   0,      0,      16,             "Key: Scroll Lock"                  },
+    {   0,      0,      17,             "Key: Pause/Break"                  },
     {   0,      1,      1,              "Key: `"                            },
     {   0,      1,      2,              "Key: 1"                            },
     {   0,      1,      3,              "Key: 2"                            },
