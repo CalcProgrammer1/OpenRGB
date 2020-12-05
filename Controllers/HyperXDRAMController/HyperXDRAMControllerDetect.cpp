@@ -63,6 +63,8 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
         unsigned char slots_valid = 0x00;
+        bool fury_detected = false;
+        bool pred_detected = false;
 
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
@@ -82,6 +84,15 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
                     &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x41) == 0x98))
                     {
                         slots_valid |= (1 << (slot_addr - 0x50));
+
+                        if(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x67) == 0x01)
+                        {
+                            fury_detected = true;
+                        }
+                        else
+                        {
+                            pred_detected = true;
+                        }
                     }
 
                     std::this_thread::sleep_for(1ms);
@@ -91,6 +102,16 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
                 {
                     new_hyperx = new HyperXDRAMController(busses[bus], 0x27, slots_valid);
                     new_controller = new RGBController_HyperXDRAM(new_hyperx);
+
+                    if(fury_detected && !pred_detected)
+                    {
+                        new_controller->name = "HyperX Fury RGB";
+                    }
+                    else if(!fury_detected && pred_detected)
+                    {
+                        new_controller->name = "HyperX Predator RGB";
+                    }
+
                     rgb_controllers.push_back(new_controller);
                 }
             }
