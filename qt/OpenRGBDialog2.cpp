@@ -229,6 +229,24 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
     trayIconMenu->addAction(actionExit);
 
+    /*-------------------------------------------------*\
+    | Tray minimization                                 |
+    | Defaults to false                                 |
+    \*-------------------------------------------------*/
+    json MinimizeSettings;
+    MinimizeSettings = ResourceManager::get()->GetSettingsManager()->GetSettings("Minimize");
+
+    if (MinimizeSettings.contains("minimize_on_close"))
+    {
+        OpenRGBDialog2::MinimizeToTray = MinimizeSettings["minimize_on_close"];
+    }
+    else
+    {
+        OpenRGBDialog2::MinimizeToTray = false;
+    }
+
+    connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
+
     trayIcon->setIcon(logo);
     trayIcon->setToolTip("OpenRGB");
     trayIcon->setContextMenu(trayIconMenu);
@@ -316,7 +334,16 @@ OpenRGBDialog2::~OpenRGBDialog2()
 void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
-    event->accept();
+
+    if (OpenRGBDialog2::MinimizeToTray)
+    {
+        hide();
+        event->ignore();
+    }
+    else
+    {
+        event->accept();
+    }
 }
 
 void OpenRGBDialog2::AddSoftwareInfoPage()
@@ -771,6 +798,10 @@ void OpenRGBDialog2::UpdateProfileList()
 
 void OpenRGBDialog2::on_Exit()
 {
+    /*-----------------------------------------------*\
+    | This is the exit from the tray icon             |
+    | NOT the main exit button (top right on Windows) |
+    \*-----------------------------------------------*/
     trayIcon->hide();
     close();
 }
@@ -870,6 +901,17 @@ void OpenRGBDialog2::on_ShowHide()
     else
     {
         hide();
+    }
+}
+
+void OpenRGBDialog2::on_ReShow(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::DoubleClick)
+    {
+        if (isHidden())
+        {
+            show();
+        }
     }
 }
 
