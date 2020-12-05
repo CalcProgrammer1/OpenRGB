@@ -20,9 +20,10 @@ HyperXDRAMController::HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_
 
     led_count = 0;
 
-    for(int i = 0; i < 8; i++)
+    for(unsigned int slot = 0; slot < 4; slot++)
     {
-        if((slots_valid & (1 << i)) != 0)
+        if(((slots_valid & ( 0x01 << slot)) != 0)
+         ||((slots_valid & ( 0x10 << slot)) != 0))
         {
             led_count += 5;
         }
@@ -62,7 +63,8 @@ unsigned int HyperXDRAMController::GetSlotCount()
 
     for(int slot = 0; slot < 4; slot++)
     {
-        if((slots_valid & (1 << slot)) != 0)
+        if(((slots_valid & ( 0x01 << slot)) != 0)
+         ||((slots_valid & ( 0x10 << slot)) != 0))
         {
             slot_count++;
         }
@@ -107,7 +109,8 @@ void HyperXDRAMController::SetAllColors(unsigned char red, unsigned char green, 
     {
         unsigned char slot = slot_map[slot_idx];
 
-        if((slots_valid & (1 << slot)) != 0)
+        if(((slots_valid & ( 0x01 << slot)) != 0)
+         ||((slots_valid & ( 0x10 << slot)) != 0))
         {
             unsigned char base        = slot_base[slot];
             unsigned char red_base    = base + 0x00;
@@ -156,7 +159,8 @@ void HyperXDRAMController::SetLEDColor(unsigned int led, unsigned char red, unsi
     {
         slot = slot_map[slot_idx];
 
-        if((slots_valid & ( 1 << slot)) != 0)
+        if(((slots_valid & ( 0x01 << slot)) != 0)
+         ||((slots_valid & ( 0x10 << slot)) != 0))
         {
             slot_id++;
         }
