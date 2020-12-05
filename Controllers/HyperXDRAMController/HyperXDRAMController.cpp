@@ -97,8 +97,10 @@ void HyperXDRAMController::SetAllColors(unsigned char red, unsigned char green, 
     | Loop through all slots and only set those which are   |
     | active.                                               |
     \*-----------------------------------------------------*/
-    for(int slot = 0; slot < 4; slot++)
+    for(unsigned int slot_idx = 0; slot_idx < 4; slot_idx++)
     {
+        unsigned char slot = slot_map[slot_idx];
+
         if((slots_valid & (1 << slot)) != 0)
         {
             unsigned char base        = slot_base[slot];
@@ -136,7 +138,7 @@ void HyperXDRAMController::SetLEDColor(unsigned int led, unsigned char red, unsi
     \*-----------------------------------------------------*/
     int led_slot    = led / 5;
     int slot_id     = -1;
-    int slot;
+    unsigned char slot;
 
     led            -= (led_slot * 5);
 
@@ -144,8 +146,10 @@ void HyperXDRAMController::SetLEDColor(unsigned int led, unsigned char red, unsi
     | Loop through all possible slots and only count those  |
     | which are active.                                     |
     \*-----------------------------------------------------*/
-    for(slot = 0; slot < 4; slot++)
+    for(unsigned int slot_idx = 0; slot_idx < 4; slot_idx++)
     {
+        slot = slot_map[slot_idx];
+
         if((slots_valid & ( 1 << slot)) != 0)
         {
             slot_id++;
@@ -157,21 +161,7 @@ void HyperXDRAMController::SetLEDColor(unsigned int led, unsigned char red, unsi
         }
     }
 
-    unsigned char base        = slot_base[slot];
-    unsigned char red_base    = base + 0x00;
-    unsigned char green_base  = base + 0x01;
-    unsigned char blue_base   = base + 0x02;
-    unsigned char bright_base = base + 0x10;
-
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
-
-    bus->i2c_smbus_write_byte_data(dev, red_base    + (3 * led), red  );
-    bus->i2c_smbus_write_byte_data(dev, green_base  + (3 * led), green);
-    bus->i2c_smbus_write_byte_data(dev, blue_base   + (3 * led), blue );
-    bus->i2c_smbus_write_byte_data(dev, bright_base + (3 * led), 0x64 );
-
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x02);
-    bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x03);
+    SetLEDColor(slot, led, red, green, blue);
 }
 
 
