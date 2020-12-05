@@ -18,6 +18,10 @@ One of the biggest complaints about RGB is the software ecosystem surrounding it
 
 See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) for the current list of supported devices.
 
+## Configuration
+
+* See the [OpenRGB Settings](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Settings) page for information about the configuration file.
+
 ## WARNING!
 
 This project interacts directly with hardware using reverse engineered protocols.  While we do our best to make sure we're sending the right data, there is always some risk in sending data to hardware when we don't understand exactly how that hardware works.
