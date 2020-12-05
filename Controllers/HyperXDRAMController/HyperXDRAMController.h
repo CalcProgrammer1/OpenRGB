@@ -207,7 +207,6 @@ public:
     HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots);
     ~HyperXDRAMController();
 
-    std::string     GetDeviceName();
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     unsigned int    GetSlotCount();
@@ -216,14 +215,13 @@ public:
     void            SendApply();
 
     void            SetMode(unsigned char new_mode, bool random, unsigned short new_speed);
-    
+
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
     void            SetEffectColor(unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    char                    device_name[32];
     unsigned int            led_count;
     unsigned char           slots_valid;
     i2c_smbus_interface*    bus;

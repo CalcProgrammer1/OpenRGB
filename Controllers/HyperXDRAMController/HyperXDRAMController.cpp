@@ -16,8 +16,6 @@ HyperXDRAMController::HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_
     this->dev   = dev;
     slots_valid = slots;
 
-    strcpy(device_name, "HyperX Predator RGB");
-
     led_count = 0;
 
     for(unsigned int slot = 0; slot < 4; slot++)
@@ -35,11 +33,6 @@ HyperXDRAMController::HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_
 HyperXDRAMController::~HyperXDRAMController()
 {
 
-}
-
-std::string HyperXDRAMController::GetDeviceName()
-{
-    return(device_name);
 }
 
 std::string HyperXDRAMController::GetDeviceLocation()
