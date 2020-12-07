@@ -172,6 +172,10 @@ int main(int argc, char* argv[])
         {
             ResourceManager::get()->DetectDevices();
         }
+        else
+        {
+            ResourceManager::get()->DisableDetection();
+        }
     }
 
     /*---------------------------------------------------------*\

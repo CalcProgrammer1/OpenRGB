@@ -101,6 +101,8 @@ public:
 
     void DetectDevices();
 
+    void DisableDetection();
+
     void StopDeviceDetection();
 
     void WaitForDeviceDetection();
@@ -110,6 +112,11 @@ private:
 
     static std::unique_ptr<ResourceManager>     instance;
 
+    /*-------------------------------------------------------------------------------------*\
+    | Detection enabled flag                                                                |
+    \*-------------------------------------------------------------------------------------*/
+    bool                                        detection_enabled;
+    
     /*-------------------------------------------------------------------------------------*\
     | Profile Manager                                                                       |
     \*-------------------------------------------------------------------------------------*/

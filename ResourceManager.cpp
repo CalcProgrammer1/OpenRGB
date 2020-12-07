@@ -37,6 +37,7 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Initialize Detection Variables                                            |
     \*-------------------------------------------------------------------------*/
+    detection_enabled     = true;
     detection_percent     = 100;
     detection_string      = "";
     detection_is_required = false;
@@ -356,38 +357,54 @@ void ResourceManager::Cleanup()
 
 void ResourceManager::DetectDevices()
 {
-    /*-------------------------------------------------*\
-    | Do nothing is it is already detecting devices     |
-    \*-------------------------------------------------*/
-    if(detection_is_required.load())
+    if(detection_enabled)
     {
-        return;
+        /*-------------------------------------------------*\
+        | Do nothing is it is already detecting devices     |
+        \*-------------------------------------------------*/
+        if(detection_is_required.load())
+        {
+            return;
+        }
+
+        /*-------------------------------------------------*\
+        | If there's anything left from the last time,      |
+        | we shall remove it first                          |
+        \*-------------------------------------------------*/
+        detection_percent = 0;
+        detection_string  = "";
+
+        DetectionProgressChanged();
+
+        Cleanup();
+
+        DeviceListChanged();
+
+        /*-------------------------------------------------*\
+        | Start the device detection thread                 |
+        \*-------------------------------------------------*/
+        detection_is_required = true;
+        DetectDevicesThread = new std::thread(&ResourceManager::DetectDevicesThreadFunction, this);
+
+        /*-------------------------------------------------*\
+        | Release the current thread to allow detection     |
+        | thread to start                                   |
+        \*-------------------------------------------------*/
+        std::this_thread::sleep_for(1ms);
     }
+    else
+    {
+        /*-------------------------------------------------*\
+        | Signal that detection is complete                 |
+        \*-------------------------------------------------*/
+        detection_percent     = 100;
+        DetectionProgressChanged();
+    }
+}
 
-    /*-------------------------------------------------*\
-    | If there's anything left from the last time,      |
-    | we shall remove it first                          |
-    \*-------------------------------------------------*/
-    detection_percent = 0;
-    detection_string  = "";
-
-    DetectionProgressChanged();
-
-    Cleanup();
-
-    DeviceListChanged();
-
-    /*-------------------------------------------------*\
-    | Start the device detection thread                 |
-    \*-------------------------------------------------*/
-    detection_is_required = true;
-    DetectDevicesThread = new std::thread(&ResourceManager::DetectDevicesThreadFunction, this);
-
-    /*-------------------------------------------------*\
-    | Release the current thread to allow detection     |
-    | thread to start                                   |
-    \*-------------------------------------------------*/
-    std::this_thread::sleep_for(1ms);
+void ResourceManager::DisableDetection()
+{
+    detection_enabled = false;
 }
 
 void ResourceManager::DetectDevicesThreadFunction()
