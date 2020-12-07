@@ -168,12 +168,18 @@ int main(int argc, char* argv[])
     \*---------------------------------------------------------*/
     if(!(ret_flags & RET_FLAG_NO_DETECT))
     {
+        printf("Attempting to connect to local OpenRGB server.\r\n");
+
         if(!AttemptLocalConnection())
         {
+            printf("Local OpenRGB server unavailable, running standalone.\r\n");
+
             ResourceManager::get()->DetectDevices();
         }
         else
         {
+            printf("Local OpenRGB server connected, running in client mode\r\n");
+            
             ResourceManager::get()->DisableDetection();
         }
     }
