@@ -142,6 +142,7 @@ While OpenRGB itself only provides control over the lighting effects built into 
   * Artemis 2 (support added by diogotr7 as a plugin): https://github.com/Artemis-RGB/Artemis
   * RemoteLight (by Drumber, need OpenRGB plugin): https://github.com/Drumber/RemoteLight
   * OpenRGB-python-FX (by herosilas12): https://github.com/herosilas12/OpenRGB-python-FX
+  * AllMyLights (by sparten11740): https://github.com/sparten11740/allmylights
 
 ## Projects Used
 
