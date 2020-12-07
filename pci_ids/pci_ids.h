@@ -69,6 +69,7 @@
 | Gigabyte (Aorus) Sub-Device IDs                       |
 \*-----------------------------------------------------*/
 #define GIGABYTE_GTX1080_G1_GAMING_SUB_DEV      0x3702
+#define GIGABYTE_GTX1080TI_SUB_DEV              0x3752
 #define GIGABYTE_GTX1080TI_XTREME_SUB_DEV       0x3762
 #define GIGABYTE_GTX1660S_GAMING_OC_SUB_DEV     0x4014
 #define GIGABYTE_RTX2060_GAMING_OC_SUB_DEV      0x37CE
