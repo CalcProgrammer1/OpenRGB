@@ -261,19 +261,24 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     UpdateDevicesList();
 
     /*-----------------------------------------------------*\
-    | Add Server Tab                                        |
-    \*-----------------------------------------------------*/
-    AddServerTab();
-
-    /*-----------------------------------------------------*\
     | Add Client Tab                                        |
     \*-----------------------------------------------------*/
     AddClientTab();
 
     /*-----------------------------------------------------*\
+    | Add Server Tab                                        |
+    \*-----------------------------------------------------*/
+    AddServerTab();
+
+    /*-----------------------------------------------------*\
     | Add the Software Info page                            |
     \*-----------------------------------------------------*/
     AddSoftwareInfoPage();
+
+    /*-----------------------------------------------------*\
+    | Add the upported Devices page                         |
+    \*-----------------------------------------------------*/
+    AddSupportedDevicesPage();
 
     /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
@@ -324,6 +329,35 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
 
+void OpenRGBDialog2::AddSupportedDevicesPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Supported Devices page                     |
+    \*-----------------------------------------------------*/
+    SupportedPage = new OpenRGBSupportedDevicesPage();
+
+    ui->SettingsTabBar->addTab(SupportedPage, "");
+
+    QString SupportedLabelString = "<html><table><tr><td width='30'><img src='";
+    SupportedLabelString += ":/software";
+    if(IsDarkTheme()) SupportedLabelString += "_dark";
+    SupportedLabelString += ".png' height='16' width='16'></td><td>Supported Devices</td></tr></table></html>";
+
+    QLabel *SupportedTabLabel = new QLabel();
+    SupportedTabLabel->setText(SupportedLabelString);
+    SupportedTabLabel->setIndent(20);
+    if(IsDarkTheme())
+    {
+        SupportedTabLabel->setGeometry(0, 25, 200, 50);
+    }
+    else
+    {
+        SupportedTabLabel->setGeometry(0, 0, 200, 25);
+    }
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
+}
+
 void OpenRGBDialog2::AddI2CToolsPage()
 {
     ShowI2CTools = true;
@@ -365,7 +399,7 @@ void OpenRGBDialog2::AddClientTab()
     if(ClientInfoPage == NULL)
     {
         ClientInfoPage = new OpenRGBClientInfoPage();
-        ui->MainTabBar->addTab(ClientInfoPage, "SDK Client");
+        ui->MainTabBar->insertTab(2, ClientInfoPage, "SDK Client");
 
         /*-----------------------------------------------------*\
         | Connect the page's Set All button to the Set All slot |
@@ -394,7 +428,7 @@ void OpenRGBDialog2::AddServerTab()
     | Add server information tab if there is a server       |
     \*-----------------------------------------------------*/
     OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(ResourceManager::get()->GetServer());
-    ui->MainTabBar->addTab(ServerInfoPage, "SDK Server");
+    ui->MainTabBar->insertTab(2, ServerInfoPage, "SDK Server");
 }
 
 void OpenRGBDialog2::ClearDevicesList()
@@ -426,7 +460,7 @@ void OpenRGBDialog2::UpdateDevicesList()
         \*-----------------------------------------------------*/
         bool found = false;
 
-        for(unsigned int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
+        for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
         {
             OpenRGBDevicePage* page = (OpenRGBDevicePage*) ui->DevicesTabBar->widget(tab_idx);
 
@@ -501,7 +535,7 @@ void OpenRGBDialog2::UpdateDevicesList()
         \*-----------------------------------------------------*/
         found = false;
 
-        for(unsigned int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        for(int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
         {
             /*-----------------------------------------------------*\
             | If type is a device info page, check it               |
@@ -581,7 +615,7 @@ void OpenRGBDialog2::UpdateDevicesList()
         | Remove all remaining device information tabs, leaving |
         | other information tabs alone                          |
         \*-----------------------------------------------------*/
-        for(unsigned int tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        for(int tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
         {
             std::string type_str = ui->InformationTabBar->widget(tab_idx)->metaObject()->className();
             if(type_str == "Ui::OpenRGBDeviceInfoPage")

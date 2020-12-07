@@ -117,6 +117,7 @@ HEADERS +=                                                                      
     SettingsManager.h                                                                           \
     Detector.h                                                                                  \
     DeviceDetector.h                                                                            \
+    qt/DetectorTableModel.h                                                                     \
     qt/OpenRGBClientInfoPage.h                                                                  \
     qt/OpenRGBDeviceInfoPage.h                                                                  \
     qt/OpenRGBDevicePage.h                                                                      \
@@ -130,6 +131,7 @@ HEADERS +=                                                                      
     qt/OpenRGBProfileSaveDialog.h                                                               \
     qt/OpenRGBServerInfoPage.h                                                                  \
     qt/OpenRGBSoftwareInfoPage.h                                                                \
+    qt/OpenRGBSupportedDevicesPage.h                                                            \
     qt/OpenRGBSystemInfoPage.h                                                                  \
     qt/OpenRGBZoneResizeDialog.h                                                                \
     serial_port/find_usb_serial_port.h                                                          \
@@ -290,6 +292,7 @@ SOURCES +=                                                                      
     ProfileManager.cpp                                                                          \
     ResourceManager.cpp                                                                         \
     SettingsManager.cpp                                                                         \
+    qt/DetectorTableModel.cpp                                                                   \
     qt/OpenRGBClientInfoPage.cpp                                                                \
     qt/OpenRGBDeviceInfoPage.cpp                                                                \
     qt/OpenRGBDevicePage.cpp                                                                    \
@@ -302,6 +305,7 @@ SOURCES +=                                                                      
     qt/OpenRGBProfileSaveDialog.cpp                                                             \
     qt/OpenRGBServerInfoPage.cpp                                                                \
     qt/OpenRGBSoftwareInfoPage.cpp                                                              \
+    qt/OpenRGBSupportedDevicesPage.cpp                                                          \
     qt/OpenRGBSystemInfoPage.cpp                                                                \
     qt/OpenRGBZoneResizeDialog.cpp                                                              \
     qt/hsv.cpp                                                                                  \
@@ -510,6 +514,7 @@ FORMS +=                                                                        
     qt/OpenRGBProfileSaveDialog.ui                                                              \
     qt/OpenRGBServerInfoPage.ui                                                                 \
     qt/OpenRGBSoftwareInfoPage.ui                                                               \
+    qt/OpenRGBSupportedDevicesPage.ui                                                           \
     qt/OpenRGBSystemInfoPage.ui                                                                 \
     qt/OpenRGBZoneResizeDialog.ui                                                               \
 

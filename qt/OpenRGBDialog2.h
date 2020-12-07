@@ -6,6 +6,7 @@
 #include "OpenRGBClientInfoPage.h"
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
+#include "OpenRGBSupportedDevicesPage.h"
 
 #include <vector>
 #include "i2c_smbus.h"
@@ -48,6 +49,7 @@ private:
     OpenRGBClientInfoPage *ClientInfoPage;
     OpenRGBSystemInfoPage *SMBusToolsPage;
     OpenRGBSoftwareInfoPage *SoftInfoPage;
+    OpenRGBSupportedDevicesPage *SupportedPage;
 
     bool ShowI2CTools = false;
 
@@ -63,6 +65,7 @@ private:
     Ui::OpenRGBDialog2Ui *ui;
 
     void AddSoftwareInfoPage();
+    void AddSupportedDevicesPage();
 
     void ClearDevicesList();
     void UpdateDevicesList();
