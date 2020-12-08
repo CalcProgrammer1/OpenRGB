@@ -40,7 +40,7 @@ enum
 class MSIRGBController
 {
 public:
-    MSIRGBController(int sioaddr);
+    MSIRGBController(int sioaddr, bool invert);
     ~MSIRGBController();
 
     std::string     GetDeviceName();
