@@ -116,6 +116,7 @@ INCLUDEPATH +=                                                                  
 HEADERS +=                                                                                      \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/json/json.hpp                                                                  \
+    LogManager.h                                                                                \
     NetworkClient.h                                                                             \
     NetworkProtocol.h                                                                           \
     NetworkServer.h                                                                             \
@@ -329,6 +330,7 @@ SOURCES +=                                                                      
     dependencies/libe131/src/e131.c                                                             \
     main.cpp                                                                                    \
     cli.cpp                                                                                     \
+    LogManager.cpp                                                                              \
     NetworkClient.cpp                                                                           \
     NetworkServer.cpp                                                                           \
     PluginManager.cpp                                                                           \

@@ -11,6 +11,7 @@
 
 #include "ResourceManager.h"
 #include "ProfileManager.h"
+#include "LogManager.h"
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <experimental/filesystem>
@@ -59,6 +60,11 @@ ResourceManager::ResourceManager()
     \*-------------------------------------------------------------------------*/
     settings_manager        = new SettingsManager();
     settings_manager->LoadSettings(GetConfigurationDirectory() + "OpenRGB.json");
+
+    /*-------------------------------------------------------------------------*\
+    | Configure the log manager                                                 |
+    \*-------------------------------------------------------------------------*/
+    LogManager::get()->configure(settings_manager->GetSettings("Client"), GetConfigurationDirectory());
 }
 
 ResourceManager::~ResourceManager()
@@ -78,6 +84,7 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
 
 void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 {
+    LogAppend(LogSection("Detection", LL_DEBUG), LL_DEBUG, "Registering RGB controller: %s", rgb_controller->name.c_str());
     rgb_controllers_hw.push_back(rgb_controller);
 
     DeviceListChanged();
@@ -424,6 +431,14 @@ void ResourceManager::DetectDevicesThreadFunction()
     unsigned int        prev_count          = 0;
     bool                save_settings       = false;
     std::vector<bool>   size_used;
+    int                 detection_section;
+
+    /*-------------------------------------------------*\
+    | Create a log debug section named Detection        |
+    \*-------------------------------------------------*/
+    detection_section = LogSection("Detection", LL_DEBUG);
+
+    LogAppend(detection_section, LL_NOTICE, "Detection started" );
 
     size_used.resize(rgb_controllers_sizes.size());
 
@@ -478,6 +493,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     /*-------------------------------------------------*\
     | Detect i2c busses                                 |
     \*-------------------------------------------------*/
+    LogAppend(detection_section, LL_DEBUG, "Detecting I2C/SMBus busses");
+
     for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
     {
         i2c_bus_detectors[i2c_bus_detector_idx](busses);
@@ -487,6 +504,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     /*-------------------------------------------------*\
     | Detect i2c devices                                |
     \*-------------------------------------------------*/
+    LogAppend(detection_section, LL_DEBUG, "Detecting I2C/SMBus devices");
+
     for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
@@ -563,6 +582,8 @@ void ResourceManager::DetectDevicesThreadFunction()
 
     if(hid_safe_mode)
     {
+        LogAppend(detection_section, LL_NOTICE, "Detecting HID devices in safe mode");
+
         /*-----------------------------------------------------------------------------*\
         | Loop through all available detectors.  If all required information matches,   |
         | run the detector                                                              |
@@ -570,6 +591,8 @@ void ResourceManager::DetectDevicesThreadFunction()
         for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
         {
             hid_devices = hid_enumerate(hid_device_detectors[hid_detector_idx].address >> 16, hid_device_detectors[hid_detector_idx].address & 0x0000FFFF);
+
+            LogAppend(detection_section, LL_NOTICE, "Trying to run detector for [%s] (for 0x%08hx)", hid_device_detectors[hid_detector_idx].name.c_str(), hid_device_detectors[hid_detector_idx].address);
 
             current_hid_device = hid_devices;
 
@@ -639,6 +662,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     }
     else
     {
+        LogAppend(detection_section, LL_NOTICE, "Detecting HID devices");
+
         /*-------------------------------------------------*\
         | Iterate through all devices in list and run       |
         | detectors                                         |
@@ -719,6 +744,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     /*-------------------------------------------------*\
     | Detect other devices                              |
     \*-------------------------------------------------*/
+    LogAppend(detection_section, LL_NOTICE, "Detecting other devices");
+
     for(unsigned int detector_idx = 0; detector_idx < device_detectors.size() && detection_is_required.load(); detector_idx++)
     {
         detection_string = device_detector_strings[detector_idx].c_str();
@@ -775,7 +802,6 @@ void ResourceManager::DetectDevicesThreadFunction()
     | Make sure that when the detection is done,        |
     | progress bar is set to 100%                       |
     \*-------------------------------------------------*/
-
     detection_is_required = false;
     detection_percent = 100;
     detection_string = "";
@@ -786,10 +812,14 @@ void ResourceManager::DetectDevicesThreadFunction()
 
     if(save_settings)
     {
+        LogAppend(detection_section, LL_NOTICE, "Saving detector settings");
+
         settings_manager->SetSettings("Detectors", detector_settings);
 
         settings_manager->SaveSettings();
     }
+
+    LogAppend(detection_section, LL_NOTICE, "Detection completed");
 }
 
 void ResourceManager::StopDeviceDetection()
