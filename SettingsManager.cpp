@@ -75,7 +75,7 @@ void SettingsManager::LoadSettings(std::string filename)
         {
             settings_file >> settings_data;
         }
-        catch(std::exception e)
+        catch(const std::exception& e)
         {
             /*-------------------------------------------------*\
             | If an exception was caught, that means the JSON   |
@@ -99,7 +99,7 @@ void SettingsManager::SaveSettings()
         {
             settings_file << settings_data.dump(4);
         }
-        catch(std::exception e)
+        catch(const std::exception& e)
         {
 
         }
