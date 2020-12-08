@@ -32,5 +32,7 @@
         <file>windows_dark.qss</file>
         <file>arrow-down.png</file>
         <file>arrow-up.png</file>
+        <file>plugin.png</file>
+        <file>plugin_dark.png</file>
     </qresource>
 </RCC>

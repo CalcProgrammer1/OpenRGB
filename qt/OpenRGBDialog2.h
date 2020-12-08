@@ -7,6 +7,7 @@
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBSupportedDevicesPage.h"
+#include "PluginManager.h"
 
 #include <vector>
 #include "i2c_smbus.h"
@@ -66,6 +67,7 @@ private:
 
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();
+    void AddPluginTab(PluginManager* plugin_manager,int plugin_index);
 
     void ClearDevicesList();
     void UpdateDevicesList();

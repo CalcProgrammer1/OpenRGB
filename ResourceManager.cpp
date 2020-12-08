@@ -18,7 +18,7 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
-std::unique_ptr<ResourceManager> ResourceManager::instance;
+ResourceManager* ResourceManager::instance;
 
 using namespace std::chrono_literals;
 
@@ -26,10 +26,10 @@ ResourceManager *ResourceManager::get()
 {
     if(!instance)
     {
-        instance = std::make_unique<ResourceManager>();
+        instance = new ResourceManager();
     }
-        
-    return instance.get();
+
+    return instance;
 }
 
 ResourceManager::ResourceManager()

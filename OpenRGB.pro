@@ -112,6 +112,8 @@ HEADERS +=                                                                      
     NetworkClient.h                                                                             \
     NetworkProtocol.h                                                                           \
     NetworkServer.h                                                                             \
+    OpenRGBPluginInterface.h                                                                    \
+    PluginManager.h                                                                             \
     ProfileManager.h                                                                            \
     ResourceManager.h                                                                           \
     SettingsManager.h                                                                           \
@@ -282,7 +284,6 @@ HEADERS +=                                                                      
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBController_Network.h                                                       \
 
-
 SOURCES +=                                                                                      \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
@@ -291,6 +292,7 @@ SOURCES +=                                                                      
     cli.cpp                                                                                     \
     NetworkClient.cpp                                                                           \
     NetworkServer.cpp                                                                           \
+    PluginManager.cpp                                                                           \
     ProfileManager.cpp                                                                          \
     ResourceManager.cpp                                                                         \
     SettingsManager.cpp                                                                         \
