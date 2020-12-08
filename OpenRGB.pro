@@ -641,6 +641,9 @@ win32:contains(QMAKE_TARGET.arch, x86) {
 unix:!macx {
     TARGET = $$lower($$TARGET)
 
+    CONFIG +=                                                                                   \
+    c++14                                                                                       \
+
     INCLUDEPATH +=                                                                              \
     Controllers/FaustusController                                                               \
     Controllers/LinuxLEDController                                                              \
@@ -651,7 +654,6 @@ unix:!macx {
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
     Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
-
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
