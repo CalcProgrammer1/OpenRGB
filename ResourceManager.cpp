@@ -311,6 +311,9 @@ void ResourceManager::SetConfigurationDirectory(std::string directory)
 {
     settings_manager->LoadSettings(directory + "OpenRGB.json");
     profile_manager->SetConfigurationDirectory(directory);
+
+    rgb_controllers_sizes.clear();
+    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
 }
 
 void ResourceManager::Cleanup()
