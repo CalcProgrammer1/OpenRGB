@@ -20,7 +20,7 @@ static unsigned int keys[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x
                               79,   80,   81,   84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   96,   97,
                               98,   99,   100,  101,  102,  103,  104,  105,  108,  109,  110,  111,  112,  113,  115,
                               116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
-                              136,  137,  139,  140,  141};
+                              136,  137,  139,  140,  141, 0x10, 114};
 
 
 static unsigned int keys_k95_plat[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x12,
@@ -150,6 +150,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     unsigned char red_val[168];
     unsigned char grn_val[168];
     unsigned char blu_val[168];
+    unsigned char data_sz = 24;
 
     /*-----------------------------------------------------*\
     | Zero out buffers                                      |
@@ -169,12 +170,14 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
             red_val[keys_k95_plat[color_idx]] = RGBGetRValue(color);
             grn_val[keys_k95_plat[color_idx]] = RGBGetGValue(color);
             blu_val[keys_k95_plat[color_idx]] = RGBGetBValue(color);
+            data_sz = 48;
         }
         else if (logical_layout == CORSAIR_TYPE_K95)
         {
             red_val[keys_k95[color_idx]] = RGBGetRValue(color);
             grn_val[keys_k95[color_idx]] = RGBGetGValue(color);
             blu_val[keys_k95[color_idx]] = RGBGetBValue(color);
+            data_sz = 48; //untested
         }
         else
         {
@@ -189,7 +192,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     \*-----------------------------------------------------*/
     StreamPacket(1, 60, &red_val[0]);
     StreamPacket(2, 60, &red_val[60]);
-    StreamPacket(3, 48, &red_val[120]);
+    StreamPacket(3, data_sz, &red_val[120]);
     SubmitKeyboardFullColors(1, 3, 1);
 
     /*-----------------------------------------------------*\
@@ -197,7 +200,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     \*-----------------------------------------------------*/
     StreamPacket(1, 60, &grn_val[0]);
     StreamPacket(2, 60, &grn_val[60]);
-    StreamPacket(3, 48, &grn_val[120]);
+    StreamPacket(3, data_sz, &grn_val[120]);
     SubmitKeyboardFullColors(2, 3, 1);
 
     /*-----------------------------------------------------*\
@@ -205,9 +208,10 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     \*-----------------------------------------------------*/
     StreamPacket(1, 60, &blu_val[0]);
     StreamPacket(2, 60, &blu_val[60]);
-    StreamPacket(3, 48, &blu_val[120]);
+    StreamPacket(3, data_sz, &blu_val[120]);
     SubmitKeyboardFullColors(3, 3, 2);
 }
+
 
 void CorsairPeripheralController::SetLEDsMouse(std::vector<RGBColor> colors)
 {
@@ -365,7 +369,6 @@ void CorsairPeripheralController::SpecialFunctionControl()
     hid_write(dev, (unsigned char *)usb_buf, 65);
 }
 
-
 void CorsairPeripheralController::ReadFirmwareInfo()
 {
     int  actual;
@@ -421,11 +424,14 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     {
         case 0xC0:
             {
-                unsigned short pid = (unsigned short)(usb_buf[0x0F] << 8) + (unsigned char)(usb_buf[0x0E]);
+                unsigned short pid = (unsigned short)(usb_buf[0x0E] << 8) + (unsigned char)(usb_buf[0x0F]);
 
+                /*-----------------------------------------------------*\
+                | Get the correct Keyboard Type                         |
+                \*-----------------------------------------------------*/
                 switch(pid)
                 {
-                    case 0x2D1B:
+                    case 0x1B2D:
                     logical_layout = CORSAIR_TYPE_K95_PLAT;
                     break;
 
@@ -436,6 +442,32 @@ void CorsairPeripheralController::ReadFirmwareInfo()
                     default:
                     logical_layout = CORSAIR_TYPE_NORMAL;
                 }
+
+                /*-----------------------------------------------------*\
+                | Get the correct Keyboard Layout.                      |
+                | Currently unused but can be implemented in the future.|
+                \*-----------------------------------------------------*/
+                switch((unsigned char)usb_buf[0x17 + offset])
+                {
+                    case CORSAIR_LAYOUT_ANSI:
+                        physical_layout = CORSAIR_LAYOUT_ANSI;
+                        break;
+                    case CORSAIR_LAYOUT_ISO:
+                        physical_layout = CORSAIR_LAYOUT_ISO;
+                        break;
+                    case CORSAIR_LAYOUT_ABNT:
+                        physical_layout = CORSAIR_LAYOUT_ABNT;
+                        break;
+                    case CORSAIR_LAYOUT_JIS:
+                        physical_layout = CORSAIR_LAYOUT_JIS;
+                        break;
+                    case CORSAIR_LAYOUT_DUBEOLSIK:
+                        physical_layout = CORSAIR_LAYOUT_DUBEOLSIK;
+                        break;
+                    default:
+                        physical_layout = CORSAIR_LAYOUT_ANSI;
+                }
+
             }
             type = DEVICE_TYPE_KEYBOARD;
             break;
@@ -475,21 +507,6 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     if(type != DEVICE_TYPE_UNKNOWN)
     {
         firmware_version = std::to_string(usb_buf[0x09 + offset]) + "." + std::to_string(usb_buf[0x08 + offset]);
-    }
-
-    /*-----------------------------------------------------*\
-    | Get the correct Keyboard Layout                       |
-    \*-----------------------------------------------------*/
-    switch((unsigned char)usb_buf[0x17 + offset])
-    {
-        case CORSAIR_LAYOUT_ANSI:
-            physical_layout = CORSAIR_LAYOUT_ANSI;
-            break;
-        case CORSAIR_LAYOUT_ISO:
-            physical_layout = CORSAIR_LAYOUT_ISO;
-            break;
-        default:
-            physical_layout = CORSAIR_LAYOUT_ANSI;
     }
 }
 
