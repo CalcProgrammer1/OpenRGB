@@ -1672,14 +1672,14 @@ static const razer_device huntsman_elite_device =
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
+|       6 Rows, 18 Columns                                      |
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_te_zone =
 {
     "Keyboard",
     ZONE_TYPE_MATRIX,
     6,
-    16
+    18
 };
 
 static const razer_device huntsman_te_device =
@@ -1688,7 +1688,7 @@ static const razer_device huntsman_te_device =
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
-    16,
+    18,
     {
         &huntsman_te_zone,
         NULL,
