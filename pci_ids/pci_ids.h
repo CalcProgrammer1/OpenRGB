@@ -40,6 +40,7 @@
 #define NVIDIA_RTX2080_DEV                      0x1E87
 #define NVIDIA_RTX2080S_DEV                     0x1E81
 #define NVIDIA_RTX2080TI_DEV                    0x1E07
+#define NVIDIA_RTX3060_TI_DEV                   0x2486
 #define NVIDIA_RTX3070_DEV                      0x2484
 #define NVIDIA_RTX3080_DEV                      0x2206
 #define NVIDIA_RTX3090_DEV                      0x2204
