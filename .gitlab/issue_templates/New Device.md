@@ -1,7 +1,7 @@
 <!-- 
 When naming the support request please title the request as 
 `[New Device] <Name of new device>` 
-Please open one issue per device you would lke to add
+Please open one issue per device you would like to add
 -->
 
 ### Name of device:
@@ -12,7 +12,7 @@ Please put the name of the product, including manufacturer, beneath this line
 
 ### Link to manufacturer's product page:
 <!--
-Please link us to the manufacturer's product page beneath this line
+Please add a link to the manufacturer's product page beneath this line
 -->
 
 
