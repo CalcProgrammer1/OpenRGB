@@ -16,19 +16,13 @@ Homepage: https://gitlab.com/CalcProgrammer1/OpenRGB
 Package: openrgb
 Architecture: any
 Depends:
- udev,
  ${shlibs:Depends},
  ${misc:Depends},
+ udev,
 Recommends:
  openrazer-driver-dkms,
  openrgb-dkms-drivers,
+Conflicts:
+ openrgb-udev,
 Description: Open source RGB lighting control
- OpenRGB controls RGB lighting
-
-Package: openrgb-udev
-Architecture: all
-Depends:
- udev,
- ${misc:Depends},
-Description: Open source RGB lighting control - udev rule
  OpenRGB controls RGB lighting
