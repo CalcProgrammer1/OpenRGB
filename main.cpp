@@ -76,6 +76,14 @@ void InitializeTimerResolutionThreadFunction()
 }
 #endif
 
+void WaitWhileServerOnline(NetworkServer* srv)
+{
+    while (srv->GetOnline())
+    {
+        std::this_thread::sleep_for(1s);
+    };
+}
+
 /******************************************************************************************\
 *                                                                                          *
 *   AttemptLocalConnection                                                                 *
@@ -160,7 +168,10 @@ int main(int argc, char* argv[])
     | Process command line arguments before detection           |
     \*---------------------------------------------------------*/
     unsigned int ret_flags = RET_FLAG_START_GUI;
-    ret_flags |= cli_pre_detection(argc, argv);
+    if (argc != 0)
+    {
+        ret_flags = cli_pre_detection(argc, argv);
+    }
 
     /*---------------------------------------------------------*\
     | Perform local connection and/or hardware detection if not |
@@ -239,6 +250,20 @@ int main(int argc, char* argv[])
     }
     else
     {
-        return 0;
+        if(ret_flags & RET_FLAG_START_SERVER)
+        {
+            if(!ResourceManager::get()->GetServer()->GetOnline())
+            {
+                return 1;
+            }
+            else
+            {
+                WaitWhileServerOnline(ResourceManager::get()->GetServer());
+            }
+        }
+        else
+        {
+            return 0;
+        }
     }
 }

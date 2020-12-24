@@ -928,13 +928,6 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_cont
     }
 }
 
-void WaitWhileServerOnline(NetworkServer* srv)
-{
-    while (srv->GetOnline())
-    {
-        std::this_thread::sleep_for(1s);
-    };
-}
 
 unsigned int cli_pre_detection(int argc, char *argv[])
 {
@@ -1216,14 +1209,6 @@ unsigned int cli_post_detection(int argc, char *argv[])
         {
             std::cout << "Profile saving failed" << std::endl;
         }
-    }
-
-    /*---------------------------------------------------------*\
-    | If the server is online, keep running while it is online  |
-    \*---------------------------------------------------------*/
-    if(ResourceManager::get()->GetServer()->GetOnline())
-    {
-        WaitWhileServerOnline(ResourceManager::get()->GetServer());
     }
 
     std::this_thread::sleep_for(1s);
