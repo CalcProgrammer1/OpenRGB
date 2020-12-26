@@ -80,6 +80,7 @@
 #define GIGABYTE_RTX2060S_GAMING_SUB_DEV        0x404A
 #define GIGABYTE_RTX2070_WINDFORCE_SUB_DEV      0x37C2
 #define GIGABYTE_RTX2080_GAMING_OC_SUB_DEV      0x37A7
+#define GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV     0x4008
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |

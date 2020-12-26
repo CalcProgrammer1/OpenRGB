@@ -31,6 +31,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060_GAMING_OC_SUB_DEV,     0x47,   "Gigabyte RTX2060 Gaming OC"        },
     { NVIDIA_VEN,   NVIDIA_RTX2060S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060S_GAMING_SUB_DEV,       0x47,   "Gigabyte RTX2060 SUPER Gaming"     },
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070_WINDFORCE_SUB_DEV,     0x47,   "Gigabyte RTX2070 Windforce 8G"     },
+    { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV,    0x55,   "Gigabyte RTX2070S Gaming OC"       },
     { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2080_GAMING_OC_SUB_DEV,     0x47,   "Gigabyte RTX2080 Gaming OC 8G"     },
 };
 
@@ -68,7 +69,7 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 
         res = bus->i2c_smbus_read_byte(address);
 
-        if(res != 0x14)
+        if ((res != 0x14) && (res != 0x10))
         {
             pass = false;
         }
