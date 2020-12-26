@@ -168,7 +168,7 @@ int main(int argc, char* argv[])
     | Process command line arguments before detection           |
     \*---------------------------------------------------------*/
     unsigned int ret_flags = RET_FLAG_START_GUI;
-    if (argc != 0)
+    if (argc >  1)
     {
         ret_flags = cli_pre_detection(argc, argv);
     }
