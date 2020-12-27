@@ -109,6 +109,7 @@
 #define MSI_RTX3080_GAMING_X_TRIO_SUB_DEV       0x3892
 #define MSI_RTX3080_SUPRIM_X_SUB_DEV            0x3897
 #define MSI_RTX3090_GAMING_X_TRIO_SUB_DEV       0x3884
+#define MSI_RTX3090_SUPRIM_X_SUB_DEV            0x3882
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |
