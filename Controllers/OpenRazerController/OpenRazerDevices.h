@@ -4329,6 +4329,100 @@ static const razer_device mug_holder_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Chroma Addressable RGB Controller                      |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone chromaargb_zone_1 =
+{
+    "Channel 1",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_2 =
+{
+    "Channel 2",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_3 =
+{
+    "Channel 3",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_4 =
+{
+    "Channel 4",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_5 =
+{
+    "Channel 5",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_6 =
+{
+    "Channel 6",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_device chromaargb_device =
+{
+    "Razer Chroma Addressable RGB Controller",
+    DEVICE_TYPE_LEDSTRIP,
+    true,
+    6,
+    80,
+    {
+        &chromaargb_zone_1,
+        &chromaargb_zone_2,
+        &chromaargb_zone_3,
+        &chromaargb_zone_5,
+        &chromaargb_zone_5,
+        &chromaargb_zone_6
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Chroma HDK                                             |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -4632,6 +4726,7 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &core_device,
     &mug_holder_device,
+    &chromaargb_device,
     &chromahdk_device,
     &base_station_device,
     &nommo_pro_device,
