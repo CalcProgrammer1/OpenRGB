@@ -53,15 +53,17 @@ struct ServerOptions
 
 struct Options
 {
-    std::vector<DeviceOptions> devices;
+    std::vector<DeviceOptions>  devices;
 
     /*---------------------------------------------------------*\
     | If hasDevice is false, devices above is empty and         |
     | allDeviceOptions shall be applied to all available devices|
+    | except in the case that a profile was loaded.             |
     \*---------------------------------------------------------*/
-    bool hasDevice;
-    DeviceOptions allDeviceOptions;
-    ServerOptions servOpts;
+    bool                        hasDevice;
+    bool                        profile_loaded;
+    DeviceOptions               allDeviceOptions;
+    ServerOptions               servOpts;
 };
 
 
@@ -774,7 +776,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--profile" || option == "-p")
         {
-            OptionProfile(argument, rgb_controllers);
+            options->profile_loaded = OptionProfile(argument, rgb_controllers);
 
             arg_index++;
         }
@@ -1207,7 +1209,7 @@ unsigned int cli_post_detection(int argc, char *argv[])
             ApplyOptions(options.devices[device_idx], rgb_controllers);
         }
     }
-    else
+    else if (!options.profile_loaded)
     {
         for (unsigned int device_idx = 0; device_idx < rgb_controllers.size(); device_idx++)
         {
