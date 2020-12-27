@@ -52,6 +52,7 @@ INCLUDEPATH +=                                                                  
     super_io/                                                                                   \
     Controllers/AMDWraithPrismController/                                                       \
     Controllers/ASRockPolychromeSMBusController/                                                \
+    Controllers/ASRockPolychromeUSBController/                                                  \
     Controllers/AsusAuraCoreController/                                                         \
     Controllers/AsusAuraGPUController/                                                          \
     Controllers/AsusAuraSMBusController/                                                        \
@@ -141,6 +142,8 @@ HEADERS +=                                                                      
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.h               \
     Controllers/ASRockPolychromeSMBusController/RGBController_ASRockPolychromeSMBus.h           \
+    Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.h                   \
+    Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.h               \
     Controllers/AsusAuraCoreController/AsusAuraCoreController.h                                 \
     Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.h                             \
     Controllers/AsusAuraGPUController/AsusAuraGPUController.h                                   \
@@ -319,6 +322,9 @@ SOURCES +=                                                                      
     Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.cpp             \
     Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusControllerDetect.cpp       \
     Controllers/ASRockPolychromeSMBusController/RGBController_ASRockPolychromeSMBus.cpp         \
+    Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.cpp                 \
+    Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBControllerDetect.cpp           \
+    Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.cpp             \
     Controllers/AsusAuraCoreController/AsusAuraCoreController.cpp                               \
     Controllers/AsusAuraCoreController/AsusAuraCoreControllerDetect.cpp                         \
     Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.cpp                           \
