@@ -30,7 +30,7 @@ RGBFusion2DRAMController::RGBFusion2DRAMController(i2c_smbus_interface* bus, rgb
     | Initialize controller with 6 LEDs and mask 0x3B       |
     | This is hard coded for Aorus RGB RAM                  |
     \*-----------------------------------------------------*/
-    led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = 0x3B;
+    led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = 0x3F;
     led_count = 6;
 
     /*-----------------------------------------------------*\
