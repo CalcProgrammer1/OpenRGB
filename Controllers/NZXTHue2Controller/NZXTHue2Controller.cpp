@@ -189,6 +189,10 @@ void NZXTHue2Controller::UpdateDeviceList()
             case 0x11: //Kraken X3 logo
                 num_leds_on_channel += 1;
                 break;
+            
+            case 0x08: //Hue 2 Cable Comb (14 LEDs)
+                num_leds_on_channel += 14;
+                break;
 
             default:
                 break;
