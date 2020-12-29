@@ -198,7 +198,9 @@ HEADERS +=                                                                      
     Controllers/GalaxGPUController/GalaxGPUController.h                                         \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/HoltekController/HoltekA070Controller.h                                         \
+    Controllers/HoltekController/HoltekA1FAController.h                                         \
     Controllers/HoltekController/RGBController_HoltekA070.h                                     \
+    Controllers/HoltekController/RGBController_HoltekA1FA.h                                     \
     Controllers/HyperXDRAMController/HyperXDRAMController.h                                     \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.h                                 \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h                         \
@@ -401,8 +403,10 @@ SOURCES +=                                                                      
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
     Controllers/HoltekController/HoltekA070Controller.cpp                                       \
+    Controllers/HoltekController/HoltekA1FAController.cpp                                       \
     Controllers/HoltekController/HoltekControllerDetect.cpp                                     \
     Controllers/HoltekController/RGBController_HoltekA070.cpp                                   \
+    Controllers/HoltekController/RGBController_HoltekA1FA.cpp                                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.cpp                                   \
     Controllers/HyperXDRAMController/HyperXDRAMControllerDetect.cpp                             \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.cpp                               \
