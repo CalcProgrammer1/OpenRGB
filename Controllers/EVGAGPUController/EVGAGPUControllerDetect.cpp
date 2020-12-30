@@ -34,7 +34,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,     EVGA_SUB_VEN,   EVGA_GTX1080_FTW_SUB_DEV,       EVGA_RGB_V1,    "EVGA GeForce GTX 1080 FTW"             },
     { NVIDIA_VEN,   NVIDIA_RTX2070_OC_DEV,  EVGA_SUB_VEN,   EVGA_RTX2070_XC_OC_SUB_DEV,     EVGA_RGB_V2,    "EVGA GeForce RTX 2070 XC OC"           },
     { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,    EVGA_SUB_VEN,   EVGA_RTX2070S_XC_ULTRA_SUB_DEV, EVGA_RGB_V2,    "EVGA GeForce RTX 2070 SUPER XC ULTRA"  },
-    { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,     EVGA_SUB_VEN,   EVGA_RTX2080_XC_GAMING_SUB_DEV, EVGA_RGB_V2,    "EVGA GeForce RTX 2080 XC GAMING"       },
+    { NVIDIA_VEN,   NVIDIA_RTX2080_A_DEV,   EVGA_SUB_VEN,   EVGA_RTX2080_XC_GAMING_SUB_DEV, EVGA_RGB_V2,    "EVGA GeForce RTX 2080 XC GAMING"       },
 };
 
 /******************************************************************************************\

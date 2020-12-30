@@ -33,7 +33,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070_GAMING_OC_SUB_DEV,     0x47,   "Gigabyte RTX2070 Gaming OC 8G"     },
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070_WINDFORCE_SUB_DEV,     0x47,   "Gigabyte RTX2070 Windforce 8G"     },
     { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV,    0x55,   "Gigabyte RTX2070S Gaming OC"       },
-    { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2080_GAMING_OC_SUB_DEV,     0x47,   "Gigabyte RTX2080 Gaming OC 8G"     },
+    { NVIDIA_VEN,   NVIDIA_RTX2080_A_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX2080_GAMING_OC_SUB_DEV,     0x47,   "Gigabyte RTX2080 Gaming OC 8G"     },
 };
 
 /******************************************************************************************\
