@@ -13,6 +13,38 @@ static void UpdateCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
 }
 
+static QString ModeDescription(const mode& m)
+{
+    /*-----------------------------------------------------------------*\
+    | List of common mode names can be found on the OpenRGB Wiki:       |
+    | https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Common-Modes   |
+    \*-----------------------------------------------------------------*/
+    static const std::unordered_map<std::string, QString> descriptions =
+    {
+        {"Direct",          "Set individual LEDs to static colors.  Safe for use with software-driven effects."                     },
+        {"Custom",          "Set individual LEDs to static colors.  Not safe for use with software-driven effects."                 },
+        {"Static",          "Sets the entire device or a zone to a single color."                                                   },
+        {"Breathing",       "Gradually fades between fully off and fully on."                                                       },
+        {"Flashing",        "Abruptly changes between fully off and fully on."                                                      },
+        {"Spectrum Cycle",  "Gradually cycles through the entire color spectrum.  All lights on the device are the same color."     },
+        {"Rainbow Wave",    "Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves."           },
+        {"Reactive",        "Flashes lights when keys or buttons are pressed."                                                      },
+    };
+
+    /*-----------------------------------------------------------------*\
+    | Find the given mode name in the list and return the description   |
+    | if it exists, otherwise return an empty string                    |
+    \*-----------------------------------------------------------------*/
+    std::unordered_map<std::string, QString>::const_iterator it = descriptions.find(m.name);
+
+    if(it != descriptions.end())
+    {
+        return it->second;
+    }
+
+    return "";
+}
+
 OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OpenRGBDevicePageUi)
@@ -124,6 +156,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     for (std::size_t i = 0; i < device->modes.size(); i++)
     {
         ui->ModeBox->addItem(device->modes[i].name.c_str());
+        ui->ModeBox->setItemData(i, ModeDescription(device->modes[i]), Qt::ToolTipRole);
     }
 
     ui->ModeBox->setCurrentIndex(device->GetMode());
