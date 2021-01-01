@@ -63,7 +63,7 @@ void CMMP750Controller::GetStatus()
 
     if((buffer[0] == 0x80) && (buffer[1] == 0x05))
     {
-        current_mode  = buffer[2] - 1;
+        current_mode  = buffer[2];
         current_red   = buffer[3];
         current_green = buffer[4];
         current_blue  = buffer[5];
