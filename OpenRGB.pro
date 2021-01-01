@@ -673,6 +673,15 @@ unix:!macx {
     #-------------------------------------------------------------------------------------------#
     packagesExist(hidapi-hidraw) {
         LIBS += -lhidapi-hidraw
+
+        #---------------------------------------------------------------------------------------#
+        # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
+        # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
+        #---------------------------------------------------------------------------------------#
+        HIDAPI_HIDRAW_VERSION = $$system(pkgconf --modversion hidapi-hidraw)
+        if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
+            DEFINES += USE_HID_USAGE
+        }
     } else {
         packagesExist(hidapi-libusb) {
             LIBS += -lhidapi-libusb
