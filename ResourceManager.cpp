@@ -578,11 +578,13 @@ void ResourceManager::DetectDevicesThreadFunction()
                 unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
 
                 if((   hid_device_detectors[hid_detector_idx].address    == addr                                 )
-                && ( ( current_hid_device->interface_number == HID_INTERFACE_ANY                    )
+                && ( ( hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
                 || ( hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
 #ifdef USE_HID_USAGE
-                && ( hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       )
-                && ( hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            )
+                && ( ( hid_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
+                || ( hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
+                && ( ( hid_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
+                || ( hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
 #endif
                 )
                 {
@@ -652,11 +654,13 @@ void ResourceManager::DetectDevicesThreadFunction()
             for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
             {
                 if((   hid_device_detectors[hid_detector_idx].address    == addr                                   )
-                && ( ( current_hid_device->interface_number == HID_INTERFACE_ANY                    )
+                && ( ( hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
                 || ( hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
 #ifdef USE_HID_USAGE
-                && ( hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       )
-                && ( hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            )
+                && ( ( hid_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
+                || ( hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
+                && ( ( hid_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
+                || ( hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
 #endif
                 )
                 {

@@ -42,8 +42,8 @@ typedef struct
     HIDDeviceDetectorFunction   function;
     unsigned int                address;
     int                         interface;
-    unsigned short              usage_page;
-    unsigned short              usage;
+    int                         usage_page;
+    int                         usage;
 } HIDDeviceDetectorBlock;
 
 typedef void (*DeviceListChangeCallback)(void *);
