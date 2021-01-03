@@ -90,7 +90,7 @@ void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string
 /*-----------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                             |
 \*-----------------------------------------------------------------------------------------------------*/
-//REGISTER_HID_DETECTOR_IP("Corsair K55 RGB",                  DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K55_RGB_PID,           1, 0xFFC2); // Not per-key, disabled for now
+REGISTER_HID_DETECTOR_IP("Corsair K55 RGB",                  DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K55_RGB_PID,           1, 0xFFC2); // Not per-key, disabled for now
 REGISTER_HID_DETECTOR_IP("Corsair K65 RGB",                  DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_RGB_PID,           1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K65 LUX RGB",              DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_LUX_RGB_PID,       1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K65 RGB RAPIDFIRE",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_RGB_RAPIDFIRE_PID, 1, 0xFFC2);

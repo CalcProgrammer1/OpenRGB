@@ -30,6 +30,7 @@ enum
     CORSAIR_PROPERTY_LIGHTING_CONTROL           = 0x05,
     CORSAIR_PROPERTY_HARDWARE_PROFILE           = 0x13,
     CORSAIR_PROPERTY_SUBMIT_MOUSE_COLOR         = 0x22,
+    CORSAIR_PROPERTY_SUBMIT_KBZONES_COLOR_24    = 0x25,
     CORSAIR_PROPERTY_SUBMIT_KEYBOARD_COLOR_9    = 0x27,
     CORSAIR_PROPERTY_SUBMIT_KEYBOARD_COLOR_24   = 0x28,
 };
@@ -60,7 +61,8 @@ enum
 {
     CORSAIR_TYPE_NORMAL             = 0,
     CORSAIR_TYPE_K95_PLAT           = 1,
-    CORSAIR_TYPE_K95                = 2
+    CORSAIR_TYPE_K95                = 2,
+    CORSAIR_TYPE_K55                = 3
 };
 
 class CorsairPeripheralController
@@ -112,6 +114,14 @@ private:
                 unsigned char   packet_count,
                 unsigned char   finish_val
                 );
+
+    void    SubmitKeyboardZonesColors
+                (
+                RGBColor left,
+                RGBColor mid,
+                RGBColor right
+                );
+
 
     void    SubmitKeyboardLimitedColors
                 (

@@ -112,7 +112,14 @@ void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)
     switch(type)
     {
         case DEVICE_TYPE_KEYBOARD:
-            SetLEDsKeyboardFull(colors);
+            if (logical_layout == CORSAIR_TYPE_K55)
+            {
+                SubmitKeyboardZonesColors(colors[0], colors[1], colors[2]);
+            }
+            else
+            {
+                SetLEDsKeyboardFull(colors);
+            }
             break;
 
         case DEVICE_TYPE_MOUSE:
@@ -439,6 +446,11 @@ void CorsairPeripheralController::ReadFirmwareInfo()
                     logical_layout = CORSAIR_TYPE_K95;
                     break;
 
+                    case 0x1B3D:
+                    logical_layout = CORSAIR_TYPE_K55;
+                    SpecialFunctionControl();
+                    break;
+
                     default:
                     logical_layout = CORSAIR_TYPE_NORMAL;
                 }
@@ -566,6 +578,44 @@ void CorsairPeripheralController::SubmitKeyboardFullColors
     usb_buf[0x03]   = color_channel;
     usb_buf[0x04]   = packet_count;
     usb_buf[0x05]   = finish_val;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 65);
+}
+
+void CorsairPeripheralController::SubmitKeyboardZonesColors
+    (
+    RGBColor left,
+    RGBColor mid,
+    RGBColor right
+    )
+{
+    char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Keyboard 24-Bit Colors packet           |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x02]   = CORSAIR_PROPERTY_SUBMIT_KBZONES_COLOR_24;
+    usb_buf[0x03]   = 0x00;
+    usb_buf[0x04]   = 0x00;
+    usb_buf[0x05]   = RGBGetRValue(left);
+    usb_buf[0x06]   = RGBGetGValue(left);
+    usb_buf[0x07]   = RGBGetBValue(left);
+    usb_buf[0x08]   = RGBGetRValue(mid);
+    usb_buf[0x09]   = RGBGetGValue(mid);
+    usb_buf[0x0A]   = RGBGetBValue(mid);
+    usb_buf[0x0B]   = RGBGetRValue(right);
+    usb_buf[0x0C]   = RGBGetGValue(right);
+    usb_buf[0x0D]   = RGBGetBValue(right);
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
