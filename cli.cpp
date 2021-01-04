@@ -1213,7 +1213,5 @@ unsigned int cli_post_detection(int argc, char *argv[])
 
     std::this_thread::sleep_for(1s);
 
-    exit(0);
-
     return 0;
 }
