@@ -26,6 +26,7 @@
 \*-----------------------------------------------------*/
 #define NVIDIA_GTX1060_DEV                      0x1C03
 #define NVIDIA_GTX1070_DEV                      0x1B81
+#define NVIDIA_GTX1070TI_DEV                    0x1B82
 #define NVIDIA_GTX1080_DEV                      0x1B80
 #define NVIDIA_GTX1080TI_DEV                    0x1B06
 #define NVIDIA_GTX1660_DEV                      0x2184
@@ -63,6 +64,7 @@
 | EVGA Sub-Device IDs                                   |
 \*-----------------------------------------------------*/
 #define EVGA_GTX1070_FTW_SUB_DEV                0x6276
+#define EVGA_GTX1070TI_FTW2_SUB_DEV             0x6775
 #define EVGA_GTX1080_FTW_SUB_DEV                0x6286
 #define EVGA_RTX2070_XC_GAMING_SUB_DEV          0x2172
 #define EVGA_RTX2070_XC_OC_SUB_DEV              0x2173
