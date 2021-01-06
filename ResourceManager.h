@@ -63,6 +63,8 @@ public:
 
     virtual std::vector<RGBController*> &       GetRGBControllers()                                                                                 = 0;
 
+    virtual unsigned int                        GetDetectionPercent()                                                                               = 0;
+
     virtual std::string                         GetConfigurationDirectory()                                                                         = 0;
 
     virtual std::vector<NetworkClient*>&        GetClients()                                                                                        = 0;
