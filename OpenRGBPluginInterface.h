@@ -24,8 +24,6 @@ struct OpenRGBPluginInfo
 
     bool                        HasCustom;
     QLabel                      *PluginLabel;
-
-    std::string                 SettingName;
 };
 
 class OpenRGBPluginInterface
