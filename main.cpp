@@ -167,11 +167,7 @@ int main(int argc, char* argv[])
     /*---------------------------------------------------------*\
     | Process command line arguments before detection           |
     \*---------------------------------------------------------*/
-    unsigned int ret_flags = RET_FLAG_START_GUI;
-    if (argc >  1)
-    {
-        ret_flags = cli_pre_detection(argc, argv);
-    }
+    unsigned int ret_flags = cli_pre_detection(argc, argv);
 
     /*---------------------------------------------------------*\
     | Perform local connection and/or hardware detection if not |
