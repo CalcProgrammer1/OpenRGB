@@ -74,6 +74,7 @@ public:
     virtual SettingsManager*                    GetSettingsManager()                                                                                = 0;
 
     virtual void                                DeviceListChanged()                                                                                 = 0;
+    virtual void                                WaitForDeviceDetection()                                                                            = 0;
 
 protected:
     virtual                                    ~ResourceManagerInterface() {};
