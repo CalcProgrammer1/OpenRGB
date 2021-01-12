@@ -6,6 +6,10 @@
 
 #include "FanBusInterface.h"
 
+#include <thread>
+
+using namespace std::chrono_literals;
+
 FanBusInterface::FanBusInterface(const char* portname)
 {
     port_name  = portname;
@@ -24,6 +28,9 @@ FanBusInterface::FanBusInterface(const char* portname)
     read_buf[0] = 0xFF;
 
     serialport->serial_write(read_buf, 1);
+
+    std::this_thread::sleep_for(10ms);
+
     int test = serialport->serial_read(read_buf, 1);
 
     if(test > 0)
@@ -57,7 +64,7 @@ int FanBusInterface::read
 
     serialport->serial_write((char *)fanbus_msg, 5);
 
-    usleep(1000);
+    std::this_thread::sleep_for(10ms);
 
     char read_buf[6];
 
