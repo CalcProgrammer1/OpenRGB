@@ -90,8 +90,15 @@ bool serial_port::serial_open()
     ioctl(file_descriptor, TCGETS2, &options);
     options.c_cflag &= ~CBAUD;
     options.c_cflag |= BOTHER;
+    options.c_lflag &= ~ICANON;
+    options.c_lflag &= ~ECHO; // Disable echo
+    options.c_lflag &= ~ECHOE; // Disable erasure
+    options.c_lflag &= ~ECHONL; // Disable new-line echo
+    options.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT and SUSP
+    options.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
     options.c_ispeed = baud_rate;
     options.c_ospeed = baud_rate;
+    options.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
     ioctl(file_descriptor, TCSETS2, &options);
 
     //serial_struct ss;
