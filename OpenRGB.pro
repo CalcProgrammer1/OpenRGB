@@ -103,6 +103,7 @@ INCLUDEPATH +=                                                                  
     Controllers/PatriotViperController/                                                         \
     Controllers/PhilipsWizController/                                                           \
     Controllers/RazerController/                                                                \
+    Controllers/QMKRGBMatrixController/                                                         \
     Controllers/RedragonController/                                                             \
     Controllers/RoccatController/                                                               \
     Controllers/SapphireGPUController/                                                          \
@@ -301,6 +302,8 @@ HEADERS +=                                                                      
     Controllers/RazerController/RazerDevices.h                                                  \
     Controllers/RazerController/RGBController_Razer.h                                           \
     Controllers/RazerController/RGBController_RazerKraken.h                                     \
+    Controllers/QMKRGBMatrixController/RGBController_QMKRGBMatrix.h                             \
+    Controllers/QMKRGBMatrixController/QMKRGBMatrixController.h                                 \
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
@@ -570,6 +573,9 @@ SOURCES +=                                                                      
     Controllers/RazerController/RazerControllerDetect.cpp                                       \
     Controllers/RazerController/RGBController_Razer.cpp                                         \
     Controllers/RazerController/RGBController_RazerKraken.cpp                                   \
+    Controllers/QMKRGBMatrixController/RGBController_QMKRGBMatrix.cpp                           \
+    Controllers/QMKRGBMatrixController/QMKRGBMatrixControllerDetect.cpp                         \
+    Controllers/QMKRGBMatrixController/QMKRGBMatrixController.cpp                               \
     Controllers/RedragonController/RedragonM711Controller.cpp                                   \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
     Controllers/RedragonController/RGBController_RedragonM711.cpp                               \
