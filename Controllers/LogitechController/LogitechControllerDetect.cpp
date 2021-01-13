@@ -29,7 +29,8 @@
 #define LOGITECH_G213_PID                       0xC336
 #define LOGITECH_G512_PID                       0xC342
 #define LOGITECH_G512_RGB_PID                   0xC33C
-#define LOGITECH_G610_PID                       0xC333
+#define LOGITECH_G610_1_PID                     0xC333
+#define LOGITECH_G610_2_PID                     0xC338
 #define LOGITECH_G810_1_PID                     0xC331
 #define LOGITECH_G810_2_PID                     0xC337
 /*-----------------------------------------------------*\
@@ -210,7 +211,8 @@ void DetectLogitechMouseGLS(hid_device_info* info, const std::string& name)
 REGISTER_HID_DETECTOR_IPU("Logitech G213",                                 DetectLogitechKeyboardG213, LOGITECH_VID, LOGITECH_G213_PID,                   1, 0xFF43, 0x0602);
 REGISTER_HID_DETECTOR_IP ("Logitech G512",                                 DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G512_PID,                   1, 0xFF43);
 REGISTER_HID_DETECTOR_IP ("Logitech G512 RGB",                             DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G512_RGB_PID,               1, 0xFF43);
-REGISTER_HID_DETECTOR_IP ("Logitech G610 Orion",                           DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G610_PID,                   1, 0xFF43);
+REGISTER_HID_DETECTOR_IP ("Logitech G610 Orion",                           DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G610_1_PID,                 1, 0xFF43);
+REGISTER_HID_DETECTOR_IP ("Logitech G610 Orion",                           DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G610_2_PID,                 1, 0xFF43);
 REGISTER_HID_DETECTOR_IP ("Logitech G810 Orion Spectrum",                  DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G810_1_PID,                 1, 0xFF43);
 REGISTER_HID_DETECTOR_IP ("Logitech G810 Orion Spectrum",                  DetectLogitechKeyboardG810, LOGITECH_VID, LOGITECH_G810_2_PID,                 1, 0xFF43);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
