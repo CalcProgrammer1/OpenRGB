@@ -23,11 +23,21 @@
 #define strtok_s        strtok_r
 #endif
 
+typedef unsigned int    led_protocol;
+
+enum
+{
+    LED_PROTOCOL_KEYBOARD_VISUALIZER,
+    LED_PROTOCOL_ADALIGHT,
+    LED_PROTOCOL_TPM2
+};
+
 struct LEDStripDevice
 {
     std::string     port;
     unsigned int    baud;
     unsigned int    num_leds;
+    led_protocol    protocol;
 };
 
 class LEDStripController
@@ -36,7 +46,8 @@ public:
     LEDStripController();
     ~LEDStripController();
 
-    void        Initialize(char* ledstring);
+    void        Initialize(char* ledstring, led_protocol proto);
+
     void        InitializeSerial(char* portname, int baud);
     void        InitializeUDP(char* clientname, char* port);
 
@@ -44,6 +55,9 @@ public:
     std::string GetLocation();
 
     void        SetLEDs(std::vector<RGBColor> colors);
+
+    void        SetLEDsKeyboardVisualizer(std::vector<RGBColor> colors);
+    void        SetLEDsTPM2(std::vector<RGBColor> colors);
 
     int num_leds;
 
@@ -55,6 +69,7 @@ private:
     std::string client_name;
     serial_port *serialport;
     net_port *udpport;
+    led_protocol protocol;
 };
 
 #endif
