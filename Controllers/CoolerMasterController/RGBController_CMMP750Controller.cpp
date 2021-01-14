@@ -22,26 +22,32 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
     serial              = cmmp750->GetSerial();
     location            = cmmp750->GetLocation();
 
+    mode Off;
+    Off.name            = "Turn Off";
+    Off.value           = CM_MP750_MODE_OFF;
+    Off.color_mode      = MODE_COLORS_NONE;
+    modes.push_back(Off);
+
     mode Static;
-    Static.name       = "Static";
-    Static.value      = MP750_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name         = "Static";
+    Static.value        = CM_MP750_MODE_STATIC;
+    Static.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Blink;
-    Blink.name       = "Blink";
-    Blink.value      = MP750_MODE_BLINK;
-    Blink.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Blink.speed_min  = MP750_SPEED_SLOWEST;
-    Blink.speed_max  = MP750_SPEED_FASTEST;
-    Blink.color_mode = MODE_COLORS_PER_LED;
-    Blink.speed      = speed;
+    Blink.name          = "Blink";
+    Blink.value         = CM_MP750_MODE_BLINK;
+    Blink.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    Blink.speed_min     = MP750_SPEED_SLOWEST;
+    Blink.speed_max     = MP750_SPEED_FASTEST;
+    Blink.color_mode    = MODE_COLORS_PER_LED;
+    Blink.speed         = speed;
     modes.push_back(Blink);
 
     mode Breathing;
     Breathing.name       = "Breathing";
-    Breathing.value      = MP750_MODE_BREATHING;
+    Breathing.value      = CM_MP750_MODE_BREATHING;
     Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     Breathing.speed_min  = MP750_SPEED_SLOWEST;
     Breathing.speed_max  = MP750_SPEED_FASTEST;
@@ -51,7 +57,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
 
     mode ColorCycle;
     ColorCycle.name       = "Color Cycle";
-    ColorCycle.value      = MP750_MODE_COLOR_CYCLE;
+    ColorCycle.value      = CM_MP750_MODE_COLOR_CYCLE;
     ColorCycle.flags      = MODE_FLAG_HAS_SPEED;
     ColorCycle.speed_min  = MP750_SPEED_SLOWEST;
     ColorCycle.speed_max  = MP750_SPEED_FASTEST;
@@ -61,7 +67,7 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
 
     mode BreathCycle;
     BreathCycle.name       = "Breath Cycle";
-    BreathCycle.value      = MP750_MODE_BREATH_CYCLE;
+    BreathCycle.value      = CM_MP750_MODE_BREATH_CYCLE;
     BreathCycle.flags      = MODE_FLAG_HAS_SPEED;
     BreathCycle.speed_min  = MP750_SPEED_SLOWEST;
     BreathCycle.speed_max  = MP750_SPEED_FASTEST;

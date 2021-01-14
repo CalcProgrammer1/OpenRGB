@@ -26,6 +26,7 @@
 \*-----------------------------------------------------*/
 #define NVIDIA_GTX1060_DEV                      0x1C03
 #define NVIDIA_GTX1070_DEV                      0x1B81
+#define NVIDIA_GTX1070TI_DEV                    0x1B82
 #define NVIDIA_GTX1080_DEV                      0x1B80
 #define NVIDIA_GTX1080TI_DEV                    0x1B06
 #define NVIDIA_GTX1660_DEV                      0x2184
@@ -37,7 +38,8 @@
 #define NVIDIA_RTX2070_DEV                      0x1F02
 #define NVIDIA_RTX2070_OC_DEV                   0x1F07
 #define NVIDIA_RTX2070S_DEV                     0x1E84
-#define NVIDIA_RTX2080_DEV                      0x1E87
+#define NVIDIA_RTX2080_DEV                      0x1E82
+#define NVIDIA_RTX2080_A_DEV                    0x1E87
 #define NVIDIA_RTX2080S_DEV                     0x1E81
 #define NVIDIA_RTX2080TI_DEV                    0x1E07
 #define NVIDIA_RTX3060_TI_DEV                   0x2486
@@ -62,10 +64,19 @@
 | EVGA Sub-Device IDs                                   |
 \*-----------------------------------------------------*/
 #define EVGA_GTX1070_FTW_SUB_DEV                0x6276
+#define EVGA_GTX1070TI_FTW2_SUB_DEV             0x6775
 #define EVGA_GTX1080_FTW_SUB_DEV                0x6286
+#define EVGA_RTX2070_XC_GAMING_SUB_DEV          0x2172
 #define EVGA_RTX2070_XC_OC_SUB_DEV              0x2173
 #define EVGA_RTX2070S_XC_ULTRA_SUB_DEV          0x3173
 #define EVGA_RTX2080_XC_GAMING_SUB_DEV          0x2182
+#define EVGA_RTX2080TI_XC_ULTRA_SUB_DEV         0x2383
+
+/*-----------------------------------------------------*\
+| GALAX / KFA2 Sub-Device IDs                           |
+\*-----------------------------------------------------*/
+#define KFA2_RTX_2070_EX                        0x12FE
+#define GALAX_RTX_2070S_EX_GAMER_BLACK          0x139F
 
 /*-----------------------------------------------------*\
 | Gigabyte (Aorus) Sub-Device IDs                       |
@@ -78,6 +89,7 @@
 #define GIGABYTE_GTX1660S_GAMING_OC_SUB_DEV     0x4014
 #define GIGABYTE_RTX2060_GAMING_OC_SUB_DEV      0x37CE
 #define GIGABYTE_RTX2060S_GAMING_SUB_DEV        0x404A
+#define GIGABYTE_RTX2070_GAMING_OC_SUB_DEV      0x37AD
 #define GIGABYTE_RTX2070_WINDFORCE_SUB_DEV      0x37C2
 #define GIGABYTE_RTX2080_GAMING_OC_SUB_DEV      0x37A7
 #define GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV     0x4008
@@ -100,6 +112,7 @@
 #define MSI_RTX2070S_GAMING_Z_TRIO_SUB_DEV      0x37B6
 #define MSI_RTX2070S_GAMING_X_SUB_DEV           0x373e
 #define MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV      0xC726
+#define MSI_RTX2080_GAMING_TRIO_SUB_DEV         0x372E
 #define MSI_RTX2080_GAMING_X_TRIO_SUB_DEV       0x3726
 #define MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV       0x3728
 #define MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV      0xC724
@@ -115,12 +128,6 @@
 | Sapphire Sub-Device IDs                               |
 \*-----------------------------------------------------*/
 #define SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV       0xE366
-
-/*-----------------------------------------------------*\
-| GALAX / KFA2 Sub-Device IDs                           |
-\*-----------------------------------------------------*/
-#define KFA2_RTX_2070_EX                        0x12FE
-#define GALAX_RTX_2070S_EX_GAMER_BLACK          0x139F
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |

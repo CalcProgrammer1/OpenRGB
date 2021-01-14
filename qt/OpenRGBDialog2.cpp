@@ -1,4 +1,5 @@
 #include "OpenRGBDialog2.h"
+#include "PluginManager.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBServerInfoPage.h"
@@ -88,7 +89,7 @@ static void UpdateDetectionProgressCallback(void * this_ptr)
 
 bool OpenRGBDialog2::IsDarkTheme()
     {
-    #ifdef _WIN32
+#ifdef _WIN32
     /*-------------------------------------------------*\
     | Windows dark theme settings                       |
     \*-------------------------------------------------*/
@@ -131,12 +132,12 @@ bool OpenRGBDialog2::IsDarkTheme()
     }
     return false;
 
-    #else
+#else
     if(QPalette().window().color().value() < 127)
     {
         return true;
     }
-    #endif
+#endif
     
     return false;
 }
@@ -228,6 +229,24 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
     trayIconMenu->addAction(actionExit);
 
+    /*-------------------------------------------------*\
+    | Tray minimization                                 |
+    | Defaults to false                                 |
+    \*-------------------------------------------------*/
+    json MinimizeSettings;
+    MinimizeSettings = ResourceManager::get()->GetSettingsManager()->GetSettings("Minimize");
+
+    if (MinimizeSettings.contains("minimize_on_close"))
+    {
+        OpenRGBDialog2::MinimizeToTray = MinimizeSettings["minimize_on_close"];
+    }
+    else
+    {
+        OpenRGBDialog2::MinimizeToTray = false;
+    }
+
+    connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
+
     trayIcon->setIcon(logo);
     trayIcon->setToolTip("OpenRGB");
     trayIcon->setContextMenu(trayIconMenu);
@@ -287,6 +306,24 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     {
         AddI2CToolsPage();
     }
+
+    /*-----------------------------------------------------*\
+    | Add the various plugins tabs                          |
+    \*-----------------------------------------------------*/
+    PluginManager* plugin_manager = new PluginManager;
+
+    plugin_manager->ScanAndLoadPlugins();
+
+    if(plugin_manager->ActivePlugins.size() > 0)
+    {
+        for(int i = 0; i < int(plugin_manager->ActivePlugins.size()); i++)
+        {
+            /*---------------------------------------------------------------------------*\
+            | Start by getting location and then placing the widget where it needs to go  |
+            \*---------------------------------------------------------------------------*/
+            OpenRGBDialog2::AddPluginTab(plugin_manager, i);
+        }
+    }
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
@@ -297,7 +334,16 @@ OpenRGBDialog2::~OpenRGBDialog2()
 void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
-    event->accept();
+
+    if (OpenRGBDialog2::MinimizeToTray)
+    {
+        hide();
+        event->ignore();
+    }
+    else
+    {
+        event->accept();
+    }
 }
 
 void OpenRGBDialog2::AddSoftwareInfoPage()
@@ -356,6 +402,98 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
     }
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
+}
+
+void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_index)
+{
+    /*-----------------------------------------------------*\
+    | Initialize the plugin                                 |
+    \*-----------------------------------------------------*/
+    plugin_manager->ActivePlugins[plugin_index]->info = plugin_manager->ActivePlugins[plugin_index]->Initialize(OpenRGBDialog2::IsDarkTheme(), ResourceManager::get());
+
+    /*-----------------------------------------------------*\
+    | Create Label for the Tab                              |
+    \*-----------------------------------------------------*/
+    QLabel* PluginTabLabel = new QLabel;
+
+    /*-----------------------------------------------------*\
+    | If the plugin has custom information, use it,         |
+    | otherwise generate it                                 |
+    \*-----------------------------------------------------*/
+    if(plugin_manager->ActivePlugins[plugin_index]->info.HasCustom)
+    {
+        PluginTabLabel = plugin_manager->ActivePlugins[plugin_index]->info.PluginLabel;
+    }
+    else
+    {
+        QLabel *TabLabelText = plugin_manager->ActivePlugins[plugin_index]->info.PluginLabel;
+
+        QString NewTabLabelText = TabLabelText->text();
+        QString PluginLabelString = "<html><table><tr><td width='30'><img src='";
+        PluginLabelString += ":/plugin";
+        if (IsDarkTheme()) PluginLabelString += "_dark";
+        PluginLabelString+= ".png' height='16' width='16'></td><td>" + NewTabLabelText + "</td></tr></table></html>";
+        PluginTabLabel->setText(PluginLabelString);
+
+        PluginTabLabel->setIndent(20);
+        if(IsDarkTheme())
+        {
+            PluginTabLabel->setGeometry(0, 25, 200, 50);
+        }
+        else
+        {
+            PluginTabLabel->setGeometry(0, 0, 200, 25);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Determine plugin location                             |
+    \*-----------------------------------------------------*/
+    std::string Location = plugin_manager->ActivePlugins[plugin_index]->info.PluginLocation;
+
+    /*-----------------------------------------------------*\
+    | InformationTab - Place plugin in the Information tab  |
+    \*-----------------------------------------------------*/
+    if(Location == "InformationTab")
+    {
+        QWidget* NewPluginTab = new QWidget;
+
+        NewPluginTab = plugin_manager->ActivePlugins[plugin_index]->CreateGUI(NewPluginTab);
+        ui->InformationTabBar->addTab(NewPluginTab," ");
+
+        ui->InformationTabBar->tabBar()->setTabButton((ui->InformationTabBar->count() - 1),QTabBar::LeftSide , PluginTabLabel);
+    }
+    /*-----------------------------------------------------*\
+    | DevicesTab - Place plugin in the Devices tab          |
+    \*-----------------------------------------------------*/
+    else if(Location == "DevicesTab")
+    {
+        QWidget* NewPluginTab = new QWidget;
+
+        NewPluginTab = plugin_manager->ActivePlugins[plugin_index]->CreateGUI(NewPluginTab);
+        ui->DevicesTabBar->addTab(NewPluginTab," ");
+
+        ui->DevicesTabBar->tabBar()->setTabButton((ui->DevicesTabBar->count() - 1),QTabBar::LeftSide , PluginTabLabel);
+    }
+    /*-----------------------------------------------------*\
+    | TopTabBar - Place plugin as its own top level tab     |
+    \*-----------------------------------------------------*/
+    else if(Location == "TopTabBar")
+    {
+        QWidget* NewPluginTab = new QWidget;
+
+        NewPluginTab = plugin_manager->ActivePlugins[plugin_index]->CreateGUI(NewPluginTab);
+
+        ui->MainTabBar->addTab(NewPluginTab,QString().fromStdString(plugin_manager->ActivePlugins[plugin_index]->info.PluginName));
+    }
+    /*-----------------------------------------------------*\
+    | Display an error message if the plugin does not       |
+    | specify a valid location                              |
+    \*-----------------------------------------------------*/
+    else
+    {
+        std::cout << (plugin_manager->ActivePlugins[plugin_index]->info.PluginName + " Is broken\nNo valid location specified");
+    }
 }
 
 void OpenRGBDialog2::AddI2CToolsPage()
@@ -660,6 +798,10 @@ void OpenRGBDialog2::UpdateProfileList()
 
 void OpenRGBDialog2::on_Exit()
 {
+    /*-----------------------------------------------*\
+    | This is the exit from the tray icon             |
+    | NOT the main exit button (top right on Windows) |
+    \*-----------------------------------------------*/
     trayIcon->hide();
     close();
 }
@@ -759,6 +901,17 @@ void OpenRGBDialog2::on_ShowHide()
     else
     {
         hide();
+    }
+}
+
+void OpenRGBDialog2::on_ReShow(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::DoubleClick)
+    {
+        if (isHidden())
+        {
+            show();
+        }
     }
 }
 
@@ -934,6 +1087,7 @@ void Ui::OpenRGBDialog2::SetDetectionViewState(bool detection_showing)
         ui->ProfileBox->setVisible(true);
     }
 }
+
 void Ui::OpenRGBDialog2::on_ButtonRescan_clicked()
 {
     SetDetectionViewState(true);

@@ -58,10 +58,18 @@ QTabWidget QWidget QTabBar::tab
     padding-top: 4px;
     padding-bottom: 5px;
     height: 50px;
+    border: 10px;
+    border: 1px solid #5c5c5c;
     border-right: 1px solid #2e2e2e;
     margin-right: 0px;
-    margin-bottom: 0px;
-    border: 1px solid #2e2e2e;
+}
+
+QTabWidget QWidget QTabBar::tab:!selected
+{
+    background-color: #5c5c5c;
+    border-right: 1px solid #2e2e2e;
+    border-left: 1px solid #2e2e2e;
+    border-top: 1px solid #2e2e2e;
 }
 
 QTabWidget QWidget QTabBar::tab:selected
@@ -71,7 +79,20 @@ QTabWidget QWidget QTabBar::tab:selected
     border-right: 1px solid #454545;
 }
 
+QTabWidget QWidget QTabBar::tab:last:!selected
+{
+    background-color: #5c5c5c;
+    border: 1px solid #2e2e2e;
+}
+
 QTabWidget QWidget QTabBar::tab:hover
+{
+    background-color: #757575;
+    border: 1px solid #5c5c5c;
+    border-right: 1px solid #2e2e2e;
+}
+
+QTabWidget QWidget QTabBar::tab:last:hover
 {
     background-color: #757575;
     border: 1px solid #5c5c5c;
@@ -259,10 +280,15 @@ QDialog
     background-color: #5c5c5c
 }
 
-/*
-the default color is fine
-QSlider::handle
+/* QTableWidgets */
+
+QTableWidget
 {
-    background: ;
+    background-color: #454545;
+    color: white;
 }
-*/
+
+QTableWidget QTableCornerButton::section
+{
+    background-color: #444444;
+}

@@ -313,7 +313,7 @@ void RGBController_MSIGPU::UpdateSingleLED(int /*led*/)
 
 void RGBController_MSIGPU::SetCustomMode()
 {
-    active_mode = 0;
+    active_mode = 2;  //Set to MSI_GPU_MODE_STATIC
 }
 
 void RGBController_MSIGPU::DeviceUpdateMode()

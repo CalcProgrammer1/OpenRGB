@@ -7,6 +7,7 @@
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBSupportedDevicesPage.h"
+#include "PluginManager.h"
 
 #include <vector>
 #include "i2c_smbus.h"
@@ -56,6 +57,7 @@ private:
     /*-------------------------------------*\
     | System tray icon and menu             |
     \*-------------------------------------*/
+    bool MinimizeToTray;
     QSystemTrayIcon* trayIcon;
     QMenu* profileMenu;
 
@@ -66,6 +68,7 @@ private:
 
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();
+    void AddPluginTab(PluginManager* plugin_manager,int plugin_index);
 
     void ClearDevicesList();
     void UpdateDevicesList();
@@ -92,6 +95,7 @@ private slots:
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_SaveSizeProfile();
     void on_ShowHide();
+    void on_ReShow(QSystemTrayIcon::ActivationReason reason);
     void on_ProfileSelected();
     void on_ButtonSaveProfile_clicked();
     void on_ButtonLoadProfile_clicked();

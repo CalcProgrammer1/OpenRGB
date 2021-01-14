@@ -28,20 +28,22 @@
 
 enum
 {
-    CM_MODE_BYTE   = 0,
-    CM_RED_BYTE    = 2,
-    CM_GREEN_BYTE  = 3,
-    CM_BLUE_BYTE   = 4,
-    CM_SPEED_BYTE  = 5
+    CM_MODE_BYTE   = 1,
+    CM_LENGTH_BYTE = 2,
+    CM_RED_BYTE    = 3,
+    CM_GREEN_BYTE  = 4,
+    CM_BLUE_BYTE   = 5,
+    CM_SPEED_BYTE  = 6
 };
 
 enum
 {
-    MP750_MODE_STATIC       = 0x00, //Static Mode
-    MP750_MODE_BLINK        = 0x01, //Blinking Mode
-    MP750_MODE_BREATHING    = 0x02, //Breathing Mode
-    MP750_MODE_COLOR_CYCLE  = 0x03, //Color Cycle Mode
-    MP750_MODE_BREATH_CYCLE = 0x04  //Breathing Cycle Mode
+    CM_MP750_MODE_OFF           = 0x00, //Off
+    CM_MP750_MODE_STATIC        = 0x01, //Static Mode
+    CM_MP750_MODE_BLINK         = 0x02, //Blinking Mode
+    CM_MP750_MODE_BREATHING     = 0x03, //Breathing Mode
+    CM_MP750_MODE_COLOR_CYCLE   = 0x04, //Color Cycle Mode
+    CM_MP750_MODE_BREATH_CYCLE  = 0x05  //Breathing Cycle Mode
 };
 
 enum

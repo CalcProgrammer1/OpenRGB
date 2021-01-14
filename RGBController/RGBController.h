@@ -144,7 +144,63 @@ typedef struct
 
 typedef void (*RGBControllerCallback)(void *);
 
-class RGBController
+class RGBControllerInterface
+{
+public:
+    virtual void            SetupColors()                                                                       = 0;
+
+    virtual RGBColor        GetLED(unsigned int led)                                                            = 0;
+    virtual void            SetLED(unsigned int led, RGBColor color)                                            = 0;
+    virtual void            SetAllLEDs(RGBColor color)                                                          = 0;
+    virtual void            SetAllZoneLEDs(int zone, RGBColor color)                                            = 0;
+
+    virtual int             GetMode()                                                                           = 0;
+    virtual void            SetMode(int mode)                                                                   = 0;
+
+    virtual unsigned char * GetDeviceDescription(unsigned int protocol_version)                                 = 0;
+    virtual void            ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version)       = 0;
+
+    virtual unsigned char * GetModeDescription(int mode)                                                        = 0;
+    virtual void            SetModeDescription(unsigned char* data_buf)                                         = 0;
+
+    virtual unsigned char * GetColorDescription()                                                               = 0;
+    virtual void            SetColorDescription(unsigned char* data_buf)                                        = 0;
+
+    virtual unsigned char * GetZoneColorDescription(int zone)                                                   = 0;
+    virtual void            SetZoneColorDescription(unsigned char* data_buf)                                    = 0;
+
+    virtual unsigned char * GetSingleLEDColorDescription(int led)                                               = 0;
+    virtual void            SetSingleLEDColorDescription(unsigned char* data_buf)                               = 0;
+
+    virtual void            RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg) = 0;
+    virtual void            UnregisterUpdateCallback(void * callback_arg)                                       = 0;
+    virtual void            SignalUpdate()                                                                      = 0;
+
+    virtual void            UpdateLEDs()                                                                        = 0;
+    //virtual void          UpdateZoneLEDs(int zone)                                                            = 0;
+    //virtual void          UpdateSingleLED(int led)                                                            = 0;
+
+    virtual void            UpdateMode()                                                                        = 0;
+
+    virtual void            DeviceCallThreadFunction()                                                          = 0;
+
+    /*---------------------------------------------------------*\
+    | Functions to be implemented in device implementation      |
+    \*---------------------------------------------------------*/
+    virtual void            SetupZones()                                                                        = 0;
+
+    virtual void            ResizeZone(int zone, int new_size)                                                  = 0;
+
+    virtual void            DeviceUpdateLEDs()                                                                  = 0;
+    virtual void            UpdateZoneLEDs(int zone)                                                            = 0;
+    virtual void            UpdateSingleLED(int led)                                                            = 0;
+
+    virtual void            DeviceUpdateMode()                                                                  = 0;
+
+    virtual void            SetCustomMode()                                                                     = 0;
+};
+
+class RGBController : public RGBControllerInterface
 {
 public:
     std::string             name;           /* controller name          */

@@ -70,6 +70,7 @@ INCLUDEPATH +=                                                                  
     Controllers/EKController/                                                                   \
     Controllers/EspurnaController/                                                              \
     Controllers/EVGAGPUController/                                                              \
+    Controllers/FanBusController/                                                               \
     Controllers/GigabyteAorusCPUCoolerController/                                               \
     Controllers/GigabyteRGBFusion2DRAMController/                                               \
     Controllers/GigabyteRGBFusion2SMBusController/                                              \
@@ -112,6 +113,8 @@ HEADERS +=                                                                      
     NetworkClient.h                                                                             \
     NetworkProtocol.h                                                                           \
     NetworkServer.h                                                                             \
+    OpenRGBPluginInterface.h                                                                    \
+    PluginManager.h                                                                             \
     ProfileManager.h                                                                            \
     ResourceManager.h                                                                           \
     SettingsManager.h                                                                           \
@@ -183,6 +186,9 @@ HEADERS +=                                                                      
     Controllers/EVGAGPUController/EVGAGPUv2Controller.h                                         \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.h                                     \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.h                                     \
+    Controllers/FanBusController/FanBusController.h                                             \
+    Controllers/FanBusController/FanBusInterface.h                                              \
+    Controllers/FanBusController/RGBController_FanBus.h                                         \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
     Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.h                    \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.h             \
@@ -198,7 +204,9 @@ HEADERS +=                                                                      
     Controllers/GalaxGPUController/GalaxGPUController.h                                         \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/HoltekController/HoltekA070Controller.h                                         \
+    Controllers/HoltekController/HoltekA1FAController.h                                         \
     Controllers/HoltekController/RGBController_HoltekA070.h                                     \
+    Controllers/HoltekController/RGBController_HoltekA1FA.h                                     \
     Controllers/HyperXDRAMController/HyperXDRAMController.h                                     \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.h                                 \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h                         \
@@ -282,7 +290,6 @@ HEADERS +=                                                                      
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBController_Network.h                                                       \
 
-
 SOURCES +=                                                                                      \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
@@ -291,6 +298,7 @@ SOURCES +=                                                                      
     cli.cpp                                                                                     \
     NetworkClient.cpp                                                                           \
     NetworkServer.cpp                                                                           \
+    PluginManager.cpp                                                                           \
     ProfileManager.cpp                                                                          \
     ResourceManager.cpp                                                                         \
     SettingsManager.cpp                                                                         \
@@ -379,6 +387,10 @@ SOURCES +=                                                                      
     Controllers/EVGAGPUController/EVGAGPUControllerDetect.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.cpp                                   \
+    Controllers/FanBusController/FanBusController.cpp                                           \
+    Controllers/FanBusController/FanBusControllerDetect.cpp                                     \
+    Controllers/FanBusController/FanBusInterface.cpp                                            \
+    Controllers/FanBusController/RGBController_FanBus.cpp                                       \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.cpp                           \
     Controllers/GigabyteAorusCPUCoolerController/GigabyteAorusCPUCoolerControllerDetect.cpp     \
     Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.cpp                  \
@@ -401,8 +413,10 @@ SOURCES +=                                                                      
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
     Controllers/HoltekController/HoltekA070Controller.cpp                                       \
+    Controllers/HoltekController/HoltekA1FAController.cpp                                       \
     Controllers/HoltekController/HoltekControllerDetect.cpp                                     \
     Controllers/HoltekController/RGBController_HoltekA070.cpp                                   \
+    Controllers/HoltekController/RGBController_HoltekA1FA.cpp                                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.cpp                                   \
     Controllers/HyperXDRAMController/HyperXDRAMControllerDetect.cpp                             \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.cpp                               \
@@ -669,6 +683,15 @@ unix:!macx {
     #-------------------------------------------------------------------------------------------#
     packagesExist(hidapi-hidraw) {
         LIBS += -lhidapi-hidraw
+
+        #---------------------------------------------------------------------------------------#
+        # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
+        # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
+        #---------------------------------------------------------------------------------------#
+        HIDAPI_HIDRAW_VERSION = $$system(pkgconf --modversion hidapi-hidraw)
+        if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
+            DEFINES += USE_HID_USAGE
+        }
     } else {
         packagesExist(hidapi-libusb) {
             LIBS += -lhidapi-libusb

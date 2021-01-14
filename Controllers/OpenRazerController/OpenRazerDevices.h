@@ -3755,6 +3755,40 @@ static const razer_device viper_ultimate_wireless_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Viper 1532:0078                                        |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Matrix                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone viper_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device viper_device =
+{
+    "Razer Viper",
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    1,
+    {
+        &viper_logo_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Naga Epic Chroma                                       |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -4606,6 +4640,7 @@ static const razer_device* device_list[] =
     &viper_mini_device,
     &viper_ultimate_wired_device,
     &viper_ultimate_wireless_device,
+    &viper_device,
 /*-----------------------------------------------------------------*\
 |  KEYPADS                                                          |
 \*-----------------------------------------------------------------*/

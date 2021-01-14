@@ -41,6 +41,17 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a3", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f3", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  ASUS TUF Laptops (faustus)                                   #
+#---------------------------------------------------------------#
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_blue"
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_flags"
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_green"
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_mode"
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_red"
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_set"
+ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_speed"
+
+#---------------------------------------------------------------#
 #  Cooler Master Peripheral Devices                             #
 #                                                               #
 #  Mousemats:                                                   #
