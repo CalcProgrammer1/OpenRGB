@@ -146,36 +146,64 @@ void LEDStripController::SetLEDsKeyboardVisualizer(std::vector<RGBColor> colors)
 {
     unsigned char *serial_buf;
 
-    serial_buf = new unsigned char[(num_leds * 3) + 3];
+    /*-------------------------------------------------------------*\
+    | Keyboard Visualizer Arduino Protocol                          |
+    |                                                               |
+    |   Packet size: Number of data bytes + 3                       |
+    |                                                               |
+    |   0: Packet Start Byte (0xAA)                                 |
+    |   1-n: Data bytes                                             |
+    |   n+1: Checksum MSB                                           |
+    |   n+2: Checksum LSB                                           |
+    \*-------------------------------------------------------------*/
+    unsigned int payload_size   = (colors.size() * 3);
+    unsigned int packet_size    = payload_size + 3;
 
-    serial_buf[0] = 0xAA;
+    serial_buf = new unsigned char[packet_size];
 
-    for (int idx = 0; idx < (num_leds * 3); idx += 3)
+    /*-------------------------------------------------------------*\
+    | Set up header                                                 |
+    \*-------------------------------------------------------------*/
+    serial_buf[0x00]            = 0xAA;
+
+    /*-------------------------------------------------------------*\
+    | Copy in color data in RGB order                               |
+    \*-------------------------------------------------------------*/
+    for(unsigned int color_idx = 0; color_idx < colors.size(); color_idx++)
     {
-        int pixel_idx = idx / 3;
-        RGBColor color = colors[pixel_idx];
-        serial_buf[idx + 1] = RGBGetRValue(color);
-        serial_buf[idx + 2] = RGBGetGValue(color);
-        serial_buf[idx + 3] = RGBGetBValue(color);
+        unsigned int color_offset = color_idx * 3;
+
+        serial_buf[0x01 + color_offset]     = RGBGetRValue(colors[color_idx]);
+        serial_buf[0x02 + color_offset]     = RGBGetGValue(colors[color_idx]);
+        serial_buf[0x03 + color_offset]     = RGBGetBValue(colors[color_idx]);
     }
 
-    unsigned short sum = 0;
+    /*-------------------------------------------------------------*\
+    | Calculate the checksum                                        |
+    \*-------------------------------------------------------------*/
+    unsigned short sum          = 0;
 
-    for (int i = 0; i < (num_leds * 3) + 1; i++)
+    for (int i = 0; i < (payload_size + 1); i++)
     {
         sum += serial_buf[i];
     }
 
+    /*-------------------------------------------------------------*\
+    | Fill in the checksum bytes                                    |
+    \*-------------------------------------------------------------*/
     serial_buf[(num_leds * 3) + 1] = sum >> 8;
     serial_buf[(num_leds * 3) + 2] = sum & 0x00FF;
 
+    /*-------------------------------------------------------------*\
+    | Send the packet                                               |
+    \*-------------------------------------------------------------*/
     if (serialport != NULL)
     {
-        serialport->serial_write((char *)serial_buf, (num_leds * 3) + 3);
+        serialport->serial_write((char *)serial_buf, packet_size);
     }
     else if (udpport != NULL)
     {
-        udpport->udp_write((char *)serial_buf, (num_leds * 3) + 3);
+        udpport->udp_write((char *)serial_buf, packet_size);
     }
 
     delete[] serial_buf;
@@ -223,6 +251,9 @@ void LEDStripController::SetLEDsTPM2(std::vector<RGBColor> colors)
         serial_buf[0x06 + color_offset]     = RGBGetBValue(colors[color_idx]);
     }
 
+    /*-------------------------------------------------------------*\
+    | Send the packet                                               |
+    \*-------------------------------------------------------------*/
     if (serialport != NULL)
     {
         serialport->serial_write((char *)serial_buf, packet_size);
