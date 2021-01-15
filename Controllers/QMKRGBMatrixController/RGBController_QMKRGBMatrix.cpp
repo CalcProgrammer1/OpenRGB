@@ -21,147 +21,143 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
     location = qmk_rgb_matrix_ptr->GetLocation();
     version = std::to_string(protocol_version);
 
-    std::vector<unsigned int> enabled_modes = qmk_rgb_matrix_ptr->GetEnabledModes();
     unsigned int current_mode = 1;
     unsigned int hsv = qmk_rgb_matrix_ptr->QMKModeGetColor();
 
-    for (int i = 0; i < int(enabled_modes.size()); i++)
-    {
-        if (enabled_modes[i] == QMK_RGBMATRIX_MODE_OPENRGB_DIRECT)
-            InitializeMode("Direct", current_mode, MODE_FLAG_HAS_PER_LED_COLOR, MODE_COLORS_PER_LED, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_OPENRGB_DIRECT))
+        InitializeMode("Direct", current_mode, MODE_FLAG_HAS_PER_LED_COLOR, MODE_COLORS_PER_LED, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_COLOR)
-            InitializeMode("Static", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR, MODE_COLORS_MODE_SPECIFIC, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_COLOR))
+        InitializeMode("Static", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR, MODE_COLORS_MODE_SPECIFIC, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_ALPHA_MOD)
-            InitializeMode("Alpha Mod", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_ALPHA_MOD))
+        InitializeMode("Alpha Mod", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_GRADIENT_UP_DOWN)
-            InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_GRADIENT_UP_DOWN))
+        InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_GRADIENT_LEFT_RIGHT)
-            InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_GRADIENT_LEFT_RIGHT))
+        InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_BREATHING)
-            InitializeMode("Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_BREATHING))
+        InitializeMode("Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_BAND_SAT)
-            InitializeMode("Band Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_BAND_SAT))
+        InitializeMode("Band Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_BAND_VAL)
-            InitializeMode("Band Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_BAND_VAL))
+        InitializeMode("Band Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_BAND_PINWHEEL_SAT)
-            InitializeMode("Band Pinwheel Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
-        
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_BAND_PINWHEEL_VAL)
-            InitializeMode("Band Pinwheel Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_BAND_SPIRAL_SAT)
-            InitializeMode("Band Spiral Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_BAND_SPIRAL_VAL)
-            InitializeMode("Band Spiral Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);
-        
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_CYCLE_ALL)
-            InitializeMode("Cycle All", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_CYCLE_LEFT_RIGHT)
-            InitializeMode("Cycle Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_CYCLE_UP_DOWN)
-            InitializeMode("Cycle Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_CYCLE_OUT_IN)
-            InitializeMode("Cycle Out In", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-        
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_CYCLE_OUT_IN_DUAL)
-            InitializeMode("Cycle Out In Dual", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_RAINBOW_MOVING_CHEVRON)
-            InitializeMode("Rainbow Moving Chevron", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_CYCLE_PINWHEEL)
-            InitializeMode("Cycle Pinwheel", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_CYCLE_SPIRAL)
-            InitializeMode("Cycle Spiral", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_DUAL_BEACON)
-            InitializeMode("Dual Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_RAINBOW_BEACON)
-            InitializeMode("Rainbow Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_RAINBOW_PINWHEELS)
-            InitializeMode("Rainbow Pinwheels", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_RAINDROPS)
-            InitializeMode("Raindrops", current_mode, 0, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_JELLYBEAN_RAINDROPS)
-            InitializeMode("Jellybean Raindrops", current_mode, 0, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_TYPING_HEATMAP)
-            InitializeMode("Typing Heatmap", current_mode, 0, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_DIGITAL_RAIN)
-            InitializeMode("Digital Rain", current_mode, 0, MODE_COLORS_NONE, hsv);
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE_SIMPLE)
-            InitializeMode("Solid Reactive Simple", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);     
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE)
-            InitializeMode("Solid Reactive", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);  
-
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE_WIDE)
-            InitializeMode("Solid Reactive Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);  
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_BAND_PINWHEEL_SAT))
+        InitializeMode("Band Pinwheel Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
     
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE_MULTIWIDE)
-            InitializeMode("Solid Reactive Multi Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);  
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_BAND_PINWHEEL_VAL))
+        InitializeMode("Band Pinwheel Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE_CROSS)
-            InitializeMode("Solid Reactive Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);  
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_BAND_SPIRAL_SAT))
+        InitializeMode("Band Spiral Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE_MULTICROSS)
-            InitializeMode("Solid Reactive Multi Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);  
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_BAND_SPIRAL_VAL))
+        InitializeMode("Band Spiral Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);
+    
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_CYCLE_ALL))
+        InitializeMode("Cycle All", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE_NEXUS)
-            InitializeMode("Solid Reactive Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);  
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_CYCLE_LEFT_RIGHT))
+        InitializeMode("Cycle Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_REACTIVE_MULTINEXUS)
-            InitializeMode("Solid Reactive Multi Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);  
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_CYCLE_UP_DOWN))
+        InitializeMode("Cycle Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SPLASH)
-            InitializeMode("Rainbow Reactive Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_CYCLE_OUT_IN))
+        InitializeMode("Cycle Out In", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+    
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_CYCLE_OUT_IN_DUAL))
+        InitializeMode("Cycle Out In Dual", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_MULTISPLASH)
-            InitializeMode("Rainbow Reactive Multi Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_RAINBOW_MOVING_CHEVRON))
+        InitializeMode("Rainbow Moving Chevron", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
 
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_SPLASH)
-            InitializeMode("Solid Reactive Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);        
-        
-        else if (enabled_modes[i] == QMK_RGBMATRIX_MODE_SOLID_MULTISPLASH)
-            InitializeMode("Solid Reactive Multi Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
-                MODE_COLORS_MODE_SPECIFIC, hsv);       
-    }
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_CYCLE_PINWHEEL))
+        InitializeMode("Cycle Pinwheel", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_CYCLE_SPIRAL))
+        InitializeMode("Cycle Spiral", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_DUAL_BEACON))
+        InitializeMode("Dual Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_RAINBOW_BEACON))
+        InitializeMode("Rainbow Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_RAINBOW_PINWHEELS))
+        InitializeMode("Rainbow Pinwheels", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_RAINDROPS))
+        InitializeMode("Raindrops", current_mode, 0, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_JELLYBEAN_RAINDROPS))
+        InitializeMode("Jellybean Raindrops", current_mode, 0, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_TYPING_HEATMAP))
+        InitializeMode("Typing Heatmap", current_mode, 0, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_DIGITAL_RAIN))
+        InitializeMode("Digital Rain", current_mode, 0, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE_SIMPLE))
+        InitializeMode("Solid Reactive Simple", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);     
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE))
+        InitializeMode("Solid Reactive", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);  
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE_WIDE))
+        InitializeMode("Solid Reactive Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);  
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE_MULTIWIDE))
+        InitializeMode("Solid Reactive Multi Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);  
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE_CROSS))
+        InitializeMode("Solid Reactive Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);  
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE_MULTICROSS))
+        InitializeMode("Solid Reactive Multi Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);  
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE_NEXUS))
+        InitializeMode("Solid Reactive Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);  
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_REACTIVE_MULTINEXUS))
+        InitializeMode("Solid Reactive Multi Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);  
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SPLASH))
+        InitializeMode("Rainbow Reactive Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_MULTISPLASH))
+        InitializeMode("Rainbow Reactive Multi Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, hsv);
+
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_SPLASH))
+        InitializeMode("Solid Reactive Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);        
+    
+    if (qmk_rgb_matrix_ptr->GetEnabledModes(QMK_RGBMATRIX_MODE_SOLID_MULTISPLASH))
+        InitializeMode("Solid Reactive Multi Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, 
+            MODE_COLORS_MODE_SPECIFIC, hsv);       
 
     active_mode = qmk_rgb_matrix_ptr->GetActiveMode() - 1;
 

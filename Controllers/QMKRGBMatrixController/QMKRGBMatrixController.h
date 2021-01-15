@@ -17,7 +17,11 @@
 #pragma once
 
 enum CommandsId {
-    QMK_RGBMATRIX_DIRECT_MODE_SET_SINGLE_LED = 3,
+    QMK_RGBMATRIX_EOM,
+    QMK_RGBMATRIX_SUCCESS,
+    QMK_RGBMATRIX_FAILURE,
+
+    QMK_RGBMATRIX_DIRECT_MODE_SET_SINGLE_LED,
     QMK_RGBMATRIX_DIRECT_MODE_SET_LEDS,
     QMK_RGBMATRIX_DIRECT_MODE_GET_LED_COLOR,
 
@@ -118,7 +122,7 @@ public:
     std::string GetDeviceName();
     std::string GetDeviceVendor();
 
-    std::vector<unsigned int> GetEnabledModes();
+    bool GetEnabledModes(int mode);
     unsigned int GetActiveMode();
     
     unsigned int GetZonesCount();
@@ -311,6 +315,5 @@ private:
         { 231, "Right Windows" },
     };
 
-    unsigned short ep_size;
     unsigned short leds_per_update;
 };
