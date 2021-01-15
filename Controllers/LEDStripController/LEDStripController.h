@@ -57,6 +57,7 @@ public:
     void        SetLEDs(std::vector<RGBColor> colors);
 
     void        SetLEDsKeyboardVisualizer(std::vector<RGBColor> colors);
+    void        SetLEDsAdalight(std::vector<RGBColor> colors);
     void        SetLEDsTPM2(std::vector<RGBColor> colors);
 
     int num_leds;

@@ -134,6 +134,7 @@ void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
             break;
 
         case LED_PROTOCOL_ADALIGHT:
+            SetLEDsAdalight(colors);
             break;
 
         case LED_PROTOCOL_TPM2:
@@ -204,6 +205,62 @@ void LEDStripController::SetLEDsKeyboardVisualizer(std::vector<RGBColor> colors)
     else if (udpport != NULL)
     {
         udpport->udp_write((char *)serial_buf, packet_size);
+    }
+
+    delete[] serial_buf;
+}
+
+void LEDStripController::SetLEDsAdalight(std::vector<RGBColor> colors)
+{
+    unsigned char *serial_buf;
+
+    /*-------------------------------------------------------------*\
+    | Adalight Protocol                                             |
+    |                                                               |
+    |   Packet size: Number of data bytes + 6                       |
+    |                                                               |
+    |   0: 'A' (0x41)                                               |
+    |   1: 'd' (0x64)                                               |
+    |   2: 'a' (0x61)                                               |
+    |   3: LED count MSB                                            |
+    |   4: LED count LSB                                            |
+    |   5: Checksum (MSB xor LSB xor 0x55)                          |
+    |   6-n: Data Bytes                                             |
+    \*-------------------------------------------------------------*/
+    unsigned int led_count      = colors.size();
+    unsigned int payload_size   = (led_count * 3);
+    unsigned int packet_size    = payload_size + 6;
+
+    serial_buf = new unsigned char[packet_size];
+
+    /*-------------------------------------------------------------*\
+    | Set up header                                                 |
+    \*-------------------------------------------------------------*/
+    serial_buf[0x00]            = 0x41;
+    serial_buf[0x01]            = 0x64;
+    serial_buf[0x02]            = 0x61;
+    serial_buf[0x03]            = (led_count >> 8);
+    serial_buf[0x04]            = (led_count & 0xFF);
+    serial_buf[0x05]            = (serial_buf[0x03] ^ serial_buf[0x04] ^ 0x55);
+
+    /*-------------------------------------------------------------*\
+    | Copy in color data in RGB order                               |
+    \*-------------------------------------------------------------*/
+    for(unsigned int color_idx = 0; color_idx < led_count; color_idx++)
+    {
+        unsigned int color_offset = color_idx * 3;
+
+        serial_buf[0x06 + color_offset]     = RGBGetRValue(colors[color_idx]);
+        serial_buf[0x07 + color_offset]     = RGBGetGValue(colors[color_idx]);
+        serial_buf[0x08 + color_offset]     = RGBGetBValue(colors[color_idx]);
+    }
+
+    /*-------------------------------------------------------------*\
+    | Send the packet                                               |
+    \*-------------------------------------------------------------*/
+    if (serialport != NULL)
+    {
+        serialport->serial_write((char *)serial_buf, packet_size);
     }
 
     delete[] serial_buf;
