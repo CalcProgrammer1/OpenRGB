@@ -16,7 +16,7 @@ One of the biggest complaints about RGB is the software ecosystem surrounding it
 
 ## Supported Devices
 
-See the [Project Wiki](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home) for the current list of supported devices.
+* See the [Supported Devices](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Supported-Devices) page for the current list of supported devices.
 
 ## Configuration
 
@@ -124,7 +124,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## OpenRGB SDK
 
-OpenRGB provides a network interface for controlling supported RGB devices from other software.  These projects implement the OpenRGB SDK and provide additional ways for you to control your lighting setup.
+* OpenRGB provides a network interface for controlling supported RGB devices from other software.  These projects implement the OpenRGB SDK and provide additional ways for you to control your lighting setup.
 
   * OpenRGB Python Client (by bahorn): https://github.com/bahorn/OpenRGB-PyClient
   * OpenRGB Python Client (by jath03): https://github.com/jath03/openrgb-python
@@ -134,7 +134,7 @@ OpenRGB provides a network interface for controlling supported RGB devices from 
 
 ## Applications Supporting OpenRGB SDK
 
-While OpenRGB itself only provides control over the lighting effects built into hardware, several open source applications can use the OpenRGB SDK to provide synchronized lighting effects for your devices.
+* While OpenRGB itself only provides control over the lighting effects built into hardware, several open source applications can use the OpenRGB SDK to provide synchronized lighting effects for your devices.
 
   * Keyboard Visualizer (by me): https://gitlab.com/CalcProgrammer1/KeyboardVisualizer
   * OpenRGB E1.31 Receiver (by me): https://gitlab.com/CalcProgrammer1/OpenRGBE131Receiver
