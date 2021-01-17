@@ -82,7 +82,7 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
     std::string board_dmi = board.getMainboard(); 
     std::string manufacturer = board.getManufacturer();
 
-    if (manufacturer != "Micro-Star International Co., Ltd.")
+    if (manufacturer != "Micro-Star International Co., Ltd." && manufacturer != "Micro-Star International Co., Ltd")
     {
         return;
     }
