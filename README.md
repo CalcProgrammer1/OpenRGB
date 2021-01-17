@@ -144,6 +144,14 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * OpenRGB-python-FX (by herosilas12): https://github.com/herosilas12/OpenRGB-python-FX
   * AllMyLights (by sparten11740): https://github.com/sparten11740/allmylights
 
+## OpenRGB Plugins
+
+* OpenRGB provides a plugin interface for adding features to the OpenRGB application.  The following projects provide additional functionality in the form of plugins.
+
+  * OpenRGB E1.31 Receiver Plugin (by me): https://gitlab.com/CalcProgrammer1/OpenRGBE131ReceiverPlugin
+  * Auto Updates Plugin (by herosilas12): https://gitlab.com/herosilas12/OpenRGB-Plugins/-/tree/Updates
+  * Effects Engine Plugin (by herosilas12): https://gitlab.com/herosilas12/OpenRGB-Plugins/-/tree/Effects
+  
 ## Projects Used
 
   * InpOutx64: http://www.highrez.co.uk/downloads/inpout32/
