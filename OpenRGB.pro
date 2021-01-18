@@ -104,6 +104,7 @@ INCLUDEPATH +=                                                                  
     Controllers/TecknetController/                                                              \
     Controllers/ThermaltakePoseidonZRGBController/                                              \
     Controllers/ThermaltakeRiingController/                                                     \
+    Controllers/YeelightController/                                                             \
     RGBController/                                                                              \
     qt/
 
@@ -286,6 +287,8 @@ HEADERS +=                                                                      
     Controllers/ThermaltakePoseidonZRGBController/RGBController_ThermaltakePoseidonZRGB.h       \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h                         \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.h                     \
+    Controllers/YeelightController/YeelightController.h                                         \
+    Controllers/YeelightController/RGBController_Yeelight.h                                     \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBController_Network.h                                                       \
@@ -516,6 +519,9 @@ SOURCES +=                                                                      
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp                       \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp                 \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.cpp                   \
+    Controllers/YeelightController/YeelightController.cpp                                       \
+    Controllers/YeelightController/YeelightControllerDetect.cpp                                 \
+    Controllers/YeelightController/RGBController_Yeelight.cpp                                   \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBController_Network.cpp                                                     \
