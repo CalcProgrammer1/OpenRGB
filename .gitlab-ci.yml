@@ -129,9 +129,9 @@ build_windows_32:
   - mkdir _qt
   - mkdir _qt_download
   - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2019/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86.7z' 
-  - curl.exe -LJ -o qt-tools.7z 'https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2019/5.15.0-0-202005150700qttools-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86.7z'
-  - curl.exe -LJ -o qt-jom.zip  'https://download.qt.io/official_releases/jom/jom.zip'
+  - curl.exe -LJ -o qt-base.7z  'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2019/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86.7z' 
+  - curl.exe -LJ -o qt-tools.7z 'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2019/5.15.0-0-202005150700qttools-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86.7z'
+  - curl.exe -LJ -o qt-jom.zip  'https://qt-mirror.dannhauer.de/official_releases/jom/jom.zip'
   - _fold_final_
   
   - _fold_start_ 'extracting the downloaded qt binaries'
@@ -201,9 +201,9 @@ build_windows_64:
   - mkdir _qt
   - mkdir _qt_download
   - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win64_msvc2019_64/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z' 
-  - curl.exe -LJ -o qt-tools.7z 'https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win64_msvc2019_64/5.15.0-0-202005150700qttools-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z'
-  - curl.exe -LJ -o qt-jom.zip  'https://download.qt.io/official_releases/jom/jom.zip'
+  - curl.exe -LJ -o qt-base.7z  'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win64_msvc2019_64/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z' 
+  - curl.exe -LJ -o qt-tools.7z 'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win64_msvc2019_64/5.15.0-0-202005150700qttools-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z'
+  - curl.exe -LJ -o qt-jom.zip  'https://qt-mirror.dannhauer.de/official_releases/jom/jom.zip'
   - _fold_final_
   
   - _fold_start_ 'extracting the downloaded qt binaries'
