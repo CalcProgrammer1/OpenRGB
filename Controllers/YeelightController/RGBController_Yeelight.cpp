@@ -20,17 +20,31 @@ RGBController_Yeelight::RGBController_Yeelight(YeelightController* light_ptr)
     serial      = light->GetUniqueID();
     location    = light->GetLocation();
 
-    /*---------------------------------------------*\
-    | Yeelight standard control does not support    |
-    | fast refreshing.  We need to implement music  |
-    | mode, so for now name the mode "Static"       |
-    \*---------------------------------------------*/
-    mode Direct;
-    Direct.name       = "Static";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Direct);
+    /*---------------------------------------------------------*\
+    | If using music mode, use mode name "Direct" as the music  |
+    | mode interface can handle high speed updates from effects |
+    | engine software.  If not using music mode, name the mode  |
+    | "Static" to prevent effect engine use, as the standard    |
+    | interface is limited to a very low update rate            |
+    \*---------------------------------------------------------*/
+    if(light->GetMusicMode())
+    {
+        mode Direct;
+        Direct.name       = "Direct";
+        Direct.value      = 0;
+        Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+        Direct.color_mode = MODE_COLORS_PER_LED;
+        modes.push_back(Direct);
+    }
+    else
+    {
+        mode Static;
+        Static.name       = "Static";
+        Static.value      = 0;
+        Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+        Static.color_mode = MODE_COLORS_PER_LED;
+        modes.push_back(Static);
+    }
 
     SetupZones();
 }

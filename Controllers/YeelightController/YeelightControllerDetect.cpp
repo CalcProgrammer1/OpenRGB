@@ -37,8 +37,14 @@ void DetectYeelightControllers(std::vector<RGBController*> &rgb_controllers)
             if(yeelight_settings["devices"][device_idx].contains("ip"))
             {
                 std::string yeelight_ip = yeelight_settings["devices"][device_idx]["ip"];
+                bool        music_mode  = false;
 
-                new_controller = new YeelightController(yeelight_ip);
+                if(yeelight_settings["devices"][device_idx].contains("music_mode"))
+                {
+                    music_mode = yeelight_settings["devices"][device_idx]["music_mode"];
+                }
+
+                new_controller = new YeelightController(yeelight_ip, music_mode);
                 new_rgbcontroller = new RGBController_Yeelight(new_controller);
 
                 rgb_controllers.push_back(new_rgbcontroller);
