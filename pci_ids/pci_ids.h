@@ -29,6 +29,7 @@
 #define NVIDIA_GTX1070TI_DEV                    0x1B82
 #define NVIDIA_GTX1080_DEV                      0x1B80
 #define NVIDIA_GTX1080TI_DEV                    0x1B06
+#define NVIDIA_GTX1650_DEV                      0x1F82
 #define NVIDIA_GTX1660_DEV                      0x2184
 #define NVIDIA_GTX1660TI_DEV                    0x2182
 #define NVIDIA_GTX1660S_DEV                     0x21C4
@@ -86,6 +87,7 @@
 #define GIGABYTE_GTX1080_G1_GAMING_SUB_DEV      0x3702
 #define GIGABYTE_GTX1080TI_SUB_DEV              0x3752
 #define GIGABYTE_GTX1080TI_XTREME_SUB_DEV       0x3762
+#define GIGABYTE_GTX1650_GAMING_OC_SUB_DEV      0x3FE4
 #define GIGABYTE_GTX1660S_GAMING_OC_SUB_DEV     0x4014
 #define GIGABYTE_RTX2060_GAMING_OC_SUB_DEV      0x37CE
 #define GIGABYTE_RTX2060S_GAMING_SUB_DEV        0x404A
