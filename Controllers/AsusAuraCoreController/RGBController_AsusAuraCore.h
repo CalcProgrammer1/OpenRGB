@@ -17,6 +17,8 @@ public:
     RGBController_AuraCore(AuraCoreController* aura_ptr);
     ~RGBController_AuraCore();
 
+    void        SetupKeyboard();
+    void        SetupGA15DH();
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
@@ -30,5 +32,4 @@ public:
 
 private:
     AuraCoreController* aura;
-
 };

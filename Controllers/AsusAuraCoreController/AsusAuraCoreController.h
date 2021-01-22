@@ -14,11 +14,24 @@
 
 #pragma once
 
+enum AuraCoreDeviceType
+{
+    AURA_CORE_DEVICE_UNKNOWN            = 0,
+    AURA_CORE_DEVICE_KEYBOARD           = 1,
+    AURA_CORE_DEVICE_GA15DH             = 2
+};
+
 enum
 {
-    AURA_CORE_MODE_STATIC               = 0,        /* Static color mode                    */
-    AURA_CORE_MODE_BREATHING            = 1,        /* Breathing effect mode                */
-    AURA_CORE_MODE_SPECTRUM_CYCLE       = 2,        /* Spectrum Cycle mode                  */
+    AURA_CORE_MODE_STATIC               =   0,      /* Static color mode                    */
+    AURA_CORE_MODE_BREATHING            =   1,      /* Breathing effect mode                */
+    AURA_CORE_MODE_SPECTRUM_CYCLE       =   2,      /* Spectrum Cycle mode                  */
+    AURA_CORE_MODE_RAINBOW              =   3,      /* Rainbow mode                         */
+    AURA_CORE_MODE_STROBE               =  10,      /* Strobe mode                          */
+    AURA_CORE_MODE_COMET                =  11,      /* Comet mode                           */
+    AURA_CORE_MODE_FLASHNDASH           =  12,      /* Flash & Dash mode                    */
+    AURA_CORE_MODE_IRRADIATION          =  17,      /* Irradiation mode                     */
+    AURA_CORE_MODE_DIRECT               = 255       /* Not a real mode - but need a way to differentiate */
 };
 
 enum
@@ -27,6 +40,7 @@ enum
     AURA_CORE_COMMAND_SET               = 0xB5,     /* Set command                          */
     AURA_CORE_COMMAND_APPLY             = 0xB4,     /* Apply command                        */
     AURA_CORE_COMMAND_BRIGHTNESS        = 0xBA,     /* Brightness command                   */
+    AURA_CORE_COMMAND_DIRECT            = 0xBC      /* Set LEDs directly                    */
 };
 
 enum
@@ -45,9 +59,28 @@ enum
     AURA_CORE_SPEED_FAST                = 0xF5,     /* Fastest speed                        */
 };
 
+struct AuraDeviceDescriptor
+{
+    AuraCoreDeviceType  aura_type;
+    unsigned char       buff_size;
+    unsigned char       report_id;
+    unsigned char       num_leds;
+    unsigned char       max_leds_per_message;
+    bool                supports_direct;
+};
+
+struct AuraColor
+{
+    unsigned char   red;
+    unsigned char   green;
+    unsigned char   blue;
+};
+
 class AuraCoreController
 {
 public:
+    AuraDeviceDescriptor    aura_device;
+
     AuraCoreController(hid_device* dev_handle, const char* path);
     ~AuraCoreController();
 
@@ -64,6 +97,7 @@ public:
                 unsigned char   zone,
                 unsigned char   mode,
                 unsigned char   speed,
+                unsigned char   dir,
                 unsigned char   red,
                 unsigned char   green,
                 unsigned char   blue
@@ -73,8 +107,17 @@ public:
 
     void    SendApply();
 
+    void    InitDirectMode();
+
+    void    UpdateDirect(std::vector<AuraColor>& color_set);
+
 private:
     hid_device*             dev;
     std::string             location;
+
+    void    IdentifyDevice();
+    void    Handshake();
+    void    SendIdString();
+    void    SendQuery();
 
 };
