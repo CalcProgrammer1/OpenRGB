@@ -39,6 +39,7 @@
 | Mouse product IDs                                     |
 |   List taken from ckb-next                            |
 \*-----------------------------------------------------*/
+#define CORSAIR_GLAIVE_RGB_PID          0x1B34
 #define CORSAIR_GLAIVE_RGB_PRO_PID      0x1B74
 #define CORSAIR_HARPOON_RGB_PID         0x1B3C
 #define CORSAIR_HARPOON_RGB_PRO_PID     0x1B75
@@ -108,6 +109,7 @@ REGISTER_HID_DETECTOR_IP("Corsair Strafe MK.2",              DetectCorsairPeriph
 /*-----------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                  |
 \*-----------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IP("Corsair Glaive RGB",               DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_GLAIVE_RGB_PID,        1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Glaive RGB PRO",           DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_GLAIVE_RGB_PRO_PID,    1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Harpoon RGB",              DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_HARPOON_RGB_PID,       1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Harpoon RGB PRO",          DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_HARPOON_RGB_PRO_PID,   1, 0xFFC2);
