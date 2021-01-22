@@ -64,6 +64,7 @@ INCLUDEPATH +=                                                                  
     Controllers/CorsairVengeanceController/                                                     \
     Controllers/CorsairVengeanceProController/                                                  \
     Controllers/CrucialController/                                                              \
+    Controllers/DasKeyboardController/                                                          \
     Controllers/DebugController/                                                                \
     Controllers/DuckyKeyboardController/                                                        \
     Controllers/E131Controller/                                                                 \
@@ -175,6 +176,8 @@ HEADERS +=                                                                      
     Controllers/CorsairVengeanceProController/RGBController_CorsairVengeancePro.h               \
     Controllers/CrucialController/CrucialController.h                                           \
     Controllers/CrucialController/RGBController_Crucial.h                                       \
+    Controllers/DasKeyboardController/DasKeyboardController.h                                   \
+    Controllers/DasKeyboardController/RGBController_DasKeyboard.h                               \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h                               \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.h                           \
     Controllers/DebugController/RGBController_Debug.h                                           \
@@ -373,6 +376,9 @@ SOURCES +=                                                                      
     Controllers/CrucialController/CrucialControllerDetect.cpp                                   \
     Controllers/CrucialController/RGBController_Crucial.cpp                                     \
     Controllers/DebugController/DebugControllerDetect.cpp                                       \
+    Controllers/DasKeyboardController/DasKeyboardController.cpp                                 \
+    Controllers/DasKeyboardController/DasKeyboardControllerDetect.cpp                           \
+    Controllers/DasKeyboardController/RGBController_DasKeyboard.cpp                             \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.cpp                             \
     Controllers/DuckyKeyboardController/DuckyKeyboardControllerDetect.cpp                       \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.cpp                         \
