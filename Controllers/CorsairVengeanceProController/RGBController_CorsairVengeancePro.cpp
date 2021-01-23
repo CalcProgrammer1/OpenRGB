@@ -29,6 +29,16 @@ RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVeng
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    mode Static;
+    Static.name       = "Static";
+    Static.value      = CORSAIR_PRO_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.speed_min  = 0;
+    Static.speed_max  = 0;
+    Static.speed      = 0;
+    Static.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Static);
+
     mode ColorShift;
     ColorShift.name       = "Color Shift";
     ColorShift.value      = CORSAIR_PRO_MODE_COLOR_SHIFT;
@@ -267,6 +277,15 @@ void RGBController_CorsairVengeancePro::DeviceUpdateMode()
             mode_colors[4] = RGBGetGValue(modes[active_mode].colors[1]);
             mode_colors[5] = RGBGetBValue(modes[active_mode].colors[1]);
         }        
+    }
+
+    if (modes[active_mode].name == "Direct")
+    {
+        corsair->SetDirect(true);
+    }
+    else
+    {
+        corsair->SetDirect(false);
     }
 
     corsair->SetEffect(modes[active_mode].value,
