@@ -93,12 +93,11 @@ unsigned short PolychromeController::ReadFirmwareVersion()
 {
     // The firmware register holds two bytes, so the first read should return 2
     // If not, report invalid firmware revision FFFF
-    if (bus->i2c_smbus_read_byte_data(dev, ASROCK_REG_FIRMWARE_VER) == 0x02)
+    unsigned char asrock_version[2] = { 0x00, 0x00};
+    if (bus->i2c_smbus_read_block_data(dev, ASROCK_REG_FIRMWARE_VER, asrock_version) == 0x02)
     {
-        std::this_thread::sleep_for(1ms);
-        unsigned char major = bus->i2c_smbus_read_byte(dev);
-        std::this_thread::sleep_for(1ms);
-        unsigned char minor = bus->i2c_smbus_read_byte(dev);
+        unsigned char major = asrock_version[0];
+        unsigned char minor = asrock_version[1];
 
         return((major << 8) | minor);
     }
@@ -114,20 +113,15 @@ void PolychromeController::ReadLEDConfiguration()
     | The LED configuration register holds 6 bytes, so the first read should return 6   |
     | If not, set all zone sizes to zero                                                |
     \*---------------------------------------------------------------------------------*/
-    if (bus->i2c_smbus_read_byte_data(dev, POLYCHROME_REG_LED_CONFIG) == 0x06)
+    unsigned char asrock_zone_count[6] = { 0x0 };
+    if (bus->i2c_smbus_read_block_data(dev, POLYCHROME_REG_LED_CONFIG, asrock_zone_count) == 0x06)
     {
-        std::this_thread::sleep_for(1ms);
-        zone_led_count[POLYCHROME_ZONE_1]           = bus->i2c_smbus_read_byte(dev);
-        std::this_thread::sleep_for(1ms);
-        zone_led_count[POLYCHROME_ZONE_2]           = bus->i2c_smbus_read_byte(dev);
-        std::this_thread::sleep_for(1ms);
-        zone_led_count[POLYCHROME_ZONE_3]           = bus->i2c_smbus_read_byte(dev);
-        std::this_thread::sleep_for(1ms);
-        zone_led_count[POLYCHROME_ZONE_4]           = bus->i2c_smbus_read_byte(dev);
-        std::this_thread::sleep_for(1ms);
-        zone_led_count[POLYCHROME_ZONE_5]           = bus->i2c_smbus_read_byte(dev);
-        std::this_thread::sleep_for(1ms);
-        zone_led_count[POLYCHROME_ZONE_ADDRESSABLE] = bus->i2c_smbus_read_byte(dev);
+        zone_led_count[POLYCHROME_ZONE_1]           = asrock_zone_count[0];
+        zone_led_count[POLYCHROME_ZONE_2]           = asrock_zone_count[1];
+        zone_led_count[POLYCHROME_ZONE_3]           = asrock_zone_count[2];
+        zone_led_count[POLYCHROME_ZONE_4]           = asrock_zone_count[3];
+        zone_led_count[POLYCHROME_ZONE_5]           = asrock_zone_count[4];
+        zone_led_count[POLYCHROME_ZONE_ADDRESSABLE] = asrock_zone_count[5];
     }
     else
     {
