@@ -170,6 +170,10 @@ void NZXTHue2Controller::UpdateDeviceList()
                 num_leds_on_channel += 6;
                 break;
             
+            case 0x0A: //Hue 2 Underglow (200mm) (10 LEDs)
+                num_leds_on_channel += 10;
+                break;
+
             case 0x0B: //Aer 2 fan (120mm)
                 num_leds_on_channel += 8;
                 break;
