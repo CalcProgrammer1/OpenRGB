@@ -131,6 +131,8 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * OpenRGB Node.js Client (by vlakreeh): https://github.com/vlakreeh/openrgb
   * D-Bus Connector for OpenRGB (by Vinno97): https://github.com/Vinno97/OpenRGB-DBus-Connector
   * OpenRGB.NET - C# OpenRGB Client (by diogotr7): https://github.com/diogotr7/OpenRGB.NET
+  * OpenRGB-Client - Java Client (by morg): https://gitlab.com/mguimard/openrgb-client
+  * OpenRGB-SDK - NodeJS client (by Mola19) https://www.npmjs.com/package/openrgb-sdk                                           
 
 ## Applications Supporting OpenRGB SDK
 
