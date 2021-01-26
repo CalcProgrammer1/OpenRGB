@@ -36,12 +36,39 @@ std::string DasKeyboardController::GetSerialString()
     std::wstring return_wstring = serial_string;
     std::string return_string(return_wstring.begin(), return_wstring.end());
 
+    if(return_string.empty())
+    {
+        return_string = version;
+    }
+
     return return_string;
 }
 
 std::string DasKeyboardController::GetVersionString()
 {
-    return version;
+    std::string fw_version = "V";
+    fw_version += version.substr(6, 2);
+    fw_version += ".";
+    fw_version += version.substr(15, 2);
+    fw_version += ".0";
+
+    return fw_version;
+}
+
+std::string DasKeyboardController::GetLayoutString()
+{
+    /*-----------------------------------------------------*\
+    | Experimental for now; should be '16' for US and '28'  |
+    | for EU layout                                         |
+    \*-----------------------------------------------------*/
+    std::string layout_id = version.substr(3, 2);
+
+    if (layout_id == "16")
+    {
+        return "US";
+    }
+
+    return "EU";
 }
 
 void DasKeyboardController::SendColors(unsigned char key_id, unsigned char mode,

@@ -14,10 +14,10 @@
 
 enum
 {
-    DAS_KEYBOARD_MODE_STATIC        = 0x01,
-    DAS_KEYBOARD_MODE_BLINKING      = 0x1F,
-    DAS_KEYBOARD_MODE_BREATHING     = 0x08,
-    DAS_KEYBOARD_MODE_COLOR_CYCLE   = 0x14
+    DAS_KEYBOARD_MODE_DIRECT          = 0x01,
+    DAS_KEYBOARD_MODE_FLASHING        = 0x1F,
+    DAS_KEYBOARD_MODE_BREATHING       = 0x08,
+    DAS_KEYBOARD_MODE_SPECTRUM_CYCLE  = 0x14
 };
 
 
@@ -48,4 +48,5 @@ private:
     std::vector<int>        mode_index;
     std::vector<RGBColor>   double_buffer;
     bool                    updateDevice;
+    bool                    is_us_layout;
 };
