@@ -117,7 +117,7 @@ void RGBController_LogitechGProWireless::UpdateSingleLED(int led)
 
 void RGBController_LogitechGProWireless::SetCustomMode()
 {
-
+    active_mode = 1;
 }
 
 void RGBController_LogitechGProWireless::DeviceUpdateMode()
