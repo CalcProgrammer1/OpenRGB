@@ -3021,8 +3021,8 @@ static const razer_device deathadder_v2_device =
     1,
     2,
     {
-        &deathadder_v2_logo_zone,
         &deathadder_v2_scroll_wheel_zone,
+        &deathadder_v2_logo_zone,
         NULL,
         NULL,
         NULL,
