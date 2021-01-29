@@ -142,6 +142,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         num = init_razer_kbd_driver(&hdev);
         for (unsigned int i = 0; i < num; i++)
         {
+            if (hdev[i].dev.attr_count < 1) continue;
+
             device_fn_type* device_fn = new device_fn_type;
             load_device_fn(device_fn, &hdev[i].dev);
 
@@ -164,6 +166,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         num = init_razer_mouse_driver(&hdev);
         for (unsigned int i = 0; i < num; i++)
         {
+            if (hdev[i].dev.attr_count < 1) continue;
+
             device_fn_type* device_fn = new device_fn_type;
             load_device_fn(device_fn, &hdev[i].dev);
 
@@ -186,6 +190,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         num = init_razer_mousemat_driver(&hdev);
         for (unsigned int i = 0; i < num; i++)
         {
+            if (hdev[i].dev.attr_count < 1) continue;
+
             device_fn_type* device_fn = new device_fn_type;
             load_device_fn(device_fn, &hdev[i].dev);
 
@@ -208,6 +214,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         num = init_razer_accessory_driver(&hdev);
         for (unsigned int i = 0; i < num; i++)
         {
+            if (hdev[i].dev.attr_count < 1) continue;
+
             device_fn_type* device_fn = new device_fn_type;
             load_device_fn(device_fn, &hdev[i].dev);
 
@@ -230,6 +238,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         num = init_razer_kraken_driver(&hdev);
         for (unsigned int i = 0; i < num; i++)
         {
+            if (hdev[i].dev.attr_count < 1) continue;
+
             device_fn_type* device_fn = new device_fn_type;
             load_device_fn(device_fn, &hdev[i].dev);
 
@@ -252,6 +262,8 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         num = init_razer_core_driver(&hdev);
         for (unsigned int i = 0; i < num; i++)
         {
+            if (hdev[i].dev.attr_count < 1) continue;
+
             device_fn_type* device_fn = new device_fn_type;
             load_device_fn(device_fn, &hdev[i].dev);
 
