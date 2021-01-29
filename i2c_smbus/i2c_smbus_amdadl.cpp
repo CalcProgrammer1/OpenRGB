@@ -84,21 +84,24 @@ i2c_smbus_amdadl::i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context)
         std::size_t dev_loc = pnp_str.find("DEV_");
         std::size_t sub_loc = pnp_str.find("SUBSYS_");
 
-        std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
-        std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
-        std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
-        std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
+        if((ven_loc != std::string::npos) && (dev_loc != std::string::npos) && (sub_loc != std::string::npos))
+        {
+            std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
+            std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
+            std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
+            std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
 
-        int ven_id = (int)std::stoul(ven_str, nullptr, 16);
-        int dev_id = (int)std::stoul(dev_str, nullptr, 16);
-        int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
-        int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
+            int ven_id = (int)std::stoul(ven_str, nullptr, 16);
+            int dev_id = (int)std::stoul(dev_str, nullptr, 16);
+            int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
+            int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
 
-        this->pci_vendor           = ven_id;
-        this->pci_device           = dev_id;
-        this->pci_subsystem_vendor = sbv_id;
-        this->pci_subsystem_device = sbd_id;
-        strcpy(this->device_name, "AMD ADL");
+            this->pci_vendor           = ven_id;
+            this->pci_device           = dev_id;
+            this->pci_subsystem_vendor = sbv_id;
+            this->pci_subsystem_device = sbd_id;
+            strcpy(this->device_name, "AMD ADL");
+        }
     }
 }
 
