@@ -176,6 +176,7 @@ private:
     razer_report            razer_create_custom_frame_linear_report(unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
     razer_report            razer_create_custom_frame_extended_matrix_report(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
     razer_report            razer_create_custom_frame_standard_matrix_report(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
+    razer_report            razer_create_device_mode_report(unsigned char mode, unsigned char param);
     razer_report            razer_create_mode_custom_extended_matrix_report();
     razer_report            razer_create_mode_custom_standard_matrix_report(unsigned char variable_storage);
     razer_report            razer_create_mode_none_extended_matrix_report(unsigned char variable_storage, unsigned char led_id);

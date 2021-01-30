@@ -62,6 +62,14 @@ RazerController::RazerController(hid_device* dev_handle, const char* path, unsig
             dev_transaction_id = 0x1F;
             break;
 
+        case RAZER_CHARGING_PAD_CHROMA_PID:
+            {
+            razer_report report                      = razer_create_device_mode_report(0x03, 0x00);
+            razer_usb_send(&report);
+            dev_transaction_id = 0x1F;
+            }
+            break;
+
         case RAZER_GOLIATHUS_CHROMA_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         default:
@@ -372,6 +380,16 @@ razer_report RazerController::razer_create_custom_frame_standard_matrix_report(u
     return report;
 }
 
+razer_report RazerController::razer_create_device_mode_report(unsigned char mode, unsigned char param)
+{
+    razer_report report         = razer_create_report(0x00, 0x04, 0x02);
+
+    report.arguments[0]         = mode;
+    report.arguments[1]         = param;
+
+    return report;
+}
+
 razer_report RazerController::razer_create_mode_custom_extended_matrix_report()
 {
     struct razer_report report  = razer_create_report(0x0F, 0x02, 0x0C);
@@ -647,6 +665,10 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
             report                      = razer_create_custom_frame_extended_matrix_report(row_index, start_col, stop_col, rgb_data);
             break;
 
+        case RAZER_CHARGING_PAD_CHROMA_PID:
+            report                      = razer_create_custom_frame_extended_matrix_report(row_index, start_col, stop_col, rgb_data);
+            break;
+
         /*-------------------------------------------------*\
         | These devices use a linear report                 |
         \*-------------------------------------------------*/
@@ -793,6 +815,7 @@ void RazerController::razer_set_mode_custom()
         case RAZER_KRAKEN_KITTY_EDITION_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_CHARGING_PAD_CHROMA_PID:
             report                      = razer_create_mode_custom_extended_matrix_report();
             break;
 

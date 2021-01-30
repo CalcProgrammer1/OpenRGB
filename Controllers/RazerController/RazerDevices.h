@@ -148,6 +148,7 @@
 #define RAZER_CHROMA_HDK_PID                    0x0F09
 #define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID        0x0F1D
 #define RAZER_BASE_STATION_V2_CHROMA_PID        0x0F20
+#define RAZER_CHARGING_PAD_CHROMA_PID           0x0F26
 
 typedef struct
 {
@@ -4790,6 +4791,42 @@ static const razer_device nommo_chroma_device =
     0
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Charging Pad Chroma                                    |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       10 LEDs                                                 |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone charging_pad_chroma_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    10
+};
+
+static const razer_device charging_pad_chroma_device =
+{
+    "Razer Charging Pad Chroma",
+    RAZER_CHARGING_PAD_CHROMA_PID,
+    DEVICE_TYPE_UNKNOWN,
+    true,
+    1,
+    10,
+    {
+        &charging_pad_chroma_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -4900,5 +4937,6 @@ static const razer_device* device_list[] =
     &chromahdk_device,
     &base_station_device,
     &nommo_pro_device,
-    &nommo_chroma_device
+    &nommo_chroma_device,
+    &charging_pad_chroma_device,
 };
