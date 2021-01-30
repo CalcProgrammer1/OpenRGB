@@ -64,8 +64,7 @@ RazerController::RazerController(hid_device* dev_handle, const char* path, unsig
 
         case RAZER_CHARGING_PAD_CHROMA_PID:
             {
-            razer_report report                      = razer_create_device_mode_report(0x03, 0x00);
-            razer_usb_send(&report);
+            razer_set_device_mode(RAZER_DEVICE_MODE_SOFTWARE);
             dev_transaction_id = 0x1F;
             }
             break;
@@ -765,6 +764,12 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
             break;
     }
 
+    razer_usb_send(&report);
+}
+
+void RazerController::razer_set_device_mode(unsigned char device_mode)
+{
+    razer_report report                  = razer_create_device_mode_report(device_mode, 0x00);
     razer_usb_send(&report);
 }
 

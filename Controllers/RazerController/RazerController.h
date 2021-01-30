@@ -25,6 +25,15 @@
 #endif
 
 /*---------------------------------------------------------*\
+| Razer Device Mode IDs                                     |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_DEVICE_MODE_HARDWARE                  = 0x00,
+    RAZER_DEVICE_MODE_SOFTWARE                  = 0x03,
+};
+
+/*---------------------------------------------------------*\
 | Razer Command IDs                                         |
 \*---------------------------------------------------------*/
 enum
@@ -196,6 +205,8 @@ private:
     void                    razer_set_brightness(unsigned char brightness);
     void                    razer_set_custom_frame(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
 
+    void                    razer_set_device_mode(unsigned char device_mode);
+    
     void                    razer_set_mode_breathing();
     void                    razer_set_mode_custom();
     void                    razer_set_mode_none();
