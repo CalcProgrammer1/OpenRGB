@@ -107,6 +107,7 @@ INCLUDEPATH +=                                                                  
     Controllers/ThermaltakePoseidonZRGBController/                                              \
     Controllers/ThermaltakeRiingController/                                                     \
     Controllers/YeelightController/                                                             \
+    Controllers/ZalmanZSyncController/                                                          \
     RGBController/                                                                              \
     qt/
 
@@ -296,6 +297,8 @@ HEADERS +=                                                                      
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.h                     \
     Controllers/YeelightController/YeelightController.h                                         \
     Controllers/YeelightController/RGBController_Yeelight.h                                     \
+    Controllers/ZalmanZSyncController/ZalmanZSyncController.h                                   \
+    Controllers/ZalmanZSyncController/RGBController_ZalmanZSync.h                               \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBController_Network.h                                                       \
@@ -535,6 +538,9 @@ SOURCES +=                                                                      
     Controllers/YeelightController/YeelightController.cpp                                       \
     Controllers/YeelightController/YeelightControllerDetect.cpp                                 \
     Controllers/YeelightController/RGBController_Yeelight.cpp                                   \
+    Controllers/ZalmanZSyncController/ZalmanZSyncController.cpp                                 \
+    Controllers/ZalmanZSyncController/ZalmanZSyncControllerDetect.cpp                           \
+    Controllers/ZalmanZSyncController/RGBController_ZalmanZSync.cpp                             \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBController_Network.cpp                                                     \
