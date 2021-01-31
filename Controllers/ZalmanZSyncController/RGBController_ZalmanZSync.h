@@ -15,12 +15,11 @@ class RGBController_ZalmanZSync : public RGBController
 {
 public:
     RGBController_ZalmanZSync(ZalmanZSyncController* controller_ptr);
-    ~RGBController_ZalmanZSync();
 
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
@@ -29,5 +28,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    ZalmanZSyncController*  controller;
+    ZalmanZSyncController*      controller;
+    std::vector<unsigned int>   leds_channel;
+    std::vector<unsigned int>   zones_channel;
 };
