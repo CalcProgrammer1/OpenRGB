@@ -179,6 +179,15 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     ui->DetectionProgressBar->setAlignment(Qt::AlignCenter);
 
     /*-----------------------------------------------------*\
+    | Set up Save Profile button action and menu            |
+    \*-----------------------------------------------------*/
+    QMenu* saveProfileMenu = new QMenu(this);
+    saveProfileMenu->addAction(ui->ActionSaveProfileAs);
+
+    ui->ButtonSaveProfile->setMenu(saveProfileMenu);
+    ui->ButtonSaveProfile->setDefaultAction(ui->ActionSaveProfile);
+
+    /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |
     \*-----------------------------------------------------*/
     QMenu* trayIconMenu = new QMenu( this );
@@ -991,28 +1000,8 @@ void Ui::OpenRGBDialog2::on_ProfileSelected()
                 qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
             }
         }
-    }
-}
 
-void Ui::OpenRGBDialog2::on_ButtonSaveProfile_clicked()
-{
-    OpenRGBProfileSaveDialog dialog;
-    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
-
-    if(profile_manager != NULL)
-    {
-        /*---------------------------------------------------------*\
-        | Open Profile Name Dialog                                  |
-        \*---------------------------------------------------------*/
-        std::string profile_name = dialog.show();
-
-        /*---------------------------------------------------------*\
-        | Save the profile                                          |
-        \*---------------------------------------------------------*/
-        if(profile_manager->SaveProfile(profile_name))
-        {
-            UpdateProfileList();
-        }
+        ui->ProfileBox->setCurrentIndex(ui->ProfileBox->findText(QString::fromStdString(profile_name)));
     }
 }
 
@@ -1142,9 +1131,77 @@ void Ui::OpenRGBDialog2::SetDetectionViewState(bool detection_showing)
     }
 }
 
+void OpenRGBDialog2::SaveProfile()
+{
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
+    if(profile_manager != NULL)
+    {
+        /*---------------------------------------------------------*\
+        | Get the profile filename from the profiles list           |
+        \*---------------------------------------------------------*/
+        std::string filename = ui->ProfileBox->currentText().toStdString();
+
+        /*---------------------------------------------------------*\
+        | Save the profile                                          |
+        \*---------------------------------------------------------*/
+        profile_manager->SaveProfile(filename);
+    }
+}
+
+void OpenRGBDialog2::SaveProfileAs()
+{
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
+    if(profile_manager != NULL)
+    {
+        OpenRGBProfileSaveDialog dialog;
+
+        /*---------------------------------------------------------*\
+        | Open Profile Name Dialog                                  |
+        \*---------------------------------------------------------*/
+        std::string profile_name = dialog.show();
+
+        if(!profile_name.empty())
+        {
+            /*---------------------------------------------------------*\
+            | Extension .orp - OpenRgb Profile                          |
+            \*---------------------------------------------------------*/
+            std::string filename = profile_name;
+
+            /*---------------------------------------------------------*\
+            | Save the profile                                          |
+            \*---------------------------------------------------------*/
+            if(profile_manager->SaveProfile(filename))
+            {
+                UpdateProfileList();
+
+                ui->ProfileBox->setCurrentIndex(ui->ProfileBox->findText(QString::fromStdString(profile_name)));
+            }
+        }
+    }
+}
+
 void Ui::OpenRGBDialog2::on_ButtonRescan_clicked()
 {
     SetDetectionViewState(true);
 
     ResourceManager::get()->DetectDevices();
+}
+
+void Ui::OpenRGBDialog2::on_ActionSaveProfile_triggered()
+{
+    if(ui->ProfileBox->currentIndex() >= 0)
+    {
+        SaveProfile();
+    }
+    else
+    {
+        SaveProfileAs();
+    }
+}
+
+void Ui::OpenRGBDialog2::on_ActionSaveProfileAs_triggered()
+{
+    SaveProfileAs();
 }

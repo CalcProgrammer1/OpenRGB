@@ -76,6 +76,8 @@ private:
     void closeEvent(QCloseEvent *event);
 
     void SetDetectionViewState(bool detection_showing);
+    void SaveProfile();
+    void SaveProfileAs();
 
     bool device_view_showing = false;
 
@@ -101,12 +103,13 @@ private slots:
     void on_ShowHide();
     void on_ReShow(QSystemTrayIcon::ActivationReason reason);
     void on_ProfileSelected();
-    void on_ButtonSaveProfile_clicked();
     void on_ButtonLoadProfile_clicked();
     void on_ButtonDeleteProfile_clicked();
     void on_ButtonToggleDeviceView_clicked();
     void on_ButtonStopDetection_clicked();
     void on_ButtonRescan_clicked();
+    void on_ActionSaveProfile_triggered();
+    void on_ActionSaveProfileAs_triggered();
 };
 
 #endif // OPENRGBDIALOG2_H
