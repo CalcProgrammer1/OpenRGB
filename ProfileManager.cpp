@@ -52,7 +52,7 @@ bool ProfileManager::SaveProfile(std::string profile_name, bool sizes)
         /*---------------------------------------------------------*\
         | Open an output file in binary mode                        |
         \*---------------------------------------------------------*/
-        std::ofstream controller_file(configuration_directory + filename, std::ios::out | std::ios::binary);
+        std::ofstream controller_file(configuration_directory + filename, std::ios::out | std::ios::binary | std::ios::trunc);
 
         /*---------------------------------------------------------*\
         | Write header                                              |
