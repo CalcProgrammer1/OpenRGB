@@ -145,6 +145,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * RemoteLight (by Drumber, need OpenRGB plugin): https://github.com/Drumber/RemoteLight
   * OpenRGB-python-FX (by herosilas12): https://github.com/herosilas12/OpenRGB-python-FX
   * AllMyLights (by sparten11740): https://github.com/sparten11740/allmylights
+  * OpenRGBRemote (by morg): https://gitlab.com/mguimard/openrgbremote
 
 ## OpenRGB Plugins
 
