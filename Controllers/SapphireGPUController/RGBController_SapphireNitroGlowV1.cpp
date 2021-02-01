@@ -1,21 +1,21 @@
 /*-----------------------------------------*\
-|  RGBController_RGBFusionGPU.cpp           |
+|  RGBController_SapphireNitroGlowV1.cpp    |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion GPU Driver           |
+|  Sapphire Nitro Glow V1 GPU Driver        |
 |                                           |
-|  Adam Honse (CalcProgrammer1) 2/23/2020   |
+|  Adam Honse (CalcProgrammer1) 7/15/2020   |
 \*-----------------------------------------*/
 
-#include "RGBController_SapphireGPU.h"
+#include "RGBController_SapphireNitroGlowV1.h"
 
-RGBController_SapphireGPU::RGBController_SapphireGPU(SapphireGPUController* sapphire_ptr)
+RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNitroGlowV1Controller* sapphire_ptr)
 {
     sapphire = sapphire_ptr;
 
-    name        = "Sapphire GPU";
+    name        = "Sapphire Nitro Glow V1 Device";
     vendor      = "Sapphire";
-    description = "Sapphire GPU";
+    description = "Sapphire Nitro Glow V1 Device";
     location    = sapphire->GetDeviceLocation();
 
     type = DEVICE_TYPE_GPU;
@@ -40,7 +40,7 @@ RGBController_SapphireGPU::RGBController_SapphireGPU(SapphireGPUController* sapp
     active_mode = 0;
 }
 
-void RGBController_SapphireGPU::SetupZones()
+void RGBController_SapphireNitroGlowV1::SetupZones()
 {
     /*---------------------------------------------------------*\
     | This device only has one LED, so create a single zone and |
@@ -67,14 +67,14 @@ void RGBController_SapphireGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_SapphireGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_SapphireNitroGlowV1::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_SapphireGPU::DeviceUpdateLEDs()
+void RGBController_SapphireNitroGlowV1::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];
     unsigned char red   = RGBGetRValue(color);
@@ -84,22 +84,22 @@ void RGBController_SapphireGPU::DeviceUpdateLEDs()
     sapphire->SetColor(red, grn, blu);
 }
 
-void RGBController_SapphireGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SapphireNitroGlowV1::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SapphireGPU::UpdateSingleLED(int /*led*/)
+void RGBController_SapphireNitroGlowV1::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SapphireGPU::SetCustomMode()
+void RGBController_SapphireNitroGlowV1::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_SapphireGPU::DeviceUpdateMode()
+void RGBController_SapphireNitroGlowV1::DeviceUpdateMode()
 {
     sapphire->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed);
 }

@@ -13,8 +13,17 @@
 
 /*-----------------------------------------------------*\
 | AMD GPU Device IDs                                    |
+|
+| Note: AMD uses the same PCI IDs for different SKUs    |
+| based on the same silicon, so we use internal code    |
+| names here instead of referring to specific products. |
 \*-----------------------------------------------------*/
-#define AMD_RX580_DEV                           0x67DF
+#define AMD_POLARIS_DEV                         0x67DF
+#define AMD_POLARIS20XL_DEV                     0x6FDF
+#define AMD_VEGA10_DEV                          0x687F
+#define AMD_NAVI10_DEV                          0x731F
+#define AMD_NAVI14_DEV                          0x7340
+#define AMD_NAVI21_DEV                          0x73BF
 
 /*-----------------------------------------------------*\
 | Intel Device IDs                                      |
@@ -60,6 +69,7 @@
 #define NVIDIA_SUB_VEN                          0x10DE
 #define PNY_SUB_VEN                             0x196E
 #define SAPPHIRE_SUB_VEN                        0x1DA2
+#define SAPPHIRE_LEGACY_SUB_VEN                 0x174B
 #define ZOTAC_SUB_VEN                           0x19DA
 
 /*-----------------------------------------------------*\
@@ -133,7 +143,17 @@
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |
 \*-----------------------------------------------------*/
-#define SAPPHIRE_RX580_NITRO_PLUS_SUB_DEV       0xE366
+#define SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV1       0xE366
+#define SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV2       0xE399
+#define SAPPHIRE_LEGACY_POLARIS_NITRO_PLUS_SUB_DEV 0xE347
+#define SAPPHIRE_VEGA10_NITRO_PLUS_SUB_DEV         0xE37F
+#define SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV1        0xE409
+#define SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV2        0xE410
+#define SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV3        0x426E
+#define SAPPHIRE_NAVI14_NITRO_PLUS_SUB_DEV         0xE423
+#define SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV1        0x438E
+#define SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV2        0xE438
+#define SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV3        0xE439
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |

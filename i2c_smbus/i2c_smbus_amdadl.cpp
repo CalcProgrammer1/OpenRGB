@@ -167,7 +167,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         pI2C->iAction = ADL_DL_I2C_ACTIONREAD;
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
     }
-    else if (read_write == I2C_SMBUS_WRITE)
+    else
     {
         pI2C->iAction = ADL_DL_I2C_ACTIONWRITE;
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);

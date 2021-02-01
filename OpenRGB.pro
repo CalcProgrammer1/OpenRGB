@@ -271,8 +271,10 @@ HEADERS +=                                                                      
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
-    Controllers/SapphireGPUController/SapphireGPUController.h                                   \
-    Controllers/SapphireGPUController/RGBController_SapphireGPU.h                               \
+    Controllers/SapphireGPUController/SapphireNitroGlowV1Controller.h                           \
+    Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.h                           \
+    Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.h                       \
+    Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.h                       \
     Controllers/SinowealthController/SinowealthController.h                                     \
     Controllers/SinowealthController/RGBController_Sinowealth.h                                 \
     Controllers/SonyDS4Controller/SonyDS4Controller.h                                           \
@@ -507,9 +509,11 @@ SOURCES +=                                                                      
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
     Controllers/RoccatController/RoccatControllerDetect.cpp                                     \
-    Controllers/SapphireGPUController/SapphireGPUController.cpp                                 \
+    Controllers/SapphireGPUController/SapphireNitroGlowV1Controller.cpp                         \
+    Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.cpp                         \
     Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp                           \
-    Controllers/SapphireGPUController/RGBController_SapphireGPU.cpp                             \
+    Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.cpp                     \
+    Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.cpp                     \
     Controllers/SinowealthController/SinowealthController.cpp                                   \
     Controllers/SinowealthController/SinowealthControllerDetect.cpp                             \
     Controllers/SinowealthController/RGBController_Sinowealth.cpp                               \

@@ -138,6 +138,11 @@ HRESULT Wmi::init()
 
 HRESULT Wmi::query(std::string queryStr, std::vector<QueryObj>& queryVectorOut, const AdditionalFilters* filters)
 {
+    if (pSvc == nullptr)
+    {
+        return E_FAIL;
+    }
+
     HRESULT hres;
     int nIdx = 0;
     IEnumWbemClassObject* pEnumerator = nullptr;
