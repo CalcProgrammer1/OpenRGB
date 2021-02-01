@@ -760,6 +760,7 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
         case RAZER_BLADE_LATE_2016_PID:
         case RAZER_BLACKWIDOW_CHROMA_V2_PID:
         case RAZER_NAGA_HEX_V2_PID:
+        default:
             report                      = razer_create_custom_frame_standard_matrix_report(row_index, start_col, stop_col, rgb_data);
             break;
     }
