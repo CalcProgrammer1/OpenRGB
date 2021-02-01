@@ -26,6 +26,13 @@
      <item>
       <widget class="QLineEdit" name="Filter"/>
      </item>
+     <item>
+      <widget class="QCheckBox" name="ToggleAllCheckbox">
+       <property name="text">
+        <string>Enable/Disable all</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

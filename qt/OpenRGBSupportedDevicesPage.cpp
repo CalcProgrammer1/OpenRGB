@@ -47,3 +47,8 @@ void OpenRGBSupportedDevicesPage::on_Filter_textChanged(const QString &arg1)
 {
     detectorSortModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive));
 }
+
+void OpenRGBSupportedDevicesPage::on_ToggleAllCheckbox_toggled(const bool checked)
+{
+        detectorTableModel->toggleAll(checked);
+}

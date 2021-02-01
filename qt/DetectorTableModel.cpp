@@ -145,3 +145,11 @@ void DetectorTableModel::applySettings()
     ResourceManager::get()->GetSettingsManager()->SetSettings("Detectors", settings);
     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }
+
+void DetectorTableModel::toggleAll(const bool state)
+{
+    for(unsigned int detector_idx = 0; detector_idx < detectors.size(); detector_idx++)
+    {
+        setData(index(detector_idx,1), state, Qt::CheckStateRole);
+    }
+}

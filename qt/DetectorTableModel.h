@@ -28,6 +28,7 @@ public:
 
 public slots:
     void applySettings();
+    void toggleAll(const bool state);
 };
 
 #endif // DETECTORTABLEMODEL_H
