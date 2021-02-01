@@ -25,16 +25,17 @@ enum
 
 enum
 {
-    CORSAIR_PRO_MODE_COLOR_SHIFT        = 0x00,     /* Color Shift mode                     */
-    CORSAIR_PRO_MODE_COLOR_PULSE        = 0x01,     /* Color Pulse mode                     */
-    CORSAIR_PRO_MODE_RAINBOW_WAVE       = 0x03,     /* Rainbow Wave mode                    */
-    CORSAIR_PRO_MODE_COLOR_WAVE         = 0x04,     /* Color Wave mode                      */
-    CORSAIR_PRO_MODE_VISOR              = 0x05,     /* Visor mode                           */
-    CORSAIR_PRO_MODE_RAIN               = 0x06,     /* Rain mode                            */
-    CORSAIR_PRO_MODE_MARQUEE            = 0x07,     /* Marquee mode                         */
-    CORSAIR_PRO_MODE_RAINBOW            = 0x08,     /* Rainbow mode                         */
-    CORSAIR_PRO_MODE_SEQUENTIAL         = 0x09,     /* Sequential mode                      */
-    CORSAIR_PRO_MODE_STATIC             = 0x10,     /* Static mode                          */
+    CORSAIR_PRO_MODE_DIRECT             = 0xDD,     /* Arbitrary value to compare against later. Not the actual packet  */
+    CORSAIR_PRO_MODE_COLOR_SHIFT        = 0x00,     /* Color Shift mode                                                 */
+    CORSAIR_PRO_MODE_COLOR_PULSE        = 0x01,     /* Color Pulse mode                                                 */
+    CORSAIR_PRO_MODE_RAINBOW_WAVE       = 0x03,     /* Rainbow Wave mode                                                */
+    CORSAIR_PRO_MODE_COLOR_WAVE         = 0x04,     /* Color Wave mode                                                  */
+    CORSAIR_PRO_MODE_VISOR              = 0x05,     /* Visor mode                                                       */
+    CORSAIR_PRO_MODE_RAIN               = 0x06,     /* Rain mode                                                        */
+    CORSAIR_PRO_MODE_MARQUEE            = 0x07,     /* Marquee mode                                                     */
+    CORSAIR_PRO_MODE_RAINBOW            = 0x08,     /* Rainbow mode                                                     */
+    CORSAIR_PRO_MODE_SEQUENTIAL         = 0x09,     /* Sequential mode                                                  */
+    CORSAIR_PRO_MODE_STATIC             = 0x10,     /* Static mode                                                      */
 
     CORSAIR_PRO_NUMBER_MODES            = 10,       /* Number of Corsair Pro modes          */
 };

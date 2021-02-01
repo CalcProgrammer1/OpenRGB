@@ -21,7 +21,7 @@ RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVeng
 
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = CORSAIR_PRO_MODE_STATIC;
+    Direct.value      = CORSAIR_PRO_MODE_DIRECT;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.speed_min  = 0;
     Direct.speed_max  = 0;
@@ -303,4 +303,6 @@ void RGBController_CorsairVengeancePro::DeviceUpdateMode()
                        mode_colors[3],
                        mode_colors[4],
                        mode_colors[5]);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(15));
 }

@@ -139,6 +139,13 @@ void CorsairVengeanceProController::SetEffect(unsigned char mode,
 {
     effect_mode = mode;
 
+    direct_mode = (effect_mode == CORSAIR_PRO_MODE_DIRECT);
+
+    if(direct_mode)
+    {
+        return;
+    }
+
     bus->i2c_smbus_write_byte_data(dev, 0x26, 0x01);
     std::this_thread::sleep_for(1ms);
     bus->i2c_smbus_write_byte_data(dev, 0x21, 0x00);
@@ -155,10 +162,10 @@ void CorsairVengeanceProController::SetEffect(unsigned char mode,
         random_byte = CORSAIR_PRO_EFFECT_CUSTOM_COLORS;
     }
 
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, effect_mode);  //Mode
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, speed);        //Speed
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, random_byte);  //Custom color
-    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, direction);    //Direction
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, effect_mode);  // Mode
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, speed);        // Speed
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, random_byte);  // Custom color
+    bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, direction);    // Direction
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, red1);         // Custom color 1 red
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, grn1);         // Custom color 1 green
     bus->i2c_smbus_write_byte_data(dev, CORSAIR_PRO_REG_COMMAND, blu1);         // Custom color 1 blue
