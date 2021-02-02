@@ -48,11 +48,19 @@ void DetectDasKeyboardControllers(hid_device_info *info_in, const std::string &n
 
     if(dev)
     {
-        DasKeyboardController*     controller     = new DasKeyboardController(dev, info->path);
-        RGBController_DasKeyboard* rgb_controller = new RGBController_DasKeyboard(controller);
-        rgb_controller->name = name;
+        DasKeyboardController* controller = new DasKeyboardController(dev, info->path);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        if(controller->GetLayoutString() == "NONE")
+        {
+            delete controller;
+        }
+        else
+        {
+            RGBController_DasKeyboard *rgb_controller = new RGBController_DasKeyboard(controller);
+            rgb_controller->name = name;
+
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
     }
 }   /* DetectDasKeyboardControllers() */
 

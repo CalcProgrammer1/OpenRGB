@@ -309,11 +309,6 @@ void RGBController_DasKeyboard::UpdateZoneLEDs(int /*zone*/)
     for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
         UpdateSingleLED(static_cast<int>(led_idx));
-
-        /*---------------------------------------------------------*\
-        | Hack to work around a firmware bug in v21.27.0            |
-        \*---------------------------------------------------------*/
-        std::this_thread::sleep_for(0.3ms);
     }
 
     updateDevice = true;

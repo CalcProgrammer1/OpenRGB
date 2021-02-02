@@ -206,6 +206,12 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c088", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c53a", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Metadot Das Keyboard 4Q + 5Q                                 #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="24f0", ATTR{idProduct}=="2037", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="24f0", ATTR{idProduct}=="202b", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  MSI Mysticlight                                              #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="3EA4", TAG+="uaccess"
