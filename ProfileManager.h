@@ -9,6 +9,7 @@ public:
     virtual bool LoadProfile(std::string profile_name)                               = 0;
     virtual bool LoadSizeFromProfile(std::string profile_name)                       = 0;
     virtual void DeleteProfile(std::string profile_name)                             = 0;
+    virtual unsigned char * GetProfileListDescription()                              = 0;
 
     std::vector<std::string> profile_list;
 
@@ -38,6 +39,7 @@ public:
     bool LoadProfile(std::string profile_name);
     bool LoadSizeFromProfile(std::string profile_name);
     void DeleteProfile(std::string profile_name);
+    unsigned char * GetProfileListDescription();
 
     std::vector<std::string> profile_list;
 

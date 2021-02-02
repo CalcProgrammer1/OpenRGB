@@ -381,3 +381,56 @@ void ProfileManager::UpdateProfileList()
         }
     }
 }
+
+unsigned char * ProfileManager::GetProfileListDescription()
+{
+    unsigned int data_ptr = 0;
+    unsigned int data_size = 0;
+
+    /*---------------------------------------------------------*\
+    | Calculate data size                                       |
+    \*---------------------------------------------------------*/
+     unsigned short num_profiles = profile_list.size();
+
+     data_size += sizeof(data_size);
+     data_size += sizeof(num_profiles);
+
+    for(unsigned int i = 0; i < num_profiles; i++)
+    {
+        data_size += sizeof (unsigned short);
+        data_size += strlen(profile_list[i].c_str());
+    }
+
+    /*---------------------------------------------------------*\
+    | Create data buffer                                        |
+    \*---------------------------------------------------------*/
+    unsigned char *data_buf = new unsigned char[data_size];
+
+    /*---------------------------------------------------------*\
+    | Copy in data size                                         |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    /*---------------------------------------------------------*\
+    | Copy in num_profiles                                      |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &num_profiles, sizeof(num_profiles));
+    data_ptr += sizeof(num_profiles);
+
+    /*---------------------------------------------------------*\
+    | Copy in profile names (size+data)                         |
+    \*---------------------------------------------------------*/
+    for(unsigned int i = 0; i < num_profiles; i++)
+    {
+        unsigned short name_len = strlen(profile_list[i].c_str());
+
+        memcpy(&data_buf[data_ptr], &name_len, sizeof(name_len));
+        data_ptr += sizeof(name_len);
+
+        strcpy((char *)&data_buf[data_ptr], profile_list[i].c_str());
+        data_ptr += name_len;
+    }
+
+    return(data_buf);
+}

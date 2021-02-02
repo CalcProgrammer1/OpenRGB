@@ -67,6 +67,14 @@ public:
 
     void        SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
 
+
+    std::vector<std::string> * ProcessReply_ProfileList(unsigned int data_size, char * data);
+
+    void        SendRequest_GetProfileList();
+    void        SendRequest_LoadProfile(std::string profile_name);
+    void        SendRequest_SaveProfile(std::string profile_name);
+    void        SendRequest_DeleteProfile(std::string profile_name);
+
     std::vector<RGBController *>  server_controllers;
 
     std::mutex                          ControllerListMutex;

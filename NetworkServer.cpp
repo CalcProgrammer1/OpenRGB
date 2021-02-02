@@ -7,6 +7,7 @@
 \*-----------------------------------------*/
 
 #include "NetworkServer.h"
+#include "ResourceManager.h"
 #include <cstring>
 
 #ifndef WIN32
@@ -612,6 +613,45 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     controllers[header.pkt_dev_idx]->UpdateMode();
                 }
                 break;
+
+            case NET_PACKET_ID_REQUEST_PROFILE_LIST:
+                SendReply_ProfileList(client_sock);
+                break;
+
+            case NET_PACKET_ID_REQUEST_SAVE_PROFILE:
+                if(data == NULL)
+                {
+                    break;
+                }
+
+                ResourceManager::get()->GetProfileManager()->SaveProfile(data);
+
+                break;
+
+            case NET_PACKET_ID_REQUEST_LOAD_PROFILE:
+                if(data == NULL)
+                {
+                    break;
+                }
+
+                ResourceManager::get()->GetProfileManager()->LoadProfile(data);
+
+                for(RGBController* controller : ResourceManager::get()->GetRGBControllers())
+                {
+                    controller->UpdateLEDs();
+                }
+
+                break;
+
+            case NET_PACKET_ID_REQUEST_DELETE_PROFILE:
+                if(data == NULL)
+                {
+                    break;
+                }
+
+                ResourceManager::get()->GetProfileManager()->DeleteProfile(data);
+
+                break;
         }
 
         delete[] data;
@@ -772,3 +812,27 @@ void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
 
     send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
 }
+
+void NetworkServer::SendReply_ProfileList(SOCKET client_sock)
+{
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
+    NetPacketHeader reply_hdr;
+    unsigned char *reply_data = profile_manager->GetProfileListDescription();
+    unsigned int reply_size;
+
+    memcpy(&reply_size, reply_data, sizeof(reply_size));
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PROFILE_LIST;
+    reply_hdr.pkt_size     = reply_size;
+
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
+    send(client_sock, (const char *)reply_data, reply_size, 0);
+}
+

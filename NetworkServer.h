@@ -60,6 +60,7 @@ public:
     void                                SendReply_ProtocolVersion(SOCKET client_sock);
 
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
+    void                                SendReply_ProfileList(SOCKET client_sock);
 
 protected:
     unsigned short                      port_num;

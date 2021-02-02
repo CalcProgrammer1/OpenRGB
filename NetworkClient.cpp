@@ -828,3 +828,110 @@ void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, u
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)data, size, MSG_NOSIGNAL);
 }
+
+void NetworkClient::SendRequest_LoadProfile(std::string profile_name)
+{
+    NetPacketHeader reply_hdr;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_LOAD_PROFILE;
+    reply_hdr.pkt_size     = profile_name.size();
+
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+}
+
+void NetworkClient::SendRequest_SaveProfile(std::string profile_name)
+{
+    NetPacketHeader reply_hdr;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_SAVE_PROFILE;
+    reply_hdr.pkt_size     = profile_name.size();
+
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+}
+
+void NetworkClient::SendRequest_DeleteProfile(std::string profile_name)
+{
+    NetPacketHeader reply_hdr;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_DELETE_PROFILE;
+    reply_hdr.pkt_size     = profile_name.size();
+
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+}
+
+void NetworkClient::SendRequest_GetProfileList()
+{
+    NetPacketHeader reply_hdr;
+
+    reply_hdr.pkt_magic[0] = 'O';
+    reply_hdr.pkt_magic[1] = 'R';
+    reply_hdr.pkt_magic[2] = 'G';
+    reply_hdr.pkt_magic[3] = 'B';
+
+    reply_hdr.pkt_dev_idx  = 0;
+    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PROFILE_LIST;
+    reply_hdr.pkt_size     = 0;
+
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+}
+
+std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int data_size, char * data)
+{
+    std::vector<std::string> * profile_list;
+
+    if(data_size > 0)
+    {
+        profile_list = new std::vector<std::string>(data_size);
+
+        // skip 4 first bytes (data length, unused)
+        unsigned short data_ptr = sizeof(unsigned short);
+        unsigned short num_profile;
+
+        memcpy(&num_profile, data, sizeof(unsigned short));
+        data_ptr += sizeof(unsigned short);
+
+        for(int i = 0; i < num_profile; i++)
+        {
+            unsigned short name_len;
+
+            memcpy(&name_len, data, sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            char * profile_name = new char[name_len];
+            memcpy(&profile_name, data, name_len);
+
+            profile_list->push_back(profile_name);
+
+            data_ptr += name_len;
+        }
+
+        server_controller_count_received = true;
+    }
+    else
+    {
+        profile_list = new std::vector<std::string>(0);
+    }
+
+    return profile_list;
+}
