@@ -52,51 +52,82 @@ void SapphireNitroGlowV3Controller::SetColor(unsigned char red, unsigned char gr
     bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_BLUE,  blue);
 }
 
-void SapphireNitroGlowV3Controller::SetMode(unsigned char mode, unsigned char speed)
+unsigned char SapphireNitroGlowV3Controller::GetMode()
 {
-    switch(mode)
-    {
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_RAINBOW:
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL, 0);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RAINBOW_ANIMATION_SPEED, speed);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE, mode);
-            break;
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE));
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_RUNWAY:
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL, 0);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RUNWAY_ANIMATION_SPEED, speed);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RUNWAY_ANIMATION_REPEAT_COUNT, 5);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE, mode);
-            break;
+void SapphireNitroGlowV3Controller::SetMode(unsigned char mode)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE, mode);
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_COLOR_CYCLE:
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL, 0);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_COLOR_CYCLE_ANIMATION_SPEED, speed);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE, mode);
-            break;
+bool SapphireNitroGlowV3Controller::GetExternalControl()
+{
+    return((bool)bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL));
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_SERIAL:
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL, 0);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_SERIAL_ANIMATION_SPEED, speed);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE, mode);
-            break;
+void SapphireNitroGlowV3Controller::SetExternalControl(bool enabled)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL, (unsigned char)enabled);
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_SAPPHIRE_BLUE:
-            break;
+unsigned char SapphireNitroGlowV3Controller::GetBrightness()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE));
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_AUDIO_VISUALIZATION:
-            break;
+void SapphireNitroGlowV3Controller::SetBrightness(unsigned char brightness)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_BRIGHTNESS, brightness);
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_CUSTOM:
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL, 0);
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE, mode);
-            break;
+unsigned char SapphireNitroGlowV3Controller::GetRainbowAnimationSpeed()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RAINBOW_ANIMATION_SPEED));
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_OFF:
-            break;
+void SapphireNitroGlowV3Controller::SetRainbowAnimationSpeed(unsigned char speed)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RAINBOW_ANIMATION_SPEED, speed);
+}
 
-        case SAPPHIRE_NITRO_GLOW_V3_MODE_EXTERNAL_CONTROL:
-            bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_EXTERNAL_CONTROL, 1);
-            break;
-    }
+unsigned char SapphireNitroGlowV3Controller::GetRunwayAnimationSpeed()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RUNWAY_ANIMATION_SPEED));
+}
+
+void SapphireNitroGlowV3Controller::SetRunwayAnimationSpeed(unsigned char speed)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RUNWAY_ANIMATION_SPEED, speed);
+}
+
+unsigned char SapphireNitroGlowV3Controller::GetRunwayAnimationRepeatCount()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RUNWAY_ANIMATION_REPEAT_COUNT));
+}
+
+void SapphireNitroGlowV3Controller::SetRunwayAnimationRepeatCount(unsigned char count)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_RUNWAY_ANIMATION_REPEAT_COUNT, count);
+}
+
+unsigned char SapphireNitroGlowV3Controller::GetColorCycleAnimationSpeed()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_COLOR_CYCLE_ANIMATION_SPEED));
+}
+
+void SapphireNitroGlowV3Controller::SetColorCycleAnimationSpeed(unsigned char speed)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_COLOR_CYCLE_ANIMATION_SPEED, speed);
+}
+
+unsigned char SapphireNitroGlowV3Controller::GetSerialAnimationSpeed()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_SERIAL_ANIMATION_SPEED));
+}
+
+void SapphireNitroGlowV3Controller::SetSerialAnimationSpeed(unsigned char speed)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_SERIAL_ANIMATION_SPEED, speed);
 }

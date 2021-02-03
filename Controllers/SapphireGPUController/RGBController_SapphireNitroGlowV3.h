@@ -31,4 +31,6 @@ public:
 
 private:
     SapphireNitroGlowV3Controller* sapphire;
+
+    void        ReadConfiguration();
 };

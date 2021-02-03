@@ -100,8 +100,6 @@ void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface *> &busses, st
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
-                RGBController *controller;
-
                 switch(device_list[dev_idx].version)
                 {
                     case SAPPHIRE_NITRO_GLOW_V1:

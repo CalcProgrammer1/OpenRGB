@@ -36,8 +36,7 @@ RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNit
 
     SetupZones();
 
-    // Initialize active mode
-    active_mode = 0;
+    ReadConfiguration();
 }
 
 RGBController_SapphireNitroGlowV1::~RGBController_SapphireNitroGlowV1()
@@ -70,6 +69,43 @@ void RGBController_SapphireNitroGlowV1::SetupZones()
     zones.push_back(*new_zone);
 
     SetupColors();
+}
+
+void RGBController_SapphireNitroGlowV1::ReadConfiguration()
+{
+    colors[0] = ToRGBColor(
+        sapphire->GetRed(),
+        sapphire->GetGreen(),
+        sapphire->GetBlue()
+    );
+
+    switch(sapphire->GetMode())
+    {
+        case SAPPHIRE_NITRO_GLOW_V1_MODE_CUSTOM:
+            active_mode = 0;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V1_MODE_RAINBOW:
+            active_mode = 1;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V1_MODE_BOARD_TEMPERATURE:
+            active_mode = 2;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V1_MODE_FAN_SPEED:
+            active_mode = 3;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V1_MODE_OFF:
+            active_mode = 0;
+            colors[0] = ToRGBColor(0, 0, 0);
+            break;
+
+        default:
+            active_mode = 0;
+            break;
+    }
 }
 
 void RGBController_SapphireNitroGlowV1::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -106,5 +142,5 @@ void RGBController_SapphireNitroGlowV1::SetCustomMode()
 
 void RGBController_SapphireNitroGlowV1::DeviceUpdateMode()
 {
-    sapphire->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed);
+    sapphire->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
 }

@@ -56,7 +56,30 @@ public:
     unsigned char   GetBlue();
 
     void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
-    void            SetMode(unsigned char mode, unsigned char speed);
+
+    unsigned char   GetMode();
+    void            SetMode(unsigned char mode);
+
+    bool            GetExternalControl();
+    void            SetExternalControl(bool enabled);
+
+    unsigned char   GetBrightness();
+    void            SetBrightness(unsigned char brightness);
+
+    unsigned char   GetRainbowAnimationSpeed();
+    void            SetRainbowAnimationSpeed(unsigned char speed);
+
+    unsigned char   GetRunwayAnimationSpeed();
+    void            SetRunwayAnimationSpeed(unsigned char speed);
+
+    unsigned char   GetRunwayAnimationRepeatCount();
+    void            SetRunwayAnimationRepeatCount(unsigned char count);
+
+    unsigned char   GetColorCycleAnimationSpeed();
+    void            SetColorCycleAnimationSpeed(unsigned char speed);
+
+    unsigned char   GetSerialAnimationSpeed();
+    void            SetSerialAnimationSpeed(unsigned char speed);
 
 private:
     i2c_smbus_interface*    bus;

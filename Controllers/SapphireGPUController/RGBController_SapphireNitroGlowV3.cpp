@@ -72,7 +72,7 @@ RGBController_SapphireNitroGlowV3::RGBController_SapphireNitroGlowV3(SapphireNit
 
     SetupZones();
 
-    active_mode = 0;
+    ReadConfiguration();
 }
 
 RGBController_SapphireNitroGlowV3::~RGBController_SapphireNitroGlowV3()
@@ -105,6 +105,58 @@ void RGBController_SapphireNitroGlowV3::SetupZones()
     zones.push_back(*new_zone);
 
     SetupColors();
+}
+
+void RGBController_SapphireNitroGlowV3::ReadConfiguration()
+{
+    modes[1].speed = sapphire->GetRainbowAnimationSpeed();
+    modes[2].speed = sapphire->GetRunwayAnimationSpeed();
+    modes[3].speed = sapphire->GetColorCycleAnimationSpeed();
+    modes[4].speed = sapphire->GetSerialAnimationSpeed();
+
+    colors[0] = ToRGBColor(
+        sapphire->GetRed(),
+        sapphire->GetBlue(),
+        sapphire->GetGreen()
+    );
+
+    if(sapphire->GetExternalControl())
+    {
+        active_mode = 5;
+        return;
+    }
+
+    switch(sapphire->GetMode())
+    {
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_CUSTOM:
+            active_mode = 0;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_RAINBOW:
+            active_mode = 1;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_RUNWAY:
+            active_mode = 2;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_COLOR_CYCLE:
+            active_mode = 3;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_SERIAL:
+            active_mode = 4;
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_OFF:
+            active_mode = 0;
+            colors[0] = ToRGBColor(0, 0, 0);
+            break;
+
+        default:
+            active_mode = 0;
+            break;
+    }
 }
 
 void RGBController_SapphireNitroGlowV3::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -141,5 +193,41 @@ void RGBController_SapphireNitroGlowV3::SetCustomMode()
 
 void RGBController_SapphireNitroGlowV3::DeviceUpdateMode()
 {
-    sapphire->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed);
+    auto mode = modes[active_mode];
+
+    switch(mode.value)
+    {
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_CUSTOM:
+            sapphire->SetExternalControl(false);
+            sapphire->SetMode(mode.value);
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_RAINBOW:
+            sapphire->SetExternalControl(false);
+            sapphire->SetRainbowAnimationSpeed(mode.speed);
+            sapphire->SetMode(mode.value);
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_RUNWAY:
+            sapphire->SetExternalControl(false);
+            sapphire->SetRunwayAnimationSpeed(mode.speed);
+            sapphire->SetMode(mode.value);
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_COLOR_CYCLE:
+            sapphire->SetExternalControl(false);
+            sapphire->SetColorCycleAnimationSpeed(mode.speed);
+            sapphire->SetMode(mode.value);
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_SERIAL:
+            sapphire->SetExternalControl(false);
+            sapphire->SetSerialAnimationSpeed(mode.speed);
+            sapphire->SetMode(mode.value);
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_MODE_EXTERNAL_CONTROL:
+            sapphire->SetExternalControl(true);
+            break;
+    }
 }

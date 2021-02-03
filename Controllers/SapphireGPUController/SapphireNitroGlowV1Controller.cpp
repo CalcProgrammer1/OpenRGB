@@ -52,7 +52,12 @@ void SapphireNitroGlowV1Controller::SetColor(unsigned char red, unsigned char gr
     bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V1_REG_BLUE,  blue);
 }
 
-void SapphireNitroGlowV1Controller::SetMode(unsigned char mode, unsigned char /*speed*/)
+unsigned char SapphireNitroGlowV1Controller::GetMode()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V1_REG_MODE));
+}
+
+void SapphireNitroGlowV1Controller::SetMode(unsigned char mode)
 {
     bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V1_REG_MODE, mode);
 }
