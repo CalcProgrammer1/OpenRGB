@@ -97,6 +97,7 @@ REGISTER_HID_DETECTOR_PU("Razer Ornata Chroma",                             Dete
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU("Razer Orbweaver Chroma",                          DetectRazerControllers, RAZER_VID,  RAZER_ORBWEAVER_CHROMA_PID,             1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Tartarus Chroma",                           DetectRazerControllers, RAZER_VID,  RAZER_TARTARUS_CHROMA_PID,              1,  2);
+REGISTER_HID_DETECTOR_PU("Razer Tartarus V2",                               DetectRazerControllers, RAZER_VID,  RAZER_TARTARUS_V2_PID,                  1,  2);
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Laptops                                                                                               |
@@ -108,7 +109,10 @@ REGISTER_HID_DETECTOR_PU("Razer Blade Stealth",                             Dete
 /*-----------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                  |
 \*-----------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_PU("Razer Basilisk",                                  DetectRazerControllers, RAZER_VID,  RAZER_BASILISK_PID,                     1,  2);
+REGISTER_HID_DETECTOR_PU("Razer Basilisk Essential",                        DetectRazerControllers, RAZER_VID,  RAZER_BASILISK_ESSENTIAL_PID,           1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Deathadder Chroma",                         DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_CHROMA_PID,            1,  2);
+REGISTER_HID_DETECTOR_PU("Razer Deathadder Elite",                          DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_ELITE_PID,             1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Deathadder V2",                             DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_V2_PID,                1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Diamondback",                               DetectRazerControllers, RAZER_VID,  RAZER_DIAMONDBACK_CHROMA_PID,           1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Mamba Elite",                               DetectRazerControllers, RAZER_VID,  RAZER_MAMBA_ELITE_PID,                  1,  2);
@@ -121,11 +125,12 @@ REGISTER_HID_DETECTOR_PU("Razer Naga Epic Chroma",                          Dete
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU("Razer Base Station Chroma",                       DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_BASE_PID,                  1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Base Station V2 Chroma",                    DetectRazerControllers, RAZER_VID,  RAZER_BASE_STATION_V2_CHROMA_PID,       1,  2);
-REGISTER_HID_DETECTOR(   "Razer Charging Pad Chroma",                       DetectRazerControllers, RAZER_VID,  RAZER_CHARGING_PAD_CHROMA_PID);
+REGISTER_HID_DETECTOR   ("Razer Charging Pad Chroma",                       DetectRazerControllers, RAZER_VID,  RAZER_CHARGING_PAD_CHROMA_PID                );
 REGISTER_HID_DETECTOR_PU("Razer Chroma HDK",                                DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_HDK_PID,                   1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Chroma Mug Holder",                         DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_MUG_PID,                   1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Core",                                      DetectRazerControllers, RAZER_VID,  RAZER_CORE_PID,                         1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Firefly",                                   DetectRazerControllers, RAZER_VID,  RAZER_FIREFLY_PID,                      1,  2);
+REGISTER_HID_DETECTOR_PU("Razer Firefly V2",                                DetectRazerControllers, RAZER_VID,  RAZER_FIREFLY_V2_PID,                   1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Firefly Hyperflux",                         DetectRazerControllers, RAZER_VID,  RAZER_FIREFLY_HYPERFLUX_PID,            1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Goliathus",                                 DetectRazerControllers, RAZER_VID,  RAZER_GOLIATHUS_CHROMA_PID,             1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Goliathus Extended",                        DetectRazerControllers, RAZER_VID,  RAZER_GOLIATHUS_CHROMA_EXTENDED_PID,    1,  2);
