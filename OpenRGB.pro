@@ -162,8 +162,10 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.h                               \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
     Controllers/CoolerMasterController/CMMP750Controller.h                                      \
+    Controllers/CoolerMasterController/CMR6000Controller.h                                      \
     Controllers/CoolerMasterController/RGBController_CMARGBController.h                         \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.h                        \
+    Controllers/CoolerMasterController/RGBController_CMR6000Controller.h                        \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.h         \
     Controllers/CorsairDominatorPlatinumController/RGBController_CorsairDominatorPlatinum.h     \
     Controllers/CorsairHydroController/CorsairHydroController.h                                 \
@@ -360,9 +362,11 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.cpp                             \
     Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
+    Controllers/CoolerMasterController/CMR6000Controller.cpp                                    \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMARGBController.cpp                       \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.cpp                      \
+    Controllers/CoolerMasterController/RGBController_CMR6000Controller.cpp                      \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.cpp       \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumControllerDetect.cpp \
     Controllers/CorsairDominatorPlatinumController/RGBController_CorsairDominatorPlatinum.cpp   \
