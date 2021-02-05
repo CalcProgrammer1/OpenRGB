@@ -27,7 +27,7 @@ SonyDS4Controller::SonyDS4Controller(hid_device * device_handle, const char * de
             break;
         }
     }
-    
+
     location = device_path;
 }
 
@@ -44,7 +44,11 @@ std::string SonyDS4Controller::GetLocation()
 std::string SonyDS4Controller::GetSerialString()
 {
     wchar_t serial_string[128];
-    hid_get_serial_number_string(device_handle, serial_string, 128);
+    int ret = hid_get_serial_number_string(device_handle, serial_string, 128);
+    if(ret != 0)
+    {
+        return("");
+    }
 
     std::wstring return_wstring = serial_string;
     std::string return_string(return_wstring.begin(), return_wstring.end());
@@ -74,7 +78,7 @@ void SonyDS4Controller::sendReportBT(unsigned char red, unsigned char green, uns
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     };
-    
+
     uint32_t crc = CRCPP::CRC::Calculate(buffer, 75, CRCPP::CRC::CRC_32());
     unsigned char outbuffer[78];
 
@@ -95,7 +99,7 @@ void SonyDS4Controller::sendReportBT(unsigned char red, unsigned char green, uns
     outbuffer[75] = (0x0000FF00 & crc) >> 8;
     outbuffer[76] = (0x00FF0000 & crc) >> 16;
     outbuffer[77] = (0xFF000000 & crc) >> 24;
-    
+
     hid_write(device_handle, outbuffer, 78);
 }
 
