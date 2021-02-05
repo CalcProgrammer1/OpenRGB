@@ -20,6 +20,7 @@
 #define CM_ARGB_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data[0]) / sizeof(colour_mode_data[0][0]))
 #define CM_ARGB_HEADER_DATA_SIZE (sizeof(argb_header_data) / sizeof(argb_headers) )
 #define CM_ARGB_INTERRUPT_TIMEOUT 250
+#define CM_ARGB_PACKET_SIZE 65
 #define CM_ARGB_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
 #define CM_RGB_OFFSET -2
 #define HID_MAX_STR 255
@@ -32,7 +33,11 @@ enum
     CM_ARGB_ZONE_BYTE           = 4,
     CM_ARGB_MODE_BYTE           = 5,
     CM_ARGB_COLOUR_INDEX_BYTE	= 6,
-    CM_ARGB_SPEED_BYTE          = 7
+    CM_ARGB_SPEED_BYTE          = 7,
+    CM_ARGB_BRIGHTNESS_BYTE     = 8,
+    CM_ARGB_RED_BYTE            = 9,
+    CM_ARGB_GREEN_BYTE          = 10,
+    CM_ARGB_BLUE_BYTE           = 11
 };
 
 struct argb_headers
@@ -45,7 +50,7 @@ struct argb_headers
 
 static argb_headers argb_header_data[6] =
 {
-    { "RGB Header",         0xFF, false,  1 },
+    { "RGB Header",         0xFE, false,  1 },
     { "Digital ARGB1",      0x01, true,  12 },
     { "Digital ARGB2",      0x02, true,  12 },
     { "Digital ARGB3",      0x04, true,  12 },
@@ -55,24 +60,26 @@ static argb_headers argb_header_data[6] =
 
 enum
 {
-    CM_RGB_MODE_OFF             = 0,    //Turn off
-    CM_RGB_MODE_COLOUR_CYCLE    = 1,    //Colour Cycle
-    CM_RGB_MODE_FLASH           = 2,    //Flash
-    CM_RGB_MODE_BREATHING       = 3,    //Breathing
-    CM_RGB_MODE_PASSTHRU        = 4     //Motherboard Pass Thru Mode
+    CM_RGB_MODE_MIRAGE          = 0x01, //Mirage
+    CM_RGB_MODE_FLASH           = 0x02, //Flash
+    CM_RGB_MODE_BREATHING       = 0x03, //Breathing
+    CM_RGB_MODE_STATIC          = 0x05, //Static
+    CM_RGB_MODE_OFF             = 0x06, //Turn off
+    CM_RGB_MODE_PASSTHRU        = 0xFF  //Motherboard Pass Thru Mode
 };
 
 enum
 {
-    CM_ARGB_MODE_OFF            = 0,    //Turn off
-    CM_ARGB_MODE_SPECTRUM       = 1,    //Spectrum Mode
-    CM_ARGB_MODE_RELOAD         = 2,    //Reload Mode
-    CM_ARGB_MODE_RECOIL         = 3,    //Recoil Mode
-    CM_ARGB_MODE_BREATHING      = 4,    //Breathing Mode
-    CM_ARGB_MODE_REFILL         = 5,    //Refill Mode
-    CM_ARGB_MODE_DEMO           = 6,    //Demo Mode
-    CM_ARGB_MODE_FILLFLOW       = 7,    //Fill Flow Mode
-    CM_ARGB_MODE_RAINBOW        = 8,    //Rainbow Mode
+    CM_ARGB_MODE_OFF            = 0x0B, //Turn off
+    CM_ARGB_MODE_SPECTRUM       = 0x01, //Spectrum Mode
+    CM_ARGB_MODE_RELOAD         = 0x02, //Reload Mode
+    CM_ARGB_MODE_RECOIL         = 0x03, //Recoil Mode
+    CM_ARGB_MODE_BREATHING      = 0x04, //Breathing Mode
+    CM_ARGB_MODE_REFILL         = 0x05, //Refill Mode
+    CM_ARGB_MODE_DEMO           = 0x06, //Demo Mode
+    CM_ARGB_MODE_FILLFLOW       = 0x08, //Fill Flow Mode
+    CM_ARGB_MODE_RAINBOW        = 0x09, //Rainbow Mode
+    CM_ARGB_MODE_STATIC         = 0x0A, //Static Mode
     CM_ARGB_MODE_DIRECT         = 0xFE, //Direct Led Control
     CM_ARGB_MODE_PASSTHRU       = 0xFF  //Motherboard Pass Thru Mode
 };
@@ -102,9 +109,11 @@ public:
     unsigned char GetLedGreen();
     unsigned char GetLedBlue();
     unsigned char GetLedSpeed();
-    void SetMode(unsigned char mode, unsigned char speed);
-    void SetColor(unsigned char red, unsigned char green, unsigned char blue);
+    bool GetRandomColours();
+    void SetLedCount(int zone, int led_count);
+    void SetMode(unsigned char mode, unsigned char speed, RGBColor colour, bool random_colours);
     void SetLedsDirect(RGBColor * led_colours, unsigned int led_count);
+
 private:
     std::string             device_name;
     std::string             serial;
@@ -118,10 +127,11 @@ private:
     unsigned char           current_red;
     unsigned char           current_green;
     unsigned char           current_blue;
+    unsigned char           current_brightness;
+    bool                    bool_random;
 
     unsigned int GetLargestColour(unsigned int red, unsigned int green, unsigned int blue);
     unsigned char GetColourIndex(unsigned char red, unsigned char green, unsigned char blue);
     void GetStatus();
     void SendUpdate();
-
 };

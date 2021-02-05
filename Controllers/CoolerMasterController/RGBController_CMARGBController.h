@@ -12,6 +12,9 @@
 #include "CMARGBcontroller.h"
 #include <vector>
 
+#define first_zone(zn)          ((zones.size() > 1) ? 1 : 0)
+#define last_zone(zn)           ((zones.size() > 1) ? 4 : 1)
+
 class RGBController_CMARGBController : public RGBController
 {
 public:
@@ -27,9 +30,11 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
+
 private:
     void        Init_Controller();
     int         GetDeviceMode();
+    int         GetLED_Zone(int led_idx);
 
     CMARGBController* cmargb;
 };
