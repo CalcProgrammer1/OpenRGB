@@ -35,6 +35,11 @@ RGBController_Yeelight::RGBController_Yeelight(YeelightController* light_ptr)
     SetupZones();
 }
 
+RGBController_Yeelight::~RGBController_Yeelight()
+{
+    delete light;
+}
+
 void RGBController_Yeelight::SetupZones()
 {
     zone led_zone;

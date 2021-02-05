@@ -30,6 +30,11 @@ RGBController_LinuxLED::RGBController_LinuxLED(LinuxLEDController* controller_pt
     SetupZones();
 }
 
+RGBController_LinuxLED::~RGBController_LinuxLED()
+{
+    delete controller;
+}
+
 void RGBController_LinuxLED::SetupZones()
 {
     zone led_zone;

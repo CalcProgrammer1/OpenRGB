@@ -15,6 +15,7 @@ class RGBController_LogitechGPowerPlay : public RGBController
 {
 public:
     RGBController_LogitechGPowerPlay(LogitechGPowerPlayController* logitech_ptr);
+    ~RGBController_LogitechGPowerPlay();
 
     void        SetupZones();
 

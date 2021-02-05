@@ -38,6 +38,11 @@ RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* holtek_
     SetupZones();
 }
 
+RGBController_HoltekA070::~RGBController_HoltekA070()
+{
+    delete holtek;
+}
+
 void RGBController_HoltekA070::SetupZones()
 {
     zone mouse_zone;

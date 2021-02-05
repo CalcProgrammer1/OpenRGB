@@ -67,6 +67,11 @@ RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* cooler_pt
     SetupZones();
 }
 
+RGBController_AorusATC800::~RGBController_AorusATC800()
+{
+    delete cooler;
+}
+
 void RGBController_AorusATC800::SetupZones()
 {
     zone atc800_cpu_fans_zone;

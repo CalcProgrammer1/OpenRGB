@@ -14,7 +14,8 @@ class SonyDS4Controller
 {
 public:
     SonyDS4Controller(hid_device * device_handle, const char * device_path);
-    
+    ~SonyDS4Controller();
+
     std::string GetLocation();
     std::string GetSerialString();
 

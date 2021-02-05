@@ -19,7 +19,7 @@ HyperXPulsefireFPSProController::HyperXPulsefireFPSProController(hid_device* dev
 
 HyperXPulsefireFPSProController::~HyperXPulsefireFPSProController()
 {
-
+    hid_close(dev);
 }
 
 std::string HyperXPulsefireFPSProController::GetDeviceLocation()

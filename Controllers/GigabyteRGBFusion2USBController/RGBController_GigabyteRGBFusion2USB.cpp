@@ -185,6 +185,11 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     SetupZones();
 }
 
+RGBController_RGBFusion2USB::~RGBController_RGBFusion2USB()
+{
+    delete controller;
+}
+
 void RGBController_RGBFusion2USB::Init_Controller()
 {
     /*---------------------------------------------------------*\

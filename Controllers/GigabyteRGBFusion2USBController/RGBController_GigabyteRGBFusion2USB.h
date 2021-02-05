@@ -32,6 +32,7 @@ class RGBController_RGBFusion2USB: public RGBController
 {
 public:
     RGBController_RGBFusion2USB(RGBFusion2USBController* controller_ptr);
+    ~RGBController_RGBFusion2USB();
 
     void        SetupZones();
 

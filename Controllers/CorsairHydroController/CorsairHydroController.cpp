@@ -29,6 +29,14 @@ CorsairHydroController::CorsairHydroController(libusb_device_handle* dev_handle)
     SendFirmwareRequest();
 }
 
+CorsairHydroController::~CorsairHydroController()
+{
+    if(dev)
+    {
+        libusb_close(dev);
+    }
+}
+
 std::string CorsairHydroController::GetFirmwareString()
 {
     return(firmware_version);

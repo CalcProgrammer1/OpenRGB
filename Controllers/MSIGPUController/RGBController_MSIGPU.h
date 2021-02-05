@@ -14,6 +14,7 @@ class RGBController_MSIGPU : public RGBController
 {
 public:
     RGBController_MSIGPU(MSIGPUController* msi_gpu_ptr);
+    ~RGBController_MSIGPU();
 
     void        SetupZones();
 

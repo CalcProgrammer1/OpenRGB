@@ -14,6 +14,7 @@ FanBusController::FanBusController(FanBusInterface* bus_ptr, unsigned char dev_a
 
 FanBusController::~FanBusController()
 {
+    delete bus;
 }
 
 std::string FanBusController::GetLocation()

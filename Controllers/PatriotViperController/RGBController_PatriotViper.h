@@ -16,6 +16,7 @@ class RGBController_PatriotViper : public RGBController
 {
 public:
     RGBController_PatriotViper(PatriotViperController* viper_ptr);
+    ~RGBController_PatriotViper();
 
     void        SetupZones();
 

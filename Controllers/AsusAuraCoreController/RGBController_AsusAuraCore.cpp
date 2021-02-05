@@ -43,6 +43,11 @@ RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* aura_ptr)
     SetupZones();
 }
 
+RGBController_AuraCore::~RGBController_AuraCore()
+{
+    delete aura;
+}
+
 void RGBController_AuraCore::SetupZones()
 {
     zone Keyboard;

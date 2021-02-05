@@ -8,6 +8,11 @@ RedragonK556Controller::RedragonK556Controller(hid_device* dev_handle, const cha
     location    = path;
 }
 
+RedragonK556Controller::~RedragonK556Controller()
+{
+    hid_close(dev);
+}
+
 std::string RedragonK556Controller::GetDeviceLocation()
 {
     return("HID: " + location);

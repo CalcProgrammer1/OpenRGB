@@ -100,6 +100,11 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
     active_mode = GetDeviceMode();
 }
 
+RGBController_AuraGPU::~RGBController_AuraGPU()
+{
+    delete aura_gpu;
+}
+
 void RGBController_AuraGPU::SetupZones()
 {
     /*---------------------------------------------------------*\

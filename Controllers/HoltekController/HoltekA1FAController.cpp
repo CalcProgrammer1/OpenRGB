@@ -16,6 +16,12 @@ HoltekA1FAController::HoltekA1FAController(hid_device *dev_handle, const char *p
     location = path;
 }
 
+HoltekA1FAController::~HoltekA1FAController()
+{
+    hid_close(dev);
+}
+
+
 std::string HoltekA1FAController::GetDeviceLocation()
 {
     return ("HID: " + location);

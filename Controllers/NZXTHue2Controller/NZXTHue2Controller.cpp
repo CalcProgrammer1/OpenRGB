@@ -29,7 +29,7 @@ NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_
 
 NZXTHue2Controller::~NZXTHue2Controller()
 {
-
+    hid_close(dev);
 }
 
 unsigned char NZXTHue2Controller::GetFanCommand

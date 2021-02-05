@@ -14,6 +14,7 @@ class RGBController_HoltekA1FA : public RGBController
 {
 public:
     RGBController_HoltekA1FA(HoltekA1FAController* holtek_ptr);
+    ~RGBController_HoltekA1FA();
 
     int         previous_mode = 0;  /* previous  mode              */
 

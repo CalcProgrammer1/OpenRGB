@@ -14,6 +14,7 @@ class RGBController_NZXTHue2 : public RGBController
 {
 public:
     RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr);
+    ~RGBController_NZXTHue2();
 
     void        SetupZones();
 

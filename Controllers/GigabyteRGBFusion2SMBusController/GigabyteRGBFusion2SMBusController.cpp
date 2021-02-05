@@ -29,6 +29,11 @@ RGBFusion2SMBusController::RGBFusion2SMBusController(i2c_smbus_interface* bus, r
     led_count   = 10;	// Protocol supports 10 'slots'
 }
 
+RGBFusion2SMBusController::~RGBFusion2SMBusController()
+{
+
+}
+
 unsigned int RGBFusion2SMBusController::GetLEDCount()
 {
     return(led_count);

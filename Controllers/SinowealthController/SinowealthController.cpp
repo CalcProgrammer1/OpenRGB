@@ -26,7 +26,8 @@ SinowealthController::SinowealthController(hid_device* dev_handle_id_4, hid_devi
 
 SinowealthController::~SinowealthController()
 {
-
+    hid_close(dev_report_id_4);
+    hid_close(dev_report_id_5);
 }
 
 std::string SinowealthController::GetLocation()

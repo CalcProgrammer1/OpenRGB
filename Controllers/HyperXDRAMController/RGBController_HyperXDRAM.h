@@ -16,6 +16,7 @@ class RGBController_HyperXDRAM : public RGBController
 {
 public:
     RGBController_HyperXDRAM(HyperXDRAMController* hyperx_ptr);
+    ~RGBController_HyperXDRAM();
 
     void        SetupZones();
 

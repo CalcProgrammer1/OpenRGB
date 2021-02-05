@@ -15,6 +15,7 @@ class RGBController_GalaxGPU : public RGBController
 {
 public:
     RGBController_GalaxGPU(GalaxGPUController* galax_gpu_ptr);
+    ~RGBController_GalaxGPU();
 
     void        SetupZones();
 

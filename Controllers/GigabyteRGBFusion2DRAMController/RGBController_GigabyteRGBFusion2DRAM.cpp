@@ -30,6 +30,11 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
     SetupZones();
 }
 
+RGBController_RGBFusion2DRAM::~RGBController_RGBFusion2DRAM()
+{
+    delete rgb_fusion;
+}
+
 void RGBController_RGBFusion2DRAM::SetupZones()
 {
     /*---------------------------------------------------------*\

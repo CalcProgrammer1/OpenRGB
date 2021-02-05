@@ -105,7 +105,7 @@ RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* aura_ptr) :
 
 RGBController_AuraUSB::~RGBController_AuraUSB()
 {
-
+    delete aura;
 }
 
 void RGBController_AuraUSB::SetupZones()

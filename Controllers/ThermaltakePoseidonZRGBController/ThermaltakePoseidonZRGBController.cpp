@@ -30,7 +30,7 @@ PoseidonZRGBController::PoseidonZRGBController(hid_device* dev_handle, const cha
 
 PoseidonZRGBController::~PoseidonZRGBController()
 {
-
+    hid_close(dev);
 }
 
 std::string PoseidonZRGBController::GetDeviceLocation()

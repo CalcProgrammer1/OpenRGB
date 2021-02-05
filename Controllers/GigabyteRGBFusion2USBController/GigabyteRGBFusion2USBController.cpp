@@ -67,9 +67,7 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
 
 RGBFusion2USBController::~RGBFusion2USBController()
 {
-    if( dev ) {
-        hid_close(dev);
-    }
+    hid_close(dev);
 }
 
 void RGBFusion2USBController::SetMode(int m)

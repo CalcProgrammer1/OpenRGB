@@ -237,6 +237,8 @@ RGBController_LogitechG810::~RGBController_LogitechG810()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete logitech;
 }
 
 void RGBController_LogitechG810::SetupZones()

@@ -73,6 +73,11 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* r
     active_mode = 0;
 }
 
+RGBController_RGBFusionGPU::~RGBController_RGBFusionGPU()
+{
+    delete rgb_fusion;
+}
+
 void RGBController_RGBFusionGPU::SetupZones()
 {
     /*---------------------------------------------------------*\

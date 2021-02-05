@@ -15,6 +15,7 @@ class RGBController_RedragonM711 : public RGBController
 {
 public:
     RGBController_RedragonM711(RedragonM711Controller* redragon_ptr);
+    ~RGBController_RedragonM711();
 
     void        SetupZones();
 

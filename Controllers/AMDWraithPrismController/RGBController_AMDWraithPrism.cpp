@@ -97,7 +97,7 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
 
 RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
 {
-
+    delete wraith;
 }
 
 void RGBController_AMDWraithPrism::SetupZones()

@@ -72,6 +72,11 @@ RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
     colors[0] = color;
 }
 
+RGBController_EVGAGPUv1::~RGBController_EVGAGPUv1()
+{
+    delete evga;
+}
+
 void RGBController_EVGAGPUv1::SetupZones()
 {
     /*---------------------------------------------------------*\

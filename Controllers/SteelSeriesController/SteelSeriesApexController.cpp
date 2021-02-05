@@ -40,7 +40,7 @@ SteelSeriesApexController::SteelSeriesApexController(hid_device* dev_handle, ste
 
 SteelSeriesApexController::~SteelSeriesApexController()
 {
-
+    hid_close(dev);
 }
 
 void SteelSeriesApexController::SetMode

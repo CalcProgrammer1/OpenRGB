@@ -14,6 +14,7 @@ class RGBController_FanBus : public RGBController
 {
 public:
     RGBController_FanBus(FanBusController* controller_ptr);
+    ~RGBController_FanBus();
 
     void        SetupZones();
 

@@ -29,6 +29,11 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* ledstrip_ptr)
     SetupZones();
 }
 
+RGBController_LEDStrip::~RGBController_LEDStrip()
+{
+    delete strip;
+}
+
 void RGBController_LEDStrip::SetupZones()
 {
     zone led_zone;

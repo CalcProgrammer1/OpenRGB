@@ -15,6 +15,7 @@ class RGBController_ZalmanZSync : public RGBController
 {
 public:
     RGBController_ZalmanZSync(ZalmanZSyncController* controller_ptr);
+    ~RGBController_ZalmanZSync();
 
     void        SetupZones();
 

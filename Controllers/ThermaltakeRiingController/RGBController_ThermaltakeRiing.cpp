@@ -107,6 +107,11 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
     SetupZones();
 }
 
+RGBController_ThermaltakeRiing::~RGBController_ThermaltakeRiing()
+{
+    delete riing;
+}
+
 void RGBController_ThermaltakeRiing::SetupZones()
 {
     /*-------------------------------------------------*\

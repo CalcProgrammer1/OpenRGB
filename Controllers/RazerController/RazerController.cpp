@@ -111,7 +111,7 @@ RazerController::RazerController(hid_device* dev_handle, const char* path, unsig
 
 RazerController::~RazerController()
 {
-
+    hid_close(dev);
 }
 
 std::string RazerController::GetName()

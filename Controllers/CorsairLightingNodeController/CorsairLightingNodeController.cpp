@@ -35,6 +35,8 @@ CorsairLightingNodeController::~CorsairLightingNodeController()
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;
+
+    hid_close(dev);
 }
 
 void CorsairLightingNodeController::KeepaliveThread()

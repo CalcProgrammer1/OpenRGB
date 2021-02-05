@@ -193,7 +193,7 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
 
 RGBController_CMARGBController::~RGBController_CMARGBController()
 {
-
+    delete cmargb;
 }
 
 void RGBController_CMARGBController::Init_Controller()

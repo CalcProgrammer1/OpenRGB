@@ -16,6 +16,7 @@ class RGBController_SteelSeriesRival : public RGBController
 {
 public:
     RGBController_SteelSeriesRival(SteelSeriesRivalController* rival_ptr);
+    ~RGBController_SteelSeriesRival();
 
     void        SetupZones();
 

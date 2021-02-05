@@ -125,6 +125,11 @@ RGBController_HyperXDRAM::RGBController_HyperXDRAM(HyperXDRAMController* hyperx_
     SetupZones();
 }
 
+RGBController_HyperXDRAM::~RGBController_HyperXDRAM()
+{
+    delete hyperx;
+}
+
 void RGBController_HyperXDRAM::SetupZones()
 {
     for(unsigned int slot = 0; slot < hyperx->GetSlotCount(); slot++)

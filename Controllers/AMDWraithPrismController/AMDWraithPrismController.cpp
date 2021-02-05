@@ -36,7 +36,7 @@ AMDWraithPrismController::AMDWraithPrismController(hid_device* dev_handle, const
 
 AMDWraithPrismController::~AMDWraithPrismController()
 {
-
+    hid_close(dev);
 }
 
 std::string AMDWraithPrismController::GetLocationString()

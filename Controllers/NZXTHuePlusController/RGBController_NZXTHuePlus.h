@@ -15,6 +15,7 @@ class RGBController_HuePlus : public RGBController
 {
 public:
     RGBController_HuePlus(HuePlusController* hueplus_ptr);
+    ~RGBController_HuePlus();
 
     void        SetupZones();
 

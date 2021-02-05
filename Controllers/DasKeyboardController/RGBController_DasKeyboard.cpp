@@ -243,6 +243,8 @@ RGBController_DasKeyboard::~RGBController_DasKeyboard()
     {
         delete zones[zone_index].matrix_map;
     }
+
+    delete das;
 }
 
 void RGBController_DasKeyboard::SetupZones()

@@ -15,6 +15,7 @@ class RGBController_CorsairLightingNode : public RGBController
 {
 public:
     RGBController_CorsairLightingNode(CorsairLightingNodeController* corsair_ptr);
+    ~RGBController_CorsairLightingNode();
 
     void        SetupZones();
 

@@ -59,6 +59,11 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
     active_mode = GetDeviceMode();
 }
 
+RGBController_RGBFusion::~RGBController_RGBFusion()
+{
+    delete rgb_fusion;
+}
+
 void RGBController_RGBFusion::SetupZones()
 {
     /*---------------------------------------------------------*\

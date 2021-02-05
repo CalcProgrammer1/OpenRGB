@@ -167,6 +167,11 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     SetupZones();
 }
 
+RGBController_CorsairLightingNode::~RGBController_CorsairLightingNode()
+{
+    delete corsair;
+}
+
 void RGBController_CorsairLightingNode::SetupZones()
 {
     /*-------------------------------------------------*\

@@ -20,7 +20,7 @@ DuckyKeyboardController::DuckyKeyboardController(hid_device* dev_handle, const c
 
 DuckyKeyboardController::~DuckyKeyboardController()
 {
-    
+    hid_close(dev);
 }
 
 std::string DuckyKeyboardController::GetDeviceLocation()

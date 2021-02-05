@@ -167,6 +167,11 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     SetupZones();
 }
 
+RGBController_ZalmanZSync::~RGBController_ZalmanZSync()
+{
+    delete controller;
+}
+
 void RGBController_ZalmanZSync::SetupZones()
 {
     /*-------------------------------------------------*\

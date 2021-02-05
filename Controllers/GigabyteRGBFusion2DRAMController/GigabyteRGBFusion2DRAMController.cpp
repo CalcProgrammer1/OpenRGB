@@ -39,6 +39,11 @@ RGBFusion2DRAMController::RGBFusion2DRAMController(i2c_smbus_interface* bus, rgb
     led_data[RGB_FUSION_2_DRAM_IDX_BRIGHTNESS] = 0x64;
 }
 
+RGBFusion2DRAMController::~RGBFusion2DRAMController()
+{
+
+}
+
 unsigned int RGBFusion2DRAMController::GetLEDCount()
 {
     return(led_count);

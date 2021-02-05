@@ -17,6 +17,7 @@ class RGBController_RGBFusion2SMBus : public RGBController
 {
 public:
     RGBController_RGBFusion2SMBus(RGBFusion2SMBusController* rgb_fusion_ptr);
+    ~RGBController_RGBFusion2SMBus();
 
     void        SetupZones();
 

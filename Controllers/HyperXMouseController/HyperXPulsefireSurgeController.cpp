@@ -19,7 +19,7 @@ HyperXPulsefireSurgeController::HyperXPulsefireSurgeController(hid_device* dev_h
 
 HyperXPulsefireSurgeController::~HyperXPulsefireSurgeController()
 {
-
+    hid_close(dev);
 }
 
 std::string HyperXPulsefireSurgeController::GetDeviceLocation()

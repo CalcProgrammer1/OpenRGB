@@ -73,6 +73,11 @@ RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController
     SetupZones();
 }
 
+RGBController_LogitechG203L::~RGBController_LogitechG203L()
+{
+    delete logitech;
+}
+
 void RGBController_LogitechG203L::SetupZones()
 {
     zone g203L_zone;

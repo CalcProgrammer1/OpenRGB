@@ -14,6 +14,11 @@ RGBController::~RGBController()
     DeviceThreadRunning = false;
     DeviceCallThread->join();
     delete DeviceCallThread;
+
+    leds.clear();
+    colors.clear();
+    zones.clear();
+    modes.clear();
 }
 
 unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_version)

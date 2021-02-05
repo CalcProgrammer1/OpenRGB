@@ -15,6 +15,7 @@ class RGBController_LogitechGProWireless : public RGBController
 {
 public:
     RGBController_LogitechGProWireless(LogitechGProWirelessController* logitech_ptr);
+    ~RGBController_LogitechGProWireless();
 
     void        SetupZones();
 

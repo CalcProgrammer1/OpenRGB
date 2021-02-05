@@ -25,7 +25,6 @@ class RGBController_DasKeyboard : public RGBController
 {
 public:
     RGBController_DasKeyboard(DasKeyboardController *das_ptr);
-
     ~RGBController_DasKeyboard();
 
     void SetupZones();

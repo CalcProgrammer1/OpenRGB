@@ -19,7 +19,7 @@ HyperXMousematController::HyperXMousematController(hid_device* dev_handle, const
 
 HyperXMousematController::~HyperXMousematController()
 {
-
+    hid_close(dev);
 }
 
 std::string HyperXMousematController::GetDeviceLocation()

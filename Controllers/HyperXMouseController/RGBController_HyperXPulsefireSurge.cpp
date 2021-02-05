@@ -46,6 +46,8 @@ RGBController_HyperXPulsefireSurge::~RGBController_HyperXPulsefireSurge()
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;
+
+    delete hyperx;
 }
 
 void RGBController_HyperXPulsefireSurge::SetupZones()

@@ -208,6 +208,8 @@ RGBController_PoseidonZRGB::~RGBController_PoseidonZRGB()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete poseidon;
 }
 
 void RGBController_PoseidonZRGB::SetupZones()

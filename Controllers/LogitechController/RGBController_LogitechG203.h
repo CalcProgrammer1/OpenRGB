@@ -15,6 +15,7 @@ class RGBController_LogitechG203 : public RGBController
 {
 public:
     RGBController_LogitechG203(LogitechG203Controller* logitech_ptr);
+    ~RGBController_LogitechG203();
 
     void        SetupZones();
 

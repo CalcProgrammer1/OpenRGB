@@ -220,6 +220,8 @@ RGBController_RedragonK556::~RGBController_RedragonK556()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete redragon;
 }
 
 void RGBController_RedragonK556::SetupZones()

@@ -160,6 +160,11 @@ RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVeng
     active_mode = 9;
 }
 
+RGBController_CorsairVengeancePro::~RGBController_CorsairVengeancePro()
+{
+    delete corsair;
+}
+
 void RGBController_CorsairVengeancePro::SetupZones()
 {
     /*---------------------------------------------------------*\

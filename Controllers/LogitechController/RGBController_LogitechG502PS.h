@@ -15,6 +15,7 @@ class RGBController_LogitechG502PS : public RGBController
 {
 public:
     RGBController_LogitechG502PS(LogitechG502PSController* logitech_ptr);
+    ~RGBController_LogitechG502PS();
 
     void        SetupZones();
 

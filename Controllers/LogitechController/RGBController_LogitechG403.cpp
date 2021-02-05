@@ -57,6 +57,11 @@ RGBController_LogitechG403::RGBController_LogitechG403(LogitechG403Controller* l
     SetupZones();
 }
 
+RGBController_LogitechG403::~RGBController_LogitechG403()
+{
+    delete logitech;
+}
+
 void RGBController_LogitechG403::SetupZones()
 {
     zone G403_wheel_zone;

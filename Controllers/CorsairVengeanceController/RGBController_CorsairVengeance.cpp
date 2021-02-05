@@ -43,6 +43,11 @@ RGBController_CorsairVengeance::RGBController_CorsairVengeance(CorsairVengeanceC
     SetupZones();
 }
 
+RGBController_CorsairVengeance::~RGBController_CorsairVengeance()
+{
+    delete corsair;
+}
+
 void RGBController_CorsairVengeance::SetupZones()
 {
     /*---------------------------------------------------------*\

@@ -252,6 +252,8 @@ RGBController_HyperXKeyboard::~RGBController_HyperXKeyboard()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete hyperx;
 }
 
 void RGBController_HyperXKeyboard::SetupZones()

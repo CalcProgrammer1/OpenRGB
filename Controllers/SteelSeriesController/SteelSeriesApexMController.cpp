@@ -29,7 +29,7 @@ SteelSeriesApexMController::SteelSeriesApexMController(hid_device* dev_handle, s
 
 SteelSeriesApexMController::~SteelSeriesApexMController()
 {
-
+    hid_close(dev);
 }
 
 void SteelSeriesApexMController::EnableLEDControl()

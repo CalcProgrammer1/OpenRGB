@@ -113,7 +113,7 @@ RGBController_EKController::RGBController_EKController(EKController* _dev)
 
 RGBController_EKController::~RGBController_EKController()
 {
-
+    delete EK_dev;
 }
 
 void RGBController_EKController::SetupZones()

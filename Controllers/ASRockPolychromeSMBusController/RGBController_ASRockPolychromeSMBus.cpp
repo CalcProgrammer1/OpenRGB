@@ -412,6 +412,11 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
     SetupZones();
 }
 
+RGBController_Polychrome::~RGBController_Polychrome()
+{
+    delete polychrome;
+}
+
 void RGBController_Polychrome::SetupZones()
 {
     switch(polychrome->GetASRockType())

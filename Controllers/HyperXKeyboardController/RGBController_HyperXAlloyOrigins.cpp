@@ -213,6 +213,8 @@ RGBController_HyperXAlloyOrigins::~RGBController_HyperXAlloyOrigins()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete hyperx;
 }
 
 void RGBController_HyperXAlloyOrigins::SetupZones()

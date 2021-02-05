@@ -84,6 +84,11 @@ RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController * galax_gpu_pt
     active_mode = GetDeviceMode();
 }
 
+RGBController_GalaxGPU::~RGBController_GalaxGPU()
+{
+    delete galax_gpu;
+}
+
 void RGBController_GalaxGPU::SetupZones()
 {
     /*---------------------------------------------------------*\

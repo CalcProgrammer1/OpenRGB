@@ -45,6 +45,7 @@ SteelSeriesSiberiaController::SteelSeriesSiberiaController
 
 SteelSeriesSiberiaController::~SteelSeriesSiberiaController()
 {
+    hid_close(dev);
 }
 
 std::string SteelSeriesSiberiaController::GetDeviceLocation()

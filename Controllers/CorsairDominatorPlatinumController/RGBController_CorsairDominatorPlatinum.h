@@ -15,6 +15,7 @@ class RGBController_CorsairDominatorPlatinum : public RGBController
 {
 public:
     RGBController_CorsairDominatorPlatinum(CorsairDominatorPlatinumController* corsair_ptr);
+    ~RGBController_CorsairDominatorPlatinum();
 
     void SetupZones();
 

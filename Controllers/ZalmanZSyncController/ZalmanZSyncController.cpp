@@ -45,6 +45,8 @@ ZalmanZSyncController::~ZalmanZSyncController()
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;
+
+    hid_close(dev);
 }
 
 void ZalmanZSyncController::KeepaliveThread()

@@ -289,6 +289,8 @@ RGBController_SteelSeriesApex::~RGBController_SteelSeriesApex()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete steelseries;
 }
 
 void RGBController_SteelSeriesApex::SetupZones()

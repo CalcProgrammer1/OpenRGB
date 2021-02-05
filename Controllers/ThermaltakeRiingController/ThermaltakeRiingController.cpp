@@ -21,7 +21,7 @@ ThermaltakeRiingController::ThermaltakeRiingController(hid_device* dev_handle, c
 
 ThermaltakeRiingController::~ThermaltakeRiingController()
 {
-
+    hid_close(dev);
 }
 
 std::string ThermaltakeRiingController::GetDeviceLocation()

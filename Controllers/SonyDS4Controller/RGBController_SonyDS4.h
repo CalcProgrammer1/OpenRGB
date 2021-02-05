@@ -13,7 +13,8 @@ class RGBController_SonyDS4 : public RGBController
 {
 public:
     RGBController_SonyDS4(SonyDS4Controller* dualshock);
-    
+    ~RGBController_SonyDS4();
+
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);

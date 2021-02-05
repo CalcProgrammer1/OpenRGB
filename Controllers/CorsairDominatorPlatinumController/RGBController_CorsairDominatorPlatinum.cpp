@@ -33,6 +33,11 @@ RGBController_CorsairDominatorPlatinum::RGBController_CorsairDominatorPlatinum(C
     active_mode = 0;
 }
 
+RGBController_CorsairDominatorPlatinum::~RGBController_CorsairDominatorPlatinum()
+{
+    delete corsair;
+}
+
 void RGBController_CorsairDominatorPlatinum::SetupZones()
 {
     /*---------------------------------------------------------*\

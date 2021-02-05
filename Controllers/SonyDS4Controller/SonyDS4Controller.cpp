@@ -31,6 +31,11 @@ SonyDS4Controller::SonyDS4Controller(hid_device * device_handle, const char * de
     location = device_path;
 }
 
+SonyDS4Controller::~SonyDS4Controller()
+{
+    hid_close(device_handle);
+}
+
 std::string SonyDS4Controller::GetLocation()
 {
     return("HID: " + location);

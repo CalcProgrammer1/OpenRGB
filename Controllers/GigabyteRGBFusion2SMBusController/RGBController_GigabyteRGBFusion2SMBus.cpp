@@ -92,6 +92,11 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     active_mode = GetDeviceMode();
 }
 
+RGBController_RGBFusion2SMBus::~RGBController_RGBFusion2SMBus()
+{
+    delete rgb_fusion;
+}
+
 void RGBController_RGBFusion2SMBus::SetupZones()
 {
     /*---------------------------------------------------------*\

@@ -15,6 +15,7 @@ class RGBController_RoccatKoneAimo : public RGBController
 {
 public:
     RGBController_RoccatKoneAimo(RoccatKoneAimoController* mouse_ptr);
+    ~RGBController_RoccatKoneAimo();
 
     void        SetupZones();
 

@@ -102,6 +102,11 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     SetupZones();
 }
 
+RGBController_PatriotViper::~RGBController_PatriotViper()
+{
+    delete viper;
+}
+
 void RGBController_PatriotViper::SetupZones()
 {
     /*---------------------------------------------------------*\

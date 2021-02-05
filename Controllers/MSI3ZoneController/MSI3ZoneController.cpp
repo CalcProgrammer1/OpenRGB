@@ -19,7 +19,7 @@ MSI3ZoneController::MSI3ZoneController(hid_device* dev_handle, const char* path)
 
 MSI3ZoneController::~MSI3ZoneController()
 {
-
+    hid_close(dev);
 }
 
 char* MSI3ZoneController::GetDeviceName()

@@ -20,7 +20,7 @@ DasKeyboardController::DasKeyboardController(hid_device *dev_handle, const char 
 
 DasKeyboardController::~DasKeyboardController()
 {
-
+    hid_close(dev);
 }
 
 std::string DasKeyboardController::GetDeviceLocation()

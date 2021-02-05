@@ -55,7 +55,7 @@ RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
 
 RGBController_Tecknet::~RGBController_Tecknet()
 {
-
+    delete Tecknet_dev;
 }
 
 void RGBController_Tecknet::SetupZones()

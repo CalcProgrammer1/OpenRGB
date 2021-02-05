@@ -22,7 +22,7 @@ HyperXAlloyOriginsController::HyperXAlloyOriginsController(hid_device* dev_handl
 
 HyperXAlloyOriginsController::~HyperXAlloyOriginsController()
 {
-
+    hid_close(dev);
 }
 
 std::string HyperXAlloyOriginsController::GetDeviceLocation()

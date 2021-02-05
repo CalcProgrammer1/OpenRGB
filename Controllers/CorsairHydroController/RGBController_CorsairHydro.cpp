@@ -68,6 +68,11 @@ RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* c
     SetupZones();
 }
 
+RGBController_CorsairHydro::~RGBController_CorsairHydro()
+{
+    delete corsair;
+}
+
 void RGBController_CorsairHydro::SetupZones()
 {
     zone new_zone;

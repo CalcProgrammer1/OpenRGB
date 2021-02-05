@@ -161,6 +161,11 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
     SetupZones();
 }
 
+RGBController_HuePlus::~RGBController_HuePlus()
+{
+    delete hueplus;
+}
+
 void RGBController_HuePlus::SetupZones()
 {
     /*-------------------------------------------------*\

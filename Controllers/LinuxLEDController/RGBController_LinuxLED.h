@@ -14,6 +14,7 @@ class RGBController_LinuxLED : public RGBController
 {
 public:
     RGBController_LinuxLED(LinuxLEDController* controller_ptr);
+    ~RGBController_LinuxLED();
 
     void        SetupZones();
 

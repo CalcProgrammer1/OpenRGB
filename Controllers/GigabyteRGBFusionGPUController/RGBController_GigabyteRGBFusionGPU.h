@@ -16,6 +16,7 @@ class RGBController_RGBFusionGPU : public RGBController
 {
 public:
     RGBController_RGBFusionGPU(RGBFusionGPUController* rgb_fusion_ptr);
+    ~RGBController_RGBFusionGPU();
 
     void        SetupZones();
 

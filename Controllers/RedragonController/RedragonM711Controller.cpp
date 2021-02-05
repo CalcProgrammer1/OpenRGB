@@ -13,6 +13,11 @@ RedragonM711Controller::RedragonM711Controller(hid_device* dev_handle, const cha
     SendMouseApply();
 }
 
+RedragonM711Controller::~RedragonM711Controller()
+{
+    hid_close(dev);
+}
+
 std::string RedragonM711Controller::GetDeviceLocation()
 {
     return("HID: " + location);

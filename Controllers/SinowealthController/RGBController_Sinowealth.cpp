@@ -123,6 +123,11 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
     SetupZones();
 }
 
+RGBController_Sinowealth::~RGBController_Sinowealth()
+{
+    delete sinowealth;
+}
+
 void RGBController_Sinowealth::SetupZones()
 {
     /*---------------------------------------------------------*\

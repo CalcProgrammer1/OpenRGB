@@ -18,7 +18,8 @@ LogitechG810Controller::LogitechG810Controller(hid_device* dev_handle_0x11, hid_
 
 LogitechG810Controller::~LogitechG810Controller()
 {
-
+    hid_close(dev_pkt_0x11);
+    hid_close(dev_pkt_0x12);
 }
 
 std::string LogitechG810Controller::GetSerialString()

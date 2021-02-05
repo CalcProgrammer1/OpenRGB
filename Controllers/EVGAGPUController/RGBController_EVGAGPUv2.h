@@ -16,6 +16,7 @@ class RGBController_EVGAGPUv2 : public RGBController
 {
 public:
     RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr);
+    ~RGBController_EVGAGPUv2();
 
     void        SetupZones();
 

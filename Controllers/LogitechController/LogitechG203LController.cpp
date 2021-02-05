@@ -8,6 +8,11 @@ LogitechG203LController::LogitechG203LController(hid_device* dev_handle, const c
     location    = path;
 }
 
+LogitechG203LController::~LogitechG203LController()
+{
+    hid_close(dev);
+}
+
 std::string LogitechG203LController::GetDeviceLocation()
 {
     return("HID: " + location);

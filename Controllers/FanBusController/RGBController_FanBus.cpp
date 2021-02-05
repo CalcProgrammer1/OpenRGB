@@ -27,6 +27,11 @@ RGBController_FanBus::RGBController_FanBus(FanBusController* controller_ptr)
     SetupZones();
 }
 
+RGBController_FanBus::~RGBController_FanBus()
+{
+    delete controller;
+}
+
 void RGBController_FanBus::SetupZones()
 {
     zone led_zone;

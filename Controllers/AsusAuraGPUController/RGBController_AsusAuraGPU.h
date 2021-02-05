@@ -15,6 +15,7 @@ class RGBController_AuraGPU : public RGBController
 {
 public:
     RGBController_AuraGPU(AuraGPUController* aura_gpu_ptr);
+    ~RGBController_AuraGPU();
 
     void        SetupZones();
 

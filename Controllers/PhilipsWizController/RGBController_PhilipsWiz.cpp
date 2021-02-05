@@ -30,6 +30,11 @@ RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* light_p
     SetupZones();
 }
 
+RGBController_PhilipsWiz::~RGBController_PhilipsWiz()
+{
+    delete light;
+}
+
 void RGBController_PhilipsWiz::SetupZones()
 {
     zone led_zone;

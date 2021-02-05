@@ -57,6 +57,11 @@ RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGPowe
     SetupZones();
 }
 
+RGBController_LogitechGPowerPlay::~RGBController_LogitechGPowerPlay()
+{
+    delete logitech;
+}
+
 void RGBController_LogitechGPowerPlay::SetupZones()
 {
     zone GPowerPlay_logo_zone;

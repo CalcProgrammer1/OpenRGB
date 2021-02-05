@@ -16,6 +16,7 @@ class RGBController_Crucial : public RGBController
 {
 public:
     RGBController_Crucial(CrucialController* crucial_ptr);
+    ~RGBController_Crucial();
 
     void        SetupZones();
 

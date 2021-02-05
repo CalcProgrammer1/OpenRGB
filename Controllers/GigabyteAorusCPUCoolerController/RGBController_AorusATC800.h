@@ -15,6 +15,7 @@ class RGBController_AorusATC800 : public RGBController
 {
 public:
     RGBController_AorusATC800(ATC800Controller* logitech_ptr);
+    ~RGBController_AorusATC800();
 
     void        SetupZones();
 

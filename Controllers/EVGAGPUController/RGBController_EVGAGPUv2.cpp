@@ -54,6 +54,11 @@ RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
     active_mode = 0;
 }
 
+RGBController_EVGAGPUv2::~RGBController_EVGAGPUv2()
+{
+    delete evga;
+}
+
 void RGBController_EVGAGPUv2::SetupZones()
 {
     /*---------------------------------------------------------*\

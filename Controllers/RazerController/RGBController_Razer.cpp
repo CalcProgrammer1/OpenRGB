@@ -79,7 +79,7 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
 
 RGBController_Razer::~RGBController_Razer()
 {
-
+    delete controller;
 }
 
 void RGBController_Razer::SetupZones()

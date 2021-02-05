@@ -35,6 +35,11 @@ RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoControl
 
 }
 
+RGBController_RoccatKoneAimo::~RGBController_RoccatKoneAimo()
+{
+    delete mouse;
+}
+
 void RGBController_RoccatKoneAimo::SetupZones()
 {
     /*---------------------------------------------------------*\

@@ -29,10 +29,7 @@ MSIMysticLightController::MSIMysticLightController(hid_device* handle, const cha
 
 MSIMysticLightController::~MSIMysticLightController()
 {
-    if(dev)
-    {
-        hid_close(dev);
-    }
+    hid_close(dev);
 }
 
 unsigned int MSIMysticLightController::GetZoneMinLedCount

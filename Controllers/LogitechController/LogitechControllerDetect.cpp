@@ -93,14 +93,8 @@ void DetectLogitechKeyboardG810(hid_device_info* info, const std::string& name)
      else
      {
          // Not all of them could be opened, do some cleanup
-         if(dev_usage_0x0602)
-         {
-             hid_close(dev_usage_0x0602);
-         }
-         if(dev_usage_0x0604)
-         {
-             hid_close(dev_usage_0x0604);
-         }
+         hid_close(dev_usage_0x0602);
+         hid_close(dev_usage_0x0604);
      }
 #else
     hid_device* dev = hid_open_path(info->path);

@@ -204,6 +204,8 @@ RGBController_DuckyKeyboard::~RGBController_DuckyKeyboard()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete ducky;
 }
 
 void RGBController_DuckyKeyboard::SetupZones()

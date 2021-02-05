@@ -18,7 +18,7 @@ AuraCoreController::AuraCoreController(hid_device* dev_handle, const char* path)
 
 AuraCoreController::~AuraCoreController()
 {
-
+    hid_close(dev);
 }
 
 std::string AuraCoreController::GetDeviceLocation()

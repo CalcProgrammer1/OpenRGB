@@ -57,6 +57,11 @@ RGBController_LogitechG502PS::RGBController_LogitechG502PS(LogitechG502PSControl
     SetupZones();
 }
 
+RGBController_LogitechG502PS::~RGBController_LogitechG502PS()
+{
+    delete logitech;
+}
+
 void RGBController_LogitechG502PS::SetupZones()
 {
     zone G502_PS_side_zone;

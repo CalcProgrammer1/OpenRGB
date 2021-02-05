@@ -88,6 +88,11 @@ RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOl
     SetupZones();
 }
 
+RGBController_SteelSeriesOldApex::~RGBController_SteelSeriesOldApex()
+{
+    delete OldApex;
+}
+
 void RGBController_SteelSeriesOldApex::SetupZones()
 {
     /* We have 5 zones to work with. Here goes... */

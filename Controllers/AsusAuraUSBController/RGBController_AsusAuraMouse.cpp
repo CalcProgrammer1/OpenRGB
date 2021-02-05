@@ -53,7 +53,7 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* aura_ptr)
 
 RGBController_AuraMouse::~RGBController_AuraMouse()
 {
-
+    delete aura;
 }
 
 void RGBController_AuraMouse::SetupZones()

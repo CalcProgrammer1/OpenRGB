@@ -217,6 +217,11 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     active_mode = GetDeviceMode();
 }
 
+RGBController_MSIGPU::~RGBController_MSIGPU()
+{
+    delete msi_gpu;
+}
+
 void RGBController_MSIGPU::SetupZones()
 {
     /*---------------------------------------------------------*\

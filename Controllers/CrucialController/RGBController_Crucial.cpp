@@ -116,6 +116,11 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     SetupZones();
 }
 
+RGBController_Crucial::~RGBController_Crucial()
+{
+    delete crucial;
+}
+
 void RGBController_Crucial::SetupZones()
 {
     /*---------------------------------------------------------*\

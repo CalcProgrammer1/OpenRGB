@@ -27,6 +27,11 @@ RGBController_Espurna::RGBController_Espurna(EspurnaController* espurna_ptr)
     SetupZones();
 }
 
+RGBController_Espurna::~RGBController_Espurna()
+{
+    delete espurna;
+}
+
 void RGBController_Espurna::SetupZones()
 {
     zone led_zone;

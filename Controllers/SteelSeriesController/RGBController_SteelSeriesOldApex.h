@@ -26,6 +26,7 @@ class RGBController_SteelSeriesOldApex : public RGBController
 {
 public:
     RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* old_apex_ptr);
+    ~RGBController_SteelSeriesOldApex();
 
     void        SetupZones();
 

@@ -188,6 +188,11 @@ RGBController_NZXTKraken::RGBController_NZXTKraken(NZXTKrakenController* nzxtkra
     SetupZones();
 }
 
+RGBController_NZXTKraken::~RGBController_NZXTKraken()
+{
+    delete nzxtkraken;
+}
+
 void RGBController_NZXTKraken::SetupZones()
 {
     /*---------------------------------------------------------*\

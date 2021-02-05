@@ -41,7 +41,7 @@ SteelSeriesRivalController::SteelSeriesRivalController
 
 SteelSeriesRivalController::~SteelSeriesRivalController()
 {
-
+    hid_close(dev);
 }
 
 std::string SteelSeriesRivalController::GetDeviceLocation()

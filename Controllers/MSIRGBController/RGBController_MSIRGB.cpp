@@ -29,7 +29,7 @@ RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* msi_ptr)
 
 RGBController_MSIRGB::~RGBController_MSIRGB()
 {
-
+    delete msi;
 }
 
 void RGBController_MSIRGB::SetupZones()

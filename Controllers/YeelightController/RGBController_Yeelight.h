@@ -14,6 +14,7 @@ class RGBController_Yeelight : public RGBController
 {
 public:
     RGBController_Yeelight(YeelightController* light_ptr);
+    ~RGBController_Yeelight();
 
     void        SetupZones();
 

@@ -133,6 +133,11 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr)
     SetupZones();
 }
 
+RGBController_NZXTHue2::~RGBController_NZXTHue2()
+{
+    delete hue2;
+}
+
 void RGBController_NZXTHue2::SetupZones()
 {
     /*-------------------------------------------------*\

@@ -57,6 +57,11 @@ RGBController_LogitechGProWireless::RGBController_LogitechGProWireless(LogitechG
     SetupZones();
 }
 
+RGBController_LogitechGProWireless::~RGBController_LogitechGProWireless()
+{
+    delete logitech;
+}
+
 void RGBController_LogitechGProWireless::SetupZones()
 {
     zone GProWireless_primary_zone;

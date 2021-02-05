@@ -66,6 +66,11 @@ RGBController_HoltekA1FA::RGBController_HoltekA1FA(HoltekA1FAController* holtek_
     SetupZones();
 }
 
+RGBController_HoltekA1FA::~RGBController_HoltekA1FA()
+{
+    delete holtek;
+}
+
 void RGBController_HoltekA1FA::SetupZones()
 {
     zone mouse_zone;

@@ -16,6 +16,7 @@ class RGBController_RGBFusion : public RGBController
 {
 public:
     RGBController_RGBFusion(RGBFusionController* rgb_fusion_ptr);
+    ~RGBController_RGBFusion();
 
     void        SetupZones();
 

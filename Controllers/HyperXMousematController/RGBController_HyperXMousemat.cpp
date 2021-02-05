@@ -46,6 +46,8 @@ RGBController_HyperXMousemat::~RGBController_HyperXMousemat()
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;
+
+    delete hyperx;
 }
 
 void RGBController_HyperXMousemat::SetupZones()

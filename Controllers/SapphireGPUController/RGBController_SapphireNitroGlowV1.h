@@ -16,6 +16,7 @@ class RGBController_SapphireNitroGlowV1 : public RGBController
 {
 public:
     RGBController_SapphireNitroGlowV1(SapphireNitroGlowV1Controller* sapphire_ptr);
+    ~RGBController_SapphireNitroGlowV1();
 
     void        SetupZones();
 

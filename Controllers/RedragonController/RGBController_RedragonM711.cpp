@@ -58,6 +58,11 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
     SetupZones();
 }
 
+RGBController_RedragonM711::~RGBController_RedragonM711()
+{
+    delete redragon;
+}
+
 void RGBController_RedragonM711::SetupZones()
 {
     zone m711_zone;

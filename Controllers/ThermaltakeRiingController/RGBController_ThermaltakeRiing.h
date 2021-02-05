@@ -15,6 +15,7 @@ class RGBController_ThermaltakeRiing : public RGBController
 {
 public:
     RGBController_ThermaltakeRiing(ThermaltakeRiingController* riing_ptr);
+    ~RGBController_ThermaltakeRiing();
 
     void        SetupZones();
 

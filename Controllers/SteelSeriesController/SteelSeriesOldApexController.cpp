@@ -50,7 +50,7 @@ SteelSeriesOldApexController::SteelSeriesOldApexController
 
 SteelSeriesOldApexController::~SteelSeriesOldApexController()
 {
-
+    hid_close(dev);
 }
 
 std::string SteelSeriesOldApexController::GetDeviceLocation()

@@ -32,7 +32,7 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* msi_ptr)
 
 RGBController_MSI3Zone::~RGBController_MSI3Zone()
 {
-
+    delete msi;
 }
 
 void RGBController_MSI3Zone::SetupZones()

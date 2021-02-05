@@ -16,6 +16,11 @@ HoltekA070Controller::HoltekA070Controller(hid_device* dev_handle, const char* p
     location    = path;
 }
 
+HoltekA070Controller::~HoltekA070Controller()
+{
+    hid_close(dev);
+}
+
 std::string HoltekA070Controller::GetDeviceLocation()
 {
     return("HID: " + location);

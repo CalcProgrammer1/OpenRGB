@@ -16,6 +16,7 @@ class RGBController_NZXTKraken : public RGBController
 {
 public:
     RGBController_NZXTKraken(NZXTKrakenController* nzxtkraken_ptr);
+    ~RGBController_NZXTKraken();
 
     void        SetupZones();
 

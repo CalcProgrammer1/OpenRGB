@@ -40,6 +40,11 @@ RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNit
     active_mode = 0;
 }
 
+RGBController_SapphireNitroGlowV1::~RGBController_SapphireNitroGlowV1()
+{
+    delete sapphire;
+}
+
 void RGBController_SapphireNitroGlowV1::SetupZones()
 {
     /*---------------------------------------------------------*\

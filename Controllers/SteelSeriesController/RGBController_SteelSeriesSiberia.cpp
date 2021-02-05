@@ -29,6 +29,11 @@ RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSi
     SetupZones();
 }
 
+RGBController_SteelSeriesSiberia::~RGBController_SteelSeriesSiberia()
+{
+    delete siberia;
+}
+
 void RGBController_SteelSeriesSiberia::SetupZones()
 {
     /* Siberia 350 only has one Zone */

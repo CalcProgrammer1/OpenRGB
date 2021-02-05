@@ -35,7 +35,7 @@ HyperXKeyboardController::HyperXKeyboardController(hid_device* dev_handle, const
 
 HyperXKeyboardController::~HyperXKeyboardController()
 {
-
+    hid_close(dev);
 }
 
 std::string HyperXKeyboardController::GetDeviceLocation()

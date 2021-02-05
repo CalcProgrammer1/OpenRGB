@@ -51,7 +51,7 @@ RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* l
 
 RGBController_LogitechG213::~RGBController_LogitechG213()
 {
-
+    delete logitechG213;
 }
 
 void RGBController_LogitechG213::SetupZones()

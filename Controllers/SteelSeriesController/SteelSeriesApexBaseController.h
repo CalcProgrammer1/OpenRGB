@@ -18,6 +18,11 @@ class SteelSeriesApexBaseController
 {
 public:
 
+    virtual ~SteelSeriesApexBaseController()
+    {
+
+    }
+
     std::string GetDeviceLocation()
     {
         return("HID: " + location);

@@ -31,6 +31,11 @@ RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* dualshock)
     SetupZones();
 }
 
+RGBController_SonyDS4::~RGBController_SonyDS4()
+{
+    delete dualshock;
+}
+
 void RGBController_SonyDS4::SetupZones()
 {
     /*---------------------------------------------------------*\

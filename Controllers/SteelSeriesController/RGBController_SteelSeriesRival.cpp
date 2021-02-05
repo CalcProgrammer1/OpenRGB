@@ -40,6 +40,11 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     SetupZones();
 }
 
+RGBController_SteelSeriesRival::~RGBController_SteelSeriesRival()
+{
+    delete rival;
+}
+
 void RGBController_SteelSeriesRival::SetupZones()
 {
     /* Rival 100 Series only has one Zone */

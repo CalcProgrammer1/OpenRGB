@@ -16,6 +16,7 @@ class RGBController_Sinowealth : public RGBController
 {
 public:
     RGBController_Sinowealth(SinowealthController* sinowealth_ptr);
+    ~RGBController_Sinowealth();
 
     void        SetupZones();
 

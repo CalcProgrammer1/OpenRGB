@@ -16,6 +16,7 @@ class RGBController_RGBFusion2DRAM : public RGBController
 {
 public:
     RGBController_RGBFusion2DRAM(RGBFusion2DRAMController* rgb_fusion_ptr);
+    ~RGBController_RGBFusion2DRAM();
 
     void        SetupZones();
 

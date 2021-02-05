@@ -14,6 +14,7 @@ class RGBController_PhilipsWiz : public RGBController
 {
 public:
     RGBController_PhilipsWiz(PhilipsWizController* light_ptr);
+    ~RGBController_PhilipsWiz();
 
     void        SetupZones();
 

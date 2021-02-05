@@ -16,6 +16,7 @@ class RGBController_SteelSeriesSiberia : public RGBController
 {
 public:
     RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* siberia_ptr);
+    ~RGBController_SteelSeriesSiberia();
 
     void        SetupZones();
 

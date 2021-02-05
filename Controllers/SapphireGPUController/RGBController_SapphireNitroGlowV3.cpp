@@ -75,6 +75,11 @@ RGBController_SapphireNitroGlowV3::RGBController_SapphireNitroGlowV3(SapphireNit
     active_mode = 0;
 }
 
+RGBController_SapphireNitroGlowV3::~RGBController_SapphireNitroGlowV3()
+{
+    delete sapphire;
+}
+
 void RGBController_SapphireNitroGlowV3::SetupZones()
 {
     /*---------------------------------------------------------*\

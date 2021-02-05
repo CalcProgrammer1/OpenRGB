@@ -16,6 +16,7 @@ class RGBController_LEDStrip : public RGBController
 {
 public:
     RGBController_LEDStrip(LEDStripController* ledstrip_ptr);
+    ~RGBController_LEDStrip();
 
     void        SetupZones();
 

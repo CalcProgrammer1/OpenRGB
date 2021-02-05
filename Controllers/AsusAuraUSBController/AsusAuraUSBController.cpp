@@ -22,9 +22,8 @@ AuraUSBController::AuraUSBController(hid_device* dev_handle, const char* path)
 
 AuraUSBController::~AuraUSBController()
 {
-
+    hid_close(dev);
 }
-
 unsigned int AuraUSBController::GetChannelCount()
 {
     return(device_info.size());
@@ -95,11 +94,9 @@ void AuraUSBController::GetConfigTable()
         }
     }
     else
-    {
-        if(dev)
-        {
-            hid_close(dev);
-        }
+    {       
+        hid_close(dev);
+
         throw std::runtime_error("Could not read config table");
     }
 }
