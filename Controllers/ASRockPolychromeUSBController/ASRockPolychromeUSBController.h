@@ -52,8 +52,8 @@ enum
 
 enum
 {
-    POLYCHROME_USB_LEDCOUNT_CFG             = 0x02,     //  Config for LED Count
-    POLYCHROME_USB_RGSWAP_CFG               = 0x03,     // Config for  RGSWAP
+    POLYCHROME_USB_LEDCOUNT_CFG             = 0x02,     // Config for LED Count
+    POLYCHROME_USB_RGSWAP_CFG               = 0x03,     // Config for RGSWAP
     POLYCHROME_USB_ZONE_UNAVAILABLE         = 0x1E,     // Value from LEDCOUNT CFG if zone not present
 };
 
