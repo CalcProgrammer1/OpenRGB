@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include <QSlider>
 
 namespace Ui
 {

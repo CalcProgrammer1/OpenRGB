@@ -36,6 +36,7 @@ private slots:
     void on_DirectionBox_currentIndexChanged(int index);
     void on_ZoneBox_currentIndexChanged(int index);
     void on_LEDBox_currentIndexChanged(int index);
+    void on_BrightnessSlider_valueChanged(int value);
     void on_ModeBox_currentIndexChanged(int index);
     void on_SpeedSlider_valueChanged(int value);
     void on_RedSpinBox_valueChanged(int arg1);
@@ -60,9 +61,10 @@ private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
 
-    bool UpdatingColor    = false;
-    bool InvertedSpeed    = false;
-    bool MultipleSelected = false;
+    bool UpdatingColor      = false;
+    bool InvertedSpeed      = false;
+    bool InvertedBrightness = false;
+    bool MultipleSelected   = false;
 
     void updateRGB();
     void updateHSV();
