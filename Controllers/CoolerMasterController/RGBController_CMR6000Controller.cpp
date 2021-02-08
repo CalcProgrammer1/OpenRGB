@@ -65,12 +65,12 @@ RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controll
 
     SetupZones();
     active_mode = cmr6000->GetMode();
-    if (modes[active_mode].flags && MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
+    if (modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
     {
         modes[active_mode].colors[0] = ToRGBColor(cmr6000->GetLedRed(), cmr6000->GetLedGreen(), cmr6000->GetLedBlue());
     }
     modes[active_mode].color_mode = (cmr6000->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
-    if (modes[active_mode].flags && MODE_FLAG_HAS_SPEED)
+    if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
     {
         modes[active_mode].speed = cmr6000->GetLedSpeed();
     }
@@ -109,9 +109,17 @@ void RGBController_CMR6000Controller::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_CMR6000Controller::DeviceUpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
-    unsigned char grn = RGBGetGValue(colors[0]);
-    unsigned char blu = RGBGetBValue(colors[0]);
+    unsigned char red = 0;
+    unsigned char grn = 0;
+    unsigned char blu = 0;
+
+    if (modes[active_mode].color_mode == MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
+    {
+        red = RGBGetRValue(modes[active_mode].colors[0]);
+        grn = RGBGetGValue(modes[active_mode].colors[0]);
+        blu = RGBGetBValue(modes[active_mode].colors[0]);
+    }
+    
     unsigned char rnd = (modes[active_mode].color_mode == MODE_COLORS_RANDOM) ? 0xA0 : 0x20;
 
     cmr6000->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu, rnd);
