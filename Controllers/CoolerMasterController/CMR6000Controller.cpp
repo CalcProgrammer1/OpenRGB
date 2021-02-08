@@ -104,12 +104,17 @@ unsigned char CMR6000Controller::GetLedSpeed()
     return current_speed;
 }
 
+unsigned char CMR6000Controller::GetBrightness()
+{
+    return current_brightness;
+}
+
 bool CMR6000Controller::GetRandomColours()
 {
     return current_random;
 }
 
-void CMR6000Controller::SetMode(unsigned char mode, unsigned char speed, unsigned char red, unsigned char green, unsigned char blue, unsigned char random)
+void CMR6000Controller::SetMode(unsigned char mode, unsigned char speed, unsigned char red, unsigned char green, unsigned char blue, unsigned char random, unsigned char brightness)
 {
     current_mode        = mode;
     current_speed       = speed;
@@ -117,7 +122,7 @@ void CMR6000Controller::SetMode(unsigned char mode, unsigned char speed, unsigne
     current_green       = green;
     current_blue        = blue;
     current_random      = random;
-    current_brightness  = (current_mode == CM_MR6000_MODE_COLOR_CYCLE) ? 0x7F : 0xFF;    //Color_Cycle brightness needs to be clamped to 0x7F to avoid wash out
+    current_brightness  = brightness;
 
     SendUpdate();
 }

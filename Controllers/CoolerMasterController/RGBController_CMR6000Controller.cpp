@@ -39,14 +39,17 @@ RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controll
     modes.push_back(Static);
 
     mode ColorCycle;
-    ColorCycle.name       = "Color Cycle";
-    ColorCycle.value      = CM_MR6000_MODE_COLOR_CYCLE;
-    ColorCycle.flags      = MODE_FLAG_HAS_SPEED;
-    ColorCycle.speed_min  = MR6000_CYCLE_SPEED_SLOWEST;
-    ColorCycle.speed      = MR6000_CYCLE_SPEED_NORMAL;
-    ColorCycle.speed_max  = MR6000_CYCLE_SPEED_FASTEST;
-    ColorCycle.color_mode = MODE_COLORS_NONE;
-    ColorCycle.speed      = speed;
+    ColorCycle.name             = "Color Cycle";
+    ColorCycle.value            = CM_MR6000_MODE_COLOR_CYCLE;
+    ColorCycle.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    ColorCycle.speed_min        = MR6000_CYCLE_SPEED_SLOWEST;
+    ColorCycle.speed            = MR6000_CYCLE_SPEED_NORMAL;
+    ColorCycle.speed_max        = MR6000_CYCLE_SPEED_FASTEST;
+    ColorCycle.color_mode       = MODE_COLORS_NONE;
+    ColorCycle.speed            = speed;
+    ColorCycle.brightness_min   = 0x00;
+    ColorCycle.brightness_max   = 0xFF;
+    ColorCycle.brightness       = 0x7F;
     modes.push_back(ColorCycle);
 
     mode Breathing;
@@ -124,8 +127,9 @@ void RGBController_CMR6000Controller::DeviceUpdateLEDs()
     }
 
     unsigned char rnd = (modes[active_mode].color_mode == MODE_COLORS_RANDOM) ? 0xA0 : 0x20;
+    unsigned char bri = (modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS) ? modes[active_mode].brightness : 0xFF;
 
-    cmr6000->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu, rnd);
+    cmr6000->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu, rnd, bri);
 }
 
 void RGBController_CMR6000Controller::UpdateZoneLEDs(int /*zone*/)
