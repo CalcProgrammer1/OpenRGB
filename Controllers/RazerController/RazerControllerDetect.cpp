@@ -175,7 +175,7 @@ REGISTER_HID_DETECTOR_PU("Razer Naga Trinity",                              Dete
 REGISTER_HID_DETECTOR_PU("Razer Base Station Chroma",                       DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_BASE_PID,                          1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Base Station V2 Chroma",                    DetectRazerControllers, RAZER_VID,  RAZER_BASE_STATION_V2_CHROMA_PID,               1,  2);
 REGISTER_HID_DETECTOR   ("Razer Charging Pad Chroma",                       DetectRazerControllers, RAZER_VID,  RAZER_CHARGING_PAD_CHROMA_PID                        );
-REGISTER_HID_DETECTOR   ("Razer Chroma Addressable RGB Controller",         DetectRazerARGBControllers, RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID       );
+REGISTER_HID_DETECTOR_I ("Razer Chroma Addressable RGB Controller",         DetectRazerARGBControllers, RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID, 0    );
 REGISTER_HID_DETECTOR_PU("Razer Chroma HDK",                                DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_HDK_PID,                           1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Chroma Mug Holder",                         DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_MUG_PID,                           1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Core",                                      DetectRazerControllers, RAZER_VID,  RAZER_CORE_PID,                                 1,  2);
