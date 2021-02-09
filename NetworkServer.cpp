@@ -36,8 +36,9 @@ using namespace std::chrono_literals;
 
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
-    port_num      = OPENRGB_SDK_PORT;
-    server_online = false;
+    port_num         = OPENRGB_SDK_PORT;
+    server_online    = false;
+    server_listening = false;
     ConnectionThread = nullptr;
 }
 
@@ -73,6 +74,21 @@ void NetworkServer::DeviceListChanged()
     }
 }
 
+void NetworkServer::ServerListeningChanged()
+{
+    ServerListeningChangeMutex.lock();
+
+    /*-------------------------------------------------*\
+    | Server state has changed, call the callbacks      |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < ServerListeningChangeCallbacks.size(); callback_idx++)
+    {
+        ServerListeningChangeCallbacks[callback_idx](ServerListeningChangeCallbackArgs[callback_idx]);
+    }
+
+    ServerListeningChangeMutex.unlock();
+}
+
 unsigned short NetworkServer::GetPort()
 {
     return port_num;
@@ -81,6 +97,11 @@ unsigned short NetworkServer::GetPort()
 bool NetworkServer::GetOnline()
 {
     return server_online;
+}
+
+bool NetworkServer::GetListening()
+{
+    return server_listening;
 }
 
 unsigned int NetworkServer::GetNumClients()
@@ -154,6 +175,12 @@ void NetworkServer::RegisterClientInfoChangeCallback(NetServerCallback new_callb
     ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
 }
 
+void NetworkServer::RegisterServerListeningChangeCallback(NetServerCallback new_callback, void * new_callback_arg)
+{
+    ServerListeningChangeCallbacks.push_back(new_callback);
+    ServerListeningChangeCallbackArgs.push_back(new_callback_arg);
+}
+
 void NetworkServer::SetPort(unsigned short new_port)
 {
     if(server_online == false)
@@ -204,7 +231,33 @@ void NetworkServer::StartServer()
     \*-------------------------------------------------*/
     if (bind(server_sock, (sockaddr*)&myAddress, sizeof(myAddress)) == SOCKET_ERROR)
     {
-        printf("Error: Could not bind network socket \nIs port %hu already being used?\n", GetPort());
+        if(errno == EADDRINUSE)
+        {
+            printf("Error: Could not bind network socket \nIs port %hu already being used?\n", GetPort());
+        }
+        else if(errno == EACCES)
+        {
+            printf("Error: Access to socket was denied.\n");
+        }
+        else if(errno == EBADF)
+        {
+            printf("Error: sockfd is not a valid file descriptor.\n");
+        }
+        else if(errno == EINVAL)
+        {
+            printf("Error: The socket is already bound to an address, or addrlen is wrong, or addr is not a valid address for this socket's domain..\n");
+        }
+        else if(errno == ENOTSOCK)
+        {
+            printf("Error: The file descriptor sockfd does not refer to a socket.\n");
+        }
+        else
+        {
+            // could be a linux specific error
+            // https://man7.org/linux/man-pages/man2/bind.2.html
+            printf("Error: Could not bind network socket, error code:%d\n", errno);
+        }
+
         WSACleanup();
         return;
     }
@@ -215,7 +268,6 @@ void NetworkServer::StartServer()
     setsockopt(server_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
 
     server_online = true;
-
     /*-------------------------------------------------*\
     | Start the connection thread                       |
     \*-------------------------------------------------*/
@@ -243,7 +295,6 @@ void NetworkServer::StopServer()
 
     if(ConnectionThread)
     {
-        ConnectionThread->join();
         delete ConnectionThread;
         ConnectionThread = nullptr;
     }
@@ -279,6 +330,9 @@ void NetworkServer::ConnectionThreadFunction()
             return;
         }
 
+        server_listening = true;
+        ServerListeningChanged();
+
         /*-------------------------------------------------*\
         | Accept the client connection                      |
         \*-------------------------------------------------*/
@@ -290,6 +344,9 @@ void NetworkServer::ConnectionThreadFunction()
         {
             printf("Connection thread closed\r\n");
             server_online = false;
+
+            server_listening = false;
+            ServerListeningChanged();
 
             return;
         }
@@ -324,6 +381,8 @@ void NetworkServer::ConnectionThreadFunction()
 
     printf("Connection thread closed\r\n");
     server_online = false;
+    server_listening = false;
+    ServerListeningChanged();
 }
 
 int NetworkServer::accept_select(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
@@ -333,7 +392,7 @@ int NetworkServer::accept_select(int sockfd, struct sockaddr *addr, socklen_t *a
 
     while(1)
     {
-        timeout.tv_sec          = 5;
+        timeout.tv_sec          = TCP_TIMEOUT_SECONDS;
         timeout.tv_usec         = 0;
 
         FD_ZERO(&set);          /* clear the set */
@@ -364,8 +423,8 @@ int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
 
     while(1)
     {
-        timeout.tv_sec      = 5;
-        timeout.tv_usec     = 0;
+        timeout.tv_sec          = TCP_TIMEOUT_SECONDS;
+        timeout.tv_usec         = 0;
 
         FD_ZERO(&set);      /* clear the set */
         FD_SET(s, &set);    /* add our file descriptor to the set */

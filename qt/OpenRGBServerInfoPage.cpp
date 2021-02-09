@@ -20,6 +20,7 @@ OpenRGBServerInfoPage::OpenRGBServerInfoPage(NetworkServer * server, QWidget *pa
     UpdateInfo();
 
     network_server->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
+    network_server->RegisterServerListeningChangeCallback(UpdateInfoCallback, this);
 }
 
 OpenRGBServerInfoPage::~OpenRGBServerInfoPage()
@@ -31,7 +32,14 @@ void OpenRGBServerInfoPage::UpdateInfo()
 {
     ui->ServerPortValue->setText(std::to_string(network_server->GetPort()).c_str());
 
-    if(network_server->GetOnline())
+    if(network_server->GetListening() && !network_server->GetOnline())
+    {
+        ui->ServerStatusValue->setText("Stopping...");
+        ui->ServerStartButton->setEnabled(false);
+        ui->ServerStopButton->setEnabled(false);
+        ui->ServerPortValue->setEnabled(false);
+    }
+    else if(network_server->GetListening())
     {
         ui->ServerStatusValue->setText("Online");
         ui->ServerStartButton->setEnabled(false);

@@ -16,6 +16,8 @@
 
 #pragma once
 
+#define TCP_TIMEOUT_SECONDS 5
+
 typedef void (*NetServerCallback)(void *);
 
 struct NetworkClientInfo
@@ -35,6 +37,7 @@ public:
 
     unsigned short                      GetPort();
     bool                                GetOnline();
+    bool                                GetListening();
     unsigned int                        GetNumClients();
     const char *                        GetClientString(unsigned int client_num);
     const char *                        GetClientIP(unsigned int client_num);
@@ -43,6 +46,9 @@ public:
     void                                ClientInfoChanged();
     void                                DeviceListChanged();
     void                                RegisterClientInfoChangeCallback(NetServerCallback, void * new_callback_arg);
+
+    void                                ServerListeningChanged();
+    void                                RegisterServerListeningChangeCallback(NetServerCallback, void * new_callback_arg);
 
     void                                SetPort(unsigned short new_port);
 
@@ -65,6 +71,7 @@ public:
 protected:
     unsigned short                      port_num;
     bool                                server_online;
+    bool                                server_listening;
 
     std::vector<RGBController *>&       controllers;
 
@@ -75,6 +82,10 @@ protected:
     std::mutex                          ClientInfoChangeMutex;
     std::vector<NetServerCallback>      ClientInfoChangeCallbacks;
     std::vector<void *>                 ClientInfoChangeCallbackArgs;
+
+    std::mutex                          ServerListeningChangeMutex;
+    std::vector<NetServerCallback>      ServerListeningChangeCallbacks;
+    std::vector<void *>                 ServerListeningChangeCallbackArgs;
 
 private:
 #ifdef WIN32
