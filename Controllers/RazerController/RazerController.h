@@ -122,7 +122,7 @@ PACK(typedef struct razer_report
     unsigned char               arguments[80];
     unsigned char               crc;
     unsigned char               reserved;
-};)
+});
 
 class RazerController
 {

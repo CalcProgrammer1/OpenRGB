@@ -38,8 +38,8 @@ RazerController::RazerController(hid_device* dev_handle, const char* path, unsig
     /*-----------------------------------------------------------------*\
     | Set report index                                                  |
     \*-----------------------------------------------------------------*/
-    report_index    = 1;
-    response_index  = 1;
+    report_index    = 0;
+    response_index  = 0;
 
     /*-----------------------------------------------------------------*\
     | Determine transaction ID for device                               |
