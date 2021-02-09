@@ -79,6 +79,12 @@ enum
     RAZER_LED_ID_PROFILE_BLUE                   = 0x0E,
     RAZER_LED_ID_RIGHT_SIDE                     = 0x10,
     RAZER_LED_ID_LEFT_SIDE                      = 0x11,
+    RAZER_LED_ID_ARGB_CH_1                      = 0x1A,
+    RAZER_LED_ID_ARGB_CH_2                      = 0x1B,
+    RAZER_LED_ID_ARGB_CH_3                      = 0x1C,
+    RAZER_LED_ID_ARGB_CH_4                      = 0x1D,
+    RAZER_LED_ID_ARGB_CH_5                      = 0x1E,
+    RAZER_LED_ID_ARGB_CH_6                      = 0x1F,
 };
 
 /*---------------------------------------------------------*\
@@ -124,10 +130,24 @@ PACK(typedef struct razer_report
     unsigned char               reserved;
 });
 
+/*---------------------------------------------------------*\
+| Razer ARGB Report Type (taken from OpenRazer)             |
+\*---------------------------------------------------------*/
+PACK(typedef struct razer_argb_report
+{
+    unsigned char hid_id;
+    unsigned char report_id;
+    unsigned char channel_1;
+    unsigned char channel_2;
+    unsigned char pad;
+    unsigned char last_idx;
+    unsigned char color_data[315];
+});
+
 class RazerController
 {
 public:
-    RazerController(hid_device* dev_handle, const char* path, unsigned short pid, std::string dev_name);
+    RazerController(hid_device* dev_handle, hid_device* dev_argb_handle, const char* path, unsigned short pid, std::string dev_name);
     ~RazerController();
 
     unsigned int            GetDeviceIndex();
@@ -146,6 +166,7 @@ public:
 
 private:
     hid_device*             dev;
+    hid_device*             dev_argb;
     unsigned short          dev_pid;
 
     /*---------------------------------------------------------*\
@@ -182,6 +203,7 @@ private:
 
     razer_report            razer_create_brightness_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char brightness);
     razer_report            razer_create_brightness_standard_report(unsigned char variable_storage, unsigned char led_id, unsigned char brightness);
+    razer_argb_report       razer_create_custom_frame_argb_report(unsigned char row_index, unsigned char stop_col, unsigned char* rgb_data);
     razer_report            razer_create_custom_frame_linear_report(unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
     razer_report            razer_create_custom_frame_extended_matrix_report(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
     razer_report            razer_create_custom_frame_standard_matrix_report(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
@@ -216,6 +238,6 @@ private:
 
     int                     razer_usb_receive(razer_report* report);
     int                     razer_usb_send(razer_report* report);
-
+    int                     razer_usb_send_argb(razer_argb_report* report);
 
 };

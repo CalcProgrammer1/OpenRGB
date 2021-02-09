@@ -13,9 +13,10 @@
 
 using namespace std::chrono_literals;
 
-RazerController::RazerController(hid_device* dev_handle, const char* path, unsigned short pid, std::string dev_name)
+RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_handle, const char* path, unsigned short pid, std::string dev_name)
 {
     dev             = dev_handle;
+    dev_argb        = dev_argb_handle;
     dev_pid         = pid;
     location        = path;
     name            = dev_name;
@@ -323,6 +324,42 @@ razer_report RazerController::razer_create_brightness_standard_report(unsigned c
     return report;
 }
 
+razer_argb_report RazerController::razer_create_custom_frame_argb_report(unsigned char row_index, unsigned char stop_col, unsigned char* rgb_data)
+{
+    razer_argb_report report;
+
+    /*---------------------------------------------------------*\
+    | Zero out the new report                                   |
+    \*---------------------------------------------------------*/
+    memset(&report, 0, sizeof(razer_argb_report));
+
+    /*---------------------------------------------------------*\
+    | Fill in report header                                     |
+    \*---------------------------------------------------------*/
+    report.hid_id               = 0;
+
+    if(row_index < 5)
+    {
+        report.report_id        = 0x04;
+    }
+    else
+    {
+        report.report_id        = 0x84;
+    }
+
+    report.channel_1            = row_index;
+    report.channel_2            = row_index;
+    report.pad                  = 0;
+    report.last_idx             = stop_col;
+
+    /*---------------------------------------------------------*\
+    | Copy in the RGB data                                      |
+    \*---------------------------------------------------------*/
+    memcpy(&report.color_data, rgb_data, (stop_col + 1) * 3);
+
+    return report;
+}
+
 razer_report RazerController::razer_create_custom_frame_linear_report(unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data)
 {
     razer_report report         = razer_create_report(0x03, 0x0C, 0x32);
@@ -610,6 +647,29 @@ void RazerController::razer_set_brightness(unsigned char brightness)
         default:
             report                      = razer_create_brightness_standard_report(RAZER_STORAGE_NO_SAVE, dev_led_id, brightness);
             break;
+
+        /*-------------------------------------------------*\
+        | Razer Chroma ARGB controller needs all channels   |
+        | adjusted                                          |
+        \*-------------------------------------------------*/
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
+            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_1, brightness);
+            razer_usb_send(&report);
+
+            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_2, brightness);
+            razer_usb_send(&report);
+
+            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_3, brightness);
+            razer_usb_send(&report);
+
+            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_4, brightness);
+            razer_usb_send(&report);
+
+            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_5, brightness);
+            razer_usb_send(&report);
+
+            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_6, brightness);
+            break;
     }
 
     razer_usb_send(&report);
@@ -764,6 +824,11 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
         default:
             report                      = razer_create_custom_frame_standard_matrix_report(row_index, start_col, stop_col, rgb_data);
             break;
+
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
+            razer_argb_report argb_report   = razer_create_custom_frame_argb_report(row_index, stop_col, rgb_data);
+            razer_usb_send_argb(&argb_report);
+            return;
     }
 
     razer_usb_send(&report);
@@ -829,13 +894,8 @@ void RazerController::razer_set_mode_custom()
             report                      = razer_create_mode_custom_extended_matrix_report();
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report and    |
-        | transaction ID 0x80                               |
-        \*-------------------------------------------------*/
-        case RAZER_MAMBA_WIRELESS_PID:
-            report                      = razer_create_mode_custom_standard_matrix_report(RAZER_STORAGE_NO_SAVE);
-            break;
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
+            return;
 
         /*-------------------------------------------------*\
         | These devices use individual LED effect reports   |
@@ -868,6 +928,7 @@ void RazerController::razer_set_mode_custom()
         case RAZER_CHROMA_MUG_PID:
         case RAZER_CORE_PID:
         case RAZER_FIREFLY_PID:
+        case RAZER_MAMBA_WIRELESS_PID:
         case RAZER_NAGA_CHROMA_PID:
         case RAZER_NAGA_HEX_V2_PID:
         case RAZER_ORBWEAVER_CHROMA_PID:
@@ -893,6 +954,7 @@ void RazerController::razer_set_mode_none()
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_ESSENTIAL_PID:
         case RAZER_BLACKWIDOW_LITE_PID:
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CYNOSA_CHROMA_PID:
@@ -945,6 +1007,7 @@ void RazerController::razer_set_mode_spectrum_cycle()
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CYNOSA_CHROMA_PID:
@@ -996,6 +1059,7 @@ void RazerController::razer_set_mode_static(unsigned char red, unsigned char grn
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CYNOSA_CHROMA_PID:
@@ -1050,6 +1114,7 @@ void RazerController::razer_set_mode_wave()
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_ESSENTIAL_PID:
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CYNOSA_CHROMA_PID:
@@ -1098,4 +1163,9 @@ int RazerController::razer_usb_send(razer_report* report)
     report->crc = razer_calculate_crc(report);
 
     return hid_send_feature_report(dev, (unsigned char*)report, sizeof(*report));
+}
+
+int RazerController::razer_usb_send_argb(razer_argb_report* report)
+{
+    return hid_send_feature_report(dev_argb, (unsigned char*)report, sizeof(*report));
 }

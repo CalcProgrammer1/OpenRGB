@@ -6,150 +6,151 @@
 /*-----------------------------------------------------*\
 | Razer vendor ID                                       |
 \*-----------------------------------------------------*/
-#define RAZER_VID                               0x1532
+#define RAZER_VID                                       0x1532
 
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 |   List taken from OpenRazer                           |
 |   Non-RGB keyboards were omitted from this list       |
 \*-----------------------------------------------------*/
-#define RAZER_BLACKWIDOW_2019_PID               0x0241
-#define RAZER_BLACKWIDOW_CHROMA_PID             0x0203
-#define RAZER_BLACKWIDOW_CHROMA_TE_PID          0x0209
-#define RAZER_BLACKWIDOW_CHROMA_V2_PID          0x0221
-#define RAZER_BLACKWIDOW_ELITE_PID              0x0228
-#define RAZER_BLACKWIDOW_ESSENTIAL_PID          0x0237
-#define RAZER_BLACKWIDOW_LITE_PID               0x0235
-#define RAZER_BLACKWIDOW_OVERWATCH_PID          0x0211
-#define RAZER_BLACKWIDOW_X_CHROMA_PID           0x0216
-#define RAZER_BLACKWIDOW_X_CHROMA_TE_PID        0x021A
-#define RAZER_BLADE_15_ADV_2020_PID             0x0253
-#define RAZER_BLADE_2018_BASE_PID               0x023B
-#define RAZER_BLADE_2018_MERCURY_PID            0x0240
-#define RAZER_BLADE_2018_PID                    0x0233
-#define RAZER_BLADE_2019_ADV_PID                0x023A
-#define RAZER_BLADE_2019_BASE_PID               0x0246
-#define RAZER_BLADE_EARLY_2020_BASE_PID         0x0255
-#define RAZER_BLADE_LATE_2016_PID               0x0224
-#define RAZER_BLADE_MID_2019_MERCURY_PID        0x0245
-#define RAZER_BLADE_PRO_2017_FULLHD_PID         0x022F
-#define RAZER_BLADE_PRO_2017_PID                0x0225
-#define RAZER_BLADE_PRO_2019_PID                0x0234
-#define RAZER_BLADE_PRO_LATE_2016_PID           0x0210
-#define RAZER_BLADE_PRO_LATE_2019_PID           0x024C
-#define RAZER_BLADE_QHD_PID                     0x020F
-#define RAZER_BLADE_STEALTH_2019_PID            0x0239
-#define RAZER_BLADE_STEALTH_EARLY_2020_PID      0x0252
-#define RAZER_BLADE_STEALTH_LATE_2016_PID       0x0220
-#define RAZER_BLADE_STEALTH_LATE_2017_PID       0x0232
-#define RAZER_BLADE_STEALTH_LATE_2019_PID       0x024A
-#define RAZER_BLADE_STEALTH_LATE_2020_PID       0x0259
-#define RAZER_BLADE_STEALTH_MID_2017_PID        0x022D
-#define RAZER_BLADE_STEALTH_PID                 0x0205
-#define RAZER_BLADE_STUDIO_EDITION_2019_PID     0x024D
-#define RAZER_CYNOSA_CHROMA_PID                 0x022A
-#define RAZER_CYNOSA_LITE_PID                   0x023F
-#define RAZER_CYNOSA_V2_PID                     0x025E
-#define RAZER_DEATHSTALKER_CHROMA_PID           0x0204
-#define RAZER_HUNTSMAN_ELITE_PID                0x0226
-#define RAZER_HUNTSMAN_PID                      0x0227
-#define RAZER_HUNTSMAN_TE_PID                   0x0243
-#define RAZER_ORBWEAVER_CHROMA_PID              0x0207
-#define RAZER_ORNATA_CHROMA_PID                 0x021E
-#define RAZER_ORNATA_CHROMA_V2_PID              0x025D
-#define RAZER_TARTARUS_CHROMA_PID               0x0208
-#define RAZER_TARTARUS_V2_PID                   0x022B
+#define RAZER_BLACKWIDOW_2019_PID                       0x0241
+#define RAZER_BLACKWIDOW_CHROMA_PID                     0x0203
+#define RAZER_BLACKWIDOW_CHROMA_TE_PID                  0x0209
+#define RAZER_BLACKWIDOW_CHROMA_V2_PID                  0x0221
+#define RAZER_BLACKWIDOW_ELITE_PID                      0x0228
+#define RAZER_BLACKWIDOW_ESSENTIAL_PID                  0x0237
+#define RAZER_BLACKWIDOW_LITE_PID                       0x0235
+#define RAZER_BLACKWIDOW_OVERWATCH_PID                  0x0211
+#define RAZER_BLACKWIDOW_X_CHROMA_PID                   0x0216
+#define RAZER_BLACKWIDOW_X_CHROMA_TE_PID                0x021A
+#define RAZER_BLADE_15_ADV_2020_PID                     0x0253
+#define RAZER_BLADE_2018_BASE_PID                       0x023B
+#define RAZER_BLADE_2018_MERCURY_PID                    0x0240
+#define RAZER_BLADE_2018_PID                            0x0233
+#define RAZER_BLADE_2019_ADV_PID                        0x023A
+#define RAZER_BLADE_2019_BASE_PID                       0x0246
+#define RAZER_BLADE_EARLY_2020_BASE_PID                 0x0255
+#define RAZER_BLADE_LATE_2016_PID                       0x0224
+#define RAZER_BLADE_MID_2019_MERCURY_PID                0x0245
+#define RAZER_BLADE_PRO_2017_FULLHD_PID                 0x022F
+#define RAZER_BLADE_PRO_2017_PID                        0x0225
+#define RAZER_BLADE_PRO_2019_PID                        0x0234
+#define RAZER_BLADE_PRO_LATE_2016_PID                   0x0210
+#define RAZER_BLADE_PRO_LATE_2019_PID                   0x024C
+#define RAZER_BLADE_QHD_PID                             0x020F
+#define RAZER_BLADE_STEALTH_2019_PID                    0x0239
+#define RAZER_BLADE_STEALTH_EARLY_2020_PID              0x0252
+#define RAZER_BLADE_STEALTH_LATE_2016_PID               0x0220
+#define RAZER_BLADE_STEALTH_LATE_2017_PID               0x0232
+#define RAZER_BLADE_STEALTH_LATE_2019_PID               0x024A
+#define RAZER_BLADE_STEALTH_LATE_2020_PID               0x0259
+#define RAZER_BLADE_STEALTH_MID_2017_PID                0x022D
+#define RAZER_BLADE_STEALTH_PID                         0x0205
+#define RAZER_BLADE_STUDIO_EDITION_2019_PID             0x024D
+#define RAZER_CYNOSA_CHROMA_PID                         0x022A
+#define RAZER_CYNOSA_LITE_PID                           0x023F
+#define RAZER_CYNOSA_V2_PID                             0x025E
+#define RAZER_DEATHSTALKER_CHROMA_PID                   0x0204
+#define RAZER_HUNTSMAN_ELITE_PID                        0x0226
+#define RAZER_HUNTSMAN_PID                              0x0227
+#define RAZER_HUNTSMAN_TE_PID                           0x0243
+#define RAZER_ORBWEAVER_CHROMA_PID                      0x0207
+#define RAZER_ORNATA_CHROMA_PID                         0x021E
+#define RAZER_ORNATA_CHROMA_V2_PID                      0x025D
+#define RAZER_TARTARUS_CHROMA_PID                       0x0208
+#define RAZER_TARTARUS_V2_PID                           0x022B
 
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 |   List taken from OpenRazer                           |
 \*-----------------------------------------------------*/
-#define RAZER_ABYSSUS_1800_PID                  0x0020
-#define RAZER_ABYSSUS_2000_PID                  0x005E
-#define RAZER_ABYSSUS_ELITE_DVA_EDITION_PID     0x006A
-#define RAZER_ABYSSUS_ESSENTIAL_PID             0x006B
-#define RAZER_ABYSSUS_PID                       0x0042
-#define RAZER_ABYSSUS_V2_PID                    0x005B
-#define RAZER_ATHERIS_RECEIVER_PID              0x0062
-#define RAZER_BASILISK_PID                      0x0064
-#define RAZER_BASILISK_ESSENTIAL_PID            0x0065
-#define RAZER_BASILISK_X_HYPERSPEED_PID         0x0083
-#define RAZER_DEATHADDER_1800_PID               0x0038
-#define RAZER_DEATHADDER_2000_PID               0x004F
-#define RAZER_DEATHADDER_2013_PID               0x0037
-#define RAZER_DEATHADDER_3_5G_PID               0x0016
-#define RAZER_DEATHADDER_3500_PID               0x0054
-#define RAZER_DEATHADDER_CHROMA_PID             0x0043
-#define RAZER_DEATHADDER_ELITE_PID              0x005C
-#define RAZER_DEATHADDER_ESSENTIAL_PID          0x006E
+#define RAZER_ABYSSUS_1800_PID                          0x0020
+#define RAZER_ABYSSUS_2000_PID                          0x005E
+#define RAZER_ABYSSUS_ELITE_DVA_EDITION_PID             0x006A
+#define RAZER_ABYSSUS_ESSENTIAL_PID                     0x006B
+#define RAZER_ABYSSUS_PID                               0x0042
+#define RAZER_ABYSSUS_V2_PID                            0x005B
+#define RAZER_ATHERIS_RECEIVER_PID                      0x0062
+#define RAZER_BASILISK_PID                              0x0064
+#define RAZER_BASILISK_ESSENTIAL_PID                    0x0065
+#define RAZER_BASILISK_X_HYPERSPEED_PID                 0x0083
+#define RAZER_DEATHADDER_1800_PID                       0x0038
+#define RAZER_DEATHADDER_2000_PID                       0x004F
+#define RAZER_DEATHADDER_2013_PID                       0x0037
+#define RAZER_DEATHADDER_3_5G_PID                       0x0016
+#define RAZER_DEATHADDER_3500_PID                       0x0054
+#define RAZER_DEATHADDER_CHROMA_PID                     0x0043
+#define RAZER_DEATHADDER_ELITE_PID                      0x005C
+#define RAZER_DEATHADDER_ESSENTIAL_PID                  0x006E
 #define RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID    0x0071
-#define RAZER_DEATHADDER_V2_MINI_PID            0x008C
-#define RAZER_DEATHADDER_V2_PID                 0x0084
-#define RAZER_DEATHADDER_V2_PRO_WIRED_PID       0x007C
-#define RAZER_DEATHADDER_V2_PRO_WIRELESS_PID    0x007D
-#define RAZER_DIAMONDBACK_CHROMA_PID            0x004C
-#define RAZER_IMPERATOR_PID                     0x002F
-#define RAZER_LANCEHEAD_TE_WIRED_PID            0x0060
-#define RAZER_LANCEHEAD_WIRED_PID               0x0059
-#define RAZER_LANCEHEAD_WIRELESS_PID            0x005A
-#define RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID   0x006F
-#define RAZER_LANCEHEAD_WIRELESS_WIRED_PID      0x0070
-#define RAZER_MAMBA_2012_WIRED_PID              0x0024
-#define RAZER_MAMBA_2012_WIRELESS_PID           0x0025
-#define RAZER_MAMBA_ELITE_PID                   0x006C
-#define RAZER_MAMBA_TE_WIRED_PID                0x0046
-#define RAZER_MAMBA_WIRED_PID                   0x0044
-#define RAZER_MAMBA_WIRELESS_PID                0x0045
-#define RAZER_MAMBA_WIRELESS_RECEIVER_PID       0x0072
-#define RAZER_MAMBA_WIRELESS_WIRED_PID          0x0073
-#define RAZER_NAGA_2012_PID                     0x002E
-#define RAZER_NAGA_2014_PID                     0x0040
-#define RAZER_NAGA_CHROMA_PID                   0x0053
-#define RAZER_NAGA_EPIC_CHROMA_DOCK_PID         0x003F
-#define RAZER_NAGA_EPIC_CHROMA_PID              0x003E
-#define RAZER_NAGA_HEX_PID                      0x0041
-#define RAZER_NAGA_HEX_RED_PID                  0x0036
-#define RAZER_NAGA_HEX_V2_PID                   0x0050
-#define RAZER_NAGA_TRINITY_PID                  0x0067
-#define RAZER_OROCHI_2011_PID                   0x0013
-#define RAZER_OROCHI_2013_PID                   0x0039
-#define RAZER_OROCHI_CHROMA_PID                 0x0048
-#define RAZER_OUROBOROS_PID                     0x0032
-#define RAZER_TAIPAN_PID                        0x0034
-#define RAZER_VIPER_MINI_PID                    0x008A
-#define RAZER_VIPER_PID                         0x0078
-#define RAZER_VIPER_ULTIMATE_WIRED_PID          0x007A
-#define RAZER_VIPER_ULTIMATE_WIRELESS_PID       0x007B
+#define RAZER_DEATHADDER_V2_MINI_PID                    0x008C
+#define RAZER_DEATHADDER_V2_PID                         0x0084
+#define RAZER_DEATHADDER_V2_PRO_WIRED_PID               0x007C
+#define RAZER_DEATHADDER_V2_PRO_WIRELESS_PID            0x007D
+#define RAZER_DIAMONDBACK_CHROMA_PID                    0x004C
+#define RAZER_IMPERATOR_PID                             0x002F
+#define RAZER_LANCEHEAD_TE_WIRED_PID                    0x0060
+#define RAZER_LANCEHEAD_WIRED_PID                       0x0059
+#define RAZER_LANCEHEAD_WIRELESS_PID                    0x005A
+#define RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID           0x006F
+#define RAZER_LANCEHEAD_WIRELESS_WIRED_PID              0x0070
+#define RAZER_MAMBA_2012_WIRED_PID                      0x0024
+#define RAZER_MAMBA_2012_WIRELESS_PID                   0x0025
+#define RAZER_MAMBA_ELITE_PID                           0x006C
+#define RAZER_MAMBA_TE_WIRED_PID                        0x0046
+#define RAZER_MAMBA_WIRED_PID                           0x0044
+#define RAZER_MAMBA_WIRELESS_PID                        0x0045
+#define RAZER_MAMBA_WIRELESS_RECEIVER_PID               0x0072
+#define RAZER_MAMBA_WIRELESS_WIRED_PID                  0x0073
+#define RAZER_NAGA_2012_PID                             0x002E
+#define RAZER_NAGA_2014_PID                             0x0040
+#define RAZER_NAGA_CHROMA_PID                           0x0053
+#define RAZER_NAGA_EPIC_CHROMA_DOCK_PID                 0x003F
+#define RAZER_NAGA_EPIC_CHROMA_PID                      0x003E
+#define RAZER_NAGA_HEX_PID                              0x0041
+#define RAZER_NAGA_HEX_RED_PID                          0x0036
+#define RAZER_NAGA_HEX_V2_PID                           0x0050
+#define RAZER_NAGA_TRINITY_PID                          0x0067
+#define RAZER_OROCHI_2011_PID                           0x0013
+#define RAZER_OROCHI_2013_PID                           0x0039
+#define RAZER_OROCHI_CHROMA_PID                         0x0048
+#define RAZER_OUROBOROS_PID                             0x0032
+#define RAZER_TAIPAN_PID                                0x0034
+#define RAZER_VIPER_MINI_PID                            0x008A
+#define RAZER_VIPER_PID                                 0x0078
+#define RAZER_VIPER_ULTIMATE_WIRED_PID                  0x007A
+#define RAZER_VIPER_ULTIMATE_WIRELESS_PID               0x007B
 
 /*-----------------------------------------------------*\
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
-#define RAZER_KRAKEN_CLASSIC_ALT_PID            0x0506
-#define RAZER_KRAKEN_CLASSIC_PID                0x0501
-#define RAZER_KRAKEN_KITTY_EDITION_PID          0x0F19
-#define RAZER_KRAKEN_PID                        0x0504
-#define RAZER_KRAKEN_ULTIMATE_PID               0x0527
-#define RAZER_KRAKEN_V2_PID                     0x0510
-#define RAZER_TIAMAT_71_V2_PID                  0x0F03
+#define RAZER_KRAKEN_CLASSIC_ALT_PID                    0x0506
+#define RAZER_KRAKEN_CLASSIC_PID                        0x0501
+#define RAZER_KRAKEN_KITTY_EDITION_PID                  0x0F19
+#define RAZER_KRAKEN_PID                                0x0504
+#define RAZER_KRAKEN_ULTIMATE_PID                       0x0527
+#define RAZER_KRAKEN_V2_PID                             0x0510
+#define RAZER_TIAMAT_71_V2_PID                          0x0F03
 
 /*-----------------------------------------------------*\
 | Accessory product IDs                                 |
 |   List taken from OpenRazer                           |
 \*-----------------------------------------------------*/
-#define RAZER_BASE_STATION_V2_CHROMA_PID        0x0F20
-#define RAZER_CHARGING_PAD_CHROMA_PID           0x0F26
-#define RAZER_CHROMA_BASE_PID                   0x0F08
-#define RAZER_CHROMA_HDK_PID                    0x0F09
-#define RAZER_CHROMA_MUG_PID                    0x0F07
-#define RAZER_CORE_PID                          0x0215
-#define RAZER_FIREFLY_HYPERFLUX_PID             0x0068
-#define RAZER_FIREFLY_PID                       0x0C00
-#define RAZER_FIREFLY_V2_PID                    0x0C04
-#define RAZER_GOLIATHUS_CHROMA_EXTENDED_PID     0x0C02
-#define RAZER_GOLIATHUS_CHROMA_PID              0x0C01
-#define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID        0x0F1D
-#define RAZER_NOMMO_CHROMA_PID                  0x0517
-#define RAZER_NOMMO_PRO_PID                     0x0518
+#define RAZER_BASE_STATION_V2_CHROMA_PID                0x0F20
+#define RAZER_CHARGING_PAD_CHROMA_PID                   0x0F26
+#define RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID     0x0F1F
+#define RAZER_CHROMA_BASE_PID                           0x0F08
+#define RAZER_CHROMA_HDK_PID                            0x0F09
+#define RAZER_CHROMA_MUG_PID                            0x0F07
+#define RAZER_CORE_PID                                  0x0215
+#define RAZER_FIREFLY_HYPERFLUX_PID                     0x0068
+#define RAZER_FIREFLY_PID                               0x0C00
+#define RAZER_FIREFLY_V2_PID                            0x0C04
+#define RAZER_GOLIATHUS_CHROMA_EXTENDED_PID             0x0C02
+#define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
+#define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID                0x0F1D
+#define RAZER_NOMMO_CHROMA_PID                          0x0517
+#define RAZER_NOMMO_PRO_PID                             0x0518
 
 typedef struct
 {
@@ -4660,6 +4661,101 @@ static const razer_device mug_holder_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Chroma Addressable RGB Controller                      |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       80 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone chromaargb_zone_1 =
+{
+    "Channel 1",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_2 =
+{
+    "Channel 2",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_3 =
+{
+    "Channel 3",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_4 =
+{
+    "Channel 4",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_5 =
+{
+    "Channel 5",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_zone chromaargb_zone_6 =
+{
+    "Channel 6",
+    ZONE_TYPE_LINEAR,
+    1,
+    80
+};
+
+static const razer_device chromaargb_device =
+{
+    "Razer Chroma Addressable RGB Controller",
+    RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID,
+    DEVICE_TYPE_LEDSTRIP,
+    true,
+    6,
+    80,
+    {
+        &chromaargb_zone_1,
+        &chromaargb_zone_2,
+        &chromaargb_zone_3,
+        &chromaargb_zone_4,
+        &chromaargb_zone_5,
+        &chromaargb_zone_6
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Chroma HDK                                             |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -5006,6 +5102,7 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &base_station_device,
     &charging_pad_chroma_device,
+    &chromaargb_device,
     &chromahdk_device,
     &core_device,
     &mug_holder_device,
