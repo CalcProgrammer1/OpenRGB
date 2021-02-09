@@ -20,12 +20,12 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     location    = rival->GetDeviceLocation();
     serial      = rival->GetSerialString();
 
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = STEELSERIES_RIVAL_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = STEELSERIES_RIVAL_DIRECT;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     mode Pulsate;
     Pulsate.name       = "Pulsate";
@@ -139,8 +139,8 @@ void RGBController_SteelSeriesRival::DeviceUpdateMode()
     //steelseries_type mouse_type = rival->GetMouseType();
     switch (modes[active_mode].value)
     {
-        case STEELSERIES_RIVAL_STATIC:
-            rival->SetLightEffectAll(STEELSERIES_RIVAL_EFFECT_STATIC);
+        case STEELSERIES_RIVAL_DIRECT:
+            rival->SetLightEffectAll(STEELSERIES_RIVAL_EFFECT_DIRECT);
             break;
         case STEELSERIES_RIVAL_PULSATE:
             rival->SetLightEffectAll(modes[active_mode].speed);
