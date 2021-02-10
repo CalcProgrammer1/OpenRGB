@@ -685,7 +685,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(header.pkt_dev_idx < controllers.size())
                 {
-                    controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data);
+                    controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data, client_info->client_protocol_version);
                     controllers[header.pkt_dev_idx]->UpdateMode();
                 }
                 break;

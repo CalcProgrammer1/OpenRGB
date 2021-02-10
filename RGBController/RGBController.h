@@ -172,8 +172,8 @@ public:
     virtual unsigned char * GetDeviceDescription(unsigned int protocol_version)                                 = 0;
     virtual void            ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version)       = 0;
 
-    virtual unsigned char * GetModeDescription(int mode)                                                        = 0;
-    virtual void            SetModeDescription(unsigned char* data_buf)                                         = 0;
+    virtual unsigned char * GetModeDescription(int mode, unsigned int protocol_version)                         = 0;
+    virtual void            SetModeDescription(unsigned char* data_buf, unsigned int protocol_version)          = 0;
 
     virtual unsigned char * GetColorDescription()                                                               = 0;
     virtual void            SetColorDescription(unsigned char* data_buf)                                        = 0;
@@ -251,8 +251,8 @@ public:
     unsigned char *         GetDeviceDescription(unsigned int protocol_version);
     void                    ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version);
 
-    unsigned char *         GetModeDescription(int mode);
-    void                    SetModeDescription(unsigned char* data_buf);
+    unsigned char *         GetModeDescription(int mode, unsigned int protocol_version);
+    void                    SetModeDescription(unsigned char* data_buf, unsigned int protocol_version);
 
     unsigned char *         GetColorDescription();
     void                    SetColorDescription(unsigned char* data_buf);

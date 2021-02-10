@@ -69,7 +69,7 @@ void RGBController_Network::SetCustomMode()
 
 void RGBController_Network::DeviceUpdateMode()
 {
-    unsigned char * data = GetModeDescription(active_mode);
+    unsigned char * data = GetModeDescription(active_mode, client->GetProtocolVersion());
     unsigned int size;
 
     memcpy(&size, &data[0], sizeof(unsigned int));

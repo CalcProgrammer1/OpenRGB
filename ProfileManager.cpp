@@ -273,17 +273,20 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                 {
                     for(std::size_t mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
                     {
-                        if((temp_controller->modes[mode_index].name       == load_controller->modes[mode_index].name      )
-                         &&(temp_controller->modes[mode_index].value      == load_controller->modes[mode_index].value     )
-                         &&(temp_controller->modes[mode_index].flags      == load_controller->modes[mode_index].flags     )
-                         &&(temp_controller->modes[mode_index].speed_min  == load_controller->modes[mode_index].speed_min )
-                         &&(temp_controller->modes[mode_index].speed_max  == load_controller->modes[mode_index].speed_max )
-                         &&(temp_controller->modes[mode_index].colors_min == load_controller->modes[mode_index].colors_min)
-                         &&(temp_controller->modes[mode_index].colors_max == load_controller->modes[mode_index].colors_max))
+                        if((temp_controller->modes[mode_index].name             == load_controller->modes[mode_index].name          )
+                         &&(temp_controller->modes[mode_index].value            == load_controller->modes[mode_index].value         )
+                         &&(temp_controller->modes[mode_index].flags            == load_controller->modes[mode_index].flags         )
+                         &&(temp_controller->modes[mode_index].speed_min        == load_controller->modes[mode_index].speed_min     )
+                         &&(temp_controller->modes[mode_index].speed_max        == load_controller->modes[mode_index].speed_max     )
+                       //&&(temp_controller->modes[mode_index].brightness_min   == load_controller->modes[mode_index].brightness_min)
+                       //&&(temp_controller->modes[mode_index].brightness_max   == load_controller->modes[mode_index].brightness_max)
+                         &&(temp_controller->modes[mode_index].colors_min       == load_controller->modes[mode_index].colors_min    )
+                         &&(temp_controller->modes[mode_index].colors_max       == load_controller->modes[mode_index].colors_max   ))
                         {
-                            load_controller->modes[mode_index].speed      = temp_controller->modes[mode_index].speed;
-                            load_controller->modes[mode_index].direction  = temp_controller->modes[mode_index].direction;
-                            load_controller->modes[mode_index].color_mode = temp_controller->modes[mode_index].color_mode;
+                            load_controller->modes[mode_index].speed            = temp_controller->modes[mode_index].speed;
+                            load_controller->modes[mode_index].brightness       = temp_controller->modes[mode_index].brightness;
+                            load_controller->modes[mode_index].direction        = temp_controller->modes[mode_index].direction;
+                            load_controller->modes[mode_index].color_mode       = temp_controller->modes[mode_index].color_mode;
 
                             load_controller->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
 
