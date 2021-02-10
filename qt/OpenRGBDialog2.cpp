@@ -661,6 +661,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             }
 
             ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+            ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
 
             /*-----------------------------------------------------*\
             | Now move the new tab to the correct position          |
@@ -727,6 +728,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             }
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+            ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
 
             /*-----------------------------------------------------*\
             | Now move the new tab to the correct position          |
