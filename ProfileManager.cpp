@@ -398,7 +398,7 @@ unsigned char * ProfileManager::GetProfileListDescription()
     for(unsigned int i = 0; i < num_profiles; i++)
     {
         data_size += sizeof (unsigned short);
-        data_size += strlen(profile_list[i].c_str());
+        data_size += strlen(profile_list[i].c_str()) + 1;
     }
 
     /*---------------------------------------------------------*\
@@ -423,7 +423,7 @@ unsigned char * ProfileManager::GetProfileListDescription()
     \*---------------------------------------------------------*/
     for(unsigned int i = 0; i < num_profiles; i++)
     {
-        unsigned short name_len = strlen(profile_list[i].c_str());
+        unsigned short name_len = strlen(profile_list[i].c_str()) + 1;
 
         memcpy(&data_buf[data_ptr], &name_len, sizeof(name_len));
         data_ptr += sizeof(name_len);
