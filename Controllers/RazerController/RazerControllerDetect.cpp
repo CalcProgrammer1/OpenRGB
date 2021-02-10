@@ -81,7 +81,6 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
     | Razer's ARGB controller uses two different interfaces, one for 90-byte Razer report packets and   |
     | one for 320-byte ARGB packets.  Interface 0 for 90-byte and interface 1 for 320-byte.             |
     \*-------------------------------------------------------------------------------------------------*/
-#ifdef _WIN32
      hid_device* dev_interface_0 = nullptr;
      hid_device* dev_interface_1 = nullptr;
      hid_device_info* info_temp = info;
@@ -117,9 +116,6 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
          hid_close(dev_interface_0);
          hid_close(dev_interface_1);
      }
-#else
-    DetectRazerControllers(info, name);
-#endif
 }
 
 /*-----------------------------------------------------------------------------------------------------*\
