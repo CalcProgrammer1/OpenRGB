@@ -47,6 +47,7 @@ typedef struct
 } HIDDeviceDetectorBlock;
 
 typedef void (*DeviceListChangeCallback)(void *);
+typedef void (*DeviceListWarningCallback)(void *);
 typedef void (*DetectionProgressCallback)(void *);
 typedef void (*I2CBusListChangeCallback)(void *);
 
@@ -59,6 +60,7 @@ public:
     virtual void                                UnregisterRGBController(RGBController *rgb_controller)                                              = 0;
 
     virtual void                                RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)    = 0;
+    virtual void                                RegisterDeviceListWarningCallback(DeviceListWarningCallback new_callback, void * new_callback_arg)  = 0;
     virtual void                                RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg)  = 0;
     virtual void                                RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg)    = 0;
 
@@ -109,6 +111,7 @@ public:
                                          int usage      = HID_USAGE_ANY);
     
     void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
+    void RegisterDeviceListWarningCallback(DeviceListWarningCallback new_callback, void * new_callback_arg);
     void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
     void RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg);
 
@@ -207,11 +210,14 @@ private:
     const char*                                 detection_string;
     
     /*-------------------------------------------------------------------------------------*\
-    | Device List Changed Callback                                                          |
+    | Device List Changed and Warning Callbacks                                             |
     \*-------------------------------------------------------------------------------------*/
     std::mutex                                  DeviceListChangeMutex;
     std::vector<DeviceListChangeCallback>       DeviceListChangeCallbacks;
     std::vector<void *>                         DeviceListChangeCallbackArgs;
+
+    std::vector<DeviceListWarningCallback>      DeviceListWarningCallbacks;
+    std::vector<void *>                         DeviceListWarningCallbackArgs;
 
     /*-------------------------------------------------------------------------------------*\
     | Detection Progress Callback                                                           |

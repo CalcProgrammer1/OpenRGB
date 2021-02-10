@@ -172,6 +172,12 @@ void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback 
     DeviceListChangeCallbackArgs.push_back(new_callback_arg);
 }
 
+void ResourceManager::RegisterDeviceListWarningCallback(DeviceListWarningCallback new_callback, void *new_callback_arg)
+{
+    DeviceListWarningCallbacks.push_back(new_callback);
+    DeviceListWarningCallbackArgs.push_back(new_callback_arg);
+}
+
 void ResourceManager::RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg)
 {
     I2CBusListChangeCallbacks.push_back(new_callback);
@@ -187,6 +193,11 @@ void ResourceManager::RegisterDetectionProgressCallback(DetectionProgressCallbac
 void ResourceManager::DeviceListChanged()
 {
     DeviceListChangeMutex.lock();
+
+    for(unsigned int callback_idx = 0; callback_idx < (int)DeviceListWarningCallbacks.size(); callback_idx++)
+    {
+        DeviceListWarningCallbacks[callback_idx](DeviceListWarningCallbackArgs[callback_idx]);
+    }
 
     /*-------------------------------------------------*\
     | Insert hardware controllers into controller list  |
