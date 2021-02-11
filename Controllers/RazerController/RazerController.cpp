@@ -69,6 +69,13 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
             }
             break;
 
+        case RAZER_CHROMA_MUG_PID:
+            {
+            razer_set_device_mode(RAZER_DEVICE_MODE_SOFTWARE);
+            dev_transaction_id = 0x3F;
+            }
+            break;
+
         case RAZER_GOLIATHUS_CHROMA_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         default:
