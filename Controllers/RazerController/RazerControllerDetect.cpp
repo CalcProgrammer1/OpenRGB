@@ -174,6 +174,7 @@ REGISTER_HID_DETECTOR   ("Razer Charging Pad Chroma",                       Dete
 REGISTER_HID_DETECTOR_I ("Razer Chroma Addressable RGB Controller",         DetectRazerARGBControllers, RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID, 0    );
 REGISTER_HID_DETECTOR_PU("Razer Chroma HDK",                                DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_HDK_PID,                           1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Chroma Mug Holder",                         DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_MUG_PID,                           1,  2);
+REGISTER_HID_DETECTOR_PU("Razer Chroma PC Case Lighting Kit",               DetectRazerControllers, RAZER_VID,  RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID,          1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Core",                                      DetectRazerControllers, RAZER_VID,  RAZER_CORE_PID,                                 1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Firefly",                                   DetectRazerControllers, RAZER_VID,  RAZER_FIREFLY_PID,                              1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Firefly V2",                                DetectRazerControllers, RAZER_VID,  RAZER_FIREFLY_V2_PID,                           1,  2);
