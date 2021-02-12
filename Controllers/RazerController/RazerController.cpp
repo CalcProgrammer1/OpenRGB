@@ -699,6 +699,7 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHADDER_ELITE_PID:
@@ -864,6 +865,7 @@ void RazerController::razer_set_mode_custom()
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHADDER_ELITE_PID:
@@ -964,6 +966,7 @@ void RazerController::razer_set_mode_none()
         case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_LITE_PID:
         case RAZER_CYNOSA_V2_PID:
@@ -1017,6 +1020,7 @@ void RazerController::razer_set_mode_spectrum_cycle()
         case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_LITE_PID:
         case RAZER_CYNOSA_V2_PID:
@@ -1069,6 +1073,7 @@ void RazerController::razer_set_mode_static(unsigned char red, unsigned char grn
         case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_LITE_PID:
         case RAZER_CYNOSA_V2_PID:
@@ -1124,6 +1129,7 @@ void RazerController::razer_set_mode_wave()
         case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
         case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_FIREFLY_HYPERFLUX_PID:

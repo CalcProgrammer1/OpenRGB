@@ -142,6 +142,7 @@
 #define RAZER_CHROMA_BASE_PID                           0x0F08
 #define RAZER_CHROMA_HDK_PID                            0x0F09
 #define RAZER_CHROMA_MUG_PID                            0x0F07
+#define RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID           0x0F0E
 #define RAZER_CORE_PID                                  0x0215
 #define RAZER_FIREFLY_HYPERFLUX_PID                     0x0068
 #define RAZER_FIREFLY_PID                               0x0C00
@@ -4827,6 +4828,53 @@ static const razer_device chromahdk_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Chroma PC Case Lighting Kit                            |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       16 LEDs                                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       16 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone chroma_pc_case_lighting_kit_zone_1 =
+{
+    "Channel 1",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_zone chroma_pc_case_lighting_kit_zone_2 =
+{
+    "Channel 2",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_device chroma_pc_case_lighting_kit_device =
+{
+    "Razer Chroma PC Case Lighting Kit",
+    RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID,
+    DEVICE_TYPE_LEDSTRIP,
+    true,
+    2,
+    16,
+    {
+        &chroma_pc_case_lighting_kit_zone_1,
+        &chroma_pc_case_lighting_kit_zone_2,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Base Station Chroma                                    |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -5104,6 +5152,7 @@ static const razer_device* device_list[] =
     &charging_pad_chroma_device,
     &chromaargb_device,
     &chromahdk_device,
+    &chroma_pc_case_lighting_kit_device,
     &core_device,
     &mug_holder_device,
     &nommo_chroma_device,
