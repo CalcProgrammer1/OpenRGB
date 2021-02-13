@@ -1457,6 +1457,8 @@ std::string device_type_to_str(device_type type)
         return "Gamepad";
     case DEVICE_TYPE_LIGHT:
         return "Light";
+    case DEVICE_TYPE_SPEAKER:
+        return "Speaker";
     default:
         return "Unknown";
     }

@@ -34,5 +34,7 @@
         <file>arrow-up.png</file>
         <file>plugin.png</file>
         <file>plugin_dark.png</file>
+        <file>speaker.png</file>
+        <file>speaker_dark.png</file>
     </qresource>
 </RCC>

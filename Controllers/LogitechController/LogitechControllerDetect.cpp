@@ -7,6 +7,7 @@
 #include "LogitechG213Controller.h"
 #include "LogitechGProWirelessController.h"
 #include "LogitechGPowerPlayController.h"
+#include "LogitechG560Controller.h"
 #include "RGBController.h"
 #include "RGBController_LogitechG203.h"
 #include "RGBController_LogitechG203L.h"
@@ -16,6 +17,7 @@
 #include "RGBController_LogitechG213.h"
 #include "RGBController_LogitechGProWireless.h"
 #include "RGBController_LogitechGPowerPlay.h"
+#include "RGBController_LogitechG560.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -50,6 +52,10 @@
 | Mousemat product IDs                                  |
 \*-----------------------------------------------------*/
 #define LOGITECH_G_LIGHTSPEED_POWERPLAY_PID     0xC53A
+/*-----------------------------------------------------*\
+| Speaker product IDs                                   |
+\*-----------------------------------------------------*/
+#define LOGITECH_G560_PID                       0x0A78
 
 void DetectLogitechKeyboardG810(hid_device_info* info, const std::string& name)
 {
@@ -199,6 +205,19 @@ void DetectLogitechMouseGLS(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectLogitechG560(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        //Add G560 Speaker
+        LogitechG560Controller* speaker_controller = new LogitechG560Controller(dev, info->path);
+        RGBController_LogitechG560* speaker_rgb_controller = new RGBController_LogitechG560(speaker_controller);
+        speaker_rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(speaker_rgb_controller);
+    }
+}
+
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -226,3 +245,7 @@ REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse (Wired)",  Detec
 | Mousemats                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Logitech G Powerplay Mousepad with Lightspeed", DetectLogitechMouseGLS,     LOGITECH_VID, LOGITECH_G_LIGHTSPEED_POWERPLAY_PID, 2, 0xFF00, 2);
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Speakers                                                                                                                                         |
+\*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Logitech G560 Lightsync Speaker",               DetectLogitechG560,         LOGITECH_VID, LOGITECH_G560_PID,                   2, 0xFF43, 514);

@@ -229,7 +229,7 @@ HEADERS +=                                                                      
     Controllers/HyperXMouseController/HyperXPulsefireDartController.h                           \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireFPSPro.h                     \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireSurge.h                      \
-    Controllers/HyperXMouseController/RGBController_HyperXPulsefireDart.h                      \
+    Controllers/HyperXMouseController/RGBController_HyperXPulsefireDart.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
     Controllers/LEDStripController/LEDStripController.h                                         \
@@ -238,6 +238,7 @@ HEADERS +=                                                                      
     Controllers/LogitechController/LogitechG203LController.h                                    \
     Controllers/LogitechController/LogitechG403Controller.h                                     \
     Controllers/LogitechController/LogitechG502PSController.h                                   \
+    Controllers/LogitechController/LogitechG560Controller.h                                     \
     Controllers/LogitechController/LogitechG810Controller.h                                     \
     Controllers/LogitechController/LogitechG213Controller.h                                     \
     Controllers/LogitechController/LogitechGPowerPlayController.h                               \
@@ -246,6 +247,7 @@ HEADERS +=                                                                      
     Controllers/LogitechController/RGBController_LogitechG203L.h                                \
     Controllers/LogitechController/RGBController_LogitechG403.h                                 \
     Controllers/LogitechController/RGBController_LogitechG502PS.h                               \
+    Controllers/LogitechController/RGBController_LogitechG560.h                                 \
     Controllers/LogitechController/RGBController_LogitechG810.h                                 \
     Controllers/LogitechController/RGBController_LogitechG213.h                                 \
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.h                           \
@@ -473,6 +475,7 @@ SOURCES +=                                                                      
     Controllers/LogitechController/LogitechG203LController.cpp                                  \
     Controllers/LogitechController/LogitechG403Controller.cpp                                   \
     Controllers/LogitechController/LogitechG502PSController.cpp                                 \
+    Controllers/LogitechController/LogitechG560Controller.cpp                                   \
     Controllers/LogitechController/LogitechG810Controller.cpp                                   \
     Controllers/LogitechController/LogitechG213Controller.cpp                                   \
     Controllers/LogitechController/LogitechGPowerPlayController.cpp                             \
@@ -481,6 +484,7 @@ SOURCES +=                                                                      
     Controllers/LogitechController/RGBController_LogitechG203L.cpp                              \
     Controllers/LogitechController/RGBController_LogitechG403.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG502PS.cpp                             \
+    Controllers/LogitechController/RGBController_LogitechG560.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG810.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG213.cpp                               \
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.cpp                         \
