@@ -5035,7 +5035,7 @@ static const razer_device nommo_pro_device =
 {
     "Razer Nommo Pro",
     RAZER_NOMMO_PRO_PID,
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_SPEAKER,
     true,
     2,
     8,
@@ -5083,7 +5083,7 @@ static const razer_device nommo_chroma_device =
 {
     "Razer Nommo Chroma",
     RAZER_NOMMO_CHROMA_PID,
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_SPEAKER,
     true,
     2,
     24,

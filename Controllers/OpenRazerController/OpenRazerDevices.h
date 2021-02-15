@@ -4589,7 +4589,7 @@ static const razer_zone nommo_pro_right_zone =
 static const razer_device nommo_pro_device =
 {
     "Razer Nommo Pro",
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_SPEAKER,
     true,
     2,
     8,
@@ -4636,7 +4636,7 @@ static const razer_zone nommo_chroma_left_zone =
 static const razer_device nommo_chroma_device =
 {
     "Razer Nommo Chroma",
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_SPEAKER,
     true,
     2,
     24,
