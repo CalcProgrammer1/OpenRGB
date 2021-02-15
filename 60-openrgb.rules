@@ -354,3 +354,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1229", TAG+="uacces
 #  Thermaltake Poseidon Z RGB Keyboard                          #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="3006", TAG+="uaccess"
+
+#---------------------------------------------------------------#
+#  Thermaltake Riing Controllers                                #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1FA[5-9]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1FA[A-F]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1FB[0-5]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[0-3]", TAG+="uaccess"

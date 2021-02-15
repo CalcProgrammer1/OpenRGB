@@ -114,6 +114,8 @@ INCLUDEPATH +=                                                                  
     qt/
 
 HEADERS +=                                                                                      \
+    Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.h \
+    Controllers/ThermaltakeRiingController/ThermaltakeRiingQuadController.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/json/json.hpp                                                                  \
     LogManager.h                                                                                \
@@ -328,6 +330,8 @@ HEADERS +=                                                                      
     RGBController/RGBController_Network.h                                                       \
 
 SOURCES +=                                                                                      \
+    Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.cpp \
+    Controllers/ThermaltakeRiingController/ThermaltakeRiingQuadController.cpp \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/libe131/src/e131.c                                                             \
