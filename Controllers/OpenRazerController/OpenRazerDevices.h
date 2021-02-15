@@ -2795,6 +2795,98 @@ static const razer_device deathadder_elite_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Deathadder Essential 1532:006E                         |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone deathadder_essential_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone deathadder_essential_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device deathadder_essential_device =
+{
+    "Razer DeathAdder Essential",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    2,
+    {
+        &deathadder_essential_logo_zone,
+        &deathadder_essential_scroll_wheel_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Deathadder Essential White Edition 1532:0071           |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone deathadder_essential_white_edition_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone deathadder_essential_white_edition_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device deathadder_essential_white_edition_device =
+{
+    "Razer DeathAdder Essential (White Edition)",
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    2,
+    {
+        &deathadder_essential_white_edition_logo_zone,
+        &deathadder_essential_white_edition_scroll_wheel_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer DeathAdder V2 1532:0084                                |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -4620,6 +4712,8 @@ static const razer_device* device_list[] =
     &basilisk_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
+    &deathadder_essential_device,
+    &deathadder_essential_white_edition_device,
     &deathadder_v2_device,
     &diamondback_chroma_device,
     &lancehead_te_device,

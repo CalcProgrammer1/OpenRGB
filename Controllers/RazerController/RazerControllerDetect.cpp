@@ -157,6 +157,8 @@ REGISTER_HID_DETECTOR_PU("Razer Basilisk",                                  Dete
 REGISTER_HID_DETECTOR_PU("Razer Basilisk Essential",                        DetectRazerControllers, RAZER_VID,  RAZER_BASILISK_ESSENTIAL_PID,                   1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Deathadder Chroma",                         DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_CHROMA_PID,                    1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Deathadder Elite",                          DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_ELITE_PID,                     1,  2);
+REGISTER_HID_DETECTOR_PU("Razer Deathadder Essential",                      DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_ESSENTIAL_PID,                 1,  2);
+REGISTER_HID_DETECTOR_PU("Razer Deathadder Essential White Edition",        DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID,   1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Deathadder V2",                             DetectRazerControllers, RAZER_VID,  RAZER_DEATHADDER_V2_PID,                        1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Diamondback",                               DetectRazerControllers, RAZER_VID,  RAZER_DIAMONDBACK_CHROMA_PID,                   1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Mamba Elite",                               DetectRazerControllers, RAZER_VID,  RAZER_MAMBA_ELITE_PID,                          1,  2);

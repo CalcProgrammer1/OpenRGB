@@ -703,6 +703,8 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHADDER_ELITE_PID:
+        case RAZER_DEATHADDER_ESSENTIAL_PID:
+        case RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID:
         case RAZER_DEATHADDER_V2_MINI_PID:
         case RAZER_DEATHADDER_V2_PID:
         case RAZER_DEATHADDER_V2_PRO_WIRED_PID:
