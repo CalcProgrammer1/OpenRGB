@@ -313,7 +313,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     /*-----------------------------------------------------*\
     | Add the various plugins tabs                          |
     \*-----------------------------------------------------*/
-    PluginManager* plugin_manager = new PluginManager;
+    plugin_manager = new PluginManager;
 
     plugin_manager->ScanAndLoadPlugins();
 
@@ -327,6 +327,8 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
             OpenRGBDialog2::AddPluginTab(plugin_manager, i);
         }
     }
+
+    NotFirstRun = true;
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
@@ -481,7 +483,7 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     /*-----------------------------------------------------*\
     | TopTabBar - Place plugin as its own top level tab     |
     \*-----------------------------------------------------*/
-    else if(Location == "TopTabBar")
+    else if(Location == "TopTabBar" && !TopBarAlreadyLoaded)
     {
         QWidget* NewPluginTab = new QWidget;
 
@@ -497,6 +499,7 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     {
         std::cout << (plugin_manager->ActivePlugins[plugin_index]->info.PluginName + " Is broken\nNo valid location specified");
     }
+    TopBarAlreadyLoaded = true;
 }
 
 void OpenRGBDialog2::AddI2CToolsPage()
@@ -778,6 +781,21 @@ void OpenRGBDialog2::UpdateDevicesList()
             }
         }
     }
+
+    if (NotFirstRun)
+    {
+        if(plugin_manager->ActivePlugins.size() > 0)
+        {
+            for(int i = 0; i < int(plugin_manager->ActivePlugins.size()); i++)
+            {
+                /*---------------------------------------------------------------------------*\
+                | Start by getting location and then placing the widget where it needs to go  |
+                \*---------------------------------------------------------------------------*/
+                OpenRGBDialog2::AddPluginTab(plugin_manager, i);
+            }
+        }
+    }
+
 }
 
 void OpenRGBDialog2::UpdateProfileList()
@@ -1042,7 +1060,11 @@ void Ui::OpenRGBDialog2::on_ButtonToggleDeviceView_clicked()
     {
         for(int device = 0; device < ui->DevicesTabBar->count(); device++)
         {
-            qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->ShowDeviceView();
+            OpenRGBDevicePage* device_page = qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device));
+            if(device_page) // Check the cast to make sure it is a device and not plugin
+            {
+                device_page->ShowDeviceView();
+            }
         }
         device_view_showing = true;
     }
