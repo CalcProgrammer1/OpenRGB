@@ -241,20 +241,22 @@ HEADERS +=                                                                      
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
     Controllers/LogitechController/LogitechG203Controller.h                                     \
     Controllers/LogitechController/LogitechG203LController.h                                    \
+    Controllers/LogitechController/LogitechG213Controller.h                                     \
+    Controllers/LogitechController/LogitechG303Controller.h                                     \
     Controllers/LogitechController/LogitechG403Controller.h                                     \
     Controllers/LogitechController/LogitechG502PSController.h                                   \
     Controllers/LogitechController/LogitechG560Controller.h                                     \
     Controllers/LogitechController/LogitechG810Controller.h                                     \
-    Controllers/LogitechController/LogitechG213Controller.h                                     \
     Controllers/LogitechController/LogitechGPowerPlayController.h                               \
     Controllers/LogitechController/LogitechGProWirelessController.h                             \
     Controllers/LogitechController/RGBController_LogitechG203.h                                 \
     Controllers/LogitechController/RGBController_LogitechG203L.h                                \
+    Controllers/LogitechController/RGBController_LogitechG213.h                                 \
+    Controllers/LogitechController/RGBController_LogitechG303.h                                 \
     Controllers/LogitechController/RGBController_LogitechG403.h                                 \
     Controllers/LogitechController/RGBController_LogitechG502PS.h                               \
     Controllers/LogitechController/RGBController_LogitechG560.h                                 \
     Controllers/LogitechController/RGBController_LogitechG810.h                                 \
-    Controllers/LogitechController/RGBController_LogitechG213.h                                 \
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.h                           \
     Controllers/LogitechController/RGBController_LogitechGProWireless.h                         \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                                         \
@@ -483,20 +485,22 @@ SOURCES +=                                                                      
     Controllers/LogitechController/LogitechControllerDetect.cpp                                 \
     Controllers/LogitechController/LogitechG203Controller.cpp                                   \
     Controllers/LogitechController/LogitechG203LController.cpp                                  \
+    Controllers/LogitechController/LogitechG213Controller.cpp                                   \
+    Controllers/LogitechController/LogitechG303Controller.cpp                                   \
     Controllers/LogitechController/LogitechG403Controller.cpp                                   \
     Controllers/LogitechController/LogitechG502PSController.cpp                                 \
     Controllers/LogitechController/LogitechG560Controller.cpp                                   \
     Controllers/LogitechController/LogitechG810Controller.cpp                                   \
-    Controllers/LogitechController/LogitechG213Controller.cpp                                   \
     Controllers/LogitechController/LogitechGPowerPlayController.cpp                             \
     Controllers/LogitechController/LogitechGProWirelessController.cpp                           \
     Controllers/LogitechController/RGBController_LogitechG203.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG203L.cpp                              \
+    Controllers/LogitechController/RGBController_LogitechG213.cpp                               \
+    Controllers/LogitechController/RGBController_LogitechG303.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG403.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG502PS.cpp                             \
     Controllers/LogitechController/RGBController_LogitechG560.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG810.cpp                               \
-    Controllers/LogitechController/RGBController_LogitechG213.cpp                               \
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.cpp                         \
     Controllers/LogitechController/RGBController_LogitechGProWireless.cpp                       \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp                                       \

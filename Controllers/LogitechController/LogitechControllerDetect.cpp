@@ -1,23 +1,25 @@
 #include "Detector.h"
 #include "LogitechG203Controller.h"
 #include "LogitechG203LController.h"
+#include "LogitechG213Controller.h"
+#include "LogitechG303Controller.h"
 #include "LogitechG403Controller.h"
 #include "LogitechG502PSController.h"
+#include "LogitechG560Controller.h"
 #include "LogitechG810Controller.h"
-#include "LogitechG213Controller.h"
 #include "LogitechGProWirelessController.h"
 #include "LogitechGPowerPlayController.h"
-#include "LogitechG560Controller.h"
 #include "RGBController.h"
 #include "RGBController_LogitechG203.h"
 #include "RGBController_LogitechG203L.h"
+#include "RGBController_LogitechG213.h"
+#include "RGBController_LogitechG303.h"
 #include "RGBController_LogitechG403.h"
 #include "RGBController_LogitechG502PS.h"
+#include "RGBController_LogitechG560.h"
 #include "RGBController_LogitechG810.h"
-#include "RGBController_LogitechG213.h"
 #include "RGBController_LogitechGProWireless.h"
 #include "RGBController_LogitechGPowerPlay.h"
-#include "RGBController_LogitechG560.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -40,6 +42,7 @@
 \*-----------------------------------------------------*/
 #define LOGITECH_G203_PID                       0xC084
 #define LOGITECH_G203L_PID                      0xC092
+#define LOGITECH_G303_PID                       0xC080
 #define LOGITECH_G403_PID                       0xC083
 #define LOGITECH_G403H_PID                      0xC08F
 #define LOGITECH_G502_PS_PID                    0xC332
@@ -150,6 +153,18 @@ void DetectLogitechMouseG203L(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectLogitechMouseG303(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        LogitechG303Controller* controller = new LogitechG303Controller(dev, info->path);
+        RGBController_LogitechG303* rgb_controller = new RGBController_LogitechG303(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectLogitechMouseG403(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -233,6 +248,7 @@ REGISTER_HID_DETECTOR_IP ("Logitech G810 Orion Spectrum",                  Detec
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Logitech G203 Prodigy",                         DetectLogitechMouseG203,    LOGITECH_VID, LOGITECH_G203_PID,                   1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G203 Lightsync",                       DetectLogitechMouseG203L,   LOGITECH_VID, LOGITECH_G203L_PID,                  1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G303 Daedalus Apex",                   DetectLogitechMouseG303,    LOGITECH_VID, LOGITECH_G303_PID,                   1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G403 Prodigy",                         DetectLogitechMouseG403,    LOGITECH_VID, LOGITECH_G403_PID,                   1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G403 Hero",                            DetectLogitechMouseG403,    LOGITECH_VID, LOGITECH_G403H_PID,                  1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G502 Proteus Spectrum",                DetectLogitechMouseG502PS,  LOGITECH_VID, LOGITECH_G502_PS_PID,                1, 0xFF00, 2);
