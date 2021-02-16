@@ -34,7 +34,7 @@ std::string LogitechG560Controller::GetDeviceLocation()
 
 void LogitechG560Controller::SetDirectMode(uint8_t zone)
 {
-    unsigned char usb_buf[20];
+    unsigned char usb_buf[LOGI_G560_LED_PACKET_SIZE];
 
     usb_buf[0x00]           = 0x11;
     usb_buf[0x01]           = 0xFF;
@@ -45,12 +45,12 @@ void LogitechG560Controller::SetDirectMode(uint8_t zone)
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    fail_retry_write(dev, usb_buf, 20);
+    fail_retry_write(dev, usb_buf, LOGI_G560_LED_PACKET_SIZE);
 }
 
 void LogitechG560Controller::SetOffMode(uint8_t zone)
 {
-    unsigned char usb_buf[20];
+    unsigned char usb_buf[LOGI_G560_LED_PACKET_SIZE];
 
     usb_buf[0x00]           = 0x11;
     usb_buf[0x01]           = 0xFF;
@@ -61,20 +61,19 @@ void LogitechG560Controller::SetOffMode(uint8_t zone)
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    fail_retry_write(dev, usb_buf, 20);
+    fail_retry_write(dev, usb_buf, LOGI_G560_LED_PACKET_SIZE);
 }
 
 void LogitechG560Controller::SendSpeakerMode
     (
-    unsigned char       zone,           //0x04
-    unsigned char       mode,           //0x05
-    unsigned char       speed,          //0x0B // not working so far
-    unsigned char       red,            //0x06
-    unsigned char       green,          //0x07
-    unsigned char       blue            //0x08
+    unsigned char       zone,
+    unsigned char       mode,
+    unsigned char       red,
+    unsigned char       green,
+    unsigned char       blue
     )
 {
-    unsigned char usb_buf[20];
+    unsigned char usb_buf[LOGI_G560_LED_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -116,13 +115,13 @@ void LogitechG560Controller::SendSpeakerMode
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    fail_retry_write(dev, usb_buf, 20);
+    fail_retry_write(dev, usb_buf, LOGI_G560_LED_PACKET_SIZE);
 }
 
 void LogitechG560Controller::fail_retry_write(hid_device *device, const unsigned char *data, size_t length)
 {
-    unsigned char usb_buf_out[33];
-    uint8_t write_max_retry=3;
+    unsigned char usb_buf_out[LOGI_G560_LED_PACKET_SIZE];
+    unsigned int  write_max_retry = LOGI_G560_LED_COMMAND_SEND_RETRIES;
     do
     {
         std::this_thread::sleep_for(1ms);
@@ -132,15 +131,16 @@ void LogitechG560Controller::fail_retry_write(hid_device *device, const unsigned
         | HID write fails if a change led color and set volume command are sent at              |
         | the same time because RGB controller and volume control shares the same interface.    |
         \*-------------------------------------------------------------------------------------*/
-        if (ret > 0)
+        if(ret == 20)
         {
             std::this_thread::sleep_for(1ms);
-            hid_read_timeout(dev, usb_buf_out, 33, 100);
+            hid_read_timeout(dev, usb_buf_out, LOGI_G560_LED_PACKET_SIZE, 200);
             break;
         }
         else
         {
             write_max_retry--;
+            std::this_thread::sleep_for(10ms);
         }
 
     }while (write_max_retry > 0);
