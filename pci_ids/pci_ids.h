@@ -53,7 +53,7 @@
 #define NVIDIA_RTX2080_A_DEV                    0x1E87
 #define NVIDIA_RTX2080S_DEV                     0x1E81
 #define NVIDIA_RTX2080TI_DEV                    0x1E07
-#define NVIDIA_RTX3060_TI_DEV                   0x2486
+#define NVIDIA_RTX3060TI_DEV                    0x2486
 #define NVIDIA_RTX3070_DEV                      0x2484
 #define NVIDIA_RTX3080_DEV                      0x2206
 #define NVIDIA_RTX3090_DEV                      0x2204
@@ -111,6 +111,7 @@
 #define GIGABYTE_RTX2080_A_GAMING_OC_SUB_DEV    0x37A7
 #define GIGABYTE_RTX2080_GAMING_OC_SUB_DEV      0x37D6
 #define GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV     0x4008
+#define GIGABYTE_RTX3060TI_EAGLE_OC_SUB_DEV     0x405B
 #define GIGABYTE_RTX3070_VISION_OC_SUB_DEV      0x404D
 
 /*-----------------------------------------------------*\
