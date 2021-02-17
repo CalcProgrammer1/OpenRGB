@@ -57,6 +57,7 @@ void DetectDasKeyboardControllers(hid_device_info *info_in, const std::string &n
         else
         {
             RGBController_DasKeyboard *rgb_controller = new RGBController_DasKeyboard(controller);
+            rgb_controller->SetupZones();
             rgb_controller->name = name;
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);

@@ -228,8 +228,6 @@ RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController *das_
     modes[3].value      = DAS_KEYBOARD_MODE_SPECTRUM_CYCLE;
     modes[3].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     modes[3].color_mode = MODE_COLORS_PER_LED;
-
-    SetupZones();
 }
 
 RGBController_DasKeyboard::~RGBController_DasKeyboard()
