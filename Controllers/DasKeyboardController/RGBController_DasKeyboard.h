@@ -44,8 +44,6 @@ public:
 private:
     DasKeyboardController*  das;
 
-    std::vector<int>        mode_index;
     std::vector<RGBColor>   double_buffer;
     bool                    updateDevice;
-    bool                    is_us_layout;
 };
