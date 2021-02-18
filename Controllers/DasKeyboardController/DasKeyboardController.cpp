@@ -145,7 +145,7 @@ void DasKeyboardController::SendInitialize()
         /*-----------------------------------------------------*\
         | Get Version String                                    |
         \*-----------------------------------------------------*/
-        cnt_receive = ReceiveData(usb_buf);
+        cnt_receive = ReceiveData(usb_buf, sizeof(usb_buf));
 
         /*-----------------------------------------------------*\
         | check if the faster modern transfer method is working |
@@ -173,7 +173,7 @@ void DasKeyboardController::SendApply()
     unsigned char usb_buf_receive[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     SendData(usb_buf_send, sizeof(usb_buf_send));
-    ReceiveData(usb_buf_receive);
+    ReceiveData(usb_buf_receive, sizeof(usb_buf_receive));
 }
 
 void DasKeyboardController::SendData(const unsigned char *data, const unsigned int length)
@@ -276,10 +276,10 @@ void DasKeyboardController::SendDataTraditional(const unsigned char *data, const
     }
 }
 
-int DasKeyboardController::ReceiveData(unsigned char *data)
+int DasKeyboardController::ReceiveData(unsigned char *data, const unsigned int max_length)
 {
-    int idx = 0;
     unsigned char usb_buf[9];
+    std::vector<unsigned char>receive_buf;
 
     /*-----------------------------------------------------*\
     | Fill data from receive buffer                         |
@@ -291,53 +291,59 @@ int DasKeyboardController::ReceiveData(unsigned char *data)
         memset(usb_buf, 0x00, sizeof(usb_buf));
         usb_buf[0x00] = 0x01;
 
-        hid_get_feature_report(dev, usb_buf, 8);
+        int res = hid_get_feature_report(dev, usb_buf, 8);
+        if(res == -1)
+        {
+            break;
+        }
 
         if(usb_buf[0])
         {
             for(unsigned int ii = 0; ii < 8; ii++)
             {
-                data[idx++] = usb_buf[ii];
+                receive_buf.push_back(usb_buf[ii]);
                 chk_sum ^= usb_buf[ii];
             }
         }
     } while(usb_buf[0]);
 
     /*-----------------------------------------------------*\
-    | If checksum is not correct, clean up data buffer      |
+    | clean up data buffer                                  |
+    \*-----------------------------------------------------*/
+    for (unsigned int ii = 0; ii < max_length; ii++)
+    {
+        data[ii] = 0;
+    }
+
+    /*-----------------------------------------------------*\
+    | If checksum is not correct, return with empty buffer  |
     \*-----------------------------------------------------*/
     if(chk_sum)
     {
-        for (int ii = 0; ii < idx; ii++)
+        return -1;
+    }
+
+    size_t response_size = 0;
+    if(receive_buf.size() > 1)
     {
-            data[ii] = 0;
-        }
+        response_size = receive_buf.at(1);
+        if(response_size + 2 > receive_buf.size())
+        {
             return -1;
         }
-
-    if(idx)
-    {
-        idx = data[1];
+        if(response_size > max_length)
+        {
+            response_size = static_cast<int>(max_length);
+        }
 
         /*-----------------------------------------------------*\
         | Remove first two bytes (signature?) and content length|
         \*-----------------------------------------------------*/
-        for(int ii = 0; ii < idx - 1; ii++)
+        for(size_t ii = 0; ii < response_size - 1; ii++)
         {
-            data[ii] = data[ii + 2];
+            data[ii] = receive_buf.at(ii + 2);
         }
-
-        /*-----------------------------------------------------*\
-        | Remove checksum                                       |
-        \*-----------------------------------------------------*/
-        data[idx + 1] = 0;
-
-        /*-----------------------------------------------------*\
-        | Remove duplicate bytes at the end                     |
-        \*-----------------------------------------------------*/
-        data[idx--] = 0;
-        data[idx] = 0;
     }
 
-    return idx;
+    return response_size;
 }

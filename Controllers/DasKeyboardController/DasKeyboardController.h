@@ -46,5 +46,5 @@ private:
     void SendDataTraditional(const unsigned char *data, unsigned int length);
     void SendDataModern(const unsigned char *data, unsigned int length);
 
-    int ReceiveData(unsigned char *data);
+    int ReceiveData(unsigned char *data, unsigned int max_length);
 };
