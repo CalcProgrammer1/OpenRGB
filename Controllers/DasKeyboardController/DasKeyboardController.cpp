@@ -172,14 +172,11 @@ void DasKeyboardController::SendApply()
     unsigned char usb_buf_send[]    = {0xEA, 0x03, 0x78, 0x0a};
     unsigned char usb_buf_receive[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-    do
-    {
-        SendData(usb_buf_send, sizeof(usb_buf_send));
-        ReceiveData(usb_buf_receive);
-    } while(usb_buf_receive[0] == 0);
+    SendData(usb_buf_send, sizeof(usb_buf_send));
+    ReceiveData(usb_buf_receive);
 }
 
-void DasKeyboardController::SendData(const unsigned char *data, unsigned int length)
+void DasKeyboardController::SendData(const unsigned char *data, const unsigned int length)
 {
     if(useTraditionalSendData)
     {
@@ -191,37 +188,46 @@ void DasKeyboardController::SendData(const unsigned char *data, unsigned int len
     }
 }
 
-void DasKeyboardController::SendDataModern(const unsigned char *data, unsigned int length)
+void DasKeyboardController::SendDataModern(const unsigned char *data, const unsigned int length)
 {
     /*-----------------------------------------------------*\
     | modern SendData (send whole bytes in one transfer)    |
     \*-----------------------------------------------------*/
     unsigned char usb_buf[65];
 
-    /*-----------------------------------------------------*\
-    | Fill data into send buffer                            |
-    \*-----------------------------------------------------*/
-    unsigned int chk_sum = 0;
-    usb_buf[0] = 1;
-
-    for(unsigned int idx = 0; idx < length; idx++)
+    unsigned int err_cnt = 3;
+    int res = -1;
+    while(res == -1)
     {
-        usb_buf[idx + 1] = data[idx];
-        chk_sum ^= data[idx];
+        /*-----------------------------------------------------*\
+        | Fill data into send buffer                            |
+        \*-----------------------------------------------------*/
+        unsigned int chk_sum = 0;
+        usb_buf[0] = 1;
+
+        for(unsigned int idx = 0; idx < length; idx++)
+        {
+            usb_buf[idx + 1] = data[idx];
+            chk_sum ^= data[idx];
+        }
+        usb_buf[length+1] = chk_sum;
+
+        res = hid_send_feature_report(dev, usb_buf, length+2);
+        if(res == -1)
+        {
+            if(!err_cnt--)
+            {
+                return;
+            }
+        }
+        /*-----------------------------------------------------*\
+        | Hack to work around a firmware bug in v21.27.0        |
+        \*-----------------------------------------------------*/
+        std::this_thread::sleep_for(0.3ms);
     }
-
-    usb_buf[++length] = chk_sum;
-    length++;
-
-    hid_send_feature_report(dev, usb_buf, length);
-
-    /*-----------------------------------------------------*\
-    | Hack to work around a firmware bug in v21.27.0        |
-    \*-----------------------------------------------------*/
-    std::this_thread::sleep_for(0.3ms);
 }
 
-void DasKeyboardController::SendDataTraditional(const unsigned char *data, unsigned int length)
+void DasKeyboardController::SendDataTraditional(const unsigned char *data, const unsigned int length)
 {
     /*-----------------------------------------------------*\
     | traditional SendData (split into chunks of 8 byte)    |
@@ -231,6 +237,7 @@ void DasKeyboardController::SendDataTraditional(const unsigned char *data, unsig
     /*-----------------------------------------------------*\
     | Fill data into send buffer                            |
     \*-----------------------------------------------------*/
+    unsigned int err_cnt = 3;
     unsigned int chk_sum = 0;
     usb_buf[8] = 0;
 
@@ -252,7 +259,15 @@ void DasKeyboardController::SendDataTraditional(const unsigned char *data, unsig
                 usb_buf[fld_idx] = 0;
             }
         }
-        hid_send_feature_report(dev, usb_buf, 8);
+        int res = hid_send_feature_report(dev, usb_buf, 8);
+        if(res == -1)
+        {
+            idx = 0;
+            if(!err_cnt--)
+            {
+                return;
+            }
+        }
 
         /*-----------------------------------------------------*\
         | Hack to work around a firmware bug in v21.27.0        |
@@ -286,7 +301,7 @@ int DasKeyboardController::ReceiveData(unsigned char *data)
                 chk_sum ^= usb_buf[ii];
             }
         }
-    } while (usb_buf[0]);
+    } while(usb_buf[0]);
 
     /*-----------------------------------------------------*\
     | If checksum is not correct, clean up data buffer      |
@@ -294,11 +309,11 @@ int DasKeyboardController::ReceiveData(unsigned char *data)
     if(chk_sum)
     {
         for (int ii = 0; ii < idx; ii++)
-        {
+    {
             data[ii] = 0;
         }
-        return -1;
-    }
+            return -1;
+        }
 
     if(idx)
     {
