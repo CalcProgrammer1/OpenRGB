@@ -73,13 +73,14 @@ INCLUDEPATH +=                                                                  
     Controllers/EspurnaController/                                                              \
     Controllers/EVGAGPUController/                                                              \
     Controllers/FanBusController/                                                               \
+    Controllers/GainwardGPUController/                                                          \
+    Controllers/GalaxGPUController/                                                             \
     Controllers/GigabyteAorusCPUCoolerController/                                               \
     Controllers/GigabyteRGBFusion2DRAMController/                                               \
     Controllers/GigabyteRGBFusion2SMBusController/                                              \
     Controllers/GigabyteRGBFusion2USBController/                                                \
     Controllers/GigabyteRGBFusionController/                                                    \
     Controllers/GigabyteRGBFusionGPUController/                                                 \
-    Controllers/GalaxGPUController/                                                             \
     Controllers/HoltekController/                                                               \
     Controllers/HyperXDRAMController/                                                           \
     Controllers/HyperXKeyboardController/                                                       \
@@ -202,6 +203,10 @@ HEADERS +=                                                                      
     Controllers/FanBusController/FanBusController.h                                             \
     Controllers/FanBusController/FanBusInterface.h                                              \
     Controllers/FanBusController/RGBController_FanBus.h                                         \
+    Controllers/GainwardGPUController/GainwardGPUController.h                                   \
+    Controllers/GainwardGPUController/RGBController_GainwardGPU.h                               \
+    Controllers/GalaxGPUController/GalaxGPUController.h                                         \
+    Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
     Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.h                    \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.h             \
@@ -214,8 +219,6 @@ HEADERS +=                                                                      
     Controllers/GigabyteRGBFusionController/RGBController_GigabyteRGBFusion.h                   \
     Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUController.h                 \
     Controllers/GigabyteRGBFusionGPUController/RGBController_GigabyteRGBFusionGPU.h             \
-    Controllers/GalaxGPUController/GalaxGPUController.h                                         \
-    Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/HoltekController/HoltekA070Controller.h                                         \
     Controllers/HoltekController/HoltekA1FAController.h                                         \
     Controllers/HoltekController/RGBController_HoltekA070.h                                     \
@@ -427,6 +430,12 @@ SOURCES +=                                                                      
     Controllers/FanBusController/FanBusControllerDetect.cpp                                     \
     Controllers/FanBusController/FanBusInterface.cpp                                            \
     Controllers/FanBusController/RGBController_FanBus.cpp                                       \
+    Controllers/GainwardGPUController/GainwardGPUController.cpp                                 \
+    Controllers/GainwardGPUController/GainwardGPUControllerDetect.cpp                           \
+    Controllers/GainwardGPUController/RGBController_GainwardGPU.cpp                             \    
+    Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
+    Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
+    Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.cpp                           \
     Controllers/GigabyteAorusCPUCoolerController/GigabyteAorusCPUCoolerControllerDetect.cpp     \
     Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.cpp                  \
@@ -445,9 +454,6 @@ SOURCES +=                                                                      
     Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUController.cpp               \
     Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUControllerDetect.cpp         \
     Controllers/GigabyteRGBFusionGPUController/RGBController_GigabyteRGBFusionGPU.cpp           \
-    Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
-    Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
-    Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
     Controllers/HoltekController/HoltekA070Controller.cpp                                       \
     Controllers/HoltekController/HoltekA1FAController.cpp                                       \
     Controllers/HoltekController/HoltekControllerDetect.cpp                                     \

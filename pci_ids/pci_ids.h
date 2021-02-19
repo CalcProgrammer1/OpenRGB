@@ -64,6 +64,7 @@
 #define ASUS_SUB_VEN                            0x1043
 #define EVGA_SUB_VEN                            0x3842
 #define GALAX_SUB_VEN                           0x1B4C
+#define GAINWARD_SUB_VEN                        0x10B0
 #define GIGABYTE_SUB_VEN                        0x1458
 #define MSI_SUB_VEN                             0x1462
 #define NVIDIA_SUB_VEN                          0x10DE
@@ -84,6 +85,11 @@
 #define EVGA_RTX2080_XC_BLACK_SUB_DEV           0x2082
 #define EVGA_RTX2080_XC_GAMING_SUB_DEV          0x2182
 #define EVGA_RTX2080TI_XC_ULTRA_SUB_DEV         0x2383
+
+/*-----------------------------------------------------*\
+| Gainward Sub-Device IDs                               |
+\*-----------------------------------------------------*/
+#define GAINWARD_GTX_1080_PHOENIX               0x1B80
 
 /*-----------------------------------------------------*\
 | GALAX / KFA2 Sub-Device IDs                           |
