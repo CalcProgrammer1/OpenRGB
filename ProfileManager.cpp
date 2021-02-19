@@ -33,9 +33,14 @@ bool ProfileManager::SaveProfile(std::string profile_name)
     if(profile_name != "")
     {
         /*---------------------------------------------------------*\
+        | Extension .orp - OpenRgb Profile                          |
+        \*---------------------------------------------------------*/
+        std::string filename = profile_name + ".orp";
+
+        /*---------------------------------------------------------*\
         | Open an output file in binary mode                        |
         \*---------------------------------------------------------*/
-        std::ofstream controller_file(configuration_directory + profile_name, std::ios::out | std::ios::binary);
+        std::ofstream controller_file(configuration_directory + filename, std::ios::out | std::ios::binary);
 
         /*---------------------------------------------------------*\
         | Write header                                              |
@@ -334,7 +339,7 @@ bool ProfileManager::LoadProfileWithOptions
 
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
-    remove((configuration_directory + profile_name).c_str());
+    remove((configuration_directory + profile_name + ".orp").c_str());
 
     UpdateProfileList();
 }
@@ -373,6 +378,7 @@ void ProfileManager::UpdateProfileList()
                     /*---------------------------------------------------------*\
                     | Add this profile to the list                              |
                     \*---------------------------------------------------------*/
+                    filename.erase(filename.length() - 4);
                     profile_list.push_back(filename);
                 }
             }
