@@ -14,10 +14,10 @@ using namespace std::chrono_literals;
 
 DasKeyboardController::DasKeyboardController(hid_device *dev_handle, const char *path)
 {
-    dev                     = dev_handle;
-    location                = path;
-    version                 = "";
-    useTraditionalSendData  = false;
+    dev                    = dev_handle;
+    location               = path;
+    version                = "";
+    useTraditionalSendData = false;
 
     SendInitialize();
 }
@@ -34,8 +34,8 @@ std::string DasKeyboardController::GetDeviceLocation()
 
 std::string DasKeyboardController::GetSerialString()
 {
-    wchar_t serial_string[128]  = {};
-    int err                     = hid_get_serial_number_string(dev, serial_string, 128);
+    wchar_t serial_string[128] = {};
+    int     err                = hid_get_serial_number_string(dev, serial_string, 128);
 
     std::string return_string;
     if(!err)
@@ -91,7 +91,7 @@ std::string DasKeyboardController::GetLayoutString()
 void DasKeyboardController::SendColors(unsigned char key_id, unsigned char mode,
                                        unsigned char red, unsigned char green, unsigned char blue)
 {
-    if (key_id < 130)
+    if(key_id < 130)
     {
         unsigned char usb_buf[] = {0xEA,
                                    0x08,
@@ -196,7 +196,7 @@ void DasKeyboardController::SendDataModern(const unsigned char *data, const unsi
     unsigned char usb_buf[65];
 
     unsigned int err_cnt = 3;
-    int res = -1;
+    int          res     = -1;
     while(res == -1)
     {
         /*-----------------------------------------------------*\
@@ -210,9 +210,9 @@ void DasKeyboardController::SendDataModern(const unsigned char *data, const unsi
             usb_buf[idx + 1] = data[idx];
             chk_sum ^= data[idx];
         }
-        usb_buf[length+1] = chk_sum;
+        usb_buf[length + 1] = chk_sum;
 
-        res = hid_send_feature_report(dev, usb_buf, length+2);
+        res = hid_send_feature_report(dev, usb_buf, length + 2);
         if(res == -1)
         {
             if(!err_cnt--)
@@ -244,17 +244,19 @@ void DasKeyboardController::SendDataTraditional(const unsigned char *data, const
     for(unsigned int idx = 0; idx < length + 1; idx += 7)
     {
         usb_buf[0] = 1;
-        for (unsigned int fld_idx = 1; fld_idx < 8; fld_idx++)
+        for(unsigned int fld_idx = 1; fld_idx < 8; fld_idx++)
         {
             unsigned int tmp_idx = idx + fld_idx - 1;
-            if (tmp_idx < length)
+            if(tmp_idx < length)
             {
                 usb_buf[fld_idx] = data[tmp_idx];
                 chk_sum ^= data[tmp_idx];
-            } else if (tmp_idx == length)
+            }
+            else if(tmp_idx == length)
             {
                 usb_buf[fld_idx] = chk_sum;
-            } else
+            }
+            else
             {
                 usb_buf[fld_idx] = 0;
             }
@@ -278,8 +280,8 @@ void DasKeyboardController::SendDataTraditional(const unsigned char *data, const
 
 int DasKeyboardController::ReceiveData(unsigned char *data, const unsigned int max_length)
 {
-    unsigned char usb_buf[9];
-    std::vector<unsigned char>receive_buf;
+    unsigned char              usb_buf[9];
+    std::vector<unsigned char> receive_buf;
 
     /*-----------------------------------------------------*\
     | Fill data from receive buffer                         |
@@ -310,7 +312,7 @@ int DasKeyboardController::ReceiveData(unsigned char *data, const unsigned int m
     /*-----------------------------------------------------*\
     | clean up data buffer                                  |
     \*-----------------------------------------------------*/
-    for (unsigned int ii = 0; ii < max_length; ii++)
+    for(unsigned int ii = 0; ii < max_length; ii++)
     {
         data[ii] = 0;
     }

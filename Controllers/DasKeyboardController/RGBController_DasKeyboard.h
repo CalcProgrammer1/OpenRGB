@@ -14,10 +14,10 @@
 
 enum
 {
-    DAS_KEYBOARD_MODE_DIRECT          = 0x01,
-    DAS_KEYBOARD_MODE_FLASHING        = 0x1F,
-    DAS_KEYBOARD_MODE_BREATHING       = 0x08,
-    DAS_KEYBOARD_MODE_SPECTRUM_CYCLE  = 0x14
+    DAS_KEYBOARD_MODE_DIRECT         = 0x01,
+    DAS_KEYBOARD_MODE_FLASHING       = 0x1F,
+    DAS_KEYBOARD_MODE_BREATHING      = 0x08,
+    DAS_KEYBOARD_MODE_SPECTRUM_CYCLE = 0x14
 };
 
 
@@ -25,6 +25,7 @@ class RGBController_DasKeyboard : public RGBController
 {
 public:
     RGBController_DasKeyboard(DasKeyboardController *das_ptr);
+
     ~RGBController_DasKeyboard();
 
     void SetupZones();
@@ -42,8 +43,8 @@ public:
     void DeviceUpdateMode();
 
 private:
-    DasKeyboardController*  das;
+    DasKeyboardController *das;
 
-    std::vector<RGBColor>   double_buffer;
-    bool                    updateDevice;
+    std::vector<RGBColor> double_buffer;
+    bool                  updateDevice;
 };

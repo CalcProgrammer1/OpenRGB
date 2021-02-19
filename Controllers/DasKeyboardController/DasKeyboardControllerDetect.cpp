@@ -48,7 +48,7 @@ void DetectDasKeyboardControllers(hid_device_info *info_in, const std::string &n
 
     if(dev)
     {
-        DasKeyboardController* controller = new DasKeyboardController(dev, info->path);
+        DasKeyboardController *controller = new DasKeyboardController(dev, info->path);
 
         if(controller->GetLayoutString() == "NONE")
         {
