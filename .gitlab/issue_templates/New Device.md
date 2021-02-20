@@ -32,8 +32,23 @@ Please add a link to the manufacturer's product page beneath this line
 ### ID information:
 <!--
 For PCI (GPU) devices we will need the Vendor ID, Device ID, Sub-Vendor ID and Sub-Device IDs
-In Windows this can be found under the device manager and on Linux this can be found with lspci -vv
+To get the Device ID formation for a GPU on Windows run the following command in Powershell:
+
+wmic path Win32_VideoController get name,PNPDeviceID
+
+Linux this can be found using the terminal:
+
+lspci -d 1002: -nnvm | head -6 | tail -n 4 && lspci -d 10DE: -nnvm | head -6 | tail -n 4
+-->
+
+<!--
 For USB devices we will need the USB VID and PID
+Windows Powershell:
+
+gwmi Win32_USBControllerDevice |%{[wmi]($_.Dependent)} | Sort Manufacturer,Description,DeviceID | Ft -GroupBy Manufacturer Description,Service,DeviceID
+
+Linux Terminal:
+lsusb
 -->
 
 
@@ -58,7 +73,6 @@ https://gitlab.com/Dr_No/OpenRGB/-/wikis/OpenRGB-doesn%27t-have-my-device
 
 
 <!-- For admin purposes: Please leave this section as is -->
-/assign me
 /label ~"Issue Type - New Device"
 /label ~"NewDevice::Step0 - Unconfirmed"
 
