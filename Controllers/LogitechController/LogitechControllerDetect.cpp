@@ -63,7 +63,7 @@ void DetectLogitechKeyboardG810(hid_device_info* info, const std::string& name)
     | Logitech keyboards use two different usages, one for 20-byte packets and one for 64-byte packets  |
     | Usage 0x0602 for 20 byte, usage 0x0604 for 64 byte, both are on usage page 0xFF43                 |
     \*-------------------------------------------------------------------------------------------------*/
-#ifdef _WIN32
+#ifdef USE_HID_USAGE
      hid_device* dev_usage_0x0602 = nullptr;
      hid_device* dev_usage_0x0604 = nullptr;
      hid_device_info* info_temp = info;
