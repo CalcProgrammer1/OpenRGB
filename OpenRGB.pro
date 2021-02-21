@@ -91,6 +91,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
     Controllers/LEDStripController/                                                             \
+    Controllers/LianLiController/                                                               \
     Controllers/LogitechController/                                                             \
     Controllers/MSI3ZoneController/                                                             \
     Controllers/MSIGPUController/                                                               \
@@ -255,6 +256,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
+    Controllers/LianLiController/LianLiUniHubController.h                                       \
+    Controllers/LianLiController/RGBController_LianLiUniHub.h                                   \
     Controllers/LogitechController/LogitechG203Controller.h                                     \
     Controllers/LogitechController/LogitechG203LController.h                                    \
     Controllers/LogitechController/LogitechG213Controller.h                                     \
@@ -523,6 +526,9 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
+    Controllers/LianLiController/LianLiControllerDetect.cpp                                     \
+    Controllers/LianLiController/LianLiUniHubController.cpp                                     \
+    Controllers/LianLiController/RGBController_LianLiUniHub.cpp                                 \
     Controllers/LogitechController/LogitechControllerDetect.cpp                                 \
     Controllers/LogitechController/LogitechG203Controller.cpp                                   \
     Controllers/LogitechController/LogitechG203LController.cpp                                  \
