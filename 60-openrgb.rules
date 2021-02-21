@@ -173,6 +173,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16d3", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="1705", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Lian Li Uni Hub                                              #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0cf2", ATTR{idProduct}=="7750", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  Logitech Peripheral Devices                                  #
 #                                                               #
 #   Keyboards:                                                  #
