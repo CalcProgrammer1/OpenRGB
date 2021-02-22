@@ -153,7 +153,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
   * OpenRGB E1.31 Receiver Plugin (by me): https://gitlab.com/CalcProgrammer1/OpenRGBE131ReceiverPlugin
   * Auto Updates Plugin (by herosilas12): https://gitlab.com/herosilas12/OpenRGB-Plugins/-/tree/Updates
-  * Effects Engine Plugin (by herosilas12): https://gitlab.com/herosilas12/OpenRGB-Plugins/-/tree/Effects
+  * Effects Engine Plugin (by herosilas12): https://gitlab.com/OpenRGBDevelopers/OpenRGBEffectPlugin
   
 ## Projects Used
 
