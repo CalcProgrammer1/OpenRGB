@@ -623,7 +623,7 @@ bool OptionSize(int *current_device, int *current_zone, std::string argument, Op
     /*---------------------------------------------------------*\
     | Save the profile                                          |
     \*---------------------------------------------------------*/
-    ResourceManager::get()->GetProfileManager()->SaveProfile("sizes.ors");
+    ResourceManager::get()->GetProfileManager()->SaveProfile("sizes", true);
 
     return true;
 }

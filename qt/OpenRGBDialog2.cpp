@@ -902,7 +902,7 @@ void OpenRGBDialog2::on_SaveSizeProfile()
         /*---------------------------------------------------------*\
         | Save the profile                                          |
         \*---------------------------------------------------------*/
-        profile_manager->SaveProfile("sizes.ors");
+        profile_manager->SaveProfile("sizes", true);
     }
 }
 

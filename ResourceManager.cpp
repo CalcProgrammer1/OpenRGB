@@ -52,7 +52,7 @@ ResourceManager::ResourceManager()
     | Load sizes list from file                                                 |
     \*-------------------------------------------------------------------------*/
     profile_manager         = new ProfileManager(GetConfigurationDirectory());
-    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
+    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
 
     /*-------------------------------------------------------------------------*\
     | Load settings from file                                                   |
@@ -313,7 +313,7 @@ void ResourceManager::SetConfigurationDirectory(std::string directory)
     profile_manager->SetConfigurationDirectory(directory);
 
     rgb_controllers_sizes.clear();
-    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes.ors");
+    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
 }
 
 void ResourceManager::Cleanup()
