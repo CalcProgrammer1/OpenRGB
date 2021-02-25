@@ -1342,6 +1342,20 @@ void OpenRGBDialog2::UpdateDevicesList()
     }
 
     /*-----------------------------------------------------*\
+    | Remove all remaining device tabs                      |
+    \*-----------------------------------------------------*/
+    tab_count = ui->FanTabBar->count();
+    for(unsigned int tab_idx = 0; tab_idx < tab_count; tab_idx++)
+    {
+        unsigned int remove_idx = ui->FanTabBar->count() - 1;
+        QWidget*     tab_widget = ui->FanTabBar->widget(remove_idx);
+
+        ui->FanTabBar->removeTab(remove_idx);
+
+        delete tab_widget;
+    }
+
+    /*-----------------------------------------------------*\
     | Set up list of fan devices                            |
     \*-----------------------------------------------------*/
     QTabBar *FanTabBar = ui->FanTabBar->tabBar();
