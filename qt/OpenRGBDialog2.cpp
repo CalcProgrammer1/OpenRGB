@@ -340,7 +340,7 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    if (OpenRGBDialog2::MinimizeToTray &&  !this->isHidden())
+    if (OpenRGBDialog2::MinimizeToTray)
     {
         hide();
         event->ignore();
@@ -459,7 +459,7 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     /*-----------------------------------------------------*\
     | InformationTab - Place plugin in the Information tab  |
     \*-----------------------------------------------------*/
-    if(Location == "InformationTab")
+    if(Location == "InformationTab" && !TopBarAlreadyLoaded)
     {
         QWidget* NewPluginTab = new QWidget;
 
