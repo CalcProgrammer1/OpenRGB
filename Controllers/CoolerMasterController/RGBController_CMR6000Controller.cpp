@@ -69,7 +69,10 @@ RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controll
     {
         modes[active_mode].colors[0] = ToRGBColor(cmr6000->GetLedRed(), cmr6000->GetLedGreen(), cmr6000->GetLedBlue());
     }
-    modes[active_mode].color_mode = (cmr6000->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
+    if (modes[active_mode].flags & MODE_FLAG_HAS_RANDOM_COLOR)
+    {
+        modes[active_mode].color_mode = (cmr6000->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
+    }
     if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
     {
         modes[active_mode].speed = cmr6000->GetLedSpeed();
