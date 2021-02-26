@@ -13,7 +13,7 @@
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
 #define DAS_KEYBOARD_Q4_PID             0x2037
-#define DAS_KEYBOARD_Q5_PID             0x202B
+#define DAS_KEYBOARD_Q5_PID             0x2020
 
 /******************************************************************************************\
 *                                                                                          *
@@ -30,8 +30,9 @@ void DetectDasKeyboardControllers(hid_device_info *info_in, const std::string &n
 
     while(info)
     {
-        if(info->vendor_id        == DAS_KEYBOARD_VID    &&
-           info->product_id       == DAS_KEYBOARD_Q4_PID &&
+        if(info->vendor_id        == DAS_KEYBOARD_VID     &&
+          (info->product_id       == DAS_KEYBOARD_Q4_PID  ||
+           info->product_id       == DAS_KEYBOARD_Q5_PID) &&
            info->interface_number == 1)
         {
             break;
