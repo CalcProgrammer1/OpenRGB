@@ -340,7 +340,7 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    if (OpenRGBDialog2::MinimizeToTray)
+    if (OpenRGBDialog2::MinimizeToTray &&  !this->isHidden())
     {
         hide();
         event->ignore();
