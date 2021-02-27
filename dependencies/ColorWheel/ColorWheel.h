@@ -42,6 +42,9 @@ private:
     int x_offset;
     int y_offset;
 
+    QPixmap CleanWheel;
+    QImage CleanSquare;
+
     QColor posColor(const QPoint &point);
     void drawWheelImage(const QSize &newSize);
     void drawIndicator(const int &hue);
