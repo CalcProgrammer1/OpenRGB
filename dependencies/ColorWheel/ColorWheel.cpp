@@ -485,12 +485,12 @@ void ColorWheel::hueChanged(const int &hue)
     int v = current.value();
     current.setHsv(hue, s, v);
 
+    drawSquareImage(hue);
+
     if(!isVisible())
     {
         return;
     }
-
-    drawSquareImage(hue);
     repaint();
 
     emit colorChanged(current);

@@ -12,7 +12,7 @@ public:
     virtual QSize sizeHint () const;
     virtual QSize minimumSizeHint () const;
     QColor color();
-    
+
 signals:
     void colorChanged(const QColor color);
     
