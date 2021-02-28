@@ -336,6 +336,8 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
         }
     }
 
+    TopBarAlreadyLoaded = true;
+
     NotFirstRun = true;
 }
 
@@ -505,9 +507,12 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     \*-----------------------------------------------------*/
     else
     {
-        std::cout << (plugin_manager->ActivePlugins[plugin_index]->info.PluginName + " Is broken\nNo valid location specified");
+        if (Location == "TopTabBar" || Location == "InformationTab")
+        {
+            return;
+        }
+        std::cout << (plugin_manager->ActivePlugins[plugin_index]->info.PluginName + " Is broken: No valid location specified\n");
     }
-    TopBarAlreadyLoaded = true;
 }
 
 void OpenRGBDialog2::AddI2CToolsPage()
