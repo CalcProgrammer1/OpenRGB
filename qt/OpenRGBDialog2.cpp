@@ -338,6 +338,16 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
 
     TopBarAlreadyLoaded = true;
 
+    /*--------------------------------------------------------------------------------------------------------------*\
+    | During the init phase of OpenRGB (The constructor) A few things are run:                                       |
+    |       Device Detection and plugin detection.                                                                   |
+    |       Plugin detecion is only done ONE TIME. Whereas Device detection can happen multiple times                |
+    |                                                                                                                |
+    | Because OpenRGB wipes all of the plugins from the device tab I have to re-add when the device list is changed  |
+    | Basically this makes sure that it doesn't add the plugins twice during init                                    |
+    | As well as makes sure they do get added later on during rescan                                                 |
+    | The function this bool is used in is UpdateDevicesList()                                                       |
+    \*--------------------------------------------------------------------------------------------------------------*/
     NotFirstRun = true;
 }
 
