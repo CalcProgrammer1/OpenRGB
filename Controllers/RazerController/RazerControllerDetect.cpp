@@ -1,9 +1,11 @@
 #include "Detector.h"
 #include "RazerController.h"
+#include "RazerKrakenController.h"
 #include "RazerDevices.h"
 #include "ResourceManager.h"
 #include "RGBController.h"
 #include "RGBController_Razer.h"
+#include "RGBController_RazerKraken.h"
 #include <hidapi/hidapi.h>
 
 static bool openrazer_checked = false;
@@ -75,6 +77,14 @@ void DetectRazerControllers(hid_device_info* info, const std::string& name)
     }
 }   /* DetectRazerControllers() */
 
+/******************************************************************************************\
+*                                                                                          *
+*   DetectRazerARGBControllers                                                             *
+*                                                                                          *
+*       Tests the USB address to see if a Razer ARGB controller exists there.              *
+*                                                                                          *
+\******************************************************************************************/
+
 void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
 {
     /*-------------------------------------------------------------------------------------------------*\
@@ -117,6 +127,72 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
          hid_close(dev_interface_1);
      }
 }
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectRazerKrakenController                                                            *
+*                                                                                          *
+*       Tests the USB address to see if a Razer Kraken controller exists there.            *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    /*-------------------------------------------------*\
+    | If the OpenRazer/OpenRazer-Win32 controller is    |
+    | enabled, don't use this controller.               |
+    \*-------------------------------------------------*/
+    if(!openrazer_checked)
+    {
+        /*-------------------------------------------------*\
+        | Open device disable list and read in disabled     |
+        | device strings                                    |
+        \*-------------------------------------------------*/
+        json detector_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
+
+        /*-------------------------------------------------*\
+        | Check for OpenRazer and OpenRazer-Win32 enable    |
+        \*-------------------------------------------------*/
+        if(detector_settings.contains("detectors"))
+        {
+            if(detector_settings["detectors"].contains("OpenRazer"))
+            {
+                if(detector_settings["detectors"]["OpenRazer"] == true)
+                {
+                    openrazer_enabled = true;
+                }
+            }
+            if(detector_settings["detectors"].contains("OpenRazer-Win32"))
+            {
+                if(detector_settings["detectors"]["OpenRazer-Win32"] == true)
+                {
+                    openrazer_enabled = true;
+                }
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Set OpenRazer checked flag to prevent having to do|
+        | the settings lookup multiple times                |
+        \*-------------------------------------------------*/
+        openrazer_checked = true;
+    }
+
+    if(openrazer_enabled)
+    {
+        return;
+    }
+
+    if(dev)
+    {
+        RazerKrakenController* controller = new RazerKrakenController(dev, info->path, info->product_id, name);
+
+        RGBController_RazerKraken* rgb_controller = new RGBController_RazerKraken(controller);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}   /* DetectRazerKrakenControllers() */
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                             |
@@ -187,3 +263,8 @@ REGISTER_HID_DETECTOR_PU("Razer Kraken Kitty Edition",                      Dete
 REGISTER_HID_DETECTOR_PU("Razer Mouse Bungee V3 Chroma",                    DetectRazerControllers, RAZER_VID,  RAZER_MOUSE_BUNGEE_V3_CHROMA_PID,               1,  2);
 REGISTER_HID_DETECTOR_PU("Razer Nommo Chroma",                              DetectRazerControllers, RAZER_VID,  RAZER_NOMMO_CHROMA_PID,                         1,  3);
 REGISTER_HID_DETECTOR_PU("Razer Nommo Pro",                                 DetectRazerControllers, RAZER_VID,  RAZER_NOMMO_PRO_PID,                            1,  3);
+
+/*-----------------------------------------------------------------------------------------------------*\
+| Accessories                                                                                           |
+\*-----------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_PU("Razer Kraken 7.1 V2",                             DetectRazerKrakenControllers,   RAZER_VID,  RAZER_KRAKEN_V2_PID,                    0x0C,  1);

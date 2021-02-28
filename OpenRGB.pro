@@ -279,8 +279,10 @@ HEADERS +=                                                                      
     Controllers/PhilipsWizController/PhilipsWizController.h                                     \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.h                                 \
     Controllers/RazerController/RazerController.h                                               \
+    Controllers/RazerController/RazerKrakenController.h                                         \
     Controllers/RazerController/RazerDevices.h                                                  \
     Controllers/RazerController/RGBController_Razer.h                                           \
+    Controllers/RazerController/RGBController_RazerKraken.h                                     \
     Controllers/RedragonController/RedragonK556Controller.h                                     \
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonK556.h                                 \
@@ -531,8 +533,10 @@ SOURCES +=                                                                      
     Controllers/PhilipsWizController/PhilipsWizControllerDetect.cpp                             \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.cpp                               \
     Controllers/RazerController/RazerController.cpp                                             \
+    Controllers/RazerController/RazerKrakenController.cpp                                       \
     Controllers/RazerController/RazerControllerDetect.cpp                                       \
     Controllers/RazerController/RGBController_Razer.cpp                                         \
+    Controllers/RazerController/RGBController_RazerKraken.cpp                                   \
     Controllers/RedragonController/RedragonK556Controller.cpp                                   \
     Controllers/RedragonController/RedragonM711Controller.cpp                                   \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
