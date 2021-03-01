@@ -265,6 +265,10 @@ REGISTER_HID_DETECTOR_PU("Razer Nommo Chroma",                              Dete
 REGISTER_HID_DETECTOR_PU("Razer Nommo Pro",                                 DetectRazerControllers, RAZER_VID,  RAZER_NOMMO_PRO_PID,                            1,  3);
 
 /*-----------------------------------------------------------------------------------------------------*\
-| Accessories                                                                                           |
+| Headsets                                                                                              |
 \*-----------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_PU("Razer Kraken 7.1 V2",                             DetectRazerKrakenControllers,   RAZER_VID,  RAZER_KRAKEN_V2_PID,                    0x0C,  1);
+REGISTER_HID_DETECTOR_PU("Razer Kraken 7.1",                                DetectRazerKrakenControllers,   RAZER_VID,  RAZER_KRAKEN_CLASSIC_PID,               0x0C,   0x01);
+REGISTER_HID_DETECTOR_PU("Razer Kraken 7.1",                                DetectRazerKrakenControllers,   RAZER_VID,  RAZER_KRAKEN_CLASSIC_ALT_PID,           0x0C,   0x01);
+REGISTER_HID_DETECTOR_PU("Razer Kraken 7.1 Chroma",                         DetectRazerKrakenControllers,   RAZER_VID,  RAZER_KRAKEN_PID,                       0x0C,   0x01);
+REGISTER_HID_DETECTOR_PU("Razer Kraken 7.1 V2",                             DetectRazerKrakenControllers,   RAZER_VID,  RAZER_KRAKEN_V2_PID,                    0x0C,   0x01);
+REGISTER_HID_DETECTOR_PU("Razer Kraken Ultimate",                           DetectRazerKrakenControllers,   RAZER_VID,  RAZER_KRAKEN_ULTIMATE_PID,              0x0C,   0x01);
