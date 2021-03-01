@@ -62,8 +62,6 @@ void AuraMainboardController::SetChannelLEDs(unsigned char channel, RGBColor * c
 
         leds_sent += leds_to_send;
     }
-
-    SendCommit();
 }
 
 void AuraMainboardController::SetMode
@@ -107,8 +105,6 @@ void AuraMainboardController::SetMode
         led_data,
         device_info[channel].device_type == AuraDeviceType::FIXED
     );
-
-    SendCommit();
 }
 
 void AuraMainboardController::SendEffect
