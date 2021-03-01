@@ -37,10 +37,12 @@ void FanBusController::SetLEDs(std::vector<RGBColor> colors)
         unsigned char grn = RGBGetGValue(colors[led_idx]);
         unsigned char blu = RGBGetBValue(colors[led_idx]);
 
-        bus->write(dev, 0x10 + (led_idx * 3), red);
-        bus->write(dev, 0x11 + (led_idx * 3), grn);
-        bus->write(dev, 0x12 + (led_idx * 3), blu);
+        bus->write_queue(dev, 0x10 + (led_idx * 3), red);
+        bus->write_queue(dev, 0x11 + (led_idx * 3), grn);
+        bus->write_queue(dev, 0x12 + (led_idx * 3), blu);
     }
     
-    bus->write(dev, 0x0C,  0x01);
+    bus->write_queue(dev, 0x0C,  0x01);
+
+    bus->process_queue();
 }

@@ -104,6 +104,30 @@ int FanBusInterface::write
     return(serialport->serial_write((char *)fanbus_msg, 5));
 }
 
+void FanBusInterface::write_queue
+    (
+        unsigned char dev_addr,
+        unsigned char int_addr,
+        unsigned char val
+    )
+{
+    unsigned char fanbus_msg[] = { 0x00, int_addr, dev_addr, val, 0xFF };
+
+    for(int i = 0; i < sizeof(fanbus_msg); i++)
+    {
+        fanbus_msg_queued.push_back(fanbus_msg[i]);
+    }
+}
+
+int FanBusInterface::process_queue()
+{
+    int return_val = serialport->serial_write((char *)&fanbus_msg_queued[0], fanbus_msg_queued.size());
+
+    fanbus_msg_queued.clear();
+    
+    return(return_val);
+}
+
 std::vector<unsigned char> FanBusInterface::DetectControllers()
 {
     std::vector<unsigned char> detected_controllers;

@@ -32,8 +32,19 @@ public:
                     unsigned char val
                 );
 
+    void        write_queue
+                (
+                    unsigned char dev_addr,
+                    unsigned char int_addr,
+                    unsigned char val
+                );
+
+    int         process_queue();
+    
 private:
     serial_port *   serialport;
     std::string     port_name;
     bool            half_duplex;
+
+    std::vector<unsigned char>  fanbus_msg_queued;
 };
