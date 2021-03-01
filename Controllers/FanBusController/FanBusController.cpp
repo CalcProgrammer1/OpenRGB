@@ -34,6 +34,31 @@ std::string FanBusController::GetLocation()
     return(location_string);
 }
 
+unsigned char FanBusController::GetFanPWM()
+{
+    unsigned char fan_pwm;
+
+    fan_pwm = bus->read(dev, 0x01);
+
+    return(fan_pwm);
+}
+
+unsigned short FanBusController::GetFanRPM()
+{
+    unsigned char fan_rpm_low;
+    unsigned char fan_rpm_high;
+
+    fan_rpm_low = bus->read(dev, 0x02);
+    fan_rpm_high = bus->read(dev, 0x03);
+
+    return((fan_rpm_high << 8) | fan_rpm_low);
+}
+
+void FanBusController::SetFanPWM(unsigned char fan_pwm)
+{
+    bus->write(dev, 0x01, fan_pwm);
+}
+
 void FanBusController::SetLEDs(std::vector<RGBColor> colors)
 {
     for(unsigned int led_idx = 0; led_idx < 4; led_idx++)

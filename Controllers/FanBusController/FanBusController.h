@@ -21,9 +21,12 @@ public:
     FanBusController(FanBusInterface* bus_ptr, unsigned char dev_addr);
     ~FanBusController();
 
-    std::string GetLocation();
+    std::string     GetLocation();
 
-    void        SetLEDs(std::vector<RGBColor> colors);
+    unsigned char   GetFanPWM();
+    unsigned short  GetFanRPM();
+    void            SetFanPWM(unsigned char fan_pwm);
+    void            SetLEDs(std::vector<RGBColor> colors);
 
 private:
     std::string         port_name;
