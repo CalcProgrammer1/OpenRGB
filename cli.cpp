@@ -287,7 +287,7 @@ unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb
     // no need to check if --mode wasn't passed
     if (options.mode.size() == 0)
     {
-        return false;
+        return rgb_controllers[options.device]->active_mode;
     }
 
     /*---------------------------------------------------------*\
