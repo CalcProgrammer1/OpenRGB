@@ -577,14 +577,19 @@ void ResourceManager::DetectDevicesThreadFunction()
             {
                 unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
 
-                if((   hid_device_detectors[hid_detector_idx].address    == addr                                 )
-                && ( ( hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                || ( hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
+                if(( ( hid_device_detectors[hid_detector_idx].address      == addr                                   ) )
 #ifdef USE_HID_USAGE
-                && ( ( hid_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
-                || ( hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
-                && ( ( hid_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
-                || ( hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
+                && ( (   hid_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                     )
+                  || (   hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page         ) )
+                && ( (   hid_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                          )
+                  || (   hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage              ) )
+                && ( (   hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                      )
+                  || ( ( hid_device_detectors[hid_detector_idx].usage      != HID_USAGE_PAGE_ANY                   )
+                    || ( hid_device_detectors[hid_detector_idx].usage_page != HID_USAGE_PAGE_ANY                   )
+                    || ( hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) ) )
+#else
+                && ( ( hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                        )
+                  || ( hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number     ) )
 #endif
                 )
                 {
