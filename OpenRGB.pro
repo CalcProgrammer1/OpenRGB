@@ -816,9 +816,13 @@ unix:macx {
 
     INCLUDEPATH +=                                                                              \
     /usr/local/include                                                                          \
+    /opt/homebrew/include                                                                       \
 
     LIBS +=                                                                                     \
-    -L/usr/local/lib -lusb-1.0 -lhidapi                                                         \
+    -L/usr/local/lib                                                                            \
+    -L/opt/homebrew/lib                                                                         \
+    -lusb-1.0                                                                                   \
+    -lhidapi                                                                                    \
 
     CONFIG +=                                                                                   \
     c++14                                                                                       \

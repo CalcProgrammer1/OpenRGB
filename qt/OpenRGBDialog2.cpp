@@ -9,6 +9,7 @@
 #include <QTabBar>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QStyleFactory>
 
 #ifdef _WIN32
 #include <QSettings>
@@ -259,7 +260,6 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     /*-------------------------------------------------*\
     | Apply dark theme on Windows if configured         |
     \*-------------------------------------------------*/
-
     if(IsDarkTheme())
     {
         QPalette pal = palette();
@@ -269,6 +269,14 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
         darkTheme.open(QFile::ReadOnly);
         setStyleSheet(darkTheme.readAll());
     }
+#endif
+
+#ifdef __APPLE__
+    /*-------------------------------------------------*\
+    | Apply Qt Fusion theme on MacOS, as the MacOS      |
+    | default theme does not handle vertical tabs well  |
+    \*-------------------------------------------------*/
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
 #endif
 
     /*-----------------------------------------------------*\
