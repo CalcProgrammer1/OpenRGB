@@ -13,8 +13,9 @@
 |                                                       |
 |   0:      Initial (unversioned) protocol              |
 |   1:      Add versioning, vendor string (Release 0.5) |
+|   2:      Add profile controls                        |
 \*-----------------------------------------------------*/
-#define OPENRGB_SDK_PROTOCOL_VERSION    1
+#define OPENRGB_SDK_PROTOCOL_VERSION    2
 
 /*-----------------------------------------------------*\
 | Default OpenRGB SDK port is 6742                      |
@@ -47,7 +48,7 @@ enum
     NET_PACKET_ID_REQUEST_PROFILE_LIST          = 150,  /* Request profile list                                 */
     NET_PACKET_ID_REQUEST_SAVE_PROFILE          = 151,  /* Save current configuration in a new profile          */
     NET_PACKET_ID_REQUEST_LOAD_PROFILE          = 152,  /* Load a given profile                                 */
-    NET_PACKET_ID_REQUEST_DELETE_PROFILE        = 153,  /* Load a given profile                                 */
+    NET_PACKET_ID_REQUEST_DELETE_PROFILE        = 153,  /* Delete a given profile                               */
 
     /*----------------------------------------------------------------------------------------------------------*\
     | RGBController class functions                                                                              |
