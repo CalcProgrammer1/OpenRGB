@@ -247,3 +247,21 @@ build_windows_64:
     paths:
     - _build/*.7z
     expire_in: 30 days
+
+#-----------------------------------------------------------------------#
+# MacOS Build Target                                                    #
+#-----------------------------------------------------------------------#
+build_macos:
+  tags:
+  - macos
+  stage: build
+  script:
+  - eval $(/opt/homebrew/bin/brew shellenv)
+  - qmake OpenRGB.pro
+  - make -j16
+  - macdeployqt OpenRGB.app -codesign=OpenRGB
+
+  artifacts:
+    paths:
+    - OpenRGB.app
+    expire_in: 30 days
