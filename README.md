@@ -94,6 +94,30 @@ There have been two instances of hardware damage in OpenRGB's development and we
       - Copy the 60-openrgb.rules file to /etc/udev/rules.d/
       - Reload rules with `sudo udevadm control --reload-rules && sudo udevadm trigger`
 
+## MacOS
+
+  *  Pre-built binaries in zipped application package format are available under the Releases section on GitLab.
+  *  You can build the project using Qt Creator or on the command line.
+      1.  Install build dependencies with Homebrew
+          - Install Homebrew by following the instructions at https://brew.sh/
+          - brew install git qt5 hidapi libusb
+          - brew link qt5
+      2.  Create a local certificate called OpenRGB with code signing capability
+      3.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
+      4.  cd OpenRGB
+      5.  qmake OpenRGB.pro
+      6.  make -j8
+      7.  macdeployqt OpenRGB.app -codesign=OpenRGB
+      8.  Copy the OpenRGB.app application package to Applications
+
+### SMBus Access
+
+  * SMBus/I2C devices are currently not supported on MacOS.
+
+### USB Access
+
+  *  USB devices may require the Input Monitoring permission.  You can add OpenRGB in System Preferences > Security & Privacy > Privacy.
+
 ## Join Our Discord
 
 * https://discord.gg/AQwjJPY
