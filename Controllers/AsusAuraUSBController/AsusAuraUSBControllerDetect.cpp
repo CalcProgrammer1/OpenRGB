@@ -19,6 +19,7 @@
 #define AURA_ROG_GLADIUS_II_CORE_PID            0x18DD
 #define AURA_ROG_GLADIUS_II_PID                 0x1845
 #define AURA_ROG_GLADIUS_II_ORIGIN_PID          0x1877
+#define AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID  0x18CD
 #define AURA_ROG_CHAKRAM_WIRELESS_PID           0x18E5
 #define AURA_ROG_CHAKRAM_WIRED_PID              0x18E3
 
@@ -66,15 +67,16 @@ void DetectAsusAuraUSBMice(hid_device_info* info, const std::string& name)
     }
 }
 
-REGISTER_HID_DETECTOR   ("ASUS ROG AURA Terminal",      DetectAsusAuraUSBAddressable,  AURA_USB_VID, AURA_TERMINAL_PID);
-REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",       DetectAsusAuraUSBAddressable,  AURA_USB_VID, AURA_ADDRESSABLE_1_PID);
-REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",       DetectAsusAuraUSBAddressable,  AURA_USB_VID, AURA_ADDRESSABLE_2_PID);
-REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",       DetectAsusAuraUSBAddressable,  AURA_USB_VID, AURA_ADDRESSABLE_3_PID);
-REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",       DetectAsusAuraUSBAddressable,  AURA_USB_VID, AURA_ADDRESSABLE_4_PID);
-REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",       DetectAsusAuraUSBMotherboards, AURA_USB_VID, AURA_MOTHERBOARD_1_PID);
-REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",       DetectAsusAuraUSBMotherboards, AURA_USB_VID, AURA_MOTHERBOARD_2_PID);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II Core",    DetectAsusAuraUSBMice,         AURA_USB_VID, AURA_ROG_GLADIUS_II_CORE_PID,   0, 0xFF01);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II",         DetectAsusAuraUSBMice,         AURA_USB_VID, AURA_ROG_GLADIUS_II_PID,        2, 0xFF01);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II Origin",  DetectAsusAuraUSBMice,         AURA_USB_VID, AURA_ROG_GLADIUS_II_ORIGIN_PID, 2, 0xFF01);
-REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wireless)", DetectAsusAuraUSBMice,         AURA_USB_VID, AURA_ROG_CHAKRAM_WIRELESS_PID,  0, 0xFF01);
-REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",    DetectAsusAuraUSBMice,         AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_PID,     0, 0xFF01);
+REGISTER_HID_DETECTOR   ("ASUS ROG AURA Terminal",              DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_TERMINAL_PID);
+REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",               DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_ADDRESSABLE_1_PID);
+REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",               DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_ADDRESSABLE_2_PID);
+REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",               DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_ADDRESSABLE_3_PID);
+REGISTER_HID_DETECTOR   ("ASUS Aura Addressable",               DetectAsusAuraUSBAddressable,   AURA_USB_VID, AURA_ADDRESSABLE_4_PID);
+REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",               DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_1_PID);
+REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",               DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_2_PID);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II Core",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_GLADIUS_II_CORE_PID,             0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II",                 DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_GLADIUS_II_PID,                  2,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II Origin",          DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_GLADIUS_II_ORIGIN_PID,           2,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II Origin PNK LTD",  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID,   2,  0xFF01);
+REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wireless)",         DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRELESS_PID,            0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_PID,               0,  0xFF01);
