@@ -16,5 +16,5 @@ class PluginManager
 public:
     std::vector<OpenRGBPluginInterface*> ActivePlugins;
 
-    void ScanAndLoadPlugins();
+    void ScanAndLoadPlugins(bool dark_theme);
 };

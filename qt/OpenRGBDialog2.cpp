@@ -332,7 +332,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     \*-----------------------------------------------------*/
     plugin_manager = new PluginManager;
 
-    plugin_manager->ScanAndLoadPlugins();
+    plugin_manager->ScanAndLoadPlugins(IsDarkTheme());
 
     if(plugin_manager->ActivePlugins.size() > 0)
     {
@@ -440,11 +440,6 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
 
 void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_index)
 {
-    /*-----------------------------------------------------*\
-    | Initialize the plugin                                 |
-    \*-----------------------------------------------------*/
-    plugin_manager->ActivePlugins[plugin_index]->info = plugin_manager->ActivePlugins[plugin_index]->Initialize(OpenRGBDialog2::IsDarkTheme(), ResourceManager::get());
-
     /*-----------------------------------------------------*\
     | Create Label for the Tab                              |
     \*-----------------------------------------------------*/
