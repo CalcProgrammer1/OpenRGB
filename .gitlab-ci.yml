@@ -265,3 +265,9 @@ build_macos:
     paths:
     - OpenRGB.app
     expire_in: 30 days
+
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: '$BUILD_MACOS =~ /.+/'
+    when: on_success
