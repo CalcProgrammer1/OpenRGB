@@ -106,7 +106,7 @@ void DetectSinowealthControllers(std::vector<RGBController*>& rgb_controllers)
                                             int pass = 3;
                                         }
                                     }
-                                    if (pass == 2)
+                                    if (pass == 2 && tmp_info_id_5)
                                     {
                                         tmp_info_id_5 = tmp_info_id_5->next;
                                     }
@@ -115,7 +115,7 @@ void DetectSinowealthControllers(std::vector<RGBController*>& rgb_controllers)
 
 
                         }
-                        if (pass == 1)
+                        if (pass == 1 && tmp_info_id_7)
                         {
                             tmp_info_id_7 = tmp_info_id_7->next;
                         }
