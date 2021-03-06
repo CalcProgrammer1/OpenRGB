@@ -13,6 +13,8 @@ QT +=                                                                           
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+greaterThan(QT_MAJOR_VERSION, 5): DEFINES += _QT6
+
 #-----------------------------------------------------------------------------------------------#
 # Application Configuration                                                                     #
 #-----------------------------------------------------------------------------------------------#
@@ -445,7 +447,7 @@ SOURCES +=                                                                      
     Controllers/FanBusController/RGBController_FanBus.cpp                                       \
     Controllers/GainwardGPUController/GainwardGPUController.cpp                                 \
     Controllers/GainwardGPUController/GainwardGPUControllerDetect.cpp                           \
-    Controllers/GainwardGPUController/RGBController_GainwardGPU.cpp                             \    
+    Controllers/GainwardGPUController/RGBController_GainwardGPU.cpp                             \
     Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
