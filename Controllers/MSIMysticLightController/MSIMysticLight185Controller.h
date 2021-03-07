@@ -1,10 +1,12 @@
 /*-----------------------------------------*\
-|  MSIMysticLightController.h               |
+|  MSIMysticLight185Controller.h            |
 |                                           |
 |  Definitions and types for MSI Mystic     |
-|   Light USB lighting controllers          |
+|   Light (185-byte) USB lighting           |
+|   controllers                             |
 |                                           |
 |  T-bond 3/4/2020                          |
+|  Adam Honse 3/6/2021                      |
 \*-----------------------------------------*/
 
 #include "RGBController.h"
@@ -17,23 +19,23 @@
 enum MSI_ZONE
 {
     MSI_ZONE_J_RGB_1                = 1,
-    MSI_ZONE_J_RGB_2                = 174,
-    MSI_ZONE_J_PIPE_1               = 11,
-    MSI_ZONE_J_PIPE_2               = 21,
-    MSI_ZONE_J_RAINBOW_1            = 31,
-    MSI_ZONE_J_RAINBOW_2            = 42,
-    MSI_ZONE_J_CORSAIR              = 53,
-    MSI_ZONE_J_CORSAIR_OUTERLL120   = 64,
-    MSI_ZONE_ON_BOARD_LED           = 74,
-    MSI_ZONE_ON_BOARD_LED_1         = 84,
-    MSI_ZONE_ON_BOARD_LED_2         = 94,
-    MSI_ZONE_ON_BOARD_LED_3         = 104,
-    MSI_ZONE_ON_BOARD_LED_4         = 114,
-    MSI_ZONE_ON_BOARD_LED_5         = 124,
-    MSI_ZONE_ON_BOARD_LED_6         = 134,
-    MSI_ZONE_ON_BOARD_LED_7         = 144,
-    MSI_ZONE_ON_BOARD_LED_8         = 154,
-    MSI_ZONE_ON_BOARD_LED_9         = 164
+    MSI_ZONE_J_RGB_2                = 2,
+    MSI_ZONE_J_PIPE_1               = 3,
+    MSI_ZONE_J_PIPE_2               = 4,
+    MSI_ZONE_J_RAINBOW_1            = 5,
+    MSI_ZONE_J_RAINBOW_2            = 6,
+    MSI_ZONE_J_CORSAIR              = 7,
+    MSI_ZONE_J_CORSAIR_OUTERLL120   = 8,
+    MSI_ZONE_ON_BOARD_LED           = 9,
+    MSI_ZONE_ON_BOARD_LED_1         = 10,
+    MSI_ZONE_ON_BOARD_LED_2         = 11,
+    MSI_ZONE_ON_BOARD_LED_3         = 12,
+    MSI_ZONE_ON_BOARD_LED_4         = 13,
+    MSI_ZONE_ON_BOARD_LED_5         = 14,
+    MSI_ZONE_ON_BOARD_LED_6         = 15,
+    MSI_ZONE_ON_BOARD_LED_7         = 16,
+    MSI_ZONE_ON_BOARD_LED_8         = 17,
+    MSI_ZONE_ON_BOARD_LED_9         = 18
 };
 
 struct ZoneDescription
@@ -136,10 +138,10 @@ struct ZoneData
 {
     unsigned char effect                    = MSI_MODE_STATIC;
     Color         color                     { 0, 0, 0 };
-    unsigned char speedAndBrightnessFlags   = 40;
+    unsigned char speedAndBrightnessFlags   = 0;
     Color         color2                    { 0, 0, 0 };
-    unsigned char colorFlags                = 128;
-    const unsigned char padding             = 0;
+    unsigned char colorFlags                = 0;
+    unsigned char padding                   = 0;
 };
 
 struct RainbowZoneData : ZoneData
@@ -147,7 +149,7 @@ struct RainbowZoneData : ZoneData
     unsigned char cycle_or_led_num          = 20;
 };
 
-struct FeaturePacket
+struct FeaturePacket_185
 {
     const unsigned char report_id           = 0x52; // Report ID
     ZoneData            j_rgb_1;                    // 1
@@ -172,11 +174,11 @@ struct FeaturePacket
 };
 
 
-class MSIMysticLightController
+class MSIMysticLight185Controller
 {
 public:
-    MSIMysticLightController(hid_device* handle, const char *path);
-    ~MSIMysticLightController();
+    MSIMysticLight185Controller(hid_device* handle, const char *path);
+    ~MSIMysticLight185Controller();
 
     unsigned int    GetZoneMinLedCount
                         (
@@ -244,51 +246,6 @@ public:
 
     bool            Update();
 
-    void            SetDeviceSettings
-                        (
-                        bool            stripe_or_fan,
-                        MSI_FAN_TYPE    fan_type,
-                        unsigned char   corsair_device_quantity,
-                        bool            is_LL120Outer_individual
-                        );
-
-    void            GetDeviceSettings
-                        (
-                        bool            &stripe_or_fan,
-                        MSI_FAN_TYPE    &fan_type,
-                        unsigned char   &corsair_device_quantity,
-                        bool            &is_LL120Outer_individual
-                        );
-
-    bool            SetVolume
-                        (
-                        unsigned char   main,
-                        unsigned char   left,
-                        unsigned char   right
-                        );
-
-    void            SetBoardSyncSettings
-                        (
-                        bool            onboard_sync,
-                        bool            combine_JRGB,
-                        bool            combine_JPIPE1,
-                        bool            combine_JPIPE2,
-                        bool            combine_JRAINBOW1,
-                        bool            combine_JRAINBOW2,
-                        bool            combine_crossair
-                        );
-
-    void            GetBoardSyncSettings
-                        (
-                        bool            &onboard_sync,
-                        bool            &combine_JRGB,
-                        bool            &combine_JPIPE1,
-                        bool            &combine_JPIPE2,
-                        bool            &combine_JRAINBOW1,
-                        bool            &combine_JRAINBOW2,
-                        bool            &combine_crossair
-                        );
-
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
     std::string     GetFWVersion();
@@ -312,5 +269,5 @@ private:
     std::string             version_LDROM;
     std::string             chip_id;
 
-    FeaturePacket data;
+    FeaturePacket_185       data;
 };

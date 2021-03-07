@@ -1,16 +1,18 @@
 /*-----------------------------------------*\
-|  RGBController_MSIMysticLight.cpp         |
+|  RGBController_MSIMysticLight185.cpp      |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
-|  MSI Mystic Light USB Driver              |
+|  MSI Mystic Light (185-byte) USB Driver   |
 |                                           |
 |  T-bond 3/4/2020                          |
+|  Adam Honse 3/6/2021                      |
 \*-----------------------------------------*/
 
-#include "RGBController_MSIMysticLight.h"
-#include <array>
+#include "RGBController_MSIMysticLight185.h"
 
-static const std::array<ZoneDescription, 18> led_zones
+#define NUM_LED_ZONES (sizeof(led_zones) / sizeof(ZoneDescription))
+
+static const ZoneDescription led_zones[] =
 {
     ZoneDescription{"JRGB1",            MSI_ZONE_J_RGB_1},
     ZoneDescription{"JRGB2",            MSI_ZONE_J_RGB_2},
@@ -19,7 +21,6 @@ static const std::array<ZoneDescription, 18> led_zones
     ZoneDescription{"JPIPE1",           MSI_ZONE_J_PIPE_1},
     ZoneDescription{"JPIPE2",           MSI_ZONE_J_PIPE_2},
     ZoneDescription{"JCORSAIR",         MSI_ZONE_J_CORSAIR},
-    ZoneDescription{"JCORSAIR Outer",   MSI_ZONE_J_CORSAIR_OUTERLL120},
     ZoneDescription{"Onboard LED 0",    MSI_ZONE_ON_BOARD_LED},
     ZoneDescription{"Onboard LED 1",    MSI_ZONE_ON_BOARD_LED_1},
     ZoneDescription{"Onboard LED 2",    MSI_ZONE_ON_BOARD_LED_2},
@@ -32,14 +33,14 @@ static const std::array<ZoneDescription, 18> led_zones
     ZoneDescription{"Onboard LED 9",    MSI_ZONE_ON_BOARD_LED_9},
 };
 
-RGBController_MSIMysticLight::RGBController_MSIMysticLight(MSIMysticLightController* controller_ptr)
+RGBController_MSIMysticLight185::RGBController_MSIMysticLight185(MSIMysticLight185Controller* controller_ptr)
 {
     controller = controller_ptr;
 
-    name        = "MSI Mystic Light Controller";
+    name        = controller->GetDeviceName();
     vendor      = "MSI";
     type        = DEVICE_TYPE_MOTHERBOARD;
-    description = controller->GetDeviceName();
+    description = "MSI Mystic Light Device (185-byte)";
     version     = controller->GetFWVersion();
     location    = controller->GetDeviceLocation();
     serial      = controller->GetSerial();
@@ -49,26 +50,26 @@ RGBController_MSIMysticLight::RGBController_MSIMysticLight(MSIMysticLightControl
     SetupColors();
 }
 
-RGBController_MSIMysticLight::~RGBController_MSIMysticLight()
+RGBController_MSIMysticLight185::~RGBController_MSIMysticLight185()
 {
     delete controller;
 }
 
-void RGBController_MSIMysticLight::SetupZones()
+void RGBController_MSIMysticLight185::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < led_zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < NUM_LED_ZONES; zone_idx++)
     {
         ZoneDescription zd = led_zones[zone_idx];
         zone new_zone;
         new_zone.name           = zd.name;
         new_zone.type           = ZONE_TYPE_LINEAR;
 
-        new_zone.leds_min       = controller->GetZoneMinLedCount(zd.value);
-        new_zone.leds_max       = controller->GetZoneMaxLedCount(zd.value);
-        new_zone.leds_count     = controller->GetZoneLedCount(zd.value);
+        new_zone.leds_min       = 1;
+        new_zone.leds_max       = 1;
+        new_zone.leds_count     = 1;
         new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
 
@@ -92,35 +93,28 @@ void RGBController_MSIMysticLight::SetupZones()
     }
 }
 
-void RGBController_MSIMysticLight::ResizeZone(int zone, int new_size)
+void RGBController_MSIMysticLight185::ResizeZone(int zone, int new_size)
 {
-    if((size_t) zone >= zones.size())
-    {
-        return;
-    }
-
-    MSI_ZONE zon            = ZoneFromPos(zone);
-    unsigned int max_count  = controller->GetZoneMaxLedCount(zon);
-    unsigned int min_count  = controller->GetZoneMinLedCount(zon);
-    unsigned int new_siz    = new_size;
-    new_siz = std::min(std::max(new_siz, min_count), max_count); // std::clamp only from C++17
-    /// TODO: Update LED count
 }
 
-void RGBController_MSIMysticLight::SetCustomMode()
+void RGBController_MSIMysticLight185::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_MSIMysticLight::DeviceUpdateLEDs()
+void RGBController_MSIMysticLight185::DeviceUpdateLEDs()
 {
     for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        for(int led_idx = zones[zone_idx].leds_count - 1; led_idx >= 0; led_idx--)
+        {
+            UpdateLed(zone_idx, led_idx);
+        }
     }
+    controller->Update();
 }
 
-void RGBController_MSIMysticLight::UpdateZoneLEDs(int zone)
+void RGBController_MSIMysticLight185::UpdateZoneLEDs(int zone)
 {
     for(int led_idx = zones[zone].leds_count - 1; led_idx >= 0; led_idx--)
     {
@@ -129,23 +123,23 @@ void RGBController_MSIMysticLight::UpdateZoneLEDs(int zone)
     controller->Update();
 }
 
-void RGBController_MSIMysticLight::UpdateSingleLED(int led)
+void RGBController_MSIMysticLight185::UpdateSingleLED(int led)
 {
     UpdateLed(leds[led].value, led);
     controller->Update();
 }
 
-void RGBController_MSIMysticLight::DeviceUpdateMode()
+void RGBController_MSIMysticLight185::DeviceUpdateMode()
 {
 }
 
-void RGBController_MSIMysticLight::SetupModes()
+void RGBController_MSIMysticLight185::SetupModes()
 {
     constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR;
     constexpr unsigned int COMMON       = RANDOM_ONLY | MODE_FLAG_HAS_PER_LED_COLOR;
 
     SetupMode("Static",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR);
-    SetupMode("Off",                        MSI_MODE_DISABLE,                       0);
+    //SetupMode("Off",                        MSI_MODE_DISABLE,                       0);
     SetupMode("Breathing",                  MSI_MODE_BREATHING,                     COMMON);
     SetupMode("Flashing",                   MSI_MODE_FLASHING,                      COMMON);
     SetupMode("Double flashing",            MSI_MODE_DOUBLE_FLASHING,               COMMON);
@@ -186,7 +180,7 @@ void RGBController_MSIMysticLight::SetupModes()
     // SetupMode("Lava",                       MSI_MODE_LAVA,                          COMMON);
 }
 
-void RGBController_MSIMysticLight::UpdateLed(int zone, int led)
+void RGBController_MSIMysticLight185::UpdateLed(int zone, int led)
 {
     bool random         = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
     unsigned char red   = RGBGetRValue(zones[zone].colors[led]);
@@ -200,12 +194,12 @@ void RGBController_MSIMysticLight::UpdateLed(int zone, int led)
     controller->SetZoneColor(zon, red, grn, blu, red, grn, blu);
 }
 
-MSI_ZONE RGBController_MSIMysticLight::ZoneFromPos(int zone)
+MSI_ZONE RGBController_MSIMysticLight185::ZoneFromPos(int zone)
 {
     return led_zones[zone].value;
 }
 
-void RGBController_MSIMysticLight::SetupMode(const char *name, MSI_MODE mod, unsigned int flags)
+void RGBController_MSIMysticLight185::SetupMode(const char *name, MSI_MODE mod, unsigned int flags)
 {
     mode Mode;
     Mode.name       = name;

@@ -1,22 +1,23 @@
 /*-----------------------------------------*\
-|  RGBController_MSIMysticLight.h           |
+|  RGBController_MSIMysticLight185.h        |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
-|  MSI Mystic Light USB Driver              |
+|  MSI Mystic Light (185-byte) USB Driver   |
 |                                           |
 |  T-bond 3/4/2020                          |
+|  Adam Honse 3/6/2021                      |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
-#include "MSIMysticLightController.h"
+#include "MSIMysticLight185Controller.h"
 #include <vector>
 
-class RGBController_MSIMysticLight: public RGBController
+class RGBController_MSIMysticLight185: public RGBController
 {
 public:
-    RGBController_MSIMysticLight(MSIMysticLightController* controller_ptr);
-    ~RGBController_MSIMysticLight();
+    RGBController_MSIMysticLight185(MSIMysticLight185Controller* controller_ptr);
+    ~RGBController_MSIMysticLight185();
 
     void        SetupZones();
 
@@ -35,5 +36,5 @@ private:
     MSI_ZONE    ZoneFromPos(int zone);
     void        SetupMode(const char *name, MSI_MODE mode, unsigned int flags);
 
-    MSIMysticLightController*       controller;
+    MSIMysticLight185Controller*    controller;
 };
