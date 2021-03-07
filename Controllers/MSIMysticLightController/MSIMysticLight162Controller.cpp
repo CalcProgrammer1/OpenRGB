@@ -1,19 +1,19 @@
 /*-----------------------------------------*\
-|  MSIMysticLight185Controller.cpp          |
+|  MSIMysticLight162Controller.cpp          |
 |                                           |
-|  Driver for MSI Mystic Light (185-byte)   |
+|  Driver for MSI Mystic Light (162-byte)   |
 |  USB lighting controller                  |
 |                                           |
 |  T-bond 3/4/2020                          |
 |  Adam Honse 3/6/2021                      |
 \*-----------------------------------------*/
 
-#include "MSIMysticLight185Controller.h"
+#include "MSIMysticLight162Controller.h"
 #include <algorithm>
 #include <array>
 #include <bitset>
 
-MSIMysticLight185Controller::MSIMysticLight185Controller(hid_device* handle, const char *path)
+MSIMysticLight162Controller::MSIMysticLight162Controller(hid_device* handle, const char *path)
 {
     dev = handle;
 
@@ -33,68 +33,12 @@ MSIMysticLight185Controller::MSIMysticLight185Controller(hid_device* handle, con
     data.save_data = 0;
 }
 
-MSIMysticLight185Controller::~MSIMysticLight185Controller()
+MSIMysticLight162Controller::~MSIMysticLight162Controller()
 {
     hid_close(dev);
 }
 
-unsigned int MSIMysticLight185Controller::GetZoneMinLedCount
-    (
-    MSI_ZONE            /*zone*/
-    )
-{
-    return 1;
-}
-
-unsigned int MSIMysticLight185Controller::GetZoneMaxLedCount
-    (
-    MSI_ZONE            zone
-    )
-{
-    switch(zone)
-    {
-    case MSI_ZONE_J_RAINBOW_1:
-    case MSI_ZONE_J_RAINBOW_2:
-    case MSI_ZONE_J_CORSAIR:
-        return 4; // TODO: It can be different by zone and by mobo
-    default:
-        return 1;
-    }
-}
-
-unsigned int MSIMysticLight185Controller::GetZoneLedCount
-    (
-    MSI_ZONE            zone
-    )
-{
-    RainbowZoneData *requestedZone = GetRainbowZoneData(zone);
-
-    if (!requestedZone)
-    {
-        return GetZoneMaxLedCount(zone);
-    }
-
-    return requestedZone->cycle_or_led_num;
-}
-
-void MSIMysticLight185Controller::SetZoneLedCount
-    (
-    MSI_ZONE            zone,
-    unsigned int        led_count
-    )
-{
-    RainbowZoneData *requestedZone = GetRainbowZoneData(zone);
-
-    if (!requestedZone)
-    {
-        return;
-    }
-
-    led_count = std::min(GetZoneMaxLedCount(zone), std::max(GetZoneMinLedCount(zone), led_count));
-    requestedZone->cycle_or_led_num = led_count;
-}
-
-void MSIMysticLight185Controller::SetMode
+void MSIMysticLight162Controller::SetMode
     (
     MSI_ZONE            zone,
     MSI_MODE            mode,
@@ -110,32 +54,34 @@ void MSIMysticLight185Controller::SetMode
     }
 
     zoneData->effect                    = mode;
-    zoneData->speedAndBrightnessFlags   = ( brightness << 2u ) | speed;
+    zoneData->speedAndBrightnessFlags   = ( brightness << 2 ) | speed;
     zoneData->colorFlags                = 0x00;// BitSet(zoneData->colorFlags, !rainbow_color, 7u);
     zoneData->padding                   = 0x00;
 }
 
-std::string MSIMysticLight185Controller::GetDeviceName()
+std::string MSIMysticLight162Controller::GetDeviceName()
 {
     return name;
 }
 
-std::string MSIMysticLight185Controller::GetFWVersion()
+std::string MSIMysticLight162Controller::GetFWVersion()
 {
-    return std::string("AP/LD ").append(version_APROM).append(" / ").append(version_LDROM);
+    std::string firmware_version;
+    firmware_version = "APROM: " + version_APROM + ", LDROM: " + version_LDROM;
+    return firmware_version;
 }
 
-std::string MSIMysticLight185Controller::GetDeviceLocation()
+std::string MSIMysticLight162Controller::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-std::string MSIMysticLight185Controller::GetSerial()
+std::string MSIMysticLight162Controller::GetSerial()
 {
     return chip_id;
 }
 
-bool MSIMysticLight185Controller::ReadSettings()
+bool MSIMysticLight162Controller::ReadSettings()
 {
     /*-----------------------------------------------------*\
     | Read packet from hardware, return true if successful  |
@@ -143,7 +89,7 @@ bool MSIMysticLight185Controller::ReadSettings()
     return(hid_get_feature_report(dev, (unsigned char *)&data, sizeof(data)) == sizeof data);
 }
 
-bool MSIMysticLight185Controller::Update()
+bool MSIMysticLight162Controller::Update()
 {
     /*-----------------------------------------------------*\
     | Send packet to hardware, return true if successful    |
@@ -151,7 +97,7 @@ bool MSIMysticLight185Controller::Update()
     return(hid_send_feature_report(dev, (unsigned char *)&data, sizeof(data)) == sizeof data);
 }
 
-void MSIMysticLight185Controller::SetZoneColor
+void MSIMysticLight162Controller::SetLEDColor
     (
     MSI_ZONE            zone,
     unsigned char       red1,
@@ -178,28 +124,9 @@ void MSIMysticLight185Controller::SetZoneColor
     zoneData->color2.B = blu2;
 }
 
-std::pair<Color, Color> MSIMysticLight185Controller::GetZoneColor
+ZoneData *MSIMysticLight162Controller::GetZoneData
     (
-    MSI_ZONE            zone
-    )
-{
-    ZoneData *zoneData = GetZoneData(zone);
-
-    if (!zoneData)
-    {
-        return std::make_pair(Color{}, Color{});
-    }
-
-    return std::make_pair(Color{
-                              zoneData->color.R,
-                              zoneData->color.G,
-                              zoneData->color.B},
-                          Color{zoneData->color2.R, zoneData->color2.G, zoneData->color2.B});
-}
-
-ZoneData *MSIMysticLight185Controller::GetZoneData
-    (
-    MSI_ZONE            zone
+    MSI_ZONE           zone
     )
 {
     switch(zone)
@@ -210,12 +137,6 @@ ZoneData *MSIMysticLight185Controller::GetZoneData
         return &data.j_rgb_2;
     case MSI_ZONE_J_RAINBOW_1:
         return &data.j_rainbow_1;
-    case MSI_ZONE_J_RAINBOW_2:
-        return &data.j_rainbow_2;
-    case MSI_ZONE_J_PIPE_1:
-        return &data.j_pipe_1;
-    case MSI_ZONE_J_PIPE_2:
-        return &data.j_pipe_2;
     case MSI_ZONE_ON_BOARD_LED_0:
         return &data.on_board_led;
     case MSI_ZONE_ON_BOARD_LED_1:
@@ -236,17 +157,14 @@ ZoneData *MSIMysticLight185Controller::GetZoneData
         return &data.on_board_led_8;
     case MSI_ZONE_ON_BOARD_LED_9:
         return &data.on_board_led_9;
-    case MSI_ZONE_J_CORSAIR_OUTERLL120:
-        return &data.j_corsair_outerll120;
-    default:
     case MSI_ZONE_J_CORSAIR:
-        break;
+        return &data.j_corsair_1;
     }
 
     return nullptr;
 }
 
-RainbowZoneData *MSIMysticLight185Controller::GetRainbowZoneData
+RainbowZoneData *MSIMysticLight162Controller::GetRainbowZoneData
     (
     MSI_ZONE            zone
     )
@@ -254,16 +172,16 @@ RainbowZoneData *MSIMysticLight185Controller::GetRainbowZoneData
     switch(zone)
     {
     case MSI_ZONE_J_RAINBOW_1:
-        return &data.j_rainbow_1;
-    case MSI_ZONE_J_RAINBOW_2:
-        return &data.j_rainbow_2;
+        return (RainbowZoneData *)&data.j_rainbow_1;
+//    case MSI_ZONE_J_RAINBOW_2:
+//        return &data.j_rainbow_2;
     case MSI_ZONE_J_CORSAIR:
     default:
         return nullptr;
     }
 }
 
-bool MSIMysticLight185Controller::ReadFwVersion()
+bool MSIMysticLight162Controller::ReadFwVersion()
 {
     unsigned char request[64];
     unsigned char response[64];
@@ -345,7 +263,7 @@ bool MSIMysticLight185Controller::ReadFwVersion()
     return(ret_val > 0);
 }
 
-void MSIMysticLight185Controller::ReadSerial()
+void MSIMysticLight162Controller::ReadSerial()
 {
     wchar_t serial[256];
 
@@ -361,7 +279,7 @@ void MSIMysticLight185Controller::ReadSerial()
     chip_id = std::string(wserial.begin(), wserial.end());
 }
 
-void MSIMysticLight185Controller::ReadName()
+void MSIMysticLight162Controller::ReadName()
 {
     wchar_t tname[256];
 
@@ -388,7 +306,7 @@ void MSIMysticLight185Controller::ReadName()
     name.append(" ").append(std::string(wname.begin(), wname.end()));
 }
 
-void MSIMysticLight185Controller::GetMode
+void MSIMysticLight162Controller::GetMode
     (
     MSI_ZONE            zone,
     MSI_MODE            &mode,
@@ -419,7 +337,7 @@ void MSIMysticLight185Controller::GetMode
     rainbow_color   = (zoneData->colorFlags & 0x80) >> 7;
 }
 
-unsigned char MSIMysticLight185Controller::BitSet
+unsigned char MSIMysticLight162Controller::BitSet
     (
     unsigned char       value,
     bool                bit,
@@ -427,35 +345,4 @@ unsigned char MSIMysticLight185Controller::BitSet
     )
 {
     return static_cast<unsigned char>(std::bitset<8>(value).set(position, bit).to_ulong());
-}
-
-void MSIMysticLight185Controller::SetCycleCount
-    (
-    MSI_ZONE            zone,
-    unsigned char       cycle_num
-    )
-{
-    RainbowZoneData *requestedZone = GetRainbowZoneData(zone);
-
-    if (!requestedZone)
-    {
-        return;
-    }
-
-    requestedZone->cycle_or_led_num = cycle_num;
-}
-
-unsigned char MSIMysticLight185Controller::GetCycleCount
-    (
-    MSI_ZONE            zone
-    )
-{
-    RainbowZoneData *requestedZone = GetRainbowZoneData(zone);
-
-    if (!requestedZone)
-    {
-        return 0;
-    }
-
-    return requestedZone->cycle_or_led_num;
 }

@@ -1,5 +1,7 @@
 #include "Detector.h"
+#include "MSIMysticLight162Controller.h"
 #include "MSIMysticLight185Controller.h"
+#include "RGBController_MSIMysticLight162.h"
 #include "RGBController_MSIMysticLight185.h"
 
 #define MSI_USB_VID 0x1462
@@ -9,6 +11,27 @@
 // The MSI Mystic Light controller is disabled due to bricking risk
 // Uncomment this line to enable.  Do so at your own risk.
 //#define ENABLE_MYSTIC_LIGHT
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectMSIMysticLight162Controllers                                                     *
+*                                                                                          *
+*       Detect MSI Mystic Light (162-byte) devices                                         *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectMSIMysticLight162Controllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if( dev )
+    {
+        MSIMysticLight162Controller*     controller     = new MSIMysticLight162Controller(dev, info->path);
+        RGBController_MSIMysticLight162* rgb_controller = new RGBController_MSIMysticLight162(controller);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}   /* DetectMSIMysticLight162Controllers() */
 
 /******************************************************************************************\
 *                                                                                          *
@@ -32,6 +55,11 @@ void DetectMSIMysticLight185Controllers(hid_device_info* info, const std::string
 }   /* DetectMSIMysticLight185Controllers() */
 
 #ifdef ENABLE_MYSTIC_LIGHT
+/*-------------------------------------------------------------*\
+| MSI Mystic Light 162-byte Devices                             |
+\*-------------------------------------------------------------*/
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B85", DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B85);
+
 /*-------------------------------------------------------------*\
 | MSI Mystic Light 185-byte Devices                             |
 \*-------------------------------------------------------------*/

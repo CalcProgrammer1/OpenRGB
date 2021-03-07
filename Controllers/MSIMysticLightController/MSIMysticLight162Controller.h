@@ -1,9 +1,8 @@
 /*-----------------------------------------*\
-|  MSIMysticLight185Controller.h            |
+|  MSIMysticLight162Controller.h            |
 |                                           |
 |  Definitions and types for MSI Mystic     |
-|   Light (185-byte) USB lighting           |
-|   controllers                             |
+|  Light (162-byte) USB lighting controllers|
 |                                           |
 |  T-bond 3/4/2020                          |
 |  Adam Honse 3/6/2021                      |
@@ -17,32 +16,11 @@
 
 #pragma once
 
-class MSIMysticLight185Controller
+class MSIMysticLight162Controller
 {
 public:
-    MSIMysticLight185Controller(hid_device* handle, const char *path);
-    ~MSIMysticLight185Controller();
-
-    unsigned int    GetZoneMinLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    unsigned int    GetZoneMaxLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    unsigned int    GetZoneLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    void            SetZoneLedCount
-                        (
-                        MSI_ZONE        zone,
-                        unsigned int    led_count
-                        );
+    MSIMysticLight162Controller(hid_device* handle, const char *path);
+    ~MSIMysticLight162Controller();
 
     void            SetMode
                         (
@@ -62,7 +40,7 @@ public:
                         bool            &rainbow_color
                         );
 
-    void            SetZoneColor
+    void            SetLEDColor
                         (
                         MSI_ZONE        zone,
                         unsigned char   red1,
@@ -72,20 +50,6 @@ public:
                         unsigned char   grn2,
                         unsigned char   blu2
                         );
-
-    void            SetCycleCount
-                        (
-                        MSI_ZONE        zone,
-                        unsigned char   cycle_num
-                        );
-
-    unsigned char   GetCycleCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    std::pair<Color, Color>
-                    GetZoneColor(MSI_ZONE zone);
 
     bool            Update();
 
@@ -112,5 +76,5 @@ private:
     std::string             version_LDROM;
     std::string             chip_id;
 
-    FeaturePacket_185       data;
+    FeaturePacket_162       data;
 };
