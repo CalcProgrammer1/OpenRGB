@@ -9,8 +9,6 @@
 
 #include "RGBController_MSIMysticLight162.h"
 
-#define NUM_LED_ZONES (sizeof(led_zones) / sizeof(ZoneDescription))
-
 struct ZoneDescription
 {
     std::string     name;
