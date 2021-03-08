@@ -37,6 +37,7 @@ enum
     RET_FLAG_NO_DETECT          = 16,
     RET_FLAG_CLI_POST_DETECTION = 32,
     RET_FLAG_START_SERVER       = 64,
+    RET_FLAG_NO_AUTO_CONNECT    = 128,
 };
 
 /******************************************************************************************\
@@ -173,15 +174,13 @@ int main(int argc, char* argv[])
     | Perform local connection and/or hardware detection if not |
     | disabled from CLI                                         |
     \*---------------------------------------------------------*/
-    if(!(ret_flags & RET_FLAG_NO_DETECT))
+    if(!(ret_flags & RET_FLAG_NO_AUTO_CONNECT))
     {
         printf("Attempting to connect to local OpenRGB server.\r\n");
 
         if(!AttemptLocalConnection())
         {
-            printf("Local OpenRGB server unavailable, running standalone.\r\n");
-
-            ResourceManager::get()->DetectDevices();
+            printf("Local OpenRGB server unavailable.\r\n");
         }
         else
         {
@@ -189,6 +188,15 @@ int main(int argc, char* argv[])
             
             ResourceManager::get()->DisableDetection();
         }
+    }
+
+    /*---------------------------------------------------------*\
+    | Perform hardware detection if not disabled from CLI       |
+    \*---------------------------------------------------------*/
+    if(!(ret_flags & RET_FLAG_NO_DETECT))
+    {
+        printf("Running standalone.\r\n");
+        ResourceManager::get()->DetectDevices();
     }
 
     /*---------------------------------------------------------*\

@@ -32,6 +32,7 @@ enum
     RET_FLAG_NO_DETECT          = 16,
     RET_FLAG_CLI_POST_DETECTION = 32,
     RET_FLAG_START_SERVER       = 64,
+    RET_FLAG_NO_AUTO_CONNECT    = 128,
 };
 
 struct DeviceOptions
@@ -375,7 +376,8 @@ void OptionHelp()
     help_text += "                                           There is a risk of bricking your motherboard, RGB controller, and RAM if you send invalid SMBus/I2C transactions.\n";
     help_text += "--localconfig                            Use the current working directory instead of the global configuration directory.\n";
     help_text += "--config path                            Use a custom path instead of the global configuration directory.\n";
-    help_text += "--nodetect                               Do not try to detect hardware or autoconnect to a local server at startup.\n";
+    help_text += "--nodetect                               Do not try to detect hardware at startup.\n";
+    help_text += "--noautoconnect                          Do not try to autoconnect to a local server at startup.\n";
 
     std::cout << help_text << std::endl;
 }
@@ -980,6 +982,15 @@ unsigned int cli_pre_detection(int argc, char *argv[])
         else if(option == "--nodetect")
         {
             ret_flags |= RET_FLAG_NO_DETECT;
+            cfg_args++;
+        }
+
+        /*---------------------------------------------------------*\
+        | --noautoconnect                                           |
+        \*---------------------------------------------------------*/
+        else if(option == "--noautoconnect")
+        {
+            ret_flags |= RET_FLAG_NO_AUTO_CONNECT;
             cfg_args++;
         }
 
