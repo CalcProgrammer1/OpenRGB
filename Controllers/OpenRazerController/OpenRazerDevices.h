@@ -4224,6 +4224,40 @@ static const razer_device firefly_hyperflux_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Firefly V2                                             |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Matrix                                                  |
+|       19 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone firefly_v2_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    19
+};
+
+static const razer_device firefly_v2_device =
+{
+    "Razer Firefly V2",
+    DEVICE_TYPE_MOUSEMAT,
+    true,
+    1,
+    19,
+    {
+        &firefly_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Goliathus                                              |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -4865,6 +4899,7 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &firefly_device,
     &firefly_hyperflux_device,
+    &firefly_v2_device,
     &goliathus_device,
     &goliathus_extended_device,
 /*-----------------------------------------------------------------*\
