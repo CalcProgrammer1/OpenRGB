@@ -95,7 +95,7 @@ void QMKRGBMatrixController::DirectModeSetLEDs(std::vector<RGBColor> colors, uns
         }
 
         hid_write(dev, usb_buf, 65);
-        hid_read_timeout(dev, usb_buf, 65, 5);
+        hid_read_timeout(dev, usb_buf, 65, 3);
 
         leds_sent += leds_per_update;
     }
