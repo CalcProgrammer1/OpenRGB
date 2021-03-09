@@ -31,12 +31,13 @@ struct usb_host_interface {
 };
 
 struct device {
-	struct device					*parent;
-	void							*p;
-	const char						*init_name;
-	void							*driver_data;
-	unsigned int                    attr_count;
-	struct device_attribute	*       attr_list[64];
+        struct device					*parent;
+        void							*p;
+        const char						*init_name;
+        struct bus_type*				bus;
+        void							*driver_data;
+        unsigned int                    attr_count;
+        struct device_attribute	*       attr_list[64];
 struct usb_interface *parent_usb_interface;
 };
 
