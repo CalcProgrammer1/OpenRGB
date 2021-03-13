@@ -715,11 +715,13 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                     custom_zone.matrix_map->width  = ZoneJson["matrix_width"];
                     custom_zone.matrix_map->height = ZoneJson["matrix_height"];
 
+                    int H = custom_zone.matrix_map->height;
+                    int W = custom_zone.matrix_map->width;
 
                     BadVal = (ZoneJson["matrix_map"].size() != custom_zone.matrix_map->height);
 
-                    unsigned int* HeightMap = new unsigned int[custom_zone.matrix_map->height];
-                    for (int MatrixMapRow = 0; MatrixMapRow < (int)custom_zone.matrix_map->height; MatrixMapRow++)
+                    unsigned int* MatrixARR = new unsigned int[H * W];
+                    for (int MatrixMapRow = 0; MatrixMapRow < H; MatrixMapRow++)
                     {
                         /*-----------------------------------------------------------------------------------------------------*\
                         | If something went wrong then make no attempt to recover and just move on in a way that doesn't crash  |
@@ -731,22 +733,22 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                             break;
                         }
 
-                        unsigned int* WidthMap = new unsigned int[custom_zone.matrix_map->width];
-                        for (int MatrixMapCol = 0; MatrixMapCol < (int)ZoneJson["matrix_map"][MatrixMapRow].size(); MatrixMapCol++)
+                        for (int MatrixMapCol = 0; MatrixMapCol < W; MatrixMapCol++)
                         {
                             int Val = ZoneJson["matrix_map"][MatrixMapRow][MatrixMapCol];
-                            if (Val == -1)
+
+                            if ((signed)Val == -1)
                             {
-                                WidthMap[MatrixMapCol] = NA;
+                                MatrixARR[MatrixMapRow * W + MatrixMapCol] = NA;
                             }
                             else
                             {
-                                WidthMap[MatrixMapCol] = ZoneJson["matrix_map"][MatrixMapRow][MatrixMapCol];
+                                MatrixARR[MatrixMapRow * W + MatrixMapCol] = (unsigned)Val;
                             }
                         }
-                        HeightMap[MatrixMapRow] = *WidthMap;
                     }
-                    custom_zone.matrix_map->map = HeightMap;
+
+                    custom_zone.matrix_map->map = MatrixARR;
                 }
 
                 /*------------------------------------*\
