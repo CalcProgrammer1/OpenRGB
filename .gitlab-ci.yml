@@ -278,9 +278,9 @@ build_macos_intel:
   stage: build
   script:
   - eval $(/usr/local/bin/brew shellenv)
-  - /usr/local/bin/qmake OpenRGB.pro
-  - make -j16
-  - macdeployqt OpenRGB.app -codesign=OpenRGB
+  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
+  - arch -x86_64 make -j16
+  - arch -x86_64 macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
     paths:
