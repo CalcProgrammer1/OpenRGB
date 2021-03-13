@@ -166,6 +166,9 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     | Update mode user interface elements                   |
     \*-----------------------------------------------------*/
     UpdateModeUi();
+    ui->RedSpinBox->setValue(ui->ColorWheelBox->color().red());
+    ui->GreenSpinBox->setValue(ui->ColorWheelBox->color().green());
+    ui->BlueSpinBox->setValue(ui->ColorWheelBox->color().blue());
 }
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
