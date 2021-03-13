@@ -820,7 +820,28 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 
 macx:ICON = qt/OpenRGB.icns
 
-unix:macx {
+macx:contains(QMAKE_HOST.arch, arm64) {
+    DEFINES +=                                                                                  \
+    USE_HID_USAGE                                                                               \
+
+    SOURCES +=                                                                                  \
+    serial_port/find_usb_serial_port_linux.cpp                                                  \
+
+    INCLUDEPATH +=                                                                              \
+#    /usr/local/include                                                                          \
+    /opt/homebrew/include                                                                       \
+
+    LIBS +=                                                                                     \
+#    -L/usr/local/lib                                                                            \
+    -L/opt/homebrew/lib                                                                         \
+    -lusb-1.0                                                                                   \
+    -lhidapi                                                                                    \
+
+    CONFIG +=                                                                                   \
+    c++14                                                                                       \
+}
+
+macx:contains(QMAKE_HOST.arch, x86_64) {
     DEFINES +=                                                                                  \
     USE_HID_USAGE                                                                               \
 
@@ -829,11 +850,11 @@ unix:macx {
 
     INCLUDEPATH +=                                                                              \
     /usr/local/include                                                                          \
-    /opt/homebrew/include                                                                       \
+#    /opt/homebrew/include                                                                       \
 
     LIBS +=                                                                                     \
     -L/usr/local/lib                                                                            \
-    -L/opt/homebrew/lib                                                                         \
+#    -L/opt/homebrew/lib                                                                         \
     -lusb-1.0                                                                                   \
     -lhidapi                                                                                    \
 
