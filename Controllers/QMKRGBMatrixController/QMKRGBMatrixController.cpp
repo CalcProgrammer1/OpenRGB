@@ -22,7 +22,6 @@ QMKRGBMatrixController::QMKRGBMatrixController
 
     unsigned int massdrop_vid = 0x04D8;
     // ATSAM (MD) boards will crash eventually if this is higher than 2
-    leds_per_update = 20;
 }
 
 QMKRGBMatrixController::~QMKRGBMatrixController()
@@ -65,6 +64,7 @@ void QMKRGBMatrixController::DirectModeSetSingleLED(unsigned int led, unsigned c
 void QMKRGBMatrixController::DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int leds_count)
 {
     unsigned int leds_sent = 0;
+    unsigned int leds_per_update = 20;
 
     while(leds_sent < leds_count)
     {
