@@ -314,6 +314,4 @@ private:
         { 230, "Right Alt" },
         { 231, "Right Windows" },
     };
-
-    unsigned short leds_per_update;
 };
