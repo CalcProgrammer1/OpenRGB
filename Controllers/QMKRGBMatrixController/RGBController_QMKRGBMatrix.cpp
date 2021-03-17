@@ -188,6 +188,10 @@ void RGBController_QMKRGBMatrix::SetupZones()
         keyboard_zone.leds_count = keyboard_zone.leds_min;
 
         std::vector<std::string> led_names;
+        for (int i=0;i<keyboard_zone.leds_min;i++)
+        {
+            led_names.push_back("Unused");
+        }
         if(keyboard_zone.type == ZONE_TYPE_MATRIX)
         {
             unsigned int led_matrix_columns = qmk_rgb_matrix->GetLEDMatirxColumns();
@@ -203,18 +207,17 @@ void RGBController_QMKRGBMatrix::SetupZones()
                 for(unsigned int y = 0; y < led_matrix_columns; y++)
                 {
                     unsigned int led_value = qmk_rgb_matrix->GetLEDValueInMatrix(y, x);
-                    matrix_map[led_matrix_columns * x + y] = led_value;
 
                     if(led_value != 255)
                     {
                         std::string led_name = qmk_rgb_matrix->GetLEDName(y, x);
-                        led_names.push_back(led_name);
+                        led_names[led_value] = led_name;
                     }
                     else
                     {
-                        std::string led_name = "Unused";
-                        led_names.push_back(led_name);
+                        led_value = 0xFFFFFFFF;
                     }
+                    matrix_map[led_matrix_columns * x + y] = led_value;
                 }
             }
 
