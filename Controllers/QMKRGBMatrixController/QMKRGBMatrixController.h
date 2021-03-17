@@ -305,6 +305,8 @@ private:
         { 162, "" },
         { 163, "" },
         { 164, "" },
+        { 216, "Left Shift"}, // Space Cadet Left Shift
+        { 217, "Right Shift"}, // Space Cadet Right Shift
         { 224, "Left Control" },
         { 225, "Left Shift" },
         { 226, "Left Alt" },
