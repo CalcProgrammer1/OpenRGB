@@ -20,12 +20,12 @@ RGBController_LogitechG502PS::RGBController_LogitechG502PS(LogitechG502PSControl
     location                        = logitech->GetDeviceLocation();
     serial                          = logitech->GetSerialString();
 
-    mode Static;
-    Static.name                     = "Static";
-    Static.value                    = LOGITECH_G502_PS_MODE_STATIC;
-    Static.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode               = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    mode Direct;
+    Direct.name                     = "Direct";
+    Direct.value                    = LOGITECH_G502_PS_MODE_STATIC;
+    Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode               = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     mode Off;
     Off.name                        = "Off";
