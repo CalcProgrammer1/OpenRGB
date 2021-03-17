@@ -210,6 +210,11 @@ void RGBController_QMKRGBMatrix::SetupZones()
                         std::string led_name = qmk_rgb_matrix->GetLEDName(y, x);
                         led_names.push_back(led_name);
                     }
+                    else
+                    {
+                        std::string led_name = "Unused";
+                        led_names.push_back(led_name);
+                    }
                 }
             }
 
