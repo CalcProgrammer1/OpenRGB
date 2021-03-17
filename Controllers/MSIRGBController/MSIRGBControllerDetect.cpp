@@ -27,6 +27,7 @@ typedef struct
 msi_device compatible_devices[] =
 {
     {"7A40", false},
+    {"7A34", false},
     {"7A39", false},
     {"7A38", false},
     {"7B79", false},
