@@ -74,6 +74,7 @@ REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C59", DetectMSIMysticLight185Control
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C75", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C75);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C76", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C76);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C79", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C79);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C80", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C80);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C84", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C84);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C91", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C91);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C94", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C94);
@@ -96,7 +97,6 @@ REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C70", DetectMSIMysticLight185Control
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C71", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C71);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C73", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C73);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C77", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C77);
-REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C80", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C80);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C81", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C81);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C82", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C82);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7C83", DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7C83);
