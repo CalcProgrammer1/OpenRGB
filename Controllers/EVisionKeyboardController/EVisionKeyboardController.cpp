@@ -1,24 +1,36 @@
-#include "RedragonK556Controller.h"
+/*-----------------------------------------*\
+|  EVisionKeyboardController.cpp            |
+|                                           |
+|  Driver for EVision RGB keyboard lighting |
+|  controller                               |
+|                                           |
+|  EVision is used by Redragon, Glorious,   |
+|  Ajazz, Tecware, and many other brands    |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 3/15/2020   |
+\*-----------------------------------------*/
+
+#include "EVisionKeyboardController.h"
 
 #include <cstring>
 
-RedragonK556Controller::RedragonK556Controller(hid_device* dev_handle, const char* path)
+EVisionKeyboardController::EVisionKeyboardController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
 }
 
-RedragonK556Controller::~RedragonK556Controller()
+EVisionKeyboardController::~EVisionKeyboardController()
 {
     hid_close(dev);
 }
 
-std::string RedragonK556Controller::GetDeviceLocation()
+std::string EVisionKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-std::string RedragonK556Controller::GetSerialString()
+std::string EVisionKeyboardController::GetSerialString()
 {
     wchar_t serial_string[128];
     hid_get_serial_number_string(dev, serial_string, 128);
@@ -29,7 +41,7 @@ std::string RedragonK556Controller::GetSerialString()
     return(return_string);
 }
 
-void RedragonK556Controller::SetKeyboardColors
+void EVisionKeyboardController::SetKeyboardColors
     (
     unsigned char *     color_data,
     unsigned int        size
@@ -40,9 +52,9 @@ void RedragonK556Controller::SetKeyboardColors
 
     while(size > 0)
     {
-        if(size >= REDRAGON_K556_MAX_PACKET_SIZE)
+        if(size >= EVISION_KB_MAX_PACKET_SIZE)
         {
-            packet_size     = REDRAGON_K556_MAX_PACKET_SIZE;
+            packet_size     = EVISION_KB_MAX_PACKET_SIZE;
         }
         else
         {
@@ -61,15 +73,15 @@ void RedragonK556Controller::SetKeyboardColors
     }
 }
 
-void RedragonK556Controller::SendKeyboardMode
+void EVisionKeyboardController::SendKeyboardMode
     (
     unsigned char       mode
     )
 {
-    SendKeyboardParameter(REDRAGON_K556_PARAMETER_MODE, 1, &mode);
+    SendKeyboardParameter(EVISION_KB_PARAMETER_MODE, 1, &mode);
 }
 
-void RedragonK556Controller::SendKeyboardModeEx
+void EVisionKeyboardController::SendKeyboardModeEx
     (
     unsigned char       mode,
     unsigned char       brightness,
@@ -99,7 +111,7 @@ void RedragonK556Controller::SendKeyboardModeEx
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
-void RedragonK556Controller::ComputeChecksum
+void EVisionKeyboardController::ComputeChecksum
     (
     char                usb_buf[64]
     )
@@ -115,7 +127,7 @@ void RedragonK556Controller::ComputeChecksum
     usb_buf[0x02] = checksum >> 8;
 }
 
-void RedragonK556Controller::SendKeyboardBegin()
+void EVisionKeyboardController::SendKeyboardBegin()
 {
     char usb_buf[64];
 
@@ -130,9 +142,9 @@ void RedragonK556Controller::SendKeyboardBegin()
     |         fixed                                         |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x01]           = REDRAGON_K556_COMMAND_BEGIN;
+    usb_buf[0x01]           = EVISION_KB_COMMAND_BEGIN;
     usb_buf[0x02]           = 0x00;
-    usb_buf[0x03]           = REDRAGON_K556_COMMAND_BEGIN;
+    usb_buf[0x03]           = EVISION_KB_COMMAND_BEGIN;
     
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -141,7 +153,7 @@ void RedragonK556Controller::SendKeyboardBegin()
     hid_read(dev, (unsigned char *)usb_buf, 64);
 }
 
-void RedragonK556Controller::SendKeyboardEnd()
+void EVisionKeyboardController::SendKeyboardEnd()
 {
     char usb_buf[64];
 
@@ -156,9 +168,9 @@ void RedragonK556Controller::SendKeyboardEnd()
     |         fixed                                         |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x01]           = REDRAGON_K556_COMMAND_END;
+    usb_buf[0x01]           = EVISION_KB_COMMAND_END;
     usb_buf[0x02]           = 0x00;
-    usb_buf[0x03]           = REDRAGON_K556_COMMAND_END;
+    usb_buf[0x03]           = EVISION_KB_COMMAND_END;
     
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -167,7 +179,7 @@ void RedragonK556Controller::SendKeyboardEnd()
     hid_read(dev, (unsigned char *)usb_buf, 64);
 }
 
-void RedragonK556Controller::SendKeyboardData
+void EVisionKeyboardController::SendKeyboardData
     (
     unsigned char *     data,
     unsigned char       data_size,
@@ -208,7 +220,7 @@ void RedragonK556Controller::SendKeyboardData
     hid_read(dev, (unsigned char *)usb_buf, 64);
 }
 
-void RedragonK556Controller::SendKeyboardParameter
+void EVisionKeyboardController::SendKeyboardParameter
     (
     unsigned char       parameter,
     unsigned char       parameter_size,
@@ -226,7 +238,7 @@ void RedragonK556Controller::SendKeyboardParameter
     | Set up Keyboard Parameter (0x06) packet               |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
-    usb_buf[0x03]           = REDRAGON_K556_COMMAND_SET_PARAMETER;
+    usb_buf[0x03]           = EVISION_KB_COMMAND_SET_PARAMETER;
     usb_buf[0x04]           = parameter_size;
     usb_buf[0x05]           = parameter;
 

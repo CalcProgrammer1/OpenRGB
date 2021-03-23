@@ -1,21 +1,21 @@
 /*-----------------------------------------*\
-|  RGBController_RedragonK556.h             |
+|  RGBController_EVisionKeyboard.h          |
 |                                           |
-|  Generic RGB Interface for Redragon K556  |
-|  Devarajas RGB Keyboard                   |
+|  Generic RGB Interface for EVision RGB    |
+|  Keyboard                                 |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 3/25/2020   |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
-#include "RedragonK556Controller.h"
+#include "EVisionKeyboardController.h"
 
-class RGBController_RedragonK556 : public RGBController
+class RGBController_EVisionKeyboard : public RGBController
 {
 public:
-    RGBController_RedragonK556(RedragonK556Controller* redragon_ptr);
-    ~RGBController_RedragonK556();
+    RGBController_EVisionKeyboard(EVisionKeyboardController* controller_ptr);
+    ~RGBController_EVisionKeyboard();
 
     void        SetupZones();
 
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    RedragonK556Controller*   redragon;
+    EVisionKeyboardController*  controller;
 };
