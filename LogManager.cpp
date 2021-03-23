@@ -1,11 +1,14 @@
 #include "LogManager.h"
 
 #include <stdarg.h>
+#include <iostream>
 #include "ResourceManager.h"
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
+
+static const char* log_codes[] = {"CRITICAL", "ERROR", "Message", "Warning", "Notice", "[verbose]", "Debug"};
 
 LogManager::LogManager()
 {
@@ -94,36 +97,11 @@ void LogManager::configure(json config, const std::string &defaultDir)
         const json& loglevel_obj = config["loglevel"];
 
         /*-------------------------------------------------*\
-        | If the log level is configured per section, set   |
-        | loglevel for each section                         |
+        | Set the log level if configured                   |
         \*-------------------------------------------------*/
-        if(loglevel_obj.is_object())
+        if(loglevel_obj.is_number_integer())
         {
-            for(size_t section = 0; section < sections.size(); ++section)
-            {
-                if(loglevel_obj.contains(sections[section]))
-                {
-                    const json& val = loglevel_obj[sections[section]];
-
-                    if(val.is_number_integer())
-                    {
-                        loglevels[section] = val;
-                    }
-                }
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | If the log level is configured globally, set same |
-        | loglevel for each section                         |
-        \*-------------------------------------------------*/
-        else if(loglevel_obj.is_number_integer())
-        {
-            int l = loglevel_obj;
-            for(size_t section = 0; section < sections.size(); ++section)
-            {
-                loglevels[section] = l;
-            }
+            loglevel = loglevel_obj;
         }
     }
 
@@ -142,10 +120,18 @@ void LogManager::_flush()
     {
         for(size_t msg = 0; msg < temp_messages.size(); ++msg)
         {
-            int sec = temp_sections[msg];
-            if(temp_levels[msg] <= loglevels[sec])
+            if(temp_messages[msg]->level <= loglevel)
             {
-                log_stream << temp_messages[msg] << std::endl;
+                // Put the timestamp here
+                log_stream << log_codes[temp_messages[msg]->level] << ": ";
+                log_stream << temp_messages[msg]->buffer;
+         
+                if(print_source)
+                {
+                    log_stream << " [" << temp_messages[msg]->filename << ":" << temp_messages[msg]->line << "]";
+                }
+                
+                log_stream << std::endl;
             }
         }
 
@@ -153,8 +139,6 @@ void LogManager::_flush()
         | Clear temp message buffers after writing them out |
         \*-------------------------------------------------*/
         temp_messages.clear();
-        temp_levels.clear();
-        temp_sections.clear();
     }
 
     /*-------------------------------------------------*\
@@ -169,78 +153,164 @@ void LogManager::flush()
     _flush();
 }
 
-void LogManager::append(int section, int level, const char* fmt, ...)
+void LogManager::_append(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
 {
-    std::lock_guard<std::mutex> grd(entry_mutex);
-
-    char buf[1024];
-
     /*-------------------------------------------------*\
-    | Start the variable argument list                  |
+    | If a critical message occurs, enable source       |
+    | printing and set loglevel and verbosity to highest|
     \*-------------------------------------------------*/
-    va_list va;
-    va_start(va, fmt);
-
-    /*-------------------------------------------------*\
-    | Return if the log is already open                 |
-    \*-------------------------------------------------*/
-    if(!log_stream.is_open() && level > loglevels[section])
+    if(level == LL_CRITICAL)
     {
-        return;
+        print_source = true;
+        loglevel = LL_DEBUG;
+        verbosity = LL_DEBUG;
     }
 
     /*-------------------------------------------------*\
-    | Print the section to the log entry                |
+    | Create a new message                              |
     \*-------------------------------------------------*/
-    int off = sprintf(buf, "[%s]: ", sections[section].c_str());
+    PLogMessage mes = std::make_shared<LogMessage>();
 
     /*-------------------------------------------------*\
-    | Print the log text to the log entry               |
+    | Resize the buffer, then fill in the message text  |
     \*-------------------------------------------------*/
-    vsnprintf(buf + off, 1024 - off, fmt, va);
+    int len = vsnprintf(nullptr, 0, fmt, va);
+    mes->buffer.resize(len);
+    vsnprintf(&mes->buffer[0], len + 1, fmt, va);
 
     /*-------------------------------------------------*\
-    | Write the log entry                               |
+    | Fill in message information                       |
     \*-------------------------------------------------*/
-    if(log_stream.is_open())
+    mes->level      = level;
+    mes->filename   = filename;
+    mes->line       = line;
+
+    /*-------------------------------------------------*\
+    | If the message is within the current verbosity,   |
+    | print it on the screen                            |
+    | TODO: Put the timestamp here                      |
+    \*-------------------------------------------------*/
+    if(level <= verbosity)
     {
-        log_stream << buf << std::endl;
-    }
-    else
-    {
-        temp_levels.push_back(level);
-        temp_messages.push_back(buf);
-        temp_sections.push_back(section);
-    }
-
-    /*-------------------------------------------------*\
-    | End the variable argument list                    |
-    \*-------------------------------------------------*/
-    va_end(va);
-}
-
-int LogManager::registerSection(const char* name, int loglevel)
-{
-    std::lock_guard<std::mutex> grd(section_mutex);
-    size_t section;
-
-    /*-------------------------------------------------*\
-    | Check to see if section already exists, if so,    |
-    | return the existing section value                 |
-    \*-------------------------------------------------*/
-    for(section = 0; section < sections.size(); section++)
-    {
-        if(sections[section] == name)
+        std::cout << mes->buffer;
+        if(print_source)
         {
-            return section;
+            std::cout << " [" << mes->filename << ":" << mes->line << "]";
+        }
+        std::cout << std::endl;
+    }
+
+    /*-------------------------------------------------*\
+    | If the message level is LL_MESSAGE or lower, add  |
+    | it to the error queue                             |
+    \*-------------------------------------------------*/
+    if(level <= LL_MESSAGE)
+    {
+        for(size_t idx = 0; idx < error_callbacks.size(); ++idx)
+        {
+            error_callbacks[idx].first(error_callbacks[idx].second, mes);
         }
     }
 
     /*-------------------------------------------------*\
-    | If section does not already exist, create it      |
+    | Add the message to the logfile queue              |
     \*-------------------------------------------------*/
-    sections.push_back(name);
-    loglevels.push_back(loglevel);
+    temp_messages.push_back(mes);
 
-    return section;
+    /*-------------------------------------------------*\
+    | Flush the queues                                  |
+    \*-------------------------------------------------*/
+    _flush();
+}
+
+void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
+{
+    std::lock_guard<std::mutex> grd(entry_mutex);
+
+    _append(filename, line, level, fmt, va);
+}
+
+void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, ...)
+{
+    va_list va;
+    va_start(va, fmt);
+
+    std::lock_guard<std::mutex> grd(entry_mutex);
+    _append(filename, line, level, fmt, va);
+
+    va_end(va);
+}
+
+void LogManager::setLoglevel(unsigned int level)
+{
+    /*-------------------------------------------------*\
+    | Check that the new log level is valid, otherwise  |
+    | set it within the valid range                     |
+    \*-------------------------------------------------*/
+    if(level < LL_CRITICAL)
+    {
+        level = LL_CRITICAL;
+    }
+
+    if(level > LL_DEBUG)
+    {
+        level = LL_DEBUG;
+    }
+
+    LOG_DEBUG("Loglevel set to %d", level);
+
+    /*-------------------------------------------------*\
+    | Set the new log level                             |
+    \*-------------------------------------------------*/
+    loglevel = level;
+}
+
+void LogManager::setVerbosity(unsigned int level)
+{
+    /*-------------------------------------------------*\
+    | Check that the new verbosity is valid, otherwise  |
+    | set it within the valid range                     |
+    \*-------------------------------------------------*/
+    if(level < LL_CRITICAL)
+    {
+        level = LL_CRITICAL;
+    }
+
+    if(level > LL_DEBUG)
+    {
+        level = LL_DEBUG;
+    }
+
+    LOG_DEBUG("Verbosity set to %d", level);
+
+    /*-------------------------------------------------*\
+    | Set the new verbosity                             |
+    \*-------------------------------------------------*/
+    verbosity = level;
+}
+
+void LogManager::setPrintSource(bool v)
+{
+    LOG_DEBUG("Source code location printouts were %s", v ? "enabled" : "disabled");
+    print_source = v;
+}
+
+void LogManager::registerErrorCallback(LogErrorCallback callback, void* receiver)
+{
+    std::lock_guard<std::mutex> grd(entry_mutex);
+
+    error_callbacks.push_back(LogErrorBlock(callback, receiver));
+}
+
+void LogManager::unregisterErrorCallback(LogErrorCallback callback, void* receiver)
+{
+    std::lock_guard<std::mutex> grd(entry_mutex);
+
+    for(size_t idx = 0; idx < error_callbacks.size(); ++idx)
+    {
+        if(error_callbacks[idx].first == callback && error_callbacks[idx].second == receiver)
+        {
+            error_callbacks.erase(error_callbacks.begin() + idx);
+        }
+    }
 }

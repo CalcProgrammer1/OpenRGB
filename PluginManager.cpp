@@ -3,9 +3,7 @@
 
 void PluginManager::ScanAndLoadPlugins(bool dark_theme)
 {
-    int plugin_section = LogSection("Plugins", LL_DEBUG);
-
-    LogAppend(plugin_section, LL_DEBUG, "Loading plugins");
+    LOG_NOTICE("Loading plugins");
 
     std::string OpenRGBConfigDir = ResourceManager::get()->GetConfigurationDirectory();
 
@@ -33,7 +31,7 @@ void PluginManager::ScanAndLoadPlugins(bool dark_theme)
     {
         const std::string filePath = pluginsDir.absoluteFilePath(QString().fromStdString(fileName)).toStdString();
 
-        LogAppend(plugin_section, LL_DEBUG, "Attempting to load: %s", filePath.c_str());
+        LOG_VERBOSE("Attempting to load: %s", filePath.c_str());
 
         QPluginLoader loader(pluginsDir.absoluteFilePath(QString().fromStdString(fileName)));
 
@@ -46,7 +44,7 @@ void PluginManager::ScanAndLoadPlugins(bool dark_theme)
                 \*-----------------------------------------------------*/
                 OpenRGBPlugin->info = OpenRGBPlugin->Initialize(dark_theme, ResourceManager::get());
 
-                LogAppend(plugin_section, LL_DEBUG, "Loaded plugin %s", OpenRGBPlugin->info.PluginName.c_str());
+                LOG_VERBOSE("Loaded plugin %s", OpenRGBPlugin->info.PluginName.c_str());
 
                 PluginManager::ActivePlugins.push_back(OpenRGBPlugin);
             }
