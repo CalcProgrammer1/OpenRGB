@@ -63,30 +63,42 @@ void LogManager::configure(json config, const std::string &defaultDir)
         | If the # symbol is found in the log file name,    |
         | replace it with a timestamp                       |
         \*-------------------------------------------------*/
+        time_t t = time(0);
+        struct tm* tmp = localtime(&t);
+        char time_string[64];
+        snprintf(time_string, 64, "%04d%02d%02d_%02d%02d%02d", 1900 + tmp->tm_year, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
+
         size_t oct = logname.find("#");
         if(oct != logname.npos)
         {
-            time_t t = time(0);
-            struct tm* tmp = localtime(&t);
-            char buf[64];
-            snprintf(buf, 64, "%04d%02d%02d_%02d%02d%02d", 1900 + tmp->tm_year, tmp->tm_mon, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
-            logname.replace(oct, 1, buf);
+            logname.replace(oct, 1, time_string);
         }
 
         /*-------------------------------------------------*\
-        | If the path is relative, use configuration dir    |
+        | If the path is relative, use logs dir             |
         \*-------------------------------------------------*/
         fs::path p = logname;
         if(p.is_relative())
         {
             p = defaultDir;
+            p.append("/logs/");
             p.append(logname);
         }
+        fs::create_directories(p.parent_path());
 
         /*-------------------------------------------------*\
         | Open the logfile                                  |
         \*-------------------------------------------------*/
         log_stream.open(p);
+
+        /*-------------------------------------------------*\
+        | Print Git Commit info, version, etc.              |
+        \*-------------------------------------------------*/
+        log_stream << "    OpenRGB v" << VERSION_STRING << std::endl;
+        log_stream << "    Commit: " << GIT_COMMIT_ID << " from " << GIT_COMMIT_DATE << std::endl;
+        log_stream << "    Launched: " << time_string << std::endl;
+        log_stream << "====================================================================================================" << std::endl;
+        log_stream << std::endl;
     }
 
     /*-------------------------------------------------*\
@@ -174,9 +186,11 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     /*-------------------------------------------------*\
     | Resize the buffer, then fill in the message text  |
     \*-------------------------------------------------*/
+    va_list va2;
+    va_copy(va2, va);
     int len = vsnprintf(nullptr, 0, fmt, va);
-    mes->buffer.resize(len);
-    vsnprintf(&mes->buffer[0], len + 1, fmt, va);
+    mes->buffer.resize(len + 1);
+    vsnprintf(&(mes->buffer[0]), len + 1, fmt, va2);
 
     /*-------------------------------------------------*\
     | Fill in message information                       |
@@ -221,13 +235,6 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     | Flush the queues                                  |
     \*-------------------------------------------------*/
     _flush();
-}
-
-void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
-{
-    std::lock_guard<std::mutex> grd(entry_mutex);
-
-    _append(filename, line, level, fmt, va);
 }
 
 void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, ...)

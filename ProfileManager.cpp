@@ -1,6 +1,7 @@
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "RGBController_Dummy.h"
+#include "LogManager.h"
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <experimental/filesystem>
 #include <fstream>
@@ -378,6 +379,8 @@ void ProfileManager::UpdateProfileList()
     for(const auto & entry : fs::directory_iterator(configuration_directory))
     {
         std::string filename = entry.path().filename().string();
+
+        LOG_NOTICE("Loading profile: %s", filename.c_str());
 
         if(filename.find(".orp") != std::string::npos)
         {

@@ -74,8 +74,7 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::RegisterI2CBus(i2c_smbus_interface *bus)
 {
-    std::string bus_name = bus->device_name;
-    LOG_NOTICE("Registering I2C interface: %s", bus_name.c_str());
+    LOG_NOTICE("Registering I2C interface: %s", bus->device_name);
     busses.push_back(bus);
 }
 

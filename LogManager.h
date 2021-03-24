@@ -68,7 +68,6 @@ public:
     static LogManager* get();
     void configure(json config, const std::string& defaultDir);
     void flush();
-    void append(const char* filename, int line, unsigned int level, const char* fmt, va_list va);
     void append(const char* filename, int line, unsigned int level, const char* fmt, ...);
     void setLoglevel(unsigned int);
     void setVerbosity(unsigned int);
