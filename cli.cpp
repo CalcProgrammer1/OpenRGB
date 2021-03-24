@@ -372,7 +372,7 @@ void OptionHelp()
     help_text += "                                           Must be specified after specifying a zone.\n";
     help_text += "                                           If the specified size is out of range, or the zone does not offer resizing capability, the size will not be changed\n";
     help_text += "-V,  --version                           Display version and software build information\n";
-    help_text += "-p,  --profile filename.orp              Load the profile from filename.orp\n";
+    help_text += "-p,  --profile filename[.orp]            Load the profile from filename/filename.orp\n";
     help_text += "-sp, --save-profile filename.orp         Save the given settings to profile filename.orp\n";
     help_text += "--i2c-tools                              Shows the I2C/SMBus Tools page in the GUI. Implies --gui, even if not specified.\n";
     help_text += "                                           USE I2C TOOLS AT YOUR OWN RISK! Don't use this option if you don't know what you're doing!\n";
