@@ -74,7 +74,8 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::RegisterI2CBus(i2c_smbus_interface *bus)
 {
-    LOG_NOTICE("Registering an I2C bus: %s", bus->device_name);
+    std::string bus_name = bus->device_name;
+    LOG_NOTICE("Registering I2C interface: %s", bus_name.c_str());
     busses.push_back(bus);
 }
 
@@ -486,20 +487,20 @@ void ResourceManager::DetectDevicesThreadFunction()
     detection_percent = 0;
 
     /*-------------------------------------------------*\
-    | Detect i2c busses                                 |
+    | Detect i2c interfaces                             |
     \*-------------------------------------------------*/
-    LOG_NOTICE("Detecting I2C/SMBus busses");
+    LOG_NOTICE("Detecting I2C interfaces");
 
     for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
     {
-        i2c_bus_detectors[i2c_bus_detector_idx](busses);
+        i2c_bus_detectors[i2c_bus_detector_idx]();
         I2CBusListChanged();
     }
 
     /*-------------------------------------------------*\
     | Detect i2c devices                                |
     \*-------------------------------------------------*/
-    LOG_NOTICE("Detecting I2C/SMBus devices");
+    LOG_NOTICE("Detecting I2C devices");
 
     for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {

@@ -178,7 +178,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
 
 #include "Detector.h"
 
-void i2c_smbus_amdadl_detect(std::vector<i2c_smbus_interface*> &busses)
+void i2c_smbus_amdadl_detect()
 {
     int adl_status;
     int gpu_count = 0;
@@ -193,7 +193,7 @@ void i2c_smbus_amdadl_detect(std::vector<i2c_smbus_interface*> &busses)
         else
         {
             i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context);
-            busses.push_back(adl_bus);
+            ResourceManager::get()->RegisterI2CBus(adl_bus);
         }
     }
 }   /* DetectAMDADLI2CBusses() */

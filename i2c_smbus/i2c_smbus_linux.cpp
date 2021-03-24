@@ -34,7 +34,7 @@ s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 #include <dirent.h>
 #include <string.h>
 
-void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
+void i2c_smbus_linux_detect()
 {
     i2c_smbus_linux *       bus;
     char                    device_string[1024];
@@ -154,7 +154,7 @@ void i2c_smbus_linux_detect(std::vector<i2c_smbus_interface*> &busses)
                     bus->pci_subsystem_device = pci_subsystem_device;
                     bus->pci_subsystem_vendor = pci_subsystem_vendor;
                     bus->port_id              = port_id;
-                    busses.push_back(bus);
+                    ResourceManager::get()->RegisterI2CBus(bus);
                 }
             }
         }

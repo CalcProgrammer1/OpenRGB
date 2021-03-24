@@ -98,7 +98,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 
 #include "Detector.h"
 
-void i2c_smbus_nvapi_detect(std::vector<i2c_smbus_interface*> &busses)
+void i2c_smbus_nvapi_detect()
 {
     static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
     static NV_S32                   gpu_count = 0;
@@ -129,7 +129,7 @@ void i2c_smbus_nvapi_detect(std::vector<i2c_smbus_interface*> &busses)
             nvapi_bus->port_id              = 1;
         }
 
-        busses.push_back(nvapi_bus);
+        ResourceManager::get()->RegisterI2CBus(nvapi_bus);
     }
 }   /* DetectNvAPII2CBusses() */
 

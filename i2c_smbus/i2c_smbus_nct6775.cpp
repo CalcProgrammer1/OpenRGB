@@ -191,7 +191,7 @@ s32 i2c_smbus_nct6775::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int 
 #include "Detector.h"
 #include "super_io.h"
 
-void i2c_smbus_nct6775_detect(std::vector<i2c_smbus_interface*> &busses)
+void i2c_smbus_nct6775_detect()
 {
     i2c_smbus_interface* bus;
     int sioaddr = 0x2E;
@@ -240,7 +240,7 @@ void i2c_smbus_nct6775_detect(std::vector<i2c_smbus_interface*> &busses)
             break;
         }
 
-        busses.push_back(bus);
+        ResourceManager::get()->RegisterI2CBus(bus);
     }
 }
 
