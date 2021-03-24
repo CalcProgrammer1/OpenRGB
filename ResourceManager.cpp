@@ -524,7 +524,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         {
             DetectionProgressChanged();
             
-            i2c_device_detectors[i2c_detector_idx](busses, rgb_controllers_hw);
+            i2c_device_detectors[i2c_detector_idx](busses);
         }
 
         /*-------------------------------------------------*\

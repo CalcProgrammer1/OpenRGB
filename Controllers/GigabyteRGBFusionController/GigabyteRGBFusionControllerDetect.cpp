@@ -50,7 +50,7 @@ bool TestForGigabyteRGBFusionController(i2c_smbus_interface* bus, unsigned char 
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectGigabyteRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers)
+void DetectGigabyteRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses)
 {
     RGBFusionController* new_rgb_fusion;
     RGBController_RGBFusion* new_controller;
@@ -64,7 +64,7 @@ void DetectGigabyteRGBFusionControllers(std::vector<i2c_smbus_interface*>& busse
             {
                 new_rgb_fusion = new RGBFusionController(busses[bus], 0x28);
                 new_controller = new RGBController_RGBFusion(new_rgb_fusion);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
         }
     }

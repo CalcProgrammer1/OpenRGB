@@ -63,7 +63,7 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     AuraGPUController* new_aura_gpu;
     RGBController_AuraGPU* new_controller;
@@ -77,7 +77,7 @@ void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std
             {
                 new_aura_gpu = new AuraGPUController(busses[bus], aura_gpu_addresses[address_list_idx]);
                 new_controller = new RGBController_AuraGPU(new_aura_gpu);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             std::this_thread::sleep_for(1ms);

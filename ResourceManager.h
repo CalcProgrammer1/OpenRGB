@@ -32,10 +32,10 @@
 
 struct hid_device_info;
 
-typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
-typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
-typedef std::function<void(std::vector<i2c_smbus_interface*>&, std::vector<RGBController*>&)>   I2CDeviceDetectorFunction;
-typedef std::function<void(hid_device_info*, const std::string&)>                               HIDDeviceDetectorFunction;
+typedef std::function<void(std::vector<i2c_smbus_interface*>&)>     I2CBusDetectorFunction;
+typedef std::function<void(std::vector<RGBController*>&)>           DeviceDetectorFunction;
+typedef std::function<void(std::vector<i2c_smbus_interface*>&)>     I2CDeviceDetectorFunction;
+typedef std::function<void(hid_device_info*, const std::string&)>   HIDDeviceDetectorFunction;
 typedef struct
 {
     std::string                 name;

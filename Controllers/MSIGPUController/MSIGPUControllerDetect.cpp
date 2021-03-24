@@ -68,7 +68,7 @@ static const msi_gpu_pci_device device_list[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     MSIGPUController* new_msi_gpu;
     RGBController_MSIGPU* new_controller;
@@ -90,7 +90,7 @@ void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vec
                 new_msi_gpu = new MSIGPUController(busses[bus]);
                 new_controller = new RGBController_MSIGPU(new_msi_gpu);
                 new_controller->name = device_list[dev_idx].name;
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
         }
     }

@@ -83,7 +83,7 @@ void CrucialRegisterWrite(i2c_smbus_interface* bus, unsigned char dev, unsigned 
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     CrucialController* new_crucial;
     RGBController_Crucial* new_controller;
@@ -135,7 +135,7 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses, std::ve
                 {
                     new_crucial = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
                     new_controller = new RGBController_Crucial(new_crucial);
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
             }
         }

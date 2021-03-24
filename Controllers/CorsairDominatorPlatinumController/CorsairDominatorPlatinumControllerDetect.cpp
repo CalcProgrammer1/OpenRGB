@@ -47,7 +47,7 @@ bool TestForCorsairDominatorPlatinumController(i2c_smbus_interface *bus, unsigne
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *> &busses, std::vector<RGBController *> &rgb_controllers)
+void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *> &busses)
 {
     for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
@@ -59,7 +59,7 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
                 {
                     CorsairDominatorPlatinumController* new_controller        = new CorsairDominatorPlatinumController(busses[bus], addr);
                     RGBController_CorsairDominatorPlatinum* new_rgbcontroller = new RGBController_CorsairDominatorPlatinum(new_controller);
-                    rgb_controllers.push_back(new_rgbcontroller);
+                    ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                 }
                 std::this_thread::sleep_for(10ms);
             }

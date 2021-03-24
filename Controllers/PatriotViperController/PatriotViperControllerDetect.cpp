@@ -21,7 +21,7 @@ using namespace std::chrono_literals;
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     PatriotViperController* new_viper;
     RGBController_PatriotViper* new_controller;
@@ -69,7 +69,7 @@ void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses, st
             {
                 new_viper = new PatriotViperController(busses[bus], 0x77, slots_valid);
                 new_controller = new RGBController_PatriotViper(new_viper);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
         }
     }

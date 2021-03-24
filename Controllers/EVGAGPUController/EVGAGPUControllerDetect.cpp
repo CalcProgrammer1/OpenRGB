@@ -54,7 +54,7 @@ static const gpu_pci_device device_list[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers)
+void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses)
 {
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
@@ -80,7 +80,7 @@ void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::ve
                             new_controller          = new EVGAGPUv1Controller(busses[bus], 0x49);
                             new_rgbcontroller       = new RGBController_EVGAGPUv1(new_controller);
                             new_rgbcontroller->name = device_list[dev_idx].name;
-                            rgb_controllers.push_back(new_rgbcontroller);
+                            ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                         }
                         break;
 
@@ -92,7 +92,7 @@ void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::ve
                             new_controller          = new EVGAGPUv2Controller(busses[bus], 0x49);
                             new_rgbcontroller       = new RGBController_EVGAGPUv2(new_controller);
                             new_rgbcontroller->name = device_list[dev_idx].name;
-                            rgb_controllers.push_back(new_rgbcontroller);
+                            ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                         }
                         break;
                 }

@@ -67,7 +67,7 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     GalaxGPUController* new_GalaxGPU;
     RGBController_GalaxGPU* new_controller;
@@ -87,7 +87,7 @@ void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::v
                     new_GalaxGPU         = new GalaxGPUController(busses[bus], 0x23);
                     new_controller       = new RGBController_GalaxGPU(new_GalaxGPU);
                     new_controller->name = device_list[dev_idx].name;
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
             }
         }

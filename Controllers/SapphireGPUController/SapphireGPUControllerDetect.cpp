@@ -89,7 +89,7 @@ bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char addres
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface *> &busses, std::vector<RGBController *> &rgb_controllers)
+void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface *> &busses)
 {
     for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
@@ -108,7 +108,7 @@ void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface *> &busses, st
                             SapphireNitroGlowV1Controller*     new_sapphire_gpu = new SapphireNitroGlowV1Controller(busses[bus], SAPPHIRE_NITRO_GLOW_V1_ADDR);
                             RGBController_SapphireNitroGlowV1* new_controller   = new RGBController_SapphireNitroGlowV1(new_sapphire_gpu);
                             new_controller->name = device_list[dev_idx].name;
-                            rgb_controllers.push_back(new_controller);
+                            ResourceManager::get()->RegisterRGBController(new_controller);
                         }
                         break;
 
@@ -118,7 +118,7 @@ void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface *> &busses, st
                             SapphireNitroGlowV3Controller*     new_sapphire_gpu = new SapphireNitroGlowV3Controller(busses[bus], SAPPHIRE_NITRO_GLOW_V3_ADDR);
                             RGBController_SapphireNitroGlowV3* new_controller   = new RGBController_SapphireNitroGlowV3(new_sapphire_gpu);
                             new_controller->name = device_list[dev_idx].name;
-                            rgb_controllers.push_back(new_controller);
+                            ResourceManager::get()->RegisterRGBController(new_controller);
                         }
                         break;
                 }

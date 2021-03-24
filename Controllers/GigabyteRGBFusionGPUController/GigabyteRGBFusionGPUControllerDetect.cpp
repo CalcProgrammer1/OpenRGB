@@ -108,7 +108,7 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectGigabyteRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers)
+void DetectGigabyteRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses)
 {
     RGBFusionGPUController* new_rgb_fusion;
     RGBController_RGBFusionGPU* new_controller;
@@ -128,7 +128,7 @@ void DetectGigabyteRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& bu
                     new_rgb_fusion = new RGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address);
                     new_controller = new RGBController_RGBFusionGPU(new_rgb_fusion);
                     new_controller->name = device_list[dev_idx].name;
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
             }
         }

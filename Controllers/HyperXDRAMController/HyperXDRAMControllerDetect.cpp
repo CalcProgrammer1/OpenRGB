@@ -55,7 +55,7 @@ bool TestForHyperXDRAMController(i2c_smbus_interface* bus, unsigned char address
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     HyperXDRAMController* new_hyperx;
     RGBController_HyperXDRAM* new_controller;
@@ -112,7 +112,7 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses, std:
                         new_controller->name = "HyperX Predator RGB";
                     }
 
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
             }
         }

@@ -52,7 +52,7 @@ bool TestForCorsairVengeanceController(i2c_smbus_interface* bus, unsigned char a
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     CorsairVengeanceController* new_corsair;
     RGBController_CorsairVengeance* new_controller;
@@ -66,7 +66,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x58);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             // Check for Corsair controller at 0x59
@@ -74,7 +74,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x59);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             // Check for Corsair controller at 0x5A
@@ -82,7 +82,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x5A);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             // Check for Corsair controller at 0x5B
@@ -90,7 +90,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x5B);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             // Check for Corsair controller at 0x5C
@@ -98,7 +98,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x5C);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             // Check for Corsair controller at 0x5D
@@ -106,7 +106,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x5D);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             // Check for Corsair controller at 0x5E
@@ -114,7 +114,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x5E);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
 
             // Check for Corsair controller at 0x5F
@@ -122,7 +122,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
             {
                 new_corsair = new CorsairVengeanceController(busses[bus], 0x5F);
                 new_controller = new RGBController_CorsairVengeance(new_corsair);
-                rgb_controllers.push_back(new_controller);
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
         }
     }

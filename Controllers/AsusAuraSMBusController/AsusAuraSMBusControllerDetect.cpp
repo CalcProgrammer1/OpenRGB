@@ -110,7 +110,7 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectAuraSMBusControllers                                                                  *
+*   DetectAuraSMBusControllers                                                             *
 *                                                                                          *
 *       Detect Aura controllers on the enumerated I2C busses.  Searches for Aura-enabled   *
 *       RAM at 0x77 and tries to initialize their slot addresses, then searches for them   *
@@ -122,7 +122,7 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     AuraSMBusController* new_aura;
     RGBController_AuraSMBus* new_controller;
@@ -171,7 +171,7 @@ void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, s
                 {
                     new_aura = new AuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]);
                     new_controller = new RGBController_AuraSMBus(new_aura);
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);
@@ -187,7 +187,7 @@ void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, s
                 {
                     new_aura = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
                     new_controller = new RGBController_AuraSMBus(new_aura);
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);

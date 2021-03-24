@@ -44,7 +44,7 @@ bool TestForPolychromeSMBusController(i2c_smbus_interface* bus, unsigned char ad
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectPolychromeSMBusControllers(std::vector<i2c_smbus_interface*>& busses, std::vector<RGBController*>& rgb_controllers)
+void DetectPolychromeSMBusControllers(std::vector<i2c_smbus_interface*>& busses)
 {
     PolychromeController* new_polychrome;
     RGBController_Polychrome* new_controller;
@@ -61,7 +61,7 @@ void DetectPolychromeSMBusControllers(std::vector<i2c_smbus_interface*>& busses,
                 if(new_polychrome->GetASRockType() != ASROCK_TYPE_UNKNOWN)
                 {
                     new_controller = new RGBController_Polychrome(new_polychrome);
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
                 else
                 {

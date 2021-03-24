@@ -61,7 +61,7 @@ bool TestForGainwardGPUController(i2c_smbus_interface* bus, unsigned char addres
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectGainwardGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers)
+void DetectGainwardGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     GainwardGPUController* new_GainwardGPU;
     RGBController_GainwardGPU* new_controller;
@@ -81,7 +81,7 @@ void DetectGainwardGPUControllers(std::vector<i2c_smbus_interface*> &busses, std
                     new_GainwardGPU         = new GainwardGPUController(busses[bus], 0x08);
                     new_controller          = new RGBController_GainwardGPU(new_GainwardGPU);
                     new_controller->name    = device_list[dev_idx].name;
-                    rgb_controllers.push_back(new_controller);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
                 }
             }
         }
