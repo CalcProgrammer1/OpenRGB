@@ -73,6 +73,9 @@ static QString GetIconString(device_type type, bool dark)
     case DEVICE_TYPE_VIRTUAL:
         filename = "virtual";
         break;
+    case DEVICE_TYPE_STORAGE:
+        filename = "storage";
+        break;
     default:
         filename = "unknown";
         break;
