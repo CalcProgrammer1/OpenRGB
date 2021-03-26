@@ -61,6 +61,7 @@ void DetectMSIMysticLight185Controllers(hid_device_info* info, const std::string
 | MSI Mystic Light 162-byte Devices                             |
 \*-------------------------------------------------------------*/
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B12", DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B12);
+REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B17", DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B17);
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B85", DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B85);
 
 /*-------------------------------------------------------------*\
