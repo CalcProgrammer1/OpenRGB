@@ -358,6 +358,13 @@ void ResourceManager::Cleanup()
         delete bus;
     }
 
+    /*-------------------------------------------------*\
+    | Cleanup HID interface                             |
+    \*-------------------------------------------------*/
+    int hid_status = hid_exit();
+
+    LOG_DEBUG("Closing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
+
     if(DetectDevicesThread)
     {
         DetectDevicesThread->join();
@@ -447,6 +454,13 @@ void ResourceManager::DetectDevicesThreadFunction()
     | device strings                                    |
     \*-------------------------------------------------*/
     detector_settings = settings_manager->GetSettings("Detectors");
+
+    /*-------------------------------------------------*\
+    | Initialize HID interface for detection            |
+    \*-------------------------------------------------*/
+    int hid_status = hid_init();
+
+    LOG_NOTICE("Initializing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
 
     /*-------------------------------------------------*\
     | Check HID safe mode setting                       |
