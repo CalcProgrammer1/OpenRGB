@@ -817,6 +817,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
                 \*-------------------------------------------------*/
             }
             else if((option == "--server-port")
+                  ||(option == "--loglevel")
                   ||(option == "--config"))
             {
                 /*-------------------------------------------------*\
