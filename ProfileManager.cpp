@@ -75,6 +75,8 @@ bool ProfileManager::SaveProfile(std::string profile_name, bool sizes)
             memcpy(&controller_size, controller_data, sizeof(controller_size));
 
             controller_file.write((const char *)controller_data, controller_size);
+
+            delete controller_data;
         }
 
         /*---------------------------------------------------------*\
