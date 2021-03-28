@@ -381,7 +381,7 @@ void OptionHelp()
     help_text += "--config path                            Use a custom path instead of the global configuration directory.\n";
     help_text += "--nodetect                               Do not try to detect hardware at startup.\n";
     help_text += "--noautoconnect                          Do not try to autoconnect to a local server at startup.\n";
-    help_text += "--loglevel                               Set the log level (0: critical to 6: debug).\n";
+    help_text += "--loglevel [0-6 | error | warning ...]   Set the log level (0: critical to 6: debug).\n";
     help_text += "--print-source                           Print the source code file and line number for each log entry.\n";
     help_text += "-v,  --verbose                           Print log messages to stdout.\n";
     help_text += "-vv, --very-verbose                      Print debug messages and log messages to stdout.\n";
@@ -808,8 +808,11 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
              ||(option == "--gui")
              ||(option == "--i2c-tools" || option == "--yolo")
              ||(option == "--startminimized")
+             ||(option == "--print-source")
+             ||(option == "--verbose" || option == "-v")
+             ||(option == "--very-verbose" || option == "-vv")
              ||(option == "--help" || option == "-h")
-             ||(option == "--version" || option == "-v"))
+             ||(option == "--version" || option == "-V"))
             {
                 /*-------------------------------------------------*\
                 | Do nothing, these are pre-detection arguments     |
@@ -1156,7 +1159,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
             }
             else
             {
-                std::cout << "Error: Missing argument for --server-port" << std::endl;
+                std::cout << "Error: Missing argument for --loglevel" << std::endl;
                 print_help = true;
                 break;
             }
@@ -1212,6 +1215,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
         else if(option == "--verbose" || option == "-v")
         {
             LogManager::get()->setVerbosity(LL_VERBOSE);
+            cfg_args++;
         }
 
         /*---------------------------------------------------------*\
@@ -1220,6 +1224,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
         else if(option == "--very-verbose" || option == "-vv")
         {
             LogManager::get()->setVerbosity(LL_DEBUG);
+            cfg_args++;
         }
 
         /*---------------------------------------------------------*\
@@ -1228,6 +1233,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
         else if(option == "--print-source")
         {
             LogManager::get()->setPrintSource(true);
+            cfg_args++;
         }
 
         /*---------------------------------------------------------*\
