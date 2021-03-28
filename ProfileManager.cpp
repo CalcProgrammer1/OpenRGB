@@ -9,7 +9,7 @@
 #include <cstring>
 
 #define OPENRGB_PROFILE_HEADER  "OPENRGB_PROFILE"
-#define OPENRGB_PROFILE_VERSION 1
+#define OPENRGB_PROFILE_VERSION OPENRGB_SDK_PROTOCOL_VERSION
 
 namespace fs = std::experimental::filesystem;
 
@@ -154,6 +154,16 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
 
     controller_file.read(profile_string, 16);
     controller_file.read((char *)&profile_version, sizeof(unsigned int));
+
+    /*---------------------------------------------------------*\
+    | Profile version started at 1 and protocol version started |
+    | at 0.  Version 1 profiles should use protocol 0, but 2 or |
+    | greater should be synchronized                            |
+    \*---------------------------------------------------------*/
+    if(profile_version == 1)
+    {
+        profile_version = 0;
+    }
 
     controller_offset += 16 + sizeof(unsigned int);
     controller_file.seekg(controller_offset);
