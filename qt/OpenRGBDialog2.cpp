@@ -369,7 +369,7 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    if (OpenRGBDialog2::MinimizeToTray)
+    if (OpenRGBDialog2::MinimizeToTray && !this->isHidden())
     {
         hide();
         event->ignore();
@@ -860,7 +860,11 @@ void OpenRGBDialog2::on_Exit()
     /*-----------------------------------------------*\
     | This is the exit from the tray icon             |
     | NOT the main exit button (top right on Windows) |
+    |                                                 |
+    | The hide is important, otherwise it won't close |
+    | when minimize on close is enabled               |
     \*-----------------------------------------------*/
+    this->hide();
     trayIcon->hide();
     close();
 }
