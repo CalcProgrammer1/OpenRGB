@@ -56,7 +56,8 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
     for(unsigned int device_idx = 0; device_idx < devices.size(); device_idx++)
     {
-        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
+        float universe_size = devices[device_idx].universe_size;
+        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / universe_size );
 
         for(unsigned int univ_idx = 0; univ_idx < total_universes; univ_idx++)
         {
@@ -141,7 +142,8 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
         /*-----------------------------------------*\
         | Add Universes                             |
         \*-----------------------------------------*/
-        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
+        float universe_size = devices[device_idx].universe_size;
+        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / universe_size );
 
         for (unsigned int univ_idx = 0; univ_idx < total_universes; univ_idx++)
         {
@@ -161,7 +163,7 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
                 e131_packet_t   packet;
                 e131_addr_t     dest_addr;
 
-                e131_pkt_init(&packet, universe, 512);
+                e131_pkt_init(&packet, universe, universe_size);
 
                 if(multicast)
                 {
@@ -363,7 +365,8 @@ void RGBController_E131::DeviceUpdateLEDs()
     
     for(std::size_t device_idx = 0; device_idx < devices.size(); device_idx++)
     {
-        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / 512.0f );
+        float universe_size = devices[device_idx].universe_size;
+        unsigned int total_universes = ceil( ( ( devices[device_idx].num_leds * 3 ) + devices[device_idx].start_channel ) / universe_size );
         unsigned int channel_idx = devices[device_idx].start_channel;
         unsigned int led_idx = 0;
         unsigned int rgb_idx = 0;
@@ -377,7 +380,7 @@ void RGBController_E131::DeviceUpdateLEDs()
             {
                 if(!done && (universes[packet_idx] == universe))
                 {
-                    while(!done && (channel_idx <= 512))
+                    while(!done && (channel_idx <= universe_size))
                     {
                         switch(rgb_idx)
                         {

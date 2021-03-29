@@ -52,6 +52,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             dev.matrix_height  = 0;
             dev.start_channel  = 1;
             dev.start_universe = 1;
+            dev.universe_size  = 512;
 
             if(e131_settings["devices"][device_idx].contains("name"))
             {
@@ -162,6 +163,11 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             if(e131_settings["devices"][device_idx].contains("matrix_height"))
             {
                 dev.matrix_height = e131_settings["devices"][device_idx]["matrix_height"];
+            }
+            
+            if(e131_settings["devices"][device_idx].contains("universe_size"))
+            {
+                dev.universe_size = e131_settings["devices"][device_idx]["universe_size"];
             }
             
             if(e131_settings["devices"][device_idx].contains("type"))

@@ -51,6 +51,7 @@ struct E131Device
     zone_type type;
     unsigned int matrix_width;
     unsigned int matrix_height;
+    unsigned int universe_size;
     e131_matrix_order matrix_order;
 };
 
