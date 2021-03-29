@@ -80,8 +80,7 @@ void LogManager::configure(json config, const std::string &defaultDir)
         fs::path p = logname;
         if(p.is_relative())
         {
-            p = defaultDir;
-            p.append("/logs/");
+            p = defaultDir + "logs/";
             p.append(logname);
         }
         fs::create_directories(p.parent_path());
