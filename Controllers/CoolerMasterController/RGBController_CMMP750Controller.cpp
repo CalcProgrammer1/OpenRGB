@@ -98,48 +98,6 @@ int RGBController_CMMP750Controller::GetDeviceMode()
     return 0;
 }
 
-int RGBController_CMMP750Controller::GetDeviceMode()
-{
-    int temp_mode = cmmp750->GetMode();
-    for( int i = 0; i < modes.size(); i++)
-    {
-        if (temp_mode == modes[i].value)
-        {
-            return i;
-        }
-    }
-    //If not found return 0
-    return 0;
-}
-
-int RGBController_CMMP750Controller::GetDeviceMode()
-{
-    int temp_mode = cmmp750->GetMode();
-    for( int i = 0; i < modes.size(); i++)
-    {
-        if (temp_mode == modes[i].value)
-        {
-            return i;
-        }
-    }
-    //If not found return 0
-    return 0;
-}
-
-int RGBController_CMMP750Controller::GetDeviceMode()
-{
-    int temp_mode = cmmp750->GetMode();
-    for( int i = 0; i < modes.size(); i++)
-    {
-        if (temp_mode == modes[i].value)
-        {
-            return i;
-        }
-    }
-    //If not found return 0
-    return 0;
-}
-
 void RGBController_CMMP750Controller::SetupZones()
 {
     zone MP_zone;
