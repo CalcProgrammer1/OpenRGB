@@ -216,6 +216,28 @@ void RGBController_Razer::DeviceUpdateMode()
             {
                 controller->SetModeBreathingRandom();
             }
+            else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+            {
+                if(modes[active_mode].colors.size() == 1)
+                {
+                    unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
+                    unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
+                    unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
+
+                    controller->SetModeBreathingOneColor(red, grn, blu);
+                }
+                else if(modes[active_mode].colors.size() == 2)
+                {
+                    unsigned char red1 = RGBGetRValue(modes[active_mode].colors[0]);
+                    unsigned char grn1 = RGBGetGValue(modes[active_mode].colors[0]);
+                    unsigned char blu1 = RGBGetBValue(modes[active_mode].colors[0]);
+                    unsigned char red2 = RGBGetRValue(modes[active_mode].colors[1]);
+                    unsigned char grn2 = RGBGetGValue(modes[active_mode].colors[1]);
+                    unsigned char blu2 = RGBGetBValue(modes[active_mode].colors[1]);
+
+                    controller->SetModeBreathingTwoColors(red1, grn1, blu1, red2, grn2, blu2);
+                }
+            }
             break;
 
         case RAZER_MODE_SPECTRUM_CYCLE:

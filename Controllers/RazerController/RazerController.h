@@ -211,8 +211,12 @@ private:
     razer_report            razer_create_custom_frame_extended_matrix_report(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
     razer_report            razer_create_custom_frame_standard_matrix_report(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
     razer_report            razer_create_device_mode_report(unsigned char mode, unsigned char param);
+    razer_report            razer_create_mode_breathing_one_color_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu);
+    razer_report            razer_create_mode_breathing_one_color_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu);
     razer_report            razer_create_mode_breathing_random_extended_matrix_report(unsigned char variable_storage, unsigned char led_id);
     razer_report            razer_create_mode_breathing_random_standard_matrix_report(unsigned char variable_storage, unsigned char led_id);
+    razer_report            razer_create_mode_breathing_two_colors_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
+    razer_report            razer_create_mode_breathing_two_colors_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
     razer_report            razer_create_mode_custom_extended_matrix_report();
     razer_report            razer_create_mode_custom_standard_matrix_report(unsigned char variable_storage);
     razer_report            razer_create_mode_none_extended_matrix_report(unsigned char variable_storage, unsigned char led_id);

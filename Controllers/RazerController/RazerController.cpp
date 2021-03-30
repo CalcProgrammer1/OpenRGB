@@ -206,9 +206,19 @@ void RazerController::SetLEDs(RGBColor* colors)
     delete[] output_array;
 }
 
+void RazerController::SetModeBreathingOneColor(unsigned char red, unsigned char grn, unsigned char blu)
+{
+    razer_set_mode_breathing_one_color(red, grn, blu);
+}
+
 void RazerController::SetModeBreathingRandom()
 {
     razer_set_mode_breathing_random();
+}
+
+void RazerController::SetModeBreathingTwoColors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+{
+    razer_set_mode_breathing_two_colors(r1, g1, b1, r2, g2, b2);
 }
 
 void RazerController::SetModeOff()
@@ -437,6 +447,37 @@ razer_report RazerController::razer_create_device_mode_report(unsigned char mode
     return report;
 }
 
+razer_report RazerController::razer_create_mode_breathing_one_color_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu)
+{
+    razer_report report         = razer_create_report(0x0F, 0x02, 0x09);
+
+    report.arguments[0]         = variable_storage;
+    report.arguments[1]         = led_id;
+    report.arguments[2]         = 0x02;
+
+    report.arguments[3]         = 0x01;
+    report.arguments[5]         = 0x01;
+
+    report.arguments[6]         = red;
+    report.arguments[7]         = grn;
+    report.arguments[8]         = blu;
+
+    return report;
+}
+
+razer_report RazerController::razer_create_mode_breathing_one_color_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu)
+{
+    razer_report report         = razer_create_report(0x03, 0x0A, 0x08);
+
+    report.arguments[0]         = 0x03;
+    report.arguments[1]         = 0x01;
+    report.arguments[2]         = red;
+    report.arguments[3]         = grn;
+    report.arguments[4]         = blu;
+
+    return report;
+}
+
 razer_report RazerController::razer_create_mode_breathing_random_extended_matrix_report(unsigned char variable_storage, unsigned char led_id)
 {
     razer_report report         = razer_create_report(0x0F, 0x02, 0x06);
@@ -454,6 +495,43 @@ razer_report RazerController::razer_create_mode_breathing_random_standard_matrix
 
     report.arguments[0]         = 0x03;
     report.arguments[1]         = 0x03;
+
+    return report;
+}
+
+razer_report RazerController::razer_create_mode_breathing_two_colors_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+{
+    razer_report report         = razer_create_report(0x0F, 0x02, 0x0C);
+
+    report.arguments[0]         = variable_storage;
+    report.arguments[1]         = led_id;
+    report.arguments[2]         = 0x02;
+
+    report.arguments[3]         = 0x02;
+    report.arguments[5]         = 0x02;
+
+    report.arguments[6]         = r1;
+    report.arguments[7]         = g1;
+    report.arguments[8]         = b1;
+    report.arguments[9]         = r2;
+    report.arguments[10]        = g2;
+    report.arguments[11]        = b2;
+
+    return report;
+}
+
+razer_report RazerController::razer_create_mode_breathing_two_colors_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+{
+    razer_report report         = razer_create_report(0x03, 0x0A, 0x08);
+
+    report.arguments[0]         = 0x03;
+    report.arguments[1]         = 0x02;
+    report.arguments[2]         = r1;
+    report.arguments[3]         = g1;
+    report.arguments[4]         = b1;
+    report.arguments[5]         = r2;
+    report.arguments[6]         = g2;
+    report.arguments[7]         = b2;
 
     return report;
 }
@@ -876,6 +954,82 @@ void RazerController::razer_set_device_mode(unsigned char device_mode)
     razer_usb_send(&report);
 }
 
+void RazerController::razer_set_mode_breathing_one_color(unsigned char red, unsigned char grn, unsigned char blu)
+{
+    razer_report report;
+
+    switch(dev_pid)
+    {
+        /*-----------------------------------------------------*\
+        | These devices use an extended matrix report           |
+        \*-----------------------------------------------------*/
+        /*-----------------*\
+        |  Keyboards        |
+        \*-----------------*/
+        case RAZER_BLACKWIDOW_2019_PID:
+        case RAZER_BLACKWIDOW_ELITE_PID:
+        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
+        case RAZER_CYNOSA_CHROMA_PID:
+        //case RAZER_CYNOSA_CHROMA_PRO_PID:
+        case RAZER_CYNOSA_LITE_PID:
+        case RAZER_CYNOSA_V2_PID:
+        case RAZER_HUNTSMAN_PID:
+        case RAZER_HUNTSMAN_ELITE_PID:
+        //case RAZER_HUNTSMAN_MINI_PID:
+        case RAZER_HUNTSMAN_TE_PID:
+        case RAZER_ORNATA_CHROMA_PID:
+        case RAZER_ORNATA_CHROMA_V2_PID:
+        case RAZER_TARTARUS_V2_PID:
+
+        /*-----------------*\
+        |  Mice             |
+        \*-----------------*/
+        case RAZER_NAGA_CHROMA_PID:
+        case RAZER_NAGA_HEX_V2_PID:
+
+        /*-----------------*\
+        |  Accessories      |
+        \*-----------------*/
+        case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_CHARGING_PAD_CHROMA_PID:
+        case RAZER_CHROMA_BASE_PID:
+        case RAZER_CHROMA_HDK_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
+        case RAZER_FIREFLY_V2_PID:
+        case RAZER_GOLIATHUS_CHROMA_PID:
+        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
+        case RAZER_KRAKEN_KITTY_EDITION_PID:
+        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        //case RAZER_MOUSE_DOCK_PID:
+        case RAZER_NOMMO_CHROMA_PID:
+        case RAZER_NOMMO_PRO_PID:
+            report                      = razer_create_mode_breathing_one_color_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+            break;
+
+        /*-----------------------------------------------------*\
+        | These devices use a standard matrix report            |
+        \*-----------------------------------------------------*/
+        /*-----------------*\
+        |  Keyboards        |
+        \*-----------------*/
+        default:
+        case RAZER_BLACKWIDOW_CHROMA_PID:
+        case RAZER_BLACKWIDOW_CHROMA_TE_PID:
+        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+
+        /*-----------------*\
+        |  Accessories      |
+        \*-----------------*/
+        case RAZER_CHROMA_MUG_PID:
+        case RAZER_CORE_PID:
+        case RAZER_FIREFLY_PID:
+            report                      = razer_create_mode_breathing_one_color_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+            break;
+    }
+
+    razer_usb_send(&report);
+}
+
 void RazerController::razer_set_mode_breathing_random()
 {
     razer_report report;
@@ -946,6 +1100,82 @@ void RazerController::razer_set_mode_breathing_random()
         case RAZER_CORE_PID:
         case RAZER_FIREFLY_PID:
             report                      = razer_create_mode_breathing_random_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            break;
+    }
+
+    razer_usb_send(&report);
+}
+
+void RazerController::razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+{
+    razer_report report;
+
+    switch(dev_pid)
+    {
+        /*-----------------------------------------------------*\
+        | These devices use an extended matrix report           |
+        \*-----------------------------------------------------*/
+        /*-----------------*\
+        |  Keyboards        |
+        \*-----------------*/
+        case RAZER_BLACKWIDOW_2019_PID:
+        case RAZER_BLACKWIDOW_ELITE_PID:
+        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
+        case RAZER_CYNOSA_CHROMA_PID:
+        //case RAZER_CYNOSA_CHROMA_PRO_PID:
+        case RAZER_CYNOSA_LITE_PID:
+        case RAZER_CYNOSA_V2_PID:
+        case RAZER_HUNTSMAN_PID:
+        case RAZER_HUNTSMAN_ELITE_PID:
+        //case RAZER_HUNTSMAN_MINI_PID:
+        case RAZER_HUNTSMAN_TE_PID:
+        case RAZER_ORNATA_CHROMA_PID:
+        case RAZER_ORNATA_CHROMA_V2_PID:
+        case RAZER_TARTARUS_V2_PID:
+
+        /*-----------------*\
+        |  Mice             |
+        \*-----------------*/
+        case RAZER_NAGA_CHROMA_PID:
+        case RAZER_NAGA_HEX_V2_PID:
+
+        /*-----------------*\
+        |  Accessories      |
+        \*-----------------*/
+        case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_CHARGING_PAD_CHROMA_PID:
+        case RAZER_CHROMA_BASE_PID:
+        case RAZER_CHROMA_HDK_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
+        case RAZER_FIREFLY_V2_PID:
+        case RAZER_GOLIATHUS_CHROMA_PID:
+        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
+        case RAZER_KRAKEN_KITTY_EDITION_PID:
+        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        //case RAZER_MOUSE_DOCK_PID:
+        case RAZER_NOMMO_CHROMA_PID:
+        case RAZER_NOMMO_PRO_PID:
+            report                      = razer_create_mode_breathing_two_colors_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, r1, g1, b1, r2, g2, b2);
+            break;
+
+        /*-----------------------------------------------------*\
+        | These devices use a standard matrix report            |
+        \*-----------------------------------------------------*/
+        /*-----------------*\
+        |  Keyboards        |
+        \*-----------------*/
+        default:
+        case RAZER_BLACKWIDOW_CHROMA_PID:
+        case RAZER_BLACKWIDOW_CHROMA_TE_PID:
+        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+
+        /*-----------------*\
+        |  Accessories      |
+        \*-----------------*/
+        case RAZER_CHROMA_MUG_PID:
+        case RAZER_CORE_PID:
+        case RAZER_FIREFLY_PID:
+            report                      = razer_create_mode_breathing_two_colors_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, r1, g1, b1, r2, g2, b2);
             break;
     }
 
