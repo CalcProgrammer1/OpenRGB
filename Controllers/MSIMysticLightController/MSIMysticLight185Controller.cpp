@@ -110,7 +110,7 @@ void MSIMysticLight185Controller::SetMode
     }
 
     zoneData->effect                    = mode;
-    zoneData->speedAndBrightnessFlags   = ( brightness << 2u ) | speed;
+    zoneData->speedAndBrightnessFlags   = ( brightness << 2 ) | ( speed & 0x03 );
     zoneData->colorFlags                = 0x00;// BitSet(zoneData->colorFlags, !rainbow_color, 7u);
     zoneData->padding                   = 0x00;
 }
