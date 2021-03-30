@@ -37,16 +37,15 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     Static.colors.resize(1);
     modes.push_back(Static);
 
-    // Breathing disabled, not yet implemented
-    //mode Breathing;
-    //Breathing.name       = "Breathing";
-    //Breathing.value      = RAZER_MODE_BREATHING;
-    //Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    //Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    //Breathing.colors_min = 1;
-    //Breathing.colors_max = 2;
-    //Breathing.colors.resize(1);
-    //modes.push_back(Breathing);
+    mode Breathing;
+    Breathing.name       = "Breathing";
+    Breathing.value      = RAZER_MODE_BREATHING;
+    Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.colors_min = 1;
+    Breathing.colors_max = 2;
+    Breathing.colors.resize(1);
+    modes.push_back(Breathing);
 
     mode SpectrumCycle;
     SpectrumCycle.name       = "Spectrum Cycle";
@@ -213,6 +212,10 @@ void RGBController_Razer::DeviceUpdateMode()
             break;
 
         case RAZER_MODE_BREATHING:
+            if(modes[active_mode].color_mode == MODE_COLORS_RANDOM)
+            {
+                controller->SetModeBreathingRandom();
+            }
             break;
 
         case RAZER_MODE_SPECTRUM_CYCLE:

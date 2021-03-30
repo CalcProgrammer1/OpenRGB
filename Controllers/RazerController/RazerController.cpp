@@ -206,6 +206,11 @@ void RazerController::SetLEDs(RGBColor* colors)
     delete[] output_array;
 }
 
+void RazerController::SetModeBreathingRandom()
+{
+    razer_set_mode_breathing_random();
+}
+
 void RazerController::SetModeOff()
 {
     razer_set_mode_none();
@@ -428,6 +433,27 @@ razer_report RazerController::razer_create_device_mode_report(unsigned char mode
 
     report.arguments[0]         = mode;
     report.arguments[1]         = param;
+
+    return report;
+}
+
+razer_report RazerController::razer_create_mode_breathing_random_extended_matrix_report(unsigned char variable_storage, unsigned char led_id)
+{
+    razer_report report         = razer_create_report(0x0F, 0x02, 0x06);
+
+    report.arguments[0]         = variable_storage;
+    report.arguments[1]         = led_id;
+    report.arguments[2]         = 0x02;
+
+    return report;
+}
+
+razer_report RazerController::razer_create_mode_breathing_random_standard_matrix_report(unsigned char variable_storage, unsigned char led_id)
+{
+    razer_report report         = razer_create_report(0x03, 0x0A, 0x08);
+
+    report.arguments[0]         = 0x03;
+    report.arguments[1]         = 0x03;
 
     return report;
 }
@@ -847,6 +873,82 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
 void RazerController::razer_set_device_mode(unsigned char device_mode)
 {
     razer_report report                  = razer_create_device_mode_report(device_mode, 0x00);
+    razer_usb_send(&report);
+}
+
+void RazerController::razer_set_mode_breathing_random()
+{
+    razer_report report;
+
+    switch(dev_pid)
+    {
+        /*-----------------------------------------------------*\
+        | These devices use an extended matrix report           |
+        \*-----------------------------------------------------*/
+        /*-----------------*\
+        |  Keyboards        |
+        \*-----------------*/
+        case RAZER_BLACKWIDOW_2019_PID:
+        case RAZER_BLACKWIDOW_ELITE_PID:
+        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
+        case RAZER_CYNOSA_CHROMA_PID:
+        //case RAZER_CYNOSA_CHROMA_PRO_PID:
+        case RAZER_CYNOSA_LITE_PID:
+        case RAZER_CYNOSA_V2_PID:
+        case RAZER_HUNTSMAN_PID:
+        case RAZER_HUNTSMAN_ELITE_PID:
+        //case RAZER_HUNTSMAN_MINI_PID:
+        case RAZER_HUNTSMAN_TE_PID:
+        case RAZER_ORNATA_CHROMA_PID:
+        case RAZER_ORNATA_CHROMA_V2_PID:
+        case RAZER_TARTARUS_V2_PID:
+
+        /*-----------------*\
+        |  Mice             |
+        \*-----------------*/
+        case RAZER_NAGA_CHROMA_PID:
+        case RAZER_NAGA_HEX_V2_PID:
+
+        /*-----------------*\
+        |  Accessories      |
+        \*-----------------*/
+        case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_CHARGING_PAD_CHROMA_PID:
+        case RAZER_CHROMA_BASE_PID:
+        case RAZER_CHROMA_HDK_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
+        case RAZER_FIREFLY_V2_PID:
+        case RAZER_GOLIATHUS_CHROMA_PID:
+        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
+        case RAZER_KRAKEN_KITTY_EDITION_PID:
+        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        //case RAZER_MOUSE_DOCK_PID:
+        case RAZER_NOMMO_CHROMA_PID:
+        case RAZER_NOMMO_PRO_PID:
+            report                      = razer_create_mode_breathing_random_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            break;
+
+        /*-----------------------------------------------------*\
+        | These devices use a standard matrix report            |
+        \*-----------------------------------------------------*/
+        /*-----------------*\
+        |  Keyboards        |
+        \*-----------------*/
+        default:
+        case RAZER_BLACKWIDOW_CHROMA_PID:
+        case RAZER_BLACKWIDOW_CHROMA_TE_PID:
+        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+
+        /*-----------------*\
+        |  Accessories      |
+        \*-----------------*/
+        case RAZER_CHROMA_MUG_PID:
+        case RAZER_CORE_PID:
+        case RAZER_FIREFLY_PID:
+            report                      = razer_create_mode_breathing_random_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            break;
+    }
+
     razer_usb_send(&report);
 }
 
