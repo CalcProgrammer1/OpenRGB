@@ -35,6 +35,7 @@ private:
     std::string         location;
     net_port            port;
     bool                music_mode;
+    unsigned int        music_mode_port;
     net_port            music_mode_server;
     SOCKET *            music_mode_sock;
 };

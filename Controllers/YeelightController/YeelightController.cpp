@@ -26,20 +26,53 @@ YeelightController::YeelightController(std::string ip, bool music_mode_val)
 
     if(music_mode)
     {
-        /*-----------------------------------------------------------------*\
-        | Open a TCP server for music mode if enabled                       |
-        \*-----------------------------------------------------------------*/
-        music_mode_server.tcp_server("55444");
+        bool port_opened = false;
+        char port_string[8];
 
         /*-----------------------------------------------------------------*\
-        | Command bulb to connect to our TCP server                         |
+        | Start searching for open port for music mode at 55444             |
         \*-----------------------------------------------------------------*/
-        SetMusicMode();
+        music_mode_port = 55444;
 
-        /*-----------------------------------------------------------------*\
-        | Get the client socket for the music mode connection               |
-        \*-----------------------------------------------------------------*/
-        music_mode_sock = music_mode_server.tcp_server_listen();
+        while(!port_opened)
+        {
+            /*-----------------------------------------------------------------*\
+            | Convert port to string                                            |
+            \*-----------------------------------------------------------------*/
+            snprintf(port_string, 8, "%d", music_mode_port);
+
+            /*-----------------------------------------------------------------*\
+            | Open a TCP server for music mode if enabled                       |
+            \*-----------------------------------------------------------------*/
+            port_opened = music_mode_server.tcp_server(port_string);
+
+            if(!port_opened)
+            {
+                music_mode_port++;
+
+                /*-------------------------------------------------------------*\
+                | If we've tested the maximum port value, 65535, and it failed, |
+                | give up and don't use music mode                              |
+                \*-------------------------------------------------------------*/
+                if(music_mode_port >= 65536)
+                {
+                    music_mode = false;
+                    break;
+                }
+
+                continue;
+            }
+
+            /*-----------------------------------------------------------------*\
+            | Command bulb to connect to our TCP server                         |
+            \*-----------------------------------------------------------------*/
+            SetMusicMode();
+
+            /*-----------------------------------------------------------------*\
+            | Get the client socket for the music mode connection               |
+            \*-----------------------------------------------------------------*/
+            music_mode_sock = music_mode_server.tcp_server_listen();
+        }
     }
 }
 
@@ -102,7 +135,7 @@ void YeelightController::SetMusicMode()
     command["method"]           = "set_music";
     command["params"][0]        = 1;
     command["params"][1]        = ip_addr;
-    command["params"][2]        = 55444;
+    command["params"][2]        = music_mode_port;
 
     /*-----------------------------------------------------------------*\
     | Convert the JSON object to a string and write it                  |
