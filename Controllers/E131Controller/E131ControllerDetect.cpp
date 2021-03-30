@@ -52,6 +52,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             dev.matrix_height  = 0;
             dev.start_channel  = 1;
             dev.start_universe = 1;
+            dev.keepalive_time = 0;
             dev.universe_size  = 512;
 
             if(e131_settings["devices"][device_idx].contains("name"))
@@ -77,6 +78,11 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             if(e131_settings["devices"][device_idx].contains("start_channel"))
             {
                 dev.start_channel = e131_settings["devices"][device_idx]["start_channel"];
+            }
+
+            if(e131_settings["devices"][device_idx].contains("keepalive_time"))
+            {
+                dev.keepalive_time = e131_settings["devices"][device_idx]["keepalive_time"];
             }
 
             if(e131_settings["devices"][device_idx].contains("matrix_order"))
