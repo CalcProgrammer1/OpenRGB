@@ -29,4 +29,9 @@ void DetectZalmanZSyncControllers(hid_device_info* info, const std::string& name
     }
 }   /* DetectZalmanZSyncControllers() */
 
-REGISTER_HID_DETECTOR("Zalman Z Sync", DetectZalmanZSyncControllers, ZALMAN_VID, ZALMAN_Z_SYNC_PID);
+/*-----------------------------------------------------------------*\
+| Disable due to bricking.  Bricking may not be caused by OpenRGB   |
+| as reports of bricking in the official software are common.  Seems|
+| to be a bug in the firmware, but I want to investigate further    |
+\*-----------------------------------------------------------------*/
+//REGISTER_HID_DETECTOR("Zalman Z Sync", DetectZalmanZSyncControllers, ZALMAN_VID, ZALMAN_Z_SYNC_PID);

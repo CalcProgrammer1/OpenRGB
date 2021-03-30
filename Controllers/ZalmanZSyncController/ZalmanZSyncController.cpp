@@ -158,7 +158,7 @@ void ZalmanZSyncController::SetChannelLEDs(unsigned char channel, RGBColor * col
     /*-----------------------------------------------------*\
     | Send Port State packet                                |
     \*-----------------------------------------------------*/
-    //SendPortState(channel, ZALMAN_Z_SYNC_PORT_STATE_SOFTWARE);
+    SendPortState(channel, ZALMAN_Z_SYNC_PORT_STATE_SOFTWARE);
 
     /*-----------------------------------------------------*\
     | Loop through colors and send 50 at a time             |
