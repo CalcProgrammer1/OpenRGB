@@ -77,8 +77,8 @@ void DetectCoolerMasterGPU(hid_device_info* info, const std::string&)
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("Cooler Master MP750 XL",     DetectCoolerMasterMousemats, COOLERMASTER_VID, COOLERMASTER_MP750_XL_PID,     0, 0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master MP750 Medium", DetectCoolerMasterMousemats, COOLERMASTER_VID, COOLERMASTER_MP750_MEDIUM_PID, 0, 0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB",         DetectCoolerMasterARGB,      COOLERMASTER_VID, COOLERMASTER_ARGB_PID,         0, 0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master Smalll ARGB",  DetectCoolerMasterSmallARGB, COOLERMASTER_VID, COOLERMASTER_SMALL_ARGB_PID,   0, 0xFF00, 1);
-REGISTER_HID_DETECTOR_I("Cooler Master Radeon 6000 GPU",DetectCoolerMasterGPU,       COOLERMASTER_VID, COOLERMASTER_RADEON_6000_PID, 1);
+REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 XL",         DetectCoolerMasterMousemats,    COOLERMASTER_VID, COOLERMASTER_MP750_XL_PID,            0xFF00, 1);
+REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 Medium",     DetectCoolerMasterMousemats,    COOLERMASTER_VID, COOLERMASTER_MP750_MEDIUM_PID,        0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB",             DetectCoolerMasterARGB,         COOLERMASTER_VID, COOLERMASTER_ARGB_PID,         	0,  0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master Smalll ARGB",      DetectCoolerMasterSmallARGB,    COOLERMASTER_VID, COOLERMASTER_SMALL_ARGB_PID,   	0,  0xFF00, 1);
+REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6000 GPU",  DetectCoolerMasterGPU,          COOLERMASTER_VID, COOLERMASTER_RADEON_6000_PID,                 1);
