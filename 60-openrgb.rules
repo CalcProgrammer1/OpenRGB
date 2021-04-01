@@ -30,6 +30,15 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0051", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1044", ATTR{idProduct}=="7a42", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  ASRock Devices                                               #
+#                                                               #
+#   ASRock Polychrome USB                                       #
+#   ASRock Deskmini Addressable LED Strip                       #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="26CE", ATTR{idProduct}=="01A2", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="26CE", ATTR{idProduct}=="01A6", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  ASUS Aura Core Devices                                       #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1854", TAG+="uaccess"
