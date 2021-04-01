@@ -88,6 +88,18 @@ enum
 };
 
 /*---------------------------------------------------------*\
+| Razer Matrix Type                                         |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_MATRIX_TYPE_STANDARD                  = 0,
+    RAZER_MATRIX_TYPE_EXTENDED                  = 1,
+    RAZER_MATRIX_TYPE_LINEAR                    = 2,
+    RAZER_MATRIX_TYPE_EXTENDED_ARGB             = 3,
+    RAZER_MATRIX_TYPE_CUSTOM                    = 4,
+};
+
+/*---------------------------------------------------------*\
 | Razer Report Type (taken from OpenRazer)                  |
 \*---------------------------------------------------------*/
 struct razer_rgb
@@ -196,6 +208,11 @@ private:
     \*---------------------------------------------------------*/
     unsigned char           report_index;
     unsigned char           response_index;
+
+    /*---------------------------------------------------------*\
+    | Matrix type                                               |
+    \*---------------------------------------------------------*/
+    unsigned char           matrix_type;
 
     /*---------------------------------------------------------*\
     | Private functions based on OpenRazer                      |

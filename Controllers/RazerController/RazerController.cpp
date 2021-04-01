@@ -113,6 +113,122 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     }
 
     /*-----------------------------------------------------------------*\
+    | Determine matrix type for device                                  |
+    \*-----------------------------------------------------------------*/
+    switch(dev_pid)
+    {
+        /*-------------------------------------------------*\
+        | These devices use a standard matrix report        |
+        \*-------------------------------------------------*/
+        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+        case RAZER_BLADE_15_ADV_2020_PID:
+        case RAZER_BLADE_2018_BASE_PID:
+        case RAZER_BLADE_2018_MERCURY_PID:
+        case RAZER_BLADE_2018_PID:
+        case RAZER_BLADE_2019_ADV_PID:
+        case RAZER_BLADE_LATE_2016_PID:
+        case RAZER_BLADE_MID_2019_MERCURY_PID:
+        case RAZER_BLADE_PRO_2017_FULLHD_PID:
+        case RAZER_BLADE_PRO_2017_PID:
+        case RAZER_BLADE_PRO_LATE_2016_PID:
+        case RAZER_BLADE_PRO_LATE_2019_PID:
+        case RAZER_BLADE_QHD_PID:
+        case RAZER_BLADE_STEALTH_2019_PID:
+        case RAZER_BLADE_STEALTH_LATE_2016_PID:
+        case RAZER_BLADE_STEALTH_LATE_2017_PID:
+        case RAZER_BLADE_STEALTH_MID_2017_PID:
+        case RAZER_BLADE_STEALTH_PID:
+        case RAZER_BLADE_STUDIO_EDITION_2019_PID:
+        case RAZER_CORE_PID:
+        case RAZER_NAGA_HEX_V2_PID:
+            matrix_type = RAZER_MATRIX_TYPE_STANDARD;
+            break;
+
+        /*-------------------------------------------------*\
+        | These devices use an extended matrix report       |
+        \*-------------------------------------------------*/
+        case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_BASILISK_PID:
+        case RAZER_BASILISK_ESSENTIAL_PID:
+        case RAZER_BLACKWIDOW_2019_PID:
+        case RAZER_BLACKWIDOW_ELITE_PID:
+        case RAZER_CHARGING_PAD_CHROMA_PID:
+        case RAZER_CHROMA_BASE_PID:
+        case RAZER_CHROMA_HDK_PID:
+        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
+        case RAZER_CYNOSA_CHROMA_PID:
+        case RAZER_CYNOSA_V2_PID:
+        case RAZER_DEATHADDER_ELITE_PID:
+        case RAZER_DEATHADDER_ESSENTIAL_PID:
+        case RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID:
+        case RAZER_DEATHADDER_V2_MINI_PID:
+        case RAZER_DEATHADDER_V2_PID:
+        case RAZER_DEATHADDER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHADDER_V2_PRO_WIRELESS_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
+        case RAZER_FIREFLY_V2_PID:
+        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
+        case RAZER_GOLIATHUS_CHROMA_PID:
+        case RAZER_HUNTSMAN_ELITE_PID:
+        case RAZER_HUNTSMAN_PID:
+        case RAZER_HUNTSMAN_TE_PID:
+        case RAZER_KRAKEN_KITTY_EDITION_PID:
+        case RAZER_LANCEHEAD_TE_WIRED_PID:
+        case RAZER_LANCEHEAD_WIRED_PID:
+        case RAZER_LANCEHEAD_WIRELESS_PID:
+        case RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID:
+        case RAZER_LANCEHEAD_WIRELESS_WIRED_PID:
+        case RAZER_MAMBA_ELITE_PID:
+        case RAZER_MAMBA_WIRELESS_RECEIVER_PID:
+        case RAZER_MAMBA_WIRELESS_WIRED_PID:
+        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        case RAZER_NAGA_TRINITY_PID:
+        case RAZER_NOMMO_CHROMA_PID:
+        case RAZER_NOMMO_PRO_PID:
+        case RAZER_ORNATA_CHROMA_PID:
+        case RAZER_ORNATA_CHROMA_V2_PID:
+        case RAZER_TARTARUS_V2_PID:
+        case RAZER_VIPER_MINI_PID:
+        case RAZER_VIPER_PID:
+        case RAZER_VIPER_ULTIMATE_WIRED_PID:
+        case RAZER_VIPER_ULTIMATE_WIRELESS_PID:
+            matrix_type = RAZER_MATRIX_TYPE_EXTENDED;
+            break;
+
+        /*-------------------------------------------------*\
+        | These devices use a linear report                 |
+        \*-------------------------------------------------*/
+        case RAZER_CHROMA_MUG_PID:
+        case RAZER_DEATHSTALKER_CHROMA_PID:
+        case RAZER_DIAMONDBACK_CHROMA_PID:
+        case RAZER_FIREFLY_PID:
+        case RAZER_MAMBA_TE_WIRED_PID:
+        case RAZER_MAMBA_WIRED_PID:
+        case RAZER_MAMBA_WIRELESS_PID:
+        case RAZER_NAGA_CHROMA_PID:
+            matrix_type = RAZER_MATRIX_TYPE_LINEAR;
+            break;
+
+        /*-------------------------------------------------*\
+        | These devices use an extended ARGB matrix report  |
+        \*-------------------------------------------------*/
+        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
+            matrix_type = RAZER_MATRIX_TYPE_EXTENDED_ARGB;
+            break;
+
+        /*-------------------------------------------------*\
+        | These devices have a non-standard report and are  |
+        | handled on a per-device basis                     |
+        \*-------------------------------------------------*/
+        case RAZER_TARTARUS_CHROMA_PID:
+        case RAZER_DEATHADDER_CHROMA_PID:
+        case RAZER_NAGA_EPIC_CHROMA_PID:
+        case RAZER_ORBWEAVER_CHROMA_PID:
+            matrix_type = RAZER_MATRIX_TYPE_CUSTOM;
+            break;
+    }
+
+    /*-----------------------------------------------------------------*\
     | Initialize to full brightness                                     |
     \*-----------------------------------------------------------------*/
     razer_set_brightness(255);
@@ -727,225 +843,142 @@ void RazerController::razer_set_brightness(unsigned char brightness)
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-------------------------------------------------*\
-        | These devices use an extended matrix report       |
-        \*-------------------------------------------------*/
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
-        case RAZER_BLACKWIDOW_LITE_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        case RAZER_CYNOSA_LITE_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_MAMBA_ELITE_PID:
-        case RAZER_NAGA_TRINITY_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, brightness);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_brightness_standard_report(RAZER_STORAGE_NO_SAVE, dev_led_id, brightness);
+            razer_usb_send(&report);
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report and LED|
-        | ID Backlight                                      |
-        \*-------------------------------------------------*/
-        default:
-            report                      = razer_create_brightness_standard_report(RAZER_STORAGE_NO_SAVE, dev_led_id, brightness);
+        case RAZER_MATRIX_TYPE_EXTENDED:
+            report                          = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, brightness);
+            razer_usb_send(&report);
             break;
 
-        /*-------------------------------------------------*\
-        | Razer Chroma ARGB controller needs all channels   |
-        | adjusted                                          |
-        \*-------------------------------------------------*/
-        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
-            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_1, brightness);
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_1, brightness);
             razer_usb_send(&report);
 
-            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_2, brightness);
+            report                          = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_2, brightness);
             razer_usb_send(&report);
 
-            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_3, brightness);
+            report                          = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_3, brightness);
             razer_usb_send(&report);
 
-            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_4, brightness);
+            report                          = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_4, brightness);
             razer_usb_send(&report);
 
-            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_5, brightness);
+            report                          = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_5, brightness);
             razer_usb_send(&report);
 
-            report                      = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_6, brightness);
+            report                          = razer_create_brightness_extended_matrix_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_ARGB_CH_6, brightness);
+            razer_usb_send(&report);
+            break;
+
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_brightness_standard_report(RAZER_STORAGE_NO_SAVE, dev_led_id, brightness);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data)
 {
-    razer_report report;
+    razer_argb_report   argb_report;
+    razer_report        report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-------------------------------------------------*\
-        | These devices use an extended matrix report       |
-        \*-------------------------------------------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_BASILISK_PID:
-        case RAZER_BASILISK_ESSENTIAL_PID:
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_CHARGING_PAD_CHROMA_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_DEATHADDER_ELITE_PID:
-        case RAZER_DEATHADDER_ESSENTIAL_PID:
-        case RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID:
-        case RAZER_DEATHADDER_V2_MINI_PID:
-        case RAZER_DEATHADDER_V2_PID:
-        case RAZER_DEATHADDER_V2_PRO_WIRED_PID:
-        case RAZER_DEATHADDER_V2_PRO_WIRELESS_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_LANCEHEAD_TE_WIRED_PID:
-        case RAZER_LANCEHEAD_WIRED_PID:
-        case RAZER_LANCEHEAD_WIRELESS_PID:
-        case RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID:
-        case RAZER_LANCEHEAD_WIRELESS_WIRED_PID:
-        case RAZER_MAMBA_ELITE_PID:
-        case RAZER_MAMBA_WIRELESS_RECEIVER_PID:
-        case RAZER_MAMBA_WIRELESS_WIRED_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_TRINITY_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-        case RAZER_VIPER_MINI_PID:
-        case RAZER_VIPER_PID:
-        case RAZER_VIPER_ULTIMATE_WIRED_PID:
-        case RAZER_VIPER_ULTIMATE_WIRELESS_PID:
-            report                      = razer_create_custom_frame_extended_matrix_report(row_index, start_col, stop_col, rgb_data);
-            break;
-
-        /*-------------------------------------------------*\
-        | These devices use a linear report                 |
-        \*-------------------------------------------------*/
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_DEATHSTALKER_CHROMA_PID:
-        case RAZER_DIAMONDBACK_CHROMA_PID:
-        case RAZER_FIREFLY_PID:
-        case RAZER_MAMBA_TE_WIRED_PID:
-        case RAZER_MAMBA_WIRED_PID:
-        case RAZER_MAMBA_WIRELESS_PID:
-        case RAZER_NAGA_CHROMA_PID:
-            report                      = razer_create_custom_frame_linear_report(start_col, stop_col, rgb_data);
-            break;
-
-        /*-------------------------------------------------*\
-        | These devices use individual LED effect reports   |
-        | and transaction ID 0x1F                           |
-        \*-------------------------------------------------*/
-        case RAZER_TARTARUS_CHROMA_PID:
-            report                      = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
-            break;
-            
-        case RAZER_DEATHADDER_CHROMA_PID:
-            report                      = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
-
+        case RAZER_MATRIX_TYPE_STANDARD:
+            report                          = razer_create_custom_frame_standard_matrix_report(row_index, start_col, stop_col, rgb_data);
             razer_usb_send(&report);
-
-            report                      = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, &rgb_data[3]);
             break;
 
-        case RAZER_NAGA_EPIC_CHROMA_PID:
-            report                      = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
-
+        case RAZER_MATRIX_TYPE_EXTENDED:
+            report                          = razer_create_custom_frame_extended_matrix_report(row_index, start_col, stop_col, rgb_data);
             razer_usb_send(&report);
-
-            report                      = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
             break;
 
-        /*-------------------------------------------------*\
-        | The Orbweaver Chroma has an unusual matrix layout |
-        | and the following code allows it to present as a  |
-        | 5x5 matrix.  The hardware layout is:              |
-        |                                                   |
-        |   XX  XX  XX  XX  XX  XX  XX                      |
-        |   XX  01  02  03  04  05  XX                      |
-        |   XX  06  07  08  09  10  XX                      |
-        |   XX  11  12  13  14  15  XX                      |
-        |   XX  16  XX  17  18  19  20                      |
-        |                                                   |
-        | It uses a standard matrix report and transaction  |
-        | ID 0x3F                                           |
-        \*-------------------------------------------------*/
-        case RAZER_ORBWEAVER_CHROMA_PID:
-            if(row_index != 3)
-            {
-                report                  = razer_create_custom_frame_standard_matrix_report(row_index + 1, start_col + 1, stop_col + 1, rgb_data);
-            }
-            else
-            {
-                unsigned char rgb_data_adj[6*3];
-
-                memcpy(&rgb_data_adj[0], &rgb_data[0], 3);
-                memcpy(&rgb_data_adj[6], &rgb_data[3], 3*4);
-
-                report                  = razer_create_custom_frame_standard_matrix_report(row_index + 1, start_col + 1, stop_col + 2, rgb_data_adj);
-            }
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_custom_frame_linear_report(start_col, stop_col, rgb_data);
+            razer_usb_send(&report);
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report        |
-        \*-------------------------------------------------*/
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
-        case RAZER_BLADE_15_ADV_2020_PID:
-        case RAZER_BLADE_2018_BASE_PID:
-        case RAZER_BLADE_2018_MERCURY_PID:
-        case RAZER_BLADE_2018_PID:
-        case RAZER_BLADE_2019_ADV_PID:
-        case RAZER_BLADE_LATE_2016_PID:
-        case RAZER_BLADE_MID_2019_MERCURY_PID:
-        case RAZER_BLADE_PRO_2017_FULLHD_PID:
-        case RAZER_BLADE_PRO_2017_PID:
-        case RAZER_BLADE_PRO_LATE_2016_PID:
-        case RAZER_BLADE_PRO_LATE_2019_PID:
-        case RAZER_BLADE_QHD_PID:
-        case RAZER_BLADE_STEALTH_2019_PID:
-        case RAZER_BLADE_STEALTH_LATE_2016_PID:
-        case RAZER_BLADE_STEALTH_LATE_2017_PID:
-        case RAZER_BLADE_STEALTH_MID_2017_PID:
-        case RAZER_BLADE_STEALTH_PID:
-        case RAZER_BLADE_STUDIO_EDITION_2019_PID:
-        case RAZER_CORE_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-        default:
-            report                      = razer_create_custom_frame_standard_matrix_report(row_index, start_col, stop_col, rgb_data);
-            break;
-
-        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
-            razer_argb_report argb_report   = razer_create_custom_frame_argb_report(row_index, stop_col, rgb_data);
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            argb_report                     = razer_create_custom_frame_argb_report(row_index, stop_col, rgb_data);
             razer_usb_send_argb(&argb_report);
-            return;
-    }
+            break;
 
-    razer_usb_send(&report);
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use individual LED effect reports   |
+                \*-------------------------------------------------*/
+                case RAZER_TARTARUS_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
+                    razer_usb_send(&report);
+                    break;
+                    
+                case RAZER_DEATHADDER_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_NAGA_EPIC_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    break;
+
+                /*-------------------------------------------------*\
+                | The Orbweaver Chroma has an unusual matrix layout |
+                | and the following code allows it to present as a  |
+                | 5x5 matrix.  The hardware layout is:              |
+                |                                                   |
+                |   XX  XX  XX  XX  XX  XX  XX                      |
+                |   XX  01  02  03  04  05  XX                      |
+                |   XX  06  07  08  09  10  XX                      |
+                |   XX  11  12  13  14  15  XX                      |
+                |   XX  16  XX  17  18  19  20                      |
+                |                                                   |
+                | It uses a standard matrix report and transaction  |
+                | ID 0x3F                                           |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    if(row_index != 3)
+                    {
+                        report              = razer_create_custom_frame_standard_matrix_report(row_index + 1, start_col + 1, stop_col + 1, rgb_data);
+                        razer_usb_send(&report);
+                    }
+                    else
+                    {
+                        unsigned char rgb_data_adj[6*3];
+
+                        memcpy(&rgb_data_adj[0], &rgb_data[0], 3);
+                        memcpy(&rgb_data_adj[6], &rgb_data[3], 3*4);
+
+                        report              = razer_create_custom_frame_standard_matrix_report(row_index + 1, start_col + 1, stop_col + 2, rgb_data_adj);
+                        razer_usb_send(&report);
+                    }
+                    break;
+            }
+            break;
+    }
 }
 
 void RazerController::razer_set_device_mode(unsigned char device_mode)
@@ -958,491 +991,257 @@ void RazerController::razer_set_mode_breathing_one_color(unsigned char red, unsi
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-----------------------------------------------------*\
-        | These devices use an extended matrix report           |
-        \*-----------------------------------------------------*/
-        /*-----------------*\
-        |  Keyboards        |
-        \*-----------------*/
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        //case RAZER_CYNOSA_CHROMA_PRO_PID:
-        case RAZER_CYNOSA_LITE_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        //case RAZER_HUNTSMAN_MINI_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-
-        /*-----------------*\
-        |  Mice             |
-        \*-----------------*/
-        case RAZER_NAGA_CHROMA_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-
-        /*-----------------*\
-        |  Accessories      |
-        \*-----------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_CHARGING_PAD_CHROMA_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        //case RAZER_MOUSE_DOCK_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-            report                      = razer_create_mode_breathing_one_color_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_breathing_one_color_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+            razer_usb_send(&report);
             break;
 
-        /*-----------------------------------------------------*\
-        | These devices use a standard matrix report            |
-        \*-----------------------------------------------------*/
-        /*-----------------*\
-        |  Keyboards        |
-        \*-----------------*/
-        default:
-        case RAZER_BLACKWIDOW_CHROMA_PID:
-        case RAZER_BLACKWIDOW_CHROMA_TE_PID:
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+        case RAZER_MATRIX_TYPE_EXTENDED:
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_mode_breathing_one_color_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+            razer_usb_send(&report);
+            break;
 
-        /*-----------------*\
-        |  Accessories      |
-        \*-----------------*/
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-            report                      = razer_create_mode_breathing_one_color_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_breathing_one_color_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_mode_breathing_random()
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-----------------------------------------------------*\
-        | These devices use an extended matrix report           |
-        \*-----------------------------------------------------*/
-        /*-----------------*\
-        |  Keyboards        |
-        \*-----------------*/
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        //case RAZER_CYNOSA_CHROMA_PRO_PID:
-        case RAZER_CYNOSA_LITE_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        //case RAZER_HUNTSMAN_MINI_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-
-        /*-----------------*\
-        |  Mice             |
-        \*-----------------*/
-        case RAZER_NAGA_CHROMA_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-
-        /*-----------------*\
-        |  Accessories      |
-        \*-----------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_CHARGING_PAD_CHROMA_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        //case RAZER_MOUSE_DOCK_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-            report                      = razer_create_mode_breathing_random_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_breathing_random_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            razer_usb_send(&report);
             break;
 
-        /*-----------------------------------------------------*\
-        | These devices use a standard matrix report            |
-        \*-----------------------------------------------------*/
-        /*-----------------*\
-        |  Keyboards        |
-        \*-----------------*/
-        default:
-        case RAZER_BLACKWIDOW_CHROMA_PID:
-        case RAZER_BLACKWIDOW_CHROMA_TE_PID:
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+        case RAZER_MATRIX_TYPE_EXTENDED:
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_mode_breathing_random_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            razer_usb_send(&report);
+            break;
 
-        /*-----------------*\
-        |  Accessories      |
-        \*-----------------*/
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-            report                      = razer_create_mode_breathing_random_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_breathing_random_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-----------------------------------------------------*\
-        | These devices use an extended matrix report           |
-        \*-----------------------------------------------------*/
-        /*-----------------*\
-        |  Keyboards        |
-        \*-----------------*/
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        //case RAZER_CYNOSA_CHROMA_PRO_PID:
-        case RAZER_CYNOSA_LITE_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        //case RAZER_HUNTSMAN_MINI_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-
-        /*-----------------*\
-        |  Mice             |
-        \*-----------------*/
-        case RAZER_NAGA_CHROMA_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-
-        /*-----------------*\
-        |  Accessories      |
-        \*-----------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_CHARGING_PAD_CHROMA_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        //case RAZER_MOUSE_DOCK_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-            report                      = razer_create_mode_breathing_two_colors_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, r1, g1, b1, r2, g2, b2);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_breathing_two_colors_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, r1, g1, b1, r2, g2, b2);
+            razer_usb_send(&report);
             break;
 
-        /*-----------------------------------------------------*\
-        | These devices use a standard matrix report            |
-        \*-----------------------------------------------------*/
-        /*-----------------*\
-        |  Keyboards        |
-        \*-----------------*/
-        default:
-        case RAZER_BLACKWIDOW_CHROMA_PID:
-        case RAZER_BLACKWIDOW_CHROMA_TE_PID:
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+        case RAZER_MATRIX_TYPE_EXTENDED:
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_mode_breathing_two_colors_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, r1, g1, b1, r2, g2, b2);
+            razer_usb_send(&report);
+            break;
 
-        /*-----------------*\
-        |  Accessories      |
-        \*-----------------*/
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-            report                      = razer_create_mode_breathing_two_colors_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, r1, g1, b1, r2, g2, b2);
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_breathing_two_colors_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, r1, g1, b1, r2, g2, b2);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_mode_custom()
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-------------------------------------------------*\
-        | These devices use an extended matrix report       |
-        \*-------------------------------------------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_BASILISK_PID:
-        case RAZER_BASILISK_ESSENTIAL_PID:
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_CHARGING_PAD_CHROMA_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_DEATHADDER_ELITE_PID:
-        case RAZER_DEATHADDER_V2_MINI_PID:
-        case RAZER_DEATHADDER_V2_PID:
-        case RAZER_DEATHADDER_V2_PRO_WIRED_PID:
-        case RAZER_DEATHADDER_V2_PRO_WIRELESS_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_LANCEHEAD_TE_WIRED_PID:
-        case RAZER_LANCEHEAD_WIRED_PID:
-        case RAZER_LANCEHEAD_WIRELESS_PID:
-        case RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID:
-        case RAZER_LANCEHEAD_WIRELESS_WIRED_PID:
-        case RAZER_MAMBA_ELITE_PID:
-        case RAZER_MAMBA_WIRELESS_RECEIVER_PID:
-        case RAZER_MAMBA_WIRELESS_WIRED_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_TRINITY_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-        case RAZER_VIPER_MINI_PID:
-        case RAZER_VIPER_PID:
-        case RAZER_VIPER_ULTIMATE_WIRED_PID:
-        case RAZER_VIPER_ULTIMATE_WIRELESS_PID:
-            report                      = razer_create_mode_custom_extended_matrix_report();
-            break;
-
-        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
-            return;
-
-        /*-------------------------------------------------*\
-        | These devices use individual LED effect reports   |
-        | and transaction ID 0x1F                           |
-        \*-------------------------------------------------*/
-        case RAZER_TARTARUS_CHROMA_PID:
-            report                      = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
-            break;
-
-        case RAZER_DEATHADDER_CHROMA_PID:
-            report                      = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
-
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_custom_standard_matrix_report(RAZER_STORAGE_NO_SAVE);
             razer_usb_send(&report);
-
-            report                      = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, 0);
             break;
 
-        case RAZER_NAGA_EPIC_CHROMA_PID:
-            report                      = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
-
+        case RAZER_MATRIX_TYPE_EXTENDED:
+            report                          = razer_create_mode_custom_extended_matrix_report();
             razer_usb_send(&report);
-
-            report                      = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report        |
-        \*-------------------------------------------------*/
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-        case RAZER_MAMBA_WIRELESS_PID:
-        case RAZER_NAGA_CHROMA_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-        case RAZER_ORBWEAVER_CHROMA_PID:
-        default:
-            report                      = razer_create_mode_custom_standard_matrix_report(RAZER_STORAGE_NO_SAVE);
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            break;
+
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use individual LED effect reports   |
+                \*-------------------------------------------------*/
+                case RAZER_TARTARUS_CHROMA_PID:
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_DEATHADDER_CHROMA_PID:
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, 0);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_NAGA_EPIC_CHROMA_PID:
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
+                    razer_usb_send(&report);
+                    break;
+
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_custom_standard_matrix_report(RAZER_STORAGE_NO_SAVE);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_mode_none()
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-------------------------------------------------*\
-        | These devices use an extended matrix report       |
-        \*-------------------------------------------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
-        case RAZER_BLACKWIDOW_LITE_PID:
-        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        case RAZER_CYNOSA_LITE_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_CHROMA_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-        case RAZER_NAGA_TRINITY_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-            report                      = razer_create_mode_none_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_none_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            razer_usb_send(&report);
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report        |
-        \*-------------------------------------------------*/
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-        default:
-            report                      = razer_create_mode_none_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+        case RAZER_MATRIX_TYPE_EXTENDED:
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_mode_none_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            razer_usb_send(&report);
+            break;
+        
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_none_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_mode_spectrum_cycle()
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-------------------------------------------------*\
-        | These devices use an extended matrix report       |
-        \*-------------------------------------------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        case RAZER_CYNOSA_LITE_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_CHROMA_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-        case RAZER_NAGA_TRINITY_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-            report                      = razer_create_mode_spectrum_cycle_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_spectrum_cycle_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            razer_usb_send(&report);
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report        |
-        \*-------------------------------------------------*/
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-        default:
-            report                      = razer_create_mode_spectrum_cycle_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+        case RAZER_MATRIX_TYPE_EXTENDED:
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_mode_spectrum_cycle_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+            razer_usb_send(&report);
+            break;
+
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_spectrum_cycle_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_mode_static(unsigned char red, unsigned char grn, unsigned char blu)
 {
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
-        /*-------------------------------------------------*\
-        | These devices use an extended matrix report       |
-        \*-------------------------------------------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        case RAZER_CYNOSA_LITE_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_CHROMA_PID:
-        case RAZER_NAGA_HEX_V2_PID:
-        case RAZER_NAGA_TRINITY_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-            report                      = razer_create_mode_static_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_static_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+            razer_usb_send(&report);
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report        |
-        \*-------------------------------------------------*/
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-        default:
-            report                      = razer_create_mode_static_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+        case RAZER_MATRIX_TYPE_EXTENDED:
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_mode_static_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+            razer_usb_send(&report);
+            break;
+
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_static_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, red, grn, blu);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 void RazerController::razer_set_mode_wave()
@@ -1453,47 +1252,31 @@ void RazerController::razer_set_mode_wave()
 
     switch(dev_pid)
     {
-        /*-------------------------------------------------*\
-        | These devices use an extended matrix report       |
-        \*-------------------------------------------------*/
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_BLACKWIDOW_ESSENTIAL_PID:
-        case RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID:
-        case RAZER_CHROMA_BASE_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
-        case RAZER_CYNOSA_CHROMA_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_HUNTSMAN_ELITE_PID:
-        case RAZER_HUNTSMAN_PID:
-        case RAZER_HUNTSMAN_TE_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_TRINITY_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-        case RAZER_ORNATA_CHROMA_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_TARTARUS_V2_PID:
-            report                      = razer_create_mode_wave_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, direction);
+        case RAZER_MATRIX_TYPE_STANDARD:
+        case RAZER_MATRIX_TYPE_LINEAR:
+            report                          = razer_create_mode_wave_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, direction);
+            razer_usb_send(&report);
             break;
 
-        /*-------------------------------------------------*\
-        | These devices use a standard matrix report        |
-        \*-------------------------------------------------*/
-        case RAZER_BLACKWIDOW_CHROMA_V2_PID:
-        case RAZER_CHROMA_MUG_PID:
-        case RAZER_CORE_PID:
-        case RAZER_FIREFLY_PID:
-        default:
-            report                      = razer_create_mode_wave_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, direction);
+        case RAZER_MATRIX_TYPE_EXTENDED:
+        case RAZER_MATRIX_TYPE_EXTENDED_ARGB:
+            report                          = razer_create_mode_wave_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, direction);
+            razer_usb_send(&report);
+            break;
+
+        case RAZER_MATRIX_TYPE_CUSTOM:
+            switch(dev_pid)
+            {
+                /*-------------------------------------------------*\
+                | These devices use standard matrix reports         |
+                \*-------------------------------------------------*/
+                case RAZER_ORBWEAVER_CHROMA_PID:
+                    report                  = razer_create_mode_wave_standard_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id, direction);
+                    razer_usb_send(&report);
+                    break;
+            }
             break;
     }
-
-    razer_usb_send(&report);
 }
 
 /*---------------------------------------------------------------------------------*\
