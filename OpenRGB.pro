@@ -211,8 +211,10 @@ HEADERS +=                                                                      
     Controllers/FanBusController/FanBusController.h                                             \
     Controllers/FanBusController/FanBusInterface.h                                              \
     Controllers/FanBusController/RGBController_FanBus.h                                         \
-    Controllers/GainwardGPUController/GainwardGPUController.h                                   \
-    Controllers/GainwardGPUController/RGBController_GainwardGPU.h                               \
+    Controllers/GainwardGPUController/GainwardGPUv1Controller.h                                 \
+    Controllers/GainwardGPUController/GainwardGPUv2Controller.h                                 \
+    Controllers/GainwardGPUController/RGBController_GainwardGPUv1.h                             \
+    Controllers/GainwardGPUController/RGBController_GainwardGPUv2.h                             \
     Controllers/GalaxGPUController/GalaxGPUController.h                                         \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
@@ -451,9 +453,11 @@ SOURCES +=                                                                      
     Controllers/FanBusController/FanBusControllerDetect.cpp                                     \
     Controllers/FanBusController/FanBusInterface.cpp                                            \
     Controllers/FanBusController/RGBController_FanBus.cpp                                       \
-    Controllers/GainwardGPUController/GainwardGPUController.cpp                                 \
     Controllers/GainwardGPUController/GainwardGPUControllerDetect.cpp                           \
-    Controllers/GainwardGPUController/RGBController_GainwardGPU.cpp                             \
+    Controllers/GainwardGPUController/GainwardGPUv1Controller.cpp                               \
+    Controllers/GainwardGPUController/GainwardGPUv2Controller.cpp                               \
+    Controllers/GainwardGPUController/RGBController_GainwardGPUv1.cpp                           \
+    Controllers/GainwardGPUController/RGBController_GainwardGPUv2.cpp                           \
     Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \

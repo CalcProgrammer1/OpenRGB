@@ -1,7 +1,7 @@
 /*-----------------------------------------*\
 |  GainwardGPUController.h                  |
 |                                           |
-|  Driver for Gainward RGB on GPUs          |
+|  Driver for Gainward RGB v1 on GPUs       |
 |                                           |
 |  TheRogueZeta 11/05/2020                  |
 \*-----------------------------------------*/
@@ -22,11 +22,11 @@ enum
     GAINWARD_06_REGISTER                        = 0x06, /* Unknown (Brightness/Mode?) Register */
 };
 
-class GainwardGPUController
+class GainwardGPUv1Controller
 {
 public:
-    GainwardGPUController(i2c_smbus_interface* bus, gainward_gpu_dev_id);
-    ~GainwardGPUController();
+    GainwardGPUv1Controller(i2c_smbus_interface* bus, gainward_gpu_dev_id);
+    ~GainwardGPUv1Controller();
 
     std::string   GetDeviceLocation();
     unsigned char GetLEDRed();

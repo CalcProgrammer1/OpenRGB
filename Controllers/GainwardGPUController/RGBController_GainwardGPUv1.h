@@ -1,7 +1,7 @@
 /*-----------------------------------------*\
 |  RGBController_GainwardGPU.h              |
 |                                           |
-|  Driver for Gainward RGB on GPUs          |
+|  Driver for Gainward RGB v1 on GPUs       |
 |                                           |
 |  TheRogueZeta 11/05/2020                  |
 \*-----------------------------------------*/
@@ -9,13 +9,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "GainwardGPUController.h"
+#include "GainwardGPUv1Controller.h"
 
-class RGBController_GainwardGPU : public RGBController
+class RGBController_GainwardGPUv1 : public RGBController
 {
 public:
-    RGBController_GainwardGPU(GainwardGPUController* gainward_gpu_ptr);
-    ~RGBController_GainwardGPU();
+    RGBController_GainwardGPUv1(GainwardGPUv1Controller* gainward_gpu_ptr);
+    ~RGBController_GainwardGPUv1();
 
     void        SetupZones();
 
@@ -29,7 +29,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    GainwardGPUController* gainward_gpu;
+    GainwardGPUv1Controller* gainward_gpu;
 
     int        GetDeviceMode();
 };

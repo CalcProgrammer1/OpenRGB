@@ -1,20 +1,20 @@
 /*-----------------------------------------*\
-|  RGBController_GainwardGPU.cpp            |
+|  RGBController_GainwardGPUv1.cpp          |
 |                                           |
-|  Driver for Gainward RGB on GPUs          |
+|  Driver for Gainward RGB v1 on GPUs       |
 |                                           |
 |  TheRogueZeta 11/05/2020                  |
 \*-----------------------------------------*/
 
-#include "RGBController_GainwardGPU.h"
+#include "RGBController_GainwardGPUv1.h"
 
-int RGBController_GainwardGPU::GetDeviceMode()
+int RGBController_GainwardGPUv1::GetDeviceMode()
 {
     active_mode = 1;
     return(active_mode);
 }
 
-RGBController_GainwardGPU::RGBController_GainwardGPU(GainwardGPUController * gainward_gpu_ptr)
+RGBController_GainwardGPUv1::RGBController_GainwardGPUv1(GainwardGPUv1Controller * gainward_gpu_ptr)
 {
     gainward_gpu            = gainward_gpu_ptr;
 
@@ -35,12 +35,12 @@ RGBController_GainwardGPU::RGBController_GainwardGPU(GainwardGPUController * gai
     SetupZones();
 }
 
-RGBController_GainwardGPU::~RGBController_GainwardGPU()
+RGBController_GainwardGPUv1::~RGBController_GainwardGPUv1()
 {
     delete gainward_gpu;
 }
 
-void RGBController_GainwardGPU::SetupZones()
+void RGBController_GainwardGPUv1::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Set up zone                                               |
@@ -73,14 +73,14 @@ void RGBController_GainwardGPU::SetupZones()
     colors[0] =  ToRGBColor(red, grn, blu);
 }
 
-void RGBController_GainwardGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_GainwardGPUv1::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_GainwardGPU::DeviceUpdateLEDs()
+void RGBController_GainwardGPUv1::DeviceUpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {
@@ -92,22 +92,22 @@ void RGBController_GainwardGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_GainwardGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GainwardGPUv1::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GainwardGPU::UpdateSingleLED(int /*led*/)
+void RGBController_GainwardGPUv1::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GainwardGPU::SetCustomMode()
+void RGBController_GainwardGPUv1::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_GainwardGPU::DeviceUpdateMode()
+void RGBController_GainwardGPUv1::DeviceUpdateMode()
 {
 
 }
