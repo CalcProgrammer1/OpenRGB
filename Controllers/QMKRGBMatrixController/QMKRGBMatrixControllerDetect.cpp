@@ -51,6 +51,7 @@ void DetectQMKRGBMatrixControllers(hid_device_info* info, const std::string& nam
     }
 } 
 
-REGISTER_HID_DETECTOR_IPU("Massdrop Alt", DetectQMKRGBMatrixControllers, MASSDROP_VID, MASSDROP_ALT_PID, 1, QMK_USAGE_PAGE, QMK_USAGE);
-REGISTER_HID_DETECTOR_IPU("Massdrop Ctrl", DetectQMKRGBMatrixControllers, MASSDROP_VID, MASSDROP_CTRL_PID, 1, QMK_USAGE_PAGE, QMK_USAGE);
-REGISTER_HID_DETECTOR_IPU("Redragon K556", DetectQMKRGBMatrixControllers, 0x0C45, 0x5004, 1, QMK_USAGE_PAGE, QMK_USAGE);
+REGISTER_HID_DETECTOR_IPU("Massdrop Alt",       DetectQMKRGBMatrixControllers, MASSDROP_VID,    MASSDROP_ALT_PID,   1,  QMK_USAGE_PAGE, QMK_USAGE);
+REGISTER_HID_DETECTOR_IPU("Massdrop Ctrl",      DetectQMKRGBMatrixControllers, MASSDROP_VID,    MASSDROP_CTRL_PID,  1,  QMK_USAGE_PAGE, QMK_USAGE);
+REGISTER_HID_DETECTOR_IPU("SonixQMK 0C45:5004", DetectQMKRGBMatrixControllers, 0x0C45,          0x5004,             1,  QMK_USAGE_PAGE, QMK_USAGE);
+REGISTER_HID_DETECTOR_IPU("SonixQMK 0C45:5104", DetectQMKRGBMatrixControllers, 0x0C45,          0x5104,             1,  QMK_USAGE_PAGE, QMK_USAGE);
