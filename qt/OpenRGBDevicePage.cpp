@@ -732,6 +732,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
 
                 ui->LEDBox->setCurrentIndex(0);
                 on_LEDBox_currentIndexChanged(0);
+                ui->LEDBox->setEnabled(true);
                 ui->LEDBox->blockSignals(false);
                 ui->ApplyColorsButton->setEnabled(true);
                 //ui->AutoFillCheck->setEnabled(true);
