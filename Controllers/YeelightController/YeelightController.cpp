@@ -158,7 +158,7 @@ void YeelightController::SetPower()
     \*-----------------------------------------------------------------*/
     command["id"]               = 1;
     command["method"]           = "set_power";
-    command["params"][0]        = 1;
+    command["params"][0]        = "on";
     command["params"][1]        = "sudden";
     command["params"][2]        = 0;
     command["params"][3]        = 2;
@@ -208,7 +208,7 @@ void YeelightController::SetColor(unsigned char red, unsigned char green, unsign
     | set_cf option provides both RGB and brightness in one command, it |
     | allows better RGB control than the set_rgb function.              |
     \*-----------------------------------------------------------------*/
-    std::string cf = "\"0,1," + std::to_string(rgb) +"," + std::to_string(bright) +"\"";
+    std::string cf = "50,1," + std::to_string(rgb) +"," + std::to_string((int)bright);
 
     /*-----------------------------------------------------------------*\
     | Fill in the set_cf command with the color flow string.            |
