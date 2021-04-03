@@ -106,7 +106,7 @@ void RGBController_MSIMysticLight162::SetupZones()
         
         zone new_zone;
 
-        unsigned int led_count;
+        unsigned int led_count = 0;
 
         while(zd.leds[led_count] != MSI_ZONE_NONE)
         {
