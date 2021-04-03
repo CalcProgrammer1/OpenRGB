@@ -15,6 +15,7 @@
 const unsigned short vendor_id     = 0x054C;
 const unsigned short product_id_v1 = 0x05C4;
 const unsigned short product_id_v2 = 0x09CC;
+const unsigned short adapter_id    = 0x0ba0;
 
 void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
 {
@@ -30,3 +31,4 @@ void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
 
 REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, product_id_v1);
 REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, product_id_v2);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, adapter_id);
