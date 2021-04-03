@@ -25,7 +25,8 @@
 #define AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID  0x18CD
 #define AURA_ROG_STRIX_FLARE_PNK_LTD_PID        0x18CF
 #define AURA_ROG_CHAKRAM_WIRELESS_PID           0x18E5
-#define AURA_ROG_CHAKRAM_WIRED_PID              0x18E3
+#define AURA_ROG_CHAKRAM_WIRED_1_PID            0x18E3
+#define AURA_ROG_CHAKRAM_WIRED_2_PID            0x1958
 
 void DetectAsusAuraUSBAddressable(hid_device_info* info, const std::string& name)
 {
@@ -95,6 +96,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II",                 DetectAsusAuraUS
 REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II Origin",          DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_GLADIUS_II_ORIGIN_PID,           2,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius II Origin PNK LTD",  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID,   2,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Chakram (Wireless)",         DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRELESS_PID,            0,  0xFF01);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Chakram (Wired)",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_PID,               0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_1_PID,             0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_2_PID,             0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare",                DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_FLARE_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_FLARE_PNK_LTD_PID,         1,  0xFF00);
