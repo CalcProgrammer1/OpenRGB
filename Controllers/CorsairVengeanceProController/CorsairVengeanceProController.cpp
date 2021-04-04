@@ -137,6 +137,11 @@ void CorsairVengeanceProController::SetEffect(unsigned char mode,
                                      unsigned char blu2
                                     )
 {
+    if(mode == effect_mode)
+    {
+        return;
+    }
+
     effect_mode = mode;
 
     direct_mode = (effect_mode == CORSAIR_PRO_MODE_DIRECT);
