@@ -67,6 +67,7 @@ INCLUDEPATH +=                                                                  
     Controllers/CorsairLightingNodeController/                                                  \
     Controllers/CorsairVengeanceController/                                                     \
     Controllers/CorsairVengeanceProController/                                                  \
+    Controllers/CreativeController/                                                             \
     Controllers/CrucialController/                                                              \
     Controllers/DasKeyboardController/                                                          \
     Controllers/DebugController/                                                                \
@@ -195,6 +196,8 @@ HEADERS +=                                                                      
     Controllers/CorsairVengeanceController/RGBController_CorsairVengeance.h                     \
     Controllers/CorsairVengeanceProController/CorsairVengeanceProController.h                   \
     Controllers/CorsairVengeanceProController/RGBController_CorsairVengeancePro.h               \
+    Controllers/CreativeController/CreativeSoundBlasterXG6Controller.h                          \
+    Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.h                      \
     Controllers/CrucialController/CrucialController.h                                           \
     Controllers/CrucialController/RGBController_Crucial.h                                       \
     Controllers/DasKeyboardController/DasKeyboardController.h                                   \
@@ -441,6 +444,9 @@ SOURCES +=                                                                      
     Controllers/CorsairVengeanceProController/CorsairVengeanceProController.cpp                 \
     Controllers/CorsairVengeanceProController/CorsairVengeanceProControllerDetect.cpp           \
     Controllers/CorsairVengeanceProController/RGBController_CorsairVengeancePro.cpp             \
+    Controllers/CreativeController/CreativeSoundBlasterXG6Controller.cpp                        \
+    Controllers/CreativeController/CreativeControllerDetect.cpp                                 \
+    Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.cpp                    \
     Controllers/CrucialController/CrucialController.cpp                                         \
     Controllers/CrucialController/CrucialControllerDetect.cpp                                   \
     Controllers/CrucialController/RGBController_Crucial.cpp                                     \
