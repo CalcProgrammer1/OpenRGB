@@ -62,6 +62,7 @@ INCLUDEPATH +=                                                                  
     Controllers/CoolerMasterController/                                                         \
     Controllers/CorsairDominatorPlatinumController/                                             \
     Controllers/CorsairHydroController/                                                         \
+    Controllers/CorsairHydroPlatinumController/                                                 \
     Controllers/CorsairPeripheralController/                                                    \
     Controllers/CorsairLightingNodeController/                                                  \
     Controllers/CorsairVengeanceController/                                                     \
@@ -182,6 +183,8 @@ HEADERS +=                                                                      
     Controllers/CorsairDominatorPlatinumController/RGBController_CorsairDominatorPlatinum.h     \
     Controllers/CorsairHydroController/CorsairHydroController.h                                 \
     Controllers/CorsairHydroController/RGBController_CorsairHydro.h                             \
+    Controllers/CorsairHydroPlatinumController/CorsairHydroPlatinumController.h                 \
+    Controllers/CorsairHydroPlatinumController/RGBController_CorsairHydroPlatinum.h             \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h                   \
     Controllers/CorsairLightingNodeController/RGBController_CorsairLightingNode.h               \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.h                       \
@@ -412,6 +415,9 @@ SOURCES +=                                                                      
     Controllers/CorsairHydroController/CorsairHydroController.cpp                               \
     Controllers/CorsairHydroController/CorsairHydroControllerDetect.cpp                         \
     Controllers/CorsairHydroController/RGBController_CorsairHydro.cpp                           \
+    Controllers/CorsairHydroPlatinumController/CorsairHydroPlatinumController.cpp               \
+    Controllers/CorsairHydroPlatinumController/CorsairHydroPlatinumControllerDetect.cpp         \
+    Controllers/CorsairHydroPlatinumController/RGBController_CorsairHydroPlatinum.cpp           \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.cpp                 \
     Controllers/CorsairLightingNodeController/CorsairLightingNodeControllerDetect.cpp           \
     Controllers/CorsairLightingNodeController/RGBController_CorsairLightingNode.cpp             \
