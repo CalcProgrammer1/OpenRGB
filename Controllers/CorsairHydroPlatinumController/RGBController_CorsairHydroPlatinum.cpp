@@ -13,10 +13,10 @@
 static unsigned int matrix_map[5][5] =
 {
     { NA,  11,  12,  13,  NA },
-    { 10,   NA,   1,  NA,  14 },
-    { 9,    0,   NA,  2,  15 },
-    { 8,   NA,   3,  NA,  4 },
-    { NA,   7,   6,   5,  NA }
+    { 10,  NA,  1,   NA,  14 },
+    { 9,   0,   NA,  2,   15 },
+    { 8,   NA,  3,   NA,   4 },
+    { NA,  7,   6,   5,   NA }
 };
 
 RGBController_CorsairHydroPlatinum::RGBController_CorsairHydroPlatinum(CorsairHydroPlatinumController* corsair_ptr)
