@@ -47,6 +47,8 @@ public:
 private:
     unsigned int mode;
 
+    unsigned short GetMask(int start, int size);
+    
     void SendEffect
         (
         unsigned char   channel,
@@ -58,8 +60,7 @@ private:
         unsigned char   channel,
         unsigned char   start_led,
         unsigned char   led_count,
-        unsigned char*  led_data,
-        bool            fixed
+        unsigned char*  led_data
         );
 
     void SendCommit();
