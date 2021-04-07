@@ -16,14 +16,14 @@ using namespace std::chrono_literals;
 
 static unsigned int matrix_map[8][22] =
 {
-    {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 102, 105, 106,  96,  NA,  NA },
-    { 108, 109, 110, 111, 112,  NA, 113, 114, 115,  NA, 116, 117, 118,  NA, 119, 120, 121,  NA, 122, 123, 124, 125 },
-    {   0,  11,  17,  22,  27,  NA,  33,  38,  43,  49,  55,  61,  65,  68,  NA,  74,  78,  83,  NA,  NA,  NA,  NA },
-    {   1,   6,  12,  18,  23,  28,  34,  39,  44,  50,  56,  62,  66,  69,  NA,  75,  79,  84,  87,  92,  97, 103 },
-    {   2,  NA,   7,  13,  19,  24,  29,  35,  40,  45,  51,  57,  63,  67,  70,  76,  80,  85,  88,  93,  98, 104 },
-    {   3,  NA,   8,  14,  20,  25,  30,  36,  41,  46,  52,  58,  64,  NA,  71,  NA,  NA,  NA,  89,  94,  99,  NA },
-    {   4,  NA,  NA,   9,  15,  21,  26,  31,  37,  42,  47,  53,  59,  72,  NA,  NA,  81,  NA,  90,  95, 100, 107 },
-    {   5,  10,  16,  NA,  NA,  NA,  NA,  32,  NA,  NA,  NA,  48,  60,  54,  73,  77,  82,  86,  91,  NA, 101,  NA }
+    {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 104, 107, 108,  98,  NA,  NA },
+    { 110, 111, 112, 113,  NA, 114, 115, 116,  NA, 117, 118, 119, 120,  NA, 121, 122, 123,  NA, 124, 125, 126, 127 },
+    {   0,  12,  18,  23,  28,  NA,  34,  39,  44,  50,  56,  62,  66,  70,  NA,  76,  80,  85,  NA,  NA,  NA,  NA },
+    {   1,   7,  13,  19,  24,  29,  35,  40,  45,  51,  57,  63,  67,  71,  NA,  77,  81,  86,  89,  94,  99, 105 },
+    {   2,  NA,   8,  14,  20,  25,  30,  36,  41,  46,  52,  58,  64,  68,  72,  78,  82,  87,  90,  95, 100, 106 },
+    {   3,  NA,   9,  15,  21,  26,  31,  37,  42,  47,  53,  59,  65,  69,  73,  NA,  NA,  NA,  91,  96, 101,  NA },
+    {   4,   6,  NA,  10,  16,  22,  27,  32,  38,  43,  48,  54,  60,  74,  NA,  NA,  83,  NA,  92,  97, 102, 109 },
+    {   5,  11,  17,  NA,  NA,  NA,  NA,  33,  NA,  NA,  NA,  49,  61,  55,  75,  79,  84,  88,  93,  NA, 103,  NA }
 };
 
 static const char* zone_names[] =
@@ -38,8 +38,12 @@ static zone_type zone_types[] =
 
 static const unsigned int zone_sizes[] =
 {
-    126,
+    128,
 };
+
+
+// ISO 6, 75, !80
+// ANSI !6, !75, 80
 
 static const char *led_names[] =
 {
@@ -49,7 +53,7 @@ static const char *led_names[] =
     "Key: Caps Lock",
     "Key: Left Shift",
     "Key: Left Control",
-    // Skip index 6
+    "Key: \\ (ISO)",
     "Key: 1",
     "Key: Q",
     "Key: A",
@@ -102,7 +106,6 @@ static const char *led_names[] =
     "Key: O",
     "Key: L",
     "Key: .",
-    // Skip index 59
     "Key: Menu",
     "Key: F9",
     "Key: 0",
@@ -113,18 +116,18 @@ static const char *led_names[] =
     "Key: F10",
     "Key: -",
     "Key: [",
+    "Key: '",
     // Skip index 70
     // Skip index 71
-    "Key: '",
     "Key: F11",
     "Key: =",
-    // Skip index 75
-    // Skip index 76
     "Key: ]",
+    "Key: #",
+    // Skip index 76
     "Key: F12",
     "Key: Backspace",
     "Key: \\ (ANSI)",
-    "Key: Enter (ISO)",
+    "Key: Enter",
     "Key: Right Shift",
     "Key: Right Control",
     "Key: Print Screen",
@@ -157,25 +160,17 @@ static const char *led_names[] =
     "Key: Number Pad 5",
     "Key: Number Pad 2",
     // Skip index 113
-    // Skip index 114
-    // Last multimedia key
-    "Key: Media Mute",
+    "Key: Media Mute", // Last multimedia key
     "Key: Number Pad *",
     "Key: Number Pad 9",
     "Key: Number Pad 3",
     "Key: Number Pad 6",
-    // Skip index 120
     "Key: Number Pad .",
-    // First multimedia key
-    "Key: Media Previous",
-    // Skip index 123
-    // Skip index 124
+    "Key: Media Previous", // First multimedia key
     "Key: Number Pad -",
     "Key: Number Pad +",
-    // Second multimedia key
-    "Key: Media Play/Pause",
-    // Third multimedia key
-    "Key: Media Next",
+    "Key: Media Play/Pause", // Second multimedia key
+    "Key: Media Next", // Third multimedia key
     "Key: Number Pad Enter",
     "RGB Strip 1",
     "RGB Strip 2",

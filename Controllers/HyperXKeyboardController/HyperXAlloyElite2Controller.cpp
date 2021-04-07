@@ -14,7 +14,7 @@
 /*-----------------------------------------*\
 | Skip these indices in the color output    |
 \*-----------------------------------------*/
-static const unsigned int SKIP_INDICES[] = { 6, 23, 29, 41, 47, 70, 71, 75, 76, 77, 87, 88, 93, 99, 100, 102, 108, 113 };
+static const unsigned int SKIP_INDICES[] = { 23, 29, 41, 47, 70, 71, 76, 77, 87, 88, 93, 99, 100, 102, 108, 113 };
 
 HyperXAlloyElite2Controller::HyperXAlloyElite2Controller(hid_device* dev_handle, const char* path)
 {
