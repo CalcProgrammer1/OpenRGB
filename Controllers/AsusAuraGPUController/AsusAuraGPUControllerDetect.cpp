@@ -11,24 +11,30 @@
 #include "RGBController.h"
 #include "RGBController_AsusAuraGPU.h"
 #include "i2c_smbus.h"
+#include "pci_ids.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
 
 using namespace std::chrono_literals;
 
-/*-------------------------------------------------------------*\
-| This list contains the available I2C addresses for Aura GPUs  |
-\*-------------------------------------------------------------*/
-#define AURA_GPU_ADDRESS_COUNT 3
-
-static const unsigned char aura_gpu_addresses[] =
+typedef struct
 {
-    0x29,
-    0x2A,
-    0x60
-};
+    int             pci_vendor;
+    int             pci_device;
+    int             pci_subsystem_vendor;
+    int             pci_subsystem_device;
+    unsigned char   controller_address;
+    const char *    name;
+} gpu_pci_device;
 
+#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const gpu_pci_device device_list[] =
+{
+    { NVIDIA_VEN,       NVIDIA_GTX1060_DEV,     ASUS_SUB_VEN,       ASUS_GTX1060_STRIX,       0x29,     "ASUS GTX 1060 Strix"       },
+    { AMD_GPU_VEN,      AMD_VEGA10_DEV,         ASUS_SUB_VEN,       ASUS_VEGA64_STRIX,        0x29,     "ASUS Vega 64 Strix"        },
+};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -54,7 +60,6 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
 
 }   /* TestForAuraGPUController() */
 
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectAuraGPUControllers                                                               *
@@ -70,19 +75,23 @@ void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Add Aura-enabled GPU controllers
-        for (unsigned int address_list_idx = 0; address_list_idx < AURA_GPU_ADDRESS_COUNT; address_list_idx++)
+        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
-            if (TestForAsusAuraGPUController(busses[bus], aura_gpu_addresses[address_list_idx]))
+            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
+               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
+               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
+               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
-                new_aura_gpu = new AuraGPUController(busses[bus], aura_gpu_addresses[address_list_idx]);
-                new_controller = new RGBController_AuraGPU(new_aura_gpu);
-                ResourceManager::get()->RegisterRGBController(new_controller);
+                if (TestForAsusAuraGPUController(busses[bus], device_list[dev_idx].controller_address))
+                {
+                    new_aura_gpu         = new AuraGPUController(busses[bus], device_list[dev_idx].controller_address);
+                    new_controller       = new RGBController_AuraGPU(new_aura_gpu);
+                    new_controller->name = device_list[dev_idx].name;
+                    ResourceManager::get()->RegisterRGBController(new_controller);
+                }
             }
-
-            std::this_thread::sleep_for(1ms);
         }
     }
-} /* DetectAuraGPUControllers() */
+} /* DetectAsusAuraGPUControllers() */
 
 REGISTER_I2C_DETECTOR("ASUS Aura GPU", DetectAsusAuraGPUControllers);
