@@ -23,30 +23,33 @@
 #define RAZER_BLACKWIDOW_OVERWATCH_PID                  0x0211
 #define RAZER_BLACKWIDOW_X_CHROMA_PID                   0x0216
 #define RAZER_BLACKWIDOW_X_CHROMA_TE_PID                0x021A
-#define RAZER_BLADE_15_ADV_2020_PID                     0x0253
+#define RAZER_BLADE_2016_PID                            0x020F
+#define RAZER_BLADE_LATE_2016_PID                       0x0224
+#define RAZER_BLADE_2018_ADVANCED_PID                   0x0233
 #define RAZER_BLADE_2018_BASE_PID                       0x023B
 #define RAZER_BLADE_2018_MERCURY_PID                    0x0240
-#define RAZER_BLADE_2018_PID                            0x0233
-#define RAZER_BLADE_2019_ADV_PID                        0x023A
+#define RAZER_BLADE_2019_ADVANCED_PID                   0x023A
 #define RAZER_BLADE_2019_BASE_PID                       0x0246
-#define RAZER_BLADE_EARLY_2020_BASE_PID                 0x0255
-#define RAZER_BLADE_LATE_2016_PID                       0x0224
-#define RAZER_BLADE_MID_2019_MERCURY_PID                0x0245
-#define RAZER_BLADE_PRO_2017_FULLHD_PID                 0x022F
+#define RAZER_BLADE_2019_MERCURY_PID                    0x0245
+#define RAZER_BLADE_2019_STUDIO_PID                     0x024D
+#define RAZER_BLADE_2020_ADVANCED_PID                   0x0253
+#define RAZER_BLADE_2020_BASE_PID                       0x0255
+#define RAZER_BLADE_PRO_2016_PID                        0x0210
 #define RAZER_BLADE_PRO_2017_PID                        0x0225
+#define RAZER_BLADE_PRO_2017_FULLHD_PID                 0x022F
 #define RAZER_BLADE_PRO_2019_PID                        0x0234
-#define RAZER_BLADE_PRO_LATE_2016_PID                   0x0210
 #define RAZER_BLADE_PRO_LATE_2019_PID                   0x024C
-#define RAZER_BLADE_QHD_PID                             0x020F
-#define RAZER_BLADE_STEALTH_2019_PID                    0x0239
-#define RAZER_BLADE_STEALTH_EARLY_2020_PID              0x0252
+
+#define RAZER_BLADE_STEALTH_2016_PID                    0x0205
 #define RAZER_BLADE_STEALTH_LATE_2016_PID               0x0220
+#define RAZER_BLADE_STEALTH_2017_PID                    0x022D
 #define RAZER_BLADE_STEALTH_LATE_2017_PID               0x0232
+#define RAZER_BLADE_STEALTH_2019_PID                    0x0239
 #define RAZER_BLADE_STEALTH_LATE_2019_PID               0x024A
+#define RAZER_BLADE_STEALTH_2020_PID                    0x0252
 #define RAZER_BLADE_STEALTH_LATE_2020_PID               0x0259
-#define RAZER_BLADE_STEALTH_MID_2017_PID                0x022D
-#define RAZER_BLADE_STEALTH_PID                         0x0205
-#define RAZER_BLADE_STUDIO_EDITION_2019_PID             0x024D
+
+
 #define RAZER_CYNOSA_CHROMA_PID                         0x022A
 #define RAZER_CYNOSA_LITE_PID                           0x023F
 #define RAZER_CYNOSA_V2_PID                             0x025E
@@ -495,9 +498,9 @@ static const razer_key blade_pro_2017_keymap[] =
     {   0,      5,      16,             "Key: Right Fn"                     },
 };
 
-#define BLADE_STEALTH_KEYMAP_SIZE (sizeof(blade_stealth_keymap) / sizeof(blade_stealth_keymap[0]))
+#define BLADE_STEALTH_2016_KEYMAP_SIZE (sizeof(blade_stealth_2016_keymap) / sizeof(blade_stealth_2016_keymap[0]))
 
-static const razer_key blade_stealth_keymap[] =
+static const razer_key blade_stealth_2016_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -2090,13 +2093,14 @@ static const razer_device huntsman_te_device =
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------*\
-|  Razer Blade Stealth                                          |
+|  Razer Blade (2016)                                           |
 |                                                               |
+|  Zone "Keyboard"                                              |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_zone =
+static const razer_zone blade_2016_zone =
 {
     "Keyboard",
     ZONE_TYPE_MATRIX,
@@ -2104,24 +2108,583 @@ static const razer_zone blade_stealth_zone =
     16
 };
 
-static const razer_device blade_stealth_device =
+static const razer_device blade_2016_device =
 {
-    "Razer Blade Stealth",
-    RAZER_BLADE_STEALTH_PID,
+    "Razer Blade (2016)",
+    RAZER_BLADE_2016_PID,
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
     16,
     {
-        &blade_stealth_zone,
+        &blade_2016_zone,
         NULL,
         NULL,
         NULL,
         NULL,
         NULL
     },
-    blade_stealth_keymap,
-    BLADE_STEALTH_KEYMAP_SIZE
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade (Late 2016)                                      |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_late_2016_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_late_2016_device =
+{
+    "Razer Blade (Late 2016)",
+    RAZER_BLADE_LATE_2016_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_late_2016_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2018 Advanced)                               |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2018_advanced_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_2018_advanced_device =
+{
+    "Razer Blade 15 (2018 Advanced)",
+    RAZER_BLADE_2018_ADVANCED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_2018_advanced_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2018 Base)                                   |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2018_base_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_2018_base_device =
+{
+    "Razer Blade 15 (2018 Base)",
+    RAZER_BLADE_2018_BASE_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_2018_base_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2018 Mercury)                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2018_mercury_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_2018_mercury_device =
+{
+    "Razer Blade 15 (2018 Mercury)",
+    RAZER_BLADE_2018_MERCURY_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_2018_mercury_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2019 Advanced)                               |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2019_advanced_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_2019_advanced_device =
+{
+    "Razer Blade 15 (2019 Advanced)",
+    RAZER_BLADE_2019_ADVANCED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_2019_advanced_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2019 Base)                                   |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2019_base_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device blade_15_2019_base_device =
+{
+    "Razer Blade 15 (2019 Base)",
+    RAZER_BLADE_2019_BASE_PID,
+    DEVICE_TYPE_KEYBOARD,
+    false,
+    1,
+    1,
+    {
+        &blade_15_2019_base_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2019 Mercury)                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2019_mercury_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_2019_mercury_device =
+{
+    "Razer Blade 15 (2019 Mercury)",
+    RAZER_BLADE_2019_MERCURY_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_2019_mercury_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2019 Studio)                                 |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2019_studio_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_2019_studio_device =
+{
+    "Razer Blade 15 (2019 Studio)",
+    RAZER_BLADE_2019_STUDIO_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_2019_studio_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2020 Advanced)                               |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2020_advanced_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_15_2020_advanced_device =
+{
+    "Razer Blade 15 (2020 Advanced)",
+    RAZER_BLADE_2020_ADVANCED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_15_2020_advanced_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 15 (2020 Base)                                   |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Linear                                                  |
+|       1 Row, 16 Columns                                       |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2020_base_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_device blade_15_2020_base_device =
+{
+    "Razer Blade 15 (2020 Base)",
+    RAZER_BLADE_2020_BASE_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    1,
+    16,
+    {
+        &blade_15_2020_base_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Pro (2016)                                       |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 25 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_pro_2016_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    25
+};
+
+static const razer_device blade_pro_2016_device =
+{
+    "Razer Blade Pro (2016)",
+    RAZER_BLADE_PRO_2016_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    25,
+    {
+        &blade_pro_2016_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Pro (2017)                                       |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 25 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_pro_2017_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    25
+};
+
+static const razer_device blade_pro_2017_device =
+{
+    "Razer Blade Pro (2017)",
+    RAZER_BLADE_PRO_2017_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    25,
+    {
+        &blade_pro_2017_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    blade_pro_2017_keymap,
+    BLADE_PRO_2017_KEYMAP_SIZE
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Pro (2017 FullHD)                                |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 25 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_pro_2017_fullhd_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    25
+};
+
+static const razer_device blade_pro_2017_fullhd_device =
+{
+    "Razer Blade Pro (2017 FullHD)",
+    RAZER_BLADE_PRO_2017_FULLHD_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    25,
+    {
+        &blade_pro_2017_fullhd_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Pro (2019)                                       |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_pro_2019_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_pro_2019_device =
+{
+    "Razer Blade Pro (2019)",
+    RAZER_BLADE_PRO_2019_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_pro_2019_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Pro (Late 2019)                                  |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_pro_late_2019_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_pro_late_2019_device =
+{
+    "Razer Blade Pro (Late 2019)",
+    RAZER_BLADE_PRO_LATE_2019_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_pro_late_2019_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Stealth (2016)                                   |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_stealth_2016_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_stealth_2016_device =
+{
+    "Razer Blade Stealth (2016)",
+    RAZER_BLADE_STEALTH_2016_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_stealth_2016_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    blade_stealth_2016_keymap,
+    BLADE_STEALTH_2016_KEYMAP_SIZE
 };
 
 /*-------------------------------------------------------------*\
@@ -2160,13 +2723,13 @@ static const razer_device blade_stealth_late_2016_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Blade Stealth (Mid 2017)                               |
+|  Razer Blade Stealth (2017)                                   |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_mid_2017_zone =
+static const razer_zone blade_stealth_2017_zone =
 {
     "Keyboard",
     ZONE_TYPE_MATRIX,
@@ -2174,16 +2737,16 @@ static const razer_zone blade_stealth_mid_2017_zone =
     16
 };
 
-static const razer_device blade_stealth_mid_2017_device =
+static const razer_device blade_stealth_2017_device =
 {
-    "Razer Blade Stealth (Mid 2017)",
-    RAZER_BLADE_STEALTH_MID_2017_PID,
+    "Razer Blade Stealth (2017)",
+    RAZER_BLADE_STEALTH_2017_PID,
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
     16,
     {
-        &blade_stealth_mid_2017_zone,
+        &blade_stealth_2017_zone,
         NULL,
         NULL,
         NULL,
@@ -2298,14 +2861,15 @@ static const razer_device blade_stealth_late_2019_device =
     NULL,
     0
 };
+
 /*-------------------------------------------------------------*\
-|  Razer Blade Stealth (Early 2020) 1532:0252                   |
+|  Razer Blade Stealth (2020)                                   |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_early_2020_zone =
+static const razer_zone blade_stealth_2020_zone =
 {
     "Keyboard",
     ZONE_TYPE_SINGLE,
@@ -2313,16 +2877,16 @@ static const razer_zone blade_stealth_early_2020_zone =
     1
 };
 
-static const razer_device blade_stealth_early_2020_device =
+static const razer_device blade_stealth_2020_device =
 {
-    "Razer Blade Stealth (Early 2020)",
-    RAZER_BLADE_STEALTH_EARLY_2020_PID,
+    "Razer Blade Stealth (2020)",
+    RAZER_BLADE_STEALTH_2020_PID,
     DEVICE_TYPE_KEYBOARD,
     false,
     1,
     1,
     {
-        &blade_stealth_late_2019_zone,
+        &blade_stealth_2020_zone,
         NULL,
         NULL,
         NULL,
@@ -2334,259 +2898,13 @@ static const razer_device blade_stealth_early_2020_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Blade (Late 2016)                                      |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_late_2016_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_late_2016_device =
-{
-    "Razer Blade (Late 2016)",
-    RAZER_BLADE_LATE_2016_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_late_2016_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade (QHD)                                            |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_qhd_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_qhd_device =
-{
-    "Razer Blade (QHD)",
-    RAZER_BLADE_QHD_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_qhd_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 (2018)                                        |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_2018_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_15_2018_device =
-{
-    "Razer Blade 15 (2018)",
-    RAZER_BLADE_2018_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_15_2018_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 (2018) Mercury                                |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_2018_mercury_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_15_2018_mercury_device =
-{
-    "Razer Blade 15 (2018) Mercury",
-    RAZER_BLADE_2018_MERCURY_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_15_2018_mercury_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 (2018) Base Model                             |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_2018_base_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_15_2018_base_device =
-{
-    "Razer Blade 15 (2018) Base Model",
-    RAZER_BLADE_2018_BASE_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_15_2018_base_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 (2019) Advanced                               |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_2019_advanced_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_15_2019_advanced_device =
-{
-    "Razer Blade 15 (2019) Advanced",
-    RAZER_BLADE_2019_ADV_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_15_2019_advanced_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 (Mid 2019) Mercury                            |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_mid_2019_mercury_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_15_mid_2019_mercury_device =
-{
-    "Razer Blade 15 (Mid 2019) Mercury White",
-    RAZER_BLADE_MID_2019_MERCURY_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_15_mid_2019_mercury_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 (Mid 2019) Base Model                         |
+|  Razer Blade Stealth (Late 2020)                              |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_mid_2019_base_zone =
+static const razer_zone blade_stealth_late_2020_zone =
 {
     "Keyboard",
     ZONE_TYPE_SINGLE,
@@ -2594,295 +2912,16 @@ static const razer_zone blade_15_mid_2019_base_zone =
     1
 };
 
-static const razer_device blade_15_mid_2019_base_device =
+static const razer_device blade_stealth_late_2020_device =
 {
-    "Razer Blade 15 (Mid 2019) Base Model",
-    RAZER_BLADE_2019_BASE_PID,
+    "Razer Blade Stealth (Late 2020)",
+    RAZER_BLADE_STEALTH_LATE_2020_PID,
     DEVICE_TYPE_KEYBOARD,
     false,
     1,
     1,
     {
-        &blade_15_mid_2019_base_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 (Early 2020) Base Model 1532:0255             |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Linear                                                  |
-|       1 Row, 16 Columns                                       |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_early_2020_base_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_LINEAR,
-    1,
-    16
-};
-
-static const razer_device blade_15_early_2020_base_device =
-{
-    "Razer Blade 15 Base (Early 2020)",
-    RAZER_BLADE_EARLY_2020_BASE_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    1,
-    16,
-    {
-        &blade_15_early_2020_base_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade 15 Studio Edition (2019)                         |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_studio_2019_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_15_studio_2019_device =
-{
-    "Razer Blade 15 Studio Edition (2019)",
-    RAZER_BLADE_STUDIO_EDITION_2019_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_15_studio_2019_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade Pro (Late 2016)                                  |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 25 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_pro_late_2016_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    25
-};
-
-static const razer_device blade_pro_late_2016_device =
-{
-    "Razer Blade Pro (Late 2016)",
-    RAZER_BLADE_PRO_LATE_2016_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    25,
-    {
-        &blade_pro_late_2016_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade Pro (2017)                                       |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Matrix                                                  |
-|       6 Rows, 25 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_pro_2017_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    25
-};
-
-static const razer_device blade_pro_2017_device =
-{
-    "Razer Blade Pro (2017)",
-    RAZER_BLADE_PRO_2017_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    25,
-    {
-        &blade_pro_2017_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    blade_pro_2017_keymap,
-    BLADE_PRO_2017_KEYMAP_SIZE
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade Pro FullHD (2017)                                |
-|                                                               |
-|   Zone "Keyboard"                                             |
-|       Matrix                                                  |
-|       6 Rows, 25 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_pro_2017_fullhd_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    25
-};
-
-static const razer_device blade_pro_2017_fullhd_device =
-{
-    "Razer Blade Pro FullHD (2017)",
-    RAZER_BLADE_PRO_2017_FULLHD_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    25,
-    {
-        &blade_pro_2017_fullhd_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade Pro 17 (2019)                                    |
-|   Zone "Keyboard"                                             |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_pro_17_2019_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_pro_17_2019_device =
-{
-    "Razer Blade Pro 17 (2019)",
-    RAZER_BLADE_PRO_2019_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_pro_17_2019_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade Pro (Late 2019)                                  |
-|                                                               |
-|   Zone "Keyboard"                                             |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_pro_late_2019_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_pro_late_2019_device =
-{
-    "Razer Blade Pro (Late 2019)",
-    RAZER_BLADE_PRO_LATE_2019_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_pro_late_2019_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Blade Advanced (2020) 1532:0253                        |
-|                                                               |
-|   Zone "Keyboard"                                             |
-|       Matrix                                                  |
-|       6 Rows, 16 Columns                                      |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_advanced_2020_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    6,
-    16
-};
-
-static const razer_device blade_15_advanced_2020_device =
-{
-    "Razer Blade 15 Advanced (2020)",
-    RAZER_BLADE_15_ADV_2020_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    6,
-    16,
-    {
-        &blade_15_advanced_2020_zone,
+        &blade_stealth_late_2020_zone,
         NULL,
         NULL,
         NULL,
@@ -5425,29 +5464,31 @@ static const razer_device* device_list[] =
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
 \*-----------------------------------------------------------------*/
+    &blade_2016_device,
+    &blade_late_2016_device,
+    &blade_15_2018_advanced_device,
     &blade_15_2018_base_device,
-    &blade_15_2018_device,
     &blade_15_2018_mercury_device,
     &blade_15_2019_advanced_device,
-    &blade_15_advanced_2020_device,
-    &blade_15_early_2020_base_device,
-    &blade_15_mid_2019_base_device,
-    &blade_15_mid_2019_mercury_device,
-    &blade_15_studio_2019_device,
-    &blade_late_2016_device,
-    &blade_pro_17_2019_device,
+    &blade_15_2019_base_device,
+    &blade_15_2019_mercury_device,
+    &blade_15_2019_studio_device,
+    &blade_15_2020_advanced_device,
+    &blade_15_2020_base_device,
+    &blade_pro_2016_device,
     &blade_pro_2017_device,
     &blade_pro_2017_fullhd_device,
-    &blade_pro_late_2016_device,
+    &blade_pro_2019_device,
     &blade_pro_late_2019_device,
-    &blade_qhd_device,
     &blade_stealth_2019_device,
-    &blade_stealth_device,
-    &blade_stealth_early_2020_device,
+    &blade_stealth_2016_device,
     &blade_stealth_late_2016_device,
+    &blade_stealth_2017_device,
     &blade_stealth_late_2017_device,
+    &blade_stealth_2019_device,
     &blade_stealth_late_2019_device,
-    &blade_stealth_mid_2017_device,
+    &blade_stealth_2020_device,
+    &blade_stealth_late_2020_device,
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
 \*-----------------------------------------------------------------*/

@@ -121,24 +121,30 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         | These devices use a standard matrix report        |
         \*-------------------------------------------------*/
         case RAZER_BLACKWIDOW_CHROMA_V2_PID:
-        case RAZER_BLADE_15_ADV_2020_PID:
+        case RAZER_BLADE_2016_PID:
+        case RAZER_BLADE_LATE_2016_PID:
+        case RAZER_BLADE_2018_ADVANCED_PID:
         case RAZER_BLADE_2018_BASE_PID:
         case RAZER_BLADE_2018_MERCURY_PID:
-        case RAZER_BLADE_2018_PID:
-        case RAZER_BLADE_2019_ADV_PID:
-        case RAZER_BLADE_LATE_2016_PID:
-        case RAZER_BLADE_MID_2019_MERCURY_PID:
-        case RAZER_BLADE_PRO_2017_FULLHD_PID:
+        case RAZER_BLADE_2019_ADVANCED_PID:
+        case RAZER_BLADE_2019_BASE_PID:
+        case RAZER_BLADE_2019_MERCURY_PID:
+        case RAZER_BLADE_2019_STUDIO_PID:
+        case RAZER_BLADE_2020_ADVANCED_PID:
+        case RAZER_BLADE_2020_BASE_PID:
+        case RAZER_BLADE_PRO_2016_PID:
         case RAZER_BLADE_PRO_2017_PID:
-        case RAZER_BLADE_PRO_LATE_2016_PID:
+        case RAZER_BLADE_PRO_2017_FULLHD_PID:
+        case RAZER_BLADE_PRO_2019_PID:
         case RAZER_BLADE_PRO_LATE_2019_PID:
-        case RAZER_BLADE_QHD_PID:
-        case RAZER_BLADE_STEALTH_2019_PID:
+        case RAZER_BLADE_STEALTH_2016_PID:
         case RAZER_BLADE_STEALTH_LATE_2016_PID:
+        case RAZER_BLADE_STEALTH_2017_PID:
         case RAZER_BLADE_STEALTH_LATE_2017_PID:
-        case RAZER_BLADE_STEALTH_MID_2017_PID:
-        case RAZER_BLADE_STEALTH_PID:
-        case RAZER_BLADE_STUDIO_EDITION_2019_PID:
+        case RAZER_BLADE_STEALTH_2019_PID:
+        case RAZER_BLADE_STEALTH_LATE_2019_PID:
+        case RAZER_BLADE_STEALTH_2020_PID:
+        case RAZER_BLADE_STEALTH_LATE_2020_PID:
         case RAZER_CORE_PID:
         case RAZER_NAGA_HEX_V2_PID:
             matrix_type = RAZER_MATRIX_TYPE_STANDARD;
