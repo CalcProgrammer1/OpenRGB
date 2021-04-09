@@ -254,9 +254,11 @@ REGISTER_HID_DETECTOR_IPU("Razer Deathadder Essential",                      Det
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Essential White Edition",        DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID,   0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder V2",                             DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_V2_PID,                        0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Diamondback",                               DetectRazerControllers,        RAZER_VID,  RAZER_DIAMONDBACK_CHROMA_PID,                   0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Lancehead 2017 (Wired)",                    DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_2017_WIRED_PID,                 0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Lancehead 2017 (Wireless)",                 DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_2017_WIRELESS_PID,              0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Lancehead 2019 (Wired)",                    DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_2019_WIRED_PID,                 0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Lancehead 2019 (Wireless)",                 DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_2019_WIRELESS_PID,              0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Lancehead Tournament Edition",              DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_TE_WIRED_PID,                   0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Lancehead (Wired)",                         DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_WIRELESS_WIRED_PID,             0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Lancehead (Wireless)",                      DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID,          0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mamba 2012 (Wired)",                        DetectRazerControllers,        RAZER_VID,  RAZER_MAMBA_2012_WIRED_PID,                     0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mamba 2012 (Wireless)",                     DetectRazerControllers,        RAZER_VID,  RAZER_MAMBA_2012_WIRELESS_PID,                  0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mamba 2015 (Wired)",                        DetectRazerControllers,        RAZER_VID,  RAZER_MAMBA_2015_WIRED_PID,                     0x00,   0x01,   0x02);

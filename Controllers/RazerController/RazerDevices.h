@@ -90,10 +90,10 @@
 #define RAZER_DIAMONDBACK_CHROMA_PID                    0x004C
 #define RAZER_IMPERATOR_PID                             0x002F
 #define RAZER_LANCEHEAD_TE_WIRED_PID                    0x0060
-#define RAZER_LANCEHEAD_WIRED_PID                       0x0059
-#define RAZER_LANCEHEAD_WIRELESS_PID                    0x005A
-#define RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID           0x006F
-#define RAZER_LANCEHEAD_WIRELESS_WIRED_PID              0x0070
+#define RAZER_LANCEHEAD_2017_WIRED_PID                  0x0059
+#define RAZER_LANCEHEAD_2017_WIRELESS_PID               0x005A
+#define RAZER_LANCEHEAD_2019_WIRED_PID                  0x0070
+#define RAZER_LANCEHEAD_2019_WIRELESS_PID               0x006F
 #define RAZER_MAMBA_2012_WIRED_PID                      0x0024
 #define RAZER_MAMBA_2012_WIRELESS_PID                   0x0025
 #define RAZER_MAMBA_2015_WIRED_PID                      0x0044
@@ -3343,6 +3343,290 @@ static const razer_device diamondback_chroma_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Lancehead 2017 (Wired)                                 |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone lancehead_2017_wired_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2017_wired_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2017_wired_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone lancehead_2017_wired_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device lancehead_2017_wired_device =
+{
+    "Razer Lancehead 2017 (Wired)",
+    RAZER_LANCEHEAD_2017_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    18,
+    {
+        &lancehead_2017_wired_right_zone,
+        &lancehead_2017_wired_left_zone,
+        &lancehead_2017_wired_logo_zone,
+        &lancehead_2017_wired_scroll_wheel_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Lancehead 2017 (Wireless)                              |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone lancehead_2017_wireless_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2017_wireless_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2017_wireless_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone lancehead_2017_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device lancehead_2017_wireless_device =
+{
+    "Razer Lancehead 2017 (Wireless)",
+    RAZER_LANCEHEAD_2017_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    18,
+    {
+        &lancehead_2017_wireless_right_zone,
+        &lancehead_2017_wireless_left_zone,
+        &lancehead_2017_wireless_logo_zone,
+        &lancehead_2017_wireless_scroll_wheel_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Lancehead 2019 (Wired)                                 |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone lancehead_2019_wired_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2019_wired_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2019_wired_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone lancehead_2019_wired_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device lancehead_2019_wired_device =
+{
+    "Razer Lancehead 2019 (Wired)",
+    RAZER_LANCEHEAD_2019_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    18,
+    {
+        &lancehead_2019_wired_right_zone,
+        &lancehead_2019_wired_left_zone,
+        &lancehead_2019_wired_logo_zone,
+        &lancehead_2019_wired_scroll_wheel_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Lancehead 2019 (Wireless)                              |
+|                                                               |
+|  Zone "Right"                                                 |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Left"                                                  |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone lancehead_2019_wireless_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2019_wireless_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone lancehead_2019_wireless_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone lancehead_2019_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device lancehead_2019_wireless_device =
+{
+    "Razer Lancehead 2019 (Wireless)",
+    RAZER_LANCEHEAD_2019_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    18,
+    {
+        &lancehead_2019_wireless_right_zone,
+        &lancehead_2019_wireless_left_zone,
+        &lancehead_2019_wireless_logo_zone,
+        &lancehead_2019_wireless_scroll_wheel_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Lancehead Tournament Edition 1532:0060                 |
 |                                                               |
 |  Zone "Right"                                                 |
@@ -3406,148 +3690,6 @@ static const razer_device lancehead_te_device =
         &lancehead_te_left_zone,
         &lancehead_te_logo_zone,
         &lancehead_te_scroll_wheel_zone,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Lancehead V2 (Wired) 1532:0070                         |
-|                                                               |
-|  Zone "Right"                                                 |
-|       Linear                                                  |
-|       8 LEDs                                                  |
-|                                                               |
-|  Zone "Left"                                                  |
-|       Linear                                                  |
-|       8 LEDs                                                  |
-|                                                               |
-|  Zone "Logo"                                                  |
-|       Single                                                  |
-|       1 LED                                                   |
-|                                                               |
-|  Zone "Scroll Wheel"                                          |
-|       Single                                                  |
-|       1 LED                                                   |
-\*-------------------------------------------------------------*/
-static const razer_zone lancehead_v2_wired_right_zone =
-{
-    "Right LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    8
-};
-
-static const razer_zone lancehead_v2_wired_left_zone =
-{
-    "Left LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    8
-};
-
-static const razer_zone lancehead_v2_wired_logo_zone =
-{
-    "Logo",
-    ZONE_TYPE_SINGLE,
-    1,
-    1
-};
-
-static const razer_zone lancehead_v2_wired_scroll_wheel_zone =
-{
-    "Scroll Wheel",
-    ZONE_TYPE_SINGLE,
-    1,
-    1
-};
-
-static const razer_device lancehead_v2_wired_device =
-{
-    "Razer Lancehead Wireless (Wired)",
-    RAZER_LANCEHEAD_WIRELESS_WIRED_PID,
-    DEVICE_TYPE_MOUSE,
-    true,
-    1,
-    18,
-    {
-        &lancehead_v2_wired_right_zone,
-        &lancehead_v2_wired_left_zone,
-        &lancehead_v2_wired_logo_zone,
-        &lancehead_v2_wired_scroll_wheel_zone,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
-|  Razer Lancehead V2 (Wireless) 1532:006F                      |
-|                                                               |
-|  Zone "Right"                                                 |
-|       Linear                                                  |
-|       8 LEDs                                                  |
-|                                                               |
-|  Zone "Left"                                                  |
-|       Linear                                                  |
-|       8 LEDs                                                  |
-|                                                               |
-|  Zone "Logo"                                                  |
-|       Single                                                  |
-|       1 LED                                                   |
-|                                                               |
-|  Zone "Scroll Wheel"                                          |
-|       Single                                                  |
-|       1 LED                                                   |
-\*-------------------------------------------------------------*/
-static const razer_zone lancehead_v2_wireless_right_zone =
-{
-    "Right LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    8
-};
-
-static const razer_zone lancehead_v2_wireless_left_zone =
-{
-    "Left LED Strip",
-    ZONE_TYPE_LINEAR,
-    1,
-    8
-};
-
-static const razer_zone lancehead_v2_wireless_logo_zone =
-{
-    "Logo",
-    ZONE_TYPE_SINGLE,
-    1,
-    1
-};
-
-static const razer_zone lancehead_v2_wireless_scroll_wheel_zone =
-{
-    "Scroll Wheel",
-    ZONE_TYPE_SINGLE,
-    1,
-    1
-};
-
-static const razer_device lancehead_v2_wireless_device =
-{
-    "Razer Lancehead Wireless (Receiver)",
-    RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID,
-    DEVICE_TYPE_MOUSE,
-    true,
-    1,
-    18,
-    {
-        &lancehead_v2_wireless_right_zone,
-        &lancehead_v2_wireless_left_zone,
-        &lancehead_v2_wireless_logo_zone,
-        &lancehead_v2_wireless_scroll_wheel_zone,
         NULL,
         NULL
     },
@@ -5319,9 +5461,11 @@ static const razer_device* device_list[] =
     &deathadder_essential_white_edition_device,
     &deathadder_v2_device,
     &diamondback_chroma_device,
+    &lancehead_2017_wired_device,
+    &lancehead_2017_wireless_device,
+    &lancehead_2019_wired_device,
+    &lancehead_2019_wireless_device,
     &lancehead_te_device,
-    &lancehead_v2_wired_device,
-    &lancehead_v2_wireless_device,
     &mamba_2012_wired_device,
     &mamba_2012_wireless_device,
     &mamba_2015_wired_device,
