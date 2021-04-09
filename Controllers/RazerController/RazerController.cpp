@@ -178,9 +178,9 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_LANCEHEAD_WIRELESS_PID:
         case RAZER_LANCEHEAD_WIRELESS_RECEIVER_PID:
         case RAZER_LANCEHEAD_WIRELESS_WIRED_PID:
+        case RAZER_MAMBA_2018_WIRED_PID:
+        case RAZER_MAMBA_2018_WIRELESS_PID:
         case RAZER_MAMBA_ELITE_PID:
-        case RAZER_MAMBA_WIRELESS_RECEIVER_PID:
-        case RAZER_MAMBA_WIRELESS_WIRED_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_NAGA_TRINITY_PID:
         case RAZER_NOMMO_CHROMA_PID:
@@ -203,8 +203,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DIAMONDBACK_CHROMA_PID:
         case RAZER_FIREFLY_PID:
         case RAZER_MAMBA_TE_WIRED_PID:
-        case RAZER_MAMBA_WIRED_PID:
-        case RAZER_MAMBA_WIRELESS_PID:
+        case RAZER_MAMBA_2015_WIRED_PID:
+        case RAZER_MAMBA_2015_WIRELESS_PID:
         case RAZER_NAGA_CHROMA_PID:
             matrix_type = RAZER_MATRIX_TYPE_LINEAR;
             break;
