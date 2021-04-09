@@ -77,6 +77,7 @@
 | ASUS Sub-Device IDs                                   |
 \*-----------------------------------------------------*/
 #define ASUS_GTX1060_STRIX                              0x85AC
+#define ASUS_ROG_GTX1660TI_OC                           0x86A5
 #define ASUS_VEGA64_STRIX                               0x04C4
 
 /*-----------------------------------------------------*\
