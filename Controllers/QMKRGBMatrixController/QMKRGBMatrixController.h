@@ -141,7 +141,7 @@ private:
     std::map<uint8_t, std::string> QMKKeycodeToKeyNameMap
     {
         { 0, "" },
-        { 1, "" },
+        { 1, "Right Fn" },
         { 2, "Right Fn" },
         { 3, "" },
         { 4, "A" },
