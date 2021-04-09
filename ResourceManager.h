@@ -139,6 +139,7 @@ public:
 
 private:
     void DetectDevicesThreadFunction();
+    void UpdateDetectorSettings();
 
     /*-------------------------------------------------------------------------------------*\
     | Static pointer to shared instance of ResourceManager                                  |
