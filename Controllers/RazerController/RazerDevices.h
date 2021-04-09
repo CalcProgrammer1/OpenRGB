@@ -139,10 +139,10 @@
 | Accessory product IDs                                 |
 |   List taken from OpenRazer                           |
 \*-----------------------------------------------------*/
+#define RAZER_BASE_STATION_CHROMA_PID                   0x0F08
 #define RAZER_BASE_STATION_V2_CHROMA_PID                0x0F20
 #define RAZER_CHARGING_PAD_CHROMA_PID                   0x0F26
 #define RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID     0x0F1F
-#define RAZER_CHROMA_BASE_PID                           0x0F08
 #define RAZER_CHROMA_HDK_PID                            0x0F09
 #define RAZER_CHROMA_MUG_PID                            0x0F07
 #define RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID           0x0F0E
@@ -5286,13 +5286,48 @@ static const razer_zone base_station_zone =
 static const razer_device base_station_device =
 {
     "Razer Base Station Chroma",
-    RAZER_CHROMA_BASE_PID,
+    RAZER_BASE_STATION_CHROMA_PID,
     DEVICE_TYPE_HEADSET_STAND,
     true,
     1,
     15,
     {
         &base_station_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Base Station V2 Chroma                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       8 LEDs                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone base_station_v2_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_device base_station_v2_device =
+{
+    "Razer Base Station V2 Chroma",
+    RAZER_BASE_STATION_V2_CHROMA_PID,
+    DEVICE_TYPE_HEADSET_STAND,
+    true,
+    1,
+    8,
+    {
+        &base_station_v2_zone,
         NULL,
         NULL,
         NULL,
@@ -5549,6 +5584,7 @@ static const razer_device* device_list[] =
 |  OTHER                                                            |
 \*-----------------------------------------------------------------*/
     &base_station_device,
+    &base_station_v2_device,
     &charging_pad_chroma_device,
     &chromaargb_device,
     &chromahdk_device,

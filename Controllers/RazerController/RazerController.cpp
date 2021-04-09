@@ -153,13 +153,13 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         /*-------------------------------------------------*\
         | These devices use an extended matrix report       |
         \*-------------------------------------------------*/
+        case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BASILISK_PID:
         case RAZER_BASILISK_ESSENTIAL_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
-        case RAZER_CHROMA_BASE_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CYNOSA_CHROMA_PID:
