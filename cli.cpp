@@ -803,6 +803,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
         {
             if((option == "--localconfig")
              ||(option == "--nodetect")
+             ||(option == "--noautoconnect")
              ||(option == "--client")
              ||(option == "--server")
              ||(option == "--gui")
