@@ -317,6 +317,10 @@ void DeviceView::setController(RGBController * controller_ptr)
         {
             led_labels[led_idx] = it->second.label_utf8;
         }
+        else
+        {
+            led_labels[led_idx] = QString::number(led_idx);
+        }
     }
 
     /*-----------------------------------------------------*\
