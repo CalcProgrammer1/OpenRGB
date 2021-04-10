@@ -79,6 +79,8 @@
 #define ASUS_GTX1060_STRIX                              0x85AC
 #define ASUS_ROG_GTX1660TI_OC                           0x86A5
 #define ASUS_VEGA64_STRIX                               0x04C4
+#define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
+#define ASUS_RX580_STRIX_GAMING_OC                      0x0517
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
