@@ -654,10 +654,12 @@ bool OptionProfile(std::string argument, std::vector<RGBController *> &rgb_contr
             RGBController* device = rgb_controllers[controller_idx];
 
             device->DeviceUpdateMode();
+            LOG_DEBUG("Updating mode for %s to %i", device->name.c_str(), device->active_mode);
 
             if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
             {
                 device->DeviceUpdateLEDs();
+                LOG_DEBUG("Mode uses per-LED color, also updating LEDs");
             }
         }
 

@@ -263,6 +263,17 @@ void RGBController_MSIMysticLight162::SetupMode(const char *name, MSI_MODE mod, 
         Mode.speed_max  = MSI_SPEED_HIGH;
         Mode.speed_min  = MSI_SPEED_LOW;
     }
+    else
+    {
+        /*---------------------------------------------------------*\
+        | For modes without speed this needs to be set to avoid     |
+        | bad values in the saved profile which in turn corrupts    |
+        | the brightness calculation when loading the profile       |
+        \*---------------------------------------------------------*/
+        Mode.speed      = 0;
+        Mode.speed_max  = 0;
+        Mode.speed_min  = 0;
+    }
 
     modes.push_back(Mode);
 }
