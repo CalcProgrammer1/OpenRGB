@@ -95,6 +95,21 @@ std::string RazerKrakenController::GetSerialString()
     return(razer_get_serial());
 }
 
+void RazerKrakenController::SetModeBreathingOneColor(unsigned char red, unsigned char grn, unsigned char blu)
+{
+    razer_set_mode_breathing_one_color(red, grn, blu);
+}
+
+void RazerKrakenController::SetModeBreathingTwoColors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+{
+    razer_set_mode_breathing_two_colors(r1, g1, b1, r2, g2, b2);
+}
+
+void RazerKrakenController::SetModeBreathingThreeColors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+{
+    razer_set_mode_breathing_three_colors(r1, g1, b1, r2, g2, b2, r3, g3, b3);
+}
+
 void RazerKrakenController::SetModeCustom(unsigned char red, unsigned char grn, unsigned char blu)
 {
     razer_set_mode_custom(red, grn, blu);
@@ -138,6 +153,15 @@ razer_kraken_request_report RazerKrakenController::razer_kraken_create_report(un
     new_report.addr_l       = (address & 0xFF);
 
     return new_report;
+}
+
+razer_kraken_effect_byte RazerKrakenController::razer_kraken_create_effect_byte()
+{
+    razer_kraken_effect_byte            effect_byte;
+
+    memset(&effect_byte, 0, sizeof(razer_kraken_effect_byte));
+
+    return effect_byte;
 }
 
 /*---------------------------------------------------------------------------------*\
@@ -188,11 +212,86 @@ std::string RazerKrakenController::razer_get_serial()
 | Set functions (send information to device)                                        |
 \*---------------------------------------------------------------------------------*/
 
+void RazerKrakenController::razer_set_mode_breathing_one_color(unsigned char red, unsigned char grn, unsigned char blu)
+{
+    razer_kraken_request_report rgb_report      = razer_kraken_create_report(0x04, 0x40, 0x03, breathing_address[0]);
+    razer_kraken_request_report effect_report   = razer_kraken_create_report(0x04, 0x40, 0x01, led_mode_address);
+    razer_kraken_effect_byte    effect_byte     = razer_kraken_create_effect_byte();
+
+    rgb_report.arguments[0]                     = red;
+    rgb_report.arguments[1]                     = grn;
+    rgb_report.arguments[2]                     = blu;
+
+    effect_byte.bits.on_off_static              = 1;
+    effect_byte.bits.single_colour_breathing    = 1;
+    effect_byte.bits.sync                       = 1;
+    effect_report.arguments[0]                  = effect_byte.value;
+
+    razer_usb_send(&rgb_report);
+    razer_usb_send(&effect_report);
+}
+
+void RazerKrakenController::razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+{
+    razer_kraken_request_report rgb_report_1    = razer_kraken_create_report(0x04, 0x40, 0x03, breathing_address[1]);
+    razer_kraken_request_report rgb_report_2    = razer_kraken_create_report(0x04, 0x40, 0x03, breathing_address[1] + 4);
+    razer_kraken_request_report effect_report   = razer_kraken_create_report(0x04, 0x40, 0x01, led_mode_address);
+    razer_kraken_effect_byte    effect_byte     = razer_kraken_create_effect_byte();
+
+    rgb_report_1.arguments[0]                   = r1;
+    rgb_report_1.arguments[1]                   = g1;
+    rgb_report_1.arguments[2]                   = b1;
+
+    rgb_report_2.arguments[0]                   = r2;
+    rgb_report_2.arguments[1]                   = g2;
+    rgb_report_2.arguments[2]                   = b2;
+
+    effect_byte.bits.on_off_static              = 1;
+    effect_byte.bits.two_colour_breathing       = 1;
+    effect_byte.bits.sync                       = 1;
+    effect_report.arguments[0]                  = effect_byte.value;
+
+    razer_usb_send(&rgb_report_1);
+    razer_usb_send(&rgb_report_2);
+    razer_usb_send(&effect_report);
+}
+
+void RazerKrakenController::razer_set_mode_breathing_three_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+{
+    razer_kraken_request_report rgb_report_1    = razer_kraken_create_report(0x04, 0x40, 0x03, breathing_address[1]);
+    razer_kraken_request_report rgb_report_2    = razer_kraken_create_report(0x04, 0x40, 0x03, breathing_address[1] + 4);
+    razer_kraken_request_report rgb_report_3    = razer_kraken_create_report(0x04, 0x40, 0x03, breathing_address[1] + 8);
+    razer_kraken_request_report effect_report   = razer_kraken_create_report(0x04, 0x40, 0x01, led_mode_address);
+    razer_kraken_effect_byte    effect_byte     = razer_kraken_create_effect_byte();
+
+    rgb_report_1.arguments[0]                   = r1;
+    rgb_report_1.arguments[1]                   = g1;
+    rgb_report_1.arguments[2]                   = b1;
+
+    rgb_report_2.arguments[0]                   = r2;
+    rgb_report_2.arguments[1]                   = g2;
+    rgb_report_2.arguments[2]                   = b2;
+
+    rgb_report_3.arguments[0]                   = r3;
+    rgb_report_3.arguments[1]                   = g3;
+    rgb_report_3.arguments[2]                   = b3;
+
+    effect_byte.bits.on_off_static              = 1;
+    effect_byte.bits.three_colour_breathing     = 1;
+    effect_byte.bits.sync                       = 1;
+    effect_report.arguments[0]                  = effect_byte.value;
+
+    razer_usb_send(&rgb_report_1);
+    razer_usb_send(&rgb_report_2);
+    razer_usb_send(&rgb_report_3);
+    razer_usb_send(&effect_report);
+}
+
 void RazerKrakenController::razer_set_mode_custom(unsigned char red, unsigned char grn, unsigned char blu)
 {
     razer_kraken_request_report rgb_report      = razer_kraken_create_report(0x04, 0x40, 3, custom_address);
     razer_kraken_request_report effect_report   = razer_kraken_create_report(0x04, 0x40, 0x01, led_mode_address);
-    razer_kraken_effect_byte    effect_byte;
+    razer_kraken_effect_byte    effect_byte     = razer_kraken_create_effect_byte();
 
     effect_byte.value                       = 0;
 
@@ -219,7 +318,7 @@ void RazerKrakenController::razer_set_mode_custom(unsigned char red, unsigned ch
 void RazerKrakenController::razer_set_mode_none()
 {
     razer_kraken_request_report report      = razer_kraken_create_report(0x04, 0x40, 0x01, led_mode_address);
-    razer_kraken_effect_byte    effect_byte;
+    razer_kraken_effect_byte    effect_byte = razer_kraken_create_effect_byte();
 
     effect_byte.value                       = 0;
 
@@ -234,7 +333,7 @@ void RazerKrakenController::razer_set_mode_none()
 void RazerKrakenController::razer_set_mode_spectrum_cycle()
 {
     razer_kraken_request_report report      = razer_kraken_create_report(0x04, 0x40, 0x01, led_mode_address);
-    razer_kraken_effect_byte    effect_byte;
+    razer_kraken_effect_byte    effect_byte = razer_kraken_create_effect_byte();
 
     effect_byte.value                       = 0;
 
@@ -250,7 +349,7 @@ void RazerKrakenController::razer_set_mode_static(unsigned char red, unsigned ch
 {
     razer_kraken_request_report rgb_report      = razer_kraken_create_report(0x04, 0x40, 3, breathing_address[0]);
     razer_kraken_request_report effect_report   = razer_kraken_create_report(0x04, 0x40, 0x01, led_mode_address);
-    razer_kraken_effect_byte    effect_byte;
+    razer_kraken_effect_byte    effect_byte     = razer_kraken_create_effect_byte();
 
     effect_byte.value                       = 0;
 

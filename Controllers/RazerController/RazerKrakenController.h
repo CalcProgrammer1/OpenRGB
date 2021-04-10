@@ -72,6 +72,9 @@ public:
     std::string             GetName();
     std::string             GetSerialString();
 
+    void                    SetModeBreathingOneColor(unsigned char red, unsigned char grn, unsigned char blu);
+    void                    SetModeBreathingTwoColors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
+    void                    SetModeBreathingThreeColors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3);
     void                    SetModeCustom(unsigned char red, unsigned char grn, unsigned char blu);
     void                    SetModeOff();
     void                    SetModeSpectrumCycle();
@@ -111,13 +114,14 @@ private:
     | Private functions based on OpenRazer                      |
     \*---------------------------------------------------------*/
     razer_kraken_request_report razer_kraken_create_report(unsigned char report_id, unsigned char destination, unsigned char length, unsigned short address);
-
-    razer_kraken_request_report razer_create_mode_spectrum_cycle_kraken_report(unsigned char variable_storage, unsigned char led_id);
-
+    razer_kraken_effect_byte    razer_kraken_create_effect_byte();
+    
     std::string                 razer_get_firmware();
     std::string                 razer_get_serial();
     
-    void                        razer_set_mode_breathing();
+    void                        razer_set_mode_breathing_one_color(unsigned char red, unsigned char grn, unsigned char blu);
+    void                        razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
+    void                        razer_set_mode_breathing_three_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3);
     void                        razer_set_mode_custom(unsigned char red, unsigned char grn, unsigned char blu);
     void                        razer_set_mode_none();
     void                        razer_set_mode_spectrum_cycle();

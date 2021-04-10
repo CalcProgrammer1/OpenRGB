@@ -37,16 +37,25 @@ RGBController_RazerKraken::RGBController_RazerKraken(RazerKrakenController* cont
     Static.colors.resize(1);
     modes.push_back(Static);
 
-    // Breathing disabled, not yet implemented
-    //mode Breathing;
-    //Breathing.name       = "Breathing";
-    //Breathing.value      = RAZER_KRAKEN_MODE_BREATHING;
-    //Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    //Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    //Breathing.colors_min = 1;
-    //Breathing.colors_max = 2;
-    //Breathing.colors.resize(1);
-    //modes.push_back(Breathing);
+    mode Breathing;
+    Breathing.name       = "Breathing";
+    Breathing.value      = RAZER_KRAKEN_MODE_BREATHING;
+    Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.colors_min = 1;
+    /*---------------------------------------------------------*\
+    | Razer Kraken 7.1 Chroma only does single color breathing  |
+    \*---------------------------------------------------------*/
+    if(device_list[controller->GetDeviceIndex()]->pid == RAZER_KRAKEN_PID)
+    {
+        Breathing.colors_max = 1;
+    }
+    else
+    {
+        Breathing.colors_max = 3;
+    }
+    Breathing.colors.resize(1);
+    modes.push_back(Breathing);
 
     mode SpectrumCycle;
     SpectrumCycle.name       = "Spectrum Cycle";
@@ -187,17 +196,56 @@ void RGBController_RazerKraken::DeviceUpdateMode()
             break;
 
         case RAZER_KRAKEN_MODE_STATIC:
-            if(modes[active_mode].colors.size() == 1)
+            if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
             {
-                unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
-                unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
-                unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
+                if(modes[active_mode].colors.size() == 1)
+                {
+                    unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
+                    unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
+                    unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
 
-                controller->SetModeStatic(red, grn, blu);
+                    controller->SetModeStatic(red, grn, blu);
+                }
             }
             break;
 
         case RAZER_KRAKEN_MODE_BREATHING:
+            if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+            {
+                if(modes[active_mode].colors.size() == 1)
+                {
+                    unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
+                    unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
+                    unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
+
+                    controller->SetModeBreathingOneColor(red, grn, blu);
+                }
+                else if(modes[active_mode].colors.size() == 2)
+                {
+                    unsigned char red1 = RGBGetRValue(modes[active_mode].colors[0]);
+                    unsigned char grn1 = RGBGetGValue(modes[active_mode].colors[0]);
+                    unsigned char blu1 = RGBGetBValue(modes[active_mode].colors[0]);
+                    unsigned char red2 = RGBGetRValue(modes[active_mode].colors[1]);
+                    unsigned char grn2 = RGBGetGValue(modes[active_mode].colors[1]);
+                    unsigned char blu2 = RGBGetBValue(modes[active_mode].colors[1]);
+
+                    controller->SetModeBreathingTwoColors(red1, grn1, blu1, red2, grn2, blu2);
+                }
+                else if(modes[active_mode].colors.size() == 3)
+                {
+                    unsigned char red1 = RGBGetRValue(modes[active_mode].colors[0]);
+                    unsigned char grn1 = RGBGetGValue(modes[active_mode].colors[0]);
+                    unsigned char blu1 = RGBGetBValue(modes[active_mode].colors[0]);
+                    unsigned char red2 = RGBGetRValue(modes[active_mode].colors[1]);
+                    unsigned char grn2 = RGBGetGValue(modes[active_mode].colors[1]);
+                    unsigned char blu2 = RGBGetBValue(modes[active_mode].colors[1]);
+                    unsigned char red3 = RGBGetRValue(modes[active_mode].colors[2]);
+                    unsigned char grn3 = RGBGetGValue(modes[active_mode].colors[2]);
+                    unsigned char blu3 = RGBGetBValue(modes[active_mode].colors[2]);
+
+                    controller->SetModeBreathingThreeColors(red1, grn1, blu1, red2, grn2, blu2, red3, grn3, blu3);
+                }
+            }
             break;
 
         case RAZER_KRAKEN_MODE_SPECTRUM_CYCLE:
