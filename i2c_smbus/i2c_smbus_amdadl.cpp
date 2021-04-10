@@ -30,22 +30,40 @@ int LoadLibraries()
 
     hDLL = LoadLibrary("atiadlxx.dll");
 
-    if (hDLL == NULL)
+    if(hDLL == NULL)
     {
-        // A 32 bit calling application on 64 bit OS will fail to LoadLIbrary.
-        // Try to load the 32 bit library (atiadlxy.dll) instead
+        /*---------------------------------------------------------------------*\
+        | A 32 bit calling application on 64 bit OS will fail to LoadLibrary.   |
+        | Try to load the 32 bit library (atiadlxy.dll) instead                 |
+        \*---------------------------------------------------------------------*/
         hDLL = LoadLibrary("atiadlxy.dll");
         return ADL_ERR;
     }
     else
     {
-        ADL2_Main_Control_Create = (ADL2_MAIN_CONTROL_CREATE)GetProcAddress(hDLL, "ADL2_Main_Control_Create");
-        ADL2_Main_Control_Destroy = (ADL2_MAIN_CONTROL_DESTROY)GetProcAddress(hDLL, "ADL2_Main_Control_Destroy");
-        ADL2_Adapter_NumberOfAdapters_Get = (ADL2_ADAPTER_NUMBEROFADAPTERS_GET)GetProcAddress(hDLL, "ADL2_Adapter_NumberOfAdapters_Get");
-        ADL2_Adapter_Primary_Get = (ADL2_ADAPTER_PRIMARY_GET)GetProcAddress(hDLL, "ADL2_Adapter_Primary_Get");
-        ADL2_Adapter_AdapterInfoX2_Get = (ADL2_ADAPTER_ADAPTERINFOX2_GET)GetProcAddress(hDLL, "ADL2_Adapter_AdapterInfoX2_Get");
-        ADL2_Display_WriteAndReadI2C = (ADL2_DISPLAY_WRITEANDREADI2C)GetProcAddress(hDLL, "ADL2_Display_WriteAndReadI2C");
-        return ADL_OK;
+        ADL2_Main_Control_Create            = (ADL2_MAIN_CONTROL_CREATE)GetProcAddress(hDLL, "ADL2_Main_Control_Create");
+        ADL2_Main_Control_Destroy           = (ADL2_MAIN_CONTROL_DESTROY)GetProcAddress(hDLL, "ADL2_Main_Control_Destroy");
+        ADL2_Adapter_NumberOfAdapters_Get   = (ADL2_ADAPTER_NUMBEROFADAPTERS_GET)GetProcAddress(hDLL, "ADL2_Adapter_NumberOfAdapters_Get");
+        ADL2_Adapter_Primary_Get            = (ADL2_ADAPTER_PRIMARY_GET)GetProcAddress(hDLL, "ADL2_Adapter_Primary_Get");
+        ADL2_Adapter_AdapterInfoX2_Get      = (ADL2_ADAPTER_ADAPTERINFOX2_GET)GetProcAddress(hDLL, "ADL2_Adapter_AdapterInfoX2_Get");
+        ADL2_Display_WriteAndReadI2C        = (ADL2_DISPLAY_WRITEANDREADI2C)GetProcAddress(hDLL, "ADL2_Display_WriteAndReadI2C");
+
+        /*---------------------------------------------------------------------*\
+        | Only return OK if all function pointers are valid                     |
+        \*---------------------------------------------------------------------*/
+        if( ADL2_Main_Control_Create 
+         && ADL2_Main_Control_Destroy
+         && ADL2_Adapter_NumberOfAdapters_Get
+         && ADL2_Adapter_Primary_Get
+         && ADL2_Adapter_AdapterInfoX2_Get
+         && ADL2_Display_WriteAndReadI2C)
+        {
+            return ADL_OK;
+        }
+        else
+        {
+            return ADL_ERR;
+        }
     }
 }
 
