@@ -863,7 +863,18 @@ void ResourceManager::UpdateDetectorSettings()
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
-            detector_settings["detectors"][detection_string] = true;
+            /*-------------------------------------------------*\
+            | Default the OpenRazer detector to disabled, as it |
+            | overrides RazerController when enabled            |
+            \*-------------------------------------------------*/
+            if(strcmp(detection_string, "OpenRazer") == 0 || strcmp(detection_string, "OpenRazer-Win32") == 0)
+            {
+                detector_settings["detectors"][detection_string] = false;
+            }
+            else
+            {
+                detector_settings["detectors"][detection_string] = true;
+            }
             save_settings = true;
         }
     }
