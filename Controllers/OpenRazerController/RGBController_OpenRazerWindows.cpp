@@ -170,12 +170,16 @@ RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_f
     \*-----------------------------------------------------------------*/
     razer_functions->device_serial->show(razer_device, NULL, string_buf);
     serial = string_buf;
+    serial.erase(std::remove(serial.begin(), serial.end(), '\n'), serial.end());
+    serial.erase(std::remove(serial.begin(), serial.end(), '\r'), serial.end());
 
     /*-----------------------------------------------------------------*\
     | Get the firmware version from the dev path                        |
     \*-----------------------------------------------------------------*/
     razer_functions->firmware_version->show(razer_device, NULL, string_buf);
     version = string_buf;
+    version.erase(std::remove(version.begin(), version.end(), '\n'), version.end());
+    version.erase(std::remove(version.begin(), version.end(), '\r'), version.end());
 
     /*-----------------------------------------------------------------*\
     | Vendor is always Razer                                            |
