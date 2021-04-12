@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "RGBController.h"
 #include "RGBController_Razer.h"
+#include "RGBController_RazerAddressable.h"
 #include "RGBController_RazerKraken.h"
 #include <hidapi/hidapi.h>
 
@@ -116,8 +117,8 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
      }
      if(dev_interface_0 && dev_interface_1)
      {
-         RazerController* controller         = new RazerController(dev_interface_0, dev_interface_1, info->path, info->product_id, name);
-         RGBController_Razer* rgb_controller = new RGBController_Razer(controller);
+         RazerController* controller                    = new RazerController(dev_interface_0, dev_interface_1, info->path, info->product_id, name);
+         RGBController_RazerAddressable* rgb_controller = new RGBController_RazerAddressable(controller);
          ResourceManager::get()->RegisterRGBController(rgb_controller);
      }
      else

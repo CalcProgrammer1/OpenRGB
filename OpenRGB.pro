@@ -300,6 +300,7 @@ HEADERS +=                                                                      
     Controllers/RazerController/RazerKrakenController.h                                         \
     Controllers/RazerController/RazerDevices.h                                                  \
     Controllers/RazerController/RGBController_Razer.h                                           \
+    Controllers/RazerController/RGBController_RazerAddressable.h                                \
     Controllers/RazerController/RGBController_RazerKraken.h                                     \
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
@@ -569,6 +570,7 @@ SOURCES +=                                                                      
     Controllers/RazerController/RazerKrakenController.cpp                                       \
     Controllers/RazerController/RazerControllerDetect.cpp                                       \
     Controllers/RazerController/RGBController_Razer.cpp                                         \
+    Controllers/RazerController/RGBController_RazerAddressable.cpp                              \
     Controllers/RazerController/RGBController_RazerKraken.cpp                                   \
     Controllers/RedragonController/RedragonM711Controller.cpp                                   \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
