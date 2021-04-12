@@ -276,6 +276,13 @@ std::string RazerController::GetSerialString()
     return(razer_get_serial());
 }
 
+void RazerController::SetAddressableZoneSizes(unsigned char zone_1_size, unsigned char zone_2_size, unsigned char zone_3_size, unsigned char zone_4_size, unsigned char zone_5_size, unsigned char zone_6_size)
+{
+    razer_report report     = razer_create_addressable_size_report(zone_1_size, zone_2_size, zone_3_size, zone_4_size, zone_5_size, zone_6_size);
+
+    razer_usb_send(&report);
+}
+
 void RazerController::SetLEDs(RGBColor* colors)
 {
     /*---------------------------------------------------------*\
@@ -446,6 +453,44 @@ razer_report RazerController::razer_create_response()
 /*---------------------------------------------------------------------------------*\
 | Command report creation functions                                                 |
 \*---------------------------------------------------------------------------------*/
+
+razer_report RazerController::razer_create_addressable_size_report
+    (
+    unsigned char zone_1_size,
+    unsigned char zone_2_size,
+    unsigned char zone_3_size,
+    unsigned char zone_4_size,
+    unsigned char zone_5_size,
+    unsigned char zone_6_size
+    )
+{
+    razer_report report         = razer_create_report(0x0F, 0x08, 0x0D);
+
+    report.arguments[0]         = 0x06;
+    report.arguments[1]         = (zone_1_size == 0) ? 0x01 : 0x19;
+    report.arguments[2]         = zone_1_size;
+    report.arguments[3]         = (zone_2_size == 0) ? 0x02 : 0x19;
+    report.arguments[4]         = zone_2_size;
+    report.arguments[5]         = (zone_3_size == 0) ? 0x03 : 0x19;
+    report.arguments[6]         = zone_3_size;
+    report.arguments[7]         = (zone_4_size == 0) ? 0x04 : 0x19;
+    report.arguments[8]         = zone_4_size;
+    report.arguments[9]         = (zone_5_size == 0) ? 0x05 : 0x19;
+    report.arguments[10]        = zone_5_size;
+    report.arguments[11]        = (zone_6_size == 0) ? 0x06 : 0x19;
+    report.arguments[12]        = zone_6_size;
+
+    return report;
+}
+
+razer_report RazerController::razer_create_addressable_startup_detect_report(bool enable)
+{
+    razer_report report         = razer_create_report(0x00, 0x44, 0x01);
+
+    report.arguments[0]         = enable;
+
+    return report;
+}
 
 razer_report RazerController::razer_create_brightness_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char brightness)
 {

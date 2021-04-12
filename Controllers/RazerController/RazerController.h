@@ -170,6 +170,7 @@ public:
     std::string             GetSerialString();
 
     void                    SetLEDs(RGBColor* colors);
+    void                    SetAddressableZoneSizes(unsigned char zone_1_size, unsigned char zone_2_size, unsigned char zone_3_size, unsigned char zone_4_size, unsigned char zone_5_size, unsigned char zone_6_size);
 
     void                    SetModeBreathingRandom();
     void                    SetModeBreathingOneColor(unsigned char red, unsigned char grn, unsigned char blu);
@@ -221,6 +222,8 @@ private:
     razer_report            razer_create_report(unsigned char command_class, unsigned char command_id, unsigned char data_size);
     razer_report            razer_create_response();
 
+    razer_report            razer_create_addressable_size_report(unsigned char zone_1_size, unsigned char zone_2_size, unsigned char zone_3_size, unsigned char zone_4_size, unsigned char zone_5_size, unsigned char zone_6_size);
+    razer_report            razer_create_addressable_startup_detect_report(bool enable);
     razer_report            razer_create_brightness_extended_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char brightness);
     razer_report            razer_create_brightness_standard_report(unsigned char variable_storage, unsigned char led_id, unsigned char brightness);
     razer_argb_report       razer_create_custom_frame_argb_report(unsigned char row_index, unsigned char stop_col, unsigned char* rgb_data);

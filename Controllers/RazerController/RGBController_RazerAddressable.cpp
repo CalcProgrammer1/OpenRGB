@@ -192,6 +192,13 @@ void RGBController_RazerAddressable::ResizeZone(int zone, int new_size)
     {
         zones[zone].leds_count = new_size;
 
+        controller->SetAddressableZoneSizes(zones[0].leds_count,
+                                            zones[1].leds_count,
+                                            zones[2].leds_count,
+                                            zones[3].leds_count,
+                                            zones[4].leds_count,
+                                            zones[5].leds_count);
+
         SetupZones();
     }
 }
