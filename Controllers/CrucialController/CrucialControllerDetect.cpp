@@ -13,14 +13,20 @@ using namespace std::chrono_literals;
 /*----------------------------------------------------------------------*\
 | This list contains the available SMBus addresses for Crucial RAM       |
 \*----------------------------------------------------------------------*/
-#define CRUCIAL_ADDRESS_COUNT  8
+#define CRUCIAL_ADDRESS_COUNT  4
 
 static const unsigned char crucial_addresses[] =
 {
-    0x39,
-    0x3A,
-    0x3B,
-    0x3C,
+/*-----------------------------------------------------*\
+| These addresses have been disabled due to conflict    |
+| with ASUS Aura DRAM.  Since the detection scheme is   |
+| the same, Aura RAM will be detected as Crucial.       |
+| We need to improve the Crucial detection scheme.      |
+\*-----------------------------------------------------*/
+//  0x39,
+//  0x3A,
+//  0x3B,
+//  0x3C,
     0x20,
     0x21,
     0x22,
