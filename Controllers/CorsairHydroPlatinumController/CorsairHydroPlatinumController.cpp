@@ -216,7 +216,16 @@ void CorsairHydroPlatinumController::SendColors(std::vector<RGBColor> colors, un
 
 unsigned int CorsairHydroPlatinumController::GetSequenceNumber()
 {
-    return ((sequence_number < 32) ? sequence_number++ : sequence_number = 1) << 3;
+    if(sequence_number < 31)
+    {
+        sequence_number++;
+    }
+    else
+    {
+        sequence_number = 1;
+    }
+
+    return(sequence_number << 3);
 }
 
 uint8_t CorsairHydroPlatinumController::ComputePEC(const void * data, size_t size)

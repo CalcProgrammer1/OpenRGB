@@ -43,7 +43,7 @@ private:
     std::string location;
     std::string firmware_version;
 
-    unsigned int sequence_number;
+    std::atomic<unsigned int> sequence_number;
 
     void SendMagic(const uint8_t* magic, unsigned int command);
     void SendColors(std::vector<RGBColor> colors, unsigned int start, unsigned int end, unsigned int command);
