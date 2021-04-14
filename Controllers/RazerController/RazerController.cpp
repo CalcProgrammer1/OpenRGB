@@ -372,6 +372,16 @@ void RazerController::SetModeWave()
     razer_set_mode_wave();
 }
 
+bool RazerController::SupportsReactive()
+{
+    return(false);
+}
+
+bool RazerController::SupportsWave()
+{
+    return(false);
+}
+
 /*-------------------------------------------------------------------------------------------------*\
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/

@@ -180,6 +180,9 @@ public:
     void                    SetModeStatic(unsigned char red, unsigned char grn, unsigned char blu);
     void                    SetModeWave();
 
+    bool                    SupportsReactive();
+    bool                    SupportsWave();
+
 private:
     hid_device*             dev;
     hid_device*             dev_argb;
