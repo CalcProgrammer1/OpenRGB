@@ -66,7 +66,7 @@ enum
 enum
 {
     EVISION_KB_BRIGHTNESS_LOWEST                    = 0x00, /* Lowest brightness (off)  */
-    EVISION_KB_BRIGHTNESS_HIGHEST                   = 0x05, /* Highest brightness       */
+    EVISION_KB_BRIGHTNESS_HIGHEST                   = 0x04, /* Highest brightness       */
 };
 
 enum
