@@ -367,9 +367,9 @@ void RazerController::SetModeStatic(unsigned char red, unsigned char grn, unsign
     razer_set_mode_static(red, grn, blu);
 }
 
-void RazerController::SetModeWave()
+void RazerController::SetModeWave(unsigned char direction)
 {
-    razer_set_mode_wave();
+    razer_set_mode_wave(direction);
 }
 
 bool RazerController::SupportsReactive()
@@ -1385,13 +1385,11 @@ void RazerController::razer_set_mode_static(unsigned char red, unsigned char grn
     }
 }
 
-void RazerController::razer_set_mode_wave()
+void RazerController::razer_set_mode_wave(unsigned char direction)
 {
-    unsigned char direction = 0x01;
-
     razer_report report;
 
-    switch(dev_pid)
+    switch(matrix_type)
     {
         case RAZER_MATRIX_TYPE_STANDARD:
         case RAZER_MATRIX_TYPE_LINEAR:
