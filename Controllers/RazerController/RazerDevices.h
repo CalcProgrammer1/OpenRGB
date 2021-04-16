@@ -106,7 +106,7 @@
 #define RAZER_MAMBA_2018_WIRED_PID                      0x0073
 #define RAZER_MAMBA_2018_WIRELESS_PID                   0x0072
 #define RAZER_MAMBA_ELITE_PID                           0x006C
-#define RAZER_MAMBA_TE_WIRED_PID                        0x0046
+#define RAZER_MAMBA_TE_PID                              0x0046
 #define RAZER_NAGA_2012_PID                             0x002E
 #define RAZER_NAGA_2014_PID                             0x0040
 #define RAZER_NAGA_CHROMA_PID                           0x0053
@@ -4134,7 +4134,7 @@ static const razer_zone mamba_te_scroll_wheel_zone =
 static const razer_device mamba_te_device =
 {
     "Razer Mamba Tournament Edition",
-    RAZER_MAMBA_TE_WIRED_PID,
+    RAZER_MAMBA_TE_PID,
     DEVICE_TYPE_MOUSE,
     true,
     1,
