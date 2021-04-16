@@ -291,7 +291,7 @@ void RGBController_RazerAddressable::DeviceUpdateMode()
             break;
 
         case RAZER_ADDRESSABLE_MODE_WAVE:
-            controller->SetModeWave('0');
+            controller->SetModeWave(1);
             break;
     }
 }

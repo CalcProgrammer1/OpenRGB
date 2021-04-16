@@ -47,18 +47,18 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     \*-----------------------------------------------------------------*/
     switch(dev_pid)
     {
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_CYNOSA_V2_PID:
-        case RAZER_DEATHADDER_CHROMA_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_MAMBA_ELITE_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_EPIC_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_TARTARUS_CHROMA_PID:
         case RAZER_TARTARUS_V2_PID:
+        case RAZER_DEATHADDER_CHROMA_PID:
+        case RAZER_MAMBA_ELITE_PID:
+        case RAZER_NAGA_EPIC_CHROMA_PID:
+        case RAZER_KRAKEN_KITTY_EDITION_PID:
+        case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
             dev_transaction_id = 0x1F;
             break;
 
@@ -78,6 +78,14 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
 
         case RAZER_GOLIATHUS_CHROMA_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
+        case RAZER_BASE_STATION_CHROMA_PID:
+        case RAZER_CHROMA_HDK_PID:
+        case RAZER_CORE_PID:
+        case RAZER_FIREFLY_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
+        case RAZER_FIREFLY_V2_PID:
+        case RAZER_NOMMO_CHROMA_PID:
+        case RAZER_NOMMO_PRO_PID:
         default:
             dev_transaction_id = 0x3F;
             break;
@@ -92,6 +100,11 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_GOLIATHUS_CHROMA_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_TARTARUS_V2_PID:
+        case RAZER_BASE_STATION_CHROMA_PID:
+        case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_CHARGING_PAD_CHROMA_PID:
+        case RAZER_CHROMA_HDK_PID:
+        case RAZER_FIREFLY_V2_PID:
             dev_led_id = RAZER_LED_ID_ZERO;
             break;
 
@@ -107,6 +120,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_HUNTSMAN_TE_PID:
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
+        case RAZER_FIREFLY_PID:
         default:
             dev_led_id = RAZER_LED_ID_BACKLIGHT;
             break;
@@ -146,7 +160,6 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_STEALTH_LATE_2019_PID:
         case RAZER_BLADE_STEALTH_2020_PID:
         case RAZER_BLADE_STEALTH_LATE_2020_PID:
-        case RAZER_CORE_PID:
         case RAZER_NAGA_HEX_V2_PID:
             matrix_type = RAZER_MATRIX_TYPE_STANDARD;
             break;
