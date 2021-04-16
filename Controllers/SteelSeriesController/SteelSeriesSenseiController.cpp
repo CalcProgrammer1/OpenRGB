@@ -1,13 +1,13 @@
 /*-----------------------------------------*\
-|  SteelSeriesSenseiTenController.h         |
+|  SteelSeriesSenseiController.h            |
 |                                           |
 |  Definitions and types for SteelSeries    |
-|  Sensei TEN lighting controller           |
+|  Sensei lighting controller               |
 |  Based on Rival controller by             |
 |  B Horn (bahorn) 13/5/2020                |
 \*-----------------------------------------*/
 
-#include "SteelSeriesSenseiTenController.h"
+#include "SteelSeriesSenseiController.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,7 +27,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
     delete usb_pkt;
 }
 
-SteelSeriesSenseiTenController::SteelSeriesSenseiTenController
+SteelSeriesSenseiController::SteelSeriesSenseiController
     (
     hid_device*         dev_handle,
     steelseries_type    proto_type,
@@ -39,22 +39,22 @@ SteelSeriesSenseiTenController::SteelSeriesSenseiTenController
     proto       = proto_type;
 }
 
-SteelSeriesSenseiTenController::~SteelSeriesSenseiTenController()
+SteelSeriesSenseiController::~SteelSeriesSenseiController()
 {
     hid_close(dev);
 }
 
-std::string SteelSeriesSenseiTenController::GetDeviceLocation()
+std::string SteelSeriesSenseiController::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-char* SteelSeriesSenseiTenController::GetDeviceName()
+char* SteelSeriesSenseiController::GetDeviceName()
 {
     return device_name;
 }
 
-std::string SteelSeriesSenseiTenController::GetSerialString()
+std::string SteelSeriesSenseiController::GetSerialString()
 {
     wchar_t serial_string[128];
     hid_get_serial_number_string(dev, serial_string, 128);
@@ -65,12 +65,13 @@ std::string SteelSeriesSenseiTenController::GetSerialString()
     return(return_string);
 }
 
-steelseries_type SteelSeriesSenseiTenController::GetMouseType()
+steelseries_type SteelSeriesSenseiController::GetMouseType()
 {
     return proto;
 }
 
-void SteelSeriesSenseiTenController::Save()
+/* Saves to the internal configuration */
+void SteelSeriesSenseiController::Save()
 {
     /*-----------------------------------------------------*\
     | Saves to the internal configuration                   |
@@ -94,7 +95,7 @@ void SteelSeriesSenseiTenController::Save()
 }
 
 
-void SteelSeriesSenseiTenController::SetLightEffect
+void SteelSeriesSenseiController::SetLightEffect
     (
     unsigned char   zone_id,
     unsigned char   effect,
@@ -221,7 +222,7 @@ void SteelSeriesSenseiTenController::SetLightEffect
 }
 
 
-void SteelSeriesSenseiTenController::SetLightEffectAll
+void SteelSeriesSenseiController::SetLightEffectAll
     (
     unsigned char   effect,
     unsigned char   speed,
@@ -235,7 +236,7 @@ void SteelSeriesSenseiTenController::SetLightEffectAll
 }
 
 
-void SteelSeriesSenseiTenController::SetColor
+void SteelSeriesSenseiController::SetColor
     (
     unsigned char   zone_id,
     unsigned char   red,
@@ -276,22 +277,14 @@ void SteelSeriesSenseiTenController::SetColor
     send_usb_msg(dev, usb_buf, sizeof(usb_buf));
 }
 
-void SteelSeriesSenseiTenController::SetColorAll
+void SteelSeriesSenseiController::SetColorAll
     (
         unsigned char   red,
         unsigned char   green,
         unsigned char   blue
-    )
+        )
 {
-    switch(proto)
-    {
-        case SENSEI_TEN:
-            SetColor(0, red, green, blue);
-            SetColor(1, red, green, blue);
-            break;
-
-        default:
-            break;
-    }
+    SetColor(0, red, green, blue);
+    SetColor(1, red, green, blue);
 }
 

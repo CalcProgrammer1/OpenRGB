@@ -1,7 +1,7 @@
 /*------------------------------------------*\
-|  RGBController_SteelSeriesSenseiTen.h      |
+|  RGBController_SteelSeriesSensei.h         |
 |                                            |
-|  Generic RGB Interface SteelSeriesSenseiTen|
+|  Generic RGB Interface SteelSeriesSensei   |
 |  Class                                     |
 |  Based on Rival controller by              |
 |  B Horn (bahorn) 13/05/2020                |
@@ -10,13 +10,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "SteelSeriesSenseiTenController.h"
+#include "SteelSeriesSenseiController.h"
 
-class RGBController_SteelSeriesSenseiTen : public RGBController
+class RGBController_SteelSeriesSensei : public RGBController
 {
 public:
-    RGBController_SteelSeriesSenseiTen(SteelSeriesSenseiTenController* sensei_ptr);
-    ~RGBController_SteelSeriesSenseiTen();
+    RGBController_SteelSeriesSensei(SteelSeriesSenseiController* sensei_ptr);
+    ~RGBController_SteelSeriesSensei();
 
     void        SetupZones();
 
@@ -30,5 +30,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    SteelSeriesSenseiTenController*     sensei;
+    SteelSeriesSenseiController*     sensei;
 };

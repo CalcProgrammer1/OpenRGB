@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  SteelSeriesSenseiTenController.h         |
+|  SteelSeriesSenseiController.h            |
 |                                           |
 |  Definitions and types for SteelSeries    |
-|  Sensei Ten lighting controller           |
+|  Sensei lighting controller               |
 |  Based on Rival controller by             |
 |  B Horn (bahorn) 13/5/2020                |
 \*-----------------------------------------*/
@@ -38,17 +38,17 @@ enum
     STEELSERIES_SENSEI_EFFECT_RAINBOW_MAX       = 0x07
 };
 
-class SteelSeriesSenseiTenController
+class SteelSeriesSenseiController
 {
 public:
-    SteelSeriesSenseiTenController
+    SteelSeriesSenseiController
         (
         hid_device*         dev_handle,
         steelseries_type    proto_type,
         const char*         path
         );
 
-    ~SteelSeriesSenseiTenController();
+    ~SteelSeriesSenseiController();
 
     std::string GetDeviceLocation();
     char*       GetDeviceName();

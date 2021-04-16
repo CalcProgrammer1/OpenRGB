@@ -4,14 +4,14 @@
 #include "SteelSeriesApexController.h"
 #include "SteelSeriesOldApexController.h"
 #include "SteelSeriesApexMController.h"
-#include "SteelSeriesSenseiTenController.h"
+#include "SteelSeriesSenseiController.h"
 #include "SteelSeriesGeneric.h"
 #include "RGBController.h"
 #include "RGBController_SteelSeriesRival.h"
 #include "RGBController_SteelSeriesSiberia.h"
 #include "RGBController_SteelSeriesApex.h"
 #include "RGBController_SteelSeriesOldApex.h"
-#include "RGBController_SteelSeriesSenseiTen.h"
+#include "RGBController_SteelSeriesSensei.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -34,6 +34,7 @@
 #define STEELSERIES_RIVAL_300_HP_PID                0x1718
 #define STEELSERIES_RIVAL_300_BLACKOPS_PID          0x1710
 #define STEELSERIES_SENSEI_TEN_PID                  0x1832
+#define STEELSERIES_SENSEI_310_PID                  0x1722
 /*-----------------------------------------------------*\
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
@@ -133,13 +134,13 @@ void DetectSteelSeriesRival300(hid_device_info* info, const std::string& name)
     }
 }
 
-void DetectSteelSeriesSenseiTen(hid_device_info* info, const std::string& name)
+void DetectSteelSeriesSensei(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        SteelSeriesSenseiTenController* controller = new SteelSeriesSenseiTenController(dev, SENSEI_TEN, info->path);
-        RGBController_SteelSeriesSenseiTen* rgb_controller = new RGBController_SteelSeriesSenseiTen(controller);
+        SteelSeriesSenseiController* controller = new SteelSeriesSenseiController(dev, SENSEI, info->path);
+        RGBController_SteelSeriesSensei* rgb_controller = new RGBController_SteelSeriesSensei(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -160,7 +161,8 @@ REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 CS:GO Hyperbeast Edition",   Dete
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 Dota 2 Edition",             DetectSteelSeriesRival300,  STEELSERIES_VID, STEELSERIES_RIVAL_300_DOTA_PID,            0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 HP Omen Edition",            DetectSteelSeriesRival300,  STEELSERIES_VID, STEELSERIES_RIVAL_300_HP_PID,              0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 Black Ops Edition",          DetectSteelSeriesRival300,  STEELSERIES_VID, STEELSERIES_RIVAL_300_BLACKOPS_PID,        0  );
-REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                           DetectSteelSeriesSenseiTen, STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_310_PID,                0  );
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Headsets                                                                                                                                                              |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

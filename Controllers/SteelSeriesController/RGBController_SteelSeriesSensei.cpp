@@ -1,15 +1,15 @@
 /*------------------------------------------*\
-|  RGBController_SteelSeriesSenseiTen.cpp    |
+|  RGBController_SteelSeriesSensei.cpp       |
 |                                            |
-|  Generic RGB Interface SteelSeriesSenseiTen|
+|  Generic RGB Interface SteelSeriesSensei   |
 |  Class                                     |
 |  Based on Rival Controller by              |
 |  B Horn (bahorn) 13/05/2020                |
 \*------------------------------------------*/
 
-#include "RGBController_SteelSeriesSenseiTen.h"
+#include "RGBController_SteelSeriesSensei.h"
 
-RGBController_SteelSeriesSenseiTen::RGBController_SteelSeriesSenseiTen(SteelSeriesSenseiTenController* sensei_ptr)
+RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSenseiController* sensei_ptr)
 {
     sensei      = sensei_ptr;
     
@@ -50,12 +50,12 @@ RGBController_SteelSeriesSenseiTen::RGBController_SteelSeriesSenseiTen(SteelSeri
     SetupZones();
 }
 
-RGBController_SteelSeriesSenseiTen::~RGBController_SteelSeriesSenseiTen()
+RGBController_SteelSeriesSensei::~RGBController_SteelSeriesSensei()
 {
     delete sensei;
 }
 
-void RGBController_SteelSeriesSenseiTen::SetupZones()
+void RGBController_SteelSeriesSensei::SetupZones()
 {
     zone logo_zone;
     logo_zone.name          = "Logo";
@@ -86,20 +86,20 @@ void RGBController_SteelSeriesSenseiTen::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesSenseiTen::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_SteelSeriesSensei::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_SteelSeriesSenseiTen::DeviceUpdateLEDs()
+void RGBController_SteelSeriesSensei::DeviceUpdateLEDs()
 {
     UpdateZoneLEDs(0);
     UpdateZoneLEDs(1);
 }
 
-void RGBController_SteelSeriesSenseiTen::UpdateZoneLEDs(int zone)
+void RGBController_SteelSeriesSensei::UpdateZoneLEDs(int zone)
 {
     RGBColor      color = colors[zone];
     unsigned char red   = RGBGetRValue(color);
@@ -119,7 +119,7 @@ void RGBController_SteelSeriesSenseiTen::UpdateZoneLEDs(int zone)
     }
 }   
 
-void RGBController_SteelSeriesSenseiTen::UpdateSingleLED(int led)
+void RGBController_SteelSeriesSensei::UpdateSingleLED(int led)
 {
     /*---------------------------------------------------------*\
     | Each zone only has a single LED, so we can use the LED ID |
@@ -128,12 +128,12 @@ void RGBController_SteelSeriesSenseiTen::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_SteelSeriesSenseiTen::SetCustomMode()
+void RGBController_SteelSeriesSensei::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_SteelSeriesSenseiTen::DeviceUpdateMode()
+void RGBController_SteelSeriesSensei::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\
     | Strictly, the device actually does support different modes|
