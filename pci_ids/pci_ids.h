@@ -96,7 +96,8 @@
 #define EVGA_RTX2070S_XC_ULTRA_PLUS_SUB_DEV             0x3175
 #define EVGA_RTX2080_XC_BLACK_SUB_DEV                   0x2082
 #define EVGA_RTX2080_XC_GAMING_SUB_DEV                  0x2182
-#define EVGA_RTX2080TI_XC_ULTRA_SUB_DEV                 0x2383
+#define EVGA_RTX2080_XC_ULTRA_GAMING_SUB_DEV            0x2183
+#define EVGA_RTX2080TI_XC_ULTRA_GAMING_SUB_DEV          0x2383
 
 /*-----------------------------------------------------*\
 | Gainward Sub-Device IDs                               |
