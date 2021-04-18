@@ -61,7 +61,8 @@ RGBController_RazerAddressable::RGBController_RazerAddressable(RazerController* 
         mode Wave;
         Wave.name       = "Wave";
         Wave.value      = RAZER_ADDRESSABLE_MODE_WAVE;
-        Wave.flags      = 0;
+        Wave.flags      = MODE_FLAG_HAS_DIRECTION_LR;
+        Wave.direction  = MODE_DIRECTION_RIGHT;
         Wave.color_mode = MODE_COLORS_NONE;
         modes.push_back(Wave);
     }
@@ -291,7 +292,16 @@ void RGBController_RazerAddressable::DeviceUpdateMode()
             break;
 
         case RAZER_ADDRESSABLE_MODE_WAVE:
-            controller->SetModeWave(1);
+            switch(modes[active_mode].direction)
+            {
+                case MODE_DIRECTION_LEFT:
+                    controller->SetModeWave(2);
+                    break;
+
+                default:
+                    controller->SetModeWave(1);
+                    break;
+            }
             break;
     }
 }
