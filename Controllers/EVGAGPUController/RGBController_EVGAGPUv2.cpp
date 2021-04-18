@@ -182,7 +182,7 @@ void RGBController_EVGAGPUv2::UpdateSingleLED(int /*led*/)
 
 void RGBController_EVGAGPUv2::SetCustomMode()
 {
-    active_mode = getModeIndex(EVGA_GPU_V2_MODE_DIRECT);
+    active_mode = getModeIndex(EVGA_GPU_V2_RGB_MODE_DIRECT);
 }
 
 void RGBController_EVGAGPUv2::DeviceUpdateMode()
