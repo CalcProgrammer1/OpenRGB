@@ -31,7 +31,7 @@ static unsigned int keys_k95_plat[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,
                                        98,   99,   100,  101,  102,  103,  104,  105,  108,  109,  110,  111,  112,  113,  115,
                                        116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
                                        136,  137,  139,  140,  141,
-                                       0x10, 114, 0x0a, 0x16, 0x22, 0x2e, 0x3a, 0x46,
+                                       0x10, 114, 0x0a, 0x16, 0x22, 0x2e, 0x3a, 0x46,  125,
                                        144,  145,  146,  158,  160,  147,  148,  149,  150,  151,  152,  153,
                                        154,  155,  159,  162,  161,  156,  157};
 
@@ -55,7 +55,20 @@ CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle,
 
     ReadFirmwareInfo();
 
+    /*-----------------------------------------------------*\
+    | K95 Platinum requires additional steps                |
+    \*-----------------------------------------------------*/
+    if (logical_layout == CORSAIR_TYPE_K95_PLAT)
+    {
+        SpecialFunctionControl();
+    }
+
     LightingControl();
+
+    if (logical_layout == CORSAIR_TYPE_K95_PLAT)
+    {
+        SetupK95LightingControl();
+    }
 }
 
 CorsairPeripheralController::~CorsairPeripheralController()
@@ -328,7 +341,7 @@ void CorsairPeripheralController::LightingControl()
     {
         default:
         case DEVICE_TYPE_KEYBOARD:
-            usb_buf[0x05]   = 0x03;
+            usb_buf[0x05]   = 0x03; // On K95 Platinum, this controls keyboard brightness
             break;
 
         case DEVICE_TYPE_MOUSE:
@@ -348,6 +361,70 @@ void CorsairPeripheralController::LightingControl()
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)usb_buf, 65);
+}
+
+/*-----------------------------------------------------*\
+| Probably a key mapping packet?                        |
+\*-----------------------------------------------------*/
+
+void CorsairPeripheralController::SetupK95LightingControl()
+{
+    char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up a packet                                       |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]           = 0x00;
+    usb_buf[0x01]           = CORSAIR_COMMAND_WRITE;
+    usb_buf[0x02]           = CORSAIR_PROPERTY_LIGHTING_CONTROL;
+    usb_buf[0x03]           = 0x08;
+
+    usb_buf[0x05]           = 0x01;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 65);
+
+    int identifier = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        /*-----------------------------------------------------*\
+        | Zero out buffer                                       |
+        \*-----------------------------------------------------*/
+        memset(usb_buf, 0x00, sizeof(usb_buf));
+
+        /*-----------------------------------------------------*\
+        | Set up a packet - a sequence of 120 ids               |
+        \*-----------------------------------------------------*/
+        usb_buf[0x00]           = 0x00;
+        usb_buf[0x01]           = CORSAIR_COMMAND_WRITE;
+        usb_buf[0x02]           = 0x40;
+        usb_buf[0x03]           = 0x1E;
+
+        for (int j = 0; j < 30; j++)
+        {
+            while (identifier == 0x31 || identifier == 0x41 || identifier == 0x42 || identifier == 0x48
+                || identifier == 0x49 || identifier == 0x51 || identifier == 0x55 || identifier == 0x6f
+                || identifier == 0x7e || identifier == 0x7f || identifier == 0x80 || identifier == 0x81)
+            {
+                identifier++;
+            }
+
+            usb_buf[5 + 2 * j]      = identifier++;
+            usb_buf[5 + 2 * j + 1]  = 0xC0;
+        }
+
+        /*-----------------------------------------------------*\
+        | Send packet                                           |
+        \*-----------------------------------------------------*/
+        hid_write(dev, (unsigned char *)usb_buf, 65);
+    }
 }
 
 void CorsairPeripheralController::SpecialFunctionControl()
