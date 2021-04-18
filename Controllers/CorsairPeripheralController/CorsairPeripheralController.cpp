@@ -48,6 +48,9 @@ static unsigned int keys_k95[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
 
 static unsigned int st100[] = { 0x00, 0x01, 0x02, 0x03, 0x05, 0x06, 0x07, 0x08, 0x04 };
 
+static unsigned int key_mapping_k95_plat_ansi[] = { 0x31, 0x3f, 0x41, 0x42, 0x51, 0x53, 0x55, 0x6f, 0x7e, 0x7f, 0x80, 0x81 };
+static unsigned int key_mapping_k95_plat_iso[] = { 0x3f, 0x41, 0x42, 0x48, 0x50, 0x53, 0x55, 0x6f, 0x7e, 0x7f, 0x80, 0x81 };
+
 CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
@@ -391,7 +394,16 @@ void CorsairPeripheralController::SetupK95LightingControl()
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)usb_buf, 65);
 
-    int identifier = 0;
+    unsigned int* skipped_identifiers = key_mapping_k95_plat_ansi;
+    int skipped_identifiers_count = sizeof(key_mapping_k95_plat_ansi) / sizeof(key_mapping_k95_plat_ansi[0]);
+    
+    if (physical_layout == CORSAIR_LAYOUT_ISO)
+    {
+        skipped_identifiers = key_mapping_k95_plat_iso;
+        skipped_identifiers_count = sizeof(key_mapping_k95_plat_iso) / sizeof(key_mapping_k95_plat_iso[0]);
+    }
+
+    unsigned int identifier = 0;
     for (int i = 0; i < 4; i++)
     {
         /*-----------------------------------------------------*\
@@ -409,11 +421,12 @@ void CorsairPeripheralController::SetupK95LightingControl()
 
         for (int j = 0; j < 30; j++)
         {
-            while (identifier == 0x31 || identifier == 0x41 || identifier == 0x42 || identifier == 0x48
-                || identifier == 0x49 || identifier == 0x51 || identifier == 0x55 || identifier == 0x6f
-                || identifier == 0x7e || identifier == 0x7f || identifier == 0x80 || identifier == 0x81)
+            for (int j = 0; j < skipped_identifiers_count; j++)
             {
-                identifier++;
+                if (identifier == skipped_identifiers[j])
+                {
+                    identifier++;
+                }
             }
 
             usb_buf[5 + 2 * j]      = identifier++;
