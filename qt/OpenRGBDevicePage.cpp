@@ -515,21 +515,26 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         if(supports_speed)
         {
             ui->SpeedSlider->blockSignals(true);
+            int  current_speed;
+            InvertedSpeed = device->modes[selected_mode].speed_min > device->modes[selected_mode].speed_max;
 
-            if(device->modes[selected_mode].speed_min > device->modes[selected_mode].speed_max)
+            if(InvertedSpeed)
             {
-                InvertedSpeed = true;
+                /*-----------------------------------------------------*\
+                | If Speed Slider is inverted, invert value             |
+                \*-----------------------------------------------------*/
                 ui->SpeedSlider->setMinimum(device->modes[selected_mode].speed_max);
                 ui->SpeedSlider->setMaximum(device->modes[selected_mode].speed_min);
+                current_speed = device->modes[selected_mode].speed_min - device->modes[selected_mode].speed + device->modes[selected_mode].speed_max;
             }
             else
             {
-                InvertedSpeed = false;
                 ui->SpeedSlider->setMinimum(device->modes[selected_mode].speed_min);
                 ui->SpeedSlider->setMaximum(device->modes[selected_mode].speed_max);
+                current_speed = device->modes[selected_mode].speed;
             }
             
-            ui->SpeedSlider->setValue(device->modes[selected_mode].speed);
+            ui->SpeedSlider->setValue(current_speed);
             ui->SpeedSlider->setEnabled(true);
             ui->SpeedSlider->blockSignals(false);
         }
@@ -804,14 +809,16 @@ void Ui::OpenRGBDevicePage::UpdateMode()
         \*-----------------------------------------------------*/
         if(ui->SpeedSlider->isEnabled())
         {
-            current_speed = ui->SpeedSlider->value();
-
             /*-----------------------------------------------------*\
             | If Speed Slider is inverted, invert value             |
             \*-----------------------------------------------------*/
             if(InvertedSpeed)
             {
-                current_speed = device->modes[(unsigned int)current_mode].speed_min - current_speed + device->modes[current_mode].speed_max;
+                current_speed = device->modes[(unsigned int)current_mode].speed_min - ui->SpeedSlider->value() + device->modes[current_mode].speed_max;
+            }
+            else
+            {
+                current_speed = ui->SpeedSlider->value();
             }
         }
 
