@@ -134,7 +134,7 @@ void LogitechG560Controller::fail_retry_write(hid_device *device, const unsigned
         if(ret == 20)
         {
             std::this_thread::sleep_for(1ms);
-            hid_read_timeout(dev, usb_buf_out, LOGI_G560_LED_PACKET_SIZE, 200);
+            hid_read_timeout(dev, usb_buf_out, LOGI_G560_LED_PACKET_SIZE, 20);
             break;
         }
         else
