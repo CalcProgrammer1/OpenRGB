@@ -175,6 +175,7 @@ public:
 
     virtual void            RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg) = 0;
     virtual void            UnregisterUpdateCallback(void * callback_arg)                                       = 0;
+    virtual void            ClearCallbacks()                                                                    = 0;
     virtual void            SignalUpdate()                                                                      = 0;
 
     virtual void            UpdateLEDs()                                                                        = 0;
@@ -253,6 +254,7 @@ public:
 
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
     void                    UnregisterUpdateCallback(void * callback_arg);
+    void                    ClearCallbacks();
     void                    SignalUpdate();
 
     void                    UpdateLEDs();

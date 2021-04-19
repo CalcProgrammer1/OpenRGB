@@ -56,6 +56,7 @@ public:
     virtual std::vector<i2c_smbus_interface*> & GetI2CBusses()                                                                                      = 0;
 
     virtual void                                RegisterRGBController(RGBController *rgb_controller)                                                = 0;
+    virtual void                                UnregisterRGBController(RGBController *rgb_controller)                                              = 0;
 
     virtual void                                RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)    = 0;
     virtual void                                RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg)  = 0;
@@ -92,6 +93,7 @@ public:
     std::vector<i2c_smbus_interface*> & GetI2CBusses();
     
     void RegisterRGBController(RGBController *rgb_controller);
+    void UnregisterRGBController(RGBController *rgb_controller);
 
     std::vector<RGBController*> & GetRGBControllers();
     

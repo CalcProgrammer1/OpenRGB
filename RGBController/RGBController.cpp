@@ -1369,6 +1369,12 @@ void RGBController::UnregisterUpdateCallback(void * callback_arg)
     }
 }
 
+void RGBController::ClearCallbacks()
+{
+    UpdateCallbacks.clear();
+    UpdateCallbackArgs.clear();
+}
+
 void RGBController::SignalUpdate()
 {
     UpdateMutex.lock();
