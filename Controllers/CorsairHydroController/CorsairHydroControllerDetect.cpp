@@ -47,16 +47,15 @@ static const corsair_hydro_device device_list[] =
 
 void DetectCorsairHydroControllers(std::vector<RGBController*>& rgb_controllers)
 {
-    libusb_context * ctx;
-    libusb_init(&ctx);
+    libusb_init(NULL);
 
     #ifdef _WIN32
-    libusb_set_option(ctx, LIBUSB_OPTION_USE_USBDK);
+    libusb_set_option(NULL, LIBUSB_OPTION_USE_USBDK);
     #endif
 
     for(std::size_t device_idx = 0; device_idx < CORSAIR_NUM_DEVICES; device_idx++)
     {
-        libusb_device_handle * dev = libusb_open_device_with_vid_pid(ctx, device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
+        libusb_device_handle * dev = libusb_open_device_with_vid_pid(NULL, device_list[device_idx].usb_vid, device_list[device_idx].usb_pid);
 
         //Look for Corsair RGB Peripheral
         if(dev)
