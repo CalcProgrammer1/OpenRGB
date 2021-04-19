@@ -28,19 +28,17 @@
 
 void DetectLianLiUniHub(std::vector<RGBController*>&)
 {
-    libusb_context * ctx;
-
     libusb_device** devices = nullptr;
 
     int ret;
 
-    ret = libusb_init(&ctx);
+    ret = libusb_init(NULL);
     if(ret < 0)
     {
         return;
     }
 
-    ret = libusb_get_device_list(ctx, &devices);
+    ret = libusb_get_device_list(NULL, &devices);
     if(ret < 0)
     {
         return;
