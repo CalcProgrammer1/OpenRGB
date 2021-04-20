@@ -140,7 +140,7 @@ void RGBController_CMR6000Controller::UpdateSingleLED(int /*led*/)
 
 void RGBController_CMR6000Controller::SetCustomMode()
 {
-    
+    active_mode = 1;
 }
 
 void RGBController_CMR6000Controller::DeviceUpdateMode()
