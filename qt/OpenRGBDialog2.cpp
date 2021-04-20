@@ -3,6 +3,7 @@
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBServerInfoPage.h"
+#include "OpenRGBPluginContainer.h"
 #include "OpenRGBProfileSaveDialog.h"
 #include "ResourceManager.h"
 #include <QLabel>
@@ -489,9 +490,11 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     if(Location == "InformationTab" && !TopBarAlreadyLoaded)
     {
         QWidget* NewPluginTab = new QWidget;
-
         NewPluginTab = plugin_manager->ActivePlugins[plugin_index]->CreateGUI(NewPluginTab);
-        ui->InformationTabBar->addTab(NewPluginTab," ");
+
+        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
+
+        ui->InformationTabBar->addTab(NewPluginContainer," ");
 
         ui->InformationTabBar->tabBar()->setTabButton((ui->InformationTabBar->count() - 1),QTabBar::LeftSide , PluginTabLabel);
     }
@@ -501,9 +504,11 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     else if(Location == "DevicesTab")
     {
         QWidget* NewPluginTab = new QWidget;
-
         NewPluginTab = plugin_manager->ActivePlugins[plugin_index]->CreateGUI(NewPluginTab);
-        ui->DevicesTabBar->addTab(NewPluginTab," ");
+
+        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
+
+        ui->DevicesTabBar->addTab(NewPluginContainer," ");
 
         ui->DevicesTabBar->tabBar()->setTabButton((ui->DevicesTabBar->count() - 1),QTabBar::LeftSide , PluginTabLabel);
     }
@@ -513,10 +518,11 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     else if(Location == "TopTabBar" && !TopBarAlreadyLoaded)
     {
         QWidget* NewPluginTab = new QWidget;
-
         NewPluginTab = plugin_manager->ActivePlugins[plugin_index]->CreateGUI(NewPluginTab);
 
-        ui->MainTabBar->addTab(NewPluginTab,QString().fromStdString(plugin_manager->ActivePlugins[plugin_index]->info.PluginName));
+        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
+
+        ui->MainTabBar->addTab(NewPluginContainer,QString().fromStdString(plugin_manager->ActivePlugins[plugin_index]->info.PluginName));
     }
     /*-----------------------------------------------------*\
     | Display an error message if the plugin does not       |
