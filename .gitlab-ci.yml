@@ -24,14 +24,14 @@ before_script:
 .ccache_init: &ccache_init
   before_script:
     - apt update
-    - apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
+    - apt install -y build-essential qtcreator qtbase5-dev libusb-1.0-0-dev libhidapi-dev pkgconf wget git file
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
 #-----------------------------------------------------------------------#
 "Linux 32 AppImage":
   <<: *ccache_init
-  image: i386/ubuntu:bionic
+  image: i386/debian:bullseye
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -50,7 +50,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 AppImage":
   <<: *ccache_init
-  image: ubuntu:bionic
+  image: debian:bullseye
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -69,13 +69,13 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 32 deb":
   <<: *ccache_init
-  image: i386/ubuntu:bionic
+  image: i386/debian:bullseye
   stage: build
   script:
   - apt install -y debhelper
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
-  - rm -v ../openrgb-dbgsym*.ddeb
+  - rm -v ../openrgb-dbgsym*.deb
   - mv -v ../openrgb*.deb ./
 
   artifacts:
@@ -91,13 +91,13 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 deb":
   <<: *ccache_init
-  image: ubuntu:bionic
+  image: debian:bullseye
   stage: build
   script:
   - apt install -y debhelper
   - dpkg-architecture -l
   - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.ddeb
+  - rm -v ../openrgb-dbgsym*.deb
   - mv -v ../openrgb*.deb ./
 
   artifacts:
