@@ -33,7 +33,11 @@
 #define STEELSERIES_RIVAL_300_DOTA_PID              0x1392
 #define STEELSERIES_RIVAL_300_HP_PID                0x1718
 #define STEELSERIES_RIVAL_300_BLACKOPS_PID          0x1710
+#define STEELSERIES_RIVAL_310_PID                   0x1720
+#define STEELSERIES_RIVAL_310_CSGO_HOWL_PID         0x171e
+#define STEELSERIES_RIVAL_310_PUBG_PID              0x1736
 #define STEELSERIES_SENSEI_TEN_PID                  0x1832
+#define STEELSERIES_SENSEI_TEN_CSGO_NEON_RIDER_PID  0x1834
 #define STEELSERIES_SENSEI_310_PID                  0x1722
 /*-----------------------------------------------------*\
 | Headset product IDs                                   |
@@ -161,7 +165,11 @@ REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 CS:GO Hyperbeast Edition",   Dete
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 Dota 2 Edition",             DetectSteelSeriesRival300,  STEELSERIES_VID, STEELSERIES_RIVAL_300_DOTA_PID,            0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 HP Omen Edition",            DetectSteelSeriesRival300,  STEELSERIES_VID, STEELSERIES_RIVAL_300_HP_PID,              0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 Black Ops Edition",          DetectSteelSeriesRival300,  STEELSERIES_VID, STEELSERIES_RIVAL_300_BLACKOPS_PID,        0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 310",                            DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_RIVAL_310_PID,                 0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 310 CS:GO Howl Edition",         DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_RIVAL_310_CSGO_HOWL_PID,       0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 310 PUBG Edition",               DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_RIVAL_310_PUBG_PID,            0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN CS:GO Neon Rider Edition",  DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_CSGO_NEON_RIDER_PID,0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_310_PID,                0  );
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Headsets                                                                                                                                                              |
