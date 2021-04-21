@@ -161,11 +161,10 @@ build_windows_32:
   - _fold_final_
   
   - _fold_start_ 'compressing the release folder so that we can upload it as artifact'
-  - mv release 'OpenRGB Windows 32-bit'
   - ${datetime} = Get-Date ([datetime]::UtcNow) -Format "yyyy-MM-ddTHH-mm-ss"
   - ${revision} = ((git rev-parse --short HEAD) | Out-String).Trim()
   - ${rversion} = (((Get-Content '..\OpenRGB.pro' | Select-String -Pattern "VERSION     =") | Out-String).Trim().Split("="))[1].Trim()
-  - 7z a -mx9 -r -y "OpenRGB_${rversion}_32_${revision}_nightly_${datetime}.7z" 'OpenRGB Windows 32-bit'
+  - mv release ../'OpenRGB Windows 32-bit'
   - _fold_final_
 #  cache:
 #    key: same-key
@@ -173,7 +172,7 @@ build_windows_32:
 #    - C:\vcpkg\installed\
   artifacts:
     paths:
-    - _build/*.7z
+    - 'OpenRGB Windows 32-bit'
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
@@ -233,11 +232,10 @@ build_windows_64:
   - _fold_final_
   
   - _fold_start_ 'compressing the release folder so that we can upload it as artifact'
-  - mv release 'OpenRGB Windows 64-bit'
   - ${datetime} = Get-Date ([datetime]::UtcNow) -Format "yyyy-MM-ddTHH-mm-ss"
   - ${revision} = ((git rev-parse --short HEAD) | Out-String).Trim()
   - ${rversion} = (((Get-Content '..\OpenRGB.pro' | Select-String -Pattern "VERSION     =") | Out-String).Trim().Split("="))[1].Trim()
-  - 7z a -mx9 -r -y "OpenRGB_${rversion}_64_${revision}_nightly_${datetime}.7z" 'OpenRGB Windows 64-bit'
+  - mv release ../'OpenRGB Windows 64-bit'
   - _fold_final_
 #  cache:
 #    key: same-key
@@ -245,7 +243,7 @@ build_windows_64:
 #    - C:\vcpkg\installed\
   artifacts:
     paths:
-    - _build/*.7z
+    - 'OpenRGB Windows 64-bit'
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
