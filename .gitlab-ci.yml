@@ -29,7 +29,7 @@ before_script:
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
 #-----------------------------------------------------------------------#
-build_linux_32:
+Linux_32:
   <<: *ccache_init
   image: i386/ubuntu:bionic
   stage: build
@@ -38,6 +38,7 @@ build_linux_32:
   - ./scripts/build-appimage.sh
   
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB-i386.AppImage
     - 60-openrgb.rules
@@ -47,7 +48,7 @@ build_linux_32:
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 64-bit Build Target                                  #
 #-----------------------------------------------------------------------#
-build_linux_64:
+Linux_64:
   <<: *ccache_init
   image: ubuntu:bionic
   stage: build
@@ -56,6 +57,7 @@ build_linux_64:
   - ./scripts/build-appimage.sh
   
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB-x86_64.AppImage
     - 60-openrgb.rules
@@ -65,7 +67,7 @@ build_linux_64:
 #-----------------------------------------------------------------------#
 # Linux (.deb) 32-bit Build Target                                      #
 #-----------------------------------------------------------------------#
-build_linux_deb32:
+Linux_deb32:
   <<: *ccache_init
   image: i386/ubuntu:bionic
   stage: build
@@ -77,6 +79,7 @@ build_linux_deb32:
   - mv -v ../openrgb*.deb ./
 
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - openrgb*.deb
     exclude:
@@ -86,7 +89,7 @@ build_linux_deb32:
 #-----------------------------------------------------------------------#
 # Linux (.deb) 64-bit Build Target                                      #
 #-----------------------------------------------------------------------#
-build_linux_deb64:
+Linux_deb64:
   <<: *ccache_init
   image: ubuntu:bionic
   stage: build
@@ -98,6 +101,7 @@ build_linux_deb64:
   - mv -v ../openrgb*.deb ./
 
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - openrgb*.deb
     exclude:
@@ -107,7 +111,7 @@ build_linux_deb64:
 #-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #
 #-----------------------------------------------------------------------#
-build_windows_32:
+Windows_32:
   extends:
   - .shared_windows_runners
   stage: build
@@ -160,10 +164,7 @@ build_windows_32:
   - ..\_qt\5.15.0\msvc2019\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
   - _fold_final_
   
-  - _fold_start_ 'compressing the release folder so that we can upload it as artifact'
-  - ${datetime} = Get-Date ([datetime]::UtcNow) -Format "yyyy-MM-ddTHH-mm-ss"
-  - ${revision} = ((git rev-parse --short HEAD) | Out-String).Trim()
-  - ${rversion} = (((Get-Content '..\OpenRGB.pro' | Select-String -Pattern "VERSION     =") | Out-String).Trim().Split("="))[1].Trim()
+  - _fold_start_ 'Moving results for upload'
   - mv release ../'OpenRGB Windows 32-bit'
   - _fold_final_
 #  cache:
@@ -171,6 +172,7 @@ build_windows_32:
 #    paths:
 #    - C:\vcpkg\installed\
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 32-bit'
     expire_in: 30 days
@@ -178,7 +180,7 @@ build_windows_32:
 #-----------------------------------------------------------------------#
 # Windows (64-bit) Build Target                                         #
 #-----------------------------------------------------------------------#
-build_windows_64:
+Windows_64:
   extends:
   - .shared_windows_runners
   stage: build
@@ -231,10 +233,7 @@ build_windows_64:
   - ..\_qt\5.15.0\msvc2019_64\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
   - _fold_final_
   
-  - _fold_start_ 'compressing the release folder so that we can upload it as artifact'
-  - ${datetime} = Get-Date ([datetime]::UtcNow) -Format "yyyy-MM-ddTHH-mm-ss"
-  - ${revision} = ((git rev-parse --short HEAD) | Out-String).Trim()
-  - ${rversion} = (((Get-Content '..\OpenRGB.pro' | Select-String -Pattern "VERSION     =") | Out-String).Trim().Split("="))[1].Trim()
+  - _fold_start_ 'Moving results for upload'
   - mv release ../'OpenRGB Windows 64-bit'
   - _fold_final_
 #  cache:
@@ -242,6 +241,7 @@ build_windows_64:
 #    paths:
 #    - C:\vcpkg\installed\
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 64-bit'
     expire_in: 30 days
@@ -249,7 +249,7 @@ build_windows_64:
 #-----------------------------------------------------------------------#
 # MacOS Build Target                                                    #
 #-----------------------------------------------------------------------#
-build_macos_arm64:
+MacOS_ARM64:
   tags:
   - macos
   stage: build
@@ -260,6 +260,7 @@ build_macos_arm64:
   - macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
@@ -270,7 +271,7 @@ build_macos_arm64:
   - if: '$BUILD_MACOS =~ /.+/'
     when: on_success
 
-build_macos_intel:
+MacOS_Intel:
   tags:
   - macos
   stage: build
@@ -281,6 +282,7 @@ build_macos_intel:
   - arch -x86_64 macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
