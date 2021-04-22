@@ -29,7 +29,7 @@ before_script:
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
 #-----------------------------------------------------------------------#
-Linux_32:
+"Linux 32 AppImage":
   <<: *ccache_init
   image: i386/ubuntu:bionic
   stage: build
@@ -38,7 +38,7 @@ Linux_32:
   - ./scripts/build-appimage.sh
   
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Linux_32_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB-i386.AppImage
     - 60-openrgb.rules
@@ -48,7 +48,7 @@ Linux_32:
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 64-bit Build Target                                  #
 #-----------------------------------------------------------------------#
-Linux_64:
+"Linux 64 AppImage":
   <<: *ccache_init
   image: ubuntu:bionic
   stage: build
@@ -57,7 +57,7 @@ Linux_64:
   - ./scripts/build-appimage.sh
   
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Linux_64_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB-x86_64.AppImage
     - 60-openrgb.rules
@@ -67,7 +67,7 @@ Linux_64:
 #-----------------------------------------------------------------------#
 # Linux (.deb) 32-bit Build Target                                      #
 #-----------------------------------------------------------------------#
-Linux_deb32:
+"Linux 32 deb":
   <<: *ccache_init
   image: i386/ubuntu:bionic
   stage: build
@@ -79,7 +79,7 @@ Linux_deb32:
   - mv -v ../openrgb*.deb ./
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Linux_32_deb_${CI_COMMIT_SHORT_SHA}"
     paths:
     - openrgb*.deb
     exclude:
@@ -89,7 +89,7 @@ Linux_deb32:
 #-----------------------------------------------------------------------#
 # Linux (.deb) 64-bit Build Target                                      #
 #-----------------------------------------------------------------------#
-Linux_deb64:
+"Linux 64 deb":
   <<: *ccache_init
   image: ubuntu:bionic
   stage: build
@@ -101,7 +101,7 @@ Linux_deb64:
   - mv -v ../openrgb*.deb ./
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Linux_64_deb_${CI_COMMIT_SHORT_SHA}"
     paths:
     - openrgb*.deb
     exclude:
@@ -111,7 +111,7 @@ Linux_deb64:
 #-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #
 #-----------------------------------------------------------------------#
-Windows_32:
+"Windows 32":
   extends:
   - .shared_windows_runners
   stage: build
@@ -172,7 +172,7 @@ Windows_32:
 #    paths:
 #    - C:\vcpkg\installed\
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 32-bit'
     expire_in: 30 days
@@ -180,7 +180,7 @@ Windows_32:
 #-----------------------------------------------------------------------#
 # Windows (64-bit) Build Target                                         #
 #-----------------------------------------------------------------------#
-Windows_64:
+"Windows 64":
   extends:
   - .shared_windows_runners
   stage: build
@@ -241,7 +241,7 @@ Windows_64:
 #    paths:
 #    - C:\vcpkg\installed\
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 64-bit'
     expire_in: 30 days
@@ -249,7 +249,7 @@ Windows_64:
 #-----------------------------------------------------------------------#
 # MacOS Build Target                                                    #
 #-----------------------------------------------------------------------#
-MacOS_ARM64:
+"MacOS ARM64":
   tags:
   - macos
   stage: build
@@ -260,7 +260,7 @@ MacOS_ARM64:
   - macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_MacOS_ARM64_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
@@ -271,7 +271,7 @@ MacOS_ARM64:
   - if: '$BUILD_MACOS =~ /.+/'
     when: on_success
 
-MacOS_Intel:
+"MacOS Intel":
   tags:
   - macos
   stage: build
@@ -282,7 +282,7 @@ MacOS_Intel:
   - arch -x86_64 macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_MacOS_Intel_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
