@@ -4,6 +4,7 @@
 |  Driver for Coolermaster MasterKeys keyboards                       |
 |                                                                     |
 |  Lukas N (chmod222)          28th Jun 2020                          |
+|  Tam D (too.manyhobbies)     25th Apr 2021                          |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
@@ -11,8 +12,6 @@
 
 #include "RGBController.h"
 #include "CMMKController.h"
-
-#include <mutex>
 
 class RGBController_CMMKController : public RGBController
 {
@@ -28,7 +27,7 @@ public:
     void UpdateSingleLED(int led);
 
     void SetCustomMode();
-    void UpdateMode();
+    void DeviceUpdateMode();
 
 private:
     void SetupMatrixMap();

@@ -8,10 +8,7 @@
 \*-------------------------------------------------------------------*/
 
 #include <string>
-#include <array>
-
 #include <hidapi/hidapi.h>
-
 #include <libcmmk/libcmmk.h>
 
 #pragma once
@@ -19,12 +16,12 @@
 class CMMKController
 {
 public:
-    CMMKController(hid_device_info* _dev_info, wchar_t *_vendor, wchar_t *_device_name, char *_path);
-    virtual ~CMMKController();
+    CMMKController(hid_device* dev_handle, hid_device_info* dev_info);
+    ~CMMKController();
 
-    std::string GetDeviceName() const;
-    std::string GetLocation() const;
-    std::string GetFirmwareVersion() const;
+    std::string GetDeviceName();
+    std::string GetLocation();
+    std::string GetFirmwareVersion();
 
     void SetFirmwareControl();
     void SetManualControl();
@@ -42,15 +39,16 @@ public:
     void SetMode(cmmk_effect_cross eff);
     void SetMode(cmmk_effect_raindrops eff);
     void SetMode(cmmk_effect_stars eff);
+    void SetMode(cmmk_effect_snake eff);
 
-    bool PositionValid(int y, int x) const;
+    bool PositionValid(int y, int x);
 
 private:
     void ActivateMode(int mode);
     void ActivateEffect(int effect);
 
-    int         current_mode = -1;
-    int         current_effect = -1;
+    int         current_mode    = -1;
+    int         current_effect  = -1;
 
     std::string device_name;
     std::string location;

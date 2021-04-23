@@ -51,6 +51,7 @@ INCLUDEPATH +=                                                                  
     dependencies/CRCpp/                                                                         \
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
+    dependencies/libcmmk/include/                                                               \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
     net_port/                                                                                   \
@@ -128,6 +129,7 @@ INCLUDEPATH +=                                                                  
 HEADERS +=                                                                                      \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/json/json.hpp                                                                  \
+    dependencies/libcmmk/include/libcmmk/libcmmk.h                                              \
     LogManager.h                                                                                \
     NetworkClient.h                                                                             \
     NetworkProtocol.h                                                                           \
@@ -185,10 +187,12 @@ HEADERS +=                                                                      
     Controllers/CoolerMasterController/CMMP750Controller.h                                      \
     Controllers/CoolerMasterController/CMSmallARGBController.h                                  \
     Controllers/CoolerMasterController/CMR6000Controller.h                                      \
+    Controllers/CoolerMasterController/CMMKController.h                                         \
     Controllers/CoolerMasterController/RGBController_CMARGBController.h                         \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.h                        \
     Controllers/CoolerMasterController/RGBController_CMSmallARGBController.h                    \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.h                        \
+    Controllers/CoolerMasterController/RGBController_CMMKController.h                           \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.h         \
     Controllers/CorsairDominatorPlatinumController/RGBController_CorsairDominatorPlatinum.h     \
     Controllers/CorsairHydroController/CorsairHydroController.h                                 \
@@ -366,6 +370,7 @@ SOURCES +=                                                                      
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/libe131/src/e131.c                                                             \
+    dependencies/libcmmk/src/libcmmk.c                                                          \
     main.cpp                                                                                    \
     cli.cpp                                                                                     \
     LogManager.cpp                                                                              \
@@ -426,11 +431,13 @@ SOURCES +=                                                                      
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
     Controllers/CoolerMasterController/CMSmallARGBController.cpp                                \
     Controllers/CoolerMasterController/CMR6000Controller.cpp                                    \
+    Controllers/CoolerMasterController/CMMKController.cpp                                       \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMARGBController.cpp                       \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.cpp                      \
     Controllers/CoolerMasterController/RGBController_CMSmallARGBController.cpp                  \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.cpp                      \
+    Controllers/CoolerMasterController/RGBController_CMMKController.cpp                         \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.cpp       \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumControllerDetect.cpp \
     Controllers/CorsairDominatorPlatinumController/RGBController_CorsairDominatorPlatinum.cpp   \
