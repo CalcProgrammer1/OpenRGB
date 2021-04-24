@@ -32,6 +32,7 @@ private slots:
     void UpdateInterface();
 
     void on_ColorWheelBox_colorChanged(const QColor color);
+    void on_SwatchBox_swatchChanged(const QColor color);
     void on_DirectionBox_currentIndexChanged(int index);
     void on_ZoneBox_currentIndexChanged(int index);
     void on_LEDBox_currentIndexChanged(int index);
@@ -44,15 +45,6 @@ private slots:
     void on_BlueSpinBox_valueChanged(int arg1);
     void on_ValSpinBox_valueChanged(int arg1);
     void on_DeviceViewBox_selectionChanged(QVector<int>);
-
-    void on_ButtonBlack_clicked();
-    void on_ButtonRed_clicked();
-    void on_ButtonYellow_clicked();
-    void on_ButtonGreen_clicked();
-    void on_ButtonCyan_clicked();
-    void on_ButtonBlue_clicked();
-    void on_ButtonMagenta_clicked();
-    void on_ButtonWhite_clicked();
 
     void on_SetAllButton_clicked();
     void on_RandomCheck_clicked();

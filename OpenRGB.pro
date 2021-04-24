@@ -48,6 +48,7 @@ DEFINES +=                                                                      
 #-----------------------------------------------------------------------------------------------#
 INCLUDEPATH +=                                                                                  \
     dependencies/ColorWheel                                                                     \
+    dependencies/Swatches/                                                                      \
     dependencies/CRCpp/                                                                         \
     dependencies/hueplusplus-1.0.0/include                                                      \
     dependencies/hueplusplus-1.0.0/include/hueplusplus                                          \
@@ -135,6 +136,7 @@ INCLUDEPATH +=                                                                  
 
 HEADERS +=                                                                                      \
     dependencies/ColorWheel/ColorWheel.h                                                        \
+    dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
     dependencies/libcmmk/include/libcmmk/libcmmk.h                                              \
     LogManager.h                                                                                \
@@ -397,6 +399,7 @@ HEADERS +=                                                                      
     RGBController/RGBController_Network.h                                                       \
 
 SOURCES +=                                                                                      \
+    dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/hueplusplus-1.0.0/src/Action.cpp                                               \

@@ -85,49 +85,6 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 
     ui->DeviceViewBox->setController(device);
     ui->DeviceViewBox->hide();
-    
-    /*-----------------------------------------------------*\
-    | Set up the color palette buttons                      |
-    \*-----------------------------------------------------*/
-    ui->ButtonBlack->setStyleSheet("QPushButton {background-color: rgb(0,0,0); color: rgb(0,0,0); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonBlack->setFlat(true);
-    ui->ButtonBlack->setMinimumWidth(20);
-    ui->ButtonBlack->update();
-
-    ui->ButtonRed->setStyleSheet("QPushButton {background-color: rgb(255,0,0); color: rgb(255,0,0); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonRed->setFlat(true);
-    ui->ButtonRed->setMinimumWidth(20);
-    ui->ButtonRed->update();
-
-    ui->ButtonYellow->setStyleSheet("QPushButton {background-color: rgb(255,255,0); color: rgb(255,255,0); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonYellow->setFlat(true);
-    ui->ButtonYellow->setMinimumWidth(20);
-    ui->ButtonYellow->update();
-
-    ui->ButtonGreen->setStyleSheet("QPushButton {background-color: rgb(0,255,0); color: rgb(0,255,0); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonGreen->setFlat(true);
-    ui->ButtonGreen->setMinimumWidth(20);
-    ui->ButtonGreen->update();
-
-    ui->ButtonCyan->setStyleSheet("QPushButton {background-color: rgb(0,255,255); color: rgb(0,255,255); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonCyan->setFlat(true);
-    ui->ButtonCyan->setMinimumWidth(20);
-    ui->ButtonCyan->update();
-
-    ui->ButtonBlue->setStyleSheet("QPushButton {background-color: rgb(0,0,255); color: rgb(0,0,255); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonBlue->setFlat(true);
-    ui->ButtonBlue->setMinimumWidth(20);
-    ui->ButtonBlue->update();
-
-    ui->ButtonMagenta->setStyleSheet("QPushButton {background-color: rgb(255,0,255); color: rgb(255,0,255); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonMagenta->setFlat(true);
-    ui->ButtonMagenta->setMinimumWidth(20);
-    ui->ButtonMagenta->update();
-
-    ui->ButtonWhite->setStyleSheet("QPushButton {background-color: rgb(255,255,255); color: rgb(255,255,255); border: 1px solid rgb(128, 128, 128); padding-top: 1px; padding-bottom: 1px;}");
-    ui->ButtonWhite->setFlat(true);
-    ui->ButtonWhite->setMinimumWidth(20);
-    ui->ButtonWhite->update();
 
     /*-----------------------------------------------------*\
     | Fill in the mode selection box                        |
@@ -934,44 +891,21 @@ void Ui::OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green
     UpdateMode();
 }
 
-void Ui::OpenRGBDevicePage::on_ButtonBlack_clicked()
+void Ui::OpenRGBDevicePage::on_SwatchBox_swatchChanged(const QColor color)
 {
-    SetDevice(0, 0, 0);
-}
+    if(UpdatingColor)
+    {
+        return;
+    }
 
-void Ui::OpenRGBDevicePage::on_ButtonRed_clicked()
-{
-    SetDevice(255, 0, 0);
-}
+    UpdatingColor = true;
+    ui->RedSpinBox->setValue(color.red());
+    ui->GreenSpinBox->setValue(color.green());
+    ui->BlueSpinBox->setValue(color.blue());
+    UpdatingColor = false;
 
-void Ui::OpenRGBDevicePage::on_ButtonYellow_clicked()
-{
-    SetDevice(255, 255, 0);
-}
-
-void Ui::OpenRGBDevicePage::on_ButtonGreen_clicked()
-{
-    SetDevice(0, 255, 0);
-}
-
-void Ui::OpenRGBDevicePage::on_ButtonCyan_clicked()
-{
-    SetDevice(0, 255, 255);
-}
-
-void Ui::OpenRGBDevicePage::on_ButtonBlue_clicked()
-{
-    SetDevice(0, 0, 255);
-}
-
-void Ui::OpenRGBDevicePage::on_ButtonMagenta_clicked()
-{
-    SetDevice(255, 0, 255);
-}
-
-void Ui::OpenRGBDevicePage::on_ButtonWhite_clicked()
-{
-    SetDevice(255, 255, 255);
+    ui->ColorWheelBox->setColor(color);
+    updateDeviceView();
 }
 
 void Ui::OpenRGBDevicePage::on_ColorWheelBox_colorChanged(const QColor color)
@@ -988,6 +922,8 @@ void Ui::OpenRGBDevicePage::on_ColorWheelBox_colorChanged(const QColor color)
     UpdatingColor = false;
 
     updateHSV();
+
+    ui->SwatchBox->setCurrentColor(color);
     updateDeviceView();
 }
 
