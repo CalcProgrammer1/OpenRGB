@@ -9,6 +9,7 @@
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
+#include "ProfileManager.h"
 
 #include <mutex>
 #include <thread>
@@ -68,6 +69,8 @@ public:
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
     void                                SendReply_ProfileList(SOCKET client_sock);
 
+    void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
+
 protected:
     unsigned short                      port_num;
     bool                                server_online;
@@ -86,6 +89,8 @@ protected:
     std::mutex                          ServerListeningChangeMutex;
     std::vector<NetServerCallback>      ServerListeningChangeCallbacks;
     std::vector<void *>                 ServerListeningChangeCallbackArgs;
+
+    ProfileManagerInterface*            profile_manager;
 
 private:
 #ifdef WIN32
