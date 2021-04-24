@@ -11,6 +11,11 @@ QT +=                                                                           
     core                                                                                        \
     gui                                                                                         \
 
+#-----------------------------------------------------------------------------------------------#
+# Set compiler to use C++17 to make std::filesystem available                                   #
+#-----------------------------------------------------------------------------------------------#
+CONFIG += c++17
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 greaterThan(QT_MAJOR_VERSION, 5): DEFINES += _QT6
@@ -134,6 +139,7 @@ HEADERS +=                                                                      
     SettingsManager.h                                                                           \
     Detector.h                                                                                  \
     DeviceDetector.h                                                                            \
+    filesystem.h                                                                                \
     qt/DetectorTableModel.h                                                                     \
     qt/OpenRGBClientInfoPage.h                                                                  \
     qt/OpenRGBDeviceInfoPage.h                                                                  \
@@ -788,9 +794,6 @@ win32:contains(QMAKE_TARGET.arch, x86) {
 unix:!macx {
     TARGET = $$lower($$TARGET)
 
-    CONFIG +=                                                                                   \
-    c++14                                                                                       \
-
     INCLUDEPATH +=                                                                              \
     Controllers/FaustusController                                                               \
     Controllers/LinuxLEDController                                                              \
@@ -884,9 +887,6 @@ macx {
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
     -lhidapi                                                                                    \
-
-    CONFIG +=                                                                                   \
-    c++14                                                                                       \
 }
 
 #-------------------------------------------------------------------------------------------#

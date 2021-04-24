@@ -10,8 +10,8 @@ index 6295344a..d09bed44 100644
  unix:!macx {
 -    TARGET = $$lower($$TARGET)
 -
-     CONFIG +=                                                                                   \
-     c++14                                                                                       \
+     INCLUDEPATH +=                                                                              \
+     Controllers/FaustusController                                                               \
  
 diff --git a/qt/OpenRGB.desktop b/qt/OpenRGB.desktop
 index bd71a38a..b4a0f86a 100644

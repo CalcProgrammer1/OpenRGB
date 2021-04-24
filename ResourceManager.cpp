@@ -12,9 +12,8 @@
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 #include "LogManager.h"
+#include "filesystem.h"
 
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental/filesystem>
 #include <stdlib.h>
 #include <string>
 #include <hidapi/hidapi.h>
@@ -307,7 +306,7 @@ std::string ResourceManager::GetConfigurationDirectory()
         /*-------------------------------------------------------------------------*\
         | Create OpenRGB configuration directory if it doesn't exist                |
         \*-------------------------------------------------------------------------*/
-        std::experimental::filesystem::create_directories(config_dir);
+        filesystem::create_directories(config_dir);
     }
     else
     {

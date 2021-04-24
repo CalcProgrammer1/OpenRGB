@@ -4,9 +4,7 @@
 #include <iostream>
 #include "ResourceManager.h"
 
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
+#include "filesystem.h"
 
 static const char* log_codes[] = {"CRITICAL", "ERROR", "Message", "Warning", "Notice", "[verbose]", "Debug"};
 
@@ -77,13 +75,13 @@ void LogManager::configure(json config, const std::string &defaultDir)
         /*-------------------------------------------------*\
         | If the path is relative, use logs dir             |
         \*-------------------------------------------------*/
-        fs::path p = logname;
+        filesystem::path p = logname;
         if(p.is_relative())
         {
             p = defaultDir + "logs/";
             p.append(logname);
         }
-        fs::create_directories(p.parent_path());
+        filesystem::create_directories(p.parent_path());
 
         /*-------------------------------------------------*\
         | Open the logfile                                  |

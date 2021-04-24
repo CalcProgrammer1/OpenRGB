@@ -2,16 +2,14 @@
 #include "ResourceManager.h"
 #include "RGBController_Dummy.h"
 #include "LogManager.h"
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental/filesystem>
+#include "filesystem.h"
 #include <fstream>
 #include <iostream>
 #include <cstring>
 
+
 #define OPENRGB_PROFILE_HEADER  "OPENRGB_PROFILE"
 #define OPENRGB_PROFILE_VERSION OPENRGB_SDK_PROTOCOL_VERSION
-
-namespace fs = std::experimental::filesystem;
 
 ProfileManager::ProfileManager(std::string config_dir)
 {
@@ -389,7 +387,7 @@ void ProfileManager::UpdateProfileList()
     /*---------------------------------------------------------*\
     | Load profiles by looking for .orp files in current dir    |
     \*---------------------------------------------------------*/
-    for(const auto & entry : fs::directory_iterator(configuration_directory))
+    for(const auto & entry : filesystem::directory_iterator(configuration_directory))
     {
         std::string filename = entry.path().filename().string();
 
