@@ -32,14 +32,15 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
-    { NVIDIA_VEN,       NVIDIA_GTX1060_DEV,     ASUS_SUB_VEN,       ASUS_GTX1060_STRIX,                 0x29,   "ASUS GTX 1060 Strix"               },
-    { NVIDIA_VEN,       NVIDIA_GTX1660TI_DEV,   ASUS_SUB_VEN,       ASUS_ROG_GTX1660TI_OC,              0x2A,   "ASUS ROG GTX 1660 Ti OC 6G"        },
-    { NVIDIA_VEN,       NVIDIA_GTX1070_DEV,     ASUS_SUB_VEN,       ASUS_GTX1070_STRIX,                 0x29,   "ASUS GTX 1070 Strix OC"            },
-    { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080_A8G_GAMING,  0x29,   "ASUS ROG Strix GTX1080 A8G Gaming" },
-    { NVIDIA_VEN,       NVIDIA_GTX1080TI_DEV,   ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080TI_GAMING,    0x29,   "ASUS ROG Strix GTX1080 Ti Gaming"  },
-    { AMD_GPU_VEN,      AMD_VEGA10_DEV,         ASUS_SUB_VEN,       ASUS_VEGA64_STRIX,                  0x29,   "ASUS Vega 64 Strix"                },
-    { AMD_GPU_VEN,      AMD_NAVI10_DEV,         ASUS_SUB_VEN,       ASUS_RX5700XT_STRIX_GAMING_OC,      0x2A,   "ASUS RX 5700XT Strix Gaming OC"    },
-    { AMD_GPU_VEN,      AMD_POLARIS_DEV,        ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_OC,         0x29,   "ASUS RX 580 Strix Gaming OC"       }
+    { NVIDIA_VEN,       NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,       ASUS_GTX1060_STRIX,                 0x29,   "ASUS GTX 1060 Strix"                   },
+    { NVIDIA_VEN,       NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,       ASUS_GTX1070_STRIX,                 0x29,   "ASUS GTX 1070 Strix OC"                },
+    { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080_A8G_GAMING,  0x29,   "ASUS ROG Strix GTX1080 A8G Gaming"     },
+    { NVIDIA_VEN,       NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080TI_GAMING,    0x29,   "ASUS ROG Strix GTX1080 Ti Gaming"      },
+    { NVIDIA_VEN,       NVIDIA_GTX1660TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_GTX1660TI_OC,              0x2A,   "ASUS ROG GTX 1660 Ti OC 6G"            },
+    { NVIDIA_VEN,       NVIDIA_RTX2060_TU106_DEV,   ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060_EVO_GAMING,  0x2A,   "ASUS ROG STRIX RTX 2060 EVO Gaming 6G" },
+    { AMD_GPU_VEN,      AMD_VEGA10_DEV,             ASUS_SUB_VEN,       ASUS_VEGA64_STRIX,                  0x29,   "ASUS Vega 64 Strix"                    },
+    { AMD_GPU_VEN,      AMD_NAVI10_DEV,             ASUS_SUB_VEN,       ASUS_RX5700XT_STRIX_GAMING_OC,      0x2A,   "ASUS RX 5700XT Strix Gaming OC"        },
+    { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_OC,         0x29,   "ASUS RX 580 Strix Gaming OC"           }
 };
 
 /******************************************************************************************\
