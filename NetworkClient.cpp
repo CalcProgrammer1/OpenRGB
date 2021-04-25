@@ -918,9 +918,7 @@ std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int 
             memcpy(&name_len, data, sizeof(unsigned short));
             data_ptr += sizeof(unsigned short);
 
-            char * profile_name = new char[name_len];
-            memcpy(&profile_name, data, name_len);
-
+            std::string profile_name(data, name_len);
             profile_list->push_back(profile_name);
 
             data_ptr += name_len;
