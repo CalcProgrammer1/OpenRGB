@@ -69,17 +69,17 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* cmmk_
     Cycle.color_mode = MODE_COLORS_NONE;
     modes.push_back(Cycle);
 
-    mode Single;
-    Single.name       = "Flashing";
-    Single.value      = CMMK_EFFECT_SINGLE;
-    Single.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
-    Single.speed_min  = CMMK_SPEED_MIN;
-    Single.speed_max  = CMMK_SPEED_MAX;
-    Single.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Single.colors_min = 2;
-    Single.colors_max = 2;
-    Single.colors.resize(2);
-    modes.push_back(Single);
+    mode Reactive;
+    Reactive.name       = "Reactive";
+    Reactive.value      = CMMK_EFFECT_SINGLE;
+    Reactive.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Reactive.speed_min  = CMMK_SPEED_MIN;
+    Reactive.speed_max  = CMMK_SPEED_MAX;
+    Reactive.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Reactive.colors_min = 2;
+    Reactive.colors_max = 2;
+    Reactive.colors.resize(2);
+    modes.push_back(Reactive);
 
     mode Wave;
     Wave.name       = "Rainbow Wave";
