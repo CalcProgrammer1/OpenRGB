@@ -186,8 +186,9 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     va_list va2;
     va_copy(va2, va);
     int len = vsnprintf(nullptr, 0, fmt, va);
-    mes->buffer.resize(len + 1);
+    mes->buffer.resize(len);
     vsnprintf(&(mes->buffer[0]), len + 1, fmt, va2);
+    va_end(va2);
 
     /*-------------------------------------------------*\
     | Fill in message information                       |

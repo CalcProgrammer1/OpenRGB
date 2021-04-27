@@ -153,6 +153,7 @@ public:
 private:
     void DetectDevicesThreadFunction();
     void UpdateDetectorSettings();
+    void SetupConfigurationDirectory();
 
     /*-------------------------------------------------------------------------------------*\
     | Static pointer to shared instance of ResourceManager                                  |
@@ -243,4 +244,6 @@ private:
     std::mutex                                  I2CBusListChangeMutex;
     std::vector<I2CBusListChangeCallback>       I2CBusListChangeCallbacks;
     std::vector<void *>                         I2CBusListChangeCallbackArgs;
+
+    std::string config_dir;
 };

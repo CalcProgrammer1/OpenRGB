@@ -21,8 +21,11 @@
 
 typedef void (*NetServerCallback)(void *);
 
-struct NetworkClientInfo
+class NetworkClientInfo
 {
+public:
+    ~NetworkClientInfo();
+
     SOCKET          client_sock;
     std::thread *   client_listen_thread;
     std::string     client_string;

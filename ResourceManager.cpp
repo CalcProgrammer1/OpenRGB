@@ -43,6 +43,8 @@ ResourceManager::ResourceManager()
     detection_is_required = false;
     DetectDevicesThread   = nullptr;
 
+    SetupConfigurationDirectory();
+
     /*-------------------------------------------------------------------------*\
     | Load settings from file                                                   |
     \*-------------------------------------------------------------------------*/
@@ -309,9 +311,9 @@ void ResourceManager::I2CBusListChanged()
     I2CBusListChangeMutex.unlock();
 }
 
-std::string ResourceManager::GetConfigurationDirectory()
+void ResourceManager::SetupConfigurationDirectory()
 {
-    std::string config_dir      = "";
+    config_dir.clear();
     const char* xdg_config_home = getenv("XDG_CONFIG_HOME");
     const char* home            = getenv("HOME");
     const char* appdata         = getenv("APPDATA");
@@ -357,7 +359,10 @@ std::string ResourceManager::GetConfigurationDirectory()
     {
         config_dir = "./";
     }
+}
 
+std::string ResourceManager::GetConfigurationDirectory()
+{
     return(config_dir);
 }
 
