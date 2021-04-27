@@ -7,7 +7,6 @@
 \*-----------------------------------------*/
 
 #include "NetworkServer.h"
-#include "ResourceManager.h"
 #include "LogManager.h"
 #include <cstring>
 
@@ -34,6 +33,11 @@ const char yes = 1;
 
 using namespace std::chrono_literals;
 
+NetworkClientInfo::NetworkClientInfo()
+{
+    client_sock          = INVALID_SOCKET;
+    client_listen_thread = nullptr;
+}
 
 NetworkClientInfo::~NetworkClientInfo()
 {

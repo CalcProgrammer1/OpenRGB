@@ -24,6 +24,7 @@ typedef void (*NetServerCallback)(void *);
 class NetworkClientInfo
 {
 public:
+    NetworkClientInfo();
     ~NetworkClientInfo();
 
     SOCKET          client_sock;
