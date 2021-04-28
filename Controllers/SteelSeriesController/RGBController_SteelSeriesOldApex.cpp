@@ -29,61 +29,12 @@ RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOl
     location    = OldApex->GetDeviceLocation();
     serial      = OldApex->GetSerialString();
 
-    mode Brightness8;
-    Brightness8.name       = "Brightness 8";
-    Brightness8.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_8;
-    Brightness8.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness8.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness8);
-
-    mode Brightness7;
-    Brightness7.name       = "Brightness 7";
-    Brightness7.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_7;
-    Brightness7.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness7.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness7);
-
-    mode Brightness6;
-    Brightness6.name       = "Brightness 6";
-    Brightness6.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_6;
-    Brightness6.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness6.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness6);
-
-    mode Brightness5;
-    Brightness5.name       = "Brightness 5";
-    Brightness5.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_5;
-    Brightness5.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness5.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness5);
-
-    mode Brightness4;
-    Brightness4.name       = "Brightness 4";
-    Brightness4.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_4;
-    Brightness4.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness4.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness4);
-
-    mode Brightness3;
-    Brightness3.name       = "Brightness 3";
-    Brightness3.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_3;
-    Brightness3.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness3.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness3);
-
-    mode Brightness2;
-    Brightness2.name       = "Brightness 2";
-    Brightness2.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_2;
-    Brightness2.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness2.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness2);
-
-    mode Brightness1;
-    Brightness1.name       = "Brightness 1";
-    Brightness1.value      = STEELSERIES_OLDAPEX_BRIGHTNESS_1;
-    Brightness1.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Brightness1.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Brightness1);
+    mode direct;
+    direct.name       = "Direct";
+    direct.value      = STEELSERIES_OLDAPEX_DIRECT;
+    direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(direct);
 
     SetupZones();
 }
