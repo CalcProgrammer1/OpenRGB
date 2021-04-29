@@ -41,6 +41,7 @@ typedef struct
 static const gpu_pci_device device_list[] =
 {
     { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,     GAINWARD_SUB_VEN,       GAINWARD_GTX_1080_PHOENIX,     RGB_V1,     "Gainward GTX 1080 Phoenix"             },
+    { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,    GAINWARD_SUB_VEN,       NVIDIA_RTX2070S_DEV,           RGB_V2,     "Gainward RTX 2070 Super Phantom"       },
     { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,     GAINWARD_SUB_VEN,       NVIDIA_RTX3070_DEV,            RGB_V2,     "Gainward RTX 3070 Phoenix"             },
 };
 
