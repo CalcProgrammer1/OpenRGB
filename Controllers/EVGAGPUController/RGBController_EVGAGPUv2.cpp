@@ -124,6 +124,8 @@ int RGBController_EVGAGPUv2::getModeIndex(unsigned char mode_value)
             return mode_index;
         }
     }
+
+    return 0;
 }
 
 void RGBController_EVGAGPUv2::SetupZones()

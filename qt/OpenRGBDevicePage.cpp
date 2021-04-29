@@ -693,7 +693,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                     ui->ResizeButton->setEnabled(true);
                 }
 
-                for (std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
+                for(unsigned int i = 0; i < device->modes[selected_mode].colors.size(); i++)
                 {
                     char id_buf[32];
                     snprintf(id_buf, 16, "Mode Color %u", i);

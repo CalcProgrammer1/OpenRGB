@@ -118,12 +118,12 @@ void RGBController_LogitechG560::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LogitechG560::UpdateZoneLEDs(int zone)
+void RGBController_LogitechG560::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG560::UpdateSingleLED(int led)
+void RGBController_LogitechG560::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -172,16 +172,6 @@ RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController
 void RGBController_PolychromeUSB::SetupZones()
 {
     /*-------------------------------------------------*\
-    | Only set LED count on the first run               |
-    \*-------------------------------------------------*/
-    bool first_run = false;
-
-    if(zones.size() == 0)
-    {
-        first_run = true;
-    }
-
-    /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
     leds.clear();
@@ -191,7 +181,6 @@ void RGBController_PolychromeUSB::SetupZones()
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
-    int addressableCounter = 1;
     for(unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
         PolychromeDeviceInfo device_info = polychrome->GetPolychromeDevices()[channel_idx];
@@ -316,7 +305,6 @@ void RGBController_PolychromeUSB::UpdateSingleLED(int led)
 unsigned char RGBController_PolychromeUSB::GetDeviceMode(unsigned char zone)
 {
     int dev_mode;
-    int color_mode = MODE_COLORS_PER_LED;
 
     dev_mode    = polychrome->GetZoneConfig(zone).mode;
     active_mode = dev_mode;

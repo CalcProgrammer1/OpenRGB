@@ -224,12 +224,12 @@ void RGBController_RazerAddressable::DeviceUpdateLEDs()
     controller->SetLEDs(&colors_buf[0]);
 }
 
-void RGBController_RazerAddressable::UpdateZoneLEDs(int zone)
+void RGBController_RazerAddressable::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RazerAddressable::UpdateSingleLED(int led)
+void RGBController_RazerAddressable::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

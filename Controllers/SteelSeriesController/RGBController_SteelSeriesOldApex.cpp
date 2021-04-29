@@ -209,7 +209,7 @@ void RGBController_SteelSeriesOldApex::DeviceUpdateLEDs()
 
 }
 
-void RGBController_SteelSeriesOldApex::UpdateZoneLEDs(int zone)
+void RGBController_SteelSeriesOldApex::UpdateZoneLEDs(int /*zone*/)
 {
     // updating for one zone is pointless,
     // all zones have to be blasted anyway
@@ -218,7 +218,7 @@ void RGBController_SteelSeriesOldApex::UpdateZoneLEDs(int zone)
 }
 
 
-void RGBController_SteelSeriesOldApex::UpdateSingleLED(int led)
+void RGBController_SteelSeriesOldApex::UpdateSingleLED(int /*led*/)
 {
     // Each zone is one LED, however
     // updating for one zone is pointless,

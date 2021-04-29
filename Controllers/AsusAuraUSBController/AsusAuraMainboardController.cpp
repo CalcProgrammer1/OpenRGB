@@ -142,7 +142,7 @@ void AuraMainboardController::SendEffect
 
 void AuraMainboardController::SendColor
     (
-    unsigned char   channel,
+    unsigned char   /*channel*/,
     unsigned char   start_led,
     unsigned char   led_count,
     unsigned char*  led_data

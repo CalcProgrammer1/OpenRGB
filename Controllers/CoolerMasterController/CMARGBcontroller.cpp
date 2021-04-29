@@ -204,7 +204,7 @@ void CMARGBController::SetLedsDirect(RGBColor *led_colours, unsigned int led_cou
     /*---------------------------------------------*\
     | Set up the RGB triplets to send               |
     \*---------------------------------------------*/
-    for(int i = 0; i < led_count; i++)
+    for(unsigned int i = 0; i < led_count; i++)
     {
         RGBColor      colour            = led_colours[i];
 

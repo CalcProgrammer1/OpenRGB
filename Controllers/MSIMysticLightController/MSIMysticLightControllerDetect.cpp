@@ -23,7 +23,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectMSIMysticLight162Controllers(hid_device_info* info, const std::string& name)
+void DetectMSIMysticLight162Controllers(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -44,7 +44,7 @@ void DetectMSIMysticLight162Controllers(hid_device_info* info, const std::string
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectMSIMysticLight185Controllers(hid_device_info* info, const std::string& name)
+void DetectMSIMysticLight185Controllers(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 

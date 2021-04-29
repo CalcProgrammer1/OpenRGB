@@ -20,7 +20,7 @@
 #define ASROCK_MOTHERBOARD_1_PID                    0x01A2
 #define ASROCK_DESKMINI_ADDRESSABLE_LED_STRIP_PID   0x01A6
 
-void DetectPolychromeUSBControllers(hid_device_info* info, const std::string& name)
+void DetectPolychromeUSBControllers(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 

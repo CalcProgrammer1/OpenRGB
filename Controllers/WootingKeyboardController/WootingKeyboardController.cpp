@@ -168,6 +168,8 @@ bool WootingKeyboardController::wooting_usb_send_feature(uint8_t commandId, uint
     | Send packet                                               |
     \*---------------------------------------------------------*/
     hid_send_feature_report(dev, report_buffer, WOOTING_COMMAND_SIZE);
+
+    return true;
 }
 
 bool WootingKeyboardController::wooting_usb_send_buffer(RGB_PARTS part_number, uint8_t rgb_buffer[])
@@ -225,4 +227,6 @@ bool WootingKeyboardController::wooting_usb_send_buffer(RGB_PARTS part_number, u
     | Send packet                                               |
     \*---------------------------------------------------------*/
     hid_write(dev, report_buffer, WOOTING_REPORT_SIZE);
+
+    return true;
 }

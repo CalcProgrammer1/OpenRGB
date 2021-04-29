@@ -87,7 +87,7 @@ RGBController_CMMP750Controller::~RGBController_CMMP750Controller()
 int RGBController_CMMP750Controller::GetDeviceMode()
 {
     int temp_mode = cmmp750->GetMode();
-    for( int i = 0; i < modes.size(); i++)
+    for(unsigned int i = 0; i < modes.size(); i++)
     {
         if (temp_mode == modes[i].value)
         {

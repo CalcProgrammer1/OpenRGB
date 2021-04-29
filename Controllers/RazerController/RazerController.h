@@ -127,7 +127,7 @@ union command_id_union
     } parts;
 };
 
-PACK(typedef struct razer_report
+PACK(struct razer_report
 {
     unsigned char               report_id;
     unsigned char               status;
@@ -145,7 +145,7 @@ PACK(typedef struct razer_report
 /*---------------------------------------------------------*\
 | Razer ARGB Report Type (taken from OpenRazer)             |
 \*---------------------------------------------------------*/
-PACK(typedef struct razer_argb_report
+PACK(struct razer_argb_report
 {
     unsigned char hid_id;
     unsigned char report_id;

@@ -172,12 +172,12 @@ void RGBController_RazerKraken::DeviceUpdateLEDs()
     controller->SetModeCustom(red, grn, blu);
 }
 
-void RGBController_RazerKraken::UpdateZoneLEDs(int zone)
+void RGBController_RazerKraken::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RazerKraken::UpdateSingleLED(int led)
+void RGBController_RazerKraken::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

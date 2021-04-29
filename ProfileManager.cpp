@@ -123,7 +123,6 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
     std::vector<RGBController*> temp_controllers;
     unsigned int                controller_size;
     unsigned int                controller_offset = 0;
-    bool                        ret_val = false;
 
     std::string filename = configuration_directory + profile_name;
 
@@ -193,8 +192,6 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
 
                 controller_offset += controller_size;
                 controller_file.seekg(controller_offset);
-
-                ret_val = true;
             }
         }
     }

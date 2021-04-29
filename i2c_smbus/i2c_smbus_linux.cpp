@@ -46,7 +46,6 @@ void i2c_smbus_linux_detect()
     char buff[100];
     unsigned short pci_device, pci_vendor, pci_subsystem_device, pci_subsystem_vendor;
     unsigned short port_id;
-    bool info;
 
     // Start looking for I2C adapters in /sys/bus/i2c/devices/
     strcpy(driver_path, "/sys/bus/i2c/devices/");
