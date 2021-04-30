@@ -224,14 +224,14 @@ void RGBController_CMSmallARGBController::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CMSmallARGBController::UpdateZoneLEDs(int zone)
+void RGBController_CMSmallARGBController::UpdateZoneLEDs(int /*zone*/)
 {
-    bool random_colours     = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    //bool random_colours     = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
 
     //cmargb->SetLedsDirect(zones[zone].colors, random_colours);
 }
 
-void RGBController_CMSmallARGBController::UpdateSingleLED(int led)
+void RGBController_CMSmallARGBController::UpdateSingleLED(int /*led*/)
 {
     //cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed );
     //cmargb->SetLedsDirect( zones[0].colors, zones[0].leds_count );

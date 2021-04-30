@@ -147,7 +147,7 @@ void CMSmallARGBController::SetMode(unsigned char mode, unsigned char speed, RGB
     SendUpdate();
 }
 
-void CMSmallARGBController::SetLedsDirect(RGBColor *led_colours, unsigned int led_count)
+void CMSmallARGBController::SetLedsDirect(RGBColor* /*led_colours*/, unsigned int /*led_count*/)
 {
     // Mode not yet Tested
     /*

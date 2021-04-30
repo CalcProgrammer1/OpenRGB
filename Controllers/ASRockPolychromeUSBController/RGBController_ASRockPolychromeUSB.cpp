@@ -258,8 +258,8 @@ void RGBController_PolychromeUSB::ResizeZone(int zone, int new_size)
         zonecfg[i]=zones[i].leds_count;
     }
 
-    unsigned char zonecmd = POLYCHROME_USB_LEDCOUNT_CFG;
-    // WriteHeader(zonecmd, zonecfg);
+    // unsigned char zonecmd = POLYCHROME_USB_LEDCOUNT_CFG;
+    // WriteHeader(zonecmd, zonecfg, sizeof(zonecfg));
 }
 
 void RGBController_PolychromeUSB::DeviceUpdateLEDs()

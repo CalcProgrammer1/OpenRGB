@@ -735,7 +735,7 @@ razer_report RazerController::razer_create_mode_breathing_one_color_extended_mat
     return report;
 }
 
-razer_report RazerController::razer_create_mode_breathing_one_color_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu)
+razer_report RazerController::razer_create_mode_breathing_one_color_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/, unsigned char red, unsigned char grn, unsigned char blu)
 {
     razer_report report         = razer_create_report(0x03, 0x0A, 0x08);
 
@@ -790,7 +790,7 @@ razer_report RazerController::razer_create_mode_breathing_two_colors_extended_ma
     return report;
 }
 
-razer_report RazerController::razer_create_mode_breathing_two_colors_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
+razer_report RazerController::razer_create_mode_breathing_two_colors_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2)
 {
     razer_report report         = razer_create_report(0x03, 0x0A, 0x08);
 
@@ -838,7 +838,7 @@ razer_report RazerController::razer_create_mode_none_extended_matrix_report(unsi
     return report;
 }
 
-razer_report RazerController::razer_create_mode_none_standard_matrix_report(unsigned char variable_storage, unsigned char led_id)
+razer_report RazerController::razer_create_mode_none_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/)
 {
     struct razer_report report  = razer_create_report(0x03, 0x0A, 0x01);
 
@@ -858,7 +858,7 @@ razer_report RazerController::razer_create_mode_spectrum_cycle_extended_matrix_r
     return report;
 }
 
-razer_report RazerController::razer_create_mode_spectrum_cycle_standard_matrix_report(unsigned char variable_storage, unsigned char led_id)
+razer_report RazerController::razer_create_mode_spectrum_cycle_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/)
 {
     razer_report report         = razer_create_report(0x03, 0x0A, 0x01);
 
@@ -883,7 +883,7 @@ razer_report RazerController::razer_create_mode_static_extended_matrix_report(un
     return report;
 }
 
-razer_report RazerController::razer_create_mode_static_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char red, unsigned char grn, unsigned char blu)
+razer_report RazerController::razer_create_mode_static_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/, unsigned char red, unsigned char grn, unsigned char blu)
 {
     razer_report report         = razer_create_report(0x03, 0x0A, 0x04);
 
@@ -909,7 +909,7 @@ razer_report RazerController::razer_create_mode_wave_extended_matrix_report(unsi
     return report;
 }
 
-razer_report RazerController::razer_create_mode_wave_standard_matrix_report(unsigned char variable_storage, unsigned char led_id, unsigned char direction)
+razer_report RazerController::razer_create_mode_wave_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/, unsigned char direction)
 {
     razer_report report         = razer_create_report(0x03, 0x0A, 0x02);
 

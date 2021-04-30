@@ -128,8 +128,9 @@ public:
 
     void                                        WriteHeader
                                                     (
-                                                    unsigned char cfg,
-                                                    unsigned char configstring []
+                                                    unsigned char   cfg,
+                                                    unsigned char*  configstring,
+                                                    unsigned int    configsize
                                                     );
 
 protected:

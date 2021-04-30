@@ -113,7 +113,7 @@ void FanBusInterface::write_queue
 {
     unsigned char fanbus_msg[] = { 0x00, int_addr, dev_addr, val, 0xFF };
 
-    for(int i = 0; i < sizeof(fanbus_msg); i++)
+    for(unsigned int i = 0; i < sizeof(fanbus_msg); i++)
     {
         fanbus_msg_queued.push_back(fanbus_msg[i]);
     }

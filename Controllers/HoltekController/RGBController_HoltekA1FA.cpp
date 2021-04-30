@@ -129,7 +129,7 @@ void RGBController_HoltekA1FA::DeviceUpdateMode()
     if((active_mode < HOLTEK_A1FA_MODE_NEON) && (previous_mode < HOLTEK_A1FA_MODE_NEON))
     {
         //If we're switching from and to static and breathing then sync the mode colors
-        for ( int i = 0; i < modes[active_mode].colors_max; i++)
+        for(unsigned int i = 0; i < modes[active_mode].colors_max; i++)
         {
            modes[active_mode].colors[i] = modes[previous_mode].colors[i];
         }

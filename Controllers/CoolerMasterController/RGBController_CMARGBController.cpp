@@ -336,7 +336,7 @@ void RGBController_CMARGBController::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CMARGBController::UpdateZoneLEDs(int zone)
+void RGBController_CMARGBController::UpdateZoneLEDs(int /*zone*/)
 {
     //cmargb->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
 }

@@ -184,7 +184,7 @@ void LEDStripController::SetLEDsKeyboardVisualizer(std::vector<RGBColor> colors)
     \*-------------------------------------------------------------*/
     unsigned short sum          = 0;
 
-    for (int i = 0; i < (payload_size + 1); i++)
+    for(unsigned int i = 0; i < (payload_size + 1); i++)
     {
         sum += serial_buf[i];
     }

@@ -305,21 +305,21 @@ void RGBController_ZalmanZSync::DeviceUpdateMode()
                 }
             }
 
-            // controller->SetChannelEffect(channel,
-            //                              zones[channel].leds_count,
-            //                              modes[active_mode].value,
-            //                              modes[active_mode].speed,
-            //                              direction,
-            //                              random,
-            //                              mode_colors[0],
-            //                              mode_colors[1],
-            //                              mode_colors[2],
-            //                              mode_colors[3],
-            //                              mode_colors[4],
-            //                              mode_colors[5],
-            //                              mode_colors[6],
-            //                              mode_colors[7],
-            //                              mode_colors[8]);
+            controller->SetChannelEffect(channel,
+                                         zones[channel].leds_count,
+                                         modes[active_mode].value,
+                                         modes[active_mode].speed,
+                                         direction,
+                                         random,
+                                         mode_colors[0],
+                                         mode_colors[1],
+                                         mode_colors[2],
+                                         mode_colors[3],
+                                         mode_colors[4],
+                                         mode_colors[5],
+                                         mode_colors[6],
+                                         mode_colors[7],
+                                         mode_colors[8]);
         }
     }
 }

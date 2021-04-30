@@ -43,7 +43,7 @@ void RGBController_FanBus::SetupZones()
     led_zone.matrix_map = NULL;
     zones.push_back(led_zone);
 
-    for(int led_idx = 0; led_idx < led_zone.leds_count; led_idx++)
+    for(unsigned int led_idx = 0; led_idx < led_zone.leds_count; led_idx++)
     {
         led new_led;
         new_led.name = "LED ";
