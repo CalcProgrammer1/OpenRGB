@@ -6,18 +6,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>300</height>
+    <width>699</width>
+    <height>312</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Frame</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <widget class="QLabel" name="VersionValue">
+     <property name="text">
+      <string>Version Value</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="BuildDateLabel">
      <property name="text">
       <string>Build Date:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="GitCommitIDLabel">
+     <property name="text">
+      <string>Git Commit ID:</string>
      </property>
     </widget>
    </item>
@@ -35,17 +49,17 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="GitCommitIDLabel">
-     <property name="text">
-      <string>Git Commit ID:</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="GitCommitDateLabel">
      <property name="text">
       <string>Git Commit Date:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="GitBranchLabel">
+     <property name="text">
+      <string>Git Branch:</string>
      </property>
     </widget>
    </item>
@@ -63,20 +77,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="VersionValue">
-     <property name="text">
-      <string>Version Value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="GitBranchLabel">
-     <property name="text">
-      <string>Git Branch:</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="1">
     <widget class="QLabel" name="GitCommitIDValue">
      <property name="text">
@@ -84,13 +84,43 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QLabel" name="LinkLabel">
+   <item row="5" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="GitlabLinkLabel">
      <property name="text">
-      <string>https://gitlab.com/CalcProgrammer1/OpenRGB</string>
+      <string>Gitlab page</string>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+    </widget>
+   </item>
+   <item row="6" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="WebsiteLinkLabel">
+     <property name="text">
+      <string>Website</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLabel" name="WebsiteLinkValue">
+     <property name="text">
+      <string>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLabel" name="GitlabLinkValue">
+     <property name="text">
+      <string>&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
