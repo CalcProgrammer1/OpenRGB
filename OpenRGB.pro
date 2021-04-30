@@ -208,11 +208,13 @@ HEADERS +=                                                                      
     Controllers/CoolerMasterController/CMMP750Controller.h                                      \
     Controllers/CoolerMasterController/CMSmallARGBController.h                                  \
     Controllers/CoolerMasterController/CMR6000Controller.h                                      \
+    Controllers/CoolerMasterController/CMRGBController.h                                        \
     Controllers/CoolerMasterController/CMMKController.h                                         \
     Controllers/CoolerMasterController/RGBController_CMARGBController.h                         \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.h                        \
     Controllers/CoolerMasterController/RGBController_CMSmallARGBController.h                    \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.h                        \
+    Controllers/CoolerMasterController/RGBController_CMRGBController.h                          \
     Controllers/CoolerMasterController/RGBController_CMMKController.h                           \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreController.h                 \
     Controllers/CorsairCommanderCoreController/RGBController_CorsairCommanderCore.h             \
@@ -511,12 +513,14 @@ SOURCES +=                                                                      
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
     Controllers/CoolerMasterController/CMSmallARGBController.cpp                                \
     Controllers/CoolerMasterController/CMR6000Controller.cpp                                    \
+    Controllers/CoolerMasterController/CMRGBController.cpp                                      \
     Controllers/CoolerMasterController/CMMKController.cpp                                       \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMARGBController.cpp                       \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.cpp                      \
     Controllers/CoolerMasterController/RGBController_CMSmallARGBController.cpp                  \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.cpp                      \
+    Controllers/CoolerMasterController/RGBController_CMRGBController.cpp                        \
     Controllers/CoolerMasterController/RGBController_CMMKController.cpp                         \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreController.cpp               \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreControllerDetect.cpp         \
