@@ -11,7 +11,7 @@ Ui::OpenRGBPluginContainer::OpenRGBPluginContainer(QWidget *plugin, QWidget *par
 
     ui->PluginContainerLayout->layout()->addWidget(plugin_widget);
 
-    plugin_widget->hide();
+    Hide();
 }
 
 Ui::OpenRGBPluginContainer::~OpenRGBPluginContainer()
@@ -19,14 +19,14 @@ Ui::OpenRGBPluginContainer::~OpenRGBPluginContainer()
     delete ui;
 }
 
-void Ui::OpenRGBPluginContainer::on_ShowPluginButton_clicked()
+void Ui::OpenRGBPluginContainer::Hide()
 {
-    if(plugin_widget->isHidden())
-    {
-        plugin_widget->show();
-    }
-    else
-    {
-        plugin_widget->hide();
-    }
+    plugin_widget->hide();
+    ui->PluginContainerLayout->layout()->invalidate();
+}
+
+void Ui::OpenRGBPluginContainer::Show()
+{
+    plugin_widget->show();
+    ui->PluginContainerLayout->layout()->invalidate();
 }

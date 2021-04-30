@@ -1213,3 +1213,37 @@ void Ui::OpenRGBDialog2::on_ActionSaveProfileAs_triggered()
 {
     SaveProfileAs();
 }
+
+void Ui::OpenRGBDialog2::on_MainTabBar_currentChanged(int tab_idx)
+{
+    /*---------------------------------------------------------*\
+    | Hide all plugins                                          |
+    \*---------------------------------------------------------*/
+    for(unsigned int i = 0; i < (ui->MainTabBar->count()); i++)
+    {
+        QWidget* tab = ui->MainTabBar->widget(i);
+
+        /*-----------------------------------------------------*\
+        | Dynamic cast is essential in this check to ensure the |
+        | tab is actually a plugin container                    |
+        \*-----------------------------------------------------*/
+        if((i != tab_idx) && (dynamic_cast<OpenRGBPluginContainer*>(tab) != nullptr))
+        {
+            ((OpenRGBPluginContainer*) tab)->Hide();
+        }
+    }
+
+    /*---------------------------------------------------------*\
+    | Show plugin if needed                                     |
+    \*---------------------------------------------------------*/
+    QWidget* tab = ui->MainTabBar->widget(tab_idx);
+
+    /*---------------------------------------------------------*\
+    | Dynamic cast is essential in this check to ensure the tab |
+    | is actually a plugin container                            |
+    \*---------------------------------------------------------*/
+    if(dynamic_cast<OpenRGBPluginContainer*>(tab) != nullptr)
+    {
+        ((OpenRGBPluginContainer*) tab)->Show();
+    }
+}

@@ -17,9 +17,8 @@ class Ui::OpenRGBPluginContainer : public QWidget
 public:
     explicit OpenRGBPluginContainer(QWidget *plugin, QWidget *parent = nullptr);
     ~OpenRGBPluginContainer();
-
-private slots:
-    void on_ShowPluginButton_clicked();
+    void Hide();
+    void Show();
 
 private:
     Ui::OpenRGBPluginContainerUi *ui;

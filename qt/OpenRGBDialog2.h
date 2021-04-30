@@ -110,6 +110,7 @@ private slots:
     void on_ButtonRescan_clicked();
     void on_ActionSaveProfile_triggered();
     void on_ActionSaveProfileAs_triggered();
+    void on_MainTabBar_currentChanged(int);
 };
 
 #endif // OPENRGBDIALOG2_H
