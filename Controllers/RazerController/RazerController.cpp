@@ -1160,8 +1160,50 @@ void RazerController::razer_set_mode_breathing_one_color(unsigned char red, unsi
             break;
 
         case RAZER_MATRIX_TYPE_CUSTOM:
+            unsigned char rgb_data[6];
+            rgb_data[0]             = red;
+            rgb_data[1]             = grn;
+            rgb_data[2]             = blu;
+            rgb_data[3]             = red;
+            rgb_data[4]             = grn;
+            rgb_data[5]             = blu;
+
             switch(dev_pid)
             {
+                /*-------------------------------------------------*\
+                | These devices use individual LED effect reports   |
+                \*-------------------------------------------------*/
+                case RAZER_TARTARUS_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 2);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_DEATHADDER_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 2);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, 2);
+                    razer_usb_send(&report);
+                break;
+
+                case RAZER_NAGA_EPIC_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 2);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 2);
+                    razer_usb_send(&report);
+                    break;
+
                 /*-------------------------------------------------*\
                 | These devices use standard matrix reports         |
                 \*-------------------------------------------------*/
@@ -1318,8 +1360,50 @@ void RazerController::razer_set_mode_none()
             break;
         
         case RAZER_MATRIX_TYPE_CUSTOM:
+            unsigned char rgb_data[6];
+            rgb_data[0]             = 0x00;
+            rgb_data[1]             = 0x00;
+            rgb_data[2]             = 0x00;
+            rgb_data[3]             = 0x00;
+            rgb_data[4]             = 0x00;
+            rgb_data[5]             = 0x00;
+
             switch(dev_pid)
             {
+                /*-------------------------------------------------*\
+                | These devices use individual LED effect reports   |
+                \*-------------------------------------------------*/
+                case RAZER_TARTARUS_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_DEATHADDER_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, 0);
+                    razer_usb_send(&report);
+                break;
+
+                case RAZER_NAGA_EPIC_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
+                    razer_usb_send(&report);
+                    break;
+
                 /*-------------------------------------------------*\
                 | These devices use standard matrix reports         |
                 \*-------------------------------------------------*/
@@ -1354,6 +1438,30 @@ void RazerController::razer_set_mode_spectrum_cycle()
             switch(dev_pid)
             {
                 /*-------------------------------------------------*\
+                | These devices use individual LED effect reports   |
+                \*-------------------------------------------------*/
+                case RAZER_TARTARUS_CHROMA_PID:
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 4);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_DEATHADDER_CHROMA_PID:
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 4);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, 4);
+                    razer_usb_send(&report);
+                break;
+
+                case RAZER_NAGA_EPIC_CHROMA_PID:
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 4);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 4);
+                    razer_usb_send(&report);
+                    break;
+
+                /*-------------------------------------------------*\
                 | These devices use standard matrix reports         |
                 \*-------------------------------------------------*/
                 case RAZER_ORBWEAVER_CHROMA_PID:
@@ -1384,8 +1492,49 @@ void RazerController::razer_set_mode_static(unsigned char red, unsigned char grn
             break;
 
         case RAZER_MATRIX_TYPE_CUSTOM:
+            unsigned char rgb_data[6];
+            rgb_data[0]             = red;
+            rgb_data[1]             = grn;
+            rgb_data[2]             = blu;
+            rgb_data[3]             = red;
+            rgb_data[4]             = grn;
+            rgb_data[5]             = blu;
+
             switch(dev_pid)
             {
+                /*-------------------------------------------------*\
+                | These devices use individual LED effect reports   |
+                \*-------------------------------------------------*/
+                case RAZER_TARTARUS_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_DEATHADDER_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_LOGO, 0);
+                    razer_usb_send(&report);
+                break;
+
+                case RAZER_NAGA_EPIC_CHROMA_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
+                    razer_usb_send(&report);
+
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
+                    razer_usb_send(&report);
+                    break;
                 /*-------------------------------------------------*\
                 | These devices use standard matrix reports         |
                 \*-------------------------------------------------*/
