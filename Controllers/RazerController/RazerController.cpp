@@ -1095,6 +1095,8 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
                     razer_usb_send(&report);
 
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
                     razer_usb_send(&report);
                     break;
@@ -1195,11 +1197,19 @@ void RazerController::razer_set_mode_breathing_one_color(unsigned char red, unsi
                 case RAZER_NAGA_EPIC_CHROMA_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
                     razer_usb_send(&report);
+
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 2);
                     razer_usb_send(&report);
 
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
                     razer_usb_send(&report);
+
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 2);
                     razer_usb_send(&report);
                     break;
@@ -1325,6 +1335,8 @@ void RazerController::razer_set_mode_custom()
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
                     razer_usb_send(&report);
 
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
                     razer_usb_send(&report);
                     break;
@@ -1395,11 +1407,19 @@ void RazerController::razer_set_mode_none()
                 case RAZER_NAGA_EPIC_CHROMA_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
                     razer_usb_send(&report);
+
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
                     razer_usb_send(&report);
 
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
                     razer_usb_send(&report);
+
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
                     razer_usb_send(&report);
                     break;
@@ -1456,6 +1476,8 @@ void RazerController::razer_set_mode_spectrum_cycle()
                 case RAZER_NAGA_EPIC_CHROMA_PID:
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 4);
                     razer_usb_send(&report);
+
+                    std::this_thread::sleep_for(1ms);
 
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 4);
                     razer_usb_send(&report);
@@ -1527,14 +1549,23 @@ void RazerController::razer_set_mode_static(unsigned char red, unsigned char grn
                 case RAZER_NAGA_EPIC_CHROMA_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
                     razer_usb_send(&report);
+
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
                     razer_usb_send(&report);
 
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, &rgb_data[3]);
                     razer_usb_send(&report);
+
+                    std::this_thread::sleep_for(1ms);
+
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
                     razer_usb_send(&report);
                     break;
+
                 /*-------------------------------------------------*\
                 | These devices use standard matrix reports         |
                 \*-------------------------------------------------*/
