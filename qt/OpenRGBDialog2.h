@@ -79,6 +79,8 @@ private:
     void SaveProfile();
     void SaveProfileAs();
 
+    void TogglePluginsVisibility(int, QTabWidget*);
+
     bool device_view_showing = false;
 
     PluginManager* plugin_manager = nullptr;
@@ -111,6 +113,9 @@ private slots:
     void on_ActionSaveProfile_triggered();
     void on_ActionSaveProfileAs_triggered();
     void on_MainTabBar_currentChanged(int);
+    void on_InformationTabBar_currentChanged(int);
+    void on_DevicesTabBar_currentChanged(int);
+
 };
 
 #endif // OPENRGBDIALOG2_H

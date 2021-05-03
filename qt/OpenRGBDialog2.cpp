@@ -1214,14 +1214,30 @@ void Ui::OpenRGBDialog2::on_ActionSaveProfileAs_triggered()
     SaveProfileAs();
 }
 
+
+void Ui::OpenRGBDialog2::on_InformationTabBar_currentChanged(int tab_idx)
+{
+    TogglePluginsVisibility(tab_idx, ui->InformationTabBar);
+}
+
+void Ui::OpenRGBDialog2::on_DevicesTabBar_currentChanged(int tab_idx)
+{
+    TogglePluginsVisibility(tab_idx, ui->DevicesTabBar);
+}
+
 void Ui::OpenRGBDialog2::on_MainTabBar_currentChanged(int tab_idx)
+{
+    TogglePluginsVisibility(tab_idx, ui->MainTabBar);
+}
+
+void Ui::OpenRGBDialog2::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar)
 {
     /*---------------------------------------------------------*\
     | Hide all plugins                                          |
     \*---------------------------------------------------------*/
-    for(unsigned int i = 0; i < (ui->MainTabBar->count()); i++)
+    for(int i = 0; i < (tabBar->count()); i++)
     {
-        QWidget* tab = ui->MainTabBar->widget(i);
+        QWidget* tab = tabBar->widget(i);
 
         /*-----------------------------------------------------*\
         | Dynamic cast is essential in this check to ensure the |
@@ -1236,7 +1252,7 @@ void Ui::OpenRGBDialog2::on_MainTabBar_currentChanged(int tab_idx)
     /*---------------------------------------------------------*\
     | Show plugin if needed                                     |
     \*---------------------------------------------------------*/
-    QWidget* tab = ui->MainTabBar->widget(tab_idx);
+    QWidget* tab = tabBar->widget(tab_idx);
 
     /*---------------------------------------------------------*\
     | Dynamic cast is essential in this check to ensure the tab |
