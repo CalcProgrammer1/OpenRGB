@@ -307,6 +307,13 @@ std::string ResourceManager::GetConfigurationDirectory()
         | Create OpenRGB configuration directory if it doesn't exist                |
         \*-------------------------------------------------------------------------*/
         filesystem::create_directories(config_dir);
+
+        /*-------------------------------------------------------------------------*\
+        | Create OpenRGB plugins directory                                          |
+        \*-------------------------------------------------------------------------*/
+        std::string plugins_dir = config_dir + "plugins";
+
+        filesystem::create_directories(plugins_dir);
     }
     else
     {
