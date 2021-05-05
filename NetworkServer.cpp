@@ -834,7 +834,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
         send(client_sock, (const char *)reply_data, reply_size, 0);
 
-        delete reply_data;
+        delete[] reply_data;
     }
 }
 
