@@ -11,6 +11,7 @@
 #include "i2c_smbus_i801.h"
 #include <Windows.h>
 #include "inpout32.h"
+#include "LogManager.h"
 
 using namespace std::chrono_literals;
 
@@ -488,6 +489,12 @@ s32 i2c_smbus_i801::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int siz
 
 void i2c_smbus_i801_detect()
 {
+    if(!IsInpOutDriverOpen())
+    {
+        LOG_NOTICE("inpout32 is not loaded, i801 I2C bus detection aborted");
+        return;
+    }
+
     i2c_smbus_interface * bus;
     HRESULT hres;
     Wmi wmi;
