@@ -84,8 +84,6 @@ private:
     bool device_view_showing = false;
 
     PluginManager* plugin_manager = nullptr;
-    bool NotFirstRun = false;
-    bool TopBarAlreadyLoaded = false;
 
 private slots:
     void on_Exit();
@@ -115,6 +113,7 @@ private slots:
     void on_MainTabBar_currentChanged(int);
     void on_InformationTabBar_currentChanged(int);
     void on_DevicesTabBar_currentChanged(int);
+    void on_SettingsTabBar_currentChanged(int);
 
 };
 
