@@ -13,6 +13,7 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "NZXTKrakenController.h"
+#include "FanController_NZXTKraken.h"
 #include "RGBController.h"
 #include "RGBController_NZXTKraken.h"
 
@@ -37,6 +38,17 @@ void DetectNZXTKrakenControllers(hid_device_info* info, const std::string& name)
         RGBController_NZXTKraken* rgb_controller = new RGBController_NZXTKraken(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
+
+        if(info->product_id == NZXT_KRAKEN_X2_PID)
+        {
+            /*---------------------------------------------*\
+            | Kraken M22 doesn't have liquid temp sensor or |
+            | ability to report or set fan or pump speeds   |
+            \*---------------------------------------------*/
+            FanController_NZXTKraken* fan_controller = new FanController_NZXTKraken(controller);
+            fan_controller->name = name;
+            ResourceManager::get()->RegisterFanController(fan_controller);
+        }
     }
 }   /* DetectNZXTKrakenControllers() */
 
