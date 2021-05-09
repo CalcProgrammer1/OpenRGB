@@ -19,6 +19,8 @@ CorsairWirelessController::CorsairWirelessController(hid_device* dev_handle, con
     location    = path;
 
     type        = DEVICE_TYPE_KEYBOARD;
+
+    EnterDirectMode();
 }
 
 CorsairWirelessController::~CorsairWirelessController()
@@ -59,6 +61,24 @@ std::string CorsairWirelessController::GetSerialString()
 
 void CorsairWirelessController::SetLEDs(std::vector<RGBColor>colors)
 {
+    unsigned char buf[3 * 137];
+
+    for(int color = 0; color < 137; color++)
+    {
+        buf[0 + color]   = RGBGetRValue(colors[color]);
+        buf[137 + color] = RGBGetGValue(colors[color]);
+        buf[274+color]   = RGBGetBValue(colors[color]);
+    }
+
+    StartDirectMode();
+
+    SendDirectFrame(true,  &buf[0]);
+    SendDirectFrame(false, &buf[57]);
+    SendDirectFrame(false, &buf[118]);
+    SendDirectFrame(false, &buf[179]);
+    SendDirectFrame(false, &buf[240]);
+    SendDirectFrame(false, &buf[301]);
+    SendDirectFrame(false, &buf[362]);
 }
 
 void CorsairWirelessController::SetLEDsKeyboardFull(std::vector<RGBColor> colors)
@@ -73,3 +93,125 @@ void CorsairWirelessController::SetName(std::string device_name)
 /*-------------------------------------------------------------------------------------------------*\
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
+
+void CorsairWirelessController::EnterDirectMode()
+{
+    char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Mouse Colors packet                     |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x80;
+    usb_buf[0x02]   = 0x01;
+    usb_buf[0x03]   = 0x03;
+    usb_buf[0x04]   = 0x00;
+    usb_buf[0x05]   = 0x02;
+
+    /*-----------------------------------------------------*\
+    | Send packet using feature reports, as headset stand   |
+    | seems to not update completely using HID writes       |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 65);
+
+}
+
+void CorsairWirelessController::StartDirectMode()
+{
+    char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Mouse Colors packet                     |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x80;
+    usb_buf[0x02]   = 0x0D;
+    usb_buf[0x03]   = 0x00;
+    usb_buf[0x04]   = 0x01;
+
+    /*-----------------------------------------------------*\
+    | Send packet using feature reports, as headset stand   |
+    | seems to not update completely using HID writes       |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 65);
+
+}
+
+void CorsairWirelessController::ExitDirectMode()
+{
+    char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Mouse Colors packet                     |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x80;
+    usb_buf[0x02]   = 0x01;
+    usb_buf[0x03]   = 0x03;
+    usb_buf[0x04]   = 0x00;
+    usb_buf[0x05]   = 0x01;
+
+    /*-----------------------------------------------------*\
+    | Send packet using feature reports, as headset stand   |
+    | seems to not update completely using HID writes       |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 65);
+
+}
+
+void CorsairWirelessController::SendDirectFrame(bool first_frame, unsigned char* data)
+{
+    char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Submit Mouse Colors packet                     |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x80;
+    usb_buf[0x02]   = first_frame ? 0x06 : 0x07;
+    usb_buf[0x03]   = 0x00;
+
+    if(first_frame)
+    {
+        usb_buf[0x04]   = 0x9B;
+        usb_buf[0x05]   = 0x01;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in colors in <RED> <GREEN> <BLUE> order          |
+    \*-----------------------------------------------------*/
+    if(first_frame)
+    {
+        memcpy(&usb_buf[0x08], data, 57);
+    }
+    else
+    {
+        memcpy(&usb_buf[0x04], data, 61);
+    }
+
+    /*-----------------------------------------------------*\
+    | Send packet using feature reports, as headset stand   |
+    | seems to not update completely using HID writes       |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)usb_buf, 65);
+}

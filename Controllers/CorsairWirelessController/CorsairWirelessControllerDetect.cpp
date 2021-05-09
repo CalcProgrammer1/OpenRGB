@@ -47,4 +47,4 @@ void DetectCorsairWirelessControllers(hid_device_info* info, const std::string& 
 | Keyboards                                                                                             |
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Corsair K57 RGB (Wired)",         DetectCorsairWirelessControllers,   CORSAIR_VID,    CORSAIR_K57_RGB_WIRED_PID,     1,  0xFF42, 1);
-REGISTER_HID_DETECTOR_IPU("Corsair K57 RGB (Wireless)",      DetectCorsairWirelessControllers,   CORSAIR_VID,    CORSAIR_K57_RGB_WIRELESS_PID,  1,  0xFF42, 1);
+//REGISTER_HID_DETECTOR_IPU("Corsair K57 RGB (Wireless)",      DetectCorsairWirelessControllers,   CORSAIR_VID,    CORSAIR_K57_RGB_WIRELESS_PID,  1,  0xFF42, 1);

@@ -37,4 +37,9 @@ private:
     std::string             location;
     std::string             name;
     device_type             type;
+
+    void            EnterDirectMode();
+    void            ExitDirectMode();
+    void            StartDirectMode();
+    void            SendDirectFrame(bool first_frame, unsigned char* data);
 };
