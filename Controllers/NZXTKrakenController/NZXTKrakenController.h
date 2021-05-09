@@ -48,6 +48,12 @@ enum
     NZXT_KRAKEN_SPEED_FASTEST           = 0x04, /* Fastest speed                */
 };
 
+enum
+{
+    NZXT_KRAKEN_CHANNEL_FAN             = 0x80, /* Fan channel                  */
+    NZXT_KRAKEN_CHANNEL_PUMP            = 0xc0, /* Pump channel                 */
+};
+
 class NZXTKrakenController
 {
 public:
@@ -57,6 +63,12 @@ public:
     std::string GetFirmwareVersion();
     std::string GetLocation();
     std::string GetSerialString();
+
+    void SetSpeed
+        (
+        unsigned char   channel,
+        unsigned int    speed_cmd
+        );
 
     void UpdateEffect
         (
@@ -68,9 +80,12 @@ public:
         std::vector<RGBColor> colors
         );
 
-private:
     void UpdateStatus();
 
+    unsigned int            fan_speed;
+    unsigned int            pump_speed;
+
+private:
     void SendEffect
         (
         unsigned char   channel,
@@ -83,12 +98,23 @@ private:
         int             size = 0
         );
 
+    void SetFixedSpeedProfile
+        (
+        unsigned char   channel,
+        unsigned char   duty
+        );
+    void SetInstantaneousSpeed
+        (
+        unsigned char   channel,
+        unsigned char   duty
+        );
+
     hid_device*   dev;
 
     // -- status
     std::string             firmware_version;
     double                  liquid_temperature;
     std::string             location;
-    unsigned int            fan_speed;
-    unsigned int            pump_speed;
+
+    bool                    supports_cooling_profiles;
 };

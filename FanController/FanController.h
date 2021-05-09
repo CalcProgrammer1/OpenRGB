@@ -22,6 +22,7 @@ typedef struct
     \*--------------------------------------------------------------*/
     std::string         name;           /* Fan name                 */
     unsigned int        speed_cmd;      /* Speed command            */
+    unsigned int        prev_speed_cmd; /* Last speed command       */
     unsigned int        speed_min;      /* Minimum speed command    */
     unsigned int        speed_max;      /* Maximum speed command    */
     unsigned int        rpm_rdg;        /* RPM reading              */
