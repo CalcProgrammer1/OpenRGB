@@ -34,8 +34,6 @@
 #define RAZER_BLADE_2019_STUDIO_PID                     0x024D
 #define RAZER_BLADE_2020_ADVANCED_PID                   0x0253
 #define RAZER_BLADE_2020_BASE_PID                       0x0255
-#define RAZER_BLADE_2021_BASE_PID                       0x026F
-
 #define RAZER_BLADE_PRO_2016_PID                        0x0210
 #define RAZER_BLADE_PRO_2017_PID                        0x0225
 #define RAZER_BLADE_PRO_2017_FULLHD_PID                 0x022F
@@ -106,7 +104,7 @@
 #define RAZER_MAMBA_2018_WIRED_PID                      0x0073
 #define RAZER_MAMBA_2018_WIRELESS_PID                   0x0072
 #define RAZER_MAMBA_ELITE_PID                           0x006C
-#define RAZER_MAMBA_TE_PID                              0x0046
+#define RAZER_MAMBA_TE_WIRED_PID                        0x0046
 #define RAZER_NAGA_2012_PID                             0x002E
 #define RAZER_NAGA_2014_PID                             0x0040
 #define RAZER_NAGA_CHROMA_PID                           0x0053
@@ -2481,41 +2479,6 @@ static const razer_device blade_15_2020_base_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Blade 15 (2021 Base)                                   |
-|                                                               |
-|  Zone "Keyboard"                                              |
-|       Linear                                                  |
-|       1 Row, 16 Columns                                       |
-\*-------------------------------------------------------------*/
-static const razer_zone blade_15_2021_base_zone =
-{
-    "Keyboard",
-    ZONE_TYPE_LINEAR,
-    1,
-    16
-};
-
-static const razer_device blade_15_2021_base_device =
-{
-    "Razer Blade 15 (2021 Base)",
-    RAZER_BLADE_2021_BASE_PID,
-    DEVICE_TYPE_KEYBOARD,
-    true,
-    1,
-    16,
-    {
-        &blade_15_2021_base_zone,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL
-    },
-    NULL,
-    0
-};
-
-/*-------------------------------------------------------------*\
 |  Razer Blade Pro (2016)                                       |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -3423,11 +3386,11 @@ static const razer_device diamondback_chroma_device =
 |                                                               |
 |  Zone "Right"                                                 |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Left"                                                  |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -3442,7 +3405,7 @@ static const razer_zone lancehead_2017_wired_right_zone =
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2017_wired_left_zone =
@@ -3450,7 +3413,7 @@ static const razer_zone lancehead_2017_wired_left_zone =
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2017_wired_logo_zone =
@@ -3476,7 +3439,7 @@ static const razer_device lancehead_2017_wired_device =
     DEVICE_TYPE_MOUSE,
     true,
     1,
-    18,
+    16,
     {
         &lancehead_2017_wired_right_zone,
         &lancehead_2017_wired_left_zone,
@@ -3494,11 +3457,11 @@ static const razer_device lancehead_2017_wired_device =
 |                                                               |
 |  Zone "Right"                                                 |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Left"                                                  |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -3513,7 +3476,7 @@ static const razer_zone lancehead_2017_wireless_right_zone =
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2017_wireless_left_zone =
@@ -3521,7 +3484,7 @@ static const razer_zone lancehead_2017_wireless_left_zone =
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2017_wireless_logo_zone =
@@ -3547,7 +3510,7 @@ static const razer_device lancehead_2017_wireless_device =
     DEVICE_TYPE_MOUSE,
     true,
     1,
-    18,
+    16,
     {
         &lancehead_2017_wireless_right_zone,
         &lancehead_2017_wireless_left_zone,
@@ -3565,11 +3528,11 @@ static const razer_device lancehead_2017_wireless_device =
 |                                                               |
 |  Zone "Right"                                                 |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Left"                                                  |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -3584,7 +3547,7 @@ static const razer_zone lancehead_2019_wired_right_zone =
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2019_wired_left_zone =
@@ -3592,7 +3555,7 @@ static const razer_zone lancehead_2019_wired_left_zone =
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2019_wired_logo_zone =
@@ -3618,7 +3581,7 @@ static const razer_device lancehead_2019_wired_device =
     DEVICE_TYPE_MOUSE,
     true,
     1,
-    18,
+    16,
     {
         &lancehead_2019_wired_right_zone,
         &lancehead_2019_wired_left_zone,
@@ -3636,11 +3599,11 @@ static const razer_device lancehead_2019_wired_device =
 |                                                               |
 |  Zone "Right"                                                 |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Left"                                                  |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -3655,7 +3618,7 @@ static const razer_zone lancehead_2019_wireless_right_zone =
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2019_wireless_left_zone =
@@ -3663,7 +3626,7 @@ static const razer_zone lancehead_2019_wireless_left_zone =
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_2019_wireless_logo_zone =
@@ -3689,7 +3652,7 @@ static const razer_device lancehead_2019_wireless_device =
     DEVICE_TYPE_MOUSE,
     true,
     1,
-    18,
+    16,
     {
         &lancehead_2019_wireless_right_zone,
         &lancehead_2019_wireless_left_zone,
@@ -3707,11 +3670,11 @@ static const razer_device lancehead_2019_wireless_device =
 |                                                               |
 |  Zone "Right"                                                 |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Left"                                                  |
 |       Linear                                                  |
-|       8 LEDs                                                  |
+|       7 LEDs                                                  |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -3726,7 +3689,7 @@ static const razer_zone lancehead_te_right_zone =
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_te_left_zone =
@@ -3734,7 +3697,7 @@ static const razer_zone lancehead_te_left_zone =
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    8
+    7
 };
 
 static const razer_zone lancehead_te_logo_zone =
@@ -3760,7 +3723,7 @@ static const razer_device lancehead_te_device =
     DEVICE_TYPE_MOUSE,
     true,
     1,
-    18,
+    16,
     {
         &lancehead_te_right_zone,
         &lancehead_te_left_zone,
@@ -4134,7 +4097,7 @@ static const razer_zone mamba_te_scroll_wheel_zone =
 static const razer_device mamba_te_device =
 {
     "Razer Mamba Tournament Edition",
-    RAZER_MAMBA_TE_PID,
+    RAZER_MAMBA_TE_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     true,
     1,
@@ -5547,7 +5510,6 @@ static const razer_device* device_list[] =
     &blade_15_2019_studio_device,
     &blade_15_2020_advanced_device,
     &blade_15_2020_base_device,
-    &blade_15_2021_base_device,
     &blade_pro_2016_device,
     &blade_pro_2017_device,
     &blade_pro_2017_fullhd_device,
