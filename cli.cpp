@@ -690,6 +690,7 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
     int current_zone        = -1;
 
     options->hasDevice = false;
+    options->profile_loaded = false;
 
     while(arg_index < argc)
     {
