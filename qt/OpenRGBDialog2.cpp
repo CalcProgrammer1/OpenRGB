@@ -164,7 +164,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     | Set window geometry from config (if available)        |
     \*-----------------------------------------------------*/
     SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
-    std::string         ui_string           = "UI_Settings";
+    std::string         ui_string           = "UserInterface";
     json                ui_settings;
 
     ui_settings = settings_manager->GetSettings(ui_string);
@@ -388,7 +388,7 @@ OpenRGBDialog2::~OpenRGBDialog2()
     | Write window geometry to config (if enabled)          |
     \*-----------------------------------------------------*/
     SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
-    std::string         ui_string           = "UI_Settings";
+    std::string         ui_string           = "UserInterface";
     json                ui_settings;
 
     ui_settings = settings_manager->GetSettings(ui_string);
