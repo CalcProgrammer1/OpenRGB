@@ -170,24 +170,59 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     ui_settings = settings_manager->GetSettings(ui_string);
 
     /*-----------------------------------------------------*\
+    | If geometry info doesn't exist, write it to config    |
+    \*-----------------------------------------------------*/
+    if(!ui_settings.contains("geometry"))
+    {
+        json geometry_settings;
+        
+        geometry_settings["load_geometry"]  = false;
+        geometry_settings["save_on_exit"]   = false;
+        geometry_settings["x"]              = 0;
+        geometry_settings["y"]              = 0;
+        geometry_settings["width"]          = 0;
+        geometry_settings["height"]         = 0;
+        
+        ui_settings["geometry"] = geometry_settings;
+
+        settings_manager->SetSettings(ui_string, ui_settings);
+        settings_manager->SaveSettings();
+    }
+
+    /*-----------------------------------------------------*\
     | If geometry information exists in settings, apply it  |
     \*-----------------------------------------------------*/
-    if(ui_settings.contains("geometry"))
+    bool load_geometry = false;
+    
+    if(ui_settings["geometry"].contains("load_geometry"))
     {
-        if( ui_settings["geometry"].contains("x")
-         && ui_settings["geometry"].contains("y")
-         && ui_settings["geometry"].contains("width")
-         && ui_settings["geometry"].contains("height"))
-        {
-            QRect set_window;
+        load_geometry = ui_settings["geometry"]["load_geometry"].get<bool>();
+    }
 
+    if(load_geometry)
+    {
+        QRect set_window;
+
+        /*-----------------------------------------------------*\
+        | x and y can be set independent of width and height    |
+        | QT attempts to clamp these values in case the user    |
+        | enters invalid numbers                                |
+        \*-----------------------------------------------------*/
+        if( ui_settings["geometry"].contains("x")
+         && ui_settings["geometry"].contains("y"))
+        {
             set_window.setX(ui_settings["geometry"]["x"].get<int>());
             set_window.setY(ui_settings["geometry"]["y"].get<int>());
+        }
+
+        if( ui_settings["geometry"].contains("width")
+         && ui_settings["geometry"].contains("height"))
+        {
             set_window.setWidth(ui_settings["geometry"]["width"].get<int>());
             set_window.setHeight(ui_settings["geometry"]["height"].get<int>());
-
-            setGeometry(set_window);
         }
+
+        setGeometry(set_window);
     }
 
     /*-----------------------------------------------------*\
@@ -291,7 +326,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     }
     else
     {
-        MinimizeToTray = ui_settings["minimize_on_close"];
+        MinimizeToTray = ui_settings["minimize_on_close"].get<bool>();
     }
 
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
@@ -395,14 +430,16 @@ OpenRGBDialog2::~OpenRGBDialog2()
 
     if(ui_settings.contains("geometry"))
     {
-        if(ui_settings["geometry"].contains("save_on_exit"))
+        if( ui_settings["geometry"].contains("load_geometry")
+         && ui_settings["geometry"].contains("save_on_exit"))
         {
-            if(ui_settings["geometry"]["save_on_exit"] == true)
+            if( ui_settings["geometry"]["load_geometry"].get<bool>()
+            && ui_settings["geometry"]["save_on_exit"].get<bool>())
             {
-                ui_settings["geometry"]["x"]        = geometry().x();
-                ui_settings["geometry"]["y"]        = geometry().y();
-                ui_settings["geometry"]["width"]    = geometry().width();
-                ui_settings["geometry"]["height"]   = geometry().height();
+                ui_settings["geometry"]["x"]                = geometry().x();
+                ui_settings["geometry"]["y"]                = geometry().y();
+                ui_settings["geometry"]["width"]            = geometry().width();
+                ui_settings["geometry"]["height"]           = geometry().height();
 
                 settings_manager->SetSettings(ui_string, ui_settings);
                 settings_manager->SaveSettings();
