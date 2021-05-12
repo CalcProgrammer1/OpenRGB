@@ -17,7 +17,7 @@ AuraAddressableController::AuraAddressableController(hid_device* dev_handle, con
     \*-----------------------------------------------------*/
     for(int i = 0; i < config_table[0x02]; ++i)
     {
-        device_info.push_back({0x01, (unsigned char)i, 0x01, AuraDeviceType::ADDRESSABLE});
+        device_info.push_back({0x01, (unsigned char)i, 0x01, 0, AuraDeviceType::ADDRESSABLE});
     }
 }
 

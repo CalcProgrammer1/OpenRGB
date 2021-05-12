@@ -53,6 +53,7 @@ struct AuraDeviceInfo
     unsigned char effect_channel;
     unsigned char direct_channel;
     unsigned char num_leds;
+    unsigned char num_headers;
     AuraDeviceType device_type;
 };
 

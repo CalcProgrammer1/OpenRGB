@@ -159,13 +159,24 @@ void RGBController_AuraUSB::SetupZones()
             }
         }
 
-
+        unsigned int num_mainboard_leds = device_info.num_leds - device_info.num_headers;
         for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
+            unsigned led_idx = led_ch_idx + 1;
             led new_led;
+
             new_led.name = zones[channel_idx].name;
-            new_led.name.append(", LED ");
-            new_led.name.append(std::to_string(led_ch_idx + 1));
+            if(device_info.device_type == AuraDeviceType::FIXED && led_ch_idx >= num_mainboard_leds)
+            {
+                new_led.name.append(", RGB Header ");
+                led_idx -= num_mainboard_leds;
+            }
+            else
+            {
+                new_led.name.append(", LED ");
+            }
+            new_led.name.append(std::to_string(led_idx));
+
             new_led.value = channel_idx;
 
             leds.push_back(new_led);

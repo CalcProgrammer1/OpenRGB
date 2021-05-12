@@ -12,17 +12,26 @@
 
 AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path), mode(AURA_MODE_DIRECT)
 {
+    unsigned char num_total_mainboard_leds  = config_table[0x1B];
+    unsigned char num_rgb_headers           = config_table[0x1D];
+    unsigned char num_addressable_headers   = config_table[0x02];
+
+    if(num_total_mainboard_leds < num_rgb_headers)
+    {
+        num_rgb_headers = 0;
+    }
+
     /*-----------------------------------------------------*\
     | Add mainboard device                                  |
     \*-----------------------------------------------------*/
-    device_info.push_back({0x00, 0x04, config_table[0x1B], AuraDeviceType::FIXED});
+    device_info.push_back({0x00, 0x04, num_total_mainboard_leds, num_rgb_headers, AuraDeviceType::FIXED});
 
     /*-----------------------------------------------------*\
     | Add addressable devices                               |
     \*-----------------------------------------------------*/
-    for(int i = 0; i < config_table[0x02]; ++i)
+    for(int i = 0; i < num_addressable_headers; i++)
     {
-        device_info.push_back({0x01, (unsigned char)i, 0x01, AuraDeviceType::ADDRESSABLE});
+        device_info.push_back({0x01, (unsigned char)i, 0x01, 0, AuraDeviceType::ADDRESSABLE});
     }
 }
 
