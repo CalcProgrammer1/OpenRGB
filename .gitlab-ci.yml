@@ -109,6 +109,33 @@ before_script:
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
+# Linux (.rpm) 64-bit Build Target                                      #
+#-----------------------------------------------------------------------#
+"Linux 64 rpm":
+  image: fedora:34
+  stage: build
+  script:
+  - dnf install rpmdevtools dnf-plugins-core -y 
+  - rpmdev-setuptree 
+  - ls /root/
+  - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
+  - cp ../OpenRGB /root/rpmbuild/SOURCES/ -r
+  - cd /root/rpmbuild/SOURCES
+  - tar -cf OpenRGB.tar.gz OpenRGB/
+  - cd ..
+  - dnf builddep SPECS/OpenRGB.spec -y
+  - rpmbuild -ba SPECS/OpenRGB.spec
+  - cd RPMS/x86_64/
+  - mv openrgb*.rpm ${CI_PROJECT_DIR}/
+  - cd ${CI_PROJECT_DIR}
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_64_rpm_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - openrgb*.rpm
+    expire_in: 30 days
+    
+#-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #
 #-----------------------------------------------------------------------#
 "Windows 32":
