@@ -5,7 +5,8 @@ set -u -o pipefail
 
 # Reload rules
 if [ -f /bin/udevadm ]; then
-    udevadm control --reload-rules && udevadm trigger;
+    udevadm control --reload-rules || echo "done"
+    udevadm trigger;
 else
     echo
     echo "\/-------------------------------------------------------\\"

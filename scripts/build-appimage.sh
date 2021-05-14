@@ -12,11 +12,7 @@ set -e
 # Use RAM disk if possible (if available and not building on a CI       #
 # system like Travis)                                                   #
 #-----------------------------------------------------------------------#
-if [ "$CI" == "" ] && [ -d /dev/shm ]; then
-    TEMP_BASE=/dev/shm
-else
-    TEMP_BASE=/tmp
-fi
+TEMP_BASE=/tmp
 BUILD_DIR=$(mktemp -d -p "$TEMP_BASE" appimage-build-XXXXXX)
 
 #-----------------------------------------------------------------------#
@@ -73,19 +69,14 @@ make -j$(nproc) TARGET="$TARGET"
 make install INSTALL_ROOT=AppDir
 
 #-----------------------------------------------------------------------#
-# Make them executable                                                  #
-#-----------------------------------------------------------------------#
-chmod +x "$REPO_ROOT"/scripts/tools/linuxdeploy*.AppImage
-
-#-----------------------------------------------------------------------#
 # Make sure Qt plugin finds QML sources so it can deploy the imported   #
 # files                                                                 #
 #-----------------------------------------------------------------------#
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
-"$REPO_ROOT"/scripts/tools/linuxdeploy-"$ARCH".AppImage --appimage-extract-and-run --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop
-"$REPO_ROOT"/scripts/tools/linuxdeploy-plugin-qt-"$ARCH".AppImage --appimage-extract-and-run --appdir AppDir
-"$REPO_ROOT"/scripts/tools/linuxdeploy-"$ARCH".AppImage --appimage-extract-and-run --appdir AppDir --output appimage
+linuxdeploy-"$ARCH".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop
+linuxdeploy-plugin-qt-"$ARCH".AppImage --appdir AppDir
+linuxdeploy-"$ARCH".AppImage --appdir AppDir --output appimage
 
 #-----------------------------------------------------------------------#
 # Move built AppImage back into original CWD                            #
