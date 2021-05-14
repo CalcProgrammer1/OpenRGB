@@ -915,7 +915,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_cont
             {
                 device->modes[mode].colors.resize(options.colors.size());
 
-                for(std::size_t color_idx = 0; color_idx <= options.colors.size(); color_idx++)
+                for(std::size_t color_idx = 0; color_idx < options.colors.size(); color_idx++)
                 {
                     device->modes[mode].colors[color_idx] = ToRGBColor(std::get<0>(options.colors[color_idx]),
                                                                        std::get<1>(options.colors[color_idx]),
