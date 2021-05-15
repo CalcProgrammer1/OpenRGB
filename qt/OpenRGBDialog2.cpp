@@ -667,14 +667,6 @@ void OpenRGBDialog2::AddClientTab()
     {
         ClientInfoPage = new OpenRGBClientInfoPage();
         ui->MainTabBar->insertTab(2, ClientInfoPage, "SDK Client");
-
-        /*-----------------------------------------------------*\
-        | Connect the page's Set All button to the Set All slot |
-        \*-----------------------------------------------------*/
-        connect(ClientInfoPage,
-                SIGNAL(ClientListUpdated()),
-                this,
-                SLOT(on_ClientListUpdated()));
     }
 }
 
@@ -1000,11 +992,6 @@ void OpenRGBDialog2::on_QuickMagenta()
 void OpenRGBDialog2::on_QuickWhite()
 {
     on_SetAllDevices(0xFF, 0xFF, 0xFF);
-}
-
-void OpenRGBDialog2::on_ClientListUpdated()
-{
-    UpdateDevicesList();
 }
 
 void OpenRGBDialog2::onDeviceListUpdated()

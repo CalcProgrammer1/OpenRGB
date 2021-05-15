@@ -76,7 +76,7 @@ public:
     virtual ProfileManager*                     GetProfileManager()                                                                                 = 0;
     virtual SettingsManager*                    GetSettingsManager()                                                                                = 0;
 
-    virtual void                                DeviceListChanged()                                                                                 = 0;
+    virtual void                                UpdateDeviceList()                                                                                  = 0;
     virtual void                                WaitForDeviceDetection()                                                                            = 0;
 
 protected:
@@ -90,7 +90,7 @@ public:
     
     ResourceManager();
     ~ResourceManager();
-    
+
     void RegisterI2CBus(i2c_smbus_interface *);
     std::vector<i2c_smbus_interface*> & GetI2CBusses();
     
@@ -120,6 +120,9 @@ public:
 
     std::string                     GetConfigurationDirectory();
 
+    void RegisterNetworkClient(NetworkClient* new_client);
+    void UnregisterNetworkClient(NetworkClient* network_client);
+
     std::vector<NetworkClient*>&    GetClients();
     NetworkServer*                  GetServer();
 
@@ -128,6 +131,7 @@ public:
 
     void                            SetConfigurationDirectory(std::string directory);
 
+    void UpdateDeviceList();
     void DeviceListChanged();
     void DetectionProgressChanged();
     void I2CBusListChanged();

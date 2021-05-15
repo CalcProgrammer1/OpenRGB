@@ -29,9 +29,6 @@ private slots:
 
 private:
     Ui::OpenRGBClientInfoPageUi *ui;
-
-signals:
-    void ClientListUpdated();
 };
 
 #endif // OPENRGBCLIENTINFOPAGE_H

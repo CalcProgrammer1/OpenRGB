@@ -95,7 +95,6 @@ private slots:
     void on_QuickBlue();
     void on_QuickMagenta();
     void on_QuickWhite();
-    void on_ClientListUpdated();
     void onDeviceListUpdated();
     void onDetectionProgressUpdated();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);

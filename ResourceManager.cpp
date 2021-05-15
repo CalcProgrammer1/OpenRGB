@@ -88,10 +88,10 @@ void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
     LOG_NOTICE("Registering RGB controller: %s", rgb_controller->name.c_str());
     rgb_controllers_hw.push_back(rgb_controller);
 
-    DeviceListChanged();
+    UpdateDeviceList();
 }
 
-void ResourceManager::UnregisterRGBController(RGBController *rgb_controller)
+void ResourceManager::UnregisterRGBController(RGBController* rgb_controller)
 {
     LOG_NOTICE("Unregistering RGB controller: %s", rgb_controller->name.c_str());
 
@@ -120,7 +120,7 @@ void ResourceManager::UnregisterRGBController(RGBController *rgb_controller)
         rgb_controllers.erase(rgb_it);
     }
 
-    DeviceListChanged();
+    UpdateDeviceList();
 }
 
 std::vector<RGBController*> & ResourceManager::GetRGBControllers()
@@ -190,7 +190,7 @@ void ResourceManager::RegisterDetectionProgressCallback(DetectionProgressCallbac
     DetectionProgressCallbackArgs.push_back(new_callback_arg);
 }
 
-void ResourceManager::DeviceListChanged()
+void ResourceManager::UpdateDeviceList()
 {
     DeviceListChangeMutex.lock();
 
@@ -239,10 +239,7 @@ void ResourceManager::DeviceListChanged()
     /*-------------------------------------------------*\
     | Device list has changed, call the callbacks       |
     \*-------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
-    {
-        DeviceListChangeCallbacks[callback_idx](DeviceListChangeCallbackArgs[callback_idx]);
-    }
+    DeviceListChanged();
 
     /*-------------------------------------------------*\
     | Device list has changed, inform all clients       |
@@ -251,6 +248,17 @@ void ResourceManager::DeviceListChanged()
     server->DeviceListChanged();
 
     DeviceListChangeMutex.unlock();
+}
+
+void ResourceManager::DeviceListChanged()
+{
+    /*-------------------------------------------------*\
+    | Device list has changed, call the callbacks       |
+    \*-------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
+    {
+        ResourceManager::DeviceListChangeCallbacks[callback_idx](DeviceListChangeCallbackArgs[callback_idx]);
+    }
 }
 
 void ResourceManager::DetectionProgressChanged()
@@ -338,6 +346,50 @@ std::string ResourceManager::GetConfigurationDirectory()
 NetworkServer* ResourceManager::GetServer()
 {
     return(server);
+}
+
+static void NetworkClientInfoChangeCallback(void* this_ptr)
+{
+    ResourceManager* this_obj = (ResourceManager*)this_ptr;
+
+    this_obj->DeviceListChanged();
+}
+
+void ResourceManager::RegisterNetworkClient(NetworkClient* new_client)
+{
+    new_client->RegisterClientInfoChangeCallback(NetworkClientInfoChangeCallback, this);
+
+    clients.push_back(new_client);
+}
+
+void ResourceManager::UnregisterNetworkClient(NetworkClient* network_client)
+{
+    /*-------------------------------------------------------------------------*\
+    | Stop the disconnecting client                                             |
+    \*-------------------------------------------------------------------------*/
+    network_client->StopClient();
+
+    /*-------------------------------------------------------------------------*\
+    | Clear callbacks from the client before removal                            |
+    \*-------------------------------------------------------------------------*/
+    network_client->ClearCallbacks();
+
+    /*-------------------------------------------------------------------------*\
+    | Find the client to remove and remove it from the clients list             |
+    \*-------------------------------------------------------------------------*/
+    std::vector<NetworkClient*>::iterator client_it = std::find(clients.begin(), clients.end(), network_client);
+
+    if(client_it != clients.end())
+    {
+        clients.erase(client_it);
+    }
+
+    /*-------------------------------------------------------------------------*\
+    | Delete the client                                                         |
+    \*-------------------------------------------------------------------------*/
+    delete network_client;
+
+    UpdateDeviceList();
 }
 
 std::vector<NetworkClient*>& ResourceManager::GetClients()
@@ -451,7 +503,7 @@ void ResourceManager::DetectDevices()
 
         Cleanup();
 
-        DeviceListChanged();
+        UpdateDeviceList();
 
         /*-------------------------------------------------*\
         | Start the device detection thread                 |
@@ -603,7 +655,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                 profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
             }
 
-            DeviceListChanged();
+            UpdateDeviceList();
         }
         prev_count = rgb_controllers_hw.size();
 
@@ -690,7 +742,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                                 profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
                             }
 
-                            DeviceListChanged();
+                            UpdateDeviceList();
                         }
                         prev_count = rgb_controllers_hw.size();
                     }
@@ -827,7 +879,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                 profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
             }
 
-            DeviceListChanged();
+            UpdateDeviceList();
         }
         prev_count = rgb_controllers_hw.size();
 

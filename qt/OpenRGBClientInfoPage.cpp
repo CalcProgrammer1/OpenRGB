@@ -161,11 +161,6 @@ void OpenRGBClientInfoPage::UpdateInfo()
             }
         }
     }
-
-    /*-----------------------------------------------------*\
-    | Emit client information updated signal                |
-    \*-----------------------------------------------------*/
-    emit ClientListUpdated();
 }
 
 void Ui::OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
@@ -193,7 +188,7 @@ void Ui::OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
     /*-----------------------------------------------------*\
     | Add new client to list and register update callback   |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->GetClients().push_back(rgb_client);
+    ResourceManager::get()->RegisterNetworkClient(rgb_client);
 
     rgb_client->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
 }
@@ -206,24 +201,8 @@ void Ui::OpenRGBClientInfoPage::onClientDisconnectButton_clicked(QObject * arg)
     NetworkClient * disconnect_client = ((NetworkClientPointer *)arg)->net_client;
 
     /*-----------------------------------------------------*\
-    | Stop the disconnecting client                         |
+    | Remove the client from the resource manager, which    |
+    | deletes the client                                    |
     \*-----------------------------------------------------*/
-    disconnect_client->StopClient();
-
-    /*-----------------------------------------------------*\
-    | Remove disconnecting client from list                 |
-    \*-----------------------------------------------------*/
-    for(unsigned int client_idx = 0; client_idx < ResourceManager::get()->GetClients().size(); client_idx++)
-    {
-        if(disconnect_client == ResourceManager::get()->GetClients()[client_idx])
-        {
-            ResourceManager::get()->GetClients().erase(ResourceManager::get()->GetClients().begin() + client_idx);
-            break;
-        }
-    }
-
-    /*-----------------------------------------------------*\
-    | Delete the disconnecting client                       |
-    \*-----------------------------------------------------*/
-    delete disconnect_client;
+    ResourceManager::get()->UnregisterNetworkClient(disconnect_client);
 }

@@ -45,6 +45,12 @@ NetworkClient::~NetworkClient()
     StopClient();
 }
 
+void NetworkClient::ClearCallbacks()
+{
+    ClientInfoChangeCallbacks.clear();
+    ClientInfoChangeCallbackArgs.clear();
+}
+
 void NetworkClient::ClientInfoChanged()
 {
     ClientInfoChangeMutex.lock();

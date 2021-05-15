@@ -31,6 +31,7 @@ public:
     unsigned int    GetProtocolVersion();
     bool            GetOnline();
 
+    void            ClearCallbacks();
     void            RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
 
     void            SetIP(const char *new_ip);
