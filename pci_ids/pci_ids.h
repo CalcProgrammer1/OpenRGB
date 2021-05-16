@@ -84,6 +84,7 @@
 #define ASUS_ROG_GTX1660TI_OC                           0x86A5
 #define ASUS_ROG_STRIX_RTX2060_EVO_GAMING               0x86D3
 #define ASUS_ROG_STRIX_RTX2070S_A8G_GAMING              0x8728
+#define ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING            0x866A
 #define ASUS_VEGA64_STRIX                               0x04C4
 #define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
 #define ASUS_RX580_STRIX_GAMING_OC                      0x0517
