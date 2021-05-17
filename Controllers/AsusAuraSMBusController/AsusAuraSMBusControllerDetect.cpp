@@ -7,6 +7,7 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+#include "dependencies/dmiinfo.h"
 
 using namespace std::chrono_literals;
 
@@ -122,11 +123,8 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses)
+void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    AuraSMBusController* new_aura;
-    RGBController_AuraSMBus* new_controller;
-
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
         int address_list_idx = -1;
@@ -169,14 +167,25 @@ void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses)
             {
                 if (TestForAsusAuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]))
                 {
-                    new_aura = new AuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]);
-                    new_controller = new RGBController_AuraSMBus(new_aura);
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    AuraSMBusController* controller = new AuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]);
+                    RGBController_AuraSMBus* rgb_controller = new RGBController_AuraSMBus(controller);
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);
             }
         }
+    }
+}   /* DetectAuraSMBusDRAMControllers() */
+
+void DetectAsusAuraSMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &busses)
+{
+    AuraSMBusController* new_aura;
+    RGBController_AuraSMBus* new_controller;
+
+    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    {
+        int address_list_idx = -1;
 
         // Add Aura-enabled motherboard controllers
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
@@ -185,9 +194,11 @@ void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses)
             {
                 if (TestForAsusAuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
                 {
-                    new_aura = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
-                    new_controller = new RGBController_AuraSMBus(new_aura);
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    DMIInfo dmi;
+                    AuraSMBusController* controller = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
+                    RGBController_AuraSMBus* rgb_controller = new RGBController_AuraSMBus(controller);
+                    rgb_controller->name = "ASUS " + dmi.getMainboard();
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);
@@ -195,6 +206,7 @@ void DetectAsusAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses)
         }
     }
 
-}   /* DetectAuraSMBusControllers() */
+}   /* DetectAuraSMBusMotherboardControllers() */
 
-REGISTER_I2C_DETECTOR("ASUS Aura SMBus", DetectAsusAuraSMBusControllers);
+REGISTER_I2C_DETECTOR("ASUS Aura SMBus DRAM", DetectAsusAuraSMBusDRAMControllers);
+REGISTER_I2C_DETECTOR("ASUS Aura SMBus Motherboard", DetectAsusAuraSMBusMotherboardControllers);
