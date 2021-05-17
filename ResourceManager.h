@@ -47,8 +47,9 @@ typedef struct
 } HIDDeviceDetectorBlock;
 
 typedef void (*DeviceListChangeCallback)(void *);
-typedef void (*DeviceListWarningCallback)(void *);
 typedef void (*DetectionProgressCallback)(void *);
+typedef void (*DetectionStartCallback)(void *);
+typedef void (*DetectionEndCallback)(void *);
 typedef void (*I2CBusListChangeCallback)(void *);
 
 class ResourceManagerInterface
@@ -60,8 +61,9 @@ public:
     virtual void                                UnregisterRGBController(RGBController *rgb_controller)                                              = 0;
 
     virtual void                                RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)    = 0;
-    virtual void                                RegisterDeviceListWarningCallback(DeviceListWarningCallback new_callback, void * new_callback_arg)  = 0;
     virtual void                                RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg)  = 0;
+    virtual void                                RegisterDetectionStartCallback(DetectionStartCallback new_callback, void * new_callback_arg)        = 0;
+    virtual void                                RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg)            = 0;
     virtual void                                RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg)    = 0;
 
     virtual std::vector<RGBController*> &       GetRGBControllers()                                                                                 = 0;
@@ -111,8 +113,9 @@ public:
                                          int usage      = HID_USAGE_ANY);
     
     void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
-    void RegisterDeviceListWarningCallback(DeviceListWarningCallback new_callback, void * new_callback_arg);
     void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
+    void RegisterDetectionStartCallback(DetectionStartCallback new_callback, void * new_callback_arg);
+    void RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg);
     void RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg);
 
     unsigned int GetDetectionPercent();
@@ -214,21 +217,24 @@ private:
     const char*                                 detection_string;
     
     /*-------------------------------------------------------------------------------------*\
-    | Device List Changed and Warning Callbacks                                             |
+    | Device List Changed Callback                                                          |
     \*-------------------------------------------------------------------------------------*/
     std::mutex                                  DeviceListChangeMutex;
     std::vector<DeviceListChangeCallback>       DeviceListChangeCallbacks;
     std::vector<void *>                         DeviceListChangeCallbackArgs;
 
-    std::vector<DeviceListWarningCallback>      DeviceListWarningCallbacks;
-    std::vector<void *>                         DeviceListWarningCallbackArgs;
-
     /*-------------------------------------------------------------------------------------*\
-    | Detection Progress Callback                                                           |
+    | Detection Progress, Start, and End Callbacks                                          |
     \*-------------------------------------------------------------------------------------*/
     std::mutex                                  DetectionProgressMutex;
     std::vector<DetectionProgressCallback>      DetectionProgressCallbacks;
     std::vector<void *>                         DetectionProgressCallbackArgs;
+
+    std::vector<DetectionStartCallback>         DetectionStartCallbacks;
+    std::vector<void *>                         DetectionStartCallbackArgs;
+
+    std::vector<DetectionEndCallback>           DetectionEndCallbacks;
+    std::vector<void *>                         DetectionEndCallbackArgs;
 
     /*-------------------------------------------------------------------------------------*\
     | I2C/SMBus Adapter List Changed Callback                                               |
