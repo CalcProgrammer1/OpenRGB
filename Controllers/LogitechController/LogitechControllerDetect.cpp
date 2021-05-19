@@ -437,9 +437,9 @@ void DetectLogitechG560(hid_device_info* info, const std::string& name)
         | Add G560 Speaker                              |
         \*---------------------------------------------*/
         LogitechG560Controller*     controller     = new LogitechG560Controller(dev, info->path);
-        RGBController_LogitechG560* rgb_controller = new RGBController_LogitechG560(speaker_controller);
-        speaker_rgb_controller->name = name;
-        ResourceManager::get()->RegisterRGBController(speaker_rgb_controller);
+        RGBController_LogitechG560* rgb_controller = new RGBController_LogitechG560(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
