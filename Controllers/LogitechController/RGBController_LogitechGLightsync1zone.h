@@ -1,26 +1,26 @@
 /*-----------------------------------------*\
-|  RGBController_LogitechG203.h             |
+|  RGBController_LogitechGLightsync1zone.h  |
 |                                           |
-|  Generic RGB Interface for Logitech G203  |
-|  Prodigy RGB Mouse                        |
+|  Generic RGB Interface for single zone    |
+|  Logitech G Lightsync Devices             |
 |                                           |
-|  Adam Honse (CalcProgrammer1) 5/17/2020   |
+|  TheRogueZeta   04/21/2021                |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
-#include "LogitechG203Controller.h"
+#include "LogitechGLightsyncController.h"
 
-class RGBController_LogitechG203 : public RGBController
+class RGBController_LogitechGLightsync1zone : public RGBController
 {
 public:
-    RGBController_LogitechG203(LogitechG203Controller* logitech_ptr);
-    ~RGBController_LogitechG203();
+    RGBController_LogitechGLightsync1zone(LogitechGLightsyncController* logitech_ptr);
+    ~RGBController_LogitechGLightsync1zone();
 
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LogitechG203Controller*   logitech;
+    LogitechGLightsyncController*   logitech;
 };

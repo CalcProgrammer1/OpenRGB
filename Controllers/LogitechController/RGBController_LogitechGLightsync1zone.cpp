@@ -1,22 +1,22 @@
 /*-----------------------------------------*\
-|  RGBController_LogitechGPowerPlay.cpp     |
+|  RGBController_LogitechGLightsync1zone.cpp|
 |                                           |
-|  Generic RGB Interface for                |
-|  Logitech G PowerPlay Wireless Mousemat   |
+|  Generic RGB Interface for single zone    |
+|  Logitech G Lightsync Devices             |
 |                                           |
-|  TheRogueZeta   8/31/2020                 |
+|  TheRogueZeta   04/21/2021                |
 \*-----------------------------------------*/
 
-#include "RGBController_LogitechGPowerPlay.h"
+#include "RGBController_LogitechGLightsync1zone.h"
 
-RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLightsyncController* logitech_ptr)
+RGBController_LogitechGLightsync1zone::RGBController_LogitechGLightsync1zone(LogitechGLightsyncController* logitech_ptr)
 {
     logitech = logitech_ptr;
 
-    name                    = "Logitech G PowerPlay Wireless Charging System";
+    name                    = "Logitech G Lightsync Mouse Single Zone";
     vendor                  = "Logitech";
-    type                    = DEVICE_TYPE_MOUSEMAT;
-    description             = "Logitech G PowerPlay Wireless Charging System";
+    type                    = DEVICE_TYPE_MOUSE;
+    description             = "Logitech G Lightsync Mouse Single Zone";
     location                = logitech->GetDeviceLocation();
     serial                  = logitech->GetSerialString();
 
@@ -64,43 +64,42 @@ RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLigh
     SetupZones();
 }
 
-RGBController_LogitechGPowerPlay::~RGBController_LogitechGPowerPlay()
+RGBController_LogitechGLightsync1zone::~RGBController_LogitechGLightsync1zone()
 {
     delete logitech;
 }
 
-void RGBController_LogitechGPowerPlay::SetupZones()
+void RGBController_LogitechGLightsync1zone::SetupZones()
 {
-    zone GPowerPlay_logo_zone;
-    GPowerPlay_logo_zone.name           = "Logo";
-    GPowerPlay_logo_zone.type           = ZONE_TYPE_SINGLE;
-    GPowerPlay_logo_zone.leds_min       = 1;
-    GPowerPlay_logo_zone.leds_max       = 1;
-    GPowerPlay_logo_zone.leds_count     = 1;
-    GPowerPlay_logo_zone.matrix_map     = NULL;
-    zones.push_back(GPowerPlay_logo_zone);
+    zone GLightsync_logo_zone;
+    GLightsync_logo_zone.name               = "Logo";
+    GLightsync_logo_zone.type               = ZONE_TYPE_SINGLE;
+    GLightsync_logo_zone.leds_min           = 1;
+    GLightsync_logo_zone.leds_max           = 1;
+    GLightsync_logo_zone.leds_count         = 1;
+    GLightsync_logo_zone.matrix_map         = NULL;
+    zones.push_back(GLightsync_logo_zone);
 
-    led GPowerPlay_logo_led;
-    GPowerPlay_logo_led.name = "Logo";
-    leds.push_back(GPowerPlay_logo_led);
+    led GLightsync_logo_led;
+    GLightsync_logo_led.name = "Logo";
+    leds.push_back(GLightsync_logo_led);
 
     SetupColors();
 }
 
-void RGBController_LogitechGPowerPlay::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechGLightsync1zone::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_LogitechGPowerPlay::DeviceUpdateLEDs()
+void RGBController_LogitechGLightsync1zone::DeviceUpdateLEDs()
 {
     UpdateZoneLEDs(0);
-    UpdateZoneLEDs(1);
 }
 
-void RGBController_LogitechGPowerPlay::UpdateZoneLEDs(int zone)
+void RGBController_LogitechGLightsync1zone::UpdateZoneLEDs(int zone)
 {
     unsigned char red = RGBGetRValue(colors[zone]);
     unsigned char grn = RGBGetGValue(colors[zone]);
@@ -112,17 +111,17 @@ void RGBController_LogitechGPowerPlay::UpdateZoneLEDs(int zone)
     logitech->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, /* Brightness */ 0x64);
 }
 
-void RGBController_LogitechGPowerPlay::UpdateSingleLED(int led)
+void RGBController_LogitechGLightsync1zone::UpdateSingleLED(int led)
 {
     UpdateZoneLEDs(led);
 }
 
-void RGBController_LogitechGPowerPlay::SetCustomMode()
+void RGBController_LogitechGLightsync1zone::SetCustomMode()
 {
     active_mode = 1; //Hard coded to first value in list
 }
 
-void RGBController_LogitechGPowerPlay::DeviceUpdateMode()
+void RGBController_LogitechGLightsync1zone::DeviceUpdateMode()
 {
     // If direct mode is true, then sent the packet to put the mouse in direct mode
     // This code will only be called when we change modes as to not spam the device.

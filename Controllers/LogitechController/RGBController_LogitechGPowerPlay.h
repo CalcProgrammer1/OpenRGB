@@ -9,12 +9,12 @@
 
 #pragma once
 #include "RGBController.h"
-#include "LogitechGPowerPlayController.h"
+#include "LogitechGLightsyncController.h"
 
 class RGBController_LogitechGPowerPlay : public RGBController
 {
 public:
-    RGBController_LogitechGPowerPlay(LogitechGPowerPlayController* logitech_ptr);
+    RGBController_LogitechGPowerPlay(LogitechGLightsyncController* logitech_ptr);
     ~RGBController_LogitechGPowerPlay();
 
     void        SetupZones();
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LogitechGPowerPlayController*   logitech;
+    LogitechGLightsyncController*   logitech;
 };
