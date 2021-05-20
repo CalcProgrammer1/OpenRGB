@@ -18,16 +18,6 @@
 
 #endif
 
-XPGSpectrixS40GController::XPGSpectrixS40GController()
-{
-    led_count = XPG_SPECTRIX_LED_COUNT;
-    InitializePackets();
-
-    active_mode = XPG_SPECTRIX_S40G_MODE_STATIC;
-    active_direction = XPG_SPECTRIX_S40G_DIRECTION_DEFAULT;
-    active_speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-}
-
 #ifdef _WIN32
     int XPGSpectrixS40GController::SetHandle(wchar_t buff[MAX_PATH]) {
         wchar_t path[MAX_PATH];
@@ -47,117 +37,244 @@ XPGSpectrixS40GController::XPGSpectrixS40GController()
 
 #endif
 
-unsigned int XPGSpectrixS40GController::GetLEDCount()
-{
-	return led_count;
-}
+/*-----------------------------------------*\
+|  AsusAuraSMBusController.cpp              |
+|                                           |
+|  Driver for ASUS Aura RGB lighting        |
+|  controller                               |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 8/19/2018   |
+\*-----------------------------------------*/
+#include <cstring>
 
-void XPGSpectrixS40GController::ApplyColors() 
+static const char* aura_channels[] =                /* Aura channel strings                 */
 {
-	#ifdef _WIN32
-		for (unsigned int i = 0; i < BIG_PACKET_SIZE / 4; i++) {
-			if (i % 10 == 0) {
-			}
-		}
-		for (unsigned int i = 0; i < SMALL_PACKET_SIZE / 4; i++) {
-			if (i % 10 == 0) {
-			}
-		}
-		// TODO better error detection
-        if (hDevice != INVALID_HANDLE_VALUE) {
-            int out = DeviceIoControl(hDevice, 0x2dd3c0, packet_one, BIG_PACKET_SIZE, packet_one, BIG_PACKET_SIZE, 0x0, (LPOVERLAPPED)0x0);
-            if (out > 0) {
-                out = DeviceIoControl(hDevice, 0x2dd3c0, packet_two, SMALL_PACKET_SIZE, packet_two, SMALL_PACKET_SIZE, 0x0, (LPOVERLAPPED)0x0);
-            }
-            if (out > 0) {
-                out = DeviceIoControl(hDevice, 0x2dd3c0, packet_three, SMALL_PACKET_SIZE, packet_three, SMALL_PACKET_SIZE, 0x0, (LPOVERLAPPED)0x0);
-            }
-        }
-	#else
+    "Audio",
+    "Backplate",
+    "Back I/O",
+    "Center",
+    "Center",
+    "DRAM",
+    "PCIe",
+    "RGB Header",
+    "RGB Header 2",
+    "RGB Header",
+    "Unknown",
+};
 
-	#endif
+XPGSpectrixS40GController::XPGSpectrixS40GController()
+{
+    direct_reg = AURA_REG_COLORS_DIRECT_V2;
+    effect_reg = AURA_REG_COLORS_EFFECT_V2;
+    channel_cfg = AURA_CONFIG_CHANNEL_V2;
+    led_count = 8;
 }
 
 XPGSpectrixS40GController::~XPGSpectrixS40GController()
 {
-    free(packet_one);
-    packet_one = NULL;
-    free(packet_two);
-    packet_two = NULL;
-    free(packet_three);
-    packet_three = NULL;
+
 }
 
-void XPGSpectrixS40GController::InitializePackets() {
-    packet_one = (uint32_t *) malloc(BIG_PACKET_SIZE);
-    packet_two = (uint32_t *) malloc(SMALL_PACKET_SIZE);
-    packet_three = (uint32_t *) malloc(SMALL_PACKET_SIZE);  
-    memcpy(packet_one, packet_one_template, BIG_PACKET_SIZE);
-    memcpy(packet_two, packet_two_template, SMALL_PACKET_SIZE);
-    memcpy(packet_three, packet_three_template, SMALL_PACKET_SIZE);
+std::string XPGSpectrixS40GController::GetDeviceName()
+{
+    return("SSD");
 }
 
-void XPGSpectrixS40GController::SetMode(uint8_t mode) {
-	*((uint8_t *) (packet_two+52)+1) = mode;
+std::string XPGSpectrixS40GController::GetDeviceLocation()
+{
+    return("I2C: SSD");
 }
 
-void XPGSpectrixS40GController::SetSpeed(uint8_t speed) {
-	*((uint8_t *) (packet_two+52)+2) = speed;
+unsigned char XPGSpectrixS40GController::GetChannel(unsigned int led)
+{
+    return(0);
 }
 
-void XPGSpectrixS40GController::SetDirection(uint8_t direction) {
-    *((uint8_t *) (packet_three+52)+3) = direction;
-}
+const char * XPGSpectrixS40GController::GetChannelName(unsigned int led)
+{
+    switch (config_table[channel_cfg + led])
+    {
+    case (unsigned char)AURA_LED_CHANNEL_AUDIO:
+        return(aura_channels[0]);
+        break;
 
-void XPGSpectrixS40GController::SetAllColors(uint8_t r, uint8_t g, uint8_t b) {
-    for (unsigned int i = 0; i < led_count; i++) {
-        SetLEDColor(i, r, g, b);
+    case (unsigned char)AURA_LED_CHANNEL_BACKPLATE:
+        return(aura_channels[1]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_BACK_IO:
+        return(aura_channels[2]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_CENTER:
+        return(aura_channels[3]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_CENTER_START:
+        return(aura_channels[4]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_DRAM:
+        return(aura_channels[5]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_PCIE:
+        return(aura_channels[6]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_RGB_HEADER:
+        return(aura_channels[7]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_RGB_HEADER_2:
+        return(aura_channels[8]);
+        break;
+
+    case (unsigned char)AURA_LED_CHANNEL_RGB_HEADER_3:
+        return(aura_channels[9]);
+        break;
+
+    default:
+        return(aura_channels[10]);
+        break;
     }
 }
 
-void XPGSpectrixS40GController::SetLEDColor(unsigned int led, uint8_t r, uint8_t g, uint8_t b) {
-    switch(led) {
-		case 0x0:
-			*((uint8_t *) (packet_one+52)+0) = r;
-			*((uint8_t *) (packet_one+52)+1) = b;
-			*((uint8_t *) (packet_one+52)+2) = g;
-			break;
-		case 0x1:
-			*((uint8_t *) (packet_one+52)+3) = r;
-			*((uint8_t *) (packet_one+53)+0) = b;
-			*((uint8_t *) (packet_one+53)+1) = g;
-			break;
-		case 0x2:
-			*((uint8_t *) (packet_one+53)+2) = r;
-			*((uint8_t *) (packet_one+53)+3) = b;
-			*((uint8_t *) (packet_one+54)+0) = g;
-			break;
-		case 0x3:
-			*((uint8_t *) (packet_one+54)+1) = r;
-			*((uint8_t *) (packet_one+54)+2) = b;
-			*((uint8_t *) (packet_one+54)+3) = g;
-			break;
-		case 0x4:
-			*((uint8_t *) (packet_one+55)+0) = r;
-			*((uint8_t *) (packet_one+55)+1) = b;
-			*((uint8_t *) (packet_one+55)+2) = g;
-			break;
-		case 0x5:
-			*((uint8_t *) (packet_one+55)+3) = r;
-			*((uint8_t *) (packet_one+56)+0) = b;
-			*((uint8_t *) (packet_one+56)+1) = g;
-			break;
-		case 0x6:
-			*((uint8_t *) (packet_one+56)+2) = r;
-			*((uint8_t *) (packet_one+56)+3) = b;
-			*((uint8_t *) (packet_one+57)+0) = g;
-			break;
-		case 0x7:
-			*((uint8_t *) (packet_one+57)+1) = r;
-			*((uint8_t *) (packet_one+57)+2) = b;
-			*((uint8_t *) (packet_one+57)+3) = g;
-			break;
-		default:
-			return;
+unsigned int XPGSpectrixS40GController::GetLEDCount()
+{
+    return(led_count);
+}
+
+unsigned char XPGSpectrixS40GController::GetLEDRed(unsigned int led)
+{
+    return(AuraRegisterRead(direct_reg + ( 3 * led )));
+}
+
+unsigned char XPGSpectrixS40GController::GetLEDGreen(unsigned int led)
+{
+    return(AuraRegisterRead(direct_reg + ( 3 * led ) + 2));
+}
+
+unsigned char XPGSpectrixS40GController::GetLEDBlue(unsigned int led)
+{
+    return(AuraRegisterRead(direct_reg + ( 3 * led ) + 1));
+}
+
+void XPGSpectrixS40GController::SetAllColorsDirect(RGBColor* colors)
+{
+    unsigned char* color_buf = new unsigned char[led_count * 3];
+
+    for (unsigned int i = 0; i < (led_count * 3); i += 3)
+    {
+        color_buf[i + 0] = RGBGetRValue(colors[i / 3]);
+        color_buf[i + 1] = RGBGetBValue(colors[i / 3]);
+        color_buf[i + 2] = RGBGetGValue(colors[i / 3]);
+    }
+
+    AuraRegisterWriteBlock(direct_reg, color_buf, led_count * 3);
+
+    delete color_buf;
+}
+
+void XPGSpectrixS40GController::SetAllColorsEffect(RGBColor* colors)
+{
+    unsigned char* color_buf = new unsigned char[led_count * 3];
+
+    for (unsigned int i = 0; i < (led_count * 3); i += 3)
+    {
+        color_buf[i + 0] = RGBGetRValue(colors[i / 3]);
+        color_buf[i + 1] = RGBGetBValue(colors[i / 3]);
+        color_buf[i + 2] = RGBGetGValue(colors[i / 3]);
+    }
+
+    AuraRegisterWriteBlock(effect_reg, color_buf, led_count * 3);
+
+    AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+
+    delete[] color_buf;
+}
+
+void XPGSpectrixS40GController::SetDirect(unsigned char direct)
+{
+    AuraRegisterWrite(AURA_REG_DIRECT, direct);
+    AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+}
+
+void XPGSpectrixS40GController::SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+{
+    unsigned char colors[3] = { red, blue, green };
+
+    AuraRegisterWriteBlock(direct_reg + ( 3 * led ), colors, 3);
+}
+
+void XPGSpectrixS40GController::SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+{
+    unsigned char colors[3] = { red, blue, green };
+
+    AuraRegisterWriteBlock(effect_reg + (3 * led), colors, 3);
+
+    AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+}
+
+void XPGSpectrixS40GController::SetMode(unsigned char mode)
+{
+    AuraRegisterWrite(AURA_REG_MODE, mode);
+    AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+}
+
+void XPGSpectrixS40GController::AuraUpdateDeviceName()
+{
+    for (int i = 0; i < 16; i++)
+    {
+        device_name[i] = AuraRegisterRead(AURA_REG_DEVICE_NAME + i);
     }
 }
+
+unsigned char XPGSpectrixS40GController::AuraRegisterRead(aura_register reg)
+{
+    return(0);
+}
+
+void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned char val)
+{
+    if(hDevice != INVALID_HANDLE_VALUE)
+    {
+        uint32_t packet[54] = {0x00000001, 0x00000054, 0x00000003, 0x80000000, 0x00000000, 0x00000000, 0x00000040, 0x00000040, 0x00000004, 0x00000000,
+                               0x00000001, 0x00000090, 0x000000D0, 0x00000000, 0x00000001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x00000001, 0x00000000, 0x2F8000CE, 0x01100001, 0x51987856, 0x80000B00, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x00000000, 0x00000000, 0x00000001, 0x00000000};
+
+        unsigned short corrected_reg = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
+
+        packet[32] = (corrected_reg << 16) | 0x000000CE;
+        packet[52] = val;
+
+        DeviceIoControl(hDevice, 0x2dd3c0, packet, SMALL_PACKET_SIZE, packet, SMALL_PACKET_SIZE, 0x0, (LPOVERLAPPED)0x0);
+    }
+}
+
+void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz)
+{
+    if(hDevice != INVALID_HANDLE_VALUE)
+    {
+        uint32_t packet[59] = {0x00000001, 0x00000054, 0x00000003, 0x80000000, 0x00000000, 0x00000000, 0x00000040, 0x00000040, 0x00000018, 0x00000000,
+                               0x00000001, 0x00000090, 0x000000D0, 0x00000000, 0x00000001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x00000006, 0x00000000, 0x608100CE, 0x03100018, 0x51987856, 0x80000B00, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                               0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000};
+
+
+        unsigned short corrected_reg = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
+
+        packet[32] = (corrected_reg << 16) | 0x000000CE;
+        packet[33] = 0x03100000 | sz;
+
+        memcpy(&packet[52], data, sz);
+
+        DeviceIoControl(hDevice, 0x2dd3c0, packet, BIG_PACKET_SIZE, packet, BIG_PACKET_SIZE, 0x0, (LPOVERLAPPED)0x0);
+    }
+}
+

@@ -30,5 +30,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    XPGSpectrixS40GController* xpg;
+    XPGSpectrixS40GController* aura;
 };
