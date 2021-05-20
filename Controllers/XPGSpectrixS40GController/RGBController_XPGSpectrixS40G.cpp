@@ -9,171 +9,262 @@
 
 #include "RGBController_XPGSpectrixS40G.h"
 
-RGBController_XPGSpectrixS40G::RGBController_XPGSpectrixS40G(XPGSpectrixS40GController* spectrix_ptr)
+void RGBController_XPGSpectrixS40G::DeviceUpdateLEDs()
 {
-    xpg = spectrix_ptr;
+    if(GetMode() == 0)
+    {
+        aura->SetAllColorsDirect(&colors[0]);
+    }
+    else
+    {
+        aura->SetAllColorsEffect(&colors[0]);
+    }
+}
 
-    name = "XPG Spectrix S40G";
-    vendor = "XPG";
-    type = DEVICE_TYPE_STORAGE;
-    description = "XPG Spectrix S40G RGB NVMe";
+void RGBController_XPGSpectrixS40G::UpdateZoneLEDs(int zone)
+{
+    for (std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
+    {
+        int           led   = zones[zone].leds[led_idx].value;
+        RGBColor      color = colors[led];
+        unsigned char red   = RGBGetRValue(color);
+        unsigned char grn   = RGBGetGValue(color);
+        unsigned char blu   = RGBGetBValue(color);
+
+        if (GetMode() == 0)
+        {
+            aura->SetLEDColorDirect(led, red, grn, blu);
+        }
+        else
+        {
+            aura->SetLEDColorEffect(led, red, grn, blu);
+        }
+    }
+}
+
+void RGBController_XPGSpectrixS40G::UpdateSingleLED(int led)
+{
+    RGBColor color    = colors[led];
+    unsigned char red = RGBGetRValue(color);
+    unsigned char grn = RGBGetGValue(color);
+    unsigned char blu = RGBGetBValue(color);
+
+    if (GetMode() == 0)
+    {
+        aura->SetLEDColorDirect(led, red, grn, blu);
+    }
+    else
+    {
+        aura->SetLEDColorEffect(led, red, grn, blu);
+    }
+}
+
+RGBController_XPGSpectrixS40G::RGBController_XPGSpectrixS40G(XPGSpectrixS40GController * aura_ptr)
+{
+    aura = aura_ptr;
+
+    version = aura->GetDeviceName();
+    location = aura->GetDeviceLocation();
+    if((version.find("DIMM_LED") != std::string::npos) || (version.find("AUDA") != std::string::npos) )
+    {
+        type = DEVICE_TYPE_DRAM;
+        name = "ASUS Aura DRAM";
+    }
+    else
+    {
+        type = DEVICE_TYPE_MOTHERBOARD;
+        name = "ASUS Aura Motherboard";
+    }
+    vendor      = "ASUS";
+    description = "ASUS Aura SMBus Device";
+
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = 0xFFFF;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
+
+    mode Off;
+    Off.name       = "Off";
+    Off.value      = AURA_MODE_OFF;
+    Off.flags      = 0;
+    Off.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Off);
 
     mode Static;
-    Static.name = "Static";
-    Static.value = XPG_SPECTRIX_S40G_MODE_STATIC;
-    Static.flags = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.name       = "Static";
+    Static.value      = AURA_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name = "Breathing";
-    Breathing.value = XPG_SPECTRIX_S40G_MODE_BREATHING;
-    Breathing.flags = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
-    Breathing.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    Breathing.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    Breathing.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
+    Breathing.name       = "Breathing";
+    Breathing.value      = AURA_MODE_BREATHING;
+    Breathing.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
-    mode Strobing;
-    Strobing.name = "Strobing";
-    Strobing.value = XPG_SPECTRIX_S40G_MODE_STROBING;
-    Strobing.flags = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
-    Strobing.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    Strobing.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    Strobing.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    Strobing.color_mode = MODE_COLORS_PER_LED;
+    mode Flashing;
+    Flashing.name       = "Flashing";
+    Flashing.value      = AURA_MODE_FLASHING;
+    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Flashing);
 
-    mode Cycle;
-    Cycle.name = "Cycle";
-    Cycle.value = XPG_SPECTRIX_S40G_MODE_CYCLE;
-    Cycle.flags = MODE_FLAG_HAS_SPEED; // MODE SPECIFIC COLOR correct...?
-    Cycle.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    Cycle.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    Cycle.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    Cycle.color_mode = MODE_COLORS_NONE;
+    mode SpectrumCycle;
+    SpectrumCycle.name       = "Spectrum Cycle";
+    SpectrumCycle.value      = AURA_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags      = 0;
+    SpectrumCycle.color_mode = MODE_COLORS_NONE;
+    modes.push_back(SpectrumCycle);
 
     mode Rainbow;
-    Rainbow.name = "Rainbow";
-    Rainbow.value = XPG_SPECTRIX_S40G_MODE_RAINBOW;
-    Rainbow.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    Rainbow.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    Rainbow.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    Rainbow.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    Rainbow.direction = MODE_DIRECTION_RIGHT;
+    Rainbow.name       = "Rainbow";
+    Rainbow.value      = AURA_MODE_RAINBOW;
+    Rainbow.flags      = 0;
     Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
-    mode BreathingRainbow;
-    BreathingRainbow.name = "Breathing Rainbow";
-    BreathingRainbow.value = XPG_SPECTRIX_S40G_MODE_BREATHING_RAINBOW;
-    BreathingRainbow.flags = MODE_FLAG_HAS_SPEED;
-    BreathingRainbow.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    BreathingRainbow.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    BreathingRainbow.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    BreathingRainbow.color_mode = MODE_COLORS_NONE;
-    modes.push_back(BreathingRainbow);
+    mode ChaseFade;
+    ChaseFade.name       = "Chase Fade";
+    ChaseFade.value      = AURA_MODE_CHASE_FADE;
+    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    ChaseFade.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(ChaseFade);
 
-    // mode Comet;
-    // Comet.name = "Comet";
-    // Comet.value = XPG_SPECTRIX_S40G_MODE_COMET;
-    // Comet.flags =  MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    // Comet.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    // Comet.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    // Comet.colors_min = 1;
-    // Comet.colors_max = 1;
-    // Comet.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    // Comet.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    // Comet.colors.resize(1);
-    // modes.push_back(Comet);
+    mode Chase;
+    Chase.name       = "Chase";
+    Chase.value      = AURA_MODE_CHASE;
+    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Chase.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Chase);
 
-    mode CometRainbow;
-    CometRainbow.name = "Comet Rainbow";
-    CometRainbow.value = XPG_SPECTRIX_S40G_MODE_COMET_RAINBOW;
-    CometRainbow.flags = MODE_FLAG_HAS_SPEED;
-    CometRainbow.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    CometRainbow.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    CometRainbow.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    CometRainbow.color_mode = MODE_COLORS_NONE;
-    modes.push_back(CometRainbow);
-
-    // mode Flash;
-    // Flash.name = "Flash";
-    // Flash.value = XPG_SPECTRIX_S40G_MODE_FLASH;
-
-    // TODO not functioning properly
-    // mode FlashRainbow;
-    // FlashRainbow.name = "Flash Rainbow";
-    // FlashRainbow.value = XPG_SPECTRIX_S40G_MODE_FLASH_RAINBOW;
-    // FlashRainbow.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    // FlashRainbow.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    // FlashRainbow.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    // FlashRainbow.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    // FlashRainbow.direction = MODE_DIRECTION_RIGHT;
-    // FlashRainbow.color_mode = MODE_COLORS_NONE;
-    // modes.push_back(FlashRainbow);
-
-    // TODO not functioning properly
-    // mode Wave;
-    // Wave.name = "Wave";
-    // Wave.value = XPG_SPECTRIX_S40G_MODE_WAVE;
-    // Wave.flags = MODE_FLAG_HAS_SPEED;
-    // Wave.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    // Wave.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    // Wave.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    // Wave.color_mode = MODE_COLORS_NONE;
-    // modes.push_back(Wave);
-
-    // TODO not functioning properly
-    // mode GlowingYoyo;
-    // GlowingYoyo.name = "Glowing Yoyo";
-    // GlowingYoyo.value = XPG_SPECTRIX_S40G_MODE_YOYO;
-    // GlowingYoyo.flags = MODE_FLAG_HAS_SPEED;
-    // GlowingYoyo.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    // GlowingYoyo.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    // GlowingYoyo.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    // GlowingYoyo.color_mode = MODE_COLORS_NONE;
-    // modes.push_back(GlowingYoyo);
-
-    // TODO not functioning properly
-    // mode StarryNight;
-    // StarryNight.name = "Starry Night";
-    // StarryNight.value = XPG_SPECTRIX_S40G_MODE_STARRY_NIGHT;
-    // StarryNight.flags = MODE_FLAG_HAS_SPEED;
-    // StarryNight.speed_min = XPG_SPECTRIX_S40G_SPEED_SLOWEST;
-    // StarryNight.speed_max = XPG_SPECTRIX_S40G_SPEED_FASTEST;
-    // StarryNight.speed = XPG_SPECTRIX_S40G_SPEED_NORMAL;
-    // StarryNight.color_mode = MODE_COLORS_NONE;
-    // modes.push_back(StarryNight);
+    mode RandomFlicker;
+    RandomFlicker.name       = "Random Flicker";
+    RandomFlicker.value      = AURA_MODE_RANDOM_FLICKER;
+    RandomFlicker.flags      = 0;
+    RandomFlicker.color_mode = MODE_COLORS_NONE;
+    modes.push_back(RandomFlicker);
 
     SetupZones();
 }
 
 RGBController_XPGSpectrixS40G::~RGBController_XPGSpectrixS40G()
 {
-    delete xpg;
+    delete aura;
 }
 
 void RGBController_XPGSpectrixS40G::SetupZones()
 {
-    zone new_zone;
-    new_zone.name = "XPG Spectrix S40G Zone";
-    new_zone.type = ZONE_TYPE_LINEAR;
-    new_zone.leds_min       = xpg->GetLEDCount();
-    new_zone.leds_max       = xpg->GetLEDCount();
-    new_zone.leds_count     = xpg->GetLEDCount();
-    new_zone.matrix_map     = NULL;
-    zones.push_back(new_zone);
+    std::vector<int>    aura_led_map;
 
-    for(std::size_t led_indx = 0; led_indx < zones[0].leds_count; led_indx++) 
+    /*---------------------------------------------------------*\
+    | Search through all LEDs and create zones for each channel |
+    | type                                                      |
+    \*---------------------------------------------------------*/
+    for (std::size_t led_idx = 0; led_idx < aura->GetLEDCount(); led_idx++)
     {
-        led* new_led = new led();
-        new_led->name = "XPG Spectrix LED ";
-        new_led->name.append(std::to_string(led_indx));
-        leds.push_back(*new_led);
+        bool matched = false;
+
+        /*---------------------------------------------------------*\
+        | Search through existing zones to make sure we don't       |
+        | create a duplicate zone                                   |
+        \*---------------------------------------------------------*/
+        for (std::size_t existing_zone_idx = 0; existing_zone_idx < zones.size(); existing_zone_idx++)
+        {
+            if (aura->GetChannelName(led_idx) == zones[existing_zone_idx].name)
+            {
+                matched = true;
+            }
+        }
+
+        /*---------------------------------------------------------*\
+        | If zone does not already exist, create it                 |
+        \*---------------------------------------------------------*/
+        if (matched == false)
+        {
+            zone* new_zone = new zone();
+
+            /*---------------------------------------------------------*\
+            | Set zone name to channel name                             |
+            \*---------------------------------------------------------*/
+            new_zone->name = aura->GetChannelName(led_idx);
+
+            new_zone->leds_count = 0;
+
+            /*---------------------------------------------------------*\
+            | Find all LEDs with this channel type and add them to zone |
+            \*---------------------------------------------------------*/
+            for (std::size_t zone_led_idx = 0; zone_led_idx < aura->GetLEDCount(); zone_led_idx++)
+            {
+                if (aura->GetChannelName(zone_led_idx) == new_zone->name)
+                {
+                    new_zone->leds_count++;
+                    aura_led_map.push_back(zone_led_idx);
+                }
+            }
+
+            /*---------------------------------------------------------*\
+            | Aura zones have fixed size, so set min and max to count   |
+            \*---------------------------------------------------------*/
+            new_zone->leds_min = new_zone->leds_count;
+            new_zone->leds_max = new_zone->leds_count;
+
+            /*---------------------------------------------------------*\
+            | If this zone has more than one LED, mark it as linear type|
+            \*---------------------------------------------------------*/
+            if(new_zone->leds_count > 1)
+            {
+                new_zone->type = ZONE_TYPE_LINEAR;
+            }
+            else
+            {
+                new_zone->type = ZONE_TYPE_SINGLE;
+            }
+
+            new_zone->matrix_map = NULL;
+
+            /*---------------------------------------------------------*\
+            | Push new zone to zones vector                             |
+            \*---------------------------------------------------------*/
+            zones.push_back(*new_zone);
+        }
+    }
+
+    /*---------------------------------------------------------*\
+    | Create LED entries for each zone                          |
+    \*---------------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            led* new_led = new led();
+
+            new_led->name = zones[zone_idx].name + " LED ";
+            new_led->name.append(std::to_string(led_idx + 1));
+
+            new_led->value = aura_led_map[led_idx];
+
+            leds.push_back(*new_led);
+        }
     }
 
     SetupColors();
+
+    /*---------------------------------------------------------*\
+    | Initialize colors for each LED                            |
+    \*---------------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        unsigned int  led = leds[led_idx].value;
+        unsigned char red = aura->GetLEDRed(led);
+        unsigned char grn = aura->GetLEDGreen(led);
+        unsigned char blu = aura->GetLEDBlue(led);
+
+        colors[led_idx] = ToRGBColor(red, grn, blu);
+    }
 }
 
 void RGBController_XPGSpectrixS40G::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -183,151 +274,38 @@ void RGBController_XPGSpectrixS40G::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_XPGSpectrixS40G::DeviceUpdateLEDs() {
-    for (std::size_t led = 0; led < colors.size(); led++)
-    {
-        RGBColor      color = colors[led];
-        uint8_t red   = RGBGetRValue(color);
-        uint8_t grn   = RGBGetGValue(color);
-        uint8_t blu   = RGBGetBValue(color);
-        
-        xpg->SetLEDColor(led, red, grn, blu);
-    }
-
-    xpg->ApplyColors();
-}
-
-void RGBController_XPGSpectrixS40G::UpdateZoneLEDs(int /*zone*/)
-{
-    DeviceUpdateLEDs();
-}
-
-void RGBController_XPGSpectrixS40G::UpdateSingleLED(int led)
-{
-    RGBColor      color = colors[led];
-    uint8_t red   = RGBGetRValue(color);
-    uint8_t grn   = RGBGetGValue(color);
-    uint8_t blu   = RGBGetBValue(color);
-
-    xpg->SetLEDColor(led, red, grn, blu);
-    xpg->ApplyColors();
-}
-
-void RGBController_XPGSpectrixS40G::SetCustomMode() // TODO
+void RGBController_XPGSpectrixS40G::SetCustomMode()
 {
     active_mode = 0;
 }
 
 void RGBController_XPGSpectrixS40G::DeviceUpdateMode()
 {
-    uint8_t direction = 0;
-    uint8_t speed = 0x0;
-    uint8_t mode_colors[3];
-
-    switch(modes[active_mode].direction)
+    if (modes[active_mode].value == 0xFFFF)
     {
-        case MODE_DIRECTION_RIGHT:
-            direction = XPG_SPECTRIX_S40G_DIRECTION_DEFAULT;
-            break;
-        case MODE_DIRECTION_LEFT:
-            direction = XPG_SPECTRIX_S40G_DIRECTION_REVERSE;
-            break;
-        default:
-            direction = 0x00;
+        aura->SetDirect(true);
     }
-
-    switch(modes[active_mode].speed)
+    else
     {
-        case XPG_SPECTRIX_S40G_SPEED_SLOWEST:
-            speed = 0xFF;
-            break;
-        case XPG_SPECTRIX_S40G_SPEED_SLOW:
-            speed = 0xFE;
-            break;
-        case XPG_SPECTRIX_S40G_SPEED_NORMAL:
-            speed = 0x00;
-            break;
-        case XPG_SPECTRIX_S40G_SPEED_FAST:
-            speed = 0x01;
-            break;
-        case XPG_SPECTRIX_S40G_SPEED_FASTEST:
-            speed = 0x02;
-            break;
-        default:
-            speed = 0x00;
-    }
+        int new_mode = modes[active_mode].value;
 
-    mode_colors[0] = 0;
-    mode_colors[1] = 0;
-    mode_colors[2] = 0;
+        if(modes[active_mode].color_mode == MODE_COLORS_RANDOM)
+        {
+            switch(new_mode)
+            {
+            case AURA_MODE_CHASE:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE;
+                break;
+            case AURA_MODE_BREATHING:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_BREATHING;
+                break;
+            case AURA_MODE_CHASE_FADE:
+                new_mode = AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE;
+                break;
+            }
+        }
 
-    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
-    {
-        mode_colors[0] = RGBGetRValue(modes[active_mode].colors[0]);
-        mode_colors[1] = RGBGetGValue(modes[active_mode].colors[0]);
-        mode_colors[2] = RGBGetBValue(modes[active_mode].colors[0]);
+        aura->SetMode(new_mode);
+        aura->SetDirect(false);
     }
-
-    xpg->SetDirection(0x00);
-    xpg->SetSpeed(0x00);
-    switch(modes[active_mode].value)
-    {
-        case XPG_SPECTRIX_S40G_MODE_STATIC:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_STATIC);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_BREATHING:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_BREATHING);
-            xpg->SetSpeed(speed);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_STROBING:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_STROBING);
-            xpg->SetSpeed(speed);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_CYCLE:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_CYCLE);
-            xpg->SetSpeed(speed);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_RAINBOW:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_RAINBOW);
-            xpg->SetSpeed(speed);
-            xpg->SetDirection(direction);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_BREATHING_RAINBOW:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_BREATHING_RAINBOW);
-            xpg->SetSpeed(speed);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_COMET:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_COMET);
-            xpg->SetSpeed(speed);
-            xpg->SetAllColors(mode_colors[0], mode_colors[1], mode_colors[2]);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_COMET_RAINBOW:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_COMET_RAINBOW);
-            xpg->SetSpeed(speed);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_FLASH:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_FLASH);
-            xpg->SetSpeed(speed);
-            xpg->SetDirection(direction);
-            xpg->SetAllColors(mode_colors[0], mode_colors[1], mode_colors[2]);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_FLASH_RAINBOW:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_FLASH_RAINBOW);
-            xpg->SetSpeed(speed);
-            xpg->SetDirection(direction);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_WAVE:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_WAVE);
-            xpg->SetSpeed(speed);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_YOYO:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_YOYO);
-            xpg->SetSpeed(speed);
-            break;
-        case XPG_SPECTRIX_S40G_MODE_STARRY_NIGHT:
-            xpg->SetMode(XPG_SPECTRIX_S40G_MODE_STARRY_NIGHT);
-            xpg->SetSpeed(speed);
-            break;
-    }
-    xpg->ApplyColors();
 }
