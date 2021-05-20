@@ -7,6 +7,8 @@
 |  Adam Honse (CalcProgrammer1) 8/19/2018   |
 \*-----------------------------------------*/
 
+#include "RGBController.h"
+
 #include <string>
 #include "i2c_smbus.h"
 
@@ -87,8 +89,8 @@ public:
     unsigned char GetLEDRed(unsigned int led);
     unsigned char GetLEDGreen(unsigned int led);
     unsigned char GetLEDBlue(unsigned int led);
-    void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
-    void          SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue);
+    void          SetAllColorsDirect(RGBColor* colors);
+    void          SetAllColorsEffect(RGBColor* colors);
     void          SetDirect(unsigned char direct);
     void          SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void          SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
