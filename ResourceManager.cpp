@@ -44,18 +44,6 @@ ResourceManager::ResourceManager()
     DetectDevicesThread   = nullptr;
 
     /*-------------------------------------------------------------------------*\
-    | Initialize Server Instance                                                |
-    \*-------------------------------------------------------------------------*/
-    server = new NetworkServer(rgb_controllers_hw);
-
-    /*-------------------------------------------------------------------------*\
-    | Load sizes list from file                                                 |
-    \*-------------------------------------------------------------------------*/
-    profile_manager         = new ProfileManager(GetConfigurationDirectory());
-    server->SetProfileManager(profile_manager);
-    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
-
-    /*-------------------------------------------------------------------------*\
     | Load settings from file                                                   |
     \*-------------------------------------------------------------------------*/
     settings_manager        = new SettingsManager();
@@ -65,6 +53,35 @@ ResourceManager::ResourceManager()
     | Configure the log manager                                                 |
     \*-------------------------------------------------------------------------*/
     LogManager::get()->configure(settings_manager->GetSettings("Client"), GetConfigurationDirectory());
+
+    /*-------------------------------------------------------------------------*\
+    | Initialize Server Instance                                                |
+    |   If configured, pass through full controller list including clients      |
+    |   Otherwise, pass only local hardware controllers                         |
+    \*-------------------------------------------------------------------------*/
+    json server_settings    = settings_manager->GetSettings("Server");
+    bool all_controllers    = false;
+
+    if(server_settings.contains("all_controllers"))
+    {
+        all_controllers     = server_settings["all_controllers"];
+    }
+
+    if(all_controllers)
+    {
+        server              = new NetworkServer(rgb_controllers);
+    }
+    else
+    {
+        server              = new NetworkServer(rgb_controllers_hw);
+    }
+
+    /*-------------------------------------------------------------------------*\
+    | Load sizes list from file                                                 |
+    \*-------------------------------------------------------------------------*/
+    profile_manager         = new ProfileManager(GetConfigurationDirectory());
+    server->SetProfileManager(profile_manager);
+    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
 }
 
 ResourceManager::~ResourceManager()
