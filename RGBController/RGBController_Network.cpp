@@ -78,3 +78,17 @@ void RGBController_Network::DeviceUpdateMode()
 
     delete[] data;
 }
+
+/*-----------------------------------------------------*\
+| This function overrides RGBController::UpdateLEDs()!  |
+| Normally, UpdateLEDs() sets a flag for the updater    |
+| thread to update the device asynchronously, which     |
+| prevents delays updating local devices.  This causes  |
+| instability and flickering with network devices though|
+| so for the network implementation, process all updates|
+| synchronously.                                        |
+\*-----------------------------------------------------*/
+void RGBController_Network::UpdateLEDs()
+{
+    DeviceUpdateLEDs();
+}

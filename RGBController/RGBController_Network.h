@@ -27,6 +27,8 @@ public:
     void        SetCustomMode();
     void        DeviceUpdateMode();
 
+    void        UpdateLEDs();
+
 private:
     NetworkClient *     client;
     unsigned int        dev_idx;
