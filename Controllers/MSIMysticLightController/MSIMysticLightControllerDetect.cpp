@@ -3,6 +3,7 @@
 #include "MSIMysticLight185Controller.h"
 #include "RGBController_MSIMysticLight162.h"
 #include "RGBController_MSIMysticLight185.h"
+#include "dependencies/dmiinfo.h"
 
 #define MSI_USB_VID 0x1462
 
@@ -29,9 +30,10 @@ void DetectMSIMysticLight162Controllers(hid_device_info* info, const std::string
 
     if( dev )
     {
+        DMIInfo dmi;
         MSIMysticLight162Controller*     controller     = new MSIMysticLight162Controller(dev, info->path);
         RGBController_MSIMysticLight162* rgb_controller = new RGBController_MSIMysticLight162(controller);
-
+        rgb_controller->name = "MSI " + dmi.getMainboard();
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMSIMysticLight162Controllers() */
@@ -50,9 +52,10 @@ void DetectMSIMysticLight185Controllers(hid_device_info* info, const std::string
 
     if( dev )
     {
+        DMIInfo dmi;
         MSIMysticLight185Controller*     controller     = new MSIMysticLight185Controller(dev, info->path);
         RGBController_MSIMysticLight185* rgb_controller = new RGBController_MSIMysticLight185(controller);
-
+        rgb_controller->name = "MSI " + dmi.getMainboard();
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMSIMysticLight185Controllers() */
