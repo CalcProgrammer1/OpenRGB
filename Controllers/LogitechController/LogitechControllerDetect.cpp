@@ -417,7 +417,7 @@ void DetectLogitechMouseGLS(hid_device_info* info, const std::string& name)
         /*---------------------------------------------*\
         | Add Powerplay mousemat                        |
         \*---------------------------------------------*/
-        LogitechGLightsyncController*     mousemat_controller     = new LogitechGLightsyncController(dev, dev, info->path, 0x01, 0x07, 0x3C);
+        LogitechGLightsyncController*     mousemat_controller     = new LogitechGLightsyncController(dev, dev, info->path, 0x07, 0x0B, 0x3C);
         RGBController_LogitechGPowerPlay* mousemat_rgb_controller = new RGBController_LogitechGPowerPlay(mousemat_controller);
         mousemat_rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(mousemat_rgb_controller);
