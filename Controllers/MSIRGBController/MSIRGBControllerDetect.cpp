@@ -106,7 +106,7 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
                 {
                     MSIRGBController*     new_msi = new MSIRGBController(sioaddr, compatible_devices[i].invert);
                     RGBController_MSIRGB* new_rgb = new RGBController_MSIRGB(new_msi);
-
+                    new_rgb->name = "MSI " + board_dmi;
                     rgb_controllers.push_back(new_rgb);
                     break;
                 }
