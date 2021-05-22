@@ -293,9 +293,13 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
 RGBController_E131::~RGBController_E131()
 {
-    keepalive_thread_run = 0;
-    keepalive_thread->join();
-    delete keepalive_thread;
+    if(keepalive_thread != nullptr)
+    {
+        keepalive_thread_run = 0;
+        keepalive_thread->join();
+        delete keepalive_thread;
+    }
+
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
     \*---------------------------------------------------------*/
