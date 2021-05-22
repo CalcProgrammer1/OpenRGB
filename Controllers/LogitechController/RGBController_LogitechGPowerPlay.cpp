@@ -97,7 +97,6 @@ void RGBController_LogitechGPowerPlay::ResizeZone(int /*zone*/, int /*new_size*/
 void RGBController_LogitechGPowerPlay::DeviceUpdateLEDs()
 {
     UpdateZoneLEDs(0);
-    UpdateZoneLEDs(1);
 }
 
 void RGBController_LogitechGPowerPlay::UpdateZoneLEDs(int zone)
