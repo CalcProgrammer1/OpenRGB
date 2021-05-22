@@ -338,10 +338,12 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesRivalController.h                              \
     Controllers/SteelSeriesController/SteelSeriesSenseiController.h                             \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h                            \
+    Controllers/SteelSeriesController/SteelSeriesQCKMatController.h                             \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.h                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.h                          \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSiberia.h                        \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesQCKMat.h                         \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSensei.h                         \
     Controllers/TecknetController/TecknetController.h                                           \
     Controllers/TecknetController/RGBController_Tecknet.h                                       \
@@ -621,12 +623,14 @@ SOURCES +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesSenseiController.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp                          \
+    Controllers/SteelSeriesController/SteelSeriesQCKMatController.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.cpp                         \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.cpp                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSensei.cpp                       \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSiberia.cpp                      \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesQCKMat.cpp                       \
     Controllers/TecknetController/TecknetController.cpp                                         \
     Controllers/TecknetController/TecknetControllerDetect.cpp                                   \
     Controllers/TecknetController/RGBController_Tecknet.cpp                                     \

@@ -680,6 +680,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="054c", ATTR{idProduct}=="0ba0", TAG+="uacces
 #       SteelSeries Apex M750                                   #
 #       SteelSeries Apex OG                                     #
 #       SteelSeries Apex 350                                    #
+#  Mousemats:                                                   #
+#       SteelSeries QCK Prism Cloth                             #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1702", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="170c", TAG+="uaccess"
@@ -709,6 +711,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1614", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="0616", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1202", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1206", TAG+="uaccess"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="150d", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Tecknet Devices                                              #

@@ -1,6 +1,7 @@
 #include "Detector.h"
 #include "SteelSeriesRivalController.h"
 #include "SteelSeriesSiberiaController.h"
+#include "SteelSeriesQCKMatController.h"
 #include "SteelSeriesApexController.h"
 #include "SteelSeriesOldApexController.h"
 #include "SteelSeriesApexMController.h"
@@ -9,6 +10,7 @@
 #include "RGBController.h"
 #include "RGBController_SteelSeriesRival.h"
 #include "RGBController_SteelSeriesSiberia.h"
+#include "RGBController_SteelSeriesQCKMat.h"
 #include "RGBController_SteelSeriesApex.h"
 #include "RGBController_SteelSeriesOldApex.h"
 #include "RGBController_SteelSeriesSensei.h"
@@ -43,6 +45,10 @@
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
 #define STEELSERIES_SIBERIA_350_PID                 0x1229
+/*-----------------------------------------------------*\
+| Mousemat product IDs                                  |
+\*-----------------------------------------------------*/
+#define STEELSERIES_QCK_PRISM_CLOTH                 0x150D
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
@@ -115,6 +121,18 @@ void DetectSteelSeriesHeadset(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectSteelSeriesMousemat(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        SteelSeriesQCKMatController* controller = new SteelSeriesQCKMatController(dev, info->path);
+        RGBController_SteelSeriesQCKMat* rgb_controller = new RGBController_SteelSeriesQCKMat(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectSteelSeriesRival100(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -176,6 +194,10 @@ REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                           Dete
 | Headsets                                                                                                                                                              |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_I("SteelSeries Siberia 350",                          DetectSteelSeriesHeadset,   STEELSERIES_VID, STEELSERIES_SIBERIA_350_PID,               3  );
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Mousemats                                                                                                                                                             |
+\*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth",                      DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH,               0  );
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                                             |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
