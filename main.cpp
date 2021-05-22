@@ -126,7 +126,7 @@ bool AttemptLocalConnection()
     }
     else
     {
-        ResourceManager::get()->GetClients().push_back(client);
+        ResourceManager::get()->RegisterNetworkClient(client);
 
         success = true;
     }
