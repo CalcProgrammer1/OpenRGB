@@ -13,12 +13,12 @@
 #define NA  0xFFFFFFFF
 
 static unsigned int matrix_map[6][22] =
-    { {   0,  NA,  12,  17,  22,  27,  37,  42,  48,  53,  59,  64,  67,  68,  NA,  74,  78,  83,  NA,  NA,  NA,  NA },
-      {   1,   7,  13,  18,  23,  28,  33,  38,  43,  49,  54,  60,  65,  69,  NA,  75,  79,  84,  87,  92,  96, 101 },
-      {   2,  NA,   8,  14,  19,  24,  29,  34,  39,  44,  50,  55,  61,  66,  70,  76,  80,  85,  88,  93,  97, 102 },
-      {   3,  NA,   9,  15,  20,  25,  30,  35,  40,  45,  51,  56,  62,  71,  NA,  NA,  NA,  NA,  89,  94,  98,  NA },
-      {   4,  NA,  10,  16,  21,  26,  31,  36,  41,  46,  52,  57,  NA,  NA,  72,  NA,  81,  NA,  90,  95,  99, 103 },
-      {   5,   6,  11,  NA,  NA,  NA,  NA,  32,  NA,  47,  NA,  58,  63,  73,  NA,  77,  82,  86,  91,  NA, 100,  NA } };
+    { {   0,  NA,  13,  18,  23,  28,  38,  43,  49,  54,  60,  65,  69,  70,  NA,  76,  80,  85,  NA,  NA,  NA,  NA },
+      {   1,   8,  14,  19,  24,  29,  34,  39,  44,  50,  55,  61,  66,  71,  NA,  77,  81,  86,  89,  94,  98, 103 },
+      {   2,  NA,   9,  15,  20,  25,  30,  35,  40,  45,  51,  56,  62,  67,  72,  78,  82,  87,  90,  95,  99, 104 },
+      {   3,  NA,  10,  16,  21,  26,  31,  36,  41,  46,  52,  57,  63,  68,  73,  NA,  NA,  NA,  91,  96, 100,  NA },
+      {   4,   6,  11,  17,  22,  27,  32,  37,  42,  47,  53,  58,  NA,  NA,  74,  NA,  83,  NA,  92,  97, 101, 105 },
+      {   5,   7,  12,  NA,  NA,  NA,  NA,  33,  NA,  48,  NA,  59,  64,  75,  NA,  79,  84,  88,  93,  NA, 102,  NA } };
 
 static const char* zone_names[] =
 {
@@ -36,7 +36,7 @@ static zone_type zone_types[] =
 
 static const unsigned int zone_sizes[] =
 {
-    104,
+    106,
     1,
     2,
 };
@@ -56,6 +56,7 @@ static const led_type led_names[] =
     { "Key: Caps Lock",         0x03    },
     { "Key: Left Shift",        0x04    },
     { "Key: Left Control",      0x05    },
+    { "Key: \\ (ISO)",          0x0C    },
     { "Key: Left Windows",      0x0D    },
     { "Key: 1",                 0x11    },
     { "Key: Q",                 0x12    },
@@ -117,6 +118,7 @@ static const led_type led_names[] =
     { "Key: F10",               0x68    },
     { "Key: =",                 0x69    },
     { "Key: ]",                 0x6A    },
+    { "Key: #",                 0x6B    },
     { "Key: F11",               0x70    },
     { "Key: F12",               0x78    },
     { "Key: Backspace",         0x79    },
@@ -237,7 +239,7 @@ void RGBController_AuraKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AuraKeyboard::DeviceUpdateLEDs()
 {
-unsigned char frame_buf[107 * 4];
+unsigned char frame_buf[109 * 4];
 
 /*---------------------------------------------------------*\
 | TODO: Send packets with multiple LED frames               |
@@ -250,7 +252,7 @@ for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     frame_buf[(led_idx * 4) + 3] = RGBGetBValue(colors[led_idx]);
 }
 
-aura->SendDirect(107, frame_buf);
+aura->SendDirect(109, frame_buf);
 }
 
 void RGBController_AuraKeyboard::UpdateZoneLEDs(int /*zone*/)
