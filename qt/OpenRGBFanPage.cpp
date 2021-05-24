@@ -54,6 +54,11 @@ OpenRGBFanPage::OpenRGBFanPage(FanController *dev, QWidget *parent) :
         ui->SpeedSlider->setValue(device->fans[i].speed_cmd);
         ui->RPMValue->setText(QString::number(device->fans[i].rpm_rdg));
     }
+
+    /*-----------------------------------------------------*\
+    | Set to current values                                 |
+    \*-----------------------------------------------------*/
+    on_FanBox_currentIndexChanged(0);
 }
 
 OpenRGBFanPage::~OpenRGBFanPage()
