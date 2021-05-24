@@ -474,15 +474,6 @@ void ResourceManager::Cleanup()
         delete rgb_controller;
     }
 
-    std::vector<i2c_smbus_interface *> busses_copy = busses;
-
-    busses.clear();
-
-    for(i2c_smbus_interface* bus : busses_copy)
-    {
-        delete bus;
-    }
-
     /*-------------------------------------------------*\
     | Cleanup HID interface                             |
     \*-------------------------------------------------*/
@@ -645,14 +636,18 @@ void ResourceManager::DetectDevicesThreadFunction()
     detection_percent = 0;
 
     /*-------------------------------------------------*\
-    | Detect i2c interfaces                             |
+    | Detect i2c interfaces - only perform on first     |
+    | detection                                         |
     \*-------------------------------------------------*/
-    LOG_NOTICE("Detecting I2C interfaces");
-
-    for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
+    if(busses.empty())
     {
-        i2c_bus_detectors[i2c_bus_detector_idx]();
-        I2CBusListChanged();
+        LOG_NOTICE("Detecting I2C interfaces");
+
+        for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
+        {
+            i2c_bus_detectors[i2c_bus_detector_idx]();
+            I2CBusListChanged();
+        }
     }
 
     /*-------------------------------------------------*\

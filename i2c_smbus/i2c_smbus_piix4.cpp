@@ -201,6 +201,7 @@ void i2c_smbus_piix4_detect()
 
     if (hres)
     {
+        LOG_NOTICE("WMI query failed, piix4 I2C bus detection aborted");
         return;
     }
 

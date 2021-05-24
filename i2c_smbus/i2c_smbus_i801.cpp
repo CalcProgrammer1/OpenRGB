@@ -507,6 +507,7 @@ void i2c_smbus_i801_detect()
 
     if (hres)
     {
+        LOG_NOTICE("WMI query failed, i801 I2C bus detection aborted");
         return;
     }
 
