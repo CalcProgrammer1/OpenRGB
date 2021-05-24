@@ -425,6 +425,11 @@ SettingsManager* ResourceManager::GetSettingsManager()
     return(settings_manager);
 }
 
+bool ResourceManager::GetDetectionEnabled()
+{
+    return(detection_enabled);
+}
+
 unsigned int ResourceManager::GetDetectionPercent()
 {
     return (detection_percent.load());

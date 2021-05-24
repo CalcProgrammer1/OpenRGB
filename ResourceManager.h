@@ -118,6 +118,7 @@ public:
     void RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg);
     void RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg);
 
+    bool         GetDetectionEnabled();
     unsigned int GetDetectionPercent();
     const char*  GetDetectionString();
 

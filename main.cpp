@@ -241,7 +241,11 @@ int main(int argc, char* argv[])
     \*---------------------------------------------------------*/
     if(!(ret_flags & RET_FLAG_NO_DETECT))
     {
-        printf("Running standalone.\r\n");
+        if(ResourceManager::get()->GetDetectionEnabled())
+        {
+            printf("Running standalone.\r\n");
+        }
+        
         ResourceManager::get()->DetectDevices();
     }
 
