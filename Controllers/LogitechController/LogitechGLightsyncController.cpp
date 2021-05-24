@@ -19,6 +19,18 @@ LogitechGLightsyncController::LogitechGLightsyncController(hid_device* dev_cmd_h
     dev_index       = hid_dev_index;
     feature_index   = hid_feature_index;
     fctn_ase_id     = hid_fctn_ase_id;
+    mutex           = nullptr;
+}
+
+LogitechGLightsyncController::LogitechGLightsyncController(hid_device* dev_cmd_handle, hid_device *dev_handle, const char *path, unsigned char hid_dev_index, unsigned char hid_feature_index, unsigned char hid_fctn_ase_id, std::shared_ptr<std::mutex> mutex_ptr)
+{
+    dev             = dev_handle;
+    cmd_dev         = dev_cmd_handle;
+    location        = path;
+    dev_index       = hid_dev_index;
+    feature_index   = hid_feature_index;
+    fctn_ase_id     = hid_fctn_ase_id;
+    mutex           = mutex_ptr;
 }
 
 LogitechGLightsyncController::~LogitechGLightsyncController()
@@ -94,15 +106,30 @@ void LogitechGLightsyncController::UpdateMouseLED(
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
+    | This code has to be protected to avoid crashes when   |
+    | this is called at the same time to change a powerplay |
+    | mat and its paired wireless mouse leds. It will       |
+    | happen when using effects engines with high framerate |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 20);
-    hid_read(dev, usb_buf, 20);
+    if(mutex)
+    {
+        std::lock_guard<std::mutex> guard(*mutex);
+
+        hid_write(dev, usb_buf, 20);
+        hid_read(dev, usb_buf, 20);
+    }
+    else
+    {
+        hid_write(dev, usb_buf, 20);
+        hid_read(dev, usb_buf, 20);
+    }
 }
 
 void LogitechGLightsyncController::SetDirectMode(bool direct)
 {
     char cmd_buf[7];
     char usb_buf[20];
+
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
@@ -117,6 +144,7 @@ void LogitechGLightsyncController::SetDirectMode(bool direct)
     cmd_buf[0x03]       = 0x8A;
     cmd_buf[0x04]       = 0x00;
     cmd_buf[0x05]       = 0x00;
+
     /*-----------------------------------------------------*\
     | If direct, disable save to flash                      |
     \*-----------------------------------------------------*/
@@ -125,9 +153,24 @@ void LogitechGLightsyncController::SetDirectMode(bool direct)
         cmd_buf[0x04]       = 0x01;
         cmd_buf[0x05]       = 0x01;
     }
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
+    | This code has to be protected to avoid crashes when   |
+    | this is called at the same time to change a powerplay |
+    | mat and its paired wireless mouse leds. It will       |
+    | happen when using effects engines with high framerate |
     \*-----------------------------------------------------*/
-    hid_write(cmd_dev, (unsigned char *)cmd_buf, 7);
-    hid_read(dev, (unsigned char *)usb_buf, 20);
+    if(mutex)
+    {
+        std::lock_guard<std::mutex> guard(*mutex);
+
+        hid_write(cmd_dev, (unsigned char *)cmd_buf, 7);
+        hid_read(dev, (unsigned char *)usb_buf, 20);
+    }
+    else
+    {
+        hid_write(cmd_dev, (unsigned char *)cmd_buf, 7);
+        hid_read(dev, (unsigned char *)usb_buf, 20);
+    }
 }

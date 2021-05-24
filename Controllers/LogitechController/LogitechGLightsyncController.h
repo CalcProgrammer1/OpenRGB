@@ -43,6 +43,15 @@ public:
             unsigned char hid_dev_index, 
             unsigned char hid_feature_index, 
             unsigned char hid_fctn_ase_id);
+    LogitechGLightsyncController(
+            hid_device* dev_cmd_handle,
+            hid_device* dev_handle,
+            const char* path,
+            unsigned char hid_dev_index,
+            unsigned char hid_feature_index,
+            unsigned char hid_fctn_ase_id,
+            std::shared_ptr<std::mutex> mutex_ptr);
+
     ~LogitechGLightsyncController();
 
     std::string GetDeviceLocation();
@@ -61,11 +70,12 @@ public:
     void        SetDirectMode(bool direct);
 
 private:
-    hid_device*             dev;
-    hid_device*             cmd_dev;
-    std::string             location;
-    unsigned char           dev_index;
-    unsigned char           feature_index;
-    unsigned char           fctn_ase_id;
-    bool                    direct_state;
+    hid_device*                 dev;
+    hid_device*                 cmd_dev;
+    std::string                 location;
+    unsigned char               dev_index;
+    unsigned char               feature_index;
+    unsigned char               fctn_ase_id;
+    bool                        direct_state;
+    std::shared_ptr<std::mutex> mutex;
 };
