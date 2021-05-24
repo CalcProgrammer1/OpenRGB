@@ -157,6 +157,7 @@ HEADERS +=                                                                      
     qt/OpenRGBPluginContainer.h                                                                 \
     qt/OpenRGBProfileSaveDialog.h                                                               \
     qt/OpenRGBServerInfoPage.h                                                                  \
+    qt/OpenRGBSettingsPage.h                                                                    \
     qt/OpenRGBSoftwareInfoPage.h                                                                \
     qt/OpenRGBSupportedDevicesPage.h                                                            \
     qt/OpenRGBSystemInfoPage.h                                                                  \
@@ -392,6 +393,7 @@ SOURCES +=                                                                      
     qt/OpenRGBPluginContainer.cpp                                                               \
     qt/OpenRGBProfileSaveDialog.cpp                                                             \
     qt/OpenRGBServerInfoPage.cpp                                                                \
+    qt/OpenRGBSettingsPage.cpp                                                                  \
     qt/OpenRGBSoftwareInfoPage.cpp                                                              \
     qt/OpenRGBSupportedDevicesPage.cpp                                                          \
     qt/OpenRGBSystemInfoPage.cpp                                                                \
@@ -668,9 +670,10 @@ FORMS +=                                                                        
     qt/OpenRGBDevicePage.ui                                                                     \
     qt/OpenRGBDialog.ui                                                                         \
     qt/OpenRGBDialog2.ui                                                                        \
-    qt/OpenRGBPluginContainer.ui \
+    qt/OpenRGBPluginContainer.ui                                                                \
     qt/OpenRGBProfileSaveDialog.ui                                                              \
     qt/OpenRGBServerInfoPage.ui                                                                 \
+    qt/OpenRGBSettingsPage.ui                                                                   \
     qt/OpenRGBSoftwareInfoPage.ui                                                               \
     qt/OpenRGBSupportedDevicesPage.ui                                                           \
     qt/OpenRGBSystemInfoPage.ui                                                                 \

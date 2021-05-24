@@ -38,5 +38,7 @@
         <file>speaker_dark.png</file>
         <file>virtual.png</file>
         <file>virtual_dark.png</file>
+        <file>settings.png</file>
+        <file>settings_dark.png</file>
     </qresource>
 </RCC>

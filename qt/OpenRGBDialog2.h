@@ -7,6 +7,7 @@
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBSupportedDevicesPage.h"
+#include "OpenRGBSettingsPage.h"
 #include "PluginManager.h"
 
 #include <vector>
@@ -42,6 +43,7 @@ public:
     void setMode(unsigned char mode_val);
 
     static bool IsDarkTheme();
+    static bool IsMinimizeOnClose();
 
 private:
     /*-------------------------------------*\
@@ -51,13 +53,13 @@ private:
     OpenRGBSystemInfoPage *SMBusToolsPage;
     OpenRGBSoftwareInfoPage *SoftInfoPage;
     OpenRGBSupportedDevicesPage *SupportedPage;
+    OpenRGBSettingsPage *SettingsPage;
 
     bool ShowI2CTools = false;
 
     /*-------------------------------------*\
     | System tray icon and menu             |
     \*-------------------------------------*/
-    bool MinimizeToTray;
     QSystemTrayIcon* trayIcon;
     QMenu* profileMenu;
 
@@ -68,6 +70,7 @@ private:
 
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();
+    void AddSettingsPage();
     void AddPluginTab(PluginManager* plugin_manager,int plugin_index);
 
     void ClearDevicesList();

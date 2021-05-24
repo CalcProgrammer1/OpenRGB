@@ -150,6 +150,18 @@ bool OpenRGBDialog2::IsDarkTheme()
     return false;
 }
 
+bool OpenRGBDialog2::IsMinimizeOnClose()
+{
+    json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+
+    if(ui_settings.contains("minimize_on_close"))
+    {
+        return ui_settings["minimize_on_close"];
+    }
+
+    return false;
+}
+
 OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
@@ -321,12 +333,6 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
 
         settings_manager->SetSettings(ui_string, ui_settings);
         settings_manager->SaveSettings();
-
-        MinimizeToTray = false;
-    }
-    else
-    {
-        MinimizeToTray = ui_settings["minimize_on_close"].get<bool>();
     }
 
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
@@ -386,9 +392,14 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddSoftwareInfoPage();
 
     /*-----------------------------------------------------*\
-    | Add the upported Devices page                         |
+    | Add the supported Devices page                        |
     \*-----------------------------------------------------*/
     AddSupportedDevicesPage();
+
+    /*-----------------------------------------------------*\
+    | Add the settings page                                 |
+    \*-----------------------------------------------------*/
+    AddSettingsPage();
 
     /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
@@ -454,7 +465,7 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    if (MinimizeToTray && !this->isHidden())
+    if (IsMinimizeOnClose() && !this->isHidden())
     {
         hide();
         event->ignore();
@@ -521,6 +532,36 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
     }
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
+}
+
+
+void OpenRGBDialog2::AddSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    SettingsPage = new OpenRGBSettingsPage();
+
+    ui->SettingsTabBar->addTab(SettingsPage, "");
+
+    QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
+    SettingsLabelString += ":/settings";
+    if(IsDarkTheme()) SettingsLabelString += "_dark";
+    SettingsLabelString += ".png' height='16' width='16'></td><td>Settings</td></tr></table></html>";
+
+    QLabel *SettingsTabLabel = new QLabel();
+    SettingsTabLabel->setText(SettingsLabelString);
+    SettingsTabLabel->setIndent(20);
+    if(IsDarkTheme())
+    {
+        SettingsTabLabel->setGeometry(0, 25, 200, 50);
+    }
+    else
+    {
+        SettingsTabLabel->setGeometry(0, 0, 200, 25);
+    }
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
 
 void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_index)
