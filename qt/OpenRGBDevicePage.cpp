@@ -66,9 +66,26 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     \*-----------------------------------------------------*/
     connect(ui->DeviceViewBox, &DeviceView::selectionChanged, this, &OpenRGBDevicePage::on_DeviceViewBox_selectionChanged);
 
+    /*-----------------------------------------------------*\
+    | Get the UserInterface settings and check the          |
+    | numerical labels setting                              |
+    \*-----------------------------------------------------*/
+    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
+    std::string         ui_string           = "UserInterface";
+    json                ui_settings;
+
+    ui_settings = settings_manager->GetSettings(ui_string);
+
+    if(ui_settings.contains("numerical_labels"))
+    {
+        bool            numerical_labels    = ui_settings["numerical_labels"];
+
+        ui->DeviceViewBox->setNumericalLabels(numerical_labels);
+    }
+
     ui->DeviceViewBox->setController(device);
     ui->DeviceViewBox->hide();
-
+    
     /*-----------------------------------------------------*\
     | Set up the color palette buttons                      |
     \*-----------------------------------------------------*/

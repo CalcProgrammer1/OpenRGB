@@ -21,6 +21,7 @@ DeviceView::DeviceView(QWidget *parent) :
     mouseDown(false)
 {
     controller = NULL;
+    numerical_labels = false;
     setMouseTracking(1);
 
     size = width();
@@ -317,7 +318,7 @@ void DeviceView::setController(RGBController * controller_ptr)
         {
             led_labels[led_idx] = it->second.label_utf8;
         }
-        else
+        else if(numerical_labels)
         {
             led_labels[led_idx] = QString::number(led_idx);
         }
@@ -334,6 +335,11 @@ void DeviceView::setController(RGBController * controller_ptr)
         size     = height() / matrix_h;
         offset_x = (width() - size) / 2;
     }
+}
+
+void DeviceView::setNumericalLabels(bool enable)
+{
+    numerical_labels = enable;
 }
 
 QSize DeviceView::sizeHint () const

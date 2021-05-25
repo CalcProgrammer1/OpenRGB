@@ -22,6 +22,7 @@ public:
     virtual QSize minimumSizeHint () const;
 
     void setController(RGBController * controller_ptr);
+    void setNumericalLabels(bool enable);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -50,6 +51,8 @@ private:
 
     float                               matrix_h;
 
+    bool                                numerical_labels;
+    
     RGBController* controller;
 
 	QColor posColor(const QPoint &point);
