@@ -279,12 +279,14 @@ HEADERS +=                                                                      
     Controllers/LogitechController/LogitechG213Controller.h                                     \
     Controllers/LogitechController/LogitechG560Controller.h                                     \
     Controllers/LogitechController/LogitechG810Controller.h                                     \
+    Controllers/LogitechController/LogitechG910Controller.h                                     \
     Controllers/LogitechController/LogitechG815Controller.h                                     \
     Controllers/LogitechController/LogitechGLightsyncController.h                               \
     Controllers/LogitechController/RGBController_LogitechG203L.h                                \
     Controllers/LogitechController/RGBController_LogitechG213.h                                 \
     Controllers/LogitechController/RGBController_LogitechG560.h                                 \
     Controllers/LogitechController/RGBController_LogitechG810.h                                 \
+    Controllers/LogitechController/RGBController_LogitechG910.h                                 \
     Controllers/LogitechController/RGBController_LogitechG815.h                                 \
     Controllers/LogitechController/RGBController_LogitechGLightsync.h                           \
     Controllers/LogitechController/RGBController_LogitechGLightsync1zone.h                      \
@@ -555,12 +557,14 @@ SOURCES +=                                                                      
     Controllers/LogitechController/LogitechG213Controller.cpp                                   \
     Controllers/LogitechController/LogitechG560Controller.cpp                                   \
     Controllers/LogitechController/LogitechG810Controller.cpp                                   \
+    Controllers/LogitechController/LogitechG910Controller.cpp                                   \
     Controllers/LogitechController/LogitechG815Controller.cpp                                   \
     Controllers/LogitechController/LogitechGLightsyncController.cpp                             \
     Controllers/LogitechController/RGBController_LogitechG203L.cpp                              \
     Controllers/LogitechController/RGBController_LogitechG213.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG560.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG810.cpp                               \
+    Controllers/LogitechController/RGBController_LogitechG910.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG815.cpp                               \
     Controllers/LogitechController/RGBController_LogitechGLightsync.cpp                         \
     Controllers/LogitechController/RGBController_LogitechGLightsync1zone.cpp                    \
