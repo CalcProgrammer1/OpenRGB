@@ -11,6 +11,7 @@
 
 #include <string>
 #include <hidapi/hidapi.h>
+#include <memory>
 
 #pragma once
 
