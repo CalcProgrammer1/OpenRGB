@@ -12,14 +12,15 @@
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
-static unsigned int matrix_map[7][23] =
-    { { 111,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 116, 114, 115,  NA, 113,  NA, 112, 110,  NA,  NA,  NA },
-      {  37,  NA,  54,  55,  56,  57,  NA,  58,  59,  60,  61,  NA,  62,  63,  64,  65,  66,  67,  68, 109, 108, 107, 106 },
-      {  49,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  NA,  41,  42,  38,  NA,  69,  70,  71,  79,  80,  81,  82 },
-      {  39,  NA,  16,  22,   4,  17,  NA,  19,  24,  20,   8,  14,  15,  43,  44,  45,  72,  73,  74,  91,  92,  93,  83 },
-      {  53,  NA,   0,  18,   3,   5,  NA,   6,   7,   9,  10,  11,  47,  48,  46,  36,  NA,  NA,  NA,  88,  89,  90,  NA },
-      {  99,  96,  25,  23,   2,  21,  NA,   1,  NA,  13,  12,  50,  51,  52, 103,  NA,  NA,  78,  NA,  85,  86,  87,  84 },
-      {  98, 101, 100,  NA,  NA,  NA,  NA,  40,  NA,  NA,  NA,  NA, 104, 105,  97, 102,  76,  77,  75,  94,  NA,  95,  NA } };
+static unsigned int matrix_map[8][24] =
+    { {  NA, 111, 112, 113, 114,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
+      { 115,  37,  NA,  54,  55,  56,  57,  NA,  58,  59,  60,  61,  NA,  62,  63,  64,  65,  66,  67,  68,  NA,  NA,  NA,  NA },
+      { 106,  49,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  NA,  41,  42,  38,  NA,  69,  70,  71,  79,  80,  81,  82 },
+      { 107,  39,  NA,  16,  22,   4,  17,  NA,  19,  24,  20,   8,  14,  15,  43,  44,  45,  72,  73,  74,  91,  92,  93,  83 },
+      { 108,  53,  NA,   0,  18,   3,   5,  NA,   6,   7,   9,  10,  11,  47,  48,  46,  36,  NA,  NA,  NA,  88,  89,  90,  NA },
+      { 109,  99,  96,  25,  23,   2,  21,  NA,   1,  NA,  13,  12,  50,  51,  52, 103,  NA,  NA,  78,  NA,  85,  86,  87,  84 },
+      { 110,  98, 101, 100,  NA,  NA,  NA,  NA,  40,  NA,  NA,  NA,  NA, 104, 105,  97, 102,  76,  77,  75,  94,  NA,  95,  NA },
+      {  NA,  NA,  NA, 116,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA } };
 
 static const char* zone_names[] =
 {
@@ -152,17 +153,17 @@ static const led_type led_names[] =
     { "Key: Right Shift",       LOGITECH_G910_ZONE_DIRECT_KEYBOARD,     0xE5    },
     { "Key: Right Alt",         LOGITECH_G910_ZONE_DIRECT_KEYBOARD,     0xE6    },
     { "Key: Right Windows",     LOGITECH_G910_ZONE_DIRECT_KEYBOARD,     0xE7    },
-    { "Key: Media Next",        LOGITECH_G910_ZONE_DIRECT_MEDIA,        0xB5    },
-    { "Key: Media Previous",    LOGITECH_G910_ZONE_DIRECT_MEDIA,        0xB6    },
-    { "Key: Media Stop",        LOGITECH_G910_ZONE_DIRECT_MEDIA,        0xB7    },
-    { "Key: Media Play/Pause",  LOGITECH_G910_ZONE_DIRECT_MEDIA,        0xCD    },
-    { "Key: Media Mute",        LOGITECH_G910_ZONE_DIRECT_MEDIA,        0xE2    },
+    { "Key: G1",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x01    },
+    { "Key: G2",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x02    },
+    { "Key: G3",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x03    },
+    { "Key: G4",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x04    },
+    { "Key: G5",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x05    },
+    { "Key: G6",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x06    },
+    { "Key: G7",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x07    },
+    { "Key: G8",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x08    },
+    { "Key: G9",                LOGITECH_G910_ZONE_DIRECT_GKEYS,        0x09    },
     { "Logo",                   LOGITECH_G910_ZONE_DIRECT_LOGO,         0x01    },
-    { "Lighting",               LOGITECH_G910_ZONE_DIRECT_INDICATORS,   0x01    },
-    { "Game Mode",              LOGITECH_G910_ZONE_DIRECT_INDICATORS,   0x02    },
-    { "Caps Lock Indicator",    LOGITECH_G910_ZONE_DIRECT_INDICATORS,   0x03    },
-    { "Scroll Lock Indicator",  LOGITECH_G910_ZONE_DIRECT_INDICATORS,   0x04    },
-    { "Num Lock Indicator",     LOGITECH_G910_ZONE_DIRECT_INDICATORS,   0x05    },
+    { "Nameplate",              LOGITECH_G910_ZONE_DIRECT_LOGO,         0x02    },
 };
 
 RGBController_LogitechG910::RGBController_LogitechG910(LogitechG910Controller* logitech_ptr)
@@ -259,8 +260,8 @@ void RGBController_LogitechG910::SetupZones()
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
             new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 7;
-            new_zone.matrix_map->width  = 23;
+            new_zone.matrix_map->height = 8;
+            new_zone.matrix_map->width  = 24;
             new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
         }
         else
