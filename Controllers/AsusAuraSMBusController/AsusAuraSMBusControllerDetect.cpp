@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "AsusAuraSMBusController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_AsusAuraSMBus.h"
 #include "i2c_smbus.h"
@@ -88,11 +89,15 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 {
     bool pass = false;
 
+    LOG_DEBUG("Testing address %02X for Aura SMBus controller", address);
+
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
 
     if (res >= 0)
     {
         pass = true;
+
+        LOG_DEBUG("Detected an I2C device at address %02X, testing register range for Aura SMBus", address);
 
         for (int i = 0xA0; i < 0xB0; i++)
         {
@@ -100,8 +105,15 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 
             if (res != (i - 0xA0))
             {
+                LOG_DEBUG("Detection failed testing register %02X.  Expected %02X, got %02X.", i, (i - 0xA0), res);
+
                 pass = false;
             }
+        }
+
+        if(pass)
+        {
+            LOG_DEBUG("Detection successful, address %02X appears to be an Aura SMBus controller", address);
         }
     }
 
@@ -131,13 +143,16 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
 
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            // Remap Aura-enabled RAM modules on 0x77
+            LOG_DEBUG("Remapping Aura SMBus RAM modules on 0x77");
+
             for (unsigned int slot = 0; slot < 8; slot++)
             {
                 int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
 
                 if (res < 0)
                 {
+                    LOG_DEBUG("No device detected at address 0x77, aborting remap");
+
                     break;
                 }
 
@@ -147,6 +162,8 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
 
                     if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
                     {
+                        LOG_DEBUG("Testing address %02X to see if there is a device there", aura_ram_addresses[address_list_idx]);
+
                         res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
                     }
                     else
@@ -157,6 +174,8 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
 
                 if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
                 {
+                    LOG_DEBUG("Remapping slot %d to address %02X", slot, aura_ram_addresses[address_list_idx]);
+
                     AsusAuraRegisterWrite(busses[bus], 0x77, AURA_REG_SLOT_INDEX, slot);
                     AsusAuraRegisterWrite(busses[bus], 0x77, AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
                 }
