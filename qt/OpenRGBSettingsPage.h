@@ -23,6 +23,8 @@ private:
 private slots:
     void on_ComboBoxTheme_currentTextChanged(const QString);
     void on_CheckboxMinimizeOnClose_clicked();
+    void on_CheckboxLoadGeometry_clicked();
+    void on_CheckboxSaveGeometry_clicked();
 };
 
 #endif // OPENRGBSETTINGSPAGE_H

@@ -10,7 +10,9 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
+    /*---------------------------------------------------------*\
+    | Load theme settings (Windows only)                        |
+    \*---------------------------------------------------------*/
 #ifdef _WIN32
     ui->ComboBoxTheme->addItems({"auto", "light", "dark"});
 
@@ -26,8 +28,28 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     ui->ThemeLabel->hide();
 #endif
 
+    /*---------------------------------------------------------*\
+    | Load user interface settings (Windows only)               |
+    \*---------------------------------------------------------*/
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
-    ui->CheckboxMinimizeOnClose->setChecked(ui_settings["minimize_on_close"]);
+
+    if(ui_settings.contains("minimize_on_close"))
+    {
+        ui->CheckboxMinimizeOnClose->setChecked(ui_settings["minimize_on_close"]);
+    }
+
+    if(ui_settings.contains("geometry"))
+    {
+        if(ui_settings["geometry"].contains("load_geometry"))
+        {
+            ui->CheckboxLoadGeometry->setChecked(ui_settings["geometry"]["load_geometry"]);
+        }
+
+        if(ui_settings["geometry"].contains("save_on_exit"))
+        {
+            ui->CheckboxSaveGeometry->setChecked(ui_settings["geometry"]["save_on_exit"]);
+        }
+    }
 }
 
 OpenRGBSettingsPage::~OpenRGBSettingsPage()
@@ -51,9 +73,23 @@ void OpenRGBSettingsPage::on_CheckboxMinimizeOnClose_clicked()
     SaveSettings();
 }
 
+void Ui::OpenRGBSettingsPage::on_CheckboxLoadGeometry_clicked()
+{
+    json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    ui_settings["geometry"]["load_geometry"] = ui->CheckboxLoadGeometry->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
+
+void Ui::OpenRGBSettingsPage::on_CheckboxSaveGeometry_clicked()
+{
+    json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    ui_settings["geometry"]["save_on_exit"] = ui->CheckboxSaveGeometry->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
+
 void OpenRGBSettingsPage::SaveSettings()
 {
     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }
-
-
