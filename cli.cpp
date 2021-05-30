@@ -1167,7 +1167,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
                 print_help = true;
                 break;
             }
-            cfg_args++;
+            cfg_args+= 2;
             arg_index++;
         }
 
