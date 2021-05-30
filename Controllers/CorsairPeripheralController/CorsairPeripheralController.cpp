@@ -59,18 +59,18 @@ CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle,
     ReadFirmwareInfo();
 
     /*-----------------------------------------------------*\
-    | K95 Platinum requires additional steps                |
+    | K55 and K95 Platinum require additional steps         |
     \*-----------------------------------------------------*/
-    if (logical_layout == CORSAIR_TYPE_K95_PLAT)
+    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT)
     {
         SpecialFunctionControl();
     }
 
     LightingControl();
 
-    if (logical_layout == CORSAIR_TYPE_K95_PLAT)
+    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT)
     {
-        SetupK95LightingControl();
+        SetupK55AndK95LightingControl();
     }
 }
 
@@ -232,7 +232,6 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
     SubmitKeyboardFullColors(3, 3, 2);
 }
 
-
 void CorsairPeripheralController::SetLEDsMouse(std::vector<RGBColor> colors)
 {
     SubmitMouseColors(colors.size(), &colors[0]);
@@ -370,7 +369,7 @@ void CorsairPeripheralController::LightingControl()
 | Probably a key mapping packet?                        |
 \*-----------------------------------------------------*/
 
-void CorsairPeripheralController::SetupK95LightingControl()
+void CorsairPeripheralController::SetupK55AndK95LightingControl()
 {
     char usb_buf[65];
 
@@ -535,7 +534,6 @@ void CorsairPeripheralController::ReadFirmwareInfo()
 
                     case 0x1B3D:
                     logical_layout = CORSAIR_TYPE_K55;
-                    SpecialFunctionControl();
                     break;
 
                     default:
