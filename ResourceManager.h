@@ -36,6 +36,7 @@ typedef std::function<void()>                                       I2CBusDetect
 typedef std::function<void(std::vector<RGBController*>&)>           DeviceDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>     I2CDeviceDetectorFunction;
 typedef std::function<void(hid_device_info*, const std::string&)>   HIDDeviceDetectorFunction;
+typedef std::function<void()>                                       DynamicDetectorFunction;
 typedef struct
 {
     std::string                 name;
@@ -111,6 +112,7 @@ public:
                                          int interface  = HID_INTERFACE_ANY,
                                          int usage_page = HID_USAGE_PAGE_ANY,
                                          int usage      = HID_USAGE_ANY);
+    void RegisterDynamicDetector        (std::string name, DynamicDetectorFunction detector);
     
     void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
     void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
@@ -135,6 +137,7 @@ public:
 
     void                            SetConfigurationDirectory(std::string directory);
 
+    void ProcessDynamicDetectors();
     void UpdateDeviceList();
     void DeviceListChanged();
     void DetectionProgressChanged();
@@ -207,6 +210,10 @@ private:
     std::vector<std::string>                    i2c_device_detector_strings;
     std::vector<HIDDeviceDetectorBlock>         hid_device_detectors;
     std::vector<std::string>                    hid_device_detector_strings;
+    std::vector<DynamicDetectorFunction>        dynamic_detectors;
+    std::vector<std::string>                    dynamic_detector_strings;
+
+    bool                                        dynamic_detectors_processed;
 
     /*-------------------------------------------------------------------------------------*\
     | Detection Thread and Detection State                                                  |

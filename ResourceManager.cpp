@@ -37,11 +37,12 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Initialize Detection Variables                                            |
     \*-------------------------------------------------------------------------*/
-    detection_enabled     = true;
-    detection_percent     = 100;
-    detection_string      = "";
-    detection_is_required = false;
-    DetectDevicesThread   = nullptr;
+    detection_enabled           = true;
+    detection_percent           = 100;
+    detection_string            = "";
+    detection_is_required       = false;
+    DetectDevicesThread         = nullptr;
+    dynamic_detectors_processed = false;
 
     SetupConfigurationDirectory();
 
@@ -183,6 +184,12 @@ void ResourceManager::RegisterHIDDeviceDetector(std::string name,
 
     hid_device_detectors.push_back(block);
     hid_device_detector_strings.push_back(name);
+}
+
+void ResourceManager::RegisterDynamicDetector(std::string name, DynamicDetectorFunction detector)
+{
+    dynamic_detector_strings.push_back(name);
+    dynamic_detectors.push_back(detector);
 }
 
 void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)
@@ -503,8 +510,26 @@ void ResourceManager::Cleanup()
     }
 }
 
+void ResourceManager::ProcessDynamicDetectors()
+{
+    for(unsigned int detector_idx = 0; detector_idx < dynamic_detectors.size(); detector_idx++)
+    {
+        dynamic_detectors[detector_idx]();
+    }
+
+    dynamic_detectors_processed = true;
+}
+
 void ResourceManager::DetectDevices()
 {
+    /*-----------------------------------------------------*\
+    | Process Dynamic Detectors                             |
+    \*-----------------------------------------------------*/
+    if(!dynamic_detectors_processed)
+    {
+        ProcessDynamicDetectors();
+    }
+
     /*-----------------------------------------------------*\
     | Call detection start callbacks                        |
     \*-----------------------------------------------------*/

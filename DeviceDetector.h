@@ -41,3 +41,12 @@ public:
         ResourceManager::get()->RegisterHIDDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
     }
 };
+
+class DynamicDetector
+{
+public:
+    DynamicDetector(std::string name, DynamicDetectorFunction detector)
+    {
+        ResourceManager::get()->RegisterDynamicDetector(name, detector);
+    }
+};
