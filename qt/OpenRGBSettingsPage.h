@@ -20,6 +20,8 @@ private:
     Ui::OpenRGBSettingsPageUi *ui;
     void SaveSettings();
 
+    bool theme_initialized = false;
+
 private slots:
     void on_ComboBoxTheme_currentTextChanged(const QString);
     void on_CheckboxMinimizeOnClose_clicked();

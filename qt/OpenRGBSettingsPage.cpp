@@ -23,6 +23,12 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         std::string theme = theme_settings["theme"];
         ui->ComboBoxTheme->setCurrentText(QString::fromStdString(theme));
     }
+    else
+    {
+        ui->ComboBoxTheme->setCurrentText(QString::fromStdString(("light")));
+    }
+
+    theme_initialized = true;
 #else
     ui->ComboBoxTheme->hide();
     ui->ThemeLabel->hide();
@@ -59,10 +65,13 @@ OpenRGBSettingsPage::~OpenRGBSettingsPage()
 
 void OpenRGBSettingsPage::on_ComboBoxTheme_currentTextChanged(const QString theme)
 {
-    json theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Theme");
-    theme_settings["theme"] = theme.toStdString();
-    ResourceManager::get()->GetSettingsManager()->SetSettings("Theme", theme_settings);
-    SaveSettings();
+    if(theme_initialized)
+    {
+        json theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Theme");
+        theme_settings["theme"] = theme.toStdString();
+        ResourceManager::get()->GetSettingsManager()->SetSettings("Theme", theme_settings);
+        SaveSettings();
+    }
 }
 
 void OpenRGBSettingsPage::on_CheckboxMinimizeOnClose_clicked()
