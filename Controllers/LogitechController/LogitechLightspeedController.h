@@ -1,8 +1,9 @@
 /*-----------------------------------------*\
-|  LogitechGProWirelessController.h         |
+|  LogitechLightspeedController.h           | 
 |                                           |
-|  Definitions and types for Logitech G Pro |
-|  Wireless Gaming Mouse lighting controller|
+|  Definitions and types for Logitech G     |
+|  Lightsync Wireless Gaming Mice lighting  |
+|  controller                               |
 |                                           |
 |  TheRogueZeta   8/5/2020                  |
 \*-----------------------------------------*/
@@ -34,11 +35,11 @@ enum
     LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST          = 0x0A,  /* Fastest speed                   */
 };
 
-class LogitechGProWirelessController
+class LogitechLightspeedController
 {
 public:
-    LogitechGProWirelessController(hid_device* dev_handle, const char* path);
-    ~LogitechGProWirelessController();
+    LogitechLightspeedController(hid_device* dev_handle, const char* path);
+    ~LogitechLightspeedController();
 
     logitech_device* lightspeed;
     

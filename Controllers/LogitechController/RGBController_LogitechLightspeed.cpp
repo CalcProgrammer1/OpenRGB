@@ -1,15 +1,15 @@
 /*-----------------------------------------*\
-|  RGBController_LogitechGProWireless.cpp   |
+|  RGBController_LogitechLightspeed.cpp     |
 |                                           |
 |  Generic RGB Interface for                |
-|  Logitech G Pro Wireless Gaming Mouse     |
+|  Logitech Lightspeed Gaming Mice          |
 |                                           |
 |  TheRogueZeta   8/5/2020                  |
 \*-----------------------------------------*/
 
-#include "RGBController_LogitechGProWireless.h"
+#include "RGBController_LogitechLightspeed.h"
 
-RGBController_LogitechGProWireless::RGBController_LogitechGProWireless(LogitechGProWirelessController* logitech_ptr)
+RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLightspeedController* logitech_ptr)
 {
     logitech                        = logitech_ptr;
     bool connected                  = logitech->lightspeed->connected();
@@ -91,12 +91,12 @@ RGBController_LogitechGProWireless::RGBController_LogitechGProWireless(LogitechG
     }
 }
 
-RGBController_LogitechGProWireless::~RGBController_LogitechGProWireless()
+RGBController_LogitechLightspeed::~RGBController_LogitechLightspeed()
 {
     delete logitech;
 }
 
-void RGBController_LogitechGProWireless::SetupZones()
+void RGBController_LogitechLightspeed::SetupZones()
 {
     uint8_t LED_count = logitech->lightspeed->getLEDinfo();
 
@@ -104,33 +104,33 @@ void RGBController_LogitechGProWireless::SetupZones()
     {
         for(size_t i = 0; i < LED_count; i++)
         {
-            zone GProWireless_logo_zone;
-            GProWireless_logo_zone.name             = "Zone " + std::to_string(i);
-            GProWireless_logo_zone.type             = ZONE_TYPE_SINGLE;
-            GProWireless_logo_zone.leds_min         = 1;
-            GProWireless_logo_zone.leds_max         = 1;
-            GProWireless_logo_zone.leds_count       = 1;
-            GProWireless_logo_zone.matrix_map       = NULL;
-            zones.push_back(GProWireless_logo_zone);
+            zone Lightspeed_logo_zone;
+            Lightspeed_logo_zone.name               = "Zone " + std::to_string(i);
+            Lightspeed_logo_zone.type               = ZONE_TYPE_SINGLE;
+            Lightspeed_logo_zone.leds_min           = 1;
+            Lightspeed_logo_zone.leds_max           = 1;
+            Lightspeed_logo_zone.leds_count         = 1;
+            Lightspeed_logo_zone.matrix_map         = NULL;
+            zones.push_back(Lightspeed_logo_zone);
 
-            led GProWireless_logo_led;
-            GProWireless_logo_led.name              = "LED " + std::to_string(i);
-            GProWireless_logo_led.value             = i;
-            leds.push_back(GProWireless_logo_led);
+            led Lightspeed_logo_led;
+            Lightspeed_logo_led.name                = "LED " + std::to_string(i);
+            Lightspeed_logo_led.value               = i;
+            leds.push_back(Lightspeed_logo_led);
         }
     }
 
     SetupColors();
 }
 
-void RGBController_LogitechGProWireless::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechLightspeed::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_LogitechGProWireless::DeviceUpdateLEDs()
+void RGBController_LogitechLightspeed::DeviceUpdateLEDs()
 {
     for(std::vector<led>::iterator led_index = leds.begin(); led_index != leds.end(); led_index++)
     {
@@ -138,7 +138,7 @@ void RGBController_LogitechGProWireless::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LogitechGProWireless::UpdateZoneLEDs(int zone)
+void RGBController_LogitechLightspeed::UpdateZoneLEDs(int zone)
 {
     unsigned char red = RGBGetRValue(colors[zone]);
     unsigned char grn = RGBGetGValue(colors[zone]);
@@ -152,12 +152,12 @@ void RGBController_LogitechGProWireless::UpdateZoneLEDs(int zone)
     logitech->SendMouseMode(temp_mode, modes[active_mode].speed, zone, red, grn, blu);
 }
 
-void RGBController_LogitechGProWireless::UpdateSingleLED(int led)
+void RGBController_LogitechLightspeed::UpdateSingleLED(int led)
 {
     UpdateZoneLEDs(led);
 }
 
-void RGBController_LogitechGProWireless::SetCustomMode()
+void RGBController_LogitechLightspeed::SetCustomMode()
 {
     if(logitech->lightspeed->connected())
     {
@@ -165,7 +165,7 @@ void RGBController_LogitechGProWireless::SetCustomMode()
     }
 }
 
-void RGBController_LogitechGProWireless::DeviceUpdateMode()
+void RGBController_LogitechLightspeed::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\
     | If direct mode is true, then sent the packet to put the   |

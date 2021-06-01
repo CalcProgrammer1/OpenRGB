@@ -1,21 +1,21 @@
 /*-----------------------------------------*\
-|  RGBController_LogitechGProWireless.h     |
+|  RGBController_LogitechLightspeed.h       |
 |                                           |
 |  Generic RGB Interface for                |
-|  Logitech G Pro Wireless Gaming Mouse     |
+|  Logitech Lightspeed Gaming Mice          |
 |                                           |
 |  TheRogueZeta   8/5/2020                  |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
-#include "LogitechGProWirelessController.h"
+#include "LogitechLightspeedController.h"
 
-class RGBController_LogitechGProWireless : public RGBController
+class RGBController_LogitechLightspeed : public RGBController
 {
 public:
-    RGBController_LogitechGProWireless(LogitechGProWirelessController* logitech_ptr);
-    ~RGBController_LogitechGProWireless();
+    RGBController_LogitechLightspeed(LogitechLightspeedController* logitech_ptr);
+    ~RGBController_LogitechLightspeed();
 
     void        SetupZones();
 
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LogitechGProWirelessController*   logitech;
+    LogitechLightspeedController*   logitech;
 };

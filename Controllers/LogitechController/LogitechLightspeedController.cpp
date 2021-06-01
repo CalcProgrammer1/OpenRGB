@@ -1,33 +1,33 @@
 /*-----------------------------------------*\
-|  LogitechGProWirelessController.cpp       |
+|  LogitechLightspeedController.cpp         |
 |                                           |
-|  Driver for Logitech G Pro Wireless Gaming|
-|  Mouse lighting controller                |
+|  Driver for Logitech Lightspeed Wireless  |
+|  Gaming Mice lighting controller          |
 |                                           |
 |  TheRogueZeta   8/5/2020                  |
 \*-----------------------------------------*/
 
-#include "LogitechGProWirelessController.h"
+#include "LogitechLightspeedController.h"
 
 #include <cstring>
 
-LogitechGProWirelessController::LogitechGProWirelessController(hid_device* dev_handle, const char* path)
+LogitechLightspeedController::LogitechLightspeedController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
 }
 
-LogitechGProWirelessController::~LogitechGProWirelessController()
+LogitechLightspeedController::~LogitechLightspeedController()
 {
     delete lightspeed;
 }
 
-std::string LogitechGProWirelessController::GetDeviceLocation()
+std::string LogitechLightspeedController::GetDeviceLocation()
 {
     return("HID: " + location + " (Receiver) \r\nWireless Index: " + std::to_string(lightspeed->device_index));
 }
 
-std::string LogitechGProWirelessController::GetSerialString()
+std::string LogitechLightspeedController::GetSerialString()
 {
     wchar_t serial_string[128];
     hid_get_serial_number_string(dev, serial_string, 128);
@@ -38,7 +38,7 @@ std::string LogitechGProWirelessController::GetSerialString()
     return(return_string);
 }
 
-void LogitechGProWirelessController::SendMouseMode
+void LogitechLightspeedController::SendMouseMode
     (
     unsigned char       mode,
     std::uint16_t       speed,
