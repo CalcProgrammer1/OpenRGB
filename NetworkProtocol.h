@@ -13,7 +13,7 @@
 |                                                       |
 |   0:      Initial (unversioned) protocol              |
 |   1:      Add versioning, vendor string (Release 0.5) |
-|   2:      Add profile controls                        |
+|   2:      Add profile controls (Release 0.6)          |
 \*-----------------------------------------------------*/
 #define OPENRGB_SDK_PROTOCOL_VERSION    2
 
