@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <hidapi/hidapi.h>
 
 #pragma once
@@ -23,18 +24,10 @@ enum
     AURA_MOUSE_ZONE_ALL         = 3,
 };
 
-enum
-{
-    AURA_MOUSE_MODE_STATIC      = 0,
-    AURA_MOUSE_MODE_BREATHING   = 1,
-    AURA_MOUSE_MODE_COLOR_CYCLE = 2,
-    AURA_MOUSE_MODE_REACTIVE    = 3,
-};
-
 class AuraMouseController
 {
 public:
-    AuraMouseController(hid_device* dev_handle, const char* path);
+    AuraMouseController(hid_device* dev_handle, const char* path, uint16_t pid);
     virtual ~AuraMouseController();
 
     std::string GetDeviceLocation();
@@ -46,8 +39,14 @@ public:
         unsigned char   mode,
         unsigned char   red,
         unsigned char   grn,
-        unsigned char   blu
+        unsigned char   blu,
+        unsigned char   dir,
+        bool            random,
+        unsigned char   speed,
+        bool            save
         );
+
+    uint16_t                    device_pid;
 
 private:
     hid_device*                 dev;

@@ -11,10 +11,11 @@
 
 #include <cstring>
 
-AuraMouseController::AuraMouseController(hid_device* dev_handle, const char* path)
+AuraMouseController::AuraMouseController(hid_device* dev_handle, const char* path, uint16_t pid)
 {
     dev         = dev_handle;
     location    = path;
+    device_pid  = pid;
 }
 
 AuraMouseController::~AuraMouseController()
@@ -49,7 +50,11 @@ void AuraMouseController::SendUpdate
     unsigned char   mode,
     unsigned char   red,
     unsigned char   grn,
-    unsigned char   blu
+    unsigned char   blu,
+    unsigned char   dir,
+    bool            random,
+    unsigned char   speed,
+    bool            save
     )
 {
     unsigned char usb_buf[65];
@@ -72,9 +77,35 @@ void AuraMouseController::SendUpdate
     usb_buf[0x07]   = red;
     usb_buf[0x08]   = grn;
     usb_buf[0x09]   = blu;
+    
+    if(device_pid == 0x18CD)
+    {
+        usb_buf[0x0A]   = 0;
+        usb_buf[0x0B]   = 0;
+        usb_buf[0x0D]   = 0;
+        usb_buf[0x0D]   = dir;
+        usb_buf[0x0E]   = random;
+        usb_buf[0x0F]   = (speed == 0) ? 0 : 256 - speed;
+    }
+    else
+    {
+        usb_buf[0x0A]   = dir;
+        usb_buf[0x0B]   = random;
+        usb_buf[0x0C]   = (speed == 0) ? 0 : 256 - speed;
+    }
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
+
+    if(save)
+    {
+        unsigned char usb_save_buf[65];
+        memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
+        usb_save_buf[0x00]   = 0x00;
+        usb_save_buf[0x01]   = 0x50;
+        usb_save_buf[0x02]   = 0x03;
+        hid_write(dev, usb_save_buf, 65);
+    }
 }
