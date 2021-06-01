@@ -129,6 +129,19 @@ bool AttemptLocalConnection()
         ResourceManager::get()->RegisterNetworkClient(client);
 
         success = true;
+
+        /*-----------------------------------------------------*\
+        | Wait up to 5 seconds for the client connection to     |
+        | retrieve all controllers                              |
+        \*-----------------------------------------------------*/
+        for(int timeout = 0; timeout < 1000; timeout++)
+        {
+            if(client->GetOnline())
+            {
+                break;
+            }
+            std::this_thread::sleep_for(5ms);
+        }
     }
 
     return success;
