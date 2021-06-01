@@ -186,7 +186,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   
 ## Projects Used
 
-  * InpOutx64: http://www.highrez.co.uk/downloads/inpout32/
+  * InpOutx64: https://www.highrez.co.uk/downloads/inpout32/
   * libusb: https://github.com/libusb/libusb
   * hidapi: https://github.com/libusb/hidapi
   * libe131: https://github.com/hhromic/libe131
