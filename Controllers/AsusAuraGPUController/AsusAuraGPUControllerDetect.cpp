@@ -37,6 +37,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,       NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,       ASUS_GTX1070_STRIX_OC,                  0x29,   "ASUS GTX 1070 Strix OC"                    },
     { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,       ASUS_GTX1080_STRIX,                     0x29,   "ASUS GTX 1080 Strix OC"                    },
     { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080_A8G_GAMING,      0x29,   "ASUS ROG Strix GTX1080 A8G Gaming"         },
+    { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080_O8G_GAMING,      0x29,   "ASUS ROG Strix GTX1080 O8G Gaming"         },
     { NVIDIA_VEN,       NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080TI_GAMING,        0x29,   "ASUS ROG Strix GTX1080 Ti Gaming"          },
     { NVIDIA_VEN,       NVIDIA_GTX1660TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_GTX1660TI_OC,                  0x2A,   "ASUS ROG GTX 1660 Ti OC 6G"                },
     { NVIDIA_VEN,       NVIDIA_RTX2060_TU106_DEV,   ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060_EVO_GAMING,      0x2A,   "ASUS ROG STRIX RTX 2060 EVO Gaming 6G"     },
