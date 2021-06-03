@@ -137,12 +137,12 @@ std::string WinHttpHandler::send(const std::string& msg, const std::string& adr,
 
     // shutdown the connection for sending since no more data will be sent
     // the client can still use the ConnectSocket for receiving data
-    if (shutdown(connect_socket, SD_SEND) == SOCKET_ERROR)
-    {
-        int err = WSAGetLastError();
-        std::cerr << "WinHttpHandler: shutdown failed: " << err << std::endl;
-        throw(std::system_error(err, std::system_category(), "WinHttpHandler: shutdown failed"));
-    }
+    //if (shutdown(connect_socket, SD_SEND) == SOCKET_ERROR)
+    //{
+    //    int err = WSAGetLastError();
+    //    std::cerr << "WinHttpHandler: shutdown failed: " << err << std::endl;
+    //    throw(std::system_error(err, std::system_category(), "WinHttpHandler: shutdown failed"));
+    //}
 
     const int recvbuflen = 128;
     char recvbuf[recvbuflen];
