@@ -32,7 +32,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 32 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-32
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-32
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -51,7 +51,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-64
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-64
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -70,7 +70,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 32 deb":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-32
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-32
   stage: build
   script:
   - dpkg-architecture -l
@@ -91,7 +91,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 deb":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-64
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-64
   stage: build
   script:
   - dpkg-architecture -l
@@ -214,39 +214,39 @@ before_script:
   needs:
   - "Linux 32 deb"
 
-#-----------------------------------------------------------------------#
-# Ubuntu 32 18.04LTS test                                               #
-#-----------------------------------------------------------------------#
-"Ubuntu 32 18.04LTS":
-  image: i386/ubuntu:bionic
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 32 deb"
-  needs:
-  - "Linux 32 deb"
+# #-----------------------------------------------------------------------#
+# # Ubuntu 32 18.04LTS test                                               #
+# #-----------------------------------------------------------------------#
+# "Ubuntu 32 18.04LTS":
+#   image: i386/ubuntu:bionic
+#   stage: test
+#   script:
+#   - apt update
+#   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
+#   - openrgb --version
+#   - openrgb -l
+#   - apt remove -y openrgb
+#   dependencies:
+#   - "Linux 32 deb"
+#   needs:
+#   - "Linux 32 deb"
 
-#-----------------------------------------------------------------------#
-# Mint 32 19.3 test                                                     #
-#-----------------------------------------------------------------------#
-"Mint 32 20.1":
-  image: linuxmintd/mint19.3-i386
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 32 deb"
-  needs:
-  - "Linux 32 deb"
+# #-----------------------------------------------------------------------#
+# # Mint 32 19.3 test                                                     #
+# #-----------------------------------------------------------------------#
+# "Mint 32 20.1":
+#   image: linuxmintd/mint19.3-i386
+#   stage: test
+#   script:
+#   - apt update
+#   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
+#   - openrgb --version
+#   - openrgb -l
+#   - apt remove -y openrgb
+#   dependencies:
+#   - "Linux 32 deb"
+#   needs:
+#   - "Linux 32 deb"
 
 #-----------------------------------------------------------------------#
 # Debian 64 Buster test                                                 #
@@ -298,22 +298,22 @@ before_script:
   needs:
   - "Linux 64 rpm"
 
-#-----------------------------------------------------------------------#
-# Ubuntu 64 18.04LTS test                                               #
-#-----------------------------------------------------------------------#
-"Ubuntu 64 18.04LTS":
-  image: ubuntu:bionic
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 64 deb"
-  needs:
-  - "Linux 64 deb"
+# #-----------------------------------------------------------------------#
+# # Ubuntu 64 18.04LTS test                                               #
+# #-----------------------------------------------------------------------#
+# "Ubuntu 64 18.04LTS":
+#   image: ubuntu:bionic
+#   stage: test
+#   script:
+#   - apt update
+#   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+#   - openrgb --version
+#   - openrgb -l
+#   - apt remove -y openrgb
+#   dependencies:
+#   - "Linux 64 deb"
+#   needs:
+#   - "Linux 64 deb"
 
 #-----------------------------------------------------------------------#
 # Ubuntu 64 20.04LTS test                                               #
