@@ -126,8 +126,8 @@ EntertainmentMode::EntertainmentMode(Bridge& b, Group& g)
     /*-------------------------------------------------*\
     | Parse certificate                                 |
     \*-------------------------------------------------*/
-    ret = mbedtls_x509_crt_parse(
-        &tls_context->cacert, (const unsigned char*)mbedtls_test_cas_pem, mbedtls_test_cas_pem_len);
+    //ret = mbedtls_x509_crt_parse(
+    //    &tls_context->cacert, (const unsigned char*)mbedtls_test_cas_pem, mbedtls_test_cas_pem_len);
 }
 
 EntertainmentMode::~EntertainmentMode()
