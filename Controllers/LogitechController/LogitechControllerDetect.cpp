@@ -448,7 +448,7 @@ void DetectLogitechMouseG502PS(hid_device_info* info, const std::string& name)
 
 void DetectLogitechMouseGPRO(hid_device_info* info, const std::string& name)
 {
-    addLogitechLightsyncMouse2zone(info, name, 0x01, 0x07, 0x3C);
+    addLogitechLightsyncMouse1zone(info, name, 0xFF, 0x0E, 0x3C);
 }
 
 /*-----------------------------------------------------*\
