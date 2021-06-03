@@ -38,7 +38,7 @@ std::string DasKeyboardController::GetSerialString()
     int     err                = hid_get_serial_number_string(dev, serial_string, 128);
 
     std::string return_string;
-    if(!err)
+    if(err == 0)
     {
         std::wstring return_wstring = serial_string;
         return_string = std::string(return_wstring.begin(), return_wstring.end());

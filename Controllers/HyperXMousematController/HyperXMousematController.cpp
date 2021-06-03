@@ -30,7 +30,12 @@ std::string HyperXMousematController::GetDeviceLocation()
 std::string HyperXMousematController::GetSerialString()
 {
     wchar_t serial_string[128];
-    hid_get_serial_number_string(dev, serial_string, 128);
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
 
     std::wstring return_wstring = serial_string;
     std::string return_string(return_wstring.begin(), return_wstring.end());
