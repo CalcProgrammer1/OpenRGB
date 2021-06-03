@@ -32,7 +32,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 32 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-32
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-32
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -51,7 +51,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-64
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-64
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -70,7 +70,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 32 deb":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-32
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-32
   stage: build
   script:
   - dpkg-architecture -l
@@ -91,7 +91,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 deb":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:stretch-64
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-64
   stage: build
   script:
   - dpkg-architecture -l
