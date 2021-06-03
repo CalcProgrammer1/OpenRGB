@@ -187,9 +187,11 @@ HEADERS +=                                                                      
     Controllers/AsusAuraSMBusController/RGBController_AsusAuraSMBus.h                           \
     Controllers/AsusAuraUSBController/AsusAuraUSBController.h                                   \
     Controllers/AsusAuraUSBController/AsusAuraAddressableController.h                           \
+    Controllers/AsusAuraUSBController/AsusAuraHeadsetStandController.h                          \
     Controllers/AsusAuraUSBController/AsusAuraKeyboardController.h                              \
     Controllers/AsusAuraUSBController/AsusAuraMainboardController.h                             \
     Controllers/AsusAuraUSBController/AsusAuraMouseController.h                                 \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.h                      \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraKeyboard.h                          \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.h                             \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.h                               \
@@ -472,10 +474,12 @@ SOURCES +=                                                                      
     Controllers/AsusAuraSMBusController/RGBController_AsusAuraSMBus.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraUSBController.cpp                                 \
     Controllers/AsusAuraUSBController/AsusAuraAddressableController.cpp                         \
+    Controllers/AsusAuraUSBController/AsusAuraHeadsetStandController.cpp                        \
     Controllers/AsusAuraUSBController/AsusAuraKeyboardController.cpp                            \
     Controllers/AsusAuraUSBController/AsusAuraMainboardController.cpp                           \
     Controllers/AsusAuraUSBController/AsusAuraMouseController.cpp                               \
     Controllers/AsusAuraUSBController/AsusAuraUSBControllerDetect.cpp                           \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.cpp                    \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraKeyboard.cpp                        \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.cpp                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.cpp                             \
