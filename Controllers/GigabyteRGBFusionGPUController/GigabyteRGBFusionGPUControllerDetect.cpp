@@ -35,7 +35,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_GTX1660S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_GTX1660S_GAMING_OC_SUB_DEV,            0x47,   "Gigabyte GTX1660 SUPER Gaming OC"              },
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060_GAMING_OC_SUB_DEV,             0x47,   "Gigabyte RTX2060 Gaming OC"                    },
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060_GAMING_OC_PRO_SUB_DEV,         0x47,   "Gigabyte RTX2060 Gaming OC PRO"                },
-    { NVIDIA_VEN,   NVIDIA_RTX2060S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060S_GAMING_SUB_DEV,               0x47,   "Gigabyte RTX2060 SUPER Gaming"                 },
+    { NVIDIA_VEN,   NVIDIA_RTX2060S_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060S_GAMING_SUB_DEV,               0x47,   "Gigabyte RTX2060 SUPER Gaming"                 },
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070_GAMING_OC_SUB_DEV,             0x47,   "Gigabyte RTX2070 Gaming OC 8G"                 },
     { NVIDIA_VEN,   NVIDIA_RTX2070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070_WINDFORCE_SUB_DEV,             0x47,   "Gigabyte RTX2070 Windforce 8G"                 },
     { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV,            0x47,   "Gigabyte RTX2070S Gaming OC"                   },
