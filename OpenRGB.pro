@@ -154,6 +154,7 @@ HEADERS +=                                                                      
     DeviceDetector.h                                                                            \
     filesystem.h                                                                                \
     qt/DetectorTableModel.h                                                                     \
+    qt/DeviceTabHeader.h                                                                        \
     qt/OpenRGBClientInfoPage.h                                                                  \
     qt/OpenRGBDeviceInfoPage.h                                                                  \
     qt/OpenRGBDevicePage.h                                                                      \
@@ -462,6 +463,7 @@ SOURCES +=                                                                      
     ResourceManager.cpp                                                                         \
     SettingsManager.cpp                                                                         \
     qt/DetectorTableModel.cpp                                                                   \
+    qt/DeviceTabHeader.cpp                                                                      \
     qt/OpenRGBClientInfoPage.cpp                                                                \
     qt/OpenRGBDeviceInfoPage.cpp                                                                \
     qt/OpenRGBDevicePage.cpp                                                                    \
@@ -795,6 +797,7 @@ RESOURCES +=                                                                    
     qt/resources.qrc
 
 FORMS +=                                                                                        \
+    qt/DeviceTabHeader.ui                                                                       \
     qt/OpenRGBClientInfoPage.ui                                                                 \
     qt/OpenRGBDeviceInfoPage.ui                                                                 \
     qt/OpenRGBDevicePage.ui                                                                     \

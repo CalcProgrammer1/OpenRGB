@@ -5,6 +5,7 @@
 #include "OpenRGBServerInfoPage.h"
 #include "OpenRGBPluginContainer.h"
 #include "OpenRGBProfileSaveDialog.h"
+#include "DeviceTabHeader.h"
 #include "ResourceManager.h"
 #include <QLabel>
 #include <QTabBar>
@@ -883,23 +884,12 @@ void OpenRGBDialog2::UpdateDevicesList()
             | text in the tab label.  Choose icon based on device   |
             | type and append device name string.                   |
             \*-----------------------------------------------------*/
-            QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-            NewLabelString += GetIconString(controllers[controller_idx]->type, IsDarkTheme());
-            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
+            DeviceTabHeader* device_tab_header = new DeviceTabHeader(
+                        GetIconString(controllers[controller_idx]->type, IsDarkTheme()),
+                        QString::fromStdString(controllers[controller_idx]->name)
+             );
 
-            QLabel *NewTabLabel = new QLabel();
-            NewTabLabel->setText(NewLabelString);
-            NewTabLabel->setIndent(20);
-            if(IsDarkTheme())
-            {
-                NewTabLabel->setGeometry(0, 25, 200, 50);
-            }
-            else
-            {
-                NewTabLabel->setGeometry(0, 0, 200, 25);
-            }
-
-            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, device_tab_header);
             ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
 
             /*-----------------------------------------------------*\
