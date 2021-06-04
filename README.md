@@ -58,8 +58,9 @@ There have been two instances of hardware damage in OpenRGB's development and we
   *  Pre-built binaries in AppImage format are available under the Releases section on GitLab.
   *  You can build the project using Qt Creator or on the command line.
       1.  Install build dependencies
-          - Debian: sudo apt install git build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf
-          - Fedora: sudo dnf install git make automake gcc gcc-c++ qt-creator qt5-devel hidapi-devel libusb-devel
+          - Debian/Ubuntu: `sudo apt install git build-essential qtcreator qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libusb-1.0-0-dev libhidapi-dev pkgconf`
+          - Debian (before `bullseye`) or Ubuntu (before 21.04): `sudo apt install git build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf`
+          - Fedora: `sudo dnf install git make automake gcc gcc-c++ qt-creator qt5-devel hidapi-devel libusb-devel`
       2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
       3.  cd OpenRGB
       4.  qmake OpenRGB.pro
