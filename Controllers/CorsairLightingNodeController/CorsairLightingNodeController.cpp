@@ -77,6 +77,14 @@ std::string CorsairLightingNodeController::GetSerialString()
     return(return_string);
 }
 
+void CorsairLightingNodeController::SetBrightness(unsigned char brightness)
+{
+    for(unsigned int channel = 0; channel < CORSAIR_LIGHTING_NODE_NUM_CHANNELS; channel++)
+    {
+        SendBrightness(channel, brightness);
+    }
+}
+
 void CorsairLightingNodeController::SetChannelEffect(unsigned char channel,
                                                 unsigned char num_leds,
                                                 unsigned char mode,
@@ -451,9 +459,40 @@ void CorsairLightingNodeController::SendPortState
     hid_read(dev, usb_buf, 17);
 }
 
-void CorsairLightingNodeController::SendBrightness()
+void CorsairLightingNodeController::SendBrightness
+    (
+    unsigned char   channel,
+    unsigned char   brightness
+    )
 {
+    unsigned char   usb_buf[65];
 
+    /*-----------------------------------------------------*\
+    | Brightness goes from 0-100                            |
+    \*-----------------------------------------------------*/
+    if(brightness > 100)
+    {
+        brightness = 100;
+    }
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Port State packet                              |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = CORSAIR_LIGHTING_NODE_PACKET_ID_BRIGHTNESS;
+    usb_buf[0x02]   = channel;
+    usb_buf[0x03]   = brightness;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 17);
 }
 
 void CorsairLightingNodeController::SendLEDCount()

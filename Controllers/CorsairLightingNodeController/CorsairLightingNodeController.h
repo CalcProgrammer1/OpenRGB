@@ -88,6 +88,8 @@ public:
 
     unsigned int    GetStripsOnChannel(unsigned int channel);
 
+    void            SetBrightness(unsigned char brightness);
+    
     void            SetChannelEffect(unsigned char channel,
                                      unsigned char num_leds,
                                      unsigned char mode,
@@ -171,7 +173,11 @@ private:
                         unsigned char   state
                         );
 
-    void            SendBrightness();
+    void            SendBrightness
+                        (
+                        unsigned char   channel,
+                        unsigned char   brightness
+                        );
 
     void            SendLEDCount();
 
