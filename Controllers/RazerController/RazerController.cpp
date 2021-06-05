@@ -255,11 +255,6 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
             matrix_type = RAZER_MATRIX_TYPE_CUSTOM;
             break;
     }
-
-    /*-----------------------------------------------------------------*\
-    | Initialize to full brightness                                     |
-    \*-----------------------------------------------------------------*/
-    razer_set_brightness(255);
 }
 
 RazerController::~RazerController()
@@ -302,6 +297,11 @@ void RazerController::SetAddressableZoneSizes(unsigned char zone_1_size, unsigne
     razer_report report     = razer_create_addressable_size_report(zone_1_size, zone_2_size, zone_3_size, zone_4_size, zone_5_size, zone_6_size);
 
     razer_usb_send(&report);
+}
+
+void RazerController::SetBrightness(unsigned char brightness)
+{
+    razer_set_brightness(brightness);
 }
 
 void RazerController::SetLEDs(RGBColor* colors)

@@ -14,10 +14,13 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     serial          = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = RAZER_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name           = "Direct";
+    Direct.value          = RAZER_MODE_DIRECT;
+    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode     = MODE_COLORS_PER_LED;
+    Direct.brightness_min = 0;
+    Direct.brightness_max = 255;
+    Direct.brightness     = 255;
     modes.push_back(Direct);
 
     mode Off;
@@ -28,53 +31,68 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     modes.push_back(Off);
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = RAZER_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min = 1;
-    Static.colors_max = 1;
+    Static.name           = "Static";
+    Static.value          = RAZER_MODE_STATIC;
+    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors_min     = 1;
+    Static.colors_max     = 1;
     Static.colors.resize(1);
+    Static.brightness_min = 0;
+    Static.brightness_max = 255;
+    Static.brightness     = 255;
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = RAZER_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 2;
+    Breathing.name           = "Breathing";
+    Breathing.value          = RAZER_MODE_BREATHING;
+    Breathing.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Breathing.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.colors_min     = 1;
+    Breathing.colors_max     = 2;
     Breathing.colors.resize(1);
+    Breathing.brightness_min = 0;
+    Breathing.brightness_max = 255;
+    Breathing.brightness     = 255;
     modes.push_back(Breathing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.value      = RAZER_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = 0;
-    SpectrumCycle.color_mode = MODE_COLORS_NONE;
+    SpectrumCycle.name           = "Spectrum Cycle";
+    SpectrumCycle.value          = RAZER_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags          = MODE_FLAG_HAS_BRIGHTNESS;
+    SpectrumCycle.color_mode     = MODE_COLORS_NONE;
+    SpectrumCycle.brightness_min = 0;
+    SpectrumCycle.brightness_max = 255;
+    SpectrumCycle.brightness     = 255;
     modes.push_back(SpectrumCycle);
 
     if(controller->SupportsWave())
     {
         mode Wave;
-        Wave.name       = "Wave";
-        Wave.value      = RAZER_MODE_WAVE;
-        Wave.flags      = MODE_FLAG_HAS_DIRECTION_LR;
-        Wave.direction  = MODE_DIRECTION_RIGHT;
-        Wave.color_mode = MODE_COLORS_NONE;
+        Wave.name           = "Wave";
+        Wave.value          = RAZER_MODE_WAVE;
+        Wave.flags          = MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS;
+        Wave.direction      = MODE_DIRECTION_RIGHT;
+        Wave.color_mode     = MODE_COLORS_NONE;
+        Wave.brightness_min = 0;
+        Wave.brightness_max = 255;
+        Wave.brightness     = 255;
         modes.push_back(Wave);
     }
 
     if(controller->SupportsReactive())
     {
         mode Reactive;
-        Reactive.name       = "Reactive";
-        Reactive.value      = RAZER_MODE_REACTIVE;
-        Reactive.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-        Reactive.color_mode = MODE_COLORS_MODE_SPECIFIC;
-        Reactive.colors_min = 1;
-        Reactive.colors_max = 1;
+        Reactive.name           = "Reactive";
+        Reactive.value          = RAZER_MODE_REACTIVE;
+        Reactive.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Reactive.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+        Reactive.colors_min     = 1;
+        Reactive.colors_max     = 1;
         Reactive.colors.resize(1);
+        Reactive.brightness_min = 0;
+        Reactive.brightness_max = 255;
+        Reactive.brightness     = 255;
         modes.push_back(Reactive);
     }
 
@@ -261,5 +279,14 @@ void RGBController_Razer::DeviceUpdateMode()
                     break;
             }
             break;
+    }
+
+    if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+    {
+        controller->SetBrightness(modes[active_mode].brightness);
+    }
+    else
+    {
+        controller->SetBrightness(255);
     }
 }

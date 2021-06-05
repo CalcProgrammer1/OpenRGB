@@ -169,6 +169,8 @@ public:
     std::string             GetName();
     std::string             GetSerialString();
 
+    void                    SetBrightness(unsigned char brightness);
+
     void                    SetLEDs(RGBColor* colors);
     void                    SetAddressableZoneSizes(unsigned char zone_1_size, unsigned char zone_2_size, unsigned char zone_3_size, unsigned char zone_4_size, unsigned char zone_5_size, unsigned char zone_6_size);
 
