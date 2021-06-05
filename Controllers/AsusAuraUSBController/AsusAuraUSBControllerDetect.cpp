@@ -28,6 +28,7 @@
 #define AURA_ROG_STRIX_FLARE_PNK_LTD_PID        0x18CF
 #define AURA_ROG_CHAKRAM_WIRELESS_PID           0x18E5
 #define AURA_ROG_CHAKRAM_WIRED_1_PID            0x18E3
+#define AURA_ROG_STRIX_SCOPE_TKL_PID            0x190C
 #define AURA_ROG_CHAKRAM_WIRED_2_PID            0x1958
 
 void DetectAsusAuraUSBTerminal(hid_device_info* info, const std::string& name)
@@ -118,3 +119,4 @@ REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",            DetectAsusAuraUS
 REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_2_PID,             0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare",                DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_FLARE_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_FLARE_PNK_LTD_PID,         1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",            DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,             1,  0xFF00);
