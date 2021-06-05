@@ -219,7 +219,7 @@ public:
                         int             single_led      = -1
                         );
 
-    void            SetLEDEffect(unsigned int led, int mode, unsigned int speed, bool random, unsigned char red, unsigned char green, unsigned char blue);
+    void            SetLEDEffect(unsigned int led, int mode, unsigned int speed, unsigned char brightness, bool random, unsigned char red, unsigned char green, unsigned char blue);
     void            SetLedCount(unsigned int led, unsigned int count);
     void            SetMode(int mode);
     bool            ApplyEffect();

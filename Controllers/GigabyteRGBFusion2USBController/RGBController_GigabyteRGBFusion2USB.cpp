@@ -209,62 +209,77 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     modes.push_back(Direct);
 
     mode Static;
-    Static.name             = "Static";
-    Static.value            = EFFECT_STATIC;
-    Static.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.colors_min       = 1;
-    Static.colors_max       = 1;
-    Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
+    Static.name                 = "Static";
+    Static.value                = EFFECT_STATIC;
+    Static.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.brightness_min       = 0;
+    Static.brightness_max       = 100;
+    Static.brightness           = Static.brightness_max;
+    Static.colors_min           = 1;
+    Static.colors_max           = 1;
+    Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name          = "Breathing";
-    Breathing.value         = EFFECT_PULSE;
-    Breathing.flags         = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Breathing.speed_min     = 0;
-    Breathing.speed_max     = 4;
-    Breathing.colors_min    = 1;
-    Breathing.colors_max    = 1;
-    Breathing.color_mode    = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.name              = "Breathing";
+    Breathing.value             = EFFECT_PULSE;
+    Breathing.flags             = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Breathing.brightness_min    = 0;
+    Breathing.brightness_max    = 100;
+    Breathing.brightness        = Breathing.brightness_max;
+    Breathing.speed_min         = 0;
+    Breathing.speed_max         = 4;
+    Breathing.colors_min        = 1;
+    Breathing.colors_max        = 1;
+    Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize(1);
-    Breathing.speed         = 2;
+    Breathing.speed             = 2;
     modes.push_back(Breathing);
 
     mode Blinking;
-    Blinking.name           = "Blinking";
-    Blinking.value          = EFFECT_BLINKING;
-    Blinking.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Blinking.speed_min      = 0;
-    Blinking.speed_max      = 4;
-    Blinking.colors_min     = 1;
-    Blinking.colors_max     = 1;
-    Blinking.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Blinking.name               = "Blinking";
+    Blinking.value              = EFFECT_BLINKING;
+    Blinking.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Blinking.brightness_min     = 0;
+    Blinking.brightness_max     = 100;
+    Blinking.brightness         = Blinking.brightness_max;
+    Blinking.speed_min          = 0;
+    Blinking.speed_max          = 4;
+    Blinking.colors_min         = 1;
+    Blinking.colors_max         = 1;
+    Blinking.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Blinking.colors.resize(1);
-    Blinking.speed          = 2;
+    Blinking.speed              = 2;
     modes.push_back(Blinking);
 
     mode ColorCycle;
-    ColorCycle.name         = "Color Cycle";
-    ColorCycle.value        = EFFECT_COLORCYCLE;
-    ColorCycle.flags        = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
-    ColorCycle.speed_min    = 0;
-    ColorCycle.speed_max    = 4;
-    ColorCycle.color_mode   = MODE_COLORS_NONE;
-    ColorCycle.speed        = 2;
+    ColorCycle.name             = "Color Cycle";
+    ColorCycle.value            = EFFECT_COLORCYCLE;
+    ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    ColorCycle.brightness_min   = 0;
+    ColorCycle.brightness_max   = 100;
+    ColorCycle.brightness       = ColorCycle.brightness_max;
+    ColorCycle.speed_min        = 0;
+    ColorCycle.speed_max        = 4;
+    ColorCycle.color_mode       = MODE_COLORS_NONE;
+    ColorCycle.speed            = 2;
     modes.push_back(ColorCycle);
 
     mode Flashing;
-    Flashing.name           = "Flashing";
-    Flashing.value          = 10;
-    Flashing.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Flashing.speed_min      = 0;
-    Flashing.speed_max      = 4;
-    Flashing.colors_min     = 1;
-    Flashing.colors_max     = 1;
-    Flashing.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Flashing.name               = "Flashing";
+    Flashing.value              = 10;
+    Flashing.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Flashing.brightness_min     = 0;
+    Flashing.brightness_max     = 100;
+    Flashing.brightness         = Flashing.brightness_max;
+    Flashing.speed_min          = 0;
+    Flashing.speed_max          = 4;
+    Flashing.colors_min         = 1;
+    Flashing.colors_max         = 1;
+    Flashing.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Flashing.colors.resize(1);
-    Flashing.speed          = 2;
+    Flashing.speed              = 2;
     modes.push_back(Flashing);
 
     Load_Device_Config();
@@ -559,7 +574,7 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
             /*---------------------------------------------------------*\
             | Apply the mode and color to the zone                      |
             \*---------------------------------------------------------*/
-            controller->SetLEDEffect(zones[zone].leds[led_idx].value, mode_value, modes[active_mode].speed, random, red, grn, blu);
+            controller->SetLEDEffect(zones[zone].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
         }
         
         controller->ApplyEffect();
@@ -605,7 +620,7 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
                 | Apply built-in effects to LED strips                      |
                 \*---------------------------------------------------------*/
                 controller->DisableBuiltinEffect(0, hdr == HDR_D_LED1 ? 0x01 : 0x02);
-                controller->SetLEDEffect(hdr, modes[active_mode].value, modes[active_mode].speed, random, red, grn, blu);
+                controller->SetLEDEffect(hdr, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
                 controller->ApplyEffect();
             }
         }
@@ -652,7 +667,7 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
             blu = RGBGetBValue(modes[active_mode].colors[0]);
         }
 
-        controller->SetLEDEffect(leds[led].value, mode_value, modes[active_mode].speed, random, red, grn, blu);
+        controller->SetLEDEffect(leds[led].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
         controller->ApplyEffect();
     }
     /*---------------------------------------------------------*\

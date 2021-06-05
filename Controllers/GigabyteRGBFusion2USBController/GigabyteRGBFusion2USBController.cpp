@@ -354,7 +354,7 @@ static const std::array< std::array<int, 3>, 5> speeds =
     },
 };
 
-void RGBFusion2USBController::SetLEDEffect(unsigned int led, int mode, unsigned int speed, bool random, unsigned char r, unsigned char g, unsigned char b)
+void RGBFusion2USBController::SetLEDEffect(unsigned int led, int mode, unsigned int speed, unsigned char brightness, bool random, unsigned char r, unsigned char g, unsigned char b)
 {
     PktEffect pkt;
 
@@ -370,6 +370,8 @@ void RGBFusion2USBController::SetLEDEffect(unsigned int led, int mode, unsigned 
         pkt.e.period1 = s[1];
         pkt.e.period2 = s[2];
     }
+
+    pkt.e.max_brightness = brightness;
 
     switch(mode)
     {
