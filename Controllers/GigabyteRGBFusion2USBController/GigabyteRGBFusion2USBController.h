@@ -35,7 +35,7 @@ const uint8_t LED8          = 0x27;
 
 /*-------------------------------------------------------------*\
 | LED "headers" 0x20..0x27, As seen on Gigabyte X570 Elite board|
-| Internal legacy shorthand naming and possibly depracated      |
+| Internal legacy shorthand naming and possibly deprecated      |
 \*-------------------------------------------------------------*/
 const uint8_t HDR_BACK_IO   = LED1;
 const uint8_t HDR_CPU       = LED2;
