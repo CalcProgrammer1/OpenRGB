@@ -622,6 +622,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1e7d", ATTR{idProduct}=="2e27", TAG+="uacces
 #  Mice:                                                        #
 #       Redragon M711 Cobra                                     #
 #       Redragon M715 Dagger                                    #
+#       Redragon M716 Inquisitor                                #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="5204", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="5104", TAG+="uaccess"
@@ -630,6 +631,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0c45", ATTR{idProduct}=="652f", TAG+="uacces
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc30", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc39", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc3a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="fc4d", TAG+="uaccess"
 
 #---------------------------------------------------------------#
