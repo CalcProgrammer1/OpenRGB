@@ -46,6 +46,47 @@ RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* l
     Direct.color_mode               = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    mode Off;
+    Off.name                        = "Off";
+    Off.value                       = LOGITECH_G213_MODE_OFF;
+    Off.flags                       = 0;
+    Off.color_mode                  = MODE_COLORS_NONE;
+    modes.push_back(Off);
+
+    mode Cycle;
+    Cycle.name                      = "Cycle";
+    Cycle.value                     = LOGITECH_G213_MODE_CYCLE;
+    Cycle.flags                     = MODE_FLAG_HAS_SPEED;
+    Cycle.color_mode                = MODE_COLORS_NONE;
+    Cycle.speed_min                 = LOGITECH_G213_SPEED_SLOWEST;
+    Cycle.speed_max                 = LOGITECH_G213_SPEED_FASTEST;
+    Cycle.speed                     = LOGITECH_G213_SPEED_NORMAL;
+    modes.push_back(Cycle);
+
+    mode Wave;
+    Wave.name                      = "Wave";
+    Wave.value                     = LOGITECH_G213_MODE_WAVE;
+    Wave.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD;
+    Wave.color_mode                = MODE_COLORS_NONE;
+    Wave.speed_min                 = LOGITECH_G213_SPEED_SLOWEST;
+    Wave.speed_max                 = LOGITECH_G213_SPEED_FASTEST;
+    Wave.speed                     = LOGITECH_G213_SPEED_NORMAL;
+    Wave.direction                 = MODE_DIRECTION_LEFT;
+    modes.push_back(Wave);
+
+    mode Breathing;
+    Breathing.name                  = "Breathing";
+    Breathing.value                 = LOGITECH_G213_MODE_BREATHING;
+    Breathing.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Breathing.colors_min            = 1;
+    Breathing.colors_max            = 1;
+    Breathing.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.colors.resize(1);
+    Breathing.speed_min             = LOGITECH_G213_SPEED_SLOWEST;
+    Breathing.speed_max             = LOGITECH_G213_SPEED_FASTEST;
+    Breathing.speed                 = LOGITECH_G213_SPEED_NORMAL;
+    modes.push_back(Breathing);
+
     SetupZones();
 }
 
@@ -117,4 +158,43 @@ void RGBController_LogitechG213::DeviceUpdateMode()
     | Direct mode does not send a mode packet                   |
     | Call UpdateLEDs to send direct packet                     |
     \*---------------------------------------------------------*/
+    if(active_mode == 0xFFFF)
+    {
+        UpdateLEDs();
+        return;
+    }
+
+    unsigned char red = 0;
+    unsigned char grn = 0;
+    unsigned char blu = 0;
+    unsigned char direction = 0;
+
+    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+    {
+        red = RGBGetRValue(modes[active_mode].colors[0]);
+        grn = RGBGetGValue(modes[active_mode].colors[0]);
+        blu = RGBGetBValue(modes[active_mode].colors[0]);
+    }
+
+    switch (modes[active_mode].direction)
+    {
+        case MODE_DIRECTION_LEFT:
+            // Right to left
+            direction = LOGITECH_G213_WAVE_MODE_LEFT;
+            break;
+        case MODE_DIRECTION_RIGHT:
+            // Left to right
+            direction = LOGITECH_G213_WAVE_MODE_RIGHT;
+            break;
+        case MODE_DIRECTION_UP:
+            // Edge to center
+            direction = LOGITECH_G213_WAVE_MODE_EDGE_CENTER;
+            break;
+        case MODE_DIRECTION_DOWN:
+            // Center to edge
+            direction = LOGITECH_G213_WAVE_MODE_CENTER_EDGE;
+            break;
+    }
+
+    logitechG213->SetMode(modes[active_mode].value, modes[active_mode].speed, direction, red, grn, blu);
 }
