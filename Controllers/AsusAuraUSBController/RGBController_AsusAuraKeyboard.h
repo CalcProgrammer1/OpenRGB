@@ -11,10 +11,32 @@
 #include "RGBController.h"
 #include "AsusAuraKeyboardController.h"
 
+enum AuraKeyboardMappingLayoutType
+{
+    FLARE_LAYOUT,
+    SCOPE_LAYOUT,
+    SCOPE_RX_LAYOUT,
+    SCOPE_TKL_LAYOUT,
+};
+
+typedef struct
+{
+    const char*         name;
+    unsigned char       idx;
+} led_type;
+
+typedef struct
+{
+    const char*         name;
+    const zone_type     type;
+    const unsigned int  size;
+    matrix_map_type*    matrix;
+} led_zone;
+
 class RGBController_AuraKeyboard : public RGBController
 {
 public:
-    RGBController_AuraKeyboard(AuraKeyboardController* aura_ptr);
+    RGBController_AuraKeyboard(AuraKeyboardController* aura_ptr, AuraKeyboardMappingLayoutType keyboard_layout);
     ~RGBController_AuraKeyboard();
 
     void        SetupZones();
@@ -29,5 +51,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AuraKeyboardController* aura;
+    AuraKeyboardController*         aura;
+    AuraKeyboardMappingLayoutType   layout;
 };
