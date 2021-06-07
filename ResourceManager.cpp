@@ -835,7 +835,7 @@ void ResourceManager::DetectDevicesThreadFunction()
 
         while(current_hid_device)
         {
-            LOG_DEBUG("HID device [04X:%04X]", current_hid_device->vendor_id, current_hid_device->product_id);
+            LOG_DEBUG("HID device [%04X:%04X]", current_hid_device->vendor_id, current_hid_device->product_id);
 
             detection_string = "";
             DetectionProgressChanged();
