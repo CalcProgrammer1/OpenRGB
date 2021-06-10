@@ -128,12 +128,74 @@ void SteelSeriesRivalController::SetLightEffectAll
             SetLightEffect(0, effect);
             SetLightEffect(1, effect);
             break;
-        
+
+        case RIVAL_650:
+            for(int i=0x10; i<0x18; i++)
+            {
+                SetLightEffect(i, effect);
+            }
+            break;
+
         default:
             break;
     }
 }
 
+void SteelSeriesRivalController::SetRival650Color
+    (
+    unsigned char   zone_id,
+    unsigned char   red,
+    unsigned char   green,
+    unsigned char   blue
+    )
+{
+    char usb_buf[60];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]       = 0x03;
+    usb_buf[0x04]       = 0x30;
+    usb_buf[0x06]       = 0x10;
+    usb_buf[0x07]       = 0x27;
+    usb_buf[0x16]       = 0x01;
+    usb_buf[0x1E]       = 0x04;
+    usb_buf[0x1F]       = red;
+    usb_buf[0x20]       = green;
+    usb_buf[0x21]       = blue;
+    usb_buf[0x22]       = 0xff;
+    usb_buf[0x27]       = 0xff;
+    usb_buf[0x29]       = 0x54;
+    usb_buf[0x2c]       = 0xff;
+    usb_buf[0x2d]       = 0x54;
+    usb_buf[0x2e]       = red;
+    usb_buf[0x2f]       = green;
+    usb_buf[0x30]       = blue;
+    usb_buf[0x31]       = 0x56;
+
+    send_usb_msg(dev, usb_buf, 60);
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]       = 0x03;
+    usb_buf[0x02]       = 0x30;
+    usb_buf[0x04]       = 0x2c;
+
+    send_usb_msg(dev, usb_buf, 60);
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]       = 0x05;
+    usb_buf[0x02]       = zone_id;//mousekey 0x10-0x17
+    usb_buf[0x03]       = 0xff;
+    usb_buf[0x08]       = 0x5c;
+
+    send_usb_msg(dev, usb_buf, 60);
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]       = 0x1c;
+    usb_buf[0x02]       = 0x55;
+    usb_buf[0x04]       = 0x46;
+
+    send_usb_msg(dev, usb_buf, 60);
+}
 
 void SteelSeriesRivalController::SetColor
     (
@@ -156,6 +218,10 @@ void SteelSeriesRivalController::SetColor
             usb_buf[0x00]       = 0x08;
             usb_buf[0x01]       = zone_id + 1;
             break;
+
+        case RIVAL_650:
+            SetRival650Color(zone_id, red, green, blue);
+            return;
 
         default:
             break;
@@ -184,6 +250,13 @@ void SteelSeriesRivalController::SetColorAll
         case RIVAL_300:
             SetColor(0, red, green, blue);
             SetColor(1, red, green, blue);
+            break;
+
+        case RIVAL_650:
+            for(int i = 0x10; i < 0x18; i++)
+            {
+                SetColor(i, red, green, blue);
+            }
             break;
 
         default:

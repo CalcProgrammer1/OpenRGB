@@ -17,17 +17,17 @@
 /* Mode, we then use these to set actual effect based on speed. */
 enum
 {
-    STEELSERIES_RIVAL_DIRECT = 0x00,
-    STEELSERIES_RIVAL_PULSATE = 0x01
+    STEELSERIES_RIVAL_DIRECT                = 0x00,
+    STEELSERIES_RIVAL_PULSATE               = 0x01
 };
 
 /* Effects */
 enum
 {
-    STEELSERIES_RIVAL_EFFECT_DIRECT = 0x01,
-    STEELSERIES_RIVAL_EFFECT_PULSATE_MIN = 0x02,
-    STEELSERIES_RIVAL_EFFECT_PULSATE_MID = 0x03,
-    STEELSERIES_RIVAL_EFFECT_PULSATE_MAX = 0x04
+    STEELSERIES_RIVAL_EFFECT_DIRECT         = 0x01,
+    STEELSERIES_RIVAL_EFFECT_PULSATE_MIN    = 0x02,
+    STEELSERIES_RIVAL_EFFECT_PULSATE_MID    = 0x03,
+    STEELSERIES_RIVAL_EFFECT_PULSATE_MAX    = 0x04
 };
 
 class SteelSeriesRivalController
@@ -80,4 +80,12 @@ private:
     hid_device*             dev;
     std::string             location;
     steelseries_type        proto;
+
+    void SetRival650Color
+            (
+            unsigned char   zone_id,
+            unsigned char   red,
+            unsigned char   green,
+            unsigned char   blue
+            );
 };
