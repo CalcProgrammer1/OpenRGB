@@ -12,7 +12,7 @@
 #include <cstring>
 
 // Skip these indices in the color output
-static unsigned int skip_idx[] = { 6, 23, 29, 41, 47, 59, 70, 71, 75, 76, 87, 88, 93, 99, 100, 102, 108, 113, 114, 120, 123, 124 };
+static unsigned int skip_idx[] = { 23, 29, 41, 47, 59, 70, 71, 76, 87, 88, 93, 99, 100, 102, 108, 113, 114, 120, 123, 124 };
 
 HyperXAlloyOriginsController::HyperXAlloyOriginsController(hid_device* dev_handle, const char* path)
 {
