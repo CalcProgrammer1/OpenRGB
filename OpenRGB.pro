@@ -21,6 +21,15 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 greaterThan(QT_MAJOR_VERSION, 5): DEFINES += _QT6
 
 #-----------------------------------------------------------------------------------------------#
+# pkg-config Configuration                                                                      #
+#-----------------------------------------------------------------------------------------------#
+greaterThan(QT_MAJOR_VERSION, 4) {
+    PKG_CONFIG = $$pkgConfigExecutable()
+} else {
+    PKG_CONFIG = "pkgconf"
+}
+
+#-----------------------------------------------------------------------------------------------#
 # Application Configuration                                                                     #
 #-----------------------------------------------------------------------------------------------#
 VERSION     = 0.61
@@ -1103,7 +1112,7 @@ unix:!macx {
         # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
         # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
         #---------------------------------------------------------------------------------------#
-        HIDAPI_HIDRAW_VERSION = $$system(pkgconf --modversion hidapi-hidraw)
+        HIDAPI_HIDRAW_VERSION = $$system($$PKG_CONFIG --modversion hidapi-hidraw)
         if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
             DEFINES += USE_HID_USAGE
         }
