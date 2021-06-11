@@ -9,6 +9,7 @@
 #include "LogitechG815Controller.h"
 #include "LogitechGLightsyncController.h"
 #include "LogitechLightspeedController.h"
+#include "LogitechX56Controller.h"
 #include "RGBController.h"
 #include "RGBController_LogitechG203L.h"
 #include "RGBController_LogitechG213.h"
@@ -20,6 +21,7 @@
 #include "RGBController_LogitechGLightsync1zone.h"
 #include "RGBController_LogitechLightspeed.h"
 #include "RGBController_LogitechGPowerPlay.h"
+#include "RGBController_LogitechX56.h"
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -89,6 +91,13 @@
 #define LOGITECH_G900_LIGHTSPEED_VIRTUAL_PID            0x4053
 #define LOGITECH_G903_LIGHTSPEED_VIRTUAL_PID            0x4067
 #define LOGITECH_G_PRO_WIRELESS_VIRTUAL_PID             0x4079
+
+/*-----------------------------------------------------*\
+| Joystick product IDs                                  |
+\*-----------------------------------------------------*/
+#define LOGITECH_X56_VID                                0x0738
+#define LOGITECH_X56_JOYSTICK_PID                       0x2221
+#define LOGITECH_X56_THROTTLE_PID                       0xA221
 
 /*-----------------------------------------------------*\
 | Logitech Keyboards                                    |
@@ -470,6 +479,22 @@ void DetectLogitechG560(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectLogitechX56(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        /*---------------------------------------------*\
+        | Add X56 Devices                               |
+        \*---------------------------------------------*/
+        LogitechX56Controller*     controller     = new LogitechX56Controller(dev, info->path);
+        RGBController_LogitechX56* rgb_controller = new RGBController_LogitechX56(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -499,6 +524,11 @@ REGISTER_HID_DETECTOR_IP ("Logitech G Pro (HERO) Gaming Mouse",             Dete
 | Speakers                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Logitech G560 Lightsync Speaker",                DetectLogitechG560,         LOGITECH_VID, LOGITECH_G560_PID,                    2, 0xFF43, 514);
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Joysticks                                                                                                                                         |
+\*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IP("Logitech X56 Rhino Hotas Joystick",               DetectLogitechX56,          LOGITECH_X56_VID, LOGITECH_X56_JOYSTICK_PID,        2, 0xFF00);
+REGISTER_HID_DETECTOR_IP("Logitech X56 Rhino Hotas Throttle",               DetectLogitechX56,          LOGITECH_X56_VID, LOGITECH_X56_THROTTLE_PID,        2, 0xFF00);
 
 /*---------------------------------------------------------------------------------------------------------*\
 | Windows and MacOS Lightspeed Detection                                                                    |
