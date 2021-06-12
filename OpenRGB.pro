@@ -133,7 +133,6 @@ INCLUDEPATH +=                                                                  
     qt/
 
 HEADERS +=                                                                                      \
-    Controllers/LogitechController/LogitechProtocolCommon.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/json/json.hpp                                                                  \
     dependencies/libcmmk/include/libcmmk/libcmmk.h                                              \
@@ -288,6 +287,7 @@ HEADERS +=                                                                      
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
     Controllers/LianLiController/LianLiUniHubController.h                                       \
     Controllers/LianLiController/RGBController_LianLiUniHub.h                                   \
+    Controllers/LogitechController/LogitechProtocolCommon.h                                     \
     Controllers/LogitechController/LogitechG203LController.h                                    \
     Controllers/LogitechController/LogitechG213Controller.h                                     \
     Controllers/LogitechController/LogitechG560Controller.h                                     \
@@ -387,7 +387,6 @@ HEADERS +=                                                                      
     RGBController/RGBController_Network.h                                                       \
 
 SOURCES +=                                                                                      \
-    Controllers/LogitechController/LogitechProtocolCommon.cpp \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/hueplusplus-1.0.0/src/Action.cpp                                               \
@@ -613,6 +612,7 @@ SOURCES +=                                                                      
     Controllers/LianLiController/LianLiUniHubController.cpp                                     \
     Controllers/LianLiController/RGBController_LianLiUniHub.cpp                                 \
     Controllers/LogitechController/LogitechControllerDetect.cpp                                 \
+    Controllers/LogitechController/LogitechProtocolCommon.cpp                                   \
     Controllers/LogitechController/LogitechG203LController.cpp                                  \
     Controllers/LogitechController/LogitechG213Controller.cpp                                   \
     Controllers/LogitechController/LogitechG560Controller.cpp                                   \
