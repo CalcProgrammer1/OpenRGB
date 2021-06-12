@@ -207,7 +207,7 @@ void AuraSMBusController::SetAllColorsDirect(RGBColor* colors)
 
     AuraRegisterWriteBlock(direct_reg, color_buf, led_count * 3);
 
-    delete color_buf;
+    delete[] color_buf;
 }
 
 void AuraSMBusController::SetAllColorsEffect(RGBColor* colors)
