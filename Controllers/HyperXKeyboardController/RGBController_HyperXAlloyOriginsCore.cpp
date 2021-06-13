@@ -154,7 +154,8 @@ RGBController_HyperXAlloyOriginsCore::RGBController_HyperXAlloyOriginsCore(Hyper
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX Alloy Origins Core Keyboard Device";
     location    = hyperx->GetDeviceLocation();
-    serial      = "";
+    serial      = hyperx->GetSerialString();
+    version     = hyperx->GetFirmwareVersion();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -272,7 +273,10 @@ void RGBController_HyperXAlloyOriginsCore::KeepaliveThread()
     {
         if(active_mode == 0)
         {
-            DeviceUpdateLEDs();
+            if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
+            {
+                DeviceUpdateLEDs();
+            }
         }
         std::this_thread::sleep_for(10ms);
     }
