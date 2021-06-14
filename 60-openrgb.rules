@@ -463,6 +463,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2005", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2006", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2007", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2009", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="200D", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  NZXT Kraken                                                  #
