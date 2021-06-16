@@ -108,8 +108,8 @@ static const char *led_names[] =
     "Key: =",
     "Key: Backspace",
     "Key: Insert",
-    "Key: Page Up",
     "Key: Home",
+    "Key: Page Up",
 
 
     "Key: I",
@@ -119,8 +119,8 @@ static const char *led_names[] =
     "Key: ]",
     "Key: \\ (ANSI)",
     "Key: Delete",
-    "Key: Page Down",
     "Key: End",
+    "Key: Page Down",
 
 
     "Key: K",
