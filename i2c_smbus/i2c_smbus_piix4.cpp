@@ -185,7 +185,7 @@ void i2c_smbus_piix4_detect()
 {
     if(!IsInpOutDriverOpen())
     {
-        LOG_NOTICE("inpout32 is not loaded, piix4 I2C bus detection aborted");
+        LOG_INFO("inpout32 is not loaded, piix4 I2C bus detection aborted");
         return;
     }
 
@@ -201,7 +201,7 @@ void i2c_smbus_piix4_detect()
 
     if (hres)
     {
-        LOG_NOTICE("WMI query failed, piix4 I2C bus detection aborted");
+        LOG_INFO("WMI query failed, piix4 I2C bus detection aborted");
         return;
     }
 

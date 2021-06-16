@@ -1,4 +1,5 @@
 #include "Detector.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_OpenRazerWindows.h"
 #include <vector>
@@ -113,7 +114,9 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 {
     static HMODULE module = LoadLibrary(OPENRAZERDLL);
 
-	if(module == nullptr)
+    LOG_DEBUG("[OpenRazerWindows] The %s is %s", OPENRAZERDLL, (module == nullptr)?"not found":"found" );
+    
+    if(module == nullptr)
     {
         return;
     }
@@ -179,6 +182,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
             }
             else
             {
+                LOG_DEBUG("[OpenRazerWindows] Device index is not -1 delete controller");
                 delete razer_rgb;
             }
         }
@@ -203,6 +207,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
             }
             else
             {
+                LOG_DEBUG("[OpenRazerWindows] Device index is not -1 delete controller");
                 delete razer_rgb;
             }
         }
@@ -227,6 +232,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
             }
             else
             {
+                LOG_DEBUG("[OpenRazerWindows] Device index is not -1 delete controller");
                 delete razer_rgb;
             }
         }
@@ -251,6 +257,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
             }
             else
             {
+                LOG_DEBUG("[OpenRazerWindows] Device index is not -1 delete controller");
                 delete razer_rgb;
             }
         }
@@ -275,6 +282,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
             }
             else
             {
+                LOG_DEBUG("[OpenRazerWindows] Device index is not -1 delete controller");
                 delete razer_rgb;
             }
         }

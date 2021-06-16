@@ -41,7 +41,7 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
 
             default:
                 type                = DEVICE_TYPE_UNKNOWN;
-                LOG_NOTICE("Logitech device type not known: %i", logitech->lightspeed->logitech_device_type);
+                LOG_INFO("Logitech device type not known: %i", logitech->lightspeed->logitech_device_type);
         }
 
         mode Direct;

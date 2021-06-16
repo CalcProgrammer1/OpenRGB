@@ -349,7 +349,7 @@ static void addLogitechLightsyncMouse1zone(hid_device_info* info, const std::str
         }
         else
         {
-            LOG_NOTICE("Unable to open all device report endpoints, unable to add device");
+            LOG_INFO("Unable to open all device report endpoints, unable to add device");
             hid_close(dev_usage_1);
             hid_close(dev_usage_2);
         }
@@ -409,7 +409,7 @@ static void addLogitechLightsyncMouse2zone(hid_device_info* info, const std::str
         }
         else
         {
-            LOG_NOTICE("Unable to open all device report endpoints, unable to add device");
+            LOG_INFO("Unable to open all device report endpoints, unable to add device");
             hid_close(dev_usage_1);
             hid_close(dev_usage_2);
         }

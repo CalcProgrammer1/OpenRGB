@@ -196,7 +196,7 @@ void i2c_smbus_nct6775_detect()
 {
     if(!IsInpOutDriverOpen())
     {
-        LOG_NOTICE("inpout32 is not loaded, nct6775 I2C bus detection aborted");
+        LOG_INFO("inpout32 is not loaded, nct6775 I2C bus detection aborted");
         return;
     }
 

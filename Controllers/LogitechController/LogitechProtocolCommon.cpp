@@ -22,7 +22,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
     usages::iterator find_usage = device_usages.find(1);
     if (find_usage == device_usages.end())
     {
-        LOG_NOTICE("Unable get_Wireless_Device due to missing FAP Short Message (0x10) usage");
+        LOG_INFO("Unable get_Wireless_Device due to missing FAP Short Message (0x10) usage");
         LOG_DEBUG("Dumping device usages:");
         for(usages::iterator dev = device_usages.begin(); dev != device_usages.end(); dev++)
         {
@@ -66,11 +66,11 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
         result = hid_read_timeout(dev_use1, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
 
         unsigned int device_count = response.data[1];
-        LOG_NOTICE("Count of connected devices to %4X: %i", pid, device_count);
+        LOG_INFO("Count of connected devices to %4X: %i", pid, device_count);
 
         if (device_count > 0)
         {
-            LOG_NOTICE("Faking a reconnect to get device list");
+            LOG_INFO("Faking a reconnect to get device list");
             device_count++;     //Add 1 to the device_count to include the receiver
 
             response.init();
@@ -87,7 +87,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
 
                 hid_read_timeout(dev_use1, devices.buffer, devices.size(), LOGITECH_PROTOCOL_TIMEOUT);
                 unsigned int wireless_PID = (devices.data[2] << 8) | devices.data[1];
-                LOG_NOTICE("Connected Device Index %i:\tVirtualID=%04X\t\t%02X %02X %02X %02X %02X %02X %02X", i, wireless_PID, devices.buffer[0], devices.buffer[1], devices.buffer[2], devices.buffer[3], devices.buffer[4], devices.buffer[5], devices.buffer[6]);
+                LOG_INFO("Connected Device Index %i:\tVirtualID=%04X\t\t%02X %02X %02X %02X %02X %02X %02X", i, wireless_PID, devices.buffer[0], devices.buffer[1], devices.buffer[2], devices.buffer[3], devices.buffer[4], devices.buffer[5], devices.buffer[6]);
 
                 /*-----------------------------------------------------------------*\
                 | We need to read the receiver from the HID device queue but        |
@@ -164,10 +164,10 @@ void logitech_device::initialiseDevice()
         |   dump the entire Feature list to log                             |
         \*-----------------------------------------------------------------*/
         getDeviceFeatureList();        //This will populate the feature list
-        LOG_NOTICE("Unable add this device due to missing RGB Effects Feature");
+        LOG_INFO("Unable add this device due to missing RGB Effects Feature");
         for(features::iterator feature = feature_list.begin(); feature != feature_list.end(); feature++)
         {
-            LOG_NOTICE("Feature Index: %02X\tFeature Page: %04X", feature->second, feature->first);
+            LOG_INFO("Feature Index: %02X\tFeature Page: %04X", feature->second, feature->first);
         }
     }
     else
@@ -238,7 +238,7 @@ hid_device* logitech_device::getDevice(uint8_t usage_index)
 
     if (find_usage == device_usages.end())
     {
-        LOG_NOTICE("Unable add this device due to missing FAP Message usage %i", usage_index);
+        LOG_INFO("Unable add this device due to missing FAP Message usage %i", usage_index);
         return nullptr;
     }
     else
@@ -333,11 +333,11 @@ int logitech_device::getDeviceFeatureList()
     {
         if(!dev_use1)
         {
-            LOG_NOTICE("Unable add this device due to missing FAP Short Message (0x10) usage");
+            LOG_INFO("Unable add this device due to missing FAP Short Message (0x10) usage");
         }
         if(!dev_use2)
         {
-            LOG_NOTICE("Unable add this device due to missing FAP Long Message (0x11) usage");
+            LOG_INFO("Unable add this device due to missing FAP Long Message (0x11) usage");
         }
     }
 

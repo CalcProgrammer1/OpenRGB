@@ -491,7 +491,7 @@ void i2c_smbus_i801_detect()
 {
     if(!IsInpOutDriverOpen())
     {
-        LOG_NOTICE("inpout32 is not loaded, i801 I2C bus detection aborted");
+        LOG_INFO("inpout32 is not loaded, i801 I2C bus detection aborted");
         return;
     }
 
@@ -507,7 +507,7 @@ void i2c_smbus_i801_detect()
 
     if (hres)
     {
-        LOG_NOTICE("WMI query failed, i801 I2C bus detection aborted");
+        LOG_INFO("WMI query failed, i801 I2C bus detection aborted");
         return;
     }
 

@@ -180,9 +180,9 @@ void MessageBoxCallback(void*, PLogMessage message)
     \*---------------------------------------------------------*/
     switch(message->level)
     {
-        case LL_CRITICAL: box.setIcon(QMessageBox::Critical); break;
+        case LL_FATAL: box.setIcon(QMessageBox::Critical); break;
         case LL_ERROR: box.setIcon(QMessageBox::Warning); break;
-        case LL_MESSAGE: box.setIcon(QMessageBox::Information); break;
+        case LL_WARNING: box.setIcon(QMessageBox::Information); break;
     }
 
     /*---------------------------------------------------------*\
@@ -244,7 +244,7 @@ int main(int argc, char* argv[])
         else
         {
             printf("Local OpenRGB server connected, running in client mode\r\n");
-            
+
             ResourceManager::get()->DisableDetection();
         }
     }
@@ -258,7 +258,7 @@ int main(int argc, char* argv[])
         {
             printf("Running standalone.\r\n");
         }
-        
+
         ResourceManager::get()->DetectDevices();
     }
 

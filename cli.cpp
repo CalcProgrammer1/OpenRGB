@@ -399,7 +399,7 @@ void OptionHelp()
     help_text += "--config path                            Use a custom path instead of the global configuration directory.\n";
     help_text += "--nodetect                               Do not try to detect hardware at startup.\n";
     help_text += "--noautoconnect                          Do not try to autoconnect to a local server at startup.\n";
-    help_text += "--loglevel [0-6 | error | warning ...]   Set the log level (0: critical to 6: debug).\n";
+    help_text += "--loglevel [0-6 | error | warning ...]   Set the log level (0: fatal to 6: trace).\n";
     help_text += "--print-source                           Print the source code file and line number for each log entry.\n";
     help_text += "-v,  --verbose                           Print log messages to stdout.\n";
     help_text += "-vv, --very-verbose                      Print debug messages and log messages to stdout.\n";
@@ -1146,38 +1146,34 @@ unsigned int cli_pre_detection(int argc, char *argv[])
                 try
                 {
                     int level = std::stoi(argument);
-                    if (level >= 0 && level <= LL_DEBUG)
+                    if (level >= 0 && level <= LL_TRACE)
                     {
                         LogManager::get()->setLoglevel(level);
                     }
                     else
                     {
-                        std::cout << "Error: Loglevel out of range: " << level << " (0-6)" << std::endl;
+                        LOG_ERROR("Loglevel out of range: %d (0-6)", level);
                         print_help = true;
                         break;
                     }
                 }
                 catch(std::invalid_argument& e)
                 {
-                    if(!strcasecmp(argument.c_str(), "critical"))
+                    if(!strcasecmp(argument.c_str(), "fatal"))
                     {
-                        LogManager::get()->setLoglevel(LL_CRITICAL);
+                        LogManager::get()->setLoglevel(LL_FATAL);
                     }
                     else if(!strcasecmp(argument.c_str(), "error"))
                     {
                         LogManager::get()->setLoglevel(LL_ERROR);
                     }
-                    else if(!strcasecmp(argument.c_str(), "message"))
-                    {
-                        LogManager::get()->setLoglevel(LL_MESSAGE);
-                    }
                     else if(!strcasecmp(argument.c_str(), "warning"))
                     {
                         LogManager::get()->setLoglevel(LL_WARNING);
                     }
-                    else if(!strcasecmp(argument.c_str(), "notice"))
+                    else if(!strcasecmp(argument.c_str(), "info"))
                     {
-                        LogManager::get()->setLoglevel(LL_NOTICE);
+                        LogManager::get()->setLoglevel(LL_INFO);
                     }
                     else if(!strcasecmp(argument.c_str(), "verbose"))
                     {
@@ -1187,9 +1183,13 @@ unsigned int cli_pre_detection(int argc, char *argv[])
                     {
                         LogManager::get()->setLoglevel(LL_DEBUG);
                     }
+                    else if(!strcasecmp(argument.c_str(), "trace"))
+                    {
+                        LogManager::get()->setLoglevel(LL_TRACE);
+                    }
                     else
                     {
-                        std::cout << "Error: invalid loglevel" << std::endl;
+                        LOG_ERROR("Invalid loglevel");
                         print_help = true;
                         break;
                     }
@@ -1197,7 +1197,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
             }
             else
             {
-                std::cout << "Error: Missing argument for --loglevel" << std::endl;
+                LOG_ERROR("Missing argument for --loglevel");
                 print_help = true;
                 break;
             }
@@ -1444,11 +1444,11 @@ unsigned int cli_post_detection(int argc, char *argv[])
     {
         if(ResourceManager::get()->GetProfileManager()->SaveProfile(profile_save_filename))
         {
-            std::cout << "Profile saved successfully" << std::endl;
+            LOG_INFO("Profile saved successfully");
         }
         else
         {
-            std::cout << "Profile saving failed" << std::endl;
+            LOG_ERROR("Profile saving failed");
         }
     }
 

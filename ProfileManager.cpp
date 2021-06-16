@@ -359,7 +359,7 @@ bool ProfileManager::LoadProfileWithOptions
     {
         ret_val = LoadDeviceFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings);
         std::string current_name = controllers[controller_index]->name + " @ " + controllers[controller_index]->location;
-        LOG_NOTICE("Profile loading: %s for %s", ( ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
+        LOG_INFO("Profile loading: %s for %s", ( ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
     }
 
     /*---------------------------------------------------------*\
@@ -393,7 +393,7 @@ void ProfileManager::UpdateProfileList()
 
         if(filename.find(".orp") != std::string::npos)
         {
-            LOG_NOTICE("Found file: %s attempting to validate header", filename.c_str());
+            LOG_INFO("Found file: %s attempting to validate header", filename.c_str());
 
             /*---------------------------------------------------------*\
             | Open input file in binary mode                            |
@@ -419,7 +419,7 @@ void ProfileManager::UpdateProfileList()
                     filename.erase(filename.length() - 4);
                     profile_list.push_back(filename);
 
-                    LOG_NOTICE("Valid v%i profile found for %s", profile_version, filename.c_str());
+                    LOG_INFO("Valid v%i profile found for %s", profile_version, filename.c_str());
                 }
             }
 

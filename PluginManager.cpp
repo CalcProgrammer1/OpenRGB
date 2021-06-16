@@ -3,7 +3,7 @@
 
 void PluginManager::ScanAndLoadPlugins(bool dark_theme)
 {
-    LOG_NOTICE("Loading plugins");
+    LOG_INFO("Loading plugins");
 
     std::string OpenRGBConfigDir = ResourceManager::get()->GetConfigurationDirectory();
 

@@ -1,4 +1,5 @@
 #include "Detector.h"
+#include "LogManager.h"
 #include "RazerController.h"
 #include "RazerKrakenController.h"
 #include "RazerDevices.h"
@@ -66,6 +67,7 @@ void DetectRazerControllers(hid_device_info* info, const std::string& name)
 
     if(openrazer_enabled)
     {
+        LOG_VERBOSE("[DetectRazer] OpenRazer controller is enabled stop this detection");
         return;
     }
 
@@ -183,6 +185,7 @@ void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name
 
     if(openrazer_enabled)
     {
+        LOG_VERBOSE("[DetectRazerKraken] OpenRazer controller is enabled stop this detection");
         return;
     }
 
