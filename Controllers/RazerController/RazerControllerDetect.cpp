@@ -214,6 +214,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Huntsman",                                  Det
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman Elite",                            DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_ELITE_PID,                       0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman Tournament Edition",               DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_TE_PID,                          0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Ornata Chroma",                             DetectRazerControllers,        RAZER_VID,  RAZER_ORNATA_CHROMA_PID,                        0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Ornata Chroma V2",                          DetectRazerControllers,        RAZER_VID,  RAZER_ORNATA_CHROMA_V2_PID,                     0x00,   0x01,   0x02);
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Laptops                                                                                               |
