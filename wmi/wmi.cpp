@@ -147,6 +147,14 @@ HRESULT Wmi::query(std::string queryStr, std::vector<QueryObj>& queryVectorOut, 
     int nIdx = 0;
     IEnumWbemClassObject* pEnumerator = nullptr;
 
+    // Initialize COM. ------------------------------------------
+    hres = CoInitializeEx(0, COINIT_MULTITHREADED);
+    if (FAILED(hres))
+    {
+        return hres;
+    }
+
+    pSvc->Release();
     // Reconnect to server before each query as we were seeing disconnected failures
     hres = pLoc->ConnectServer(
         _bstr_t(L"ROOT\\CIMV2"), // Object path of WMI namespace
