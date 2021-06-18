@@ -17,6 +17,7 @@
 #define TECWARE_PHANTOM_ELITE_PID       0x652F
 #define WARRIOR_KANE_TC235              0x8520
 #define WOMIER_K87_PID                  0x502A
+#define WOMIER_K66_PID                  0x7698
 
 /******************************************************************************************\
 *                                                                                          *
@@ -47,3 +48,4 @@ REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5004",  DetectEVisionKeyboards, 
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:652F",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   TECWARE_PHANTOM_ELITE_PID, 1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:8520",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   WARRIOR_KANE_TC235,        1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:502A",  DetectEVisionKeyboards, WOMIER_K87_VID,         WOMIER_K87_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:7698",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   WOMIER_K66_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
