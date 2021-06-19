@@ -42,6 +42,7 @@ struct DeviceOptions
     std::vector<std::tuple<unsigned char, unsigned char, unsigned char>> colors;
     std::string     mode;
     unsigned int    size;
+    bool            random_colors;
     bool            hasSize;
     bool            hasOption;
 };
@@ -237,15 +238,31 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
         if (color.length() <= 0)
             break;
 
-        /* swy: (A) try interpreting it as text; as human keywords, otherwise strtoul() will pick up 'darkgreen' as 0xDA */
-        for (const struct HumanColors *hc = human_colors; hc->keyword != NULL; hc++)
+        /*-----------------------------------------------------------------*\
+        | This will set correct colour mode for modes with a                |
+        |   MODE_COLORS_RANDOM else generate a random colour from the       |
+        |   human_colors list above                                         |
+        \*-----------------------------------------------------------------*/
+        if (color == "random")
         {
-            if (strcasecmp(hc->keyword, color.c_str()) != 0)
-                continue;
+            options->random_colors = true;
+            srand(time(NULL));
+            int index = rand() % (sizeof(human_colors) / sizeof(human_colors[0])) + 1; //Anything other than black
+            rgb = human_colors[index].rgb;
+            parsed = true;
+        }
+        else
+        {
+            /* swy: (A) try interpreting it as text; as human keywords, otherwise strtoul() will pick up 'darkgreen' as 0xDA */
+            for (const struct HumanColors *hc = human_colors; hc->keyword != NULL; hc++)
+            {
+                if (strcasecmp(hc->keyword, color.c_str()) != 0)
+                    continue;
 
-            rgb = hc->rgb; parsed = true;
+                rgb = hc->rgb; parsed = true;
 
-            break;
+                break;
+            }
         }
 
         /* swy: (B) no luck, try interpreting it as an hexadecimal number instead */
@@ -365,7 +382,7 @@ void OptionHelp()
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
     help_text += "-z,  --zone [0-9]                        Selects zone to apply colors and/or sizes to, or applies to all zones in device if omitted\n";
     help_text += "                                           Must be specified after specifying a device\n";
-    help_text += "-c,  --color FFFFFF,00AAFF...            Sets colors on each device directly if no effect is specified, and sets the effect color if an effect is specified\n";
+    help_text += "-c,  --color [random | FFFFF,00AAFF ...] Sets colors on each device directly if no effect is specified, and sets the effect color if an effect is specified\n";
     help_text += "                                           If there are more LEDs than colors given, the last color will be applied to the remaining LEDs\n";
     help_text += "-m,  --mode [breathing | static | ...]   Sets the mode to be applied, check --list-devices to see which modes are supported on your device\n";
     help_text += "-s,  --size [0-N]                        Sets the new size of the specified device zone.\n";
@@ -878,6 +895,16 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_cont
     | SetLED below)                                             |
     \*---------------------------------------------------------*/
     unsigned int mode = ParseMode(options, rgb_controllers);
+
+    /*---------------------------------------------------------*\
+    | If the user has specified random colours and the device   |
+    |   supports that colour mode then swich to it before       |
+    |   evaluating if a colour needs to be set                  |
+    \*---------------------------------------------------------*/
+    if (options.random_colors && (device->modes[mode].flags & MODE_FLAG_HAS_RANDOM_COLOR))
+    {
+        device->modes[mode].color_mode = MODE_COLORS_RANDOM;
+    }
 
     /*---------------------------------------------------------*\
     | Determine which color mode this mode uses and update      |
