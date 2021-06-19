@@ -60,10 +60,11 @@ There have been two instances of hardware damage in OpenRGB's development and we
       1.  Install build dependencies
           - Debian/Ubuntu: `sudo apt install git build-essential qtcreator qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev`
           - Debian (before `bullseye`) or Ubuntu (before 21.04): `sudo apt install git build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev`
-          - Fedora: `sudo dnf install git make automake gcc gcc-c++ qt-creator qt5-devel hidapi-devel libusb-devel libmbedtls-devel`
+          - Fedora: `sudo dnf install automake gcc-c++ qt5-qtbase-devel hidapi-devel libusbx-devel mbedtls-devel`
       2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
       3.  cd OpenRGB
       4.  qmake OpenRGB.pro
+          - On Fedora, replace qmake with qmake-qt5
       5.  make -j8
   *  Run the application with ./openrgb
   *  You can also build a Debian package (.deb) from this source code with dpkg-buildpackage -us -B
