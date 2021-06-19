@@ -104,7 +104,7 @@ void DetectSteelSeriesApexOld(hid_device_info* info, const std::string& name)
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        SteelSeriesOldApexController* controller = new SteelSeriesOldApexController(dev, APEX_M, info->path);
+        SteelSeriesOldApexController* controller = new SteelSeriesOldApexController(dev, APEX_OLD, info->path);
         RGBController_SteelSeriesOldApex* rgb_controller = new RGBController_SteelSeriesOldApex(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
