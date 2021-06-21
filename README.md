@@ -65,7 +65,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
       3.  cd OpenRGB
       4.  qmake OpenRGB.pro
           - On Fedora, replace qmake with qmake-qt5
-      5.  make -j8
+      5.  make -j$(nproc)
   *  Run the application with ./openrgb
   *  You can also build a Debian package (.deb) from this source code with dpkg-buildpackage -us -B
      
