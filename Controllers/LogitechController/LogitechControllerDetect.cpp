@@ -4,6 +4,7 @@
 #include "LogitechG203LController.h"
 #include "LogitechG213Controller.h"
 #include "LogitechG560Controller.h"
+#include "LogitechG933Controller.h"
 #include "LogitechG810Controller.h"
 #include "LogitechG910Controller.h"
 #include "LogitechG815Controller.h"
@@ -14,6 +15,7 @@
 #include "RGBController_LogitechG203L.h"
 #include "RGBController_LogitechG213.h"
 #include "RGBController_LogitechG560.h"
+#include "RGBController_LogitechG933.h"
 #include "RGBController_LogitechG810.h"
 #include "RGBController_LogitechG910.h"
 #include "RGBController_LogitechG815.h"
@@ -73,6 +75,11 @@
 | Speaker product IDs                                   |
 \*-----------------------------------------------------*/
 #define LOGITECH_G560_PID                       0x0A78
+
+/*-----------------------------------------------------*\
+| Headset product IDs                                   |
+\*-----------------------------------------------------*/
+#define LOGITECH_G933_PID                       0x0A5B
 
 /*-----------------------------------------------------*\
 | Unifying Device IDs (Including Lightspeed receivers)  |
@@ -479,6 +486,22 @@ void DetectLogitechG560(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectLogitechG933(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        /*---------------------------------------------*\
+        | Add G933 Headset                              |
+        \*---------------------------------------------*/
+        LogitechG933Controller*     controller     = new LogitechG933Controller(dev, info->path);
+        RGBController_LogitechG933* rgb_controller = new RGBController_LogitechG933(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectLogitechX56(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -524,6 +547,10 @@ REGISTER_HID_DETECTOR_IP ("Logitech G Pro (HERO) Gaming Mouse",             Dete
 | Speakers                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Logitech G560 Lightsync Speaker",                DetectLogitechG560,         LOGITECH_VID, LOGITECH_G560_PID,                    2, 0xFF43, 514);
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Headsets                                                                                                                                         |
+\*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Logitech G933 Lightsync Headset",                DetectLogitechG933,         LOGITECH_VID, LOGITECH_G933_PID,                    3, 0xFF43, 514);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Joysticks                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/

@@ -339,6 +339,9 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0cf2", ATTR{idProduct}=="7750", TAG+="uacces
 #  Speakers:                                                    #
 #       Logitech G560                                           #
 #                                                               #
+#  Headsets:                                                    #
+#       Logitech G933                                           #
+#                                                               #
 #  Joysticks:                                                   #
 #       Logitech Rhino X56 Hotas (Throttle and Stick)           #
 #                                                               #
@@ -378,6 +381,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4079", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c53a", TAG+="uaccess"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0a78", TAG+="uaccess"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0a5b", TAG+="uaccess"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0738", ATTR{idProduct}=="2221", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0738", ATTR{idProduct}=="A221", TAG+="uaccess"
