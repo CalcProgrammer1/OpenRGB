@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "ASRockPolychromeSMBusController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ASRockPolychromeSMBus.h"
 #include "i2c_smbus.h"
@@ -56,15 +57,18 @@ void DetectPolychromeSMBusControllers(std::vector<i2c_smbus_interface*>& busses)
             // Check for Polychrome controller at 0x6A
             if (TestForPolychromeSMBusController(busses[bus], 0x6A))
             {
+                LOG_DEBUG("Detected a device at address 0x6A, Testing for a known controller");
                 new_polychrome = new PolychromeController(busses[bus], 0x6A);
 
                 if(new_polychrome->GetASRockType() != ASROCK_TYPE_UNKNOWN)
                 {
+                    LOG_DEBUG("Found a known Polychrome device");
                     new_controller = new RGBController_Polychrome(new_polychrome);
                     ResourceManager::get()->RegisterRGBController(new_controller);
                 }
                 else
                 {
+                    LOG_DEBUG("Not a Polychrome device or unknown type");
                     delete new_polychrome;
                 }
             }

@@ -209,6 +209,7 @@ public:
     
 private:
     unsigned int            asrock_type;
+    unsigned short          fw_version;
     std::string             device_name;
     unsigned char           active_zone;
     unsigned char           active_mode;

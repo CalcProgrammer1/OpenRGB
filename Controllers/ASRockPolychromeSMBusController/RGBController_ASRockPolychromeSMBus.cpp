@@ -46,7 +46,7 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
     {
         case ASROCK_TYPE_ASRLED:
             {
-                description = "ASRock ASR LED Device";
+                description = "ASRock ASR RGB LED Device";
 
                 mode Off;
                 Off.name                    = "Off";
