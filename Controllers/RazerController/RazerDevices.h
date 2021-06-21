@@ -36,6 +36,8 @@
 #define RAZER_BLADE_2020_BASE_PID                       0x0255
 #define RAZER_BLADE_2021_BASE_PID                       0x026F
 
+#define RAZER_BLADE_14_2021_PID                         0x0270
+
 #define RAZER_BLADE_PRO_2016_PID                        0x0210
 #define RAZER_BLADE_PRO_2017_PID                        0x0225
 #define RAZER_BLADE_PRO_2017_FULLHD_PID                 0x022F
@@ -2505,6 +2507,41 @@ static const razer_device blade_15_2021_base_device =
     16,
     {
         &blade_15_2021_base_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade 14 (2021)                                        |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_14_2021_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_14_2021_device =
+{
+    "Razer Blade 14 (2021)",
+    RAZER_BLADE_14_2021_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_14_2021_zone,
         NULL,
         NULL,
         NULL,
@@ -5548,6 +5585,7 @@ static const razer_device* device_list[] =
     &blade_15_2020_advanced_device,
     &blade_15_2020_base_device,
     &blade_15_2021_base_device,
+    &blade_14_2021_device,
     &blade_pro_2016_device,
     &blade_pro_2017_device,
     &blade_pro_2017_fullhd_device,
