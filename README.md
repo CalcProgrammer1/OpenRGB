@@ -87,6 +87,14 @@ There have been two instances of hardware damage in OpenRGB's development and we
       - https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Kernel-Patch
   *  Some Gigabyte/Aorus motherboards have an ACPI conflict with the SMBus controller.
       - Add `acpi_enforce_resources=lax` to your kernel command line and reboot.  The controller should now show up.
+        - On Fedora, install `grubby` and then execute this.
+        ```
+        grubby --update-kernel=ALL --args="acpi_enforce_resources=lax"
+        ```
+        - If you want to check if the kernel was loaded with this option you can execute this command from the terminal once you've rebooted.
+        ```
+          cat /proc/cmdline
+        ```
   *  You'll have to enable user access to your SMBus if you don't run as root.
       - List all SMBus controllers: `sudo i2cdetect -l`
       - Note the number for PIIX4, I801, and NCT6775 controllers.
