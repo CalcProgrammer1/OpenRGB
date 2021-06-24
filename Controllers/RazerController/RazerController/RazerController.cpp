@@ -355,6 +355,18 @@ bool RazerController::SupportsBreathing()
     return(supports_breathing);
 }
 
+void RazerController::SetFanRPM(unsigned int fan_rpm_cmd)
+{
+    if(fan_rpm_cmd == 0)
+    {
+        razer_set_fan_rpm_cmd(true, 0);
+    }
+    else
+    {
+        razer_set_fan_rpm_cmd(false, fan_rpm_cmd);
+    }
+}
+
 bool RazerController::SupportsReactive()
 {
     return(false);
@@ -1793,6 +1805,29 @@ void RazerController::razer_set_mode_wave(unsigned char direction)
                     break;
             }
             break;
+    }
+}
+
+void RazerController::razer_set_fan_rpm_cmd(bool auto_fan_rpm, unsigned int fan_rpm_cmd)
+{
+    struct razer_report mode_report         = razer_create_report(0x0D, 0x02, 0x04);
+
+    mode_report.arguments[0]                = 0x00;
+    mode_report.arguments[1]                = 0x01;
+    mode_report.arguments[2]                = 0x00;
+    mode_report.arguments[3]                = auto_fan_rpm ? 0x00 : 0x01;
+
+    razer_usb_send(&mode_report);
+
+    if(!auto_fan_rpm)
+    {
+        struct razer_report fan_rpm_report  = razer_create_report(0x0D, 0x01, 0x03);
+
+        fan_rpm_report.arguments[0]         = 0x00;
+        fan_rpm_report.arguments[1]         = 0x01;
+        fan_rpm_report.arguments[2]         = (fan_rpm_cmd / 100);
+
+        razer_usb_send(&fan_rpm_report);
     }
 }
 

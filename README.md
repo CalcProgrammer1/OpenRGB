@@ -166,4 +166,4 @@ While no code from these projects directly made its way into OpenRGB, these proj
   * k550-macos https://github.com/vookimedlo/ck550-macos/tree/master
   * luxafor-python https://github.com/vmitchell85/luxafor-python
   * dreamcheekyusb https://github.com/gbrayut/dreamcheekyusb
-  
+  * razer-laptop-control: https://github.com/rnd-ash/razer-laptop-control

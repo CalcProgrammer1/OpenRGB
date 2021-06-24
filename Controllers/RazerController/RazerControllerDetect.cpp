@@ -17,6 +17,8 @@
 #include "RazerKrakenController.h"
 #include "RazerDevices.h"
 #include "ResourceManager.h"
+#include "FanController.h"
+#include "FanController_Razer.h"
 #include "RGBController.h"
 #include "RGBController_Razer.h"
 #include "RGBController_RazerAddressable.h"
@@ -40,6 +42,12 @@ void DetectRazerControllers(hid_device_info* info, const std::string& name)
 
         RGBController_Razer* rgb_controller = new RGBController_Razer(controller);
         ResourceManager::get()->RegisterRGBController(rgb_controller);
+
+        if(info->product_id == RAZER_BLADE_14_2021_PID)
+        {
+            FanController_Razer* fan_controller = new FanController_Razer(controller);
+            ResourceManager::get()->RegisterFanController(fan_controller);
+        }
     }
 }   /* DetectRazerControllers() */
 
