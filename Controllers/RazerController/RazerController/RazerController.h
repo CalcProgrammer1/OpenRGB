@@ -246,6 +246,8 @@ public:
     void                    SetModeWave(unsigned char direction);
 
     bool                    SupportsBreathing();
+    void                    SetFanRPM(unsigned int fan_rpm_cmd);
+
     bool                    SupportsReactive();
     bool                    SupportsWave();
 
@@ -340,6 +342,8 @@ private:
     void                    razer_set_mode_spectrum_cycle();
     void                    razer_set_mode_static(unsigned char red, unsigned char grn, unsigned char blu);
     void                    razer_set_mode_wave(unsigned char direction);
+
+    void                    razer_set_fan_rpm_cmd(bool auto_fan_rpm, unsigned int fan_rpm_cmd);
 
     int                     razer_usb_receive(razer_report* report);
     int                     razer_usb_send(razer_report* report);
