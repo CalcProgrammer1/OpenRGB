@@ -9,14 +9,15 @@
 
 #pragma once
 
+#include "ResourceManager.h"
 #include "RGBController.h"
 #include "hsv.h"
 #include <hidapi/hidapi.h>
 #include <cstring>
 #include <map>
 
-#define QMK_OPENRGB_PACKET_SIZE 65
-#define QMK_HID_READ_TIMEOUT    50
+#define QMK_OPENRGB_PACKET_SIZE         65
+#define QMK_OPENRGB_HID_READ_TIMEOUT    50
 
 enum CommandsId
 {
@@ -160,6 +161,8 @@ protected:
     hid_device *dev;
 
 private:
+    unsigned int    leds_per_update;
+
     std::string     location;
 
     std::string     device_name;

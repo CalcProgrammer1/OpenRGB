@@ -59,6 +59,30 @@ static std::map<uint8_t, std::string> QMKKeycodeToKeynameMap
 
 QMKOpenRGBController::QMKOpenRGBController(hid_device *dev_handle, const char *path)
 {
+    /*-------------------------------------------------*\
+    | Get QMKOpenRGB settings                           |
+    \*-------------------------------------------------*/
+    json qmk_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("QMKOpenRGBDevices");
+    if(qmk_settings.contains("leds_per_update"))
+    {
+        if(qmk_settings["leds_per_update"] > 20)
+        {
+            qmk_settings["leds_per_update"] = 20;
+        }
+        else if(qmk_settings["leds_per_update"] < 1)
+        {
+            qmk_settings["leds_per_update"] = 1;
+        }
+        SettingsManager* settings_manager   = ResourceManager::get()->GetSettingsManager();
+        settings_manager->SetSettings("QMKOpenRGBDevices", qmk_settings);
+        settings_manager->SaveSettings();
+        leds_per_update = qmk_settings["leds_per_update"];
+    }
+    else
+    {
+        leds_per_update = 20;
+    }
+
     dev         = dev_handle;
     location    = path;
 
@@ -150,7 +174,7 @@ unsigned int QMKOpenRGBController::GetProtocolVersion()
     do
     {
         hid_write(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE);
-        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_HID_READ_TIMEOUT);
+        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_OPENRGB_HID_READ_TIMEOUT);
     } while(bytes_read <= 0);
 
     return usb_buf[1];
@@ -204,7 +228,7 @@ void QMKOpenRGBController::GetDeviceInfo()
     do
     {
         hid_write(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE);
-        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_HID_READ_TIMEOUT);
+        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_OPENRGB_HID_READ_TIMEOUT);
     } while(bytes_read <= 0);
 
     total_number_of_leds = usb_buf[QMK_OPENRGB_TOTAL_NUMBER_OF_LEDS_BYTE];
@@ -244,7 +268,7 @@ void QMKOpenRGBController::GetModeInfo()
     do
     {
         hid_write(dev, usb_buf, 65);
-        bytes_read = hid_read_timeout(dev, usb_buf, 65, QMK_HID_READ_TIMEOUT);
+        bytes_read = hid_read_timeout(dev, usb_buf, 65, QMK_OPENRGB_HID_READ_TIMEOUT);
     } while(bytes_read <= 0);
 
     mode = usb_buf[QMK_OPENRGB_MODE_BYTE];
@@ -286,7 +310,7 @@ void QMKOpenRGBController::GetLEDInfo(unsigned int led)
     do
     {
         hid_write(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE);
-        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_HID_READ_TIMEOUT);
+        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_OPENRGB_HID_READ_TIMEOUT);
     } while(bytes_read <= 0);
 
     if(usb_buf[62] != QMK_OPENRGB_FAILURE)
@@ -329,7 +353,7 @@ bool QMKOpenRGBController::GetIsModeEnabled(unsigned int mode)
     do
     {
         hid_write(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE);
-        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_HID_READ_TIMEOUT);
+        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_OPENRGB_HID_READ_TIMEOUT);
     } while(bytes_read <= 0);
 
     return usb_buf[1] == QMK_OPENRGB_SUCCESS ? true : false;
@@ -359,7 +383,7 @@ void QMKOpenRGBController::SetMode(hsv_t hsv_color, unsigned char mode, unsigned
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read_timeout(dev, usb_buf, 65, QMK_HID_READ_TIMEOUT);
+    hid_read_timeout(dev, usb_buf, 65, QMK_OPENRGB_HID_READ_TIMEOUT);
 }
 
 void QMKOpenRGBController::DirectModeSetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
@@ -386,13 +410,12 @@ void QMKOpenRGBController::DirectModeSetSingleLED(unsigned int led, unsigned cha
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read_timeout(dev, usb_buf, 65, QMK_HID_READ_TIMEOUT);
+    hid_read_timeout(dev, usb_buf, 65, QMK_OPENRGB_HID_READ_TIMEOUT);
 }
 
 void QMKOpenRGBController::DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int leds_count)
 {
     unsigned int leds_sent = 0;
-    unsigned int leds_per_update = 20;
 
     while (leds_sent < leds_count)
     {
