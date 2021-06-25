@@ -554,7 +554,7 @@ void RGBController_QMKOpenRGB::PlaceLEDsInMaps
         VectorMatrix&               matrix_map_xl,
         VectorMatrix&               underglow_map_xl
      )
-{   
+{
     matrix_map_xl                   = MakeEmptyMatrixMap(unique_rows.size(), std::round(255/divisor) + 10);
     underglow_map_xl                = MakeEmptyMatrixMap(unique_rows.size(), std::round(255/divisor) + 10);
 
