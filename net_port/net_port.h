@@ -13,6 +13,10 @@
 #include <vector>
 
 #ifdef WIN32
+/*---------------------------------------------------------*\
+| Windows interferes with std::max unless NOMINMAX defined  |
+\*---------------------------------------------------------*/
+#define NOMINMAX
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
