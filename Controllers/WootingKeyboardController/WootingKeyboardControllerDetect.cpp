@@ -8,13 +8,16 @@
 /*-----------------------------------------------------*\
 | Wooting vendor ID                                     |
 \*-----------------------------------------------------*/
-#define WOOTING_VID                       0x03EB
+#define WOOTING_OLD_VID                       0x03EB
+#define WOOTING_NEW_VID                       0x31E3
 
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
-#define WOOTING_ONE_PID                   0xFF01
-#define WOOTING_TWO_PID                   0xFF02
+#define WOOTING_ONE_PID                       0xFF01
+#define WOOTING_TWO_PID                       0xFF02
+#define WOOTING_TWO_LE_PID                    0x1210
+#define WOOTING_TWO_HE_PID                    0x1220
 
 typedef struct
 {
@@ -30,8 +33,10 @@ static const wooting_device device_list[] =
     /*-----------------------------------------------------------------------*\
     | Keyboards                                                               |
     \*-----------------------------------------------------------------------*/
-    { WOOTING_VID,              WOOTING_ONE_PID,              "Wooting One"   },
-//  { WOOTING_VID,              WOOTING_TWO_PID,              "Wooting Two"   },
+    { WOOTING_OLD_VID,           WOOTING_ONE_PID,              "Wooting One"   },
+    { WOOTING_OLD_VID,           WOOTING_TWO_PID,              "Wooting Two"   },
+    { WOOTING_NEW_VID,           WOOTING_TWO_LE_PID,        "Wooting Two LE"   },
+    { WOOTING_NEW_VID,           WOOTING_TWO_HE_PID,        "Wooting Two HE"   },
 };
 
 /******************************************************************************************\

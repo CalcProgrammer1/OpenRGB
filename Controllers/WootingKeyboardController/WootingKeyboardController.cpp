@@ -128,9 +128,8 @@ void WootingKeyboardController::SendDirect(RGBColor* colors, unsigned int num_co
 void WootingKeyboardController::SendInitialize()
 {
     wooting_usb_send_feature(WOOTING_COLOR_INIT_COMMAND, 0,0,0,0);
-    unsigned char stub = 0;
-    hid_read(dev, &stub, 0);
-    hid_read_timeout(dev, &stub, 0, 50);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
 }
 
 bool WootingKeyboardController::wooting_usb_send_feature(uint8_t commandId, uint8_t parameter0, uint8_t parameter1, uint8_t parameter2, uint8_t parameter3)
