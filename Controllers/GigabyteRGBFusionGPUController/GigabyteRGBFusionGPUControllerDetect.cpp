@@ -43,6 +43,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070S_GAMING_OC_3X_SUB_DEV,         0x55,   "Gigabyte RTX2070S Gaming OC 3X"                },
     { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX2080_GAMING_OC_SUB_DEV,             0x47,   "Gigabyte RTX2080 Gaming OC 8G"                 },
     { NVIDIA_VEN,   NVIDIA_RTX2080_A_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX2080_A_GAMING_OC_SUB_DEV,           0x47,   "Gigabyte RTX2080 Gaming OC 8G"                 },
+    { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX2080S_GAMING_OC_SUB_DEV,            0x47,   "Gigabyte RTX2080S Gaming OC 8G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3060_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060_GAMING_OC_12GB_SUB_DEV,        0x62,   "Gigabyte RTX3060 Gaming OC 12G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3060TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_EAGLE_OC_SUB_DEV,            0x63,   "Gigabyte RTX3060 Ti EAGLE OC 8G"               },
     { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3070 Vision 8G"                    },
