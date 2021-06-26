@@ -12,7 +12,8 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
-const size_t LOGITECH_G815_COMMIT_BYTE      = 0x7F;
+#define LOGITECH_G815_COMMIT_BYTE       0x7F
+#define LOGITECH_READ_TIMEOUT           300     //Timeout in ms
 
 #pragma once
 
