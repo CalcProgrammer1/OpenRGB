@@ -4,6 +4,7 @@
 #include <tuple>
 #include <iostream>
 #include "OpenRGB.h"
+#include "AutoStart.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "RGBController.h"
@@ -402,6 +403,9 @@ void OptionHelp()
     help_text += "--print-source                           Print the source code file and line number for each log entry.\n";
     help_text += "-v,  --verbose                           Print log messages to stdout.\n";
     help_text += "-vv, --very-verbose                      Print debug messages and log messages to stdout.\n";
+    help_text += "--autostart-check                        Check if OpenRGB starting at login is enabled.\n";
+    help_text += "--autostart-disable                      Disable OpenRGB starting at login.\n";
+    help_text += "--autostart-enable arguments             Enable OpenRGB to start at login. Requires arguments to give to OpenRGB at login.\n";
 
     std::cout << help_text << std::endl;
 }
@@ -833,7 +837,9 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
              ||(option == "--verbose" || option == "-v")
              ||(option == "--very-verbose" || option == "-vv")
              ||(option == "--help" || option == "-h")
-             ||(option == "--version" || option == "-V"))
+             ||(option == "--version" || option == "-V")
+             ||(option == "--autostart-check")
+             ||(option == "--autostart-disable"))
             {
                 /*-------------------------------------------------*\
                 | Do nothing, these are pre-detection arguments     |
@@ -842,7 +848,8 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
             }
             else if((option == "--server-port")
                   ||(option == "--loglevel")
-                  ||(option == "--config"))
+                  ||(option == "--config")
+                  ||(option == "--autostart-enable"))
             {
                 /*-------------------------------------------------*\
                 | Increment index for pre-detection arguments with  |
@@ -1195,6 +1202,80 @@ unsigned int cli_pre_detection(int argc, char *argv[])
                 break;
             }
             cfg_args+= 2;
+            arg_index++;
+        }
+
+        /*---------------------------------------------------------*\
+        | --autostart-check (no arguments)                          |
+        \*---------------------------------------------------------*/
+        else if(option == "--autostart-check")
+        {
+            AutoStart auto_start("OpenRGB");
+
+            if(auto_start.IsAutoStartEnabled())
+            {
+                std::cout << "Autostart is enabled." << std::endl;
+            }
+            else
+            {
+                std::cout << "Autostart is disabled." << std::endl;
+            }
+        }
+
+        /*---------------------------------------------------------*\
+        | --autostart-disable (no arguments)                        |
+        \*---------------------------------------------------------*/
+        else if(option == "--autostart-disable")
+        {
+            AutoStart auto_start("OpenRGB");
+
+            if(auto_start.DisableAutoStart())
+            {
+                std::cout << "Autostart disabled." << std::endl;
+            }
+            else
+            {
+                std::cout << "Autostart failed to disable." << std::endl;
+            }
+        }
+
+        /*---------------------------------------------------------*\
+        | --autostart-enable                                        |
+        \*---------------------------------------------------------*/
+        else if(option == "--autostart-enable")
+        {
+            if (argument != "")
+            {
+                std::string desc = "OpenRGB ";
+                desc += VERSION_STRING;
+                desc += ", for controlling RGB lighting.";
+
+                AutoStart       auto_start("OpenRGB");
+                AutoStartInfo   auto_start_interface;
+
+                auto_start_interface.args        = argument;
+                auto_start_interface.category    = "Utility;";
+                auto_start_interface.desc        = desc;
+                auto_start_interface.icon        = "OpenRGB";
+                auto_start_interface.path        = auto_start.GetExePath();
+
+                if(auto_start.EnableAutoStart(auto_start_interface))
+                {
+                    std::cout << "Autostart enabled." << std::endl;
+                }
+                else
+                {
+                    std::cout << "Autostart failed to enable." << std::endl;
+                }
+            }
+            else
+            {
+                std::cout << "Error: Missing argument for --autostart-enable" << std::endl;
+                print_help = true;
+                break;
+            }
+
+            cfg_args++;
             arg_index++;
         }
 

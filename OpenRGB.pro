@@ -60,6 +60,7 @@ INCLUDEPATH +=                                                                  
     pci_ids/                                                                                    \
     serial_port/                                                                                \
     super_io/                                                                                   \
+    AutoStart/                                                                                  \
     Controllers/AMDWraithPrismController/                                                       \
     Controllers/ASRockPolychromeSMBusController/                                                \
     Controllers/ASRockPolychromeUSBController/                                                  \
@@ -170,6 +171,7 @@ HEADERS +=                                                                      
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
     super_io/super_io.h                                                                         \
+    AutoStart/AutoStart.h                                                                       \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h                             \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/AnnePro2Controller/AnnePro2Controller.h                                         \
@@ -458,6 +460,7 @@ SOURCES +=                                                                      
     qt/hsv.cpp                                                                                  \
     serial_port/serial_port.cpp                                                                 \
     super_io/super_io.cpp                                                                       \
+    AutoStart/AutoStart.cpp                                                                     \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp                           \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp                     \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.cpp                       \
@@ -778,6 +781,7 @@ win32:INCLUDEPATH +=                                                            
     dependencies/openrazer-win32                                                                \
     wmi/                                                                                        \
     Controllers/AsusTUFLaptopController                                                         \
+    AutoStart/                                                                                  \
 
 win32:SOURCES +=                                                                                \
 #   dependencies/hidapi/hidapi.c                                                                \
@@ -875,6 +879,7 @@ win32:SOURCES +=                                                                
     serial_port/find_usb_serial_port_win.cpp                                                    \
     wmi/wmi.cpp                                                                                 \
     wmi/acpiwmi.cpp                                                                             \
+    AutoStart/AutoStart-Windows.cpp                                                             \
     Controllers/AsusTUFLaptopController/AsusTUFLaptopWMIDetect.cpp                              \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.cpp                      \
     Controllers/OpenRazerController/OpenRazerWindowsDetect.cpp                                  \
@@ -892,6 +897,7 @@ win32:HEADERS +=                                                                
     i2c_smbus/i2c_smbus_piix4.h                                                                 \
     wmi/wmi.h                                                                                   \
     wmi/acpiwmi.h                                                                               \
+    AutoStart/AutoStart-Windows.h                                                               \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
 
@@ -980,6 +986,7 @@ unix:!macx {
 
     HEADERS +=                                                                                  \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
+    AutoStart/AutoStart-Linux.h                                                                 \
     Controllers/FaustusController/RGBController_Faustus.h                                       \
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
@@ -1019,6 +1026,7 @@ unix:!macx {
     dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
     i2c_smbus/i2c_smbus_linux.cpp                                                               \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
+    AutoStart/AutoStart-Linux.cpp                                                               \
     Controllers/FaustusController/RGBController_Faustus.cpp                                     \
     Controllers/LinuxLEDController/LinuxLEDController.cpp                                       \
     Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp                                 \
@@ -1065,9 +1073,13 @@ macx {
     DEFINES +=                                                                                  \
     USE_HID_USAGE                                                                               \
 
+    HEADERS +=                                                                                  \
+    AutoStart/AutoStart-MacOS.h                                                                 \
+    
     SOURCES +=                                                                                  \
     dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
+    AutoStart/AutoStart-MacOS.cpp                                                               \
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
