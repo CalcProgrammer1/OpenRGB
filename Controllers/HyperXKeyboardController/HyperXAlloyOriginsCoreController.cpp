@@ -9,7 +9,6 @@
 \*------------------------------------------*/
 
 #include "HyperXAlloyOriginsCoreController.h"
-
 #include <cstring>
 
 // Skip these indices in the color output
@@ -30,6 +29,17 @@ HyperXAlloyOriginsCoreController::HyperXAlloyOriginsCoreController(hid_device* d
     sprintf(fw_version_buf, "%.2X.%.2X", (version & 0xFF00) >> 8, version & 0x00FF);
 
     firmware_version = fw_version_buf;
+    isDimming = false;
+    cur_color = color0 = color1 = 0;
+    memset(&hsv, 0, sizeof(hsv_t));
+    column = speed = direction = 0;
+    brightness_lower_bound = brightness_upper_bound = 0;
+    for (int i=0; i<87; i++)
+       colors_.push_back(0);
+    memset(buf, 0x00, sizeof(buf));
+    color_end = false;
+    iteration = 0;
+    data = nullptr;
 }
 
 HyperXAlloyOriginsCoreController::~HyperXAlloyOriginsCoreController()
@@ -63,15 +73,77 @@ std::string HyperXAlloyOriginsCoreController::GetFirmwareVersion()
     return(firmware_version);
 }
 
-void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> colors)
+void HyperXAlloyOriginsCoreController::SetLEDs(std::vector<RGBColor> colors, unsigned char mode)
 {
+    if (mode == HYPERX_AOC_MODE_SWIPE)
+    {
+        if (iteration < (HYPERX_AOC_SPEED_MAX - speed))
+        {
+            iteration++;
+            return;
+        }
+
+        if (direction == MODE_DIRECTION_LEFT)
+        {
+            if (column == 19)
+            {
+               column = 0;
+               color_end = !color_end;
+            }
+        }
+        else
+        {
+            if (column < 0)
+            {
+               column = 18;
+               color_end = !color_end;
+            }
+        }
+        cur_color = color_end ? color1 : color0;
+
+        unsigned int index;
+        for (int i=0; i<6; i++)
+        {
+            index = data[i][column];
+            if (index != 0xFFFFFFFF)
+               colors_[index] = cur_color;
+        }
+        direction == MODE_DIRECTION_LEFT ? column++ : column--;
+        colors = colors_;
+        iteration = 0;
+    }
+    else
+    {
+       memset(buf, 0x00, sizeof(buf));
+    }
+
     for(unsigned int skip_cnt = 0; skip_cnt < (sizeof(skip_idx) / sizeof(skip_idx[0])); skip_cnt++)
     {
         colors.insert(colors.begin() + skip_idx[skip_cnt], 0x00000000);
     }
 
-    unsigned char buf[380];
-    memset(buf, 0x00, sizeof(buf));
+    if (mode == HYPERX_AOC_MODE_BREATHING)
+    {
+        if (isDimming)
+        {
+           hsv.value -= (4 * speed);
+           if (hsv.value <= brightness_lower_bound)
+           {
+               hsv.value = 1;
+               isDimming = false;
+           }
+        }
+        else
+        {
+           hsv.value += (4 * speed);
+           if (hsv.value >= brightness_upper_bound)
+           {
+               hsv.value = 255;
+               isDimming = true;
+           }
+        }
+        color0 = hsv2rgb(&hsv);
+    }
 
     int offset = 0;
     int rowPos = 0;
@@ -84,9 +156,19 @@ void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> color
             rowPos = 0;
         }
 
-        buf[rowPos + offset]      = RGBGetGValue(colors[color_idx]);
-        buf[rowPos + offset + 16] = RGBGetRValue(colors[color_idx]);
-        buf[rowPos + offset + 32] = RGBGetBValue(colors[color_idx]);
+        
+        if (mode == HYPERX_AOC_MODE_BREATHING)
+        {
+            buf[rowPos + offset]      = RGBGetGValue(color0);
+            buf[rowPos + offset + 16] = RGBGetRValue(color0);
+            buf[rowPos + offset + 32] = RGBGetBValue(color0);
+        }
+        else
+        {
+            buf[rowPos + offset]      = RGBGetGValue(colors[color_idx]);
+            buf[rowPos + offset + 16] = RGBGetRValue(colors[color_idx]);
+            buf[rowPos + offset + 32] = RGBGetBValue(colors[color_idx]);
+        }
 
         rowPos++;
     }
@@ -116,3 +198,30 @@ void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> color
         sentBytes += payloadSize;
     }
 }
+
+void HyperXAlloyOriginsCoreController::SetMode(unsigned char mode_value, unsigned char direction, unsigned char speed, std::vector<RGBColor> colors, matrix_map_type* matrix_map)
+{
+   memset(buf, 0, sizeof(buf));
+   switch (mode_value)
+   {
+      case HYPERX_AOC_MODE_DIRECT:
+         break;
+      case HYPERX_AOC_MODE_BREATHING:
+         color0 = colors[0];
+         rgb2hsv(color0, &hsv);
+         this->speed = speed;
+         brightness_lower_bound = 255 % (4 * speed);
+         brightness_upper_bound = 255 - brightness_lower_bound;
+         break;
+      case HYPERX_AOC_MODE_SWIPE:
+         this->speed = speed;
+         color0 = colors[0];
+         cur_color = color0;
+         color1 = colors[1];
+         this->direction = direction;
+         column = 0;
+         data = (unsigned int (*)[19])matrix_map->map;
+         break;
+   }
+}
+
