@@ -3,6 +3,22 @@
 
 using namespace std::chrono_literals;
 
+mode::mode()
+{
+    name        = "";
+    value       = 0;
+    flags       = 0;
+    speed_min   = 0;
+    speed_max   = 0;
+    colors_min  = 1;
+    colors_max  = 1;
+}
+
+mode::~mode()
+{
+    colors.clear();
+}
+
 RGBController::RGBController()
 {
     DeviceThreadRunning = true;
