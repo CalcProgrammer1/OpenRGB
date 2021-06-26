@@ -1553,13 +1553,13 @@ void RGBController::DeviceCallThreadFunction()
     {
         if(CallFlag_UpdateMode.load() == true)
         {
-            DeviceUpdateMode();
             CallFlag_UpdateMode = false;
+            DeviceUpdateMode();
         }
         if(CallFlag_UpdateLEDs.load() == true)
         {
-            DeviceUpdateLEDs();
             CallFlag_UpdateLEDs = false;
+            DeviceUpdateLEDs();
         }
         else
         {
