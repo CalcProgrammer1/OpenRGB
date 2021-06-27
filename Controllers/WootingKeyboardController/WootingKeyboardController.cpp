@@ -58,9 +58,25 @@ static uint16_t getCrc16ccitt(const uint8_t* buffer, uint16_t size)
     return crc;
 }
 
-WootingKeyboardController::WootingKeyboardController(hid_device* dev_handle)
+WootingKeyboardController::WootingKeyboardController(hid_device* dev_handle, const char *path)
 {
+    const int szTemp = 256;
+    wchar_t tmpName[szTemp];
+
     dev = dev_handle;
+    location = path;
+
+    hid_get_manufacturer_string(dev, tmpName, szTemp);
+    std::wstring wName = std::wstring(tmpName);
+    vendor = std::string(wName.begin(), wName.end());
+
+    hid_get_product_string(dev, tmpName, szTemp);
+    wName = std::wstring(tmpName);
+    description = std::string(wName.begin(), wName.end());
+
+    hid_get_serial_number_string(dev, tmpName, szTemp);
+    wName = std::wstring(tmpName);
+    serial = std::string(wName.begin(), wName.end());
 
     SendInitialize();
 }
@@ -68,6 +84,31 @@ WootingKeyboardController::WootingKeyboardController(hid_device* dev_handle)
 WootingKeyboardController::~WootingKeyboardController()
 {
     
+}
+
+std::string WootingKeyboardController::GetName()
+{
+    return name;
+}
+
+std::string WootingKeyboardController::GetVendor()
+{
+    return vendor;
+}
+
+std::string WootingKeyboardController::GetLocation()
+{
+    return("HID: " + location);
+}
+
+std::string WootingKeyboardController::GetDescription()
+{
+    return description;
+}
+
+std::string WootingKeyboardController::GetSerial()
+{
+    return serial;
 }
 
 void WootingKeyboardController::SendDirect(RGBColor* colors, unsigned int num_colors)

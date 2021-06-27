@@ -26,13 +26,22 @@ enum RGB_PARTS
 class WootingKeyboardController
 {
 public:
-    WootingKeyboardController(hid_device* dev_handle);
+    WootingKeyboardController(hid_device* dev_handle, const char *path);
     ~WootingKeyboardController();
 
-    void SendDirect(RGBColor* colors, unsigned int num_colors);
-
+    void                    SendDirect(RGBColor* colors, unsigned int num_colors);
+    std::string             GetName();
+    std::string             GetVendor();
+    std::string             GetDescription();
+    std::string             GetLocation();
+    std::string             GetSerial();
 private:
     hid_device*             dev;
+    std::string             name;
+    std::string             vendor;
+    std::string             description;
+    std::string             location;
+    std::string             serial;
 
     void SendInitialize();
 

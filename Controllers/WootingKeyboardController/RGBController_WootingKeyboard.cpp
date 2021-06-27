@@ -149,9 +149,12 @@ RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardCont
 {
     wooting     = wooting_ptr;
 
-    name        = "Wooting keyboard Device";
+    name        = wooting_ptr->GetName();
+    vendor      = wooting_ptr->GetVendor();
     type        = DEVICE_TYPE_KEYBOARD;
-    description = "Wooting Keyboard Device";
+    description = wooting_ptr->GetDescription();
+    location    = wooting_ptr->GetLocation();
+    serial      = wooting_ptr->GetSerial();
 
     mode Direct;
     Direct.name       = "Direct";
