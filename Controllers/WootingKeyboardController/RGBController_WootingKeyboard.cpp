@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController_WootingKeyboard.h"
+#include "LogManager.h"
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA 0xFFFFFFFF
@@ -30,19 +31,8 @@ static unsigned int matrix_map_full[6][21] =
     { 2,   8,  14,  20,  26,  32,  38,  44,  50,  56,  62,  68,  74,  80,  86,  93,  99, 105, 111, 117, 123},
     { 3,   9,  15,  21,  27,  33,  39,  45,  51,  57,  63,  69,  75,  81,  NA,  NA,  NA, 106, 112, 118,  NA},
     { 4,  10,  16,  22,  28,  34,  40,  46,  52,  58,  64,  70,  NA,  82,  NA,  94,  NA, 107, 113, 119, 125},
-    { 5,  11,  17,  NA,  NA,  NA,  41,  NA,  NA,  NA,  65,  71,  77,  83,  89,  95, 102,  NA, 108, 120,  NA}
+    { 5,  11,  17,  NA,  NA,  NA,  41,  NA,  NA,  NA,  65,  71,  77,  83,  89,  95, 102,  NA, 114, 120,  NA}
 };
-
-
-/*static const char *zone_names[] =
-{
-    "Keyboard"
-};
-
-static zone_type zone_types[] =
-{
-    ZONE_TYPE_MATRIX,
-};*/
 
 static const unsigned int zone_sizes[] =
 {
@@ -160,13 +150,13 @@ static const char *led_names[] =
     "Key: Number Pad 7",
     "Key: Number Pad 4",
     "Key: Number Pad 1",
-    "Key: Number Pad 0",
+    "Unused",
     "Key: A2",
     "Key: Number Pad /",    //110
     "Key: Number Pad 8",
     "Key: Number Pad 5",
     "Key: Number Pad 2",
-    "Unused",
+    "Key: Number Pad 0",
     "Key: A3",
     "Key: Number Pad *",
     "Key: Number Pad 9",
@@ -185,6 +175,7 @@ RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardCont
 {
     wooting     = wooting_ptr;
 
+    LOG_DEBUG("[Wooting KB] Adding meta data");
     name        = wooting_ptr->GetName();
     vendor      = wooting_ptr->GetVendor();
     type        = DEVICE_TYPE_KEYBOARD;
@@ -192,6 +183,7 @@ RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardCont
     location    = wooting_ptr->GetLocation();
     serial      = wooting_ptr->GetSerial();
 
+    LOG_DEBUG("[Wooting KB] Adding modes");
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0xFFFF;
@@ -224,25 +216,31 @@ void RGBController_WootingKeyboard::SetupZones()
     uint8_t         wooting_type    = wooting->GetWootingType();
     unsigned int    total_led_count = zone_sizes[wooting_type];
 
-    /*for (unsigned int zone_idx = 0; zone_idx < 1; zone_idx++)
-    {*/
-        zone new_zone;
+    LOG_DEBUG("[Wooting KB] Creating New Zone");
+    zone new_zone;
 
-        new_zone.name               = name.append(" zone");
-        new_zone.type               = ZONE_TYPE_MATRIX;
-        new_zone.leds_min           = total_led_count;
-        new_zone.leds_max           = total_led_count;
-        new_zone.leds_count         = total_led_count;
-        new_zone.matrix_map         = new matrix_map_type;
-        new_zone.matrix_map->height = 6;
-        new_zone.matrix_map->width  = total_led_count / new_zone.matrix_map->height;
-        new_zone.matrix_map->map    = (wooting_type == WOOTING_KB_TKL) ? (unsigned int *)&matrix_map_tkl : (unsigned int *)&matrix_map_full;
+    new_zone.name                   = name.append(" zone");
+    new_zone.type                   = ZONE_TYPE_MATRIX;
+    new_zone.leds_min               = total_led_count;
+    new_zone.leds_max               = total_led_count;
+    new_zone.leds_count             = total_led_count;
+    new_zone.matrix_map             = new matrix_map_type;
+    new_zone.matrix_map->height     = 6;
 
-        zones.push_back(new_zone);
+    if(wooting_type == WOOTING_KB_TKL)
+    {
+        new_zone.matrix_map->width  =  17;
+        new_zone.matrix_map->map    = (unsigned int *)&matrix_map_tkl;
+    }
+    else
+    {
+        new_zone.matrix_map->width  =  21;
+        new_zone.matrix_map->map    = (unsigned int *)&matrix_map_full;
+    }
 
-        //total_led_count += zone_sizes[zone_idx];
-    //}
+    zones.push_back(new_zone);
 
+    LOG_DEBUG("[Wooting KB] Creating LED array");
     for (unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
@@ -251,6 +249,8 @@ void RGBController_WootingKeyboard::SetupZones()
 
         leds.push_back(new_led);
     }
+
+    LOG_DEBUG("[Wooting KB V2] LEDs created - Initialising Colours");
 
     SetupColors();
 }
