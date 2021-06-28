@@ -137,6 +137,7 @@
 | Gigabyte (Aorus) Sub-Device IDs                       |
 \*-----------------------------------------------------*/
 #define GIGABYTE_GTX1050TI_G1_GAMING_SUB_DEV            0x372A
+#define GIGABYTE_GTX1060_G1_GAMING_OC_SUB_DEV           0x3739
 #define GIGABYTE_GTX1060_XTREME_SUB_DEV                 0x3776
 #define GIGABYTE_GTX1070_XTREME_SUB_DEV                 0x3778
 #define GIGABYTE_GTX1070TI_GAMING_SUB_DEV               0x3794
