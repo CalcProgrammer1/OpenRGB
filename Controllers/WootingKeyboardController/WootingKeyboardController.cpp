@@ -21,17 +21,22 @@
 #define WOOTING_TWO_KEY_CODE_LIMIT      116
 #define RGB_RAW_BUFFER_SIZE             96
 
+#define WOOTING_RGB_ROWS                6
+#define WOOTING_RGB_COLUMNS             21
+#define WOOTING_ONE_RGB_COLUMNS         17
+#define WOOTING_TWO_RGB_COLUMNS         21
+
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA 0xFFFFFFFF
 
-static const unsigned int rgb_led_index[6][17] =
+static const unsigned int rgb_led_index[WOOTING_RGB_ROWS][WOOTING_RGB_COLUMNS] =
 {
-    {0,  NA, 11, 12, 23, 24, 36, 47, 85, 84, 49, 48, 59, 61, 73, 81, 80},
-    {2,  1,  14, 13, 26, 25, 35, 38, 37, 87, 86, 95, 51, 63, 75, 72, 74},
-    {3,  4,  15, 16, 27, 28, 39, 42, 40, 88, 89, 52, 53, 71, 76, 83, 77},
-    {5,  6,  17, 18, 29, 30, 41, 46, 44, 90, 93, 54, 57, 65, NA, NA, NA},
-    {9,  8,  19, 20, 31, 34, 32, 45, 43, 91, 92, 55, NA, 66, NA, 78, NA},
-    {10, 22, 21, NA, NA, NA, 33, NA, NA, NA, 94, 58, 67, 68, 70, 79, 82}
+    {   0,  NA,  11,  12,  23,  24,  36,  47,  85,  84,  49,  48,  59,  61,  73,  81,  80, 113, 114, 115, 116 },
+    {   2,   1,  14,  13,  26,  25,  35,  38,  37,  87,  86,  95,  51,  63,  75,  72,  74,  96,  97,  98,  99 },
+    {   3,   4,  15,  16,  27,  28,  39,  42,  40,  88,  89,  52,  53,  71,  76,  83,  77, 102, 103, 104, 100 },
+    {   5,   6,  17,  18,  29,  30,  41,  46,  44,  90,  93,  54,  57,  65,  NA,  NA,  NA, 105, 106, 107,  NA },
+    {   9,   8,  19,  20,  31,  34,  32,  45,  43,  91,  92,  55,  NA,  66,  NA,  78,  NA, 108, 109, 110, 101 },
+    {  10,  22,  21,  NA,  NA,  NA,  33,  NA,  NA,  NA,  94,  58,  67,  68,  70,  79,  82,  NA, 111, 112,  NA }
 };
 
 static uint16_t getCrc16ccitt(const uint8_t* buffer, uint16_t size)
@@ -58,13 +63,14 @@ static uint16_t getCrc16ccitt(const uint8_t* buffer, uint16_t size)
     return crc;
 }
 
-WootingKeyboardController::WootingKeyboardController(hid_device* dev_handle, const char *path)
+WootingKeyboardController::WootingKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type)
 {
     const int szTemp = 256;
     wchar_t tmpName[szTemp];
 
     dev = dev_handle;
     location = path;
+    key_code_limit = (wooting_type == WOOTING_KB_TKL) ? WOOTING_ONE_KEY_CODE_LIMIT : WOOTING_TWO_KEY_CODE_LIMIT;
 
     hid_get_manufacturer_string(dev, tmpName, szTemp);
     std::wstring wName = std::wstring(tmpName);
@@ -83,7 +89,7 @@ WootingKeyboardController::WootingKeyboardController(hid_device* dev_handle, con
 
 WootingKeyboardController::~WootingKeyboardController()
 {
-    
+
 }
 
 std::string WootingKeyboardController::GetName()
@@ -111,6 +117,11 @@ std::string WootingKeyboardController::GetSerial()
     return serial;
 }
 
+uint8_t WootingKeyboardController::GetWootingType()
+{
+    return wooting_type;
+}
+
 void WootingKeyboardController::SendDirect(RGBColor* colors, unsigned int num_colors)
 {
     const uint8_t pwm_mem_map[48] =
@@ -125,19 +136,24 @@ void WootingKeyboardController::SendDirect(RGBColor* colors, unsigned int num_co
     unsigned char buffer1[RGB_RAW_BUFFER_SIZE] = {0};
     unsigned char buffer2[RGB_RAW_BUFFER_SIZE] = {0};
     unsigned char buffer3[RGB_RAW_BUFFER_SIZE] = {0};
+    unsigned char buffer4[RGB_RAW_BUFFER_SIZE] = {0};
 
     for(std::size_t color_idx = 0; color_idx < num_colors; color_idx++)
     {
         unsigned char led_index = rgb_led_index[color_idx % 6][color_idx / 6];
 
-        if(led_index > 95)
+        if(led_index > key_code_limit)
         {
             continue;
         }
 
         unsigned char *buffer_pointer = buffer0;
 
-        if(led_index >= 72)
+        if(led_index >= 96)
+        {
+            buffer_pointer = buffer4;
+        }
+        else if(led_index >= 72)
         {
             buffer_pointer = buffer3;
         }
@@ -164,6 +180,10 @@ void WootingKeyboardController::SendDirect(RGBColor* colors, unsigned int num_co
     wooting_usb_send_buffer(RGB_PARTS::PART1, buffer1);
     wooting_usb_send_buffer(RGB_PARTS::PART2, buffer2);
     wooting_usb_send_buffer(RGB_PARTS::PART3, buffer3);
+    if(key_code_limit > WOOTING_ONE_KEY_CODE_LIMIT)
+    {
+        wooting_usb_send_buffer(RGB_PARTS::PART4, buffer4);
+    }
 }
 
 void WootingKeyboardController::SendInitialize()
@@ -179,8 +199,8 @@ bool WootingKeyboardController::wooting_usb_send_feature(uint8_t commandId, uint
     | Prevent sending unnecessary data to the Wootings if the   |
     | index exceedes it's capabilities                          |
     \*---------------------------------------------------------*/
-    if ((commandId == WOOTING_SINGLE_COLOR_COMMAND && parameter0 > WOOTING_ONE_KEY_CODE_LIMIT)
-     || (commandId == WOOTING_SINGLE_RESET_COMMAND && parameter3 > WOOTING_ONE_KEY_CODE_LIMIT))
+    if ((commandId == WOOTING_SINGLE_COLOR_COMMAND && parameter0 > key_code_limit)
+     || (commandId == WOOTING_SINGLE_RESET_COMMAND && parameter3 > key_code_limit))
     {
         /*-----------------------------------------------------*\
         | This is not a USB error so let's return true.         |
@@ -244,6 +264,11 @@ bool WootingKeyboardController::wooting_usb_send_buffer(RGB_PARTS part_number, u
         case PART3:
             report_buffer[4] = 1;                   // Slave nr
             report_buffer[5] = RGB_RAW_BUFFER_SIZE; // Reg start address
+            break;
+
+        case PART4:
+            report_buffer[4] = 2;                   // Slave nr
+            report_buffer[5] = 0;                   // Reg start address
             break;
 
         default:

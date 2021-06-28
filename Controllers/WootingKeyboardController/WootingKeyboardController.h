@@ -14,6 +14,12 @@
 
 #pragma once
 
+enum WOOTING_DEVICE_TYPE
+{
+    WOOTING_KB_TKL      = 0,
+    WOOTING_KB_FULL     = 1
+};
+
 enum RGB_PARTS
 {
     PART0,
@@ -26,7 +32,7 @@ enum RGB_PARTS
 class WootingKeyboardController
 {
 public:
-    WootingKeyboardController(hid_device* dev_handle, const char *path);
+    WootingKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type);
     ~WootingKeyboardController();
 
     void                    SendDirect(RGBColor* colors, unsigned int num_colors);
@@ -35,6 +41,7 @@ public:
     std::string             GetDescription();
     std::string             GetLocation();
     std::string             GetSerial();
+    uint8_t                 GetWootingType();
 private:
     hid_device*             dev;
     std::string             name;
@@ -42,6 +49,8 @@ private:
     std::string             description;
     std::string             location;
     std::string             serial;
+    uint8_t                 wooting_type;
+    uint8_t                 key_code_limit;
 
     void SendInitialize();
 
