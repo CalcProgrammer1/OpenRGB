@@ -231,6 +231,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Blade 15 (2019 Mercury)",                   Det
 REGISTER_HID_DETECTOR_IPU("Razer Blade 15 (2019 Studio)",                    DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_2019_STUDIO_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade 15 (2020 Advanced)",                  DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_2020_ADVANCED_PID,                  0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade 15 (2020 Base)",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_2020_BASE_PID,                      0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blade 15 (2021 Advanced)",                  DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_2021_ADVANCED_PID,                  0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade 15 (2021 Base)",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_2021_BASE_PID,                      0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Pro (2016)",                          DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_PRO_2016_PID,                       0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Pro (2017)",                          DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_PRO_2017_PID,                       0x00,   0x01,   0x02);
