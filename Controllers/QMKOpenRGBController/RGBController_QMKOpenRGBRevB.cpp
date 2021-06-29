@@ -1,16 +1,16 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_QMKOpenRGB.cpp                                       |
+|  RGBController_QMKOpenRGBRevB.cpp                                   |
 |                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol                    |
+|  Driver for QMK keyboards using OpenRGB Protocol (Revision B)       |
 |                                                                     |
 |  Kasper       10th Octobber 2020                                    |
 |  Jath03       28th May 2021                                         |
 \*-------------------------------------------------------------------*/
 
 #include "hsv.h"
-#include "RGBController_QMKOpenRGB.h"
+#include "RGBController_QMKOpenRGBRevB.h"
 
-RGBController_QMKOpenRGB::RGBController_QMKOpenRGB(QMKOpenRGBController* controller_ptr)
+RGBController_QMKOpenRGBRevB::RGBController_QMKOpenRGBRevB(QMKOpenRGBRevBController* controller_ptr)
 {
     controller  = controller_ptr;
 
@@ -22,223 +22,237 @@ RGBController_QMKOpenRGB::RGBController_QMKOpenRGB(QMKOpenRGBController* control
     version     = controller->GetQMKVersion();
 
     unsigned int current_mode = 1;
+    std::vector<unsigned int> enabled_modes = controller->GetEnabledModes();
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_OPENRGB_DIRECT))
-    {
-        InitializeMode("Direct", current_mode, MODE_FLAG_HAS_PER_LED_COLOR, MODE_COLORS_PER_LED);
-    }
-
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_COLOR))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_COLOR) != enabled_modes.end())
     {
         InitializeMode("Static", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_ALPHA_MOD))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_ALPHA_MOD) != enabled_modes.end())
     {
         InitializeMode("Alpha Mod", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_GRADIENT_UP_DOWN))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_GRADIENT_UP_DOWN) != enabled_modes.end())
     {
         InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_GRADIENT_LEFT_RIGHT))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_GRADIENT_LEFT_RIGHT) != enabled_modes.end())
     {
         InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BREATHING))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BREATHING) != enabled_modes.end())
     {
         InitializeMode("Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BAND_SAT))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_SAT) != enabled_modes.end())
     {
         InitializeMode("Band Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BAND_VAL))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_VAL) != enabled_modes.end())
     {
         InitializeMode("Band Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BAND_PINWHEEL_SAT))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_PINWHEEL_SAT) != enabled_modes.end())
     {
         InitializeMode("Band Pinwheel Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BAND_PINWHEEL_VAL))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_PINWHEEL_VAL) != enabled_modes.end())
     {
         InitializeMode("Band Pinwheel Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BAND_SPIRAL_SAT))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_SPIRAL_SAT) != enabled_modes.end())
     {
         InitializeMode("Band Spiral Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BAND_SPIRAL_VAL))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_SPIRAL_VAL) != enabled_modes.end())
     {
         InitializeMode("Band Spiral Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_CYCLE_ALL))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_ALL) != enabled_modes.end())
     {
         InitializeMode("Cycle All", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_CYCLE_LEFT_RIGHT))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_LEFT_RIGHT) != enabled_modes.end())
     {
         InitializeMode("Cycle Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_CYCLE_UP_DOWN))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_UP_DOWN) != enabled_modes.end())
     {
         InitializeMode("Cycle Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_CYCLE_OUT_IN))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_OUT_IN) != enabled_modes.end())
     {
         InitializeMode("Cycle Out In", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_CYCLE_OUT_IN_DUAL))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_OUT_IN_DUAL) != enabled_modes.end())
     {
         InitializeMode("Cycle Out In Dual", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_RAINBOW_MOVING_CHEVRON))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINBOW_MOVING_CHEVRON) != enabled_modes.end())
     {
         InitializeMode("Rainbow Moving Chevron", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_CYCLE_PINWHEEL))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_PINWHEEL) != enabled_modes.end())
     {
         InitializeMode("Cycle Pinwheel", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_CYCLE_SPIRAL))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_SPIRAL) != enabled_modes.end())
     {
         InitializeMode("Cycle Spiral", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_DUAL_BEACON))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_DUAL_BEACON) != enabled_modes.end())
     {
         InitializeMode("Dual Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_RAINBOW_BEACON))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINBOW_BEACON) != enabled_modes.end())
     {
         InitializeMode("Rainbow Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_RAINBOW_PINWHEELS))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINBOW_PINWHEELS) != enabled_modes.end())
     {
         InitializeMode("Rainbow Pinwheels", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_RAINDROPS))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINDROPS) != enabled_modes.end())
     {
         InitializeMode("Raindrops", current_mode, 0, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_JELLYBEAN_RAINDROPS))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_JELLYBEAN_RAINDROPS) != enabled_modes.end())
     {
         InitializeMode("Jellybean Raindrops", current_mode, 0, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_HUE_BREATHING))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_HUE_BREATHING) != enabled_modes.end())
     {
         InitializeMode("Hue Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_HUE_PENDULUM))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_HUE_PENDULUM) != enabled_modes.end())
     {
         InitializeMode("Hue Pendulum", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_HUE_WAVE))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_HUE_WAVE) != enabled_modes.end())
     {
         InitializeMode("Hue Wave", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_TYPING_HEATMAP))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_TYPING_HEATMAP) != enabled_modes.end())
     {
         InitializeMode("Typing Heatmap", current_mode, 0, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_DIGITAL_RAIN))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_DIGITAL_RAIN) != enabled_modes.end())
     {
         InitializeMode("Digital Rain", current_mode, 0, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE_SIMPLE))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_SIMPLE) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Simple", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE_WIDE))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_WIDE) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTIWIDE))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTIWIDE) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Multi Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE_CROSS))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_CROSS) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTICROSS))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTICROSS) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Multi Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE_NEXUS))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_NEXUS) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTINEXUS))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTINEXUS) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Multi Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SPLASH))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SPLASH) != enabled_modes.end())
     {
         InitializeMode("Rainbow Reactive Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_MULTISPLASH))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_MULTISPLASH) != enabled_modes.end())
     {
         InitializeMode("Rainbow Reactive Multi Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_SPLASH))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_SPLASH) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_SOLID_MULTISPLASH))
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_MULTISPLASH) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Multi Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
-    active_mode = controller->GetMode() - 1;
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_OPENRGB_DIRECT) != enabled_modes.end())
+    {
+        InitializeMode("Direct", current_mode, MODE_FLAG_HAS_PER_LED_COLOR, MODE_COLORS_PER_LED);
+    }
+
+    /*-----------------------------------------------------*\
+    | As we are insertting direct mode at index 0           |
+    | for it to be the first mode in the UI there will      |
+    | be a mismatch between the values. QMK has direct      |
+    | mode last in order, while in OpenRGB it's first.      |
+    \*-----------------------------------------------------*/
+    if(controller->GetMode() == (current_mode - 1))
+    {
+        active_mode = 0;
+    }
+    else
+    {
+        active_mode = controller->GetMode();
+    }
 
     SetupZones();
 }
 
-RGBController_QMKOpenRGB::~RGBController_QMKOpenRGB()
+RGBController_QMKOpenRGBRevB::~RGBController_QMKOpenRGBRevB()
 {
     for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
     {
@@ -249,7 +263,7 @@ RGBController_QMKOpenRGB::~RGBController_QMKOpenRGB()
     }
 }
 
-void RGBController_QMKOpenRGB::SetupZones()
+void RGBController_QMKOpenRGBRevB::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Get the number of LEDs from the device                    |
@@ -260,10 +274,7 @@ void RGBController_QMKOpenRGB::SetupZones()
     /*---------------------------------------------------------*\
     | Get information for each LED                              |
     \*---------------------------------------------------------*/
-    for(unsigned int i = 0; i < std::max(total_number_of_leds, total_number_of_leds_with_empty_space); i++)
-    {
-        controller->GetLEDInfo(i);
-    }
+    controller->GetLEDInfo(std::max(total_number_of_leds, total_number_of_leds_with_empty_space));
 
     /*---------------------------------------------------------*\
     | Get LED vectors from controller                           |
@@ -383,24 +394,24 @@ void RGBController_QMKOpenRGB::SetupZones()
     }
 }
 
-void RGBController_QMKOpenRGB::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_QMKOpenRGBRevB::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_QMKOpenRGB::DeviceUpdateLEDs()
+void RGBController_QMKOpenRGBRevB::DeviceUpdateLEDs()
 {
     controller->DirectModeSetLEDs(colors, controller->GetTotalNumberOfLEDs());
 }
 
-void RGBController_QMKOpenRGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_QMKOpenRGBRevB::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_QMKOpenRGB::UpdateSingleLED(int led)
+void RGBController_QMKOpenRGBRevB::UpdateSingleLED(int led)
 {
     RGBColor      color = colors[led];
     unsigned char red   = RGBGetRValue(color);
@@ -410,12 +421,12 @@ void RGBController_QMKOpenRGB::UpdateSingleLED(int led)
     controller->DirectModeSetSingleLED(led, red, grn, blu);
 }
 
-void RGBController_QMKOpenRGB::SetCustomMode()
+void RGBController_QMKOpenRGBRevB::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_QMKOpenRGB::DeviceUpdateMode()
+void RGBController_QMKOpenRGBRevB::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
@@ -442,7 +453,7 @@ void RGBController_QMKOpenRGB::DeviceUpdateMode()
     }
 }
 
-void RGBController_QMKOpenRGB::InitializeMode
+void RGBController_QMKOpenRGBRevB::InitializeMode
     (
     std::string name,
     unsigned int &current_mode,
@@ -470,10 +481,21 @@ void RGBController_QMKOpenRGB::InitializeMode
         qmk_mode.colors[0] = controller->GetModeColor();
     }
 
-    modes.push_back(qmk_mode);
+    /*-----------------------------------------------------*\
+    | Direct mode it the last mode on the QMK firmware      |
+    | but we still want it to appear first on the UI        |
+    \*-----------------------------------------------------*/
+    if(flags & MODE_FLAG_HAS_PER_LED_COLOR)
+    {
+        modes.insert(modes.begin(), qmk_mode);
+    }
+    else
+    {
+        modes.push_back(qmk_mode);
+    }
 }
 
-unsigned int RGBController_QMKOpenRGB::CalculateDivisor
+unsigned int RGBController_QMKOpenRGBRevB::CalculateDivisor
     (
     std::vector<point_t> led_points,
     std::set<int> rows,
@@ -520,7 +542,7 @@ unsigned int RGBController_QMKOpenRGB::CalculateDivisor
     return divisor;
 }
 
-void RGBController_QMKOpenRGB::CountKeyTypes
+void RGBController_QMKOpenRGBRevB::CountKeyTypes
     (
         std::vector<unsigned int>   led_flags,
         unsigned int                total_led_count,
@@ -544,7 +566,7 @@ void RGBController_QMKOpenRGB::CountKeyTypes
     }
 }
 
-void RGBController_QMKOpenRGB::PlaceLEDsInMaps
+void RGBController_QMKOpenRGBRevB::PlaceLEDsInMaps
     (
         std::set<int>               unique_rows,
         std::set<int>               unique_cols,
@@ -593,7 +615,7 @@ void RGBController_QMKOpenRGB::PlaceLEDsInMaps
     }
 }
 
-VectorMatrix RGBController_QMKOpenRGB::MakeEmptyMatrixMap
+VectorMatrix RGBController_QMKOpenRGBRevB::MakeEmptyMatrixMap
     (
         unsigned int height,
         unsigned int width
@@ -610,7 +632,7 @@ VectorMatrix RGBController_QMKOpenRGB::MakeEmptyMatrixMap
     return matrix_map;
 }
 
-void RGBController_QMKOpenRGB::CleanMatrixMaps
+void RGBController_QMKOpenRGBRevB::CleanMatrixMaps
     (
         VectorMatrix&   matrix_map,
         VectorMatrix&   underglow_map,
@@ -709,7 +731,7 @@ void RGBController_QMKOpenRGB::CleanMatrixMaps
     }
 }
 
-std::vector<unsigned int> RGBController_QMKOpenRGB::FlattenMatrixMap
+std::vector<unsigned int> RGBController_QMKOpenRGBRevB::FlattenMatrixMap
     (
         VectorMatrix matrix_map
     )

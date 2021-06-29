@@ -12,14 +12,17 @@
 
 #include "Detector.h"
 #include "QMKOpenRGBRev9Controller.h"
+#include "QMKOpenRGBRevBController.h"
 #include "RGBController.h"
 #include "RGBController_QMKOpenRGBRev9.h"
+#include "RGBController_QMKOpenRGBRevB.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Protocol version                                      |
 \*-----------------------------------------------------*/
 #define QMK_OPENRGB_PROTOCOL_VERSION_9          0x09
+#define QMK_OPENRGB_PROTOCOL_VERSION_B          0x0B
 
 /*-----------------------------------------------------*\
 | Usage and Usage Page                                  |
@@ -73,6 +76,15 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                 RGBController_QMKOpenRGBRev9* rgb_controller = new RGBController_QMKOpenRGBRev9(controller);
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
+                break;
+
+            case QMK_OPENRGB_PROTOCOL_VERSION_B:
+                {
+                QMKOpenRGBRevBController*     controller     = new QMKOpenRGBRevBController(dev, info->path);
+                RGBController_QMKOpenRGBRevB* rgb_controller = new RGBController_QMKOpenRGBRevB(controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                break;
         }
     }
 }

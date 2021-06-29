@@ -1,9 +1,7 @@
 /*-------------------------------------------------------------------*\
-|  QMKOpenRGBRev9Controller.h                                         |
+|  QMKOpenRGBRevBController.h                                         |
 |                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol (Revision 9)       |
-|                                                                     |
-|  Revision 9 was the initial protocol supported by OpenRGB 0.6.      |
+|  Driver for QMK keyboards using OpenRGB Protocol (Revision B)       |
 |                                                                     |
 |  Kasper       10th Octobber 2020                                    |
 |  Jath03       28th May 2021                                         |
@@ -13,11 +11,11 @@
 
 #include "QMKOpenRGBController.h"
 
-class QMKOpenRGBRev9Controller
+class QMKOpenRGBRevBController
 {
 public:
-    QMKOpenRGBRev9Controller(hid_device *dev_handle, const char *path);
-    ~QMKOpenRGBRev9Controller();
+    QMKOpenRGBRevBController(hid_device *dev_handle, const char *path);
+    ~QMKOpenRGBRevBController();
 
     std::string     GetLocation();
     std::string     GetDeviceName();
@@ -34,12 +32,12 @@ public:
     std::vector<std::string>    GetLEDNames();
     std::vector<RGBColor>       GetLEDColors();
 
-    unsigned int    GetProtocolVersion();
-    std::string     GetQMKVersion();
-    void            GetDeviceInfo();
-    void            GetModeInfo();
-    void            GetLEDInfo(unsigned int led);
-    bool            GetIsModeEnabled(unsigned int mode);
+    unsigned int                GetProtocolVersion();
+    std::string                 GetQMKVersion();
+    void                        GetDeviceInfo();
+    void                        GetModeInfo();
+    void                        GetLEDInfo(unsigned int leds_count);
+    std::vector<unsigned int>   GetEnabledModes();
 
     void            SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed);
     void            DirectModeSetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);

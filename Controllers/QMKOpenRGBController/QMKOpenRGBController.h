@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------*\
 |  QMKOpenRGBController.h                                             |
 |                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol                    |
+|  Common definitions for QMK OpenRGB Controller                      |
 |                                                                     |
 |  Kasper       10th Octobber 2020                                    |
 |  Jath03       28th May 2021                                         |
@@ -27,6 +27,7 @@ enum CommandsId
     QMK_OPENRGB_GET_MODE_INFO,
     QMK_OPENRGB_GET_LED_INFO,
     QMK_OPENRGB_GET_IS_MODE_ENABLED,
+    QMK_OPENRGB_GET_ENABLED_MODES = QMK_OPENRGB_GET_IS_MODE_ENABLED,
 
     QMK_OPENRGB_SET_MODE,
     QMK_OPENRGB_DIRECT_MODE_SET_SINGLE_LED,
@@ -124,59 +125,3 @@ typedef struct
     uint8_t x;
     uint8_t y;
 } point_t;
-
-class QMKOpenRGBController
-{
-public:
-    QMKOpenRGBController(hid_device *dev_handle, const char *path);
-    ~QMKOpenRGBController();
-
-    std::string     GetLocation();
-    std::string     GetDeviceName();
-    std::string     GetDeviceVendor();
-
-    unsigned int    GetTotalNumberOfLEDs();
-    unsigned int    GetTotalNumberOfLEDsWithEmptySpace();
-    unsigned int    GetMode();
-    unsigned int    GetModeSpeed();
-    unsigned int    GetModeColor();
-
-    std::vector<point_t>        GetLEDPoints();
-    std::vector<unsigned int>   GetLEDFlags();
-    std::vector<std::string>    GetLEDNames();
-    std::vector<RGBColor>       GetLEDColors();
-
-    unsigned int    GetProtocolVersion();
-    std::string     GetQMKVersion();
-    void            GetDeviceInfo();
-    void            GetModeInfo();
-    void            GetLEDInfo(unsigned int led);
-    bool            GetIsModeEnabled(unsigned int mode);
-
-    void            SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed);
-    void            DirectModeSetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
-    void            DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int num_colors);
-
-protected:
-    hid_device *dev;
-
-private:
-    unsigned int    leds_per_update;
-
-    std::string     location;
-
-    std::string     device_name;
-    std::string     device_vendor;
-
-    unsigned int    total_number_of_leds;
-    unsigned int    total_number_of_leds_with_empty_space;
-    unsigned int    mode;
-    unsigned int    mode_speed;
-
-    RGBColor        mode_color;
-
-    std::vector<point_t>        led_points;
-    std::vector<unsigned int>   led_flags;
-    std::vector<std::string>    led_names;
-    std::vector<RGBColor>       led_colors;
-};
