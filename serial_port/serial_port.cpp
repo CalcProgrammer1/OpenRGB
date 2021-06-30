@@ -53,7 +53,12 @@ bool serial_port::serial_open()
     | Windows-specific code path for serial port opening    |
     \*-----------------------------------------------------*/
 #ifdef _WIN32
-    file_descriptor = CreateFile(port_name, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+    // On Windows, ports above 9 need to have "\\.\" prepended to their path. For ports below 9, this is optional.
+    // https://support.microsoft.com/en-us/topic/howto-specify-serial-ports-larger-than-com9-db9078a5-b7b6-bf00-240f-f749ebfd913e
+    char full_path[100];
+    snprintf(full_path, sizeof(full_path), "\\\\.\\%s", port_name);
+
+    file_descriptor = CreateFile(full_path, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
     if((int)file_descriptor < 0)
     {
@@ -195,7 +200,7 @@ bool serial_port::serial_open(const char * name)
 \*---------------------------------------------------------*/
 bool serial_port::serial_open(const char* name, unsigned int baud)
 {
-    strcpy(port_name, name);
+    snprintf(port_name,sizeof(port_name),"%s",name);
     baud_rate = baud;
     return serial_open();
 }
@@ -210,7 +215,7 @@ void serial_port::serial_close()
     | Windows-specific code path for serial close           |
     \*-----------------------------------------------------*/
 #ifdef _WIN32
-
+    CloseHandle(file_descriptor);
 #endif
 
     /*-----------------------------------------------------*\
