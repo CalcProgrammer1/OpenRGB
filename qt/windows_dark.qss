@@ -138,12 +138,29 @@ QDialog QWidget::QLineEdit
 
 /* Buttons and combo boxes */
 
-QPushButton
+QPushButton, QToolButton
 {
     padding: 3px;
     background-color: #404040;
     border: 1px solid #2e2e2e;
     color: white;
+}
+
+QToolButton:hover
+{
+    background-color: #454545;
+}
+
+QMenu
+{
+    background-color: #404040;
+    border: 1px solid #2e2e2e;
+    color: white;
+}
+
+QMenu::item:selected
+{
+    background-color: #454545;
 }
 
 QComboBox
