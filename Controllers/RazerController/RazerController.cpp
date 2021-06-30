@@ -174,6 +174,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BASILISK_PID:
         case RAZER_BASILISK_ESSENTIAL_PID:
+        case RAZER_BASILISK_ULTIMATE_WIRED_PID:
+        case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
@@ -206,6 +208,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_MAMBA_2018_WIRELESS_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        case RAZER_MOUSE_DOCK_CHROMA_PID:
         case RAZER_NAGA_TRINITY_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
@@ -446,6 +449,8 @@ bool RazerController::SupportsWave()
         /*-----------------------------------------------------*\
         | Mice                                                  |
         \*-----------------------------------------------------*/
+        case RAZER_BASILISK_ULTIMATE_WIRED_PID:
+        case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
         case RAZER_DIAMONDBACK_CHROMA_PID:
         case RAZER_MAMBA_2015_WIRED_PID:
         case RAZER_MAMBA_2015_WIRELESS_PID:

@@ -255,6 +255,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Abyssus Elite D.Va Edition",                Det
 REGISTER_HID_DETECTOR_IPU("Razer Abyssus Essential",                         DetectRazerControllers,        RAZER_VID,  RAZER_ABYSSUS_ESSENTIAL_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk",                                  DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_PID,                             0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk Essential",                        DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_ESSENTIAL_PID,                   0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Basilisk Ultimate (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_ULTIMATE_WIRED_PID,              0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Basilisk Ultimate (Wireless)",              DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_ULTIMATE_WIRELESS_PID,           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Chroma",                         DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_CHROMA_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Elite",                          DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_ELITE_PID,                     0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Essential",                      DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_ESSENTIAL_PID,                 0x00,   0x01,   0x02);
@@ -322,5 +324,6 @@ REGISTER_HID_DETECTOR_IPU("Razer Chroma Mug Holder",                         Det
 REGISTER_HID_DETECTOR_IPU("Razer Chroma PC Case Lighting Kit",               DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID,          0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Core",                                      DetectRazerControllers,        RAZER_VID,  RAZER_CORE_PID,                                 0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mouse Bungee V3 Chroma",                    DetectRazerControllers,        RAZER_VID,  RAZER_MOUSE_BUNGEE_V3_CHROMA_PID,               0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Mouse Dock Chroma",                         DetectRazerControllers,        RAZER_VID,  RAZER_MOUSE_DOCK_CHROMA_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Nommo Chroma",                              DetectRazerControllers,        RAZER_VID,  RAZER_NOMMO_CHROMA_PID,                         0x00,   0x01,   0x03);
 REGISTER_HID_DETECTOR_IPU("Razer Nommo Pro",                                 DetectRazerControllers,        RAZER_VID,  RAZER_NOMMO_PRO_PID,                            0x00,   0x01,   0x03);

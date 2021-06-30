@@ -82,6 +82,8 @@
 #define RAZER_ATHERIS_RECEIVER_PID                      0x0062
 #define RAZER_BASILISK_PID                              0x0064
 #define RAZER_BASILISK_ESSENTIAL_PID                    0x0065
+#define RAZER_BASILISK_ULTIMATE_WIRED_PID               0x0086
+#define RAZER_BASILISK_ULTIMATE_WIRELESS_PID            0x0088
 #define RAZER_BASILISK_X_HYPERSPEED_PID                 0x0083
 #define RAZER_DEATHADDER_1800_PID                       0x0038
 #define RAZER_DEATHADDER_2000_PID                       0x004F
@@ -159,6 +161,7 @@
 #define RAZER_GOLIATHUS_CHROMA_EXTENDED_PID             0x0C02
 #define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
 #define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID                0x0F1D
+#define RAZER_MOUSE_DOCK_CHROMA_PID                     0x007E
 #define RAZER_NOMMO_CHROMA_PID                          0x0517
 #define RAZER_NOMMO_PRO_PID                             0x0518
 
@@ -3394,6 +3397,148 @@ static const razer_device basilisk_essential_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Basilisk Ultimate (Wired) 1532:0086                    |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Left LED Strip"                                        |
+|       Linear                                                  |
+|       8 LED                                                   |
+|                                                               |
+|  Zone "Right LED Strip"                                       |
+|       Linear                                                  |
+|       4 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_ultimate_wired_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    4
+};
+
+static const razer_zone basilisk_ultimate_wired_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone basilisk_ultimate_wired_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_ultimate_wired_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device basilisk_ultimate_wired_device =
+{
+    "Razer Basilisk Ultimate",
+    RAZER_BASILISK_ULTIMATE_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    14,
+    {
+        &basilisk_ultimate_wired_scroll_wheel_zone,
+        &basilisk_ultimate_wired_logo_zone,
+        &basilisk_ultimate_wired_left_zone,
+        &basilisk_ultimate_wired_right_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk Ultimate (Wireless) 1532:0088                 |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Left LED Strip"                                        |
+|       Linear                                                  |
+|       8 LED                                                   |
+|                                                               |
+|  Zone "Right LED Strip"                                       |
+|       Linear                                                  |
+|       4 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_ultimate_wireless_right_zone =
+{
+    "Right LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    4
+};
+
+static const razer_zone basilisk_ultimate_wireless_left_zone =
+{
+    "Left LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_zone basilisk_ultimate_wireless_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_ultimate_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device basilisk_ultimate_wireless_device =
+{
+    "Razer Basilisk Ultimate (Wireless)",
+    RAZER_BASILISK_ULTIMATE_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    14,
+    {
+        &basilisk_ultimate_wireless_scroll_wheel_zone,
+        &basilisk_ultimate_wireless_logo_zone,
+        &basilisk_ultimate_wireless_left_zone,
+        &basilisk_ultimate_wireless_right_zone,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer DeathAdder Chroma                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -5645,6 +5790,41 @@ static const razer_device base_station_v2_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Mouse Dock Chroma 1532:007E                            |
+|                                                               |
+|  Zone "Base"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone mouse_dock_chroma_base_zone =
+{
+    "Base",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device mouse_dock_chroma_device =
+{
+    "Razer Mouse Dock Chroma",
+    RAZER_MOUSE_DOCK_CHROMA_PID,
+    DEVICE_TYPE_LIGHT,
+    true,
+    1,
+    1,
+    {
+        &mouse_dock_chroma_base_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Nommo Pro                                              |
 |                                                               |
 |  Zone "Left Speaker"                                          |
@@ -5841,6 +6021,8 @@ static const razer_device* device_list[] =
     &abyssus_essential_device,
     &basilisk_device,
     &basilisk_essential_device,
+    &basilisk_ultimate_wired_device,
+    &basilisk_ultimate_wireless_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
     &deathadder_essential_device,
@@ -5901,6 +6083,7 @@ static const razer_device* device_list[] =
     &chroma_pc_case_lighting_kit_device,
     &core_device,
     &mug_holder_device,
+    &mouse_dock_chroma_device,
     &nommo_chroma_device,
     &nommo_pro_device,
 };
