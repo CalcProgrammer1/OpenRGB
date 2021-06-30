@@ -734,6 +734,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="0616", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1202", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1206", TAG+="uaccess"
 
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="150a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="150d", TAG+="uaccess"
 
 #---------------------------------------------------------------#
