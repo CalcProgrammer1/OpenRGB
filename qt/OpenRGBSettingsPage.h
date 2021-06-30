@@ -47,6 +47,7 @@ private slots:
     void on_ComboBoxAutoStartProfile_currentTextChanged(const QString);
     void on_CheckboxAutoStartSetServerPort_clicked();
     void on_CheckboxAutoStartCustom_clicked();
+    void on_CheckboxRunZoneChecks_clicked();
 };
 
 #endif // OPENRGBSETTINGSPAGE_H

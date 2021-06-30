@@ -7,6 +7,7 @@
 #include "OpenRGBProfileSaveDialog.h"
 #include "ResourceManager.h"
 #include "TabLabel.h"
+#include "OpenRGBZonesBulkResizer.h"
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
@@ -108,6 +109,13 @@ static void DeletePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
     OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
 
     this_obj->RemovePlugin(plugin);
+}
+
+static void DetectionEndedCallback(void * this_ptr)
+{
+    OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
+
+    QMetaObject::invokeMethod(this_obj, "onDetectionEnded", Qt::QueuedConnection);
 }
 
 bool OpenRGBDialog2::IsDarkTheme()
@@ -258,6 +266,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     \*-----------------------------------------------------*/
     ResourceManager::get()->RegisterDetectionProgressCallback(UpdateDetectionProgressCallback, this);
     ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateDeviceListCallback, this);
+    ResourceManager::get()->RegisterDetectionEndCallback(DetectionEndedCallback, this);
 
     /*-----------------------------------------------------*\
     | Initialize page pointers                              |
@@ -1234,6 +1243,14 @@ void OpenRGBDialog2::onDetectionProgressUpdated()
     {
         SetDetectionViewState(true);
     }
+}
+
+void OpenRGBDialog2::onDetectionEnded()
+{
+    /*-----------------------------------------------------*\
+    | Detect unconfigured zones and prompt for resizing     |
+    \*-----------------------------------------------------*/
+    OpenRGBZonesBulkResizer::RunChecks(this);
 }
 
 void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)

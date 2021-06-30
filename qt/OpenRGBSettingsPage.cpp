@@ -58,6 +58,15 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         }
     }
 
+    if(ui_settings.contains("RunZoneChecks"))
+    {
+        ui->CheckboxRunZoneChecks->setChecked(ui_settings["RunZoneChecks"]);
+    }
+    else
+    {   // default value
+        ui->CheckboxRunZoneChecks->setChecked(true);
+    }
+
     /*---------------------------------------------------------*\
     | Load AutoStart settings                                   |
     \*---------------------------------------------------------*/
@@ -152,6 +161,14 @@ void Ui::OpenRGBSettingsPage::on_CheckboxSaveGeometry_clicked()
 {
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
     ui_settings["geometry"]["save_on_exit"] = ui->CheckboxSaveGeometry->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
+
+void Ui::OpenRGBSettingsPage::on_CheckboxRunZoneChecks_clicked()
+{
+    json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    ui_settings["RunZoneChecks"] = ui->CheckboxRunZoneChecks->isChecked();
     ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
     SaveSettings();
 }

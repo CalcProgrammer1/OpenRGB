@@ -181,6 +181,7 @@ HEADERS +=                                                                      
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.h                                   \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h                                    \
+    qt/OpenRGBZonesBulkResizer.h                                                                \
     qt/TabLabel.h                                                                               \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
@@ -498,6 +499,7 @@ SOURCES +=                                                                      
     qt/OpenRGBSupportedDevicesPage.cpp                                                          \
     qt/OpenRGBSystemInfoPage.cpp                                                                \
     qt/OpenRGBZoneResizeDialog.cpp                                                              \
+    qt/OpenRGBZonesBulkResizer.cpp                                                              \
     qt/TabLabel.cpp                                                                             \
     qt/hsv.cpp                                                                                  \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \
@@ -849,6 +851,7 @@ FORMS +=                                                                        
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.ui                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui                                   \
+    qt/OpenRGBZonesBulkResizer.ui                                                               \
     qt/TabLabel.ui                                                                              \
 
 #-----------------------------------------------------------------------------------------------#
