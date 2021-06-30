@@ -14,7 +14,10 @@
 #include <stdio.h>
 
 #ifdef _WIN32
-
+/*---------------------------------------------------------*\
+| Windows interferes with std::max unless NOMINMAX defined  |
+\*---------------------------------------------------------*/
+#define NOMINMAX
 #include <windows.h>
 
 #endif /* _WIN32 */
