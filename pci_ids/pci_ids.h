@@ -159,6 +159,7 @@
 #define GIGABYTE_RTX3060TI_EAGLE_OC_SUB_DEV             0x405B
 #define GIGABYTE_RTX3070_VISION_OC_SUB_DEV              0x404D
 #define GIGABYTE_RTX3080_GAMING_OC_SUB_DEV              0x403F
+#define GIGABYTE_RTX3090_GAMING_OC_24GB_SUB_DEV         0x4043
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |
