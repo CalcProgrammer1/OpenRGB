@@ -15,4 +15,5 @@ public:
 
 private:
     void            InitAutoStart(std::string name);
+    std::string     GenerateLaunchAgentFile(AutoStartInfo autostart_info);
 };

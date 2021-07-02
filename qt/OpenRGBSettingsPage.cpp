@@ -114,11 +114,6 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
 
     ui->AutoStartStatusLabel->hide();
     autostart_initialized = true;
-
-#ifdef __APPLE__
-    SetAutoStartVisibility(false);
-    ui->CheckboxAutoStart->hide();
-#endif
 }
 
 OpenRGBSettingsPage::~OpenRGBSettingsPage()
