@@ -415,13 +415,14 @@ void QMKOpenRGBController::DirectModeSetSingleLED(unsigned int led, unsigned cha
 
 void QMKOpenRGBController::DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int leds_count)
 {
-    unsigned int leds_sent = 0;
+    unsigned int leds_sent           = 0;
+    unsigned int tmp_leds_per_update = leds_per_update;
 
     while (leds_sent < leds_count)
     {
-        if ((leds_count - leds_sent) < leds_per_update)
+        if ((leds_count - leds_sent) < tmp_leds_per_update)
         {
-            leds_per_update = leds_count - leds_sent;
+            tmp_leds_per_update = leds_count - leds_sent;
         }
 
         unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
@@ -437,9 +438,9 @@ void QMKOpenRGBController::DirectModeSetLEDs(std::vector<RGBColor> colors, unsig
         usb_buf[0x00] = 0x00;
         usb_buf[0x01] = QMK_OPENRGB_DIRECT_MODE_SET_LEDS;
         usb_buf[0x02] = leds_sent;
-        usb_buf[0x03] = leds_per_update;
+        usb_buf[0x03] = tmp_leds_per_update;
 
-        for (unsigned int led_idx = 0; led_idx < leds_per_update; led_idx++)
+        for (unsigned int led_idx = 0; led_idx < tmp_leds_per_update; led_idx++)
         {
             usb_buf[(led_idx * 3) + 4] = RGBGetRValue(colors[led_idx + leds_sent]);
             usb_buf[(led_idx * 3) + 5] = RGBGetGValue(colors[led_idx + leds_sent]);
@@ -448,6 +449,6 @@ void QMKOpenRGBController::DirectModeSetLEDs(std::vector<RGBColor> colors, unsig
 
         hid_write(dev, usb_buf, 65);
 
-        leds_sent += leds_per_update;
+        leds_sent += tmp_leds_per_update;
     }
 }
