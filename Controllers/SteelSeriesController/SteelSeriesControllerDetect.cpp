@@ -50,8 +50,8 @@
 /*-----------------------------------------------------*\
 | Mousemat product IDs                                  |
 \*-----------------------------------------------------*/
-#define STEELSERIES_QCK_PRISM_CLOTH_PID             0x150D
-#define STEELSERIES_QCK_PRISM_CLOTH_ALT_PID         0x150A
+#define STEELSERIES_QCK_PRISM_CLOTH_MED_PID         0x150A
+#define STEELSERIES_QCK_PRISM_CLOTH_XL_PID          0x150D
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
@@ -213,8 +213,8 @@ REGISTER_HID_DETECTOR_I("SteelSeries Siberia 350",                          Dete
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mousemats                                                                                                                                                             |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth",                      DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_PID,           0  );
-REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth",                      DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_ALT_PID,       0  );
+REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth Medium",                DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_MED_PID,      0  );
+REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL",                    DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_XL_PID,       0  );
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                                             |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
