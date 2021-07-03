@@ -4686,11 +4686,11 @@ static const razer_device naga_hex_v2_device =
 /*-------------------------------------------------------------*\
 |  Razer Naga Trinity 1532:0067                                  |
 |                                                               |
-|  Zone "Logo"                                                  |
+|  Zone "Scroll Wheel"                                          |
 |       Single                                                  |
 |       1 LED                                                   |
 |                                                               |
-|  Zone "Scroll Wheel"                                          |
+|  Zone "Logo"                                                  |
 |       Single                                                  |
 |       1 LED                                                   |
 |                                                               |
@@ -4698,17 +4698,17 @@ static const razer_device naga_hex_v2_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone naga_trinity_logo_zone =
+static const razer_zone naga_trinity_scroll_wheel_zone =
 {
-    "Logo",
+    "Scroll Wheel",
     ZONE_TYPE_SINGLE,
     1,
     1
 };
 
-static const razer_zone naga_trinity_scroll_wheel_zone =
+static const razer_zone naga_trinity_logo_zone =
 {
-    "Scroll Wheel",
+    "Logo",
     ZONE_TYPE_SINGLE,
     1,
     1
@@ -4731,8 +4731,8 @@ static const razer_device naga_trinity_device =
     1,
     3,
     {
-        &naga_trinity_logo_zone,
         &naga_trinity_scroll_wheel_zone,
+        &naga_trinity_logo_zone,
         &naga_trinity_numpad_zone,
         NULL,
         NULL,
