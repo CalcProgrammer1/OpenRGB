@@ -835,6 +835,28 @@ void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, u
     send(client_sock, (char *)data, size, MSG_NOSIGNAL);
 }
 
+void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    request_hdr.pkt_magic[0] = 'O';
+    request_hdr.pkt_magic[1] = 'R';
+    request_hdr.pkt_magic[2] = 'G';
+    request_hdr.pkt_magic[3] = 'B';
+
+    request_hdr.pkt_dev_idx  = dev_idx;
+    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_SAVEMODE;
+    request_hdr.pkt_size     = size;
+
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+}
+
 void NetworkClient::SendRequest_LoadProfile(std::string profile_name)
 {
     NetPacketHeader reply_hdr;

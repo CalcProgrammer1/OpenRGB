@@ -79,6 +79,18 @@ void RGBController_Network::DeviceUpdateMode()
     delete[] data;
 }
 
+void RGBController_Network::DeviceSaveMode()
+{
+    unsigned char * data = GetModeDescription(active_mode, client->GetProtocolVersion());
+    unsigned int size;
+
+    memcpy(&size, &data[0], sizeof(unsigned int));
+
+    client->SendRequest_RGBController_SaveMode(dev_idx, data, size);
+
+    delete[] data;
+}
+
 /*-----------------------------------------------------*\
 | This function overrides RGBController::UpdateLEDs()!  |
 | Normally, UpdateLEDs() sets a flag for the updater    |

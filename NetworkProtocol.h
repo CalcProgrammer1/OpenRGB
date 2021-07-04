@@ -62,4 +62,5 @@ enum
 
     NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE   = 1100, /* RGBController::SetCustomMode()                       */
     NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE      = 1101, /* RGBController::UpdateMode()                          */
+    NET_PACKET_ID_RGBCONTROLLER_SAVEMODE        = 1102, /* RGBController::SaveMode()                            */
 };

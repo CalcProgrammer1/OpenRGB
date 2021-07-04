@@ -690,6 +690,19 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 }
                 break;
 
+            case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
+                if(data == NULL)
+                {
+                    break;
+                }
+
+                if(header.pkt_dev_idx < controllers.size())
+                {
+                    controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data, client_info->client_protocol_version);
+                    controllers[header.pkt_dev_idx]->SaveMode();
+                }
+                break;
+
             case NET_PACKET_ID_REQUEST_PROFILE_LIST:
                 SendReply_ProfileList(client_sock);
                 break;
