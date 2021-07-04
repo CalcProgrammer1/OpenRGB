@@ -15,8 +15,8 @@
 #include "i2c_smbus.h"
 #include "LogManager.h"
 #include <vector>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <thread>
 #include <QMessageBox>
 
@@ -84,7 +84,7 @@ void WaitWhileServerOnline(NetworkServer* srv)
     while (srv->GetOnline())
     {
         std::this_thread::sleep_for(1s);
-    };
+    }
 }
 
 /******************************************************************************************\
@@ -121,8 +121,7 @@ bool AttemptLocalConnection()
         client->StopClient();
 
         delete client;
-
-        client = NULL;
+        client = nullptr;
     }
     else
     {
@@ -170,7 +169,7 @@ void MessageBoxCallback(void*, PLogMessage message)
     /*---------------------------------------------------------*\
     | Set the informative text from the message information     |
     \*---------------------------------------------------------*/
-    QString info = "Occured in ";
+    QString info = "Occurred in ";
     info += message->filename;
     info += " on line " + QVariant(message->line).toString();
     box.setInformativeText(info);
@@ -235,16 +234,15 @@ int main(int argc, char* argv[])
     \*---------------------------------------------------------*/
     if(!(ret_flags & RET_FLAG_NO_AUTO_CONNECT))
     {
-        printf("Attempting to connect to local OpenRGB server.\r\n");
+        std::printf("Attempting to connect to local OpenRGB server.\r\n");
 
         if(!AttemptLocalConnection())
         {
-            printf("Local OpenRGB server unavailable.\r\n");
+            std::printf("Local OpenRGB server unavailable.\r\n");
         }
         else
         {
-            printf("Local OpenRGB server connected, running in client mode\r\n");
-            
+            std::printf("Local OpenRGB server connected, running in client mode\r\n");
             ResourceManager::get()->DisableDetection();
         }
     }
@@ -256,7 +254,7 @@ int main(int argc, char* argv[])
     {
         if(ResourceManager::get()->GetDetectionEnabled())
         {
-            printf("Running standalone.\r\n");
+            std::printf("Running standalone.\r\n");
         }
         
         ResourceManager::get()->DetectDevices();
@@ -272,7 +270,7 @@ int main(int argc, char* argv[])
 
         if(!ResourceManager::get()->GetServer()->GetOnline())
         {
-            printf("Server failed to start\r\n");
+            std::printf("Server failed to start\r\n");
         }
     }
 
