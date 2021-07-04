@@ -254,6 +254,13 @@
      </property>
     </widget>
    </item>
+   <item row="10" column="5" colspan="6">
+    <widget class="QPushButton" name="DeviceSaveButton">
+     <property name="text">
+      <string>Save To Device</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>

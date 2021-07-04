@@ -459,6 +459,8 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         bool mode_specific          = device->modes[selected_mode].color_mode == MODE_COLORS_MODE_SPECIFIC;
         bool random                 = device->modes[selected_mode].color_mode == MODE_COLORS_RANDOM;
         unsigned int dir            = device->modes[selected_mode].direction;
+        bool manual_save            = ( device->modes[selected_mode].flags & MODE_FLAG_MANUAL_SAVE );
+        bool automatic_save         = ( device->modes[selected_mode].flags & MODE_FLAG_AUTOMATIC_SAVE );
 
         if(supports_speed)
         {
@@ -631,6 +633,22 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
             ui->RandomCheck->setAutoExclusive(false);
             ui->RandomCheck->setChecked(false);
             ui->RandomCheck->setAutoExclusive(true);
+        }
+
+        if(automatic_save)
+        {
+            ui->DeviceSaveButton->setText("Saved To Device");
+            ui->DeviceSaveButton->setEnabled(false);
+        }
+        else if(manual_save)
+        {
+            ui->DeviceSaveButton->setText("Save To Device");
+            ui->DeviceSaveButton->setEnabled(true);
+        }
+        else
+        {
+            ui->DeviceSaveButton->setText("Saving Not Supported");
+            ui->DeviceSaveButton->setEnabled(false);
         }
 
         /*-----------------------------------------------------*\
@@ -1309,5 +1327,13 @@ void Ui::OpenRGBDevicePage::on_SelectAllLEDsButton_clicked()
         ui->LEDBox->setCurrentIndex(0);
         on_LEDBox_currentIndexChanged(0);
         ui->DeviceViewBox->repaint();
+    }
+}
+
+void Ui::OpenRGBDevicePage::on_DeviceSaveButton_clicked()
+{
+    if(device->modes[device->active_mode].flags & MODE_FLAG_MANUAL_SAVE)
+    {
+        device->SaveMode();
     }
 }

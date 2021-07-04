@@ -37,6 +37,8 @@ enum
     MODE_FLAG_HAS_PER_LED_COLOR         = (1 << 5), /* Mode has per-LED colors          */
     MODE_FLAG_HAS_MODE_SPECIFIC_COLOR   = (1 << 6), /* Mode has mode specific colors    */
     MODE_FLAG_HAS_RANDOM_COLOR          = (1 << 7), /* Mode has random color option     */
+    MODE_FLAG_MANUAL_SAVE               = (1 << 8), /* Mode can manually be saved       */
+    MODE_FLAG_AUTOMATIC_SAVE            = (1 << 9), /* Mode automatically saves         */
 };
 
 /*------------------------------------------------------------------*\
@@ -194,6 +196,7 @@ public:
     //virtual void          UpdateSingleLED(int led)                                                            = 0;
 
     virtual void            UpdateMode()                                                                        = 0;
+    virtual void            SaveMode()                                                                          = 0;
 
     virtual void            DeviceCallThreadFunction()                                                          = 0;
 
@@ -209,6 +212,7 @@ public:
     virtual void            UpdateSingleLED(int led)                                                            = 0;
 
     virtual void            DeviceUpdateMode()                                                                  = 0;
+    virtual void            DeviceSaveMode()                                                                    = 0;
 
     virtual void            SetCustomMode()                                                                     = 0;
 };
@@ -273,6 +277,7 @@ public:
     //void                    UpdateSingleLED(int led);
 
     void                    UpdateMode();
+    void                    SaveMode();
 
     void                    DeviceCallThreadFunction();
 
@@ -288,6 +293,7 @@ public:
     virtual void            UpdateSingleLED(int led)                    = 0;
 
     virtual void            DeviceUpdateMode()                          = 0;
+    void                    DeviceSaveMode();
 
     virtual void            SetCustomMode()                             = 0;
 

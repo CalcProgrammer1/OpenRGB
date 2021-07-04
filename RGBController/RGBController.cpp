@@ -1523,6 +1523,11 @@ void RGBController::UpdateMode()
     CallFlag_UpdateMode = true;
 }
 
+void RGBController::SaveMode()
+{
+    DeviceSaveMode();
+}
+
 void RGBController::DeviceUpdateLEDs()
 {
 
@@ -1555,6 +1560,13 @@ void RGBController::DeviceCallThreadFunction()
            std::this_thread::sleep_for(1ms);
         }
     }
+}
+
+void RGBController::DeviceSaveMode()
+{
+    /*-------------------------------------------------*\
+    | If not implemented by controller, does nothing    |
+    \*-------------------------------------------------*/
 }
 
 std::string device_type_to_str(device_type type)
