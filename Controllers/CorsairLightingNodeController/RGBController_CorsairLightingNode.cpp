@@ -32,7 +32,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode RainbowWave;
     RainbowWave.name           = "Rainbow Wave";
     RainbowWave.value          = CORSAIR_LIGHTING_NODE_MODE_RAINBOW_WAVE;
-    RainbowWave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS;
+    RainbowWave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     RainbowWave.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
     RainbowWave.speed_max      = CORSAIR_LIGHTING_NODE_SPEED_FAST;
     RainbowWave.speed          = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
@@ -46,7 +46,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode ColorShift;
     ColorShift.name           = "Color Shift";
     ColorShift.value          = CORSAIR_LIGHTING_NODE_MODE_COLOR_SHIFT;
-    ColorShift.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    ColorShift.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     ColorShift.colors_min     = 2;
     ColorShift.colors_max     = 2;
     ColorShift.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
@@ -62,7 +62,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode ColorPulse;
     ColorPulse.name           = "Color Pulse";
     ColorPulse.value          = CORSAIR_LIGHTING_NODE_MODE_COLOR_PULSE;
-    ColorPulse.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    ColorPulse.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     ColorPulse.colors_min     = 2;
     ColorPulse.colors_max     = 2;
     ColorPulse.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
@@ -78,7 +78,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode ColorWave;
     ColorWave.name           = "Color Wave";
     ColorWave.value          = CORSAIR_LIGHTING_NODE_MODE_COLOR_WAVE;
-    ColorWave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    ColorWave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     ColorWave.colors_min     = 2;
     ColorWave.colors_max     = 2;
     ColorWave.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
@@ -95,7 +95,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode Static;
     Static.name           = "Static";
     Static.value          = CORSAIR_LIGHTING_NODE_MODE_STATIC;
-    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Static.colors_min     = 1;
     Static.colors_max     = 1;
     Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
@@ -108,7 +108,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode Temperature;
     Temperature.name           = "Temperature";
     Temperature.value          = CORSAIR_LIGHTING_NODE_MODE_TEMPERATURE;
-    Temperature.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Temperature.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Temperature.colors_min     = 3;
     Temperature.colors_max     = 3;
     Temperature.color_mode     = MODE_COLORS_MODE_SPECIFIC;
@@ -121,7 +121,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode Visor;
     Visor.name           = "Visor";
     Visor.value          = CORSAIR_LIGHTING_NODE_MODE_VISOR;
-    Visor.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Visor.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Visor.colors_min     = 2;
     Visor.colors_max     = 2;
     Visor.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
@@ -137,7 +137,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode Marquee;
     Marquee.name           = "Marquee";
     Marquee.value          = CORSAIR_LIGHTING_NODE_MODE_MARQUEE;
-    Marquee.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Marquee.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Marquee.colors_min     = 1;
     Marquee.colors_max     = 1;
     Marquee.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
@@ -154,7 +154,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode Blink;
     Blink.name           = "Blink";
     Blink.value          = CORSAIR_LIGHTING_NODE_MODE_BLINK;
-    Blink.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Blink.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Blink.colors_min     = 2;
     Blink.colors_max     = 2;
     Blink.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
@@ -170,7 +170,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode Sequential;
     Sequential.name           = "Sequential";
     Sequential.value          = CORSAIR_LIGHTING_NODE_MODE_SEQUENTIAL;
-    Sequential.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Sequential.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Sequential.colors_min     = 1;
     Sequential.colors_max     = 1;
     Sequential.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
@@ -187,7 +187,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
     mode Rainbow;
     Rainbow.name           = "Rainbow";
     Rainbow.value          = CORSAIR_LIGHTING_NODE_MODE_RAINBOW;
-    Rainbow.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Rainbow.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Rainbow.speed_min      = CORSAIR_LIGHTING_NODE_SPEED_SLOW;
     Rainbow.speed_max      = CORSAIR_LIGHTING_NODE_SPEED_FAST;
     Rainbow.speed          = CORSAIR_LIGHTING_NODE_SPEED_MEDIUM;
