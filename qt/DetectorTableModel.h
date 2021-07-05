@@ -1,6 +1,7 @@
 #ifndef DETECTORTABLEMODEL_H
 #define DETECTORTABLEMODEL_H
 
+#include <QSortFilterProxyModel>
 #include <QAbstractTableModel>
 #include "ResourceManager.h"
 
@@ -28,7 +29,7 @@ public:
 
 public slots:
     void applySettings();
-    void toggleAll(const bool state);
+    void toggleAll(const bool state, QSortFilterProxyModel* detectorSortModel);
 };
 
 #endif // DETECTORTABLEMODEL_H

@@ -64,5 +64,5 @@ void OpenRGBSupportedDevicesPage::on_Filter_textChanged(const QString &arg1)
 
 void OpenRGBSupportedDevicesPage::on_ToggleAllCheckbox_toggled(const bool checked)
 {
-        detectorTableModel->toggleAll(checked);
+    detectorTableModel->toggleAll(checked, detectorSortModel);
 }
