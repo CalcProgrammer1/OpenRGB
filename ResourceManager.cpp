@@ -899,7 +899,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             {
                 const char* manu_name = wchar_to_char(current_hid_device->manufacturer_string);
                 const char* prod_name = wchar_to_char(current_hid_device->product_string);
-                LOG_DEBUG("[%04X:%04X U=%3X P=0x%04X I=%d] %-25s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+                LOG_DEBUG("[%04X:%04X U=%04X P=0x%04X I=%d] %-25s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
             }
             detection_string = "";
             DetectionProgressChanged();

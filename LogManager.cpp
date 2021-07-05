@@ -232,14 +232,17 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     /*-------------------------------------------------*\
     | If the message level is LL_WARNING or lower, add  |
     | it to the error queue                             |
+    |                                                   |
+    | Commented out - It is causing OpenRGB to crash    |
+    | according to #1537                                |
     \*-------------------------------------------------*/
-    if(level <= LL_WARNING)
-    {
-        for(size_t idx = 0; idx < error_callbacks.size(); ++idx)
-        {
-            error_callbacks[idx].first(error_callbacks[idx].second, mes);
-        }
-    }
+    //if(level <= LL_WARNING)
+    //{
+    //    for(size_t idx = 0; idx < error_callbacks.size(); ++idx)
+    //    {
+    //        error_callbacks[idx].first(error_callbacks[idx].second, mes);
+    //    }
+    //}
 }
 
 void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, ...)
