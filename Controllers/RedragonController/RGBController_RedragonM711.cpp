@@ -23,35 +23,35 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
     mode Static;
     Static.name       = "Static";
     Static.value      = REDRAGON_M711_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
     
     mode Wave;
     Wave.name       = "Wave";
     Wave.value      = REDRAGON_M711_MODE_WAVE;
-    Wave.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Wave.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Wave.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Wave);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = REDRAGON_M711_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode Rainbow;
     Rainbow.name       = "Rainbow";
     Rainbow.value      = REDRAGON_M711_MODE_RAINBOW;
-    Rainbow.flags      = 0;
+    Rainbow.flags      = MODE_FLAG_AUTOMATIC_SAVE;
     Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode Flashing;
     Flashing.name       = "Flashing";
     Flashing.value      = REDRAGON_M711_MODE_FLASHING;
-    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Flashing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Flashing);
 
