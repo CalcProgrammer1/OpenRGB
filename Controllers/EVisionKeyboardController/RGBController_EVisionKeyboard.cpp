@@ -34,14 +34,14 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Custom;
     Custom.name       = "Custom";
     Custom.value      = EVISION_KB_MODE_CUSTOM;
-    Custom.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Custom.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Custom.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Custom);
 
     mode ColorWave;
     ColorWave.name       = "Color Wave";
     ColorWave.value      = EVISION_KB_MODE_COLOR_WAVE_LONG;
-    ColorWave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    ColorWave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     ColorWave.speed_min  = EVISION_KB_SPEED_SLOWEST;
     ColorWave.speed_max  = EVISION_KB_SPEED_FASTEST;
     ColorWave.speed      = EVISION_KB_SPEED_NORMAL;
@@ -54,7 +54,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode ColorWheel;
     ColorWheel.name       = "Color Wheel";
     ColorWheel.value      = EVISION_KB_MODE_COLOR_WHEEL;
-    ColorWheel.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    ColorWheel.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     ColorWheel.speed_min  = EVISION_KB_SPEED_SLOWEST;
     ColorWheel.speed_max  = EVISION_KB_SPEED_FASTEST;
     ColorWheel.speed      = EVISION_KB_SPEED_NORMAL;
@@ -67,7 +67,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode SpectrumCycle;
     SpectrumCycle.name       = "Spectrum Cycle";
     SpectrumCycle.value      = EVISION_KB_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
+    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
     SpectrumCycle.speed_min  = EVISION_KB_SPEED_SLOWEST;
     SpectrumCycle.speed_max  = EVISION_KB_SPEED_FASTEST;
     SpectrumCycle.speed      = EVISION_KB_SPEED_NORMAL;
@@ -77,7 +77,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = EVISION_KB_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Breathing.speed_min  = EVISION_KB_SPEED_SLOWEST;
     Breathing.speed_max  = EVISION_KB_SPEED_FASTEST;
     Breathing.speed      = EVISION_KB_SPEED_NORMAL;
@@ -90,7 +90,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Hurricane;
     Hurricane.name       = "Hurricane";
     Hurricane.value      = EVISION_KB_MODE_HURRICANE;
-    Hurricane.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Hurricane.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Hurricane.speed_min  = EVISION_KB_SPEED_SLOWEST;
     Hurricane.speed_max  = EVISION_KB_SPEED_FASTEST;
     Hurricane.speed      = EVISION_KB_SPEED_NORMAL;
@@ -103,7 +103,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Accumulate;
     Accumulate.name       = "Accumulate";
     Accumulate.value      = EVISION_KB_MODE_ACCUMULATE;
-    Accumulate.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Accumulate.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Accumulate.speed_min  = EVISION_KB_SPEED_SLOWEST;
     Accumulate.speed_max  = EVISION_KB_SPEED_FASTEST;
     Accumulate.speed      = EVISION_KB_SPEED_NORMAL;
@@ -116,7 +116,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Starlight;
     Starlight.name       = "Starlight";
     Starlight.value      = EVISION_KB_MODE_STARLIGHT_FAST;
-    Starlight.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Starlight.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Starlight.speed_min  = EVISION_KB_SPEED_SLOWEST;
     Starlight.speed_max  = EVISION_KB_SPEED_FASTEST;
     Starlight.speed      = EVISION_KB_SPEED_NORMAL;
@@ -129,7 +129,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Visor;
     Visor.name       = "Visor";
     Visor.value      = EVISION_KB_MODE_VISOR;
-    Visor.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Visor.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Visor.speed_min  = EVISION_KB_SPEED_SLOWEST;
     Visor.speed_max  = EVISION_KB_SPEED_FASTEST;
     Visor.speed      = EVISION_KB_SPEED_NORMAL;
@@ -142,7 +142,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Static;
     Static.name       = "Static";
     Static.value      = EVISION_KB_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Static.colors_min = 1;
     Static.colors_max = 1;
     Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
@@ -152,14 +152,14 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode RainbowCircle;
     RainbowCircle.name       = "Rainbow Circle";
     RainbowCircle.value      = EVISION_KB_MODE_RAINBOW_WAVE_CIRCLE;
-    RainbowCircle.flags      = 0;
+    RainbowCircle.flags      = MODE_FLAG_AUTOMATIC_SAVE;
     RainbowCircle.color_mode = MODE_COLORS_NONE;
     modes.push_back(RainbowCircle);
 
     mode Blooming;
     Blooming.name       = "Blooming";
     Blooming.value      = EVISION_KB_MODE_BLOOMING;
-    Blooming.flags      = MODE_FLAG_HAS_SPEED;
+    Blooming.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
     Blooming.speed_min  = EVISION_KB_SPEED_SLOWEST;
     Blooming.speed_max  = EVISION_KB_SPEED_FASTEST;
     Blooming.speed      = EVISION_KB_SPEED_NORMAL;
@@ -169,7 +169,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode Reactive;
     Reactive.name       = "Reactive";
     Reactive.value      = EVISION_KB_MODE_REACTIVE;
-    Reactive.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Reactive.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Reactive.speed_min  = EVISION_KB_SPEED_SLOWEST;
     Reactive.speed_max  = EVISION_KB_SPEED_FASTEST;
     Reactive.speed      = EVISION_KB_SPEED_NORMAL;
@@ -182,7 +182,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode ReactiveRipple;
     ReactiveRipple.name       = "Reactive Ripple";
     ReactiveRipple.value      = EVISION_KB_MODE_REACTIVE_RIPPLE;
-    ReactiveRipple.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    ReactiveRipple.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     ReactiveRipple.speed_min  = EVISION_KB_SPEED_SLOWEST;
     ReactiveRipple.speed_max  = EVISION_KB_SPEED_FASTEST;
     ReactiveRipple.speed      = EVISION_KB_SPEED_NORMAL;
@@ -195,7 +195,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     mode ReactiveLine;
     ReactiveLine.name       = "Reactive Line";
     ReactiveLine.value      = EVISION_KB_MODE_REACTIVE_LINE;
-    ReactiveLine.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    ReactiveLine.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     ReactiveLine.speed_min  = EVISION_KB_SPEED_SLOWEST;
     ReactiveLine.speed_max  = EVISION_KB_SPEED_FASTEST;
     ReactiveLine.speed      = EVISION_KB_SPEED_NORMAL;
