@@ -194,38 +194,38 @@ unsigned char AuraSMBusController::GetLEDBlue(unsigned int led)
     return(AuraRegisterRead(direct_reg + ( 3 * led ) + 1));
 }
 
-void AuraSMBusController::SetAllColorsDirect(RGBColor* colors)
+void AuraSMBusController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char* color_buf = new unsigned char[led_count * 3];
+    unsigned char* colors = new unsigned char[led_count * 3];
 
     for (unsigned int i = 0; i < (led_count * 3); i += 3)
     {
-        color_buf[i + 0] = RGBGetRValue(colors[i / 3]);
-        color_buf[i + 1] = RGBGetBValue(colors[i / 3]);
-        color_buf[i + 2] = RGBGetGValue(colors[i / 3]);
+        colors[i + 0] = red;
+        colors[i + 1] = blue;
+        colors[i + 2] = green;
     }
 
-    AuraRegisterWriteBlock(direct_reg, color_buf, led_count * 3);
+    AuraRegisterWriteBlock(direct_reg, colors, led_count * 3);
 
-    delete[] color_buf;
+    delete[] colors;
 }
 
-void AuraSMBusController::SetAllColorsEffect(RGBColor* colors)
+void AuraSMBusController::SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char* color_buf = new unsigned char[led_count * 3];
+    unsigned char* colors = new unsigned char[led_count * 3];
 
     for (unsigned int i = 0; i < (led_count * 3); i += 3)
     {
-        color_buf[i + 0] = RGBGetRValue(colors[i / 3]);
-        color_buf[i + 1] = RGBGetBValue(colors[i / 3]);
-        color_buf[i + 2] = RGBGetGValue(colors[i / 3]);
+        colors[i + 0] = red;
+        colors[i + 1] = blue;
+        colors[i + 2] = green;
     }
 
-    AuraRegisterWriteBlock(effect_reg, color_buf, led_count * 3);
-
+    AuraRegisterWriteBlock(effect_reg, colors, led_count * 3);
+    
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 
-    delete[] color_buf;
+    delete[] colors;
 }
 
 void AuraSMBusController::SetDirect(unsigned char direct)

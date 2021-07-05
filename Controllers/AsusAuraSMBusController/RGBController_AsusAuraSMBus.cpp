@@ -58,13 +58,20 @@ int RGBController_AuraSMBus::GetDeviceMode()
 
 void RGBController_AuraSMBus::DeviceUpdateLEDs()
 {
-    if(GetMode() == 0)
+    for(std::size_t led = 0; led < colors.size(); led++)
     {
-        aura->SetAllColorsDirect(&colors[0]);
-    }
-    else
-    {
-        aura->SetAllColorsEffect(&colors[0]);
+        unsigned char red = RGBGetRValue(colors[led]);
+        unsigned char grn = RGBGetGValue(colors[led]);
+        unsigned char blu = RGBGetBValue(colors[led]);
+
+        if (GetMode() == 0)
+        {
+            aura->SetLEDColorDirect(led, red, grn, blu);
+        }
+        else
+        {
+            aura->SetLEDColorEffect(led, red, grn, blu);
+        }
     }
 }
 
