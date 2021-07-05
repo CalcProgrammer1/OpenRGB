@@ -21,21 +21,21 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
     mode Static;
     Static.name       = "Static";
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Static.color_mode = MODE_COLORS_PER_LED;
     Static.value      = GLORIOUS_MODE_STATIC;
     modes.push_back(Static);
 
     mode Off;
     Off.name       = "Off";
-    Off.flags      = 0;
+    Off.flags      = MODE_FLAG_AUTOMATIC_SAVE;
     Off.color_mode = MODE_COLORS_NONE;
     Off.value      = GLORIOUS_MODE_OFF;
     modes.push_back(Off);
 
     mode Rainbow;
     Rainbow.name       = "Glorious Mode";
-    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_UD;
+    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_AUTOMATIC_SAVE;
     Rainbow.speed_min  = GLORIOUS_SPEED_SLOW;
     Rainbow.speed      = GLORIOUS_SPEED_NORMAL;
     Rainbow.speed_max  = GLORIOUS_SPEED_FAST;
@@ -46,7 +46,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
     mode SpectrumBreathing;
     SpectrumBreathing.name       = "Seemless Breathing";
-    SpectrumBreathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    SpectrumBreathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     SpectrumBreathing.speed_min  = GLORIOUS_SPEED_SLOW;
     SpectrumBreathing.speed      = GLORIOUS_SPEED_NORMAL;
     SpectrumBreathing.speed_max  = GLORIOUS_SPEED_FAST;
@@ -59,7 +59,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
     mode Chase;
     Chase.name       = "Tail";
-    Chase.flags      = MODE_FLAG_HAS_SPEED;
+    Chase.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
     Chase.speed_min  = GLORIOUS_SPEED_SLOW;
     Chase.speed      = GLORIOUS_SPEED_NORMAL;
     Chase.speed_max  = GLORIOUS_SPEED_FAST;
@@ -69,7 +69,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
     mode SpectrumCycle;
     SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
+    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
     SpectrumCycle.speed_min  = GLORIOUS_SPEED_SLOW;
     SpectrumCycle.speed      = GLORIOUS_SPEED_NORMAL;
     SpectrumCycle.speed_max  = GLORIOUS_SPEED_FAST;
@@ -79,7 +79,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
     mode Flashing;
     Flashing.name       = "Rave";
-    Flashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Flashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Flashing.speed_min  = GLORIOUS_SPEED_SLOW;
     Flashing.speed      = GLORIOUS_SPEED_NORMAL;
     Flashing.speed_max  = GLORIOUS_SPEED_FAST;
@@ -92,14 +92,14 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
     mode Epilepsy;
     Epilepsy.name       = "Epilepsy";
-    Epilepsy.flags      = 0;
+    Epilepsy.flags      = MODE_FLAG_AUTOMATIC_SAVE;
     Epilepsy.color_mode = MODE_COLORS_NONE;
     Epilepsy.value      = GLORIOUS_MODE_EPILEPSY;
     modes.push_back(Epilepsy);
 
     mode RainbowSlow;
     RainbowSlow.name       = "Wave";
-    RainbowSlow.flags      = MODE_FLAG_HAS_SPEED;
+    RainbowSlow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
     RainbowSlow.speed_min  = GLORIOUS_SPEED_SLOW;
     RainbowSlow.speed      = GLORIOUS_SPEED_NORMAL;
     RainbowSlow.speed_max  = GLORIOUS_SPEED_FAST;
@@ -109,7 +109,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
     mode Breathing;
     Breathing.name       = "Breathing";
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Breathing.speed_min  = GLORIOUS_MODE_BREATING_SLOW;
     Breathing.speed      = GLORIOUS_MODE_BREATING_NORMAL;
     Breathing.speed_max  = GLORIOUS_MODE_BREATING_FAST;
