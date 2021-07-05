@@ -49,16 +49,22 @@ RGBController_LogitechGLightsync::RGBController_LogitechGLightsync(LogitechGLigh
     Cycle.speed_min         = LOGITECH_G_LIGHTSYNC_SPEED_SLOWEST;
     Cycle.speed_max         = LOGITECH_G_LIGHTSYNC_SPEED_FASTEST;
     Cycle.speed             = LOGITECH_G_LIGHTSYNC_SPEED_NORMAL;
+    Cycle.brightness_min    = 0;
+    Cycle.brightness_max    = 100;
+    Cycle.brightness        = 100;
     modes.push_back(Cycle);
 
     mode Breathing;
-    Breathing.name          = "Breathing";
-    Breathing.value         = LOGITECH_G_LIGHTSYNC_MODE_BREATHING;
-    Breathing.flags         = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Breathing.color_mode    = MODE_COLORS_PER_LED;
-    Breathing.speed_min     = LOGITECH_G_LIGHTSYNC_SPEED_SLOWEST;
-    Breathing.speed_max     = LOGITECH_G_LIGHTSYNC_SPEED_FASTEST;
-    Breathing.speed         = LOGITECH_G_LIGHTSYNC_SPEED_NORMAL;
+    Breathing.name           = "Breathing";
+    Breathing.value          = LOGITECH_G_LIGHTSYNC_MODE_BREATHING;
+    Breathing.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Breathing.color_mode     = MODE_COLORS_PER_LED;
+    Breathing.speed_min      = LOGITECH_G_LIGHTSYNC_SPEED_SLOWEST;
+    Breathing.speed_max      = LOGITECH_G_LIGHTSYNC_SPEED_FASTEST;
+    Breathing.speed          = LOGITECH_G_LIGHTSYNC_SPEED_NORMAL;
+    Breathing.brightness_min = 0;
+    Breathing.brightness_max = 100;
+    Breathing.brightness     = 100;
     modes.push_back(Breathing);
 
     SetupZones();
@@ -124,7 +130,7 @@ void RGBController_LogitechGLightsync::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     unsigned char temp_mode = (modes[active_mode].value != 0xFF) ? modes[active_mode].value : LOGITECH_G_LIGHTSYNC_MODE_STATIC;
 
-    logitech->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, /* Brightness */ 0x64);
+    logitech->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness);
 }
 
 void RGBController_LogitechGLightsync::UpdateSingleLED(int led)
