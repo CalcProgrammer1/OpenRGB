@@ -5,13 +5,19 @@ using namespace std::chrono_literals;
 
 mode::mode()
 {
-    name        = "";
-    value       = 0;
-    flags       = 0;
-    speed_min   = 0;
-    speed_max   = 0;
-    colors_min  = 1;
-    colors_max  = 1;
+    name           = "";
+    value          = 0;
+    flags          = 0;
+    speed_min      = 0;
+    speed_max      = 0;
+    brightness_min = 0;
+    brightness_max = 0;
+    colors_min     = 0;
+    colors_max     = 0;
+    speed          = 0;
+    brightness     = 0;
+    direction      = 0;
+    color_mode     = 0;
 }
 
 mode::~mode()
