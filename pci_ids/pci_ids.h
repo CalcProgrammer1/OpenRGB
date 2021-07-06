@@ -31,6 +31,7 @@
 #define INTEL_ICH10_SMBUS_DEV                           0x3A30
 #define INTEL_COFFEE_LAKE_SMBUS_DEV                     0xA2A3
 #define INTEL_COFFEE_LAKE_S_SMBUS_DEV                   0xA323
+#define INTEL_COMET_LAKE_H_SMBUS_DEV                    0x06A3
 
 /*-----------------------------------------------------*\
 | nVidia Device IDs                                     |
@@ -217,11 +218,13 @@
     if(((ven == AMD_VEN) && (dev == AMD_FCH_SMBUS_DEV)) ||  \
     ((ven == INTEL_VEN) && (dev == INTEL_ICH10_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_COFFEE_LAKE_SMBUS_DEV)) || \
-    ((ven == INTEL_VEN) && (dev == INTEL_COFFEE_LAKE_S_SMBUS_DEV)))
+    ((ven == INTEL_VEN) && (dev == INTEL_COFFEE_LAKE_S_SMBUS_DEV)) || \
+    ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_H_SMBUS_DEV)))
 
 #define IF_MOBO_SMBUS(ven, dev)                             \
     if((ven == 0) ||                                        \
     ((ven == AMD_VEN) && (dev == AMD_FCH_SMBUS_DEV)) ||     \
     ((ven == INTEL_VEN) && (dev == INTEL_ICH10_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_COFFEE_LAKE_SMBUS_DEV)) || \
-    ((ven == INTEL_VEN) && (dev == INTEL_COFFEE_LAKE_S_SMBUS_DEV)))
+    ((ven == INTEL_VEN) && (dev == INTEL_COFFEE_LAKE_S_SMBUS_DEV)) || \
+    ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_H_SMBUS_DEV)))
