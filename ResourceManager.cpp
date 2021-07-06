@@ -956,7 +956,6 @@ void ResourceManager::DetectDevicesThreadFunction()
                         {
                             LOG_INFO("[%s] is not initialized", detection_string);
                         }
-                        prev_count = rgb_controllers_hw.size();
                     }
                 }
             }
