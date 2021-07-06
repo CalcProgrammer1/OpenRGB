@@ -36,6 +36,13 @@ static unsigned int scope_tkl_matrix_map[6][18] =
       {   4,   6,  11,  17,  22,  27,  32,  37,  42,  47,  53,  58,  74,  NA,  NA,  NA,  81,  NA },
       {   5,   NA,  7,  12,  NA,  NA,  NA,  33,  NA,  48,  NA,  59,  64,  75,  NA,  78,  82,  85 } };
 
+static unsigned int falchion_matrix_map[5][16] =
+    { {   0,   5,   9,  14,  18,  22,  26,  31,  35,  39,  44,  49,  54,  58,  NA,  63 },
+      {   1,  NA,   6,  10,  15,  19,  23,  27,  32,  36,  40,  45,  50,  55,  59,  64 },
+      {   2,  NA,   7,  11,  16,  20,  24,  28,  33,  37,  41,  46,  51,  60,  NA,  65 }, 
+      {   3,  NA,  12,  17,  21,  25,  29,  34,  38,  42,  47,  52,  56,  NA,  61,  66 },
+      {   4,   8,  13,  NA,  NA,  NA,  30,  NA,  NA,  NA,  43,  48,  53,  57,  62,  67 } };
+
 static const std::vector<led_type> default_led_names =
 {
     /* Key Label                Index  */
@@ -260,8 +267,81 @@ static const std::vector<led_type> default_tkl_led_names =
     { "Underglow 24",           0xBE    },
     { "Underglow 25",           0xC6    },
     { "Underglow 26",           0xCE    },
-
 };
+
+static const std::vector<led_type> default_65pct_led_names =
+{
+    /* Key Label                Index  */
+    { "Key: Escape",            0x00    },
+    { "Key: Tab",               0x01    },
+    { "Key: Caps Lock",         0x02    },
+    { "Key: Left Shift",        0x03    },
+    { "Key: Left Control",      0x04    },
+    { "Key: 1",                 0x08    },
+    { "Key: Q",                 0x09    },
+    { "Key: A",                 0x0A    },
+    { "Key: Left Windows",      0x0C    },
+    { "Key: 2",                 0x10    },
+    { "Key: W",                 0x11    },
+    { "Key: S",                 0x12    },
+    { "Key: Z",                 0x13    },
+    { "Key: Left Alt",          0x14    },
+    { "Key: 3",                 0x18    },
+    { "Key: E",                 0x19    },
+    { "Key: D",                 0x1A    },
+    { "Key: X",                 0x1B    },
+    { "Key: 4",                 0x20    },
+    { "Key: R",                 0x21    },
+    { "Key: F",                 0x22    },
+    { "Key: C",                 0x23    },
+    { "Key: 5",                 0x28    },
+    { "Key: T",                 0x29    },
+    { "Key: G",                 0x2A    },
+    { "Key: V",                 0x2B    },
+    { "Key: 6",                 0x30    },
+    { "Key: Y",                 0x31    },
+    { "Key: H",                 0x32    },
+    { "Key: B",                 0x33    },
+    { "Key: Space",             0x34    },
+    { "Key: 7",                 0x38    },
+    { "Key: U",                 0x39    },
+    { "Key: J",                 0x3A    },
+    { "Key: N",                 0x3B    },
+    { "Key: 8",                 0x40    },
+    { "Key: I",                 0x41    },
+    { "Key: K",                 0x42    },
+    { "Key: M",                 0x43    },
+    { "Key: 9",                 0x48    },
+    { "Key: O",                 0x49    },
+    { "Key: L",                 0x4A    },
+    { "Key: ,",                 0x4B    },
+    { "Key: Right Alt",         0x4C    },
+    { "Key: 0",                 0x50    },
+    { "Key: P",                 0x51    },
+    { "Key: ;",                 0x52    },
+    { "Key: .",                 0x53    },
+    { "Key: Right Fn",          0x54    },
+    { "Key: -",                 0x58    },
+    { "Key: [",                 0x59    },
+    { "Key: '",                 0x5A    },
+    { "Key: /",                 0x5B    },
+    { "Key: Right Control",     0x5C    },
+    { "Key: =",                 0x60    },
+    { "Key: ]",                 0x61    },
+    { "Key: Right Shift",       0x63    },
+    { "Key: Left Arrow",        0x64    },
+    { "Key: Backspace",         0x68    },
+    { "Key: \\ (ANSI)",         0x69    },
+    { "Key: Enter",             0x6A    },
+    { "Key: Up Arrow",          0x6B    },
+    { "Key: Down Arrow",        0x6C    },
+    { "Key: Insert",            0x70    },
+    { "Key: Delete",            0x71    },
+    { "Key: Page Up",           0x72    },
+    { "Key: Page Down",         0x73    },
+    { "Key: Right Arrow",       0x74    },
+};
+
 RGBController_AuraKeyboard::RGBController_AuraKeyboard(AuraKeyboardController* aura_ptr, AuraKeyboardMappingLayoutType keyboard_layout)
 {
     aura        = aura_ptr;
@@ -350,6 +430,11 @@ void RGBController_AuraKeyboard::SetupZones()
             led_names.push_back({ "Logo", 0xB8});
             led_names.push_back({ "Left Underglow",     0xB9});
             led_names.push_back({ "Right Underglow",    0xBA});
+            break;
+
+        case FALCHION_LAYOUT:
+            led_names = default_65pct_led_names;
+            led_zones.push_back({"Keyboard",    ZONE_TYPE_MATRIX, 68, new matrix_map_type{5, 16, (unsigned int *)&falchion_matrix_map}});
             break;
     }
 

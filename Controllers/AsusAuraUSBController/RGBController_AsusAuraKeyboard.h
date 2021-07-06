@@ -17,6 +17,7 @@ enum AuraKeyboardMappingLayoutType
     SCOPE_LAYOUT,
     SCOPE_RX_LAYOUT,
     SCOPE_TKL_LAYOUT,
+    FALCHION_LAYOUT,
 };
 
 typedef struct

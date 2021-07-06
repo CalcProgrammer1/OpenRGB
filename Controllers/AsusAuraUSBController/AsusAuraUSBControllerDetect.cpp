@@ -39,6 +39,8 @@
 #define AURA_ROG_CHAKRAM_WIRED_2_PID            0x1958
 #define AURA_ROG_THRONE_QI_PID                  0x18C5
 #define AURA_TUF_K7_GAMING_PID				    0x18AA
+#define AURA_ROG_FALCHION_WIRED_PID             0x193C
+#define AURA_ROG_FALCHION_WIRELESS_PID          0x193E
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 {
@@ -56,6 +58,10 @@ AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 
         case AURA_ROG_STRIX_SCOPE_TKL_PID:
             return SCOPE_TKL_LAYOUT;
+
+        case AURA_ROG_FALCHION_WIRED_PID:
+        case AURA_ROG_FALCHION_WIRELESS_PID:
+            return FALCHION_LAYOUT;
 
         default:
             return FLARE_LAYOUT;
@@ -181,3 +187,5 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",             DetectAsusAuraUS
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",            DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,             1,  0xFF00);
 REGISTER_HID_DETECTOR_I ("ASUS ROG Throne QI",                  DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                   0);
 REGISTER_HID_DETECTOR_I ("ASUS TUF Gaming K7",                  DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                   1);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wired)",           DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_FALCHION_WIRED_PID,              1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wireless)",        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_FALCHION_WIRELESS_PID,           1,  0xFF00);
