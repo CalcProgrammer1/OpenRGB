@@ -176,6 +176,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASILISK_ESSENTIAL_PID:
         case RAZER_BASILISK_ULTIMATE_WIRED_PID:
         case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
+        case RAZER_BASILISK_V2_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:

@@ -544,6 +544,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0086", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0088", TAG+="uaccess"          #Basilisk Ultimate (Wireless)
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0083", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0083", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0085", TAG+="uaccess"          #Basilisk V2
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0038", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="004F", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0037", TAG+="uaccess"
