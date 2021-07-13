@@ -204,7 +204,10 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     mode Direct;
     Direct.name             = "Direct";
     Direct.value            = 0xFFFF;
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.brightness_min   = RGBFUSION2_BRIGHTNESS_MIN;
+    Direct.brightness_max   = RGBFUSION2_BRIGHTNESS_MAX;
+    Direct.brightness       = RGBFUSION2_BRIGHTNESS_MAX;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -212,9 +215,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Static.name                 = "Static";
     Static.value                = EFFECT_STATIC;
     Static.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.brightness_min       = 0;
-    Static.brightness_max       = 100;
-    Static.brightness           = Static.brightness_max;
+    Static.brightness_min       = RGBFUSION2_BRIGHTNESS_MIN;
+    Static.brightness_max       = RGBFUSION2_BRIGHTNESS_MAX;
+    Static.brightness           = RGBFUSION2_BRIGHTNESS_MAX;
     Static.colors_min           = 1;
     Static.colors_max           = 1;
     Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
@@ -225,9 +228,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Breathing.name              = "Breathing";
     Breathing.value             = EFFECT_PULSE;
     Breathing.flags             = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Breathing.brightness_min    = 0;
-    Breathing.brightness_max    = 100;
-    Breathing.brightness        = Breathing.brightness_max;
+    Breathing.brightness_min    = RGBFUSION2_BRIGHTNESS_MIN;
+    Breathing.brightness_max    = RGBFUSION2_BRIGHTNESS_MAX;
+    Breathing.brightness        = RGBFUSION2_BRIGHTNESS_MAX;
     Breathing.speed_min         = 0;
     Breathing.speed_max         = 4;
     Breathing.colors_min        = 1;
@@ -241,9 +244,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Blinking.name               = "Blinking";
     Blinking.value              = EFFECT_BLINKING;
     Blinking.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Blinking.brightness_min     = 0;
-    Blinking.brightness_max     = 100;
-    Blinking.brightness         = Blinking.brightness_max;
+    Blinking.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
+    Blinking.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
+    Blinking.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
     Blinking.speed_min          = 0;
     Blinking.speed_max          = 4;
     Blinking.colors_min         = 1;
@@ -257,9 +260,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     ColorCycle.name             = "Color Cycle";
     ColorCycle.value            = EFFECT_COLORCYCLE;
     ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
-    ColorCycle.brightness_min   = 0;
-    ColorCycle.brightness_max   = 100;
-    ColorCycle.brightness       = ColorCycle.brightness_max;
+    ColorCycle.brightness_min   = RGBFUSION2_BRIGHTNESS_MIN;
+    ColorCycle.brightness_max   = RGBFUSION2_BRIGHTNESS_MAX;
+    ColorCycle.brightness       = RGBFUSION2_BRIGHTNESS_MAX;
     ColorCycle.speed_min        = 0;
     ColorCycle.speed_max        = 4;
     ColorCycle.color_mode       = MODE_COLORS_NONE;
@@ -270,9 +273,9 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Flashing.name               = "Flashing";
     Flashing.value              = 10;
     Flashing.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Flashing.brightness_min     = 0;
-    Flashing.brightness_max     = 100;
-    Flashing.brightness         = Flashing.brightness_max;
+    Flashing.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
+    Flashing.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
+    Flashing.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
     Flashing.speed_min          = 0;
     Flashing.speed_max          = 4;
     Flashing.colors_min         = 1;
