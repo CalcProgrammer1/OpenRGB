@@ -36,6 +36,12 @@ enum
     RGB_FUSION_GPU_SPEED_FASTEST        = 0x09
 };
 
+enum
+{
+    RGB_FUSION_GPU_BRIGHTNESS_MIN       = 0x00,
+    RGB_FUSION_GPU_BRIGHTNESS_MAX       = 0x63
+};
+
 class RGBFusionGPUController
 {
 public:
@@ -45,7 +51,7 @@ public:
     std::string     GetDeviceLocation();
 
     void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
-    void            SetMode(unsigned char mode, unsigned char speed);
+    void            SetMode(unsigned char mode, unsigned char speed, unsigned char brightness);
 
 private:
     i2c_smbus_interface*    bus;

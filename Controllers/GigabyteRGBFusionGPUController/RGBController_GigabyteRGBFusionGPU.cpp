@@ -21,50 +21,65 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* r
     type = DEVICE_TYPE_GPU;
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = RGB_FUSION_GPU_MODE_STATIC;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name           = "Direct";
+    Direct.value          = RGB_FUSION_GPU_MODE_STATIC;
+    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode     = MODE_COLORS_PER_LED;
+    Direct.brightness_min = RGB_FUSION_GPU_BRIGHTNESS_MIN;
+    Direct.brightness_max = RGB_FUSION_GPU_BRIGHTNESS_MAX;
+    Direct.brightness     = RGB_FUSION_GPU_BRIGHTNESS_MAX;
     modes.push_back(Direct);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = RGB_FUSION_GPU_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Breathing.speed_min  = RGB_FUSION_GPU_SPEED_SLOWEST;
-    Breathing.speed_max  = RGB_FUSION_GPU_SPEED_FASTEST;
-    Breathing.speed      = RGB_FUSION_GPU_SPEED_NORMAL;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
+    Breathing.name           = "Breathing";
+    Breathing.value          = RGB_FUSION_GPU_MODE_BREATHING;
+    Breathing.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Breathing.speed_min      = RGB_FUSION_GPU_SPEED_SLOWEST;
+    Breathing.speed_max      = RGB_FUSION_GPU_SPEED_FASTEST;
+    Breathing.speed          = RGB_FUSION_GPU_SPEED_NORMAL;
+    Breathing.color_mode     = MODE_COLORS_PER_LED;
+    Breathing.brightness_min = RGB_FUSION_GPU_BRIGHTNESS_MIN;
+    Breathing.brightness_max = RGB_FUSION_GPU_BRIGHTNESS_MAX;
+    Breathing.brightness     = RGB_FUSION_GPU_BRIGHTNESS_MAX;
     modes.push_back(Breathing);
 
     mode Flashing;
-    Flashing.name       = "Flashing";
-    Flashing.value      = RGB_FUSION_GPU_MODE_FLASHING;
-    Flashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Flashing.speed_min  = RGB_FUSION_GPU_SPEED_SLOWEST;
-    Flashing.speed_max  = RGB_FUSION_GPU_SPEED_FASTEST;
-    Flashing.speed      = RGB_FUSION_GPU_SPEED_NORMAL;
-    Flashing.color_mode = MODE_COLORS_PER_LED;
+    Flashing.name           = "Flashing";
+    Flashing.value          = RGB_FUSION_GPU_MODE_FLASHING;
+    Flashing.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Flashing.speed_min      = RGB_FUSION_GPU_SPEED_SLOWEST;
+    Flashing.speed_max      = RGB_FUSION_GPU_SPEED_FASTEST;
+    Flashing.speed          = RGB_FUSION_GPU_SPEED_NORMAL;
+    Flashing.color_mode     = MODE_COLORS_PER_LED;
+    Flashing.brightness_min = RGB_FUSION_GPU_BRIGHTNESS_MIN;
+    Flashing.brightness_max = RGB_FUSION_GPU_BRIGHTNESS_MAX;
+    Flashing.brightness     = RGB_FUSION_GPU_BRIGHTNESS_MAX;
     modes.push_back(Flashing);
 
     mode DualFlashing;
-    DualFlashing.name       = "Dual Flashing";
-    DualFlashing.value      = RGB_FUSION_GPU_MODE_DUAL_FLASHING;
-    DualFlashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DualFlashing.speed_min  = RGB_FUSION_GPU_SPEED_SLOWEST;
-    DualFlashing.speed_max  = RGB_FUSION_GPU_SPEED_FASTEST;
-    DualFlashing.speed      = RGB_FUSION_GPU_SPEED_NORMAL;
-    DualFlashing.color_mode = MODE_COLORS_PER_LED;
+    DualFlashing.name           = "Dual Flashing";
+    DualFlashing.value          = RGB_FUSION_GPU_MODE_DUAL_FLASHING;
+    DualFlashing.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    DualFlashing.speed_min      = RGB_FUSION_GPU_SPEED_SLOWEST;
+    DualFlashing.speed_max      = RGB_FUSION_GPU_SPEED_FASTEST;
+    DualFlashing.speed          = RGB_FUSION_GPU_SPEED_NORMAL;
+    DualFlashing.color_mode     = MODE_COLORS_PER_LED;
+    DualFlashing.brightness_min = RGB_FUSION_GPU_BRIGHTNESS_MIN;
+    DualFlashing.brightness_max = RGB_FUSION_GPU_BRIGHTNESS_MAX;
+    DualFlashing.brightness     = RGB_FUSION_GPU_BRIGHTNESS_MAX;
     modes.push_back(DualFlashing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.value      = RGB_FUSION_GPU_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
-    SpectrumCycle.speed_min  = RGB_FUSION_GPU_SPEED_SLOWEST;
-    SpectrumCycle.speed_max  = RGB_FUSION_GPU_SPEED_FASTEST;
-    SpectrumCycle.speed      = RGB_FUSION_GPU_SPEED_NORMAL;
-    SpectrumCycle.color_mode = MODE_COLORS_NONE;
+    SpectrumCycle.name           = "Spectrum Cycle";
+    SpectrumCycle.value          = RGB_FUSION_GPU_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    SpectrumCycle.speed_min      = RGB_FUSION_GPU_SPEED_SLOWEST;
+    SpectrumCycle.speed_max      = RGB_FUSION_GPU_SPEED_FASTEST;
+    SpectrumCycle.speed          = RGB_FUSION_GPU_SPEED_NORMAL;
+    SpectrumCycle.color_mode     = MODE_COLORS_NONE;
+    SpectrumCycle.brightness_min = RGB_FUSION_GPU_BRIGHTNESS_MIN;
+    SpectrumCycle.brightness_max = RGB_FUSION_GPU_BRIGHTNESS_MAX;
+    SpectrumCycle.brightness     = RGB_FUSION_GPU_BRIGHTNESS_MAX;
     modes.push_back(SpectrumCycle);
 
     SetupZones();
@@ -139,5 +154,5 @@ void RGBController_RGBFusionGPU::SetCustomMode()
 
 void RGBController_RGBFusionGPU::DeviceUpdateMode()
 {
-    rgb_fusion->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed);
+    rgb_fusion->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed, (unsigned char)modes[(unsigned int)active_mode].brightness);
 }
