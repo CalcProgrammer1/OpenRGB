@@ -87,39 +87,42 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
 
             if(e131_settings["devices"][device_idx].contains("matrix_order"))
             {
-                std::string matrix_order_val = e131_settings["devices"][device_idx]["matrix_order"];
+                if(e131_settings["devices"][device_idx]["matrix_order"].is_string())
+                {
+                    std::string matrix_order_val = e131_settings["devices"][device_idx]["matrix_order"];
 
-                if(matrix_order_val == "HORIZONTAL_TOP_LEFT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_TOP_LEFT;
-                }
-                else if(matrix_order_val == "HORIZONTAL_TOP_RIGHT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_TOP_RIGHT;
-                }
-                else if(matrix_order_val == "HORIZONTAL_BOTTOM_LEFT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_LEFT;
-                }
-                else if(matrix_order_val == "HORIZONTAL_BOTTOM_RIGHT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_RIGHT;
-                }
-                else if(matrix_order_val == "VERTICAL_TOP_LEFT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_TOP_LEFT;
-                }
-                else if(matrix_order_val == "VERTICAL_TOP_RIGHT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_TOP_RIGHT;
-                }
-                else if(matrix_order_val == "VERTICAL_BOTTOM_LEFT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_BOTTOM_LEFT;
-                }
-                else if(matrix_order_val == "VERTICAL_BOTTOM_RIGHT")
-                {
-                    dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_BOTTOM_RIGHT;
+                    if(matrix_order_val == "HORIZONTAL_TOP_LEFT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_TOP_LEFT;
+                    }
+                    else if(matrix_order_val == "HORIZONTAL_TOP_RIGHT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_TOP_RIGHT;
+                    }
+                    else if(matrix_order_val == "HORIZONTAL_BOTTOM_LEFT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_LEFT;
+                    }
+                    else if(matrix_order_val == "HORIZONTAL_BOTTOM_RIGHT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_RIGHT;
+                    }
+                    else if(matrix_order_val == "VERTICAL_TOP_LEFT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_TOP_LEFT;
+                    }
+                    else if(matrix_order_val == "VERTICAL_TOP_RIGHT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_TOP_RIGHT;
+                    }
+                    else if(matrix_order_val == "VERTICAL_BOTTOM_LEFT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_BOTTOM_LEFT;
+                    }
+                    else if(matrix_order_val == "VERTICAL_BOTTOM_RIGHT")
+                    {
+                        dev.matrix_order = E131_MATRIX_ORDER_VERTICAL_BOTTOM_RIGHT;
+                    }
                 }
                 else
                 {
@@ -129,31 +132,34 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
 
             if(e131_settings["devices"][device_idx].contains("rgb_order"))
             {
-                std::string rgb_order_val = e131_settings["devices"][device_idx]["rgb_order"];
+                if(e131_settings["devices"][device_idx]["rgb_order"].is_string())
+                {
+                    std::string rgb_order_val = e131_settings["devices"][device_idx]["rgb_order"];
 
-                if(rgb_order_val == "RGB")
-                {
-                    dev.rgb_order = E131_RGB_ORDER_RGB;
-                }
-                else if(rgb_order_val == "RBG")
-                {
-                    dev.rgb_order = E131_RGB_ORDER_RBG;
-                }
-                else if(rgb_order_val == "GRB")
-                {
-                    dev.rgb_order = E131_RGB_ORDER_GRB;
-                }
-                else if(rgb_order_val == "GBR")
-                {
-                    dev.rgb_order = E131_RGB_ORDER_GBR;
-                }
-                else if(rgb_order_val == "BRG")
-                {
-                    dev.rgb_order = E131_RGB_ORDER_BGR;
-                }
-                else if(rgb_order_val == "BGR")
-                {
-                    dev.rgb_order = E131_RGB_ORDER_BGR;
+                    if(rgb_order_val == "RGB")
+                    {
+                        dev.rgb_order = E131_RGB_ORDER_RGB;
+                    }
+                    else if(rgb_order_val == "RBG")
+                    {
+                        dev.rgb_order = E131_RGB_ORDER_RBG;
+                    }
+                    else if(rgb_order_val == "GRB")
+                    {
+                        dev.rgb_order = E131_RGB_ORDER_GRB;
+                    }
+                    else if(rgb_order_val == "GBR")
+                    {
+                        dev.rgb_order = E131_RGB_ORDER_GBR;
+                    }
+                    else if(rgb_order_val == "BRG")
+                    {
+                        dev.rgb_order = E131_RGB_ORDER_BGR;
+                    }
+                    else if(rgb_order_val == "BGR")
+                    {
+                        dev.rgb_order = E131_RGB_ORDER_BGR;
+                    }
                 }
                 else
                 {
@@ -178,19 +184,22 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             
             if(e131_settings["devices"][device_idx].contains("type"))
             {
-                std::string type_val = e131_settings["devices"][device_idx]["type"];
+                if(e131_settings["devices"][device_idx]["type"].is_string())
+                {
+                    std::string type_val = e131_settings["devices"][device_idx]["type"];
 
-                if(type_val == "SINGLE")
-                {
-                    dev.type = ZONE_TYPE_SINGLE;
-                }
-                else if(type_val == "LINEAR")
-                {
-                    dev.type = ZONE_TYPE_LINEAR;
-                }
-                else if(type_val == "MATRIX")
-                {
-                    dev.type = ZONE_TYPE_MATRIX;
+                    if(type_val == "SINGLE")
+                    {
+                        dev.type = ZONE_TYPE_SINGLE;
+                    }
+                    else if(type_val == "LINEAR")
+                    {
+                        dev.type = ZONE_TYPE_LINEAR;
+                    }
+                    else if(type_val == "MATRIX")
+                    {
+                        dev.type = ZONE_TYPE_MATRIX;
+                    }
                 }
                 else
                 {
