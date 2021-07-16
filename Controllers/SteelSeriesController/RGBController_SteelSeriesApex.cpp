@@ -262,8 +262,8 @@ RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBase
     type        = DEVICE_TYPE_KEYBOARD;
     description = "SteelSeries Apex RGB Device";
     location    = steelseries->GetDeviceLocation();
-    serial      = steelseries->GetSerialString();
-
+    serial      = "";
+    
     proto_type = steelseries->proto_type;
 
     mode Direct;
