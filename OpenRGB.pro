@@ -402,6 +402,8 @@ HEADERS +=                                                                      
     Controllers/ThermaltakeRiingController/ThermaltakeRiingQuadController.h                     \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.h                     \
     Controllers/WootingKeyboardController/WootingKeyboardController.h                           \
+    Controllers/WootingKeyboardController/WootingOneKeyboardController.h                        \
+    Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.h                       \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.h                 \
     Controllers/YeelightController/YeelightController.h                                         \
@@ -770,6 +772,8 @@ SOURCES +=                                                                      
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.cpp                   \
     Controllers/WootingKeyboardController/WootingKeyboardController.cpp                         \
     Controllers/WootingKeyboardController/WootingKeyboardControllerDetect.cpp                   \
+    Controllers/WootingKeyboardController/WootingOneKeyboardController.cpp                      \
+    Controllers/WootingKeyboardController/WootingTwoKeyboardController.cpp                      \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.cpp                     \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.cpp               \
     Controllers/YeelightController/YeelightController.cpp                                       \

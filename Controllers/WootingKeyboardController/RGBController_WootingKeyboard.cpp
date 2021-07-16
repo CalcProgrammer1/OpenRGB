@@ -26,12 +26,12 @@ static unsigned int matrix_map_tkl[6][17] =
 
 static unsigned int matrix_map_full[6][21] =
 {
-    { 0,  NA,  12,  18,  24,  30,  36,  42,  48,  54,  60,  66,  72,  78,  84,  91,  90, 103, 109, 115,  96},
-    { 1,   7,  13,  19,  25,  31,  37,  43,  49,  55,  61,  67,  73,  79,  85,  92,  98, 104, 110, 116, 122},
-    { 2,   8,  14,  20,  26,  32,  38,  44,  50,  56,  62,  68,  74,  80,  86,  93,  99, 105, 111, 117, 123},
-    { 3,   9,  15,  21,  27,  33,  39,  45,  51,  57,  63,  69,  75,  81,  NA,  NA,  NA, 106, 112, 118,  NA},
-    { 4,  10,  16,  22,  28,  34,  40,  46,  52,  58,  64,  70,  NA,  82,  NA,  94,  NA, 107, 113, 119, 125},
-    { 5,  11,  17,  NA,  NA,  NA,  41,  NA,  NA,  NA,  65,  71,  77,  83,  89,  95, 102,  NA, 114, 120,  NA}
+    {  0,  NA,  12,  18,  24,  30,  36,  42,  48,  54,  60,  66,  72,  78,  84,  90, 100, 102, 108, 114, 120},
+    {  1,   7,  13,  19,  25,  31,  37,  43,  49,  55,  61,  67,  73,  79,  85,  91,  97, 103, 109, 115, 121},
+    {  2,   8,  14,  20,  26,  32,  38,  44,  50,  56,  62,  68,  74,  80,  86,  92,  98, 104, 110, 116, 122},
+    {  3,   9,  15,  21,  27,  33,  39,  45,  51,  57,  63,  69,  75,  81,  NA,  NA,  NA, 105, 111, 117,  NA},
+    {  4,  10,  16,  22,  28,  34,  40,  46,  52,  58,  64,  70,  NA,  82,  NA,  94,  NA, 106, 112, 118, 124},
+    {  5,  11,  17,  NA,  NA,  NA,  41,  NA,  NA,  NA,  65,  71,  77,  83,  89,  95, 101,  NA, 113, 119,  NA}
 };
 
 static const unsigned int zone_sizes[] =
@@ -132,8 +132,7 @@ static const char *led_names[] =
     "Unused",
     "Unused",
     "Key: Left Arrow",
-    "Key: Scroll Lock",     //90
-    "Key: Pause/Break",
+    "Key: Pause/Break",     //90
     "Key: Home",
     "Key: End",
     "Unused",
@@ -142,8 +141,8 @@ static const char *led_names[] =
     "Key: Mode",
     "Key: Page Up",
     "Key: Page Down",
-    "Unused",               //100
     "Unused",
+    "Key: Scroll Lock",     //100 - Scroll lock for WootingTwo KB's
     "Key: Right Arrow",
     "Key: A1",
     "Key: Num Lock",
@@ -152,8 +151,8 @@ static const char *led_names[] =
     "Key: Number Pad 1",
     "Unused",
     "Key: A2",
-    "Key: Number Pad /",    //110
-    "Key: Number Pad 8",
+    "Key: Number Pad /",
+    "Key: Number Pad 8",    //110
     "Key: Number Pad 5",
     "Key: Number Pad 2",
     "Key: Number Pad 0",
@@ -162,8 +161,8 @@ static const char *led_names[] =
     "Key: Number Pad 9",
     "Key: Number Pad 6",
     "Key: Number Pad 3",
-    "Key: Number Pad .",    //120
-    "Unused",
+    "Key: Number Pad .",
+    "Key: Mode",            //120 - Mode key for WootingTwo KB's
     "Key: Number Pad -",
     "Key: Number Pad +",
     "Unused",
@@ -175,7 +174,7 @@ RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardCont
 {
     wooting     = wooting_ptr;
 
-    LOG_DEBUG("[Wooting KB] Adding meta data");
+    LOG_DEBUG("%sAdding meta data", WOOTING_CONTROLLER_NAME);
     name        = wooting_ptr->GetName();
     vendor      = wooting_ptr->GetVendor();
     type        = DEVICE_TYPE_KEYBOARD;
@@ -183,7 +182,7 @@ RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardCont
     location    = wooting_ptr->GetLocation();
     serial      = wooting_ptr->GetSerial();
 
-    LOG_DEBUG("[Wooting KB] Adding modes");
+    LOG_DEBUG("%sAdding modes", WOOTING_CONTROLLER_NAME);
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0xFFFF;
@@ -216,7 +215,7 @@ void RGBController_WootingKeyboard::SetupZones()
     uint8_t         wooting_type    = wooting->GetWootingType();
     unsigned int    total_led_count = zone_sizes[wooting_type];
 
-    LOG_DEBUG("[Wooting KB] Creating New Zone");
+    LOG_DEBUG("%sCreating New Zone", WOOTING_CONTROLLER_NAME);
     zone new_zone;
 
     new_zone.name                   = name.append(" zone");
@@ -225,32 +224,33 @@ void RGBController_WootingKeyboard::SetupZones()
     new_zone.leds_max               = total_led_count;
     new_zone.leds_count             = total_led_count;
     new_zone.matrix_map             = new matrix_map_type;
-    new_zone.matrix_map->height     = 6;
+    new_zone.matrix_map->height     = WOOTING_RGB_ROWS;
 
     if(wooting_type == WOOTING_KB_TKL)
     {
-        new_zone.matrix_map->width  =  17;
+        new_zone.matrix_map->width  =  WOOTING_ONE_RGB_COLUMNS;
         new_zone.matrix_map->map    = (unsigned int *)&matrix_map_tkl;
     }
     else
     {
-        new_zone.matrix_map->width  =  21;
+        new_zone.matrix_map->width  =  WOOTING_TWO_RGB_COLUMNS;
         new_zone.matrix_map->map    = (unsigned int *)&matrix_map_full;
     }
 
     zones.push_back(new_zone);
 
-    LOG_DEBUG("[Wooting KB] Creating LED array");
+    LOG_DEBUG("%sCreating LED array - total_led_count %03i", WOOTING_CONTROLLER_NAME, total_led_count);
     for (unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
 
         new_led.name                = led_names[led_idx];
 
+        LOG_DEBUG("%sPushing LED %03i - %s into vector", WOOTING_CONTROLLER_NAME, led_idx, new_led.name.c_str());
         leds.push_back(new_led);
     }
 
-    LOG_DEBUG("[Wooting KB V2] LEDs created - Initialising Colours");
+    LOG_DEBUG("%sLEDs created - Initialising Colours", WOOTING_CONTROLLER_NAME);
 
     SetupColors();
 }

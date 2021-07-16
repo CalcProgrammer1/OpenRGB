@@ -765,8 +765,10 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[0-3]", TAG+="ua
 #---------------------------------------------------------------#
 #  Wooting Devices                                              #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff01", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff02", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff01", TAG+="uaccess"          #WootingOne
+SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff02", TAG+="uaccess"          #WootingTwo
+SUBSYSTEMS=="usb", ATTR{idVendor}=="31e3", ATTR{idProduct}=="1210", TAG+="uaccess"          #WootingTwo LE
+SUBSYSTEMS=="usb", ATTR{idVendor}=="31e3", ATTR{idProduct}=="1220", TAG+="uaccess"          #WootingTwo HE
 
 #---------------------------------------------------------------#
 #  Zalman ZSync Devices                                         #
