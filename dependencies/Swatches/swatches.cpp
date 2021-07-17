@@ -116,7 +116,7 @@ void Swatches::mouseReleaseEvent(QMouseEvent* event)
     \*-----------------------------------------------------*/
     mouseDown   = false;
 
-    if(add_swatch.region.contains(event->pos()))
+    if(false)//add_swatch.region.contains(event->pos()))
     {
         addCustomSwatch(picker_color);
     }
