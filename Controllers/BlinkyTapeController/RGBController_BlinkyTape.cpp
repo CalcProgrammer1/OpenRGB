@@ -41,13 +41,13 @@ void RGBController_BlinkyTape::SetupZones()
     zone led_zone;
     led_zone.name       = "LED Strip";
     led_zone.type       = ZONE_TYPE_LINEAR;
-    led_zone.leds_min   = 1;
+    led_zone.leds_min   = 0;
     led_zone.leds_max   = 512;
     led_zone.leds_count = 0;
     led_zone.matrix_map = NULL;
     zones.push_back(led_zone);
 
-    ResizeZone(0, controller->num_leds);
+    ResizeZone(0, led_zone.leds_count);
 }
 
 void RGBController_BlinkyTape::ResizeZone(int zone, int new_size)

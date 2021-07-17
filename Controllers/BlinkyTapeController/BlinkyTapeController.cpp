@@ -31,9 +31,8 @@ BlinkyTapeController::~BlinkyTapeController()
     }
 }
 
-void BlinkyTapeController::Initialize(const std::string &portname, int led_count)
+void BlinkyTapeController::Initialize(const std::string &portname)
 {
-    num_leds    = led_count;
     port_name   = portname;
 
     serialport  = new serial_port();

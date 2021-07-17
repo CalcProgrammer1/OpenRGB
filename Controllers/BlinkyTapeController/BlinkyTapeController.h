@@ -22,14 +22,12 @@ public:
     BlinkyTapeController();
     ~BlinkyTapeController();
 
-    void        Initialize(const std::string &portname, int led_count);
+    void        Initialize(const std::string &portname);
 
     char*       GetLEDString();
     std::string GetLocation();
 
     void        SetLEDs(std::vector<RGBColor> colors);
-
-    int num_leds;
 
 private:
     char led_string[1024];

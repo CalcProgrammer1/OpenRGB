@@ -25,10 +25,8 @@ void DetectBlinkyTapeControllers(std::vector<RGBController*> &rgb_controllers)
 
     for(unsigned int device_idx = 0; device_idx < device_locations.size(); device_idx++)
     {
-        int led_count = 64;
-
         BlinkyTapeController*     controller     = new BlinkyTapeController();
-        controller->Initialize(*device_locations[device_idx], led_count);
+        controller->Initialize(*device_locations[device_idx]);
 
         RGBController_BlinkyTape* rgb_controller = new RGBController_BlinkyTape(controller);
         rgb_controllers.push_back(rgb_controller);
