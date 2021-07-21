@@ -13,16 +13,6 @@
 #define Everest_GT100_PID    0x0029
 #define Fl_Esports_F11_PID   0x0049
 
-
-typedef struct
-{
-    unsigned short  usb_vid;
-    unsigned short  usb_pid;
-    const char *    name;
-} sinowealth_device;
-
-#define SINOWEALTH_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectSinowealthControllers                                                            *
@@ -63,7 +53,7 @@ int GetUsageCount(hid_device_info* info, hid_device* usages[])
 
 void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
 {
-#ifdef _WIN32
+#ifdef USE_HID_USAGE
 
     /*-------------------------------------------------------------------------------------------------*\
     | Sinowealth devices use 3 different Report IDs on the same Usage Page.                             |
@@ -105,7 +95,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
 
 void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
 {
-#ifdef _WIN32
+#ifdef USE_HID_USAGE
     hid_device* usages[3];
 
     unsigned int usage_count = GetUsageCount(info, usages);
