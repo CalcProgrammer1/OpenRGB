@@ -34,6 +34,7 @@ enum
 
 struct LEDStripDevice
 {
+    std::string     name;
     std::string     port;
     unsigned int    baud;
     unsigned int    num_leds;

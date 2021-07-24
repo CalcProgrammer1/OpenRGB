@@ -37,7 +37,13 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
             /*-------------------------------------------------*\
             | Default to the Keyboard Visualizer protocol       |
             \*-------------------------------------------------*/
+            dev.name     = "LED Strip";
             dev.protocol = LED_PROTOCOL_KEYBOARD_VISUALIZER;
+
+            if(ledstrip_settings["devices"][device_idx].contains("name"))
+            {
+                dev.name = ledstrip_settings["devices"][device_idx]["name"];
+            }
 
             if(ledstrip_settings["devices"][device_idx].contains("port"))
             {
@@ -78,6 +84,7 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
             new_ledstrip->Initialize((char *)value.c_str(), dev.protocol);
 
             new_controller = new RGBController_LEDStrip(new_ledstrip);
+            new_controller->name = dev.name;
             rgb_controllers.push_back(new_controller);
         }
     }

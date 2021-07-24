@@ -168,6 +168,8 @@ HEADERS +=                                                                      
     qt/OpenRGBE131SettingsPage.h                                                                \
     qt/OpenRGBPluginContainer.h                                                                 \
     qt/OpenRGBProfileSaveDialog.h                                                               \
+    qt/OpenRGBSerialSettingsEntry.h                                                             \
+    qt/OpenRGBSerialSettingsPage.h                                                              \
     qt/OpenRGBServerInfoPage.h                                                                  \
     qt/OpenRGBSettingsPage.h                                                                    \
     qt/OpenRGBSoftwareInfoPage.h                                                                \
@@ -468,6 +470,8 @@ SOURCES +=                                                                      
     qt/OpenRGBE131SettingsPage.cpp                                                              \
     qt/OpenRGBPluginContainer.cpp                                                               \
     qt/OpenRGBProfileSaveDialog.cpp                                                             \
+    qt/OpenRGBSerialSettingsEntry.cpp                                                           \
+    qt/OpenRGBSerialSettingsPage.cpp                                                            \
     qt/OpenRGBServerInfoPage.cpp                                                                \
     qt/OpenRGBSettingsPage.cpp                                                                  \
     qt/OpenRGBSoftwareInfoPage.cpp                                                              \
@@ -791,6 +795,8 @@ FORMS +=                                                                        
     qt/OpenRGBE131SettingsPage.ui                                                               \
     qt/OpenRGBPluginContainer.ui                                                                \
     qt/OpenRGBProfileSaveDialog.ui                                                              \
+    qt/OpenRGBSerialSettingsEntry.ui                                                            \
+    qt/OpenRGBSerialSettingsPage.ui                                                             \
     qt/OpenRGBServerInfoPage.ui                                                                 \
     qt/OpenRGBSettingsPage.ui                                                                   \
     qt/OpenRGBSoftwareInfoPage.ui                                                               \

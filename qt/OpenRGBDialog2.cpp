@@ -407,6 +407,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddE131SettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the Serial settings page                          |
+    \*-----------------------------------------------------*/
+    AddSerialSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
     \*-----------------------------------------------------*/
     if(ShowI2CTools)
@@ -582,6 +587,35 @@ void OpenRGBDialog2::AddE131SettingsPage()
     SettingsLabelString += ":/settings";
     if(IsDarkTheme()) SettingsLabelString += "_dark";
     SettingsLabelString += ".png' height='16' width='16'></td><td>E1.31 Devices</td></tr></table></html>";
+
+    QLabel *SettingsTabLabel = new QLabel();
+    SettingsTabLabel->setText(SettingsLabelString);
+    SettingsTabLabel->setIndent(20);
+    if(IsDarkTheme())
+    {
+        SettingsTabLabel->setGeometry(0, 25, 200, 50);
+    }
+    else
+    {
+        SettingsTabLabel->setGeometry(0, 0, 200, 25);
+    }
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddSerialSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    SerialSettingsPage = new OpenRGBSerialSettingsPage();
+
+    ui->SettingsTabBar->addTab(SerialSettingsPage, "");
+
+    QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
+    SettingsLabelString += ":/settings";
+    if(IsDarkTheme()) SettingsLabelString += "_dark";
+    SettingsLabelString += ".png' height='16' width='16'></td><td>Serial Devices</td></tr></table></html>";
 
     QLabel *SettingsTabLabel = new QLabel();
     SettingsTabLabel->setText(SettingsLabelString);

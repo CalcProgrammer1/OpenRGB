@@ -9,6 +9,7 @@
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
 #include "OpenRGBE131SettingsPage.h"
+#include "OpenRGBSerialSettingsPage.h"
 #include "PluginManager.h"
 
 #include <vector>
@@ -57,6 +58,7 @@ private:
     OpenRGBSupportedDevicesPage *SupportedPage;
     OpenRGBSettingsPage *SettingsPage;
     OpenRGBE131SettingsPage *E131SettingsPage;
+    OpenRGBSerialSettingsPage *SerialSettingsPage;
 
     bool ShowI2CTools = false;
 
@@ -75,6 +77,7 @@ private:
     void AddSupportedDevicesPage();
     void AddSettingsPage();
     void AddE131SettingsPage();
+    void AddSerialSettingsPage();
     void AddPluginTab(PluginManager* plugin_manager,int plugin_index);
 
     void ClearDevicesList();
