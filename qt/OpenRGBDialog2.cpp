@@ -584,7 +584,7 @@ void OpenRGBDialog2::AddE131SettingsPage()
     ui->SettingsTabBar->addTab(E131SettingsPage, "");
 
     QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
-    SettingsLabelString += ":/settings";
+    SettingsLabelString += ":/wireless";
     if(IsDarkTheme()) SettingsLabelString += "_dark";
     SettingsLabelString += ".png' height='16' width='16'></td><td>E1.31 Devices</td></tr></table></html>";
 
@@ -613,7 +613,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     ui->SettingsTabBar->addTab(SerialSettingsPage, "");
 
     QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
-    SettingsLabelString += ":/settings";
+    SettingsLabelString += ":/serial";
     if(IsDarkTheme()) SettingsLabelString += "_dark";
     SettingsLabelString += ".png' height='16' width='16'></td><td>Serial Devices</td></tr></table></html>";
 

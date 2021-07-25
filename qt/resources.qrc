@@ -40,5 +40,9 @@
         <file>virtual_dark.png</file>
         <file>settings.png</file>
         <file>settings_dark.png</file>
+        <file>serial.png</file>
+        <file>serial_dark.png</file>
+        <file>wireless.png</file>
+        <file>wireless_dark.png</file>
     </qresource>
 </RCC>
