@@ -8,6 +8,7 @@
 \*-------------------------------------------------------------------*/
 
 #include <map>
+#include <vector>
 #include <hidapi/hidapi.h>
 #include "LogManager.h"
 
@@ -56,10 +57,11 @@ enum LOGITECH_DEVICE_TYPE
     LOGITECH_DEVICE_TYPE_REMOTECONTROL =1,
     LOGITECH_DEVICE_TYPE_NUMPAD = 2,
     LOGITECH_DEVICE_TYPE_MOUSE = 3,
-    LOGITECH_DEVICE_TYPE_TOUCHPAD = 4,
+    LOGITECH_DEVICE_TYPE_MOUSEPAD = 4,
     LOGITECH_DEVICE_TYPE_TRACKBALL = 5,
     LOGITECH_DEVICE_TYPE_PRESENTER = 6,
-    LOGITECH_DEVICE_TYPE_RECEIVER = 7
+    LOGITECH_DEVICE_TYPE_RECEIVER = 7,
+    LOGITECH_DEVICE_TYPE_HEADSET = 8
 };
 
 // Used for: {GET,SET}_REGISTER_{REQ,RSP}, SET_LONG_REGISTER_RSP, GET_LONG_REGISTER_REQ
@@ -150,7 +152,7 @@ union blankFAPmessage
     uint8_t                         buffer[LOGITECH_FAP_RESPONSE_LEN];
     struct
     {
-        uint8_t                     command;
+        uint8_t                     report_id;
         uint8_t                     device_index;
         uint8_t                     feature_index;
         uint8_t                     feature_command;
@@ -170,6 +172,14 @@ union blankFAPmessage
     {
         return LOGITECH_FAP_RESPONSE_LEN;
     };
+};
+
+struct logitech_led
+{
+        uint8_t                     value;
+        uint8_t                     param1;
+        uint8_t                     param2;
+        uint8_t                     param3;
 };
 
 typedef std::map<uint8_t, hid_device*> usages;
@@ -201,6 +211,7 @@ public:
     std::string                 protocol_version;
 
     bool                        connected();
+    bool                        is_valid();
     void                        flushReadQueue();
     uint8_t                     getFeatureIndex(uint16_t feature_page);
     uint8_t                     getLEDinfo();
@@ -208,7 +219,7 @@ public:
     uint8_t                     setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness);
     int                         getDeviceName();
 private:
-    uint8_t                     LED_count;
+    std::vector<logitech_led>   leds;
     std::shared_ptr<std::mutex> mutex;
 
     hid_device*                 getDevice(uint8_t usage_index);

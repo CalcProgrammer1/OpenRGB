@@ -29,18 +29,27 @@ std::string LogitechLightspeedController::GetDeviceLocation()
 
 std::string LogitechLightspeedController::GetSerialString()
 {
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
+    if (lightspeed->device_index == 255 && lightspeed->wireless)
     {
+        LOG_DEBUG("[%s] Skipped get serial number as this is the reciever", lightspeed->device_name.c_str());
         return("");
     }
+    else
+    {
+        wchar_t serial_string[128];
+        int ret = hid_get_serial_number_string(dev, serial_string, 128);
+        LOG_DEBUG("[%s] hid_get_serial_number_string Returned status - %i : %s", lightspeed->device_name.c_str(), ret, ((ret == 0) ? "SUCCESS" : "FAILED"));
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
+        if(ret != 0)
+        {
+            return("");
+        }
 
-    return(return_string);
+        std::wstring return_wstring = serial_string;
+        std::string return_string(return_wstring.begin(), return_wstring.end());
+
+        return(return_string);
+    }
 }
 
 void LogitechLightspeedController::SendMouseMode

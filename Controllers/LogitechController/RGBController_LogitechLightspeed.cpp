@@ -39,6 +39,14 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
                 type                = DEVICE_TYPE_MOUSE;
                 break;
 
+            case LOGITECH_DEVICE_TYPE_MOUSEPAD:
+                type                = DEVICE_TYPE_MOUSEMAT;
+                break;
+
+            case LOGITECH_DEVICE_TYPE_HEADSET:
+                type                = DEVICE_TYPE_HEADSET;
+                break;
+
             default:
                 type                = DEVICE_TYPE_UNKNOWN;
                 LOG_INFO("Logitech device type not known: %i", logitech->lightspeed->logitech_device_type);

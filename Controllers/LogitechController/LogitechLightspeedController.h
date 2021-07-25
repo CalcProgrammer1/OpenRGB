@@ -9,6 +9,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController.h"
+#include "LogManager.h"
 #include "LogitechProtocolCommon.h"
 
 #include <string>

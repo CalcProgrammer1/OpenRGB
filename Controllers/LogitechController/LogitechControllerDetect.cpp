@@ -24,13 +24,18 @@
 #include "RGBController_LogitechLightspeed.h"
 #include "RGBController_LogitechGPowerPlay.h"
 #include "RGBController_LogitechX56.h"
+#include <chrono>
+#include <thread>
 #include <vector>
 #include <hidapi/hidapi.h>
+
+using namespace std::chrono_literals;
 
 /*-----------------------------------------------------*\
 | Logitech vendor ID                                    |
 \*-----------------------------------------------------*/
 #define LOGITECH_VID                            0x046D
+#define LOGITECH_LIGHTSPEED_DETECT_MAX_RETRY    10
 
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
@@ -80,6 +85,7 @@
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
 #define LOGITECH_G933_PID                       0x0A5B
+#define LOGITECH_G733_PID                       0x0AB5
 
 /*-----------------------------------------------------*\
 | Unifying Device IDs (Including Lightspeed receivers)  |
@@ -98,6 +104,7 @@
 #define LOGITECH_G900_LIGHTSPEED_VIRTUAL_PID            0x4053
 #define LOGITECH_G903_LIGHTSPEED_VIRTUAL_PID            0x4067
 #define LOGITECH_G_PRO_WIRELESS_VIRTUAL_PID             0x4079
+#define LOGITECH_POWERPLAY_MAT_VIRTUAL_PID              0x405F
 
 /*-----------------------------------------------------*\
 | Joystick product IDs                                  |
@@ -570,25 +577,37 @@ REGISTER_HID_DETECTOR_IP("Logitech X56 Rhino Hotas Throttle",               Dete
 
 usages BundleLogitechUsages(hid_device_info* info)
 {
-    usages      temp_usages;
-
     /*-----------------------------------------------------------------*\
     | Need a unique ID to group usages for 1 device if multiple exist   |
     |   Grab all usages that you can open. For normal Logitech FAP      |
     |   devices this will be usage 1, 2 and 4                           |
     \*-----------------------------------------------------------------*/
-    if(info->usage == 1)
+
+    usages              temp_usages;
+    uint16_t            current_pid     = info->product_id;
+    hid_device_info*    temp_info       = info;
+
+    /*-----------------------------------------------------------------*\
+    | To avoid duplicate entries per device only look from usage 1      |
+    \*-----------------------------------------------------------------*/
+    if(temp_info->usage == 1)
     {
-        while(info)
+        while(temp_info)
         {
-            hid_device* dev = hid_open_path(info->path);
-
-            if(dev)
+            /*-----------------------------------------------------------------*\
+            | Only bundle the device that triggered this callback               |
+            \*-----------------------------------------------------------------*/
+            if(temp_info->product_id == current_pid)
             {
-                temp_usages.emplace((uint8_t)info->usage, dev);
-            }
+                hid_device* dev = hid_open_path(temp_info->path);
 
-            info = info->next;
+                if(dev)
+                {
+                    LOG_DEBUG("Adding Usage %i for device @ path %s", temp_info->usage, temp_info->path);
+                    temp_usages.emplace((uint8_t)temp_info->usage, dev);
+                }
+            }
+            temp_info = temp_info->next;
         }
     }
 
@@ -597,10 +616,29 @@ usages BundleLogitechUsages(hid_device_info* info)
 
 void CreateLogitechLightspeedDevice(char *path, usages device_usages, uint8_t device_index, bool wireless, std::shared_ptr<std::mutex> mutex_ptr)
 {
-    LogitechLightspeedController* controller          = new LogitechLightspeedController(device_usages.find(2)->second, path);
-    controller->lightspeed                              = new logitech_device(path, device_usages, device_index, wireless, mutex_ptr);
-    RGBController_LogitechLightspeed* rgb_controller  = new RGBController_LogitechLightspeed(controller);
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    LogitechLightspeedController* controller                = new LogitechLightspeedController(device_usages.find(2)->second, path);
+    bool lightspeedDeviceIsValid                            = false;
+    int retryCount                                          = 0;
+
+    while (!lightspeedDeviceIsValid && retryCount < LOGITECH_LIGHTSPEED_DETECT_MAX_RETRY)
+    {
+        std::this_thread::sleep_for(50ms);
+        controller->lightspeed                              = new logitech_device(path, device_usages, device_index, wireless, mutex_ptr);
+        lightspeedDeviceIsValid                             = controller->lightspeed->is_valid();
+        retryCount++;
+    }
+
+    if (retryCount < LOGITECH_LIGHTSPEED_DETECT_MAX_RETRY)
+    {
+        RGBController_LogitechLightspeed* rgb_controller    = new RGBController_LogitechLightspeed(controller);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        LOG_DEBUG("Added controller in %i retries", retryCount);
+    }
+    else
+    {
+        delete controller;
+        LOG_DEBUG("Failed to set up device - exceeded retries");
+    }
 }
 
 void DetectLogitechLightspeedReceiver(hid_device_info* info, const std::string& /*name*/)
@@ -638,15 +676,27 @@ void DetectLogitechLightspeedReceiver(hid_device_info* info, const std::string& 
 void DetectLogitechWired(hid_device_info* info, const std::string& /*name*/)
 {
     /*-----------------------------------------------------------------*\
-    | Need to save the device path before iterating                     |
-    |    over "info" in BundleLogitechUsages()                          |
+    | Wired lightspeed devices don't use the FAP short message          |
+    |   Be sure to specify a Page AND Usage when using this detector    |
+    |   i.e. REGISTER_HID_DETECTOR_IPU                                  |
     \*-----------------------------------------------------------------*/
-    char        *path           = info->path;
-    usages      device_usages   = BundleLogitechUsages(info);
+    //char        *path           = info->path;
+    usages      device_usages;
+    hid_device* dev             = hid_open_path(info->path);
+
+    if(dev)
+    {
+        LOG_DEBUG("Adding Usage %i for device @ path %s", info->usage, info->path);
+        device_usages.emplace((uint8_t)info->usage, dev);
+    }
+    else
+    {
+        LOG_DEBUG("Error opening Usage %i for device @ path %s", info->usage, info->path);
+    }
 
     if(device_usages.size() > 0)
     {
-        CreateLogitechLightspeedDevice(path, device_usages, 0xFF, false, nullptr);
+        CreateLogitechLightspeedDevice(info->path, device_usages, 0xFF, false, nullptr);
     }
 }
 
@@ -659,12 +709,13 @@ REGISTER_HID_DETECTOR_IP("Logitech G Powerplay Mousepad",                       
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Lightspeed Wireless Devices (Windows Wired)                                                                                                       |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("Logitech G403 Wireless Gaming Mouse (wired)",         DetectLogitechWired,                LOGITECH_VID, LOGITECH_G403_LIGHTSPEED_PID,         1, 0xFF00);
-REGISTER_HID_DETECTOR_IP("Logitech G502 Wireless Gaming Mouse (wired)",         DetectLogitechWired,                LOGITECH_VID, LOGITECH_G502_LIGHTSPEED_PID,         1, 0xFF00);
-REGISTER_HID_DETECTOR_IP("Logitech G703 Wireless Gaming Mouse (wired)",         DetectLogitechWired,                LOGITECH_VID, LOGITECH_G703_LIGHTSPEED_PID,         1, 0xFF00);
-REGISTER_HID_DETECTOR_IP("Logitech G900 Wireless Gaming Mouse (wired)",         DetectLogitechWired,                LOGITECH_VID, LOGITECH_G900_LIGHTSPEED_PID,         1, 0xFF00);
-REGISTER_HID_DETECTOR_IP("Logitech G903 Wireless Gaming Mouse (wired)",         DetectLogitechWired,                LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_PID,         1, 0xFF00);
-REGISTER_HID_DETECTOR_IP("Logitech G Pro Wireless Gaming Mouse (wired)",        DetectLogitechWired,                LOGITECH_VID, LOGITECH_G_PRO_WIRELESS_PID,          2, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("Logitech G403 Wireless Gaming Mouse (wired)",        DetectLogitechWired,                LOGITECH_VID, LOGITECH_G403_LIGHTSPEED_PID,         1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G502 Wireless Gaming Mouse (wired)",        DetectLogitechWired,                LOGITECH_VID, LOGITECH_G502_LIGHTSPEED_PID,         1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G703 Wireless Gaming Mouse (wired)",        DetectLogitechWired,                LOGITECH_VID, LOGITECH_G703_LIGHTSPEED_PID,         1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G900 Wireless Gaming Mouse (wired)",        DetectLogitechWired,                LOGITECH_VID, LOGITECH_G900_LIGHTSPEED_PID,         1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G903 Wireless Gaming Mouse (wired)",        DetectLogitechWired,                LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_PID,         1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse (wired)",       DetectLogitechWired,                LOGITECH_VID, LOGITECH_G_PRO_WIRELESS_PID,          2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G733 Gaming Headset",                       DetectLogitechWired,                LOGITECH_VID, LOGITECH_G733_PID,                    2, 0xFF43, 514);
 
 #endif
 
@@ -688,10 +739,29 @@ void CreateLogitechLightspeedDevice(hid_device_info* info, bool wireless)
 
     if(device_usages.size() > 0)
     {
-        LogitechLightspeedController* controller          = new LogitechLightspeedController(device_usages.find(0)->second, info->path);
-        controller->lightspeed                              = new logitech_device(info->path, device_usages, 0xFF, wireless);
-        RGBController_LogitechLightspeed* rgb_controller  = new RGBController_LogitechLightspeed(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        LogitechLightspeedController* controller                = new LogitechLightspeedController(device_usages.find(0)->second, info->path);
+        bool lightspeedDeviceIsValid                            = false;
+        int retryCount                                          = 0;
+
+        while (!lightspeedDeviceIsValid && retryCount < LOGITECH_LIGHTSPEED_DETECT_MAX_RETRY)
+        {
+            std::this_thread::sleep_for(50ms);
+            controller->lightspeed                              = new logitech_device(info->path, device_usages, 0xFF, wireless);
+            lightspeedDeviceIsValid                             = controller->lightspeed->is_valid();
+            retryCount++;
+        }
+
+        if (retryCount < LOGITECH_LIGHTSPEED_DETECT_MAX_RETRY)
+        {
+            RGBController_LogitechLightspeed* rgb_controller    = new RGBController_LogitechLightspeed(controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            LOG_DEBUG("Added controller in %i retries", retryCount);
+        }
+        else
+        {
+            delete controller;
+            LOG_DEBUG("Failed to set up device - exceeded retries");
+        }
     }
 }
 
@@ -714,6 +784,7 @@ REGISTER_HID_DETECTOR_IPU("Logitech G703 Wireless Gaming Mouse",                
 REGISTER_HID_DETECTOR_IPU("Logitech G900 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G900_LIGHTSPEED_VIRTUAL_PID, 2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G903 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_VIRTUAL_PID, 2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse",               DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G_PRO_WIRELESS_VIRTUAL_PID,  2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech Powerplay Mat",                             DetectLogitechWireless,     LOGITECH_VID, LOGITECH_POWERPLAY_MAT_VIRTUAL_PID,   2, 0xFF00, 2);
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Lightspeed Wireless Devices (Linux Wired)                                                                                                          |
@@ -724,5 +795,6 @@ REGISTER_HID_DETECTOR_IPU("Logitech G703 Wireless Gaming Mouse (wired)",        
 REGISTER_HID_DETECTOR_IPU("Logitech G900 Wireless Gaming Mouse (wired)",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G900_LIGHTSPEED_PID,         1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G903 Wireless Gaming Mouse (wired)",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_PID,         1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse (wired)",       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G_PRO_WIRELESS_PID,          2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G733 Gaming Headset",                       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G733_PID,                    2, 0xFF43, 514);
 
 #endif
