@@ -1,7 +1,9 @@
 /*-------------------------------------------------------------------*\
-|  QMKOpenRGBController.h                                             |
+|  QMKOpenRGBRev9Controller.h                                         |
 |                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol                    |
+|  Driver for QMK keyboards using OpenRGB Protocol (Revision 9)       |
+|                                                                     |
+|  Revision 9 was the initial protocol supported by OpenRGB 0.6.      |
 |                                                                     |
 |  Kasper       10th Octobber 2020                                    |
 |  Jath03       28th May 2021                                         |
@@ -125,11 +127,11 @@ typedef struct
     uint8_t y;
 } point_t;
 
-class QMKOpenRGBController
+class QMKOpenRGBRev9Controller
 {
 public:
-    QMKOpenRGBController(hid_device *dev_handle, const char *path);
-    ~QMKOpenRGBController();
+    QMKOpenRGBRev9Controller(hid_device *dev_handle, const char *path);
+    ~QMKOpenRGBRev9Controller();
 
     std::string     GetLocation();
     std::string     GetDeviceName();

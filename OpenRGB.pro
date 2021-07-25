@@ -356,8 +356,8 @@ HEADERS +=                                                                      
     Controllers/PhilipsHueController/RGBController_PhilipsHue.h                                 \
     Controllers/PhilipsWizController/PhilipsWizController.h                                     \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.h                                 \
-    Controllers/QMKOpenRGBController/QMKOpenRGBController.h                                     \
-    Controllers/QMKOpenRGBController/RGBController_QMKOpenRGB.h                                 \
+    Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.h                                 \
+    Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRev9.h                             \
     Controllers/RazerController/RazerController.h                                               \
     Controllers/RazerController/RazerKrakenController.h                                         \
     Controllers/RazerController/RazerDevices.h                                                  \
@@ -719,8 +719,8 @@ SOURCES +=                                                                      
     Controllers/PhilipsWizController/PhilipsWizControllerDetect.cpp                             \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.cpp                               \
     Controllers/QMKOpenRGBController/QMKOpenRGBControllerDetect.cpp                             \
-    Controllers/QMKOpenRGBController/QMKOpenRGBController.cpp                                   \
-    Controllers/QMKOpenRGBController/RGBController_QMKOpenRGB.cpp                               \
+    Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.cpp                               \
+    Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRev9.cpp                           \
     Controllers/RazerController/RazerController.cpp                                             \
     Controllers/RazerController/RazerKrakenController.cpp                                       \
     Controllers/RazerController/RazerControllerDetect.cpp                                       \

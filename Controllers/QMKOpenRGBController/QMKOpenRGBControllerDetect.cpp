@@ -11,15 +11,15 @@
 #include <string>
 
 #include "Detector.h"
-#include "QMKOpenRGBController.h"
+#include "QMKOpenRGBRev9Controller.h"
 #include "RGBController.h"
-#include "RGBController_QMKOpenRGB.h"
+#include "RGBController_QMKOpenRGBRev9.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Protocol version                                      |
 \*-----------------------------------------------------*/
-#define QMK_OPENRGB_PROTOCOL_VERSION            0x09
+#define QMK_OPENRGB_PROTOCOL_VERSION_9          0x09
 
 /*-----------------------------------------------------*\
 | Usage and Usage Page                                  |
@@ -27,23 +27,52 @@
 #define QMK_USAGE_PAGE                          0xFF60
 #define QMK_USAGE                               0x61
 
+unsigned int GetProtocolVersion(hid_device *dev)
+{
+    unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, QMK_OPENRGB_PACKET_SIZE);
+
+    /*-----------------------------------------------------*\
+    | Set up config table request packet                    |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00] = 0x00;
+    usb_buf[0x01] = QMK_OPENRGB_GET_PROTOCOL_VERSION;
+
+    int bytes_read = 0;
+    do
+    {
+        hid_write(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE);
+        bytes_read = hid_read_timeout(dev, usb_buf, QMK_OPENRGB_PACKET_SIZE, QMK_OPENRGB_HID_READ_TIMEOUT);
+    } while(bytes_read <= 0);
+
+    return usb_buf[1];
+}
+
 void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
 {
     hid_device *dev = hid_open_path(info->path);
 
     if(dev)
     {
-        QMKOpenRGBController* controller                = new QMKOpenRGBController(dev, info->path);
-        unsigned int version                            = controller->GetProtocolVersion();
+        /*-----------------------------------------------------*\
+        | Use Rev9 controller for getting protocol version.     |
+        | Protocol version request may not change across        |
+        | protocol versions                                     |
+        \*-----------------------------------------------------*/
+        unsigned int version                                = GetProtocolVersion(dev);
 
-        if(version == QMK_OPENRGB_PROTOCOL_VERSION)
+        switch(version)
         {
-            RGBController_QMKOpenRGB* rgb_controller    = new RGBController_QMKOpenRGB(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
-        }
-        else
-        {
-            delete controller;
+            case QMK_OPENRGB_PROTOCOL_VERSION_9:
+                {
+                QMKOpenRGBRev9Controller*     controller     = new QMKOpenRGBRev9Controller(dev, info->path);
+                RGBController_QMKOpenRGBRev9* rgb_controller = new RGBController_QMKOpenRGBRev9(controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
         }
     }
 }

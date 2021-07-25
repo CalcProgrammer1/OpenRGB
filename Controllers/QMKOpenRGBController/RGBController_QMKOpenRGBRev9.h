@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_QMKOpenRGB.h                                         |
+|  RGBController_QMKOpenRGBRev9.h                                     |
 |                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol                    |
+|  Driver for QMK keyboards using OpenRGB Protocol (Revision 9)       |
 |                                                                     |
 |  Kasper       10th Octobber 2020                                    |
 |  Jath03       28th May 2021                                         |
@@ -10,7 +10,7 @@
 #pragma once
 
 #include "RGBController.h"
-#include "QMKOpenRGBController.h"
+#include "QMKOpenRGBRev9Controller.h"
 #include <algorithm>
 #include <cmath>
 #include <map>
@@ -20,11 +20,11 @@
 
 typedef std::vector<std::vector<unsigned int>> VectorMatrix;
 
-class RGBController_QMKOpenRGB : public RGBController
+class RGBController_QMKOpenRGBRev9 : public RGBController
 {
 public:
-    RGBController_QMKOpenRGB(QMKOpenRGBController* controller_ptr);
-    ~RGBController_QMKOpenRGB();
+    RGBController_QMKOpenRGBRev9(QMKOpenRGBRev9Controller* controller_ptr);
+    ~RGBController_QMKOpenRGBRev9();
 
     void                                    SetupZones();
     void                                    ResizeZone(int zone, int new_size);
@@ -37,7 +37,7 @@ public:
     void                                    DeviceUpdateMode();
 
 private:
-    QMKOpenRGBController*       controller;
+    QMKOpenRGBRev9Controller*   controller;
     std::vector<unsigned int>   flat_matrix_map;
     std::vector<unsigned int>   flat_underglow_map;
 

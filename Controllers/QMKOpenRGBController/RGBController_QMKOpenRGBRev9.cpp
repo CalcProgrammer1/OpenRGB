@@ -1,16 +1,16 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_QMKOpenRGB.cpp                                       |
+|  RGBController_QMKOpenRGBRev9.cpp                                   |
 |                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol                    |
+|  Driver for QMK keyboards using OpenRGB Protocol (Revision 9)       |
 |                                                                     |
 |  Kasper       10th Octobber 2020                                    |
 |  Jath03       28th May 2021                                         |
 \*-------------------------------------------------------------------*/
 
 #include "hsv.h"
-#include "RGBController_QMKOpenRGB.h"
+#include "RGBController_QMKOpenRGBRev9.h"
 
-RGBController_QMKOpenRGB::RGBController_QMKOpenRGB(QMKOpenRGBController* controller_ptr)
+RGBController_QMKOpenRGBRev9::RGBController_QMKOpenRGBRev9(QMKOpenRGBRev9Controller* controller_ptr)
 {
     controller  = controller_ptr;
 
@@ -238,7 +238,7 @@ RGBController_QMKOpenRGB::RGBController_QMKOpenRGB(QMKOpenRGBController* control
     SetupZones();
 }
 
-RGBController_QMKOpenRGB::~RGBController_QMKOpenRGB()
+RGBController_QMKOpenRGBRev9::~RGBController_QMKOpenRGBRev9()
 {
     for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
     {
@@ -249,7 +249,7 @@ RGBController_QMKOpenRGB::~RGBController_QMKOpenRGB()
     }
 }
 
-void RGBController_QMKOpenRGB::SetupZones()
+void RGBController_QMKOpenRGBRev9::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Get the number of LEDs from the device                    |
@@ -383,24 +383,24 @@ void RGBController_QMKOpenRGB::SetupZones()
     }
 }
 
-void RGBController_QMKOpenRGB::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_QMKOpenRGBRev9::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_QMKOpenRGB::DeviceUpdateLEDs()
+void RGBController_QMKOpenRGBRev9::DeviceUpdateLEDs()
 {
     controller->DirectModeSetLEDs(colors, controller->GetTotalNumberOfLEDs());
 }
 
-void RGBController_QMKOpenRGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_QMKOpenRGBRev9::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_QMKOpenRGB::UpdateSingleLED(int led)
+void RGBController_QMKOpenRGBRev9::UpdateSingleLED(int led)
 {
     RGBColor      color = colors[led];
     unsigned char red   = RGBGetRValue(color);
@@ -410,12 +410,12 @@ void RGBController_QMKOpenRGB::UpdateSingleLED(int led)
     controller->DirectModeSetSingleLED(led, red, grn, blu);
 }
 
-void RGBController_QMKOpenRGB::SetCustomMode()
+void RGBController_QMKOpenRGBRev9::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_QMKOpenRGB::DeviceUpdateMode()
+void RGBController_QMKOpenRGBRev9::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
@@ -442,7 +442,7 @@ void RGBController_QMKOpenRGB::DeviceUpdateMode()
     }
 }
 
-void RGBController_QMKOpenRGB::InitializeMode
+void RGBController_QMKOpenRGBRev9::InitializeMode
     (
     std::string name,
     unsigned int &current_mode,
@@ -473,7 +473,7 @@ void RGBController_QMKOpenRGB::InitializeMode
     modes.push_back(qmk_mode);
 }
 
-unsigned int RGBController_QMKOpenRGB::CalculateDivisor
+unsigned int RGBController_QMKOpenRGBRev9::CalculateDivisor
     (
     std::vector<point_t> led_points,
     std::set<int> rows,
@@ -520,7 +520,7 @@ unsigned int RGBController_QMKOpenRGB::CalculateDivisor
     return divisor;
 }
 
-void RGBController_QMKOpenRGB::CountKeyTypes
+void RGBController_QMKOpenRGBRev9::CountKeyTypes
     (
         std::vector<unsigned int>   led_flags,
         unsigned int                total_led_count,
@@ -544,7 +544,7 @@ void RGBController_QMKOpenRGB::CountKeyTypes
     }
 }
 
-void RGBController_QMKOpenRGB::PlaceLEDsInMaps
+void RGBController_QMKOpenRGBRev9::PlaceLEDsInMaps
     (
         std::set<int>               unique_rows,
         std::set<int>               unique_cols,
@@ -593,7 +593,7 @@ void RGBController_QMKOpenRGB::PlaceLEDsInMaps
     }
 }
 
-VectorMatrix RGBController_QMKOpenRGB::MakeEmptyMatrixMap
+VectorMatrix RGBController_QMKOpenRGBRev9::MakeEmptyMatrixMap
     (
         unsigned int height,
         unsigned int width
@@ -610,7 +610,7 @@ VectorMatrix RGBController_QMKOpenRGB::MakeEmptyMatrixMap
     return matrix_map;
 }
 
-void RGBController_QMKOpenRGB::CleanMatrixMaps
+void RGBController_QMKOpenRGBRev9::CleanMatrixMaps
     (
         VectorMatrix&   matrix_map,
         VectorMatrix&   underglow_map,
@@ -709,7 +709,7 @@ void RGBController_QMKOpenRGB::CleanMatrixMaps
     }
 }
 
-std::vector<unsigned int> RGBController_QMKOpenRGB::FlattenMatrixMap
+std::vector<unsigned int> RGBController_QMKOpenRGBRev9::FlattenMatrixMap
     (
         VectorMatrix matrix_map
     )

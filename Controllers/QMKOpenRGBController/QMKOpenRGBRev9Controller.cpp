@@ -1,13 +1,15 @@
 /*-------------------------------------------------------------------*\
-|  QMKOpenRGBController.cpp                                           |
+|  QMKOpenRGBRev9Controller.cpp                                       |
 |                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol                    |
+|  Driver for QMK keyboards using OpenRGB Protocol (Revision 9)       |
+|                                                                     |
+|  Revision 9 was the initial protocol supported by OpenRGB 0.6.      |
 |                                                                     |
 |  Kasper       10th Octobber 2020                                    |
 |  Jath03       28th May 2021                                         |
 \*-------------------------------------------------------------------*/
 
-#include "QMKOpenRGBController.h"
+#include "QMKOpenRGBRev9Controller.h"
 
 static std::map<uint8_t, std::string> QMKKeycodeToKeynameMap
 {
@@ -57,7 +59,7 @@ static std::map<uint8_t, std::string> QMKKeycodeToKeynameMap
     { 228, "Right Control" },   { 229, "Right Shift" }, { 230, "Right Alt" },       { 231, "Right Windows" },
 };
 
-QMKOpenRGBController::QMKOpenRGBController(hid_device *dev_handle, const char *path)
+QMKOpenRGBRev9Controller::QMKOpenRGBRev9Controller(hid_device *dev_handle, const char *path)
 {
     /*-------------------------------------------------*\
     | Get QMKOpenRGB settings                           |
@@ -90,72 +92,72 @@ QMKOpenRGBController::QMKOpenRGBController(hid_device *dev_handle, const char *p
     GetModeInfo();
 }
 
-QMKOpenRGBController::~QMKOpenRGBController()
+QMKOpenRGBRev9Controller::~QMKOpenRGBRev9Controller()
 {
     hid_close(dev);
 }
 
-std::string QMKOpenRGBController::GetLocation()
+std::string QMKOpenRGBRev9Controller::GetLocation()
 {
     return location;
 }
 
-std::string QMKOpenRGBController::GetDeviceName()
+std::string QMKOpenRGBRev9Controller::GetDeviceName()
 {
     return device_name;
 }
 
-std::string QMKOpenRGBController::GetDeviceVendor()
+std::string QMKOpenRGBRev9Controller::GetDeviceVendor()
 {
     return device_vendor;
 }
 
-unsigned int QMKOpenRGBController::GetTotalNumberOfLEDs()
+unsigned int QMKOpenRGBRev9Controller::GetTotalNumberOfLEDs()
 {
     return total_number_of_leds;
 }
 
-unsigned int QMKOpenRGBController::GetTotalNumberOfLEDsWithEmptySpace()
+unsigned int QMKOpenRGBRev9Controller::GetTotalNumberOfLEDsWithEmptySpace()
 {
     return total_number_of_leds_with_empty_space;
 }
 
-unsigned int QMKOpenRGBController::GetMode()
+unsigned int QMKOpenRGBRev9Controller::GetMode()
 {
     return mode;
 }
 
-unsigned int QMKOpenRGBController::GetModeSpeed()
+unsigned int QMKOpenRGBRev9Controller::GetModeSpeed()
 {
     return mode_speed;
 }
 
-unsigned int QMKOpenRGBController::GetModeColor()
+unsigned int QMKOpenRGBRev9Controller::GetModeColor()
 {
     return mode_color;
 }
 
-std::vector<point_t> QMKOpenRGBController::GetLEDPoints()
+std::vector<point_t> QMKOpenRGBRev9Controller::GetLEDPoints()
 {
     return led_points;
 }
 
-std::vector<unsigned int> QMKOpenRGBController::GetLEDFlags()
+std::vector<unsigned int> QMKOpenRGBRev9Controller::GetLEDFlags()
 {
     return led_flags;
 }
 
-std::vector<std::string> QMKOpenRGBController::GetLEDNames()
+std::vector<std::string> QMKOpenRGBRev9Controller::GetLEDNames()
 {
     return led_names;
 }
 
-std::vector<RGBColor>  QMKOpenRGBController::GetLEDColors()
+std::vector<RGBColor>  QMKOpenRGBRev9Controller::GetLEDColors()
 {
     return led_colors;
 }
 
-unsigned int QMKOpenRGBController::GetProtocolVersion()
+unsigned int QMKOpenRGBRev9Controller::GetProtocolVersion()
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -180,7 +182,7 @@ unsigned int QMKOpenRGBController::GetProtocolVersion()
     return usb_buf[1];
 }
 
-std::string QMKOpenRGBController::GetQMKVersion()
+std::string QMKOpenRGBRev9Controller::GetQMKVersion()
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -209,7 +211,7 @@ std::string QMKOpenRGBController::GetQMKVersion()
     return qmk_version;
 }
 
-void QMKOpenRGBController::GetDeviceInfo()
+void QMKOpenRGBRev9Controller::GetDeviceInfo()
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -249,7 +251,7 @@ void QMKOpenRGBController::GetDeviceInfo()
     }
 }
 
-void QMKOpenRGBController::GetModeInfo()
+void QMKOpenRGBRev9Controller::GetModeInfo()
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -290,7 +292,7 @@ void QMKOpenRGBController::GetModeInfo()
     mode_color                  = hsv2rgb(&hsv);
 }
 
-void QMKOpenRGBController::GetLEDInfo(unsigned int led)
+void QMKOpenRGBRev9Controller::GetLEDInfo(unsigned int led)
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -333,7 +335,7 @@ void QMKOpenRGBController::GetLEDInfo(unsigned int led)
     }
 }
 
-bool QMKOpenRGBController::GetIsModeEnabled(unsigned int mode)
+bool QMKOpenRGBRev9Controller::GetIsModeEnabled(unsigned int mode)
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -359,7 +361,7 @@ bool QMKOpenRGBController::GetIsModeEnabled(unsigned int mode)
     return usb_buf[1] == QMK_OPENRGB_SUCCESS ? true : false;
 }
 
-void QMKOpenRGBController::SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed)
+void QMKOpenRGBRev9Controller::SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed)
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -386,7 +388,7 @@ void QMKOpenRGBController::SetMode(hsv_t hsv_color, unsigned char mode, unsigned
     hid_read_timeout(dev, usb_buf, 65, QMK_OPENRGB_HID_READ_TIMEOUT);
 }
 
-void QMKOpenRGBController::DirectModeSetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
+void QMKOpenRGBRev9Controller::DirectModeSetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -413,7 +415,7 @@ void QMKOpenRGBController::DirectModeSetSingleLED(unsigned int led, unsigned cha
     hid_read_timeout(dev, usb_buf, 65, QMK_OPENRGB_HID_READ_TIMEOUT);
 }
 
-void QMKOpenRGBController::DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int leds_count)
+void QMKOpenRGBRev9Controller::DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int leds_count)
 {
     unsigned int leds_sent           = 0;
     unsigned int tmp_leds_per_update = leds_per_update;
