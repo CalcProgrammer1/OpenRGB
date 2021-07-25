@@ -15,6 +15,9 @@
 
 typedef unsigned char	polychrome_dev_id;
 
+#define ASROCK_CONTROLLER_NAME  "[ASRock Polychrome SMBus Controller]"
+#define ASROCK_DETECTOR_NAME    "[ASRock Polychrome SMBus Detect]"
+
 enum
 {
     ASROCK_TYPE_UNKNOWN                     = 0x00,     /* Unknown Type or Not ASRock Device    */

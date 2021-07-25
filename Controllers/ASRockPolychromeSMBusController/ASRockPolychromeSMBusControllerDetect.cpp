@@ -54,24 +54,33 @@ void DetectPolychromeSMBusControllers(std::vector<i2c_smbus_interface*>& busses)
     {
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
+            LOG_TRACE("%s Bus %02d is an Motherboard, checking for for a device at 0x6A", ASROCK_DETECTOR_NAME, bus);
             // Check for Polychrome controller at 0x6A
             if (TestForPolychromeSMBusController(busses[bus], 0x6A))
             {
-                LOG_DEBUG("Detected a device at address 0x6A, Testing for a known controller");
+                LOG_TRACE("%s Detected a device at address 0x6A, Testing for a known controller", ASROCK_DETECTOR_NAME);
                 new_polychrome = new PolychromeController(busses[bus], 0x6A);
 
                 if(new_polychrome->GetASRockType() != ASROCK_TYPE_UNKNOWN)
                 {
-                    LOG_DEBUG("Found a known Polychrome device");
+                    LOG_TRACE("%s Found a known Polychrome device", ASROCK_DETECTOR_NAME);
                     new_controller = new RGBController_Polychrome(new_polychrome);
                     ResourceManager::get()->RegisterRGBController(new_controller);
                 }
                 else
                 {
-                    LOG_DEBUG("Not a Polychrome device or unknown type");
+                    LOG_TRACE("%s Not a Polychrome device or unknown type", ASROCK_DETECTOR_NAME);
                     delete new_polychrome;
                 }
             }
+            else
+            {
+                LOG_TRACE("%s Bus %02d no response at 0x6A", ASROCK_DETECTOR_NAME, bus);
+            }
+        }
+        else
+        {
+            LOG_TRACE("%s Bus %02d not a Motherboard", ASROCK_DETECTOR_NAME, bus);
         }
     }
 
