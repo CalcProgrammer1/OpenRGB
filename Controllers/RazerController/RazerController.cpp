@@ -147,6 +147,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_2019_STUDIO_PID:
         case RAZER_BLADE_2020_ADVANCED_PID:
         case RAZER_BLADE_2020_BASE_PID:
+        case RAZER_BLADE_LATE_2020_PID:
         case RAZER_BLADE_2021_ADVANCED_PID:
         case RAZER_BLADE_2021_BASE_PID:
         case RAZER_BLADE_14_2021_PID:
@@ -422,6 +423,7 @@ bool RazerController::SupportsWave()
         case RAZER_BLADE_2019_MERCURY_PID:
         case RAZER_BLADE_2019_STUDIO_PID:
         case RAZER_BLADE_2020_ADVANCED_PID:
+        case RAZER_BLADE_LATE_2020_PID:
         case RAZER_BLADE_2020_BASE_PID:
         case RAZER_BLADE_2021_ADVANCED_PID:
         case RAZER_BLADE_2021_BASE_PID:
