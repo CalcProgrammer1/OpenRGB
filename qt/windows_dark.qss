@@ -309,3 +309,19 @@ QTableWidget QTableCornerButton::section
 {
     background-color: #444444;
 }
+
+/* QScrollAreas */
+
+QScrollArea QWidget
+{
+    background-color: #5c5c5c;
+    color: white;
+}
+
+/* QListWidgets */
+
+QListWidget
+{
+    background-color: #5c5c5c;
+    color: white;
+}
