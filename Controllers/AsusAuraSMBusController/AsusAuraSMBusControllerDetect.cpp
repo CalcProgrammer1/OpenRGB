@@ -199,13 +199,8 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
 
 void DetectAsusAuraSMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    AuraSMBusController* new_aura;
-    RGBController_AuraSMBus* new_controller;
-
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        int address_list_idx = -1;
-
         // Add Aura-enabled motherboard controllers
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {

@@ -81,7 +81,7 @@ void DetectAsusAuraUSBTerminal(hid_device_info* info, const std::string& name)
     }
 }
 
-void DetectAsusAuraUSBAddressable(hid_device_info* info, const std::string& name)
+void DetectAsusAuraUSBAddressable(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -95,7 +95,7 @@ void DetectAsusAuraUSBAddressable(hid_device_info* info, const std::string& name
     }
 }
 
-void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& name)
+void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
     if(dev)

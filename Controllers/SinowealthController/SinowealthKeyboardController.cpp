@@ -151,7 +151,7 @@ void SinowealthKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
     \*-----------------------------------------------------*/
-    for(int i = 0; i < num_keys; i++)
+    for(unsigned int i = 0; i < num_keys; i++)
     {
         buf[tkl_keys_per_key_index[i]]               = RGBGetBValue(colors[i]);
         buf[tkl_keys_per_key_index[i] + 0x7E]        = RGBGetGValue(colors[i]);

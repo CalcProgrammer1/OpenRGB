@@ -774,7 +774,7 @@ razer_report RazerController::razer_create_mode_breathing_random_extended_matrix
     return report;
 }
 
-razer_report RazerController::razer_create_mode_breathing_random_standard_matrix_report(unsigned char variable_storage, unsigned char led_id)
+razer_report RazerController::razer_create_mode_breathing_random_standard_matrix_report(unsigned char /*variable_storage*/, unsigned char /*led_id*/)
 {
     razer_report report         = razer_create_report(0x03, 0x0A, 0x08);
 

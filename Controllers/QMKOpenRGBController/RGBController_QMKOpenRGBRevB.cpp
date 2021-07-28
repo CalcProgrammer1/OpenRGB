@@ -367,7 +367,7 @@ void RGBController_QMKOpenRGBRevB::SetupZones()
     /*---------------------------------------------------------*\
     | Create LEDs                                               |
     \*---------------------------------------------------------*/
-    for(int led_idx = 0; led_idx < number_of_leds; led_idx++)
+    for(unsigned int led_idx = 0; led_idx < number_of_leds; led_idx++)
     {
         led keyboard_led;
 
@@ -622,9 +622,9 @@ VectorMatrix RGBController_QMKOpenRGBRevB::MakeEmptyMatrixMap
     )
 {
     std::vector<std::vector<unsigned int> > matrix_map(height);
-    for (int i = 0; i < height; i++)
+    for (unsigned int i = 0; i < height; i++)
     {
-        for (int j = 0; j < width; j++)
+        for (unsigned int j = 0; j < width; j++)
         {
             matrix_map[i].push_back(NO_LED);
         }

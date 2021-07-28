@@ -132,7 +132,7 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     | It doesn't seem possible to read the controller's     |
     | current state, hence the default value being set here.|
     \*-----------------------------------------------------*/
-    for(unsigned int zone_idx; zone_idx < zones.size(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         zones[zone_idx].color[0]    = 0x000000;
         zones[zone_idx].color[1]    = 0x000000;

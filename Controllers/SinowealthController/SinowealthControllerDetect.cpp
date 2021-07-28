@@ -73,7 +73,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
      }
      else
      {
-         for(int i = 0; i < usage_count; ++i)
+         for(unsigned int i = 0; i < usage_count; ++i)
          {
             if(usages[i])
             {
@@ -109,7 +109,7 @@ void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
     }
     else
     {
-        for(int i = 0; i < usage_count; ++i)
+        for(unsigned int i = 0; i < usage_count; ++i)
         {
            if(usages[i])
            {
