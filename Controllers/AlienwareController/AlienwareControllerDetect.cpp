@@ -11,7 +11,7 @@
 /*---------------------------------------------------------*\
 | Alienware product ID                                      |
 \*---------------------------------------------------------*/
-#define ALIENWARE_G5_SE_PID                         0x0550
+#define ALIENWARE_G_SERIES_PID                         0x0550
 
 void DetectAlienwareControllers(hid_device_info* info, const std::string& name)
 {
@@ -26,4 +26,4 @@ void DetectAlienwareControllers(hid_device_info* info, const std::string& name)
     }
 }
 
-REGISTER_HID_DETECTOR("Alienware G5 SE LED Controller", DetectAlienwareControllers, ALIENWARE_VID, ALIENWARE_G5_SE_PID);
+REGISTER_HID_DETECTOR("Dell G Series LED Controller", DetectAlienwareControllers, ALIENWARE_VID, ALIENWARE_G_SERIES_PID);

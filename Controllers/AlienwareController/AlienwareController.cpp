@@ -24,7 +24,8 @@ typedef uint32_t alienware_platform_id;
 \*---------------------------------------------------------*/
 static const std::map<alienware_platform_id, uint8_t> zone_quirks_table =
 {
-    { 0x0C01,   4 } // Dell G5 SE 5505
+    { 0x0C01,   4 }, // Dell G5 SE 5505
+    { 0x0A01,  16 }  // Dell G7 15 7500
 };
 
 /*---------------------------------------------------------*\
@@ -33,7 +34,12 @@ static const std::map<alienware_platform_id, uint8_t> zone_quirks_table =
 \*---------------------------------------------------------*/
 static const std::map<alienware_platform_id, std::vector<const char*>> zone_names_table =
 {
-    { 0x0C01,   { "Left",   "Middle",   "Right",    "Numpad" } }
+    { 0x0C01,   { "Left",           "Middle",       "Right",        "Numpad"    } },
+    { 0x0A01,   { "Left",           "Center Left",  "Center Right", "Right",
+                  "Light Bar 1",    "Light Bar 2",  "Light Bar 3",
+                  "Light Bar 4",    "Light Bar 5",  "Light Bar 6",
+                  "Light Bar 7",    "Light Bar 8",  "Light Bar 9",
+                  "Light Bar 10",   "Light Bar 11", "Light Bar 12"              } }
 };
 
 static void SendHIDReport(hid_device *dev, const unsigned char* usb_buf, size_t usb_buf_size)
@@ -81,7 +87,7 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     /*-----------------------------------------------------*\
     | Get zone information by checking firmware             |
     | configuration                                         |
-    \*-----------------------------------------------------*/    
+    \*-----------------------------------------------------*/
     report              = Report(ALIENWARE_COMMAND_REPORT_CONFIG);
     alienware_platform_id platform_id = report.data[4] << 8 | report.data[5];
 
@@ -278,8 +284,7 @@ bool AlienwareController::Dim(std::vector<uint8_t> zones, double percent)
     \*-----------------------------------------------------*/
     SendHIDReport(dev, usb_buf, sizeof(usb_buf));
 
-    HidapiAlienwareReport response;
-    response            = GetResponse();
+    HidapiAlienwareReport response = GetResponse();
 
     /*-----------------------------------------------------*\
     | For this command, error is if the output equals the   |
@@ -319,8 +324,7 @@ bool AlienwareController::UserAnimation(uint16_t subcommand, uint16_t animation,
     | Every subcommand appears to report its result on a    |
     | different byte                                        |
     \*-----------------------------------------------------*/
-    HidapiAlienwareReport response;
-    response            = GetResponse();
+    HidapiAlienwareReport response = GetResponse();
 
     /*-----------------------------------------------------*\
     | The only time the 0x03 byte is zero is if the         |
@@ -384,8 +388,7 @@ bool AlienwareController::SelectZones(const std::vector<uint8_t>& zones)
     \*-----------------------------------------------------*/
     SendHIDReport(dev, usb_buf, sizeof(usb_buf));
 
-    HidapiAlienwareReport response;
-    response            = GetResponse();
+    HidapiAlienwareReport response = GetResponse();
 
     /*-----------------------------------------------------*\
     | For this command, error is if the output equals the   |
@@ -448,8 +451,7 @@ bool AlienwareController::ModeAction
     \*-----------------------------------------------------*/
     SendHIDReport(dev, usb_buf, sizeof(usb_buf));
 
-    HidapiAlienwareReport response;
-    response                    = GetResponse();
+    HidapiAlienwareReport response = GetResponse();
 
     /*-----------------------------------------------------*\
     | For this command, error is if the output equals the   |
@@ -527,8 +529,7 @@ bool AlienwareController::SetColorDirect(RGBColor color, std::vector<uint8_t> zo
     \*-----------------------------------------------------*/
     SendHIDReport(dev, usb_buf, sizeof(usb_buf));
 
-    HidapiAlienwareReport response;
-    response                    = GetResponse();
+    HidapiAlienwareReport response = GetResponse();
 
     /*-----------------------------------------------------*\
     | For this command, error is if the output equals the   |
@@ -566,8 +567,7 @@ bool AlienwareController::Reset()
     \*-----------------------------------------------------*/
     SendHIDReport(dev, usb_buf, sizeof(usb_buf));
 
-    HidapiAlienwareReport response;
-    response                    = GetResponse();
+    HidapiAlienwareReport response = GetResponse();
 
     /*-----------------------------------------------------*\
     | For this command, error is if the output equals the   |
@@ -592,17 +592,13 @@ void AlienwareController::SetColor(uint8_t zone, RGBColor color)
 
 void AlienwareController::SetColor(uint8_t zone, RGBColor color1, RGBColor color2)
 {
-    if((color1 != zones[zone].color[0]))
-    {
-        zones[zone].color[0]    = color1;
-        dirty                   = true;
-    }
+    dirty = ((color1 != zones[zone].color[0]) || (color2 != zones[zone].color[1]));
 
-    if((color2 != zones[zone].color[1]))
-    {
-        zones[zone].color[1]    = color2;
-        dirty                   = true;
-    }
+	if(dirty)
+	{
+		zones[zone].color[0] = color1;
+        zones[zone].color[1] = color2;
+	}
 }
 
 void AlienwareController::SetPeriod(uint8_t zone, uint16_t period)
@@ -625,14 +621,6 @@ void AlienwareController::SetTempo(uint8_t zone, uint16_t tempo)
 
 void AlienwareController::SetDim(uint8_t zone, uint8_t dim)
 {
-    /*-----------------------------------------------------*\
-    | Clamp dim to values between 0 and 100                 |
-    \*-----------------------------------------------------*/
-    if(dim > 100)
-    {
-        dim = 100;
-    }
-
     if(dim != zones[zone].dim)
     {
         zones[zone].dim         = dim;

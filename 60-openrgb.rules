@@ -241,6 +241,15 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b62", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="041e", ATTR{idProduct}=="3256", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Dell G Series Devices                                        #
+#                                                               #
+#                                                               #
+#  Controllers:                                                 #
+#       Dell G Series LED Controller                            #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="187c", ATTR{idProduct}=="0550", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  Ducky Keyboard Devices                                       #
 #                                                               #
 #  Keyboards:                                                   #
