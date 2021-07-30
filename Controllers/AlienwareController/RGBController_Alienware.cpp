@@ -31,9 +31,9 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* alienware_
     Color.color_mode           = MODE_COLORS_PER_LED;
     Color.colors_min           = 1;
     Color.colors_max           = 1;
-    Color.brightness_min       = 0;
-    Color.brightness_max       = 100;
-    Color.brightness           = 100;
+    Color.brightness_min       = 100;
+    Color.brightness_max       = 0;
+    Color.brightness           = 0;
     modes.push_back(Color);
 
     mode Pulse;
@@ -46,9 +46,9 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* alienware_
     Pulse.speed_min            = ALIENWARE_TEMPO_MIN;
     Pulse.speed_max            = ALIENWARE_TEMPO_MAX;
     Pulse.speed                = ALIENWARE_TEMPO_MIN;
-    Pulse.brightness_min       = 0;
-    Pulse.brightness_max       = 100;
-    Pulse.brightness           = 100;
+    Pulse.brightness_min       = 100;
+    Pulse.brightness_max       = 0;
+    Pulse.brightness           = 0;
     modes.push_back(Pulse);
 
     mode Morph;
@@ -62,9 +62,9 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* alienware_
     Morph.speed_min            = ALIENWARE_TEMPO_MIN;
     Morph.speed_max            = ALIENWARE_TEMPO_MAX;
     Morph.speed                = ALIENWARE_TEMPO_MIN;
-    Morph.brightness_min       = 0;
-    Morph.brightness_max       = 100;
-    Morph.brightness           = 100;
+    Morph.brightness_min       = 100;
+    Morph.brightness_max       = 0;
+    Morph.brightness           = 0;
     modes.push_back(Morph);
 
     mode Spectrum;
@@ -75,9 +75,9 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* alienware_
     Spectrum.speed_min         = ALIENWARE_TEMPO_SPECTRUM;
     Spectrum.speed_max         = ALIENWARE_TEMPO_MAX;
     Spectrum.speed             = ALIENWARE_TEMPO_SPECTRUM;
-    Spectrum.brightness_min    = 0;
-    Spectrum.brightness_max    = 100;
-    Spectrum.brightness        = 100;
+    Spectrum.brightness_min    = 100;
+    Spectrum.brightness_max    = 0;
+    Spectrum.brightness        = 0;
     modes.push_back(Spectrum);
 
     mode Rainbow;
@@ -88,9 +88,9 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* alienware_
     Rainbow.speed_min          = ALIENWARE_TEMPO_SPECTRUM;
     Rainbow.speed_max          = ALIENWARE_TEMPO_MAX;
     Rainbow.speed              = ALIENWARE_TEMPO_SPECTRUM;
-    Rainbow.brightness_min     = 0;
-    Rainbow.brightness_max     = 100;
-    Rainbow.brightness         = 100;
+    Rainbow.brightness_min     = 100;
+    Rainbow.brightness_max     = 0;
+    Rainbow.brightness         = 0;
     modes.push_back(Rainbow);
 
     mode Breathing;
@@ -103,9 +103,9 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* alienware_
     Breathing.speed_min        = ALIENWARE_TEMPO_MIN;
     Breathing.speed_max        = ALIENWARE_TEMPO_MAX;
     Breathing.speed            = ALIENWARE_TEMPO_MIN;
-    Breathing.brightness_min   = 0;
-    Breathing.brightness_max   = 100;
-    Breathing.brightness       = 100;
+    Breathing.brightness_min   = 100;
+    Breathing.brightness_max   = 0;
+    Breathing.brightness       = 0;
     modes.push_back(Breathing);
 
     SetupZones();
@@ -186,6 +186,7 @@ static bool modes_eq(const mode& mode1, const mode& mode2)
          && ( mode1.direction      == mode2.direction  )
          && ( mode1.color_mode     == mode2.color_mode )
          && ( mode1.colors         == mode2.colors     )
+         && ( mode1.brightness     == mode2.brightness )
          && ( mode1.brightness_min == mode2.brightness_min )
          && ( mode1.brightness_max == mode2.brightness_max ) );
 }

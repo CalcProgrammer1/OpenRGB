@@ -270,7 +270,7 @@ bool AlienwareController::Dim(std::vector<uint8_t> zones, double percent)
     usb_buf[0x00]       = 0x00;
     usb_buf[0x01]       = 0x03;
     usb_buf[0x02]       = ALIENWARE_COMMAND_DIM;
-    usb_buf[0x03]       = static_cast<uint8_t>(percent * 0x64);
+    usb_buf[0x03]       = static_cast<uint8_t>(percent);
     usb_buf[0x04]       = num_zones >> 8;
     usb_buf[0x05]       = num_zones & 0xFF;
 
