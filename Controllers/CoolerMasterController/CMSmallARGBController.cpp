@@ -135,14 +135,15 @@ void CMSmallARGBController::SetLedCount(int zone, int led_count)
     hid_write(dev, buffer, buffer_size);
 }
 
-void CMSmallARGBController::SetMode(unsigned char mode, unsigned char speed, RGBColor colour, bool random_colours)
+void CMSmallARGBController::SetMode(unsigned char mode, unsigned char speed, unsigned char brightness, RGBColor colour, bool random_colours)
 {
-    current_mode    = mode;
-    current_speed   = speed;
-    current_red     = RGBGetRValue(colour);
-    current_green   = RGBGetGValue(colour);
-    current_blue    = RGBGetBValue(colour);
-    bool_random     = random_colours;
+    current_mode        = mode;
+    current_speed       = speed;
+    current_brightness  = brightness;
+    current_red         = RGBGetRValue(colour);
+    current_green       = RGBGetGValue(colour);
+    current_blue        = RGBGetBValue(colour);
+    bool_random         = random_colours;
 
     SendUpdate();
 }
@@ -227,7 +228,7 @@ void CMSmallARGBController::SendUpdate()
     buffer[CM_SMALL_ARGB_MODE_BYTE]                     = current_mode;
     buffer[CM_SMALL_ARGB_SPEED_BYTE]                    = current_speed;
     buffer[CM_SMALL_ARGB_COLOUR_INDEX_BYTE]             = (bool_random) ? 0x00 : 0x10; //This looks to still be the colour index and controls random colours
-    buffer[CM_SMALL_ARGB_BRIGHTNESS_BYTE]               = 0xFF;
+    buffer[CM_SMALL_ARGB_BRIGHTNESS_BYTE]               = current_brightness;
     buffer[CM_SMALL_ARGB_RED_BYTE]                      = current_red;
     buffer[CM_SMALL_ARGB_GREEN_BYTE]                    = current_green;
     buffer[CM_SMALL_ARGB_BLUE_BYTE]                     = current_blue;

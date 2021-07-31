@@ -12,8 +12,9 @@
 #include "CMSmallARGBController.h"
 #include <vector>
 
-#define CM_SMALL_ARGB_MIN_LEDS 4
-#define CM_SMALL_ARGB_MAX_LEDS 48
+#define CM_SMALL_ARGB_MIN_LEDS          4
+#define CM_SMALL_ARGB_MAX_LEDS          48
+#define CM_SMALL_ARGB_BRIGHTNESS_MAX    0xFF
 
 class RGBController_CMSmallARGBController : public RGBController
 {

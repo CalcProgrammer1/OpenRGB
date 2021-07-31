@@ -88,7 +88,7 @@ public:
     bool                GetRandomColours();
 
     void                SetLedCount(int zone, int led_count);
-    void                SetMode(unsigned char mode, unsigned char speed, RGBColor colour, bool random_colours);
+    void                SetMode(unsigned char mode, unsigned char speed, unsigned char brightness, RGBColor colour, bool random_colours);
     void                SetLedsDirect(RGBColor * led_colours, unsigned int led_count);
 private:
     std::string         device_name;
