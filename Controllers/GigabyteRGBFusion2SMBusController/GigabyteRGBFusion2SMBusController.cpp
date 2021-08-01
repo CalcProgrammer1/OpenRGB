@@ -122,6 +122,62 @@ void RGBFusion2SMBusController::SetLEDEffect
         led_data[led][RGB_FUSION_2_TIMER_2_MSB] = 0x03 * speed;
         break;
 
+        case RGB_FUSION_2_MODE_DIGITAL_WAVE:
+        // Timer 1: On time
+        // Timer 2: Off time
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x50 * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x01;
+        break;
+
+        case RGB_FUSION_2_MODE_DIGITAL_A:
+        // Timer 1: Directly controls speed of LED sections
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x39 * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x00;  // Setting this to any number other than 0 slows down the effect
+        led_data[led][RGB_FUSION_2_IDX_OPT_1] = 0x01;    // Doesn't do anything, but always defaults to 0x01
+        break;
+
+        case RGB_FUSION_2_MODE_DIGITAL_B:
+        // Timer 1: Direct control of section speed and pulsing
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x2d * speed; // Main effect speed
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x00;         // Only sets to 0x01 in min speed. Makes light section blink for shorter periods
+        led_data[led][RGB_FUSION_2_IDX_OPT_1] = 0x04;           // Changes between 0x01 and 0x04 along with speed. Controls light trail length.
+        break;
+
+        case RGB_FUSION_2_MODE_DIGITAL_C:
+        // Timer 1: Effect Speed
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x2d * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x00;  // Like Digital A, slows down the effect, but never sets to another number.
+        led_data[led][RGB_FUSION_2_IDX_OPT_1] = 0x04;    // Fixed at 0x04. Does nothing.
+        break;
+
+        case RGB_FUSION_2_MODE_DIGITAL_D:
+        // Timer 1: Effect Speed
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x2d * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x00;  // Like Digital A, slows down the effect, but never sets to another number.
+        led_data[led][RGB_FUSION_2_IDX_OPT_1] = 0x04;    // Fixed at 0x04. Does nothing.
+        break;
+
+        case RGB_FUSION_2_MODE_DIGITAL_E:
+        // Timer 1: Effect Speed
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x25 * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0;     // Like Digital A, slows down the effect, but never sets to another number.
+        led_data[led][RGB_FUSION_2_IDX_OPT_1] = 0x04;    // Fixed at 0x04. Does nothing.
+        break;
+
+        case RGB_FUSION_2_MODE_DIGITAL_F:
+        // Timer 1: Effect Speed
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x2d * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x00;  // Like Digital A, slows down the effect, but never sets to another number.
+        led_data[led][RGB_FUSION_2_IDX_OPT_1] = 0x04;    // Fixed at 0x04. Does nothing.
+        break;
+
+        case RGB_FUSION_2_MODE_DIGITAL_G:
+        // Timer 1: Effect Speed
+        led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x23 * speed;
+        led_data[led][RGB_FUSION_2_TIMER_1_MSB] = 0x00;  // Like Digital A, slows down the effect, but never sets to another number.
+        led_data[led][RGB_FUSION_2_IDX_OPT_1] = 0x04;    // Fixed at 0x04. Does nothing.
+        break;
+
         case RGB_FUSION_2_MODE_COLOR_CYCLE:
             // Timer 1: Cycle time
             led_data[led][RGB_FUSION_2_TIMER_1_LSB] = 0x00;
