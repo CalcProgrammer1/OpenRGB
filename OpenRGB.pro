@@ -167,8 +167,6 @@ HEADERS +=                                                                      
     qt/OpenRGBDialog2.h                                                                         \
     qt/OpenRGBPluginContainer.h                                                                 \
     qt/OpenRGBProfileSaveDialog.h                                                               \
-    qt/OpenRGBSerialSettingsEntry.h                                                             \
-    qt/OpenRGBSerialSettingsPage.h                                                              \
     qt/OpenRGBServerInfoPage.h                                                                  \
     qt/OpenRGBSettingsPage.h                                                                    \
     qt/OpenRGBSoftwareInfoPage.h                                                                \
@@ -177,6 +175,8 @@ HEADERS +=                                                                      
     qt/OpenRGBZoneResizeDialog.h                                                                \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.h                                       \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h                                        \
+    qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.h                                   \
+    qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h                                    \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
     super_io/super_io.h                                                                         \
@@ -475,8 +475,6 @@ SOURCES +=                                                                      
     qt/OpenRGBDialog2.cpp                                                                       \
     qt/OpenRGBPluginContainer.cpp                                                               \
     qt/OpenRGBProfileSaveDialog.cpp                                                             \
-    qt/OpenRGBSerialSettingsEntry.cpp                                                           \
-    qt/OpenRGBSerialSettingsPage.cpp                                                            \
     qt/OpenRGBServerInfoPage.cpp                                                                \
     qt/OpenRGBSettingsPage.cpp                                                                  \
     qt/OpenRGBSoftwareInfoPage.cpp                                                              \
@@ -486,6 +484,8 @@ SOURCES +=                                                                      
     qt/hsv.cpp                                                                                  \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.cpp                                      \
+    qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.cpp                                 \
+    qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.cpp                                  \
     serial_port/serial_port.cpp                                                                 \
     super_io/super_io.cpp                                                                       \
     AutoStart/AutoStart.cpp                                                                     \
@@ -805,8 +805,6 @@ FORMS +=                                                                        
     qt/OpenRGBDialog2.ui                                                                        \
     qt/OpenRGBPluginContainer.ui                                                                \
     qt/OpenRGBProfileSaveDialog.ui                                                              \
-    qt/OpenRGBSerialSettingsEntry.ui                                                            \
-    qt/OpenRGBSerialSettingsPage.ui                                                             \
     qt/OpenRGBServerInfoPage.ui                                                                 \
     qt/OpenRGBSettingsPage.ui                                                                   \
     qt/OpenRGBSoftwareInfoPage.ui                                                               \
@@ -815,6 +813,8 @@ FORMS +=                                                                        
     qt/OpenRGBZoneResizeDialog.ui                                                               \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui                                      \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
+    qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui                                  \
+    qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui                                   \
 
 #-----------------------------------------------------------------------------------------------#
 # Windows-specific Configuration                                                                #

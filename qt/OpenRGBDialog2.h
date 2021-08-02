@@ -9,7 +9,7 @@
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
 #include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
-#include "OpenRGBSerialSettingsPage.h"
+#include "OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h"
 #include "PluginManager.h"
 
 #include <vector>
