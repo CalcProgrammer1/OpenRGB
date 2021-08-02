@@ -53,6 +53,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,       NVIDIA_RTX2080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING,   0x2A,   "ASUS ROG STRIX RTX 2080 Ti O11G Gaming"    },
     { AMD_GPU_VEN,      AMD_VEGA10_DEV,             ASUS_SUB_VEN,       ASUS_VEGA64_STRIX,                      0x29,   "ASUS Vega 64 Strix"                        },
     { AMD_GPU_VEN,      AMD_NAVI10_DEV,             ASUS_SUB_VEN,       ASUS_RX5700XT_STRIX_GAMING_OC,          0x2A,   "ASUS RX 5700XT Strix Gaming OC"            },
+    { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX480_STRIX_GAMING_OC,             0x29,   "ASUS ROG STRIX RX480 Gaming OC"            },
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX570_STRIX_O4G_GAMING_OC,         0x29,   "ASUS RX 570 Strix O4G Gaming OC"           },
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_OC,             0x29,   "ASUS RX 580 Strix Gaming OC"               }
 };  
