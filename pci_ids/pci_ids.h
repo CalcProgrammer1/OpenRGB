@@ -62,6 +62,7 @@
 #define NVIDIA_RTX3060_DEV                              0x2503
 #define NVIDIA_RTX3060TI_DEV                            0x2486
 #define NVIDIA_RTX3070_DEV                              0x2484
+#define NVIDIA_RTX3070TI_DEV                            0x2482
 #define NVIDIA_RTX3080_DEV                              0x2206
 #define NVIDIA_RTX3090_DEV                              0x2204
 
@@ -169,6 +170,7 @@
 #define GIGABYTE_RTX3060TI_GAMING_OC_SUB_DEV            0x405A
 #define GIGABYTE_RTX3070_GAMING_OC_SUB_DEV              0x404C
 #define GIGABYTE_RTX3070_VISION_OC_SUB_DEV              0x404D
+#define GIGABYTE_RTX3070TI_GAMING_OC_SUB_DEV            0x408F
 #define GIGABYTE_RTX3080_GAMING_OC_SUB_DEV              0x403F
 #define GIGABYTE_RTX3090_GAMING_OC_24GB_SUB_DEV         0x4043
 
