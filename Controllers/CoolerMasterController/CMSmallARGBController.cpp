@@ -148,38 +148,34 @@ void CMSmallARGBController::SetMode(unsigned char mode, unsigned char speed, uns
     SendUpdate();
 }
 
-void CMSmallARGBController::SetLedsDirect(RGBColor* /*led_colours*/, unsigned int /*led_count*/)
+void CMSmallARGBController::SetLedsDirect(RGBColor* led_colours, unsigned int led_count)
 {
-    // Mode not yet Tested
-    /*
-    const unsigned char buffer_size     = 0x41;
-    unsigned char buffer[buffer_size]   = { 0x00 };
-    unsigned char packet_count          = 0x00;
-    std::vector<unsigned char> colours;
+    const unsigned char buffer_size     = CM_SMALL_ARGB_PACKET_SIZE;
+    unsigned char buffer[buffer_size]   = { 0x00, 0x00, 0x10, 0x02 };
+    unsigned char packet_count          = 0;
+    std::vector<uint8_t> colours;
 
-    //Set up the RGB triplets to send
-    for(int i = 0; i < led_count; i++)
+    /*---------------------------------------------*\
+    | Set up the RGB triplets to send               |
+    \*---------------------------------------------*/
+    for(unsigned int i = 0; i < led_count; i++)
     {
         RGBColor      colour            = led_colours[i];
-        unsigned char r                 = RGBGetRValue(colour);
-        unsigned char g                 = RGBGetGValue(colour);
-        unsigned char b                 = RGBGetBValue(colour);
 
-        colours.push_back(r);
-        colours.push_back(g);
-        colours.push_back(b);
+        colours.push_back( RGBGetRValue(colour) );
+        colours.push_back( RGBGetGValue(colour) );
+        colours.push_back( RGBGetBValue(colour) );
     }
 
-    //buffer[CM_ARGB_REPORT_BYTE]       = packet_count;
-    buffer[CM_SMALL_ARGB_COMMAND_BYTE]  = 0x10;
-    buffer[CM_SMALL_ARGB_FUNCTION_BYTE] = 0x02;
-    buffer[CM_SMALL_ARGB_ZONE_BYTE]     = small_argb_header_data[zone_index].header;
-    buffer[CM_SMALL_ARGB_MODE_BYTE]     = 0x30; //30 might be the LED count??
-    unsigned char buffer_idx            = CM_SMALL_ARGB_MODE_BYTE + 1;    //Start colour info from
+    buffer[CM_SMALL_ARGB_ZONE_BYTE]     = zone_index - 1; //argb_header_data[zone_index].header;
+    buffer[CM_SMALL_ARGB_MODE_BYTE]     = led_count;
+    unsigned char buffer_idx            = CM_SMALL_ARGB_MODE_BYTE + 1;
 
-    for (std::vector<unsigned char>::iterator it = colours.begin(); it != colours.end(); buffer_idx = 0)
+    for(std::vector<unsigned char>::iterator it = colours.begin(); it != colours.end(); buffer_idx = CM_SMALL_ARGB_COMMAND_BYTE)
     {
-        //Fill the write buffer till its full or the colour buffer is empty
+        /*-----------------------------------------------------------------*\
+        | Fill the write buffer till its full or the colour buffer is empty |
+        \*-----------------------------------------------------------------*/
         buffer[CM_SMALL_ARGB_REPORT_BYTE] = packet_count;
         while (( buffer_idx < buffer_size) && ( it != colours.end() ))
         {
@@ -188,24 +184,19 @@ void CMSmallARGBController::SetLedsDirect(RGBColor* /*led_colours*/, unsigned in
             it++;
         }
 
-        hid_write(dev, buffer, buffer_size);
-        hid_read_timeout(dev, buffer, buffer_size, CM_SMALL_ARGB_INTERRUPT_TIMEOUT);
+        if(it == colours.end())
+        {
+            buffer[CM_SMALL_ARGB_REPORT_BYTE] += 0x80;
+        }
 
-        //reset the write buffer
-        memset(buffer, 0x00, sizeof(buffer) );
+        hid_write(dev, buffer, buffer_size);
+
+        /*-----------------------------------------------------------------*\
+        | Reset the write buffer                                            |
+        \*-----------------------------------------------------------------*/
+        memset(buffer, 0x00, buffer_size );
         packet_count++;
     }
-    buffer[CM_SMALL_ARGB_REPORT_BYTE]         = 0x82;
-    buffer[CM_SMALL_ARGB_COMMAND_BYTE]        = 0x62;
-    buffer[CM_SMALL_ARGB_FUNCTION_BYTE]       = 0x00;
-    buffer[CM_SMALL_ARGB_ZONE_BYTE]           = 0x73;
-    buffer[CM_SMALL_ARGB_MODE_BYTE]           = 0x00;
-    buffer[CM_SMALL_ARGB_SPEED_BYTE]          = 0x33;
-    buffer[CM_SMALL_ARGB_COLOUR_INDEX_BYTE]   = 0x18;
-
-    hid_write(dev, buffer, buffer_size);
-    hid_read_timeout(dev, buffer, buffer_size, CM_SMALL_ARGB_INTERRUPT_TIMEOUT);
-    */
 }
 
 void CMSmallARGBController::SendUpdate()

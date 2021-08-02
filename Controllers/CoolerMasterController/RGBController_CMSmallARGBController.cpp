@@ -18,7 +18,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     vendor                      = "Cooler Master";
     type                        = DEVICE_TYPE_LEDSTRIP;
     description                 = cmargb->GetDeviceName();
-    version                     = "1.0";
+    version                     = "2.0 for FW0012";
     serial                      = cmargb->GetSerial();
     location                    = cmargb->GetLocation();
 
@@ -245,17 +245,17 @@ void RGBController_CMSmallARGBController::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CMSmallARGBController::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMSmallARGBController::UpdateZoneLEDs(int zone)
 {
-    //bool random_colours     = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
-
-    //cmargb->SetLedsDirect(zones[zone].colors, random_colours);
+    if(serial >= CM_SMALL_ARGB_FW0012)
+    {
+        cmargb->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
+    }
 }
 
-void RGBController_CMSmallARGBController::UpdateSingleLED(int /*led*/)
+void RGBController_CMSmallARGBController::UpdateSingleLED(int led)
 {
-    //cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed );
-    //cmargb->SetLedsDirect( zones[0].colors, zones[0].leds_count );
+    UpdateZoneLEDs(led);
 }
 
 void RGBController_CMSmallARGBController::SetCustomMode()

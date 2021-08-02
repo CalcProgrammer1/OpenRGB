@@ -16,7 +16,7 @@
 
 #pragma once
 
-#define CM_SMALL_ARGB_PACKET_SIZE 65
+#define CM_SMALL_ARGB_PACKET_SIZE       65
 #define CM_SMALL_ARGB_INTERRUPT_TIMEOUT 250
 
 enum

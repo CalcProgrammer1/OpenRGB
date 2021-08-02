@@ -15,6 +15,7 @@
 #define CM_SMALL_ARGB_MIN_LEDS          4
 #define CM_SMALL_ARGB_MAX_LEDS          48
 #define CM_SMALL_ARGB_BRIGHTNESS_MAX    0xFF
+#define CM_SMALL_ARGB_FW0012            "A202104052336"
 
 class RGBController_CMSmallARGBController : public RGBController
 {
