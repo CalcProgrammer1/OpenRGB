@@ -8,7 +8,7 @@
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
-#include "OpenRGBE131SettingsPage.h"
+#include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
 #include "OpenRGBSerialSettingsPage.h"
 #include "PluginManager.h"
 
