@@ -329,7 +329,7 @@ void RGBController_HyperXAlloyElite2::KeepaliveThreadFunction()
         {
             if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(1000))
             {
-                DeviceUpdateLEDs();
+                UpdateLEDs();
             }
         }
         std::this_thread::sleep_for(50ms);
