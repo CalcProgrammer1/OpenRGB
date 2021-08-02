@@ -413,6 +413,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddSerialSettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the QMK OpenRGB Protocol settings page            |
+    \*-----------------------------------------------------*/
+    AddQMKORGBSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
     \*-----------------------------------------------------*/
     if(ShowI2CTools)
@@ -588,6 +593,35 @@ void OpenRGBDialog2::AddE131SettingsPage()
     SettingsLabelString += ":/wireless";
     if(IsDarkTheme()) SettingsLabelString += "_dark";
     SettingsLabelString += ".png' height='16' width='16'></td><td>E1.31 Devices</td></tr></table></html>";
+
+    QLabel *SettingsTabLabel = new QLabel();
+    SettingsTabLabel->setText(SettingsLabelString);
+    SettingsTabLabel->setIndent(20);
+    if(IsDarkTheme())
+    {
+        SettingsTabLabel->setGeometry(0, 25, 200, 50);
+    }
+    else
+    {
+        SettingsTabLabel->setGeometry(0, 0, 200, 25);
+    }
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddQMKORGBSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    QMKORGBSettingsPage = new OpenRGBQMKORGBSettingsPage();
+
+    ui->SettingsTabBar->addTab(QMKORGBSettingsPage, "");
+
+    QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
+    SettingsLabelString += ":/keyboard";
+    if(IsDarkTheme()) SettingsLabelString += "_dark";
+    SettingsLabelString += ".png' height='16' width='16'></td><td>QMK OpenRGB Protocol</td></tr></table></html>";
 
     QLabel *SettingsTabLabel = new QLabel();
     SettingsTabLabel->setText(SettingsLabelString);
