@@ -19,7 +19,7 @@ HyperXPulsefireDartController::HyperXPulsefireDartController(hid_device* dev_han
 
 HyperXPulsefireDartController::~HyperXPulsefireDartController()
 {
-
+    hid_close(dev);
 }
 
 std::string HyperXPulsefireDartController::GetDeviceLocation()
@@ -56,7 +56,7 @@ void HyperXPulsefireDartController::SendDirect
     int             speed
     )
 {
-    unsigned char buf[64];
+    unsigned char buf[HYPERX_PULSEFIRE_DART_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -66,24 +66,52 @@ void HyperXPulsefireDartController::SendDirect
     /*-----------------------------------------------------*\
     | Set up Direct Mode packet                             |
     \*-----------------------------------------------------*/
-    buf[0x00]   = HYPERX_PULSEFIRE_DART_PACKET_ID_DIRECT;
-    buf[0x01]   = led;
-    buf[0x02]   = mode;
-    buf[0x03]   = 0x08; // 8 bytes after buffer index 0x03
+    buf[0x00]   = 0x00;
+    buf[0x01]   = HYPERX_PULSEFIRE_DART_PACKET_ID_DIRECT;
+    buf[0x02]   = led;
+    buf[0x03]   = mode;
+    buf[0x04]   = 0x08; // 8 bytes after buffer index 0x04
     
-    buf[0x04]   = RGBGetRValue(color);
-    buf[0x05]   = RGBGetGValue(color);
-    buf[0x06]   = RGBGetBValue(color);
+    buf[0x05]   = RGBGetRValue(color);
+    buf[0x06]   = RGBGetGValue(color);
+    buf[0x07]   = RGBGetBValue(color);
 
-    buf[0x07]   = RGBGetRValue(color);
-    buf[0x08]   = RGBGetGValue(color);
-    buf[0x09]   = RGBGetBValue(color);
+    buf[0x08]   = RGBGetRValue(color);
+    buf[0x09]   = RGBGetGValue(color);
+    buf[0x0a]   = RGBGetBValue(color);
 
-    buf[0x0a]   = brightness;
-    buf[0x0b]   = speed;
+    buf[0x0b]   = brightness;
+    buf[0x0c]   = speed;
     
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, (unsigned char *)buf, sizeof(buf));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+}
+
+void HyperXPulsefireDartController::Save()
+{
+    /*-----------------------------------------------------*\
+    | Save current settings to the on-board memory          |
+    \*-----------------------------------------------------*/
+    unsigned char buf[HYPERX_PULSEFIRE_DART_PACKET_SIZE];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, sizeof(buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Save packet                                    |
+    \*-----------------------------------------------------*/
+    buf[0x00] = 0x00;
+    buf[0x01] = 0xde;
+    buf[0x02] = 0xff;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, (unsigned char *)buf, sizeof(buf));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }

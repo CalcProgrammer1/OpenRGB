@@ -29,6 +29,7 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
     
 private:
     HyperXPulsefireDartController*    hyperx;
