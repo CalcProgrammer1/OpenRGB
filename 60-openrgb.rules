@@ -453,6 +453,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C95", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C96", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C98", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C99", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7D06", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7D09", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="905D", TAG+="uaccess"
 
