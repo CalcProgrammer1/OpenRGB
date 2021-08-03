@@ -22,6 +22,15 @@ static unsigned int keys[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x
                               116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
                               136,  137,  139,  140,  141, 0x10, 114};
 
+static unsigned int keys_k70_mk2[] =   {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x12,
+                                        0x14, 0x15, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x24, 0x25, 0x26,
+                                        0x27, 0x28, 0x2A, 0x2B, 0x2C, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
+                                        0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x42, 0x43, 0x44, 0x45, 0x48, 73,   74,   75,   76,   78,
+                                        79,   80,   81,   84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   96,   97,
+                                        98,   99,   100,  101,  102,  103,  104,  105,  108,  109,  110,  111,  112,  113,  115,
+                                        116,  117,  120,  121,  122,  123,  124,  126,  127,  128,  129,  132,  133,  134,  135,
+                                        136,  137,  139,  140,  141,  16,   114,  47,   59,   125 };
+
 
 static unsigned int keys_k95_plat[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x12,
                                        0x14, 0x15, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x24, 0x25, 0x26,
@@ -61,14 +70,14 @@ CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle,
     /*-----------------------------------------------------*\
     | K55 and K95 Platinum require additional steps         |
     \*-----------------------------------------------------*/
-    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT)
+    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2)
     {
         SpecialFunctionControl();
     }
 
     LightingControl();
 
-    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT)
+    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2)
     {
         SetupK55AndK95LightingControl();
     }
@@ -203,6 +212,12 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
             grn_val[keys_k95[color_idx]] = RGBGetGValue(color);
             blu_val[keys_k95[color_idx]] = RGBGetBValue(color);
             data_sz = 48; //untested
+        }
+        else if (logical_layout = CORSAIR_TYPE_K70_MK2)
+        {
+            red_val[keys_k70_mk2[color_idx]] = RGBGetRValue(color);
+            grn_val[keys_k70_mk2[color_idx]] = RGBGetGValue(color);
+            blu_val[keys_k70_mk2[color_idx]] = RGBGetBValue(color);
         }
         else
         {
@@ -539,6 +554,13 @@ void CorsairPeripheralController::ReadFirmwareInfo()
 
                     case 0x1B3D:
                     logical_layout = CORSAIR_TYPE_K55;
+                    break;
+
+                    case 0x1B38:
+                    case 0x1B49:
+                    case 0x1B6B:
+                    case 0x1B55:
+                    logical_layout = CORSAIR_TYPE_K70_MK2;
                     break;
 
                     default:
