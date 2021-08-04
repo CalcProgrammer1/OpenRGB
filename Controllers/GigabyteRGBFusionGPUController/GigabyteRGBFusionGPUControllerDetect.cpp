@@ -65,6 +65,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070TI_EAGLE_SUB_DEV,               0x63,   "Gigabyte RTX3070 Ti EAGLE 8G"                  },
     { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070TI_VISION_OC_SUB_DEV,           0x63,   "Gigabyte RTX3070 Ti Vision OC 8G"              },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3080 Gaming OC 10G"                },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3080 Vision OC 10G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_EAGLE_SUB_DEV,               0x63,   "Gigabyte RTX3080 Ti EAGLE 12G"                 },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3090_GAMING_OC_24GB_SUB_DEV,        0x62,   "Gigabyte RTX3090 Gaming OC 24G"                },
 };
