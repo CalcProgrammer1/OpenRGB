@@ -22,6 +22,9 @@
 #define RAZER_BLACKWIDOW_LITE_PID                       0x0235
 #define RAZER_BLACKWIDOW_OVERWATCH_PID                  0x0211
 #define RAZER_BLACKWIDOW_V3_PID                         0x024E
+#define RAZER_BLACKWIDOW_V3_PRO_WIRED_PID               0x025A
+#define RAZER_BLACKWIDOW_V3_PRO_BLUETOOTH_PID           0x025B
+#define RAZER_BLACKWIDOW_V3_PRO_WIRELESS_PID            0x025C
 #define RAZER_BLACKWIDOW_V3_TKL_PID                     0x0A24
 #define RAZER_BLACKWIDOW_X_CHROMA_PID                   0x0216
 #define RAZER_BLACKWIDOW_X_CHROMA_TE_PID                0x021A
@@ -1754,6 +1757,121 @@ static const razer_key blackwidow_2019_keymap[] =
     {   0,      5,      20,             "Key: Number Pad ,"                 },
 };
 
+#define BLACKWIDOW_V3_PRO_KEYMAP_SIZE (sizeof(blackwidow_v3_pro_keymap) / sizeof(blackwidow_v3_pro_keymap[0]))
+
+static const razer_key blackwidow_v3_pro_keymap[] =
+{
+    /*---------------------------------------------------------------------*\
+    |   Zone,   Row,    Column,         Key                                 |
+    \*---------------------------------------------------------------------*/
+    {   0,      0,      1,              "Key: Escape"                       },
+    {   0,      0,      3,              "Key: F1"                           },
+    {   0,      0,      4,              "Key: F2"                           },
+    {   0,      0,      5,              "Key: F3"                           },
+    {   0,      0,      6,              "Key: F4"                           },
+    {   0,      0,      7,              "Key: F5"                           },
+    {   0,      0,      8,              "Key: F6"                           },
+    {   0,      0,      9,              "Key: F7"                           },
+    {   0,      0,      10,             "Key: F8"                           },
+    {   0,      0,      11,             "Key: F9"                           },
+    {   0,      0,      12,             "Key: F10"                          },
+    {   0,      0,      13,             "Key: F11"                          },
+    {   0,      0,      14,             "Key: F12"                          },
+    {   0,      0,      15,             "Key: Print Screen"                 },
+    {   0,      0,      16,             "Key: Scroll Lock"                  },
+    {   0,      0,      17,             "Key: Pause/Break"                  },
+    {   0,      1,      1,              "Key: `"                            },
+    {   0,      1,      2,              "Key: 1"                            },
+    {   0,      1,      3,              "Key: 2"                            },
+    {   0,      1,      4,              "Key: 3"                            },
+    {   0,      1,      5,              "Key: 4"                            },
+    {   0,      1,      6,              "Key: 5"                            },
+    {   0,      1,      7,              "Key: 6"                            },
+    {   0,      1,      8,              "Key: 7"                            },
+    {   0,      1,      9,              "Key: 8"                            },
+    {   0,      1,      10,             "Key: 9"                            },
+    {   0,      1,      11,             "Key: 0"                            },
+    {   0,      1,      12,             "Key: -"                            },
+    {   0,      1,      13,             "Key: ="                            },
+    {   0,      1,      14,             "Key: Backspace"                    },
+    {   0,      1,      15,             "Key: Insert"                       },
+    {   0,      1,      16,             "Key: Home"                         },
+    {   0,      1,      17,             "Key: Page Up"                      },
+    {   0,      1,      18,             "Key: Num Lock"                     },
+    {   0,      1,      19,             "Key: Number Pad /"                 },
+    {   0,      1,      20,             "Key: Number Pad *"                 },
+    {   0,      1,      21,             "Key: Number Pad -"                 },
+    {   0,      2,      1,              "Key: Tab"                          },
+    {   0,      2,      2,              "Key: Q"                            },
+    {   0,      2,      3,              "Key: W"                            },
+    {   0,      2,      4,              "Key: E"                            },
+    {   0,      2,      5,              "Key: R"                            },
+    {   0,      2,      6,              "Key: T"                            },
+    {   0,      2,      7,              "Key: Y"                            },
+    {   0,      2,      8,              "Key: U"                            },
+    {   0,      2,      9,              "Key: I"                            },
+    {   0,      2,      10,             "Key: O"                            },
+    {   0,      2,      11,             "Key: P"                            },
+    {   0,      2,      12,             "Key: ["                            },
+    {   0,      2,      13,             "Key: ]"                            },
+    {   0,      2,      14,             "Key: \\ (ANSI)"                    },
+    {   0,      2,      15,             "Key: Delete"                       },
+    {   0,      2,      16,             "Key: End"                          },
+    {   0,      2,      17,             "Key: Page Down"                    },
+    {   0,      2,      18,             "Key: Number Pad 7"                 },
+    {   0,      2,      19,             "Key: Number Pad 8"                 },
+    {   0,      2,      20,             "Key: Number Pad 9"                 },
+    {   0,      2,      21,             "Key: Number Pad +"                 },
+    {   0,      3,      1,              "Key: Caps Lock"                    },
+    {   0,      3,      2,              "Key: A"                            },
+    {   0,      3,      3,              "Key: S"                            },
+    {   0,      3,      4,              "Key: D"                            },
+    {   0,      3,      5,              "Key: F"                            },
+    {   0,      3,      6,              "Key: G"                            },
+    {   0,      3,      7,              "Key: H"                            },
+    {   0,      3,      8,              "Key: J"                            },
+    {   0,      3,      9,              "Key: K"                            },
+    {   0,      3,      10,             "Key: L"                            },
+    {   0,      3,      11,             "Key: ;"                            },
+    {   0,      3,      12,             "Key: '"                            },
+    {   0,      3,      13,             "Key: #"                            },
+    {   0,      3,      14,             "Key: Enter"                        },
+    {   0,      3,      18,             "Key: Number Pad 4"                 },
+    {   0,      3,      19,             "Key: Number Pad 5"                 },
+    {   0,      3,      20,             "Key: Number Pad 6"                 },
+    {   0,      4,      1,              "Key: Left Shift"                   },
+    {   0,      4,      2,              "Key: \\ (ISO)"                     },
+    {   0,      4,      3,              "Key: Z"                            },
+    {   0,      4,      4,              "Key: X"                            },
+    {   0,      4,      5,              "Key: C"                            },
+    {   0,      4,      6,              "Key: V"                            },
+    {   0,      4,      7,              "Key: B"                            },
+    {   0,      4,      8,              "Key: N"                            },
+    {   0,      4,      9,              "Key: M"                            },
+    {   0,      4,      10,             "Key: ,"                            },
+    {   0,      4,      11,             "Key: ."                            },
+    {   0,      4,      12,             "Key: /"                            },
+    {   0,      4,      14,             "Key: Right Shift"                  },
+    {   0,      4,      16,             "Key: Up Arrow"                     },
+    {   0,      4,      18,             "Key: Number Pad 1"                 },
+    {   0,      4,      19,             "Key: Number Pad 2"                 },
+    {   0,      4,      20,             "Key: Number Pad 3"                 },
+    {   0,      4,      21,             "Key: Number Pad Enter"             },
+    {   0,      5,      1,              "Key: Left Control"                 },
+    {   0,      5,      2,              "Key: Left Windows"                 },
+    {   0,      5,      3,              "Key: Left Alt"                     },
+    {   0,      5,      6,              "Key: Space"                        },
+    {   0,      5,      10,             "Key: Right Alt"                    },
+    {   0,      5,      11,             "Key: Right Fn"                     },
+    {   0,      5,      12,             "Key: Menu"                         },
+    {   0,      5,      13,             "Key: Right Control"                },
+    {   0,      5,      14,             "Key: Left Arrow"                   },
+    {   0,      5,      15,             "Key: Down Arrow"                   },
+    {   0,      5,      16,             "Key: Right Arrow"                  },
+    {   0,      5,      18,             "Key: Number Pad 0"                 },
+    {   0,      5,      19,             "Key: Number Pad ,"                 },
+};
+
 #define ORNATA_CHROMA_KEYMAP_SIZE (sizeof(ornata_chroma_keymap) / sizeof(ornata_chroma_keymap[0]))
 
 static const razer_key ornata_chroma_keymap[] =
@@ -2116,6 +2234,111 @@ static const razer_device blackwidow_chroma_v2_device =
     },
     blackwidow_chroma_v2_keymap,
     BLACKWIDOW_CHROMA_V2_KEYMAP_SIZE
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V3 Pro (Wired) 1532:025A                    |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v3_pro_wired_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_v3_pro_wired_device =
+{
+    "Razer BlackWidow V3 Pro (Wired)",
+    RAZER_BLACKWIDOW_V3_PRO_WIRED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_v3_pro_wired_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    blackwidow_v3_pro_keymap,
+    BLACKWIDOW_V3_PRO_KEYMAP_SIZE
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V3 Pro (Bluetooth) 1532:025B                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v3_pro_bluetooth_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_v3_pro_bluetooth_device =
+{
+    "Razer BlackWidow V3 Pro (Bluetooth)",
+    RAZER_BLACKWIDOW_V3_PRO_BLUETOOTH_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_v3_pro_bluetooth_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    blackwidow_v3_pro_keymap,
+    BLACKWIDOW_V3_PRO_KEYMAP_SIZE
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V3 Pro (Wireless) 1532:025C                 |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v3_pro_wireless_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_v3_pro_wireless_device =
+{
+    "Razer BlackWidow V3 Pro (Wireless)",
+    RAZER_BLACKWIDOW_V3_PRO_WIRELESS_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_v3_pro_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    blackwidow_v3_pro_keymap,
+    BLACKWIDOW_V3_PRO_KEYMAP_SIZE
 };
 
 /*-------------------------------------------------------------*\
@@ -6502,6 +6725,9 @@ static const razer_device* device_list[] =
     &blackwidow_chroma_v2_device,
     &blackwidow_elite_device,
     &blackwidow_v3_device,
+    &blackwidow_v3_pro_wired_device,
+    &blackwidow_v3_pro_wireless_device,
+    &blackwidow_v3_pro_bluetooth_device,
     &blackwidow_v3_tkl_device,
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
