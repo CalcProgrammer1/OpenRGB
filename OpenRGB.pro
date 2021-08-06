@@ -214,17 +214,19 @@ HEADERS +=                                                                      
     Controllers/BlinkyTapeController/BlinkyTapeController.h                                     \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.h                                 \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
+    Controllers/CoolerMasterController/CMMKController.h                                         \
+    Controllers/CoolerMasterController/CMMM711Controller.h                                      \
     Controllers/CoolerMasterController/CMMP750Controller.h                                      \
-    Controllers/CoolerMasterController/CMSmallARGBController.h                                  \
     Controllers/CoolerMasterController/CMR6000Controller.h                                      \
     Controllers/CoolerMasterController/CMRGBController.h                                        \
-    Controllers/CoolerMasterController/CMMKController.h                                         \
+    Controllers/CoolerMasterController/CMSmallARGBController.h                                  \
     Controllers/CoolerMasterController/RGBController_CMARGBController.h                         \
+    Controllers/CoolerMasterController/RGBController_CMMKController.h                           \
+    Controllers/CoolerMasterController/RGBController_CMMM711Controller.h                        \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.h                        \
-    Controllers/CoolerMasterController/RGBController_CMSmallARGBController.h                    \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.h                        \
     Controllers/CoolerMasterController/RGBController_CMRGBController.h                          \
-    Controllers/CoolerMasterController/RGBController_CMMKController.h                           \
+    Controllers/CoolerMasterController/RGBController_CMSmallARGBController.h                    \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreController.h                 \
     Controllers/CorsairCommanderCoreController/RGBController_CorsairCommanderCore.h             \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.h         \
@@ -534,18 +536,20 @@ SOURCES +=                                                                      
     Controllers/BlinkyTapeController/BlinkyTapeControllerDetect.cpp                             \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.cpp                               \
     Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
+    Controllers/CoolerMasterController/CMMKController.cpp                                       \
+    Controllers/CoolerMasterController/CMMM711Controller.cpp                                    \
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
-    Controllers/CoolerMasterController/CMSmallARGBController.cpp                                \
     Controllers/CoolerMasterController/CMR6000Controller.cpp                                    \
     Controllers/CoolerMasterController/CMRGBController.cpp                                      \
-    Controllers/CoolerMasterController/CMMKController.cpp                                       \
+    Controllers/CoolerMasterController/CMSmallARGBController.cpp                                \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMARGBController.cpp                       \
+    Controllers/CoolerMasterController/RGBController_CMMKController.cpp                         \
+    Controllers/CoolerMasterController/RGBController_CMMM711Controller.cpp                      \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.cpp                      \
-    Controllers/CoolerMasterController/RGBController_CMSmallARGBController.cpp                  \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.cpp                      \
     Controllers/CoolerMasterController/RGBController_CMRGBController.cpp                        \
-    Controllers/CoolerMasterController/RGBController_CMMKController.cpp                         \
+    Controllers/CoolerMasterController/RGBController_CMSmallARGBController.cpp                  \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreController.cpp               \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreControllerDetect.cpp         \
     Controllers/CorsairCommanderCoreController/RGBController_CorsairCommanderCore.cpp           \
