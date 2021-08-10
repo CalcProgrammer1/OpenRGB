@@ -12,13 +12,8 @@
 
 #pragma once
 
-static const unsigned char max_brightness_fan_logo[] =
-{
-    0x00,
-    0xFF,
-    0x7F,
-    0xFF
-};
+#define AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX     0xFF
+#define AMD_WRAITH_PRISM_FAN_BRIGHTNESS_CYCLE_MAX       0x7F
 
 static const unsigned char speed_values_fan_logo[][5] =
 {
@@ -26,22 +21,6 @@ static const unsigned char speed_values_fan_logo[][5] =
     { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },                  /* Static                       */
     { 0x96, 0x8C, 0x80, 0x6E, 0x68 },                  /* Color Cycle                  */
     { 0x3C, 0x37, 0x31, 0x2C, 0x26 },                  /* Breathing                    */
-};
-
-static const unsigned char max_brightness_ring[] =
-{
-    0xFF,
-    0xFF,
-    0x7F,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0xFF,
-    0xFF,
-    0xFF,
-    0xFF,
-    0xFF
 };
 
 static const unsigned char mode_value_ring[] =
@@ -121,13 +100,13 @@ public:
 
     void SetRingEffectChannel(unsigned char channel);
 
-    void SetFanMode(unsigned char mode, unsigned char speed, bool random_color);
+    void SetFanMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color);
     void SetFanColor(unsigned char red, unsigned char green, unsigned char blue);
 
-    void SetLogoMode(unsigned char mode, unsigned char speed, bool random_color);
+    void SetLogoMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color);
     void SetLogoColor(unsigned char red, unsigned char green, unsigned char blue);
 
-    void SetRingMode(unsigned char mode, unsigned char speed, bool direction, bool random_color);
+    void SetRingMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool direction, bool random_color);
     void SetRingColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
@@ -137,14 +116,17 @@ private:
 
     unsigned char           current_fan_mode;
     unsigned char           current_fan_speed;
+    unsigned char           current_fan_brightness;
     bool                    current_fan_random_color;
 
     unsigned char           current_logo_mode;
     unsigned char           current_logo_speed;
+    unsigned char           current_logo_brightness;
     bool                    current_logo_random_color;
 
     unsigned char           current_ring_mode;
     unsigned char           current_ring_speed;
+    unsigned char           current_ring_brightness;
     bool                    current_ring_direction;
     bool                    current_ring_random_color;
 
