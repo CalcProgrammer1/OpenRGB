@@ -19,17 +19,20 @@ AMDWraithPrismController::AMDWraithPrismController(hid_device* dev_handle, const
 
     strcpy(device_name, "AMD Wraith Prism");
 
-    current_fan_mode = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
-    current_fan_speed = 0xFF;
-    current_fan_random_color = false;
+    current_fan_mode            = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
+    current_fan_speed           = 0xFF;
+    current_fan_random_color    = false;
+    current_fan_brightness      = 0xFF;
 
-    current_logo_mode = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
-    current_logo_speed = 0xFF;
-    current_logo_random_color = false;
+    current_logo_mode           = AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC;
+    current_logo_speed          = 0xFF;
+    current_logo_random_color   = false;
+    current_logo_brightness     = 0xFF;
 
-    current_ring_mode = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
-    current_ring_speed = 0xFF;
-    current_ring_direction = false;
+    current_ring_mode           = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
+    current_ring_speed          = 0xFF;
+    current_ring_direction      = false;
+    current_ring_brightness     = 0xFF;
 
     SendEnableCommand();
 }
@@ -147,10 +150,11 @@ std::string AMDWraithPrismController::GetFirmwareVersionString()
     return(ret_string);
 }
 
-void AMDWraithPrismController::SetFanMode(unsigned char mode, unsigned char speed, bool random_color)
+void AMDWraithPrismController::SetFanMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color)
 {
     current_fan_mode            = mode;
     current_fan_speed           = speed_values_fan_logo[mode][speed];
+    current_fan_brightness      = brightness;
     current_fan_random_color    = random_color;
 }
 
@@ -163,17 +167,18 @@ void AMDWraithPrismController::SetFanColor(unsigned char red, unsigned char gree
         false,
         current_fan_random_color,
         current_fan_mode,
-        max_brightness_fan_logo[current_fan_mode],
+        current_fan_brightness,
         red,
         green,
         blue
     );
 }
 
-void AMDWraithPrismController::SetLogoMode(unsigned char mode, unsigned char speed, bool random_color)
+void AMDWraithPrismController::SetLogoMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color)
 {
     current_logo_mode           = mode;
     current_logo_speed          = speed_values_fan_logo[mode][speed];
+    current_logo_brightness     = brightness;
     current_logo_random_color   = random_color;
 }
 
@@ -186,18 +191,19 @@ void AMDWraithPrismController::SetLogoColor(unsigned char red, unsigned char gre
         false,
         current_logo_random_color,
         current_logo_mode,
-        max_brightness_fan_logo[current_logo_mode],
+        current_logo_brightness,
         red,
         green,
         blue
     );
 }
 
-void AMDWraithPrismController::SetRingMode(unsigned char mode, unsigned char speed, bool direction, bool random_color)
+void AMDWraithPrismController::SetRingMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool direction, bool random_color)
 {
     current_ring_mode           = mode;
     current_ring_speed          = speed_values_ring[mode][speed];
     current_ring_direction      = direction;
+    current_ring_brightness     = brightness;
     current_ring_random_color   = random_color;
 }
 
@@ -212,7 +218,7 @@ void AMDWraithPrismController::SetRingColor(unsigned char red, unsigned char gre
         current_ring_direction,
         current_ring_random_color,
         mode_value_ring[current_ring_mode],
-        max_brightness_ring[current_ring_mode],
+        current_ring_brightness,
         red,
         green,
         blue
