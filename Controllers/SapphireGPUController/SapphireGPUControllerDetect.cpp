@@ -53,6 +53,7 @@ static const gpu_pci_device device_list[] =
     { AMD_GPU_VEN,  AMD_NAVI21_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV1,        SAPPHIRE_NITRO_GLOW_V3, "RX 6800 XT Nitro+ SE"          },
     { AMD_GPU_VEN,  AMD_NAVI21_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV2,        SAPPHIRE_NITRO_GLOW_V3, "RX 6800 XT/6900 XT Nitro+"     },
     { AMD_GPU_VEN,  AMD_NAVI21_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV3,        SAPPHIRE_NITRO_GLOW_V3, "RX 6800 Nitro+"                },
+    { AMD_GPU_VEN,  AMD_NAVI22_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI22_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V3, "RX 6700 XT Nitro+"             },
 };
 
 /******************************************************************************************\
