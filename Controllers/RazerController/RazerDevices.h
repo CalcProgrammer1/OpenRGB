@@ -4260,10 +4260,10 @@ static const razer_device lancehead_te_device =
     1,
     16,
     {
+        &lancehead_te_scroll_wheel_zone,
+        &lancehead_te_logo_zone,
         &lancehead_te_right_zone,
         &lancehead_te_left_zone,
-        &lancehead_te_logo_zone,
-        &lancehead_te_scroll_wheel_zone,
         NULL,
         NULL
     },
