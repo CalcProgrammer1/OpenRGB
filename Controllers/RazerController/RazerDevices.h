@@ -6079,6 +6079,42 @@ static const razer_device base_station_device =
     0
 };
 
+
+/*-------------------------------------------------------------*\
+|  Razer Mouse Bungee V3 Chroma                                 |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       8 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone mouse_bungee_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    8
+};
+
+static const razer_device mouse_bungee_device =
+{
+    "Razer Mouse Bungee V3 Chroma",
+    RAZER_MOUSE_BUNGEE_V3_CHROMA_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    8,
+    {
+        &mouse_bungee_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
 /*-------------------------------------------------------------*\
 |  Razer Base Station V2 Chroma                                 |
 |                                                               |
@@ -6407,6 +6443,7 @@ static const razer_device* device_list[] =
 \*-----------------------------------------------------------------*/
     &base_station_device,
     &base_station_v2_device,
+    &mouse_bungee_device,
     &charging_pad_chroma_device,
     &chromaargb_device,
     &chromahdk_device,
