@@ -8,21 +8,15 @@
 \*-----------------------------------------*/
 
 #include "RGBController.h"
+#include "AsusAuraMouseDevices.h"
 
 #include <string>
-#include <vector>
-#include <map>
 #include <hidapi/hidapi.h>
 
 #pragma once
 
-enum
-{
-    AURA_MOUSE_ZONE_LOGO        = 0,
-    AURA_MOUSE_ZONE_SCROLL      = 1,
-    AURA_MOUSE_ZONE_UNDERGLOW   = 2,
-    AURA_MOUSE_ZONE_ALL         = 3,
-};
+#define ASUS_AURA_MOUSE_PACKET_SIZE 65
+#define HID_MAX_STR 255
 
 class AuraMouseController
 {
@@ -33,6 +27,7 @@ public:
     std::string GetDeviceLocation();
     std::string GetSerialString();
 
+    void SaveMode();
     void SendUpdate
         (
         unsigned char   zone,
@@ -42,9 +37,8 @@ public:
         unsigned char   blu,
         unsigned char   dir,
         bool            random,
-        unsigned char   speed,
-        bool            save
-        );
+        unsigned char   speed
+	);
 
     uint16_t                    device_pid;
 

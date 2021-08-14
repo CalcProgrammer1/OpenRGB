@@ -30,8 +30,8 @@ std::string AuraMouseController::GetDeviceLocation()
 
 std::string AuraMouseController::GetSerialString()
 {
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
 
     if(ret != 0)
     {
@@ -44,6 +44,13 @@ std::string AuraMouseController::GetSerialString()
     return(return_string);
 }
 
+void AuraMouseController::SaveMode()
+{
+    unsigned char usb_save_buf[ASUS_AURA_MOUSE_PACKET_SIZE] = { 0x00, 0x50, 0x03 };
+
+    hid_write(dev, usb_save_buf, ASUS_AURA_MOUSE_PACKET_SIZE);
+}
+
 void AuraMouseController::SendUpdate
     (
     unsigned char   zone,
@@ -53,16 +60,15 @@ void AuraMouseController::SendUpdate
     unsigned char   blu,
     unsigned char   dir,
     bool            random,
-    unsigned char   speed,
-    bool            save
+    unsigned char   speed
     )
 {
-    unsigned char usb_buf[65];
+    unsigned char usb_buf[ASUS_AURA_MOUSE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, ASUS_AURA_MOUSE_PACKET_SIZE);
 
     /*-----------------------------------------------------*\
     | Set up message packet                                 |
@@ -77,35 +83,24 @@ void AuraMouseController::SendUpdate
     usb_buf[0x07]   = red;
     usb_buf[0x08]   = grn;
     usb_buf[0x09]   = blu;
-    
-    if(device_pid == 0x18CD)
+    if (device_pid == AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID)
     {
         usb_buf[0x0A]   = 0;
         usb_buf[0x0B]   = 0;
-        usb_buf[0x0D]   = 0;
+        usb_buf[0x0C]   = 0;
         usb_buf[0x0D]   = dir;
         usb_buf[0x0E]   = random;
-        usb_buf[0x0F]   = (speed == 0) ? 0 : 256 - speed;
+        usb_buf[0x0F]   = speed;
     }
     else
     {
         usb_buf[0x0A]   = dir;
         usb_buf[0x0B]   = random;
-        usb_buf[0x0C]   = (speed == 0) ? 0 : 256 - speed;
+        usb_buf[0x0C]   = speed;
     }
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-
-    if(save)
-    {
-        unsigned char usb_save_buf[65];
-        memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
-        usb_save_buf[0x00]   = 0x00;
-        usb_save_buf[0x01]   = 0x50;
-        usb_save_buf[0x02]   = 0x03;
-        hid_write(dev, usb_save_buf, 65);
-    }
+    hid_write(dev, usb_buf, ASUS_AURA_MOUSE_PACKET_SIZE);
 }

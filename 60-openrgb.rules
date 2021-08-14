@@ -56,19 +56,31 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f3", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a5", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1939", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18af", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18dd", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1845", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1875", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1877", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cd", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cf", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e5", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e3", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1958", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f8", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1951", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="190c", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193c", TAG+="uaccess"          #ROG Falchion Wired
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193e", TAG+="uaccess"          #ROG Falchion Wireless
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1875", TAG+="uaccess"          #ROG Strix Flare
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cf", TAG+="uaccess"          #ROG Strix Flare Pink
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f8", TAG+="uaccess"          #ROG Strix Scope
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1951", TAG+="uaccess"          #ROG Strix Scope RX
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="190c", TAG+="uaccess"          #ROG Strix Scope TKL
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess"          #TUF K7 Gaming
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18dd", TAG+="uaccess"          #ROG Gladius II Core
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1845", TAG+="uaccess"          #ROG Gladius II
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1877", TAG+="uaccess"          #ROG Gladius II Origin
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cd", TAG+="uaccess"          #ROG Gladius II Origin Pink
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18b1", TAG+="uaccess"          #ROG Gladius II Origin COD
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="189e", TAG+="uaccess"          #ROG Gladius II Wireless1
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess"          #ROG Gladius II Wireless2
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e5", TAG+="uaccess"          #ROG Chakram Wireless
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e3", TAG+="uaccess"          #ROG Chakram Wired1
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1958", TAG+="uaccess"          #ROG Chakram Wired2
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1846", TAG+="uaccess"          #ROG Pugio
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1906", TAG+="uaccess"          #ROG Pugio II Wired
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1908", TAG+="uaccess"          #ROG Pugio II Wireless
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e1", TAG+="uaccess"          #ROG Strix Impact II
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1910", TAG+="uaccess"          #TUF M3 & M7
 
 #---------------------------------------------------------------#
 #  ASUS TUF Laptops (faustus)                                   #
