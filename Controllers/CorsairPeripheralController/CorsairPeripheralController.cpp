@@ -70,14 +70,14 @@ CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle,
     /*-----------------------------------------------------*\
     | K55 and K95 Platinum require additional steps         |
     \*-----------------------------------------------------*/
-    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2)
+    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2 || logical_layout == CORSAIR_TYPE_K68)
     {
         SpecialFunctionControl();
     }
 
     LightingControl();
 
-    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2)
+    if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2 || logical_layout == CORSAIR_TYPE_K68)
     {
         SetupK55AndK95LightingControl();
     }
@@ -561,6 +561,10 @@ void CorsairPeripheralController::ReadFirmwareInfo()
                     case 0x1B6B:
                     case 0x1B55:
                     logical_layout = CORSAIR_TYPE_K70_MK2;
+                    break;
+
+                    case 0x1B4F:
+                    logical_layout = CORSAIR_TYPE_K68;
                     break;
 
                     default:
