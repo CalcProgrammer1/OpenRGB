@@ -164,6 +164,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_STEALTH_LATE_2019_PID:
         case RAZER_BLADE_STEALTH_2020_PID:
         case RAZER_BLADE_STEALTH_LATE_2020_PID:
+        case RAZER_BOOK_13_2020_PID:
         case RAZER_NAGA_HEX_V2_PID:
             matrix_type = RAZER_MATRIX_TYPE_STANDARD;
             break;
@@ -437,6 +438,7 @@ bool RazerController::SupportsWave()
         case RAZER_BLADE_STEALTH_LATE_2016_PID:
         case RAZER_BLADE_STEALTH_2017_PID:
         case RAZER_BLADE_STEALTH_LATE_2017_PID:
+        case RAZER_BOOK_13_2020_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHSTALKER_CHROMA_PID:

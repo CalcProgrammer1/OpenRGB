@@ -251,6 +251,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Blade Stealth (2019)",                      Det
 REGISTER_HID_DETECTOR_IPU("Razer Blade Stealth (Late 2019)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_STEALTH_LATE_2019_PID,              0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Stealth (2020)",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_STEALTH_2020_PID,                   0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Stealth (Late 2020)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_STEALTH_LATE_2020_PID,              0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Book 13 (2020)",                            DetectRazerControllers,        RAZER_VID,  RAZER_BOOK_13_2020_PID,                         0x00,   0x01,   0x02);
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                  |

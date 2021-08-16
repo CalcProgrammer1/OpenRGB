@@ -531,6 +531,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0245", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="024D", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0253", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0255", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="026A", TAG+="uaccess"      # Razer Book 13 (2020)
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="026F", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0210", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0225", TAG+="uaccess"
