@@ -67,6 +67,7 @@
 #define NVIDIA_RTX3070_DEV                              0x2484
 #define NVIDIA_RTX3070TI_DEV                            0x2482
 #define NVIDIA_RTX3080_DEV                              0x2206
+#define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
 
 /*---------------------------------------------------------*\
@@ -207,6 +208,7 @@
 #define MSI_RTX3070_GAMING_X_TRIO_SUB_DEV               0x3903
 #define MSI_RTX3080_GAMING_X_TRIO_SUB_DEV               0x3892
 #define MSI_RTX3080_SUPRIM_X_SUB_DEV                    0x3897
+#define MSI_RTX3080TI_GAMING_X_TRIO_SUB_DEV             0x389B
 #define MSI_RTX3090_GAMING_X_TRIO_SUB_DEV               0x3884
 #define MSI_RTX3090_SUPRIM_X_SUB_DEV                    0x3882
 
