@@ -6208,6 +6208,7 @@ static const razer_device* device_list[] =
     &blade_15_2021_advanced_device,
     &blade_15_2021_base_device,
     &blade_14_2021_device,
+    &book_13_2020_device,
     &blade_pro_2016_device,
     &blade_pro_2017_device,
     &blade_pro_2017_fullhd_device,
