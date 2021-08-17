@@ -6,7 +6,7 @@
 
 #include "PhilipsHueController.h"
 
-PhilipsHueController::PhilipsHueController(hueplusplus::Light& light_ptr, std::string bridge_ip):light(light_ptr)
+PhilipsHueController::PhilipsHueController(hueplusplus::Light light_ptr, std::string bridge_ip):light(light_ptr)
 {
     dark        = false;
     location    = "IP: " + bridge_ip;

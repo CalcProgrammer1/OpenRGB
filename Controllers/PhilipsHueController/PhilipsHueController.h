@@ -15,7 +15,7 @@
 class PhilipsHueController
 {
 public:
-    PhilipsHueController(hueplusplus::Light& light_ptr, std::string bridge_ip);
+    PhilipsHueController(hueplusplus::Light light_ptr, std::string bridge_ip);
     ~PhilipsHueController();
 
     std::string GetLocation();
@@ -27,7 +27,7 @@ public:
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    hueplusplus::Light& light;
+    hueplusplus::Light  light;
     std::string         location;
     bool                dark;
 };
