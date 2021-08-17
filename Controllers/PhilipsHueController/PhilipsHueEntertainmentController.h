@@ -20,7 +20,7 @@
 class PhilipsHueEntertainmentController
 {
 public:
-    PhilipsHueEntertainmentController(hueplusplus::Bridge& bridge_ptr, hueplusplus::Group& group_ptr);
+    PhilipsHueEntertainmentController(hueplusplus::Bridge& bridge_ptr, hueplusplus::Group group_ptr);
     ~PhilipsHueEntertainmentController();
 
     std::string GetLocation();
@@ -34,7 +34,7 @@ public:
 
 private:
     hueplusplus::Bridge&            bridge;
-    hueplusplus::Group&             group;
+    hueplusplus::Group              group;
     hueplusplus::EntertainmentMode* entertainment;
 
     std::string                     location;

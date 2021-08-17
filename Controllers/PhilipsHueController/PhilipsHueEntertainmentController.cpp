@@ -6,7 +6,7 @@
 
 #include "PhilipsHueEntertainmentController.h"
 
-PhilipsHueEntertainmentController::PhilipsHueEntertainmentController(hueplusplus::Bridge& bridge_ptr, hueplusplus::Group& group_ptr):bridge(bridge_ptr),group(group_ptr)
+PhilipsHueEntertainmentController::PhilipsHueEntertainmentController(hueplusplus::Bridge& bridge_ptr, hueplusplus::Group group_ptr):bridge(bridge_ptr),group(group_ptr)
 {
     /*-------------------------------------------------*\
     | Fill in location string with bridge IP            |
