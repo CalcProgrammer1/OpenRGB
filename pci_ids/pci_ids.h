@@ -128,6 +128,7 @@
 #define EVGA_RTX2080_XC_ULTRA_GAMING_SUB_DEV            0x2183
 #define EVGA_RTX2080S_FTW3_ULTRA_SUB_DEV                0x3287
 #define EVGA_RTX2080TI_XC_ULTRA_GAMING_SUB_DEV          0x2383
+#define EVGA_RTX2080TI_XC_HYBRID_GAMING_SUB_DEV         0x2384
 #define EVGA_RTX2080TI_FTW3_ULTRA_SUB_DEV               0x2487
 
 /*-----------------------------------------------------*\
