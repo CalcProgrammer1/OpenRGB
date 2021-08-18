@@ -362,40 +362,30 @@ void RGBFusion2USBController::SetLEDEffect(unsigned int led, int mode, unsigned 
     pkt.e.effect_type   = mode;
     pkt.e.color0        = r << 16 | g << 8 | b;
 
-    if(speed < speeds.size())
-    {
-        const std::array<int, 3>& s = speeds[speed];
-
-        pkt.e.period0 = s[0];
-        pkt.e.period1 = s[1];
-        pkt.e.period2 = s[2];
-    }
-
     pkt.e.max_brightness = brightness;
 
     switch(mode)
     {
-        case 0:
+        case 0: // Direct
+        case 1: // Static
             break;
 
-        // Static
-        case 1:
-            break;
+        case 2: //Breathing
+        case 3: //Blink
+        case 4: // Color Cycle
+            if(speed < speeds.size())
+            {
+                const std::array<int, 3>& s = speeds[speed];
 
-        // Breathing
-        case 2:
+                pkt.e.period0 = s[0];
+                pkt.e.period1 = s[1];
+                pkt.e.period2 = s[2];
+            }
 
-        // Blink
-        case 3:
             if(random)
             {
                 pkt.e.effect_param0 = 7; // cycle through up to 7 (max?) colors
             }
-            break;
-
-        // Color Cycle
-        case 4:
-            pkt.e.effect_param0 = 7; // cycle through up to 7 (max?) colors
             break;
 
         // "Fake" effects

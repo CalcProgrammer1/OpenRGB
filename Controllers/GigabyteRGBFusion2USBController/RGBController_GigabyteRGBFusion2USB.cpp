@@ -533,8 +533,8 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     /*---------------------------------------------------------*\
     | Get mode parameters                                       |
     \*---------------------------------------------------------*/
-    bool    random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     int     mode_value  = (modes[active_mode].value);
+    bool    random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM || mode_value == EFFECT_COLORCYCLE);
 
     /*---------------------------------------------------------*\
     | Set motherboard LEDs                                      |

@@ -175,7 +175,7 @@ union PktEffect
         e.max_brightness    = 100;
         e.min_brightness    = 0;
         e.color0            = 0x00FF2100;   //orange
-        e.period0           = 1200;
+        e.period0           = 0;            //Rising Timer - Needs to be 0 for "Direct"
         e.period1           = 1200;
         e.period2           = 200;
         e.period3           = 200;
