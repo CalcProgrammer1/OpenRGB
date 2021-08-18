@@ -5,8 +5,8 @@
 #include "OpenRGBServerInfoPage.h"
 #include "OpenRGBPluginContainer.h"
 #include "OpenRGBProfileSaveDialog.h"
-#include "DeviceTabHeader.h"
 #include "ResourceManager.h"
+#include "TabLabel.h"
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
@@ -918,7 +918,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             | text in the tab label.  Choose icon based on device   |
             | type and append device name string.                   |
             \*-----------------------------------------------------*/
-            DeviceTabHeader* device_tab_header = new DeviceTabHeader(
+            TabLabel* device_tab_header = new TabLabel(
                         GetIconString(controllers[controller_idx]->type, IsDarkTheme()),
                         QString::fromStdString(controllers[controller_idx]->name)
              );

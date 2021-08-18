@@ -154,7 +154,6 @@ HEADERS +=                                                                      
     DeviceDetector.h                                                                            \
     filesystem.h                                                                                \
     qt/DetectorTableModel.h                                                                     \
-    qt/DeviceTabHeader.h                                                                        \
     qt/OpenRGBClientInfoPage.h                                                                  \
     qt/OpenRGBDeviceInfoPage.h                                                                  \
     qt/OpenRGBDevicePage.h                                                                      \
@@ -179,6 +178,7 @@ HEADERS +=                                                                      
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.h                                   \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h                                    \
+    qt/TabLabel.h                                                                               \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
     super_io/super_io.h                                                                         \
@@ -468,7 +468,6 @@ SOURCES +=                                                                      
     ResourceManager.cpp                                                                         \
     SettingsManager.cpp                                                                         \
     qt/DetectorTableModel.cpp                                                                   \
-    qt/DeviceTabHeader.cpp                                                                      \
     qt/OpenRGBClientInfoPage.cpp                                                                \
     qt/OpenRGBDeviceInfoPage.cpp                                                                \
     qt/OpenRGBDevicePage.cpp                                                                    \
@@ -486,6 +485,7 @@ SOURCES +=                                                                      
     qt/OpenRGBSupportedDevicesPage.cpp                                                          \
     qt/OpenRGBSystemInfoPage.cpp                                                                \
     qt/OpenRGBZoneResizeDialog.cpp                                                              \
+    qt/TabLabel.cpp                                                                             \
     qt/hsv.cpp                                                                                  \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.cpp                                      \
@@ -806,7 +806,6 @@ RESOURCES +=                                                                    
     qt/resources.qrc
 
 FORMS +=                                                                                        \
-    qt/DeviceTabHeader.ui                                                                       \
     qt/OpenRGBClientInfoPage.ui                                                                 \
     qt/OpenRGBDeviceInfoPage.ui                                                                 \
     qt/OpenRGBDevicePage.ui                                                                     \
@@ -826,6 +825,7 @@ FORMS +=                                                                        
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.ui                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui                                   \
+    qt/TabLabel.ui                                                                              \
 
 #-----------------------------------------------------------------------------------------------#
 # Windows-specific Configuration                                                                #
