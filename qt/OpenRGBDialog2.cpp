@@ -501,22 +501,21 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
 
     ui->InformationTabBar->addTab(SoftInfoPage, "");
 
-    QString SoftwareLabelString = "<html><table><tr><td width='30'><img src='";
-    SoftwareLabelString += ":/software";
-    if(IsDarkTheme()) SoftwareLabelString += "_dark";
-    SoftwareLabelString += ".png' height='16' width='16'></td><td>Software</td></tr></table></html>";
+    QString SoftwareLabelString;
 
-    QLabel *SoftwareTabLabel = new QLabel();
-    SoftwareTabLabel->setText(SoftwareLabelString);
-    SoftwareTabLabel->setIndent(20);
     if(IsDarkTheme())
     {
-        SoftwareTabLabel->setGeometry(0, 25, 200, 50);
+        SoftwareLabelString = "software_dark.png";
     }
     else
     {
-        SoftwareTabLabel->setGeometry(0, 0, 200, 25);
+        SoftwareLabelString = "software.png";
     }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, "Software");
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
@@ -530,22 +529,21 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
 
     ui->SettingsTabBar->addTab(SupportedPage, "");
 
-    QString SupportedLabelString = "<html><table><tr><td width='30'><img src='";
-    SupportedLabelString += ":/software";
-    if(IsDarkTheme()) SupportedLabelString += "_dark";
-    SupportedLabelString += ".png' height='16' width='16'></td><td>Supported Devices</td></tr></table></html>";
+    QString SettingsLabelString;
 
-    QLabel *SupportedTabLabel = new QLabel();
-    SupportedTabLabel->setText(SupportedLabelString);
-    SupportedTabLabel->setIndent(20);
     if(IsDarkTheme())
     {
-        SupportedTabLabel->setGeometry(0, 25, 200, 50);
+        SettingsLabelString = "software_dark.png";
     }
     else
     {
-        SupportedTabLabel->setGeometry(0, 0, 200, 25);
+        SettingsLabelString = "software.png";
     }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SupportedTabLabel = new TabLabel(SettingsLabelString, "Supported Devices");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
 }
@@ -560,22 +558,21 @@ void OpenRGBDialog2::AddSettingsPage()
 
     ui->SettingsTabBar->addTab(SettingsPage, "");
 
-    QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
-    SettingsLabelString += ":/settings";
-    if(IsDarkTheme()) SettingsLabelString += "_dark";
-    SettingsLabelString += ".png' height='16' width='16'></td><td>Settings</td></tr></table></html>";
+    QString SettingsLabelString;
 
-    QLabel *SettingsTabLabel = new QLabel();
-    SettingsTabLabel->setText(SettingsLabelString);
-    SettingsTabLabel->setIndent(20);
     if(IsDarkTheme())
     {
-        SettingsTabLabel->setGeometry(0, 25, 200, 50);
+        SettingsLabelString = "settings_dark.png";
     }
     else
     {
-        SettingsTabLabel->setGeometry(0, 0, 200, 25);
+        SettingsLabelString = "settings.png";
     }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Settings");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -589,22 +586,21 @@ void OpenRGBDialog2::AddE131SettingsPage()
 
     ui->SettingsTabBar->addTab(E131SettingsPage, "");
 
-    QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
-    SettingsLabelString += ":/wireless";
-    if(IsDarkTheme()) SettingsLabelString += "_dark";
-    SettingsLabelString += ".png' height='16' width='16'></td><td>E1.31 Devices</td></tr></table></html>";
+    QString SettingsLabelString;
 
-    QLabel *SettingsTabLabel = new QLabel();
-    SettingsTabLabel->setText(SettingsLabelString);
-    SettingsTabLabel->setIndent(20);
     if(IsDarkTheme())
     {
-        SettingsTabLabel->setGeometry(0, 25, 200, 50);
+        SettingsLabelString = "wireless_dark.png";
     }
     else
     {
-        SettingsTabLabel->setGeometry(0, 0, 200, 25);
+        SettingsLabelString = "wireless.png";
     }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "E1.31 Devices");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -618,22 +614,21 @@ void OpenRGBDialog2::AddQMKORGBSettingsPage()
 
     ui->SettingsTabBar->addTab(QMKORGBSettingsPage, "");
 
-    QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
-    SettingsLabelString += ":/keyboard";
-    if(IsDarkTheme()) SettingsLabelString += "_dark";
-    SettingsLabelString += ".png' height='16' width='16'></td><td>QMK OpenRGB Protocol</td></tr></table></html>";
+    QString SettingsLabelString;
 
-    QLabel *SettingsTabLabel = new QLabel();
-    SettingsTabLabel->setText(SettingsLabelString);
-    SettingsTabLabel->setIndent(20);
     if(IsDarkTheme())
     {
-        SettingsTabLabel->setGeometry(0, 25, 200, 50);
+        SettingsLabelString = "keyboard_dark.png";
     }
     else
     {
-        SettingsTabLabel->setGeometry(0, 0, 200, 25);
+        SettingsLabelString = "keyboard.png";
     }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "OpenRGB QMK Protocol");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -647,22 +642,21 @@ void OpenRGBDialog2::AddSerialSettingsPage()
 
     ui->SettingsTabBar->addTab(SerialSettingsPage, "");
 
-    QString SettingsLabelString = "<html><table><tr><td width='30'><img src='";
-    SettingsLabelString += ":/serial";
-    if(IsDarkTheme()) SettingsLabelString += "_dark";
-    SettingsLabelString += ".png' height='16' width='16'></td><td>Serial Devices</td></tr></table></html>";
+    QString SettingsLabelString;
 
-    QLabel *SettingsTabLabel = new QLabel();
-    SettingsTabLabel->setText(SettingsLabelString);
-    SettingsTabLabel->setIndent(20);
     if(IsDarkTheme())
     {
-        SettingsTabLabel->setGeometry(0, 25, 200, 50);
+        SettingsLabelString = "serial_dark.png";
     }
     else
     {
-        SettingsTabLabel->setGeometry(0, 0, 200, 25);
+        SettingsLabelString = "serial.png";
     }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Serial Devices");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -685,23 +679,21 @@ void OpenRGBDialog2::AddPluginTab(PluginManager* plugin_manager, int plugin_inde
     else
     {
         QLabel *TabLabelText = plugin_manager->ActivePlugins[plugin_index]->info.PluginLabel;
+        QString PluginLabelString;
 
-        QString NewTabLabelText = TabLabelText->text();
-        QString PluginLabelString = "<html><table><tr><td width='30'><img src='";
-        PluginLabelString += ":/plugin";
-        if (IsDarkTheme()) PluginLabelString += "_dark";
-        PluginLabelString+= ".png' height='16' width='16'></td><td>" + NewTabLabelText + "</td></tr></table></html>";
-        PluginTabLabel->setText(PluginLabelString);
-
-        PluginTabLabel->setIndent(20);
         if(IsDarkTheme())
         {
-            PluginTabLabel->setGeometry(0, 25, 200, 50);
+            PluginLabelString = "plugin_dark.png";
         }
         else
         {
-            PluginTabLabel->setGeometry(0, 0, 200, 25);
+            PluginLabelString = "plugin.png";
         }
+
+        /*-----------------------------------------------------*\
+        | Create the tab label                                  |
+        \*-----------------------------------------------------*/
+        PluginTabLabel = (QLabel*)new TabLabel(PluginLabelString, TabLabelText->text());
     }
 
     /*-----------------------------------------------------*\
@@ -783,22 +775,22 @@ void OpenRGBDialog2::AddI2CToolsPage()
     \*-----------------------------------------------------*/
     ui->InformationTabBar->addTab(SMBusToolsPage, "");
 
-    QString SMBusToolsLabelString = "<html><table><tr><td width='30'><img src='";
-    SMBusToolsLabelString += ":/tools";
-    if(IsDarkTheme()) SMBusToolsLabelString += "_dark";
-    SMBusToolsLabelString += ".png' height='16' width='16'></td><td>SMBus Tools</td></tr></table></html>";
+    QString SMBusToolsLabelString;
 
-    QLabel *SMBusToolsTabLabel = new QLabel();
-    SMBusToolsTabLabel->setText(SMBusToolsLabelString);
-    SMBusToolsTabLabel->setIndent(20);
     if(IsDarkTheme())
     {
-    SMBusToolsTabLabel->setGeometry(0, 25, 200, 50);
+        SMBusToolsLabelString = "tools_dark.png";
     }
     else
     {
-        SMBusToolsTabLabel->setGeometry(0, 0, 200, 25);
+        SMBusToolsLabelString = "tools.png";
     }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SMBusToolsTabLabel = new TabLabel(SMBusToolsLabelString, "SMBus Tools");
+
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
 }
 
@@ -914,16 +906,11 @@ void OpenRGBDialog2::UpdateDevicesList()
                     SLOT(on_SaveSizeProfile()));
 
             /*-----------------------------------------------------*\
-            | Use Qt's HTML capabilities to display both icon and   |
-            | text in the tab label.  Choose icon based on device   |
-            | type and append device name string.                   |
+            | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            TabLabel* device_tab_header = new TabLabel(
-                        GetIconString(controllers[controller_idx]->type, IsDarkTheme()),
-                        QString::fromStdString(controllers[controller_idx]->name)
-             );
+            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
 
-            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, device_tab_header);
+            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
 
             /*-----------------------------------------------------*\
@@ -970,25 +957,9 @@ void OpenRGBDialog2::UpdateDevicesList()
             ui->InformationTabBar->addTab(NewPage, "");
 
             /*-----------------------------------------------------*\
-            | Use Qt's HTML capabilities to display both icon and   |
-            | text in the tab label.  Choose icon based on device   |
-            | type and append device name string.                   |
+            | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            QString NewLabelString = "<html><table><tr><td width='30'><img src=':/";
-            NewLabelString += GetIconString(controllers[controller_idx]->type, IsDarkTheme());
-            NewLabelString += "' height='16' width='16'></td><td>" + QString::fromStdString(controllers[controller_idx]->name) + "</td></tr></table></html>";
-
-            QLabel *NewTabLabel = new QLabel();
-            NewTabLabel->setText(NewLabelString);
-            NewTabLabel->setIndent(20);
-            if(IsDarkTheme())
-            {
-                NewTabLabel->setGeometry(0, 25, 200, 50);
-            }
-            else
-            {
-                NewTabLabel->setGeometry(0, 0, 200, 25);
-            }
+            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
