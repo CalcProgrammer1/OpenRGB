@@ -304,9 +304,11 @@ HEADERS +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.h                 \
     Controllers/HyperXKeyboardController/RGBController_HyperXKeyboard.h                         \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.h                         \
+    Controllers/HyperXMouseController/HyperXPulsefireHasteController.h                          \
     Controllers/HyperXMouseController/HyperXPulsefireSurgeController.h                          \
     Controllers/HyperXMouseController/HyperXPulsefireDartController.h                           \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireFPSPro.h                     \
+    Controllers/HyperXMouseController/RGBController_HyperXPulsefireHaste.h                      \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireSurge.h                      \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireDart.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
@@ -660,9 +662,11 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXKeyboard.cpp                       \
     Controllers/HyperXMouseController/HyperXMouseControllerDetect.cpp                           \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.cpp                       \
+    Controllers/HyperXMouseController/HyperXPulsefireHasteController.cpp                        \
     Controllers/HyperXMouseController/HyperXPulsefireSurgeController.cpp                        \
     Controllers/HyperXMouseController/HyperXPulsefireDartController.cpp                         \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireFPSPro.cpp                   \
+    Controllers/HyperXMouseController/RGBController_HyperXPulsefireHaste.cpp                    \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireSurge.cpp                    \
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireDart.cpp                     \
     Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
