@@ -600,6 +600,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         {
             ui->PerLEDCheck->setEnabled(true);
             ui->PerLEDCheck->setChecked(per_led);
+            ui->DeviceViewBox->setPerLED(true);
         }
         else
         {
@@ -607,6 +608,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
             ui->PerLEDCheck->setAutoExclusive(false);
             ui->PerLEDCheck->setChecked(false);
             ui->PerLEDCheck->setAutoExclusive(true);
+            ui->DeviceViewBox->setPerLED(false);
         }
 
         if(supports_mode_specific)

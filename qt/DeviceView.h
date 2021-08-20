@@ -23,6 +23,7 @@ public:
 
     void setController(RGBController * controller_ptr);
     void setNumericalLabels(bool enable);
+    void setPerLED(bool per_led_mode);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -44,6 +45,7 @@ private:
     QVector<int> selectedLeds;
     QVector<bool> selectionFlags;
     QVector<bool> previousFlags;
+    bool per_led;
 
     std::vector<matrix_pos_size_type>   zone_pos;
     std::vector<matrix_pos_size_type>   led_pos;
