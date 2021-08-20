@@ -23,14 +23,14 @@ RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSens
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = STEELSERIES_SENSEI_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = STEELSERIES_SENSEI_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     Breathing.speed_min  = STEELSERIES_SENSEI_EFFECT_BREATHING_MIN;
     Breathing.speed_max  = STEELSERIES_SENSEI_EFFECT_BREATHING_MAX;
@@ -40,7 +40,7 @@ RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSens
     mode Rainbow;
     Rainbow.name         = "Rainbow";
     Rainbow.value        = STEELSERIES_SENSEI_MODE_RAINBOW;
-    Rainbow.flags        = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+    Rainbow.flags        = MODE_FLAG_HAS_SPEED;
     Rainbow.color_mode   = MODE_COLORS_NONE;
     Rainbow.speed_min    = STEELSERIES_SENSEI_EFFECT_RAINBOW_MIN;
     Rainbow.speed_max    = STEELSERIES_SENSEI_EFFECT_RAINBOW_MAX;
@@ -140,9 +140,4 @@ void RGBController_SteelSeriesSensei::DeviceUpdateMode()
     | for the different zones, but we don't support that.       |
     \*---------------------------------------------------------*/
     DeviceUpdateLEDs();
-}
-
-void RGBController_SteelSeriesSensei::DeviceSaveMode()
-{
-    sensei->Save();
 }

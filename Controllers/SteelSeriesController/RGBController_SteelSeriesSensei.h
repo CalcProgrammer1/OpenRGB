@@ -28,7 +28,6 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
-    void        DeviceSaveMode();
 
 private:
     SteelSeriesSenseiController*     sensei;
