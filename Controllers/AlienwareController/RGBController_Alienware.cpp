@@ -17,7 +17,7 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* alienware_
     alienware                   = alienware_ptr;
 
     name                        = alienware->GetDeviceName();
-    vendor                      = "Alienware Corporation";
+    vendor                      = "Alienware";
     type                        = DEVICE_TYPE_KEYBOARD;
     description                 = "Alienware USB Device";
     location                    = alienware->GetDeviceLocation();
