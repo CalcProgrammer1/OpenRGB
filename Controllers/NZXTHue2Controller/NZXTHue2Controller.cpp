@@ -174,7 +174,11 @@ void NZXTHue2Controller::UpdateDeviceList()
             case 0x06: //Hue 2 strip (6 LEDs)
                 num_leds_on_channel += 6;
                 break;
-            
+           
+            case 0x09: //Hue 2 Underglow (300mm) (15 LEDs)
+                num_leds_on_channel += 15;
+                break;
+ 
             case 0x0A: //Hue 2 Underglow (200mm) (10 LEDs)
                 num_leds_on_channel += 10;
                 break;
