@@ -1,7 +1,9 @@
 #include "Detector.h"
 #include "CorsairPeripheralController.h"
+#include "CorsairK100Controller.h"
 #include "RGBController.h"
 #include "RGBController_CorsairPeripheral.h"
+#include "RGBController_CorsairK100.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -32,6 +34,8 @@
 #define CORSAIR_K95_RGB_PID             0x1B11
 #define CORSAIR_K95_PLATINUM_PID        0x1B2D
 
+#define CORSAIR_K100_PID                0x1B7C
+
 #define CORSAIR_STRAFE_PID              0x1B20
 #define CORSAIR_STRAFE_MK2_PID          0x1B48
 
@@ -60,6 +64,29 @@
 \*-----------------------------------------------------*/
 #define CORSAIR_ST100_PID               0x0A34
 
+
+
+void DetectCorsairKeyboardControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if( dev )
+    {
+        CorsairK100Controller* controller = new CorsairK100Controller(dev, info->path);
+        controller->SetName(name);
+
+        if(controller->GetKeyboardType() != CORSAIR_TYPE_UNKNOWN)
+        {
+            RGBController_CorsairK100* rgb_controller = new RGBController_CorsairK100(controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else
+        {
+            delete controller;
+        }
+    }
+}   /* DetectCorsairPeripheralControllers() */
+
 /******************************************************************************************\
 *                                                                                          *
 *   DetectCorsairPeripheralControllers                                                     *
@@ -67,10 +94,10 @@
 *       Tests the USB address to see if a Corsair RGB Keyboard controller exists there.    *
 *                                                                                          *
 \******************************************************************************************/
-
 void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if( dev )
     {
         CorsairPeripheralController* controller = new CorsairPeripheralController(dev, info->path);
@@ -104,6 +131,7 @@ REGISTER_HID_DETECTOR_IP("Corsair K70 RGB MK.2 SE",          DetectCorsairPeriph
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB MK.2 Low Profile", DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_RGB_MK2_LP_PID,    1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K95 RGB",                  DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K95_RGB_PID,           1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K95 RGB PLATINUM",         DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K95_PLATINUM_PID,      1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair K100",                     DetectCorsairKeyboardControllers,   CORSAIR_VID, CORSAIR_K100_PID,              1, 0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Strafe",                   DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_STRAFE_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Strafe MK.2",              DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_STRAFE_MK2_PID,        1, 0xFFC2);
 /*-----------------------------------------------------------------------------------------------------*\
