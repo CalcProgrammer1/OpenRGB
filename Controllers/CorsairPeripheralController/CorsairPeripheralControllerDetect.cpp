@@ -1,7 +1,9 @@
 #include "Detector.h"
 #include "CorsairPeripheralController.h"
+#include "CorsairK100Controller.h"
 #include "RGBController.h"
 #include "RGBController_CorsairPeripheral.h"
+#include "RGBController_CorsairK100.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -60,6 +62,33 @@
 \*-----------------------------------------------------*/
 #define CORSAIR_ST100_PID               0x0A34
 
+/*-----------------------------------------------------*\
+| Corsair K100 Keyboard product ID                      |
+| This keyboard uses a separate driver                  |
+\*-----------------------------------------------------*/
+#define CORSAIR_K100_PID                0x1B7C
+
+void DetectCorsairK100Controllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        CorsairK100Controller* controller = new CorsairK100Controller(dev, info->path);
+        controller->SetName(name);
+
+        if(controller->GetKeyboardType() != CORSAIR_TYPE_UNKNOWN)
+        {
+            RGBController_CorsairK100* rgb_controller = new RGBController_CorsairK100(controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else
+        {
+            delete controller;
+        }
+    }
+}   /* DetectCorsairPeripheralControllers() */
+
 /******************************************************************************************\
 *                                                                                          *
 *   DetectCorsairPeripheralControllers                                                     *
@@ -67,11 +96,11 @@
 *       Tests the USB address to see if a Corsair RGB Keyboard controller exists there.    *
 *                                                                                          *
 \******************************************************************************************/
-
 void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
-    if( dev )
+
+    if(dev)
     {
         CorsairPeripheralController* controller = new CorsairPeripheralController(dev, info->path);
         controller->SetName(name);
@@ -134,3 +163,8 @@ REGISTER_HID_DETECTOR_P("Corsair ST100 RGB",                DetectCorsairPeriphe
 #else
 REGISTER_HID_DETECTOR_I("Corsair ST100 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_ST100_PID,             0);
 #endif
+
+/*-----------------------------------------------------------------------------------------------------*\
+| Corsair K100 Keyboard                                                                                 |
+\*-----------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IP("Corsair K100",                    DetectCorsairK100Controllers,       CORSAIR_VID, CORSAIR_K100_PID,              1, 0xFF42);
