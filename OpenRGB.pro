@@ -63,6 +63,7 @@ INCLUDEPATH +=                                                                  
     super_io/                                                                                   \
     AutoStart/                                                                                  \
     Controllers/AlienwareController/                                                            \
+    Controllers/AlienwareKeyboardController/                                                    \
     Controllers/AMDWraithPrismController/                                                       \
     Controllers/ASRockPolychromeSMBusController/                                                \
     Controllers/ASRockPolychromeUSBController/                                                  \
@@ -185,6 +186,8 @@ HEADERS +=                                                                      
     AutoStart/AutoStart.h                                                                       \
     Controllers/AlienwareController/AlienwareController.h                                       \
     Controllers/AlienwareController/RGBController_Alienware.h                                   \
+    Controllers/AlienwareKeyboardController/AlienwareAW510KController.h                         \
+    Controllers/AlienwareKeyboardController/RGBController_AlienwareAW510K.h                     \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.h                             \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/AnnePro2Controller/AnnePro2Controller.h                                         \
@@ -501,6 +504,9 @@ SOURCES +=                                                                      
     Controllers/AlienwareController/AlienwareController.cpp                                     \
     Controllers/AlienwareController/AlienwareControllerDetect.cpp                               \
     Controllers/AlienwareController/RGBController_Alienware.cpp                                 \
+    Controllers/AlienwareKeyboardController/AlienwareAW510KController.cpp                       \
+    Controllers/AlienwareKeyboardController/AlienwareKeyboardControllerDetect.cpp               \
+    Controllers/AlienwareKeyboardController/RGBController_AlienwareAW510K.cpp                   \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp                           \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp                     \
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.cpp                       \
