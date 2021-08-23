@@ -88,4 +88,12 @@ private:
             unsigned char   green,
             unsigned char   blue
             );
+
+    void SetRival600Color
+            (
+            unsigned char   zone_id,
+            unsigned char   red,
+            unsigned char   green,
+            unsigned char   blue
+            );
 };
