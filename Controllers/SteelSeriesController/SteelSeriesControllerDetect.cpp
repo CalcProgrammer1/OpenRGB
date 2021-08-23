@@ -38,6 +38,8 @@
 #define STEELSERIES_RIVAL_310_PID                   0x1720
 #define STEELSERIES_RIVAL_310_CSGO_HOWL_PID         0x171e
 #define STEELSERIES_RIVAL_310_PUBG_PID              0x1736
+#define STEELSERIES_RIVAL_600_PID                   0x1724
+#define STEELSERIES_RIVAL_600_DOTA_2_PID            0x172E
 #define STEELSERIES_RIVAL_650_PID                   0x172B
 #define STEELSERIES_RIVAL_650_WIRELESS_PID          0x1726
 #define STEELSERIES_SENSEI_TEN_PID                  0x1832
@@ -159,6 +161,20 @@ void DetectSteelSeriesRival300(hid_device_info* info, const std::string& name)
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
+
+void DetectSteelSeriesRival600(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        SteelSeriesRivalController* controller = new SteelSeriesRivalController(dev, RIVAL_600, info->path);
+        RGBController_SteelSeriesRival* rgb_controller = new RGBController_SteelSeriesRival(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+
 void DetectSteelSeriesRival650(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -201,6 +217,8 @@ REGISTER_HID_DETECTOR_I("SteelSeries Rival 300 Black Ops Edition",          Dete
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 310",                            DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_RIVAL_310_PID,                 0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 310 CS:GO Howl Edition",         DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_RIVAL_310_CSGO_HOWL_PID,       0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 310 PUBG Edition",               DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_RIVAL_310_PUBG_PID,            0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 600",                            DetectSteelSeriesRival600,  STEELSERIES_VID, STEELSERIES_RIVAL_600_PID,                 0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 600 Dota 2 Edition",             DetectSteelSeriesRival600,  STEELSERIES_VID, STEELSERIES_RIVAL_600_DOTA_2_PID,          0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 650",                            DetectSteelSeriesRival650,  STEELSERIES_VID, STEELSERIES_RIVAL_650_PID,                 0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 650 Wireless",                   DetectSteelSeriesRival650,  STEELSERIES_VID, STEELSERIES_RIVAL_650_WIRELESS_PID,        0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                0  );

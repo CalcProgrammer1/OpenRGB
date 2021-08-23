@@ -25,6 +25,17 @@ static const steelseries_rival_led_info rival_650_leds[]=
     {"Right 3",         0x17},
 };
 
+static const steelseries_rival_led_info rival_600_leds[]=
+{
+    {"Left top",        0x02},
+    {"Left mid",        0x04},
+    {"Left bottom",     0x06},
+    {"Right top",       0x03},
+    {"Right mid",       0x05},
+    {"Right bottom",    0x07},
+};
+
+
 RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalController* rival_ptr)
 {
     rival       = rival_ptr;
@@ -52,6 +63,8 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     Pulsate.speed_max  = STEELSERIES_RIVAL_EFFECT_PULSATE_MAX;
     Pulsate.speed      = STEELSERIES_RIVAL_EFFECT_PULSATE_MID;
     modes.push_back(Pulsate);
+
+
 
     SetupZones();
 }
@@ -124,6 +137,43 @@ void RGBController_SteelSeriesRival::SetupZones()
         zones.push_back(mouse_zone);
 
         for(const steelseries_rival_led_info led_info: rival_650_leds)
+        {
+            led mouse_led;
+            mouse_led.name      = led_info.name;
+            mouse_led.value     = led_info.value;
+            leds.push_back(mouse_led);
+        }
+
+    }
+    /* Rival 600 is simular to Rival 650 */
+    else if(rival->GetMouseType() == RIVAL_600)
+    {
+
+        leds[0].value           = 0x01;
+        zone wheel_zone;
+        wheel_zone.name         = "Scroll Wheel";
+        wheel_zone.type         = ZONE_TYPE_SINGLE;
+        wheel_zone.leds_min     = 1;
+        wheel_zone.leds_max     = 1;
+        wheel_zone.leds_count   = 1;
+        wheel_zone.matrix_map   = NULL;
+        zones.push_back(wheel_zone);
+
+        led wheel_led;
+        wheel_led.name          = "Scroll Wheel";
+        wheel_led.value         = 0x00;
+        leds.push_back(wheel_led);
+
+        zone mouse_zone;
+        mouse_zone.name         = "Mouse";
+        mouse_zone.type         = ZONE_TYPE_LINEAR;
+        mouse_zone.leds_min     = 6;
+        mouse_zone.leds_max     = 6;
+        mouse_zone.leds_count   = 6;
+        mouse_zone.matrix_map   = NULL;
+        zones.push_back(mouse_zone);
+
+        for(const steelseries_rival_led_info led_info: rival_600_leds)
         {
             led mouse_led;
             mouse_led.name      = led_info.name;
