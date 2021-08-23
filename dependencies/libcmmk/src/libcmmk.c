@@ -387,10 +387,10 @@ int cmmk_force_layout(struct cmmk *dev, int layout)
 
 int cmmk_get_firmware_version(struct cmmk *dev, char *fw, size_t fwsiz)
 {
-	unsigned char data[65] = { 0x01, 0x02 };
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0x01, 0x02};
 	int r;
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
@@ -483,25 +483,25 @@ const char * cmmk_layout_to_str(int layout)
  */
 int cmmk_set_control_mode(struct cmmk *dev, int mode)
 {
-	unsigned char data[64] = {0x41, mode};
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0x41, mode};
 
-	return send_command(dev->dev, data, sizeof(data));
+    return send_command(dev->dev, data, CMMK_BUFFER_SIZE);
 }
 
 int cmmk_set_active_profile(struct cmmk *dev, int prof)
 {
-	unsigned char setprof[64] = {0x51, 0x00, 0x00, 0x00, prof};
+    unsigned char setprof[CMMK_BUFFER_SIZE] = {0x00, 0x51, 0x00, 0x00, 0x00, prof};
 
-	return send_command(dev->dev, setprof, sizeof(setprof));
+    return send_command(dev->dev, setprof, CMMK_BUFFER_SIZE);
 }
 
 int cmmk_get_active_profile(struct cmmk *dev, int *prof)
 {
 	int r;
 
-	unsigned char getprof[64] = {0x52, 0x00};
+    unsigned char getprof[CMMK_BUFFER_SIZE] = {0x00, 0x52, 0x00};
 
-	if ((r = send_command(dev->dev, getprof, sizeof(getprof))) != 0)
+    if ((r = send_command(dev->dev, getprof, CMMK_BUFFER_SIZE)) != 0)
 		return r;
 
 	*prof = getprof[4];
@@ -511,17 +511,17 @@ int cmmk_get_active_profile(struct cmmk *dev, int *prof)
 
 int cmmk_save_active_profile(struct cmmk *dev)
 {
-	unsigned char saveprof[64] = {0x50, 0x55};
+    unsigned char saveprof[CMMK_BUFFER_SIZE] = {0x00, 0x50, 0x55};
 
-	return send_command(dev->dev, saveprof, sizeof(saveprof));
+    return send_command(dev->dev, saveprof, CMMK_BUFFER_SIZE);
 }
 
 
 static int set_effect1(struct cmmk *dev, int eff)
 {
-	unsigned char data[64] = {0x51, 0x28, 0x00, 0x00, eff};
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0x51, 0x28, 0x00, 0x00, eff};
 
-	return send_command(dev->dev, data, sizeof(data));
+    return send_command(dev->dev, data, CMMK_BUFFER_SIZE);
 }
 
 
@@ -532,25 +532,25 @@ static int set_effect(
 	struct rgb const *col1,
 	struct rgb const *col2)
 {
-	unsigned char data[64] = {
-		0x51, 0x2c, dev->multilayer_mode, 0x00, eff,  p1,   p2,   p3,
-		0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    unsigned char data[CMMK_BUFFER_SIZE] = {
+        0x00, 0x51, 0x2c, dev->multilayer_mode,   0x00,  eff,   p1,
+          p2,   p3, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 	if (col1 != NULL) {
-		data[10] = col1->R;
-		data[11] = col1->G;
-		data[12] = col1->B;
+        data[11] = col1->R;
+        data[12] = col1->G;
+        data[13] = col1->B;
 	}
 
 	if (col2 != NULL) {
-		data[13] = col2->R;
-		data[14] = col2->G;
-		data[15] = col2->B;
+        data[14] = col2->R;
+        data[15] = col2->G;
+        data[16] = col2->B;
 	}
 
-	memset(data + 16, 0xff, 48);
+    memset(data + 17, 0xff, 48);
 
-	return send_command(dev->dev, data, sizeof(data));
+    return send_command(dev->dev, data, CMMK_BUFFER_SIZE);
 }
 
 static int get_effect(
@@ -562,13 +562,13 @@ static int get_effect(
 {
 	int r;
 
-	unsigned char data[64] = {
-		0x52, 0x2c, dev->multilayer_mode, 0x00, eff
+    unsigned char data[CMMK_BUFFER_SIZE] = {
+        0x00, 0x52, 0x2c, dev->multilayer_mode, 0x00, eff
 	};
 
-	memset(data + 5, 0xff, 59);
+    memset(data + 6, 0xff, 59);
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
@@ -612,10 +612,10 @@ int cmmk_set_active_effect(struct cmmk *dev, enum cmmk_effect_id eff)
 
 int cmmk_get_active_effect(struct cmmk *dev, enum cmmk_effect_id *eff)
 {
-	unsigned char data[64] = {0x52, 0x28};
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0x52, 0x28};
 	int r;
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
@@ -640,14 +640,14 @@ int cmmk_get_enabled_effects(
 	size_t siz,
 	size_t *n)
 {
-	unsigned char data[64] = {0x52, 0x29};
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0x52, 0x29};
 
 	size_t i;
 	size_t j = 0;
 
 	int r;
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
@@ -664,16 +664,16 @@ int cmmk_set_enabled_effects(
 	enum cmmk_effect_id const *effs,
 	size_t n)
 {
-	unsigned char data[64] = {0x51, 0x29};
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0x51, 0x29};
 
 	size_t i;
 
 	for (i = 0; i < n; ++i) {
-		data[4 + i] = effs[i];
+        data[5 + i] = effs[i];
 	}
 
 	while (i < 18) {
-		data[4 + i] = 0xff;
+        data[5 + i] = 0xff;
 
 		++i;
 	}
@@ -808,7 +808,8 @@ int cmmk_set_effect_snake(struct cmmk *dev, struct cmmk_effect_snake const *eff)
 
 int cmmk_set_customized_leds(struct cmmk *dev, struct cmmk_color_matrix const *colmap)
 {
-	unsigned char data[64] = {0x51, 0xa8};
+    const unsigned char HEADER_SIZE         = 5;
+    unsigned char data[CMMK_BUFFER_SIZE]    = {0x00, 0x51, 0xa8};
 
 	int i;
 	int j;
@@ -823,10 +824,10 @@ int cmmk_set_customized_leds(struct cmmk *dev, struct cmmk_color_matrix const *c
 	transpose_reverse(dev, colmap, linear);
 
 	for (i = 0; i < 8; ++i) {
-		data[2] = i*2;
+        data[3] = i*2;
 
 		for (j = 0; j < 16; ++j) {
-			int const offset = 4 + (j * 3);
+            int const offset = HEADER_SIZE + (j * 3);
 
 			data[offset] = nextcol->R;
 			data[offset + 1] = nextcol->G;
@@ -835,7 +836,7 @@ int cmmk_set_customized_leds(struct cmmk *dev, struct cmmk_color_matrix const *c
 			++nextcol;
 		}
 
-		send_command(dev->dev, data, sizeof(data));
+        send_command(dev->dev, data, CMMK_BUFFER_SIZE);
 	}
 
 	return CMMK_OK;
@@ -844,12 +845,13 @@ int cmmk_set_customized_leds(struct cmmk *dev, struct cmmk_color_matrix const *c
 int cmmk_get_customized_leds(struct cmmk *dev, struct cmmk_color_matrix *colmap)
 {
 #ifdef _MSC_VER
-	struct rgb linear[CMMK_KEYLIST_SIZE] = { 0 };
+    struct rgb linear[CMMK_KEYLIST_SIZE] = { 0 };
 #else
-	struct rgb linear[CMMK_KEYLIST_SIZE] = {};
+    struct rgb linear[CMMK_KEYLIST_SIZE] = {};
 #endif
 
-	unsigned char data[64] = {0x52, 0xa8};
+    const unsigned char HEADER_SIZE         = 5;
+    unsigned char data[CMMK_BUFFER_SIZE]    = {0x00, 0x52, 0xa8};
 
 	int i;
 	int j;
@@ -857,12 +859,12 @@ int cmmk_get_customized_leds(struct cmmk *dev, struct cmmk_color_matrix *colmap)
 	struct rgb *ptr = linear;
 
 	for (i = 0; i < 8; ++i) {
-		data[2] = i * 2;
+        data[3] = i * 2;
 
-		send_command(dev->dev, data, sizeof(data));
+        send_command(dev->dev, data, CMMK_BUFFER_SIZE);
 
 		for (j = 0; j < 16; ++j) {
-			int const offset = 4 + (j * 3);
+            int const offset = (HEADER_SIZE - 1) + (j * 3);
 
 			ptr->R = data[offset];
 			ptr->G = data[offset + 1];
@@ -886,40 +888,47 @@ int cmmk_switch_multilayer(struct cmmk *dev, int active)
 
 int cmmk_get_multilayer_map(struct cmmk *dev, struct cmmk_effect_matrix *effmap)
 {
-	int r;
+    const unsigned char HEADER_SIZE         = 9;
+    unsigned char data_size                 = CMMK_BUFFER_SIZE - HEADER_SIZE;
+    unsigned char data_size_in_bytes        = data_size / BYTE_SIZE;
+    int r;
 
-	unsigned char data[64] = {0x52, 0xa0, 0x01, 0x00};
-	uint8_t linear[CMMK_KEYLIST_SIZE];
+    unsigned char data[CMMK_BUFFER_SIZE];
+    unsigned char header[CMMK_BUFFER_SIZE]  = {0x00, 0x51, 0xa0, 0x01, 0x00};
+    uint8_t linear[CMMK_KEYLIST_SIZE];
 
 	/* Call 1 */
-	data[4] = 0x00;
-	data[5] = 0x07;
+    memcpy(data, header, HEADER_SIZE);
+    data[5] = 0x00;
+    data[6] = 0x07;
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
-	memcpy(linear, data + 8, 56);
+    memcpy(linear, data + HEADER_SIZE - 1, data_size);
 
 	/* Call 2 */
-	data[4] = 0x07;
-	data[5] = 0x07;
+    memcpy(data, header, HEADER_SIZE);
+    data[5] = 0x07;
+    data[6] = 0x07;
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
-	memcpy(linear + 56, data + 8, 56);
+    memcpy(linear + 56, data + HEADER_SIZE - 1, data_size);
 
 	/* Call 3 */
-	data[4] = 0x0e;
-	data[5] = 0x01;
+    memcpy(data, header, HEADER_SIZE);
+    data[5] = 0x0e;
+    data[6] = 0x01;
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
-	memcpy(linear + 112, data + 8, 8);
+    memcpy(linear + 112, data + HEADER_SIZE - 1, data_size);
 
 	transpose_effects(dev, linear, effmap);
 
@@ -928,40 +937,47 @@ int cmmk_get_multilayer_map(struct cmmk *dev, struct cmmk_effect_matrix *effmap)
 
 int cmmk_set_multilayer_map(struct cmmk *dev, struct cmmk_effect_matrix const *effmap)
 {
+    const unsigned char HEADER_SIZE         = 9;
+    unsigned char data_size                 = CMMK_BUFFER_SIZE - HEADER_SIZE;
+    unsigned char data_size_in_bytes        = data_size / BYTE_SIZE;
 	int r;
 
-	unsigned char data[64] = {0x51, 0xa0, 0x01, 0x00};
-	uint8_t linear[CMMK_KEYLIST_SIZE] = {0};
+    unsigned char data[CMMK_BUFFER_SIZE];
+    unsigned char header[CMMK_BUFFER_SIZE]  = {0x00, 0x51, 0xa0, 0x01, 0x00};
+    uint8_t linear[CMMK_KEYLIST_SIZE]       = {0};
 
 	transpose_effects_reverse(dev, effmap, linear);
 
 	/* Call 1 */
-	data[4] = 0x00;
-	data[5] = 0x07;
+    memcpy(data, header, HEADER_SIZE);
+    data[5] = 0x00;
+    data[6] = 0x07;
 
-	memcpy(data + 8, linear, 56);
+    memcpy(data + HEADER_SIZE, linear, data_size);
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
 	/* Call 2 */
-	data[4] = 0x07;
-	data[5] = 0x07;
+    memcpy(data, header, HEADER_SIZE);
+    data[5] = 0x07;
+    data[6] = 0x07;
 
-	memcpy(data + 8, linear + 56, 56);
+    memcpy(data + HEADER_SIZE, linear + 56, data_size);
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
 	/* Call 3 */
-	data[4] = 0x0e;
-	data[5] = 0x01;
+    memcpy(data, header, HEADER_SIZE);
+    data[5] = 0x0e;
+    data[6] = 0x01;
 
-	memcpy(data + 8, linear + 112, 8);
+    memcpy(data + HEADER_SIZE, linear + 112, data_size);
 
-	if ((r = send_command(dev->dev, data, sizeof(data))) != 0) {
+    if ((r = send_command(dev->dev, data, CMMK_BUFFER_SIZE)) != 0) {
 		return r;
 	}
 
@@ -980,7 +996,7 @@ int cmmk_lookup_key_id(struct cmmk *dev, int row, int col)
  */
 int cmmk_set_single_key_by_id(struct cmmk *dev, int key, struct rgb const *color)
 {
-	unsigned char data[64] = {0xc0, 0x01, 0x01, 0x00, key, color->R, color->G, color->B};
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0xc0, 0x01, 0x01, 0x00, key, color->R, color->G, color->B};
 
 	return send_command(dev->dev, data, sizeof(data));
 }
@@ -1001,7 +1017,7 @@ int cmmk_set_single_key(struct cmmk *dev, int row, int col, struct rgb const *co
  */
 int cmmk_set_all_single(struct cmmk *dev, struct rgb const *col)
 {
-	unsigned char data[64] = {0xc0, 0x00, 0x00, 0x00, col->R, col->G, col->B};
+    unsigned char data[CMMK_BUFFER_SIZE] = {0x00, 0xc0, 0x00, 0x00, 0x00, col->R, col->G, col->B};
 
 	return send_command(dev->dev, data, sizeof(data));
 }
@@ -1019,7 +1035,7 @@ int cmmk_set_all_single(struct cmmk *dev, struct rgb const *col)
  */
 int cmmk_set_leds(struct cmmk *dev, struct cmmk_color_matrix const *colmap)
 {
-	unsigned char data[64];
+    unsigned char data[CMMK_BUFFER_SIZE];
 
 	int i;
 	int j;
@@ -1034,13 +1050,14 @@ int cmmk_set_leds(struct cmmk *dev, struct cmmk_color_matrix const *colmap)
 	transpose_reverse(dev, colmap, linear);
 
 	for (i = 0; i < 8; ++i) {
-		data[0] = 0xc0;
-		data[1] = 0x02;
-		data[2] = i*2;
-		data[3] = 0x00;
+        data[0] = 0x00;
+        data[1] = 0xc0;
+        data[2] = 0x02;
+        data[3] = i*2;
+        data[4] = 0x00;
 
 		for (j = 0; j < 16; ++j) {
-			int const offset = 4 + (j * 3);
+            int const offset = 5 + (j * 3);
 
 			data[offset] = nextcol->R;
 			data[offset + 1] = nextcol->G;
@@ -1049,7 +1066,7 @@ int cmmk_set_leds(struct cmmk *dev, struct cmmk_color_matrix const *colmap)
 			++nextcol;
 		}
 
-		send_command(dev->dev, data, sizeof(data));
+        send_command(dev->dev, data, CMMK_BUFFER_SIZE);
 	}
 
 	return CMMK_OK;

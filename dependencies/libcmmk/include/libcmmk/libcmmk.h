@@ -25,10 +25,13 @@
 extern "C" {
 #endif
 
+#define BYTE_SIZE     8
+
 #define CMMK_ROWS_MAX 7
 #define CMMK_COLS_MAX 22
 
 #define CMMK_KEYLIST_SIZE 256
+#define CMMK_BUFFER_SIZE  65
 
 /*
  * If we have C99 support (which we do, because libusb-1.0 requires it...), define some handy
@@ -65,7 +68,7 @@ enum cmmk_product {
 	CMMK_USB_MASTERKEYS_PRO_L = 0x003b,
 	CMMK_USB_MASTERKEYS_PRO_L_WHITE = 0x0047,
 	CMMK_USB_MASTERKEYS_PRO_S = 0x003c,
-	CMMK_USB_MASTERKEYS_MK750 = 0x0067,
+    CMMK_USB_MASTERKEYS_MK750 = 0x0067,
 	CMMK_USB_MASTERKEYS_SK630 = 0x0089,
 	CMMK_USB_MASTERKEYS_SK650 = 0x008d,
 };

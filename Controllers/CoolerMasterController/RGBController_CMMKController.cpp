@@ -14,141 +14,157 @@
 
 using namespace std::chrono_literals;
 
-#define CMMK_SPEED_MIN      CMMK_SPEED0
-#define CMMK_SPEED_MID      CMMK_SPEED2 
-#define CMMK_SPEED_MAX      CMMK_SPEED4
-#define CMMK_MODE_FIRMWARE  0xFF
-#define CMMK_MODE_MANUAL    0x7F
+#define CMMK_SPEED_MIN          CMMK_SPEED0
+#define CMMK_SPEED_MID          CMMK_SPEED2
+#define CMMK_SPEED_MAX          CMMK_SPEED4
+#define CMMK_MODE_FIRMWARE      0xFF
+#define CMMK_MODE_MANUAL        0x7F
 
 RGBController_CMMKController::RGBController_CMMKController(CMMKController* cmmk_ctrl)
 {
-    cmmk        = cmmk_ctrl;
+    cmmk                        = cmmk_ctrl;
 
-    name        = cmmk->GetDeviceName();
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Cooler Master MasterKeys Device";
-    version     = cmmk->GetFirmwareVersion();
-    serial      = "";
-    location    = cmmk->GetLocation();
+    name                        = cmmk->GetDeviceName();
+    type                        = DEVICE_TYPE_KEYBOARD;
+    description                 = "Cooler Master MasterKeys Device";
+    version                     = cmmk->GetFirmwareVersion();
+    serial                      = "";
+    location                    = cmmk->GetLocation();
     
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = CMMK_MODE_MANUAL;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = CMMK_MODE_MANUAL;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = CMMK_EFFECT_FULLY_LIT;
-    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min = 1;
-    Static.colors_max = 1;
+    Static.name                 = "Static";
+    Static.value                = CMMK_EFFECT_FULLY_LIT;
+    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors_min           = 1;
+    Static.colors_max           = 1;
     Static.colors.resize(1);
     modes.push_back(Static);
     
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = CMMK_EFFECT_BREATHE;
-    Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
-    Breathing.speed_min  = 0x20;
-    Breathing.speed_max  = 0x20;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 1;
+    Breathing.name              = "Breathing";
+    Breathing.value             = CMMK_EFFECT_BREATHE;
+    Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.speed_min         = CMMK_SPEED_MIN;
+    Breathing.speed_max         = CMMK_SPEED_MAX;
+    Breathing.speed             = CMMK_SPEED_MID;
+    Breathing.colors_min        = 1;
+    Breathing.colors_max        = 1;
     Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     mode Cycle;
-    Cycle.name       = "Spectrum Cycle";
-    Cycle.value      = CMMK_EFFECT_CYCLE;
-    Cycle.flags      = MODE_FLAG_HAS_SPEED;
-    Cycle.speed_min  = CMMK_SPEED_MIN;
-    Cycle.speed_max  = CMMK_SPEED_MAX;
-    Cycle.color_mode = MODE_COLORS_NONE;
+    Cycle.name                  = "Spectrum Cycle";
+    Cycle.value                 = CMMK_EFFECT_CYCLE;
+    Cycle.flags                 = MODE_FLAG_HAS_SPEED;
+    Cycle.color_mode            = MODE_COLORS_NONE;
+    Cycle.speed_min             = 2 * CMMK_SPEED_MIN; //Spectrum Cycle uses a unique speed range
+    Cycle.speed_max             = 2 * CMMK_SPEED_MAX;
+    Cycle.speed                 = 2 * CMMK_SPEED_MID;
     modes.push_back(Cycle);
 
     mode Reactive;
-    Reactive.name       = "Reactive";
-    Reactive.value      = CMMK_EFFECT_SINGLE;
-    Reactive.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
-    Reactive.speed_min  = CMMK_SPEED_MIN;
-    Reactive.speed_max  = CMMK_SPEED_MAX;
-    Reactive.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Reactive.colors_min = 2;
-    Reactive.colors_max = 2;
+    Reactive.name               = "Reactive";
+    Reactive.value              = CMMK_EFFECT_SINGLE;
+    Reactive.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Reactive.color_mode         = MODE_COLORS_MODE_SPECIFIC;
+    Reactive.speed_min          = CMMK_SPEED_MIN;
+    Reactive.speed_max          = CMMK_SPEED_MAX;
+    Reactive.speed              = CMMK_SPEED_MID;
+    Reactive.colors_min         = 2;
+    Reactive.colors_max         = 2;
     Reactive.colors.resize(2);
     modes.push_back(Reactive);
 
     mode Wave;
-    Wave.name       = "Rainbow Wave";
-    Wave.value      = CMMK_EFFECT_WAVE;
-    Wave.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD;
-    Wave.speed_min  = CMMK_SPEED_MIN;
-    Wave.speed_max  = CMMK_SPEED_MAX;
-    Wave.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Wave.colors_min = 1;
-    Wave.colors_max = 1;
+    Wave.name                   = "Rainbow Wave";
+    Wave.value                  = CMMK_EFFECT_WAVE;
+    Wave.flags                  = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD;
+    Wave.color_mode             = MODE_COLORS_MODE_SPECIFIC;
+    Wave.speed_min              = CMMK_SPEED_MIN;
+    Wave.speed_max              = CMMK_SPEED_MAX;
+    Wave.speed                  = CMMK_SPEED_MID;
+    Wave.direction              = MODE_DIRECTION_LEFT;
+    Wave.colors_min             = 1;
+    Wave.colors_max             = 1;
     Wave.colors.resize(1);
     modes.push_back(Wave);
     
     mode Ripple;
-    Ripple.name       = "Ripple Effect";
-    Ripple.value      = CMMK_EFFECT_RIPPLE;
-    Ripple.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED;
-    Ripple.speed_min  = CMMK_SPEED_MIN;
-    Ripple.speed_max  = CMMK_SPEED_MAX;
-    Ripple.colors_min = 2;
-    Ripple.colors_max = 2;
+    Ripple.name                 = "Ripple Effect";
+    Ripple.value                = CMMK_EFFECT_RIPPLE;
+    Ripple.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED;
+    Ripple.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+    Ripple.speed_min            = CMMK_SPEED_MIN;
+    Ripple.speed_max            = CMMK_SPEED_MAX;
+    Ripple.speed                = CMMK_SPEED_MID;
+    Ripple.colors_min           = 2;
+    Ripple.colors_max           = 2;
     Ripple.colors.resize(2);
     modes.push_back(Ripple);
     
     mode Cross;
-    Cross.name       = "Cross";
-    Cross.value      = CMMK_EFFECT_CROSS;
-    Cross.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
-    Cross.speed_min  = CMMK_SPEED_MIN;
-    Cross.speed_max  = CMMK_SPEED_MAX;
-    Cross.colors_min = 2;
-    Cross.colors_max = 2;
+    Cross.name                  = "Cross";
+    Cross.value                 = CMMK_EFFECT_CROSS;
+    Cross.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Cross.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+    Cross.speed_min             = CMMK_SPEED_MIN;
+    Cross.speed_max             = CMMK_SPEED_MAX;
+    Cross.speed                 = CMMK_SPEED_MID;
+    Cross.colors_min            = 2;
+    Cross.colors_max            = 2;
     Cross.colors.resize(2);
     modes.push_back(Cross);
 
     mode Raindrops;
-    Raindrops.name       = "Raindrops";
-    Raindrops.value      = CMMK_EFFECT_RAINDROPS;
-    Raindrops.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
-    Raindrops.speed_min  = CMMK_SPEED_MIN;
-    Raindrops.speed_max  = CMMK_SPEED_MAX;
-    Raindrops.colors_min = 2;
-    Raindrops.colors_max = 2;
+    Raindrops.name              = "Raindrops";
+    Raindrops.value             = CMMK_EFFECT_RAINDROPS;
+    Raindrops.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Raindrops.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Raindrops.speed_min         = CMMK_SPEED_MIN;
+    Raindrops.speed_max         = CMMK_SPEED_MAX;
+    Raindrops.speed             = CMMK_SPEED_MID;
+    Raindrops.colors_min        = 2;
+    Raindrops.colors_max        = 2;
     Raindrops.colors.resize(2);
     modes.push_back(Raindrops);
     
     mode Stars;
-    Stars.name       = "Starfield";
-    Stars.value      = CMMK_EFFECT_STARS;
-    Stars.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
-    Stars.speed_min  = CMMK_SPEED_MIN;
-    Stars.speed_max  = CMMK_SPEED_MAX;
-    Stars.colors_min = 2;
+    Stars.name                  = "Starfield";
+    Stars.value                 = CMMK_EFFECT_STARS;
+    Stars.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Stars.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+    Stars.speed_min             = CMMK_SPEED_MIN;
+    Stars.speed_max             = CMMK_SPEED_MAX;
+    Stars.speed                 = CMMK_SPEED_MID;
+    Stars.colors_min            = 2;
     Stars.colors_max = 2;
     Stars.colors.resize(2);
     modes.push_back(Stars);
 
     mode Snake;
-    Snake.name      = "Snake";
-    Snake.value     = CMMK_EFFECT_SNAKE;
-    Snake.flags     = MODE_FLAG_HAS_SPEED;
-    Snake.speed_min = CMMK_SPEED_MIN;
-    Snake.speed_max = CMMK_SPEED_MAX;
+    Snake.name                  = "Snake";
+    Snake.value                 = CMMK_EFFECT_SNAKE;
+    Snake.flags                 = MODE_FLAG_HAS_SPEED;
+    Snake.color_mode            = MODE_COLORS_NONE;
+    Snake.speed_min             = CMMK_SPEED_MIN;
+    Snake.speed_max             = CMMK_SPEED_MAX;
+    Snake.speed                 = CMMK_SPEED_MID;
     modes.push_back(Snake);
 
     mode FirmwareControl;
-    FirmwareControl.name  = "Firmware Controlled";
-    FirmwareControl.value = 0xFF;
-    FirmwareControl.flags = 0;
+    FirmwareControl.name        = "Firmware Controlled";
+    FirmwareControl.value       = 0xFF;
+    FirmwareControl.flags       = 0;
+    FirmwareControl.color_mode  = MODE_COLORS_NONE;
     modes.push_back(FirmwareControl);
 
     SetupZones();

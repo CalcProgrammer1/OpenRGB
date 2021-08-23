@@ -114,16 +114,19 @@ ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /s
 #       Masterkeys SK650                                        #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0101", TAG+="uaccess"          #MM711
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0105", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1011", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1000", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="014d", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0047", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="003c", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0067", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0089", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="008d", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uaccess"          #MP750 XL
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0105", TAG+="uaccess"          #MP750 M
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1011", TAG+="uaccess"          #ARGB
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1000", TAG+="uaccess"          #Small ARGB
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="004f", TAG+="uaccess"          #RGB
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="014d", TAG+="uaccess"          #Radeon 6000
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="003b", TAG+="uaccess"          #Masterkeys Pro L
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0047", TAG+="uaccess"          #Masterkeys Pro L White
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="003c", TAG+="uaccess"          #Masterkeys Pro S
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0067", TAG+="uaccess"          #Masterkeys MK750
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0089", TAG+="uaccess"          #Masterkeys SK630
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="008d", TAG+="uaccess"          #Masterkeys SK650
+
 
 #---------------------------------------------------------------#
 #  Corsair Hydro Series Devices                                 #
