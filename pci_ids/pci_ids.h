@@ -89,6 +89,7 @@
 /*-----------------------------------------------------*\
 | ASUS Sub-Device IDs                                   |
 \*-----------------------------------------------------*/
+#define ASUS_GTX1060_STRIX_6G_GAMING                    0x85A4
 #define ASUS_GTX1060_STRIX                              0x85AC
 #define ASUS_GTX1070_STRIX_GAMING                       0x8598
 #define ASUS_GTX1070_STRIX_OC                           0x8599

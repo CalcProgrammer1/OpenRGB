@@ -32,6 +32,7 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
+    { NVIDIA_VEN,       NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,       ASUS_GTX1060_STRIX_6G_GAMING,           0x29,   "ASUS GTX 1060 Strix 6G Gaming"             },
     { NVIDIA_VEN,       NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,       ASUS_GTX1060_STRIX,                     0x29,   "ASUS GTX 1060 Strix"                       },
     { NVIDIA_VEN,       NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,       ASUS_GTX1070_STRIX_GAMING,              0x29,   "ASUS GTX 1070 Strix Gaming"                },
     { NVIDIA_VEN,       NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,       ASUS_GTX1070_STRIX_OC,                  0x29,   "ASUS GTX 1070 Strix OC"                    },
