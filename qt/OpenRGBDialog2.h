@@ -4,6 +4,7 @@
 #include "ui_OpenRGBDialog2.h"
 
 #include "OpenRGBClientInfoPage.h"
+#include "OpenRGBPluginsPage/OpenRGBPluginsPage.h"
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBSupportedDevicesPage.h"
@@ -44,6 +45,8 @@ public:
     void AddI2CToolsPage();
     void AddServerTab();
 
+    void AddPluginTab(OpenRGBPluginInterface* plugin);
+
     void setMode(unsigned char mode_val);
 
     static bool IsDarkTheme();
@@ -54,6 +57,7 @@ private:
     | Page pointers                         |
     \*-------------------------------------*/
     OpenRGBClientInfoPage *ClientInfoPage;
+    OpenRGBPluginsPage *PluginsPage;
     OpenRGBSystemInfoPage *SMBusToolsPage;
     OpenRGBSoftwareInfoPage *SoftInfoPage;
     OpenRGBSupportedDevicesPage *SupportedPage;
@@ -81,7 +85,7 @@ private:
     void AddE131SettingsPage();
     void AddQMKORGBSettingsPage();
     void AddSerialSettingsPage();
-    void AddPluginTab(PluginManager* plugin_manager,int plugin_index);
+    void AddPluginsPage(PluginManager* plugin_manager);
 
     void ClearDevicesList();
     void UpdateDevicesList();
