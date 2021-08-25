@@ -96,7 +96,7 @@ static void UpdateDetectionProgressCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
 }
 
-static void CreatePluginTabCallback(void * this_ptr, OpenRGBPluginInterface * plugin)
+static void CreatePluginTabCallback(void * this_ptr, OpenRGBPluginEntry plugin)
 {
     OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
 
@@ -690,7 +690,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
 
-void OpenRGBDialog2::AddPluginTab(OpenRGBPluginInterface* plugin)
+void OpenRGBDialog2::AddPluginTab(OpenRGBPluginEntry plugin)
 {
     /*-----------------------------------------------------*\
     | Create Label for the Tab                              |
@@ -701,41 +701,28 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginInterface* plugin)
     | If the plugin has custom information, use it,         |
     | otherwise generate it                                 |
     \*-----------------------------------------------------*/
-    if(plugin->info.HasCustom)
+    QString PluginLabelString;
+
+    if(IsDarkTheme())
     {
-        PluginTabLabel = plugin->info.PluginLabel;
+        PluginLabelString = "plugin_dark.png";
     }
     else
     {
-        QLabel *TabLabelText = plugin->info.PluginLabel;
-        QString PluginLabelString;
-
-        if(IsDarkTheme())
-        {
-            PluginLabelString = "plugin_dark.png";
-        }
-        else
-        {
-            PluginLabelString = "plugin.png";
-        }
-
-        /*-----------------------------------------------------*\
-        | Create the tab label                                  |
-        \*-----------------------------------------------------*/
-        PluginTabLabel = (QLabel*)new TabLabel(PluginLabelString, TabLabelText->text());
+        PluginLabelString = "plugin.png";
     }
 
     /*-----------------------------------------------------*\
-    | Determine plugin location                             |
+    | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    std::string Location = plugin->info.PluginLocation;
+    PluginTabLabel = (QLabel*)new TabLabel(PluginLabelString, QString::fromStdString(plugin.info.Label));
 
     /*-----------------------------------------------------*\
     | InformationTab - Place plugin in the Information tab  |
     \*-----------------------------------------------------*/
-    if(Location == "InformationTab")
+    if(plugin.info.Location == "InformationTab")
     {
-        QWidget* NewPluginTab = plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin.plugin->CreateGUI(this);
 
         OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
 
@@ -746,9 +733,9 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginInterface* plugin)
     /*-----------------------------------------------------*\
     | DevicesTab - Place plugin in the Devices tab          |
     \*-----------------------------------------------------*/
-    else if(Location == "DevicesTab")
+    else if(plugin.info.Location == "DevicesTab")
     {
-        QWidget* NewPluginTab = plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin.plugin->CreateGUI(this);
 
         OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
 
@@ -759,20 +746,20 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginInterface* plugin)
     /*-----------------------------------------------------*\
     | TopTabBar - Place plugin as its own top level tab     |
     \*-----------------------------------------------------*/
-    else if(Location == "TopTabBar")
+    else if(plugin.info.Location == "TopTabBar")
     {
-        QWidget* NewPluginTab = plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin.plugin->CreateGUI(this);
 
         OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
 
-        ui->MainTabBar->addTab(NewPluginContainer,QString().fromStdString(plugin->info.PluginName));
+        ui->MainTabBar->addTab(NewPluginContainer,QString().fromStdString(plugin.info.Label));
     }
     /*-----------------------------------------------------*\
     | SettingsTabBar - Place plugin in the Settings tab     |
     \*-----------------------------------------------------*/
-    else if(Location == "SettingsTabBar")
+    else if(plugin.info.Location == "SettingsTabBar")
     {
-        QWidget* NewPluginTab = plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin.plugin->CreateGUI(this);
 
         OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
 
@@ -786,7 +773,7 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginInterface* plugin)
     \*-----------------------------------------------------*/
     else
     {
-        std::cout << ("Cannot load plugin '" + plugin->info.PluginName + "' as it does not specify a valid location: " + Location + "\n");
+        std::cout << ("Cannot load plugin '" + plugin.info.Name + "' as it does not specify a valid location: " + plugin.info.Location + "\n");
     }
 }
 

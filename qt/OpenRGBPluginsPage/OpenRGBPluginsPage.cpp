@@ -1,5 +1,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 
 #include "filesystem.h"
 #include "OpenRGBPluginsPage.h"
@@ -29,22 +31,43 @@ void Ui::OpenRGBPluginsPage::RefreshList()
     {
         OpenRGBPluginsEntry* entry = new OpenRGBPluginsEntry();
 
-        entry->ui->NameValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].plugin->info.PluginName));
-        entry->ui->DescriptionValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].plugin->info.PluginDescription));
+        /*---------------------------------------------------------*\
+        | Fill in plugin information fields                         |
+        \*---------------------------------------------------------*/
+        entry->ui->NameValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Name));
+        entry->ui->DescriptionValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Description));
+        entry->ui->VersionValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Version));
+        entry->ui->CommitValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Commit));
+        entry->ui->URLValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.URL));
+
+        /*---------------------------------------------------------*\
+        | Fill in plugin icon                                       |
+        \*---------------------------------------------------------*/
+        QPixmap pixmap(QPixmap::fromImage(plugin_manager->ActivePlugins[plugin_idx].info.Icon));
+
+        entry->ui->IconView->setPixmap(pixmap);
+        entry->ui->IconView->setScaledContents(true);
+
+        /*---------------------------------------------------------*\
+        | Fill in plugin path                                       |
+        \*---------------------------------------------------------*/
         entry->ui->PathValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].path));
+
+        /*---------------------------------------------------------*\
+        | Fill in plugin enabled status                             |
+        \*---------------------------------------------------------*/
         entry->ui->EnabledCheckBox->setChecked((plugin_manager->ActivePlugins[plugin_idx].enabled));
 
-        //TODO: Get plugin enable/disable working
-        // Until then, hide the enable checkbox
-        entry->ui->EnabledLabel->setVisible(false);
-        entry->ui->EnabledCheckBox->setVisible(false);
-
+        /*---------------------------------------------------------*\
+        | Add the entry to the plugin list                          |
+        \*---------------------------------------------------------*/
         QListWidgetItem* item = new QListWidgetItem;
 
         item->setSizeHint(entry->sizeHint());
 
         ui->PluginsList->addItem(item);
         ui->PluginsList->setItemWidget(item, entry);
+
         entries.push_back(entry);
     }
 }

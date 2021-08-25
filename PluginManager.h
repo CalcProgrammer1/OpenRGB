@@ -13,12 +13,13 @@
 
 typedef struct
 {
+    OpenRGBPluginInfo           info;
     OpenRGBPluginInterface*     plugin;
     std::string                 path;
     bool                        enabled;
 } OpenRGBPluginEntry;
 
-typedef void (*AddPluginTabCallback)(void *, OpenRGBPluginInterface* plugin);
+typedef void (*AddPluginTabCallback)(void *, OpenRGBPluginEntry plugin);
 
 class PluginManager
 {

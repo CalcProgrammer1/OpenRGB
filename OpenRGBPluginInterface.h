@@ -14,16 +14,22 @@
 #include <QtPlugin>
 #include <QLabel>
 
-#define OpenRGBPluginInterface_IID "com.OpenRGBPluginInterface"
+#define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
+
+#define OPENRGB_PLUGIN_API_VERSION  1
 
 struct OpenRGBPluginInfo
 {
-    std::string                 PluginName;
-    std::string                 PluginDescription;
-    std::string                 PluginLocation;
+    std::string                 Name;
+    std::string                 Description;
+    std::string                 Version;
+    std::string                 Commit;
+    std::string                 URL;
 
-    bool                        HasCustom;
-    QLabel                      *PluginLabel;
+    std::string                 Location;
+    std::string                 Label;
+
+    QImage                      Icon;
 };
 
 class OpenRGBPluginInterface
@@ -31,11 +37,18 @@ class OpenRGBPluginInterface
 public:
     virtual                    ~OpenRGBPluginInterface() {}
 
-    virtual OpenRGBPluginInfo   Initialize(bool dark_theme, ResourceManager* resource_manager_ptr)  = 0;
+    /*-------------------------------------------------------------------------------------------------*\
+    | Plugin Information                                                                                |
+    \*-------------------------------------------------------------------------------------------------*/
+    virtual OpenRGBPluginInfo   GetPluginInfo()                                                     = 0;
+    virtual unsigned int        GetPluginAPIVersion()                                               = 0;
 
+    /*-------------------------------------------------------------------------------------------------*\
+    | Plugin Functionality                                                                              |
+    \*-------------------------------------------------------------------------------------------------*/
+    virtual void                Initialize(bool dark_theme, ResourceManager* resource_manager_ptr)  = 0;
     virtual QWidget            *CreateGUI(QWidget* parent)                                          = 0;
-
-    OpenRGBPluginInfo           info;
+    virtual void                Unload()                                                            = 0;
 };
 
 Q_DECLARE_INTERFACE(OpenRGBPluginInterface, OpenRGBPluginInterface_IID)
