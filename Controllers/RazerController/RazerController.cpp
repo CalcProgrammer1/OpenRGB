@@ -81,6 +81,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_PID:
+        case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_PID:
         case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_FIREFLY_V2_PID:
@@ -104,6 +105,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_V2_PID:
             dev_led_id = RAZER_LED_ID_ZERO;
             break;
@@ -121,6 +123,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_HUNTSMAN_TE_PID:
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
+        case RAZER_CORE_PID:
         case RAZER_FIREFLY_PID:
         default:
             dev_led_id = RAZER_LED_ID_BACKLIGHT;
@@ -166,6 +169,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_STEALTH_LATE_2020_PID:
         case RAZER_BOOK_13_2020_PID:
         case RAZER_NAGA_HEX_V2_PID:
+        case RAZER_CORE_PID:
             matrix_type = RAZER_MATRIX_TYPE_STANDARD;
             break;
 
@@ -184,6 +188,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
+        case RAZER_CORE_X_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHADDER_ELITE_PID:
@@ -477,6 +482,7 @@ bool RazerController::SupportsWave()
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CORE_PID:
+        case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_PID:
         case RAZER_FIREFLY_V2_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:

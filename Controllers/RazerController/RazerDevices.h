@@ -158,6 +158,7 @@
 #define RAZER_CHROMA_MUG_PID                            0x0F07
 #define RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID           0x0F0E
 #define RAZER_CORE_PID                                  0x0215
+#define RAZER_CORE_X_PID                                0x0F1A
 #define RAZER_FIREFLY_HYPERFLUX_PID                     0x0068
 #define RAZER_FIREFLY_PID                               0x0C00
 #define RAZER_FIREFLY_V2_PID                            0x0C04
@@ -5679,6 +5680,53 @@ static const razer_device core_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Core X                                                 |
+|                                                               |
+|  Zone "Side Window Lights"                                    |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       15 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone core_x_side_zone =
+{
+    "Side Window Lights",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone core_x_led_strip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_device core_x_device =
+{
+    "Razer Core X",
+    RAZER_CORE_X_PID,
+    DEVICE_TYPE_UNKNOWN,
+    true,
+    1,
+    16,
+    {
+        &core_x_side_zone,
+        &core_x_led_strip_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Chroma Mug Holder                                      |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -6292,6 +6340,7 @@ static const razer_device* device_list[] =
     &chromahdk_device,
     &chroma_pc_case_lighting_kit_device,
     &core_device,
+    &core_x_device,
     &mug_holder_device,
     &mouse_dock_chroma_device,
     &nommo_chroma_device,

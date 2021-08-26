@@ -329,6 +329,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Chroma HDK",                                Det
 REGISTER_HID_DETECTOR_IPU("Razer Chroma Mug Holder",                         DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_MUG_PID,                           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Chroma PC Case Lighting Kit",               DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID,          0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Core",                                      DetectRazerControllers,        RAZER_VID,  RAZER_CORE_PID,                                 0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Core X",                                    DetectRazerControllers,        RAZER_VID,  RAZER_CORE_X_PID,                               0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mouse Bungee V3 Chroma",                    DetectRazerControllers,        RAZER_VID,  RAZER_MOUSE_BUNGEE_V3_CHROMA_PID,               0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mouse Dock Chroma",                         DetectRazerControllers,        RAZER_VID,  RAZER_MOUSE_DOCK_CHROMA_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Nommo Chroma",                              DetectRazerControllers,        RAZER_VID,  RAZER_NOMMO_CHROMA_PID,                         0x00,   0x01,   0x03);
