@@ -7,6 +7,13 @@
 #include "OpenRGBPluginsPage.h"
 #include "ui_OpenRGBPluginsPage.h"
 
+void EnableClickCallbackFunction(void* this_ptr, void* entry_ptr)
+{
+    Ui::OpenRGBPluginsPage* this_page = (Ui::OpenRGBPluginsPage*)this_ptr;
+
+    this_page->on_EnableButton_clicked((Ui::OpenRGBPluginsEntry*)entry_ptr);
+}
+
 Ui::OpenRGBPluginsPage::OpenRGBPluginsPage(PluginManager* plugin_manager_ptr, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OpenRGBPluginsPageUi)
@@ -57,6 +64,8 @@ void Ui::OpenRGBPluginsPage::RefreshList()
         | Fill in plugin enabled status                             |
         \*---------------------------------------------------------*/
         entry->ui->EnabledCheckBox->setChecked((plugin_manager->ActivePlugins[plugin_idx].enabled));
+
+        entry->RegisterEnableClickCallback(EnableClickCallbackFunction, this);
 
         /*---------------------------------------------------------*\
         | Add the entry to the plugin list                          |
@@ -153,3 +162,77 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
+void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
+{
+    /*-----------------------------------------------------*\
+    | Open plugin list and check if plugin is in the list   |
+    \*-----------------------------------------------------*/
+    json plugin_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Plugins");
+
+    /*-----------------------------------------------------*\
+    | Search the settings to find the correct index         |
+    \*-----------------------------------------------------*/
+    std::string     name        = "";
+    std::string     description = "";
+    bool            enabled     = true;
+    bool            found       = false;
+    unsigned int    plugin_ct   = 0;
+    unsigned int    plugin_idx  = 0;
+
+    std::string     entry_name  = entry->ui->NameValue->text().toStdString();
+    std::string     entry_desc  = entry->ui->DescriptionValue->text().toStdString();
+
+    if(entry->ui->EnabledCheckBox->isChecked())
+    {
+        enabled                 = true;
+    }
+    else
+    {
+        enabled                 = false;
+    }
+
+    if(plugin_settings.contains("plugins"))
+    {
+        plugin_ct = plugin_settings["plugins"].size();
+
+        for(plugin_idx = 0; plugin_idx < plugin_settings["plugins"].size(); plugin_idx++)
+        {
+            if(plugin_settings["plugins"][plugin_idx].contains("name"))
+            {
+                name        = plugin_settings["plugins"][plugin_idx]["name"];
+            }
+
+            if(plugin_settings["plugins"][plugin_idx].contains("description"))
+            {
+                description = plugin_settings["plugins"][plugin_idx]["description"];
+            }
+
+            if((entry_name == name)
+             &&(entry_desc == description))
+            {
+                found = true;
+                break;
+            }
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | If the plugin was not in the list, add it to the list |
+    | and default it to enabled, then save the settings     |
+    \*-----------------------------------------------------*/
+    if(!found)
+    {
+        plugin_settings["plugins"][plugin_ct]["name"]           = entry_name;
+        plugin_settings["plugins"][plugin_ct]["description"]    = entry_desc;
+        plugin_settings["plugins"][plugin_ct]["enabled"]        = enabled;
+
+        ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
+        ResourceManager::get()->GetSettingsManager()->SaveSettings();
+    }
+    else
+    {
+        plugin_settings["plugins"][plugin_idx]["enabled"]       = enabled;
+        ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
+        ResourceManager::get()->GetSettingsManager()->SaveSettings();
+    }
+}

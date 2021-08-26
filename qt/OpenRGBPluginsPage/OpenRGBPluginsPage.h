@@ -19,6 +19,8 @@ public:
     explicit OpenRGBPluginsPage(PluginManager* plugin_manager_ptr, QWidget *parent = nullptr);
     ~OpenRGBPluginsPage();
 
+    void on_EnableButton_clicked(OpenRGBPluginsEntry* entry);
+
 private slots:
     void on_InstallPluginButton_clicked();
 

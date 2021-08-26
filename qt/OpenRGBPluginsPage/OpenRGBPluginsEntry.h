@@ -4,9 +4,12 @@
 #include "ui_OpenRGBPluginsEntry.h"
 #include <QWidget>
 
-namespace Ui {
-class OpenRGBPluginsEntry;
+namespace Ui
+{
+    class OpenRGBPluginsEntry;
 }
+
+typedef void (*EnableClickCallback)(void *, void *);
 
 class Ui::OpenRGBPluginsEntry : public QWidget
 {
@@ -16,6 +19,15 @@ public:
     explicit OpenRGBPluginsEntry(QWidget *parent = nullptr);
     ~OpenRGBPluginsEntry();
     Ui::OpenRGBPluginsEntryUi *ui;
+
+    void RegisterEnableClickCallback(EnableClickCallback new_callback, void * new_callback_arg);
+
+private slots:
+    void on_EnabledCheckBox_stateChanged(int checked);
+
+private:
+    std::vector<EnableClickCallback>    EnableClickCallbacks;
+    std::vector<void *>                 EnableClickCallbackArgs;
 };
 
 #endif // OPENRGBPLUGINSENTRY_H
