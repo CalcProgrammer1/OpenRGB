@@ -120,7 +120,7 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
 
         if(match == false)
         {
-            plugin_manager->LoadPlugin(to_path + "/" + filesystem::path(from_path).filename().string());
+            plugin_manager->AddPlugin(to_path + "/" + filesystem::path(from_path).filename().string());
 
             RefreshList();
         }
@@ -181,6 +181,7 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
 
     std::string     entry_name  = entry->ui->NameValue->text().toStdString();
     std::string     entry_desc  = entry->ui->DescriptionValue->text().toStdString();
+    std::string     entry_path  = entry->ui->PathValue->text().toStdString();
 
     if(entry->ui->EnabledCheckBox->isChecked())
     {
@@ -234,5 +235,14 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
         plugin_settings["plugins"][plugin_idx]["enabled"]       = enabled;
         ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
         ResourceManager::get()->GetSettingsManager()->SaveSettings();
+    }
+
+    if(enabled)
+    {
+        plugin_manager->LoadPlugin(entry_path);
+    }
+    else
+    {
+        plugin_manager->UnloadPlugin(entry_path);
     }
 }

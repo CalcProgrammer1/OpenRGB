@@ -45,7 +45,8 @@ public:
     void AddI2CToolsPage();
     void AddServerTab();
 
-    void AddPluginTab(OpenRGBPluginEntry plugin);
+    void AddPluginTab(OpenRGBPluginEntry* plugin);
+    void RemovePluginTab(OpenRGBPluginEntry* plugin);
 
     void setMode(unsigned char mode_val);
 

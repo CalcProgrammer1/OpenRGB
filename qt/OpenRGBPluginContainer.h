@@ -20,9 +20,10 @@ public:
     void Hide();
     void Show();
 
+    QWidget* plugin_widget;
+
 private:
     Ui::OpenRGBPluginContainerUi *ui;
-    QWidget* plugin_widget;
 };
 
 #endif // OPENRGBPLUGINCONTAINER_H
