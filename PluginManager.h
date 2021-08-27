@@ -36,6 +36,8 @@ public:
     void ScanAndLoadPlugins();
 
     void AddPlugin(std::string path);
+    void RemovePlugin(std::string path);
+
     void LoadPlugin(std::string path);
     void UnloadPlugin(std::string path);
 

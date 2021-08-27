@@ -179,6 +179,31 @@ void PluginManager::AddPlugin(std::string path)
     }
 }
 
+void PluginManager::RemovePlugin(std::string path)
+{
+    unsigned int plugin_idx;
+
+    for(plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(path == ActivePlugins[plugin_idx].path)
+        {
+            break;
+        }
+    }
+
+    if(plugin_idx == ActivePlugins.size())
+    {
+        return;
+    }
+
+    if(ActivePlugins[plugin_idx].loaded)
+    {
+        UnloadPlugin(path);
+    }
+
+    ActivePlugins.erase(ActivePlugins.begin() + plugin_idx);
+}
+
 void PluginManager::LoadPlugin(std::string path)
 {
     unsigned int plugin_idx;

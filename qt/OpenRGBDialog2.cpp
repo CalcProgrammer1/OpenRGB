@@ -800,14 +800,34 @@ void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
     \*-----------------------------------------------------*/
     if(plugin->info.Location == "InformationTab")
     {
-
+        for(int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        {
+            if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx)) != nullptr)
+            {
+                if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
+                {
+                    ui->InformationTabBar->removeTab(tab_idx);
+                    delete plugin->widget;
+                }
+            }
+        }
     }
     /*-----------------------------------------------------*\
     | DevicesTab - Place plugin in the Devices tab          |
     \*-----------------------------------------------------*/
     else if(plugin->info.Location == "DevicesTab")
     {
-
+        for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
+        {
+            if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx)) != nullptr)
+            {
+                if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
+                {
+                    ui->DevicesTabBar->removeTab(tab_idx);
+                    delete plugin->widget;
+                }
+            }
+        }
     }
     /*-----------------------------------------------------*\
     | TopTabBar - Place plugin as its own top level tab     |
@@ -818,12 +838,10 @@ void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
         {
             if(dynamic_cast<OpenRGBPluginContainer*>(ui->MainTabBar->widget(tab_idx)) != nullptr)
             {
-                            std::cout << "found a plugin tab" << std::endl;
                 if(dynamic_cast<OpenRGBPluginContainer*>(ui->MainTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
                 {
-                                std::cout << "found correct plugin tab" << std::endl;
-                    delete ui->MainTabBar->widget(tab_idx);
                     ui->MainTabBar->removeTab(tab_idx);
+                    delete plugin->widget;
                 }
             }
         }
@@ -833,7 +851,17 @@ void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
     \*-----------------------------------------------------*/
     else if(plugin->info.Location == "SettingsTabBar")
     {
-
+        for(int tab_idx = 0; tab_idx < ui->SettingsTabBar->count(); tab_idx++)
+        {
+            if(dynamic_cast<OpenRGBPluginContainer*>(ui->SettingsTabBar->widget(tab_idx)) != nullptr)
+            {
+                if(dynamic_cast<OpenRGBPluginContainer*>(ui->SettingsTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
+                {
+                    ui->SettingsTabBar->removeTab(tab_idx);
+                    delete plugin->widget;
+                }
+            }
+        }
     }
 }
 

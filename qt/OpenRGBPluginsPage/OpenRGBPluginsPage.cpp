@@ -135,6 +135,9 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
 {
     QMessageBox::StandardButton reply;
 
+    /*-----------------------------------------------------*\
+    | Confirm plugin removal with message box               |
+    \*-----------------------------------------------------*/
     reply = QMessageBox::question(this, "Remove Plugin", "Are you sure you want to remove this plugin?", QMessageBox::Yes | QMessageBox::No);
 
     if(reply != QMessageBox::Yes)
@@ -142,6 +145,9 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
         return;
     }
 
+    /*-----------------------------------------------------*\
+    | Get index of selected plugin entry                    |
+    \*-----------------------------------------------------*/
     int cur_row = ui->PluginsList->currentRow();
 
     if(cur_row < 0)
@@ -149,17 +155,54 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
         return;
     }
 
+    /*-----------------------------------------------------*\
+    | Open plugin settings                                  |
+    \*-----------------------------------------------------*/
+    json plugin_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Plugins");
+
+    /*-----------------------------------------------------*\
+    | Find plugin's entry in settings and remove it         |
+    \*-----------------------------------------------------*/
+    if(plugin_settings.contains("plugins"))
+    {
+        for(unsigned int plugin_idx = 0; plugin_idx < plugin_settings["plugins"].size(); plugin_idx++)
+        {
+            if((plugin_settings["plugins"][plugin_idx].contains("name"))
+             &&(plugin_settings["plugins"][plugin_idx].contains("description")))
+            {
+                if((plugin_settings["plugins"][plugin_idx]["name"] == entries[cur_row]->ui->NameValue->text().toStdString())
+                 &&(plugin_settings["plugins"][plugin_idx]["description"] == entries[cur_row]->ui->DescriptionValue->text().toStdString()))   
+                {
+                    plugin_settings["plugins"].erase(plugin_idx);
+
+                    ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
+                    ResourceManager::get()->GetSettingsManager()->SaveSettings();
+                    
+                    break;
+                }
+            }
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Remove plugin entry from GUI plugin entries list      |
+    \*-----------------------------------------------------*/
     QListWidgetItem* item = ui->PluginsList->takeItem(cur_row);
 
     ui->PluginsList->removeItemWidget(item);
     delete item;
 
-    //TODO: Unregister the plugin from the plugin manager
+    /*-----------------------------------------------------*\
+    | Command plugin manager to unload and remove the plugin|
+    \*-----------------------------------------------------*/
+    plugin_manager->RemovePlugin(entries[cur_row]->ui->PathValue->text().toStdString());
 
+    /*-----------------------------------------------------*\
+    | Delete the plugin file and refresh the GUI            |
+    \*-----------------------------------------------------*/
     filesystem::remove(entries[cur_row]->ui->PathValue->text().toStdString());
 
-    delete entries[cur_row];
-    entries.erase(entries.begin() + cur_row);
+    RefreshList();
 }
 
 void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
