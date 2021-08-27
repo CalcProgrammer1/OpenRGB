@@ -15,6 +15,7 @@
 #define HYPERX_VID                          0x0951
 #define HYPERX_PULSEFIRE_SURGE_PID          0x16D3
 #define HYPERX_PULSEFIRE_FPS_PRO_PID        0x16D7
+#define HYPERX_PULSEFIRE_CORE_PID           0x16DE
 #define HYPERX_PULSEFIRE_DART_WIRELESS_PID  0x16E1
 #define HYPERX_PULSEFIRE_DART_WIRED_PID     0x16E2
 #define HYPERX_PULSEFIRE_HASTE_PID          0x1727
@@ -70,6 +71,7 @@ void DetectHyperXPulsefireDartControllers(hid_device_info* info, const std::stri
 
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge",              DetectHyperXPulsefireSurgeControllers,  HYPERX_VID, HYPERX_PULSEFIRE_SURGE_PID,         1,      0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire FPS Pro",            DetectHyperXPulsefireFPSProControllers, HYPERX_VID, HYPERX_PULSEFIRE_FPS_PRO_PID,       1,      0xFF01);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Core",               DetectHyperXPulsefireFPSProControllers, HYPERX_VID, HYPERX_PULSEFIRE_CORE_PID,          1,      0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wireless)",    DetectHyperXPulsefireDartControllers,   HYPERX_VID, HYPERX_PULSEFIRE_DART_WIRELESS_PID, 2,      0xFF00);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wired)",       DetectHyperXPulsefireDartControllers,   HYPERX_VID, HYPERX_PULSEFIRE_DART_WIRED_PID,    1,      0xFF13);
 
