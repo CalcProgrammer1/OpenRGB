@@ -99,6 +99,8 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
         }
     }
 
+    
+
     if(match == true)
     {
         QMessageBox::StandardButton reply;
@@ -113,17 +115,13 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
 
     try
     {
+        plugin_manager->RemovePlugin(to_file);
+
         filesystem::copy(from_path, to_path, filesystem::copy_options::update_existing);
 
-        //TODO: Unregister the old plugin and load the new one if matched
-        // For now, don't load the new plugin
+        plugin_manager->AddPlugin(to_file);
 
-        if(match == false)
-        {
-            plugin_manager->AddPlugin(to_path + "/" + filesystem::path(from_path).filename().string());
-
-            RefreshList();
-        }
+        RefreshList();
     }
     catch(std::exception& e)
     {
@@ -177,7 +175,7 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
 
                     ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
                     ResourceManager::get()->GetSettingsManager()->SaveSettings();
-                    
+
                     break;
                 }
             }
