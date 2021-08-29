@@ -726,26 +726,24 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginEntry* plugin)
     PluginTabLabel = (QLabel*)new TabLabel(PluginLabelString, QString::fromStdString(plugin->info.Label));
 
     /*-----------------------------------------------------*\
-    | InformationTab - Place plugin in the Information tab  |
+    | Place plugin as its own top level tab                 |
     \*-----------------------------------------------------*/
-    if(plugin->info.Location == "InformationTab")
+    if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_TOP)
     {
-        QWidget* NewPluginTab = plugin->plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin->plugin->GetWidget();
 
         plugin->widget = NewPluginTab;
 
         OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
 
-        ui->InformationTabBar->addTab(NewPluginContainer," ");
-
-        ui->InformationTabBar->tabBar()->setTabButton((ui->InformationTabBar->count() - 1),QTabBar::LeftSide , PluginTabLabel);
+        ui->MainTabBar->addTab(NewPluginContainer,QString().fromStdString(plugin->info.Label));
     }
     /*-----------------------------------------------------*\
-    | DevicesTab - Place plugin in the Devices tab          |
+    | Place plugin in the Devices tab                       |
     \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "DevicesTab")
+    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_DEVICES)
     {
-        QWidget* NewPluginTab = plugin->plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin->plugin->GetWidget();
 
         plugin->widget = NewPluginTab;
 
@@ -756,24 +754,26 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginEntry* plugin)
         ui->DevicesTabBar->tabBar()->setTabButton((ui->DevicesTabBar->count() - 1),QTabBar::LeftSide , PluginTabLabel);
     }
     /*-----------------------------------------------------*\
-    | TopTabBar - Place plugin as its own top level tab     |
+    | Place plugin in the Information tab                   |
     \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "TopTabBar")
+    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_INFORMATION)
     {
-        QWidget* NewPluginTab = plugin->plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin->plugin->GetWidget();
 
         plugin->widget = NewPluginTab;
 
         OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
 
-        ui->MainTabBar->addTab(NewPluginContainer,QString().fromStdString(plugin->info.Label));
+        ui->InformationTabBar->addTab(NewPluginContainer," ");
+
+        ui->InformationTabBar->tabBar()->setTabButton((ui->InformationTabBar->count() - 1),QTabBar::LeftSide , PluginTabLabel);
     }
     /*-----------------------------------------------------*\
-    | SettingsTab - Place plugin in the Settings tab        |
+    | Place plugin in the Settings tab                      |
     \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "SettingsTab")
+    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_SETTINGS)
     {
-        QWidget* NewPluginTab = plugin->plugin->CreateGUI(this);
+        QWidget* NewPluginTab = plugin->plugin->GetWidget();
 
         plugin->widget = NewPluginTab;
 
@@ -789,50 +789,16 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginEntry* plugin)
     \*-----------------------------------------------------*/
     else
     {
-        std::cout << ("Cannot load plugin '" + plugin->info.Name + "' as it does not specify a valid location: " + plugin->info.Location + "\n");
+        std::cout << ("Cannot load plugin '" + plugin->info.Name + "' as it does not specify a valid location.\n");
     }
 }
 
 void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
 {
     /*-----------------------------------------------------*\
-    | InformationTab - Place plugin in the Information tab  |
+    | Place plugin as its own top level tab                 |
     \*-----------------------------------------------------*/
-    if(plugin->info.Location == "InformationTab")
-    {
-        for(int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
-        {
-            if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx)) != nullptr)
-            {
-                if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
-                {
-                    ui->InformationTabBar->removeTab(tab_idx);
-                    delete plugin->widget;
-                }
-            }
-        }
-    }
-    /*-----------------------------------------------------*\
-    | DevicesTab - Place plugin in the Devices tab          |
-    \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "DevicesTab")
-    {
-        for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
-        {
-            if(dynamic_cast<OpenRGBPluginContainer*>(ui->DeviceTabBar->widget(tab_idx)) != nullptr)
-            {
-                if(dynamic_cast<OpenRGBPluginContainer*>(ui->DeviceTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
-                {
-                    ui->DeviceTabBar->removeTab(tab_idx);
-                    delete plugin->widget;
-                }
-            }
-        }
-    }
-    /*-----------------------------------------------------*\
-    | TopTabBar - Place plugin as its own top level tab     |
-    \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "TopTabBar")
+    if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_TOP)
     {
         for(int tab_idx = 0; tab_idx < ui->MainTabBar->count(); tab_idx++)
         {
@@ -847,9 +813,43 @@ void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
         }
     }
     /*-----------------------------------------------------*\
-    | SettingsTab - Place plugin in the Settings tab        |
+    | Place plugin in the Devices tab                       |
     \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "SettingsTab")
+    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_DEVICES)
+    {
+        for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
+        {
+            if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx)) != nullptr)
+            {
+                if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
+                {
+                    ui->DevicesTabBar->removeTab(tab_idx);
+                    delete plugin->widget;
+                }
+            }
+        }
+    }
+    /*-----------------------------------------------------*\
+    | Place plugin in the Information tab                   |
+    \*-----------------------------------------------------*/
+    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_INFORMATION)
+    {
+        for(int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        {
+            if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx)) != nullptr)
+            {
+                if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
+                {
+                    ui->InformationTabBar->removeTab(tab_idx);
+                    delete plugin->widget;
+                }
+            }
+        }
+    }
+    /*-----------------------------------------------------*\
+    | Place plugin in the Settings tab                      |
+    \*-----------------------------------------------------*/
+    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_SETTINGS)
     {
         for(int tab_idx = 0; tab_idx < ui->SettingsTabBar->count(); tab_idx++)
         {

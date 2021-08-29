@@ -269,7 +269,7 @@ void PluginManager::LoadPlugin(std::string path)
                 {
                     ActivePlugins[plugin_idx].plugin = plugin;
 
-                    plugin->Initialize(dark_theme, ResourceManager::get());
+                    plugin->Load(dark_theme, ResourceManager::get());
 
                     /*-------------------------------------------------*\
                     | Call the Add Plugin Tab callback                  |

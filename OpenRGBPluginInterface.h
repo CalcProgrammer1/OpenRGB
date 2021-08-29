@@ -18,11 +18,22 @@
 
 #define OPENRGB_PLUGIN_API_VERSION  1
 
+/*-----------------------------------------------------------------------------------------------------*\
+| Plugin Tab Location Values                                                                            |
+\*-----------------------------------------------------------------------------------------------------*/
+enum
+{
+    OPENRGB_PLUGIN_LOCATION_TOP         = 0,    /* Top-level tab (no icon)                             */
+    OPENRGB_PLUGIN_LOCATION_DEVICES     = 1,    /* Devices tab                                         */
+    OPENRGB_PLUGIN_LOCATION_INFORMATION = 2,    /* Information tab                                     */
+    OPENRGB_PLUGIN_LOCATION_SETTINGS    = 3,    /* Settings tab                                        */
+};
+
 struct OpenRGBPluginInfo
 {
     /*-------------------------------------------------------------------------------------------------*\
     | Plugin Details                                                                                    |
-    \*------------------------------------------------------------------------------------------------ */    
+    \*-------------------------------------------------------------------------------------------------*/    
     std::string                 Name;           /* Plugin name string                                  */
     std::string                 Description;    /* Plugin description string                           */
     std::string                 Version;        /* Plugin version string                               */
@@ -33,9 +44,9 @@ struct OpenRGBPluginInfo
     /*-------------------------------------------------------------------------------------------------*\
     | Plugin Tab Configuration                                                                          |
     \*-------------------------------------------------------------------------------------------------*/
-    std::string                 Location;       /* Plugin tab location.  This field is mandatory       */
-                                                /* Options are "TopTabBar", "DevicesTab",              */
-                                                /* "InformationTab", or "SettingsTab"                  */
+    unsigned int                Location;       /* Plugin tab location from Plugin Tab Location enum   */
+                                                /* This field is mandatory, an invalid value will      */
+                                                /* prevent plugin tab from being displayed             */
     std::string                 Label;          /* Plugin tab label string                             */
     std::string                 TabIconString;  /* Plugin tab icon string, leave empty to use custom   */
     QImage                      TabIcon;        /* Custom tab icon image (displayed 16x16)             */
@@ -55,8 +66,8 @@ public:
     /*-------------------------------------------------------------------------------------------------*\
     | Plugin Functionality                                                                              |
     \*-------------------------------------------------------------------------------------------------*/
-    virtual void                Initialize(bool dark_theme, ResourceManager* resource_manager_ptr)  = 0;
-    virtual QWidget            *CreateGUI(QWidget* parent)                                          = 0;
+    virtual void                Load(bool dark_theme, ResourceManager* resource_manager_ptr)        = 0;
+    virtual QWidget*            GetWidget()                                                         = 0;
     virtual void                Unload()                                                            = 0;
 };
 
