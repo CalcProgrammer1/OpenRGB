@@ -769,9 +769,9 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginEntry* plugin)
         ui->MainTabBar->addTab(NewPluginContainer,QString().fromStdString(plugin->info.Label));
     }
     /*-----------------------------------------------------*\
-    | SettingsTabBar - Place plugin in the Settings tab     |
+    | SettingsTab - Place plugin in the Settings tab        |
     \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "SettingsTabBar")
+    else if(plugin->info.Location == "SettingsTab")
     {
         QWidget* NewPluginTab = plugin->plugin->CreateGUI(this);
 
@@ -819,11 +819,11 @@ void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
     {
         for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
         {
-            if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx)) != nullptr)
+            if(dynamic_cast<OpenRGBPluginContainer*>(ui->DeviceTabBar->widget(tab_idx)) != nullptr)
             {
-                if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
+                if(dynamic_cast<OpenRGBPluginContainer*>(ui->DeviceTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
                 {
-                    ui->DevicesTabBar->removeTab(tab_idx);
+                    ui->DeviceTabBar->removeTab(tab_idx);
                     delete plugin->widget;
                 }
             }
@@ -847,9 +847,9 @@ void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
         }
     }
     /*-----------------------------------------------------*\
-    | SettingsTabBar - Place plugin in the Settings tab     |
+    | SettingsTab - Place plugin in the Settings tab        |
     \*-----------------------------------------------------*/
-    else if(plugin->info.Location == "SettingsTabBar")
+    else if(plugin->info.Location == "SettingsTab")
     {
         for(int tab_idx = 0; tab_idx < ui->SettingsTabBar->count(); tab_idx++)
         {

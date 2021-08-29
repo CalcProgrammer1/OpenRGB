@@ -33,7 +33,9 @@ struct OpenRGBPluginInfo
     /*-------------------------------------------------------------------------------------------------*\
     | Plugin Tab Configuration                                                                          |
     \*-------------------------------------------------------------------------------------------------*/
-    std::string                 Location;       /* Plugin tab location, such as "TopTabBar"            */
+    std::string                 Location;       /* Plugin tab location.  This field is mandatory       */
+                                                /* Options are "TopTabBar", "DevicesTab",              */
+                                                /* "InformationTab", or "SettingsTab"                  */
     std::string                 Label;          /* Plugin tab label string                             */
     std::string                 TabIconString;  /* Plugin tab icon string, leave empty to use custom   */
     QImage                      TabIcon;        /* Custom tab icon image (displayed 16x16)             */
