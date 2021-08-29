@@ -20,16 +20,23 @@
 
 struct OpenRGBPluginInfo
 {
-    std::string                 Name;
-    std::string                 Description;
-    std::string                 Version;
-    std::string                 Commit;
-    std::string                 URL;
+    /*-------------------------------------------------------------------------------------------------*\
+    | Plugin Details                                                                                    |
+    \*------------------------------------------------------------------------------------------------ */    
+    std::string                 Name;           /* Plugin name string                                  */
+    std::string                 Description;    /* Plugin description string                           */
+    std::string                 Version;        /* Plugin version string                               */
+    std::string                 Commit;         /* Plugin commit (git or otherwise) string             */
+    std::string                 URL;            /* Plugin project URL string                           */
+    QImage                      Icon;           /* Icon image (displayed 64x64)                        */
 
-    std::string                 Location;
-    std::string                 Label;
-
-    QImage                      Icon;
+    /*-------------------------------------------------------------------------------------------------*\
+    | Plugin Tab Configuration                                                                          |
+    \*-------------------------------------------------------------------------------------------------*/
+    std::string                 Location;       /* Plugin tab location, such as "TopTabBar"            */
+    std::string                 Label;          /* Plugin tab label string                             */
+    std::string                 TabIconString;  /* Plugin tab icon string, leave empty to use custom   */
+    QImage                      TabIcon;        /* Custom tab icon image (displayed 16x16)             */
 };
 
 class OpenRGBPluginInterface
