@@ -83,6 +83,9 @@ void Ui::OpenRGBPluginsPage::RefreshList()
 
 void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
 {
+    /*-----------------------------------------------------*\
+    | Open a file selection prompt to choose the plugin file|
+    \*-----------------------------------------------------*/
     QString     install_file    = QFileDialog::getOpenFileName(this, "Install OpenRGB Plugin", "", "DLL Files (*.dll; *.dylib; *.so; *.so.*)");
 
     std::string from_path       = install_file.toStdString();
@@ -90,6 +93,9 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
     std::string to_file         = to_path + filesystem::path(from_path).filename().string();
     bool        match           = false;
 
+    /*-----------------------------------------------------*\
+    | Check if a plugin with this path already exists       |
+    \*-----------------------------------------------------*/
     for(unsigned int plugin_idx = 0; plugin_idx < plugin_manager->ActivePlugins.size(); plugin_idx++)
     {
         if(to_file == plugin_manager->ActivePlugins[plugin_idx].path)
@@ -99,8 +105,9 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
         }
     }
 
-    
-
+    /*-----------------------------------------------------*\
+    | If this plugin already exists, prompt to replace it   |
+    \*-----------------------------------------------------*/
     if(match == true)
     {
         QMessageBox::StandardButton reply;
@@ -113,6 +120,10 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
         }
     }
 
+    /*-----------------------------------------------------*\
+    | When replacing, remove the existing plugin before     |
+    | copying the file and adding the new one               |
+    \*-----------------------------------------------------*/
     try
     {
         plugin_manager->RemovePlugin(to_file);

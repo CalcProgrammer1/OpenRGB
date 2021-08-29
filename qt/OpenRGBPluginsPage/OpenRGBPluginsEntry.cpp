@@ -8,6 +8,9 @@ OpenRGBPluginsEntry::OpenRGBPluginsEntry(QWidget *parent) :
     ui(new Ui::OpenRGBPluginsEntryUi)
 {
     ui->setupUi(this);
+
+    EnableClickCallbackVal  = nullptr;
+    EnableClickCallbackArg  = nullptr;
 }
 
 OpenRGBPluginsEntry::~OpenRGBPluginsEntry()
@@ -17,8 +20,8 @@ OpenRGBPluginsEntry::~OpenRGBPluginsEntry()
 
 void OpenRGBPluginsEntry::RegisterEnableClickCallback(EnableClickCallback new_callback, void * new_callback_arg)
 {
-    EnableClickCallbacks.push_back(new_callback);
-    EnableClickCallbackArgs.push_back(new_callback_arg);
+    EnableClickCallbackVal  = new_callback;
+    EnableClickCallbackArg  = new_callback_arg;
 }
 
 void Ui::OpenRGBPluginsEntry::on_EnabledCheckBox_stateChanged(int /*checked*/)
@@ -26,9 +29,9 @@ void Ui::OpenRGBPluginsEntry::on_EnabledCheckBox_stateChanged(int /*checked*/)
     /*-------------------------------------------------*\
     | Call the callbacks                                |
     \*-------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < EnableClickCallbacks.size(); callback_idx++)
+    if(EnableClickCallbackVal != nullptr)
     {
-        EnableClickCallbacks[callback_idx](EnableClickCallbackArgs[callback_idx], this);
+        EnableClickCallbackVal(EnableClickCallbackArg, this);
     }
 }
 

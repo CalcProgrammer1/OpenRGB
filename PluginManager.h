@@ -46,9 +46,9 @@ public:
 private:
     bool dark_theme;
 
-    std::vector<AddPluginTabCallback>       AddPluginTabCallbacks;
-    std::vector<void *>                     AddPluginTabCallbackArgs;
+    AddPluginTabCallback    AddPluginTabCallbackVal;
+    void *                  AddPluginTabCallbackArg;
 
-    std::vector<RemovePluginTabCallback>    RemovePluginTabCallbacks;
-    std::vector<void *>                     RemovePluginTabCallbackArgs;
+    RemovePluginTabCallback RemovePluginTabCallbackVal;
+    void *                  RemovePluginTabCallbackArg;
 };

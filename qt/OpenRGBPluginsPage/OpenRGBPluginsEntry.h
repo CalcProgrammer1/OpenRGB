@@ -26,8 +26,8 @@ private slots:
     void on_EnabledCheckBox_stateChanged(int checked);
 
 private:
-    std::vector<EnableClickCallback>    EnableClickCallbacks;
-    std::vector<void *>                 EnableClickCallbackArgs;
+    EnableClickCallback EnableClickCallbackVal;
+    void *              EnableClickCallbackArg;
 };
 
 #endif // OPENRGBPLUGINSENTRY_H

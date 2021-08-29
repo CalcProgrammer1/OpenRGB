@@ -3,19 +3,26 @@
 
 PluginManager::PluginManager(bool dark_theme_val)
 {
-    dark_theme = dark_theme_val;
+    /*---------------------------------------------------------*\
+    | Initialize plugin manager class variables                 |
+    \*---------------------------------------------------------*/
+    dark_theme                  = dark_theme_val;
+    AddPluginTabCallbackVal     = nullptr;
+    AddPluginTabCallbackArg     = nullptr;
+    RemovePluginTabCallbackVal  = nullptr;
+    RemovePluginTabCallbackArg  = nullptr;
 }
 
 void PluginManager::RegisterAddPluginTabCallback(AddPluginTabCallback new_callback, void * new_callback_arg)
 {
-    AddPluginTabCallbacks.push_back(new_callback);
-    AddPluginTabCallbackArgs.push_back(new_callback_arg);
+    AddPluginTabCallbackVal = new_callback;
+    AddPluginTabCallbackArg = new_callback_arg;
 }
 
 void PluginManager::RegisterRemovePluginTabCallback(RemovePluginTabCallback new_callback, void * new_callback_arg)
 {
-    RemovePluginTabCallbacks.push_back(new_callback);
-    RemovePluginTabCallbackArgs.push_back(new_callback_arg);
+    RemovePluginTabCallbackVal  = new_callback;
+    RemovePluginTabCallbackArg  = new_callback_arg;
 }
 
 void PluginManager::ScanAndLoadPlugins()
@@ -57,6 +64,9 @@ void PluginManager::AddPlugin(std::string path)
 
     unsigned int plugin_idx;
 
+    /*---------------------------------------------------------------------*\
+    | Search active plugins to see if this path already exists              |
+    \*---------------------------------------------------------------------*/
     for(plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
     {
         if(path == ActivePlugins[plugin_idx].path)
@@ -183,6 +193,9 @@ void PluginManager::RemovePlugin(std::string path)
 {
     unsigned int plugin_idx;
 
+    /*---------------------------------------------------------------------*\
+    | Search active plugins to see if this path already exists              |
+    \*---------------------------------------------------------------------*/
     for(plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
     {
         if(path == ActivePlugins[plugin_idx].path)
@@ -191,16 +204,25 @@ void PluginManager::RemovePlugin(std::string path)
         }
     }
 
+    /*---------------------------------------------------------------------*\
+    | If the plugin path does not exist in the active plugins list, return  |
+    \*---------------------------------------------------------------------*/
     if(plugin_idx == ActivePlugins.size())
     {
         return;
     }
 
+    /*---------------------------------------------------------------------*\
+    | If the selected plugin is in the list and loaded, unload it           |
+    \*---------------------------------------------------------------------*/
     if(ActivePlugins[plugin_idx].loaded)
     {
         UnloadPlugin(path);
     }
 
+    /*---------------------------------------------------------------------*\
+    | Remove the plugin from the active plugins list                        |
+    \*---------------------------------------------------------------------*/
     ActivePlugins.erase(ActivePlugins.begin() + plugin_idx);
 }
 
@@ -208,6 +230,9 @@ void PluginManager::LoadPlugin(std::string path)
 {
     unsigned int plugin_idx;
 
+    /*---------------------------------------------------------------------*\
+    | Search active plugins to see if this path already exists              |
+    \*---------------------------------------------------------------------*/
     for(plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
     {
         if(path == ActivePlugins[plugin_idx].path)
@@ -216,11 +241,17 @@ void PluginManager::LoadPlugin(std::string path)
         }
     }
 
+    /*---------------------------------------------------------------------*\
+    | If the plugin path does not exist in the active plugins list, return  |
+    \*---------------------------------------------------------------------*/
     if(plugin_idx == ActivePlugins.size())
     {
         return;
     }
 
+    /*---------------------------------------------------------------------*\
+    | If the selected plugin is in the list but not loaded, load it         |
+    \*---------------------------------------------------------------------*/
     if(!ActivePlugins[plugin_idx].loaded)
     {
         ActivePlugins[plugin_idx].loader->load();
@@ -241,11 +272,11 @@ void PluginManager::LoadPlugin(std::string path)
                     plugin->Initialize(dark_theme, ResourceManager::get());
 
                     /*-------------------------------------------------*\
-                    | Call the callbacks                                |
+                    | Call the Add Plugin Tab callback                  |
                     \*-------------------------------------------------*/
-                    for(unsigned int callback_idx = 0; callback_idx < AddPluginTabCallbacks.size(); callback_idx++)
+                    if(AddPluginTabCallbackArg != nullptr)
                     {
-                        AddPluginTabCallbacks[callback_idx](AddPluginTabCallbackArgs[callback_idx], &ActivePlugins[plugin_idx]);
+                        AddPluginTabCallbackVal(AddPluginTabCallbackArg, &ActivePlugins[plugin_idx]);
                     }
                 }
             }
@@ -257,6 +288,9 @@ void PluginManager::UnloadPlugin(std::string path)
 {
     unsigned int plugin_idx;
 
+    /*---------------------------------------------------------------------*\
+    | Search active plugins to see if this path already exists              |
+    \*---------------------------------------------------------------------*/
     for(plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
     {
         if(path == ActivePlugins[plugin_idx].path)
@@ -265,11 +299,17 @@ void PluginManager::UnloadPlugin(std::string path)
         }
     }
 
+    /*---------------------------------------------------------------------*\
+    | If the plugin path does not exist in the active plugins list, return  |
+    \*---------------------------------------------------------------------*/
     if(plugin_idx == ActivePlugins.size())
     {
         return;
     }
 
+    /*---------------------------------------------------------------------*\
+    | If the selected plugin is in the list and loaded, unload it           |
+    \*---------------------------------------------------------------------*/
     if(ActivePlugins[plugin_idx].loaded)
     {
         /*-------------------------------------------------*\
@@ -278,11 +318,11 @@ void PluginManager::UnloadPlugin(std::string path)
         ActivePlugins[plugin_idx].plugin->Unload();
 
         /*-------------------------------------------------*\
-        | Call the callbacks                                |
+        | Call the Remove Plugin Tab callback               |
         \*-------------------------------------------------*/
-        for(unsigned int callback_idx = 0; callback_idx < RemovePluginTabCallbacks.size(); callback_idx++)
+        if(RemovePluginTabCallbackVal != nullptr)
         {
-            RemovePluginTabCallbacks[callback_idx](RemovePluginTabCallbackArgs[callback_idx], &ActivePlugins[plugin_idx]);
+            RemovePluginTabCallbackVal(RemovePluginTabCallbackArg, &ActivePlugins[plugin_idx]);
         }
 
         ActivePlugins[plugin_idx].loader->unload();
