@@ -762,8 +762,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1834", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1722", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1726", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="172B", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1824", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="184c", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1824", TAG+="uaccess"          #Rival3_Old
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="184c", TAG+="uaccess"          #Rival3
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1229", TAG+="uaccess"
 
