@@ -134,11 +134,15 @@ void RGBController_SteelSeriesRival3::DeviceUpdateLEDs()
     {
         UpdateZoneLEDs(i);
     }
+    DeviceUpdateMode();
 }
 
 void RGBController_SteelSeriesRival3::UpdateZoneLEDs(int zone)
 {
-    UpdateSingleLED(zones[zone].leds[0].value);
+    /*--------------------------------------------------*\
+    | Subtracting one as the zone and led indexes differ |
+    \*--------------------------------------------------*/
+    UpdateSingleLED(zones[zone].leds[0].value - 1);
 }   
 
 void RGBController_SteelSeriesRival3::UpdateSingleLED(int led)
