@@ -403,12 +403,14 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesGeneric.h                                      \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.h                            \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h                              \
+    Controllers/SteelSeriesController/SteelSeriesRival3Controller.h                             \
     Controllers/SteelSeriesController/SteelSeriesSenseiController.h                             \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h                            \
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.h                             \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.h                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.h                          \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesRival3.h                         \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSiberia.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesQCKMat.h                         \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSensei.h                         \
@@ -784,6 +786,7 @@ SOURCES +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp                            \
+    Controllers/SteelSeriesController/SteelSeriesRival3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesSenseiController.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.cpp                           \
@@ -791,6 +794,7 @@ SOURCES +=                                                                      
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.cpp                         \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.cpp                        \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesRival3.cpp                       \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSensei.cpp                       \
     Controllers/SteelSeriesController/RGBController_SteelSeriesSiberia.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesQCKMat.cpp                       \

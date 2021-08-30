@@ -723,8 +723,9 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="054c", ATTR{idProduct}=="0ba0", TAG+="uacces
 #       SteelSeries Rival 300 Blackops Edition                  #
 #       SteelSeries Rival 310                                   #
 #       SteelSeries Rival 310 CS:GO Howl Edition                #
-#       SteelSeries Rival 310 PubG Edition			#
-#	SteelSeries Rival 650 Wireless		                #
+#       SteelSeries Rival 310 PubG Edition                      #
+#       SteelSeries Rival 650 Wireless                          #
+#       SteelSeries Rival 3                                     #
 #       SteelSeries Rival Sensei Ten                            #
 #       SteelSeries Rival Sensei Ten CS:GO Neon Rider           #
 #       SteelSeries Rival Sensei 310                            #
@@ -761,6 +762,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1834", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1722", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1726", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="172B", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1824", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="184c", TAG+="uaccess"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1229", TAG+="uaccess"
 

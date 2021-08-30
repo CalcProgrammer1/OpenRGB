@@ -27,5 +27,6 @@ typedef enum
     APEX_OLD    = 0x07,
     SENSEI      = 0x08,
     RIVAL_600   = 0x09,
+    RIVAL_3     = 0x0a,
 } steelseries_type;
 
