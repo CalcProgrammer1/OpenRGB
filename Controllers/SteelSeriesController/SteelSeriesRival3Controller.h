@@ -14,17 +14,7 @@
 
 #pragma once
 
-/*-----------------------------------------------------------------*\
-| Internal values representing the modes we support for this device |
-\*-----------------------------------------------------------------*/
-enum
-{
-    STEELSERIES_RIVAL_3_DIRECT              = 0x00,
-    STEELSERIES_RIVAL_3_BREATHING           = 0x01,
-    STEELSERIES_RIVAL_3_SPECTRUM_CYCLE      = 0x02,
-    STEELSERIES_RIVAL_3_RAINBOW_BREATHING   = 0x03,
-    STEELSERIES_RIVAL_3_DISCO               = 0x04
-};
+#define STEELSERIES_RIVAL_3_BRIGHTNESS_MAX          0x64
 
 /*-----------------------------------------------------------*\
 | Theses are the specific values that get sent to set a mode  |
@@ -52,35 +42,25 @@ public:
 
     ~SteelSeriesRival3Controller();
 
-    std::string GetDeviceLocation();
-    char*       GetDeviceName();
-    std::string GetSerialString();
-    std::string GetFirmwareVersion();
+    std::string         GetDeviceLocation();
+    char*               GetDeviceName();
+    std::string         GetSerialString();
+    std::string         GetFirmwareVersion();
 
-    steelseries_type GetMouseType();
+    steelseries_type    GetMouseType();
 
-    void Save();
+    void                Save();
 
-    void SetLightEffectAll
-            (
-            unsigned char   effect,
-            unsigned char   speed
-            );
+    void                SetLightEffectAll(uint8_t effect);
 
-    void SetColor
-            (
-            unsigned char   zone_id,
-            unsigned char   red,
-            unsigned char   green,
-            unsigned char   blue,
-            unsigned char   brightness
-            );
-    void SetColorAll
-            (
-            unsigned char red,
-            unsigned char green,
-            unsigned char blue
-            );
+    void                SetColor
+                            (
+                            unsigned char   zone_id,
+                            unsigned char   red,
+                            unsigned char   green,
+                            unsigned char   blue,
+                            unsigned char   brightness
+                            );
 
 private:
     char                    device_name[32];

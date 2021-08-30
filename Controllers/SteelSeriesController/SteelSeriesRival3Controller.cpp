@@ -12,21 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
-{
-    char* usb_pkt = new char[size + 1];
-    
-    usb_pkt[0] = 0x00;
-    for(unsigned int i = 1; i < size + 1; i++)
-    {
-        usb_pkt[i] = data_pkt[i-1];
-    }
-    
-    hid_write(dev, (unsigned char *)usb_pkt, size + 1);
-    
-    delete[] usb_pkt;
-}
-
 SteelSeriesRival3Controller::SteelSeriesRival3Controller
     (
     hid_device*         dev_handle,
@@ -37,7 +22,6 @@ SteelSeriesRival3Controller::SteelSeriesRival3Controller
     dev         = dev_handle;
     location    = path;
     proto       = proto_type;
-
 }
 
 SteelSeriesRival3Controller::~SteelSeriesRival3Controller()
@@ -73,15 +57,12 @@ std::string SteelSeriesRival3Controller::GetSerialString()
 
 std::string SteelSeriesRival3Controller::GetFirmwareVersion()
 {
-    std::string return_string;
-    char usb_buf[2];
-    uint16_t version;
-    memset(usb_buf, 0, sizeof(usb_buf));
+    const uint8_t   FW_BUFFER_SIZE              = 3;
+    uint8_t         usb_buf[FW_BUFFER_SIZE]     = { 0x00, 0x10, 0x00 };
+    uint16_t        version;
+    std::string     return_string;
 
-    usb_buf[0x00] = 0x10;
-
-    send_usb_msg(dev, usb_buf, sizeof(usb_buf));
-    
+    hid_write(dev, usb_buf, FW_BUFFER_SIZE);
     hid_read(dev, (unsigned char *)&version, 2);
 
     return_string = std::to_string(version);
@@ -95,67 +76,18 @@ steelseries_type SteelSeriesRival3Controller::GetMouseType()
 
 void SteelSeriesRival3Controller::Save()
 {
-    char usb_buf[9];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    usb_buf[0x00] = 0x09;
+    const uint8_t   SAVE_BUFFER_SIZE            = 10;
+    uint8_t         usb_buf[SAVE_BUFFER_SIZE]   = { 0x00, 0x09 };
     
-    send_usb_msg(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, usb_buf, SAVE_BUFFER_SIZE);
 }
 
-void SteelSeriesRival3Controller::SetLightEffectAll
-    (
-    unsigned char   effect,
-    unsigned char   speed
-    )
+void SteelSeriesRival3Controller::SetLightEffectAll(uint8_t effect)
 {
-    char usb_buf[3];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    const uint8_t   EFFECT_BUFFER_SIZE          = 4;
+    uint8_t         usb_buf[EFFECT_BUFFER_SIZE] = { 0x00, 0x06, 0x00, effect };
 
-    usb_buf[0x00] = 0x06;
-    usb_buf[0x01] = 0x00;
-    
-    switch (effect) {
-        case STEELSERIES_RIVAL_3_DIRECT:
-            usb_buf[0x02] = STEELSERIES_RIVAL_3_EFFECT_DIRECT;
-            break;
-
-        case STEELSERIES_RIVAL_3_BREATHING:
-            /*---------------------------------------------*\
-            | Effect type is based on which speed is used   |
-            \*---------------------------------------------*/
-            switch (speed) {
-               case  0:
-                    usb_buf[0x02] = STEELSERIES_RIVAL_3_EFFECT_BREATHING_MIN;
-                    break;
-                case 1:
-                    usb_buf[0x02] = STEELSERIES_RIVAL_3_EFFECT_BREATHING_MID;
-                    break;
-                case 2:
-                    usb_buf[0x02] = STEELSERIES_RIVAL_3_EFFECT_BREATHING_MAX;
-                    break;
-                default:
-                    return;
-            }
-            break;
-
-        case STEELSERIES_RIVAL_3_SPECTRUM_CYCLE:
-            usb_buf[0x02] = STEELSERIES_RIVAL_3_EFFECT_SPECTRUM_CYCLE;
-            break;
-
-        case STEELSERIES_RIVAL_3_RAINBOW_BREATHING:
-            usb_buf[0x02] = STEELSERIES_RIVAL_3_EFFECT_RAINBOW_BREATHING;
-            break;
-
-        case STEELSERIES_RIVAL_3_DISCO:
-            usb_buf[0x02] = STEELSERIES_RIVAL_3_EFFECT_DISCO;
-            break;
-
-        default:
-            return;
-    }
-
-    send_usb_msg(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, usb_buf, EFFECT_BUFFER_SIZE);
 }
 
 void SteelSeriesRival3Controller::SetColor
@@ -167,40 +99,18 @@ void SteelSeriesRival3Controller::SetColor
     unsigned char   brightness
     )
 {
-    char usb_buf[7];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    const uint8_t   COLOR_BUFFER_SIZE           = 8;
+    uint8_t         usb_buf[COLOR_BUFFER_SIZE];
 
-    usb_buf[0x00] = 0x05;
-    usb_buf[0x01] = 0x00;
-    usb_buf[0x02] = zone_id;
+    usb_buf[0x00] = 0x00;
+    usb_buf[0x01] = 0x05;
+    usb_buf[0x02] = 0x00;
+    usb_buf[0x03] = zone_id;
 
-    usb_buf[0x03] = red;
-    usb_buf[0x04] = green;
-    usb_buf[0x05] = blue;
-    usb_buf[0x06] = brightness;
+    usb_buf[0x04] = red;
+    usb_buf[0x05] = green;
+    usb_buf[0x06] = blue;
+    usb_buf[0x07] = brightness;
 
-    send_usb_msg(dev, usb_buf, sizeof(usb_buf));
-}
-
-void SteelSeriesRival3Controller::SetColorAll
-    (
-        unsigned char   red,
-        unsigned char   green,
-        unsigned char   blue
-    )
-{
-    char usb_buf[32];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-   
-    usb_buf[0x00] = 0x0a;
-    usb_buf[0x01] = 0x00;
-    usb_buf[0x02] = 0x0f;
-    
-    for (int i = 1; i <= 4; i++) {
-        usb_buf[0x03 * i]           = red;
-        usb_buf[0x03 * i + 0x01]    = green;
-        usb_buf[0x03 * i + 0x02]    = blue;
-    }
-
-    send_usb_msg(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, usb_buf, COLOR_BUFFER_SIZE);
 }

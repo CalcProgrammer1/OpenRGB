@@ -37,17 +37,17 @@ RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRiva
 
     mode Direct;
     Direct.name             = "Direct";
-    Direct.value            = STEELSERIES_RIVAL_3_DIRECT;
+    Direct.value            = STEELSERIES_RIVAL_3_EFFECT_DIRECT;
     Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     Direct.brightness_min   = 0x00;
-    Direct.brightness_max   = 0x64;
-    Direct.brightness       = 0x64;
+    Direct.brightness_max   = STEELSERIES_RIVAL_3_BRIGHTNESS_MAX;
+    Direct.brightness       = STEELSERIES_RIVAL_3_BRIGHTNESS_MAX;
     modes.push_back(Direct);
 
     mode Breathing;
     Breathing.name          = "Breathing";
-    Breathing.value         = STEELSERIES_RIVAL_3_BREATHING;
+    Breathing.value         = STEELSERIES_RIVAL_3_EFFECT_BREATHING_MIN;
     Breathing.flags         = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     Breathing.color_mode    = MODE_COLORS_PER_LED;
     Breathing.speed_min     = 0;
@@ -57,13 +57,13 @@ RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRiva
 
     mode SpectrumCycle;
     SpectrumCycle.name      = "Spectrum Cycle";
-    SpectrumCycle.value     = STEELSERIES_RIVAL_3_SPECTRUM_CYCLE;
+    SpectrumCycle.value     = STEELSERIES_RIVAL_3_EFFECT_SPECTRUM_CYCLE;
     SpectrumCycle.flags     = MODE_FLAG_MANUAL_SAVE;
     modes.push_back(SpectrumCycle);
 
     mode RainbowBreathing;
     RainbowBreathing.name   = "Rainbow Breathing";
-    RainbowBreathing.value  = STEELSERIES_RIVAL_3_RAINBOW_BREATHING;
+    RainbowBreathing.value  = STEELSERIES_RIVAL_3_EFFECT_RAINBOW_BREATHING;
     RainbowBreathing.flags  = MODE_FLAG_MANUAL_SAVE;
     modes.push_back(RainbowBreathing);
 
@@ -82,7 +82,7 @@ RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRiva
     /*
     mode Disco;
     Disco.name              = "Disco";
-    Disco.value             = STEELSERIES_RIVAL_3_DISCO;
+    Disco.value             = STEELSERIES_RIVAL_3_EFFECT_DISCO;
     Disco.flags             = MODE_FLAG_MANUAL_SAVE;
     modes.push_back(Disco);
     */
@@ -130,28 +130,15 @@ void RGBController_SteelSeriesRival3::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_SteelSeriesRival3::DeviceUpdateLEDs()
 {
-    for(unsigned int i = 0; i < leds.size(); i++)
+    for(unsigned int i = 0; i < zones.size(); i++)
     {
-        unsigned char red = RGBGetRValue(colors[i]);
-        unsigned char grn = RGBGetGValue(colors[i]);
-        unsigned char blu = RGBGetBValue(colors[i]);
-        rival->SetColor(leds[i].value, red, grn, blu, modes[active_mode].brightness);
+        UpdateZoneLEDs(i);
     }
-
-    DeviceUpdateMode();
 }
 
 void RGBController_SteelSeriesRival3::UpdateZoneLEDs(int zone)
 {
-    for(unsigned int i = 0; i < zones[zone].leds_count; i++)
-    {
-        unsigned char red = RGBGetRValue(zones[zone].colors[i]);
-        unsigned char grn = RGBGetGValue(zones[zone].colors[i]);
-        unsigned char blu = RGBGetBValue(zones[zone].colors[i]);
-        rival->SetColor(zones[zone].leds[i].value, red, grn, blu, modes[active_mode].brightness);
-    }
-
-    DeviceUpdateMode();
+    UpdateSingleLED(zones[zone].leds[0].value);
 }   
 
 void RGBController_SteelSeriesRival3::UpdateSingleLED(int led)
@@ -160,8 +147,6 @@ void RGBController_SteelSeriesRival3::UpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
     rival->SetColor(leds[led].value, red, grn, blu, modes[active_mode].brightness);
-
-    DeviceUpdateMode();
 }
 
 void RGBController_SteelSeriesRival3::SetCustomMode()
@@ -171,13 +156,5 @@ void RGBController_SteelSeriesRival3::SetCustomMode()
 
 void RGBController_SteelSeriesRival3::DeviceUpdateMode()
 {
-    switch (modes[active_mode].value) {
-        case STEELSERIES_RIVAL_3_BREATHING:
-            rival->SetLightEffectAll(modes[active_mode].value, modes[active_mode].speed);
-            break;
-
-        default:
-            rival->SetLightEffectAll(modes[active_mode].value, 0);
-            break;
-    }
+    rival->SetLightEffectAll(modes[active_mode].value - modes[active_mode].speed);
 }
