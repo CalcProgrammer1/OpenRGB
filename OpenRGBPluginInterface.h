@@ -13,6 +13,7 @@
 
 #include <QtPlugin>
 #include <QLabel>
+#include <QMenu>
 
 #define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
 
@@ -68,6 +69,7 @@ public:
     \*-------------------------------------------------------------------------------------------------*/
     virtual void                Load(bool dark_theme, ResourceManager* resource_manager_ptr)        = 0;
     virtual QWidget*            GetWidget()                                                         = 0;
+    virtual QMenu*              GetTrayMenu()                                                       = 0;
     virtual void                Unload()                                                            = 0;
 };
 

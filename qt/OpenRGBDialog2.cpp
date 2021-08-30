@@ -96,18 +96,18 @@ static void UpdateDetectionProgressCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
 }
 
-static void CreatePluginTabCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
+static void CreatePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
 {
     OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
 
-    this_obj->AddPluginTab(plugin);
+    this_obj->AddPlugin(plugin);
 }
 
-static void DeletePluginTabCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
+static void DeletePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
 {
     OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
 
-    this_obj->RemovePluginTab(plugin);
+    this_obj->RemovePlugin(plugin);
 }
 
 bool OpenRGBDialog2::IsDarkTheme()
@@ -286,7 +286,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     /*-----------------------------------------------------*\
     | Set up tray icon menu                                 |
     \*-----------------------------------------------------*/
-    QMenu* trayIconMenu = new QMenu( this );
+    trayIconMenu = new QMenu( this );
 
     trayIcon = new QSystemTrayIcon(this);
 
@@ -420,8 +420,8 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     | Initialize the plugin manager                         |
     \*-----------------------------------------------------*/
     plugin_manager = new PluginManager(IsDarkTheme());
-    plugin_manager->RegisterAddPluginTabCallback(&CreatePluginTabCallback, this);
-    plugin_manager->RegisterRemovePluginTabCallback(&DeletePluginTabCallback, this);
+    plugin_manager->RegisterAddPluginCallback(&CreatePluginCallback, this);
+    plugin_manager->RegisterRemovePluginCallback(&DeletePluginCallback, this);
     plugin_manager->ScanAndLoadPlugins();
 
     /*-----------------------------------------------------*\
@@ -698,7 +698,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
 
-void OpenRGBDialog2::AddPluginTab(OpenRGBPluginEntry* plugin)
+void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 {
     /*-----------------------------------------------------*\
     | Create Label for the Tab                              |
@@ -791,9 +791,18 @@ void OpenRGBDialog2::AddPluginTab(OpenRGBPluginEntry* plugin)
     {
         std::cout << ("Cannot load plugin '" + plugin->info.Name + "' as it does not specify a valid location.\n");
     }
+
+    QMenu* NewTrayMenu = plugin->plugin->GetTrayMenu();
+
+    plugin->traymenu = NewTrayMenu;
+
+    if(NewTrayMenu)
+    {
+        trayIconMenu->addMenu(NewTrayMenu);
+    }
 }
 
-void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
+void OpenRGBDialog2::RemovePlugin(OpenRGBPluginEntry* plugin)
 {
     /*-----------------------------------------------------*\
     | Place plugin as its own top level tab                 |
@@ -862,6 +871,11 @@ void OpenRGBDialog2::RemovePluginTab(OpenRGBPluginEntry* plugin)
                 }
             }
         }
+    }
+
+    if(plugin->traymenu)
+    {
+        trayIconMenu->removeAction(plugin->traymenu->menuAction());
     }
 }
 

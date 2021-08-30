@@ -45,8 +45,8 @@ public:
     void AddI2CToolsPage();
     void AddServerTab();
 
-    void AddPluginTab(OpenRGBPluginEntry* plugin);
-    void RemovePluginTab(OpenRGBPluginEntry* plugin);
+    void AddPlugin(OpenRGBPluginEntry* plugin);
+    void RemovePlugin(OpenRGBPluginEntry* plugin);
 
     void setMode(unsigned char mode_val);
 
@@ -73,6 +73,7 @@ private:
     | System tray icon and menu             |
     \*-------------------------------------*/
     QSystemTrayIcon* trayIcon;
+    QMenu* trayIconMenu;
     QMenu* profileMenu;
 
     /*-------------------------------------*\

@@ -18,20 +18,21 @@ typedef struct
     QPluginLoader*              loader;
     bool                        loaded;
     QWidget*                    widget;
+    QMenu*                      traymenu;
     std::string                 path;
     bool                        enabled;
 } OpenRGBPluginEntry;
 
-typedef void (*AddPluginTabCallback)(void *, OpenRGBPluginEntry* plugin);
-typedef void (*RemovePluginTabCallback)(void *, OpenRGBPluginEntry* plugin);
+typedef void (*AddPluginCallback)(void *, OpenRGBPluginEntry* plugin);
+typedef void (*RemovePluginCallback)(void *, OpenRGBPluginEntry* plugin);
 
 class PluginManager
 {
 public:
     PluginManager(bool dark_theme);
 
-    void RegisterAddPluginTabCallback(AddPluginTabCallback new_callback, void * new_callback_arg);
-    void RegisterRemovePluginTabCallback(RemovePluginTabCallback new_callback, void * new_callback_arg);
+    void RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg);
+    void RegisterRemovePluginCallback(RemovePluginCallback new_callback, void * new_callback_arg);
 
     void ScanAndLoadPlugins();
 
@@ -46,9 +47,9 @@ public:
 private:
     bool dark_theme;
 
-    AddPluginTabCallback    AddPluginTabCallbackVal;
-    void *                  AddPluginTabCallbackArg;
+    AddPluginCallback       AddPluginCallbackVal;
+    void *                  AddPluginCallbackArg;
 
-    RemovePluginTabCallback RemovePluginTabCallbackVal;
-    void *                  RemovePluginTabCallbackArg;
+    RemovePluginCallback    RemovePluginCallbackVal;
+    void *                  RemovePluginCallbackArg;
 };

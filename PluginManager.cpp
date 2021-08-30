@@ -6,23 +6,23 @@ PluginManager::PluginManager(bool dark_theme_val)
     /*---------------------------------------------------------*\
     | Initialize plugin manager class variables                 |
     \*---------------------------------------------------------*/
-    dark_theme                  = dark_theme_val;
-    AddPluginTabCallbackVal     = nullptr;
-    AddPluginTabCallbackArg     = nullptr;
-    RemovePluginTabCallbackVal  = nullptr;
-    RemovePluginTabCallbackArg  = nullptr;
+    dark_theme              = dark_theme_val;
+    AddPluginCallbackVal    = nullptr;
+    AddPluginCallbackArg    = nullptr;
+    RemovePluginCallbackVal = nullptr;
+    RemovePluginCallbackArg = nullptr;
 }
 
-void PluginManager::RegisterAddPluginTabCallback(AddPluginTabCallback new_callback, void * new_callback_arg)
+void PluginManager::RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg)
 {
-    AddPluginTabCallbackVal = new_callback;
-    AddPluginTabCallbackArg = new_callback_arg;
+    AddPluginCallbackVal    = new_callback;
+    AddPluginCallbackArg    = new_callback_arg;
 }
 
-void PluginManager::RegisterRemovePluginTabCallback(RemovePluginTabCallback new_callback, void * new_callback_arg)
+void PluginManager::RegisterRemovePluginCallback(RemovePluginCallback new_callback, void * new_callback_arg)
 {
-    RemovePluginTabCallbackVal  = new_callback;
-    RemovePluginTabCallbackArg  = new_callback_arg;
+    RemovePluginCallbackVal = new_callback;
+    RemovePluginCallbackArg = new_callback_arg;
 }
 
 void PluginManager::ScanAndLoadPlugins()
@@ -272,11 +272,11 @@ void PluginManager::LoadPlugin(std::string path)
                     plugin->Load(dark_theme, ResourceManager::get());
 
                     /*-------------------------------------------------*\
-                    | Call the Add Plugin Tab callback                  |
+                    | Call the Add Plugin callback                      |
                     \*-------------------------------------------------*/
-                    if(AddPluginTabCallbackArg != nullptr)
+                    if(AddPluginCallbackArg != nullptr)
                     {
-                        AddPluginTabCallbackVal(AddPluginTabCallbackArg, &ActivePlugins[plugin_idx]);
+                        AddPluginCallbackVal(AddPluginCallbackArg, &ActivePlugins[plugin_idx]);
                     }
                 }
             }
@@ -318,11 +318,11 @@ void PluginManager::UnloadPlugin(std::string path)
         ActivePlugins[plugin_idx].plugin->Unload();
 
         /*-------------------------------------------------*\
-        | Call the Remove Plugin Tab callback               |
+        | Call the Remove Plugin callback                   |
         \*-------------------------------------------------*/
-        if(RemovePluginTabCallbackVal != nullptr)
+        if(RemovePluginCallbackVal != nullptr)
         {
-            RemovePluginTabCallbackVal(RemovePluginTabCallbackArg, &ActivePlugins[plugin_idx]);
+            RemovePluginCallbackVal(RemovePluginCallbackArg, &ActivePlugins[plugin_idx]);
         }
 
         ActivePlugins[plugin_idx].loader->unload();
