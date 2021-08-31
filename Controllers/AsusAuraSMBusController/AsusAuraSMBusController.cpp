@@ -83,12 +83,12 @@ AuraSMBusController::AuraSMBusController(i2c_smbus_interface* bus, aura_dev_id d
         effect_reg = AURA_REG_COLORS_EFFECT_V2;
         channel_cfg = AURA_CONFIG_CHANNEL_V2;
     }
-    // AUMA0-E8K4-0101 - Second generation motherboard controller
+    // AUMA0-E8K4-0101 - First generation motherboard controller
     else if (strcmp(device_name, "AUMA0-E8K4-0101") == 0)
     {
-        direct_reg = AURA_REG_COLORS_DIRECT_V2;
-        effect_reg = AURA_REG_COLORS_EFFECT_V2;
-        channel_cfg = AURA_CONFIG_CHANNEL_V2;
+        direct_reg = AURA_REG_COLORS_DIRECT;
+        effect_reg = AURA_REG_COLORS_EFFECT;
+        channel_cfg = AURA_CONFIG_CHANNEL_V1;
     }
     // Assume first generation controller if string does not match
     else
