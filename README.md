@@ -196,6 +196,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * Scheduler Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBSchedulerPlugin
   * Skin Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/openrgbskinplugin 
   * Hardware Sync Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHardwareSyncPlugin
+  * Http Hook Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHttpHookPlugin
   
 ## Projects Used
 
