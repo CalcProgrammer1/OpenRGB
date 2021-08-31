@@ -25,6 +25,7 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* cmmk_
     cmmk                        = cmmk_ctrl;
 
     name                        = cmmk->GetDeviceName();
+    vendor                      = cmmk->GetDeviceVendor();
     type                        = DEVICE_TYPE_KEYBOARD;
     description                 = "Cooler Master MasterKeys Device";
     version                     = cmmk->GetFirmwareVersion();
@@ -198,9 +199,12 @@ void RGBController_CMMKController::SetupMatrixMap()
 
 void RGBController_CMMKController::SetupZones()
 {
-    for(int y = 0; y < CMMK_ROWS_MAX; y++)
+    uint8_t row_count       = cmmk->GetRowCount();
+    uint8_t column_count    = cmmk->GetColumnCount();
+
+    for(int y = 0; y < row_count; y++)
     {
-        for(int x = 0; x < CMMK_COLS_MAX; x++)
+        for(int x = 0; x < column_count; x++)
         {
             if(!cmmk->PositionValid(y, x))
             {
@@ -227,8 +231,8 @@ void RGBController_CMMKController::SetupZones()
     KeyboardZone.leds_max           = leds.size();
     KeyboardZone.leds_count         = leds.size();
     KeyboardZone.matrix_map         = new matrix_map_type;
-    KeyboardZone.matrix_map->height = CMMK_ROWS_MAX;
-    KeyboardZone.matrix_map->width  = CMMK_COLS_MAX;
+    KeyboardZone.matrix_map->height = row_count;
+    KeyboardZone.matrix_map->width  = column_count;
     KeyboardZone.matrix_map->map    = (unsigned int *)&matrix_map;
 
     zones.push_back(KeyboardZone);

@@ -20,8 +20,11 @@ public:
     ~CMMKController();
 
     std::string GetDeviceName();
+    std::string GetDeviceVendor();
     std::string GetLocation();
     std::string GetFirmwareVersion();
+    uint8_t     GetRowCount();
+    uint8_t     GetColumnCount();
 
     void SetFirmwareControl();
     void SetManualControl();
@@ -51,8 +54,11 @@ private:
     int         current_effect  = -1;
 
     std::string device_name;
+    std::string vendor_name;
     std::string location;
     std::string firmware_version;
+    uint8_t     row_count;
+    uint8_t     column_count;
 
     mutable struct cmmk cmmk_handle;
 };

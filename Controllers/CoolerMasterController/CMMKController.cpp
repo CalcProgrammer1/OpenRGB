@@ -12,23 +12,43 @@
 
 CMMKController::CMMKController(hid_device* dev, hid_device_info* dev_info)
 {
-    location        =  dev_info->path;
+    location            =  dev_info->path;
 
-    const int szTemp = 256;
+    const int szTemp    = 256;
     wchar_t tmpName[szTemp];
 
     hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name        = std::string(wName.begin(), wName.end());
+    std::wstring wName  = std::wstring(tmpName);
+    vendor_name         = std::string(wName.begin(), wName.end());
 
     hid_get_product_string(dev, tmpName, szTemp);
     wName  = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+    device_name         = std::string(wName.begin(), wName.end());
 
     cmmk_attach_path(&cmmk_handle, dev_info->path, dev_info->product_id, -1);
 
     char buf[32] = {0};
     cmmk_get_firmware_version(&cmmk_handle, buf, 32);
+
+    /*--------------------------------------------------------------*\
+    | Adjust the row count for keyboards without the front light bar |
+    | Adjust the column count for TKL keyboards (i.e. x30 vs x50)    |
+    \*--------------------------------------------------------------*/
+    enum cmmk_product_type kb_type = cmmk_get_device_model(&cmmk_handle);
+    row_count = (kb_type == CMMK_PRODUCT_MASTERKEYS_MK750) ? CMMK_ROWS_MAX : CMMK_ROWS_MAX - 1;
+    switch(kb_type)
+    {
+        case CMMK_PRODUCT_MASTERKEYS_PRO_S:
+        case CMMK_PRODUCT_MASTERKEYS_SK630:
+            column_count = CMMK_COLS_MAX - 4;
+            break;
+
+        case CMMK_PRODUCT_MASTERKEYS_PRO_L:
+        case CMMK_PRODUCT_MASTERKEYS_MK750:
+        case CMMK_PRODUCT_MASTERKEYS_SK650:
+        default:
+            column_count = CMMK_COLS_MAX;
+    }
 
     firmware_version = buf;
 }
@@ -43,6 +63,11 @@ std::string CMMKController::GetDeviceName()
     return device_name;
 }
 
+std::string CMMKController::GetDeviceVendor()
+{
+    return vendor_name;
+}
+
 std::string CMMKController::GetLocation()
 {
     return location;
@@ -51,6 +76,16 @@ std::string CMMKController::GetLocation()
 std::string CMMKController::GetFirmwareVersion()
 {
     return firmware_version;
+}
+
+uint8_t CMMKController::GetRowCount()
+{
+    return row_count;
+}
+
+uint8_t CMMKController::GetColumnCount()
+{
+    return column_count;
 }
 
 void CMMKController::SetFirmwareControl()
