@@ -236,10 +236,10 @@ REGISTER_HID_DETECTOR_IP("Corsair Sabre RGB",               DetectCorsairPeriphe
 \*-----------------------------------------------------------------------------------------------------*/
 #ifdef USE_HID_USAGE
 REGISTER_HID_DETECTOR_P("Corsair MM800 RGB Polaris",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM800_RGB_POLARIS_PID, 0xFFC2);
-REGISTER_HID_DETECTOR_P("Corsair MM700 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM700_RGB_PID, 0xFFC2);
+REGISTER_HID_DETECTOR_P("Corsair MM700 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM700_RGB_PID,         0xFFC2);
 #else
 REGISTER_HID_DETECTOR_I("Corsair MM800 RGB Polaris",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM800_RGB_POLARIS_PID, 0);
-REGISTER_HID_DETECTOR_I("Corsair MM700 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM700_RGB_PID, 0);
+REGISTER_HID_DETECTOR_I("Corsair MM700 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_MM700_RGB_PID,         0);
 #endif
 /*-----------------------------------------------------------------------------------------------------*\
 | Headset Stands                                                                                        |
