@@ -104,6 +104,8 @@ private:
 
     PluginManager* plugin_manager = nullptr;
 
+    QAction* actionExit;
+
 private slots:
     void on_Exit();
     void on_LightsOff();

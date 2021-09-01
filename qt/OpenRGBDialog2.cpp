@@ -343,7 +343,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     connect(actionLightsOff, SIGNAL(triggered()), this, SLOT(on_LightsOff()));
     trayIconMenu->addAction(actionLightsOff);
 
-    QAction* actionExit = new QAction( "Exit", this );
+    actionExit = new QAction( "Exit", this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
     trayIconMenu->addAction(actionExit);
 
@@ -807,7 +807,7 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 
     if(NewTrayMenu)
     {
-        trayIconMenu->addMenu(NewTrayMenu);
+        trayIconMenu->insertMenu(actionExit, NewTrayMenu);
     }
 }
 
