@@ -9,7 +9,7 @@
 
 #include "filesystem.h"
 
-static const char* log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "[verbose]", "Debug:", "Trace:"};
+static const char* log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:"};
 
 LogManager::LogManager()
 {

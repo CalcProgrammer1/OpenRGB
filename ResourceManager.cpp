@@ -105,7 +105,7 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
 
 void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 {
-    LOG_INFO("Registering RGB controller: %s", rgb_controller->name.c_str());
+    LOG_INFO("[%s] Registering RGB controller", rgb_controller->name.c_str());
     rgb_controllers_hw.push_back(rgb_controller);
 
     UpdateDeviceList();
@@ -113,7 +113,7 @@ void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 
 void ResourceManager::UnregisterRGBController(RGBController* rgb_controller)
 {
-    LOG_INFO("Unregistering RGB controller: %s", rgb_controller->name.c_str());
+    LOG_INFO("[%s] Unregistering RGB controller", rgb_controller->name.c_str());
 
     /*-------------------------------------------------------------------------*\
     | Clear callbacks from the controller before removal                        |
@@ -746,7 +746,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             this_device_enabled = detector_settings["detectors"][detection_string];
         }
 
-        LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "Enabled" : "Disabled"));
+        LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
         if(this_device_enabled)
         {
             DetectionProgressChanged();
@@ -845,7 +845,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                         this_device_enabled = detector_settings["detectors"][detection_string];
                     }
 
-                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "Enabled" : "Disabled"));
+                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
 
                     if(this_device_enabled)
                     {
@@ -940,7 +940,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                         this_device_enabled = detector_settings["detectors"][detection_string];
                     }
 
-                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "Enabled" : "Disabled"));
+                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
 
                     if(this_device_enabled)
                     {
@@ -1001,7 +1001,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             this_device_enabled = detector_settings["detectors"][detection_string];
         }
 
-        LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "Enabled" : "Disabled"));
+        LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
 
         if(this_device_enabled)
         {
