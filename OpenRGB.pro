@@ -333,6 +333,7 @@ HEADERS +=                                                                      
     Controllers/LogitechController/LogitechG810Controller.h                                     \
     Controllers/LogitechController/LogitechG910Controller.h                                     \
     Controllers/LogitechController/LogitechG815Controller.h                                     \
+    Controllers/LogitechController/LogitechG915Controller.h                                     \
     Controllers/LogitechController/LogitechGLightsyncController.h                               \
     Controllers/LogitechController/LogitechLightspeedController.h                               \
     Controllers/LogitechController/LogitechX56Controller.h                                      \
@@ -343,6 +344,7 @@ HEADERS +=                                                                      
     Controllers/LogitechController/RGBController_LogitechG810.h                                 \
     Controllers/LogitechController/RGBController_LogitechG910.h                                 \
     Controllers/LogitechController/RGBController_LogitechG815.h                                 \
+    Controllers/LogitechController/RGBController_LogitechG915.h                                 \
     Controllers/LogitechController/RGBController_LogitechGLightsync.h                           \
     Controllers/LogitechController/RGBController_LogitechGLightsync1zone.h                      \
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.h                           \
@@ -707,6 +709,7 @@ SOURCES +=                                                                      
     Controllers/LogitechController/LogitechG810Controller.cpp                                   \
     Controllers/LogitechController/LogitechG910Controller.cpp                                   \
     Controllers/LogitechController/LogitechG815Controller.cpp                                   \
+    Controllers/LogitechController/LogitechG915Controller.cpp                                   \
     Controllers/LogitechController/LogitechGLightsyncController.cpp                             \
     Controllers/LogitechController/LogitechLightspeedController.cpp                             \
     Controllers/LogitechController/LogitechX56Controller.cpp                                    \
@@ -717,6 +720,7 @@ SOURCES +=                                                                      
     Controllers/LogitechController/RGBController_LogitechG810.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG910.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG815.cpp                               \
+    Controllers/LogitechController/RGBController_LogitechG915.cpp                               \
     Controllers/LogitechController/RGBController_LogitechGLightsync.cpp                         \
     Controllers/LogitechController/RGBController_LogitechGLightsync1zone.cpp                    \
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.cpp                         \
