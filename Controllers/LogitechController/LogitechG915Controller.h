@@ -64,7 +64,7 @@ enum
 class LogitechG915Controller
 {
 public:
-    LogitechG915Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, bool wired);
+    LogitechG915Controller(hid_device* dev_handle, bool wired);
     ~LogitechG915Controller();
 
     std::string GetSerialString();
@@ -92,8 +92,7 @@ public:
                     );
 
 private:
-    hid_device* dev_pkt_0x11;
-    hid_device* dev_pkt_0x12;
+    hid_device* dev_handle;
     char feature_4522_idx;
     char feature_8040_idx;
     char feature_8071_idx;
