@@ -93,10 +93,16 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
     /*-------------------------------------------------------------------------------------------------*\
     | Razer's ARGB controller uses two different interfaces, one for 90-byte Razer report packets and   |
     | one for 320-byte ARGB packets.  Interface 0 for 90-byte and interface 1 for 320-byte.             |
+    |                                                                                                   |
+    | Create a local copy of the HID enumerations for the Razer ARGB controller VID/PID and iterate     |
+    | through it.  This prevents detection from failing if interface 1 comes before interface 0 in the  |
+    | main info list.                                                                                   |
     \*-------------------------------------------------------------------------------------------------*/
      hid_device* dev_interface_0 = nullptr;
      hid_device* dev_interface_1 = nullptr;
-     hid_device_info* info_temp = hid_enumerate(RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID);
+     hid_device_info* info_full = hid_enumerate(RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID);
+     hid_device_info* info_temp = info_full;
+
      while(info_temp)
      {
          if(info_temp->vendor_id        == info->vendor_id
@@ -117,6 +123,9 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
          }
          info_temp = info_temp->next;
      }
+     
+     hid_free_enumeration(info_full);
+
      if(dev_interface_0 && dev_interface_1)
      {
          RazerController* controller                    = new RazerController(dev_interface_0, dev_interface_1, info->path, info->product_id, name);
