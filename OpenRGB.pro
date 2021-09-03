@@ -392,8 +392,10 @@ HEADERS +=                                                                      
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.h                       \
     Controllers/SinowealthController/SinowealthController.h                                     \
     Controllers/SinowealthController/SinowealthKeyboardController.h                             \
+    Controllers/SinowealthController/SinowealthKeyboard16Controller.h                           \
     Controllers/SinowealthController/RGBController_Sinowealth.h                                 \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard.h                         \
+    Controllers/SinowealthController/RGBController_SinowealthKeyboard16.h                       \
     Controllers/SonyDS4Controller/SonyDS4Controller.h                                           \
     Controllers/SonyDS4Controller/RGBController_SonyDS4.h                                       \
     Controllers/SteelSeriesController/color32.h                                                 \
@@ -774,9 +776,11 @@ SOURCES +=                                                                      
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.cpp                     \
     Controllers/SinowealthController/SinowealthController.cpp                                   \
     Controllers/SinowealthController/SinowealthKeyboardController.cpp                           \
+    Controllers/SinowealthController/SinowealthKeyboard16Controller.cpp                         \
     Controllers/SinowealthController/SinowealthControllerDetect.cpp                             \
     Controllers/SinowealthController/RGBController_Sinowealth.cpp                               \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard.cpp                       \
+    Controllers/SinowealthController/RGBController_SinowealthKeyboard16.cpp                     \
     Controllers/SonyDS4Controller/SonyDS4Controller.cpp                                         \
     Controllers/SonyDS4Controller/SonyDS4ControllerDetect.cpp                                   \
     Controllers/SonyDS4Controller/RGBController_SonyDS4.cpp                                     \
