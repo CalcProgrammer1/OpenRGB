@@ -16,6 +16,7 @@
 #include "RGBController.h"
 #include "RGBController_QMKOpenRGBRev9.h"
 #include "RGBController_QMKOpenRGBRevB.h"
+#include "LogManager.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -23,6 +24,7 @@
 \*-----------------------------------------------------*/
 #define QMK_OPENRGB_PROTOCOL_VERSION_9          0x09
 #define QMK_OPENRGB_PROTOCOL_VERSION_B          0x0B
+#define QMK_OPENRGB_PROTOCOL_VERSION_C          0x0C
 
 /*-----------------------------------------------------*\
 | Usage and Usage Page                                  |
@@ -77,14 +79,22 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
-
             case QMK_OPENRGB_PROTOCOL_VERSION_B:
                 {
                 QMKOpenRGBRevBController*     controller     = new QMKOpenRGBRevBController(dev, info->path);
-                RGBController_QMKOpenRGBRevB* rgb_controller = new RGBController_QMKOpenRGBRevB(controller);
+                RGBController_QMKOpenRGBRevB* rgb_controller = new RGBController_QMKOpenRGBRevB(controller, false);
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
+            case QMK_OPENRGB_PROTOCOL_VERSION_C:
+                {
+                QMKOpenRGBRevBController*     controller     = new QMKOpenRGBRevBController(dev, info->path);
+                RGBController_QMKOpenRGBRevB* rgb_controller = new RGBController_QMKOpenRGBRevB(controller, true);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                break;
+            default:
+                LOG_INFO("[QMK OpenRGB] Detection failed - the detected keyboard is using an outdated version %i protocol. Please update to to the lastest version!", version);
         }
     }
 }
