@@ -8,9 +8,10 @@
 \*-------------------------------------------------------------------*/
 
 #include "hsv.h"
+#include "LogManager.h"
 #include "RGBController_QMKOpenRGBRevB.h"
 
-RGBController_QMKOpenRGBRevB::RGBController_QMKOpenRGBRevB(QMKOpenRGBRevBController* controller_ptr)
+RGBController_QMKOpenRGBRevB::RGBController_QMKOpenRGBRevB(QMKOpenRGBRevBController* controller_ptr, bool save)
 {
     controller  = controller_ptr;
 
@@ -26,212 +27,212 @@ RGBController_QMKOpenRGBRevB::RGBController_QMKOpenRGBRevB(QMKOpenRGBRevBControl
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_COLOR) != enabled_modes.end())
     {
-        InitializeMode("Static", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Static", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_ALPHA_MOD) != enabled_modes.end())
     {
-        InitializeMode("Alpha Mod", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Alpha Mod", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_GRADIENT_UP_DOWN) != enabled_modes.end())
     {
-        InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_GRADIENT_LEFT_RIGHT) != enabled_modes.end())
     {
-        InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BREATHING) != enabled_modes.end())
     {
-        InitializeMode("Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_SAT) != enabled_modes.end())
     {
-        InitializeMode("Band Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Band Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_VAL) != enabled_modes.end())
     {
-        InitializeMode("Band Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Band Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_PINWHEEL_SAT) != enabled_modes.end())
     {
-        InitializeMode("Band Pinwheel Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Band Pinwheel Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_PINWHEEL_VAL) != enabled_modes.end())
     {
-        InitializeMode("Band Pinwheel Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Band Pinwheel Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_SPIRAL_SAT) != enabled_modes.end())
     {
-        InitializeMode("Band Spiral Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Band Spiral Saturation", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BAND_SPIRAL_VAL) != enabled_modes.end())
     {
-        InitializeMode("Band Spiral Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Band Spiral Value", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_ALL) != enabled_modes.end())
     {
-        InitializeMode("Cycle All", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Cycle All", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_LEFT_RIGHT) != enabled_modes.end())
     {
-        InitializeMode("Cycle Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Cycle Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_UP_DOWN) != enabled_modes.end())
     {
-        InitializeMode("Cycle Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Cycle Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_OUT_IN) != enabled_modes.end())
     {
-        InitializeMode("Cycle Out In", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Cycle Out In", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_OUT_IN_DUAL) != enabled_modes.end())
     {
-        InitializeMode("Cycle Out In Dual", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Cycle Out In Dual", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINBOW_MOVING_CHEVRON) != enabled_modes.end())
     {
-        InitializeMode("Rainbow Moving Chevron", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Rainbow Moving Chevron", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_PINWHEEL) != enabled_modes.end())
     {
-        InitializeMode("Cycle Pinwheel", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Cycle Pinwheel", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_CYCLE_SPIRAL) != enabled_modes.end())
     {
-        InitializeMode("Cycle Spiral", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Cycle Spiral", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_DUAL_BEACON) != enabled_modes.end())
     {
-        InitializeMode("Dual Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Dual Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINBOW_BEACON) != enabled_modes.end())
     {
-        InitializeMode("Rainbow Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Rainbow Beacon", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINBOW_PINWHEELS) != enabled_modes.end())
     {
-        InitializeMode("Rainbow Pinwheels", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Rainbow Pinwheels", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_RAINDROPS) != enabled_modes.end())
     {
-        InitializeMode("Raindrops", current_mode, 0, MODE_COLORS_NONE);
+        InitializeMode("Raindrops", current_mode, 0, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_JELLYBEAN_RAINDROPS) != enabled_modes.end())
     {
-        InitializeMode("Jellybean Raindrops", current_mode, 0, MODE_COLORS_NONE);
+        InitializeMode("Jellybean Raindrops", current_mode, 0, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_HUE_BREATHING) != enabled_modes.end())
     {
-        InitializeMode("Hue Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Hue Breathing", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_HUE_PENDULUM) != enabled_modes.end())
     {
-        InitializeMode("Hue Pendulum", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Hue Pendulum", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_HUE_WAVE) != enabled_modes.end())
     {
-        InitializeMode("Hue Wave", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Hue Wave", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_TYPING_HEATMAP) != enabled_modes.end())
     {
-        InitializeMode("Typing Heatmap", current_mode, 0, MODE_COLORS_NONE);
+        InitializeMode("Typing Heatmap", current_mode, 0, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_DIGITAL_RAIN) != enabled_modes.end())
     {
-        InitializeMode("Digital Rain", current_mode, 0, MODE_COLORS_NONE);
+        InitializeMode("Digital Rain", current_mode, 0, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_SIMPLE) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Simple", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Simple", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_WIDE) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTIWIDE) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Multi Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Multi Wide", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_CROSS) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTICROSS) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Multi Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Multi Cross", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_NEXUS) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_REACTIVE_MULTINEXUS) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Multi Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Multi Nexus", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SPLASH) != enabled_modes.end())
     {
-        InitializeMode("Rainbow Reactive Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Rainbow Reactive Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_MULTISPLASH) != enabled_modes.end())
     {
-        InitializeMode("Rainbow Reactive Multi Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Rainbow Reactive Multi Splash", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_SPLASH) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_MULTISPLASH) != enabled_modes.end())
     {
-        InitializeMode("Solid Reactive Multi Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
+        InitializeMode("Solid Reactive Multi Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_OPENRGB_DIRECT) != enabled_modes.end())
     {
-        InitializeMode("Direct", current_mode, MODE_FLAG_HAS_PER_LED_COLOR, MODE_COLORS_PER_LED);
+        InitializeMode("Direct", current_mode, MODE_FLAG_HAS_PER_LED_COLOR, MODE_COLORS_PER_LED, save);
     }
 
     /*-----------------------------------------------------*\
@@ -430,11 +431,11 @@ void RGBController_QMKOpenRGBRevB::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        controller->SetMode({ 0, 255, 255 }, modes[active_mode].value, 127);
+        controller->SetMode({ 0, 255, 255 }, modes[active_mode].value, 127, false);
     }
     else if(modes[active_mode].color_mode == MODE_COLORS_NONE)
     {
-        controller->SetMode({ 0, 255, 255 }, modes[active_mode].value, modes[active_mode].speed);
+        controller->SetMode({ 0, 255, 255 }, modes[active_mode].value, modes[active_mode].speed, false);
     }
     else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
@@ -444,11 +445,34 @@ void RGBController_QMKOpenRGBRevB::DeviceUpdateMode()
 
         if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
         {
-            controller->SetMode(hsv_color, modes[active_mode].value, modes[active_mode].speed);
+            controller->SetMode(hsv_color, modes[active_mode].value, modes[active_mode].speed, false);
         }
         else
         {
-            controller->SetMode(hsv_color, modes[active_mode].value, 127);
+            controller->SetMode(hsv_color, modes[active_mode].value, 127, false);
+        }
+    }
+}
+
+void RGBController_QMKOpenRGBRevB::DeviceSaveMode()
+{
+    if(modes[active_mode].color_mode == MODE_COLORS_NONE)
+    {
+        controller->SetMode({ 0, 255, 255 }, modes[active_mode].value, modes[active_mode].speed, true);
+    }
+    else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+    {
+        RGBColor rgb_color = modes[active_mode].colors[0];
+        hsv_t hsv_color;
+        rgb2hsv(rgb_color, &hsv_color);
+
+        if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
+        {
+            controller->SetMode(hsv_color, modes[active_mode].value, modes[active_mode].speed, true);
+        }
+        else
+        {
+            controller->SetMode(hsv_color, modes[active_mode].value, 127, true);
         }
     }
 }
@@ -458,7 +482,8 @@ void RGBController_QMKOpenRGBRevB::InitializeMode
     std::string name,
     unsigned int &current_mode,
     unsigned int flags,
-    unsigned int color_mode
+    unsigned int color_mode,
+    bool save
     )
 {
     mode qmk_mode;
@@ -491,6 +516,13 @@ void RGBController_QMKOpenRGBRevB::InitializeMode
     }
     else
     {
+        /*-----------------------------------------------------*\
+        | Every mode apart from direct is save-able             |
+        \*-----------------------------------------------------*/
+        if(save == true)
+        {
+            qmk_mode.flags = flags | MODE_FLAG_MANUAL_SAVE;
+        }
         modes.push_back(qmk_mode);
     }
 }

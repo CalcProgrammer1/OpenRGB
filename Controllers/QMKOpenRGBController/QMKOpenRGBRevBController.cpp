@@ -382,7 +382,7 @@ std::vector<unsigned int> QMKOpenRGBRevBController::GetEnabledModes()
     return enabled_modes;
 }
 
-void QMKOpenRGBRevBController::SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed)
+void QMKOpenRGBRevBController::SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed, bool save)
 {
     unsigned char usb_buf[QMK_OPENRGB_PACKET_SIZE];
 
@@ -401,6 +401,7 @@ void QMKOpenRGBRevBController::SetMode(hsv_t hsv_color, unsigned char mode, unsi
     usb_buf[0x04] = hsv_color.value;
     usb_buf[0x05] = mode;
     usb_buf[0x06] = speed;
+    usb_buf[0x07] = save;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |

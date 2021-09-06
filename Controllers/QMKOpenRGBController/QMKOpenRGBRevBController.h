@@ -39,7 +39,7 @@ public:
     void                        GetLEDInfo(unsigned int leds_count);
     std::vector<unsigned int>   GetEnabledModes();
 
-    void            SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed);
+    void            SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed, bool save);
     void            DirectModeSetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void            DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int num_colors);
 

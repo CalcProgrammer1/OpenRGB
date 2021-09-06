@@ -23,7 +23,7 @@ typedef std::vector<std::vector<unsigned int>> VectorMatrix;
 class RGBController_QMKOpenRGBRevB : public RGBController
 {
 public:
-    RGBController_QMKOpenRGBRevB(QMKOpenRGBRevBController* controller_ptr);
+    RGBController_QMKOpenRGBRevB(QMKOpenRGBRevBController* controller_ptr, bool save);
     ~RGBController_QMKOpenRGBRevB();
 
     void                                    SetupZones();
@@ -35,6 +35,7 @@ public:
 
     void                                    SetCustomMode();
     void                                    DeviceUpdateMode();
+    void                                    DeviceSaveMode();
 
 private:
     QMKOpenRGBRevBController*   controller;
@@ -46,7 +47,8 @@ private:
                                             std::string name,
                                             unsigned int &current_mode,
                                             unsigned int flags,
-                                            unsigned int color_mode
+                                            unsigned int color_mode,
+                                            bool save
                                             );
 
     unsigned int                            CalculateDivisor
