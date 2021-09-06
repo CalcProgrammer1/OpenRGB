@@ -192,6 +192,8 @@ HEADERS +=                                                                      
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.h                                   \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h                                    \
+    qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.h                               \
+    qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h                                \
     qt/OpenRGBZonesBulkResizer.h                                                                \
     qt/TabLabel.h                                                                               \
     serial_port/find_usb_serial_port.h                                                          \
@@ -525,6 +527,8 @@ SOURCES +=                                                                      
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.cpp                                \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.cpp                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.cpp                                  \
+    qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.cpp                             \
+    qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.cpp                              \
     serial_port/serial_port.cpp                                                                 \
     super_io/super_io.cpp                                                                       \
     AutoStart/AutoStart.cpp                                                                     \
@@ -874,6 +878,8 @@ FORMS +=                                                                        
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.ui                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui                                   \
+    qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.ui                              \
+    qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.ui                               \
     qt/OpenRGBZonesBulkResizer.ui                                                               \
     qt/TabLabel.ui                                                                              \
 

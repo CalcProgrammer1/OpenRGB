@@ -13,6 +13,7 @@
 #include "OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h"
 #include "OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h"
 #include "OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h"
+#include "OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h"
 #include "PluginManager.h"
 
 #include <vector>
@@ -68,6 +69,7 @@ private:
     OpenRGBPhilipsWizSettingsPage *PhilipsWizSettingsPage;
     OpenRGBQMKORGBSettingsPage *QMKORGBSettingsPage;
     OpenRGBSerialSettingsPage *SerialSettingsPage;
+    OpenRGBYeelightSettingsPage *YeelightSettingsPage;
 
     bool ShowI2CTools = false;
 
@@ -90,6 +92,7 @@ private:
     void AddPhilipsWizSettingsPage();
     void AddQMKORGBSettingsPage();
     void AddSerialSettingsPage();
+    void AddYeelightSettingsPage();
     void AddPluginsPage(PluginManager* plugin_manager);
 
     void ClearDevicesList();
