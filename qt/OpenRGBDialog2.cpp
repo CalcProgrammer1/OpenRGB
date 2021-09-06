@@ -454,6 +454,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddQMKORGBSettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the Philips Wiz settings page                     |
+    \*-----------------------------------------------------*/
+    AddPhilipsWizSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
     \*-----------------------------------------------------*/
     if(ShowI2CTools)
@@ -647,6 +652,34 @@ void OpenRGBDialog2::AddE131SettingsPage()
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
     TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "E1.31 Devices");
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddPhilipsWizSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    PhilipsWizSettingsPage = new OpenRGBPhilipsWizSettingsPage();
+
+    ui->SettingsTabBar->addTab(PhilipsWizSettingsPage, "");
+
+    QString SettingsLabelString;
+
+    if(IsDarkTheme())
+    {
+        SettingsLabelString = "light_dark.png";
+    }
+    else
+    {
+        SettingsLabelString = "light.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Philips Wiz Devices");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }

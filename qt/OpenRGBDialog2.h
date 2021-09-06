@@ -10,6 +10,7 @@
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
 #include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
+#include "OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h"
 #include "OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h"
 #include "OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h"
 #include "PluginManager.h"
@@ -64,6 +65,7 @@ private:
     OpenRGBSupportedDevicesPage *SupportedPage;
     OpenRGBSettingsPage *SettingsPage;
     OpenRGBE131SettingsPage *E131SettingsPage;
+    OpenRGBPhilipsWizSettingsPage *PhilipsWizSettingsPage;
     OpenRGBQMKORGBSettingsPage *QMKORGBSettingsPage;
     OpenRGBSerialSettingsPage *SerialSettingsPage;
 
@@ -85,6 +87,7 @@ private:
     void AddSupportedDevicesPage();
     void AddSettingsPage();
     void AddE131SettingsPage();
+    void AddPhilipsWizSettingsPage();
     void AddQMKORGBSettingsPage();
     void AddSerialSettingsPage();
     void AddPluginsPage(PluginManager* plugin_manager);
