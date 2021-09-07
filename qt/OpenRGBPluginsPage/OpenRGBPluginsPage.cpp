@@ -88,7 +88,17 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
     \*-----------------------------------------------------*/
     QString     install_file    = QFileDialog::getOpenFileName(this, "Install OpenRGB Plugin", "", "DLL Files (*.dll; *.dylib; *.so; *.so.*)");
 
-    std::string from_path       = install_file.toStdString();
+    bool installed = InstallPlugin(install_file.toStdString());
+
+    if(installed)
+    {
+        RefreshList();
+    }
+}
+
+bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
+{
+    std::string from_path       = install_file;
     std::string to_path         = ResourceManager::get()->GetConfigurationDirectory() + "plugins/";
     std::string to_file         = to_path + filesystem::path(from_path).filename().string();
     bool        match           = false;
@@ -116,7 +126,7 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
 
         if(reply != QMessageBox::Yes)
         {
-            return;
+            return false;
         }
     }
 
@@ -132,12 +142,14 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
 
         plugin_manager->AddPlugin(to_file);
 
-        RefreshList();
+        return true;
     }
     catch(std::exception& e)
     {
 
     }
+
+    return false;
 }
 
 void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
@@ -306,3 +318,19 @@ void Ui::OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
     \*-----------------------------------------------------*/
     ui->RemovePluginButton->setEnabled(!ui->PluginsList->selectedItems().empty());
 }
+
+void Ui::OpenRGBPluginsPage::on_PluginsList_PluginsDropped(std::vector<std::string> path_list)
+{
+    bool installed = false;
+
+    for(const std::string& file_path: path_list)
+    {
+        installed |= InstallPlugin(file_path);
+    }
+
+    if(installed)
+    {
+        RefreshList();
+    }
+}
+

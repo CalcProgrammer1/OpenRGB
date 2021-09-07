@@ -27,12 +27,15 @@ private slots:
     void on_RemovePluginButton_clicked();
 
     void on_PluginsList_itemSelectionChanged();
+    
+    void on_PluginsList_PluginsDropped(std::vector<std::string>);
 
 private:
     Ui::OpenRGBPluginsPageUi*   ui;
     PluginManager*              plugin_manager;
     std::vector<OpenRGBPluginsEntry*> entries;
 
+    bool InstallPlugin(std::string path);
     void RefreshList();
 };
 
