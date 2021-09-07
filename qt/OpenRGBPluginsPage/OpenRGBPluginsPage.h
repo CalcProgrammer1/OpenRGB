@@ -26,6 +26,8 @@ private slots:
 
     void on_RemovePluginButton_clicked();
 
+    void on_PluginsList_itemSelectionChanged();
+
 private:
     Ui::OpenRGBPluginsPageUi*   ui;
     PluginManager*              plugin_manager;

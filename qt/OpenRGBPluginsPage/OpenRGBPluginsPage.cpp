@@ -298,3 +298,11 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
         plugin_manager->UnloadPlugin(entry_path);
     }
 }
+
+void Ui::OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
+{
+    /*-----------------------------------------------------*\
+    | Enable the remove button when there's a selected item |
+    \*-----------------------------------------------------*/
+    ui->RemovePluginButton->setEnabled(!ui->PluginsList->selectedItems().empty());
+}
