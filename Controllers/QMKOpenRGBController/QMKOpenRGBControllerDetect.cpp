@@ -94,7 +94,12 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                 }
                 break;
             default:
-                if (version < QMK_OPENRGB_PROTOCOL_VERSION_9)
+                if (version == 0)
+                {
+                    LOG_WARNING("[QMK OpenRGB] Detection failed - the detected keyboard does not have the OpenRGB protocol feature enabled! \n"
+                    "Please make sure your keyboard supports RGB Matrix, add OPENRGB_ENABLE = yes to the rules.mk inside your keymap folder, compile and flash again!");
+                }
+                else if (version < QMK_OPENRGB_PROTOCOL_VERSION_9)
                 {
                     LOG_WARNING("[QMK OpenRGB] Detection failed - the detected keyboard is using an outdated protocol version %i. Please update to to the update to the latest version of QMK-OpenRGB! \n"
                     "For officaly supported QMK boards grab <a href=\"https://github.com/Kasper24/QMK-OpenRGB\">url</a> \n"
