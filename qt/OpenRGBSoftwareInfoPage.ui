@@ -82,6 +82,9 @@
      <property name="text">
       <string>Git Commit ID Value</string>
      </property>
+     <property name="textInteractionFlags">
+      <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+     </property>
     </widget>
    </item>
    <item row="5" column="0" alignment="Qt::AlignHCenter">
