@@ -114,6 +114,7 @@
 #define ASUS_ROG_STRIX_RTX2080_O8G_GAMING               0x865F
 #define ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING            0x866A
 #define ASUS_VEGA64_STRIX                               0x04C4
+#define ASUS_RX5600XT_STRIX_O6G_GAMING                  0x04EC
 #define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
 #define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
