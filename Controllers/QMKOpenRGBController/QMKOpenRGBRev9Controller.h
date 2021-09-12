@@ -56,6 +56,8 @@ private:
     std::string     device_name;
     std::string     device_vendor;
 
+    std::chrono::milliseconds   delay;
+
     unsigned int    total_number_of_leds;
     unsigned int    total_number_of_leds_with_empty_space;
     unsigned int    mode;

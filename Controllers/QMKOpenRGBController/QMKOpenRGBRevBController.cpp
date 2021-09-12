@@ -9,6 +9,8 @@
 
 #include "QMKOpenRGBRevBController.h"
 
+using namespace std::chrono_literals;
+
 static std::map<uint8_t, std::string> QMKKeycodeToKeynameMap
 {
     { 0, "" },                  { 1, "Right Fn" },      { 2, "" },                  { 3, "" },
@@ -81,6 +83,15 @@ QMKOpenRGBRevBController::QMKOpenRGBRevBController(hid_device *dev_handle, const
     else
     {
         leds_per_update = 20;
+    }
+
+    if(qmk_settings.contains("delay"))
+    {
+        delay = (unsigned int)qmk_settings["delay"] * 1ms;
+    }
+    else
+    {
+        delay = 0ms;
     }
 
     dev         = dev_handle;
@@ -472,6 +483,11 @@ void QMKOpenRGBRevBController::DirectModeSetLEDs(std::vector<RGBColor> colors, u
         }
 
         hid_write(dev, usb_buf, 65);
+
+        if(delay > 0ms)
+        {
+            std::this_thread::sleep_for(delay);
+        }
 
         leds_sent += tmp_leds_per_update;
     }
