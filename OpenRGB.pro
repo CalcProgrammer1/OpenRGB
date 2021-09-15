@@ -1110,10 +1110,14 @@ unix:!macx {
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
-    -lstdc++fs                                                                                  \
     -lmbedx509                                                                                  \
-    -lmbedcrypto                                                                                \
     -lmbedtls                                                                                   \
+    -lmbedcrypto                                                                                \
+
+    COMPILER_VERSION = $$system($$QMAKE_CXX " -dumpversion")
+    if (!versionAtLeast(COMPILER_VERSION, "9")) {
+         LIBS += -lstdc++fs
+    }
 
     #-------------------------------------------------------------------------------------------#
     # Determine which hidapi to use based on availability                                       #
