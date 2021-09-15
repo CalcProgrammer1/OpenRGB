@@ -1111,8 +1111,8 @@ unix:!macx {
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
     -lmbedx509                                                                                  \
-    -lmbedcrypto                                                                                \
     -lmbedtls                                                                                   \
+    -lmbedcrypto                                                                                \
 
     #-------------------------------------------------------------------------------------------#
     # Determine which hidapi to use based on availability                                       #
