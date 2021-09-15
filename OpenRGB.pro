@@ -1110,7 +1110,6 @@ unix:!macx {
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
-    -lstdc++fs                                                                                  \
     -lmbedx509                                                                                  \
     -lmbedcrypto                                                                                \
     -lmbedtls                                                                                   \
