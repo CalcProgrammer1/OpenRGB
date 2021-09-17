@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include "dependencies/dmiinfo.h"
 
+#define DETECTOR_NAME   "ASUS Aura SMBus Controller"
+#define VENDOR_NAME     "ASUS"       //This should match the Vendor name from DMI
+
 using namespace std::chrono_literals;
 
 /*----------------------------------------------------------------------*\
@@ -204,22 +207,29 @@ void DetectAsusAuraSMBusMotherboardControllers(std::vector<i2c_smbus_interface*>
         // Add Aura-enabled motherboard controllers
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
+            if(busses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN)
             {
-                if (TestForAsusAuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
+                for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
                 {
-                    DMIInfo dmi;
-                    AuraSMBusController* controller = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
-                    RGBController_AuraSMBus* rgb_controller = new RGBController_AuraSMBus(controller);
-                    rgb_controller->name = "ASUS " + dmi.getMainboard();
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
+                    LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, aura_mobo_addresses[address_list_idx]);
+                    if (TestForAsusAuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
+                    {
+                        DMIInfo dmi;
+                        AuraSMBusController* controller = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
+                        RGBController_AuraSMBus* rgb_controller = new RGBController_AuraSMBus(controller);
+                        rgb_controller->name = "ASUS " + dmi.getMainboard();
+                        ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    }
 
-                std::this_thread::sleep_for(1ms);
+                    std::this_thread::sleep_for(1ms);
+                }
+            }
+            else
+            {
+                LOG_DEBUG(SMBUS_CHECK_DEVICE_FAILURE_EN, DETECTOR_NAME, bus, VENDOR_NAME);
             }
         }
     }
-
 }   /* DetectAuraSMBusMotherboardControllers() */
 
 REGISTER_I2C_DETECTOR("ASUS Aura SMBus DRAM", DetectAsusAuraSMBusDRAMControllers);

@@ -15,8 +15,10 @@
 
 typedef unsigned char	polychrome_dev_id;
 
-#define ASROCK_CONTROLLER_NAME  "[ASRock Polychrome SMBus Controller]"
-#define ASROCK_DETECTOR_NAME    "[ASRock Polychrome SMBus Detect]"
+#define ASROCK_CONTROLLER_NAME  "ASRock Polychrome SMBus Controller"
+#define ASROCK_DETECTOR_NAME    "ASRock Polychrome SMBus Detect"
+#define VENDOR_NAME             "ASRock"
+#define SMBUS_ADDRESS           0x6A
 
 enum
 {

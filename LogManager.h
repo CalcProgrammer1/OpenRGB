@@ -8,11 +8,18 @@
 #include <memory>
 #include "json.hpp"
 
+/*-------------------------------------------------*\
+| Common LOG strings                                |
+|   This may need to be in it's own .h file         |
+\*-------------------------------------------------*/
+#define SMBUS_CHECK_DEVICE_MESSAGE_EN   "[%s] Bus %02d is a motherboard and the subvendor matches the one for %s, looking for a device at %02X"
+#define SMBUS_CHECK_DEVICE_FAILURE_EN   "[%s] Bus %02d is not a motherboard or the subvendor does not match the one for %s, skipping detection"
+
 using json = nlohmann::json;
 
 enum
 {
-    LL_FATAL,    // Critical unrecoverable errors that cause a generalized crash of a module or of the entire app
+    LL_FATAL,       // Critical unrecoverable errors that cause a generalized crash of a module or of the entire app
     LL_ERROR,       // Local errors that abort an operation
     LL_WARNING,     // Local errors that may cause an operation to have an undefined behavior or may have dangerous/unforeseen consequences
     LL_INFO,        // Initialization messages, significant actions and follow-up information

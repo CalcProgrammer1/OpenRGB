@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "GigabyteRGBFusion2SMBusController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_GigabyteRGBFusion2SMBus.h"
 #include "i2c_smbus.h"
@@ -9,8 +10,10 @@
 #include <stdlib.h>
 #include <string>
 #include "dependencies/dmiinfo.h"
-#define DETECTOR_NAME "Gigabyte RGB Fusion 2 SMBus"
-#define VENDOR_NAME "Gigabyte Technology Co., Ltd."
+
+#define DETECTOR_NAME   "Gigabyte RGB Fusion 2 SMBus"
+#define VENDOR_NAME     "Gigabyte Technology Co., Ltd."
+#define SMBUS_ADDRESS   0x68
 
 typedef struct
 {
@@ -113,18 +116,26 @@ void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>&
         {
             IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
             {
-                // TODO - Is this necessary? Or an artifact of my own system?
-                // Skip dmcd devices
-                std::string device_name = std::string(busses[bus]->device_name);
-                if (device_name.find("dmdc") == std::string::npos)
+                if(busses[bus]->pci_subsystem_vendor == GIGABYTE_SUB_VEN)
                 {
-                    // Check for RGB Fusion 2 controller at 0x68
-                    if (TestForGigabyteRGBFusion2SMBusController(busses[bus], 0x68))
+                    // TODO - Is this necessary? Or an artifact of my own system?
+                    // Skip dmcd devices
+                    std::string device_name = std::string(busses[bus]->device_name);
+                    if (device_name.find("dmdc") == std::string::npos)
                     {
-                        new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], 0x68, dmi.getMainboard() );
-                        new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
-                        ResourceManager::get()->RegisterRGBController(new_controller);
+                        LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, SMBUS_ADDRESS);
+                        // Check for RGB Fusion 2 controller at 0x68
+                        if (TestForGigabyteRGBFusion2SMBusController(busses[bus], SMBUS_ADDRESS))
+                        {
+                            new_rgb_fusion = new RGBFusion2SMBusController(busses[bus], SMBUS_ADDRESS, dmi.getMainboard() );
+                            new_controller = new RGBController_RGBFusion2SMBus(new_rgb_fusion);
+                            ResourceManager::get()->RegisterRGBController(new_controller);
+                        }
                     }
+                }
+                else
+                {
+                    LOG_DEBUG(SMBUS_CHECK_DEVICE_FAILURE_EN, DETECTOR_NAME, bus, VENDOR_NAME);
                 }
             }
         }

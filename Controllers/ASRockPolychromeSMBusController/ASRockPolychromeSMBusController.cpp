@@ -12,6 +12,8 @@
 #include "dependencies/dmiinfo.h"
 #include "LogManager.h"
 
+#define ASROCK_ZONE_LED_COUNT_MESSAGE_EN    "[%s] Zone %i LED count: %02d"
+
 using namespace std::chrono_literals;
 
 PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_dev_id dev)
@@ -35,25 +37,25 @@ PolychromeController::PolychromeController(i2c_smbus_interface* bus, polychrome_
     switch(major_version)
     {
         case ASROCK_TYPE_ASRLED:
-            LOG_TRACE("%s Device type is ASR RGB LED", ASROCK_CONTROLLER_NAME);
+            LOG_TRACE("[%s] Device type is ASR RGB LED", ASROCK_CONTROLLER_NAME);
             asrock_type = ASROCK_TYPE_ASRLED;
             memset(zone_led_count, 0, sizeof(zone_led_count));
             break;
 
         case ASROCK_TYPE_POLYCHROME_V1:
-            LOG_TRACE("%s Device type is Polychrome v1", ASROCK_CONTROLLER_NAME);
+            LOG_TRACE("[%s] Device type is Polychrome v1", ASROCK_CONTROLLER_NAME);
             asrock_type = ASROCK_TYPE_POLYCHROME_V1;
             ReadLEDConfiguration();
             break;
 
         case ASROCK_TYPE_POLYCHROME_V2:
-            LOG_TRACE("%s Device type is Polychrome v2", ASROCK_CONTROLLER_NAME);
+            LOG_TRACE("[%s] Device type is Polychrome v2", ASROCK_CONTROLLER_NAME);
             asrock_type = ASROCK_TYPE_POLYCHROME_V2;
             ReadLEDConfiguration();
             break;
 
         default:
-            LOG_TRACE("%s Got Unknown version!", ASROCK_CONTROLLER_NAME);
+            LOG_TRACE("[%s] Got Unknown version!", ASROCK_CONTROLLER_NAME);
             asrock_type = ASROCK_TYPE_UNKNOWN;
             break;
     }
@@ -96,7 +98,7 @@ unsigned short PolychromeController::ReadFirmwareVersion()
 {
     // The firmware register holds two bytes, so the first read should return 2
     // If not, report invalid firmware revision FFFF
-    LOG_DEBUG("%s Reading back device firmware version", ASROCK_CONTROLLER_NAME);
+    LOG_DEBUG("[%s] Reading back device firmware version", ASROCK_CONTROLLER_NAME);
     // Version response array needs to be 32 bytes to prevent non ASRock board from stack smashing
     unsigned char asrock_version[I2C_SMBUS_BLOCK_MAX] = { 0x00, 0x00 };
     if (bus->i2c_smbus_read_block_data(dev, ASROCK_REG_FIRMWARE_VER, asrock_version) == 0x02)
@@ -104,12 +106,12 @@ unsigned short PolychromeController::ReadFirmwareVersion()
         unsigned char major = asrock_version[0];
         unsigned char minor = asrock_version[1];
 
-        LOG_DEBUG("%s Device firmware version: v%02d.%02d", ASROCK_CONTROLLER_NAME, major, minor);
+        LOG_DEBUG("[%s] Device firmware version: v%02d.%02d", ASROCK_CONTROLLER_NAME, major, minor);
         return((major << 8) | minor);
     }
     else
     {
-        LOG_WARNING("%s Firmware readback failed; Returning 0xFFFF", ASROCK_CONTROLLER_NAME);
+        LOG_WARNING("[%s] Firmware readback failed; Returning 0xFFFF", ASROCK_CONTROLLER_NAME);
         return(0xFFFF);
     }
 }
@@ -120,7 +122,7 @@ void PolychromeController::ReadLEDConfiguration()
     | The LED configuration register holds 6 bytes, so the first read should return 6   |
     | If not, set all zone sizes to zero                                                |
     \*---------------------------------------------------------------------------------*/
-    LOG_DEBUG("%s Reading LED config from controller", ASROCK_CONTROLLER_NAME);
+    LOG_DEBUG("[%s] Reading LED config from controller", ASROCK_CONTROLLER_NAME);
     unsigned char asrock_zone_count[I2C_SMBUS_BLOCK_MAX] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
     if (bus->i2c_smbus_read_block_data(dev, POLYCHROME_REG_LED_CONFIG, asrock_zone_count) == 0x06)
     {
@@ -130,16 +132,16 @@ void PolychromeController::ReadLEDConfiguration()
         zone_led_count[POLYCHROME_ZONE_4]           = asrock_zone_count[3];
         zone_led_count[POLYCHROME_ZONE_5]           = asrock_zone_count[4];
         zone_led_count[POLYCHROME_ZONE_ADDRESSABLE] = asrock_zone_count[5];
-        LOG_DEBUG("%s Zone 1 LED count: %02d", ASROCK_CONTROLLER_NAME, zone_led_count[POLYCHROME_ZONE_1]);
-        LOG_DEBUG("%s Zone 2 LED count: %02d", ASROCK_CONTROLLER_NAME, zone_led_count[POLYCHROME_ZONE_2]);
-        LOG_DEBUG("%s Zone 3 LED count: %02d", ASROCK_CONTROLLER_NAME, zone_led_count[POLYCHROME_ZONE_3]);
-        LOG_DEBUG("%s Zone 4 LED count: %02d", ASROCK_CONTROLLER_NAME, zone_led_count[POLYCHROME_ZONE_4]);
-        LOG_DEBUG("%s Zone 5 LED count: %02d", ASROCK_CONTROLLER_NAME, zone_led_count[POLYCHROME_ZONE_5]);
-        LOG_DEBUG("%s Addressable Zone LED count: %02d", ASROCK_CONTROLLER_NAME, zone_led_count[POLYCHROME_ZONE_ADDRESSABLE]);
+        LOG_DEBUG(ASROCK_ZONE_LED_COUNT_MESSAGE_EN, ASROCK_CONTROLLER_NAME, POLYCHROME_ZONE_1, zone_led_count[POLYCHROME_ZONE_1]);
+        LOG_DEBUG(ASROCK_ZONE_LED_COUNT_MESSAGE_EN, ASROCK_CONTROLLER_NAME, POLYCHROME_ZONE_2, zone_led_count[POLYCHROME_ZONE_2]);
+        LOG_DEBUG(ASROCK_ZONE_LED_COUNT_MESSAGE_EN, ASROCK_CONTROLLER_NAME, POLYCHROME_ZONE_3, zone_led_count[POLYCHROME_ZONE_3]);
+        LOG_DEBUG(ASROCK_ZONE_LED_COUNT_MESSAGE_EN, ASROCK_CONTROLLER_NAME, POLYCHROME_ZONE_4, zone_led_count[POLYCHROME_ZONE_4]);
+        LOG_DEBUG(ASROCK_ZONE_LED_COUNT_MESSAGE_EN, ASROCK_CONTROLLER_NAME, POLYCHROME_ZONE_5, zone_led_count[POLYCHROME_ZONE_5]);
+        LOG_DEBUG("[%s] Addressable Zone LED count: %02d", ASROCK_CONTROLLER_NAME, zone_led_count[POLYCHROME_ZONE_ADDRESSABLE]);
     }
     else
     {
-        LOG_WARNING("%s LED config read failed", ASROCK_CONTROLLER_NAME);
+        LOG_WARNING("[%s] LED config read failed", ASROCK_CONTROLLER_NAME);
         memset(zone_led_count, 0, sizeof(zone_led_count));
     }
 }

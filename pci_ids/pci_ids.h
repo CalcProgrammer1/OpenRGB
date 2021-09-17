@@ -75,6 +75,7 @@
 /*---------------------------------------------------------*\
 | PCI Sub-Vendor IDs                                        |
 \*---------------------------------------------------------*/
+#define ASROCK_SUB_VEN                                  0x1849
 #define ASUS_SUB_VEN                                    0x1043
 #define EVGA_SUB_VEN                                    0x3842
 #define GALAX_SUB_VEN                                   0x1B4C

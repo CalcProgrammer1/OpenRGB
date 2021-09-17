@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "GigabyteRGBFusionController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_GigabyteRGBFusion.h"
 #include "i2c_smbus.h"
@@ -7,6 +8,10 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+
+#define DETECTOR_NAME   "Gigabyte RGB Fusion SMBus"
+#define VENDOR_NAME     "Gigabyte Technology Co., Ltd."
+#define SMBUS_ADDRESS   0x28
 
 /******************************************************************************************\
 *                                                                                          *
@@ -59,16 +64,23 @@ void DetectGigabyteRGBFusionControllers(std::vector<i2c_smbus_interface*>& busse
     {
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            // Check for RGB Fusion controller at 0x28
-            if (TestForGigabyteRGBFusionController(busses[bus], 0x28))
+            if(busses[bus]->pci_subsystem_vendor == GIGABYTE_SUB_VEN)
             {
-                new_rgb_fusion = new RGBFusionController(busses[bus], 0x28);
-                new_controller = new RGBController_RGBFusion(new_rgb_fusion);
-                ResourceManager::get()->RegisterRGBController(new_controller);
+                LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, SMBUS_ADDRESS);
+                // Check for RGB Fusion controller at 0x28
+                if (TestForGigabyteRGBFusionController(busses[bus], SMBUS_ADDRESS))
+                {
+                    new_rgb_fusion = new RGBFusionController(busses[bus], SMBUS_ADDRESS);
+                    new_controller = new RGBController_RGBFusion(new_rgb_fusion);
+                    ResourceManager::get()->RegisterRGBController(new_controller);
+                }
+            }
+            else
+            {
+                LOG_DEBUG(SMBUS_CHECK_DEVICE_FAILURE_EN, DETECTOR_NAME, bus, VENDOR_NAME);
             }
         }
     }
-
 }   /* DetectGigabyteRGBFusionControllers() */
 
 REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion", DetectGigabyteRGBFusionControllers);
