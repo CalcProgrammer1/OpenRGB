@@ -187,6 +187,8 @@ HEADERS +=                                                                      
     qt/OpenRGBZoneResizeDialog.h                                                                \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.h                                       \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h                                        \
+    qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.h                           \
+    qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h                            \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.h                           \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h                            \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.h                                 \
@@ -523,6 +525,8 @@ SOURCES +=                                                                      
     qt/hsv.cpp                                                                                  \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.cpp                                      \
+    qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.cpp                         \
+    qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.cpp                          \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.cpp                         \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.cpp                          \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.cpp                               \
@@ -874,6 +878,8 @@ FORMS +=                                                                        
     qt/OpenRGBZoneResizeDialog.ui                                                               \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui                                      \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
+    qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui                          \
+    qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui                           \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.ui                          \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.ui                           \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.ui                                \

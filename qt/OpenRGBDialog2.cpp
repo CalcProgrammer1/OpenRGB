@@ -454,6 +454,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddQMKORGBSettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the Philips Hue settings page                     |
+    \*-----------------------------------------------------*/
+    AddPhilipsHueSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the Philips Wiz settings page                     |
     \*-----------------------------------------------------*/
     AddPhilipsWizSettingsPage();
@@ -657,6 +662,34 @@ void OpenRGBDialog2::AddE131SettingsPage()
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
     TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "E1.31 Devices");
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddPhilipsHueSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    PhilipsHueSettingsPage = new OpenRGBPhilipsHueSettingsPage();
+
+    ui->SettingsTabBar->addTab(PhilipsHueSettingsPage, "");
+
+    QString SettingsLabelString;
+
+    if(IsDarkTheme())
+    {
+        SettingsLabelString = "light_dark.png";
+    }
+    else
+    {
+        SettingsLabelString = "light.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Philips Hue Devices");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }

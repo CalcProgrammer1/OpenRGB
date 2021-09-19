@@ -10,6 +10,7 @@
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
 #include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
+#include "OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h"
 #include "OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h"
 #include "OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h"
 #include "OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h"
@@ -66,6 +67,7 @@ private:
     OpenRGBSupportedDevicesPage *SupportedPage;
     OpenRGBSettingsPage *SettingsPage;
     OpenRGBE131SettingsPage *E131SettingsPage;
+    OpenRGBPhilipsHueSettingsPage *PhilipsHueSettingsPage;
     OpenRGBPhilipsWizSettingsPage *PhilipsWizSettingsPage;
     OpenRGBQMKORGBSettingsPage *QMKORGBSettingsPage;
     OpenRGBSerialSettingsPage *SerialSettingsPage;
@@ -89,6 +91,7 @@ private:
     void AddSupportedDevicesPage();
     void AddSettingsPage();
     void AddE131SettingsPage();
+    void AddPhilipsHueSettingsPage();
     void AddPhilipsWizSettingsPage();
     void AddQMKORGBSettingsPage();
     void AddSerialSettingsPage();
