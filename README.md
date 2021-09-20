@@ -159,6 +159,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 ## Contributing
 
 * Want to contribute support for a new device?  Check out the [RGBController API](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/The-RGBController-API) page for documentation of how OpenRGB implements device control.
+* Want to create a new OpenRGB SDK client implementation?  Check out the [OpenRGB SDK Documentation](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-SDK-Documentation) page for documentation of how the OpenRGB SDK network protocol functions.
 
 ## OpenRGB SDK
 
