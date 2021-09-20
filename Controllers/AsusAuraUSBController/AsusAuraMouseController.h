@@ -37,7 +37,8 @@ public:
         unsigned char   blu,
         unsigned char   dir,
         bool            random,
-        unsigned char   speed
+        unsigned char   speed,
+        unsigned char   brightness
 	);
 
     uint16_t                    device_pid;

@@ -44,7 +44,8 @@ enum
     AURA_MOUSE_MODE_WAVE        = 3,
     AURA_MOUSE_MODE_REACTIVE    = 4,
     AURA_MOUSE_MODE_COMET       = 5,
-    AURA_MOUSE_MODE_BATTERY     = 6
+    AURA_MOUSE_MODE_BATTERY     = 6,
+    AURA_MOUSE_MODE_NONE        = 255,
 };
 
 typedef struct
@@ -68,8 +69,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_GLADIUS_II_CORE_PID, // ROG Gladius II Core
         {
-            255,    //Speed Min - The Asus Mouse protocol defines larger numbers as slow
-            1,      //Speed Max
+            0,    //Speed Min - The Asus Mouse protocol defines larger numbers as slow
+            0,    //Speed Max
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }
@@ -113,25 +114,25 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_GLADIUS_II_WIRELESS_1_PID, // ROG Gladius II Wireless
         {
-            255,
-            1,
+            0,
+            0,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
-            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET }
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
         }
     },
     {
         AURA_ROG_GLADIUS_II_WIRELESS_2_PID, // ROG Gladius II Wireless
         {
-            255,
-            1,
+            0,
+            0,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
-            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_BATTERY }
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
         }
     },
     {
         AURA_ROG_CHAKRAM_WIRELESS_PID, // ROG Chakram Wireless
         {
-            255,
+            15,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
@@ -140,7 +141,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_CHAKRAM_WIRED_1_PID,  // ROG Chakram Wired 1
         {
-            255,
+            15,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
@@ -149,7 +150,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_CHAKRAM_WIRED_2_PID, // ROG Chakram Wired 2
         {
-            255,
+            15,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
@@ -161,13 +162,13 @@ static std::map<int,mouse_type> aura_mouse_devices =
             255,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
-            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET }
         }
     },
     {
         AURA_ROG_PUGIO_II_WIRED_PID, // ROG Pugio II Wired
         {
-            255,
+            15,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
@@ -176,7 +177,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_PUGIO_II_WIRELESS_PID, // ROG Pugio II Wireless
         {
-            255,
+            15,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
@@ -185,8 +186,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_STRIX_IMPACT_II_PID, // ROG Strix Impact II
         {
-            255,
-            1,
+            0,
+            0,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }
@@ -194,8 +195,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_TUF_M3_PID, // TUF M3
         {
-            255,
-            1,
+            0,
+            0,
             { AURA_MOUSE_ZONE_LOGO },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }
@@ -203,8 +204,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_TUF_M5_PID, // TUF M5
         {
-            255,
-            1,
+            0,
+            0,
             { AURA_MOUSE_ZONE_LOGO },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }

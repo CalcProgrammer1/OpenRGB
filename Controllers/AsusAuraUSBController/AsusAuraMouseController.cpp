@@ -60,7 +60,8 @@ void AuraMouseController::SendUpdate
     unsigned char   blu,
     unsigned char   dir,
     bool            random,
-    unsigned char   speed
+    unsigned char   speed,
+    unsigned char   brightness
     )
 {
     unsigned char usb_buf[ASUS_AURA_MOUSE_PACKET_SIZE];
@@ -79,7 +80,7 @@ void AuraMouseController::SendUpdate
     usb_buf[0x03]   = zone;
     usb_buf[0x04]   = 0x00;
     usb_buf[0x05]   = mode;
-    usb_buf[0x06]   = 0x04;
+    usb_buf[0x06]   = brightness;
     usb_buf[0x07]   = red;
     usb_buf[0x08]   = grn;
     usb_buf[0x09]   = blu;
