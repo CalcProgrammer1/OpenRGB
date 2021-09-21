@@ -29,7 +29,17 @@ RGBController_PhilipsHueEntertainment::RGBController_PhilipsHueEntertainment(Phi
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    mode Disconnected;
+    Disconnected.name       = "Disconnected";
+    Disconnected.value      = 1;
+    Disconnected.flags      = 0;
+    Disconnected.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Disconnected);
+
     SetupZones();
+
+    active_mode = 0;
+    light->Connect();
 
     /*-----------------------------------------------------*\
     | The Philips Hue Entertainment Mode requires a packet  |
@@ -74,7 +84,10 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
 
-    light->SetColor(&colors[0]);
+    if(active_mode == 0)
+    {
+        light->SetColor(&colors[0]);
+    }
 }
 
 void RGBController_PhilipsHueEntertainment::UpdateZoneLEDs(int /*zone*/)
@@ -94,7 +107,14 @@ void RGBController_PhilipsHueEntertainment::SetCustomMode()
 
 void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()
 {
-
+    if(active_mode == 0)
+    {
+        light->Connect();
+    }
+    else
+    {
+        light->Disconnect();
+    }
 }
 
 void RGBController_PhilipsHueEntertainment::KeepaliveThreadFunction()

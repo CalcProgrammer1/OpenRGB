@@ -32,6 +32,9 @@ public:
 
     void SetColor(RGBColor* colors);
 
+    void Connect();
+    void Disconnect();
+
 private:
     hueplusplus::Bridge&            bridge;
     hueplusplus::Group              group;
@@ -39,4 +42,5 @@ private:
 
     std::string                     location;
     unsigned int                    num_leds;
+    bool                            connected;
 };

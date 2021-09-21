@@ -13,24 +13,12 @@ PhilipsHueEntertainmentController::PhilipsHueEntertainmentController(hueplusplus
     \*-------------------------------------------------*/
     location                            = "IP: " + bridge.getBridgeIP();
     num_leds                            = group.getLightIds().size();
-
-    /*-------------------------------------------------*\
-    | Create Entertainment Mode from bridge and group   |
-    \*-------------------------------------------------*/
-    entertainment = new hueplusplus::EntertainmentMode(bridge, group);
-
-    /*-------------------------------------------------*\
-    | Connect Hue Entertainment Mode                    |
-    \*-------------------------------------------------*/
-    entertainment->connect();
+    connected                           = false;
 }
 
 PhilipsHueEntertainmentController::~PhilipsHueEntertainmentController()
 {
-    /*-------------------------------------------------*\
-    | Disconnect Hue Entertainment Mode                 |
-    \*-------------------------------------------------*/
-    entertainment->disconnect();
+
 }
 
 std::string PhilipsHueEntertainmentController::GetLocation()
@@ -65,18 +53,52 @@ unsigned int PhilipsHueEntertainmentController::GetNumLEDs()
 
 void PhilipsHueEntertainmentController::SetColor(RGBColor* colors)
 {
-    /*-------------------------------------------------*\
-    | Fill in Entertainment Mode light data             |
-    \*-------------------------------------------------*/
-    for(unsigned int light_idx = 0; light_idx < num_leds; light_idx++)
+    if(connected)
     {
-        RGBColor color                  = colors[light_idx];
-        unsigned char red               = RGBGetRValue(color);
-        unsigned char green             = RGBGetGValue(color);
-        unsigned char blue              = RGBGetBValue(color);
+        /*-------------------------------------------------*\
+        | Fill in Entertainment Mode light data             |
+        \*-------------------------------------------------*/
+        for(unsigned int light_idx = 0; light_idx < num_leds; light_idx++)
+        {
+            RGBColor color                  = colors[light_idx];
+            unsigned char red               = RGBGetRValue(color);
+            unsigned char green             = RGBGetGValue(color);
+            unsigned char blue              = RGBGetBValue(color);
 
-        entertainment->setColorRGB(light_idx, red, green, blue);
+            entertainment->setColorRGB(light_idx, red, green, blue);
+        }
+
+        entertainment->update();
     }
+}
 
-    entertainment->update();
+void PhilipsHueEntertainmentController::Connect()
+{
+    if(!connected)
+    {
+        /*-------------------------------------------------*\
+        | Create Entertainment Mode from bridge and group   |
+        \*-------------------------------------------------*/
+        entertainment = new hueplusplus::EntertainmentMode(bridge, group);
+        
+        /*-------------------------------------------------*\
+        | Connect Hue Entertainment Mode                    |
+        \*-------------------------------------------------*/
+        entertainment->connect();
+        connected = true;
+    }
+}
+
+void PhilipsHueEntertainmentController::Disconnect()
+{
+    if(connected)
+    {
+        /*-------------------------------------------------*\
+        | Disconnect Hue Entertainment Mode                 |
+        \*-------------------------------------------------*/
+        entertainment->disconnect();
+        connected = false;
+
+        delete entertainment;
+    }
 }
