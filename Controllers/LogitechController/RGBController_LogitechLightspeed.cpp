@@ -62,8 +62,11 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
         mode Static;
         Static.name                 = "Static";
         Static.value                = LOGITECH_G_PRO_WIRELESS_MODE_STATIC;
-        Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+        Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
         Static.color_mode           = MODE_COLORS_PER_LED;
+        Static.brightness_min       = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
+        Static.brightness_max       = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+        Static.brightness           = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
         modes.push_back(Static);
 
         mode Cycle;
@@ -71,6 +74,9 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
         Cycle.value                 = LOGITECH_G_PRO_WIRELESS_MODE_CYCLE;
         Cycle.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
         Cycle.color_mode            = MODE_COLORS_NONE;
+        Cycle.brightness_min        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
+        Cycle.brightness_max        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+        Cycle.brightness            = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
         Cycle.speed_min             = LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST;
         Cycle.speed_max             = LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST;
         Cycle.speed                 = LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL;
@@ -81,6 +87,9 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
         Breathing.value             = LOGITECH_G_PRO_WIRELESS_MODE_BREATHING;
         Breathing.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
         Breathing.color_mode        = MODE_COLORS_PER_LED;
+        Breathing.brightness_min    = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
+        Breathing.brightness_max    = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+        Breathing.brightness        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
         Breathing.speed_min         = LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST;
         Breathing.speed_max         = LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST;
         Breathing.speed             = LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL;
@@ -148,16 +157,21 @@ void RGBController_LogitechLightspeed::DeviceUpdateLEDs()
 
 void RGBController_LogitechLightspeed::UpdateZoneLEDs(int zone)
 {
-    unsigned char red = RGBGetRValue(colors[zone]);
-    unsigned char grn = RGBGetGValue(colors[zone]);
-    unsigned char blu = RGBGetBValue(colors[zone]);
+    unsigned char red       = RGBGetRValue(colors[zone]);
+    unsigned char grn       = RGBGetGValue(colors[zone]);
+    unsigned char blu       = RGBGetBValue(colors[zone]);
+
+    /*---------------------------------------------------------*\
+    | Workaround for G502 mode breathing / spectrum cycle swap  |
+    \*---------------------------------------------------------*/
+    bool bright_cycle_swap  = (pid == 0xC08B || pid == 0xC332);
 
     /*---------------------------------------------------------*\
     | Replace direct mode with static when sending to controller|
     \*---------------------------------------------------------*/
     unsigned char temp_mode = (modes[active_mode].value == 0xFF) ? LOGITECH_G_PRO_WIRELESS_MODE_STATIC : modes[active_mode].value;
 
-    logitech->SendMouseMode(temp_mode, modes[active_mode].speed, zone, red, grn, blu);
+    logitech->SendMouseMode(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness, bright_cycle_swap);
 }
 
 void RGBController_LogitechLightspeed::UpdateSingleLED(int led)

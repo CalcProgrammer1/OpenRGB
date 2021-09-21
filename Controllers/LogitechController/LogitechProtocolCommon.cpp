@@ -11,8 +11,8 @@
 
 static std::vector<uint16_t> logitech_RGB_pages =
 {
-    0x8070,
-    0x8071
+    LOGITECH_HIDPP_PAGE_RGB_EFFECTS1,
+    LOGITECH_HIDPP_PAGE_RGB_EFFECTS2
 };
 
 int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless_devices)
@@ -39,7 +39,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
         response.init();
 
         shortFAPrequest get_connected_devices;
-        get_connected_devices.init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
+        get_connected_devices.init(LOGITECH_RECEIVER_DEVICE_INDEX, LOGITECH_GET_REGISTER_REQUEST);
 
         result = hid_write(dev_use1, get_connected_devices.buffer, get_connected_devices.size());
         result = hid_read_timeout(dev_use1, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
@@ -48,7 +48,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
         if (!wireless_notifications)
         {
             response.init(); //zero out the response
-            get_connected_devices.init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_SET_REGISTER_REQUEST);
+            get_connected_devices.init(LOGITECH_RECEIVER_DEVICE_INDEX, LOGITECH_SET_REGISTER_REQUEST);
             get_connected_devices.data[1] = 1;
             result = hid_write(dev_use1, get_connected_devices.buffer, get_connected_devices.size());
             result = hid_read_timeout(dev_use1, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
@@ -60,7 +60,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
         }
 
         response.init(); //zero out the response
-        get_connected_devices.init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
+        get_connected_devices.init(LOGITECH_RECEIVER_DEVICE_INDEX, LOGITECH_GET_REGISTER_REQUEST);
         get_connected_devices.feature_command       = 0x02;    //0x02 Connection State register. Essentially asking for count of paired devices
         result = hid_write(dev_use1, get_connected_devices.buffer, get_connected_devices.size());
         result = hid_read_timeout(dev_use1, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
@@ -74,7 +74,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
             device_count++;     //Add 1 to the device_count to include the receiver
 
             response.init();
-            get_connected_devices.init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_SET_REGISTER_REQUEST);
+            get_connected_devices.init(LOGITECH_RECEIVER_DEVICE_INDEX, LOGITECH_SET_REGISTER_REQUEST);
             get_connected_devices.feature_index     = LOGITECH_SET_REGISTER_REQUEST;
             get_connected_devices.feature_command   = 0x02;    //0x02 Connection State register
             get_connected_devices.data[0]           = 0x02;    //Writting 0x02 to the connection state register will ask the receiver to fake a reconnect of paired devices
@@ -93,7 +93,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
                 | We need to read the receiver from the HID device queue but        |
                 |    there is no need to add it as it's own device                  |
                 \*-----------------------------------------------------------------*/
-                if(devices.device_index != 0xFF)
+                if(devices.device_index != LOGITECH_RECEIVER_DEVICE_INDEX)
                 {
                     wireless_devices->emplace(wireless_PID, devices.device_index);
                 }
@@ -147,12 +147,20 @@ void logitech_device::initialiseDevice()
 
     if(is_connected)
     {
-        getDeviceName();            //This will get the name of the device if it exists
+        getDeviceName();
+
+        /*-----------------------------------------------------------------*\
+        | If this is running with DEBUG or higher loglevel then             |
+        |   dump the entire Feature list to log                             |
+        \*-----------------------------------------------------------------*/
         if(LogManager::get()->getLoglevel() > 4)
         {
             getDeviceFeatureList();     //This will populate the feature list
         }
 
+        /*-----------------------------------------------------------------*\
+        | Check device for known RGB Effects Feature pages & save the index |
+        \*-----------------------------------------------------------------*/
         for(std::vector<uint16_t>::iterator page = logitech_RGB_pages.begin(); page != logitech_RGB_pages.end(); page++)
         {
             int feature_index = getFeatureIndex(*page);
@@ -163,17 +171,13 @@ void logitech_device::initialiseDevice()
             }
         }
 
+        /*-----------------------------------------------------------------*\
+        | If there was no RGB Effect Feature  page found                    |
+        |   dump the entire Feature list to log                             |
+        \*-----------------------------------------------------------------*/
         if (RGB_feature_index == 0)
         {
-            /*-----------------------------------------------------------------*\
-            | If there was no RGB Effect Feature  page found                    |
-            |   dump the entire Feature list to log                             |
-            \*-----------------------------------------------------------------*/
             LOG_INFO("[%s] Unable add this device due to missing RGB Effects Feature", device_name.c_str());
-            /*for(features::iterator feature = feature_list.begin(); feature != feature_list.end(); feature++)
-            {
-                LOG_INFO("Feature Index: %02X\tFeature Page: %04X", feature->second, feature->first);
-            }*/
         }
         else
         {
@@ -332,13 +336,12 @@ int logitech_device::getDeviceFeatureList()
     int result = 0;
 
     /*-----------------------------------------------------------------*\
-    | Check the usage map for usage1 (0x10 Short FAP Message) & usage2  |
-    |   (0x11 Long FAP Message) then list all features for device       |
+    | Check the usage map for usage2 (0x11 Long FAP Message)            |
+    |   then list all features for device                               |
     \*-----------------------------------------------------------------*/
-    //hid_device* dev_use1 = getDevice(1);
     hid_device* dev_use2 = getDevice(2);
 
-    if(/*dev_use1 &&*/ dev_use2)
+    if(dev_use2)
     {
         /*-----------------------------------------------------------------*\
         | Create a buffer for reads                                         |
@@ -355,26 +358,18 @@ int logitech_device::getDeviceFeatureList()
         /*-----------------------------------------------------------------*\
         | Get the count of Features                                         |
         \*-----------------------------------------------------------------*/
-        //shortFAPrequest get_count;
         longFAPrequest get_count;
-        //get_count.init(device_index, feature_index);
-        //get_count.feature_command = LOGITECH_CMD_FEATURE_SET_GET_COUNT;
         get_count.init(device_index, feature_index, LOGITECH_CMD_FEATURE_SET_GET_COUNT);
 
-        //result = hid_write(dev_use1, get_count.buffer, get_count.size());
         result = hid_write(dev_use2, get_count.buffer, get_count.size());
         result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
         unsigned int feature_count = response.data[0];
 
-        //shortFAPrequest get_features;
         longFAPrequest get_features;
-        //get_features.init(device_index, feature_index);
-        //get_features.feature_command = LOGITECH_CMD_FEATURE_SET_GET_ID;
         get_features.init(device_index, feature_index, LOGITECH_CMD_FEATURE_SET_GET_ID);
         for(std::size_t i = 1; feature_list.size() < feature_count; i++ )
         {
             get_features.data[0] = i;
-            //result = hid_write(dev_use1, get_features.buffer, get_features.size());
             result = hid_write(dev_use2, get_features.buffer, get_features.size());
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
             LOG_DEBUG("[%s] Feature %04X @ index: %02X", device_name.c_str(), (response.data[0] << 8) | response.data[1], i);
@@ -383,14 +378,7 @@ int logitech_device::getDeviceFeatureList()
     }
     else
     {
-        /*if(!dev_use1)
-        {
-            LOG_INFO("[%s] Unable get the feature index list - missing Short Message (0x10) usage", device_name.c_str());
-        }*/
-        if(!dev_use2)
-        {
-            LOG_INFO("[%s] Unable get the feature index list - missing FAP Long Message (0x11) usage", device_name.c_str());
-        }
+        LOG_INFO("[%s] Unable get the feature index list - missing FAP Long Message (0x11) usage", device_name.c_str());
     }
 
     return feature_list.size();
@@ -417,28 +405,6 @@ int logitech_device::getDeviceName()
         | Query the root index for the index of the name feature            |
         \*-----------------------------------------------------------------*/
         int feature_index = getFeatureIndex(LOGITECH_HIDPP_PAGE_DEVICE_NAME_TYPE);
-
-        /*-----------------------------------------------------------------*\
-        | Check if the feature_list contains an index for the Device_name   |
-        |    feature otherwise query the root index. If not found return 0  |
-        \*-----------------------------------------------------------------*/
-        /*uint8_t name_feature_index;
-        features::iterator find_feature = feature_list.find(LOGITECH_HIDPP_PAGE_DEVICE_NAME_TYPE);
-        if (find_feature == feature_list.end())
-        {
-            longFAPrequest get_index;
-            get_index.init(device_index, LOGITECH_HIDPP_PAGE_ROOT_IDX, LOGITECH_CMD_ROOT_GET_FEATURE);
-            get_index.data[0] = LOGITECH_HIDPP_PAGE_DEVICE_NAME_TYPE >> 8;            //Get feature index of the Feature Set 0x0001
-            get_index.data[1] = LOGITECH_HIDPP_PAGE_DEVICE_NAME_TYPE & 0xFF;
-
-            result = hid_write(dev_use2, get_index.buffer, get_index.size());
-            result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
-            name_feature_index = response.data[0];
-        }
-        else
-        {
-            name_feature_index = find_feature->second;
-        }*/
 
         /*-----------------------------------------------------------------*\
         | Get the device name length                                        |
@@ -563,14 +529,12 @@ uint8_t logitech_device::setDirectMode(bool direct)
     int result = 0;
 
     /*-----------------------------------------------------------------*\
-    | Check the usage map for usage1 (0x10 Short FAP Message) & usage2  |
-    |   (0x11 Long FAP Message) then set the device into direct mode    |
-    |   via register 0x8A                                               |
+    | Check the usage map for usage2 (0x11 Long FAP Message)            |
+    |   then set the device into direct mode via register 0x80          |
     \*-----------------------------------------------------------------*/
-    //hid_device* dev_use1 = getDevice(1);
     hid_device* dev_use2 = getDevice(2);
 
-    if(/*dev_use1 &&*/ dev_use2)
+    if(dev_use2)
     {
         /*-----------------------------------------------------------------*\
         | Create a buffer for reads                                         |
@@ -581,10 +545,7 @@ uint8_t logitech_device::setDirectMode(bool direct)
         /*-----------------------------------------------------------------*\
         | Turn the direct mode on or off via the RGB_feature_index          |
         \*-----------------------------------------------------------------*/
-        //shortFAPrequest set_direct;
         longFAPrequest set_direct;
-        //set_direct.init(device_index, RGB_feature_index);
-        //set_direct.feature_command = LOGITECH_CMD_RGB_EFFECTS_UNKNOWN;
         set_direct.init(device_index, RGB_feature_index, LOGITECH_CMD_RGB_EFFECTS_UNKNOWN);
         set_direct.data[0] = (direct) ? 1 : 0;
         set_direct.data[1] = set_direct.data[0];
@@ -600,13 +561,11 @@ uint8_t logitech_device::setDirectMode(bool direct)
         {
             std::lock_guard<std::mutex> guard(*mutex);
 
-            //result = hid_write(dev_use1, set_direct.buffer, set_direct.size());
             result = hid_write(dev_use2, set_direct.buffer, set_direct.size());
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
         }
         else
         {
-            //result = hid_write(dev_use1, set_direct.buffer, set_direct.size());
             result = hid_write(dev_use2, set_direct.buffer, set_direct.size());
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
         }
@@ -614,7 +573,7 @@ uint8_t logitech_device::setDirectMode(bool direct)
     return result;
 }
 
-uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness)
+uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness, bool bright_cycle_swap)
 {
     int result = 0;
 
@@ -651,12 +610,20 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
         }
         else if(mode == 2)  //Spectrum Cycle
         {
+            if(bright_cycle_swap)
+            {
+                set_mode.data[1] = 3;
+            }
             set_mode.data[7]    = speed >> 8;
             set_mode.data[8]    = speed & 0xFF;
             set_mode.data[9]    = brightness;
         }
         else if(mode == 3)  //Breathing
         {
+            if(bright_cycle_swap)
+            {
+                set_mode.data[1] = 2;
+            }
             set_mode.data[5]    = speed >> 8;
             set_mode.data[6]    = speed & 0xFF;
             set_mode.data[8]    = brightness;

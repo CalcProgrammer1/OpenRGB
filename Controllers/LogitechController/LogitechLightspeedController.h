@@ -16,6 +16,8 @@
 #include <hidapi/hidapi.h>
 
 #pragma once
+#define LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN      0x01
+#define LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX      0x64
 
 enum
 {
@@ -50,12 +52,13 @@ public:
     void        SendMouseMode
                    (
                     unsigned char       mode,
-                    unsigned short      speed,
+                    uint16_t            speed,
                     unsigned char       zone,
                     unsigned char       red,
                     unsigned char       green,
-                    unsigned char       blue
-//                    unsigned char       brightness
+                    unsigned char       blue,
+                    unsigned char       brightness,
+                    bool                bright_cycle_swap
                    );
 
 private:

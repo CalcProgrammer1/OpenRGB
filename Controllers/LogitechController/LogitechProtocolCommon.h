@@ -14,21 +14,22 @@
 
 #pragma once
 
-#define LOGITECH_PROTOCOL_TIMEOUT       300     //Timeout in ms
-#define LOGITECH_HEADER_SIZE            3
-#define LOGITECH_SHORT_MESSAGE          0x10
-#define LOGITECH_SHORT_MESSAGE_LEN      7
-#define LOGITECH_LONG_MESSAGE           0x11
-#define LOGITECH_LONG_MESSAGE_LEN       20
-#define LOGITECH_FAP_RESPONSE_LEN       64      //Define a universal response buffer and allow the hidapi to determine the size
+#define LOGITECH_PROTOCOL_TIMEOUT                       300     //Timeout in ms
+#define LOGITECH_HEADER_SIZE                            3
+#define LOGITECH_SHORT_MESSAGE                          0x10
+#define LOGITECH_SHORT_MESSAGE_LEN                      7
+#define LOGITECH_LONG_MESSAGE                           0x11
+#define LOGITECH_LONG_MESSAGE_LEN                       20
+#define LOGITECH_FAP_RESPONSE_LEN                       64      //Define a universal response buffer and allow the hidapi to determine the size
 
-#define LOGITECH_RECEIVER_ADDRESS       0xFF    //The Unifying receiver uses RAP or register access protocol
-#define LOGITECH_SET_REGISTER_REQUEST   0x80
-#define LOGITECH_GET_REGISTER_REQUEST   0x81
+#define LOGITECH_DEFAULT_DEVICE_INDEX                   0xFF
+#define LOGITECH_RECEIVER_DEVICE_INDEX                  0xFF    //The Unifying receiver uses RAP or register access protocol
+#define LOGITECH_SET_REGISTER_REQUEST                   0x80
+#define LOGITECH_GET_REGISTER_REQUEST                   0x81
 
-#define LOGITECH_HIDPP_PAGE_ROOT_IDX    0x00    //Used for querying the feature index
-#define LOGITECH_CMD_ROOT_GET_FEATURE   0x01
-#define LOGITECH_CMD_ROOT_GET_PROTOCOL  0x11
+#define LOGITECH_HIDPP_PAGE_ROOT_IDX                    0x00    //Used for querying the feature index
+#define LOGITECH_CMD_ROOT_GET_FEATURE                   0x01
+#define LOGITECH_CMD_ROOT_GET_PROTOCOL                  0x11
 
 #define LOGITECH_HIDPP_PAGE_FEATURE_SET                 0x0001
 #define LOGITECH_CMD_FEATURE_SET_GET_COUNT              0x01
@@ -216,7 +217,7 @@ public:
     uint8_t                     getFeatureIndex(uint16_t feature_page);
     uint8_t                     getLEDinfo();
     uint8_t                     setDirectMode(bool direct);
-    uint8_t                     setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness);
+    uint8_t                     setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness, bool bright_cycle_swap);
     int                         getDeviceName();
 private:
     std::vector<logitech_led>   leds;

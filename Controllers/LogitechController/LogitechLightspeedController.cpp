@@ -37,10 +37,10 @@ std::string LogitechLightspeedController::GetSerialString()
     else
     {
         wchar_t serial_string[128];
-        int ret = hid_get_serial_number_string(dev, serial_string, 128);
-        LOG_DEBUG("[%s] hid_get_serial_number_string Returned status - %i : %s", lightspeed->device_name.c_str(), ret, ((ret == 0) ? "SUCCESS" : "FAILED"));
+        //int ret = hid_get_serial_number_string(dev, serial_string, 128);
+        //LOG_DEBUG("[%s] hid_get_serial_number_string Returned status - %i : %s", lightspeed->device_name.c_str(), ret, ((ret == 0) ? "SUCCESS" : "FAILED"));
 
-        if(ret != 0)
+        //if(ret != 0)
         {
             return("");
         }
@@ -55,13 +55,14 @@ std::string LogitechLightspeedController::GetSerialString()
 void LogitechLightspeedController::SendMouseMode
     (
     unsigned char       mode,
-    std::uint16_t       speed,
+    uint16_t            speed,
     unsigned char       zone,
     unsigned char       red,
     unsigned char       green,
-    unsigned char       blue
-  //  unsigned char       brightness
+    unsigned char       blue,
+    unsigned char       brightness,
+    bool                bright_cycle_swap
     )
 {
-    lightspeed->setMode(mode, speed, zone, red, green, blue, 0x64);
+    lightspeed->setMode(mode, speed, zone, red, green, blue, brightness, bright_cycle_swap);
 }
