@@ -31,6 +31,7 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 private:
     void        Init_Controller();
     int         GetDeviceMode();

@@ -58,13 +58,20 @@ void CMMM711Controller::GetColourStatus()
 void CMMM711Controller::GetCustomStatus()
 {
     uint8_t buffer[CM_MM711_PACKET_SIZE]    = { 0x00, 0x52, 0xA8 };
-    int buffer_size                         = (sizeof(buffer) / sizeof(buffer[0]));
+    int read_size                           = CM_MM711_PACKET_SIZE - 1;
+    int result                              = 0;
 
-    hid_write(dev, buffer, buffer_size);
-    hid_read_timeout(dev, buffer, buffer_size, CM_MM711_INTERRUPT_TIMEOUT);
+    hid_write(dev, buffer, CM_MM711_PACKET_SIZE);
+    do
+    {
+        result = hid_read_timeout(dev, buffer, read_size, CM_MM711_INTERRUPT_TIMEOUT);
+    }while(buffer[1] != 0xA8 && result == read_size);
 
-    wheel_colour            = ToRGBColor(buffer[4], buffer[5], buffer[6]);
-    logo_colour             = ToRGBColor(buffer[7], buffer[8], buffer[9]);
+    if(result == read_size)
+    {
+        wheel_colour            = ToRGBColor(buffer[4], buffer[5], buffer[6]);
+        logo_colour             = ToRGBColor(buffer[7], buffer[8], buffer[9]);
+    }
 }
 
 void CMMM711Controller::GetModeStatus()
@@ -140,8 +147,9 @@ void CMMM711Controller::SetLedsDirect(RGBColor wheel_colour, RGBColor logo_colou
     buffer[CM_MM711_BRIGHTNESS_BYTE]            = RGBGetBValue(logo_colour);
 
     hid_write(dev, buffer, CM_MM711_PACKET_SIZE);
+    hid_read_timeout(dev, buffer, CM_MM711_PACKET_SIZE, CM_MM711_INTERRUPT_TIMEOUT);
 
-    SendApplyPacket(0xB0);  //Apply custom mode
+    //SendApplyPacket(0xB0);  //Apply custom mode
 }
 
 void CMMM711Controller::SendUpdate(uint8_t mode, uint8_t speed, RGBColor colour, uint8_t brightness)
@@ -159,6 +167,7 @@ void CMMM711Controller::SendUpdate(uint8_t mode, uint8_t speed, RGBColor colour,
     buffer[CM_MM711_BLUE_BYTE]                  = RGBGetBValue(colour);
 
     hid_write(dev, buffer, CM_MM711_PACKET_SIZE);
+    hid_read_timeout(dev, buffer, CM_MM711_PACKET_SIZE, CM_MM711_INTERRUPT_TIMEOUT);
 
     SendApplyPacket(mode);
 }
@@ -168,6 +177,7 @@ void CMMM711Controller::SendInitPacket()
     unsigned char buffer[CM_MM711_PACKET_SIZE]  = { 0x00, 0x41, 0x80 };
 
     hid_write(dev, buffer, CM_MM711_PACKET_SIZE);
+    hid_read_timeout(dev, buffer, CM_MM711_PACKET_SIZE, CM_MM711_INTERRUPT_TIMEOUT);
 }
 
 void CMMM711Controller::SendApplyPacket(uint8_t mode)
@@ -177,4 +187,13 @@ void CMMM711Controller::SendApplyPacket(uint8_t mode)
     buffer[CM_MM711_MODE_BYTE]                  = mode;
 
     hid_write(dev, buffer, CM_MM711_PACKET_SIZE);
+    hid_read_timeout(dev, buffer, CM_MM711_PACKET_SIZE, CM_MM711_INTERRUPT_TIMEOUT);
+}
+
+void CMMM711Controller::SendSavePacket()
+{
+    unsigned char buffer[CM_MM711_PACKET_SIZE]  = { 0x00, 0x50, 0x55 };
+
+    hid_write(dev, buffer, CM_MM711_PACKET_SIZE);
+    hid_read_timeout(dev, buffer, CM_MM711_PACKET_SIZE, CM_MM711_INTERRUPT_TIMEOUT);
 }

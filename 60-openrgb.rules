@@ -98,6 +98,7 @@ ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /s
 #                                                               #
 #  Mice:                                                        #
 #       Cooler Master MM711                                     #
+#       Cooler Master MM720                                     #
 #  Mousemats:                                                   #
 #       Cooler Master MP750                                     #
 #  Controllers:                                                 #
@@ -114,6 +115,7 @@ ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /s
 #       Masterkeys SK650                                        #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0101", TAG+="uaccess"          #MM711
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0141", TAG+="uaccess"          #MM720
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uaccess"          #MP750 XL
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0105", TAG+="uaccess"          #MP750 M
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1011", TAG+="uaccess"          #ARGB

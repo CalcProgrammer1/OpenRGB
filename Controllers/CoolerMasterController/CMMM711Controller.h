@@ -76,6 +76,7 @@ public:
 
     void        SendUpdate(uint8_t mode, uint8_t speed, RGBColor colour, uint8_t brightness);
     void        SetLedsDirect(RGBColor wheel_colour, RGBColor logo_colour);
+    void        SendSavePacket();
 private:
     std::string device_name;
     std::string serial;
