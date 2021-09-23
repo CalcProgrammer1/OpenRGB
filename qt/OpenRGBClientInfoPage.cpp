@@ -1,7 +1,9 @@
 #include <QSignalMapper>
+#include <QCheckBox>
 #include "OpenRGBClientInfoPage.h"
 #include "ResourceManager.h"
 
+#include <iostream>
 using namespace Ui;
 
 static void UpdateInfoCallback(void * this_ptr)
@@ -15,6 +17,7 @@ class NetworkClientPointer : public QObject
 {
 public:
     NetworkClient * net_client;
+    QWidget *       widget;
 };
 
 OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
@@ -73,12 +76,13 @@ void OpenRGBClientInfoPage::UpdateInfo()
     /*-----------------------------------------------------*\
     | Set up the tree view header                           |
     \*-----------------------------------------------------*/
-    ui->ClientTree->setColumnCount(3);
+    ui->ClientTree->setColumnCount(4);
     ui->ClientTree->header()->setStretchLastSection(false);
     ui->ClientTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->ClientTree->setColumnWidth(1, 100);
     ui->ClientTree->setColumnWidth(2, 100);
-    ui->ClientTree->setHeaderLabels(QStringList() << "Connected Clients" << "Protocol Version" << "");
+    ui->ClientTree->setColumnWidth(3, 100);
+    ui->ClientTree->setHeaderLabels(QStringList() << "Connected Clients" << "Protocol Version" << "Save Connection" << "");
 
     /*-----------------------------------------------------*\
     | Set up a signal mapper to handle disconnect buttons   |
@@ -86,11 +90,46 @@ void OpenRGBClientInfoPage::UpdateInfo()
     QSignalMapper* signalMapper = new QSignalMapper(this);
     connect(signalMapper, SIGNAL(mapped(QObject *)), this, SLOT(onClientDisconnectButton_clicked(QObject *)));
 
+    QSignalMapper* signalMapperSave = new QSignalMapper(this);
+    connect(signalMapperSave, SIGNAL(mapped(QObject *)), this, SLOT(onClientSaveCheckBox_clicked(QObject *)));
+
+    /*-------------------------------------------------*\
+    | Get Client settings                               |
+    \*-------------------------------------------------*/
+    json                client_settings;
+
+    client_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Client");
+
     /*-----------------------------------------------------*\
     | Loop through all clients in list and display them     |
     \*-----------------------------------------------------*/
     for(std::size_t client_idx = 0; client_idx < ResourceManager::get()->GetClients().size(); client_idx++)
     {
+        /*-----------------------------------------------------*\
+        | Check to see if this client is in the saved clients   |
+        | list                                                  |
+        \*-----------------------------------------------------*/
+        bool found = false;
+        if(client_settings.contains("clients"))
+        {
+            for(unsigned int saved_client_idx = 0; saved_client_idx < client_settings["clients"].size(); saved_client_idx++)
+            {
+                if(client_settings["clients"][saved_client_idx].contains("ip") && client_settings["clients"][saved_client_idx].contains("port"))
+                {
+                    std::string     saved_ip    = client_settings["clients"][saved_client_idx]["ip"];
+                    unsigned short  saved_port  = client_settings["clients"][saved_client_idx]["port"];
+                    std::string     client_ip   = ResourceManager::get()->GetClients()[client_idx]->GetIP();
+                    unsigned short  client_port = ResourceManager::get()->GetClients()[client_idx]->GetPort();
+
+                    if((client_ip == saved_ip) && (client_port == saved_port))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+        }
+
         /*-----------------------------------------------------*\
         | Create the top level tree widget items and display the|
         | client IP addresses and protocol versions in them     |
@@ -100,16 +139,32 @@ void OpenRGBClientInfoPage::UpdateInfo()
         new_top_item->setText(1, QString::number(ResourceManager::get()->GetClients()[client_idx]->GetProtocolVersion()));
 
         /*-----------------------------------------------------*\
+        | Create the save checkbox                              |
+        \*-----------------------------------------------------*/
+        QCheckBox* new_checkbox = new QCheckBox( "" );
+        ui->ClientTree->setItemWidget(new_top_item, 2, new_checkbox);
+        new_checkbox->setChecked(found);
+
+        connect(new_checkbox, SIGNAL(clicked()), signalMapperSave, SLOT(map()));
+
+        NetworkClientPointer * new_save_arg = new NetworkClientPointer();
+        new_save_arg->net_client = ResourceManager::get()->GetClients()[client_idx];
+        new_save_arg->widget = new_checkbox;
+
+        signalMapperSave->setMapping(new_checkbox, new_save_arg);
+
+        /*-----------------------------------------------------*\
         | Create the disconnect buttons and connect them to the |
         | signal mapper                                         |
         \*-----------------------------------------------------*/
         QPushButton* new_button = new QPushButton( "Disconnect" );
-        ui->ClientTree->setItemWidget(new_top_item, 2, new_button);
+        ui->ClientTree->setItemWidget(new_top_item, 3, new_button);
 
         connect(new_button, SIGNAL(clicked()), signalMapper, SLOT(map()));
 
         NetworkClientPointer * new_arg = new NetworkClientPointer();
         new_arg->net_client = ResourceManager::get()->GetClients()[client_idx];
+        new_arg->widget = new_button;
 
         signalMapper->setMapping(new_button, new_arg);
 
@@ -205,4 +260,76 @@ void Ui::OpenRGBClientInfoPage::onClientDisconnectButton_clicked(QObject * arg)
     | deletes the client                                    |
     \*-----------------------------------------------------*/
     ResourceManager::get()->UnregisterNetworkClient(disconnect_client);
+}
+
+void Ui::OpenRGBClientInfoPage::onClientSaveCheckBox_clicked(QObject * arg)
+{
+    /*-----------------------------------------------------*\
+    | Get the pointer to the client from args               |
+    \*-----------------------------------------------------*/
+    NetworkClient * save_client     = ((NetworkClientPointer *)arg)->net_client;
+    QCheckBox *     save_checkbox   = (QCheckBox *)((NetworkClientPointer *)arg)->widget;
+
+    json            client_settings;
+
+    /*-------------------------------------------------*\
+    | Get Client settings                               |
+    \*-------------------------------------------------*/
+    client_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Client");
+
+    if(save_checkbox->isChecked())
+    {
+        bool found = false;
+        for(unsigned int client_idx = 0; client_idx < client_settings["clients"].size(); client_idx++)
+        {
+            if(client_settings["clients"][client_idx].contains("ip") && client_settings["clients"][client_idx].contains("port"))
+            {
+                std::string     client_ip   = client_settings["clients"][client_idx]["ip"];
+                unsigned short  client_port = client_settings["clients"][client_idx]["port"];
+                std::string     save_ip     = save_client->GetIP();
+                unsigned short  save_port   = save_client->GetPort();
+
+                if((client_ip == save_ip) && (client_port == save_port))
+                {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        if(!found)
+        {
+            json new_client;
+
+            new_client["ip"]    = save_client->GetIP();
+            new_client["port"]  = save_client->GetPort();
+
+            client_settings["clients"].push_back(new_client);
+        }
+    }
+    else
+    {
+        if(client_settings.contains("clients"))
+        {
+            for(unsigned int client_idx = 0; client_idx < client_settings["clients"].size(); client_idx++)
+            {
+                if(client_settings["clients"][client_idx].contains("ip") && client_settings["clients"][client_idx].contains("port"))
+                {
+                    std::string     client_ip   = client_settings["clients"][client_idx]["ip"];
+                    unsigned short  client_port = client_settings["clients"][client_idx]["port"];
+                    std::string     save_ip     = save_client->GetIP();
+                    unsigned short  save_port   = save_client->GetPort();
+
+                    if((client_ip == save_ip) && (client_port == save_port))
+                    {
+                        client_settings["clients"].erase(client_settings["clients"].begin() + client_idx);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Client", client_settings);
+    ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }

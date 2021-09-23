@@ -55,7 +55,7 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Configure the log manager                                                 |
     \*-------------------------------------------------------------------------*/
-    LogManager::get()->configure(settings_manager->GetSettings("Client"), GetConfigurationDirectory());
+    LogManager::get()->configure(settings_manager->GetSettings("LogManager"), GetConfigurationDirectory());
 
     /*-------------------------------------------------------------------------*\
     | Initialize Server Instance                                                |
@@ -77,6 +77,42 @@ ResourceManager::ResourceManager()
     else
     {
         server              = new NetworkServer(rgb_controllers_hw);
+    }
+
+    /*-------------------------------------------------------------------------*\
+    | Initialize Saved Client Connections                                       |
+    \*-------------------------------------------------------------------------*/
+    json client_settings    = settings_manager->GetSettings("Client");
+
+    if(client_settings.contains("clients"))
+    {
+        for(unsigned int client_idx = 0; client_idx < client_settings["clients"].size(); client_idx++)
+        {
+            NetworkClient * client = new NetworkClient(rgb_controllers);
+
+            std::string titleString = "OpenRGB ";
+            titleString.append(VERSION_STRING);
+
+            std::string     client_ip   = client_settings["clients"][client_idx]["ip"];
+            unsigned short  client_port = client_settings["clients"][client_idx]["port"];
+
+            client->SetIP(client_ip.c_str());
+            client->SetName(titleString.c_str());
+            client->SetPort(client_port);
+
+            client->StartClient();
+
+            for(int timeout = 0; timeout < 100; timeout++)
+            {
+                if(client->GetConnected())
+                {
+                    break;
+                }
+                std::this_thread::sleep_for(10ms);
+            }
+
+            clients.push_back(client);
+        }
     }
 
     /*-------------------------------------------------------------------------*\
