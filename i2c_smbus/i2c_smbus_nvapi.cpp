@@ -7,19 +7,21 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus_nvapi.h"
+#include "LogManager.h"
 
 i2c_smbus_nvapi::i2c_smbus_nvapi(NV_PHYSICAL_GPU_HANDLE handle)
 {
     this->handle = handle;
 }
 
-s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
+s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mode, i2c_smbus_data* data)
 {
     NV_STATUS ret;
     unsigned int unknown = 0;
     NV_I2C_INFO_V3 i2c_data;
-    uint8_t data_buf[8];
+    uint8_t data_buf[I2C_SMBUS_BLOCK_MAX];
     uint8_t chip_addr;
+    uint8_t size = data->block[0];
 	
     // Set up chip register address to command, one byte in length
     chip_addr = command;
@@ -42,7 +44,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
     // Load device address
     i2c_data.i2c_dev_address = (addr << 1);
 
-	switch (size)
+	switch (mode)
 	{
     case I2C_SMBUS_BYTE:
         // One byte of data with no register address
@@ -64,9 +66,13 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
         i2c_data.size = 2;
         break;
 
+    case I2C_SMBUS_I2C_BLOCK_DATA:
+        memcpy(&data_buf[0], &(data->block[1]), size);
+        i2c_data.size = size;
+        break;
+
     // Not supported
     case I2C_SMBUS_QUICK:
-    case I2C_SMBUS_BLOCK_DATA:
         return -1;
         break;
 
@@ -83,13 +89,23 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
     {
         ret = NvAPI_I2CReadEx(handle, &i2c_data, &unknown);
 
-        if(i2c_data.size == 1)
+        switch (mode)
         {
+        case I2C_SMBUS_BYTE:
             data->byte = i2c_data.data[0];
-        }
-        else
-        {
+            break;
+        
+        case I2C_SMBUS_WORD_DATA:
             data->word = (i2c_data.data[0] | (i2c_data.data[1] << 8));
+            break;
+        
+        case I2C_SMBUS_I2C_BLOCK_DATA:
+            data->block[0] = i2c_data.size;
+            memcpy( &(data->block[1]), i2c_data.data, i2c_data.size);
+            break;
+
+        default:
+            break;
         }
     }
     
@@ -127,6 +143,7 @@ void i2c_smbus_nvapi_detect()
             nvapi_bus->pci_subsystem_device = sub_system_id >> 16;
             nvapi_bus->pci_subsystem_vendor = sub_system_id & 0xffff;
             nvapi_bus->port_id              = 1;
+            LOG_INFO("NVIDIA GPU Device %04X:%04X Subsystem: %04X:%04X", nvapi_bus->pci_vendor, nvapi_bus->pci_device,nvapi_bus->pci_subsystem_vendor,nvapi_bus->pci_subsystem_device);
         }
 
         ResourceManager::get()->RegisterI2CBus(nvapi_bus);
