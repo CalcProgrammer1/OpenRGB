@@ -71,6 +71,15 @@ enum
     RGB_FUSION_2_SPEED_FAST         = 0x01,
     RGB_FUSION_2_SPEED_NORMAL       = 0x02,
     RGB_FUSION_2_SPEED_SLOW         = 0x04,
+    RGB_FUSION_2_DIGITAL_SPEED      = 0x91,
+    RGB_FUSION_2_DIGITAL_SPEED_MIN  = 0xe6,
+    RGB_FUSION_2_DIGITAL_SPEED_MAX  = 0x32,
+};
+
+enum
+{
+    RGB_FUSION_2_BRIGHTNESS_MAX     = 0x64,
+    RGB_FUSION_2_BRIGHTNESS_MIN     = 0x0f,
 };
 
 class RGBFusion2SMBusController
@@ -88,6 +97,7 @@ public:
                         (
                         unsigned int    led,
                         int             mode,
+                        unsigned int    brightness,
                         unsigned int    speed,
                         unsigned char   red,
                         unsigned char   green,

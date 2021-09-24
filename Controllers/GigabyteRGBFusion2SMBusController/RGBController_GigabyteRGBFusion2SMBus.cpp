@@ -76,32 +76,38 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     modes.push_back(Flashing);
 
     mode ColorCycle;
-    ColorCycle.name       = "Color Cycle";
-    ColorCycle.value      = RGB_FUSION_2_MODE_COLOR_CYCLE;
-    ColorCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    ColorCycle.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    ColorCycle.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    ColorCycle.speed      = RGB_FUSION_2_SPEED_NORMAL;
-    ColorCycle.color_mode = MODE_COLORS_PER_LED;
+    ColorCycle.name           = "Color Cycle";
+    ColorCycle.value          = RGB_FUSION_2_MODE_COLOR_CYCLE;
+    ColorCycle.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    ColorCycle.speed_min      = RGB_FUSION_2_SPEED_SLOW;
+    ColorCycle.speed_max      = RGB_FUSION_2_SPEED_FAST;
+    ColorCycle.speed          = RGB_FUSION_2_SPEED_NORMAL;
+    ColorCycle.brightness_min = RGB_FUSION_2_BRIGHTNESS_MIN;
+    ColorCycle.brightness_max = RGB_FUSION_2_BRIGHTNESS_MAX;
+    ColorCycle.brightness     = RGB_FUSION_2_BRIGHTNESS_MAX;
+    ColorCycle.color_mode     = MODE_COLORS_PER_LED;
     modes.push_back(ColorCycle);
 
     mode DigitalWave;
-    DigitalWave.name       = "Digital Wave";
-    DigitalWave.value      = RGB_FUSION_2_MODE_DIGITAL_WAVE;
-    DigitalWave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalWave.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalWave.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalWave.speed      = RGB_FUSION_2_SPEED_NORMAL;
-    DigitalWave.color_mode = MODE_COLORS_PER_LED;
+    DigitalWave.name           = "Digital Wave";
+    DigitalWave.value          = RGB_FUSION_2_MODE_DIGITAL_WAVE;
+    DigitalWave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    DigitalWave.speed_min      = 0xff;
+    DigitalWave.speed_max      = 0x49;
+    DigitalWave.speed          = 0xc1;
+    DigitalWave.brightness_min = RGB_FUSION_2_BRIGHTNESS_MIN;
+    DigitalWave.brightness_max = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalWave.brightness     = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalWave.color_mode     = MODE_COLORS_PER_LED;
     modes.push_back(DigitalWave);
 
     mode DigitalA;
     DigitalA.name       = "Digital A";
     DigitalA.value      = RGB_FUSION_2_MODE_DIGITAL_A;
     DigitalA.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalA.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalA.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalA.speed      = RGB_FUSION_2_SPEED_NORMAL;
+    DigitalA.speed_min  = RGB_FUSION_2_DIGITAL_SPEED_MIN;
+    DigitalA.speed_max  = RGB_FUSION_2_DIGITAL_SPEED_MAX;
+    DigitalA.speed      = RGB_FUSION_2_DIGITAL_SPEED;
     DigitalA.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(DigitalA);
 
@@ -109,9 +115,9 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     DigitalB.name       = "Digital B";
     DigitalB.value      = RGB_FUSION_2_MODE_DIGITAL_B;
     DigitalB.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalB.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalB.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalB.speed      = RGB_FUSION_2_SPEED_NORMAL;
+    DigitalB.speed_min  = 0xf0;
+    DigitalB.speed_max  = 0x3c;
+    DigitalB.speed      = 0xa0;
     DigitalB.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(DigitalB);
 
@@ -119,50 +125,59 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
     DigitalC.name       = "Digital C";
     DigitalC.value      = RGB_FUSION_2_MODE_DIGITAL_C;
     DigitalC.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalC.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalC.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalC.speed      = RGB_FUSION_2_SPEED_NORMAL;
+    DigitalC.speed_min  = RGB_FUSION_2_DIGITAL_SPEED_MIN;
+    DigitalC.speed_max  = RGB_FUSION_2_DIGITAL_SPEED_MAX;
+    DigitalC.speed      = RGB_FUSION_2_DIGITAL_SPEED;
     DigitalC.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(DigitalC);
 
     mode DigitalD;
-    DigitalD.name       = "Digital D";
-    DigitalD.value      = RGB_FUSION_2_MODE_DIGITAL_D;
-    DigitalD.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalD.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalD.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalD.speed      = RGB_FUSION_2_SPEED_NORMAL;
-    DigitalD.color_mode = MODE_COLORS_PER_LED;
+    DigitalD.name           = "Digital D";
+    DigitalD.value          = RGB_FUSION_2_MODE_DIGITAL_D;
+    DigitalD.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    DigitalD.speed_min      = RGB_FUSION_2_DIGITAL_SPEED_MIN;
+    DigitalD.speed_max      = RGB_FUSION_2_DIGITAL_SPEED_MAX;
+    DigitalD.speed          = RGB_FUSION_2_DIGITAL_SPEED;
+    DigitalD.brightness_min = RGB_FUSION_2_BRIGHTNESS_MIN;
+    DigitalD.brightness_max = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalD.brightness     = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalD.color_mode     = MODE_COLORS_PER_LED;
     modes.push_back(DigitalD);
 
     mode DigitalE;
     DigitalE.name       = "Digital E";
     DigitalE.value      = RGB_FUSION_2_MODE_DIGITAL_E;
     DigitalE.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalE.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalE.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalE.speed      = RGB_FUSION_2_SPEED_NORMAL;
+    DigitalE.speed_min  = 0x96;
+    DigitalE.speed_max  = RGB_FUSION_2_DIGITAL_SPEED_MAX;
+    DigitalE.speed      = 0x6e;
     DigitalE.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(DigitalE);
 
     mode DigitalF;
-    DigitalF.name       = "Digital F";
-    DigitalF.value      = RGB_FUSION_2_MODE_DIGITAL_F;
-    DigitalF.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalF.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalF.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalF.speed      = RGB_FUSION_2_SPEED_NORMAL;
-    DigitalF.color_mode = MODE_COLORS_PER_LED;
+    DigitalF.name           = "Digital F";
+    DigitalF.value          = RGB_FUSION_2_MODE_DIGITAL_F;
+    DigitalF.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS; // F technically needs brightness when in color cycle mode (no color selected)
+    DigitalF.speed_min      = RGB_FUSION_2_DIGITAL_SPEED_MIN;
+    DigitalF.speed_max      = RGB_FUSION_2_DIGITAL_SPEED_MAX;
+    DigitalF.speed          = RGB_FUSION_2_DIGITAL_SPEED;
+    DigitalF.brightness_min = RGB_FUSION_2_BRIGHTNESS_MIN;
+    DigitalF.brightness_max = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalF.brightness     = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalF.color_mode     = MODE_COLORS_PER_LED;
     modes.push_back(DigitalF);
 
     mode DigitalG;
-    DigitalG.name       = "Digital G";
-    DigitalG.value      = RGB_FUSION_2_MODE_DIGITAL_G;
-    DigitalG.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    DigitalG.speed_min  = RGB_FUSION_2_SPEED_SLOW;
-    DigitalG.speed_max  = RGB_FUSION_2_SPEED_FAST;
-    DigitalG.speed      = RGB_FUSION_2_SPEED_NORMAL;
-    DigitalG.color_mode = MODE_COLORS_PER_LED;
+    DigitalG.name           = "Digital G";
+    DigitalG.value          = RGB_FUSION_2_MODE_DIGITAL_G;
+    DigitalG.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    DigitalG.speed_min      = 0x8c;
+    DigitalG.speed_max      = 0x46;
+    DigitalG.speed          = 0x6e;
+    DigitalG.brightness_min = RGB_FUSION_2_BRIGHTNESS_MIN;
+    DigitalG.brightness_max = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalG.brightness     = RGB_FUSION_2_BRIGHTNESS_MAX;
+    DigitalG.color_mode     = MODE_COLORS_PER_LED;
     modes.push_back(DigitalG);
 
     SetupZones();
@@ -229,8 +244,9 @@ void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
 
         int mode = modes[active_mode].value;
         unsigned int speed = modes[active_mode].speed;
+        unsigned int brightness = modes[active_mode].brightness;
 
-        rgb_fusion->SetLEDEffect(led, mode, speed, red, grn, blu);
+        rgb_fusion->SetLEDEffect(led, mode, brightness, speed, red, grn, blu);
     }
 
     rgb_fusion->Apply();
@@ -245,8 +261,9 @@ void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
 
     int mode = modes[active_mode].value;
     unsigned int speed = modes[active_mode].speed;
+    unsigned int brightness = modes[active_mode].brightness;
 
-    rgb_fusion->SetLEDEffect(zone, mode, speed, red, grn, blu);
+    rgb_fusion->SetLEDEffect(zone, mode, brightness, speed, red, grn, blu);
     rgb_fusion->Apply();
 }
 
