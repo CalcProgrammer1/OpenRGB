@@ -16,7 +16,6 @@ static void DetectAsusTUFLaptopWMIControllers(std::vector<RGBController*>&)
     // For now, checking for "TUF Gaming" should suffice
 
     Wmi wmi;
-    wmi.init();
 
     std::vector<QueryObj> systemProduct;
     if (wmi.query("SELECT * FROM Win32_ComputerSystemProduct", systemProduct))

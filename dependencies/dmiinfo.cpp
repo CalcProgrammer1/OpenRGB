@@ -27,7 +27,6 @@ DMIInfo::DMIInfo()
     manufacturer    = "";
     HRESULT hres;
     Wmi wmi;
-    wmi.init();
 
     // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
     // These devices may be browsed under Device Manager -> System Devices

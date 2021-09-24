@@ -26,7 +26,7 @@ public:
     ~Wmi();
 
     // Initialises connection to WMI host
-    HRESULT init();
+    static HRESULT init();
 
     HRESULT query(std::string queryStr,
                   std::vector<QueryObj>& queryVectorOut,

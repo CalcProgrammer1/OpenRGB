@@ -2,6 +2,7 @@
 
 IWbemLocator* Wmi::pLoc = nullptr;
 IWbemServices* Wmi::pSvc = nullptr;
+HRESULT WmiInit = Wmi::init();
 
 // Taken from https://stackoverflow.com/questions/215963/
 // Convert a wide Unicode string to an UTF8 string
