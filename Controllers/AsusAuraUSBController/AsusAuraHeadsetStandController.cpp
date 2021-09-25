@@ -96,7 +96,7 @@ void AuraHeadsetStandController::UpdateDevice
     unsigned char   grn,
     unsigned char   blu,
     unsigned char   speed,
-    bool            save
+    unsigned char   brightness
     )
 {
     unsigned char usb_buf[65];
@@ -110,7 +110,7 @@ void AuraHeadsetStandController::UpdateDevice
     usb_buf[0x04]   = 0x00;
     usb_buf[0x05]   = mode;
     usb_buf[0x06]   = speed;
-    usb_buf[0x07]   = 0x04;
+    usb_buf[0x07]   = brightness;
     usb_buf[0x08]   = 0x00;
     usb_buf[0x09]   = 0x00;
     usb_buf[0x0a]   = red;
@@ -118,16 +118,17 @@ void AuraHeadsetStandController::UpdateDevice
     usb_buf[0x0c]   = blu;
     hid_write(dev, usb_buf, 65);
 
-    if(save)
-    {
-        unsigned char usb_save_buf[65];
+}
 
-        memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
-        
-        usb_save_buf[0x00]   = 0x00;
-        usb_save_buf[0x01]   = 0x50;
-        usb_save_buf[0x02]   = 0x55;
-        
-        hid_write(dev, usb_save_buf, 65);
-    }
+void AuraHeadsetStandController::SaveMode()
+{
+    unsigned char usb_save_buf[65];
+
+    memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
+
+    usb_save_buf[0x00]   = 0x00;
+    usb_save_buf[0x01]   = 0x50;
+    usb_save_buf[0x02]   = 0x55;
+
+    hid_write(dev, usb_save_buf, 65);
 }

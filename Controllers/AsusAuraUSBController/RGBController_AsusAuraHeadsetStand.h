@@ -11,6 +11,16 @@
 #include "RGBController.h"
 #include "AsusAuraHeadsetStandController.h"
 
+enum
+{
+    AURA_HEADSETSTAND_BRIGHTNESS_MIN     = 0,
+    AURA_HEADSETSTAND_BRIGHTNESS_MAX     = 4,
+    AURA_HEADSETSTAND_BRIGHTNESS_DEFAULT = 4,
+    AURA_HEADSETSTAND_SPEED_MIN          = 0,
+    AURA_HEADSETSTAND_SPEED_MAX          = 255,
+    AURA_HEADSETSTAND_SPEED_DEFAULT      = 127,
+};
+
 class RGBController_AuraHeadsetStand : public RGBController
 {
 public:
@@ -27,6 +37,7 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
 private:
     AuraHeadsetStandController*  aura;

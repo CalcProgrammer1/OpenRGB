@@ -28,55 +28,70 @@ RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandC
     modes.push_back(Direct);
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = AURA_HEADSET_STAND_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min = 1;
-    Static.colors_max = 1;
+    Static.name           = "Static";
+    Static.value          = AURA_HEADSET_STAND_MODE_STATIC;
+    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Static.brightness_min = AURA_HEADSETSTAND_BRIGHTNESS_MIN;
+    Static.brightness_max = AURA_HEADSETSTAND_BRIGHTNESS_MAX;
+    Static.brightness     = AURA_HEADSETSTAND_BRIGHTNESS_DEFAULT;
+    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors_min     = 1;
+    Static.colors_max     = 1;
     Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = AURA_HEADSET_STAND_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.speed_min  = 0;
-    Breathing.speed_max  = 255;
-    Breathing.speed      = 127;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 1;
+    Breathing.name           = "Breathing";
+    Breathing.value          = AURA_HEADSET_STAND_MODE_BREATHING;
+    Breathing.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Breathing.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.speed_min      = AURA_HEADSETSTAND_SPEED_MIN;
+    Breathing.speed_max      = AURA_HEADSETSTAND_SPEED_MAX;
+    Breathing.speed          = AURA_HEADSETSTAND_SPEED_DEFAULT;
+    Breathing.brightness_min = AURA_HEADSETSTAND_BRIGHTNESS_MIN;
+    Breathing.brightness_max = AURA_HEADSETSTAND_BRIGHTNESS_MAX;
+    Breathing.brightness     = AURA_HEADSETSTAND_BRIGHTNESS_DEFAULT;
+    Breathing.colors_min     = 1;
+    Breathing.colors_max     = 1;
     Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     mode Strobing;
-    Strobing.name       = "Strobing";
-    Strobing.value      = AURA_HEADSET_STAND_MODE_STROBING;
-    Strobing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Strobing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Strobing.colors_min = 1;
-    Strobing.colors_max = 1;
+    Strobing.name           = "Strobing";
+    Strobing.value          = AURA_HEADSET_STAND_MODE_STROBING;
+    Strobing.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Strobing.brightness_min = AURA_HEADSETSTAND_BRIGHTNESS_MIN;
+    Strobing.brightness_max = AURA_HEADSETSTAND_BRIGHTNESS_MAX;
+    Strobing.brightness     = AURA_HEADSETSTAND_BRIGHTNESS_DEFAULT;
+    Strobing.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Strobing.colors_min     = 1;
+    Strobing.colors_max     = 1;
     Strobing.colors.resize(1);
     modes.push_back(Strobing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.value      = AURA_HEADSET_STAND_MODE_COLOR_CYCLE;
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
-    SpectrumCycle.speed_min  = 0;
-    SpectrumCycle.speed_max  = 255;
-    SpectrumCycle.speed      = 127;
-    SpectrumCycle.color_mode = MODE_COLORS_NONE;
+    SpectrumCycle.name           = "Spectrum Cycle";
+    SpectrumCycle.value          = AURA_HEADSET_STAND_MODE_COLOR_CYCLE;
+    SpectrumCycle.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    SpectrumCycle.speed_min      = AURA_HEADSETSTAND_SPEED_MIN;
+    SpectrumCycle.speed_max      = AURA_HEADSETSTAND_SPEED_MAX;
+    SpectrumCycle.speed          = AURA_HEADSETSTAND_SPEED_DEFAULT;
+    SpectrumCycle.brightness_min = AURA_HEADSETSTAND_BRIGHTNESS_MIN;
+    SpectrumCycle.brightness_max = AURA_HEADSETSTAND_BRIGHTNESS_MAX;
+    SpectrumCycle.brightness     = AURA_HEADSETSTAND_BRIGHTNESS_DEFAULT;
+    SpectrumCycle.color_mode     = MODE_COLORS_NONE;
     modes.push_back(SpectrumCycle);
 
     mode Rainbow;
-    Rainbow.name       = "Rainbow";
-    Rainbow.value      = AURA_HEADSET_STAND_MODE_RAINBOW;
-    Rainbow.flags      = MODE_FLAG_HAS_SPEED;
-    Rainbow.speed_min  = 0;
-    Rainbow.speed_max  = 255;
-    Rainbow.speed      = 127;
+    Rainbow.name           = "Rainbow";
+    Rainbow.value          = AURA_HEADSET_STAND_MODE_RAINBOW;
+    Rainbow.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Rainbow.speed_min      = AURA_HEADSETSTAND_SPEED_MIN;
+    Rainbow.speed_max      = AURA_HEADSETSTAND_SPEED_MAX;
+    Rainbow.speed          = AURA_HEADSETSTAND_SPEED_DEFAULT;
+    Rainbow.brightness_min = AURA_HEADSETSTAND_BRIGHTNESS_MIN;
+    Rainbow.brightness_max = AURA_HEADSETSTAND_BRIGHTNESS_MAX;
+    Rainbow.brightness     = AURA_HEADSETSTAND_BRIGHTNESS_DEFAULT;
     modes.push_back(Rainbow);
     SetupZones();
 }
@@ -172,11 +187,17 @@ void RGBController_AuraHeadsetStand::DeviceUpdateMode()
             red = RGBGetRValue(modes[active_mode].colors[0]);
             grn = RGBGetGValue(modes[active_mode].colors[0]);
             blu = RGBGetBValue(modes[active_mode].colors[0]);
-            aura->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, false);
+            aura->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, modes[active_mode].brightness);
             break;
         case 4:
         case 5:
-            aura->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, false);
+            aura->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, modes[active_mode].brightness);
             break;
     }
+}
+
+void RGBController_AuraHeadsetStand::DeviceSaveMode()
+{
+    DeviceUpdateMode();
+    aura->SaveMode();
 }

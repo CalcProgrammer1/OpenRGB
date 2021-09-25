@@ -50,8 +50,10 @@ public:
         unsigned char   grn,
         unsigned char   blu,
         unsigned char   speed,
-        bool            save
+        unsigned char   brightness
         );
+
+    void SaveMode();
 
 private:
     hid_device*                 dev;

@@ -49,6 +49,7 @@
 |  OTHER                                                            |
 \*-----------------------------------------------------------------*/
 #define AURA_TERMINAL_PID                       0x1889
+#define AURA_ROG_THRONE_PID                     0x18D9
 #define AURA_ROG_THRONE_QI_PID                  0x18C5
 
 
@@ -221,4 +222,5 @@ REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                  DetectAsusAuraUS
 |  OTHER                                                            |
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR   ("ASUS ROG AURA Terminal",              DetectAsusAuraUSBTerminal,      AURA_USB_VID, AURA_TERMINAL_PID);
+REGISTER_HID_DETECTOR_I ("ASUS ROG Throne",         			DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID, 					    0);
 REGISTER_HID_DETECTOR_I ("ASUS ROG Throne QI",                  DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                   0);
