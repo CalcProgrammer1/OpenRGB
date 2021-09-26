@@ -21,7 +21,6 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
     NV_I2C_INFO_V3 i2c_data;
     uint8_t data_buf[I2C_SMBUS_BLOCK_MAX];
     uint8_t chip_addr;
-    uint8_t size = data->block[0];
 	
     // Set up chip register address to command, one byte in length
     chip_addr = command;
@@ -67,8 +66,8 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
         break;
 
     case I2C_SMBUS_I2C_BLOCK_DATA:
-        memcpy(&data_buf[0], &(data->block[1]), size);
-        i2c_data.size = size;
+        memcpy(&data_buf[0], &(data->block[1]), data->block[0]);
+        i2c_data.size = data->block[0];
         break;
 
     // Not supported
