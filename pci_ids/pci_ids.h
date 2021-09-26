@@ -120,6 +120,7 @@
 #define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
 #define ASUS_RX580_STRIX_GAMING_OC                      0x0517
+#define ASUS_RX580_STRIX_GAMING_TOP                     0x0519
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
