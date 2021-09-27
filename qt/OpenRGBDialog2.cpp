@@ -906,6 +906,8 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 
     if(NewTrayMenu)
     {
+        NewTrayMenu->setParent(trayIconMenu);
+
         trayIconMenu->insertMenu(actionExit, NewTrayMenu);
     }
 }
