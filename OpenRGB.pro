@@ -212,6 +212,8 @@ HEADERS +=                                                                      
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/AnnePro2Controller/AnnePro2Controller.h                                         \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.h                                     \
+    Controllers/AP2QMKController/AP2Controller.h                                                \
+    Controllers/AP2QMKController/RGBController_AP2.h                                            \
     Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.h               \
     Controllers/ASRockPolychromeSMBusController/RGBController_ASRockPolychromeSMBus.h           \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.h                   \
@@ -556,6 +558,9 @@ SOURCES +=                                                                      
     Controllers/AnnePro2Controller/AnnePro2Controller.cpp                                       \
     Controllers/AnnePro2Controller/AnnePro2ControllerDetect.cpp                                 \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.cpp                                   \
+    Controllers/AP2QMKController/AP2Controller.cpp                                              \
+    Controllers/AP2QMKController/AP2ControllerDetect.cpp                                        \
+    Controllers/AP2QMKController/RGBController_AP2.cpp                                          \
     Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.cpp             \
     Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusControllerDetect.cpp       \
     Controllers/ASRockPolychromeSMBusController/RGBController_ASRockPolychromeSMBus.cpp         \
