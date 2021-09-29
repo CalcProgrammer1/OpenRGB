@@ -2,6 +2,8 @@
 #include "OpenRGBSettingsPage.h"
 #include "ui_OpenRGBSettingsPage.h"
 #include "ResourceManager.h"
+#include <QUrl>
+#include <QDesktopServices>
 
 using namespace Ui;
 
@@ -500,3 +502,11 @@ void OpenRGBSettingsPage::SaveSettings()
 {
     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }
+
+void Ui::OpenRGBSettingsPage::on_OpenSettingsFolderButton_clicked()
+{
+    std::string config_dir = ResourceManager::get()->GetConfigurationDirectory();
+    QUrl url = QUrl::fromLocalFile(QString::fromStdString(config_dir));
+    QDesktopServices::openUrl(url);
+}
+

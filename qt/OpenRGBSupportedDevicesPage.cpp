@@ -1,8 +1,6 @@
 #include "OpenRGBSupportedDevicesPage.h"
 #include "ui_OpenRGBSupportedDevicesPage.h"
 #include "ResourceManager.h"
-#include <QUrl>
-#include <QDesktopServices>
 
 using namespace Ui;
 
@@ -44,13 +42,6 @@ OpenRGBSupportedDevicesPage::~OpenRGBSupportedDevicesPage()
 void OpenRGBSupportedDevicesPage::on_SaveButton_clicked()
 {
     detectorTableModel->applySettings();
-}
-
-void OpenRGBSupportedDevicesPage::on_OpenSettingsFolderButton_clicked()
-{
-    std::string config_dir = ResourceManager::get()->GetConfigurationDirectory();
-    QUrl url = QUrl::fromLocalFile(QString::fromStdString(config_dir));
-    QDesktopServices::openUrl(url);
 }
 
 void OpenRGBSupportedDevicesPage::on_Filter_textChanged(const QString &arg1)

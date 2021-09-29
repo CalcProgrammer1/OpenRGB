@@ -41,13 +41,6 @@
    <item>
     <layout class="QHBoxLayout" name="ButtonsLayout">
      <item>
-      <widget class="QPushButton" name="OpenSettingsFolderButton">
-       <property name="text">
-        <string>Open settings folder</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="SaveButton">
        <property name="text">
         <string>Apply changes</string>

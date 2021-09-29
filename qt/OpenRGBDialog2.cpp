@@ -416,14 +416,14 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddSoftwareInfoPage();
 
     /*-----------------------------------------------------*\
-    | Add the Supported Devices page                        |
-    \*-----------------------------------------------------*/
-    AddSupportedDevicesPage();
-
-    /*-----------------------------------------------------*\
     | Add the settings page                                 |
     \*-----------------------------------------------------*/
     AddSettingsPage();
+
+    /*-----------------------------------------------------*\
+    | Add the Supported Devices page                        |
+    \*-----------------------------------------------------*/
+    AddSupportedDevicesPage();
 
     /*-----------------------------------------------------*\
     | Initialize the plugin manager                         |
@@ -633,7 +633,7 @@ void OpenRGBDialog2::AddSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Settings");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "General Settings");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
