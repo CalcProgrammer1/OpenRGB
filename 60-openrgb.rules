@@ -362,6 +362,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0cf2", ATTR{idProduct}=="7750", TAG+="uacces
 #       Logitech G502 Hero                                      #
 #       Logitech G502 Wireless                                  #
 #       Logitech G703 Wireless                                  #
+#       Logitech G703 Hero Wireless                             #
 #       Logitech G900 Wireless                                  #
 #       Logitech G903 Wireless                                  #
 #       Logitech G Lightspeed Wireless Gaming Mouse             #
@@ -404,8 +405,10 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c332", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08b", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08d", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="407f", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c087", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c087", TAG+="uaccess"          #G703 PID
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4070", TAG+="uaccess"          #G703 Virtual PID
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c090", TAG+="uaccess"          #G703 Hero PID
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4086", TAG+="uaccess"          #G703 Hero Virtual PID
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c081", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4053", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c086", TAG+="uaccess"
