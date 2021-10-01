@@ -56,7 +56,7 @@ HRESULT Wmi::init()
     }
 
     // Initialize COM. ------------------------------------------
-    hres = CoInitializeEx(0, COINIT_MULTITHREADED);
+    hres = CoInitializeEx(0, COINIT_APARTMENTTHREADED);
     if (FAILED(hres))
     {
         return hres;
@@ -149,7 +149,7 @@ HRESULT Wmi::query(std::string queryStr, std::vector<QueryObj>& queryVectorOut, 
     IEnumWbemClassObject* pEnumerator = nullptr;
 
     // Initialize COM. ------------------------------------------
-    hres = CoInitializeEx(0, COINIT_MULTITHREADED);
+    hres = CoInitializeEx(0, COINIT_APARTMENTTHREADED);
     if (FAILED(hres))
     {
         return hres;

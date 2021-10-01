@@ -103,7 +103,7 @@ static bool OpenNotebook()
 
 bool AsWMI_Open()
 {
-    HRESULT init = CoInitializeEx(0, COINIT_MULTITHREADED);
+    HRESULT init = CoInitializeEx(0, COINIT_APARTMENTTHREADED);
     if ( init < 0 && init != -2147417850 )
         return 0;
     coInitialized = 1;

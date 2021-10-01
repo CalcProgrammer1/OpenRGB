@@ -83,7 +83,7 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
         if(result == CO_E_NOTINITIALIZED)
         {
             weInitialised                           = true;
-            CoInitializeEx(NULL, COINIT_MULTITHREADED);
+            CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
             result                                  = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_ALL, IID_IShellLinkW, (void**)&shellLink);
         }
 
