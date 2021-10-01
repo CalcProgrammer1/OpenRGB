@@ -806,6 +806,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1FB[0-5]", TAG+="ua
 SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[0-3]", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  ThingM Controllers                                           #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="27B8", ATTR{idProduct}=="01ED", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  Wooting Devices                                              #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff01", TAG+="uaccess"          #WootingOne
