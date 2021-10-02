@@ -277,6 +277,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Deathadder Elite",                          Det
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Essential",                      DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_ESSENTIAL_PID,                 0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Essential White Edition",        DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID,   0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder V2",                             DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_V2_PID,                        0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Deathadder V2 Pro (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_V2_PRO_WIRED_PID,              0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Deathadder V2 Pro (Wireless)",              DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_V2_PRO_WIRELESS_PID,           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Diamondback",                               DetectRazerControllers,        RAZER_VID,  RAZER_DIAMONDBACK_CHROMA_PID,                   0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Lancehead 2017 (Wired)",                    DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_2017_WIRED_PID,                 0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Lancehead 2017 (Wireless)",                 DetectRazerControllers,        RAZER_VID,  RAZER_LANCEHEAD_2017_WIRELESS_PID,              0x00,   0x01,   0x02);
