@@ -15,7 +15,10 @@
 
 typedef unsigned char	evga_dev_id;
 
-#define SPEED_MULTIPLIER 10
+#define SPEED_MULTIPLIER                10
+#define EVGA_GPU_V2_BRIGHTNESS_MIN      0x01
+#define EVGA_GPU_V2_BRIGHTNESS_DEFAULT  0x64
+#define EVGA_GPU_V2_BRIGHTNESS_MAX      0x64
 
 enum
 {
@@ -43,17 +46,16 @@ enum
 enum
 {
     EVGA_GPU_V2_RGB_MODE_OFF                = 0x00,
-    EVGA_GPU_V2_RGB_MODE_DIRECT             = 0x01, 
-    EVGA_GPU_V2_RGB_MODE_STATIC             = 0x02,
-    EVGA_GPU_V2_RGB_MODE_RAINBOW            = 0x03,
-    EVGA_GPU_V2_RGB_MODE_BREATHING          = 0x04,
-    EVGA_GPU_V2_RGB_MODE_PULSE              = 0x05,
+    EVGA_GPU_V2_RGB_MODE_STATIC             = 0x01,
+    EVGA_GPU_V2_RGB_MODE_RAINBOW            = 0x02,
+    EVGA_GPU_V2_RGB_MODE_BREATHING          = 0x03,
+    EVGA_GPU_V2_RGB_MODE_PULSE              = 0x04,
 };
 
 enum
 {
     EVGA_GPU_V2_MODE_OFF                    = 0x00,
-    EVGA_GPU_V2_MODE_DIRECT                 = 0x01, 
+    EVGA_GPU_V2_MODE_STATIC                 = 0x01, 
     EVGA_GPU_V2_MODE_RAINBOW                = 0x0F,
     EVGA_GPU_V2_MODE_BREATHING              = 0x22,
 };
@@ -92,15 +94,15 @@ public:
     unsigned char   GetMode();
     unsigned char   GetSpeed();
 
-    void            SetColor(RGBColor colorA, RGBColor colorB, bool boolSave);
-    void            SetMode(unsigned char mode, RGBColor color1, RGBColor color2, unsigned int speed);
+    void            SetColor(RGBColor colorA, RGBColor colorB, uint8_t brightness);
+    void            SetMode(uint8_t mode, RGBColor color1, RGBColor color2, uint16_t speed, uint8_t brightness);
+    void            SaveSettings();
 
 private:
     void            EnableWrite(bool enable);
-    void            SaveSettings();
-    void            SendBrightness(unsigned char brightness = 0x64);
-    void            SendColor(unsigned char start_register, unsigned char red, unsigned char green, unsigned char blue, unsigned char brightness = 0x64);
-    void            SendMode(unsigned char mode);
+    void            SendBrightness(uint8_t brightness);
+    void            SendColor(uint8_t start_register, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness);
+    void            SendMode(uint8_t mode);
     void            SendSpeed(u16_to_u8 aOnTime, u16_to_u8 bOnTime, u16_to_u8 b2a, u16_to_u8 a2b, u16_to_u8 speed_un);
 
     i2c_smbus_interface*    bus;

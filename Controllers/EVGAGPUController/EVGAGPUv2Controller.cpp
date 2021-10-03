@@ -71,10 +71,9 @@ unsigned char EVGAGPUv2Controller::GetMode()
             }
             break;
         
-        case EVGA_GPU_V2_MODE_DIRECT:
+        case EVGA_GPU_V2_MODE_STATIC:
             {
-                //No way to detect static so just return direct.
-                return_mode = EVGA_GPU_V2_RGB_MODE_DIRECT;
+                return_mode = EVGA_GPU_V2_RGB_MODE_STATIC;
             }
             break;
 
@@ -121,9 +120,8 @@ unsigned char EVGAGPUv2Controller::GetSpeed()
     return (unsigned char) speed_16.u16;
 }
 
-void EVGAGPUv2Controller::SetMode(unsigned char mode, RGBColor color1, RGBColor color2, unsigned int speed)
+void EVGAGPUv2Controller::SetMode(uint8_t mode, RGBColor color1, RGBColor color2, uint16_t speed, uint8_t brightness)
 {
-    bool boolSave = false;
 
     EnableWrite(true);
     switch (mode)
@@ -131,30 +129,22 @@ void EVGAGPUv2Controller::SetMode(unsigned char mode, RGBColor color1, RGBColor 
     case EVGA_GPU_V2_RGB_MODE_OFF:
         {
             SendMode(EVGA_GPU_V2_MODE_OFF);
-            boolSave = true;
         }
         break;
 
-    case EVGA_GPU_V2_RGB_MODE_DIRECT:
     case EVGA_GPU_V2_RGB_MODE_STATIC:
         {
-            SendMode(EVGA_GPU_V2_MODE_DIRECT);
-            //Static is mode 0x01 but with SaveSettings()
-            boolSave = (mode == EVGA_GPU_V2_RGB_MODE_STATIC);
-
-            SendColor(EVGA_GPU_V2_REG_COLOR_A_RED, RGBGetRValue(color1), RGBGetGValue(color1), RGBGetBValue(color1));
+            SendMode(EVGA_GPU_V2_MODE_STATIC);
+            SendColor(EVGA_GPU_V2_REG_COLOR_A_RED, RGBGetRValue(color1), RGBGetGValue(color1), RGBGetBValue(color1), brightness);
         }
         break;
 
     case EVGA_GPU_V2_RGB_MODE_RAINBOW:
         {
             SendMode(EVGA_GPU_V2_MODE_RAINBOW);
-            //OpenRGB does not do brightness yet
-            SendBrightness(0x64); //Default = 0x64
+            SendBrightness(brightness); //Default = 0x64
             // Set Rainbow speed? No control in the GUI but this register is only set in Ranbow mode.
-            bus->i2c_smbus_write_byte_data(dev, 0x19, 0x11);
-
-            boolSave = true;
+            bus->i2c_smbus_write_byte_data(dev, 0x19, 0x11);;
         }
         break;
 
@@ -169,8 +159,8 @@ void EVGAGPUv2Controller::SetMode(unsigned char mode, RGBColor color1, RGBColor 
             | inspection is required.                                   |
             \*---------------------------------------------------------*/
 
-            SendColor(EVGA_GPU_V2_REG_COLOR_A_RED, RGBGetRValue(color1), RGBGetGValue(color1), RGBGetBValue(color1));
-            SendColor(EVGA_GPU_V2_REG_COLOR_B_RED, RGBGetRValue(color2), RGBGetGValue(color2), RGBGetBValue(color2));
+            SendColor(EVGA_GPU_V2_REG_COLOR_A_RED, RGBGetRValue(color1), RGBGetGValue(color1), RGBGetBValue(color1), brightness);
+            SendColor(EVGA_GPU_V2_REG_COLOR_B_RED, RGBGetRValue(color2), RGBGetGValue(color2), RGBGetBValue(color2), brightness);
 
             /*-----------------------------------------------------------------*\
             | Breathing mode speeds are consistent for B_TO_A and A_TO_B        |
@@ -185,8 +175,6 @@ void EVGAGPUv2Controller::SetMode(unsigned char mode, RGBColor color1, RGBColor 
             // 0x6A and 0x6B = 0x00
             bus->i2c_smbus_write_byte_data(dev, 0x6A,   0x00);
             bus->i2c_smbus_write_byte_data(dev, 0x6B,   0x00);
-
-            boolSave = true;
         }
         break;
 
@@ -194,13 +182,8 @@ void EVGAGPUv2Controller::SetMode(unsigned char mode, RGBColor color1, RGBColor 
         break;
     }
 
-    //Disable writes and Save (if applicable)
+    //Disable writes
     EnableWrite(false);
-
-    if(boolSave)
-    {
-        SaveSettings();
-    }
 }
 
 void EVGAGPUv2Controller::EnableWrite(bool boolEnable)
@@ -232,12 +215,12 @@ void EVGAGPUv2Controller::SaveSettings()
     bus->i2c_smbus_write_byte_data(dev, 0x0E,   0xE0);
 }
 
-void EVGAGPUv2Controller::SendBrightness(unsigned char brightness)
+void EVGAGPUv2Controller::SendBrightness(uint8_t brightness)
 {
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_BRIGHTNESS, brightness);
 }
 
-void EVGAGPUv2Controller::SendColor(unsigned char start_register, unsigned char red, unsigned char green, unsigned char blue, unsigned char brightness)
+void EVGAGPUv2Controller::SendColor(uint8_t start_register, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness)
 {
     bus->i2c_smbus_write_byte_data(dev, start_register,         red);
     bus->i2c_smbus_write_byte_data(dev, (start_register + 1),   green);
@@ -245,7 +228,7 @@ void EVGAGPUv2Controller::SendColor(unsigned char start_register, unsigned char 
     bus->i2c_smbus_write_byte_data(dev, (start_register + 3),   brightness);
 }
 
-void EVGAGPUv2Controller::SendMode(unsigned char mode)
+void EVGAGPUv2Controller::SendMode(uint8_t mode)
 {
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_MODE, mode);
 }
@@ -264,15 +247,10 @@ void EVGAGPUv2Controller::SendSpeed(u16_to_u8 aOnTime, u16_to_u8 bOnTime, u16_to
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_MSB, (unsigned char) aOnTime.MSB );
 }
 
-void EVGAGPUv2Controller::SetColor(RGBColor colorA, RGBColor colorB, bool boolSave)
+void EVGAGPUv2Controller::SetColor(RGBColor colorA, RGBColor colorB, uint8_t brightness)
 {
     EnableWrite(true);
-    SendColor(EVGA_GPU_V2_REG_COLOR_A_RED, RGBGetRValue(colorA), RGBGetGValue(colorA), RGBGetBValue(colorA), 0x64);
-    SendColor(EVGA_GPU_V2_REG_COLOR_B_RED, RGBGetRValue(colorB), RGBGetGValue(colorB), RGBGetBValue(colorB), 0x64);
+    SendColor(EVGA_GPU_V2_REG_COLOR_A_RED, RGBGetRValue(colorA), RGBGetGValue(colorA), RGBGetBValue(colorA), brightness);
+    SendColor(EVGA_GPU_V2_REG_COLOR_B_RED, RGBGetRValue(colorB), RGBGetGValue(colorB), RGBGetBValue(colorB), brightness);
     EnableWrite(false);
-
-    if(boolSave)
-    {
-        SaveSettings();
-    }
 }

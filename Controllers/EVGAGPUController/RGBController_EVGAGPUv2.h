@@ -28,6 +28,7 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
 private:
     int         getModeIndex(unsigned char mode_value);

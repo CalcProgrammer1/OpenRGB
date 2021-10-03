@@ -21,60 +21,64 @@ RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
     type = DEVICE_TYPE_GPU;
 
     mode Off;
-    Off.name                = "Off";
-    Off.value               = EVGA_GPU_V2_RGB_MODE_OFF;
-    Off.flags               = 0;  //pretty sure not needed
-    Off.color_mode          = MODE_COLORS_NONE;
+    Off.name                    = "Off";
+    Off.value                   = EVGA_GPU_V2_RGB_MODE_OFF;
+    Off.flags                   = 0;  //pretty sure not needed
+    Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
-    mode Direct;
-    Direct.name             = "Direct";
-    Direct.value            = EVGA_GPU_V2_RGB_MODE_DIRECT;
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode       = MODE_COLORS_PER_LED;
-    Direct.colors_min       = 1;
-    Direct.colors_max       = 1;
-    modes.push_back(Direct);
-
     mode Static;
-    Static.name             = "Static";
-    Static.value            = EVGA_GPU_V2_RGB_MODE_STATIC;
-    Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode       = MODE_COLORS_PER_LED;
-    Static.colors_min       = 1;
-    Static.colors_max       = 1;
+    Static.name                 = "Direct";
+    Static.value                = EVGA_GPU_V2_RGB_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Static.color_mode           = MODE_COLORS_PER_LED;
+    Static.colors_min           = 1;
+    Static.colors_max           = 1;
+    Static.brightness_min       = EVGA_GPU_V2_BRIGHTNESS_MIN;
+    Static.brightness           = EVGA_GPU_V2_BRIGHTNESS_DEFAULT;
+    Static.brightness_max       = EVGA_GPU_V2_BRIGHTNESS_MAX;
+
     modes.push_back(Static);
 
     mode Rainbow;
-    Rainbow.name            = "Spectrum Cycle";
-    Rainbow.value           = EVGA_GPU_V2_RGB_MODE_RAINBOW;
-    Rainbow.flags           = MODE_FLAG_HAS_BRIGHTNESS;
-    Rainbow.color_mode      = MODE_COLORS_NONE;
+    Rainbow.name                = "Spectrum Cycle";
+    Rainbow.value               = EVGA_GPU_V2_RGB_MODE_RAINBOW;
+    Rainbow.flags               = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Rainbow.color_mode          = MODE_COLORS_NONE;
+    Rainbow.brightness_min      = EVGA_GPU_V2_BRIGHTNESS_MIN;
+    Rainbow.brightness          = EVGA_GPU_V2_BRIGHTNESS_DEFAULT;
+    Rainbow.brightness_max      = EVGA_GPU_V2_BRIGHTNESS_MAX;
     modes.push_back(Rainbow);
 
     mode Breathing;
-    Breathing.name          = "Breathing";
-    Breathing.value         = EVGA_GPU_V2_RGB_MODE_BREATHING;
-    Breathing.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Breathing.speed_min     = EVGA_GPU_V2_SPEED_BREATHING_SLOWEST;
-    Breathing.speed         = EVGA_GPU_V2_SPEED_BREATHING_NORMAL;
-    Breathing.speed_max     = EVGA_GPU_V2_SPEED_BREATHING_FASTEST;
-    Breathing.color_mode    = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.colors_min    = 1;
-    Breathing.colors_max    = 2;
+    Breathing.name              = "Breathing";
+    Breathing.value             = EVGA_GPU_V2_RGB_MODE_BREATHING;
+    Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Breathing.speed_min         = EVGA_GPU_V2_SPEED_BREATHING_SLOWEST;
+    Breathing.speed             = EVGA_GPU_V2_SPEED_BREATHING_NORMAL;
+    Breathing.speed_max         = EVGA_GPU_V2_SPEED_BREATHING_FASTEST;
+    Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.brightness_min    = EVGA_GPU_V2_BRIGHTNESS_MIN;
+    Breathing.brightness        = EVGA_GPU_V2_BRIGHTNESS_DEFAULT;
+    Breathing.brightness_max    = EVGA_GPU_V2_BRIGHTNESS_MAX;
+    Breathing.colors_min        = 1;
+    Breathing.colors_max        = 2;
     Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     mode Pulse;
-    Pulse.name              = "Flashing";
-    Pulse.value             = EVGA_GPU_V2_RGB_MODE_PULSE;
-    Pulse.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Pulse.speed_min         = EVGA_GPU_V2_SPEED_PULSE_SLOWEST;
-    Pulse.speed             = EVGA_GPU_V2_SPEED_PULSE_NORMAL;
-    Pulse.speed_max         = EVGA_GPU_V2_SPEED_PULSE_FASTEST;
-    Pulse.color_mode        = MODE_COLORS_MODE_SPECIFIC;
-    Pulse.colors_min        = 1;
-    Pulse.colors_max        = 2;
+    Pulse.name                  = "Flashing";
+    Pulse.value                 = EVGA_GPU_V2_RGB_MODE_PULSE;
+    Pulse.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Pulse.speed_min             = EVGA_GPU_V2_SPEED_PULSE_SLOWEST;
+    Pulse.speed                 = EVGA_GPU_V2_SPEED_PULSE_NORMAL;
+    Pulse.speed_max             = EVGA_GPU_V2_SPEED_PULSE_FASTEST;
+    Pulse.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+    Pulse.colors_min            = 1;
+    Pulse.colors_max            = 2;
+    Pulse.brightness_min        = EVGA_GPU_V2_BRIGHTNESS_MIN;
+    Pulse.brightness            = EVGA_GPU_V2_BRIGHTNESS_DEFAULT;
+    Pulse.brightness_max        = EVGA_GPU_V2_BRIGHTNESS_MAX;
     Pulse.colors.resize(1);
     modes.push_back(Pulse);
 
@@ -108,6 +112,7 @@ RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
 
     // Load speed settings from the card:
     modes[active_mode].speed = evga->GetSpeed();
+    modes[active_mode].brightness = evga->GetBrightnessA();
 }
 
 RGBController_EVGAGPUv2::~RGBController_EVGAGPUv2()
@@ -169,7 +174,7 @@ void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
     | modes and as such colorB will always be black (0x000000)  |
     \*---------------------------------------------------------*/
 
-    evga->SetColor(colors[0], 0, (modes[active_mode].value != EVGA_GPU_V2_RGB_MODE_DIRECT) );
+    evga->SetColor(colors[0], /* colorB*/ 0, modes[active_mode].brightness);
 }
 
 void RGBController_EVGAGPUv2::UpdateZoneLEDs(int /*zone*/)
@@ -184,7 +189,7 @@ void RGBController_EVGAGPUv2::UpdateSingleLED(int /*led*/)
 
 void RGBController_EVGAGPUv2::SetCustomMode()
 {
-    active_mode = getModeIndex(EVGA_GPU_V2_RGB_MODE_DIRECT);
+    active_mode = getModeIndex(EVGA_GPU_V2_RGB_MODE_STATIC);
 }
 
 void RGBController_EVGAGPUv2::DeviceUpdateMode()
@@ -204,5 +209,10 @@ void RGBController_EVGAGPUv2::DeviceUpdateMode()
         colorB = (modes[active_mode].colors.size() == 2) ? modes[active_mode].colors[1] : 0 ;
     }
     
-    evga->SetMode( modes[active_mode].value, colorA, colorB, modes[active_mode].speed);
+    evga->SetMode( modes[active_mode].value, colorA, colorB, modes[active_mode].speed, modes[active_mode].brightness);
+}
+
+void RGBController_EVGAGPUv2::DeviceSaveMode()
+{
+    evga->SaveSettings();
 }
