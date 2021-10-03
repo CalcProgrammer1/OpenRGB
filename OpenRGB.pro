@@ -1212,12 +1212,19 @@ macx {
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-MacOS.cpp                                                               \
 
+    # Use mbedtls v2 instead of latest
+    MBEDTLS_PREFIX = $$system(brew --prefix mbedtls@2)
+
+    INCLUDEPATH +=                                                                              \
+    $$MBEDTLS_PREFIX/include                                                                    \
+
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
     -lhidapi                                                                                    \
     -lmbedx509                                                                                  \
     -lmbedcrypto                                                                                \
     -lmbedtls                                                                                   \
+    -L$$MBEDTLS_PREFIX/lib                                                                      \
 }
 
 #-------------------------------------------------------------------------------------------#
