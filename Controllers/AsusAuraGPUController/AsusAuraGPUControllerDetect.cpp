@@ -87,6 +87,10 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
     {
         pass = true;
     }
+    if(((aura_gpu_magic_high << 8) + aura_gpu_magic_low == 0) && bus->pci_subsystem_device == ASUS_ROG_STRIX_GTX1070TI_A8G_GAMING)
+    {
+        pass = true;
+    }
 
     return(pass);
 
