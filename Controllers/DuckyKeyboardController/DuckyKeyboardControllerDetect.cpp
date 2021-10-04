@@ -4,17 +4,6 @@
 #include "RGBController_DuckyKeyboard.h"
 #include <hidapi/hidapi.h>
 
-/*-----------------------------------------------------*\
-| Ducky vendor ID                                       |
-\*-----------------------------------------------------*/
-#define DUCKY_VID                       0x04D9
-
-/*-----------------------------------------------------*\
-| Keyboard product IDs                                  |
-\*-----------------------------------------------------*/
-#define DUCKY_SHINE_7_ONE_2_RGB_PID     0x0348
-#define DUCKY_ONE_2_RGB_TKL_PID         0x0356
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectDuckyKeyboardControllers                                                         *
@@ -28,7 +17,8 @@ void DetectDuckyKeyboardControllers(hid_device_info* info, const std::string& na
     hid_device* dev = hid_open_path(info->path);
     if( dev )
     {
-        DuckyKeyboardController* controller = new DuckyKeyboardController(dev, info->path);
+        bool is_tkl = (info->product_id == DUCKY_ONE_2_RGB_TKL_PID);
+        DuckyKeyboardController* controller = new DuckyKeyboardController(dev, info->path, is_tkl);
         RGBController_DuckyKeyboard* rgb_controller = new RGBController_DuckyKeyboard(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);

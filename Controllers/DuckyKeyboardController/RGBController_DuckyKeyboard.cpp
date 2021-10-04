@@ -20,6 +20,15 @@ static unsigned int matrix_map[6][23] =
       {   4,  10,  16,  22,  28,  34,  NA,  40,  NA,  46,  52,  58,  64,  70,  82,  NA,  NA, 100,  NA, 112, 118, 124, 131 },
       {   5,  11,  17,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  65,  77,  83,  89,  95, 101, 107, 113,  NA, 125,  NA } };
 
+static unsigned int matrix_map_tkl[6][19] =
+    { {   0,  NA,  12,  18,  24,  30,  NA,  42,  48,  54,  60,  NA,  66,  72,  78,  84,  90,  96, 102 },
+      {   1,   7,  13,  19,  25,  31,  37,  43,  49,  55,  61,  NA,  67,  73,  85,  NA,  91,  97, 103 },
+      {   2,  NA,   8,  14,  20,  26,  NA,  32,  38,  44,  50,  56,  62,  68,  74,  86,  92,  98, 104 },
+      {   3,  NA,   9,  15,  21,  27,  NA,  33,  39,  45,  51,  57,  63,  69,  75,  87,  NA,  NA,  NA },
+      {   4,  10,  16,  22,  28,  34,  NA,  40,  NA,  46,  52,  58,  64,  70,  82,  NA,  NA, 100,  NA },
+      {   5,  11,  17,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  65,  77,  83,  89,  95, 101, 107 } };
+
+
 static const char* zone_names[] =
 {
     "Keyboard"
@@ -33,6 +42,11 @@ static zone_type zone_types[] =
 static const unsigned int zone_sizes[] =
 {
     132
+};
+
+static const unsigned int zone_sizes_tkl[] =
+{
+    108
 };
 
 static const char *led_names[] =
@@ -216,19 +230,38 @@ void RGBController_DuckyKeyboard::SetupZones()
     unsigned int total_led_count = 0;
     for(unsigned int zone_idx = 0; zone_idx < 1; zone_idx++)
     {
+        unsigned int    zone_size       = 0;
+        unsigned int    matrix_width    = 0;
+        unsigned int*   matrix_map_ptr  = NULL;
+
+        switch(ducky->GetUSBPID())
+        {
+            case DUCKY_SHINE_7_ONE_2_RGB_PID:
+                zone_size               = zone_sizes[zone_idx];
+                matrix_width            = 23;
+                matrix_map_ptr          = (unsigned int *)&matrix_map;
+                break;
+
+            case DUCKY_ONE_2_RGB_TKL_PID:
+                zone_size               = zone_sizes_tkl[zone_idx];
+                matrix_width            = 19;
+                matrix_map_ptr          = (unsigned int *)&matrix_map_tkl;
+                break;
+        }
+
         zone new_zone;
-        new_zone.name               = zone_names[zone_idx];
-        new_zone.type               = zone_types[zone_idx];
-        new_zone.leds_min           = zone_sizes[zone_idx];
-        new_zone.leds_max           = zone_sizes[zone_idx];
-        new_zone.leds_count         = zone_sizes[zone_idx];
-        new_zone.matrix_map         = new matrix_map_type;
-        new_zone.matrix_map->height = 6;
-        new_zone.matrix_map->width  = 23;
-        new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+        new_zone.name                   = zone_names[zone_idx];
+        new_zone.type                   = zone_types[zone_idx];
+        new_zone.leds_min               = zone_size;
+        new_zone.leds_max               = zone_size;
+        new_zone.leds_count             = zone_size;
+        new_zone.matrix_map             = new matrix_map_type;
+        new_zone.matrix_map->height     = 6;
+        new_zone.matrix_map->width      = matrix_width;
+        new_zone.matrix_map->map        = matrix_map_ptr;
         zones.push_back(new_zone);
 
-        total_led_count += zone_sizes[zone_idx];
+        total_led_count += zone_size;
     }
 
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
