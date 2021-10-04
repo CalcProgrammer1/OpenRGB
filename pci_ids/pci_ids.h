@@ -25,6 +25,7 @@
 #define AMD_NAVI14_DEV                                  0x7340
 #define AMD_NAVI21_DEV                                  0x73BF
 #define AMD_NAVI22_DEV                                  0x73DF
+#define AMD_NAVI23_DEV                                  0x73FF
 
 /*-----------------------------------------------------*\
 | Intel Device IDs                                      |
@@ -240,6 +241,7 @@
 #define SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV2             0xE438
 #define SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV3             0xE439
 #define SAPPHIRE_NAVI22_NITRO_PLUS_SUB_DEV              0xE445
+#define SAPPHIRE_NAVI23_NITRO_PLUS_SUB_DEV              0xE448
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |
