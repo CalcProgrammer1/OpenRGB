@@ -57,6 +57,9 @@ private:
     // A temporary log message storage to hold them until the stream opens
     std::vector<PLogMessage> temp_messages;
 
+    // A log message storage that will be displayed in the app
+    std::vector<PLogMessage> all_messages;
+
     // A flag that marks if the message source file name and line number should be printed on screen
     bool print_source = false;
 
@@ -87,6 +90,10 @@ public:
     void unregisterErrorCallback(LogErrorCallback callback, void* receiver);
     unsigned int getLoglevel() {return loglevel;}
     unsigned int getVerbosity() {return verbosity;}
+    void clearMessages();
+    std::vector<PLogMessage> messages();
+
+    static const char* log_codes[];
 };
 
 #define LogAppend(level, ...)   LogManager::get()->append(__FILE__, __LINE__, level, __VA_ARGS__)

@@ -44,5 +44,7 @@
         <file>serial_dark.png</file>
         <file>wireless.png</file>
         <file>wireless_dark.png</file>
+        <file>console.png</file>
+        <file>console_dark.png</file>
     </qresource>
 </RCC>

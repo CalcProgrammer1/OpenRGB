@@ -97,6 +97,7 @@ private:
     void AddSerialSettingsPage();
     void AddYeelightSettingsPage();
     void AddPluginsPage(PluginManager* plugin_manager);
+    void AddConsolePage();
 
     void ClearDevicesList();
     void UpdateDevicesList();

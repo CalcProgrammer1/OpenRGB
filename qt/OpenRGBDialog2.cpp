@@ -3,6 +3,7 @@
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
 #include "OpenRGBServerInfoPage.h"
+#include "OpenRGBConsolePage.h"
 #include "OpenRGBPluginContainer.h"
 #include "OpenRGBProfileSaveDialog.h"
 #include "ResourceManager.h"
@@ -474,7 +475,13 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     if(ShowI2CTools)
     {
         AddI2CToolsPage();
-    }
+    }    
+
+    /*-----------------------------------------------------*\
+    | Add the console page                                  |
+    \*-----------------------------------------------------*/
+    AddConsolePage();
+
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
@@ -1678,4 +1685,29 @@ void Ui::OpenRGBDialog2::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar
     {
         ((OpenRGBPluginContainer*) tab)->Show();
     }
+}
+
+void Ui::OpenRGBDialog2::AddConsolePage()
+{
+    OpenRGBConsolePage* page = new OpenRGBConsolePage();
+
+    ui->InformationTabBar->addTab(page, "");
+
+    QString SoftwareLabelString;
+
+    if(IsDarkTheme())
+    {
+        SoftwareLabelString = "console_dark.png";
+    }
+    else
+    {
+        SoftwareLabelString = "console.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, "Console");
+
+    ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }

@@ -9,7 +9,7 @@
 
 #include "filesystem.h"
 
-static const char* log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:"};
+const char* LogManager::log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:"};
 
 LogManager::LogManager()
 {
@@ -224,6 +224,8 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     \*-------------------------------------------------*/
     temp_messages.push_back(mes);
 
+    all_messages.push_back(mes);
+
     /*-------------------------------------------------*\
     | Flush the queues                                  |
     \*-------------------------------------------------*/
@@ -243,6 +245,16 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     //        error_callbacks[idx].first(error_callbacks[idx].second, mes);
     //    }
     //}
+}
+
+std::vector<PLogMessage> LogManager::messages()
+{
+    return all_messages;
+}
+
+void LogManager::clearMessages()
+{
+    all_messages.clear();
 }
 
 void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, ...)

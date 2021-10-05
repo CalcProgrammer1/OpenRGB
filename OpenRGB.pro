@@ -165,6 +165,7 @@ HEADERS +=                                                                      
     filesystem.h                                                                                \
     qt/DetectorTableModel.h                                                                     \
     qt/OpenRGBClientInfoPage.h                                                                  \
+    qt/OpenRGBConsolePage.h                                                                     \
     qt/OpenRGBDeviceInfoPage.h                                                                  \
     qt/OpenRGBDevicePage.h                                                                      \
     qt/OpenRGBDialog.h                                                                          \
@@ -503,6 +504,7 @@ SOURCES +=                                                                      
     SettingsManager.cpp                                                                         \
     qt/DetectorTableModel.cpp                                                                   \
     qt/OpenRGBClientInfoPage.cpp                                                                \
+    qt/OpenRGBConsolePage.cpp                                                                   \
     qt/OpenRGBDeviceInfoPage.cpp                                                                \
     qt/OpenRGBDevicePage.cpp                                                                    \
     qt/OpenRGBDialog.cpp                                                                        \
@@ -867,6 +869,7 @@ RESOURCES +=                                                                    
 
 FORMS +=                                                                                        \
     qt/OpenRGBClientInfoPage.ui                                                                 \
+    qt/OpenRGBConsolePage.ui                                                                    \
     qt/OpenRGBDeviceInfoPage.ui                                                                 \
     qt/OpenRGBDevicePage.ui                                                                     \
     qt/OpenRGBDialog.ui                                                                         \
