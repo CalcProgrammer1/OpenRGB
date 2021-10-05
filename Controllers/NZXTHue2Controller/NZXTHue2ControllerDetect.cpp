@@ -13,6 +13,7 @@
 #define NZXT_RGB_FAN_CONTROLLER_PID  0x2009
 #define NZXT_RGB_FAN_CONTROLLER2_PID 0x2010
 #define NZXT_SMART_DEVICE_V2_1_PID   0x200D
+#define NZXT_SMART_DEVICE_V2_2_PID   0x200F
 
 static void spawn_hue(hid_device_info* info, const std::string& name, int rgb_channels, int fan_channels)
 {
@@ -64,3 +65,4 @@ REGISTER_HID_DETECTOR("NZXT Kraken X3",            DetectNZXTKrakenX3,        NZ
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,   NZXT_VID, NZXT_RGB_FAN_CONTROLLER_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,   NZXT_VID, NZXT_RGB_FAN_CONTROLLER2_PID);
 REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,   NZXT_VID, NZXT_SMART_DEVICE_V2_1_PID);
+REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,   NZXT_VID, NZXT_SMART_DEVICE_V2_2_PID);
