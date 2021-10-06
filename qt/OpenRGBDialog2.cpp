@@ -1693,21 +1693,21 @@ void Ui::OpenRGBDialog2::AddConsolePage()
 
     ui->InformationTabBar->addTab(page, "");
 
-    QString SoftwareLabelString;
+    QString ConsoleLabelString;
 
     if(IsDarkTheme())
     {
-        SoftwareLabelString = "console_dark.png";
+        ConsoleLabelString = "console_dark.png";
     }
     else
     {
-        SoftwareLabelString = "console.png";
+        ConsoleLabelString = "console.png";
     }
 
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, "Console");
+    TabLabel* ConsoleTabLabel = new TabLabel(ConsoleLabelString, "Log Console");
 
-    ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
+    ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, ConsoleTabLabel);
 }
