@@ -429,6 +429,7 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/color32.h                                                 \
     Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
+    Controllers/SteelSeriesController/SteelSeriesApexTZoneController.h                          \
     Controllers/SteelSeriesController/SteelSeriesApexMController.h                              \
     Controllers/SteelSeriesController/SteelSeriesGeneric.h                                      \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.h                            \
@@ -438,6 +439,7 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h                            \
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.h                             \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.h                           \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesApexTZone.h                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.h                          \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival3.h                         \
@@ -835,6 +837,7 @@ SOURCES +=                                                                      
     Controllers/SonyDS4Controller/SonyDS4ControllerDetect.cpp                                   \
     Controllers/SonyDS4Controller/RGBController_SonyDS4.cpp                                     \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
+    Controllers/SteelSeriesController/SteelSeriesApexTZoneController.cpp                        \
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp                            \
@@ -844,6 +847,7 @@ SOURCES +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.cpp                         \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesApexTZone.cpp                    \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.cpp                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival3.cpp                       \
