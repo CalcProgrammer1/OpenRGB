@@ -478,9 +478,23 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     }    
 
     /*-----------------------------------------------------*\
-    | Add the console page                                  |
+    | If log console is enabled in settings, enable it      |
     \*-----------------------------------------------------*/
-    AddConsolePage();
+    json log_manager_settings = settings_manager->GetSettings("LogManager");
+
+    bool log_console_enabled = false;
+    if(log_manager_settings.contains("log_console"))
+    {
+        log_console_enabled = log_manager_settings["log_console"];
+    }
+
+    /*-----------------------------------------------------*\
+    | Add the log console page                              |
+    \*-----------------------------------------------------*/
+    if(log_console_enabled)
+    {
+        AddConsolePage();
+    }
 
 }
 

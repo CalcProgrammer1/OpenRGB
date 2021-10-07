@@ -93,6 +93,7 @@ public:
     void clearMessages();
     std::vector<PLogMessage> messages();
 
+    bool log_console_enabled;
     static const char* log_codes[];
 };
 

@@ -14,6 +14,7 @@ const char* LogManager::log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", 
 LogManager::LogManager()
 {
     base_clock = std::chrono::steady_clock::now();
+    log_console_enabled = false;
 }
 
 LogManager* LogManager::get()
@@ -116,6 +117,14 @@ void LogManager::configure(json config, const std::string &defaultDir)
         {
             loglevel = loglevel_obj;
         }
+    }
+
+    /*-------------------------------------------------*\
+    | Check log console configuration                   |
+    \*-------------------------------------------------*/
+    if(config.contains("log_console"))
+    {
+        log_console_enabled = config["log_console"];
     }
 
     /*-------------------------------------------------*\
@@ -224,7 +233,10 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     \*-------------------------------------------------*/
     temp_messages.push_back(mes);
 
-    all_messages.push_back(mes);
+    if(log_console_enabled)
+    {
+        all_messages.push_back(mes);
+    }
 
     /*-------------------------------------------------*\
     | Flush the queues                                  |
