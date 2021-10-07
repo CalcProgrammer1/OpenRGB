@@ -70,6 +70,19 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     }
 
     /*---------------------------------------------------------*\
+    | Load LogManager settings                                  |
+    \*---------------------------------------------------------*/
+    json log_manager_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LogManager");
+
+    /*---------------------------------------------------------*\
+    | Checkboxes                                                |
+    \*---------------------------------------------------------*/
+    if(log_manager_settings.contains("log_console"))
+    {
+        ui->CheckboxLogConsole->setChecked(log_manager_settings["log_console"]);
+    }
+
+    /*---------------------------------------------------------*\
     | Load AutoStart settings                                   |
     \*---------------------------------------------------------*/
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
@@ -290,7 +303,6 @@ void OpenRGBSettingsPage::SetAutoStartVisibility(bool visible)
         ui->TextCustomArgs->hide();
         ui->TextClientHost->hide();
         ui->TextServerPort->hide();
-        ui->AutoStartLabel->hide();
         ui->AutoStartStatusLabel->hide();
     }
     else
@@ -305,7 +317,6 @@ void OpenRGBSettingsPage::SetAutoStartVisibility(bool visible)
         ui->TextCustomArgs->show();
         ui->TextClientHost->show();
         ui->TextServerPort->show();
-        ui->AutoStartLabel->show();
         ui->AutoStartStatusLabel->show();
     }
 }
@@ -508,5 +519,14 @@ void Ui::OpenRGBSettingsPage::on_OpenSettingsFolderButton_clicked()
     std::string config_dir = ResourceManager::get()->GetConfigurationDirectory();
     QUrl url = QUrl::fromLocalFile(QString::fromStdString(config_dir));
     QDesktopServices::openUrl(url);
+}
+
+
+void Ui::OpenRGBSettingsPage::on_CheckboxLogConsole_clicked()
+{
+    json log_manager_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LogManager");
+    log_manager_settings["log_console"] = ui->CheckboxLogConsole->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("LogManager", log_manager_settings);
+    SaveSettings();
 }
 

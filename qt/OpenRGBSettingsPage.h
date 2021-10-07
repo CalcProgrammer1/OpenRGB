@@ -49,6 +49,7 @@ private slots:
     void on_CheckboxAutoStartCustom_clicked();
     void on_CheckboxRunZoneChecks_clicked();
     void on_OpenSettingsFolderButton_clicked();
+    void on_CheckboxLogConsole_clicked();
 };
 
 #endif // OPENRGBSETTINGSPAGE_H
