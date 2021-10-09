@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  RGBController_HyperXKeyboard.h           |
+|  RGBController_HyperXAlloyFPS.h           |
 |                                           |
-|  Generic RGB Interface for HyperX RGB     |
-|  Keyboard                                 |
+|  Generic RGB Interface for HyperX Alloy   |
+|  FPS Keyboard                             |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 2/2/2020    |
 \*-----------------------------------------*/
@@ -13,13 +13,13 @@
 #include <thread>
 
 #include "RGBController.h"
-#include "HyperXKeyboardController.h"
+#include "HyperXAlloyFPSController.h"
 
-class RGBController_HyperXKeyboard : public RGBController
+class RGBController_HyperXAlloyFPS : public RGBController
 {
 public:
-    RGBController_HyperXKeyboard(HyperXKeyboardController* hyperx_ptr);
-    ~RGBController_HyperXKeyboard();
+    RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* hyperx_ptr);
+    ~RGBController_HyperXAlloyFPS();
 
     void        SetupZones();
 
@@ -35,8 +35,8 @@ public:
     void        KeepaliveThreadFunction();
     
 private:
-    HyperXKeyboardController*   hyperx;
-    std::atomic<bool>   keepalive_thread_run;
-    std::thread*        keepalive_thread;
+    HyperXAlloyFPSController*                           controller;
+    std::atomic<bool>                                   keepalive_thread_run;
+    std::thread*                                        keepalive_thread;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

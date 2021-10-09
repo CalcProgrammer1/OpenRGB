@@ -1,13 +1,13 @@
 /*-----------------------------------------*\
-|  RGBController_HyperXKeyboard.cpp         |
+|  RGBController_HyperXAlloyFPS.cpp         |
 |                                           |
-|  Generic RGB Interface for HyperX RGB     |
-|  Keyboard                                 |
+|  Generic RGB Interface for HyperX Alloy   |
+|  FPS Keyboard                             |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 2/2/2020    |
 \*-----------------------------------------*/
 
-#include "RGBController_HyperXKeyboard.h"
+#include "RGBController_HyperXAlloyFPS.h"
 
 using namespace std::chrono_literals;
 
@@ -175,34 +175,34 @@ static const char *led_names[] =
     "Key: Media Mute"
 };
 
-RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardController* hyperx_ptr)
+RGBController_HyperXAlloyFPS::RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* hyperx_ptr)
 {
-    hyperx = hyperx_ptr;
+    controller  = hyperx_ptr;
 
-    name        = "HyperX RGB Keyboard";
+    name        = "HyperX Alloy FPS";
     vendor      = "HyperX";
     type        = DEVICE_TYPE_KEYBOARD;
-    description = "HyperX RGB Keyboard Device";
-    location    = hyperx->GetDeviceLocation();
-    serial      = hyperx->GetSerialString();
+    description = "HyperX Alloy FPS Device";
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = HYPERX_MODE_STATIC;
+    Direct.value      = HYPERX_ALLOY_FPS_MODE_STATIC;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Static;
     Static.name       = "Static";
-    Static.value      = HYPERX_MODE_STATIC;
+    Static.value      = HYPERX_ALLOY_FPS_MODE_STATIC;
     Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Wave;
     Wave.name       = "Wave";
-    Wave.value      = HYPERX_MODE_WAVE;
+    Wave.value      = HYPERX_ALLOY_FPS_MODE_WAVE;
     Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
     Wave.speed_min  = 0x00;
     Wave.speed_max  = 0x09;
@@ -213,7 +213,7 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
 
     mode Breathing;
     Breathing.name       = "Breathing";
-    Breathing.value      = HYPERX_MODE_BREATHING;
+    Breathing.value      = HYPERX_ALLOY_FPS_MODE_BREATHING;
     Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Breathing.speed_min  = 0x00;
     Breathing.speed_max  = 0x09;
@@ -227,16 +227,15 @@ RGBController_HyperXKeyboard::RGBController_HyperXKeyboard(HyperXKeyboardControl
     SetupZones();
 
     /*-----------------------------------------------------*\
-    | The Corsair Lighting Node Pro requires a packet within|
-    | 20 seconds of sending the lighting change in order    |
-    | to not revert back into rainbow mode.  Start a thread |
-    | to continuously send a keepalive packet every 5s      |
+    | The HyperX Alloy FPS requires a steady stream of      |
+    | packets in order to not revert out of direct mode.    |
+    | Start a thread to continuously refresh the device     |
     \*-----------------------------------------------------*/
     keepalive_thread_run = true;
-    keepalive_thread = new std::thread(&RGBController_HyperXKeyboard::KeepaliveThreadFunction, this);
+    keepalive_thread = new std::thread(&RGBController_HyperXAlloyFPS::KeepaliveThreadFunction, this);
 }
 
-RGBController_HyperXKeyboard::~RGBController_HyperXKeyboard()
+RGBController_HyperXAlloyFPS::~RGBController_HyperXAlloyFPS()
 {
     keepalive_thread_run = false;
     keepalive_thread->join();
@@ -253,10 +252,10 @@ RGBController_HyperXKeyboard::~RGBController_HyperXKeyboard()
         }
     }
 
-    delete hyperx;
+    delete controller;
 }
 
-void RGBController_HyperXKeyboard::SetupZones()
+void RGBController_HyperXAlloyFPS::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Set up zones                                              |
@@ -298,56 +297,56 @@ void RGBController_HyperXKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HyperXAlloyFPS::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_HyperXKeyboard::DeviceUpdateLEDs()
+void RGBController_HyperXAlloyFPS::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
 
     if(active_mode == 0)
     {
-        hyperx->SetLEDsDirect(colors);
+        controller->SetLEDsDirect(colors);
     }
     else
     {
-        hyperx->SetLEDs(colors);
+        controller->SetLEDs(colors);
     }
 }
 
-void RGBController_HyperXKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXAlloyFPS::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXAlloyFPS::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXKeyboard::SetCustomMode()
+void RGBController_HyperXAlloyFPS::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_HyperXKeyboard::DeviceUpdateMode()
+void RGBController_HyperXAlloyFPS::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
-        hyperx->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, modes[active_mode].colors);
+        controller->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, modes[active_mode].colors);
     }
     else
     {
         std::vector<RGBColor> temp_colors;
-        hyperx->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, temp_colors);
+        controller->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, temp_colors);
     }
 }
 
-void RGBController_HyperXKeyboard::KeepaliveThreadFunction()
+void RGBController_HyperXAlloyFPS::KeepaliveThreadFunction()
 {
     while(keepalive_thread_run)
     {

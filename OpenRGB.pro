@@ -320,14 +320,16 @@ HEADERS +=                                                                      
     Controllers/HPOmen30LController/RGBController_HPOmen30L.h                                   \
     Controllers/HyperXDRAMController/HyperXDRAMController.h                                     \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.h                                 \
+    Controllers/HyperXKeyboardController/HyperXAlloyEliteController.h                           \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.h                          \
+    Controllers/HyperXKeyboardController/HyperXAlloyFPSController.h                             \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h                         \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.h                     \
-    Controllers/HyperXKeyboardController/HyperXKeyboardController.h                             \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite.h                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.h                      \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.h                         \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.h                     \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.h                 \
-    Controllers/HyperXKeyboardController/RGBController_HyperXKeyboard.h                         \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.h                         \
     Controllers/HyperXMouseController/HyperXPulsefireHasteController.h                          \
     Controllers/HyperXMouseController/HyperXPulsefireSurgeController.h                          \
@@ -700,15 +702,17 @@ SOURCES +=                                                                      
     Controllers/HyperXDRAMController/HyperXDRAMController.cpp                                   \
     Controllers/HyperXDRAMController/HyperXDRAMControllerDetect.cpp                             \
     Controllers/HyperXDRAMController/RGBController_HyperXDRAM.cpp                               \
+    Controllers/HyperXKeyboardController/HyperXAlloyEliteController.cpp                         \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.cpp                        \
+    Controllers/HyperXKeyboardController/HyperXAlloyFPSController.cpp                           \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.cpp                       \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.cpp                   \
-    Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp                           \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp                     \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite.cpp                     \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.cpp                    \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.cpp                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.cpp                   \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.cpp               \
-    Controllers/HyperXKeyboardController/RGBController_HyperXKeyboard.cpp                       \
     Controllers/HyperXMouseController/HyperXMouseControllerDetect.cpp                           \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.cpp                       \
     Controllers/HyperXMouseController/HyperXPulsefireHasteController.cpp                        \

@@ -1,13 +1,13 @@
 /*-----------------------------------------*\
-|  HyperXKeyboardController.cpp             |
+|  HyperXAlloyFPSController.cpp             |
 |                                           |
-|  Driver for HyperX RGB Keyboard lighting  |
-|  controller                               |
+|  Driver for HyperX Alloy FPS Keyboard     |
+|  lighting controller                      |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 1/30/2020   |
 \*-----------------------------------------*/
 
-#include "HyperXKeyboardController.h"
+#include "HyperXAlloyFPSController.h"
 
 #include <cstring>
 
@@ -27,23 +27,23 @@ static unsigned int extended_red[] = {0x08, 0x48, 0x88, 0x09, 0x89, 0x0A, 0x8A, 
 static unsigned int extended_grn[] = {0x29, 0x28, 0x78, 0x19, 0x79, 0x1A, 0x7A, 0x1B, 0x7B, 0x1C, 0x7C, 0x1D, 0x7D, 0x1E, 0x6E, 0x7E, 0x1F, 0x6F, 0x82, 0x23, 0x83, 0x22 };
 static unsigned int extended_blu[] = {0x39, 0x38, 0x68, 0x3A, 0x69, 0x2A, 0x6A, 0x2B, 0x6B, 0x2C, 0x6C, 0x2D, 0x6D, 0x2E, 0x5E, 0x5D, 0x2F, 0x5F, 0x72, 0x33, 0x73, 0x32 };
 
-HyperXKeyboardController::HyperXKeyboardController(hid_device* dev_handle, const char* path)
+HyperXAlloyFPSController::HyperXAlloyFPSController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
 }
 
-HyperXKeyboardController::~HyperXKeyboardController()
+HyperXAlloyFPSController::~HyperXAlloyFPSController()
 {
     hid_close(dev);
 }
 
-std::string HyperXKeyboardController::GetDeviceLocation()
+std::string HyperXAlloyFPSController::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-std::string HyperXKeyboardController::GetSerialString()
+std::string HyperXAlloyFPSController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
@@ -59,7 +59,7 @@ std::string HyperXKeyboardController::GetSerialString()
     return(return_string);
 }
 
-void HyperXKeyboardController::SetMode
+void HyperXAlloyFPSController::SetMode
     (
     unsigned char mode,
     unsigned char direction,
@@ -80,18 +80,18 @@ void HyperXKeyboardController::SetMode
     {
         default:
         case 0:
-            color_mode = HYPERX_COLOR_MODE_SPECTRUM;
+            color_mode = HYPERX_ALLOY_FPS_COLOR_MODE_SPECTRUM;
             break;
 
         case 1:
-            color_mode = HYPERX_COLOR_MODE_SINGLE;
+            color_mode = HYPERX_ALLOY_FPS_COLOR_MODE_SINGLE;
             mode_colors[0] = RGBGetRValue(colors[0]);
             mode_colors[1] = RGBGetGValue(colors[0]);
             mode_colors[2] = RGBGetBValue(colors[0]);
             break;
 
         case 2:
-            color_mode = HYPERX_COLOR_MODE_DUAL;
+            color_mode = HYPERX_ALLOY_FPS_COLOR_MODE_DUAL;
             mode_colors[3] = RGBGetRValue(colors[0]);
             mode_colors[4] = RGBGetGValue(colors[0]);
             mode_colors[5] = RGBGetBValue(colors[0]);
@@ -106,7 +106,7 @@ void HyperXKeyboardController::SetMode
         0x01,
         active_mode,
         active_direction,
-        HYPERX_REACTIVE_MODE_NONE,
+        HYPERX_ALLOY_FPS_REACTIVE_MODE_NONE,
         active_speed,
         color_mode,
         mode_colors[0],
@@ -123,7 +123,7 @@ void HyperXKeyboardController::SetMode
     std::this_thread::sleep_for(100ms);
 }
 
-void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
+void HyperXAlloyFPSController::SetLEDsDirect(std::vector<RGBColor> colors)
 {
     unsigned char red_color_data[106];
     unsigned char grn_color_data[106];
@@ -146,7 +146,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
 
     SendDirect
         (
-        HYPERX_COLOR_CHANNEL_RED,
+        HYPERX_ALLOY_FPS_COLOR_CHANNEL_RED,
         red_color_data
         );
 
@@ -154,7 +154,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
 
     SendDirect
         (
-        HYPERX_COLOR_CHANNEL_GREEN,
+        HYPERX_ALLOY_FPS_COLOR_CHANNEL_GREEN,
         grn_color_data
         );
 
@@ -162,7 +162,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
 
     SendDirect
         (
-        HYPERX_COLOR_CHANNEL_BLUE,
+        HYPERX_ALLOY_FPS_COLOR_CHANNEL_BLUE,
         blu_color_data
         );
 
@@ -174,7 +174,7 @@ void HyperXKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
         );
 }
 
-void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
+void HyperXAlloyFPSController::SetLEDs(std::vector<RGBColor> colors)
 {
     unsigned char red_color_data[106];
     unsigned char grn_color_data[106];
@@ -198,7 +198,7 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
     SendColor
         (
         0x01,
-        HYPERX_COLOR_CHANNEL_RED,
+        HYPERX_ALLOY_FPS_COLOR_CHANNEL_RED,
         red_color_data
         );
 
@@ -207,7 +207,7 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
     SendColor
         (
         0x01,
-        HYPERX_COLOR_CHANNEL_GREEN,
+        HYPERX_ALLOY_FPS_COLOR_CHANNEL_GREEN,
         grn_color_data
         );
 
@@ -216,7 +216,7 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
     SendColor
         (
         0x01,
-        HYPERX_COLOR_CHANNEL_BLUE,
+        HYPERX_ALLOY_FPS_COLOR_CHANNEL_BLUE,
         blu_color_data
         );
 
@@ -233,7 +233,7 @@ void HyperXKeyboardController::SetLEDs(std::vector<RGBColor> colors)
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
-void HyperXKeyboardController::SelectProfile
+void HyperXAlloyFPSController::SelectProfile
     (
     unsigned char   profile
     )
@@ -261,7 +261,7 @@ void HyperXKeyboardController::SelectProfile
     hid_send_feature_report(dev, buf, 264);
 }
 
-void HyperXKeyboardController::SendEffect
+void HyperXAlloyFPSController::SendEffect
     (
     unsigned char   profile,
     unsigned char   mode,
@@ -291,7 +291,7 @@ void HyperXKeyboardController::SendEffect
     | Set up Effect packet                                  |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
-    buf[0x01]   = HYPERX_PACKET_ID_SET_EFFECT;
+    buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_SET_EFFECT;
     buf[0x02]   = profile;
 
     /*-----------------------------------------------------*\
@@ -363,7 +363,7 @@ void HyperXKeyboardController::SendEffect
     hid_send_feature_report(dev, buf, 264);
 }
 
-void HyperXKeyboardController::SendColor
+void HyperXAlloyFPSController::SendColor
     (
     unsigned char   profile,
     unsigned char   color_channel,
@@ -381,7 +381,7 @@ void HyperXKeyboardController::SendColor
     | Set up Color packet                                   |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
-    buf[0x01]   = HYPERX_PACKET_ID_SET_COLOR;
+    buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_SET_COLOR;
     buf[0x02]   = profile;
     buf[0x03]   = color_channel;
 
@@ -399,7 +399,7 @@ void HyperXKeyboardController::SendColor
     hid_send_feature_report(dev, buf, 264);
 }
 
-void HyperXKeyboardController::SendExtendedColor
+void HyperXAlloyFPSController::SendExtendedColor
     (
     unsigned char   profile,
     unsigned char*  color_data
@@ -416,9 +416,9 @@ void HyperXKeyboardController::SendExtendedColor
     | Set up Color packet                                   |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
-    buf[0x01]   = HYPERX_PACKET_ID_SET_COLOR;
+    buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_SET_COLOR;
     buf[0x02]   = profile;
-    buf[0x03]   = HYPERX_COLOR_CHANNEL_EXTENDED;
+    buf[0x03]   = HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
@@ -434,7 +434,7 @@ void HyperXKeyboardController::SendExtendedColor
     hid_send_feature_report(dev, buf, 264);
 }
 
-void HyperXKeyboardController::SendDirect
+void HyperXAlloyFPSController::SendDirect
     (
     unsigned char   color_channel,
     unsigned char*  color_data
@@ -451,7 +451,7 @@ void HyperXKeyboardController::SendDirect
     | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
-    buf[0x01]   = HYPERX_PACKET_ID_DIRECT;
+    buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_DIRECT;
     buf[0x02]   = color_channel;
     buf[0x03]   = 0xA0;
 
@@ -469,7 +469,7 @@ void HyperXKeyboardController::SendDirect
     hid_send_feature_report(dev, buf, 264);
 }
 
-void HyperXKeyboardController::SendDirectExtended
+void HyperXAlloyFPSController::SendDirectExtended
     (
     unsigned char*  color_data
     )
@@ -485,8 +485,8 @@ void HyperXKeyboardController::SendDirectExtended
     | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
-    buf[0x01]   = HYPERX_PACKET_ID_DIRECT;
-    buf[0x02]   = HYPERX_COLOR_CHANNEL_EXTENDED;
+    buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_DIRECT;
+    buf[0x02]   = HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED;
     buf[0x03]   = 0xA0;
 
     /*-----------------------------------------------------*\

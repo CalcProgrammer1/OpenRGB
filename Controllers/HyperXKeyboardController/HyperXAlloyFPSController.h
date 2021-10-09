@@ -1,8 +1,8 @@
 /*-----------------------------------------*\
-|  HyperXKeyboardController.h               |
+|  HyperXAlloyFPSController.h               |
 |                                           |
-|  Definitions and types for HyperX RGB     |
-|  Keyboard lighting controller             |
+|  Definitions and types for HyperX Alloy   |
+|  Elite Keyboard lighting controller       |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 1/30/2020   |
 \*-----------------------------------------*/
@@ -16,57 +16,57 @@
 
 enum
 {
-    HYPERX_PACKET_ID_SET_EFFECT                 = 0x02,     /* Set profile effect packet            */
-    HYPERX_PACKET_ID_SET_COLOR                  = 0x06,     /* Set profile color packet             */
-    HYPERX_PACKET_ID_DIRECT                     = 0x16,     /* Direct control packet                */
+    HYPERX_ALLOY_FPS_PACKET_ID_SET_EFFECT           = 0x02,     /* Set profile effect packet            */
+    HYPERX_ALLOY_FPS_PACKET_ID_SET_COLOR            = 0x06,     /* Set profile color packet             */
+    HYPERX_ALLOY_FPS_PACKET_ID_DIRECT               = 0x16,     /* Direct control packet                */
 };
 
 
 enum
 {
-    HYPERX_DIRECTION_RIGHT  = 0x00,
-    HYPERX_DIRECTION_LEFT   = 0x01,
-    HYPERX_DIRECTION_UP     = 0x02,
-    HYPERX_DIRECTION_DOWN   = 0x03,
-    HYPERX_DIRECTION_IN     = 0x04,
-    HYPERX_DIRECTION_OUT    = 0x05
+    HYPERX_ALLOY_FPS_DIRECTION_RIGHT                = 0x00,
+    HYPERX_ALLOY_FPS_DIRECTION_LEFT                 = 0x01,
+    HYPERX_ALLOY_FPS_DIRECTION_UP                   = 0x02,
+    HYPERX_ALLOY_FPS_DIRECTION_DOWN                 = 0x03,
+    HYPERX_ALLOY_FPS_DIRECTION_IN                   = 0x04,
+    HYPERX_ALLOY_FPS_DIRECTION_OUT                  = 0x05
 };
 
 enum
 {
-    HYPERX_MODE_WAVE                    = 0x00,
-    HYPERX_MODE_STATIC                  = 0x01,
-    HYPERX_MODE_BREATHING               = 0x02,
+    HYPERX_ALLOY_FPS_MODE_WAVE                      = 0x00,
+    HYPERX_ALLOY_FPS_MODE_STATIC                    = 0x01,
+    HYPERX_ALLOY_FPS_MODE_BREATHING                 = 0x02,
 };
 
 enum
 {
-    HYPERX_REACTIVE_MODE_TRIGGER        = 0x03,
-    HYPERX_REACTIVE_MODE_EXPLOSION      = 0x04,
-    HYPERX_REACTIVE_MODE_HYPERX_FLAME   = 0x05,
-    HYPERX_REACTIVE_MODE_NONE           = 0xFF
+    HYPERX_ALLOY_FPS_REACTIVE_MODE_TRIGGER          = 0x03,
+    HYPERX_ALLOY_FPS_REACTIVE_MODE_EXPLOSION        = 0x04,
+    HYPERX_ALLOY_FPS_REACTIVE_MODE_HYPERX_FLAME     = 0x05,
+    HYPERX_ALLOY_FPS_REACTIVE_MODE_NONE             = 0xFF
 };
 
 enum
 {
-    HYPERX_COLOR_MODE_SINGLE            = 0x00,
-    HYPERX_COLOR_MODE_DUAL              = 0x01,
-    HYPERX_COLOR_MODE_SPECTRUM          = 0x02
+    HYPERX_ALLOY_FPS_COLOR_MODE_SINGLE              = 0x00,
+    HYPERX_ALLOY_FPS_COLOR_MODE_DUAL                = 0x01,
+    HYPERX_ALLOY_FPS_COLOR_MODE_SPECTRUM            = 0x02
 };
 
 enum
 {
-    HYPERX_COLOR_CHANNEL_RED                = 0x01,
-    HYPERX_COLOR_CHANNEL_GREEN              = 0x02,
-    HYPERX_COLOR_CHANNEL_BLUE               = 0x03,
-    HYPERX_COLOR_CHANNEL_EXTENDED           = 0x04
+    HYPERX_ALLOY_FPS_COLOR_CHANNEL_RED              = 0x01,
+    HYPERX_ALLOY_FPS_COLOR_CHANNEL_GREEN            = 0x02,
+    HYPERX_ALLOY_FPS_COLOR_CHANNEL_BLUE             = 0x03,
+    HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED         = 0x04
 };
 
-class HyperXKeyboardController
+class HyperXAlloyFPSController
 {
 public:
-    HyperXKeyboardController(hid_device* dev_handle, const char* path);
-    ~HyperXKeyboardController();
+    HyperXAlloyFPSController(hid_device* dev_handle, const char* path);
+    ~HyperXAlloyFPSController();
 
     std::string     GetDeviceLocation();
     std::string     GetSerialString();
