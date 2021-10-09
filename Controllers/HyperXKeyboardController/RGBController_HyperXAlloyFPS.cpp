@@ -24,23 +24,17 @@ static unsigned int matrix_map[6][23] =
 
 static const char* zone_names[] =
 {
-    "Keyboard",
-    "RGB Strip",
-    "Media Keys"
+    "Keyboard"
 };
 
 static zone_type zone_types[] =
 {
-    ZONE_TYPE_MATRIX,
-    ZONE_TYPE_LINEAR,
-    ZONE_TYPE_SINGLE
+    ZONE_TYPE_MATRIX
 };
 
 static const unsigned int zone_sizes[] =
 {
-    106,
-    18,
-    4
+    106
 };
 
 static const char *led_names[] =
@@ -150,29 +144,7 @@ static const char *led_names[] =
     "Key: Up Arrow",
     "Key: Number Pad 5",
     "Key: Number Pad Enter",
-    "Key: Number Pad .",
-    "RGB Strip 1",
-    "RGB Strip 2",
-    "RGB Strip 3",
-    "RGB Strip 4",
-    "RGB Strip 5",
-    "RGB Strip 6",
-    "RGB Strip 7",
-    "RGB Strip 8",
-    "RGB Strip 9",
-    "RGB Strip 10",
-    "RGB Strip 11",
-    "RGB Strip 12",
-    "RGB Strip 13",
-    "RGB Strip 14",
-    "RGB Strip 15",
-    "RGB Strip 16",
-    "RGB Strip 17",
-    "RGB Strip 18",
-    "Key: Media Previous",
-    "Key: Media Play/Pause",
-    "Key: Media Next",
-    "Key: Media Mute"
+    "Key: Number Pad ."
 };
 
 RGBController_HyperXAlloyFPS::RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* hyperx_ptr)
@@ -261,7 +233,7 @@ void RGBController_HyperXAlloyFPS::SetupZones()
     | Set up zones                                              |
     \*---------------------------------------------------------*/
     unsigned int total_led_count = 0;
-    for(unsigned int zone_idx = 0; zone_idx < 3; zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < 1; zone_idx++)
     {
         zone new_zone;
         new_zone.name                   = zone_names[zone_idx];

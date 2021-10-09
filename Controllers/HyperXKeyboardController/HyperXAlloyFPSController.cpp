@@ -23,10 +23,6 @@ static unsigned int keys[] = {0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x
                               0x7F, 0x81, 0x84, 0x85, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x91,
                               0x94, 0x95 };
 
-static unsigned int extended_red[] = {0x08, 0x48, 0x88, 0x09, 0x89, 0x0A, 0x8A, 0x0B, 0x8B, 0x0C, 0x8C, 0x0D, 0x8D, 0x0E, 0x8F, 0x8E, 0x0F, 0x4F, 0x92, 0x13, 0x93, 0x12 };
-static unsigned int extended_grn[] = {0x29, 0x28, 0x78, 0x19, 0x79, 0x1A, 0x7A, 0x1B, 0x7B, 0x1C, 0x7C, 0x1D, 0x7D, 0x1E, 0x6E, 0x7E, 0x1F, 0x6F, 0x82, 0x23, 0x83, 0x22 };
-static unsigned int extended_blu[] = {0x39, 0x38, 0x68, 0x3A, 0x69, 0x2A, 0x6A, 0x2B, 0x6B, 0x2C, 0x6C, 0x2D, 0x6D, 0x2E, 0x5E, 0x5D, 0x2F, 0x5F, 0x72, 0x33, 0x73, 0x32 };
-
 HyperXAlloyFPSController::HyperXAlloyFPSController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
@@ -137,13 +133,6 @@ void HyperXAlloyFPSController::SetLEDsDirect(std::vector<RGBColor> colors)
         blu_color_data[i] = RGBGetBValue(colors[i]);
     }
 
-    for(std::size_t i = 0; i < 22; i++)
-    {
-        ext_color_data[extended_red[i]] = RGBGetRValue(colors[i + 106]);
-        ext_color_data[extended_grn[i]] = RGBGetGValue(colors[i + 106]);
-        ext_color_data[extended_blu[i]] = RGBGetBValue(colors[i + 106]);
-    }
-
     SendDirect
         (
         HYPERX_ALLOY_FPS_COLOR_CHANNEL_RED,
@@ -186,13 +175,6 @@ void HyperXAlloyFPSController::SetLEDs(std::vector<RGBColor> colors)
         red_color_data[i] = RGBGetRValue(colors[i]);
         grn_color_data[i] = RGBGetGValue(colors[i]);
         blu_color_data[i] = RGBGetBValue(colors[i]);
-    }
-
-    for(std::size_t i = 0; i < 22; i++)
-    {
-        ext_color_data[extended_red[i]] = RGBGetRValue(colors[i + 106]);
-        ext_color_data[extended_grn[i]] = RGBGetGValue(colors[i + 106]);
-        ext_color_data[extended_blu[i]] = RGBGetBValue(colors[i + 106]);
     }
 
     SendColor
