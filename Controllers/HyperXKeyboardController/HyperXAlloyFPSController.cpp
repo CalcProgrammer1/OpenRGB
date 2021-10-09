@@ -403,14 +403,6 @@ void HyperXAlloyFPSController::SendExtendedColor
     buf[0x03]   = HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED;
 
     /*-----------------------------------------------------*\
-    | Fill in color data                                    |
-    \*-----------------------------------------------------*/
-    for(int i = 0x08; i < 0x94; i++)
-    {
-        buf[i] = color_data[i];
-    }
-
-    /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_send_feature_report(dev, buf, 264);
@@ -470,14 +462,6 @@ void HyperXAlloyFPSController::SendDirectExtended
     buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_DIRECT;
     buf[0x02]   = HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED;
     buf[0x03]   = 0xA0;
-
-    /*-----------------------------------------------------*\
-    | Fill in color data                                    |
-    \*-----------------------------------------------------*/
-    for(int i = 0x08; i < 0x94; i++)
-    {
-        buf[i] = color_data[i];
-    }
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
