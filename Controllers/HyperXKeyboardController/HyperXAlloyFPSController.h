@@ -58,8 +58,7 @@ enum
 {
     HYPERX_ALLOY_FPS_COLOR_CHANNEL_RED              = 0x01,
     HYPERX_ALLOY_FPS_COLOR_CHANNEL_GREEN            = 0x02,
-    HYPERX_ALLOY_FPS_COLOR_CHANNEL_BLUE             = 0x03,
-    HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED         = 0x04
+    HYPERX_ALLOY_FPS_COLOR_CHANNEL_BLUE             = 0x03
 };
 
 class HyperXAlloyFPSController
@@ -120,20 +119,9 @@ private:
                 unsigned char*  color_data
                 );
 
-    void    SendExtendedColor
-                (
-                unsigned char   profile,
-                unsigned char*  color_data
-                );
-
     void    SendDirect
                 (
                 unsigned char   color_channel,
-                unsigned char*  color_data
-                );
-
-    void    SendDirectExtended
-                (
                 unsigned char*  color_data
                 );
 };

@@ -139,7 +139,7 @@ void HyperXAlloyFPSController::SetLEDsDirect(std::vector<RGBColor> colors)
         red_color_data
         );
 
-    std::this_thread::sleep_for(5ms);
+    std::this_thread::sleep_for(10ms);
 
     SendDirect
         (
@@ -147,19 +147,12 @@ void HyperXAlloyFPSController::SetLEDsDirect(std::vector<RGBColor> colors)
         grn_color_data
         );
 
-    std::this_thread::sleep_for(5ms);
+    std::this_thread::sleep_for(10ms);
 
     SendDirect
         (
         HYPERX_ALLOY_FPS_COLOR_CHANNEL_BLUE,
         blu_color_data
-        );
-
-    std::this_thread::sleep_for(5ms);
-
-    SendDirectExtended
-        (
-        ext_color_data
         );
 }
 
@@ -200,14 +193,6 @@ void HyperXAlloyFPSController::SetLEDs(std::vector<RGBColor> colors)
         0x01,
         HYPERX_ALLOY_FPS_COLOR_CHANNEL_BLUE,
         blu_color_data
-        );
-
-    std::this_thread::sleep_for(5ms);
-    
-    SendExtendedColor
-        (
-        0x01,
-        ext_color_data
         );
 }
 
@@ -381,33 +366,6 @@ void HyperXAlloyFPSController::SendColor
     hid_send_feature_report(dev, buf, 264);
 }
 
-void HyperXAlloyFPSController::SendExtendedColor
-    (
-    unsigned char   profile,
-    unsigned char*  color_data
-    )
-{
-    unsigned char buf[264];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up Color packet                                   |
-    \*-----------------------------------------------------*/
-    buf[0x00]   = 0x07;
-    buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_SET_COLOR;
-    buf[0x02]   = profile;
-    buf[0x03]   = HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED;
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 264);
-}
-
 void HyperXAlloyFPSController::SendDirect
     (
     unsigned char   color_channel,
@@ -436,32 +394,6 @@ void HyperXAlloyFPSController::SendDirect
     {
         buf[keys[i]] = color_data[i];
     }
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 264);
-}
-
-void HyperXAlloyFPSController::SendDirectExtended
-    (
-    unsigned char*  color_data
-    )
-{
-    unsigned char buf[264];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up Direct packet                                  |
-    \*-----------------------------------------------------*/
-    buf[0x00]   = 0x07;
-    buf[0x01]   = HYPERX_ALLOY_FPS_PACKET_ID_DIRECT;
-    buf[0x02]   = HYPERX_ALLOY_FPS_COLOR_CHANNEL_EXTENDED;
-    buf[0x03]   = 0xA0;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
