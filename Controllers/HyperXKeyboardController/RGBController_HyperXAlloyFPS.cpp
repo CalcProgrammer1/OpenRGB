@@ -160,41 +160,10 @@ RGBController_HyperXAlloyFPS::RGBController_HyperXAlloyFPS(HyperXAlloyFPSControl
 
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = HYPERX_ALLOY_FPS_MODE_STATIC;
+    Direct.value      = 0;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
-
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = HYPERX_ALLOY_FPS_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
-
-    mode Wave;
-    Wave.name       = "Wave";
-    Wave.value      = HYPERX_ALLOY_FPS_MODE_WAVE;
-    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    Wave.speed_min  = 0x00;
-    Wave.speed_max  = 0x09;
-    Wave.color_mode = MODE_COLORS_NONE;
-    Wave.speed      = 0x09;
-    Wave.direction  = MODE_DIRECTION_LEFT;
-    modes.push_back(Wave);
-
-    mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = HYPERX_ALLOY_FPS_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-    Breathing.speed_min  = 0x00;
-    Breathing.speed_max  = 0x09;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 2;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.speed      = 0x09;
-    Breathing.colors.resize(2);
-    modes.push_back(Breathing);
 
     SetupZones();
 
@@ -284,10 +253,6 @@ void RGBController_HyperXAlloyFPS::DeviceUpdateLEDs()
     {
         controller->SetLEDsDirect(colors);
     }
-    else
-    {
-        controller->SetLEDs(colors);
-    }
 }
 
 void RGBController_HyperXAlloyFPS::UpdateZoneLEDs(int /*zone*/)
@@ -307,15 +272,7 @@ void RGBController_HyperXAlloyFPS::SetCustomMode()
 
 void RGBController_HyperXAlloyFPS::DeviceUpdateMode()
 {
-    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
-    {
-        controller->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, modes[active_mode].colors);
-    }
-    else
-    {
-        std::vector<RGBColor> temp_colors;
-        controller->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed, temp_colors);
-    }
+
 }
 
 void RGBController_HyperXAlloyFPS::KeepaliveThreadFunction()
