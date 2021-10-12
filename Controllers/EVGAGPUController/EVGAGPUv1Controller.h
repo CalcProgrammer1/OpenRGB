@@ -47,6 +47,7 @@ public:
 
     void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode);
+    void            SaveSettings();
 
 private:
     i2c_smbus_interface*    bus;

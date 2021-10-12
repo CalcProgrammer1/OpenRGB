@@ -23,28 +23,28 @@ RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
     mode Off;
     Off.name       = "Off";
     Off.value      = EVGA_GPU_V1_MODE_OFF;
-    Off.flags      = 0;
+    Off.flags      = MODE_FLAG_MANUAL_SAVE;
     Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = EVGA_GPU_V1_MODE_CUSTOM;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Rainbow;
     Rainbow.name       = "Rainbow";
     Rainbow.value      = EVGA_GPU_V1_MODE_RAINBOW;
-    Rainbow.flags      = 0;
+    Rainbow.flags      = MODE_FLAG_MANUAL_SAVE;
     Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = EVGA_GPU_V1_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
@@ -139,4 +139,9 @@ void RGBController_EVGAGPUv1::SetCustomMode()
 void RGBController_EVGAGPUv1::DeviceUpdateMode()
 {
     evga->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
+}
+
+void RGBController_EVGAGPUv1::DeviceSaveMode()
+{
+    evga->SaveSettings();
 }

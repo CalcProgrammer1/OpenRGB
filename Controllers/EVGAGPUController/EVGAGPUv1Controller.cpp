@@ -61,3 +61,8 @@ void EVGAGPUv1Controller::SetMode(unsigned char mode)
 {
     bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V1_REG_MODE, mode);
 }
+
+void EVGAGPUv1Controller::SaveSettings()
+{
+    bus->i2c_smbus_write_byte_data(dev, 0x23,   0xE5);
+}
