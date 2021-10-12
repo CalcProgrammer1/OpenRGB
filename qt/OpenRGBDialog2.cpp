@@ -438,7 +438,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     /*-----------------------------------------------------*\
     | Add the Plugins page                                  |
     \*-----------------------------------------------------*/
-    AddPluginsPage(plugin_manager);
+    AddPluginsPage();
 
     /*-----------------------------------------------------*\
     | Add the E1.31 settings page                           |
@@ -543,11 +543,12 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
     }
     else
     {
+        plugin_manager->UnloadPlugins();
         event->accept();
     }
 }
 
-void OpenRGBDialog2::AddPluginsPage(PluginManager* plugin_manager)
+void OpenRGBDialog2::AddPluginsPage()
 {
     /*-----------------------------------------------------*\
     | Create the Plugins page                               |

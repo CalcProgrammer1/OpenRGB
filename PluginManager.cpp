@@ -329,3 +329,11 @@ void PluginManager::UnloadPlugin(std::string path)
         ActivePlugins[plugin_idx].loaded = false;
     }
 }
+
+void PluginManager::UnloadPlugins()
+{
+    for(const OpenRGBPluginEntry& plugin_entry: ActivePlugins)
+    {
+        plugin_entry.plugin->Unload();
+    }
+}

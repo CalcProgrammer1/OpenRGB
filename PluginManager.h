@@ -42,6 +42,8 @@ public:
     void LoadPlugin(std::string path);
     void UnloadPlugin(std::string path);
 
+    void UnloadPlugins();
+
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
 private:
