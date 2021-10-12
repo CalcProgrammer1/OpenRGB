@@ -114,7 +114,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   *  You can build the project using Qt Creator or on the command line.
       1.  Install build dependencies with Homebrew
           - Install Homebrew by following the instructions at https://brew.sh/
-          - brew install git qt5 hidapi libusb
+          - brew install git qt5 hidapi libusb mbedtls@2
           - brew link qt5
       2.  Create a local certificate called OpenRGB with code signing capability
       3.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
