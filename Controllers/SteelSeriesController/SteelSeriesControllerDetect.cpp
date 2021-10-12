@@ -58,6 +58,7 @@
 \*-----------------------------------------------------*/
 #define STEELSERIES_QCK_PRISM_CLOTH_MED_PID         0x150A
 #define STEELSERIES_QCK_PRISM_CLOTH_XL_PID          0x150D
+#define STEELSERIES_QCK_PRISM_CLOTH_3XL_PID         0x1516
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
@@ -251,6 +252,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries Siberia 350",                          Dete
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth Medium",                DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_MED_PID,      0  );
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL",                    DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_XL_PID,       0  );
+REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth 3XL",                   DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_3XL_PID,      0  );
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                                             |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

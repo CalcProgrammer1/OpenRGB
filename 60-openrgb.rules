@@ -786,6 +786,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1206", TAG+="uacces
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="150a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="150d", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1516", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Tecknet Devices                                              #
