@@ -185,5 +185,6 @@ void RGBController_Crucial::SetCustomMode()
 
 void RGBController_Crucial::DeviceUpdateMode()
 {
+    if (modes[active_mode].value == 0xFFFF) return;
     crucial->SetMode(modes[active_mode].value);
 }

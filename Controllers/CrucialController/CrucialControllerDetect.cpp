@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "CrucialController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_Crucial.h"
 #include "i2c_smbus.h"
@@ -33,6 +34,17 @@ static const unsigned char crucial_addresses[] =
     0x23
 };
 
+#define CRUCIAL_CONTROLLER_NAME "Crucial DRAM"
+std::string concatHexArray(const unsigned char array[], int count, const char split_char[])
+{
+    std::string addresses = "";
+    for(int i = 0; i < count; i++)
+    {
+        addresses += printf("0x%02X%s", array[i], (i < count-1)? split_char: "");
+    }
+    return addresses;
+}
+#define TESTING_ADDRESSES concatHexArray(crucial_addresses, CRUCIAL_ADDRESS_COUNT, "|").c_str()
 
 /******************************************************************************************\
 *                                                                                          *
@@ -54,12 +66,16 @@ bool TestForCrucialController(i2c_smbus_interface* bus, unsigned char address)
     {
         pass = true;
 
+        LOG_DEBUG("[%s] Detected an I2C device at address %02X", CRUCIAL_CONTROLLER_NAME, address);
+
         for (int i = 0xA0; i < 0xB0; i++)
         {
             res = bus->i2c_smbus_read_byte_data(address, i);
 
             if (res != (i - 0xA0))
             {
+                LOG_VERBOSE("[%s] Detection failed testing register %02X.  Expected %02X, got %02X.", CRUCIAL_CONTROLLER_NAME, i, (i - 0xA0), res);
+
                 pass = false;
             }
         }
@@ -100,7 +116,7 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
 
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            // Remap Crucial RAM modules on 0x27
+
             for (unsigned int slot = 0; slot < 4; slot++)
             {
                 int res = busses[bus]->i2c_smbus_write_quick(0x27, I2C_SMBUS_WRITE);
@@ -110,6 +126,7 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
                     break;
                 }
 
+                LOG_DEBUG("[%s] Remapping RAM module on 0x27", CRUCIAL_CONTROLLER_NAME);
                 do
                 {
                     address_list_idx++;
@@ -120,12 +137,14 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
                     }
                     else
                     {
+                        LOG_DEBUG("[%s] Testing address %02X to see if there is a device there", CRUCIAL_CONTROLLER_NAME, crucial_addresses[address_list_idx]);
                         break;
                     }
                 } while (res >= 0);
 
                 if(address_list_idx < CRUCIAL_ADDRESS_COUNT)
                 {
+                    LOG_DEBUG("[%s] Remapping slot %d to address %02X", CRUCIAL_CONTROLLER_NAME, slot, crucial_addresses[address_list_idx]);
                     CrucialRegisterWrite(busses[bus], 0x27, 0x82EE, slot);
                     CrucialRegisterWrite(busses[bus], 0x27, 0x82EF, (crucial_addresses[address_list_idx] << 1));
                     CrucialRegisterWrite(busses[bus], 0x27, 0x82F0, 0xF0);
@@ -133,6 +152,8 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
 
                 std::this_thread::sleep_for(1ms);
             }
+
+            LOG_DEBUG("[%s] In bus: %02X:%02X looking for devices at [%s]", CRUCIAL_CONTROLLER_NAME, busses[bus]->pci_vendor, busses[bus]->pci_device, TESTING_ADDRESSES);
 
             // Add Crucial controllers
             for (unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)
