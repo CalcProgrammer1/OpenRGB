@@ -207,7 +207,7 @@ void DetectAsusAuraSMBusMotherboardControllers(std::vector<i2c_smbus_interface*>
         // Add Aura-enabled motherboard controllers
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            if(busses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN)
+            if(busses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN || busses[bus]->pci_subsystem_vendor == 0)
             {
                 for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
                 {
