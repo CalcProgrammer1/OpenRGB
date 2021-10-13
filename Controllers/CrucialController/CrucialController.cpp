@@ -80,35 +80,31 @@ void CrucialController::SendEffectMode(unsigned char mode, unsigned char speed)
 
 void CrucialController::SendDirectColors(RGBColor* color_buf)
 {
+    unsigned char color_blk[8];
+
+    for(unsigned int led = 0; led < 8; led++)
+    {
+        color_blk[led] = RGBGetRValue(color_buf[led]);
+    }
+
     //Red Channels
-    CrucialRegisterWrite(0x8300, RGBGetRValue(color_buf[0]));
-    CrucialRegisterWrite(0x8301, RGBGetRValue(color_buf[1]));
-    CrucialRegisterWrite(0x8302, RGBGetRValue(color_buf[2]));
-    CrucialRegisterWrite(0x8303, RGBGetRValue(color_buf[3]));
-    CrucialRegisterWrite(0x8304, RGBGetRValue(color_buf[4]));
-    CrucialRegisterWrite(0x8305, RGBGetRValue(color_buf[5]));
-    CrucialRegisterWrite(0x8306, RGBGetRValue(color_buf[6]));
-    CrucialRegisterWrite(0x8307, RGBGetRValue(color_buf[7]));
+    CrucialRegisterWriteBlock(0x8300, color_blk, 8);
 
+    for(unsigned int led = 0; led < 8; led++)
+    {
+        color_blk[led] = RGBGetGValue(color_buf[led]);
+    }
+    
     //Green Channels
-    CrucialRegisterWrite(0x8340, RGBGetGValue(color_buf[0]));
-    CrucialRegisterWrite(0x8341, RGBGetGValue(color_buf[1]));
-    CrucialRegisterWrite(0x8342, RGBGetGValue(color_buf[2]));
-    CrucialRegisterWrite(0x8343, RGBGetGValue(color_buf[3]));
-    CrucialRegisterWrite(0x8344, RGBGetGValue(color_buf[4]));
-    CrucialRegisterWrite(0x8345, RGBGetGValue(color_buf[5]));
-    CrucialRegisterWrite(0x8346, RGBGetGValue(color_buf[6]));
-    CrucialRegisterWrite(0x8347, RGBGetGValue(color_buf[7]));
+    CrucialRegisterWriteBlock(0x8340, color_blk, 8);
 
+    for(unsigned int led = 0; led < 8; led++)
+    {
+        color_blk[led] = RGBGetBValue(color_buf[led]);
+    }
+    
     //Blue Channels
-    CrucialRegisterWrite(0x8380, RGBGetBValue(color_buf[0]));
-    CrucialRegisterWrite(0x8381, RGBGetBValue(color_buf[1]));
-    CrucialRegisterWrite(0x8382, RGBGetBValue(color_buf[2]));
-    CrucialRegisterWrite(0x8383, RGBGetBValue(color_buf[3]));
-    CrucialRegisterWrite(0x8384, RGBGetBValue(color_buf[4]));
-    CrucialRegisterWrite(0x8385, RGBGetBValue(color_buf[5]));
-    CrucialRegisterWrite(0x8386, RGBGetBValue(color_buf[6]));
-    CrucialRegisterWrite(0x8387, RGBGetBValue(color_buf[7]));
+    CrucialRegisterWriteBlock(0x8380, color_blk, 8);
 }
 
 unsigned char CrucialController::CrucialRegisterRead(crucial_register reg)
@@ -129,6 +125,15 @@ void CrucialController::CrucialRegisterWrite(crucial_register reg, unsigned char
     //Write Crucial value
     bus->i2c_smbus_write_byte_data(dev, 0x01, val);
 
+}
+
+void CrucialController::CrucialRegisterWriteBlock(crucial_register reg, unsigned char * data, unsigned char sz)
+{
+    //Write Crucial register
+    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
+
+    //Write Crucial block data
+    bus->i2c_smbus_write_block_data(dev, 0x03, sz, data);
 }
 
 void CrucialController::SendEffectColor

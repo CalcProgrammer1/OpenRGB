@@ -53,6 +53,7 @@ public:
 
     unsigned char CrucialRegisterRead(crucial_register reg);
     void          CrucialRegisterWrite(crucial_register reg, unsigned char val);
+    void          CrucialRegisterWriteBlock(crucial_register reg, unsigned char * data, unsigned char sz);
 
 private:
     char                    device_name[16];
