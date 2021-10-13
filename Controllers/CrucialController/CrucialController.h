@@ -18,6 +18,11 @@ typedef unsigned short	crucial_register;
 
 enum
 {
+    CRUCIAL_REG_MICRON_CHECK        = 0x1030    /* "Micron" string should be here   */
+};
+
+enum
+{
     CRUCIAL_MODE_UNKNOWN            = 0x00,     /* We don't know what the mode is   */
     CRUCIAL_MODE_SHIFT              = 0x1F,     /* Shift effect mode                */
     CRUCIAL_MODE_GRADIENT_SHIFT     = 0x2F,     /* Gradient shift mode              */

@@ -20,6 +20,7 @@ typedef unsigned short	aura_register;
 enum
 {
     AURA_REG_DEVICE_NAME                = 0x1000,   /* Device String 16 bytes               */
+    AURA_REG_MICRON_CHECK               = 0x1030,   /* If "Micron" appears here, skip       */
     AURA_REG_CONFIG_TABLE               = 0x1C00,   /* Start of LED configuration bytes     */
     AURA_REG_COLORS_DIRECT              = 0x8000,   /* Colors for Direct Mode 15 bytes      */
     AURA_REG_COLORS_EFFECT              = 0x8010,   /* Colors for Internal Effects 15 bytes */

@@ -61,6 +61,25 @@ static const unsigned char aura_mobo_addresses[] =
 
 /******************************************************************************************\
 *                                                                                          *
+*   AuraRegisterRead                                                                       *
+*                                                                                          *
+*       A standalone version of the AuraSMBusController::AuraRegisterRead function for     *
+*       access to Aura devices without instancing the AuraSMBusController class or reading *
+*       the config table from the device.                                                  *
+*                                                                                          *
+\******************************************************************************************/
+
+unsigned char AuraRegisterRead(i2c_smbus_interface* bus, aura_dev_id dev, aura_register reg)
+{
+    //Write Aura register
+    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
+
+    //Read Aura value
+    return(bus->i2c_smbus_read_byte_data(dev, 0x81));
+}
+
+/******************************************************************************************\
+*                                                                                          *
 *   AuraRegisterWrite                                                                      *
 *                                                                                          *
 *       A standalone version of the AuraSMBusController::AuraRegisterWrite function for    *
@@ -116,7 +135,23 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 
         if(pass)
         {
-            LOG_VERBOSE("[Aura SMBus] Detection successful, address %02X", address);
+            LOG_DEBUG("[Aura SMBus] Checking for Micron string");
+
+            char buf[16];
+            for(int i = 0; i < 16; i++)
+            {
+                buf[i] = AuraRegisterRead(bus, address, AURA_REG_MICRON_CHECK + i);
+            }
+
+            if(strcmp(buf, "Micron") == 0)
+            {
+                LOG_DEBUG("[Aura SMBus] Device %02X is a Micron device, skipping", address);
+                pass = false;
+            }
+            else
+            {
+                LOG_VERBOSE("[Aura SMBus] Detection successful, address %02X", address);
+            }
         }
     }
 

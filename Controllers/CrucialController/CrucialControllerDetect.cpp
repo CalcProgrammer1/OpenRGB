@@ -14,7 +14,7 @@ using namespace std::chrono_literals;
 /*----------------------------------------------------------------------*\
 | This list contains the available SMBus addresses for Crucial RAM       |
 \*----------------------------------------------------------------------*/
-#define CRUCIAL_ADDRESS_COUNT  4
+#define CRUCIAL_ADDRESS_COUNT  8
 
 static const unsigned char crucial_addresses[] =
 {
@@ -24,10 +24,10 @@ static const unsigned char crucial_addresses[] =
 | the same, Aura RAM will be detected as Crucial.       |
 | We need to improve the Crucial detection scheme.      |
 \*-----------------------------------------------------*/
-//  0x39,
-//  0x3A,
-//  0x3B,
-//  0x3C,
+    0x39,
+    0x3A,
+    0x3B,
+    0x3C,
     0x20,
     0x21,
     0x22,
@@ -45,6 +45,25 @@ std::string concatHexArray(const unsigned char array[], int count, const char sp
     return addresses;
 }
 #define TESTING_ADDRESSES concatHexArray(crucial_addresses, CRUCIAL_ADDRESS_COUNT, "|").c_str()
+
+/******************************************************************************************\
+*                                                                                          *
+*   CrucialRegisterRead                                                                    *
+*                                                                                          *
+*       A standalone version of the AuraSMBusController::AuraRegisterRead function for     *
+*       access to Aura devices without instancing the AuraSMBusController class or reading *
+*       the config table from the device.                                                  *
+*                                                                                          *
+\******************************************************************************************/
+
+unsigned char CrucialRegisterRead(i2c_smbus_interface* bus, crucial_dev_id dev, crucial_register reg)
+{
+    //Write Aura register
+    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
+
+    //Read Aura value
+    return(bus->i2c_smbus_read_byte_data(dev, 0x81));
+}
 
 /******************************************************************************************\
 *                                                                                          *
@@ -76,6 +95,27 @@ bool TestForCrucialController(i2c_smbus_interface* bus, unsigned char address)
             {
                 LOG_VERBOSE("[%s] Detection failed testing register %02X.  Expected %02X, got %02X.", CRUCIAL_CONTROLLER_NAME, i, (i - 0xA0), res);
 
+                pass = false;
+            }
+        }
+
+        if(pass)
+        {
+            LOG_DEBUG("[%s] Checking for Micron string", CRUCIAL_CONTROLLER_NAME);
+
+            char buf[16];
+            for(int i = 0; i < 16; i++)
+            {
+                buf[i] = CrucialRegisterRead(bus, address, CRUCIAL_REG_MICRON_CHECK + i);
+            }
+
+            if(strcmp(buf, "Micron") == 0)
+            {
+                LOG_DEBUG("[%s] Device %02X is a Micron device, continuing", CRUCIAL_CONTROLLER_NAME, address);
+            }
+            else
+            {
+                LOG_DEBUG("[%s] Device %02X is not a Micron device, skipping", CRUCIAL_CONTROLLER_NAME, address);
                 pass = false;
             }
         }
