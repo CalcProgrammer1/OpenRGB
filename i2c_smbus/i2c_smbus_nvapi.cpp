@@ -91,9 +91,10 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
         switch (mode)
         {
         case I2C_SMBUS_BYTE:
+        case I2C_SMBUS_BYTE_DATA:
             data->byte = i2c_data.data[0];
             break;
-        
+
         case I2C_SMBUS_WORD_DATA:
             data->word = (i2c_data.data[0] | (i2c_data.data[1] << 8));
             break;
