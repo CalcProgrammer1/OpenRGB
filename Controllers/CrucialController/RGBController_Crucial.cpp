@@ -29,88 +29,85 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     mode Shift;
     Shift.name       = "Shift";
     Shift.value      = CRUCIAL_MODE_SHIFT;
-    Shift.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Shift.colors_min = 1;
-    Shift.colors_max = 1;
-    Shift.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Shift.colors.resize(1);
+    Shift.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Shift.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Shift);
     
     mode GradientShift;
     GradientShift.name       = "Gradient Shift";
     GradientShift.value      = CRUCIAL_MODE_GRADIENT_SHIFT;
-    GradientShift.flags      = 0;
-    GradientShift.color_mode = MODE_COLORS_NONE;
+    GradientShift.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    GradientShift.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(GradientShift);
 
     mode Fill;
     Fill.name       = "Fill";
     Fill.value      = CRUCIAL_MODE_FILL;
-    Fill.flags      = 0;
-    Fill.color_mode = MODE_COLORS_NONE;
+    Fill.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Fill.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Fill);
 
     mode Stack;
     Stack.name       = "Stack";
     Stack.value      = CRUCIAL_MODE_STACK;
-    Stack.flags      = 0;
-    Stack.color_mode = MODE_COLORS_NONE;
+    Stack.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Stack.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Stack);
 
     mode DoubleStack;
     DoubleStack.name       = "Double Stack";
     DoubleStack.value      = CRUCIAL_MODE_DOUBLE_STACK;
-    DoubleStack.flags      = 0;
-    DoubleStack.color_mode = MODE_COLORS_NONE;
+    DoubleStack.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    DoubleStack.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(DoubleStack);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = CRUCIAL_MODE_BREATHING;
-    Breathing.flags      = 0;
-    Breathing.color_mode = MODE_COLORS_NONE;
+    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode MotionPoint;
     MotionPoint.name       = "Motion Point";
     MotionPoint.value      = CRUCIAL_MODE_MOTION_POINT;
-    MotionPoint.flags      = 0;
-    MotionPoint.color_mode = MODE_COLORS_NONE;
+    MotionPoint.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    MotionPoint.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(MotionPoint);
 
     mode InsideOut;
     InsideOut.name       = "Inside Out";
     InsideOut.value      = CRUCIAL_MODE_INSIDE_OUT;
-    InsideOut.flags      = 0;
-    InsideOut.color_mode = MODE_COLORS_NONE;
+    InsideOut.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    InsideOut.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(InsideOut);
 
     mode ColorStep;
     ColorStep.name       = "Color Step";
     ColorStep.value      = CRUCIAL_MODE_COLOR_STEP;
-    ColorStep.flags      = 0;
-    ColorStep.color_mode = MODE_COLORS_NONE;
+    ColorStep.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    ColorStep.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(ColorStep);
 
     mode WaterWave;
     WaterWave.name       = "Water Wave (Color Blending)";
     WaterWave.value      = CRUCIAL_MODE_WATER_WAVE;
-    WaterWave.flags      = 0;
-    WaterWave.color_mode = MODE_COLORS_NONE;
+    WaterWave.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    WaterWave.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(WaterWave);
 
     mode Flashing;
     Flashing.name       = "Flashing";
     Flashing.value      = CRUCIAL_MODE_FLASHING;
-    Flashing.flags      = 0;
-    Flashing.color_mode = MODE_COLORS_NONE;
+    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Flashing);
 
     mode Static;
     Static.name       = "Static";
     Static.value      = CRUCIAL_MODE_STATIC;
-    Static.flags      = 0;
-    Static.color_mode = MODE_COLORS_NONE;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     SetupZones();
@@ -185,6 +182,16 @@ void RGBController_Crucial::SetCustomMode()
 
 void RGBController_Crucial::DeviceUpdateMode()
 {
-    if (modes[active_mode].value == 0xFFFF) return;
+    if(modes[active_mode].value == 0xFFFF)
+    {
+        crucial->SetMode(CRUCIAL_MODE_STATIC);
+        return;
+    }
+
+    if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
+    {
+        crucial->SetAllColorsEffect(&colors[0]);
+    }
+
     crucial->SetMode(modes[active_mode].value);
 }

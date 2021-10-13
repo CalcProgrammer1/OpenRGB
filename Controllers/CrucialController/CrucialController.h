@@ -59,7 +59,6 @@ private:
     unsigned char           config_table[64];
     unsigned int            led_count;
     unsigned char           channel_cfg;
-    unsigned char           last_mode;
     i2c_smbus_interface *   bus;
     crucial_dev_id          dev;
 
