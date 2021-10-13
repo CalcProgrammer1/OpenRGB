@@ -40,7 +40,9 @@ std::string concatHexArray(const unsigned char array[], int count, const char sp
     std::string addresses = "";
     for(int i = 0; i < count; i++)
     {
-        addresses += printf("0x%02X%s", array[i], (i < count-1)? split_char: "");
+        char buffer[6];
+        snprintf(buffer, 6, "0x%02X%s", array[i], (i < count-1)? split_char: "");
+        addresses += buffer;
     }
     return addresses;
 }
