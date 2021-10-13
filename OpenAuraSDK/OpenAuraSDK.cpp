@@ -435,6 +435,20 @@ void DetectAuraControllers()
             controllers.push_back(new_controller);
         }
 
+        // Check for Aura controller at 0x20
+        if (TestForAuraController(busses[bus], 0x20))
+        {
+            new_controller = new AuraController(busses[bus], 0x20);
+            controllers.push_back(new_controller);
+        }
+
+        // Check for Aura controller at 0x21
+        if (TestForAuraController(busses[bus], 0x21))
+        {
+            new_controller = new AuraController(busses[bus], 0x21);
+            controllers.push_back(new_controller);
+        }
+
         // Check for Aura controller at 0x22
         if (TestForAuraController(busses[bus], 0x22))
         {
@@ -446,6 +460,34 @@ void DetectAuraControllers()
         if (TestForAuraController(busses[bus], 0x23))
         {
             new_controller = new AuraController(busses[bus], 0x23);
+            controllers.push_back(new_controller);
+        }
+
+        // Check for Aura controller at 0x39
+        if (TestForAuraController(busses[bus], 0x39))
+        {
+            new_controller = new AuraController(busses[bus], 0x39);
+            controllers.push_back(new_controller);
+        }
+
+        // Check for Aura controller at 0x3A
+        if (TestForAuraController(busses[bus], 0x3A))
+        {
+            new_controller = new AuraController(busses[bus], 0x3A);
+            controllers.push_back(new_controller);
+        }
+
+        // Check for Aura controller at 0x3B
+        if (TestForAuraController(busses[bus], 0x3B))
+        {
+            new_controller = new AuraController(busses[bus], 0x3B);
+            controllers.push_back(new_controller);
+        }
+
+        // Check for Aura controller at 0x3C
+        if (TestForAuraController(busses[bus], 0x3C))
+        {
+            new_controller = new AuraController(busses[bus], 0x3C);
             controllers.push_back(new_controller);
         }
     }
