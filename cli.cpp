@@ -1335,7 +1335,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
         \*---------------------------------------------------------*/
         else if(option == "--very-verbose" || option == "-vv")
         {
-            LogManager::get()->setVerbosity(LL_DEBUG);
+            LogManager::get()->setVerbosity(LL_TRACE);
             cfg_args++;
         }
 
