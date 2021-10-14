@@ -68,6 +68,7 @@
 #define NVIDIA_RTX3060TI_DEV                            0x2486
 #define NVIDIA_RTX3060TI_LHR_DEV                        0x2489
 #define NVIDIA_RTX3070_DEV                              0x2484
+#define NVIDIA_RTX3070_V2_DEV                           0x2488
 #define NVIDIA_RTX3070TI_DEV                            0x2482
 #define NVIDIA_RTX3080_DEV                              0x2206
 #define NVIDIA_RTX3080_LHR_DEV                          0x2216
@@ -221,6 +222,7 @@
 #define MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV              0xC724
 #define MSI_RTX2080TI_GAMING_X_TRIO_SUB_DEV             0x3715
 #define MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV             0x3717
+#define MSI_RTX3070_GAMING_TRIO_SUB_DEV                 0x3904
 #define MSI_RTX3070_GAMING_X_TRIO_SUB_DEV               0x3903
 #define MSI_RTX3080_GAMING_Z_TRIO_SUB_DEV               0x389B
 #define MSI_RTX3080_GAMING_X_TRIO_SUB_DEV               0x3892
