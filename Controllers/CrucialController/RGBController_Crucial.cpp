@@ -17,6 +17,7 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
     vendor      = "Crucial";
     type        = DEVICE_TYPE_DRAM;
     description = "Crucial DRAM Device";
+    version     = crucial->GetDeviceVersion();
     location    = crucial->GetDeviceLocation();
 
     mode Direct;

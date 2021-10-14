@@ -15,6 +15,11 @@ CrucialController::CrucialController(i2c_smbus_interface* bus, crucial_dev_id de
 {
     this->bus = bus;
     this->dev = dev;
+
+    for(int i = 0; i < 16; i++)
+    {
+        device_version[i] = CrucialRegisterRead(CRUCIAL_REG_DEVICE_VERSION + i);
+    }
 }
 
 CrucialController::~CrucialController()
@@ -22,9 +27,9 @@ CrucialController::~CrucialController()
 
 }
 
-std::string CrucialController::GetDeviceName()
+std::string CrucialController::GetDeviceVersion()
 {
-    return(device_name);
+    return(device_version);
 }
 
 std::string CrucialController::GetDeviceLocation()
@@ -35,11 +40,6 @@ std::string CrucialController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
-}
-
-unsigned int CrucialController::GetLEDCount()
-{
-    return(led_count);
 }
 
 void CrucialController::SetMode(unsigned char mode)
