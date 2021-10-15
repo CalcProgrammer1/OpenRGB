@@ -21,6 +21,7 @@
 #define RAZER_BLACKWIDOW_ESSENTIAL_PID                  0x0237
 #define RAZER_BLACKWIDOW_LITE_PID                       0x0235
 #define RAZER_BLACKWIDOW_OVERWATCH_PID                  0x0211
+#define RAZER_BLACKWIDOW_V3_PID                         0x024E
 #define RAZER_BLACKWIDOW_X_CHROMA_PID                   0x0216
 #define RAZER_BLACKWIDOW_X_CHROMA_TE_PID                0x021A
 #define RAZER_BLADE_2016_PID                            0x020F
@@ -1870,6 +1871,41 @@ static const razer_device blackwidow_chroma_overwatch_device =
     22,
     {
         &blackwidow_chroma_overwatch_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V3 1532:024E                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v3_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_v3_device =
+{
+    "Razer Blackwidow V3",
+    RAZER_BLACKWIDOW_V3_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &blackwidow_v3_zone,
         NULL,
         NULL,
         NULL,
@@ -6333,6 +6369,7 @@ static const razer_device* device_list[] =
     &blackwidow_chroma_te_device,
     &blackwidow_chroma_v2_device,
     &blackwidow_elite_device,
+    &blackwidow_v3_device,
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
     &cynosa_chroma_device,

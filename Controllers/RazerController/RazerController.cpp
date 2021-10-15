@@ -115,6 +115,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_ESSENTIAL_PID:
         case RAZER_BLACKWIDOW_LITE_PID:
+        case RAZER_BLACKWIDOW_V3_PID:
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_LITE_PID:
         case RAZER_CYNOSA_V2_PID:
@@ -186,6 +187,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASILISK_V2_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
+        case RAZER_BLACKWIDOW_V3_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
@@ -419,6 +421,7 @@ bool RazerController::SupportsWave()
         case RAZER_BLACKWIDOW_CHROMA_TE_PID:
         case RAZER_BLACKWIDOW_CHROMA_V2_PID:
         case RAZER_BLACKWIDOW_OVERWATCH_PID:
+        case RAZER_BLACKWIDOW_V3_PID:
         case RAZER_BLACKWIDOW_X_CHROMA_PID:
         case RAZER_BLACKWIDOW_X_CHROMA_TE_PID:
         case RAZER_BLADE_2016_PID:
