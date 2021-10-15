@@ -20,6 +20,7 @@ HuePlusController::HuePlusController()
 
 HuePlusController::~HuePlusController()
 {
+    delete serialport;
 }
 
 void HuePlusController::Initialize(char* port)

@@ -96,7 +96,7 @@ public:
 
 private:
     std::string     port_name;
-    serial_port     *serialport;
+    serial_port     *serialport = nullptr;
 
     void            SendPacket
                         (
