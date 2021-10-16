@@ -197,6 +197,7 @@
 #define GIGABYTE_RTX3070TI_GAMING_OC_SUB_DEV            0x408F
 #define GIGABYTE_RTX3070TI_EAGLE_SUB_DEV                0x408C
 #define GIGABYTE_RTX3080_GAMING_OC_SUB_DEV              0x403F
+#define GIGABYTE_RTX3080TI_EAGLE_SUB_DEV                0x4085
 #define GIGABYTE_RTX3090_GAMING_OC_24GB_SUB_DEV         0x4043
 
 /*-----------------------------------------------------*\

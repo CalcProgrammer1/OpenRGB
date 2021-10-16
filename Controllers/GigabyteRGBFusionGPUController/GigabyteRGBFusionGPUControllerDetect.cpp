@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "GigabyteRGBFusionGPUController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_GigabyteRGBFusionGPU.h"
 #include "i2c_smbus.h"
@@ -18,6 +19,7 @@ typedef struct
     const char *    name;
 } gpu_pci_device;
 
+#define GIGABYTEGPU_CONTROLLER_NAME "Gigabyte RGB Fusion GPU"
 #define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
 
 static const gpu_pci_device device_list[] =
@@ -59,6 +61,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070TI_GAMING_OC_SUB_DEV,           0x62,   "Gigabyte RTX3070 Ti Gaming OC 8G"              },
     { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070TI_EAGLE_SUB_DEV,               0x63,   "Gigabyte RTX3070 Ti EAGLE 8G"                  },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3080 Gaming OC 10G"                },
+    { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_EAGLE_SUB_DEV,               0x63,   "Gigabyte RTX3080 Ti EAGLE 12G"                 },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3090_GAMING_OC_24GB_SUB_DEV,        0x62,   "Gigabyte RTX3090 Gaming OC 24G"                },
 };
 
@@ -100,6 +103,7 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 
         if (res != 0xAB)
         {
+            LOG_DEBUG("[%s] at 0x%02X address expected 0xAB but recieved: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME, address, res);
             pass = false;
         }
 
@@ -107,6 +111,7 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 
         if ((res != 0x14) && (res != 0x10))
         {
+            LOG_DEBUG("[%s] at 0x%02X address expected 0x14|0x10 but recieved: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME, address, res);
             pass = false;
         }
 
