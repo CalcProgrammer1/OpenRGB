@@ -37,10 +37,20 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     }
 
     /*-----------------------------------------------------------------*\
-    | Set report index                                                  |
+    | Determine report index for device                                 |
     \*-----------------------------------------------------------------*/
-    report_index    = 0;
-    response_index  = 0;
+    switch(dev_pid)
+    {
+        case RAZER_BLACKWIDOW_V3_PID:
+            report_index    = 0x03;
+            response_index  = 0x03;
+            break;
+
+        default:
+            report_index    = 0;
+            response_index  = 0;
+            break;
+    }
 
     /*-----------------------------------------------------------------*\
     | Determine transaction ID for device                               |
