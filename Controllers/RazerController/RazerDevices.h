@@ -5427,11 +5427,11 @@ static const razer_device firefly_hyperflux_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Firefly V2                                     |
+|  Razer Firefly V2                                             |
 |                                                               |
 |  Zone "LED Strip"                                             |
 |       Matrix                                                  |
-|       19 LEDs                                                  |
+|       19 LEDs                                                 |
 \*-------------------------------------------------------------*/
 static const razer_zone firefly_v2_zone =
 {
