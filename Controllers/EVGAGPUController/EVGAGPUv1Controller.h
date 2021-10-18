@@ -14,6 +14,8 @@
 
 typedef unsigned char	evga_dev_id;
 
+#define EVGAGPUV1_CONTROLLER_NAME   "EVGAv1"
+
 enum
 {
     EVGA_GPU_V1_REG_MODE                = 0x0C,

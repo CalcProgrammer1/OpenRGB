@@ -10,6 +10,7 @@
 #include <string>
 #include "i2c_smbus.h"
 #include "RGBController.h"
+#include "EVGAGPUCommon.h"
 
 #pragma once
 
@@ -19,6 +20,7 @@ typedef unsigned char	evga_dev_id;
 #define EVGA_GPU_V2_BRIGHTNESS_MIN      0x01
 #define EVGA_GPU_V2_BRIGHTNESS_DEFAULT  0x64
 #define EVGA_GPU_V2_BRIGHTNESS_MAX      0x64
+#define EVGAGPUV2_CONTROLLER_NAME   "EVGAv2"
 
 enum
 {
@@ -69,16 +71,6 @@ enum
     EVGA_GPU_V2_SPEED_PULSE_NORMAL          = 0x96,
     EVGA_GPU_V2_SPEED_PULSE_FASTEST         = 0x32,
 };
-
-typedef union
-{
-    uint16_t   u16;
-    struct
-    {
-        uint8_t LSB;
-        uint8_t MSB;
-    };
-} u16_to_u8;
 
 class EVGAGPUv2Controller
 {

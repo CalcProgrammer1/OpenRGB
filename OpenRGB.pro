@@ -286,10 +286,13 @@ HEADERS +=                                                                      
     Controllers/EKController/RGBController_EKController.h                                       \
     Controllers/EspurnaController/EspurnaController.h                                           \
     Controllers/EspurnaController/RGBController_Espurna.h                                       \
+    Controllers/EVGAGPUController/EVGAGPUCommon.h                                               \
     Controllers/EVGAGPUController/EVGAGPUv1Controller.h                                         \
     Controllers/EVGAGPUController/EVGAGPUv2Controller.h                                         \
+    Controllers/EVGAGPUController/EVGAGPUv3Controller.h                                         \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.h                                     \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.h                                     \
+    Controllers/EVGAGPUController/RGBController_EVGAGPUv3.h                                     \
     Controllers/EVisionKeyboardController/EVisionKeyboardController.h                           \
     Controllers/EVisionKeyboardController/RGBController_EVisionKeyboard.h                       \
     Controllers/FanBusController/FanBusController.h                                             \
@@ -658,9 +661,11 @@ SOURCES +=                                                                      
     Controllers/EspurnaController/RGBController_Espurna.cpp                                     \
     Controllers/EVGAGPUController/EVGAGPUv1Controller.cpp                                       \
     Controllers/EVGAGPUController/EVGAGPUv2Controller.cpp                                       \
+    Controllers/EVGAGPUController/EVGAGPUv3Controller.cpp                                       \
     Controllers/EVGAGPUController/EVGAGPUControllerDetect.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.cpp                                   \
+    Controllers/EVGAGPUController/RGBController_EVGAGPUv3.cpp                                   \
     Controllers/EVisionKeyboardController/EVisionKeyboardController.cpp                         \
     Controllers/EVisionKeyboardController/EVisionKeyboardControllerDetect.cpp                   \
     Controllers/EVisionKeyboardController/RGBController_EVisionKeyboard.cpp                     \
