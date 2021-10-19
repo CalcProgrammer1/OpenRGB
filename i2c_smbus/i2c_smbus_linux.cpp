@@ -47,6 +47,7 @@ bool i2c_smbus_linux_detect()
     char buff[100];
     unsigned short pci_device, pci_vendor, pci_subsystem_device, pci_subsystem_vendor;
     unsigned short port_id;
+    char *ptr;
 
     // Start looking for I2C adapters in /sys/bus/i2c/devices/
     strcpy(driver_path, "/sys/bus/i2c/devices/");
@@ -91,8 +92,30 @@ bool i2c_smbus_linux_detect()
                     pci_subsystem_device    = 0;
                     port_id                 = 0;
 
+                    // Get port ID for NVidia GPUs
+                    sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id);
+
+                    // Get device path
+                    strcpy(path, driver_path);
+                    strcat(path, ent->d_name);
+                    if(ent->d_type == DT_LNK)
+                    {
+                        ptr = canonicalize_file_name(path);
+                        if(ptr == NULL)
+                            continue;
+
+                        strcpy(path, ptr);
+                        strcat(path, "/..");
+                        free(ptr);
+                    }
+                    else
+                    {
+                        strcat(path, "/device");
+                    }
+                    ptr = path + strlen(path);
+
                     // Get PCI Vendor
-                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/vendor");
+                    strcpy(ptr, "/vendor");
                     test_fd = open(path, O_RDONLY);
                     if (test_fd >= 0)
                     {
@@ -103,11 +126,8 @@ bool i2c_smbus_linux_detect()
                         close(test_fd);
                     }
 
-                    // Get port ID for NVidia GPUs
-                    sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id);
-
                     // Get PCI Device
-                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/device");
+                    strcpy(ptr, "/device");
                     test_fd = open(path, O_RDONLY);
                     if (test_fd >= 0)
                     {
@@ -119,7 +139,7 @@ bool i2c_smbus_linux_detect()
                     }
 
                     // Get PCI Subsystem Vendor
-                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_vendor");
+                    strcpy(ptr, "/subsystem_vendor");
                     test_fd = open(path, O_RDONLY);
                     if (test_fd >= 0)
                     {
@@ -131,7 +151,7 @@ bool i2c_smbus_linux_detect()
                     }
 
                     // Get PCI Subsystem Device
-                    snprintf(path, sizeof(path), "%s%s%s", driver_path, ent->d_name, "/device/subsystem_device");
+                    strcpy(ptr, "/subsystem_device");
                     test_fd = open(path, O_RDONLY);
                     if (test_fd >= 0)
                     {
