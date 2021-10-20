@@ -129,6 +129,7 @@ INCLUDEPATH +=                                                                  
     Controllers/PatriotViperController/                                                         \
     Controllers/PhilipsHueController/                                                           \
     Controllers/PhilipsWizController/                                                           \
+    Controllers/PNYGPUController/                                                               \
     Controllers/QMKOpenRGBController/                                                           \
     Controllers/RazerController/                                                                \
     Controllers/RedragonController/                                                             \
@@ -393,6 +394,8 @@ HEADERS +=                                                                      
     Controllers/PhilipsHueController/RGBController_PhilipsHue.h                                 \
     Controllers/PhilipsWizController/PhilipsWizController.h                                     \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.h                                 \
+    Controllers/PNYGPUController/PNYGPUController.h                                             \
+    Controllers/PNYGPUController/RGBController_PNYGPU.h                                         \
     Controllers/QMKOpenRGBController/QMKOpenRGBController.h                                     \
     Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.h                                 \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevBController.h                                 \
@@ -791,6 +794,9 @@ SOURCES +=                                                                      
     Controllers/PhilipsWizController/PhilipsWizController.cpp                                   \
     Controllers/PhilipsWizController/PhilipsWizControllerDetect.cpp                             \
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.cpp                               \
+    Controllers/PNYGPUController/PNYGPUController.cpp                                           \
+    Controllers/PNYGPUController/PNYGPUControllerDetect.cpp                                     \
+    Controllers/PNYGPUController/RGBController_PNYGPU.cpp                                       \
     Controllers/QMKOpenRGBController/QMKOpenRGBControllerDetect.cpp                             \
     Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.cpp                               \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevBController.cpp                               \

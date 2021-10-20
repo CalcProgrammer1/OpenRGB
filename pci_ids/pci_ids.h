@@ -236,6 +236,11 @@
 #define MSI_RTX3090_SUPRIM_X_SUB_DEV                    0x3882
 
 /*-----------------------------------------------------*\
+| PNY Sub-Device IDs                                    |
+\*-----------------------------------------------------*/
+#define PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV          0x136A
+
+/*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |
 \*-----------------------------------------------------*/
 #define SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV1            0xE366
