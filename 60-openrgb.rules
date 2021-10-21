@@ -35,8 +35,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1044", ATTR{idProduct}=="7a42", TAG+="uacces
 #   ASRock Polychrome USB                                       #
 #   ASRock Deskmini Addressable LED Strip                       #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="26CE", ATTR{idProduct}=="01A2", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="26CE", ATTR{idProduct}=="01A6", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="26ce", ATTR{idProduct}=="01a2", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="26ce", ATTR{idProduct}=="01a6", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  ASUS Aura Core Devices                                       #
@@ -57,30 +57,30 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a5", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1939", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18af", TAG+="uaccess"
 
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193c", TAG+="uaccess"          #ROG Falchion Wired
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193e", TAG+="uaccess"          #ROG Falchion Wireless
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1875", TAG+="uaccess"          #ROG Strix Flare
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cf", TAG+="uaccess"          #ROG Strix Flare Pink
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f8", TAG+="uaccess"          #ROG Strix Scope
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1951", TAG+="uaccess"          #ROG Strix Scope RX
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="190c", TAG+="uaccess"          #ROG Strix Scope TKL
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess"          #TUF K7 Gaming
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193c", TAG+="uaccess", TAG+="ROG_Falchion_Wired"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193e", TAG+="uaccess", TAG+="ROG_Falchion_Wireless"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1875", TAG+="uaccess", TAG+="ROG_Strix_Flare"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cf", TAG+="uaccess", TAG+="ROG_Strix_Flare_Pink"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f8", TAG+="uaccess", TAG+="ROG_Strix_Scope"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1951", TAG+="uaccess", TAG+="ROG_Strix_Scope_RX"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="190c", TAG+="uaccess", TAG+="ROG_Strix_Scope_TKL"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess", TAG+="TUF_K7_Gaming"
 
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18dd", TAG+="uaccess"          #ROG Gladius II Core
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1845", TAG+="uaccess"          #ROG Gladius II
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1877", TAG+="uaccess"          #ROG Gladius II Origin
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cd", TAG+="uaccess"          #ROG Gladius II Origin Pink
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18b1", TAG+="uaccess"          #ROG Gladius II Origin COD
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="189e", TAG+="uaccess"          #ROG Gladius II Wireless1
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess"          #ROG Gladius II Wireless2
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e5", TAG+="uaccess"          #ROG Chakram Wireless
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e3", TAG+="uaccess"          #ROG Chakram Wired1
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1958", TAG+="uaccess"          #ROG Chakram Wired2
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1846", TAG+="uaccess"          #ROG Pugio
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1906", TAG+="uaccess"          #ROG Pugio II Wired
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1908", TAG+="uaccess"          #ROG Pugio II Wireless
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e1", TAG+="uaccess"          #ROG Strix Impact II
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1910", TAG+="uaccess"          #TUF M3 & M7
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18dd", TAG+="uaccess", TAG+="ROG_Gladius_II_Core"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1845", TAG+="uaccess", TAG+="ROG_Gladius_II"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1877", TAG+="uaccess", TAG+="ROG_Gladius_II_Origin"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cd", TAG+="uaccess", TAG+="ROG_Gladius_II_Origin_Pink"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18b1", TAG+="uaccess", TAG+="ROG_Gladius_II_Origin_COD"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="189e", TAG+="uaccess", TAG+="ROG_Gladius_II_Wireless1"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess", TAG+="ROG_Gladius_II_Wireless2"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e5", TAG+="uaccess", TAG+="ROG_Chakram_Wireless"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e3", TAG+="uaccess", TAG+="ROG_Chakram_Wired1"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1958", TAG+="uaccess", TAG+="ROG_Chakram_Wired2"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1846", TAG+="uaccess", TAG+="ROG_Pugio"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1906", TAG+="uaccess", TAG+="ROG_Pugio_II_Wired"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1908", TAG+="uaccess", TAG+="ROG_Pugio_II_Wireless"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e1", TAG+="uaccess", TAG+="ROG_Strix_Impact_II"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1910", TAG+="uaccess", TAG+="TUF_M3_&_M7"
 
 #---------------------------------------------------------------#
 #  ASUS TUF Laptops (faustus)                                   #
@@ -114,20 +114,20 @@ ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /s
 #       Masterkeys SK630                                        #
 #       Masterkeys SK650                                        #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0101", TAG+="uaccess"          #MM711
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0141", TAG+="uaccess"          #MM720
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uaccess"          #MP750 XL
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0105", TAG+="uaccess"          #MP750 M
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1011", TAG+="uaccess"          #ARGB
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1000", TAG+="uaccess"          #Small ARGB
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="004f", TAG+="uaccess"          #RGB
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="014d", TAG+="uaccess"          #Radeon 6000
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="003b", TAG+="uaccess"          #Masterkeys Pro L
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0047", TAG+="uaccess"          #Masterkeys Pro L White
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="003c", TAG+="uaccess"          #Masterkeys Pro S
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0067", TAG+="uaccess"          #Masterkeys MK750
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0089", TAG+="uaccess"          #Masterkeys SK630
-SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="008d", TAG+="uaccess"          #Masterkeys SK650
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0101", TAG+="uaccess", TAG+="MM711"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0141", TAG+="uaccess", TAG+="MM720"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uaccess", TAG+="MP750_XL"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0105", TAG+="uaccess", TAG+="MP750_M"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1011", TAG+="uaccess", TAG+="ARGB"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1000", TAG+="uaccess", TAG+="Small_ARGB"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="004f", TAG+="uaccess", TAG+="RGB"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="014d", TAG+="uaccess", TAG+="Radeon_6000"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="003b", TAG+="uaccess", TAG+="Masterkeys_Pro_L"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0047", TAG+="uaccess", TAG+="Masterkeys_Pro_L_White"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="003c", TAG+="uaccess", TAG+="Masterkeys_Pro_S"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0067", TAG+="uaccess", TAG+="Masterkeys_MK750"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0089", TAG+="uaccess", TAG+="Masterkeys_SK630"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="008d", TAG+="uaccess", TAG+="Masterkeys_SK650"
 
 
 #---------------------------------------------------------------#
@@ -391,9 +391,9 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c331", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c337", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c232", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33f", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c335", TAG+="uaccess"          #G910
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c541", TAG+="uaccess"          #G915 Receiver
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33e", TAG+="uaccess"          #G915 Wired
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c335", TAG+="uaccess", TAG+="G910"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c541", TAG+="uaccess", TAG+="G915_Receiver"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33e", TAG+="uaccess", TAG+="G915_Wired"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c084", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c092", TAG+="uaccess"
@@ -405,10 +405,10 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c332", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08b", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08d", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="407f", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c087", TAG+="uaccess"          #G703 PID
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4070", TAG+="uaccess"          #G703 Virtual PID
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c090", TAG+="uaccess"          #G703 Hero PID
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4086", TAG+="uaccess"          #G703 Hero Virtual PID
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c087", TAG+="uaccess", TAG+="G703"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4070", TAG+="uaccess", TAG+="G703_Virtual"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c090", TAG+="uaccess", TAG+="G703_Hero"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4086", TAG+="uaccess", TAG+="G703_Hero_Virtual"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c081", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4053", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c086", TAG+="uaccess"
@@ -419,16 +419,16 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c08c", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c088", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="4079", TAG+="uaccess"
 
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c53a", TAG+="uaccess"          #Powerplay Mat Reciever
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="405F", TAG+="uaccess"          #Powerplay Mat Virtual PID
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c53a", TAG+="uaccess", TAG+="Powerplay_Mat_Reciever"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="405f", TAG+="uaccess", TAG+="Powerplay_Mat_Virtual"
 
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0a78", TAG+="uaccess"          #G560
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0a78", TAG+="uaccess", TAG+="G560"
 
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0a5b", TAG+="uaccess"          #G933
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0ab5", TAG+="uaccess"          #G733
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0a5b", TAG+="uaccess", TAG+="G933"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="0ab5", TAG+="uaccess", TAG+="G733"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0738", ATTR{idProduct}=="2221", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0738", ATTR{idProduct}=="A221", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0738", ATTR{idProduct}=="a221", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Metadot Das Keyboard 4Q + 5Q                                 #
@@ -439,62 +439,62 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="24f0", ATTR{idProduct}=="2020", TAG+="uacces
 #---------------------------------------------------------------#
 #  MSI Mysticlight                                              #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="3EA4", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="3ea4", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="4459", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B10", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B12", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B17", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B85", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B93", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B94", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7B96", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C34", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C35", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C36", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C37", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C42", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C56", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C59", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C60", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C67", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C70", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C71", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C73", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C75", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C76", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C77", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C79", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C80", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C81", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C82", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C83", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C84", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C85", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C86", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C87", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C88", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C89", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C90", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C91", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C92", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C94", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C95", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C96", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C98", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7C99", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7D06", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7D09", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="905D", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b10", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b12", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b17", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b85", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b93", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b94", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b96", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c34", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c35", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c36", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c37", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c42", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c56", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c59", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c60", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c67", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c70", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c71", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c73", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c75", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c76", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c77", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c79", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c80", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c81", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c82", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c83", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c84", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c85", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c86", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c87", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c88", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c89", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c90", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c91", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c92", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c94", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c95", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c96", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c98", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7c99", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7d06", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7d09", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="905d", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  MSI/SteelSeries 3-Zone Laptop Keyboard                       #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1770", ATTR{idProduct}=="FF00", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1770", ATTR{idProduct}=="ff00", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  NZXT Hue+                                                    #
 #---------------------------------------------------------------#
-KERNEL=="ttyACM[0-9]*", ATTR{idVendor}=="04D8", ATTR{idProduct}=="00DF", TAG+="uaccess"
+KERNEL=="ttyACM[0-9]*", ATTR{idVendor}=="04d8", ATTR{idProduct}=="00df", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  NZXT Hue 2 Devices                                           #
@@ -512,7 +512,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2005", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2006", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2007", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="2009", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="200D", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e71", ATTR{idProduct}=="200d", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  NZXT Kraken                                                  #
@@ -532,94 +532,93 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0237", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0235", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0211", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0216", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="021A", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="020F", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="021a", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="020f", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0224", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0233", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="023B", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="023b", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0240", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="023A", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="023a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0246", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0245", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="024D", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="024d", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0253", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0255", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="026A", TAG+="uaccess"      # Razer Book 13 (2020)
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="026F", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="026a", TAG+="uaccess", TAG+="Razer_Book_13_(2020)"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="026f", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0210", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0225", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022F", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022f", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0234", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="024C", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="024c", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0205", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0220", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022D", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022d", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0232", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0239", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="024A", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="024a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0252", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0259", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022A", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="023F", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025E", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022a", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="023f", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025e", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0204", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0226", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0227", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0257", TAG+="uaccess"      #Huntsman Mini
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0257", TAG+="uaccess", TAG+="Huntsman_Mini"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0243", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0207", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="021E", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025D", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="021e", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025d", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0208", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022B", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022b", TAG+="uaccess"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0020", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005E", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006A", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006B", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005e", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006a", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006b", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0042", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005B", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005b", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0062", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0064", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0065", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0086", TAG+="uaccess"          #Basilisk Ultimate
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0088", TAG+="uaccess"          #Basilisk Ultimate (Wireless)
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0086", TAG+="uaccess", TAG+="Basilisk_Ultimate"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0088", TAG+="uaccess", TAG+="Basilisk_Ultimate_(Wireless)"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0083", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0083", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0085", TAG+="uaccess"          #Basilisk V2
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0085", TAG+="uaccess", TAG+="Basilisk_V2"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0038", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="004F", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="004f", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0037", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0016", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0054", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0043", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005C", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006E", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005c", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006e", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0071", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="008C", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="008c", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0084", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007C", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007D", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="004C", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="002F", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007c", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007d", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="004c", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="002f", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0060", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0059", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005A", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="005a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0070", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006F", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006f", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0024", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0025", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0044", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0045", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0073", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0072", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006C", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="006c", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0046", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="002E", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="002e", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0040", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0053", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="003F", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="003E", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="003f", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="003e", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0041", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0036", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0050", TAG+="uaccess"
@@ -629,34 +628,34 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0039", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0048", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0032", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0034", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="008A", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="008a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0078", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007A", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007B", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007a", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007b", TAG+="uaccess"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0506", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0501", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F19", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f19", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0504", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0527", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0510", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F03", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f03", TAG+="uaccess"
 
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F08", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F20", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F26", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F1F", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F09", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F07", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F0E", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f08", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f20", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f26", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f1f", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f09", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f07", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f0e", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0215", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0068", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0C00", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0C04", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0C02", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0C01", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0F1D", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007E", TAG+="uaccess"          #Razer Mouse Dock Chroma
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0c00", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0c04", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0c02", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0c01", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f1d", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007e", TAG+="uaccess", TAG+="Razer_Mouse_Dock_Chroma"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0517", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0518", TAG+="uaccess"
 
@@ -769,9 +768,9 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1832", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1834", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1722", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1726", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="172B", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1824", TAG+="uaccess"          #Rival3_Old
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="184c", TAG+="uaccess"          #Rival3
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="172b", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1824", TAG+="uaccess", TAG+="Rival3_Old"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="184c", TAG+="uaccess", TAG+="Rival3"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1229", TAG+="uaccess"
 
@@ -801,23 +800,23 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="3006", TAG+="uacces
 #---------------------------------------------------------------#
 #  Thermaltake Riing Controllers                                #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1FA[5-9]", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1FA[A-F]", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1FB[0-5]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1fa[5-9]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1fa[a-f]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1fb[0-5]", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[0-3]", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  ThingM Controllers                                           #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="27B8", ATTR{idProduct}=="01ED", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="27b8", ATTR{idProduct}=="01ed", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Wooting Devices                                              #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff01", TAG+="uaccess"          #WootingOne
-SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff02", TAG+="uaccess"          #WootingTwo
-SUBSYSTEMS=="usb", ATTR{idVendor}=="31e3", ATTR{idProduct}=="1210", TAG+="uaccess"          #WootingTwo LE
-SUBSYSTEMS=="usb", ATTR{idVendor}=="31e3", ATTR{idProduct}=="1220", TAG+="uaccess"          #WootingTwo HE
+SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff01", TAG+="uaccess", TAG+="WootingOne"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff02", TAG+="uaccess", TAG+="WootingTwo"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="31e3", ATTR{idProduct}=="1210", TAG+="uaccess", TAG+="WootingTwo_LE"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="31e3", ATTR{idProduct}=="1220", TAG+="uaccess", TAG+="WootingTwo_HE"
 
 #---------------------------------------------------------------#
 #  Zalman ZSync Devices                                         #
