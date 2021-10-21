@@ -104,8 +104,9 @@
 #define ASUS_GTX1080_STRIX                              0x8592
 #define ASUS_ROG_STRIX_GTX1080_A8G_GAMING               0x85AA
 #define ASUS_ROG_STRIX_GTX1080_O8G_GAMING               0x85F9
+#define ASUS_ROG_STRIX_GTX1080TI_O11G_GAMING            0x85EA
+#define ASUS_ROG_STRIX_GTX1080TI_GAMING                 0x85EB
 #define ASUS_ROG_STRIX_GTX1080TI_11G_GAMING             0x85F1
-#define ASUS_ROG_STRIX_GTX1080TI_GAMING                 0x85EA
 #define ASUS_ROG_STRIX_GTX1650S_OC                      0x874F
 #define ASUS_ROG_STRIX_GTX1660S_O6G_GAMING              0x8752
 #define ASUS_ROG_GTX1660TI_OC                           0x86A5
