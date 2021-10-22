@@ -108,7 +108,7 @@ bool TestForCrucialController(i2c_smbus_interface* bus, unsigned char address)
             char buf[16];
             for(int i = 0; i < 16; i++)
             {
-                buf[i] = CrucialRegisterRead(bus, address, CRUCIAL_REG_MICRON_CHECK + i);
+                buf[i] = CrucialRegisterRead(bus, address, CRUCIAL_REG_MICRON_CHECK_1 + i);
             }
 
             if(strcmp(buf, "Micron") == 0)
@@ -117,8 +117,20 @@ bool TestForCrucialController(i2c_smbus_interface* bus, unsigned char address)
             }
             else
             {
-                LOG_DEBUG("[%s] Device %02X is not a Micron device, skipping", CRUCIAL_CONTROLLER_NAME, address);
-                pass = false;
+                for(int i = 0; i < 16; i++)
+                {
+                    buf[i] = CrucialRegisterRead(bus, address, CRUCIAL_REG_MICRON_CHECK_2 + i);
+                }
+                
+                if(strcmp(buf, "Micron") == 0)
+                {
+                    LOG_DEBUG("[%s] Device %02X is a Micron device, continuing", CRUCIAL_CONTROLLER_NAME, address);
+                }
+                else
+                {
+                    LOG_DEBUG("[%s] Device %02X is not a Micron device, skipping", CRUCIAL_CONTROLLER_NAME, address);
+                    pass = false;
+                }
             }
         }
     }

@@ -19,7 +19,8 @@ typedef unsigned short	crucial_register;
 enum
 {
     CRUCIAL_REG_DEVICE_VERSION      = 0x1000,   /* Version (Date) String 16 bytes   */
-    CRUCIAL_REG_MICRON_CHECK        = 0x1030    /* "Micron" string should be here   */
+    CRUCIAL_REG_MICRON_CHECK_1      = 0x1025,   /* "Micron" string location 1       */
+    CRUCIAL_REG_MICRON_CHECK_2      = 0x1030    /* "Micron" string location 2       */
 };
 
 enum
