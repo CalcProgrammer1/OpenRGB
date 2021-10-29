@@ -28,4 +28,4 @@ void DetectThingMBlink(hid_device_info* info, const std::string&)
     }
 }
 
-REGISTER_HID_DETECTOR_IPU  ("ThingM blink(1) mk2",          DetectThingMBlink,          THINGM_VID,   THINGM_BLINK_PID,    1,     0xFF00,     0x01);
+REGISTER_HID_DETECTOR_PU("ThingM blink(1) mk2",          DetectThingMBlink,          THINGM_VID,   THINGM_BLINK_PID,    0xFF00,     0x01);
