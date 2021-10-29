@@ -37,6 +37,7 @@ public:
 
     std::string GetDeviceLocation();
     std::string GetSerialString();
+    std::string GetVersion();
 
     void UpdateLeds
         (

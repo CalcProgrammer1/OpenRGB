@@ -17,6 +17,7 @@ RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandC
     vendor      = "ASUS";
     type        = DEVICE_TYPE_HEADSET_STAND;
     description = "ASUS Aura Headset Stand Device";
+    version     = aura->GetVersion();
     location    = aura->GetDeviceLocation();
     serial      = aura->GetSerialString();
 
@@ -57,7 +58,7 @@ RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandC
     modes.push_back(Breathing);
 
     mode Strobing;
-    Strobing.name           = "Strobing";
+    Strobing.name           = "Flashing";
     Strobing.value          = AURA_HEADSET_STAND_MODE_STROBING;
     Strobing.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Strobing.brightness_min = AURA_HEADSETSTAND_BRIGHTNESS_MIN;
@@ -83,7 +84,7 @@ RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandC
     modes.push_back(SpectrumCycle);
 
     mode Rainbow;
-    Rainbow.name           = "Rainbow";
+    Rainbow.name           = "Rainbow Wave";
     Rainbow.value          = AURA_HEADSET_STAND_MODE_RAINBOW;
     Rainbow.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Rainbow.speed_min      = AURA_HEADSETSTAND_SPEED_MIN;

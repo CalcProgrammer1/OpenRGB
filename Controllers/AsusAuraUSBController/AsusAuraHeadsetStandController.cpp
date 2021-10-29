@@ -43,6 +43,24 @@ std::string AuraHeadsetStandController::GetSerialString()
     return(return_string);
 }
 
+std::string AuraHeadsetStandController::GetVersion()
+{
+    unsigned char usb_buf[65];
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x12;
+    usb_buf[0x02]   = 0x00;
+
+    hid_write(dev, usb_buf, 65);
+
+    unsigned char usb_buf_out[65];
+    hid_read(dev, usb_buf_out, 65);
+
+    char version[5];
+    snprintf(version, 5, "%04X", (usb_buf_out[6] << 8) | usb_buf_out[7]);
+    return std::string(version);
+}
+
 void AuraHeadsetStandController::UpdateLeds
     (
     std::vector<RGBColor>    colors
