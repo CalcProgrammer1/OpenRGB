@@ -26,6 +26,7 @@ public:
 
     std::string GetDeviceLocation();
     std::string GetSerialString();
+    std::string GetVersion(bool wireless, int protocol);
 
     void SaveMode();
     void SendUpdate
@@ -39,7 +40,7 @@ public:
         bool            random,
         unsigned char   speed,
         unsigned char   brightness
-	);
+	    );
 
     uint16_t                    device_pid;
 

@@ -44,6 +44,49 @@ std::string AuraMouseController::GetSerialString()
     return(return_string);
 }
 
+std::string AuraMouseController::GetVersion(bool wireless, int protocol)
+{
+    unsigned char usb_buf[65];
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x12;
+    hid_write(dev, usb_buf, 65);
+
+    unsigned char usb_buf_out[65];
+    hid_read(dev, usb_buf_out, 65);
+
+    std::string str;
+
+    switch(protocol)
+    {
+        case 0:
+            {
+                unsigned char* offset = usb_buf_out + (wireless ? 13 : 4);
+                str = std::string(offset, offset + 4);
+            }
+            break;
+
+        case 1:
+            {
+                char version[9];
+                int offset = (wireless ? 13 : 4);
+                snprintf(version, 9, "%2X.%02X.%02X", usb_buf_out[offset + 2], usb_buf_out[offset + 1], usb_buf_out[offset]);
+                str = std::string(version);
+            }
+            break;
+
+        case 2:
+            {
+                unsigned char* offset = usb_buf_out + (wireless ? 13 : 4);
+                str = std::string(offset, offset + 4);
+                str = "0." + str.substr(0, 2) + "." + str.substr(2, 2);
+            }
+            break;
+    }
+
+    return str;
+}
+
 void AuraMouseController::SaveMode()
 {
     unsigned char usb_save_buf[ASUS_AURA_MOUSE_PACKET_SIZE] = { 0x00, 0x50, 0x03 };
