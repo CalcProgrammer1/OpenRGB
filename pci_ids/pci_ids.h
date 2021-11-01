@@ -64,7 +64,8 @@
 #define NVIDIA_RTX2080_DEV                              0x1E82
 #define NVIDIA_RTX2080_A_DEV                            0x1E87
 #define NVIDIA_RTX2080S_DEV                             0x1E81
-#define NVIDIA_RTX2080TI_DEV                            0x1E07
+#define NVIDIA_RTX2080TI_DEV                            0x1E04
+#define NVIDIA_RTX2080TI_A_DEV                          0x1E07
 #define NVIDIA_RTX3060_DEV                              0x2503
 #define NVIDIA_RTX3060_LHR_DEV                          0x2504
 #define NVIDIA_RTX3060TI_DEV                            0x2486
@@ -146,6 +147,7 @@
 #define EVGA_RTX2080S_XC_GAMING_SUB_DEV                 0x3182
 #define EVGA_RTX2080S_FTW3_ULTRA_SUB_DEV                0x3287
 #define EVGA_RTX2080S_FTW3_ULTRA_HC_SUB_DEV             0x3289
+#define EVGA_RTX2080TI_BLACK_SUB_DEV                    0x2281
 #define EVGA_RTX2080TI_XC_ULTRA_GAMING_SUB_DEV          0x2383
 #define EVGA_RTX2080TI_XC_HYBRID_GAMING_SUB_DEV         0x2384
 #define EVGA_RTX2080TI_FTW3_ULTRA_SUB_DEV               0x2487
