@@ -11,206 +11,245 @@
 
 RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController *cmargb_ptr)
 {
-    cmargb                  = cmargb_ptr;
-    unsigned char speed     = cmargb->GetLedSpeed();
+    cmargb                          = cmargb_ptr;
+    unsigned char speed             = cmargb->GetLedSpeed();
 
-    name                    = argb_header_data[cmargb->GetZoneIndex()].name;
-    vendor                  = "Cooler Master";
-    type                    = DEVICE_TYPE_LEDSTRIP;
-    description             = cmargb->GetDeviceName();
-    version                 = "2.0 for FW0023";
-    serial                  = cmargb->GetSerial();
-    location                = cmargb->GetLocation();
+    name                            = argb_header_data[cmargb->GetZoneIndex()].name;
+    vendor                          = "Cooler Master";
+    type                            = DEVICE_TYPE_LEDSTRIP;
+    description                     = cmargb->GetDeviceName();
+    version                         = "3.0 for FW0028";
+    serial                          = cmargb->GetSerial();
+    location                        = cmargb->GetLocation();
 
     if(argb_header_data[cmargb->GetZoneIndex()].digital)
     {
         mode Off;
-        Off.name                = "Turn Off";
-        Off.value               = CM_ARGB_MODE_OFF;
-        Off.color_mode          = MODE_COLORS_NONE;
+        Off.name                    = "Turn Off";
+        Off.value                   = CM_ARGB_MODE_OFF;
+        Off.color_mode              = MODE_COLORS_NONE;
         modes.push_back(Off);
 
         mode Reload;
-        Reload.name             = "Reload";
-        Reload.value            = CM_ARGB_MODE_RELOAD;
-        Reload.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-        Reload.colors_min       = 1;
-        Reload.colors_max       = 1;
+        Reload.name                 = "Reload";
+        Reload.value                = CM_ARGB_MODE_RELOAD;
+        Reload.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Reload.colors_min           = 1;
+        Reload.colors_max           = 1;
         Reload.colors.resize(Reload.colors_max);
-        Reload.speed_min        = CM_ARGB_SPEED_SLOWEST;
-        Reload.speed_max        = CM_ARGB_SPEED_FASTEST;
-        Reload.color_mode       = MODE_COLORS_MODE_SPECIFIC;
-        Reload.speed            = speed;
+        Reload.brightness_min       = 0;
+        Reload.brightness_max       = CM_ARGB_BRIGHTNESS_MAX;
+        Reload.brightness           = CM_ARGB_BRIGHTNESS_MAX;
+        Reload.speed_min            = CM_ARGB_SPEED_SLOWEST;
+        Reload.speed_max            = CM_ARGB_SPEED_FASTEST;
+        Reload.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Reload.speed                = speed;
         modes.push_back(Reload);
 
         mode Recoil;
-        Recoil.name             = "Recoil";
-        Recoil.value            = CM_ARGB_MODE_RECOIL;
-        Recoil.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-        Recoil.colors_min       = 1;
-        Recoil.colors_max       = 1;
+        Recoil.name                 = "Recoil";
+        Recoil.value                = CM_ARGB_MODE_RECOIL;
+        Recoil.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Recoil.colors_min           = 1;
+        Recoil.colors_max           = 1;
         Recoil.colors.resize(Recoil.colors_max);
-        Recoil.speed_min        = CM_ARGB_SPEED_SLOWEST;
-        Recoil.speed_max        = CM_ARGB_SPEED_FASTEST;
-        Recoil.color_mode       = MODE_COLORS_MODE_SPECIFIC;
-        Recoil.speed            = speed;
+        Recoil.brightness_min       = 0;
+        Recoil.brightness_max       = CM_ARGB_BRIGHTNESS_MAX;
+        Recoil.brightness           = CM_ARGB_BRIGHTNESS_MAX;
+        Recoil.speed_min            = CM_ARGB_SPEED_SLOWEST;
+        Recoil.speed_max            = CM_ARGB_SPEED_FASTEST;
+        Recoil.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Recoil.speed                = speed;
         modes.push_back(Recoil);
 
         mode Breathing;
-        Breathing.name          = "Breathing";
-        Breathing.value         = CM_ARGB_MODE_BREATHING;
-        Breathing.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-        Breathing.colors_min    = 1;
-        Breathing.colors_max    = 1;
+        Breathing.name              = "Breathing";
+        Breathing.value             = CM_ARGB_MODE_BREATHING;
+        Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Breathing.colors_min        = 1;
+        Breathing.colors_max        = 1;
         Breathing.colors.resize(Breathing.colors_max);
-        Breathing.speed_min     = CM_ARGB_SPEED_SLOWEST;
-        Breathing.speed_max     = CM_ARGB_SPEED_FASTEST;
-        Breathing.color_mode    = MODE_COLORS_MODE_SPECIFIC;
-        Breathing.speed         = speed;
+        Breathing.brightness_min    = 0;
+        Breathing.brightness_max    = CM_ARGB_BRIGHTNESS_MAX;
+        Breathing.brightness        = CM_ARGB_BRIGHTNESS_MAX;
+        Breathing.speed_min         = CM_ARGB_SPEED_SLOWEST;
+        Breathing.speed_max         = CM_ARGB_SPEED_FASTEST;
+        Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+        Breathing.speed             = speed;
         modes.push_back(Breathing);
 
         mode Refill;
-        Refill.name             = "Refill";
-        Refill.value            = CM_ARGB_MODE_REFILL;
-        Refill.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-        Refill.colors_min       = 1;
-        Refill.colors_max       = 1;
+        Refill.name                 = "Refill";
+        Refill.value                = CM_ARGB_MODE_REFILL;
+        Refill.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Refill.colors_min           = 1;
+        Refill.colors_max           = 1;
         Refill.colors.resize(Refill.colors_max);
-        Refill.speed_min        = CM_ARGB_SPEED_SLOWEST;
-        Refill.speed_max        = CM_ARGB_SPEED_FASTEST;
-        Refill.color_mode       = MODE_COLORS_MODE_SPECIFIC;
-        Refill.speed            = speed;
+        Refill.brightness_min       = 0;
+        Refill.brightness_max       = CM_ARGB_BRIGHTNESS_MAX;
+        Refill.brightness           = CM_ARGB_BRIGHTNESS_MAX;
+        Refill.speed_min            = CM_ARGB_SPEED_SLOWEST;
+        Refill.speed_max            = CM_ARGB_SPEED_FASTEST;
+        Refill.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Refill.speed                = speed;
         modes.push_back(Refill);
 
         mode Demo;
-        Demo.name               = "Demo";
-        Demo.value              = CM_ARGB_MODE_DEMO;
-        Demo.flags              = MODE_FLAG_HAS_SPEED;
-        Demo.speed_min          = CM_ARGB_SPEED_SLOWEST;
-        Demo.speed_max          = CM_ARGB_SPEED_FASTEST;
-        Demo.color_mode         = MODE_COLORS_NONE;
-        Demo.speed              = speed;
+        Demo.name                   = "Demo";
+        Demo.value                  = CM_ARGB_MODE_DEMO;
+        Demo.flags                  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+        Demo.brightness_min         = 0;
+        Demo.brightness_max         = CM_ARGB_BRIGHTNESS_MAX;
+        Demo.brightness             = CM_ARGB_BRIGHTNESS_MAX;
+        Demo.speed_min              = CM_ARGB_SPEED_SLOWEST;
+        Demo.speed_max              = CM_ARGB_SPEED_FASTEST;
+        Demo.color_mode             = MODE_COLORS_NONE;
+        Demo.speed                  = speed;
         modes.push_back(Demo);
 
         mode Spectrum;
-        Spectrum.name           = "Spectrum";
-        Spectrum.value          = CM_ARGB_MODE_SPECTRUM;
-        Spectrum.flags          = MODE_FLAG_HAS_SPEED;
-        Spectrum.speed_min      = CM_ARGB_SPEED_SLOWEST;
-        Spectrum.speed_max      = CM_ARGB_SPEED_FASTEST;
-        Spectrum.color_mode     = MODE_COLORS_NONE;
-        Spectrum.speed          = speed;
+        Spectrum.name               = "Spectrum";
+        Spectrum.value              = CM_ARGB_MODE_SPECTRUM;
+        Spectrum.flags              = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+        Spectrum.brightness_min     = 0;
+        Spectrum.brightness_max     = CM_ARGB_BRIGHTNESS_MAX;
+        Spectrum.brightness         = CM_ARGB_BRIGHTNESS_MAX;
+        Spectrum.speed_min          = CM_ARGB_SPEED_SLOWEST;
+        Spectrum.speed_max          = CM_ARGB_SPEED_FASTEST;
+        Spectrum.color_mode         = MODE_COLORS_NONE;
+        Spectrum.speed              = speed;
         modes.push_back(Spectrum);
 
         mode FillFlow;
-        FillFlow.name           = "Fill Flow";
-        FillFlow.value          = CM_ARGB_MODE_FILLFLOW;
-        FillFlow.flags          = MODE_FLAG_HAS_SPEED;
-        FillFlow.speed_min      = CM_ARGB_SPEED_SLOWEST;
-        FillFlow.speed_max      = CM_ARGB_SPEED_FASTEST;
-        FillFlow.color_mode     = MODE_COLORS_NONE;
-        FillFlow.speed          = speed;
+        FillFlow.name               = "Fill Flow";
+        FillFlow.value              = CM_ARGB_MODE_FILLFLOW;
+        FillFlow.flags              = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+        FillFlow.brightness_min     = 0;
+        FillFlow.brightness_max     = CM_ARGB_BRIGHTNESS_MAX;
+        FillFlow.brightness         = CM_ARGB_BRIGHTNESS_MAX;
+        FillFlow.speed_min          = CM_ARGB_SPEED_SLOWEST;
+        FillFlow.speed_max          = CM_ARGB_SPEED_FASTEST;
+        FillFlow.color_mode         = MODE_COLORS_NONE;
+        FillFlow.speed              = speed;
         modes.push_back(FillFlow);
 
         mode Rainbow;
-        Rainbow.name            = "Rainbow";
-        Rainbow.value           = CM_ARGB_MODE_RAINBOW;
-        Rainbow.flags           = MODE_FLAG_HAS_SPEED;
-        Rainbow.speed_min       = CM_ARGB_SPEED_SLOWEST;
-        Rainbow.speed_max       = CM_ARGB_SPEED_FASTEST;
-        Rainbow.color_mode      = MODE_COLORS_NONE;
-        Rainbow.speed           = speed;
+        Rainbow.name                = "Rainbow";
+        Rainbow.value               = CM_ARGB_MODE_RAINBOW;
+        Rainbow.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+        Rainbow.brightness_min      = 0;
+        Rainbow.brightness_max      = CM_ARGB_BRIGHTNESS_MAX;
+        Rainbow.brightness          = CM_ARGB_BRIGHTNESS_MAX;
+        Rainbow.speed_min           = CM_ARGB_SPEED_SLOWEST;
+        Rainbow.speed_max           = CM_ARGB_SPEED_FASTEST;
+        Rainbow.color_mode          = MODE_COLORS_NONE;
+        Rainbow.speed               = speed;
         modes.push_back(Rainbow);
 
         mode Static;
-        Static.name             = "Static";
-        Static.value            = CM_ARGB_MODE_STATIC;
-        Static.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-        Static.colors_min       = 1;
-        Static.colors_max       = 1;
+        Static.name                 = "Static";
+        Static.value                = CM_ARGB_MODE_STATIC;
+        Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Static.colors_min           = 1;
+        Static.colors_max           = 1;
         Static.colors.resize(Static.colors_max);
-        Static.speed_min        = CM_ARGB_SPEED_SLOWEST;
-        Static.speed_max        = CM_ARGB_SPEED_FASTEST;
-        Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
-        Static.speed            = speed;
+        Static.brightness_min       = 0;
+        Static.brightness_max       = CM_ARGB_BRIGHTNESS_MAX;
+        Static.brightness           = CM_ARGB_BRIGHTNESS_MAX;
+        Static.speed_min            = CM_ARGB_SPEED_SLOWEST;
+        Static.speed_max            = CM_ARGB_SPEED_FASTEST;
+        Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Static.speed                = speed;
         modes.push_back(Static);
 
         mode Direct;
-        Direct.name             = "Direct";
-        Direct.value            = CM_ARGB_MODE_DIRECT;
-        Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode       = MODE_COLORS_PER_LED;
+        Direct.name                 = (serial >= CM_ARGB_FW0028) ? "Direct" : "Custom";
+        Direct.value                = CM_ARGB_MODE_DIRECT;
+        Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+        Direct.color_mode           = MODE_COLORS_PER_LED;
         modes.push_back(Direct);
 
         mode PassThru;
-        PassThru.name           = "Pass Thru";
-        PassThru.value          = CM_ARGB_MODE_PASSTHRU;
-        PassThru.flags          = 0;
-        PassThru.color_mode     = MODE_COLORS_NONE;
+        PassThru.name               = "Pass Thru";
+        PassThru.value              = CM_ARGB_MODE_PASSTHRU;
+        PassThru.flags              = 0;
+        PassThru.color_mode         = MODE_COLORS_NONE;
         modes.push_back(PassThru);
     }
     else
     {
         mode Static;
-        Static.name             = "Static";
-        Static.value            = CM_RGB_MODE_STATIC;
-        Static.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-        Static.colors_min       = 1;
-        Static.colors_max       = 1;
+        Static.name                 = "Static";
+        Static.value                = CM_RGB_MODE_STATIC;
+        Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Static.colors_min           = 1;
+        Static.colors_max           = 1;
         Static.colors.resize(Static.colors_max);
-        Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
-        Static.speed            = 0;
+        Static.brightness_min       = 0;
+        Static.brightness_max       = CM_ARGB_BRIGHTNESS_MAX;
+        Static.brightness           = CM_ARGB_BRIGHTNESS_MAX;
+        Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Static.speed                = 0;
         modes.push_back(Static);
 
         mode Breathing;
-        Breathing.name          = "Breathing";
-        Breathing.value         = CM_RGB_MODE_BREATHING;
-        Breathing.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-        Breathing.colors_min    = 1;
-        Breathing.colors_max    = 1;
+        Breathing.name              = "Breathing";
+        Breathing.value             = CM_RGB_MODE_BREATHING;
+        Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Breathing.colors_min        = 1;
+        Breathing.colors_max        = 1;
         Breathing.colors.resize(Breathing.colors_max);
-        Breathing.speed_min     = CM_ARGB_SPEED_SLOWEST;
-        Breathing.speed_max     = CM_ARGB_SPEED_FASTEST;
-        Breathing.color_mode    = MODE_COLORS_MODE_SPECIFIC;
-        Breathing.speed         = CM_ARGB_SPEED_NORMAL;
+        Breathing.brightness_min    = 0;
+        Breathing.brightness_max    = CM_ARGB_BRIGHTNESS_MAX;
+        Breathing.brightness        = CM_ARGB_BRIGHTNESS_MAX;
+        Breathing.speed_min         = CM_ARGB_SPEED_SLOWEST;
+        Breathing.speed_max         = CM_ARGB_SPEED_FASTEST;
+        Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+        Breathing.speed             = CM_ARGB_SPEED_NORMAL;
         modes.push_back(Breathing);
 
         mode Flash;
-        Flash.name              = "Flash";
-        Flash.value             = CM_RGB_MODE_FLASH;
-        Flash.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-        Flash.colors_min        = 1;
-        Flash.colors_max        = 1;
+        Flash.name                  = "Flash";
+        Flash.value                 = CM_RGB_MODE_FLASH;
+        Flash.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Flash.colors_min            = 1;
+        Flash.colors_max            = 1;
         Flash.colors.resize(Flash.colors_max);
-        Flash.speed_min         = CM_ARGB_SPEED_SLOWEST;
-        Flash.speed_max         = CM_ARGB_SPEED_FASTEST;
-        Flash.color_mode        = MODE_COLORS_MODE_SPECIFIC;
-        Flash.speed             = CM_ARGB_SPEED_NORMAL;
+        Flash.brightness_min        = 0;
+        Flash.brightness_max        = CM_ARGB_BRIGHTNESS_MAX;
+        Flash.brightness            = CM_ARGB_BRIGHTNESS_MAX;
+        Flash.speed_min             = CM_ARGB_SPEED_SLOWEST;
+        Flash.speed_max             = CM_ARGB_SPEED_FASTEST;
+        Flash.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+        Flash.speed                 = CM_ARGB_SPEED_NORMAL;
         modes.push_back(Flash);
 
         mode Mirage;
-        Mirage.name             = "Mirage";
-        Mirage.value            = CM_RGB_MODE_MIRAGE;
-        Mirage.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
-        Mirage.colors_min       = 1;
-        Mirage.colors_max       = 1;
+        Mirage.name                 = "Mirage";
+        Mirage.value                = CM_RGB_MODE_MIRAGE;
+        Mirage.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Mirage.colors_min           = 1;
+        Mirage.colors_max           = 1;
         Mirage.colors.resize(Mirage.colors_max);
-        Mirage.speed_min        = CM_ARGB_SPEED_SLOWEST;
-        Mirage.speed_max        = CM_ARGB_SPEED_FASTEST;
-        Mirage.color_mode       = MODE_COLORS_MODE_SPECIFIC;
-        Mirage.speed            = CM_ARGB_SPEED_NORMAL;
+        Mirage.brightness_min       = 0;
+        Mirage.brightness_max       = CM_ARGB_BRIGHTNESS_MAX;
+        Mirage.brightness           = CM_ARGB_BRIGHTNESS_MAX;
+        Mirage.speed_min            = CM_ARGB_SPEED_SLOWEST;
+        Mirage.speed_max            = CM_ARGB_SPEED_FASTEST;
+        Mirage.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Mirage.speed                = CM_ARGB_SPEED_NORMAL;
         modes.push_back(Mirage);
 
         mode PassThru;
-        PassThru.name           = "Pass Thru";
-        PassThru.value          = CM_RGB_MODE_PASSTHRU;
-        PassThru.color_mode     = MODE_COLORS_NONE;
+        PassThru.name               = "Pass Thru";
+        PassThru.value              = CM_RGB_MODE_PASSTHRU;
+        PassThru.color_mode         = MODE_COLORS_NONE;
         modes.push_back(PassThru);
 
         mode Off;
-        Off.name                = "Turn Off";
-        Off.value               = CM_RGB_MODE_OFF;
-        Off.color_mode          = MODE_COLORS_NONE;
+        Off.name                    = "Turn Off";
+        Off.value                   = CM_RGB_MODE_OFF;
+        Off.color_mode              = MODE_COLORS_NONE;
         modes.push_back(Off);
     }
 
@@ -229,8 +268,8 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
     if (modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
     {
         modes[active_mode].colors[0] = ToRGBColor(cmargb->GetLedRed(), cmargb->GetLedGreen(), cmargb->GetLedBlue());
+        modes[active_mode].color_mode = (cmargb->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
     }
-    modes[active_mode].color_mode = (cmargb->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
     if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
     {
         modes[active_mode].speed = cmargb->GetLedSpeed();
@@ -336,9 +375,9 @@ void RGBController_CMARGBController::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CMARGBController::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMARGBController::UpdateZoneLEDs(int zone)
 {
-    //cmargb->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
+    cmargb->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
 }
 
 void RGBController_CMARGBController::UpdateSingleLED(int led)
@@ -363,7 +402,7 @@ void RGBController_CMARGBController::DeviceUpdateMode()
     bool random_colours     = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     RGBColor colour         = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;
 
-    cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed, colour, random_colours );
+    cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colour, random_colours );
 }
 
 int RGBController_CMARGBController::GetLED_Zone(int led_idx)

@@ -10,8 +10,9 @@
 \*-------------------------------------------------------------------*/
 
 #include <string>
+#include <cstring>
 #include <array>
-#include <cmath>            //Needed by round()
+#include <memory>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"  //Needed to set the direct mode
 
@@ -24,6 +25,10 @@
 #define CM_ARGB_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
 #define CM_RGB_OFFSET -2
 #define HID_MAX_STR 255
+
+#define CM_ARGB_BRIGHTNESS_MAX  255
+#define CM_ARGB_FW0023          std::string("A202011171238")
+#define CM_ARGB_FW0028          std::string("A202105291658")
 
 enum
 {
@@ -48,14 +53,14 @@ struct argb_headers
     unsigned int    count;
 };
 
-static argb_headers argb_header_data[6] =
+static argb_headers argb_header_data[] =
 {
     { "RGB Header",         0xFE, false,  1 },
     { "Digital ARGB1",      0x01, true,  12 },
     { "Digital ARGB2",      0x02, true,  12 },
     { "Digital ARGB3",      0x04, true,  12 },
     { "Digital ARGB4",      0x08, true,  12 },
-    { "All Digital ARGB",   0xFF, true,  12 }
+    //{ "All Digital ARGB",   0xFF, true,  12 }
 };
 
 enum
@@ -96,7 +101,7 @@ enum
 class CMARGBController
 {
 public:
-    CMARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx);
+    CMARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx, std::shared_ptr<std::mutex> cm_mutex);
     ~CMARGBController();
 
     std::string GetDeviceName();
@@ -111,27 +116,26 @@ public:
     unsigned char GetLedSpeed();
     bool GetRandomColours();
     void SetLedCount(int zone, int led_count);
-    void SetMode(unsigned char mode, unsigned char speed, RGBColor colour, bool random_colours);
+    void SetMode(uint8_t mode, uint8_t speed, uint8_t brightness, RGBColor colour, bool random_colours);
     void SetLedsDirect(RGBColor * led_colours, unsigned int led_count);
 
 private:
-    std::string             device_name;
-    std::string             serial;
-    std::string             location;
-    hid_device*             dev;
+    std::string                 device_name;
+    std::string                 serial;
+    std::string                 location;
+    hid_device*                 dev;
+    std::shared_ptr<std::mutex> mutex_ptr;
 
-    unsigned char           zone_index;
-    unsigned char           current_mode;
-    unsigned char           current_speed;
+    unsigned char               zone_index;
+    unsigned char               current_mode;
+    unsigned char               current_speed;
 
-    unsigned char           current_red;
-    unsigned char           current_green;
-    unsigned char           current_blue;
-    unsigned char           current_brightness;
-    bool                    bool_random;
+    unsigned char               current_red;
+    unsigned char               current_green;
+    unsigned char               current_blue;
+    unsigned char               current_brightness;
+    bool                        bool_random;
 
-    unsigned int GetLargestColour(unsigned int red, unsigned int green, unsigned int blue);
-    unsigned char GetColourIndex(unsigned char red, unsigned char green, unsigned char blue);
     void GetStatus();
     void SendUpdate();
 };

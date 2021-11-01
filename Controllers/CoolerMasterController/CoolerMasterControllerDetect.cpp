@@ -46,9 +46,15 @@ void DetectCoolerMasterARGB(hid_device_info* info, const std::string&)
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
+        /*-------------------------------------------------*\
+        | Create mutex to prevent the controllers sharing a |
+        |   receiver from interfering with each other       |
+        \*-------------------------------------------------*/
+        std::shared_ptr<std::mutex>       cm_mutex = std::make_shared<std::mutex>();
+
         for(std::size_t i = 0; i < CM_ARGB_HEADER_DATA_SIZE; i++)
         {
-            CMARGBController* controller = new CMARGBController(dev, info->path, i);
+            CMARGBController* controller = new CMARGBController(dev, info->path, i, cm_mutex);
             RGBController_CMARGBController* rgb_controller = new RGBController_CMARGBController(controller);
             // Constructor sets the name
             ResourceManager::get()->RegisterRGBController(rgb_controller);
