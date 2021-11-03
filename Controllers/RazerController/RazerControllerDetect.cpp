@@ -67,7 +67,7 @@ void DetectRazerControllers(hid_device_info* info, const std::string& name)
 
     if(openrazer_enabled)
     {
-        LOG_INFO("[RazerController]: OpenRazer controller currently enabled. Can NOT add the %s", name);
+        LOG_INFO("[RazerController]: OpenRazer controller currently enabled. Ignoring %s", name.c_str());
         return;
     }
 
@@ -194,7 +194,7 @@ void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name
 
     if(openrazer_enabled)
     {
-        LOG_INFO("[RazerController]: OpenRazer controller currently enabled. Can NOT add the %s", name);
+        LOG_INFO("[RazerController]: OpenRazer controller currently enabled. Ignoring %s", name.c_str());
         return;
     }
 
