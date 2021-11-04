@@ -421,6 +421,14 @@ void ProfileManager::UpdateProfileList()
 
                     LOG_INFO("Valid v%i profile found for %s", profile_version, filename.c_str());
                 }
+                else
+                {
+                    LOG_WARNING("Profile %s isn't valid for current version (v%i, expected v%i at most)", filename.c_str(), profile_version, OPENRGB_PROFILE_VERSION);
+                }
+            }
+            else
+            {
+                LOG_WARNING("Profile %s isn't valid: header is missing", filename.c_str());
             }
 
             profile_file.close();
