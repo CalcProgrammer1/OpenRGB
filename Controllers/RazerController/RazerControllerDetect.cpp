@@ -224,7 +224,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 TKL",                         Det
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_PID,                  0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma Tournament Edition",    DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_TE_PID,               0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma",                             DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_CHROMA_PID,                        0x02,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma V2",                          DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_V2_PID,                            0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma V2",                          DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_V2_PID,                            0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Lite",                               DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_LITE_PID,                          0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathstalker Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_DEATHSTALKER_CHROMA_PID,                  0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman",                                  DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_PID,                             0x00,   0x01,   0x02);

@@ -565,7 +565,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0252", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0259", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="022a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="023f", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025e", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025e", TAG+="uaccess", TAG+="Cynosa_Chroma_V2"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0204", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0226", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0227", TAG+="uaccess"
