@@ -175,6 +175,7 @@
 #define RAZER_MOUSE_DOCK_CHROMA_PID                     0x007E
 #define RAZER_NOMMO_CHROMA_PID                          0x0517
 #define RAZER_NOMMO_PRO_PID                             0x0518
+#define RAZER_O11_DYNAMIC_PID                           0x0F13
 
 typedef struct
 {
@@ -6780,6 +6781,42 @@ static const razer_device charging_pad_chroma_device =
     0
 };
 
+/*-------------------------------------------------------------*\
+|  O11 Dynamic - Razer Edition 1532:0F13                        |
+|                                                               |
+|  Zone "Case LEDs"                                             |
+|       Matrix                                                  |
+|       64 LEDs                                                 |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone o11_dynamic_case_zone =
+{
+    "Case LEDs",
+    ZONE_TYPE_LINEAR,
+    4,
+    16
+};
+
+static const razer_device o11_dynamic_device =
+{
+    "Lian Li O11 Dynamic - Razer Edition",
+    RAZER_O11_DYNAMIC_PID,
+    DEVICE_TYPE_LEDSTRIP,
+    true,
+    4,
+    16,
+    {
+        &o11_dynamic_case_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -6924,4 +6961,5 @@ static const razer_device* device_list[] =
     &mouse_dock_chroma_device,
     &nommo_chroma_device,
     &nommo_pro_device,
+    &o11_dynamic_device,
 };

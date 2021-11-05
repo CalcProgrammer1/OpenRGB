@@ -663,6 +663,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f1d", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007e", TAG+="uaccess", TAG+="Razer_Mouse_Dock_Chroma"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0517", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0518", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f13", TAG+="uaccess", TAG+="O11_Dynamic_Razer_Ed"
 
 #---------------------------------------------------------------#
 #  Roccat Devices                                               #

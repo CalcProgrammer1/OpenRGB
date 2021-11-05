@@ -59,6 +59,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_KRAKEN_KITTY_EDITION_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        case RAZER_O11_DYNAMIC_PID:
             dev_transaction_id = 0x1F;
             break;
 
@@ -108,6 +109,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_O11_DYNAMIC_PID:
             dev_led_id = RAZER_LED_ID_ZERO;
             break;
 
@@ -233,6 +235,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_NAGA_TRINITY_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
+        case RAZER_O11_DYNAMIC_PID:
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_TARTARUS_V2_PID:
@@ -508,6 +511,7 @@ bool RazerController::SupportsWave()
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
+        case RAZER_O11_DYNAMIC_PID:
 
             supports_wave = true;
             break;
