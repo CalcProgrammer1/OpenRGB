@@ -311,9 +311,9 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                         load_controller->colors[color_index] = temp_controller->colors[color_index];
                     }
                 }
-
-                return(true);
             }
+
+            return(true);
         }
     }
 
