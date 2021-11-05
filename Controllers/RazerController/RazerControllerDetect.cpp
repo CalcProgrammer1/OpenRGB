@@ -217,9 +217,9 @@ REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Chroma V2",                      Det
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Elite",                          DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_ELITE_PID,                     0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Overwatch",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_OVERWATCH_PID,                 0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3",                             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_PID,                        0x03,   0x0C,   0x01);
-REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Pro (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_PRO_WIRED_PID,              0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Pro (Bluetooth)",             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_PRO_BLUETOOTH_PID,          0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Pro (Wireless)",              DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_PRO_WIRELESS_PID,           0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Pro (Wired)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_PRO_WIRED_PID,              0x02,   0x01,   0x02);
+// REGISTER_HID_DETECTOR_PU ("Razer Blackwidow V3 Pro (Bluetooth)",             DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_PRO_BLUETOOTH_PID,          0x01,   0x00);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 Pro (Wireless)",              DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_PRO_WIRELESS_PID,           0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow V3 TKL",                         DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_V3_TKL_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_PID,                  0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma Tournament Edition",    DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_X_CHROMA_TE_PID,               0x02,   0x01,   0x02);
