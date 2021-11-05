@@ -319,7 +319,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Tartarus V2",                               Det
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Razer Kraken 7.1",                                DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_CLASSIC_PID,                       0x00,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken 7.1",                                DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_CLASSIC_ALT_PID,                   0x00,   0x0C,   0x01);
-REGISTER_HID_DETECTOR_IPU("Razer Kraken 7.1 Chroma",                         DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_PID,                               0x00,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Kraken 7.1 Chroma",                         DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_PID,                               0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken 7.1 V2",                             DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_V2_PID,                            0x00,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty Edition",                      DetectRazerControllers,        RAZER_VID,  RAZER_KRAKEN_KITTY_EDITION_PID,                 0x00,   0x01,   0x03);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Ultimate",                           DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_ULTIMATE_PID,                      0x00,   0x0C,   0x01);
@@ -341,7 +341,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Base Station Chroma",                       Det
 REGISTER_HID_DETECTOR_IPU("Razer Base Station V2 Chroma",                    DetectRazerControllers,        RAZER_VID,  RAZER_BASE_STATION_V2_CHROMA_PID,               0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Charging Pad Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_CHARGING_PAD_CHROMA_PID,                  0x00,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_I  ("Razer Chroma Addressable RGB Controller",         DetectRazerARGBControllers,    RAZER_VID,  RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID,    0x00                );
-REGISTER_HID_DETECTOR_IPU("Razer Chroma HDK",                                DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_HDK_PID,                           0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Chroma HDK",                                DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_HDK_PID,                           0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Chroma Mug Holder",                         DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_MUG_PID,                           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Chroma PC Case Lighting Kit",               DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID,          0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Core",                                      DetectRazerControllers,        RAZER_VID,  RAZER_CORE_PID,                                 0x00,   0x01,   0x02);
