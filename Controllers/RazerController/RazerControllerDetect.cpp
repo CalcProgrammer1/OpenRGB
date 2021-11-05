@@ -257,6 +257,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Blade Pro (2017)",                          Det
 REGISTER_HID_DETECTOR_IPU("Razer Blade Pro (2017 FullHD)",                   DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_PRO_2017_FULLHD_PID,                0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Pro (2019)",                          DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_PRO_2019_PID,                       0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Pro (Late 2019)",                     DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_PRO_LATE_2019_PID,                  0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blade Pro 17 (2020)",                       DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_PRO_17_2020_PID,                    0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blade Pro 17 (2021)",                       DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_PRO_17_2021_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Stealth (2016)",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_STEALTH_2016_PID,                   0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Stealth (Late 2016)",                 DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_STEALTH_LATE_2016_PID,              0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blade Stealth (2017)",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLADE_STEALTH_2017_PID,                   0x00,   0x01,   0x02);

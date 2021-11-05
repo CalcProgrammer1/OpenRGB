@@ -165,6 +165,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
         case RAZER_BLADE_PRO_2019_PID:
         case RAZER_BLADE_PRO_LATE_2019_PID:
+        case RAZER_BLADE_PRO_17_2020_PID:
+        case RAZER_BLADE_PRO_17_2021_PID:
         case RAZER_BLADE_STEALTH_2016_PID:
         case RAZER_BLADE_STEALTH_LATE_2016_PID:
         case RAZER_BLADE_STEALTH_2017_PID:
@@ -455,6 +457,8 @@ bool RazerController::SupportsWave()
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
         case RAZER_BLADE_PRO_2019_PID:
         case RAZER_BLADE_PRO_LATE_2019_PID:
+        case RAZER_BLADE_PRO_17_2020_PID:
+        case RAZER_BLADE_PRO_17_2021_PID:
         case RAZER_BLADE_STEALTH_2016_PID:
         case RAZER_BLADE_STEALTH_LATE_2016_PID:
         case RAZER_BLADE_STEALTH_2017_PID:

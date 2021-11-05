@@ -50,6 +50,8 @@
 #define RAZER_BLADE_PRO_2017_FULLHD_PID                 0x022F
 #define RAZER_BLADE_PRO_2019_PID                        0x0234
 #define RAZER_BLADE_PRO_LATE_2019_PID                   0x024C
+#define RAZER_BLADE_PRO_17_2020_PID                     0x0256
+#define RAZER_BLADE_PRO_17_2021_PID                     0x0279
 
 #define RAZER_BLADE_STEALTH_2016_PID                    0x0205
 #define RAZER_BLADE_STEALTH_LATE_2016_PID               0x0220
@@ -3513,6 +3515,76 @@ static const razer_device blade_pro_late_2019_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Blade Pro 17 (2020)                                    |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_pro_17_2020_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_pro_17_2020_device =
+{
+    "Razer Blade Pro 17 (2020)",
+    RAZER_BLADE_PRO_17_2020_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_pro_17_2020_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blade Pro 17 (2021)                                    |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_pro_17_2021_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_pro_17_2021_device =
+{
+    "Razer Blade Pro 17 (2021)",
+    RAZER_BLADE_PRO_17_2021_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    16,
+    {
+        &blade_pro_17_2021_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Blade Stealth (2016)                                   |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -6764,6 +6836,8 @@ static const razer_device* device_list[] =
     &blade_pro_2017_fullhd_device,
     &blade_pro_2019_device,
     &blade_pro_late_2019_device,
+    &blade_pro_17_2020_device,
+    &blade_pro_17_2021_device,
     &blade_stealth_2019_device,
     &blade_stealth_2016_device,
     &blade_stealth_late_2016_device,
