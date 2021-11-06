@@ -34,6 +34,18 @@ LogManager* LogManager::get()
     return _instance;
 }
 
+unsigned int LogManager::getLoglevel()
+{
+    if(log_console_enabled)
+    {
+        return(LL_TRACE);
+    }
+    else
+    {
+        return(loglevel);
+    }
+}
+
 void LogManager::configure(json config, const std::string &defaultDir)
 {
     std::lock_guard<std::mutex> grd(entry_mutex);

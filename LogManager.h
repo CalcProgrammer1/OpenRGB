@@ -88,7 +88,7 @@ public:
     void setPrintSource(bool);
     void registerErrorCallback(LogErrorCallback callback, void* receiver);
     void unregisterErrorCallback(LogErrorCallback callback, void* receiver);
-    unsigned int getLoglevel() {return loglevel;}
+    unsigned int getLoglevel();
     unsigned int getVerbosity() {return verbosity;}
     void clearMessages();
     std::vector<PLogMessage> messages();
