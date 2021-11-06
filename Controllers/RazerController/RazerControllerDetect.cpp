@@ -211,8 +211,8 @@ void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name
 | Keyboards                                                                                             |
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow 2019",                           DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_2019_PID,                      0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Chroma",                         DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_CHROMA_PID,                    0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Chroma Tournament Edition",      DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_CHROMA_TE_PID,                 0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Chroma",                         DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_CHROMA_PID,                    0x02,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Chroma Tournament Edition",      DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_CHROMA_TE_PID,                 0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Chroma V2",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_CHROMA_V2_PID,                 0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Elite",                          DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_ELITE_PID,                     0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Blackwidow Overwatch",                      DetectRazerControllers,        RAZER_VID,  RAZER_BLACKWIDOW_OVERWATCH_PID,                 0x00,   0x01,   0x02);
@@ -226,12 +226,12 @@ REGISTER_HID_DETECTOR_IPU("Razer Blackwidow X Chroma Tournament Edition",    Det
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma",                             DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_CHROMA_PID,                        0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma V2",                          DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_V2_PID,                            0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Lite",                               DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_LITE_PID,                          0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Deathstalker Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_DEATHSTALKER_CHROMA_PID,                  0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Deathstalker Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_DEATHSTALKER_CHROMA_PID,                  0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman",                                  DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_PID,                             0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Huntsman Elite",                            DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_ELITE_PID,                       0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Huntsman Elite",                            DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_ELITE_PID,                       0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman Mini",                             DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_MINI_PID,                        0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman Tournament Edition",               DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_TE_PID,                          0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Ornata Chroma",                             DetectRazerControllers,        RAZER_VID,  RAZER_ORNATA_CHROMA_PID,                        0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Ornata Chroma",                             DetectRazerControllers,        RAZER_VID,  RAZER_ORNATA_CHROMA_PID,                        0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Ornata Chroma V2",                          DetectRazerControllers,        RAZER_VID,  RAZER_ORNATA_CHROMA_V2_PID,                     0x00,   0x01,   0x02);
 
 /*-----------------------------------------------------------------------------------------------------*\
