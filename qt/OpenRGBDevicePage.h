@@ -73,6 +73,8 @@ private:
     void updateWheel();
     void updateDeviceView();
 
+    bool autoUpdateEnabled();
+
 signals:
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void SaveSizeProfile();

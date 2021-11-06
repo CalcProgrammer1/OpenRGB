@@ -108,6 +108,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     ui->RedSpinBox->setValue(ui->ColorWheelBox->color().red());
     ui->GreenSpinBox->setValue(ui->ColorWheelBox->color().green());
     ui->BlueSpinBox->setValue(ui->ColorWheelBox->color().blue());
+    ui->ApplyColorsButton->setDisabled(autoUpdateEnabled());
 }
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
@@ -364,6 +365,11 @@ void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
     | Change device mode                                    |
     \*-----------------------------------------------------*/
     UpdateMode();
+
+    /*-----------------------------------------------------*\
+    | Disable the button if we can safely auto apply colors |
+    \*-----------------------------------------------------*/
+    ui->ApplyColorsButton->setDisabled(autoUpdateEnabled());
 }
 
 void Ui::OpenRGBDevicePage::on_PerLEDCheck_clicked()
@@ -1073,7 +1079,7 @@ void Ui::OpenRGBDevicePage::updateWheel()
 
 void Ui::OpenRGBDevicePage::updateDeviceView()
 {
-    if(false)//ui->AutoFillCheck->isChecked())
+    if(autoUpdateEnabled())
     {
         /*-----------------------------------------------------*\
         | Read selected mode                                    |
@@ -1113,6 +1119,11 @@ void Ui::OpenRGBDevicePage::updateDeviceView()
                 break;
         }
     }
+}
+
+bool Ui::OpenRGBDevicePage::autoUpdateEnabled()
+{
+    return !(device->modes[device->active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE);
 }
 
 void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int /*arg1*/)
