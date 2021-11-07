@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController.h"
+#include "AsusAuraTUFKeyboardLayouts.h"
 
 #include <string>
 #include <vector>
@@ -46,6 +47,9 @@ public:
 
     std::string GetDeviceLocation();
     std::string GetSerialString();
+    std::string GetVersion();
+    int         GetLayout();
+    void        SaveMode();
 
     void UpdateSingleLed
         (
@@ -55,7 +59,7 @@ public:
         unsigned char   blue
         );
 
-	void UpdateLeds
+    void UpdateLeds
         (
         std::vector<RGBColor>    colors
         );
@@ -66,8 +70,11 @@ public:
         std::vector<RGBColor>   colors,
         unsigned char           dir,
         unsigned char           color_mode,
-        unsigned char           speed
+        unsigned char           speed,
+        unsigned char           brightness
         );
+    void AwaitResponse();
+    void ClearResponses();
 
 private:
     hid_device*                 dev;

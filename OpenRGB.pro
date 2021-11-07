@@ -232,6 +232,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraMouseController.h                                 \
     Controllers/AsusAuraUSBController/AsusAuraMouseDevices.h                                    \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.h                           \
+    Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardLayouts.h                              \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.h                      \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraKeyboard.h                          \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.h                             \

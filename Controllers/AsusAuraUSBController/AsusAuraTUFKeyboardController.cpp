@@ -15,7 +15,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <iostream>
+#include <cmath>
 
 AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path)
 {
@@ -36,12 +36,64 @@ std::string AuraTUFKeyboardController::GetDeviceLocation()
 std::string AuraTUFKeyboardController::GetSerialString()
 {
     wchar_t serial_string[128];
-    hid_get_serial_number_string(dev, serial_string, 128);
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
 
     std::wstring return_wstring = serial_string;
     std::string return_string(return_wstring.begin(), return_wstring.end());
 
     return(return_string);
+}
+
+std::string AuraTUFKeyboardController::GetVersion()
+{
+    unsigned char usb_buf[65];
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x12;
+    usb_buf[0x02]   = 0x00;
+
+    hid_write(dev, usb_buf, 65);
+
+    unsigned char usb_buf_out[65];
+    hid_read(dev, usb_buf_out, 65);
+
+    char version[9];
+    snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[5], usb_buf_out[6], usb_buf_out[7]);
+    return std::string(version);
+}
+
+int AuraTUFKeyboardController::GetLayout()
+{
+    unsigned char usb_buf[65];
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x12;
+    usb_buf[0x02]   = 0x12;
+
+    hid_write(dev, usb_buf, 65);
+
+    unsigned char usb_buf_out[65];
+    hid_read(dev, usb_buf_out, 65);
+
+    return(usb_buf_out[4] * 100 + usb_buf_out[5]);
+}
+
+void AuraTUFKeyboardController::SaveMode()
+{
+    unsigned char usb_save_buf[65];
+
+    memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
+
+    usb_save_buf[0x00]   = 0x00;
+    usb_save_buf[0x01]   = 0x50;
+    usb_save_buf[0x02]   = 0x55;
+
+    hid_write(dev, usb_save_buf, 65);
 }
 
 void AuraTUFKeyboardController::UpdateSingleLed
@@ -141,7 +193,8 @@ void AuraTUFKeyboardController::UpdateDevice
     std::vector<RGBColor>   colors,
     unsigned char           dir,
     unsigned char           color_mode,
-    unsigned char           speed
+    unsigned char           speed,
+    unsigned char           brightness
     )
 {
     unsigned char usb_buf[65];
@@ -154,21 +207,21 @@ void AuraTUFKeyboardController::UpdateDevice
     usb_buf[0x03]   = mode;
     usb_buf[0x04]   = 0x00;
     usb_buf[0x05]   = speed;
-    usb_buf[0x06]   = 0x64;
+    usb_buf[0x06]   = brightness;
     usb_buf[0x07]   = color_mode;
     usb_buf[0x08]   = dir;
     usb_buf[0x09]   = 0x02;
 
-	if(mode == 4 || mode == 5)
-	{
-	    /*-----------------------------------------------------*\
+    if(mode == 4 || mode == 5)
+    {
+        /*-----------------------------------------------------*\
         | If mode is Rainbow or Ripple                          |
-	    \*-----------------------------------------------------*/
-	    usb_buf[0x0A]   = colors.size();
+        \*-----------------------------------------------------*/
+        usb_buf[0x0A]   = colors.size();
 
-	    /*-----------------------------------------------------*\
-	    | Loop over every color given                           |
-	    \*-----------------------------------------------------*/
+        /*-----------------------------------------------------*\
+        | Loop over every color given                           |
+        \*-----------------------------------------------------*/
         for(unsigned int i = 0; i / 4 < colors.size(); i += 4)
         {
             if(colors[i / 4])
@@ -179,13 +232,13 @@ void AuraTUFKeyboardController::UpdateDevice
                 usb_buf[14 + i] = RGBGetBValue(colors[i/4]);
             }
         }
-	}
+    }
     else
     {
-	    /*-----------------------------------------------------*\
-	    | Loop over Color1, Color2 and Background if there      |
-	    \*-----------------------------------------------------*/
-	    for(unsigned int i = 0; i / 3 != colors.size(); i += 3)
+        /*-----------------------------------------------------*\
+        | Loop over Color1, Color2 and Background if there      |
+        \*-----------------------------------------------------*/
+        for(unsigned int i = 0; i / 3 != colors.size(); i += 3)
         {
             if(colors[i / 3])
             {
@@ -194,25 +247,28 @@ void AuraTUFKeyboardController::UpdateDevice
                 usb_buf[12 + i] = RGBGetBValue(colors[i/3]);
             }
         }
-			
-	}
+            
+    }
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
+}
 
-    /*-----------------------------------------------------*\
-    | Set up and send packet save Packet                    |
-    \*-----------------------------------------------------*/
-    unsigned char usb_save_buf[65];
+void AuraTUFKeyboardController::AwaitResponse()
+{
+    unsigned char usb_buf_out[65];
+    hid_read(dev, usb_buf_out, 65);
+}
 
-    memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
-
-    usb_save_buf[0x00]   = 0x00;
-    usb_save_buf[0x01]   = 0x50;
-    usb_save_buf[0x02]   = 0x55;
-    
-    hid_write(dev, usb_save_buf, 65);
+void AuraTUFKeyboardController::ClearResponses()
+{
+    int result = 1;
+    unsigned char usb_buf_flush[65];
+    while(result > 0)
+    {
+      result = hid_read_timeout(dev, usb_buf_flush, 65, 0);
+    }
 }
 

@@ -11,6 +11,16 @@
 #include "RGBController.h"
 #include "AsusAuraTUFKeyboardController.h"
 
+enum
+{
+	AURA_KEYBOARD_SPEED_MIN          = 0,
+	AURA_KEYBOARD_SPEED_MAX          = 15,
+	AURA_KEYBOARD_SPEED_DEFAULT      = 8,
+	AURA_KEYBOARD_BRIGHTNESS_MIN     = 0,
+	AURA_KEYBOARD_BRIGHTNESS_MAX     = 4,
+	AURA_KEYBOARD_BRIGHTNESS_DEFAULT = 4
+};
+
 class RGBController_AuraTUFKeyboard : public RGBController
 {
 public:
@@ -27,6 +37,7 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
 private:
     AuraTUFKeyboardController*  aura;
