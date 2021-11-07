@@ -25,7 +25,8 @@ enum
     LL_INFO,        // Initialization messages, significant actions and follow-up information
     LL_VERBOSE,     // Tracing of commands and performed actions, usually for debug purposes, comments on the higher priority messages
     LL_DEBUG,       // Deep tracing, "printf-style debugging" alternative, for debug purposes. Such messages should be put all over the code instead of comments
-    LL_TRACE
+    LL_TRACE,
+    LL_DIALOG       // Log messages to be shown in a GUI dialog box
 };
 
 struct LogMessage
@@ -38,8 +39,7 @@ struct LogMessage
     // int timestamp or float time_offset? TBD
 };
 typedef std::shared_ptr<LogMessage> PLogMessage;
-typedef void(*LogErrorCallback)(void*, PLogMessage);
-typedef std::pair<LogErrorCallback, void*> LogErrorBlock;
+typedef void(*LogDialogShowCallback)(void*, PLogMessage);
 
 class LogManager
 {
@@ -52,7 +52,8 @@ private:
     std::mutex section_mutex;
     std::ofstream log_stream;
 
-    std::vector<LogErrorBlock> error_callbacks;
+    std::vector<LogDialogShowCallback>  dialog_show_callbacks;
+    std::vector<void*>                  dialog_show_callback_args;
 
     // A temporary log message storage to hold them until the stream opens
     std::vector<PLogMessage> temp_messages;
@@ -86,8 +87,8 @@ public:
     void setLoglevel(unsigned int);
     void setVerbosity(unsigned int);
     void setPrintSource(bool);
-    void registerErrorCallback(LogErrorCallback callback, void* receiver);
-    void unregisterErrorCallback(LogErrorCallback callback, void* receiver);
+    void RegisterDialogShowCallback(LogDialogShowCallback callback, void* receiver);
+    void UnregisterDialogShowCallback(LogDialogShowCallback callback, void* receiver);
     unsigned int getLoglevel();
     unsigned int getVerbosity() {return verbosity;}
     void clearMessages();
@@ -98,12 +99,13 @@ public:
 };
 
 #define LogAppend(level, ...)   LogManager::get()->append(__FILE__, __LINE__, level, __VA_ARGS__)
-#define LOG_FATAL(...)          LogAppend(LL_FATAL,  __VA_ARGS__)
+#define LOG_FATAL(...)          LogAppend(LL_FATAL,     __VA_ARGS__)
 #define LOG_ERROR(...)          LogAppend(LL_ERROR,     __VA_ARGS__)
 #define LOG_WARNING(...)        LogAppend(LL_WARNING,   __VA_ARGS__)
-#define LOG_INFO(...)           LogAppend(LL_INFO,    __VA_ARGS__)
+#define LOG_INFO(...)           LogAppend(LL_INFO,      __VA_ARGS__)
 #define LOG_VERBOSE(...)        LogAppend(LL_VERBOSE,   __VA_ARGS__)
 #define LOG_DEBUG(...)          LogAppend(LL_DEBUG,     __VA_ARGS__)
 #define LOG_TRACE(...)          LogAppend(LL_TRACE,     __VA_ARGS__)
+#define LOG_DIALOG(...)         LogAppend(LL_DIALOG,    __VA_ARGS__)
 
 #endif // LOGMANAGER_H

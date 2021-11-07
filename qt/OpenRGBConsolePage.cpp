@@ -37,7 +37,7 @@ void OpenRGBConsolePage::Refresh()
     {
         unsigned int message_level = message.get()->level;
 
-        if(message_level <= current_level)
+        if(message_level <= current_level || message_level == LL_DIALOG)
         {
             log += "[";
             log += LogManager::log_codes[message_level];

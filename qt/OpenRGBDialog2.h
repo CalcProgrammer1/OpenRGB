@@ -19,6 +19,7 @@
 
 #include <vector>
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "ProfileManager.h"
 #include "NetworkClient.h"
@@ -55,6 +56,8 @@ public:
 
     static bool IsDarkTheme();
     static bool IsMinimizeOnClose();
+
+    void SetDialogMessage(PLogMessage msg);
 
 private:
     /*-------------------------------------*\
@@ -115,6 +118,7 @@ private:
     PluginManager* plugin_manager = nullptr;
 
     QAction* actionExit;
+    QString dialog_message;
 
 private slots:
     void on_Exit();
@@ -132,6 +136,7 @@ private slots:
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_SaveSizeProfile();
     void on_ShowHide();
+    void onShowDialogMessage();
     void on_ReShow(QSystemTrayIcon::ActivationReason reason);
     void on_ProfileSelected();
     void on_ButtonLoadProfile_clicked();

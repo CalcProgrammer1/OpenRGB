@@ -18,7 +18,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
-#include <QMessageBox>
 
 #include "OpenRGBDialog2.h"
 
@@ -149,50 +148,6 @@ bool AttemptLocalConnection()
 
 /******************************************************************************************\
 *                                                                                          *
-*   MessageBoxCallback                                                                     *
-*                                                                                          *
-*       Displays a message box when an error occurs.  Only call once GUI is initialized    *
-*                                                                                          *
-\******************************************************************************************/
-
-void MessageBoxCallback(void*, PLogMessage message)
-{
-    /*---------------------------------------------------------*\
-    | Create a message box                                      |
-    \*---------------------------------------------------------*/
-    QMessageBox box;
-
-    /*---------------------------------------------------------*\
-    | Set the box main text to the log message text             |
-    \*---------------------------------------------------------*/
-    box.setText(QString::fromStdString(message->buffer));
-
-    /*---------------------------------------------------------*\
-    | Set the informative text from the message information     |
-    \*---------------------------------------------------------*/
-    QString info = "Occured in ";
-    info += message->filename;
-    info += " on line " + QVariant(message->line).toString();
-    box.setInformativeText(info);
-
-    /*---------------------------------------------------------*\
-    | Set the message box icon according to message level       |
-    \*---------------------------------------------------------*/
-    switch(message->level)
-    {
-        case LL_FATAL: box.setIcon(QMessageBox::Critical); break;
-        case LL_ERROR: box.setIcon(QMessageBox::Warning); break;
-        case LL_WARNING: box.setIcon(QMessageBox::Information); break;
-    }
-
-    /*---------------------------------------------------------*\
-    | Show the message box                                      |
-    \*---------------------------------------------------------*/
-    box.exec();
-}
-
-/******************************************************************************************\
-*                                                                                          *
 *   main                                                                                   *
 *                                                                                          *
 *       Main function.  Detects busses and Aura controllers, then opens the main window    *
@@ -294,11 +249,6 @@ int main(int argc, char* argv[])
     {
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
-
-        /*---------------------------------------------------------*\
-        | Register the message box callback with the log manager    |
-        \*---------------------------------------------------------*/
-        LogManager::get()->registerErrorCallback(&MessageBoxCallback, nullptr);
 
         Ui::OpenRGBDialog2 dlg;
 

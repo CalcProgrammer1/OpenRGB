@@ -1,4 +1,5 @@
 #include "OpenRGBDialog2.h"
+#include "LogManager.h"
 #include "PluginManager.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
@@ -117,6 +118,14 @@ static void DetectionEndedCallback(void * this_ptr)
     OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
 
     QMetaObject::invokeMethod(this_obj, "onDetectionEnded", Qt::QueuedConnection);
+}
+
+static void DialogShowCallback(void * this_ptr, PLogMessage msg)
+{
+    OpenRGBDialog2 * this_obj = (OpenRGBDialog2 *)this_ptr;
+
+    this_obj->SetDialogMessage(msg);
+    QMetaObject::invokeMethod(this_obj, "onShowDialogMessage", Qt::QueuedConnection);
 }
 
 bool OpenRGBDialog2::IsDarkTheme()
@@ -268,6 +277,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     ResourceManager::get()->RegisterDetectionProgressCallback(UpdateDetectionProgressCallback, this);
     ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateDeviceListCallback, this);
     ResourceManager::get()->RegisterDetectionEndCallback(DetectionEndedCallback, this);
+
+    /*-----------------------------------------------------*\
+    | Register dialog show callback with log manager        |
+    \*-----------------------------------------------------*/
+    LogManager::get()->RegisterDialogShowCallback(DialogShowCallback, this);
 
     /*-----------------------------------------------------*\
     | Initialize page pointers                              |
@@ -1265,6 +1279,11 @@ void OpenRGBDialog2::UpdateDevicesList()
     }
 }
 
+void OpenRGBDialog2::SetDialogMessage(PLogMessage msg)
+{
+    dialog_message = QString::fromStdString(msg->buffer);
+}
+
 void OpenRGBDialog2::UpdateProfileList()
 {
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
@@ -1408,6 +1427,17 @@ void OpenRGBDialog2::on_ShowHide()
     {
         hide();
     }
+}
+
+void OpenRGBDialog2::onShowDialogMessage()
+{
+    QMessageBox box;
+
+    box.setInformativeText(dialog_message);
+
+    box.exec();
+
+    dialog_message.clear();
 }
 
 void OpenRGBDialog2::on_ReShow(QSystemTrayIcon::ActivationReason reason)
