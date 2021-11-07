@@ -1108,17 +1108,20 @@ void ResourceManager::DetectDevicesThreadFunction()
     | If any i2c interfaces failed to detect due to an  |
     | error condition, show a dialog                    |
     \*-------------------------------------------------*/
-    LOG_DIALOG("One or more I2C/SMBus interfaces failed to initialize.\r"
+    if(i2c_interface_fail)
+    {
+        LOG_DIALOG("One or more I2C/SMBus interfaces failed to initialize.\r"
 #ifdef _WIN32
-               "On Windows, this is usually caused by a failure to load the inpout32 driver.\r"
-               "You must run OpenRGB as administrator at least once to allow inpout32 to set up.\r"
+                   "On Windows, this is usually caused by a failure to load the inpout32 driver.\r"
+                   "You must run OpenRGB as administrator at least once to allow inpout32 to set up.\r"
 #endif
 #ifdef __linux__
-               "On Linux, this is usually because the i2c-dev module is not loaded.\r"
-               "You must load the i2c-dev module along with the correct i2c driver for your motherboard.\r"
-               "This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.\r"
+                   "On Linux, this is usually because the i2c-dev module is not loaded.\r"
+                   "You must load the i2c-dev module along with the correct i2c driver for your motherboard.\r"
+                   "This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.\r"
 #endif
-               "See https://help.openrgb.org for additional troubleshooting.");
+                   "See https://help.openrgb.org for additional troubleshooting.");
+    }
 }
 
 void ResourceManager::StopDeviceDetection()

@@ -42,6 +42,7 @@ bool i2c_smbus_linux_detect()
     char                    driver_path[512];
     struct dirent *         ent;
     int                     test_fd;
+    int                     ret = true;
     char path[1024];
     char buff[100];
     unsigned short pci_device, pci_vendor, pci_subsystem_device, pci_subsystem_vendor;
@@ -58,6 +59,12 @@ bool i2c_smbus_linux_detect()
 
     // Loop through all entries in i2c-adapter list
     ent = readdir(dir);
+
+    if(ent == NULL)
+    {
+        return(false);
+    }
+
     while(ent != NULL)
     {
         if(ent->d_type == DT_DIR || ent->d_type == DT_LNK)
@@ -142,7 +149,7 @@ bool i2c_smbus_linux_detect()
                     if (test_fd < 0)
                     {
                         ent = readdir(dir);
-                        continue;
+                        ret = false;
                     }
 
                     bus = new i2c_smbus_linux();
@@ -155,13 +162,17 @@ bool i2c_smbus_linux_detect()
                     bus->port_id              = port_id;
                     ResourceManager::get()->RegisterI2CBus(bus);
                 }
+                else
+                {
+                    ret = false;
+                }
             }
         }
         ent = readdir(dir);
     }
     closedir(dir);
 
-    return(true);
+    return(ret);
 }
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_linux_detect);
