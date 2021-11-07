@@ -114,7 +114,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
 
 #include "Detector.h"
 
-void i2c_smbus_nvapi_detect()
+bool i2c_smbus_nvapi_detect()
 {
     static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
     static NV_S32                   gpu_count = 0;
@@ -148,6 +148,8 @@ void i2c_smbus_nvapi_detect()
 
         ResourceManager::get()->RegisterI2CBus(nvapi_bus);
     }
+
+    return(true);
 }   /* DetectNvAPII2CBusses() */
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_nvapi_detect);

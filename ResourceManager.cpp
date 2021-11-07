@@ -757,9 +757,15 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("|             Detecting I2C interfaces               |");
     LOG_INFO("------------------------------------------------------");
     
+    bool i2c_interface_fail = false;
+
     for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
     {
-        i2c_bus_detectors[i2c_bus_detector_idx]();
+        if(i2c_bus_detectors[i2c_bus_detector_idx]() == false)
+        {
+            i2c_interface_fail = true;
+        }
+
         I2CBusListChanged();
     }
 
@@ -1097,6 +1103,22 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|                Detection completed                 |");
     LOG_INFO("------------------------------------------------------");
+
+    /*-------------------------------------------------*\
+    | If any i2c interfaces failed to detect due to an  |
+    | error condition, show a dialog                    |
+    \*-------------------------------------------------*/
+    LOG_DIALOG("One or more I2C/SMBus interfaces failed to initialize.\r"
+#ifdef _WIN32
+               "On Windows, this is usually caused by a failure to load the inpout32 driver.\r"
+               "You must run OpenRGB as administrator at least once to allow inpout32 to set up.\r"
+#endif
+#ifdef __linux__
+               "On Linux, this is usually because the i2c-dev module is not loaded.\r"
+               "You must load the i2c-dev module along with the correct i2c driver for your motherboard.\r"
+               "This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.\r"
+#endif
+               "See https://help.openrgb.org for additional troubleshooting.");
 }
 
 void ResourceManager::StopDeviceDetection()

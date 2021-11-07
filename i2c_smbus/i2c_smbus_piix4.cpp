@@ -181,12 +181,12 @@ s32 i2c_smbus_piix4::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 #include "Detector.h"
 #include "wmi.h"
 
-void i2c_smbus_piix4_detect()
+bool i2c_smbus_piix4_detect()
 {
     if(!IsInpOutDriverOpen())
     {
         LOG_INFO("inpout32 is not loaded, piix4 I2C bus detection aborted");
-        return;
+        return(false);
     }
 
     i2c_smbus_interface * bus;
@@ -201,7 +201,7 @@ void i2c_smbus_piix4_detect()
     if (hres)
     {
         LOG_INFO("WMI query failed, piix4 I2C bus detection aborted");
-        return;
+        return(false);
     }
 
     // For each detected SMBus adapter, try enumerating it as either AMD or Intel
@@ -249,6 +249,8 @@ void i2c_smbus_piix4_detect()
             ResourceManager::get()->RegisterI2CBus(bus);
         }
     }
+
+    return(true);
 }
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_piix4_detect);

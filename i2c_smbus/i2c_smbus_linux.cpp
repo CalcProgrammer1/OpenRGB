@@ -34,7 +34,7 @@ s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 #include <dirent.h>
 #include <string.h>
 
-void i2c_smbus_linux_detect()
+bool i2c_smbus_linux_detect()
 {
     i2c_smbus_linux *       bus;
     char                    device_string[1024];
@@ -53,7 +53,7 @@ void i2c_smbus_linux_detect()
 
     if(dir == NULL)
     {
-        return;
+        return(false);
     }
 
     // Loop through all entries in i2c-adapter list
@@ -160,6 +160,8 @@ void i2c_smbus_linux_detect()
         ent = readdir(dir);
     }
     closedir(dir);
+
+    return(true);
 }
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_linux_detect);

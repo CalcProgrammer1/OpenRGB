@@ -196,7 +196,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
 
 #include "Detector.h"
 
-void i2c_smbus_amdadl_detect()
+bool i2c_smbus_amdadl_detect()
 {
     int adl_status;
     int gpu_count = 0;
@@ -207,6 +207,7 @@ void i2c_smbus_amdadl_detect()
         if (ADL_OK != ADL2_Main_Control_Create(::ADL_Main_Memory_Alloc, 1, &context))
         {
             printf("Cannot get handle!\n");
+            return(false);
         }
         else
         {
@@ -214,6 +215,8 @@ void i2c_smbus_amdadl_detect()
             ResourceManager::get()->RegisterI2CBus(adl_bus);
         }
     }
+
+    return(true);
 }   /* DetectAMDADLI2CBusses() */
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_amdadl_detect);

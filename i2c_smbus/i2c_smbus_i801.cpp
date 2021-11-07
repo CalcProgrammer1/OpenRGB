@@ -487,12 +487,12 @@ s32 i2c_smbus_i801::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int siz
 #include "Detector.h"
 #include "wmi.h"
 
-void i2c_smbus_i801_detect()
+bool i2c_smbus_i801_detect()
 {
     if(!IsInpOutDriverOpen())
     {
         LOG_INFO("inpout32 is not loaded, i801 I2C bus detection aborted");
-        return;
+        return(false);
     }
 
     i2c_smbus_interface * bus;
@@ -507,7 +507,7 @@ void i2c_smbus_i801_detect()
     if (hres)
     {
         LOG_INFO("WMI query failed, i801 I2C bus detection aborted");
-        return;
+        return(false);
     }
 
     // For each detected SMBus adapter, try enumerating it as either AMD or Intel
@@ -564,6 +564,8 @@ void i2c_smbus_i801_detect()
             }
         }
     }
+
+    return(true);
 }
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_i801_detect);

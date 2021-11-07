@@ -192,12 +192,12 @@ s32 i2c_smbus_nct6775::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int 
 #include "Detector.h"
 #include "super_io.h"
 
-void i2c_smbus_nct6775_detect()
+bool i2c_smbus_nct6775_detect()
 {
     if(!IsInpOutDriverOpen())
     {
         LOG_INFO("inpout32 is not loaded, nct6775 I2C bus detection aborted");
-        return;
+        return(false);
     }
 
     i2c_smbus_interface* bus;
@@ -249,6 +249,8 @@ void i2c_smbus_nct6775_detect()
 
         ResourceManager::get()->RegisterI2CBus(bus);
     }
+
+    return(true);
 }
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_nct6775_detect);
