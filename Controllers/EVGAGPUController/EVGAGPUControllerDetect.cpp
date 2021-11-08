@@ -35,6 +35,7 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
+    { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         EVGA_SUB_VEN,   EVGA_GTX1070_FTW_DT_GAMING_SUB_DEV,         EVGA_RGB_V1,    "EVGA GeForce GTX 1070 FTW DT Gaming"                   },
     { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         EVGA_SUB_VEN,   EVGA_GTX1070_FTW_SUB_DEV,                   EVGA_RGB_V1,    "EVGA GeForce GTX 1070 FTW"                             },
     { NVIDIA_VEN,   NVIDIA_GTX1070TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1070TI_FTW2_SUB_DEV,                EVGA_RGB_V1,    "EVGA GeForce GTX 1070 Ti FTW2"                         },
     { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         EVGA_SUB_VEN,   EVGA_GTX1080_FTW_SUB_DEV,                   EVGA_RGB_V1,    "EVGA GeForce GTX 1080 FTW"                             },
