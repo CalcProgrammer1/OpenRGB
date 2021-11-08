@@ -879,7 +879,7 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 
         plugin->widget = NewPluginTab;
 
-        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
+        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab, this);
 
         ui->MainTabBar->addTab(NewPluginContainer,QString().fromStdString(plugin->info.Label));
     }
@@ -892,7 +892,7 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 
         plugin->widget = NewPluginTab;
 
-        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
+        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab, this);
 
         ui->DevicesTabBar->addTab(NewPluginContainer," ");
 
@@ -907,7 +907,7 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 
         plugin->widget = NewPluginTab;
 
-        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
+        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab, this);
 
         ui->InformationTabBar->addTab(NewPluginContainer," ");
 
@@ -922,7 +922,7 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 
         plugin->widget = NewPluginTab;
 
-        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab);
+        OpenRGBPluginContainer* NewPluginContainer = new OpenRGBPluginContainer(NewPluginTab, this);
 
         ui->SettingsTabBar->addTab(NewPluginContainer," ");
 
@@ -943,8 +943,6 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 
     if(NewTrayMenu)
     {
-        NewTrayMenu->setParent(trayIconMenu);
-
         trayIconMenu->insertMenu(actionExit, NewTrayMenu);
     }
 }

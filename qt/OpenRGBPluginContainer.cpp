@@ -8,6 +8,7 @@ Ui::OpenRGBPluginContainer::OpenRGBPluginContainer(QWidget *plugin, QWidget *par
     ui->setupUi(this);
 
     plugin_widget = plugin;
+    plugin_widget->setParent(this);
 
     ui->PluginContainerLayout->layout()->addWidget(plugin_widget);
 
