@@ -1435,6 +1435,9 @@ void OpenRGBDialog2::onShowDialogMessage()
 
     box.exec();
 
+    box.setTextFormat(Qt::RichText);
+    box.setTextInteractionFlags(Qt::TextSelectableByMouse|Qt::TextBrowserInteraction);
+
     dialog_message.clear();
 }
 
