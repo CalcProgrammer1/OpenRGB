@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>225</width>
-    <height>85</height>
+    <width>972</width>
+    <height>385</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,8 +26,12 @@
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="IPEdit"/>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="MusicModeCheckBox">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="IPLabel">
@@ -36,10 +40,13 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="3">
-       <widget class="QCheckBox" name="MusicModeCheckBox">
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="HostIPEdit"/>
+      </item>
+      <item row="5" column="2">
+       <widget class="QToolButton" name="HostIPChooserButton">
         <property name="text">
-         <string/>
+         <string>?</string>
         </property>
        </widget>
       </item>
@@ -50,14 +57,28 @@
         </property>
        </widget>
       </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Override host IP:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLineEdit" name="IPEdit"/>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Left blank for auto discovering host ip</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>IPEdit</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

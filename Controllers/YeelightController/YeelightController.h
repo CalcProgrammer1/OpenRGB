@@ -16,7 +16,7 @@
 class YeelightController
 {
 public:
-    YeelightController(std::string ip, bool music_mode_val);
+    YeelightController(std::string ip, std::string host_ip, bool music_mode_val);
     ~YeelightController();
 
     std::string GetLocation();
@@ -33,6 +33,7 @@ public:
 
 private:
     std::string         location;
+    std::string         host_ip;
     net_port            port;
     bool                music_mode;
     unsigned int        music_mode_port;

@@ -9,13 +9,14 @@
 
 using json = nlohmann::json;
 
-YeelightController::YeelightController(std::string ip, bool music_mode_val)
+YeelightController::YeelightController(std::string ip, std::string host_ip, bool music_mode_val)
 {
     /*-----------------------------------------------------------------*\
     | Fill in location string with device's IP address                  |
     \*-----------------------------------------------------------------*/
     location    = "IP: " + ip;
     music_mode  = music_mode_val;
+    this->host_ip = host_ip;
 
     /*-----------------------------------------------------------------*\
     | Open a TCP client sending to the device's IP, port 38899          |
@@ -120,11 +121,19 @@ void YeelightController::SetMusicMode()
 
     /*-----------------------------------------------------------------*\
     | The Yeelight bulb requires this PC's local IP address for music   |
-    | mode.  Get the first IP address of this computer's hostname       |
+    | mode.  Get the first IP address of this computer's hostname, or   |
+    | use the one defined                                               |
     \*-----------------------------------------------------------------*/
-    gethostname(hostname, 256);
-    host_entry = gethostbyname(hostname);
-    ip_addr = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0]));
+    if(host_ip.empty())
+    {
+        gethostname(hostname, 256);
+        host_entry = gethostbyname(hostname);
+        ip_addr = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0]));
+    }
+    else
+    {
+        ip_addr = &host_ip[0];
+    }
 
     /*-----------------------------------------------------------------*\
     | Fill in the set_rgb command with RGB information.                 |

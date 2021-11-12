@@ -16,6 +16,10 @@ public:
     explicit OpenRGBYeelightSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBYeelightSettingsEntry();
     Ui::OpenRGBYeelightSettingsEntryUi *ui;
+
+private slots:
+    void on_HostIPChooserButton_clicked();
+
 };
 
 #endif // OPENRGBYeelightSETTINGSENTRY_H
