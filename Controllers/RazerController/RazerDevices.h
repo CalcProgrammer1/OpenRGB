@@ -176,6 +176,7 @@
 #define RAZER_NOMMO_CHROMA_PID                          0x0517
 #define RAZER_NOMMO_PRO_PID                             0x0518
 #define RAZER_O11_DYNAMIC_PID                           0x0F13
+#define RAZER_SEIREN_EMOTE_PID                          0x0F1B
 
 typedef struct
 {
@@ -6817,6 +6818,42 @@ static const razer_device o11_dynamic_device =
     0
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Seiren Emote 1532:0F1B                                 |
+|                                                               |
+|  Zone "8-Bit LED Matrix"                                      |
+|       Matrix                                                  |
+|       64 LEDs                                                 |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone seiren_emote_zone =
+{
+    "8-Bit LED Matrix",
+    ZONE_TYPE_MATRIX,
+    8,
+    8
+};
+
+static const razer_device seiren_emote_device =
+{
+    "Razer Seiren Emote",
+    RAZER_SEIREN_EMOTE_PID,
+    DEVICE_TYPE_UNKNOWN,
+    true,
+    4,
+    16,
+    {
+        &seiren_emote_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -6962,4 +6999,5 @@ static const razer_device* device_list[] =
     &nommo_chroma_device,
     &nommo_pro_device,
     &o11_dynamic_device,
+    &seiren_emote_device,
 };
