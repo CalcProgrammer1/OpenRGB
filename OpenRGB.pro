@@ -78,7 +78,6 @@ INCLUDEPATH +=                                                                  
     Controllers/ASRockPolychromeUSBController/                                                  \
     Controllers/AsusAuraCoreController/                                                         \
     Controllers/AsusAuraGPUController/                                                          \
-    Controllers/AsusAuraSMBusController/                                                        \
     Controllers/AsusAuraUSBController/                                                          \
     Controllers/CoolerMasterController/                                                         \
     Controllers/CorsairCommanderCoreController/                                                 \
@@ -97,6 +96,7 @@ INCLUDEPATH +=                                                                  
     Controllers/DuckyKeyboardController/                                                        \
     Controllers/E131Controller/                                                                 \
     Controllers/EKController/                                                                   \
+    Controllers/ENESMBusController/                                                             \
     Controllers/EspurnaController/                                                              \
     Controllers/EVGAGPUController/                                                              \
     Controllers/EVisionKeyboardController/                                                      \
@@ -222,8 +222,6 @@ HEADERS +=                                                                      
     Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.h                             \
     Controllers/AsusAuraGPUController/AsusAuraGPUController.h                                   \
     Controllers/AsusAuraGPUController/RGBController_AsusAuraGPU.h                               \
-    Controllers/AsusAuraSMBusController/AsusAuraSMBusController.h                               \
-    Controllers/AsusAuraSMBusController/RGBController_AsusAuraSMBus.h                           \
     Controllers/AsusAuraUSBController/AsusAuraUSBController.h                                   \
     Controllers/AsusAuraUSBController/AsusAuraAddressableController.h                           \
     Controllers/AsusAuraUSBController/AsusAuraHeadsetStandController.h                          \
@@ -285,6 +283,8 @@ HEADERS +=                                                                      
     Controllers/E131Controller/RGBController_E131.h                                             \
     Controllers/EKController/EKController.h                                                     \
     Controllers/EKController/RGBController_EKController.h                                       \
+    Controllers/ENESMBusController/ENESMBusController.h                                         \
+    Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
     Controllers/EspurnaController/EspurnaController.h                                           \
     Controllers/EspurnaController/RGBController_Espurna.h                                       \
     Controllers/EVGAGPUController/EVGAGPUCommon.h                                               \
@@ -577,9 +577,6 @@ SOURCES +=                                                                      
     Controllers/AsusAuraGPUController/AsusAuraGPUController.cpp                                 \
     Controllers/AsusAuraGPUController/AsusAuraGPUControllerDetect.cpp                           \
     Controllers/AsusAuraGPUController/RGBController_AsusAuraGPU.cpp                             \
-    Controllers/AsusAuraSMBusController/AsusAuraSMBusController.cpp                             \
-    Controllers/AsusAuraSMBusController/AsusAuraSMBusControllerDetect.cpp                       \
-    Controllers/AsusAuraSMBusController/RGBController_AsusAuraSMBus.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraUSBController.cpp                                 \
     Controllers/AsusAuraUSBController/AsusAuraAddressableController.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraHeadsetStandController.cpp                        \
@@ -659,6 +656,9 @@ SOURCES +=                                                                      
     Controllers/EKController/EKControllerDetect.cpp                                             \
     Controllers/EKController/EKController.cpp                                                   \
     Controllers/EKController/RGBController_EKController.cpp                                     \
+    Controllers/ENESMBusController/ENESMBusController.cpp                                       \
+    Controllers/ENESMBusController/ENESMBusControllerDetect.cpp                                 \
+    Controllers/ENESMBusController/RGBController_ENESMBus.cpp                                   \
     Controllers/EspurnaController/EspurnaController.cpp                                         \
     Controllers/EspurnaController/EspurnaControllerDetect.cpp                                   \
     Controllers/EspurnaController/RGBController_Espurna.cpp                                     \

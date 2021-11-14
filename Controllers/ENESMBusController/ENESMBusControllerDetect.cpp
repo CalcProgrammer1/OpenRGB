@@ -1,8 +1,8 @@
 #include "Detector.h"
-#include "AsusAuraSMBusController.h"
+#include "ENESMBusController.h"
 #include "LogManager.h"
 #include "RGBController.h"
-#include "RGBController_AsusAuraSMBus.h"
+#include "RGBController_ENESMBus.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 #include <vector>
@@ -10,17 +10,17 @@
 #include <stdlib.h>
 #include "dependencies/dmiinfo.h"
 
-#define DETECTOR_NAME   "ASUS Aura SMBus Controller"
-#define VENDOR_NAME     "ASUS"       //This should match the Vendor name from DMI
+#define DETECTOR_NAME   "ENE (ASUS Aura) SMBus Controller"
+#define VENDOR_NAME     "ASUS"                                  //This should match the Vendor name from DMI
 
 using namespace std::chrono_literals;
 
 /*----------------------------------------------------------------------*\
-| This list contains the available SMBus addresses for mapping Aura RAM  |
+| This list contains the available SMBus addresses for mapping ENE RAM   |
 \*----------------------------------------------------------------------*/
-#define AURA_RAM_ADDRESS_COUNT  23
+#define ENE_RAM_ADDRESS_COUNT  23
 
-static const unsigned char aura_ram_addresses[] =
+static const unsigned char ene_ram_addresses[] =
 {
     0x70,
     0x71,
@@ -61,57 +61,61 @@ static const unsigned char aura_mobo_addresses[] =
 
 /******************************************************************************************\
 *                                                                                          *
-*   AuraRegisterRead                                                                       *
+*   ENERegisterRead                                                                        *
 *                                                                                          *
-*       A standalone version of the AuraSMBusController::AuraRegisterRead function for     *
-*       access to Aura devices without instancing the AuraSMBusController class or reading *
+*       A standalone version of the ENESMBusController::ENERegisterRead function for       *
+*       access to ENE devices without instancing the ENESMBusController class or reading   *
 *       the config table from the device.                                                  *
 *                                                                                          *
 \******************************************************************************************/
 
-unsigned char AuraRegisterRead(i2c_smbus_interface* bus, aura_dev_id dev, aura_register reg)
+unsigned char ENERegisterRead(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg)
 {
-    //Write Aura register
+    //Write ENE register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
-    //Read Aura value
+    //Read ENE value
     return(bus->i2c_smbus_read_byte_data(dev, 0x81));
 }
 
 /******************************************************************************************\
 *                                                                                          *
-*   AuraRegisterWrite                                                                      *
+*   ENERegisterWrite                                                                       *
 *                                                                                          *
-*       A standalone version of the AuraSMBusController::AuraRegisterWrite function for    *
-*       access to Aura devices without instancing the AuraSMBusController class or reading *
+*       A standalone version of the ENESMBusController::ENERegisterWrite function for      *
+*       access to ENE devices without instancing the ENESMBusController class or reading   *
 *       the config table from the device.                                                  *
 *                                                                                          *
 \******************************************************************************************/
 
-void AsusAuraRegisterWrite(i2c_smbus_interface* bus, aura_dev_id dev, aura_register reg, unsigned char val)
+void ENERegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg, unsigned char val)
 {
-    //Write Aura register
+    //Write ENE register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
-    //Write Aura value
+    //Write ENE value
     bus->i2c_smbus_write_byte_data(dev, 0x01, val);
 }
 
 /******************************************************************************************\
 *                                                                                          *
-*   TestForAuraSMBusController                                                                  *
+*   TestForENESMBusController                                                              *
 *                                                                                          *
-*       Tests the given address to see if an Aura controller exists there.  First does a   *
+*       Tests the given address to see if an ENE controller exists there.  First does a    *
 *       quick write to test for a response, and if so does a simple read at 0xA0 to test   *
 *       for incrementing values 0...F which was observed at this location during data dump *
 *                                                                                          *
+*       Also tests for the string "Micron" in the ENE register space.  Crucial (Micron)    *
+*       DRAM modules use an ENE controller with custom, incompatible firmware and must     *
+*       be excluded from this controller.                                                  *
+*                                                                                          *
 \******************************************************************************************/
 
-bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char address)
+bool TestForENESMBusController(i2c_smbus_interface* bus, unsigned char address)
 {
     bool pass = false;
 
-    LOG_DEBUG("[Aura SMBus] looking for devices at 0x%02X...", address);
+    LOG_DEBUG("[ENE SMBus] looking for devices at 0x%02X...", address);
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
 
@@ -119,7 +123,7 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
     {
         pass = true;
 
-        LOG_DEBUG("[Aura SMBus] Detected an I2C device at address %02X, testing register range", address);
+        LOG_DEBUG("[ENE SMBus] Detected an I2C device at address %02X, testing register range", address);
 
         for (int i = 0xA0; i < 0xB0; i++)
         {
@@ -127,7 +131,7 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 
             if (res != (i - 0xA0))
             {
-                LOG_VERBOSE("[Aura SMBus] Detection failed testing register %02X.  Expected %02X, got %02X.", i, (i - 0xA0), res);
+                LOG_VERBOSE("[ENE SMBus] Detection failed testing register %02X.  Expected %02X, got %02X.", i, (i - 0xA0), res);
 
                 pass = false;
             }
@@ -135,45 +139,42 @@ bool TestForAsusAuraSMBusController(i2c_smbus_interface* bus, unsigned char addr
 
         if(pass)
         {
-            LOG_DEBUG("[Aura SMBus] Checking for Micron string");
+            LOG_DEBUG("[ENE SMBus] Checking for Micron string");
 
             char buf[16];
             for(int i = 0; i < 16; i++)
             {
-                buf[i] = AuraRegisterRead(bus, address, AURA_REG_MICRON_CHECK + i);
+                buf[i] = ENERegisterRead(bus, address, ENE_REG_MICRON_CHECK + i);
             }
 
             if(strcmp(buf, "Micron") == 0)
             {
-                LOG_DEBUG("[Aura SMBus] Device %02X is a Micron device, skipping", address);
+                LOG_DEBUG("[ENE SMBus] Device %02X is a Micron device, skipping", address);
                 pass = false;
             }
             else
             {
-                LOG_VERBOSE("[Aura SMBus] Detection successful, address %02X", address);
+                LOG_VERBOSE("[ENE SMBus] Detection successful, address %02X", address);
             }
         }
     }
 
     return(pass);
 
-}   /* TestForAuraSMBusController() */
+}   /* TestForENESMBusController() */
 
 /******************************************************************************************\
 *                                                                                          *
-*   DetectAuraSMBusControllers                                                             *
+*   DetectENESMBusDRAMControllers                                                          *
 *                                                                                          *
-*       Detect Aura controllers on the enumerated I2C busses.  Searches for Aura-enabled   *
-*       RAM at 0x77 and tries to initialize their slot addresses, then searches for them   *
-*       at their correct initialized addresses.  Also looks for motherboard controller at  *
-*       address 0x4E.                                                                      *
+*           Detects ENE SMBus controllers on DRAM devices                                  *
 *                                                                                          *
-*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
-*           dev - I2C address of Aura device                                               *
+*           bus - pointer to i2c_smbus_interface where device is connected                 *
+*           dev - I2C address of device                                                    *
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
+void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
@@ -181,7 +182,7 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
 
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            LOG_DEBUG("[ASUS Aura SMBus DRAM] Remapping Aura SMBus RAM modules on 0x77");
+            LOG_DEBUG("[ENE SMBus DRAM] Remapping ENE SMBus RAM modules on 0x77");
 
             for (unsigned int slot = 0; slot < 8; slot++)
             {
@@ -189,7 +190,7 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
 
                 if (res < 0)
                 {
-                    LOG_DEBUG("[ASUS Aura SMBus DRAM] No device detected at 0x77, aborting remap");
+                    LOG_DEBUG("[ENE SMBus DRAM] No device detected at 0x77, aborting remap");
 
                     break;
                 }
@@ -198,11 +199,11 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
                 {
                     address_list_idx++;
 
-                    if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
+                    if(address_list_idx < ENE_RAM_ADDRESS_COUNT)
                     {
-                        LOG_DEBUG("[ASUS Aura SMBus DRAM] Testing address %02X to see if there is a device there", aura_ram_addresses[address_list_idx]);
+                        LOG_DEBUG("[ENE SMBus DRAM] Testing address %02X to see if there is a device there", ene_ram_addresses[address_list_idx]);
 
-                        res = busses[bus]->i2c_smbus_write_quick(aura_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
+                        res = busses[bus]->i2c_smbus_write_quick(ene_ram_addresses[address_list_idx], I2C_SMBUS_WRITE);
                     }
                     else
                     {
@@ -210,22 +211,22 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
                     }
                 } while (res >= 0);
 
-                if(address_list_idx < AURA_RAM_ADDRESS_COUNT)
+                if(address_list_idx < ENE_RAM_ADDRESS_COUNT)
                 {
-                    LOG_DEBUG("[ASUS Aura SMBus DRAM] Remapping slot %d to address %02X", slot, aura_ram_addresses[address_list_idx]);
+                    LOG_DEBUG("[ENE SMBus DRAM] Remapping slot %d to address %02X", slot, ene_ram_addresses[address_list_idx]);
 
-                    AsusAuraRegisterWrite(busses[bus], 0x77, AURA_REG_SLOT_INDEX, slot);
-                    AsusAuraRegisterWrite(busses[bus], 0x77, AURA_REG_I2C_ADDRESS, (aura_ram_addresses[address_list_idx] << 1));
+                    ENERegisterWrite(busses[bus], 0x77, ENE_REG_SLOT_INDEX, slot);
+                    ENERegisterWrite(busses[bus], 0x77, ENE_REG_I2C_ADDRESS, (ene_ram_addresses[address_list_idx] << 1));
                 }
             }
 
-            // Add Aura-enabled controllers at their remapped addresses
-            for (unsigned int address_list_idx = 0; address_list_idx < AURA_RAM_ADDRESS_COUNT; address_list_idx++)
+            // Add ENE controllers at their remapped addresses
+            for (unsigned int address_list_idx = 0; address_list_idx < ENE_RAM_ADDRESS_COUNT; address_list_idx++)
             {
-                if (TestForAsusAuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]))
+                if (TestForENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]))
                 {
-                    AuraSMBusController* controller = new AuraSMBusController(busses[bus], aura_ram_addresses[address_list_idx]);
-                    RGBController_AuraSMBus* rgb_controller = new RGBController_AuraSMBus(controller);
+                    ENESMBusController* controller = new ENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]);
+                    RGBController_ENESMBus* rgb_controller = new RGBController_ENESMBus(controller);
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
 
@@ -233,13 +234,24 @@ void DetectAsusAuraSMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busse
             }
         }
     }
-}   /* DetectAuraSMBusDRAMControllers() */
+}   /* DetectENESMBusDRAMControllers() */
 
-void DetectAsusAuraSMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &busses)
+/******************************************************************************************\
+*                                                                                          *
+*   DetectENESMBusMotherboardControllers                                                   *
+*                                                                                          *
+*           Detects ENE (ASUS Aura) SMBus controllers on ASUS motherboard devices          *
+*                                                                                          *
+*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
+*           dev - I2C address of Aura device                                               *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &busses)
 {
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        // Add Aura-enabled motherboard controllers
+        // Add ENE (ASUS Aura) motherboard controllers
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
             if(busses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN || busses[bus]->pci_subsystem_vendor == 0)
@@ -247,11 +259,12 @@ void DetectAsusAuraSMBusMotherboardControllers(std::vector<i2c_smbus_interface*>
                 for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
                 {
                     LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, aura_mobo_addresses[address_list_idx]);
-                    if (TestForAsusAuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
+
+                    if (TestForENESMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
                     {
                         DMIInfo dmi;
-                        AuraSMBusController* controller = new AuraSMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
-                        RGBController_AuraSMBus* rgb_controller = new RGBController_AuraSMBus(controller);
+                        ENESMBusController* controller = new ENESMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
+                        RGBController_ENESMBus* rgb_controller = new RGBController_ENESMBus(controller);
                         rgb_controller->name = "ASUS " + dmi.getMainboard();
                         ResourceManager::get()->RegisterRGBController(rgb_controller);
                     }
@@ -265,7 +278,7 @@ void DetectAsusAuraSMBusMotherboardControllers(std::vector<i2c_smbus_interface*>
             }
         }
     }
-}   /* DetectAuraSMBusMotherboardControllers() */
+}   /* DetectENESMBusMotherboardControllers() */
 
-REGISTER_I2C_DETECTOR("ASUS Aura SMBus DRAM", DetectAsusAuraSMBusDRAMControllers);
-REGISTER_I2C_DETECTOR("ASUS Aura SMBus Motherboard", DetectAsusAuraSMBusMotherboardControllers);
+REGISTER_I2C_DETECTOR("ENE SMBus DRAM",                 DetectENESMBusDRAMControllers);
+REGISTER_I2C_DETECTOR("ASUS Aura SMBus Motherboard",    DetectENESMBusMotherboardControllers);

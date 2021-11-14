@@ -1,8 +1,7 @@
 /*-----------------------------------------*\
-|  RGBController_AsusAuraSMBus.h            |
+|  RGBController_ENESMBus.h                 |
 |                                           |
-|  Generic RGB Interface for OpenAuraSDK    |
-|  Asus Aura SMBus driver                   |
+|  Generic RGB Interface for ENE SMBus      |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 6/13/2019   |
 \*-----------------------------------------*/
@@ -10,13 +9,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "AsusAuraSMBusController.h"
+#include "ENESMBusController.h"
 
-class RGBController_AuraSMBus : public RGBController
+class RGBController_ENESMBus : public RGBController
 {
 public:
-    RGBController_AuraSMBus(AuraSMBusController* aura_ptr);
-    ~RGBController_AuraSMBus();
+    RGBController_ENESMBus(ENESMBusController* controller_ptr);
+    ~RGBController_ENESMBus();
 
     void        SetupZones();
 
@@ -30,7 +29,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AuraSMBusController* aura;
+    ENESMBusController* controller;
 
     int         GetDeviceMode();
 };
