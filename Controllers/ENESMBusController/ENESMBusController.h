@@ -30,6 +30,7 @@ enum
     ENE_REG_DIRECT                      = 0x8020,   /* "Direct Access" Selection Register   */
     ENE_REG_MODE                        = 0x8021,   /* Mode Selection Register              */
     ENE_REG_SPEED                       = 0x8022,   /* Speed Control Register               */
+    ENE_REG_DIRECTION                   = 0x8023,   /* Direction Control Register           */
     ENE_REG_APPLY                       = 0x80A0,   /* Apply Changes Register               */
     ENE_REG_SLOT_INDEX                  = 0x80F8,   /* Slot Index Register (RAM only)       */
     ENE_REG_I2C_ADDRESS                 = 0x80F9,   /* I2C Address Register (RAM only)      */
@@ -63,6 +64,12 @@ enum
     ENE_SPEED_NORMAL                    = 0x02,     /* Normal effect speed                  */
     ENE_SPEED_FAST                      = 0x01,     /* Fast effect speed                    */
     ENE_SPEED_FASTEST                   = 0x00,     /* Fastest effect speed                 */
+};
+
+enum
+{
+    ENE_DIRECTION_FORWARD               = 0x0,      /* Forward effect direction             */
+    ENE_DIRECTION_REVERSE               = 0x1,      /* Reverse effect direction             */
 };
 
 enum
@@ -106,7 +113,7 @@ public:
     void          SetDirect(unsigned char direct);
     void          SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void          SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
-    void          SetMode(unsigned char mode, unsigned char speed);
+    void          SetMode(unsigned char mode, unsigned char speed, unsigned char direction);
 
     void          UpdateDeviceName();
 

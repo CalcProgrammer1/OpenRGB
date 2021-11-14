@@ -88,31 +88,34 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode Rainbow;
     Rainbow.name       = "Rainbow";
     Rainbow.value      = ENE_MODE_RAINBOW;
-    Rainbow.flags      = MODE_FLAG_HAS_SPEED;
+    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
     Rainbow.color_mode = MODE_COLORS_NONE;
     Rainbow.speed_min  = ENE_SPEED_SLOWEST;
     Rainbow.speed_max  = ENE_SPEED_FASTEST;
     Rainbow.speed      = ENE_SPEED_NORMAL;
+    Rainbow.direction  = MODE_DIRECTION_LEFT;
     modes.push_back(Rainbow);
 
     mode ChaseFade;
     ChaseFade.name       = "Chase Fade";
     ChaseFade.value      = ENE_MODE_CHASE_FADE;
-    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
+    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
     ChaseFade.color_mode = MODE_COLORS_PER_LED;
     ChaseFade.speed_min  = ENE_SPEED_SLOWEST;
     ChaseFade.speed_max  = ENE_SPEED_FASTEST;
     ChaseFade.speed      = ENE_SPEED_NORMAL;
+    ChaseFade.direction  = MODE_DIRECTION_LEFT;
     modes.push_back(ChaseFade);
 
     mode Chase;
     Chase.name       = "Chase";
     Chase.value      = ENE_MODE_CHASE;
-    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
+    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
     Chase.color_mode = MODE_COLORS_PER_LED;
     Chase.speed_min  = ENE_SPEED_SLOWEST;
     Chase.speed_max  = ENE_SPEED_FASTEST;
     Chase.speed      = ENE_SPEED_NORMAL;
+    ChaseFade.direction  = MODE_DIRECTION_LEFT;
     modes.push_back(Chase);
 
     mode RandomFlicker;
@@ -376,8 +379,9 @@ void RGBController_ENESMBus::DeviceUpdateMode()
     }
     else
     {
-        int new_mode    = modes[active_mode].value;
-        int new_speed   = 0;
+        int new_mode        = modes[active_mode].value;
+        int new_speed       = 0;
+        int new_direction   = 0;
 
         if(modes[active_mode].color_mode == MODE_COLORS_RANDOM)
         {
@@ -400,7 +404,21 @@ void RGBController_ENESMBus::DeviceUpdateMode()
             new_speed = modes[active_mode].speed;
         }
 
-        controller->SetMode(new_mode, new_speed);
+        if(modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR)
+        {
+            switch(modes[active_mode].direction)
+            {
+                case MODE_DIRECTION_LEFT:
+                    new_direction = ENE_DIRECTION_FORWARD;
+                    break;
+
+                case MODE_DIRECTION_RIGHT:
+                    new_direction = ENE_DIRECTION_REVERSE;
+                    break;
+            }
+        }
+
+        controller->SetMode(new_mode, new_speed, new_direction);
         controller->SetDirect(false);
     }
 }

@@ -253,11 +253,12 @@ void ENESMBusController::SetLEDColorEffect(unsigned int led, unsigned char red, 
     ENERegisterWrite(ENE_REG_APPLY, ENE_APPLY_VAL);
 }
 
-void ENESMBusController::SetMode(unsigned char mode, unsigned char speed)
+void ENESMBusController::SetMode(unsigned char mode, unsigned char speed, unsigned char direction)
 {
-    ENERegisterWrite(ENE_REG_MODE, mode);
-    ENERegisterWrite(ENE_REG_SPEED, speed);
-    ENERegisterWrite(ENE_REG_APPLY, ENE_APPLY_VAL);
+    ENERegisterWrite(ENE_REG_MODE,      mode);
+    ENERegisterWrite(ENE_REG_SPEED,     speed);
+    ENERegisterWrite(ENE_REG_DIRECTION, direction);
+    ENERegisterWrite(ENE_REG_APPLY,     ENE_APPLY_VAL);
 }
 
 void ENESMBusController::UpdateDeviceName()
