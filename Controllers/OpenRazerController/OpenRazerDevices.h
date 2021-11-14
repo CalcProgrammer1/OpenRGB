@@ -1685,7 +1685,7 @@ static const razer_zone cynosa_v2_zone =
 
 static const razer_device cynosa_v2_device =
 {
-    "Razer Cynosa v2",
+    "Razer Cynosa V2",
     DEVICE_TYPE_KEYBOARD,
     true,
     6,
