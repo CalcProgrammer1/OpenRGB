@@ -148,6 +148,8 @@ int RGBController_ENESMBus::GetDeviceMode()
     \*-----------------------------------------------------------------*/
     int dev_mode    = controller->ENERegisterRead(ENE_REG_MODE);
     int color_mode  = MODE_COLORS_PER_LED;
+    int speed       = controller->ENERegisterRead(ENE_REG_SPEED);
+    int direction   = controller->ENERegisterRead(ENE_REG_DIRECTION);
 
     if(controller->ENERegisterRead(ENE_REG_DIRECT))
     {
@@ -183,8 +185,20 @@ int RGBController_ENESMBus::GetDeviceMode()
     {
         if(modes[mode].value == dev_mode)
         {
-            active_mode            = mode;
-            modes[mode].color_mode = color_mode;
+            active_mode                 = mode;
+            modes[mode].color_mode      = color_mode;
+
+            if(modes[mode].flags & MODE_FLAG_HAS_SPEED)
+            {
+                modes[mode].speed       = speed;
+            }
+
+            if(modes[mode].flags & MODE_FLAG_HAS_DIRECTION_LR)
+            {
+                modes[mode].direction   = direction;
+            }
+
+            break;
         }
     }
 
