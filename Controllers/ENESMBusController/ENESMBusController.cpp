@@ -197,6 +197,11 @@ unsigned char ENESMBusController::GetLEDBlue(unsigned int led)
     return(ENERegisterRead(direct_reg + ( 3 * led ) + 1));
 }
 
+void ENESMBusController::SaveMode()
+{
+    ENERegisterWrite(ENE_REG_APPLY, ENE_SAVE_VAL);
+}
+
 void ENESMBusController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char* colors = new unsigned char[led_count * 3];

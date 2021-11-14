@@ -44,21 +44,21 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode Off;
     Off.name       = "Off";
     Off.value      = ENE_MODE_OFF;
-    Off.flags      = 0;
+    Off.flags      = MODE_FLAG_MANUAL_SAVE;
     Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
     Static.name       = "Static";
     Static.value      = ENE_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
     
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = ENE_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
+    Breathing.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     Breathing.speed_min  = ENE_SPEED_SLOWEST;
     Breathing.speed_max  = ENE_SPEED_FASTEST;
@@ -68,7 +68,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode Flashing;
     Flashing.name       = "Flashing";
     Flashing.value      = ENE_MODE_FLASHING;
-    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED;
+    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     Flashing.color_mode = MODE_COLORS_PER_LED;
     Flashing.speed_min  = ENE_SPEED_SLOWEST;
     Flashing.speed_max  = ENE_SPEED_FASTEST;
@@ -78,7 +78,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode SpectrumCycle;
     SpectrumCycle.name       = "Spectrum Cycle";
     SpectrumCycle.value      = ENE_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
+    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     SpectrumCycle.color_mode = MODE_COLORS_NONE;
     SpectrumCycle.speed_min  = ENE_SPEED_SLOWEST;
     SpectrumCycle.speed_max  = ENE_SPEED_FASTEST;
@@ -88,7 +88,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode Rainbow;
     Rainbow.name       = "Rainbow";
     Rainbow.value      = ENE_MODE_RAINBOW;
-    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_MANUAL_SAVE;
     Rainbow.color_mode = MODE_COLORS_NONE;
     Rainbow.speed_min  = ENE_SPEED_SLOWEST;
     Rainbow.speed_max  = ENE_SPEED_FASTEST;
@@ -99,7 +99,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode ChaseFade;
     ChaseFade.name       = "Chase Fade";
     ChaseFade.value      = ENE_MODE_CHASE_FADE;
-    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_MANUAL_SAVE;
     ChaseFade.color_mode = MODE_COLORS_PER_LED;
     ChaseFade.speed_min  = ENE_SPEED_SLOWEST;
     ChaseFade.speed_max  = ENE_SPEED_FASTEST;
@@ -110,7 +110,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode Chase;
     Chase.name       = "Chase";
     Chase.value      = ENE_MODE_CHASE;
-    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_MANUAL_SAVE;
     Chase.color_mode = MODE_COLORS_PER_LED;
     Chase.speed_min  = ENE_SPEED_SLOWEST;
     Chase.speed_max  = ENE_SPEED_FASTEST;
@@ -121,7 +121,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     mode RandomFlicker;
     RandomFlicker.name       = "Random Flicker";
     RandomFlicker.value      = ENE_MODE_RANDOM_FLICKER;
-    RandomFlicker.flags      = MODE_FLAG_HAS_SPEED;
+    RandomFlicker.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     RandomFlicker.color_mode = MODE_COLORS_NONE;
     RandomFlicker.speed_min  = ENE_SPEED_SLOWEST;
     RandomFlicker.speed_max  = ENE_SPEED_FASTEST;
@@ -435,4 +435,10 @@ void RGBController_ENESMBus::DeviceUpdateMode()
         controller->SetMode(new_mode, new_speed, new_direction);
         controller->SetDirect(false);
     }
+}
+
+void RGBController_ENESMBus::DeviceSaveMode()
+{
+    DeviceUpdateMode();
+    controller->SaveMode();
 }

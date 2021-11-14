@@ -18,7 +18,8 @@
 typedef unsigned char	ene_dev_id;
 typedef unsigned short	ene_register;
 
-#define ENE_APPLY_VAL  0x01                         /* Value for Apply Changes Register     */
+#define ENE_APPLY_VAL                   0x01        /* Value for Apply Changes Register     */
+#define ENE_SAVE_VAL                    0xAA        /* Value for Save Changes               */
 
 enum
 {
@@ -108,6 +109,7 @@ public:
     unsigned char GetLEDRed(unsigned int led);
     unsigned char GetLEDGreen(unsigned int led);
     unsigned char GetLEDBlue(unsigned int led);
+    void          SaveMode();
     void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
     void          SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue);
     void          SetDirect(unsigned char direct);
