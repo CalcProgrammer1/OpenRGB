@@ -350,6 +350,6 @@ REGISTER_HID_DETECTOR_IPU("Razer Core",                                      Det
 REGISTER_HID_DETECTOR_IPU("Razer Core X",                                    DetectRazerControllers,        RAZER_VID,  RAZER_CORE_X_PID,                               0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mouse Bungee V3 Chroma",                    DetectRazerControllers,        RAZER_VID,  RAZER_MOUSE_BUNGEE_V3_CHROMA_PID,               0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Mouse Dock Chroma",                         DetectRazerControllers,        RAZER_VID,  RAZER_MOUSE_DOCK_CHROMA_PID,                    0x00,   0x01,   0x02);
-REGISTER_HID_DETECTOR_IPU("Razer Nommo Chroma",                              DetectRazerControllers,        RAZER_VID,  RAZER_NOMMO_CHROMA_PID,                         0x00,   0x01,   0x03);
-REGISTER_HID_DETECTOR_IPU("Razer Nommo Pro",                                 DetectRazerControllers,        RAZER_VID,  RAZER_NOMMO_PRO_PID,                            0x00,   0x01,   0x03);
+REGISTER_HID_DETECTOR_IPU("Razer Nommo Chroma",                              DetectRazerControllers,        RAZER_VID,  RAZER_NOMMO_CHROMA_PID,                         0x01,   0x01,   0x03);
+REGISTER_HID_DETECTOR_IPU("Razer Nommo Pro",                                 DetectRazerControllers,        RAZER_VID,  RAZER_NOMMO_PRO_PID,                            0x01,   0x01,   0x03);
 REGISTER_HID_DETECTOR_IPU("Lian Li O11 Dynamic - Razer Edition",             DetectRazerControllers,        RAZER_VID,  RAZER_O11_DYNAMIC_PID,                          0x02,   0x01,   0x02);
