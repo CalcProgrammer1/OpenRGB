@@ -28,10 +28,11 @@ enum
     ENE_REG_COLORS_DIRECT               = 0x8000,   /* Colors for Direct Mode 15 bytes      */
     ENE_REG_COLORS_EFFECT               = 0x8010,   /* Colors for Internal Effects 15 bytes */
     ENE_REG_DIRECT                      = 0x8020,   /* "Direct Access" Selection Register   */
-    ENE_REG_MODE                        = 0x8021,   /* AURA Mode Selection Register         */
-    ENE_REG_APPLY                       = 0x80A0,   /* AURA Apply Changes Register          */
-    ENE_REG_SLOT_INDEX                  = 0x80F8,   /* AURA Slot Index Register (RAM only)  */
-    ENE_REG_I2C_ADDRESS                 = 0x80F9,   /* AURA I2C Address Register (RAM only) */
+    ENE_REG_MODE                        = 0x8021,   /* Mode Selection Register              */
+    ENE_REG_SPEED                       = 0x8022,   /* Speed Control Register               */
+    ENE_REG_APPLY                       = 0x80A0,   /* Apply Changes Register               */
+    ENE_REG_SLOT_INDEX                  = 0x80F8,   /* Slot Index Register (RAM only)       */
+    ENE_REG_I2C_ADDRESS                 = 0x80F9,   /* I2C Address Register (RAM only)      */
     ENE_REG_COLORS_DIRECT_V2            = 0x8100,   /* Direct Colors (v2) 30 bytes          */
     ENE_REG_COLORS_EFFECT_V2            = 0x8160,   /* Internal Colors (v2) 30 bytes        */
 };
@@ -53,6 +54,15 @@ enum
     ENE_MODE_CHASE_RAINBOW_PULSE        = 12,       /* Chase with  Rainbow Pulse effect mode*/
     ENE_MODE_RANDOM_FLICKER             = 13,       /* Random flicker effect mode           */
     ENE_NUMBER_MODES                                /* Number of Aura modes                 */
+};
+
+enum
+{
+    ENE_SPEED_SLOWEST                   = 0x04,     /* Slowest effect speed                 */
+    ENE_SPEED_SLOW                      = 0x03,     /* Slow effect speed                    */
+    ENE_SPEED_NORMAL                    = 0x02,     /* Normal effect speed                  */
+    ENE_SPEED_FAST                      = 0x01,     /* Fast effect speed                    */
+    ENE_SPEED_FASTEST                   = 0x00,     /* Fastest effect speed                 */
 };
 
 enum
@@ -96,7 +106,7 @@ public:
     void          SetDirect(unsigned char direct);
     void          SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void          SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
-    void          SetMode(unsigned char mode);
+    void          SetMode(unsigned char mode, unsigned char speed);
 
     void          UpdateDeviceName();
 
