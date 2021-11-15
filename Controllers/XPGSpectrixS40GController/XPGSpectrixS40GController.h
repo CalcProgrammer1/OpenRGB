@@ -42,19 +42,23 @@
 typedef unsigned char	aura_dev_id;
 typedef unsigned short	aura_register;
 
-#define AURA_APPLY_VAL  0x01                /* Value for Apply Changes Register     */
+#define AURA_APPLY_VAL                  0x01        /* Value for Apply Changes Register     */
+#define AURA_SAVE_VAL                   0xAA        /* Value for Save Changes               */
 
 enum
 {
     AURA_REG_DEVICE_NAME                = 0x1000,   /* Device String 16 bytes               */
+    AURA_REG_MICRON_CHECK               = 0x1030,   /* If "Micron" appears here, skip       */
     AURA_REG_CONFIG_TABLE               = 0x1C00,   /* Start of LED configuration bytes     */
     AURA_REG_COLORS_DIRECT              = 0x8000,   /* Colors for Direct Mode 15 bytes      */
     AURA_REG_COLORS_EFFECT              = 0x8010,   /* Colors for Internal Effects 15 bytes */
     AURA_REG_DIRECT                     = 0x8020,   /* "Direct Access" Selection Register   */
-    AURA_REG_MODE                       = 0x8021,   /* AURA Mode Selection Register         */
-    AURA_REG_APPLY                      = 0x80A0,   /* AURA Apply Changes Register          */
-    AURA_REG_SLOT_INDEX                 = 0x80F8,   /* AURA Slot Index Register (RAM only)  */
-    AURA_REG_I2C_ADDRESS                = 0x80F9,   /* AURA I2C Address Register (RAM only) */
+    AURA_REG_MODE                       = 0x8021,   /* Mode Selection Register              */
+    AURA_REG_SPEED                      = 0x8022,   /* Speed Control Register               */
+    AURA_REG_DIRECTION                  = 0x8023,   /* Direction Control Register           */
+    AURA_REG_APPLY                      = 0x80A0,   /* Apply Changes Register               */
+    AURA_REG_SLOT_INDEX                 = 0x80F8,   /* Slot Index Register (RAM only)       */
+    AURA_REG_I2C_ADDRESS                = 0x80F9,   /* I2C Address Register (RAM only)      */
     AURA_REG_COLORS_DIRECT_V2           = 0x8100,   /* Direct Colors (v2) 30 bytes          */
     AURA_REG_COLORS_EFFECT_V2           = 0x8160,   /* Internal Colors (v2) 30 bytes        */
 };
@@ -76,6 +80,21 @@ enum
     AURA_MODE_CHASE_RAINBOW_PULSE       = 12,       /* Chase with  Rainbow Pulse effect mode*/
     AURA_MODE_RANDOM_FLICKER            = 13,       /* Random flicker effect mode           */
     AURA_NUMBER_MODES                               /* Number of Aura modes                 */
+};
+
+enum
+{
+    AURA_SPEED_SLOWEST                  = 0x04,     /* Slowest effect speed                 */
+    AURA_SPEED_SLOW                     = 0x03,     /* Slow effect speed                    */
+    AURA_SPEED_NORMAL                   = 0x02,     /* Normal effect speed                  */
+    AURA_SPEED_FAST                     = 0x01,     /* Fast effect speed                    */
+    AURA_SPEED_FASTEST                  = 0x00,     /* Fastest effect speed                 */
+};
+
+enum
+{
+    AURA_DIRECTION_FORWARD              = 0x0,      /* Forward effect direction             */
+    AURA_DIRECTION_REVERSE              = 0x1,      /* Reverse effect direction             */
 };
 
 enum
@@ -124,12 +143,13 @@ public:
     unsigned char GetLEDRed(unsigned int led);
     unsigned char GetLEDGreen(unsigned int led);
     unsigned char GetLEDBlue(unsigned int led);
+    void          SaveMode();
     void          SetAllColorsDirect(RGBColor* colors);
     void          SetAllColorsEffect(RGBColor* colors);
     void          SetDirect(unsigned char direct);
     void          SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void          SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
-    void          SetMode(unsigned char mode);
+    void          SetMode(unsigned char mode, unsigned char speed, unsigned char direction);
 
     void          AuraUpdateDeviceName();
 
