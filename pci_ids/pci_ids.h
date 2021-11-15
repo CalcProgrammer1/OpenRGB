@@ -90,6 +90,7 @@
 #define MSI_SUB_VEN                                     0x1462
 #define NVIDIA_SUB_VEN                                  0x10DE
 #define PNY_SUB_VEN                                     0x196E
+#define PALIT_SUB_VEN                                   0x1569
 #define SAPPHIRE_SUB_VEN                                0x1DA2
 #define SAPPHIRE_LEGACY_SUB_VEN                         0x174B
 #define ZOTAC_SUB_VEN                                   0x19DA
@@ -297,6 +298,25 @@
 | PNY Sub-Device IDs                                    |
 \*-----------------------------------------------------*/
 #define PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV          0x136A
+
+/*-----------------------------------------------------*\
+| Palit Sub-Device IDs                                    |
+\*-----------------------------------------------------*/
+#define PALIT_RTX3060_SUB_DEV                           0x2503
+#define PALIT_RTX3060_LHR_SUB_DEV                       0x2504
+
+#define PALIT_RTX3060TI_SUB_DEV                         0x2486
+#define PALIT_RTX3060TI_LHR_SUB_DEV                     0x2489
+
+#define PALIT_RTX3070_SUB_DEV                           0x2484
+#define PALIT_RTX3070_LHR_SUB_DEV                       0x2488
+#define PALIT_RTX3070TI_SUB_DEV                         0xF278
+
+#define PALIT_RTX3080_SUB_DEV                           0x2206
+#define PALIT_RTX3080_LHR_SUB_DEV                       0x2216
+#define PALIT_RTX3080TI_SUB_DEV                         0x2208
+
+#define PALIT_RTX3090_SUB_DEV                           0x2204
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |

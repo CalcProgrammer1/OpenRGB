@@ -13,9 +13,9 @@ RGBController_PNYGPU::RGBController_PNYGPU(PNYGPUController* pny_ptr)
 {
     pny = pny_ptr;
 
-    name                    = "PNY GPU";
-    vendor                  = "PNY";
-    description             = "PNY RGB GPU Device";
+    name                    = "PNY/Palit GPU";
+    vendor                  = "PNY/Palit";
+    description             = "PNY/Palit RGB GPU Device";
     location                = pny->GetDeviceLocation();
 
     type = DEVICE_TYPE_GPU;
@@ -29,10 +29,36 @@ RGBController_PNYGPU::RGBController_PNYGPU(PNYGPUController* pny_ptr)
 
     mode Direct;
     Direct.name             = "Direct";
-    Direct.value            = PNY_GPU_MODE_CUSTOM;
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.value            = PNY_GPU_MODE_DIRECT;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR| MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.brightness       = 255;
+    Direct.brightness_min   = 0;
+    Direct.brightness_max   = 100;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Cycle;
+    Cycle.name             = "Cycle";
+    Cycle.value            = PNY_GPU_MODE_CYCLE;
+    Cycle.flags            = MODE_FLAG_HAS_SPEED;
+    Cycle.speed            = 3;
+    Cycle.speed_max        = 0;
+    Cycle.speed_max        = 100;
+    Cycle.color_mode       = MODE_COLORS_PER_LED;
+    modes.push_back(Cycle);
+
+    mode Strobe;
+    Strobe.name             = "Strobe";
+    Strobe.value            = PNY_GPU_MODE_STROBE;
+    Strobe.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Strobe.speed            = 2;
+    Strobe.speed_max        = 0;
+    Strobe.speed_max        = 255;
+    Strobe.brightness       = 255;
+    Strobe.brightness_min   = 0;
+    Strobe.brightness_max   = 100;
+    Strobe.color_mode       = MODE_COLORS_PER_LED;
+    modes.push_back(Strobe);
 
 
     SetupZones();
@@ -76,12 +102,7 @@ void RGBController_PNYGPU::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_PNYGPU::DeviceUpdateLEDs()
 {
-    RGBColor      color = colors[0];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
-
-    pny->SetColor(red, grn, blu);
+    DeviceUpdateMode();
 }
 
 void RGBController_PNYGPU::UpdateZoneLEDs(int /*zone*/)
@@ -101,5 +122,33 @@ void RGBController_PNYGPU::SetCustomMode()
 
 void RGBController_PNYGPU::DeviceUpdateMode()
 {
-    pny->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
+    RGBColor      color = colors[0];
+    unsigned char r   = RGBGetRValue(color);
+    unsigned char g   = RGBGetGValue(color);
+    unsigned char b   = RGBGetBValue(color);
+    unsigned char speed, brightness;
+    switch(modes[active_mode].value)
+    {
+        case PNY_GPU_MODE_OFF:
+            pny->SetOff();
+            break;
+
+        case PNY_GPU_MODE_DIRECT:
+            brightness = modes[active_mode].brightness;
+            pny->SetDirect(r, g, b, brightness);
+            break;
+
+        case PNY_GPU_MODE_CYCLE:
+            speed = modes[active_mode].speed;
+            pny->SetCycle(speed);
+            break;
+
+        case PNY_GPU_MODE_STROBE:
+            speed      = modes[active_mode].speed;
+            brightness = modes[active_mode].brightness;
+            pny->SetStrobe(r, g, b, speed, brightness);
+            break;
+        default:
+        break;
+    }
 }
