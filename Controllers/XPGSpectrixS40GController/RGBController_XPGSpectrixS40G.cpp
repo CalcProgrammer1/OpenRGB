@@ -88,64 +88,88 @@ RGBController_XPGSpectrixS40G::RGBController_XPGSpectrixS40G(XPGSpectrixS40GCont
     mode Off;
     Off.name       = "Off";
     Off.value      = AURA_MODE_OFF;
-    Off.flags      = 0;
+    Off.flags      = MODE_FLAG_MANUAL_SAVE;
     Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
     Static.name       = "Static";
     Static.value      = AURA_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
-
+    
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = AURA_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     Breathing.color_mode = MODE_COLORS_PER_LED;
+    Breathing.speed_min  = AURA_SPEED_SLOWEST;
+    Breathing.speed_max  = AURA_SPEED_FASTEST;
+    Breathing.speed      = AURA_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     mode Flashing;
     Flashing.name       = "Flashing";
     Flashing.value      = AURA_MODE_FLASHING;
-    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     Flashing.color_mode = MODE_COLORS_PER_LED;
+    Flashing.speed_min  = AURA_SPEED_SLOWEST;
+    Flashing.speed_max  = AURA_SPEED_FASTEST;
+    Flashing.speed      = AURA_SPEED_NORMAL;
     modes.push_back(Flashing);
 
     mode SpectrumCycle;
     SpectrumCycle.name       = "Spectrum Cycle";
     SpectrumCycle.value      = AURA_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = 0;
+    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     SpectrumCycle.color_mode = MODE_COLORS_NONE;
+    SpectrumCycle.speed_min  = AURA_SPEED_SLOWEST;
+    SpectrumCycle.speed_max  = AURA_SPEED_FASTEST;
+    SpectrumCycle.speed      = AURA_SPEED_NORMAL;
     modes.push_back(SpectrumCycle);
 
     mode Rainbow;
     Rainbow.name       = "Rainbow";
     Rainbow.value      = AURA_MODE_RAINBOW;
-    Rainbow.flags      = 0;
+    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_MANUAL_SAVE;
     Rainbow.color_mode = MODE_COLORS_NONE;
+    Rainbow.speed_min  = AURA_SPEED_SLOWEST;
+    Rainbow.speed_max  = AURA_SPEED_FASTEST;
+    Rainbow.speed      = AURA_SPEED_NORMAL;
+    Rainbow.direction  = MODE_DIRECTION_LEFT;
     modes.push_back(Rainbow);
 
     mode ChaseFade;
     ChaseFade.name       = "Chase Fade";
     ChaseFade.value      = AURA_MODE_CHASE_FADE;
-    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_MANUAL_SAVE;
     ChaseFade.color_mode = MODE_COLORS_PER_LED;
+    ChaseFade.speed_min  = AURA_SPEED_SLOWEST;
+    ChaseFade.speed_max  = AURA_SPEED_FASTEST;
+    ChaseFade.speed      = AURA_SPEED_NORMAL;
+    ChaseFade.direction  = MODE_DIRECTION_LEFT;
     modes.push_back(ChaseFade);
 
     mode Chase;
     Chase.name       = "Chase";
     Chase.value      = AURA_MODE_CHASE;
-    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_MANUAL_SAVE;
     Chase.color_mode = MODE_COLORS_PER_LED;
+    Chase.speed_min  = AURA_SPEED_SLOWEST;
+    Chase.speed_max  = AURA_SPEED_FASTEST;
+    Chase.speed      = AURA_SPEED_NORMAL;
+    ChaseFade.direction  = MODE_DIRECTION_LEFT;
     modes.push_back(Chase);
 
     mode RandomFlicker;
     RandomFlicker.name       = "Random Flicker";
     RandomFlicker.value      = AURA_MODE_RANDOM_FLICKER;
-    RandomFlicker.flags      = 0;
+    RandomFlicker.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     RandomFlicker.color_mode = MODE_COLORS_NONE;
+    RandomFlicker.speed_min  = AURA_SPEED_SLOWEST;
+    RandomFlicker.speed_max  = AURA_SPEED_FASTEST;
+    RandomFlicker.speed      = AURA_SPEED_NORMAL;
     modes.push_back(RandomFlicker);
 
     SetupZones();
@@ -288,6 +312,8 @@ void RGBController_XPGSpectrixS40G::DeviceUpdateMode()
     else
     {
         int new_mode = modes[active_mode].value;
+        int new_speed       = 0;
+        int new_direction   = 0;
 
         if(modes[active_mode].color_mode == MODE_COLORS_RANDOM)
         {
@@ -305,7 +331,32 @@ void RGBController_XPGSpectrixS40G::DeviceUpdateMode()
             }
         }
 
-        aura->SetMode(new_mode);
+        if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
+        {
+            new_speed = modes[active_mode].speed;
+        }
+
+        if(modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR)
+        {
+            switch(modes[active_mode].direction)
+            {
+                case MODE_DIRECTION_LEFT:
+                    new_direction = AURA_DIRECTION_FORWARD;
+                    break;
+
+                case MODE_DIRECTION_RIGHT:
+                    new_direction = AURA_DIRECTION_REVERSE;
+                    break;
+            }
+        }
+
+        aura->SetMode(new_mode, new_speed, new_direction);
         aura->SetDirect(false);
     }
+}
+
+void RGBController_XPGSpectrixS40G::DeviceSaveMode()
+{
+    DeviceUpdateMode();
+    aura->SaveMode();
 }

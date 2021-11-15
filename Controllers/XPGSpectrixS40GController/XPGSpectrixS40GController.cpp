@@ -160,6 +160,11 @@ unsigned char XPGSpectrixS40GController::GetLEDBlue(unsigned int led)
     return(AuraRegisterRead(direct_reg + ( 3 * led ) + 1));
 }
 
+void XPGSpectrixS40GController::SaveMode()
+{
+    AuraRegisterWrite(AURA_REG_APPLY, AURA_SAVE_VAL);
+}
+
 void XPGSpectrixS40GController::SetAllColorsDirect(RGBColor* colors)
 {
     unsigned char* color_buf = new unsigned char[led_count * 3];
@@ -216,10 +221,12 @@ void XPGSpectrixS40GController::SetLEDColorEffect(unsigned int led, unsigned cha
     AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
 }
 
-void XPGSpectrixS40GController::SetMode(unsigned char mode)
+void XPGSpectrixS40GController::SetMode(unsigned char mode, unsigned char speed, unsigned char direction)
 {
-    AuraRegisterWrite(AURA_REG_MODE, mode);
-    AuraRegisterWrite(AURA_REG_APPLY, AURA_APPLY_VAL);
+    AuraRegisterWrite(AURA_REG_MODE,      mode);
+    AuraRegisterWrite(AURA_REG_SPEED,     speed);
+    AuraRegisterWrite(AURA_REG_DIRECTION, direction);
+    AuraRegisterWrite(AURA_REG_APPLY,     AURA_APPLY_VAL);
 }
 
 void XPGSpectrixS40GController::AuraUpdateDeviceName()
