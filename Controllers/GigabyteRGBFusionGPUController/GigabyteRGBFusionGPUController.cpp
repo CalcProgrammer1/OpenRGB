@@ -63,3 +63,20 @@ void RGBFusionGPUController::SetMode(unsigned char mode, unsigned char speed, un
         bus->i2c_smbus_write_byte(dev, 0x00);
     }
 }
+
+void RGBFusionGPUController::Save()
+{
+    bus->i2c_smbus_write_byte(dev, RGB_FUSION_GPU_REG_SAVE);
+    bus->i2c_smbus_write_byte(dev, 0x00);
+    bus->i2c_smbus_write_byte(dev, 0x00);
+    bus->i2c_smbus_write_byte(dev, 0x00);
+
+    // Pad commands with 4 zero-bytes for NVIDIA_RTX3060_DEV
+    if (dev == 0x62)
+    {
+        bus->i2c_smbus_write_byte(dev, 0x00);
+        bus->i2c_smbus_write_byte(dev, 0x00);
+        bus->i2c_smbus_write_byte(dev, 0x00);
+        bus->i2c_smbus_write_byte(dev, 0x00);
+    }
+}

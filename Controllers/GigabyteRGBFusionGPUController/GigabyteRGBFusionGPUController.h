@@ -17,7 +17,8 @@ typedef unsigned char	rgb_fusion_dev_id;
 enum
 {
     RGB_FUSION_GPU_REG_COLOR            = 0x40,
-    RGB_FUSION_GPU_REG_MODE             = 0x88
+    RGB_FUSION_GPU_REG_MODE             = 0x88,
+    RGB_FUSION_GPU_REG_SAVE             = 0xAA,
 };
 
 enum
@@ -52,6 +53,7 @@ public:
 
     void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode, unsigned char speed, unsigned char brightness);
+    void            Save();
 
 private:
     i2c_smbus_interface*    bus;

@@ -28,7 +28,8 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
-
+    void        DeviceSaveMode();
+    
 private:
     RGBFusionGPUController* rgb_fusion;
 };
