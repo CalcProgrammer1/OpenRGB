@@ -63,8 +63,9 @@ static const char* aura_channels[] =                /* Aura channel strings     
     "Unknown",
 };
 
-XPGSpectrixS40GController::XPGSpectrixS40GController()
+XPGSpectrixS40GController::XPGSpectrixS40GController(aura_dev_id dev)
 {
+    this->dev = dev;
     direct_reg = AURA_REG_COLORS_DIRECT_V2;
     effect_reg = AURA_REG_COLORS_EFFECT_V2;
     channel_cfg = AURA_CONFIG_CHANNEL_V2;
@@ -295,7 +296,7 @@ void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned ch
 
         unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
-        CommandValue[12]                        = (corrected_reg << 16) | (0x67 << 1);
+        CommandValue[12]                        = (corrected_reg << 16) | (dev << 1);
         CommandValue[32]                        = val;
 
         /*-----------------------------------------------------------------------------*\
@@ -363,7 +364,7 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
 
         unsigned short corrected_reg = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
-        CommandValue[12] = (corrected_reg << 16) | (0x67 << 1);
+        CommandValue[12] = (corrected_reg << 16) | (dev << 1);
         CommandValue[13] = 0x03100000 | sz;
 
         memcpy(&CommandValue[32], data, sz);

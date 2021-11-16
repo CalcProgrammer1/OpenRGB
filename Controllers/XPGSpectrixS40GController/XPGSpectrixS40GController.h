@@ -120,7 +120,7 @@ enum
 class XPGSpectrixS40GController
 {
 public:
-    XPGSpectrixS40GController();
+    XPGSpectrixS40GController(aura_dev_id dev);
     ~XPGSpectrixS40GController();
 
 #ifdef _WIN32

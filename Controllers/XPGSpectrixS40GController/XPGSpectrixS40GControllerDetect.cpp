@@ -65,7 +65,7 @@ void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-scsi-devices
         wchar_t dev_name[MAX_PATH];
         if (Search(dev_name)) {
-            new_xpg_s40g = new XPGSpectrixS40GController();
+            new_xpg_s40g = new XPGSpectrixS40GController(0x67);
             int result = new_xpg_s40g->SetHandle(dev_name);
             if (result) {
                 new_controller = new RGBController_XPGSpectrixS40G(new_xpg_s40g);
