@@ -30,6 +30,8 @@ public:
     void        DeviceUpdateMode();
     void        DeviceSaveMode();
 
+    int         GetDeviceMode();
+
 private:
     XPGSpectrixS40GController* aura;
 };

@@ -10,11 +10,13 @@
 #include "XPGSpectrixS40GController.h"
 #include <malloc.h>
 #include <cstring>
+#include "LogManager.h"
 
 #ifdef _WIN32
     #include <windows.h>
     #include <fileapi.h>
     #include <winioctl.h>
+    #include <nvme.h>
 #else
 
 #endif
@@ -289,20 +291,26 @@ void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned ch
         | Create ENE Register Write command, filling in the appropriate register and    |
         | value                                                                         |
         \*-----------------------------------------------------------------------------*/
-        DWORD CommandValue[34] = { 0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                                   0x00000000, 0x00000000, 0x00000000, 0x01100001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                                   0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                                   0x00000000, 0x00000000, 0x00000001, 0x00000000 };
+        PNVME_COMMAND CommandValue              = (PNVME_COMMAND)command->Command;
 
         unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
-        CommandValue[12]                        = (corrected_reg << 16) | (dev << 1);
-        CommandValue[32]                        = val;
+        CommandValue->CDW0.OPC                  = 0xFB;
+        CommandValue->CDW0.CID                  = 0x0030;
+        CommandValue->NSID                      = 0x00000031;
+        CommandValue->u.GENERAL.CDW12           = (corrected_reg << 16) | (dev << 1);
+        CommandValue->u.GENERAL.CDW13           = 0x01100001;
+
+        DWORD ExtraValue[18] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
+
+        ExtraValue[16]                          = val;
 
         /*-----------------------------------------------------------------------------*\
-        | Copy the ENE Register Write command into the STORAGE_PROTOCOL_COMMAND buffer  |
+        | Copy the ENE Register Write extra data into the STORAGE_PROTOCOL_COMMAND      |
+        | buffer                                                                        |
         \*-----------------------------------------------------------------------------*/
-        memcpy(&command->Command, CommandValue, sizeof(CommandValue));
+        memcpy(&command->Command + sizeof(NVME_COMMAND), ExtraValue, sizeof(ExtraValue));
 
         /*-----------------------------------------------------------------------------*\
         | Send the STORAGE_PROTOCOL_COMMAND to the device                               |
@@ -356,24 +364,27 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
         | Create ENE Register Write Block command, filling in the appropriate register  |
         | and value                                                                     |
         \*-----------------------------------------------------------------------------*/
-        DWORD CommandValue[39] = { 0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                                   0x00000000, 0x00000000, 0x00000000, 0x03100000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                                   0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                                   0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000};
+        PNVME_COMMAND CommandValue              = (PNVME_COMMAND)command->Command;
 
+        unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
-        unsigned short corrected_reg = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
+        CommandValue->CDW0.OPC                  = 0xFB;
+        CommandValue->CDW0.CID                  = 0x0030;
+        CommandValue->NSID                      = 0x00000031;
+        CommandValue->u.GENERAL.CDW12           = (corrected_reg << 16) | (dev << 1);
+        CommandValue->u.GENERAL.CDW13           = 0x03100000 | sz;
 
-        CommandValue[12] = (corrected_reg << 16) | (dev << 1);
-        CommandValue[13] = 0x03100000 | sz;
+        DWORD ExtraValue[23] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                 0x00000000, 0x00000000, 0x00000000 };
 
-        memcpy(&CommandValue[32], data, sz);
+        memcpy(&ExtraValue[16], data, sz);
 
         /*-----------------------------------------------------------------------------*\
-        | Copy the ENE Register Write Block command into the STORAGE_PROTOCOL_COMMAND   |
-        | buffer                                                                        |
+        | Copy the ENE Register Write Block extra data into the                         |
+        | STORAGE_PROTOCOL_COMMAND buffer                                               |
         \*-----------------------------------------------------------------------------*/
-        memcpy(&command->Command, CommandValue, sizeof(CommandValue));
+        memcpy(&command->Command + sizeof(NVME_COMMAND), ExtraValue, sizeof(ExtraValue));
 
         /*-----------------------------------------------------------------------------*\
         | Send the STORAGE_PROTOCOL_COMMAND to the device                               |

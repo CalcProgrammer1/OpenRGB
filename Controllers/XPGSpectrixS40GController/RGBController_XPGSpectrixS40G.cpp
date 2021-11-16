@@ -9,6 +9,70 @@
 
 #include "RGBController_XPGSpectrixS40G.h"
 
+int RGBController_XPGSpectrixS40G::GetDeviceMode()
+{
+    /*-----------------------------------------------------------------*\
+    | Determine starting mode by reading the mode and direct registers  |
+    \*-----------------------------------------------------------------*/
+    int dev_mode    = aura->AuraRegisterRead(AURA_REG_MODE);
+    int color_mode  = MODE_COLORS_PER_LED;
+    int speed       = aura->AuraRegisterRead(AURA_REG_SPEED);
+    int direction   = aura->AuraRegisterRead(AURA_REG_DIRECTION);
+
+    if(aura->AuraRegisterRead(AURA_REG_DIRECT))
+    {
+        dev_mode = 0xFFFF;
+    }
+
+    switch(dev_mode)
+    {
+        case AURA_MODE_OFF:
+        case AURA_MODE_RAINBOW:
+        case AURA_MODE_SPECTRUM_CYCLE:
+        case AURA_MODE_RANDOM_FLICKER:
+            color_mode = MODE_COLORS_NONE;
+            break;
+
+        case AURA_MODE_SPECTRUM_CYCLE_CHASE:
+            dev_mode   = AURA_MODE_CHASE;
+            color_mode = MODE_COLORS_RANDOM;
+            break;
+
+        case AURA_MODE_SPECTRUM_CYCLE_BREATHING:
+            dev_mode   = AURA_MODE_BREATHING;
+            color_mode = MODE_COLORS_RANDOM;
+            break;
+
+        case AURA_MODE_SPECTRUM_CYCLE_CHASE_FADE:
+            dev_mode   = AURA_MODE_CHASE_FADE;
+            color_mode = MODE_COLORS_RANDOM;
+            break;
+    }
+
+    for(std::size_t mode = 0; mode < modes.size(); mode++)
+    {
+        if(modes[mode].value == dev_mode)
+        {
+            active_mode                 = mode;
+            modes[mode].color_mode      = color_mode;
+
+            if(modes[mode].flags & MODE_FLAG_HAS_SPEED)
+            {
+                modes[mode].speed       = speed;
+            }
+
+            if(modes[mode].flags & MODE_FLAG_HAS_DIRECTION_LR)
+            {
+                modes[mode].direction   = direction;
+            }
+
+            break;
+        }
+    }
+
+    return(active_mode);
+}
+
 void RGBController_XPGSpectrixS40G::DeviceUpdateLEDs()
 {
     if(GetMode() == 0)
@@ -173,6 +237,11 @@ RGBController_XPGSpectrixS40G::RGBController_XPGSpectrixS40G(XPGSpectrixS40GCont
     modes.push_back(RandomFlicker);
 
     SetupZones();
+
+    /*-------------------------------------------------*\
+    | Initialize active mode                            |
+    \*-------------------------------------------------*/
+    //active_mode = GetDeviceMode();
 }
 
 RGBController_XPGSpectrixS40G::~RGBController_XPGSpectrixS40G()
