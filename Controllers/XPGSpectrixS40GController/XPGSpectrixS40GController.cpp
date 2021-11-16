@@ -296,7 +296,6 @@ void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned ch
         unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
         CommandValue->CDW0.OPC                  = 0xFB;
-        CommandValue->CDW0.CID                  = 0x0030;
         CommandValue->NSID                      = 0x00000031;
         CommandValue->u.GENERAL.CDW12           = (corrected_reg << 16) | (dev << 1);
         CommandValue->u.GENERAL.CDW13           = 0x01100001;
@@ -369,7 +368,6 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
         unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
         CommandValue->CDW0.OPC                  = 0xFB;
-        CommandValue->CDW0.CID                  = 0x0030;
         CommandValue->NSID                      = 0x00000031;
         CommandValue->u.GENERAL.CDW12           = (corrected_reg << 16) | (dev << 1);
         CommandValue->u.GENERAL.CDW13           = 0x03100000 | sz;
