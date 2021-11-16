@@ -14,6 +14,7 @@
 #ifdef _WIN32
     #include <windows.h>
     #include <fileapi.h>
+    #include <winioctl.h>
 #else
 
 #endif
@@ -246,19 +247,66 @@ void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned ch
 {
     if(hDevice != INVALID_HANDLE_VALUE)
     {
-        uint32_t packet[54] = {0x00000001, 0x00000054, 0x00000003, 0x80000000, 0x00000000, 0x00000000, 0x00000040, 0x00000040, 0x00000001, 0x00000000,
-                               0x00000001, 0x00000090, 0x000000D0, 0x00000000, 0x00000001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x00000000, 0x00000000, 0x2F800000, 0x01100001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x00000000, 0x00000000, 0x00000001, 0x00000000};
+        /*-----------------------------------------------------------------------------*\
+        | Create buffer to hold STORAGE_PROTOCOL_COMMAND                                |
+        | Size must be enough for the STORAGE_PROTOCOL_COMMAND struct plus the command  |
+        | data.  Subtract sizeof(DWORD) as the Command field in the structure overlaps  |
+        | the actual command data.                                                      |
+        \*-----------------------------------------------------------------------------*/
+        unsigned char buffer[sizeof(STORAGE_PROTOCOL_COMMAND) + (sizeof(DWORD) * 34) - sizeof(DWORD)];
 
-        unsigned short corrected_reg = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
+        /*-----------------------------------------------------------------------------*\
+        | Create STORAGE_PROTOCOL_COMMAND pointer and point it to the buffer            |
+        \*-----------------------------------------------------------------------------*/
+        PSTORAGE_PROTOCOL_COMMAND command       = (PSTORAGE_PROTOCOL_COMMAND)buffer;
 
-        packet[32] = (corrected_reg << 16) | (0x67 << 1);
-        packet[52] = val;
+        /*-----------------------------------------------------------------------------*\
+        | Fill in STORAGE_PROTOCOL_COMMAND structure                                    |
+        \*-----------------------------------------------------------------------------*/
+        command->Version                        = STORAGE_PROTOCOL_STRUCTURE_VERSION;
+        command->Length                         = sizeof(STORAGE_PROTOCOL_COMMAND);
+        command->ProtocolType                   = ProtocolTypeNvme;
+        command->Flags                          = STORAGE_PROTOCOL_COMMAND_FLAG_ADAPTER_REQUEST;
+        command->ReturnStatus                   = 0x00000000;
+        command->ErrorCode                      = 0x00000000;
+        command->CommandLength                  = 0x00000040;
+        command->ErrorInfoLength                = 0x00000040;
+        command->DataToDeviceTransferLength     = 0x00000001;
+        command->DataFromDeviceTransferLength   = 0x00000000;
+        command->TimeOutValue                   = 0x00000001;
+        command->ErrorInfoOffset                = 0x00000090;
+        command->DataToDeviceBufferOffset       = 0x000000D0;
+        command->DataFromDeviceBufferOffset     = 0x00000000;
+        command->CommandSpecific                = 0x00000001;
+        command->Reserved0                      = 0x00000000;
+        command->FixedProtocolReturnData        = 0x00000000;
+        command->Reserved1[0]                   = 0x00000000;
+        command->Reserved1[1]                   = 0x00000000;
+        command->Reserved1[2]                   = 0x00000000;
 
-        DeviceIoControl(hDevice, 0x2dd3c0, packet, SMALL_PACKET_SIZE, packet, SMALL_PACKET_SIZE, 0x0, (LPOVERLAPPED)0x0);
+        /*-----------------------------------------------------------------------------*\
+        | Create ENE Register Write command, filling in the appropriate register and    |
+        | value                                                                         |
+        \*-----------------------------------------------------------------------------*/
+        DWORD CommandValue[34] = { 0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                   0x00000000, 0x00000000, 0x2F800000, 0x01100001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                   0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                   0x00000000, 0x00000000, 0x00000001, 0x00000000 };
+
+        unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
+
+        CommandValue[12]                        = (corrected_reg << 16) | (0x67 << 1);
+        CommandValue[32]                        = val;
+
+        /*-----------------------------------------------------------------------------*\
+        | Copy the ENE Register Write command into the STORAGE_PROTOCOL_COMMAND buffer  |
+        \*-----------------------------------------------------------------------------*/
+        memcpy(&command->Command, CommandValue, sizeof(CommandValue));
+
+        /*-----------------------------------------------------------------------------*\
+        | Send the STORAGE_PROTOCOL_COMMAND to the device                               |
+        \*-----------------------------------------------------------------------------*/
+        DeviceIoControl(hDevice, IOCTL_STORAGE_PROTOCOL_COMMAND, buffer, sizeof(buffer), buffer, sizeof(buffer), 0x0, (LPOVERLAPPED)0x0);
     }
 }
 
@@ -266,23 +314,70 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
 {
     if(hDevice != INVALID_HANDLE_VALUE)
     {
-        uint32_t packet[59] = {0x00000001, 0x00000054, 0x00000003, 0x80000000, 0x00000000, 0x00000000, 0x00000040, 0x00000040, 0x00000000, 0x00000000,
-                               0x00000001, 0x00000090, 0x000000D0, 0x00000000, 0x00000001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x00000000, 0x00000000, 0x60810000, 0x03100000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-                               0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000};
+        /*-----------------------------------------------------------------------------*\
+        | Create buffer to hold STORAGE_PROTOCOL_COMMAND                                |
+        | Size must be enough for the STORAGE_PROTOCOL_COMMAND struct plus the command  |
+        | data.  Subtract sizeof(DWORD) as the Command field in the structure overlaps  |
+        | the actual command data.                                                      |
+        \*-----------------------------------------------------------------------------*/
+        unsigned char buffer[sizeof(STORAGE_PROTOCOL_COMMAND) + (sizeof(DWORD) * 39) - sizeof(DWORD)];
+
+        /*-----------------------------------------------------------------------------*\
+        | Create STORAGE_PROTOCOL_COMMAND pointer and point it to the buffer            |
+        \*-----------------------------------------------------------------------------*/
+        PSTORAGE_PROTOCOL_COMMAND command       = (PSTORAGE_PROTOCOL_COMMAND)buffer;
+
+        /*-----------------------------------------------------------------------------*\
+        | Fill in STORAGE_PROTOCOL_COMMAND structure                                    |
+        \*-----------------------------------------------------------------------------*/
+        command->Version                        = STORAGE_PROTOCOL_STRUCTURE_VERSION;
+        command->Length                         = sizeof(STORAGE_PROTOCOL_COMMAND);
+        command->ProtocolType                   = ProtocolTypeNvme;
+        command->Flags                          = STORAGE_PROTOCOL_COMMAND_FLAG_ADAPTER_REQUEST;
+        command->ReturnStatus                   = 0x00000000;
+        command->ErrorCode                      = 0x00000000;
+        command->CommandLength                  = 0x00000040;
+        command->ErrorInfoLength                = 0x00000040;
+        command->DataToDeviceTransferLength     = sz;
+        command->DataFromDeviceTransferLength   = 0x00000000;
+        command->TimeOutValue                   = 0x00000001;
+        command->ErrorInfoOffset                = 0x00000090;
+        command->DataToDeviceBufferOffset       = 0x000000D0;
+        command->DataFromDeviceBufferOffset     = 0x00000000;
+        command->CommandSpecific                = 0x00000001;
+        command->Reserved0                      = 0x00000000;
+        command->FixedProtocolReturnData        = 0x00000000;
+        command->Reserved1[0]                   = 0x00000000;
+        command->Reserved1[1]                   = 0x00000000;
+        command->Reserved1[2]                   = 0x00000000;
+
+        /*-----------------------------------------------------------------------------*\
+        | Create ENE Register Write Block command, filling in the appropriate register  |
+        | and value                                                                     |
+        \*-----------------------------------------------------------------------------*/
+        DWORD CommandValue[39] = { 0x003000FB, 0x00000031, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                   0x00000000, 0x00000000, 0x60810000, 0x03100000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                   0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+                                   0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000};
 
 
         unsigned short corrected_reg = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
-        packet[32] = (corrected_reg << 16) | (0x67 << 1);
-        packet[8]  = sz;
-        packet[33] = 0x03100000 | sz;
+        CommandValue[12] = (corrected_reg << 16) | (0x67 << 1);
+        CommandValue[13] = 0x03100000 | sz;
 
-        memcpy(&packet[52], data, sz);
+        memcpy(&CommandValue[32], data, sz);
 
-        DeviceIoControl(hDevice, 0x2dd3c0, packet, BIG_PACKET_SIZE, packet, BIG_PACKET_SIZE, 0x0, (LPOVERLAPPED)0x0);
+        /*-----------------------------------------------------------------------------*\
+        | Copy the ENE Register Write Block command into the STORAGE_PROTOCOL_COMMAND   |
+        | buffer                                                                        |
+        \*-----------------------------------------------------------------------------*/
+        memcpy(&command->Command, CommandValue, sizeof(CommandValue));
+
+        /*-----------------------------------------------------------------------------*\
+        | Send the STORAGE_PROTOCOL_COMMAND to the device                               |
+        \*-----------------------------------------------------------------------------*/
+        DeviceIoControl(hDevice, IOCTL_STORAGE_PROTOCOL_COMMAND, buffer, sizeof(buffer), buffer, sizeof(buffer), 0x0, (LPOVERLAPPED)0x0);
     }
 }
 
