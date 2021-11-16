@@ -15,8 +15,6 @@
 #pragma once
 
 #define XPG_SPECTRIX_LED_COUNT   ( 8 )
-#define BIG_PACKET_SIZE ( 236 )
-#define SMALL_PACKET_SIZE ( 216 )
 
 #ifdef _WIN32
     #include <windows.h>
