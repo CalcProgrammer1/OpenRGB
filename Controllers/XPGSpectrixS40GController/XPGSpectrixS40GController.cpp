@@ -272,7 +272,7 @@ void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned ch
         command->Flags                          = STORAGE_PROTOCOL_COMMAND_FLAG_ADAPTER_REQUEST;
         command->ReturnStatus                   = 0x00000000;
         command->ErrorCode                      = 0x00000000;
-        command->CommandLength                  = 0x00000040;
+        command->CommandLength                  = STORAGE_PROTOCOL_COMMAND_LENGTH_NVME;
         command->ErrorInfoLength                = 0x00000040;
         command->DataToDeviceTransferLength     = 0x00000001;
         command->DataFromDeviceTransferLength   = 0x00000000;
@@ -280,7 +280,7 @@ void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned ch
         command->ErrorInfoOffset                = 0x00000090;
         command->DataToDeviceBufferOffset       = 0x000000D0;
         command->DataFromDeviceBufferOffset     = 0x00000000;
-        command->CommandSpecific                = 0x00000001;
+        command->CommandSpecific                = STORAGE_PROTOCOL_SPECIFIC_NVME_ADMIN_COMMAND;
         command->Reserved0                      = 0x00000000;
         command->FixedProtocolReturnData        = 0x00000000;
         command->Reserved1[0]                   = 0x00000000;
@@ -345,7 +345,7 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
         command->Flags                          = STORAGE_PROTOCOL_COMMAND_FLAG_ADAPTER_REQUEST;
         command->ReturnStatus                   = 0x00000000;
         command->ErrorCode                      = 0x00000000;
-        command->CommandLength                  = 0x00000040;
+        command->CommandLength                  = STORAGE_PROTOCOL_COMMAND_LENGTH_NVME;
         command->ErrorInfoLength                = 0x00000040;
         command->DataToDeviceTransferLength     = sz;
         command->DataFromDeviceTransferLength   = 0x00000000;
@@ -353,7 +353,7 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
         command->ErrorInfoOffset                = 0x00000090;
         command->DataToDeviceBufferOffset       = 0x000000D0;
         command->DataFromDeviceBufferOffset     = 0x00000000;
-        command->CommandSpecific                = 0x00000001;
+        command->CommandSpecific                = STORAGE_PROTOCOL_SPECIFIC_NVME_ADMIN_COMMAND;
         command->Reserved0                      = 0x00000000;
         command->FixedProtocolReturnData        = 0x00000000;
         command->Reserved1[0]                   = 0x00000000;
