@@ -21,15 +21,18 @@
 
 void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
 {
-    XPGSpectrixS40GController* new_xpg_s40g;
-    RGBController_XPGSpectrixS40G* new_controller;
+    XPGSpectrixS40GController*      new_controller;
+    RGBController_XPGSpectrixS40G*  new_rgbcontroller;
 
     int nvme_fd = open("/dev/nvme0", O_RDWR);
 
-    new_xpg_s40g = new XPGSpectrixS40GController(nvme_fd, 0x67);
-
-    new_controller = new RGBController_XPGSpectrixS40G(new_xpg_s40g);
-    rgb_controllers.push_back(new_controller);
+    if(nvme_fd > 0)
+    {
+        new_controller      = new XPGSpectrixS40GController(nvme_fd, 0x67);
+        new_rgbcontroller   = new RGBController_XPGSpectrixS40G(new_controller);
+        
+        rgb_controllers.push_back(new_rgbcontroller);
+    }
 
 }   /* DetectSpectrixS40GControllers() */
 
