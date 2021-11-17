@@ -12,33 +12,35 @@
 #include <cstring>
 #include "LogManager.h"
 
-#ifdef _WIN32
-    #include <windows.h>
-    #include <fileapi.h>
-    #include <winioctl.h>
-    #include <nvme.h>
-#else
+#include <windows.h>
+#include <fileapi.h>
+#include <winioctl.h>
+#include <nvme.h>
 
-#endif
+int XPGSpectrixS40GController::SetHandle(wchar_t buff[MAX_PATH])
+{
+    wchar_t path[MAX_PATH];
 
-#ifdef _WIN32
-    int XPGSpectrixS40GController::SetHandle(wchar_t buff[MAX_PATH]) {
-        wchar_t path[MAX_PATH];
-        wcscpy(path, L"\\\\?\\");
-        wcsncat(path, buff, MAX_PATH - 4);
-		for (size_t i = 0; i < MAX_PATH && path[i] != '\0'; i++) {
-			path[i] = tolower(path[i]);
-		}
-        wprintf(L"%s\n", path);
-        hDevice = CreateFileW(path, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, (LPSECURITY_ATTRIBUTES)0x0, OPEN_EXISTING, 0x0, (HANDLE)0x0);
-        if (hDevice == INVALID_HANDLE_VALUE) {
-                return 0;
-        }
-        return 1;
+    wcscpy(path, L"\\\\?\\");
+    wcsncat(path, buff, MAX_PATH - 4);
+
+    for(size_t i = 0; i < MAX_PATH && path[i] != '\0'; i++)
+    {
+        path[i] = tolower(path[i]);
     }
-#else
 
-#endif
+    wprintf(L"%s\n", path);
+
+    hDevice = CreateFileW(path, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, (LPSECURITY_ATTRIBUTES)0x0, OPEN_EXISTING, 0x0, (HANDLE)0x0);
+
+    if(hDevice == INVALID_HANDLE_VALUE)
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
 
 /*-----------------------------------------*\
 |  AsusAuraSMBusController.cpp              |

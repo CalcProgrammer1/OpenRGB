@@ -16,12 +16,8 @@
 
 #define XPG_SPECTRIX_LED_COUNT   ( 8 )
 
-#ifdef _WIN32
-    #include <windows.h>
-    #include <fileapi.h>
-#else
-
-#endif
+#include <windows.h>
+#include <fileapi.h>
 
 /*-----------------------------------------*\
 |  AsusAuraSMBusController.h                |
@@ -33,7 +29,6 @@
 \*-----------------------------------------*/
 
 #include <string>
-#include "i2c_smbus.h"
 
 #pragma once
 
@@ -123,15 +118,11 @@ public:
     XPGSpectrixS40GController(aura_dev_id dev);
     ~XPGSpectrixS40GController();
 
-#ifdef _WIN32
     /*-----------------------------------------------------*\
     | Windows specific function that allows the devices     |
     | handle to be passed from elsewhere once detected      |
     \*-----------------------------------------------------*/
     int SetHandle(wchar_t dev_name[MAX_PATH]);
-#else
-
-#endif
 
     std::string   GetDeviceName();
     std::string   GetDeviceLocation();
@@ -156,18 +147,13 @@ public:
     void          AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz);
 
 private:
-#ifdef _WIN32
     HANDLE                  hDevice;
-#else
-
-#endif
     char                    device_name[16];
     unsigned char           config_table[64];
     unsigned int            led_count;
     aura_register           direct_reg;
     aura_register           effect_reg;
     unsigned char           channel_cfg;
-    i2c_smbus_interface *   bus;
     aura_dev_id             dev;
 
 };

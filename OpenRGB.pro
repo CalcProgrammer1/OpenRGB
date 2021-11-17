@@ -142,7 +142,6 @@ INCLUDEPATH +=                                                                  
     Controllers/ThermaltakePoseidonZRGBController/                                              \
     Controllers/ThermaltakeRiingController/                                                     \
     Controllers/WootingKeyboardController/                                                      \
-    Controllers/XPGSpectrixS40GControllerLinux/                                                      \
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
     RGBController/                                                                              \
@@ -462,8 +461,6 @@ HEADERS +=                                                                      
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.h                       \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.h                 \
-    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GController.h                           \
-    Controllers/XPGSpectrixS40GControllerLinux/RGBController_XPGSpectrixS40G.h                       \
     Controllers/YeelightController/YeelightController.h                                         \
     Controllers/YeelightController/RGBController_Yeelight.h                                     \
     Controllers/ZalmanZSyncController/ZalmanZSyncController.h                                   \
@@ -877,9 +874,6 @@ SOURCES +=                                                                      
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.cpp                      \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.cpp                     \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.cpp               \
-    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GController.cpp                         \
-    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GControllerDetect.cpp                   \
-    Controllers/XPGSpectrixS40GControllerLinux/RGBController_XPGSpectrixS40G.cpp                     \
     Controllers/YeelightController/YeelightController.cpp                                       \
     Controllers/YeelightController/YeelightControllerDetect.cpp                                 \
     Controllers/YeelightController/RGBController_Yeelight.cpp                                   \
@@ -938,6 +932,7 @@ win32:INCLUDEPATH +=                                                            
     dependencies/openrazer-win32                                                                \
     wmi/                                                                                        \
     Controllers/AsusTUFLaptopController                                                         \
+    Controllers/XPGSpectrixS40GControllerWindows/                                               \
 
 win32:SOURCES +=                                                                                \
 #   dependencies/hidapi/hidapi.c                                                                \
@@ -1040,6 +1035,9 @@ win32:SOURCES +=                                                                
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.cpp                      \
     Controllers/OpenRazerController/OpenRazerWindowsDetect.cpp                                  \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.cpp                          \
+    Controllers/XPGSpectrixS40GControllerWindows/XPGSpectrixS40GController.cpp                  \
+    Controllers/XPGSpectrixS40GControllerWindows/XPGSpectrixS40GControllerDetect.cpp            \
+    Controllers/XPGSpectrixS40GControllerWindows/RGBController_XPGSpectrixS40G.cpp              \
 
 win32:HEADERS +=                                                                                \
     dependencies/display-library/include/adl_defines.h                                          \
@@ -1056,6 +1054,8 @@ win32:HEADERS +=                                                                
     AutoStart/AutoStart-Windows.h                                                               \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
+    Controllers/XPGSpectrixS40GControllerWindows/XPGSpectrixS40GController.h                    \
+    Controllers/XPGSpectrixS40GControllerWindows/RGBController_XPGSpectrixS40G.h                \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     LIBS +=                                                                                     \
@@ -1139,6 +1139,7 @@ unix:!macx {
     INCLUDEPATH +=                                                                              \
     Controllers/FaustusController                                                               \
     Controllers/LinuxLEDController                                                              \
+    Controllers/XPGSpectrixS40GControllerWindows/                                               \
 
     HEADERS +=                                                                                  \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
@@ -1147,6 +1148,8 @@ unix:!macx {
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
     Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
+    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GController.h                      \
+    Controllers/XPGSpectrixS40GControllerLinux/RGBController_XPGSpectrixS40G.h                  \
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
@@ -1194,6 +1197,9 @@ unix:!macx {
     Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \
     Controllers/OpenRazerController/OpenRazerDetect.cpp                                         \
     Controllers/OpenRazerController/RGBController_OpenRazer.cpp                                 \
+    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GController.cpp                    \
+    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GControllerDetect.cpp              \
+    Controllers/XPGSpectrixS40GControllerLinux/RGBController_XPGSpectrixS40G.cpp                \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
