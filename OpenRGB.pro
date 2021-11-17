@@ -142,7 +142,7 @@ INCLUDEPATH +=                                                                  
     Controllers/ThermaltakePoseidonZRGBController/                                              \
     Controllers/ThermaltakeRiingController/                                                     \
     Controllers/WootingKeyboardController/                                                      \
-    Controllers/XPGSpectrixS40GController/                                                      \
+    Controllers/XPGSpectrixS40GControllerLinux/                                                      \
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
     RGBController/                                                                              \
@@ -464,8 +464,8 @@ HEADERS +=                                                                      
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.h                       \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.h                 \
-    Controllers/XPGSpectrixS40GController/XPGSpectrixS40GController.h                           \
-    Controllers/XPGSpectrixS40GController/RGBController_XPGSpectrixS40G.h                       \
+    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GController.h                           \
+    Controllers/XPGSpectrixS40GControllerLinux/RGBController_XPGSpectrixS40G.h                       \
     Controllers/YeelightController/YeelightController.h                                         \
     Controllers/YeelightController/RGBController_Yeelight.h                                     \
     Controllers/ZalmanZSyncController/ZalmanZSyncController.h                                   \
@@ -881,9 +881,9 @@ SOURCES +=                                                                      
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.cpp                      \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.cpp                     \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.cpp               \
-    Controllers/XPGSpectrixS40GController/XPGSpectrixS40GController.cpp                         \
-    Controllers/XPGSpectrixS40GController/XPGSpectrixS40GControllerDetect.cpp                   \
-    Controllers/XPGSpectrixS40GController/RGBController_XPGSpectrixS40G.cpp                     \
+    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GController.cpp                         \
+    Controllers/XPGSpectrixS40GControllerLinux/XPGSpectrixS40GControllerDetect.cpp                   \
+    Controllers/XPGSpectrixS40GControllerLinux/RGBController_XPGSpectrixS40G.cpp                     \
     Controllers/YeelightController/YeelightController.cpp                                       \
     Controllers/YeelightController/YeelightControllerDetect.cpp                                 \
     Controllers/YeelightController/RGBController_Yeelight.cpp                                   \
@@ -1157,6 +1157,7 @@ unix:!macx {
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
+    -lnvme                                                                                      \
 
     COMPILER_VERSION = $$system($$QMAKE_CXX " -dumpversion")
     if (!versionAtLeast(COMPILER_VERSION, "9")) {
