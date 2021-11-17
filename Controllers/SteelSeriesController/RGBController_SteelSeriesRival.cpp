@@ -90,8 +90,9 @@ void RGBController_SteelSeriesRival::SetupZones()
     logo_led.value          = 0;
     leds.push_back(logo_led);
 
-    /* Rival 300 extends this by adding Scroll Wheel LED + Zone */
-    if(rival->GetMouseType() == RIVAL_300)
+    /* Rival 300 and 700 extend this by adding Scroll Wheel LED + Zone */
+    if(rival->GetMouseType() == RIVAL_300 ||
+       rival->GetMouseType() == RIVAL_700)
     {
         zone wheel_zone;
         wheel_zone.name         = "Scroll Wheel";

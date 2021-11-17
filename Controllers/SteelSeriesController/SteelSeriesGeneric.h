@@ -29,5 +29,6 @@ typedef enum
     RIVAL_600   = 0x09,
     RIVAL_3     = 0x0a,
     APEX_TZONE  = 0x0b,
+    RIVAL_700   = 0x0c,
 } steelseries_type;
 
