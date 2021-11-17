@@ -12,16 +12,11 @@
 #include <hidapi/hidapi.h>
 #include <stdint.h>
 
+#include "libnvme.h"
+
 #pragma once
 
 #define XPG_SPECTRIX_LED_COUNT   ( 8 )
-
-#ifdef _WIN32
-    #include <windows.h>
-    #include <fileapi.h>
-#else
-
-#endif
 
 /*-----------------------------------------*\
 |  AsusAuraSMBusController.h                |
@@ -33,7 +28,6 @@
 \*-----------------------------------------*/
 
 #include <string>
-#include "i2c_smbus.h"
 
 #pragma once
 
@@ -117,21 +111,32 @@ enum
     AURA_CONFIG_CHANNEL_V2              = 0x1B,     /* LED Channel V2 configuration offset  */
 };
 
+struct xpg_nvme_command
+{
+    __u8  opcode;
+    __u8  flags;
+    __u16 rsvd;
+    __u32 namespace_id;
+    __u32 data_len;
+    __u32 metadata_len;
+    __u32 timeout;
+    __u32 cdw2;
+    __u32 cdw3;
+    __u32 cdw10;
+    __u32 cdw11;
+    __u32 cdw12;
+    __u32 cdw13;
+    __u32 cdw14;
+    __u32 cdw15;
+    int   read;
+    int   write;
+};
+
 class XPGSpectrixS40GController
 {
 public:
     XPGSpectrixS40GController(int fd, aura_dev_id dev);
     ~XPGSpectrixS40GController();
-
-#ifdef _WIN32
-    /*-----------------------------------------------------*\
-    | Windows specific function that allows the devices     |
-    | handle to be passed from elsewhere once detected      |
-    \*-----------------------------------------------------*/
-    int SetHandle(wchar_t dev_name[MAX_PATH]);
-#else
-
-#endif
 
     std::string   GetDeviceName();
     std::string   GetDeviceLocation();
@@ -156,11 +161,6 @@ public:
     void          AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz);
 
 private:
-#ifdef _WIN32
-    HANDLE                  hDevice;
-#else
-
-#endif
     int                     nvme_fd;
     char                    device_name[16];
     unsigned char           config_table[64];
@@ -168,7 +168,6 @@ private:
     aura_register           direct_reg;
     aura_register           effect_reg;
     unsigned char           channel_cfg;
-    i2c_smbus_interface *   bus;
     aura_dev_id             dev;
 
 };

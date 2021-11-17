@@ -219,178 +219,10 @@ unsigned char XPGSpectrixS40GController::AuraRegisterRead(aura_register reg)
     return(0);
 }
 
-#include "libnvme.h"
-
 void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned char val)
 {
-    	struct config {
-		__u8  opcode;
-		__u8  flags;
-		__u16 rsvd;
-		__u32 namespace_id;
-		__u32 data_len;
-		__u32 metadata_len;
-		__u32 timeout;
-		__u32 cdw2;
-		__u32 cdw3;
-		__u32 cdw10;
-		__u32 cdw11;
-		__u32 cdw12;
-		__u32 cdw13;
-		__u32 cdw14;
-		__u32 cdw15;
-		char  *input_file;
-		int   raw_binary;
-		int   show_command;
-		int   dry_run;
-		int   read;
-		int   write;
-		__u8  prefill;
-		int   latency;
-	};
-
-  	struct config cfg = {
-		.opcode       = 0,
-		.flags        = 0,
-		.rsvd         = 0,
-		.namespace_id = 0,
-		.data_len     = 0,
-		.metadata_len = 0,
-		.timeout      = 10,
-		.cdw2         = 0,
-		.cdw3         = 0,
-		.cdw10        = 0,
-		.cdw11        = 0,
-		.cdw12        = 0,
-		.cdw13        = 0,
-		.cdw14        = 0,
-		.cdw15        = 0,
-		.input_file   = "",
-		.prefill      = 0,
-	};
-
-    unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
-
-    cfg.opcode          = 0xFB;
-    cfg.namespace_id    = 0x00000031;
-    cfg.cdw12           = (corrected_reg << 16) | (dev << 1);
-    cfg.cdw13           = 0x01100001;
-    cfg.data_len        = 1;
-    cfg.write           = true;
-
-    unsigned char data[1];
-
-    data[0]             = val;
-
-    unsigned char metadata[1];
-
-    unsigned int result;
-
-    nvme_admin_passthru(nvme_fd, cfg.opcode, cfg.flags, cfg.rsvd,
-				cfg.namespace_id, cfg.cdw2, cfg.cdw3, cfg.cdw10,
-				cfg.cdw11, cfg.cdw12, cfg.cdw13, cfg.cdw14,
-				cfg.cdw15, cfg.data_len, data, cfg.metadata_len,
-				metadata, cfg.timeout, &result);
-
-    // if(hDevice != INVALID_HANDLE_VALUE)
-    // {
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Create buffer to hold STORAGE_PROTOCOL_COMMAND                                |
-    //     | Size must be enough for the STORAGE_PROTOCOL_COMMAND struct plus the command  |
-    //     | data.  Subtract sizeof(DWORD) as the Command field in the structure overlaps  |
-    //     | the actual command data.                                                      |
-    //     \*-----------------------------------------------------------------------------*/
-    //     unsigned char buffer[sizeof(STORAGE_PROTOCOL_COMMAND) + (sizeof(DWORD) * 34) - sizeof(DWORD)];
-
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Create STORAGE_PROTOCOL_COMMAND pointer and point it to the buffer            |
-    //     \*-----------------------------------------------------------------------------*/
-    //     PSTORAGE_PROTOCOL_COMMAND command       = (PSTORAGE_PROTOCOL_COMMAND)buffer;
-
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Fill in STORAGE_PROTOCOL_COMMAND structure                                    |
-    //     \*-----------------------------------------------------------------------------*/
-    //     command->Version                        = STORAGE_PROTOCOL_STRUCTURE_VERSION;
-    //     command->Length                         = sizeof(STORAGE_PROTOCOL_COMMAND);
-    //     command->ProtocolType                   = ProtocolTypeNvme;
-    //     command->Flags                          = STORAGE_PROTOCOL_COMMAND_FLAG_ADAPTER_REQUEST;
-    //     command->ReturnStatus                   = 0x00000000;
-    //     command->ErrorCode                      = 0x00000000;
-    //     command->CommandLength                  = STORAGE_PROTOCOL_COMMAND_LENGTH_NVME;
-    //     command->ErrorInfoLength                = 0x00000040;
-    //     command->DataToDeviceTransferLength     = 0x00000001;
-    //     command->DataFromDeviceTransferLength   = 0x00000000;
-    //     command->TimeOutValue                   = 0x00000001;
-    //     command->ErrorInfoOffset                = 0x00000090;
-    //     command->DataToDeviceBufferOffset       = 0x000000D0;
-    //     command->DataFromDeviceBufferOffset     = 0x00000000;
-    //     command->CommandSpecific                = STORAGE_PROTOCOL_SPECIFIC_NVME_ADMIN_COMMAND;
-    //     command->Reserved0                      = 0x00000000;
-    //     command->FixedProtocolReturnData        = 0x00000000;
-    //     command->Reserved1[0]                   = 0x00000000;
-    //     command->Reserved1[1]                   = 0x00000000;
-    //     command->Reserved1[2]                   = 0x00000000;
-
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Create ENE Register Write command, filling in the appropriate register and    |
-    //     | value                                                                         |
-    //     \*-----------------------------------------------------------------------------*/
-    //     PNVME_COMMAND CommandValue              = (PNVME_COMMAND)command->Command;
-
-    //     unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
-
-    //     CommandValue->CDW0.OPC                  = 0xFB;
-    //     CommandValue->NSID                      = 0x00000031;
-    //     CommandValue->u.GENERAL.CDW12           = (corrected_reg << 16) | (dev << 1);
-    //     CommandValue->u.GENERAL.CDW13           = 0x01100001;
-
-    //     DWORD ExtraValue[18] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    //                              0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
-
-    //     ExtraValue[16]                          = val;
-
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Copy the ENE Register Write extra data into the STORAGE_PROTOCOL_COMMAND      |
-    //     | buffer                                                                        |
-    //     \*-----------------------------------------------------------------------------*/
-    //     memcpy(&command->Command + sizeof(NVME_COMMAND), ExtraValue, sizeof(ExtraValue));
-
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Send the STORAGE_PROTOCOL_COMMAND to the device                               |
-    //     \*-----------------------------------------------------------------------------*/
-    //     DeviceIoControl(hDevice, IOCTL_STORAGE_PROTOCOL_COMMAND, buffer, sizeof(buffer), buffer, sizeof(buffer), 0x0, (LPOVERLAPPED)0x0);
-    // }
-}
-
-void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz)
-{
-    	struct config {
-		__u8  opcode;
-		__u8  flags;
-		__u16 rsvd;
-		__u32 namespace_id;
-		__u32 data_len;
-		__u32 metadata_len;
-		__u32 timeout;
-		__u32 cdw2;
-		__u32 cdw3;
-		__u32 cdw10;
-		__u32 cdw11;
-		__u32 cdw12;
-		__u32 cdw13;
-		__u32 cdw14;
-		__u32 cdw15;
-		char  *input_file;
-		int   raw_binary;
-		int   show_command;
-		int   dry_run;
-		int   read;
-		int   write;
-		__u8  prefill;
-		int   latency;
-	};
-
-  	struct config cfg = {
+  	struct xpg_nvme_command cfg =
+    {
 		.opcode       = 0,
 		.flags        = 0,
 		.rsvd         = 0,
@@ -406,96 +238,73 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
 		.cdw13        = 0,
 		.cdw14        = 0,
 		.cdw15        = 0,
-		.input_file   = "",
-		.prefill      = 0,
 	};
 
-    unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
+    unsigned short corrected_reg    = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
-    cfg.opcode          = 0xFB;
-    cfg.namespace_id    = 0x00000031;
-    cfg.cdw12           = (corrected_reg << 16) | (dev << 1);
-    cfg.cdw13           = 0x03100000 | sz;
-    cfg.data_len        = sz;
+    cfg.opcode                      = 0xFB;
+    cfg.namespace_id                = 0x00000031;
+    cfg.cdw12                       = (corrected_reg << 16) | (dev << 1);
+    cfg.cdw13                       = 0x01100001;
+    cfg.data_len                    = 1;
+    cfg.write                       = true;
 
-    unsigned char metadata[1];
+    unsigned char data[1];
 
-    unsigned int result;
+    data[0]                         = val;
 
+    unsigned char   metadata[1];
+    unsigned int    result;
+
+    /*-----------------------------------------------------------------------------*\
+    | Send the command to the device                                                |
+    \*-----------------------------------------------------------------------------*/
     nvme_admin_passthru(nvme_fd, cfg.opcode, cfg.flags, cfg.rsvd,
 				cfg.namespace_id, cfg.cdw2, cfg.cdw3, cfg.cdw10,
 				cfg.cdw11, cfg.cdw12, cfg.cdw13, cfg.cdw14,
 				cfg.cdw15, cfg.data_len, data, cfg.metadata_len,
 				metadata, cfg.timeout, &result);
+}
 
-    // if(hDevice != INVALID_HANDLE_VALUE)
-    // {
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Create buffer to hold STORAGE_PROTOCOL_COMMAND                                |
-    //     | Size must be enough for the STORAGE_PROTOCOL_COMMAND struct plus the command  |
-    //     | data.  Subtract sizeof(DWORD) as the Command field in the structure overlaps  |
-    //     | the actual command data.                                                      |
-    //     \*-----------------------------------------------------------------------------*/
-    //     unsigned char buffer[sizeof(STORAGE_PROTOCOL_COMMAND) + (sizeof(DWORD) * 39) - sizeof(DWORD)];
+void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz)
+{
+  	struct xpg_nvme_command cfg =
+    {
+		.opcode       = 0,
+		.flags        = 0,
+		.rsvd         = 0,
+		.namespace_id = 0,
+		.data_len     = 0,
+		.metadata_len = 0,
+		.timeout      = 0,
+		.cdw2         = 0,
+		.cdw3         = 0,
+		.cdw10        = 0,
+		.cdw11        = 0,
+		.cdw12        = 0,
+		.cdw13        = 0,
+		.cdw14        = 0,
+		.cdw15        = 0,
+	};
 
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Create STORAGE_PROTOCOL_COMMAND pointer and point it to the buffer            |
-    //     \*-----------------------------------------------------------------------------*/
-    //     PSTORAGE_PROTOCOL_COMMAND command       = (PSTORAGE_PROTOCOL_COMMAND)buffer;
+    unsigned short corrected_reg    = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Fill in STORAGE_PROTOCOL_COMMAND structure                                    |
-    //     \*-----------------------------------------------------------------------------*/
-    //     command->Version                        = STORAGE_PROTOCOL_STRUCTURE_VERSION;
-    //     command->Length                         = sizeof(STORAGE_PROTOCOL_COMMAND);
-    //     command->ProtocolType                   = ProtocolTypeNvme;
-    //     command->Flags                          = STORAGE_PROTOCOL_COMMAND_FLAG_ADAPTER_REQUEST;
-    //     command->ReturnStatus                   = 0x00000000;
-    //     command->ErrorCode                      = 0x00000000;
-    //     command->CommandLength                  = STORAGE_PROTOCOL_COMMAND_LENGTH_NVME;
-    //     command->ErrorInfoLength                = 0x00000040;
-    //     command->DataToDeviceTransferLength     = sz;
-    //     command->DataFromDeviceTransferLength   = 0x00000000;
-    //     command->TimeOutValue                   = 0x00000001;
-    //     command->ErrorInfoOffset                = 0x00000090;
-    //     command->DataToDeviceBufferOffset       = 0x000000D0;
-    //     command->DataFromDeviceBufferOffset     = 0x00000000;
-    //     command->CommandSpecific                = STORAGE_PROTOCOL_SPECIFIC_NVME_ADMIN_COMMAND;
-    //     command->Reserved0                      = 0x00000000;
-    //     command->FixedProtocolReturnData        = 0x00000000;
-    //     command->Reserved1[0]                   = 0x00000000;
-    //     command->Reserved1[1]                   = 0x00000000;
-    //     command->Reserved1[2]                   = 0x00000000;
+    cfg.opcode                      = 0xFB;
+    cfg.namespace_id                = 0x00000031;
+    cfg.cdw12                       = (corrected_reg << 16) | (dev << 1);
+    cfg.cdw13                       = 0x03100000 | sz;
+    cfg.data_len                    = sz;
 
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Create ENE Register Write Block command, filling in the appropriate register  |
-    //     | and value                                                                     |
-    //     \*-----------------------------------------------------------------------------*/
-    //     PNVME_COMMAND CommandValue              = (PNVME_COMMAND)command->Command;
+    unsigned char   metadata[1];
+    unsigned int    result;
 
-    //     unsigned short corrected_reg            = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
-
-    //     CommandValue->CDW0.OPC                  = 0xFB;
-    //     CommandValue->NSID                      = 0x00000031;
-    //     CommandValue->u.GENERAL.CDW12           = (corrected_reg << 16) | (dev << 1);
-    //     CommandValue->u.GENERAL.CDW13           = 0x03100000 | sz;
-
-    //     DWORD ExtraValue[23] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    //                              0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    //                              0x00000000, 0x00000000, 0x00000000 };
-
-    //     memcpy(&ExtraValue[16], data, sz);
-
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Copy the ENE Register Write Block extra data into the                         |
-    //     | STORAGE_PROTOCOL_COMMAND buffer                                               |
-    //     \*-----------------------------------------------------------------------------*/
-    //     memcpy(&command->Command + sizeof(NVME_COMMAND), ExtraValue, sizeof(ExtraValue));
-
-    //     /*-----------------------------------------------------------------------------*\
-    //     | Send the STORAGE_PROTOCOL_COMMAND to the device                               |
-    //     \*-----------------------------------------------------------------------------*/
-    //     DeviceIoControl(hDevice, IOCTL_STORAGE_PROTOCOL_COMMAND, buffer, sizeof(buffer), buffer, sizeof(buffer), 0x0, (LPOVERLAPPED)0x0);
-    // }
+    /*-----------------------------------------------------------------------------*\
+    | Send the command to the device                                                |
+    \*-----------------------------------------------------------------------------*/
+    nvme_admin_passthru(nvme_fd, cfg.opcode, cfg.flags, cfg.rsvd,
+				cfg.namespace_id, cfg.cdw2, cfg.cdw3, cfg.cdw10,
+				cfg.cdw11, cfg.cdw12, cfg.cdw13, cfg.cdw14,
+				cfg.cdw15, cfg.data_len, data, cfg.metadata_len,
+				metadata, cfg.timeout, &result);
 }
 
