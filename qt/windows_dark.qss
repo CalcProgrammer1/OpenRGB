@@ -299,7 +299,7 @@ QDialog
 
 /* QTableWidgets */
 
-QTableWidget
+QTableWidget, QTableWidget *
 {
     background-color: #454545;
     color: white;
