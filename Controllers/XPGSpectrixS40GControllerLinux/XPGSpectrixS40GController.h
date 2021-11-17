@@ -12,8 +12,6 @@
 #include <hidapi/hidapi.h>
 #include <stdint.h>
 
-#include "libnvme.h"
-
 #pragma once
 
 #define XPG_SPECTRIX_LED_COUNT   ( 8 )
@@ -111,25 +109,26 @@ enum
     AURA_CONFIG_CHANNEL_V2              = 0x1B,     /* LED Channel V2 configuration offset  */
 };
 
-struct xpg_nvme_command
+struct nvme_passthru_cmd
 {
-    __u8  opcode;
-    __u8  flags;
-    __u16 rsvd;
-    __u32 namespace_id;
-    __u32 data_len;
-    __u32 metadata_len;
-    __u32 timeout;
-    __u32 cdw2;
-    __u32 cdw3;
-    __u32 cdw10;
-    __u32 cdw11;
-    __u32 cdw12;
-    __u32 cdw13;
-    __u32 cdw14;
-    __u32 cdw15;
-    int   read;
-    int   write;
+    uint8_t     opcode;
+    uint8_t     flags;
+	uint16_t    rsvd1;
+	uint32_t    nsid;
+	uint32_t    cdw2;
+	uint32_t    cdw3;
+	uint64_t    metadata;
+	uint64_t    addr;
+	uint32_t    metadata_len;
+	uint32_t    data_len;
+	uint32_t    cdw10;
+	uint32_t    cdw11;
+	uint32_t    cdw12;
+	uint32_t    cdw13;
+	uint32_t    cdw14;
+	uint32_t    cdw15;
+	uint32_t    timeout_ms;
+	uint32_t    result;
 };
 
 class XPGSpectrixS40GController

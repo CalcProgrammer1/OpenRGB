@@ -11,6 +11,67 @@
 #include <malloc.h>
 #include <cstring>
 #include "LogManager.h"
+#include <sys/ioctl.h>
+
+/*---------------------------------------------------------------------*\
+| Functions for submitting NVME admin passthrough command taken from    |
+| libnvme: https://github.com/linux-nvme/libnvme                        |
+\*---------------------------------------------------------------------*/
+
+#define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_passthru_cmd)
+
+static int nvme_submit_passthru(int fd, unsigned long ioctl_cmd,
+				struct nvme_passthru_cmd *cmd, uint32_t *result)
+{
+	int err = ioctl(fd, ioctl_cmd, cmd);
+
+	if (err >= 0 && result)
+		*result = cmd->result;
+	return err;
+}
+
+static int nvme_passthru(int fd, unsigned long ioctl_cmd, uint8_t opcode,
+			 uint8_t flags, uint16_t rsvd, uint32_t nsid, uint32_t cdw2,
+			 uint32_t cdw3, uint32_t cdw10, uint32_t cdw11, uint32_t cdw12,
+			 uint32_t cdw13, uint32_t cdw14, uint32_t cdw15, uint32_t data_len,
+			 void *data, uint32_t metadata_len, void *metadata,
+			 uint32_t timeout_ms, uint32_t *result)
+{
+	struct nvme_passthru_cmd cmd = {
+		.opcode		= opcode,
+		.flags		= flags,
+		.rsvd1		= rsvd,
+		.nsid		= nsid,
+		.cdw2		= cdw2,
+		.cdw3		= cdw3,
+		.metadata	= (uint64_t)(uintptr_t)metadata,
+		.addr		= (uint64_t)(uintptr_t)data,
+		.metadata_len	= metadata_len,
+		.data_len	= data_len,
+		.cdw10		= cdw10,
+		.cdw11		= cdw11,
+		.cdw12		= cdw12,
+		.cdw13		= cdw13,
+		.cdw14		= cdw14,
+		.cdw15		= cdw15,
+		.timeout_ms	= timeout_ms,
+	};
+
+	return nvme_submit_passthru(fd, ioctl_cmd, &cmd, result);
+}
+
+int nvme_admin_passthru(int fd, uint8_t opcode, uint8_t flags, uint16_t rsvd,
+			uint32_t nsid, uint32_t cdw2, uint32_t cdw3, uint32_t cdw10,
+			uint32_t cdw11, uint32_t cdw12, uint32_t cdw13, uint32_t cdw14,
+			uint32_t cdw15, uint32_t data_len, void *data,
+			uint32_t metadata_len, void *metadata, uint32_t timeout_ms,
+			uint32_t *result)
+{
+	return nvme_passthru(fd, NVME_IOCTL_ADMIN_CMD, opcode, flags, rsvd,
+			     nsid, cdw2, cdw3, cdw10, cdw11, cdw12, cdw13,
+			     cdw14, cdw15, data_len, data, metadata_len,
+			     metadata, timeout_ms, result);
+}
 
 /*-----------------------------------------*\
 |  AsusAuraSMBusController.cpp              |
@@ -221,33 +282,17 @@ unsigned char XPGSpectrixS40GController::AuraRegisterRead(aura_register reg)
 
 void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned char val)
 {
-  	struct xpg_nvme_command cfg =
-    {
-		.opcode       = 0,
-		.flags        = 0,
-		.rsvd         = 0,
-		.namespace_id = 0,
-		.data_len     = 0,
-		.metadata_len = 0,
-		.timeout      = 0,
-		.cdw2         = 0,
-		.cdw3         = 0,
-		.cdw10        = 0,
-		.cdw11        = 0,
-		.cdw12        = 0,
-		.cdw13        = 0,
-		.cdw14        = 0,
-		.cdw15        = 0,
-	};
+  	struct nvme_passthru_cmd cfg;
+
+    memset(&cfg, 0, sizeof(nvme_passthru_cmd));
 
     unsigned short corrected_reg    = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
     cfg.opcode                      = 0xFB;
-    cfg.namespace_id                = 0x00000031;
+    cfg.nsid                        = 0x00000031;
     cfg.cdw12                       = (corrected_reg << 16) | (dev << 1);
     cfg.cdw13                       = 0x01100001;
     cfg.data_len                    = 1;
-    cfg.write                       = true;
 
     unsigned char data[1];
 
@@ -259,38 +304,23 @@ void XPGSpectrixS40GController::AuraRegisterWrite(aura_register reg, unsigned ch
     /*-----------------------------------------------------------------------------*\
     | Send the command to the device                                                |
     \*-----------------------------------------------------------------------------*/
-    nvme_admin_passthru(nvme_fd, cfg.opcode, cfg.flags, cfg.rsvd,
-				cfg.namespace_id, cfg.cdw2, cfg.cdw3, cfg.cdw10,
+    nvme_admin_passthru(nvme_fd, cfg.opcode, cfg.flags, cfg.rsvd1,
+				cfg.nsid, cfg.cdw2, cfg.cdw3, cfg.cdw10,
 				cfg.cdw11, cfg.cdw12, cfg.cdw13, cfg.cdw14,
 				cfg.cdw15, cfg.data_len, data, cfg.metadata_len,
-				metadata, cfg.timeout, &result);
+				metadata, cfg.timeout_ms, &result);
 }
 
 void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsigned char * data, unsigned char sz)
 {
-  	struct xpg_nvme_command cfg =
-    {
-		.opcode       = 0,
-		.flags        = 0,
-		.rsvd         = 0,
-		.namespace_id = 0,
-		.data_len     = 0,
-		.metadata_len = 0,
-		.timeout      = 0,
-		.cdw2         = 0,
-		.cdw3         = 0,
-		.cdw10        = 0,
-		.cdw11        = 0,
-		.cdw12        = 0,
-		.cdw13        = 0,
-		.cdw14        = 0,
-		.cdw15        = 0,
-	};
+  	struct nvme_passthru_cmd cfg;
+
+    memset(&cfg, 0, sizeof(nvme_passthru_cmd));
 
     unsigned short corrected_reg    = ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF);
 
     cfg.opcode                      = 0xFB;
-    cfg.namespace_id                = 0x00000031;
+    cfg.nsid                        = 0x00000031;
     cfg.cdw12                       = (corrected_reg << 16) | (dev << 1);
     cfg.cdw13                       = 0x03100000 | sz;
     cfg.data_len                    = sz;
@@ -301,10 +331,10 @@ void XPGSpectrixS40GController::AuraRegisterWriteBlock(aura_register reg, unsign
     /*-----------------------------------------------------------------------------*\
     | Send the command to the device                                                |
     \*-----------------------------------------------------------------------------*/
-    nvme_admin_passthru(nvme_fd, cfg.opcode, cfg.flags, cfg.rsvd,
-				cfg.namespace_id, cfg.cdw2, cfg.cdw3, cfg.cdw10,
+    nvme_admin_passthru(nvme_fd, cfg.opcode, cfg.flags, cfg.rsvd1,
+				cfg.nsid, cfg.cdw2, cfg.cdw3, cfg.cdw10,
 				cfg.cdw11, cfg.cdw12, cfg.cdw13, cfg.cdw14,
 				cfg.cdw15, cfg.data_len, data, cfg.metadata_len,
-				metadata, cfg.timeout, &result);
+				metadata, cfg.timeout_ms, &result);
 }
 
