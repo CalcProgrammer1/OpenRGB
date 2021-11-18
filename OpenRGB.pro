@@ -287,10 +287,12 @@ HEADERS +=                                                                      
     Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
     Controllers/EspurnaController/EspurnaController.h                                           \
     Controllers/EspurnaController/RGBController_Espurna.h                                       \
+    Controllers/EVGAGPUController/EVGAGP102Controller.h                                         \
     Controllers/EVGAGPUController/EVGAGPUCommon.h                                               \
     Controllers/EVGAGPUController/EVGAGPUv1Controller.h                                         \
     Controllers/EVGAGPUController/EVGAGPUv2Controller.h                                         \
     Controllers/EVGAGPUController/EVGAGPUv3Controller.h                                         \
+    Controllers/EVGAGPUController/RGBController_EVGAGP102.h                                     \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.h                                     \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.h                                     \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv3.h                                     \
@@ -662,10 +664,12 @@ SOURCES +=                                                                      
     Controllers/EspurnaController/EspurnaController.cpp                                         \
     Controllers/EspurnaController/EspurnaControllerDetect.cpp                                   \
     Controllers/EspurnaController/RGBController_Espurna.cpp                                     \
+    Controllers/EVGAGPUController/EVGAGP102Controller.cpp                                       \
     Controllers/EVGAGPUController/EVGAGPUv1Controller.cpp                                       \
     Controllers/EVGAGPUController/EVGAGPUv2Controller.cpp                                       \
     Controllers/EVGAGPUController/EVGAGPUv3Controller.cpp                                       \
     Controllers/EVGAGPUController/EVGAGPUControllerDetect.cpp                                   \
+    Controllers/EVGAGPUController/RGBController_EVGAGP102.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv1.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv2.cpp                                   \
     Controllers/EVGAGPUController/RGBController_EVGAGPUv3.cpp                                   \

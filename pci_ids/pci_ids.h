@@ -141,6 +141,10 @@
 #define EVGA_GTX1070_FTW_SUB_DEV                        0x6276
 #define EVGA_GTX1070TI_FTW2_SUB_DEV                     0x6775
 #define EVGA_GTX1080_FTW_SUB_DEV                        0x6286
+#define EVGA_GTX1080_FTW2_SUB_DEV                       0x6687
+#define EVGA_GTX1080TI_FTW3_SUB_DEV                     0x6696
+#define EVGA_GTX1080TI_FTW3_HYBRID_SUB_DEV              0x6698
+#define EVGA_GTX1080TI_KINGPIN_SUB_DEV                  0x6798
 #define EVGA_RTX2070_XC_GAMING_SUB_DEV                  0x2172
 #define EVGA_RTX2070_XC_OC_SUB_DEV                      0x2173
 #define EVGA_RTX2070S_BLACK_SUB_DEV                     0x3071

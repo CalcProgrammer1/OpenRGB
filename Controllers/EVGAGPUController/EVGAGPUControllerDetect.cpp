@@ -1,10 +1,12 @@
 #include "Detector.h"
 #include "EVGAGPUCommon.h"
+#include "EVGAGP102Controller.h"
 #include "EVGAGPUv1Controller.h"
 #include "EVGAGPUv2Controller.h"
 #include "EVGAGPUv3Controller.h"
 #include "LogManager.h"
 #include "RGBController.h"
+#include "RGBController_EVGAGP102.h"
 #include "RGBController_EVGAGPUv1.h"
 #include "RGBController_EVGAGPUv2.h"
 #include "RGBController_EVGAGPUv3.h"
@@ -16,6 +18,7 @@
 
 enum
 {
+    EVGA_RGB_GP102,
     EVGA_RGB_V1,
     EVGA_RGB_V2,
     EVGA_RGB_V3,
@@ -39,6 +42,10 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         EVGA_SUB_VEN,   EVGA_GTX1070_FTW_SUB_DEV,                   EVGA_RGB_V1,    "EVGA GeForce GTX 1070 FTW"                             },
     { NVIDIA_VEN,   NVIDIA_GTX1070TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1070TI_FTW2_SUB_DEV,                EVGA_RGB_V1,    "EVGA GeForce GTX 1070 Ti FTW2"                         },
     { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         EVGA_SUB_VEN,   EVGA_GTX1080_FTW_SUB_DEV,                   EVGA_RGB_V1,    "EVGA GeForce GTX 1080 FTW"                             },
+    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         EVGA_SUB_VEN,   EVGA_GTX1080_FTW2_SUB_DEV,                  EVGA_RGB_GP102, "EVGA GeForce GTX 1080 FTW2"                            },
+    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1080TI_FTW3_SUB_DEV,                EVGA_RGB_GP102, "EVGA GTX 1080 Ti FTW3"                                 },
+    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1080TI_FTW3_HYBRID_SUB_DEV,         EVGA_RGB_GP102, "EVGA 1080Ti FTW3 Hybrid"                               },
+    { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1080TI_KINGPIN_SUB_DEV,             EVGA_RGB_GP102, "EVGA GTX 1080 Ti K|NGP|N"                              },
     { NVIDIA_VEN,   NVIDIA_RTX2070_OC_DEV,      EVGA_SUB_VEN,   EVGA_RTX2070_XC_GAMING_SUB_DEV,             EVGA_RGB_V2,    "EVGA GeForce RTX 2070 XC Gaming"                       },
     { NVIDIA_VEN,   NVIDIA_RTX2070_OC_DEV,      EVGA_SUB_VEN,   EVGA_RTX2070_XC_OC_SUB_DEV,                 EVGA_RGB_V2,    "EVGA GeForce RTX 2070 XC OC"                           },
     { NVIDIA_VEN,   NVIDIA_RTX2070S_DEV,        EVGA_SUB_VEN,   EVGA_RTX2070S_BLACK_SUB_DEV,                EVGA_RGB_V2,    "EVGA GeForce RTX 2070 SUPER Black"                     },
@@ -100,7 +107,6 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_KINGPIN_HYBRID_SUB_DEV,        EVGA_RGB_V3,    "EVGA GeForce RTX 3090 K|NGP|N Hybrid"                  },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_KINGPIN_HC_SUB_DEV,            EVGA_RGB_V3,    "EVGA GeForce RTX 3090 K|NGP|N Hydro Copper"            },
 };
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectEVGAGPUControllers                                                               *
@@ -175,6 +181,32 @@ void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses)
                             {
                                 LOG_INFO("[%s] Failed to get a valid FW version, does the i2c interface support `i2c_smbus_read_i2c_block_data`?", new_controller-> evgaGPUName);
                                 delete new_controller;
+                            }
+                        }
+                        break;
+                    case EVGA_RGB_GP102:
+                        {
+                            LOG_DEBUG(EVGA_DETECT_MESSAGE, EVGA_GP102_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                            RGBController_EVGAGP102* new_rgbcontroller;
+                            std::vector<EVGAGP102Controller*>   controllers;
+
+                            for(unsigned int i = 0; i < sizeof(gpuzoneinfos) / sizeof(zoneinfo); i++)
+                            {
+                                EVGAGP102Controller* contr = new EVGAGP102Controller(busses[bus], gpuzoneinfos[i]);
+                                if (contr->IsValid())
+                                {
+                                    controllers.push_back(contr);
+                                }
+                                else
+                                {
+                                    delete contr;
+                                }
+                            }
+                            if(controllers.size() != 0)
+                            {
+                                new_rgbcontroller       = new RGBController_EVGAGP102(controllers);
+                                new_rgbcontroller->name = device_list[dev_idx].name;
+                                ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                             }
                         }
                         break;
