@@ -218,6 +218,8 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
                     new_controller = new RGBController_Crucial(new_crucial);
                     ResourceManager::get()->RegisterRGBController(new_controller);
                 }
+
+                std::this_thread::sleep_for(1ms);
             }
         }
     }
