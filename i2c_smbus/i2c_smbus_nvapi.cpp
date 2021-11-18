@@ -20,7 +20,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
     NV_I2C_INFO_V3 i2c_data;
     uint8_t data_buf[I2C_SMBUS_BLOCK_MAX];
     uint8_t chip_addr;
-	
+
     // Set up chip register address to command, one byte in length
     chip_addr = command;
     i2c_data.i2c_reg_address = &chip_addr;
@@ -114,7 +114,48 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
             break;
         }
     }
-    
+
+    return(ret);
+}
+
+s32 i2c_smbus_nvapi::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+{
+    NV_STATUS ret;
+    unsigned int unknown = 0;
+    NV_I2C_INFO_V3 i2c_data;
+
+    i2c_data.i2c_reg_address = NULL;
+    i2c_data.reg_addr_size = 0;
+
+    // Set up data buffer, zero bytes in length
+	i2c_data.data = data;
+	i2c_data.size = *size;
+
+    // Always use GPU port 1 - this is where RGB controllers are attached
+	i2c_data.is_ddc_port = 0;
+    i2c_data.port_id = 1;
+	i2c_data.is_port_id_set = 1;
+
+    // Use default speed
+	i2c_data.i2c_speed = 0xFFFF;
+	i2c_data.i2c_speed_khz = NV_I2C_SPEED::NVAPI_I2C_SPEED_DEFAULT;
+
+    // Load device address
+    i2c_data.i2c_dev_address = (addr << 1);
+
+    // Perform read or write
+    if(read_write == I2C_SMBUS_WRITE)
+    {
+        ret = NvAPI_I2CWriteEx(handle, &i2c_data, &unknown);
+    }
+    else
+    {
+        ret = NvAPI_I2CReadEx(handle, &i2c_data, &unknown);
+
+        *size = i2c_data.size;
+        memcpy(data, i2c_data.data, i2c_data.size);
+    }
+
     return(ret);
 }
 

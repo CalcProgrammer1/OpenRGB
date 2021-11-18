@@ -70,6 +70,7 @@ union i2c_smbus_data
 #define I2C_SMBUS_BLOCK_PROC_CALL   7           /* SMBus 2.0 */
 #define I2C_SMBUS_I2C_BLOCK_DATA    8
 
+
 class i2c_smbus_interface
 {
 public:
@@ -99,10 +100,16 @@ public:
     s32 i2c_smbus_read_i2c_block_data(u8 addr, u8 command, u8 length, u8 *values);
     s32 i2c_smbus_write_i2c_block_data(u8 addr, u8 command, u8 length, const u8 *values);
 
-    s32 i2c_smbus_xfer_call(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
+    //Addtional functions added for pure I2C block operations
+    s32 i2c_read_block(u8 addr, int* size, u8* data);
+    s32 i2c_write_block(u8 addr, int size, u8* data);
 
-    //Virtual function to be implemented by the driver
+    //Handle SMBus and I2C transfer calls in a single thread
+    s32 i2c_smbus_xfer_call(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
+    s32 i2c_xfer_call(u8 addr, char read_write, int* size, u8 *data);
+
     virtual s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data) = 0;
+    virtual s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data) = 0;
 
 private:
     std::thread *           i2c_smbus_thread;
@@ -121,9 +128,12 @@ private:
     u8                  i2c_addr;
     char                i2c_read_write;
     u16                 i2c_command;
-    int                 i2c_size;
-    i2c_smbus_data*     i2c_data;
+    int                 i2c_size_smbus;
+    int*                i2c_size;
+    i2c_smbus_data*     i2c_data_smbus;
+    u8*                 i2c_data;
     s32                 i2c_ret;
+    bool                smbus_xfer;
 };
 
 #endif /* I2C_SMBUS_H */

@@ -12,9 +12,11 @@
 #include <linux/i2c-dev.h>
 #include <linux/i2c.h>
 #include <sys/ioctl.h>
+#include <cstring>
 
 s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, union i2c_smbus_data* data)
 {
+
     struct i2c_smbus_ioctl_data args;
 
     //Tell I2C host which slave address to transfer to
@@ -26,6 +28,24 @@ s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
     args.data = data;
 
     return ioctl(handle, I2C_SMBUS, &args);
+}
+
+s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+{
+    i2c_rdwr_ioctl_data rdwr;
+    i2c_msg msg;
+
+    msg.addr  = addr;
+    msg.flags = read_write;
+    msg.len   = *size;
+    msg.buf   = (u8*)malloc(*size);
+    memcpy(&msg.buf, &data, *size);
+
+    rdwr.msgs  = &msg;
+    rdwr.nmsgs = 1;
+
+    ioctl(handle, I2C_SLAVE, addr);
+    return ioctl(handle, I2C_RDWR, &rdwr);
 }
 
 #include "Detector.h"

@@ -189,6 +189,11 @@ s32 i2c_smbus_nct6775::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int 
     return nct6775_access(addr, read_write, command, size, data);
 }
 
+s32 i2c_smbus_nct6775::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+{
+    return -1;
+}
+
 #include "Detector.h"
 #include "super_io.h"
 

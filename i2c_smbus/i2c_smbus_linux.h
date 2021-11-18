@@ -16,4 +16,5 @@ public:
 
 private:
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
+    s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
 };

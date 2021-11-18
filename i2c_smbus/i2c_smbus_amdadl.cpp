@@ -194,6 +194,11 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     return (ret);
 };
 
+s32 i2c_smbus_amdadl::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+{
+    return -1;
+}
+
 #include "Detector.h"
 
 bool i2c_smbus_amdadl_detect()
