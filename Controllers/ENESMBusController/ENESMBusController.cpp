@@ -78,7 +78,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
     // DIMM_LED-0102 - First generation DRAM controller (Trident Z RGB)
@@ -86,7 +85,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
     // AUDA0-E6K5-0101 - Second generation DRAM controller (Geil Super Luce)
@@ -94,7 +92,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
     // AUMA0-E6K5-0106 - Second generation motherboard controller
@@ -102,7 +99,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
     // AUMA0-E6K5-0105 - Second generation motherboard controller
@@ -110,7 +106,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
     // AUMA0-E6K5-0104 - Second generation motherboard controller
@@ -118,7 +113,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
     // AUMA0-E8K4-0101 - First generation motherboard controller
@@ -126,7 +120,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
     // AUMA0-E6K5-0107 - Second generation GPU controller
@@ -134,7 +127,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
 
         // Read LED count from configuration table
@@ -145,7 +137,6 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
-        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
 }
@@ -262,7 +253,7 @@ unsigned char ENESMBusController::GetLEDBlueEffect(unsigned int led)
 
 void ENESMBusController::SaveMode()
 {
-    ENERegisterWrite(apply_reg, ENE_SAVE_VAL);
+    ENERegisterWrite(ENE_REG_APPLY, ENE_SAVE_VAL);
 }
 
 void ENESMBusController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
@@ -294,7 +285,7 @@ void ENESMBusController::SetAllColorsEffect(unsigned char red, unsigned char gre
 
     ENERegisterWriteBlock(effect_reg, colors, led_count * 3);
     
-    ENERegisterWrite(apply_reg, ENE_APPLY_VAL);
+    ENERegisterWrite(ENE_REG_APPLY, ENE_APPLY_VAL);
 
     delete[] colors;
 }
@@ -302,7 +293,7 @@ void ENESMBusController::SetAllColorsEffect(unsigned char red, unsigned char gre
 void ENESMBusController::SetDirect(unsigned char direct)
 {
     ENERegisterWrite(ENE_REG_DIRECT, direct);
-    ENERegisterWrite(apply_reg, ENE_APPLY_VAL);
+    ENERegisterWrite(ENE_REG_APPLY, ENE_APPLY_VAL);
 }
 
 void ENESMBusController::SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue)
@@ -318,7 +309,7 @@ void ENESMBusController::SetLEDColorEffect(unsigned int led, unsigned char red, 
 
     ENERegisterWriteBlock(effect_reg + (3 * led), colors, 3);
 
-    ENERegisterWrite(apply_reg, ENE_APPLY_VAL);
+    ENERegisterWrite(ENE_REG_APPLY, ENE_APPLY_VAL);
 }
 
 void ENESMBusController::SetMode(unsigned char mode, unsigned char speed, unsigned char direction)
@@ -326,7 +317,7 @@ void ENESMBusController::SetMode(unsigned char mode, unsigned char speed, unsign
     ENERegisterWrite(ENE_REG_MODE,      mode);
     ENERegisterWrite(ENE_REG_SPEED,     speed);
     ENERegisterWrite(ENE_REG_DIRECTION, direction);
-    ENERegisterWrite(apply_reg,     ENE_APPLY_VAL);
+    ENERegisterWrite(ENE_REG_APPLY,     ENE_APPLY_VAL);
 }
 
 void ENESMBusController::UpdateDeviceName()

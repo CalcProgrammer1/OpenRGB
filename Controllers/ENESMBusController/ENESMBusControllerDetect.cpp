@@ -77,7 +77,7 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
-    { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070,                0x67,   "ASUS 3070"                         },
+    { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070_OC,             0x67,   "ASUS ROG STRIX 3070 OC"            },
     { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_024G_GAMING,    0x67,   "ASUS ROG STRIX 3090 024G GAMING"   },
 };
 
@@ -333,7 +333,7 @@ void DetectENESMBusGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 
                     rgb_controller->name = device_list[dev_idx].name;
                     rgb_controller->type = DEVICE_TYPE_GPU;
-                    
+
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 else

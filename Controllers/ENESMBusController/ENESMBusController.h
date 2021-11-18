@@ -33,7 +33,6 @@ enum
     ENE_REG_SPEED                       = 0x8022,   /* Speed Control Register               */
     ENE_REG_DIRECTION                   = 0x8023,   /* Direction Control Register           */
     ENE_REG_APPLY                       = 0x80A0,   /* Apply Changes Register               */
-    ENE_REG_APPLY_0107                  = 0x802F,   /* Apply Changes Register (0107)        */
     ENE_REG_SLOT_INDEX                  = 0x80F8,   /* Slot Index Register (RAM only)       */
     ENE_REG_I2C_ADDRESS                 = 0x80F9,   /* I2C Address Register (RAM only)      */
     ENE_REG_COLORS_DIRECT_V2            = 0x8100,   /* Direct Colors (v2) 30 bytes          */
@@ -134,7 +133,6 @@ private:
     unsigned int            led_count;
     ene_register            direct_reg;
     ene_register            effect_reg;
-    ene_register            apply_reg;
     unsigned char           channel_cfg;
     i2c_smbus_interface *   bus;
     ene_dev_id              dev;
