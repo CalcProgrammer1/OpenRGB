@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>405</width>
-        <height>465</height>
+        <width>398</width>
+        <height>554</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
@@ -150,14 +150,14 @@
        <item row="3" column="0">
         <widget class="QLabel" name="ThemeLabel">
          <property name="text">
-          <string>Theme</string>
+          <string>Theme (restart required)</string>
          </property>
         </widget>
        </item>
        <item row="9" column="0">
         <widget class="QCheckBox" name="CheckboxLogConsole">
          <property name="text">
-          <string>Enable Log Console</string>
+          <string>Enable Log Console (restart required)</string>
          </property>
         </widget>
        </item>
