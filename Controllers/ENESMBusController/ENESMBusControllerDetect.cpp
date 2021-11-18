@@ -332,7 +332,8 @@ void DetectENESMBusGPUControllers(std::vector<i2c_smbus_interface*> &busses)
                     RGBController_ENESMBus* rgb_controller = new RGBController_ENESMBus(controller);
 
                     rgb_controller->name = device_list[dev_idx].name;
-
+                    rgb_controller->type = DEVICE_TYPE_GPU;
+                    
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 else
