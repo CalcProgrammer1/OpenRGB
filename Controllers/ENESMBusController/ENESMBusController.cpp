@@ -362,7 +362,13 @@ void ENESMBusController::ENERegisterWriteBlock(ene_register reg, unsigned char *
     //Write ENE register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
 
+    //Write ENE block as bytes
+    for(int i = 0; i < sz; i++)
+    {
+        bus->i2c_smbus_write_byte_data(dev, 0x01, data[i]);
+    }
+
     //Write ENE block data
-    bus->i2c_smbus_write_block_data(dev, 0x03, sz, data);
+    //bus->i2c_smbus_write_block_data(dev, 0x03, sz, data);
 
 }
