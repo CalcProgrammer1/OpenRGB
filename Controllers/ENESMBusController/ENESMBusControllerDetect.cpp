@@ -77,6 +77,7 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
+    { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070,                0x67,   "ASUS 3070"                         },
     { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_024G_GAMING,    0x67,   "ASUS ROG STRIX 3090 024G GAMING"   },
 };
 
