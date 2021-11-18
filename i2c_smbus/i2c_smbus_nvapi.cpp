@@ -66,6 +66,11 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
         break;
 
     case I2C_SMBUS_BLOCK_DATA:
+        data_buf[0] = data->block[0];
+        memcpy(&data_buf[1], &(data->block[1]), data->block[0]);
+        i2c_data.size = data->block[0] + 1;
+        break;
+
     case I2C_SMBUS_I2C_BLOCK_DATA:
         memcpy(&data_buf[0], &(data->block[1]), data->block[0]);
         i2c_data.size = data->block[0];
