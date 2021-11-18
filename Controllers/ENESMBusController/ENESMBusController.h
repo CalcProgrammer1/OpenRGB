@@ -91,6 +91,7 @@ enum
 enum
 {
     ENE_CONFIG_LED_COUNT                = 0x02,     /* LED Count configuration offset       */
+    ENE_CONFIG_LED_COUNT_0107           = 0x03,     /* LED Count configuration offset       */
     ENE_CONFIG_CHANNEL_V1               = 0x13,     /* LED Channel configuration offset     */
     ENE_CONFIG_CHANNEL_V2               = 0x1B,     /* LED Channel V2 configuration offset  */
 };
