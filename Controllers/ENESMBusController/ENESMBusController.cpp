@@ -93,6 +93,13 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
         effect_reg  = ENE_REG_COLORS_EFFECT;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
+    // AUMA0-E6K5-0107 - Second generation GPU controller
+    else if (strcmp(device_name, "AUMA0-E6K5-0107") == 0)
+    {
+        direct_reg  = ENE_REG_COLORS_DIRECT_V2;
+        effect_reg  = ENE_REG_COLORS_EFFECT_V2;
+        channel_cfg = ENE_CONFIG_CHANNEL_V2;
+    }
     // Assume first generation controller if string does not match
     else
     {
