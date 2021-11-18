@@ -59,6 +59,28 @@ static const unsigned char aura_mobo_addresses[] =
     0x4F
 };
 
+/*---------------------------------------------------------------------------------*\
+| This list contains ASUS GPUs which use an ENE RGB controller                      |
+\*---------------------------------------------------------------------------------*/
+
+typedef struct
+{
+    int             pci_vendor;
+    int             pci_device;
+    int             pci_subsystem_vendor;
+    int             pci_subsystem_device;
+    unsigned char   controller_address;
+    const char *    name;
+} gpu_pci_device;
+
+#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+
+static const gpu_pci_device device_list[] =
+{
+    { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_024G_GAMING,    0x67,   "ASUS ROG STRIX 3090 024G GAMING"   },
+};
+
+
 /******************************************************************************************\
 *                                                                                          *
 *   ENERegisterRead                                                                        *
@@ -280,5 +302,47 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
     }
 }   /* DetectENESMBusMotherboardControllers() */
 
+/******************************************************************************************\
+*                                                                                          *
+*   DetectENESMBusGPUControllers                                                           *
+*                                                                                          *
+*           Detects ENE (ASUS Aura) SMBus controllers on ASUS GPU devices                  *
+*                                                                                          *
+\******************************************************************************************/
+
+#define GPU_CHECK_DEVICE_MESSAGE_EN     "[%s] Bus %02d is a GPU and the subvendor matches the one for %s, looking for a device at %02X"
+
+void DetectENESMBusGPUControllers(std::vector<i2c_smbus_interface*> &busses)
+{
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    {
+        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
+        {
+            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
+               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
+               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
+               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
+            {
+                LOG_DEBUG(GPU_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, device_list[dev_idx].controller_address);
+
+                if(TestForENESMBusController(busses[bus], device_list[dev_idx].controller_address))
+                {
+                    ENESMBusController*     controller     = new ENESMBusController(busses[bus], device_list[dev_idx].controller_address);
+                    RGBController_ENESMBus* rgb_controller = new RGBController_ENESMBus(controller);
+
+                    rgb_controller->name = device_list[dev_idx].name;
+
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                else
+                {
+                    LOG_DEBUG("[ENE SMBus ASUS GPU] Testing for controller at %d failed", device_list[dev_idx].controller_address);
+                }
+            }
+        }
+    }
+} /* DetectENESMBusGPUControllers() */
+
 REGISTER_I2C_DETECTOR("ENE SMBus DRAM",                 DetectENESMBusDRAMControllers);
 REGISTER_I2C_DETECTOR("ASUS Aura SMBus Motherboard",    DetectENESMBusMotherboardControllers);
+REGISTER_I2C_DETECTOR("ASUS Aura GPU (ENE)",            DetectENESMBusGPUControllers);

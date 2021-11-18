@@ -133,6 +133,7 @@
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
 #define ASUS_RX580_STRIX_GAMING_OC                      0x0517
 #define ASUS_RX580_STRIX_GAMING_TOP                     0x0519
+#define ASUS_ROG_STRIX_RTX_3090_024G_GAMING             0x87AF
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
