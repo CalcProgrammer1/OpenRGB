@@ -140,7 +140,7 @@ bool TestForENESMBusController(i2c_smbus_interface* bus, unsigned char address)
 
     LOG_DEBUG("[ENE SMBus] looking for devices at 0x%02X...", address);
 
-    int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+    int res = bus->i2c_smbus_read_byte(address);
 
     if (res >= 0)
     {
