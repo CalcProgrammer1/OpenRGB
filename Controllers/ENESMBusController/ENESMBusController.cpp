@@ -11,6 +11,7 @@
 \*-----------------------------------------*/
 
 #include "ENESMBusController.h"
+#include "LogManager.h"
 #include <cstring>
 
 static const char* ene_channels[] =                 /* ENE channel strings                  */
@@ -39,6 +40,34 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     for (int i = 0; i < 64; i++)
     {
         config_table[i] = ENERegisterRead(ENE_REG_CONFIG_TABLE + i);
+    }
+
+    /*-----------------------------------------------------------------*\
+    | If this is running with TRACE or higher loglevel then             |
+    |   dump the entire Feature list to log                             |
+    \*-----------------------------------------------------------------*/
+    if(LogManager::get()->getLoglevel() >= LL_TRACE)
+    {
+        LOG_TRACE("[ENE SMBus] ENE config table for 0x%02X:", dev);
+        LOG_TRACE("    %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", config_table[0],  config_table[1],  config_table[2],  config_table[3],
+                                                                                                         config_table[4],  config_table[5],  config_table[6],  config_table[7],
+                                                                                                         config_table[8],  config_table[9],  config_table[10], config_table[11],
+                                                                                                         config_table[12], config_table[13], config_table[14], config_table[15]);
+
+        LOG_TRACE("    %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", config_table[16], config_table[17], config_table[18], config_table[19],
+                                                                                                         config_table[20], config_table[21], config_table[22], config_table[23],
+                                                                                                         config_table[24], config_table[25], config_table[26], config_table[27],
+                                                                                                         config_table[28], config_table[29], config_table[30], config_table[31]);
+
+        LOG_TRACE("    %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", config_table[32], config_table[33], config_table[34], config_table[35],
+                                                                                                         config_table[36], config_table[37], config_table[38], config_table[39],
+                                                                                                         config_table[40], config_table[41], config_table[42], config_table[43],
+                                                                                                         config_table[44], config_table[45], config_table[46], config_table[47]);
+
+        LOG_TRACE("    %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", config_table[48], config_table[49], config_table[50], config_table[51],
+                                                                                                         config_table[52], config_table[53], config_table[54], config_table[55],
+                                                                                                         config_table[56], config_table[57], config_table[58], config_table[59],
+                                                                                                         config_table[60], config_table[61], config_table[62], config_table[63]);
     }
 
     // Read LED count from configuration table
@@ -92,6 +121,16 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
+    }
+    // AUMA0-E6K5-0107 - Second generation GPU controller
+    else if (strcmp(device_name, "AUMA0-E6K5-0107") == 0)
+    {
+        direct_reg  = ENE_REG_COLORS_DIRECT_V2;
+        effect_reg  = ENE_REG_COLORS_EFFECT_V2;
+        channel_cfg = ENE_CONFIG_CHANNEL_V2;
+
+        // Read LED count from configuration table
+        led_count = config_table[ENE_CONFIG_LED_COUNT_0107];
     }
     // Assume first generation controller if string does not match
     else
@@ -195,6 +234,21 @@ unsigned char ENESMBusController::GetLEDGreen(unsigned int led)
 unsigned char ENESMBusController::GetLEDBlue(unsigned int led)
 {
     return(ENERegisterRead(direct_reg + ( 3 * led ) + 1));
+}
+
+unsigned char ENESMBusController::GetLEDRedEffect(unsigned int led)
+{
+    return(ENERegisterRead(effect_reg + ( 3 * led )));
+}
+
+unsigned char ENESMBusController::GetLEDGreenEffect(unsigned int led)
+{
+    return(ENERegisterRead(effect_reg + ( 3 * led ) + 2));
+}
+
+unsigned char ENESMBusController::GetLEDBlueEffect(unsigned int led)
+{
+    return(ENERegisterRead(effect_reg + ( 3 * led ) + 1));
 }
 
 void ENESMBusController::SaveMode()
