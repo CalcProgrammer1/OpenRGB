@@ -202,6 +202,32 @@ int RGBController_ENESMBus::GetDeviceMode()
         }
     }
 
+    /*---------------------------------------------------------*\
+    | Initialize colors for each LED                            |
+    \*---------------------------------------------------------*/
+    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        unsigned int  led = leds[led_idx].value;
+        unsigned char red;
+        unsigned char grn;
+        unsigned char blu;
+
+        if(active_mode == 0)
+        {
+            red = controller->GetLEDRed(led);
+            grn = controller->GetLEDGreen(led);
+            blu = controller->GetLEDBlue(led);
+        }
+        else
+        {
+            red = controller->GetLEDRedEffect(led);
+            grn = controller->GetLEDGreenEffect(led);
+            blu = controller->GetLEDBlueEffect(led);
+        }
+
+        colors[led_idx] = ToRGBColor(red, grn, blu);
+    }
+
     return(active_mode);
 }
 
@@ -358,19 +384,6 @@ void RGBController_ENESMBus::SetupZones()
     }
 
     SetupColors();
-
-    /*---------------------------------------------------------*\
-    | Initialize colors for each LED                            |
-    \*---------------------------------------------------------*/
-    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
-    {
-        unsigned int  led = leds[led_idx].value;
-        unsigned char red = controller->GetLEDRed(led);
-        unsigned char grn = controller->GetLEDGreen(led);
-        unsigned char blu = controller->GetLEDBlue(led);
-
-        colors[led_idx] = ToRGBColor(red, grn, blu);
-    }
 }
 
 void RGBController_ENESMBus::ResizeZone(int /*zone*/, int /*new_size*/)

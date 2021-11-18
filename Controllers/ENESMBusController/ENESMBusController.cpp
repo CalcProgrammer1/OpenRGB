@@ -245,6 +245,21 @@ unsigned char ENESMBusController::GetLEDBlue(unsigned int led)
     return(ENERegisterRead(direct_reg + ( 3 * led ) + 1));
 }
 
+unsigned char ENESMBusController::GetLEDRedEffect(unsigned int led)
+{
+    return(ENERegisterRead(effect_reg + ( 3 * led )));
+}
+
+unsigned char ENESMBusController::GetLEDGreenEffect(unsigned int led)
+{
+    return(ENERegisterRead(effect_reg + ( 3 * led ) + 2));
+}
+
+unsigned char ENESMBusController::GetLEDBlueEffect(unsigned int led)
+{
+    return(ENERegisterRead(effect_reg + ( 3 * led ) + 1));
+}
+
 void ENESMBusController::SaveMode()
 {
     ENERegisterWrite(apply_reg, ENE_SAVE_VAL);

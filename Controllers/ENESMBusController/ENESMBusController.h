@@ -111,6 +111,9 @@ public:
     unsigned char GetLEDRed(unsigned int led);
     unsigned char GetLEDGreen(unsigned int led);
     unsigned char GetLEDBlue(unsigned int led);
+    unsigned char GetLEDRedEffect(unsigned int led);
+    unsigned char GetLEDGreenEffect(unsigned int led);
+    unsigned char GetLEDBlueEffect(unsigned int led);
     void          SaveMode();
     void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
     void          SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue);
