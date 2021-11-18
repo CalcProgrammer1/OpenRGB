@@ -134,7 +134,7 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
-        apply_reg   = ENE_REG_APPLY_0107;
+        apply_reg   = ENE_REG_APPLY;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
 
         // Read LED count from configuration table
