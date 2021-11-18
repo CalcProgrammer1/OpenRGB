@@ -20,7 +20,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
     NV_I2C_INFO_V3 i2c_data;
     uint8_t data_buf[I2C_SMBUS_BLOCK_MAX];
     uint8_t chip_addr;
-	
+
     // Set up chip register address to command, one byte in length
     chip_addr = command;
     i2c_data.i2c_reg_address = &chip_addr;
@@ -114,9 +114,19 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
             break;
         }
     }
-    
+
     return(ret);
 }
+
+s32 i2c_smbus_nvapi::i2c_read_block_data(u8 addr, u8 length, u8 *values)
+{
+    return i2c_smbus_read_i2c_block_data(addr, NULL, length, values);
+}
+s32 i2c_smbus_nvapi::i2c_write_block_data(u8 addr, u8 length, u8 *values)
+{
+    return i2c_smbus_write_i2c_block_data(addr, NULL, length, values);
+}
+
 
 #include "Detector.h"
 
