@@ -559,6 +559,7 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
     {
         plugin_manager->UnloadPlugins();
         event->accept();
+        QApplication::exit(0);
     }
 }
 
