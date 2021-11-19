@@ -241,7 +241,7 @@ RGBController_XPGSpectrixS40G::RGBController_XPGSpectrixS40G(XPGSpectrixS40GCont
     /*-------------------------------------------------*\
     | Initialize active mode                            |
     \*-------------------------------------------------*/
-    //active_mode = GetDeviceMode();
+    active_mode = GetDeviceMode();
 }
 
 RGBController_XPGSpectrixS40G::~RGBController_XPGSpectrixS40G()

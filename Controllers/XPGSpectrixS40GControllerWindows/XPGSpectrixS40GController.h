@@ -115,7 +115,7 @@ enum
 class XPGSpectrixS40GController
 {
 public:
-    XPGSpectrixS40GController(aura_dev_id dev);
+    XPGSpectrixS40GController(wchar_t dev_name[MAX_PATH], aura_dev_id dev);
     ~XPGSpectrixS40GController();
 
     /*-----------------------------------------------------*\

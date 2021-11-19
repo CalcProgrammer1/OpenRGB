@@ -64,18 +64,16 @@ void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
     
     if(Search(dev_name))
     {
-        new_xpg_s40g = new XPGSpectrixS40GController(0x67);
-        int result = new_xpg_s40g->SetHandle(dev_name);
+        new_xpg_s40g = new XPGSpectrixS40GController(dev_name, 0x67);
 
-        if(result)
-        {
-            new_controller = new RGBController_XPGSpectrixS40G(new_xpg_s40g);
-            rgb_controllers.push_back(new_controller);
-        }
-        else
-        {
-            delete new_xpg_s40g;
-        }
+        new_controller = new RGBController_XPGSpectrixS40G(new_xpg_s40g);
+
+        new_controller->name    = "XPG Spectrix S40G";
+        new_controller->vendor  = "XPG";
+        new_controller->type    = DEVICE_TYPE_STORAGE;
+        
+        rgb_controllers.push_back(new_controller);
+
     }
 }   /* DetectSpectrixS40GControllers() */
 
