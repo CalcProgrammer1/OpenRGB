@@ -7,7 +7,6 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus_nvapi.h"
-#include "LogManager.h"
 
 i2c_smbus_nvapi::i2c_smbus_nvapi(NV_PHYSICAL_GPU_HANDLE handle)
 {
@@ -150,7 +149,6 @@ bool i2c_smbus_nvapi_detect()
             nvapi_bus->pci_subsystem_device = sub_system_id >> 16;
             nvapi_bus->pci_subsystem_vendor = sub_system_id & 0xffff;
             nvapi_bus->port_id              = 1;
-            LOG_INFO("NVIDIA GPU Device %04X:%04X Subsystem: %04X:%04X", nvapi_bus->pci_vendor, nvapi_bus->pci_device,nvapi_bus->pci_subsystem_vendor,nvapi_bus->pci_subsystem_device);
         }
 
         ResourceManager::get()->RegisterI2CBus(nvapi_bus);
