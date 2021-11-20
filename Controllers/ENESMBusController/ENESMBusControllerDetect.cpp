@@ -88,6 +88,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,       NVIDIA_RTX3080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3080TI_O12G_GAMING,      0x67,   "ASUS ROG STRIX 3080Ti O12G GAMING"         },
     { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_O24G_GAMING,        0x67,   "ASUS ROG STRIX 3090 O24G GAMING"           },
     { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_O24G_GAMING_WHITE,  0x67,   "ASUS ROG STRIX 3090 O24G GAMING White OC"  },
+    { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3090_O24G_OC,                  0x67,   "ASUS TUF 3090 O24G OC"                     },
 };
 
 
