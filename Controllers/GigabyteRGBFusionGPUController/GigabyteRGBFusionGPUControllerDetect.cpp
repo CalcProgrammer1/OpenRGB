@@ -112,9 +112,9 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 
         res = bus->i2c_smbus_read_byte(address);
 
-        if ((res != 0x14) && (res != 0x10))
+        if ((res != 0x14)&& (res != 0x12) && (res != 0x10))
         {
-            LOG_DEBUG("[%s] at 0x%02X address expected 0x14|0x10 but recieved: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME, address, res);
+            LOG_DEBUG("[%s] at 0x%02X address expected 0x14|0x12|0x10 but recieved: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME, address, res);
             pass = false;
         }
 
