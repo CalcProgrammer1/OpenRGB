@@ -5,12 +5,14 @@
 #include "AsusAuraTUFKeyboardController.h"
 #include "AsusAuraMainboardController.h"
 #include "AsusAuraMouseController.h"
+#include "AsusAuraStrixEvolveController.h"
 #include "RGBController.h"
 #include "RGBController_AsusAuraUSB.h"
 #include "RGBController_AsusAuraHeadsetStand.h"
 #include "RGBController_AsusAuraKeyboard.h"
 #include "RGBController_AsusAuraTUFKeyboard.h"
 #include "RGBController_AsusAuraMouse.h"
+#include "RGBController_AsusAuraStrixEvolve.h"
 #include <stdexcept>
 #include <hidapi/hidapi.h>
 #include "dependencies/dmiinfo.h"
@@ -44,6 +46,7 @@
 |  MICE - defined in AsusAuraMouseDevices.h                         |
 \*-----------------------------------------------------------------*/
 
+#define AURA_ROG_STRIX_EVOLVE_PID               0x185B
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
@@ -151,6 +154,18 @@ void DetectAsusAuraUSBMice(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectAsusAuraUSBStrixEvolve(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        AuraStrixEvolveController* controller = new AuraStrixEvolveController(dev, info->path, info->product_id);
+        RGBController_AuraStrixEvolve* rgb_controller = new RGBController_AuraStrixEvolve(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectAsusAuraUSBHeadsetStand(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -217,6 +232,8 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio II (Wireless)",        DetectAsusAuraUS
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Impact II",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_STRIX_IMPACT_II_PID,             1,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M3",                  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_TUF_M3_PID,                          1,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_TUF_M5_PID,                          2,  0xFF01);
+
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Evolve",               DetectAsusAuraUSBStrixEvolve,   AURA_USB_VID, AURA_ROG_STRIX_EVOLVE_PID,                1,  0x0008);
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
