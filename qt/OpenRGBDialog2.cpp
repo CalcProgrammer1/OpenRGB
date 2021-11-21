@@ -1432,6 +1432,16 @@ void OpenRGBDialog2::onShowDialogMessage()
 {
     QMessageBox box;
 
+    if(IsDarkTheme())
+    {
+        QPalette pal = palette();
+        pal.setColor(QPalette::WindowText, Qt::white);
+        box.setPalette(pal);
+        QFile darkTheme(":/windows_dark.qss");
+        darkTheme.open(QFile::ReadOnly);
+        box.setStyleSheet(darkTheme.readAll());
+    }
+
     box.setInformativeText(dialog_message);
 
     box.exec();
