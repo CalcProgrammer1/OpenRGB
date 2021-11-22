@@ -1040,6 +1040,8 @@ win32:SOURCES +=                                                                
     AutoStart/AutoStart-Windows.cpp                                                             \
     Controllers/AsusTUFLaptopController/AsusTUFLaptopWMIDetect.cpp                              \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.cpp                      \
+    Controllers/ENESMBusController/XPGSpectrixS40GDetect_Windows.cpp                            \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G_Windows.cpp \
     Controllers/OpenRazerController/OpenRazerWindowsDetect.cpp                                  \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.cpp                          \
 
@@ -1057,6 +1059,7 @@ win32:HEADERS +=                                                                
     wmi/acpiwmi.h                                                                               \
     AutoStart/AutoStart-Windows.h                                                               \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G_Windows.h   \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
