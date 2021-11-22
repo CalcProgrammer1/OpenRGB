@@ -242,13 +242,21 @@ bool logitech_device::connected()
     }
 }
 
-uint8_t logitech_device::getLEDinfo()
+uint8_t logitech_device::getLED_count()
+{
+    return leds.size();
+}
+
+logitech_led logitech_device::getLED_info(uint8_t LED_num)
 {
     /*-----------------------------------------------------------------*\
     | Get all info about the LEDs and Zones                             |
     \*-----------------------------------------------------------------*/
 
-    return leds.size();
+    if(!(LED_num < 0 || LED_num > leds.size()))
+    {
+        return leds[LED_num];
+    }
 }
 
 void logitech_device::flushReadQueue()
@@ -329,6 +337,29 @@ uint8_t logitech_device::getFeatureIndex(uint16_t feature_page)
     }
 
     return feature_index;
+}
+
+uint16_t logitech_device::getFeaturePage(uint8_t feature_index)
+{
+    /*-----------------------------------------------------------------*\
+    | Get the feature page from the feature_list                        |
+    |   Return the mapped feature page given the feature index          |
+    |   for this device or else return 0                                |
+    \*-----------------------------------------------------------------*/
+    rvrse_features rvrse_feature_list = reverse_map(feature_list);
+
+    rvrse_features::iterator find_page = rvrse_feature_list.find(feature_index);
+    if (find_page == rvrse_feature_list.end())
+    {
+        LOG_DEBUG("[%s] Feature index %02X not found!", device_name.c_str(), feature_index);
+
+        //TODO: Handle cache miss
+        return 0;
+    }
+    else
+    {
+        return find_page->second;
+    }
 }
 
 int logitech_device::getDeviceFeatureList()
@@ -454,6 +485,7 @@ void logitech_device::getRGBconfig()
     |   Then use it to get the name for this device                     |
     \*-----------------------------------------------------------------*/
     hid_device* dev_use2    = getDevice(2);
+    uint16_t feature_page   = getFeaturePage(RGB_feature_index);
     uint8_t led_response    = 0;
     uint8_t led_counter     = 0;
 
@@ -469,40 +501,130 @@ void logitech_device::getRGBconfig()
         longFAPrequest get_count;
         get_count.init(device_index, RGB_feature_index, LOGITECH_CMD_RGB_EFFECTS_GET_COUNT);
 
-        result = hid_write(dev_use2, get_count.buffer, get_count.size());
-        do
+        if(feature_page == LOGITECH_HIDPP_PAGE_RGB_EFFECTS1)
         {
-            result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
-            LOG_DEBUG("[%s] LED Count - %02X :   %04X %04X %04X %04X   %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(),
-                response.data[0], (response.data[1] << 8 | response.data[2]), (response.data[3] << 8 | response.data[4]), (response.data[5] << 8 | response.data[6]),
-                (response.data[7] << 8 | response.data[8]), response.data[9], response.data[10], response.data[11], response.data[12], response.data[13], response.data[14], response.data[15]);
-        } while ((result == 20) && (get_count.feature_index != response.feature_index) && (get_count.feature_command != response.feature_command));
+            result = hid_write(dev_use2, get_count.buffer, get_count.size());
+            do
+            {
+                result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
+                LOG_DEBUG("[%s] FP8070 - LED Count - %02X :   %04X %04X %04X %04X   %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(),
+                    response.data[0], (response.data[1] << 8 | response.data[2]), (response.data[3] << 8 | response.data[4]), (response.data[5] << 8 | response.data[6]),
+                    (response.data[7] << 8 | response.data[8]), response.data[9], response.data[10], response.data[11], response.data[12], response.data[13], response.data[14], response.data[15]);
+            } while ((result == 20) && (get_count.feature_index != response.feature_index) && (get_count.feature_command != response.feature_command));
 
-        led_response = response.data[0];
+            led_response = response.data[0];
 
-        get_count.feature_command = LOGITECH_CMD_RGB_EFFECTS_GET_INFO;
-        do
+            get_count.feature_command = LOGITECH_CMD_RGB_EFFECTS_GET_INFO;
+            do
+            {
+                get_count.data[0] = leds.size();
+                result = hid_write(dev_use2, get_count.buffer, get_count.size());
+                result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
+                LOG_DEBUG("[%s] FP8070 - LED %02i - %02X %02X %02X %02X %02X %02X %02X %02X   %02X %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(), get_count.data[0],
+                    response.data[0], response.data[1],  response.data[2],  response.data[3],  response.data[4],  response.data[5],  response.data[6],  response.data[7],
+                    response.data[8], response.data[9], response.data[10], response.data[11], response.data[12], response.data[13], response.data[14], response.data[15]);
+                if( result == 20 &&
+                    get_count.feature_index == response.feature_index &&
+                    get_count.feature_command == response.feature_command &&
+                    response.data[0] != 0x10 &&
+                    response.data[1] != 0x02
+                  )
+                {
+                    //If the response is the correct length (i.e. no USB error) and is for the RGB_feature_index and LOGITECH_CMD_RGB_EFFECTS_GET_INFO and no error occured with the led_counter then bump the counter
+                    logitech_led new_led;
+
+                    new_led.location    = response.data[1] << 8 | response.data[2];
+                    new_led.fx_count    = response.data[3];
+
+                    for(uint8_t i = 0; i < new_led.fx_count; i++)
+                    {
+                        blankFAPmessage fx_response;
+                        fx_response.init();
+
+                        longFAPrequest get_effect;
+                        get_effect.init(device_index, RGB_feature_index, LOGITECH_CMD_RGB_EFFECTS_GET_CONTROL);
+
+                        get_effect.data[0] = get_count.data[0];
+                        get_effect.data[1] = i;
+                        result = hid_write(dev_use2, get_effect.buffer, get_effect.size());
+                        result = hid_read_timeout(dev_use2, fx_response.buffer, fx_response.size(), LOGITECH_PROTOCOL_TIMEOUT);
+                        LOG_DEBUG("[%s] FP8070 - LED %02i Effect %02X - %02X %02X %02X %02X %02X %02X %02X %02X   %02X %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(), get_count.data[0], i,
+                            fx_response.data[0], fx_response.data[1],  fx_response.data[2],  fx_response.data[3],  fx_response.data[4],  fx_response.data[5],  fx_response.data[6],  fx_response.data[7],
+                            fx_response.data[8], fx_response.data[9], fx_response.data[10], fx_response.data[11], fx_response.data[12], fx_response.data[13], fx_response.data[14], fx_response.data[15]);
+
+                        logitech_fx new_fx;
+
+                        new_fx.index    = i;
+                        new_fx.mode     = *reinterpret_cast<LOGITECH_DEVICE_MODE*>(fx_response.data[2] << 8 | fx_response.data[3]);
+                        new_fx.speed    = fx_response.data[6] << 8 | fx_response.data[7];
+
+                        new_led.fx.push_back(new_fx);
+                    }
+
+                    leds.emplace(response.data[0], new_led);
+                }
+            } while ((result == 20) && (get_count.feature_index == response.feature_index) && (get_count.feature_command == response.feature_command) && (response.data[0] != 0x10) && (response.data[1] != 0x02));
+        }
+        else if(feature_page == LOGITECH_HIDPP_PAGE_RGB_EFFECTS2)
         {
-            //TODO: Push this info into a vector for later enumeration by the RGBController
-            get_count.data[0] = leds.size();
+            get_count.data[0] = 0xFF;
+            get_count.data[1] = 0xFF;
+            get_count.data[2] = 0;
+            get_count.data[3] = 0;
+            get_count.data[4] = 0;
+
             result = hid_write(dev_use2, get_count.buffer, get_count.size());
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
-            LOG_DEBUG("[%s] LED %02i - %02X %02X %02X %02X %02X %02X %02X %02X   %02X %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(), led_counter,
-                response.data[0], response.data[1],  response.data[2],  response.data[3],  response.data[4],  response.data[5],  response.data[6],  response.data[7],
-                response.data[8], response.data[9], response.data[10], response.data[11], response.data[12], response.data[13], response.data[14], response.data[15]);
-            if(result == 20 && get_count.feature_index == response.feature_index && get_count.feature_command == response.feature_command && response.data[0] != 0x10 && response.data[1] != 0x02)
+            LOG_DEBUG("[%s] FP8071 - LED Count - %02X :   %02X %02X %04X %04X %04X   %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(),
+                response.data[2], response.data[0], response.data[1], (response.data[3] << 8 | response.data[4]), (response.data[5] << 8 | response.data[6]),
+                (response.data[7] << 8 | response.data[8]), response.data[9], response.data[10], response.data[11], response.data[12], response.data[13], response.data[14], response.data[15]);
+
+            led_response = response.data[2];
+            for(size_t i = 0; i < led_response; i++)
             {
-                //If the response is the correct length (i.e. no USB error) and is for the RGB_feature_index and LOGITECH_CMD_RGB_EFFECTS_GET_INFO and no error occured with the led_counter then bump the counter
+                get_count.data[0] = i;
+                get_count.data[1] = 0xFF;
+                get_count.data[2] = 0;
+
+                result = hid_write(dev_use2, get_count.buffer, get_count.size());
+                result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
+                LOG_DEBUG("[%s] FP8071 - LED %02i - %02X %02X %02X %02X %02X %02X %02X %02X   %02X %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(), led_counter,
+                    response.data[0], response.data[1],  response.data[2],  response.data[3],  response.data[4],  response.data[5],  response.data[6],  response.data[7],
+                    response.data[8], response.data[9], response.data[10], response.data[11], response.data[12], response.data[13], response.data[14], response.data[15]);
+
                 logitech_led new_led;
 
-                new_led.value   = response.data[0];
-                new_led.param1  = response.data[1];
-                new_led.param2  = response.data[2];
-                new_led.param3  = response.data[3];
+                new_led.location    = response.data[2] << 8 | response.data[3];
+                new_led.fx_count    = response.data[4];
 
-                leds.push_back(new_led);
+                for(uint8_t i = 0; i < new_led.fx_count; i++)
+                {
+                    blankFAPmessage fx_response;
+                    fx_response.init();
+
+                    longFAPrequest get_effect;
+                    get_effect.init(device_index, RGB_feature_index, LOGITECH_CMD_RGB_EFFECTS_GET_INFO);
+
+                    get_effect.data[0] = get_count.data[0];
+                    get_effect.data[1] = i;
+                    result = hid_write(dev_use2, get_effect.buffer, get_effect.size());
+                    result = hid_read_timeout(dev_use2, fx_response.buffer, fx_response.size(), LOGITECH_PROTOCOL_TIMEOUT);
+                    LOG_DEBUG("[%s] FP8071 - LED %02i Effect %02X - %02X %02X %02X %02X %02X %02X %02X %02X   %02X %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(), get_count.data[0], i,
+                        fx_response.data[0], fx_response.data[1],  fx_response.data[2],  fx_response.data[3],  fx_response.data[4],  fx_response.data[5],  fx_response.data[6],  fx_response.data[7],
+                        fx_response.data[8], fx_response.data[9], fx_response.data[10], fx_response.data[11], fx_response.data[12], fx_response.data[13], fx_response.data[14], fx_response.data[15]);
+
+                    logitech_fx new_fx;
+
+                    new_fx.index    = i;
+                    new_fx.mode     = *reinterpret_cast<LOGITECH_DEVICE_MODE*>(fx_response.data[2] << 8 | fx_response.data[3]);
+                    new_fx.speed    = fx_response.data[6] << 8 | fx_response.data[7];
+
+                    new_led.fx.push_back(new_fx);
+                }
+
+                leds.emplace(response.data[0], new_led);
             }
-        } while ((result == 20) && (get_count.feature_index == response.feature_index) && (get_count.feature_command == response.feature_command) && (response.data[0] != 0x10) && (response.data[1] != 0x02));
+        }
 
         /*get_count.feature_command = LOGITECH_CMD_RGB_EFFECTS_GET_STATE;
         for(std::size_t i = 0; i < feature_count; i++ )
@@ -575,13 +697,13 @@ uint8_t logitech_device::setDirectMode(bool direct)
 
 uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness, bool bright_cycle_swap)
 {
-    int result = 0;
-
     /*-----------------------------------------------------------------*\
     | Check the usage map for usage2 (0x11 Long FAP Message) then       |
     |   set the device mode via LOGITECH_CMD_RGB_EFFECTS_SET_CONTROL    |
     \*-----------------------------------------------------------------*/
-    hid_device* dev_use2 = getDevice(2);
+    hid_device* dev_use2    = getDevice(2);
+    uint16_t feature_page   = getFeaturePage(RGB_feature_index);
+    int result              = 0;
 
     if(dev_use2)
     {
@@ -595,7 +717,7 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
         | Set the mode via the RGB_feature_index                            |
         \*-----------------------------------------------------------------*/
         longFAPrequest set_mode;
-        set_mode.init(device_index, RGB_feature_index, LOGITECH_CMD_RGB_EFFECTS_SET_CONTROL);
+        set_mode.init(device_index, RGB_feature_index, ((feature_page == LOGITECH_HIDPP_PAGE_RGB_EFFECTS1) ? LOGITECH_CMD_RGB_EFFECTS_SET_CONTROL : LOGITECH_CMD_RGB_EFFECTS_GET_INFO));
         set_mode.data[0] = zone;
         set_mode.data[1] = mode;
 
@@ -606,9 +728,10 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
         speed *= 100;
         if(mode == 1)   //Static
         {
-            set_mode.data[5]    = zone;
+            set_mode.data[5]    = 0x02; //zone;
+            set_mode.data[16]   = 0x01;
         }
-        else if(mode == 2)  //Spectrum Cycle
+        else if(mode == 2)  //Spectrum Cycle - LOGITECH_DEVICE_LED_SPECTRUM
         {
             if(bright_cycle_swap)
             {
@@ -618,7 +741,7 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
             set_mode.data[8]    = speed & 0xFF;
             set_mode.data[9]    = brightness;
         }
-        else if(mode == 3)  //Breathing
+        else if(mode == 3)  //Breathing - LOGITECH_DEVICE_LED_BREATHING
         {
             if(bright_cycle_swap)
             {
@@ -626,6 +749,7 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
             }
             set_mode.data[5]    = speed >> 8;
             set_mode.data[6]    = speed & 0xFF;
+            //set_mode.data[7]    = curve_type; //Value 0-6: Default, Sine, Square, Triangle, Sawtooth, Reverse_Sawtooth, Exponent
             set_mode.data[8]    = brightness;
         }
 

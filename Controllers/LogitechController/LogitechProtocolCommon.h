@@ -54,15 +54,35 @@
 
 enum LOGITECH_DEVICE_TYPE
 {
-    LOGITECH_DEVICE_TYPE_KEYBOARD = 0,
-    LOGITECH_DEVICE_TYPE_REMOTECONTROL =1,
-    LOGITECH_DEVICE_TYPE_NUMPAD = 2,
-    LOGITECH_DEVICE_TYPE_MOUSE = 3,
-    LOGITECH_DEVICE_TYPE_MOUSEPAD = 4,
-    LOGITECH_DEVICE_TYPE_TRACKBALL = 5,
-    LOGITECH_DEVICE_TYPE_PRESENTER = 6,
-    LOGITECH_DEVICE_TYPE_RECEIVER = 7,
-    LOGITECH_DEVICE_TYPE_HEADSET = 8
+    LOGITECH_DEVICE_TYPE_KEYBOARD       = 0,
+    LOGITECH_DEVICE_TYPE_REMOTECONTROL  = 1,
+    LOGITECH_DEVICE_TYPE_NUMPAD         = 2,
+    LOGITECH_DEVICE_TYPE_MOUSE          = 3,
+    LOGITECH_DEVICE_TYPE_MOUSEPAD       = 4,
+    LOGITECH_DEVICE_TYPE_TRACKBALL      = 5,
+    LOGITECH_DEVICE_TYPE_PRESENTER      = 6,
+    LOGITECH_DEVICE_TYPE_RECEIVER       = 7,
+    LOGITECH_DEVICE_TYPE_HEADSET        = 8
+};
+
+enum LOGITECH_DEVICE_MODE
+{
+    LOGITECH_DEVICE_LED_OFF             = 0x0000,
+    LOGITECH_DEVICE_LED_ON              = 0x0001,
+    LOGITECH_DEVICE_LED_SPECTRUM        = 0x0003,
+    LOGITECH_DEVICE_LED_WAVE            = 0x0004,
+    LOGITECH_DEVICE_LED_STAR            = 0x0005,
+    LOGITECH_DEVICE_LED_BREATHING       = 0x000A,
+    LOGITECH_DEVICE_LED_RIPPLE          = 0x000B,
+    LOGITECH_DEVICE_LED_CUSTOM          = 0x000C
+};
+
+static const char* logitech_led_locations[] = {
+    "Unknown",
+    "Primary",
+    "Logo",
+    "Left",
+    "Right"
 };
 
 // Used for: {GET,SET}_REGISTER_{REQ,RSP}, SET_LONG_REGISTER_RSP, GET_LONG_REGISTER_REQ
@@ -175,17 +195,39 @@ union blankFAPmessage
     };
 };
 
-struct logitech_led
+template<typename K, typename V>
+static std::map<V, K> reverse_map(const std::map<K, V>& map)
 {
-        uint8_t                     value;
-        uint8_t                     param1;
-        uint8_t                     param2;
-        uint8_t                     param3;
+    std::map<V, K> reversed_map;
+
+    for(const std::pair<K, V>& entry : map)
+    {
+        reversed_map[entry.second] = entry.first;
+    }
+
+    return reversed_map;
+}
+
+struct logitech_fx
+{
+        uint8_t                         index;
+        uint16_t                        speed; //period
+        LOGITECH_DEVICE_MODE            mode;
 };
 
-typedef std::map<uint8_t, hid_device*> usages;
-typedef std::map<uint16_t, uint8_t> features;
-typedef std::map<uint16_t, uint8_t> wireless_map;
+typedef std::map<uint8_t, hid_device*>  usages;
+typedef std::map<uint16_t, uint8_t>     features;
+typedef std::map<uint8_t, uint16_t>     rvrse_features;
+typedef std::map<uint16_t, uint8_t>     wireless_map;
+
+typedef std::vector<logitech_fx>        leds_fx;
+
+struct logitech_led
+{
+        uint16_t                        location;
+        uint8_t                         fx_count;
+        leds_fx                         fx;
+};
 
 int getWirelessDevice(usages _usages, uint16_t pid, wireless_map *wireless_devices);    //Helper function needed outside of class
 
@@ -215,15 +257,17 @@ public:
     bool                        is_valid();
     void                        flushReadQueue();
     uint8_t                     getFeatureIndex(uint16_t feature_page);
-    uint8_t                     getLEDinfo();
+    uint8_t                     getLED_count();
+    logitech_led                getLED_info(uint8_t LED_num);
     uint8_t                     setDirectMode(bool direct);
     uint8_t                     setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness, bool bright_cycle_swap);
     int                         getDeviceName();
 private:
-    std::vector<logitech_led>   leds;
+    std::map<uint8_t, logitech_led> leds;
     std::shared_ptr<std::mutex> mutex;
 
     hid_device*                 getDevice(uint8_t usage_index);
+    uint16_t                    getFeaturePage(uint8_t feature_index);
     int                         getDeviceFeatureList();
     void                        getRGBconfig();
     void                        initialiseDevice();

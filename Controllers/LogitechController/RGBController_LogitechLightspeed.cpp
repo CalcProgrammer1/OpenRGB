@@ -115,14 +115,33 @@ RGBController_LogitechLightspeed::~RGBController_LogitechLightspeed()
 
 void RGBController_LogitechLightspeed::SetupZones()
 {
-    uint8_t LED_count = logitech->lightspeed->getLEDinfo();
+    const std::string zone_string   = "Zone";
+    const std::string led_string    = "LED";
+    uint8_t led_count               = logitech->lightspeed->getLED_count();
 
-    if(LED_count > 0)
+    if(led_count > 0)
     {
-        for(size_t i = 0; i < LED_count; i++)
+        for(size_t i = 0; i < led_count; i++)
         {
             zone Lightspeed_logo_zone;
-            Lightspeed_logo_zone.name               = "Zone " + std::to_string(i);
+            led Lightspeed_logo_led;
+            logitech_led new_led                    = logitech->lightspeed->getLED_info(i);
+
+            if(new_led.location < sizeof(logitech_led_locations) )
+            {
+                Lightspeed_logo_zone.name           = logitech_led_locations[new_led.location];
+                Lightspeed_logo_zone.name.append(" ");
+                Lightspeed_logo_led.name            = Lightspeed_logo_zone.name;
+                Lightspeed_logo_led.name.append(led_string);
+                Lightspeed_logo_zone.name.append(zone_string);
+            }
+            else
+            {
+                std::string name                    = " " + std::to_string(i);
+                Lightspeed_logo_zone.name           = zone_string + name;
+                Lightspeed_logo_led.name            = led_string + name;
+            }
+
             Lightspeed_logo_zone.type               = ZONE_TYPE_SINGLE;
             Lightspeed_logo_zone.leds_min           = 1;
             Lightspeed_logo_zone.leds_max           = 1;
@@ -130,8 +149,6 @@ void RGBController_LogitechLightspeed::SetupZones()
             Lightspeed_logo_zone.matrix_map         = NULL;
             zones.push_back(Lightspeed_logo_zone);
 
-            led Lightspeed_logo_led;
-            Lightspeed_logo_led.name                = "LED " + std::to_string(i);
             Lightspeed_logo_led.value               = i;
             leds.push_back(Lightspeed_logo_led);
         }
