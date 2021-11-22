@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "ENESMBusController.h"
+#include "ENESMBusInterface_i2c_smbus.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
@@ -258,8 +259,10 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
             {
                 if (TestForENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]))
                 {
-                    ENESMBusController* controller = new ENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]);
-                    RGBController_ENESMBus* rgb_controller = new RGBController_ENESMBus(controller);
+                    ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
+                    ENESMBusController*          controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx]);
+                    RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
+
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
 
@@ -296,9 +299,13 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
                     if (TestForENESMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
                     {
                         DMIInfo dmi;
-                        ENESMBusController* controller = new ENESMBusController(busses[bus], aura_mobo_addresses[address_list_idx]);
-                        RGBController_ENESMBus* rgb_controller = new RGBController_ENESMBus(controller);
+
+                        ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
+                        ENESMBusController*          controller     = new ENESMBusController(interface, aura_mobo_addresses[address_list_idx]);
+                        RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
+
                         rgb_controller->name = "ASUS " + dmi.getMainboard();
+
                         ResourceManager::get()->RegisterRGBController(rgb_controller);
                     }
 
@@ -338,8 +345,9 @@ void DetectENESMBusGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 
                 if(TestForENESMBusController(busses[bus], device_list[dev_idx].controller_address))
                 {
-                    ENESMBusController*     controller     = new ENESMBusController(busses[bus], device_list[dev_idx].controller_address);
-                    RGBController_ENESMBus* rgb_controller = new RGBController_ENESMBus(controller);
+                    ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
+                    ENESMBusController*          controller     = new ENESMBusController(interface, device_list[dev_idx].controller_address);
+                    RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
                     rgb_controller->name = device_list[dev_idx].name;
                     rgb_controller->type = DEVICE_TYPE_GPU;

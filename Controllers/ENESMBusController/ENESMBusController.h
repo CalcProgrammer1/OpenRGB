@@ -11,12 +11,9 @@
 \*-----------------------------------------*/
 
 #include <string>
-#include "i2c_smbus.h"
+#include "ENESMBusInterface.h"
 
 #pragma once
-
-typedef unsigned char	ene_dev_id;
-typedef unsigned short	ene_register;
 
 #define ENE_APPLY_VAL                   0x01        /* Value for Apply Changes Register     */
 #define ENE_SAVE_VAL                    0xAA        /* Value for Save Changes               */
@@ -99,7 +96,7 @@ enum
 class ENESMBusController
 {
 public:
-    ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev);
+    ENESMBusController(ENESMBusInterface* interface, ene_dev_id dev);
     ~ENESMBusController();
 
     std::string   GetDeviceName();
@@ -134,7 +131,7 @@ private:
     ene_register            direct_reg;
     ene_register            effect_reg;
     unsigned char           channel_cfg;
-    i2c_smbus_interface *   bus;
+    ENESMBusInterface*      interface;
     ene_dev_id              dev;
 
 };

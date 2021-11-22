@@ -97,6 +97,7 @@ INCLUDEPATH +=                                                                  
     Controllers/E131Controller/                                                                 \
     Controllers/EKController/                                                                   \
     Controllers/ENESMBusController/                                                             \
+    Controllers/ENESMBusController/ENESMBusInterface                                            \
     Controllers/EspurnaController/                                                              \
     Controllers/EVGAGPUController/                                                              \
     Controllers/EVisionKeyboardController/                                                      \
@@ -285,6 +286,8 @@ HEADERS +=                                                                      
     Controllers/EKController/RGBController_EKController.h                                       \
     Controllers/ENESMBusController/ENESMBusController.h                                         \
     Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface.h                        \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.h              \
     Controllers/EspurnaController/EspurnaController.h                                           \
     Controllers/EspurnaController/RGBController_Espurna.h                                       \
     Controllers/EVGAGPUController/EVGAGP102Controller.h                                         \
@@ -661,6 +664,7 @@ SOURCES +=                                                                      
     Controllers/ENESMBusController/ENESMBusController.cpp                                       \
     Controllers/ENESMBusController/ENESMBusControllerDetect.cpp                                 \
     Controllers/ENESMBusController/RGBController_ENESMBus.cpp                                   \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.cpp            \
     Controllers/EspurnaController/EspurnaController.cpp                                         \
     Controllers/EspurnaController/EspurnaControllerDetect.cpp                                   \
     Controllers/EspurnaController/RGBController_Espurna.cpp                                     \

@@ -29,10 +29,10 @@ static const char* ene_channels[] =                 /* ENE channel strings      
     "Unknown",
 };
 
-ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
+ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id dev)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->interface = interface;
+    this->dev       = dev;
 
     UpdateDeviceName();
 
@@ -143,7 +143,7 @@ ENESMBusController::ENESMBusController(i2c_smbus_interface* bus, ene_dev_id dev)
 
 ENESMBusController::~ENESMBusController()
 {
-
+    delete interface;
 }
 
 std::string ENESMBusController::GetDeviceName()
@@ -153,12 +153,14 @@ std::string ENESMBusController::GetDeviceName()
 
 std::string ENESMBusController::GetDeviceLocation()
 {
-    std::string return_string(bus->device_name);
+    std::string return_string = interface->GetLocation();
+
     char addr[5];
     snprintf(addr, 5, "0x%02X", dev);
     return_string.append(", address ");
     return_string.append(addr);
-    return("I2C: " + return_string);
+
+    return(return_string);
 }
 
 unsigned char ENESMBusController::GetChannel(unsigned int led)
@@ -330,30 +332,15 @@ void ENESMBusController::UpdateDeviceName()
 
 unsigned char ENESMBusController::ENERegisterRead(ene_register reg)
 {
-    //Write ENE register
-    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
-
-    //Read ENE value
-    return(bus->i2c_smbus_read_byte_data(dev, 0x81));
-
+    return(interface->ENERegisterRead(dev, reg));
 }
 
 void ENESMBusController::ENERegisterWrite(ene_register reg, unsigned char val)
 {
-    //Write ENE register
-    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
-
-    //Write ENE value
-    bus->i2c_smbus_write_byte_data(dev, 0x01, val);
-
+    interface->ENERegisterWrite(dev, reg, val);
 }
 
 void ENESMBusController::ENERegisterWriteBlock(ene_register reg, unsigned char * data, unsigned char sz)
 {
-    //Write ENE register
-    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
-
-    //Write ENE block data
-    bus->i2c_smbus_write_block_data(dev, 0x03, sz, data);
-
+    interface->ENERegisterWriteBlock(dev, reg, data, sz);
 }
