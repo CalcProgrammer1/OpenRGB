@@ -314,6 +314,8 @@ void ENESMBusController::SetAllColorsEffect(RGBColor* colors)
         bytes_sent += bytes_to_send;
     }
 
+    ENERegisterWrite(ENE_REG_APPLY, ENE_APPLY_VAL);
+    
     delete color_buf;
 }
 
