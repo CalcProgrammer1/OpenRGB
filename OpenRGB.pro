@@ -1145,6 +1145,7 @@ unix:!macx {
     HEADERS +=                                                                                  \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
     AutoStart/AutoStart-Linux.h                                                                 \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.h           \
     Controllers/FaustusController/RGBController_Faustus.h                                       \
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
@@ -1189,6 +1190,8 @@ unix:!macx {
     i2c_smbus/i2c_smbus_linux.cpp                                                               \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-Linux.cpp                                                               \
+    Controllers/ENESMBusController/XPGSpectrixS40GDetect.cpp                                    \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.cpp         \
     Controllers/FaustusController/RGBController_Faustus.cpp                                     \
     Controllers/LinuxLEDController/LinuxLEDController.cpp                                       \
     Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp                                 \

@@ -12,6 +12,7 @@
 
 #include <string>
 #include "ENESMBusInterface.h"
+#include "RGBController.h"
 
 #pragma once
 
@@ -111,8 +112,8 @@ public:
     unsigned char GetLEDGreenEffect(unsigned int led);
     unsigned char GetLEDBlueEffect(unsigned int led);
     void          SaveMode();
-    void          SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue);
-    void          SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue);
+    void          SetAllColorsDirect(RGBColor* colors);
+    void          SetAllColorsEffect(RGBColor* colors);
     void          SetDirect(unsigned char direct);
     void          SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void          SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);

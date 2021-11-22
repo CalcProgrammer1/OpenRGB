@@ -258,39 +258,64 @@ void ENESMBusController::SaveMode()
     ENERegisterWrite(ENE_REG_APPLY, ENE_SAVE_VAL);
 }
 
-void ENESMBusController::SetAllColorsDirect(unsigned char red, unsigned char green, unsigned char blue)
+void ENESMBusController::SetAllColorsDirect(RGBColor* colors)
 {
-    unsigned char* colors = new unsigned char[led_count * 3];
+    unsigned char* color_buf   = new unsigned char[led_count * 3];
+    unsigned int   bytes_sent  = 0;
 
-    for (unsigned int i = 0; i < (led_count * 3); i += 3)
+    for(unsigned int i = 0; i < (led_count * 3); i += 3)
     {
-        colors[i + 0] = red;
-        colors[i + 1] = blue;
-        colors[i + 2] = green;
+        color_buf[i + 0] = RGBGetRValue(colors[i / 3]);
+        color_buf[i + 1] = RGBGetBValue(colors[i / 3]);
+        color_buf[i + 2] = RGBGetGValue(colors[i / 3]);
     }
 
-    ENERegisterWriteBlock(direct_reg, colors, led_count * 3);
-
-    delete[] colors;
-}
-
-void ENESMBusController::SetAllColorsEffect(unsigned char red, unsigned char green, unsigned char blue)
-{
-    unsigned char* colors = new unsigned char[led_count * 3];
-
-    for (unsigned int i = 0; i < (led_count * 3); i += 3)
+    while(bytes_sent < (led_count * 3))
     {
-        colors[i + 0] = red;
-        colors[i + 1] = blue;
-        colors[i + 2] = green;
+        unsigned int bytes_to_send = (led_count * 3) - bytes_sent;
+
+        if(bytes_to_send > interface->GetMaxBlock())
+        {
+            bytes_to_send = interface->GetMaxBlock();
+        }
+
+        ENERegisterWriteBlock(direct_reg + bytes_sent, &color_buf[bytes_sent], bytes_to_send);
+
+        bytes_sent += bytes_to_send;
     }
 
-    ENERegisterWriteBlock(effect_reg, colors, led_count * 3);
-    
-    ENERegisterWrite(ENE_REG_APPLY, ENE_APPLY_VAL);
-
-    delete[] colors;
+    delete color_buf;
 }
+
+void ENESMBusController::SetAllColorsEffect(RGBColor* colors)
+{
+    unsigned char* color_buf   = new unsigned char[led_count * 3];
+    unsigned int   bytes_sent  = 0;
+
+    for(unsigned int i = 0; i < (led_count * 3); i += 3)
+    {
+        color_buf[i + 0] = RGBGetRValue(colors[i / 3]);
+        color_buf[i + 1] = RGBGetBValue(colors[i / 3]);
+        color_buf[i + 2] = RGBGetGValue(colors[i / 3]);
+    }
+
+    while(bytes_sent < (led_count * 3))
+    {
+        unsigned int bytes_to_send = (led_count * 3) - bytes_sent;
+
+        if(bytes_to_send > interface->GetMaxBlock())
+        {
+            bytes_to_send = interface->GetMaxBlock();
+        }
+
+        ENERegisterWriteBlock(effect_reg + bytes_sent, &color_buf[bytes_sent], bytes_to_send);
+
+        bytes_sent += bytes_to_send;
+    }
+
+    delete color_buf;
+}
+
 
 void ENESMBusController::SetDirect(unsigned char direct)
 {

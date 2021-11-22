@@ -19,6 +19,11 @@ std::string ENESMBusInterface_i2c_smbus::GetLocation()
     return("I2C: " + return_string);
 }
 
+int ENESMBusInterface_i2c_smbus::GetMaxBlock()
+{
+    return(3);
+}
+
 unsigned char ENESMBusInterface_i2c_smbus::ENERegisterRead(ene_dev_id dev, ene_register reg)
 {
     //Write ENE register

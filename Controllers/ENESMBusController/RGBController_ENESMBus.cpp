@@ -233,21 +233,15 @@ int RGBController_ENESMBus::GetDeviceMode()
 
 void RGBController_ENESMBus::DeviceUpdateLEDs()
 {
-    for(std::size_t led = 0; led < colors.size(); led++)
+    if(GetMode() == 0)
     {
-        unsigned char red = RGBGetRValue(colors[led]);
-        unsigned char grn = RGBGetGValue(colors[led]);
-        unsigned char blu = RGBGetBValue(colors[led]);
-
-        if(GetMode() == 0)
-        {
-            controller->SetLEDColorDirect(led, red, grn, blu);
-        }
-        else
-        {
-            controller->SetLEDColorEffect(led, red, grn, blu);
-        }
+        controller->SetAllColorsDirect(&colors[0]);
     }
+    else
+    {
+        controller->SetAllColorsEffect(&colors[0]);
+    }
+
 }
 
 void RGBController_ENESMBus::UpdateZoneLEDs(int zone)
