@@ -97,14 +97,15 @@ int nvme_admin_passthru(int fd, uint8_t opcode, uint8_t flags, uint16_t rsvd,
 | ENESMBusInterface_SpectrixS40G implementation                         |
 \*---------------------------------------------------------------------*/
 
-ENESMBusInterface_SpectrixS40G::ENESMBusInterface_SpectrixS40G(int fd)
+ENESMBusInterface_SpectrixS40G::ENESMBusInterface_SpectrixS40G(int fd, char* path)
 {
     this->nvme_fd = fd;
+	this->path    = path;
 }
 
 std::string ENESMBusInterface_SpectrixS40G::GetLocation()
 {
-    return("NVMe: ");
+    return("NVMe: " + path);
 }
 
 int ENESMBusInterface_SpectrixS40G::GetMaxBlock()

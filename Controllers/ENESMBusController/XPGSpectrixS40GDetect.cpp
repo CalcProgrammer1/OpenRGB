@@ -63,12 +63,13 @@ void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
 
             if(nvme_fd > 0)
             {
-                ENESMBusInterface_SpectrixS40G* interface = new ENESMBusInterface_SpectrixS40G(nvme_fd);
+                ENESMBusInterface_SpectrixS40G* interface = new ENESMBusInterface_SpectrixS40G(nvme_fd, nvme_dev_buf);
                 ENESMBusController*             controller     = new ENESMBusController(interface, 0x67);
                 RGBController_ENESMBus*         rgb_controller = new RGBController_ENESMBus(controller);
                 
-                rgb_controller->name = "XPG Spectrix S40G";
-                rgb_controller->type = DEVICE_TYPE_STORAGE;
+                rgb_controller->name   = "XPG Spectrix S40G";
+                rgb_controller->type   = DEVICE_TYPE_STORAGE;
+                rgb_controller->vendor = "XPG";
 
                 rgb_controllers.push_back(rgb_controller);
             }

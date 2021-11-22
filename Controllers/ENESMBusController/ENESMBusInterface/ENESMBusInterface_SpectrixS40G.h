@@ -14,7 +14,7 @@
 class ENESMBusInterface_SpectrixS40G : public ENESMBusInterface
 {
 public:
-    ENESMBusInterface_SpectrixS40G(int fd);
+    ENESMBusInterface_SpectrixS40G(int fd, char* path);
 
     std::string   GetLocation();
     int           GetMaxBlock();
@@ -23,5 +23,6 @@ public:
     void          ENERegisterWriteBlock(ene_dev_id dev, ene_register reg, unsigned char * data, unsigned char sz);
 
 private:
-    int nvme_fd;
+    int         nvme_fd;
+    std::string path;
 };
