@@ -193,6 +193,7 @@ const char * ENESMBusController::GetChannelName(unsigned int led)
         break;
 
     case (unsigned char)ENE_LED_CHANNEL_DRAM:
+    case (unsigned char)ENE_LED_CHANNEL_DRAM_2:
         return(ene_channels[5]);
         break;
     
