@@ -18,6 +18,13 @@
 using namespace std::chrono_literals;
 
 /*----------------------------------------------------------------------*\
+| Windows defines "interface" for some reason.  Work around this         |
+\*----------------------------------------------------------------------*/
+#ifdef interface
+#undef interface
+#endif
+
+/*----------------------------------------------------------------------*\
 | This list contains the available SMBus addresses for mapping ENE RAM   |
 \*----------------------------------------------------------------------*/
 #define ENE_RAM_ADDRESS_COUNT  23
