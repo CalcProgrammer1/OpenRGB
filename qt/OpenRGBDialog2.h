@@ -59,6 +59,8 @@ public:
 
     void SetDialogMessage(PLogMessage msg);
 
+    bool DontShowAgain;
+
 private:
     /*-------------------------------------*\
     | Page pointers                         |

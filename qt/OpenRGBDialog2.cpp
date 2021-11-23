@@ -1,3 +1,4 @@
+#include <functional>
 #include "OpenRGBDialog2.h"
 #include "LogManager.h"
 #include "PluginManager.h"
@@ -1433,6 +1434,34 @@ void OpenRGBDialog2::on_ShowHide()
 
 void OpenRGBDialog2::onShowDialogMessage()
 {
+    std::size_t hash = std::hash<std::string>{}(dialog_message.toStdString());
+
+    /*-----------------------------------------------------*\
+    | Load the LogManager settings and check if the hash of |
+    | this message is in the no-show list                   |
+    \*-----------------------------------------------------*/
+    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
+    std::string         log_manager_string  = "LogManager";
+    json                log_manager_settings;
+
+    log_manager_settings = settings_manager->GetSettings(log_manager_string);
+
+    /*-----------------------------------------------------*\
+    | If in the no-show list, clear the message string and  |
+    | return without displaying message box                 |
+    \*-----------------------------------------------------*/
+    if(log_manager_settings.contains("dialog_no_show_hashes"))
+    {
+        for(unsigned int list_idx = 0; list_idx < log_manager_settings["dialog_no_show_hashes"].size(); list_idx++)
+        {
+            if(log_manager_settings["dialog_no_show_hashes"][list_idx] == hash)
+            {
+                dialog_message.clear();
+                return;
+            }
+        }
+    }
+
     QMessageBox box;
 
     if(IsDarkTheme())
@@ -1447,10 +1476,37 @@ void OpenRGBDialog2::onShowDialogMessage()
 
     box.setInformativeText(dialog_message);
 
-    box.exec();
+    QCheckBox* CheckBox_DontShowAgain = new QCheckBox("Don't show this message again");
 
+    DontShowAgain = false;
+
+    QObject::connect(CheckBox_DontShowAgain, &QCheckBox::stateChanged, [this](int state)
+    {
+        if(static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked)
+        {
+            this->DontShowAgain = true;
+        }
+    });
+
+    box.setCheckBox(CheckBox_DontShowAgain);
     box.setTextFormat(Qt::RichText);
     box.setTextInteractionFlags(Qt::TextSelectableByMouse|Qt::TextBrowserInteraction);
+
+    box.exec();
+
+    if(DontShowAgain)
+    {
+        /*-----------------------------------------------------*\
+        | Add hash of dialog text to no-show list in LogManager |
+        | settings                                              |
+        \*-----------------------------------------------------*/
+        log_manager_settings["dialog_no_show_hashes"].push_back(hash);
+
+        settings_manager->SetSettings(log_manager_string, log_manager_settings);
+        settings_manager->SaveSettings();
+    }
+
+    DontShowAgain = false;
 
     dialog_message.clear();
 }
