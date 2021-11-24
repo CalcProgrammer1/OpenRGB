@@ -131,6 +131,7 @@
 #define RAZER_NAGA_HEX_PID                              0x0041
 #define RAZER_NAGA_HEX_RED_PID                          0x0036
 #define RAZER_NAGA_HEX_V2_PID                           0x0050
+#define RAZER_NAGA_LEFT_HANDED_PID                      0x008D
 #define RAZER_NAGA_TRINITY_PID                          0x0067
 #define RAZER_OROCHI_2011_PID                           0x0013
 #define RAZER_OROCHI_2013_PID                           0x0039
@@ -5367,6 +5368,7 @@ static const razer_device naga_chroma_device =
     0
 };
 
+
 /*-------------------------------------------------------------*\
 |  Razer Naga Hex V2 1532:0050                                  |
 |                                                               |
@@ -5418,6 +5420,65 @@ static const razer_device naga_hex_v2_device =
         &naga_hex_v2_logo_zone,
         &naga_hex_v2_scroll_wheel_zone,
         &naga_hex_v2_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Naga Left Handed 1532:008D                             |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad"                                                |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone naga_left_handed_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_left_handed_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_left_handed_numpad_zone =
+{
+    "Numpad",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device naga_left_handed_device =
+{
+    "Razer Naga Left Handed",
+    RAZER_NAGA_LEFT_HANDED_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    3,
+    {
+        &naga_left_handed_logo_zone,
+        &naga_left_handed_scroll_wheel_zone,
+        &naga_left_handed_numpad_zone,
         NULL,
         NULL,
         NULL
@@ -6955,6 +7016,7 @@ static const razer_device* device_list[] =
     &naga_chroma_device,
     &naga_epic_chroma_device,
     &naga_hex_v2_device,
+    &naga_left_handed_device,
     &naga_trinity_device,
     &viper_mini_device,
     &viper_ultimate_wired_device,

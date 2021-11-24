@@ -56,6 +56,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHADDER_CHROMA_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_NAGA_EPIC_CHROMA_PID:
+        case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_KRAKEN_KITTY_EDITION_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
@@ -109,6 +110,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_O11_DYNAMIC_PID:
             dev_led_id = RAZER_LED_ID_ZERO;
             break;
@@ -232,6 +234,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_MOUSE_DOCK_CHROMA_PID:
+        case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_NAGA_TRINITY_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
@@ -489,6 +492,7 @@ bool RazerController::SupportsWave()
         case RAZER_MAMBA_2015_WIRED_PID:
         case RAZER_MAMBA_2015_WIRELESS_PID:
         case RAZER_MAMBA_TE_PID:
+        case RAZER_NAGA_LEFT_HANDED_PID:
 
         /*-----------------------------------------------------*\
         | Headsets                                              |
