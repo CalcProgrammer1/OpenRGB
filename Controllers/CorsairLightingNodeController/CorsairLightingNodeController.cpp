@@ -265,7 +265,7 @@ void CorsairLightingNodeController::SendDirect
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 17);
+    hid_read_timeout(dev, usb_buf, 17, 1);
 }
 
 void CorsairLightingNodeController::SendCommit()
@@ -293,7 +293,7 @@ void CorsairLightingNodeController::SendCommit()
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 17);
+    hid_read_timeout(dev, usb_buf, 17, 1);
 }
 
 void CorsairLightingNodeController::SendBegin
@@ -456,7 +456,7 @@ void CorsairLightingNodeController::SendPortState
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 17);
+    hid_read_timeout(dev, usb_buf, 17, 1);
 }
 
 void CorsairLightingNodeController::SendBrightness
