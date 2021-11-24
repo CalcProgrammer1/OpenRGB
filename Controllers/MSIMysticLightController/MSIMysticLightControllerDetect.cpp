@@ -65,6 +65,7 @@ void DetectMSIMysticLight185Controllers(hid_device_info* info, const std::string
 \*-------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7B12",    DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B12,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7B17",    DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B17,   0x0001, 0x00);
+REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7B18",    DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B18,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7B85",    DetectMSIMysticLight162Controllers,   MSI_USB_VID,    0x7B85,   0x0001, 0x00);
 
 /*-------------------------------------------------------------*\
