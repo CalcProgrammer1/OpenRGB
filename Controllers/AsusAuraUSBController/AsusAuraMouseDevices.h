@@ -26,7 +26,7 @@
 #define AURA_ROG_PUGIO_II_WIRELESS_PID          0x1908
 #define AURA_ROG_STRIX_IMPACT_II_PID            0x18E1
 #define AURA_TUF_M3_PID                         0x1910
-#define AURA_TUF_M5_PID                         0x1910
+#define AURA_TUF_M5_PID                         0x1898
 
 enum
 {
