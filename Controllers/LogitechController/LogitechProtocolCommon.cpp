@@ -515,9 +515,9 @@ void logitech_device::getRGBconfig()
             led_response = response.data[0];
 
             get_count.feature_command = LOGITECH_CMD_RGB_EFFECTS_GET_INFO;
-            do
+            for(size_t i = 0; i < led_response; i++)
             {
-                get_count.data[0] = leds.size();
+                get_count.data[0] = i;
                 result = hid_write(dev_use2, get_count.buffer, get_count.size());
                 result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
                 LOG_DEBUG("[%s] FP8070 - LED %02i - %02X %02X %02X %02X %02X %02X %02X %02X   %02X %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(), get_count.data[0],
@@ -555,7 +555,7 @@ void logitech_device::getRGBconfig()
                         logitech_fx new_fx;
 
                         new_fx.index    = i;
-                        new_fx.mode     = *reinterpret_cast<LOGITECH_DEVICE_MODE*>(fx_response.data[2] << 8 | fx_response.data[3]);
+                        new_fx.mode     = static_cast<LOGITECH_DEVICE_MODE>(fx_response.data[2] << 8 | fx_response.data[3]);
                         new_fx.speed    = fx_response.data[6] << 8 | fx_response.data[7];
 
                         new_led.fx.push_back(new_fx);
@@ -563,7 +563,7 @@ void logitech_device::getRGBconfig()
 
                     leds.emplace(response.data[0], new_led);
                 }
-            } while ((result == 20) && (get_count.feature_index == response.feature_index) && (get_count.feature_command == response.feature_command) && (response.data[0] != 0x10) && (response.data[1] != 0x02));
+            }
         }
         else if(feature_page == LOGITECH_HIDPP_PAGE_RGB_EFFECTS2)
         {
@@ -616,7 +616,7 @@ void logitech_device::getRGBconfig()
                     logitech_fx new_fx;
 
                     new_fx.index    = i;
-                    new_fx.mode     = *reinterpret_cast<LOGITECH_DEVICE_MODE*>(fx_response.data[2] << 8 | fx_response.data[3]);
+                    new_fx.mode     = static_cast<LOGITECH_DEVICE_MODE>(fx_response.data[2] << 8 | fx_response.data[3]);
                     new_fx.speed    = fx_response.data[6] << 8 | fx_response.data[7];
 
                     new_led.fx.push_back(new_fx);
