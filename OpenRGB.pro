@@ -110,6 +110,7 @@ INCLUDEPATH +=                                                                  
     Controllers/GigabyteRGBFusion2USBController/                                                \
     Controllers/GigabyteRGBFusionController/                                                    \
     Controllers/GigabyteRGBFusionGPUController/                                                 \
+    Controllers/GigabyteRGBFusion2GPUController/                                                \
     Controllers/HoltekController/                                                               \
     Controllers/HPOmen30LController/                                                            \
     Controllers/HyperXDRAMController/                                                           \
@@ -322,6 +323,8 @@ HEADERS +=                                                                      
     Controllers/GigabyteRGBFusionController/RGBController_GigabyteRGBFusion.h                   \
     Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUController.h                 \
     Controllers/GigabyteRGBFusionGPUController/RGBController_GigabyteRGBFusionGPU.h             \
+    Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.h               \
+    Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.h           \
     Controllers/HoltekController/HoltekA070Controller.h                                         \
     Controllers/HoltekController/HoltekA1FAController.h                                         \
     Controllers/HoltekController/RGBController_HoltekA070.h                                     \
@@ -710,6 +713,9 @@ SOURCES +=                                                                      
     Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUController.cpp               \
     Controllers/GigabyteRGBFusionGPUController/GigabyteRGBFusionGPUControllerDetect.cpp         \
     Controllers/GigabyteRGBFusionGPUController/RGBController_GigabyteRGBFusionGPU.cpp           \
+    Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.cpp             \
+    Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUControllerDetect.cpp       \
+    Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.cpp         \
     Controllers/HoltekController/HoltekA070Controller.cpp                                       \
     Controllers/HoltekController/HoltekA1FAController.cpp                                       \
     Controllers/HoltekController/HoltekControllerDetect.cpp                                     \
@@ -1240,6 +1246,9 @@ macx:ICON = qt/OpenRGB.icns
 macx {
     DEFINES +=                                                                                  \
     USE_HID_USAGE                                                                               \
+
+    QMAKE_CXXFLAGS +=                                                                           \
+    -Wno-narrowing                                                                              \
 
     HEADERS +=                                                                                  \
     AutoStart/AutoStart-MacOS.h                                                                 \
