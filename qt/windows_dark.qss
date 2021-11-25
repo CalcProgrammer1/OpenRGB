@@ -277,7 +277,7 @@ QHeaderView::section
     color: white;
 }
 
-QPlainTextEdit
+QPlainTextEdit, QTextEdit
 {
     background: #454545;
     color: white;
