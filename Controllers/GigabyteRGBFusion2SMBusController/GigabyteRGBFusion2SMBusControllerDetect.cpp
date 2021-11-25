@@ -26,6 +26,7 @@ typedef struct
 json rgb_fusion_2_smbus_motherboards[] =
 {
     "B450 AORUS ELITE",
+    "B450 AORUS ELITE V2",
     "B450 AORUS M",
     "B450 AORUS PRO WIFI-CF",
     "B450 AORUS PRO-CF",
