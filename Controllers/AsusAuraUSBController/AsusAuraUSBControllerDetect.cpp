@@ -216,7 +216,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio II (Wired)",           DetectAsusAuraUS
 REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio II (Wireless)",        DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_PUGIO_II_WIRELESS_PID,           0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Impact II",            DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_STRIX_IMPACT_II_PID,             1,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M3",                  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_TUF_M3_PID,                          1,  0xFF01);
-REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_TUF_M5_PID,                          1,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_TUF_M5_PID,                          2,  0xFF01);
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |

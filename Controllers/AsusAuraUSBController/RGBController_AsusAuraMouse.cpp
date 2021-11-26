@@ -71,7 +71,7 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* aura_ptr)
                     mode ColorCycle;
                     ColorCycle.name             = "Spectrum Cycle";
                     ColorCycle.value            = mode_value;
-                    ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS;
+                    ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE ;
                     ColorCycle.brightness_min   = AURA_MOUSE_BRIGHTNESS_MIN;
                     ColorCycle.brightness_max   = AURA_MOUSE_BRIGHTNESS_MAX;
                     ColorCycle.brightness       = AURA_MOUSE_BRIGHTNESS_DEFAULT;
