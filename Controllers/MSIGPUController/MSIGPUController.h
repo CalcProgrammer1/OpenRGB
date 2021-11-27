@@ -27,7 +27,7 @@ enum
     MSI_GPU_REG_G3                         = 0x2b,    /* MSI GPU G3 Register             */
     MSI_GPU_REG_B3                         = 0x2c,    /* MSI GPU B3 Register             */
     MSI_GPU_REG_MODE                       = 0x22,    /* MSI GPU Mode Selection Register */
-    MSI_GPU_REG_APPLY                      = 0x3f,    /* MSI GPU Apply Changes Register  */
+    MSI_GPU_REG_SAVE                       = 0x3f,    /* MSI GPU Save Changes Register  */
 };
 
 enum
@@ -67,6 +67,7 @@ public:
     void          SetRGB3(unsigned char red, unsigned char green, unsigned char blue);
 
     void          SetMode(unsigned char mode);
+    void          Save();
 
     unsigned char MSIGPURegisterRead(unsigned char reg);
     void          MSIGPURegisterWrite(unsigned char reg, unsigned char val);

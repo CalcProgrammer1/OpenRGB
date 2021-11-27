@@ -39,30 +39,30 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Off;
     Off.name       = "Off";
     Off.value      = MSI_GPU_MODE_OFF;
-    Off.flags      = 0;
+    Off.flags      = MODE_FLAG_MANUAL_SAVE;
     Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Rainbow;
     Rainbow.name       = "Rainbow";
     Rainbow.value      = MSI_GPU_MODE_RAINBOW;
-    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Rainbow.speed_min  = 0;
     Rainbow.speed_max  = 2;
     Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = MSI_GPU_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = MSI_GPU_MODE_STATIC;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     mode Raindrop;
     Raindrop.name       = "Raindrop";
     Raindrop.value      = MSI_GPU_MODE_RAINDROP;
-    Raindrop.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Raindrop.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Raindrop.speed_min  = 0;
     Raindrop.speed_max  = 2;
     Raindrop.color_mode = MODE_COLORS_PER_LED;
@@ -71,7 +71,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Magic;
     Magic.name       = "Magic";
     Magic.value      = MSI_GPU_MODE_MAGIC;
-    Magic.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Magic.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Magic.speed_min  = 0;
     Magic.speed_max  = 2;
     Magic.color_mode = MODE_COLORS_NONE;
@@ -80,7 +80,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Patrolling;
     Patrolling.name       = "Patrolling";
     Patrolling.value      = MSI_GPU_MODE_PATROLLING;
-    Patrolling.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Patrolling.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Patrolling.speed_min  = 0;
     Patrolling.speed_max  = 2;
     Patrolling.color_mode = MODE_COLORS_PER_LED;
@@ -89,7 +89,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Streaming;
     Streaming.name       = "Streaming";
     Streaming.value      = MSI_GPU_MODE_STREAMING;
-    Streaming.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Streaming.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Streaming.speed_min  = 0;
     Streaming.speed_max  = 2;
     Streaming.color_mode = MODE_COLORS_NONE;
@@ -98,7 +98,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Lightning;
     Lightning.name       = "Lightning";
     Lightning.value      = MSI_GPU_MODE_LIGHTNING;
-    Lightning.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Lightning.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Lightning.speed_min  = 0;
     Lightning.speed_max  = 2;
     Lightning.color_mode = MODE_COLORS_NONE;
@@ -107,7 +107,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Wave;
     Wave.name       = "Wave";
     Wave.value      = MSI_GPU_MODE_WAVE;
-    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Wave.speed_min  = 0;
     Wave.speed_max  = 2;
     Wave.color_mode = MODE_COLORS_PER_LED;
@@ -116,7 +116,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Meteor;
     Meteor.name       = "Meteor";
     Meteor.value      = MSI_GPU_MODE_METEOR;
-    Meteor.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Meteor.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Meteor.speed_min  = 0;
     Meteor.speed_max  = 2;
     Meteor.color_mode = MODE_COLORS_PER_LED;
@@ -125,7 +125,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Stack;
     Stack.name       = "Stack";
     Stack.value      = MSI_GPU_MODE_STACK;
-    Stack.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Stack.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Stack.speed_min  = 0;
     Stack.speed_max  = 2;
     Stack.color_mode = MODE_COLORS_PER_LED;
@@ -134,7 +134,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Rhythm;
     Rhythm.name       = "Rhythm";
     Rhythm.value      = MSI_GPU_MODE_RHYTHM;
-    Rhythm.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Rhythm.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Rhythm.speed_min  = 0;
     Rhythm.speed_max  = 2;
     Rhythm.color_mode = MODE_COLORS_PER_LED;
@@ -143,7 +143,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Flowing;
     Flowing.name       = "Flowing";
     Flowing.value      = MSI_GPU_MODE_FLOWING;
-    Flowing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Flowing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Flowing.speed_min  = 0;
     Flowing.speed_max  = 2;
     Flowing.color_mode = MODE_COLORS_PER_LED;
@@ -152,7 +152,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Whirling;
     Whirling.name       = "Whirling";
     Whirling.value      = MSI_GPU_MODE_WHIRLING;
-    Whirling.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Whirling.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Whirling.speed_min  = 0;
     Whirling.speed_max  = 2;
     Whirling.color_mode = MODE_COLORS_PER_LED;
@@ -161,7 +161,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Twisting;
     Twisting.name       = "Twisting";
     Twisting.value      = MSI_GPU_MODE_TWISTING;
-    Twisting.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Twisting.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Twisting.speed_min  = 0;
     Twisting.speed_max  = 2;
     Twisting.color_mode = MODE_COLORS_PER_LED;
@@ -170,7 +170,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Laminating;
     Laminating.name       = "Laminating";
     Laminating.value      = MSI_GPU_MODE_LAMINATING;
-    Laminating.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Laminating.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Laminating.speed_min  = 0;
     Laminating.speed_max  = 2;
     Laminating.color_mode = MODE_COLORS_PER_LED;
@@ -179,7 +179,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Fadein;
     Fadein.name       = "Fadein";
     Fadein.value      = MSI_GPU_MODE_FADEIN;
-    Fadein.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Fadein.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Fadein.speed_min  = 0;
     Fadein.speed_max  = 2;
     Fadein.color_mode = MODE_COLORS_PER_LED;
@@ -188,7 +188,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = MSI_GPU_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Breathing.speed_min  = 0;
     Breathing.speed_max  = 2;
     Breathing.color_mode = MODE_COLORS_PER_LED;
@@ -197,7 +197,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode flashing;
     flashing.name       = "Flashing";
     flashing.value      = MSI_GPU_MODE_FLASHING;
-    flashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    flashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     flashing.speed_min  = 0;
     flashing.speed_max  = 2;
     flashing.color_mode = MODE_COLORS_PER_LED;
@@ -206,7 +206,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
     mode doubleflashing;
     doubleflashing.name       = "Doubleflashing";
     doubleflashing.value      = MSI_GPU_MODE_DOUBLEFLASHING;
-    doubleflashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    doubleflashing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     doubleflashing.speed_min  = 0;
     doubleflashing.speed_max  = 2;
     doubleflashing.color_mode = MODE_COLORS_PER_LED;
@@ -319,4 +319,9 @@ void RGBController_MSIGPU::DeviceUpdateMode()
     }
 
     msi_gpu->SetMode(modes[active_mode].value);
+}
+
+void RGBController_MSIGPU::DeviceSaveMode()
+{
+    msi_gpu->Save();
 }

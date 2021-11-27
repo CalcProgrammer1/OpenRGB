@@ -53,7 +53,11 @@ void MSIGPUController::SetRGB3(unsigned char red, unsigned char green, unsigned 
 void MSIGPUController::SetMode(unsigned char mode)
 {
     MSIGPURegisterWrite(MSI_GPU_REG_MODE, mode);
-    MSIGPURegisterWrite(MSI_GPU_REG_APPLY, 0x01);
+}
+
+void MSIGPUController::Save()
+{
+    MSIGPURegisterWrite(MSI_GPU_REG_SAVE, 0x01);
 }
 
 unsigned char MSIGPUController::MSIGPURegisterRead(unsigned char reg)
