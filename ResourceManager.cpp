@@ -1110,17 +1110,19 @@ void ResourceManager::DetectDevicesThreadFunction()
     \*-------------------------------------------------*/
     if(i2c_interface_fail)
     {
-        const char* i2c_message =   "One or more I2C/SMBus interfaces failed to initialize.\r"
+        const char* i2c_message =   "<h2>WARNING:</h2>"
+                                    "<p>One or more I2C/SMBus interfaces failed to initialize.</p>"
+                                    "<p>RGB DRAM modules and some motherboards' onboard RGB lighting will not be available without I2C/SMBus.</p>"
 #ifdef _WIN32
-                                    "On Windows, this is usually caused by a failure to load the inpout32 driver.\r"
-                                    "You must run OpenRGB as administrator at least once to allow inpout32 to set up.\r"
+                                    "<p>On Windows, this is usually caused by a failure to load the inpout32 driver.  "
+                                    "You must run OpenRGB as administrator at least once to allow inpout32 to set up.</p>"
 #endif
 #ifdef __linux__
-                                    "On Linux, this is usually because the i2c-dev module is not loaded.\r"
-                                    "You must load the i2c-dev module along with the correct i2c driver for your motherboard.\r"
-                                    "This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.\r"
+                                    "<p>On Linux, this is usually because the i2c-dev module is not loaded.  "
+                                    "You must load the i2c-dev module along with the correct i2c driver for your motherboard.  "
+                                    "This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.</p>"
 #endif
-                                    "See https://help.openrgb.org for additional troubleshooting.";
+                                    "<p>See <a href='https://help.openrgb.org/'>help.openrgb.org</a> for additional troubleshooting steps if you keep seeing this message.<br></p>";
 
         LOG_DIALOG("%s", i2c_message);
     }
