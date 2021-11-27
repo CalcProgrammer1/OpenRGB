@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>980</width>
-    <height>824</height>
+    <width>800</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>There are some Addressable RGB zones that are not yet configured.&lt;br/&gt; Please enter the count of LEDs attached to each zone below.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -103,6 +103,11 @@
     </spacer>
    </item>
   </layout>
+  <zorder>do_not_show_again_checkbox</zorder>
+  <zorder>save_button</zorder>
+  <zorder>zones_table</zorder>
+  <zorder>ignore_button</zorder>
+  <zorder>help_label</zorder>
  </widget>
  <resources/>
  <connections/>
