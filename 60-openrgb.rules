@@ -351,6 +351,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0cf2", ATTR{idProduct}=="7750", TAG+="uacces
 #       Logitech G813                                           #
 #       Logitech G815                                           #
 #       Logitech G915                                           #
+#       Logitech G Pro                                          #
 #                                                               #
 #  Mice:                                                        #
 #       Logitech G203 Prodigy                                   #
@@ -389,6 +390,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c333", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c338", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c331", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c337", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c339", TAG+="uaccess"          #G Pro Keyboard 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c232", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33f", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c335", TAG+="uaccess", TAG+="G910"

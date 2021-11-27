@@ -363,6 +363,7 @@ HEADERS +=                                                                      
     Controllers/LogitechController/LogitechG560Controller.h                                     \
     Controllers/LogitechController/LogitechG933Controller.h                                     \
     Controllers/LogitechController/LogitechG810Controller.h                                     \
+    Controllers/LogitechController/LogitechGProKeyboardController.h                             \    
     Controllers/LogitechController/LogitechG910Controller.h                                     \
     Controllers/LogitechController/LogitechG815Controller.h                                     \
     Controllers/LogitechController/LogitechG915Controller.h                                     \
@@ -374,6 +375,7 @@ HEADERS +=                                                                      
     Controllers/LogitechController/RGBController_LogitechG560.h                                 \
     Controllers/LogitechController/RGBController_LogitechG933.h                                 \
     Controllers/LogitechController/RGBController_LogitechG810.h                                 \
+    Controllers/LogitechController/RGBController_LogitechGProKeyboard.h                         \
     Controllers/LogitechController/RGBController_LogitechG910.h                                 \
     Controllers/LogitechController/RGBController_LogitechG815.h                                 \
     Controllers/LogitechController/RGBController_LogitechG915.h                                 \
@@ -763,6 +765,7 @@ SOURCES +=                                                                      
     Controllers/LogitechController/LogitechG560Controller.cpp                                   \
     Controllers/LogitechController/LogitechG933Controller.cpp                                   \
     Controllers/LogitechController/LogitechG810Controller.cpp                                   \
+    Controllers/LogitechController/LogitechGProKeyboardController.cpp                           \
     Controllers/LogitechController/LogitechG910Controller.cpp                                   \
     Controllers/LogitechController/LogitechG815Controller.cpp                                   \
     Controllers/LogitechController/LogitechG915Controller.cpp                                   \
@@ -774,6 +777,7 @@ SOURCES +=                                                                      
     Controllers/LogitechController/RGBController_LogitechG560.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG933.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG810.cpp                               \
+    Controllers/LogitechController/RGBController_LogitechGProKeyboard.cpp                       \
     Controllers/LogitechController/RGBController_LogitechG910.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG815.cpp                               \
     Controllers/LogitechController/RGBController_LogitechG915.cpp                               \
