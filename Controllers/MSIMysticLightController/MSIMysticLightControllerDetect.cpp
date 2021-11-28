@@ -96,6 +96,7 @@ REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D07",    DetectMSIMysticLight185C
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D09",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D09,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D13",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D13,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D15",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D15,   0x0001, 0x00);
+REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D25",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D25,   0x0001, 0x00); // MSI PRO Z690-A WiFi DDR4
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D54",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D54,   0x0001, 0x00);
 
 #ifdef ENABLE_UNTESTED_MYSTIC_LIGHT
