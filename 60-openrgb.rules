@@ -383,16 +383,16 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0cf2", ATTR{idProduct}=="7750", TAG+="uacces
 #       Logitech Rhino X56 Hotas (Throttle and Stick)           #
 #                                                               #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c336", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c342", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33c", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c333", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c338", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c331", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c337", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c339", TAG+="uaccess"          #G Pro Keyboard 
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c232", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33f", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c336", TAG+="uaccess", TAG+="G213"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c342", TAG+="uaccess", TAG+="G512"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33c", TAG+="uaccess", TAG+="G512_RGB"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c333", TAG+="uaccess", TAG+="G610"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c338", TAG+="uaccess", TAG+="G610"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c331", TAG+="uaccess", TAG+="G810"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c337", TAG+="uaccess", TAG+="G810"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c339", TAG+="uaccess", TAG+="G_Pro"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c232", TAG+="uaccess", TAG+="G813"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33f", TAG+="uaccess", TAG+="G815"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c335", TAG+="uaccess", TAG+="G910"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c541", TAG+="uaccess", TAG+="G915_Receiver"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c33e", TAG+="uaccess", TAG+="G915_Wired"

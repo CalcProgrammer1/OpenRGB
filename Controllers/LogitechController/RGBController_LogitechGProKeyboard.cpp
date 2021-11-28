@@ -13,13 +13,13 @@
 #define NA  0xFFFFFFFF
 
 static unsigned int matrix_map[7][19] =
-    { { 111,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 116, 114,  NA,  NA, 113,  NA, 112 },
+    { {  89,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  93,  92,  NA,  NA,  91,  NA,  90 },
       {  37,  NA,  54,  55,  56,  57,  NA,  58,  59,  60,  61,  NA,  62,  63,  64,  65,  66,  67,  68 },
       {  49,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  NA,  41,  42,  38,  NA,  69,  70,  71 },
       {  39,  NA,  16,  22,   4,  17,  NA,  19,  24,  20,   8,  14,  15,  43,  44,  45,  72,  73,  74 },
       {  53,  NA,   0,  18,   3,   5,  NA,   6,   7,   9,  10,  11,  47,  48,  46,  36,  NA,  NA,  NA },
-      {  99,  96,  25,  23,   2,  21,  NA,   1,  NA,  13,  12,  50,  51,  52, 103,  NA,  NA,  78,  NA },
-      {  98, 101, 100,  NA,  NA,  NA,  NA,  40,  NA,  NA,  NA,  NA, 104, 105,  97, 102,  76,  77,  75 } };
+      {  82,  79,  25,  23,   2,  21,  NA,   1,  NA,  13,  12,  50,  51,  52,  86,  NA,  NA,  78,  NA },
+      {  81,  84,  83,  NA,  NA,  NA,  NA,  40,  NA,  NA,  NA,  NA,  87,  88,  80,  85,  76,  77,  75 } };
 
 static const char* zone_names[] =
 {
@@ -46,7 +46,7 @@ typedef struct
 static const led_type led_names[] =
 {
     /* Key Label                Zone,                                   Index  */
-    { "Key: A",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x04    },
+    { "Key: A",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x04    },//00
     { "Key: B",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x05    },
     { "Key: C",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x06    },
     { "Key: D",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x07    },
@@ -56,7 +56,7 @@ static const led_type led_names[] =
     { "Key: H",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x0B    },
     { "Key: I",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x0C    },
     { "Key: J",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x0D    },
-    { "Key: K",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x0E    },
+    { "Key: K",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x0E    },//10
     { "Key: L",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x0F    },
     { "Key: M",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x10    },
     { "Key: N",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x11    },
@@ -66,7 +66,7 @@ static const led_type led_names[] =
     { "Key: R",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x15    },
     { "Key: S",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x16    },
     { "Key: T",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x17    },
-    { "Key: U",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x18    },
+    { "Key: U",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x18    },//20
     { "Key: V",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x19    },
     { "Key: W",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x1A    },
     { "Key: X",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x1B    },
@@ -76,7 +76,7 @@ static const led_type led_names[] =
     { "Key: 2",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x1F    },
     { "Key: 3",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x20    },
     { "Key: 4",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x21    },
-    { "Key: 5",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x22    },
+    { "Key: 5",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x22    },//30
     { "Key: 6",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x23    },
     { "Key: 7",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x24    },
     { "Key: 8",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x25    },
@@ -86,7 +86,7 @@ static const led_type led_names[] =
     { "Key: Escape",            LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x29    },
     { "Key: Backspace",         LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x2A    },
     { "Key: Tab",               LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x2B    },
-    { "Key: Space",             LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x2C    },
+    { "Key: Space",             LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x2C    },//40
     { "Key: -",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x2D    },
     { "Key: =",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x2E    },
     { "Key: [",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x2F    },
@@ -96,7 +96,7 @@ static const led_type led_names[] =
     { "Key: ;",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x33    },
     { "Key: '",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x34    },
     { "Key: `",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x35    },
-    { "Key: ,",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x36    },
+    { "Key: ,",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x36    },//50
     { "Key: .",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x37    },
     { "Key: /",                 LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x38    },
     { "Key: Caps Lock",         LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x39    },
@@ -106,7 +106,7 @@ static const led_type led_names[] =
     { "Key: F4",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x3D    },
     { "Key: F5",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x3E    },
     { "Key: F6",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x3F    },
-    { "Key: F7",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x40    },
+    { "Key: F7",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x40    },//60
     { "Key: F8",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x41    },
     { "Key: F9",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x42    },
     { "Key: F10",               LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x43    },
@@ -116,7 +116,7 @@ static const led_type led_names[] =
     { "Key: Scroll Lock",       LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x47    },
     { "Key: Pause/Break",       LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x48    },
     { "Key: Insert",            LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x49    },
-    { "Key: Home",              LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x4A    },
+    { "Key: Home",              LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x4A    },//70
     { "Key: Page Up",           LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x4B    },
     { "Key: Delete",            LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x4C    },
     { "Key: End",               LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x4D    },
@@ -126,7 +126,7 @@ static const led_type led_names[] =
     { "Key: Down Arrow",        LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x51    },
     { "Key: Up Arrow",          LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x52    },    
     { "Key: \\ (ISO)",          LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x64    },//ISO only
-    { "Key: Menu",              LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x65    },
+    { "Key: Menu",              LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0x65    },//80
     { "Key: Left Control",      LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0xE0    },
     { "Key: Left Shift",        LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0xE1    },
     { "Key: Left Alt",          LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0xE2    },
@@ -136,10 +136,10 @@ static const led_type led_names[] =
     { "Key: Right Alt",         LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0xE6    },
     { "Key: Fn",                LOGITECH_GPRO_ZONE_DIRECT_KEYBOARD,     0xE7    },   
     { "Logo",                   LOGITECH_GPRO_ZONE_DIRECT_LOGO,         0x01    },
-    { "Lighting",               LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x01    },
+    { "Lighting",               LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x01    },//90
     { "Game Mode",              LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x02    },
     { "Caps Lock Indicator",    LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x03    },
-    { "Scroll Lock Indicator",  LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x04    },
+    { "Scroll Lock Indicator",  LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x04    },//93
 };
 
 RGBController_LogitechGProKeyboard::RGBController_LogitechGProKeyboard(LogitechGProKeyboardController* logitech_ptr)
