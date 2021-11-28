@@ -1013,6 +1013,10 @@ void RGBController_CorsairPeripheral::SetupZones()
                 {
                     new_led.name = corsair_harpoon_pro_leds[led_idx];
                 }
+                if(name == "Corsair Ironclaw RGB")
+                {
+                    new_led.name = corsair_m65_elite_leds[led_idx];
+                }
                 else if(name == "Corsair Sabre RGB")
                 {
                     new_led.name = corsair_sabre_rgb_leds[led_idx];
