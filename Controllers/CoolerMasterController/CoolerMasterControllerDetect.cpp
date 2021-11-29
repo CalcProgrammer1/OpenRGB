@@ -21,6 +21,7 @@
 #define COOLERMASTER_MM711_PID                  0x0101
 #define COOLERMASTER_MM720_PID                  0x0141
 #define COOLERMASTER_MP750_XL_PID               0x0109
+#define COOLERMASTER_MP750_L_PID                0x0107
 #define COOLERMASTER_MP750_MEDIUM_PID           0x0105
 #define COOLERMASTER_ARGB_PID                   0x1011
 #define COOLERMASTER_SMALL_ARGB_PID             0x1000
@@ -138,6 +139,7 @@ void DetectCoolerMasterSmallARGB(hid_device_info* info, const std::string&)
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM711",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM711_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM720",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM720_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 XL",                 DetectCoolerMasterMousemats,    COOLERMASTER_VID,   COOLERMASTER_MP750_XL_PID,                          0xFF00, 1);
+REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 Large",              DetectCoolerMasterMousemats,    COOLERMASTER_VID,   COOLERMASTER_MP750_L_PID,                           0xFF00, 1);
 REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 Medium",             DetectCoolerMasterMousemats,    COOLERMASTER_VID,   COOLERMASTER_MP750_MEDIUM_PID,                      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro L",         DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_PRO_L_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro L White",   DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_PRO_L_WHITE_PID,    1,      0xFF00, 1);

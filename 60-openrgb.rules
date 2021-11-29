@@ -117,6 +117,7 @@ ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /s
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0101", TAG+="uaccess", TAG+="MM711"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0141", TAG+="uaccess", TAG+="MM720"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0109", TAG+="uaccess", TAG+="MP750_XL"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0107", TAG+="uaccess", TAG+="MP750_L"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="0105", TAG+="uaccess", TAG+="MP750_M"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1011", TAG+="uaccess", TAG+="ARGB"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2516", ATTR{idProduct}=="1000", TAG+="uaccess", TAG+="Small_ARGB"
