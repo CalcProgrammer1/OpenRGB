@@ -24,6 +24,9 @@ OpenRGBConsolePage::OpenRGBConsolePage(QWidget *parent) :
     ui->log_level->setCurrentIndex(LogManager::get()->getLoglevel());
     ui->log_level->blockSignals(false);
 
+#ifdef _WIN32
+    ui->logs->setFontFamily("Courier New");
+#endif
     Refresh();
 }
 

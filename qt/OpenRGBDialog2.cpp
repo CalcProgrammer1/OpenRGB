@@ -394,6 +394,8 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     {
         QPalette pal = palette();
         pal.setColor(QPalette::WindowText, Qt::white);
+        pal.setColor(QPalette::Link, QColor(0,127,220));
+        pal.setColor(QPalette::LinkVisited, QColor(64,196,220));
         QApplication::setPalette(pal);
         QFile darkTheme(":/windows_dark.qss");
         darkTheme.open(QFile::ReadOnly);
