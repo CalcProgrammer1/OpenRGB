@@ -427,7 +427,9 @@ HEADERS +=                                                                      
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
+    Controllers/RoccatController/RGBController_RoccatVulcanAimo.h                               \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
+    Controllers/RoccatController/RoccatVulcanAimoController.h                                   \
     Controllers/SapphireGPUController/SapphireNitroGlowV1Controller.h                           \
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.h                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.h                       \
@@ -843,7 +845,9 @@ SOURCES +=                                                                      
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
     Controllers/RedragonController/RGBController_RedragonM711.cpp                               \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
+    Controllers/RoccatController/RGBController_RoccatVulcanAimo.cpp                             \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
+    Controllers/RoccatController/RoccatVulcanAimoController.cpp                                 \
     Controllers/RoccatController/RoccatControllerDetect.cpp                                     \
     Controllers/SapphireGPUController/SapphireNitroGlowV1Controller.cpp                         \
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.cpp                         \
