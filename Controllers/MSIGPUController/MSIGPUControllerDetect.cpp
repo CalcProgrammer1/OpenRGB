@@ -64,6 +64,7 @@ static const msi_gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     MSI_SUB_VEN,    MSI_RTX3080_GAMING_Z_TRIO_SUB_DEV,      "MSI GeForce RTX 3080 10GB Gaming Z Trio LHR"   },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         MSI_SUB_VEN,    MSI_RTX3080_GAMING_X_TRIO_SUB_DEV,      "MSI GeForce RTX 3080 10GB Gaming X Trio"       },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         MSI_SUB_VEN,    MSI_RTX3080_SUPRIM_X_SUB_DEV,           "MSI GeForce RTX 3080 Suprim X 10G"             },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     MSI_SUB_VEN,    MSI_RTX3080_SUPRIM_X_SUB_DEV,           "MSI GeForce RTX 3080 Suprim X 10G LHR"         },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       MSI_SUB_VEN,    MSI_RTX3080TI_GAMING_X_TRIO_SUB_DEV,    "MSI GeForce RTX 3080 Ti Gaming X Trio 12G"     },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       MSI_SUB_VEN,    MSI_RTX3080TI_SUPRIM_X_SUB_DEV,         "MSI GeForce RTX 3080 Ti Suprim X 12G"          },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         MSI_SUB_VEN,    MSI_RTX3090_GAMING_X_TRIO_SUB_DEV,      "MSI GeForce RTX 3090 24GB Gaming X Trio"       },
