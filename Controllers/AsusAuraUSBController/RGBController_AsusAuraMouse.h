@@ -11,12 +11,6 @@
 #include "RGBController.h"
 #include "AsusAuraMouseController.h"
 
-enum {
-    AURA_MOUSE_BRIGHTNESS_MIN     = 0,
-    AURA_MOUSE_BRIGHTNESS_MAX     = 4,
-    AURA_MOUSE_BRIGHTNESS_DEFAULT = 4
-};
-
 class RGBController_AuraMouse : public RGBController
 {
 public:

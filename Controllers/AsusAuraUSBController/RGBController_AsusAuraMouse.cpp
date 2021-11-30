@@ -54,9 +54,9 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
                     Direct.name                 = "Direct";
                     Direct.value                = mode_value;
                     Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-                    Direct.brightness_min       = AURA_MOUSE_BRIGHTNESS_MIN;
-                    Direct.brightness_max       = AURA_MOUSE_BRIGHTNESS_MAX;
-                    Direct.brightness           = AURA_MOUSE_BRIGHTNESS_DEFAULT;
+                    Direct.brightness_min       = aura_mouse_devices[pid].brightness_min;
+                    Direct.brightness_max       = aura_mouse_devices[pid].brightness_max;
+                    Direct.brightness           = aura_mouse_devices[pid].brightness_max;
                     Direct.color_mode           = MODE_COLORS_PER_LED;
                     modes.push_back(Direct);
                 }
@@ -68,9 +68,9 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
                     Breathing.name              = "Breathing";
                     Breathing.value             = mode_value;
                     Breathing.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-                    Breathing.brightness_min    = AURA_MOUSE_BRIGHTNESS_MIN;
-                    Breathing.brightness_max    = AURA_MOUSE_BRIGHTNESS_MAX;
-                    Breathing.brightness        = AURA_MOUSE_BRIGHTNESS_DEFAULT;
+                    Breathing.brightness_min    = aura_mouse_devices[pid].brightness_min;
+                    Breathing.brightness_max    = aura_mouse_devices[pid].brightness_max;
+                    Breathing.brightness        = aura_mouse_devices[pid].brightness_max;
                     Breathing.color_mode        = MODE_COLORS_PER_LED;
                     modes.push_back(Breathing);
                 }
@@ -82,9 +82,9 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
                     ColorCycle.name             = "Spectrum Cycle";
                     ColorCycle.value            = mode_value;
                     ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE ;
-                    ColorCycle.brightness_min   = AURA_MOUSE_BRIGHTNESS_MIN;
-                    ColorCycle.brightness_max   = AURA_MOUSE_BRIGHTNESS_MAX;
-                    ColorCycle.brightness       = AURA_MOUSE_BRIGHTNESS_DEFAULT;
+                    ColorCycle.brightness_min   = aura_mouse_devices[pid].brightness_min;
+                    ColorCycle.brightness_max   = aura_mouse_devices[pid].brightness_max;
+                    ColorCycle.brightness       = aura_mouse_devices[pid].brightness_max;
                     ColorCycle.color_mode       = MODE_COLORS_NONE;
                     modes.push_back(ColorCycle);
                 }
@@ -100,9 +100,9 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
                     Wave.speed_min              = aura_mouse_devices[pid].speed_min;
                     Wave.speed_max              = aura_mouse_devices[pid].speed_max;
                     Wave.speed                  = (aura_mouse_devices[pid].speed_min + aura_mouse_devices[pid].speed_max) / 2;
-                    Wave.brightness_min         = AURA_MOUSE_BRIGHTNESS_MIN;
-                    Wave.brightness_max         = AURA_MOUSE_BRIGHTNESS_MAX;
-                    Wave.brightness             = AURA_MOUSE_BRIGHTNESS_DEFAULT;
+                    Wave.brightness_min         = aura_mouse_devices[pid].brightness_min;
+                    Wave.brightness_max         = aura_mouse_devices[pid].brightness_max;
+                    Wave.brightness             = aura_mouse_devices[pid].brightness_max;
                     Wave.color_mode             = MODE_COLORS_NONE;
                     modes.push_back(Wave);
                 }
@@ -114,9 +114,9 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
                     Reactive.name               = "Reactive";
                     Reactive.value              = mode_value;
                     Reactive.flags              = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-                    Reactive.brightness_min     = AURA_MOUSE_BRIGHTNESS_MIN;
-                    Reactive.brightness_max     = AURA_MOUSE_BRIGHTNESS_MAX;
-                    Reactive.brightness         = AURA_MOUSE_BRIGHTNESS_DEFAULT;
+                    Reactive.brightness_min     = aura_mouse_devices[pid].brightness_min;
+                    Reactive.brightness_max     = aura_mouse_devices[pid].brightness_max;
+                    Reactive.brightness         = aura_mouse_devices[pid].brightness_max;
                     Reactive.color_mode         = MODE_COLORS_PER_LED;
                     modes.push_back(Reactive);
                 }
@@ -128,9 +128,9 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
                     Comet.name                  = "Comet";
                     Comet.value                 = mode_value;
                     Comet.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-                    Comet.brightness_min        = AURA_MOUSE_BRIGHTNESS_MIN;
-                    Comet.brightness_max        = AURA_MOUSE_BRIGHTNESS_MAX;
-                    Comet.brightness            = AURA_MOUSE_BRIGHTNESS_DEFAULT;
+                    Comet.brightness_min        = aura_mouse_devices[pid].brightness_min;
+                    Comet.brightness_max        = aura_mouse_devices[pid].brightness_max;
+                    Comet.brightness            = aura_mouse_devices[pid].brightness_max;
                     Comet.color_mode            = MODE_COLORS_MODE_SPECIFIC;
                     Comet.direction             = 0;
                     Comet.colors_min            = 1;
@@ -146,9 +146,9 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
                     BatteryMode.name            = "Battery";
                     BatteryMode.value           = mode_value;
                     BatteryMode.flags           = MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-                    BatteryMode.brightness_min  = AURA_MOUSE_BRIGHTNESS_MIN;
-                    BatteryMode.brightness_max  = AURA_MOUSE_BRIGHTNESS_MAX;
-                    BatteryMode.brightness      = AURA_MOUSE_BRIGHTNESS_DEFAULT;
+                    BatteryMode.brightness_min  = aura_mouse_devices[pid].brightness_min;
+                    BatteryMode.brightness_max  = aura_mouse_devices[pid].brightness_max;
+                    BatteryMode.brightness      = aura_mouse_devices[pid].brightness_max;
                     BatteryMode.color_mode      = MODE_COLORS_NONE;
                     modes.push_back(BatteryMode);
                 }

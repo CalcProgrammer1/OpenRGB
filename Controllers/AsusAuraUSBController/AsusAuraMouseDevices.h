@@ -18,6 +18,9 @@
 #define AURA_ROG_GLADIUS_II_ORIGIN_COD_PID      0x18B1
 #define AURA_ROG_GLADIUS_II_WIRELESS_1_PID      0x189E
 #define AURA_ROG_GLADIUS_II_WIRELESS_2_PID      0x18A0
+#define AURA_ROG_GLADIUS_III_WIRELESS_USB_PID   0x197D
+#define AURA_ROG_GLADIUS_III_WIRELESS_2_4_PID   0x197F
+#define AURA_ROG_GLADIUS_III_WIRELESS_BT_PID    0x1981
 #define AURA_ROG_CHAKRAM_WIRELESS_PID           0x18E5
 #define AURA_ROG_CHAKRAM_WIRED_1_PID            0x18E3
 #define AURA_ROG_CHAKRAM_CORE_PID               0x1958
@@ -57,6 +60,8 @@ typedef struct
 {
     uint8_t                 speed_min;
     uint8_t                 speed_max;
+    uint8_t                 brightness_min;
+    uint8_t                 brightness_max;
     bool                    wireless;
     int                     version_protocol;
     std::vector<uint8_t>    mouse_zones;
@@ -76,10 +81,12 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_GLADIUS_II_CORE_PID, // ROG Gladius II Core
         {
-            0,    //Speed Min - The Asus Mouse protocol defines larger numbers as slow
-            0,    //Speed Max
-            false,
-            1,
+            0,      // Speed Min - The Asus Mouse protocol defines larger numbers as slow
+            0,      // Speed Max
+            0,      // Brightness Min
+            4,      // Brightness Max
+            false,  // is wireless? (important for fetching the version)
+            1,      // version protocol
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }
@@ -89,6 +96,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             255,
             1,
+            0,
+            4,
             false,
             0,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -100,6 +109,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             255,
             1,
+            0,
+            4,
             false,
             0,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -111,6 +122,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             255,
             1,
+            0,
+            4,
             false,
             0,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -122,6 +135,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             255,
             1,
+            0,
+            4,
             false,
             0,
             { AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -133,6 +148,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             true,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
@@ -144,6 +161,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             true,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
@@ -151,10 +170,51 @@ static std::map<int,mouse_type> aura_mouse_devices =
         }
     },
     {
+        AURA_ROG_GLADIUS_III_WIRELESS_USB_PID, // ROG Gladius III Wireless USB
+        {
+            255,
+            1,
+            0,
+            64,
+            false,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_GLADIUS_III_WIRELESS_2_4_PID, // ROG Gladius III Wireless 2.4 GHz Dongle
+        {
+            255,
+            1,
+            0,
+            64,
+            true,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_GLADIUS_III_WIRELESS_BT_PID, // ROG Gladius III Wireless Bluetooth
+        {
+            255,
+            1,
+            0,
+            64,
+            true,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
         AURA_ROG_CHAKRAM_WIRELESS_PID, // ROG Chakram Wireless
         {
             15,
             1,
+            0,
+            4,
             true,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -166,6 +226,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             15,
             1,
+            0,
+            4,
             false,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -177,6 +239,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             false,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
@@ -188,6 +252,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             255,
             1,
+            0,
+            4,
             false,
             0,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -199,6 +265,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             15,
             1,
+            0,
+            4,
             false,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -210,6 +278,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             15,
             1,
+            0,
+            4,
             true,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -221,6 +291,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             false,
             3,
             { AURA_MOUSE_ZONE_LOGO },
@@ -232,6 +304,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             false,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
@@ -243,6 +317,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             false,
             1, // might be the wrong protocol for version
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
@@ -254,6 +330,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             true,
             1, // might be the wrong protocol for version
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
@@ -265,6 +343,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             true,
             1, // might be the wrong protocol for version
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
@@ -276,6 +356,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             true,
             1, // might be the wrong protocol for version
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
@@ -287,6 +369,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             false,
             1,
             { AURA_MOUSE_ZONE_LOGO },
@@ -298,6 +382,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
         {
             0,
             0,
+            0,
+            4,
             false,
             2,
             { AURA_MOUSE_ZONE_LOGO },
