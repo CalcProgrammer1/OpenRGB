@@ -44,7 +44,8 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         PALIT_SUB_VEN,  PALIT_RTX3080_SUB_DEV,                  PNY_RGB,    "Palit 3080"                        },
     { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     PALIT_SUB_VEN,  PALIT_RTX3080_LHR_SUB_DEV,              PNY_RGB,    "Palit 3080 LHR"                    },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       PALIT_SUB_VEN,  PALIT_RTX3080TI_SUB_DEV,                PNY_RGB,    "Palit 3080Ti"                      },
-    { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         PALIT_SUB_VEN,  PALIT_RTX3090_SUB_DEV,                  PNY_RGB,    "Palit 3090"                        }
+    { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         PALIT_SUB_VEN,  PALIT_RTX3090_SUB_DEV,                  PNY_RGB,    "Palit 3090"                        },
+    { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,        NVIDIA_SUB_VEN, NVIDIA_RTX2080S_DEV,                    PNY_RGB,    "NVIDIA RTX2080S"                   },
 };
 
 /******************************************************************************************\
