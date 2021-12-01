@@ -445,6 +445,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="24f0", ATTR{idProduct}=="2020", TAG+="uacces
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="3ea4", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="4459", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="1720", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b10", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b12", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7b17", TAG+="uaccess"
