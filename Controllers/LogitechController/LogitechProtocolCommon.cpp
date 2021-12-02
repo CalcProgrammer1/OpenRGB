@@ -729,7 +729,7 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
         if(mode == 1)   //Static
         {
             set_mode.data[5]    = 0x02; //zone;
-            set_mode.data[16]   = 0x01;
+            //set_mode.data[12]   = 0x01; //Save to flash testing
         }
         else if(mode == 2)  //Spectrum Cycle - LOGITECH_DEVICE_LED_SPECTRUM
         {
