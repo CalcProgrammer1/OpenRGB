@@ -19,7 +19,6 @@ typedef struct
     const char *    name;
 } gpu_pci_device;
 
-#define GIGABYTEGPU_DETECT_MESSAGE     "[%s] Found a device match at Bus %02d for Device %04x and SubDevice %04x: %s"
 #define GIGABYTEGPU_CONTROLLER_NAME2    "Gigabyte RGB Fusion2 GPU"
 #define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
 
@@ -98,7 +97,7 @@ void DetectGigabyteRGBFusion2GPUControllers(std::vector<i2c_smbus_interface*>& b
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
-                LOG_DEBUG(GIGABYTEGPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME2, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                LOG_DEBUG(GPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME2, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                 // Check for RGB Fusion2 controller
                 if(TestForGigabyteRGBFusion2GPUController(busses[bus], device_list[dev_idx].controller_address))
                 {

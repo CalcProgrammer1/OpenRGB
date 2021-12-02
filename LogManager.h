@@ -15,6 +15,8 @@
 #define SMBUS_CHECK_DEVICE_MESSAGE_EN   "[%s] Bus %02d is a motherboard and the subvendor matches the one for %s, looking for a device at %02X"
 #define SMBUS_CHECK_DEVICE_FAILURE_EN   "[%s] Bus %02d is not a motherboard or the subvendor does not match the one for %s, skipping detection"
 
+#define GPU_DETECT_MESSAGE              "[%s] Found a device match at Bus %02d for Device %04x and SubDevice %04x: %s"
+
 using json = nlohmann::json;
 
 enum

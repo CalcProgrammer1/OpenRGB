@@ -7,6 +7,7 @@
 
 #include "Detector.h"
 #include "MSIGPUController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_MSIGPU.h"
 #include "i2c_smbus.h"
@@ -25,6 +26,7 @@ typedef struct
 } msi_gpu_pci_device;
 
 #define MSI_GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+#define MSI_CONTROLLER_NAME "MSI GPU"
 
 static const msi_gpu_pci_device device_list[] =
 {
@@ -99,6 +101,7 @@ void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses)
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
+                LOG_DEBUG(GPU_DETECT_MESSAGE, MSI_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                 new_msi_gpu = new MSIGPUController(busses[bus]);
                 new_controller = new RGBController_MSIGPU(new_msi_gpu);
                 new_controller->name = device_list[dev_idx].name;

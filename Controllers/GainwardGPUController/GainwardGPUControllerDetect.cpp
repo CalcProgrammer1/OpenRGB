@@ -9,6 +9,7 @@
 #include "Detector.h"
 #include "GainwardGPUv1Controller.h"
 #include "GainwardGPUv2Controller.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_GainwardGPUv1.h"
 #include "RGBController_GainwardGPUv2.h"
@@ -109,6 +110,7 @@ void DetectGainwardGPUControllers(std::vector<i2c_smbus_interface*> &busses)
                     {
                         case RGB_V1:
                             {
+                                LOG_DEBUG(GPU_DETECT_MESSAGE, "Gainward v1", bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                                 GainwardGPUv1Controller*     new_GainwardGPU;
                                 RGBController_GainwardGPUv1* new_controller;
 
@@ -121,6 +123,7 @@ void DetectGainwardGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 
                         case RGB_V2:
                             {
+                                LOG_DEBUG(GPU_DETECT_MESSAGE, "Gainward v2", bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                                 GainwardGPUv2Controller*     new_GainwardGPU;
                                 RGBController_GainwardGPUv2* new_controller;
 

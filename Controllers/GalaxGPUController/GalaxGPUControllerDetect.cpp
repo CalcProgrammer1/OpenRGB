@@ -8,6 +8,7 @@
 
 #include "Detector.h"
 #include "GalaxGPUController.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_GalaxGPU.h"
 #include "i2c_smbus.h"
@@ -82,6 +83,7 @@ void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses)
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
+                LOG_DEBUG(GPU_DETECT_MESSAGE, "Galax GPU", bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                 if (TestForGalaxGPUController(busses[bus], 0x23))
                 {
                     new_GalaxGPU         = new GalaxGPUController(busses[bus], 0x23);

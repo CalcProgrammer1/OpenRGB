@@ -139,7 +139,7 @@ void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses)
                 {
                     case EVGA_RGB_V1:
                         {
-                            LOG_DEBUG(EVGA_DETECT_MESSAGE, EVGAGPUV1_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                            LOG_DEBUG(GPU_DETECT_MESSAGE, EVGAGPUV1_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                             EVGAGPUv1Controller*     new_controller;
                             RGBController_EVGAGPUv1* new_rgbcontroller;
 
@@ -152,7 +152,7 @@ void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses)
 
                     case EVGA_RGB_V2:
                         {
-                            LOG_DEBUG(EVGA_DETECT_MESSAGE, EVGAGPUV2_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                            LOG_DEBUG(GPU_DETECT_MESSAGE, EVGAGPUV2_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                             EVGAGPUv2Controller*     new_controller;
                             RGBController_EVGAGPUv2* new_rgbcontroller;
 
@@ -165,7 +165,7 @@ void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses)
 
                     case EVGA_RGB_V3:
                         {
-                            LOG_DEBUG(EVGA_DETECT_MESSAGE, EVGAGPUV3_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                            LOG_DEBUG(GPU_DETECT_MESSAGE, EVGAGPUV3_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                             EVGAGPUv3Controller*     new_controller;
                             RGBController_EVGAGPUv3* new_rgbcontroller;
 
@@ -187,7 +187,7 @@ void DetectEVGAGPUControllers(std::vector<i2c_smbus_interface*>& busses)
                         break;
                     case EVGA_RGB_GP102:
                         {
-                            LOG_DEBUG(EVGA_DETECT_MESSAGE, EVGA_GP102_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                            LOG_DEBUG(GPU_DETECT_MESSAGE, EVGA_GP102_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                             RGBController_EVGAGP102* new_rgbcontroller;
                             std::vector<EVGAGP102Controller*>   controllers;
 

@@ -118,6 +118,7 @@ void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses)
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
+                LOG_DEBUG(GPU_DETECT_MESSAGE, ASUSGPU_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                 if (TestForAsusAuraGPUController(busses[bus], device_list[dev_idx].controller_address))
                 {
                     new_aura_gpu         = new AuraGPUController(busses[bus], device_list[dev_idx].controller_address);

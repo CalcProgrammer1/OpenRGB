@@ -1,4 +1,5 @@
 #include "Detector.h"
+#include "LogManager.h"
 #include "PNYGPUController.h"
 #include "RGBController.h"
 #include "RGBController_PNYGPU.h"
@@ -80,6 +81,7 @@ void DetectPNYGPUControllers(std::vector<i2c_smbus_interface*>& busses)
                 {
                     case PNY_RGB:
                         {
+                            LOG_DEBUG(GPU_DETECT_MESSAGE, "PNY GPU", bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                             PNYGPUController*     new_controller;
                             RGBController_PNYGPU* new_rgbcontroller;
 

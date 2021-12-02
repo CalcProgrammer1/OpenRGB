@@ -160,6 +160,7 @@ void DetectGigabyteRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& bu
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
+                LOG_DEBUG(GPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
                 // Check for RGB Fusion controller
                 if (TestForGigabyteRGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address))
                 {
