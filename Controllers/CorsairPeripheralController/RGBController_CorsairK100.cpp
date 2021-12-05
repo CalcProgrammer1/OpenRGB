@@ -7,6 +7,8 @@
 #include "RGBController_CorsairK100.h"
 #include "LogManager.h"
 
+using namespace std::chrono_literals;
+
 #define NA  0xFFFFFFFF
 
 static unsigned int matrix_map_k100[7][24] =
@@ -238,10 +240,25 @@ RGBController_CorsairK100::RGBController_CorsairK100(CorsairK100Controller* cors
     modes.push_back(Direct);
 
     SetupZones();
+    /*-----------------------------------------------------*\
+    | The Corsair K100 requires a packet within             |
+    | 1 minutes of sending the lighting change in order     |
+    | to not revert back into rainbow mode.  Start a thread |
+    | to continuously send a keepalive packet every 50 sec  |
+    \*-----------------------------------------------------*/
+    keepalive_thread_run = true;
+    keepalive_thread = new std::thread(&RGBController_CorsairK100::KeepaliveThread, this);
 }
 
 RGBController_CorsairK100::~RGBController_CorsairK100()
 {
+    /*-----------------------------------------------------*\
+    | Close keepalive thread                                |
+    \*-----------------------------------------------------*/
+    keepalive_thread_run = false;
+    keepalive_thread->join();
+    delete keepalive_thread;
+
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
     \*---------------------------------------------------------*/
@@ -314,6 +331,8 @@ void RGBController_CorsairK100::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_CorsairK100::DeviceUpdateLEDs()
 {
+    last_update_time = std::chrono::steady_clock::now();
+
     corsair->SetLEDs(colors);
 }
 
@@ -335,4 +354,19 @@ void RGBController_CorsairK100::SetCustomMode()
 void RGBController_CorsairK100::DeviceUpdateMode()
 {
 
+}
+
+void RGBController_CorsairK100::KeepaliveThread()
+{
+    while(keepalive_thread_run.load())
+    {
+        if(active_mode == 0)
+        {
+            if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50000))
+            {
+                DeviceUpdateLEDs();
+            }
+        }
+        std::this_thread::sleep_for(3000ms);
+    }
 }

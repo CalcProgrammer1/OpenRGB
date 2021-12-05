@@ -25,10 +25,16 @@ public:
 
     void DeviceUpdateMode();
     void SetCustomMode();
+    void        KeepaliveThread();
 
 private:
-    CorsairK100Controller*  corsair;
-    CorsairKeyboardType     logical_layout;
+    CorsairK100Controller*          corsair;
+    CorsairKeyboardType             logical_layout;
+
+    std::thread*                    keepalive_thread;
+    std::atomic<bool>               keepalive_thread_run;
+    std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
+
 };
 
 #endif // RGBCONTROLLER_CORSAIRK100_H

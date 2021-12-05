@@ -206,12 +206,18 @@ RGBController_CorsairWireless::RGBController_CorsairWireless(CorsairWirelessCont
     | to not revert back into rainbow mode.  Start a thread |
     | to continuously send a keepalive packet every 5s      |
     \*-----------------------------------------------------*/
-    keepalive_thread_run = 1;
+    keepalive_thread_run = true;
     keepalive_thread = new std::thread(&RGBController_CorsairWireless::KeepaliveThread, this);
 }
 
 RGBController_CorsairWireless::~RGBController_CorsairWireless()
 {
+    /*-----------------------------------------------------*\
+    | Close keepalive thread                                |
+    \*-----------------------------------------------------*/
+    keepalive_thread_run = false;
+    keepalive_thread->join();
+    delete keepalive_thread;
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
     \*---------------------------------------------------------*/
