@@ -8,6 +8,7 @@
 \*-------------------------------------------------------------------*/
 
 #include "dmiinfo.h"
+#include "LogManager.h"
 
 #ifdef WIN32
 #include "wmi.h"
@@ -35,6 +36,7 @@ DMIInfo::DMIInfo()
 
     if (hres)
     {
+        LOG_DEBUG("[DMI Info] Unable to read from %s", WMI);
         return;
     }
 
@@ -62,7 +64,10 @@ DMIInfo::DMIInfo()
     manufacturer    = "";
 
     if ((access(SYSFSDMI "/board_vendor", R_OK)!=0) && (access(SYSFSDMI "/board_name", R_OK)!=0))
+    {
+        LOG_DEBUG("[DMI Info] Unable to read from %s", SYSFSDMI);
         return;
+    }
 
     std::ifstream mftr(SYSFSDMI "/board_vendor", std::ifstream::in);
     getline(mftr, manufacturer);

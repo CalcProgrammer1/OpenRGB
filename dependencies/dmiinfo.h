@@ -14,6 +14,8 @@
 
 #ifdef WIN32
 #include "wmi.h"
+
+#define WMI "WMI"
 #else
 #include <unistd.h>     //Linux specific filesystem operation
 #include <fstream>
