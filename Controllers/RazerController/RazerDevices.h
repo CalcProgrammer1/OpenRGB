@@ -1992,6 +1992,36 @@ static const razer_key ornata_chroma_keymap[] =
     {   0,      5,      20,             "Key: Number Pad ."                 },
 };
 
+#define TARTARUS_V2_KEYMAP_SIZE (sizeof(tartarus_v2_keymap) / sizeof(tartarus_v2_keymap[0]))
+
+static const razer_key tartarus_v2_keymap[] =
+{
+    /*---------------------------------------------------------------------*\
+    |   Zone,   Row,    Column,         Key                                 |
+    \*---------------------------------------------------------------------*/
+    {   0,      0,      0,              "Key: 01"                           },
+    {   0,      0,      1,              "Key: 02"                           },
+    {   0,      0,      2,              "Key: 03"                           },
+    {   0,      0,      3,              "Key: 04"                           },
+    {   0,      0,      4,              "Key: 05"                           },
+    {   0,      1,      0,              "Key: 06"                           },
+    {   0,      1,      1,              "Key: 07"                           },
+    {   0,      1,      2,              "Key: 08"                           },
+    {   0,      1,      3,              "Key: 09"                           },
+    {   0,      1,      4,              "Key: 10"                           },
+    {   0,      2,      0,              "Key: 11"                           },
+    {   0,      2,      1,              "Key: 12"                           },
+    {   0,      2,      2,              "Key: 13"                           },
+    {   0,      2,      3,              "Key: 14"                           },
+    {   0,      2,      4,              "Key: 15"                           },
+    {   0,      3,      0,              "Key: 16"                           },
+    {   0,      3,      1,              "Key: 17"                           },
+    {   0,      3,      2,              "Key: 18"                           },
+    {   0,      3,      3,              "Key: 19"                           },
+    {   0,      3,      4,              "Key: Scroll Wheel"                 },
+    {   0,      3,      5,              "Key: 20"                           },
+};
+
 /*-------------------------------------------------------------------------*\
 |  KEYBOARDS                                                                |
 \*-------------------------------------------------------------------------*/
@@ -5812,14 +5842,14 @@ static const razer_device tartarus_chroma_device =
 |                                                               |
 |  Zone "Keypad"                                                |
 |       Matrix                                                  |
-|       4 Rows, 5 Columns                                       |
+|       4 Rows, 6 Columns                                       |
 \*-------------------------------------------------------------*/
 static const razer_zone tartarus_v2_zone =
 {
     "Keypad",
     ZONE_TYPE_MATRIX,
     4,
-    5
+    6
 };
 
 static const razer_device tartarus_v2_device =
@@ -5829,7 +5859,7 @@ static const razer_device tartarus_v2_device =
     DEVICE_TYPE_KEYBOARD,
     true,
     4,
-    5,
+    6,
     {
         &tartarus_v2_zone,
         NULL,
@@ -5838,8 +5868,8 @@ static const razer_device tartarus_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0
+    tartarus_v2_keymap,
+    TARTARUS_V2_KEYMAP_SIZE
 };
 
 /*-------------------------------------------------------------------------*\
