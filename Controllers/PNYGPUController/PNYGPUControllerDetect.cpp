@@ -32,22 +32,19 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
-    { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,       PNY_SUB_VEN,     PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV,  PNY_RGB,    "PNY XLR8 Revel EPIC-X RTX 3090" },
-    { NVIDIA_VEN,   NVIDIA_RTX3060_DEV,       PALIT_SUB_VEN,   PALIT_RTX3060_SUB_DEV,                   PNY_RGB,    "Palit 3060" },
-    { NVIDIA_VEN,   NVIDIA_RTX3060_LHR_DEV,   PALIT_SUB_VEN,   PALIT_RTX3060_LHR_SUB_DEV,               PNY_RGB,    "Palit 3060 LHR" },
-
-    { NVIDIA_VEN,   NVIDIA_RTX3060TI_DEV,     PALIT_SUB_VEN,   PALIT_RTX3060TI_SUB_DEV,                 PNY_RGB,    "Palit 3060Ti" },
-    { NVIDIA_VEN,   NVIDIA_RTX3060TI_LHR_DEV, PALIT_SUB_VEN,   PALIT_RTX3060TI_LHR_SUB_DEV,             PNY_RGB,    "Palit 3060Ti" },
-
-    { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,       PALIT_SUB_VEN,   PALIT_RTX3070_SUB_DEV,                   PNY_RGB,    "Palit 3070" },
-    { NVIDIA_VEN,   NVIDIA_RTX3070_LHR_DEV,   PALIT_SUB_VEN,   PALIT_RTX3070_LHR_SUB_DEV,               PNY_RGB,    "Palit 3070 LHR" },
-    { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,     PALIT_SUB_VEN,   PALIT_RTX3070TI_SUB_DEV,                 PNY_RGB,    "Palit 3070Ti" },
-
-    { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,       PALIT_SUB_VEN,   PALIT_RTX3080_SUB_DEV,                   PNY_RGB,    "Palit 3080" },
-    { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,   PALIT_SUB_VEN,   PALIT_RTX3080_LHR_SUB_DEV,               PNY_RGB,    "Palit 3080 LHR" },
-    { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,     PALIT_SUB_VEN,   PALIT_RTX3080TI_SUB_DEV,                 PNY_RGB,    "Palit 3080Ti" },
-
-    { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,       PALIT_SUB_VEN,   PALIT_RTX3090_SUB_DEV,                   PNY_RGB,    "Palit 3090" }
+    { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         PNY_SUB_VEN,    PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV, PNY_RGB,    "PNY XLR8 Revel EPIC-X RTX 3090"    },
+    { NVIDIA_VEN,   NVIDIA_RTX3060_DEV,         PALIT_SUB_VEN,  PALIT_RTX3060_SUB_DEV,                  PNY_RGB,    "Palit 3060"                        },
+    { NVIDIA_VEN,   NVIDIA_RTX3060_LHR_DEV,     PALIT_SUB_VEN,  PALIT_RTX3060_LHR_SUB_DEV,              PNY_RGB,    "Palit 3060 LHR"                    },
+    { NVIDIA_VEN,   NVIDIA_RTX3060TI_DEV,       PALIT_SUB_VEN,  PALIT_RTX3060TI_SUB_DEV,                PNY_RGB,    "Palit 3060Ti"                      },
+    { NVIDIA_VEN,   NVIDIA_RTX3060TI_LHR_DEV,   PALIT_SUB_VEN,  PALIT_RTX3060TI_LHR_SUB_DEV,            PNY_RGB,    "Palit 3060Ti"                      },
+    { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,         PALIT_SUB_VEN,  PALIT_RTX3070_SUB_DEV,                  PNY_RGB,    "Palit 3070"                        },
+    { NVIDIA_VEN,   NVIDIA_RTX3070_LHR_DEV,     PALIT_SUB_VEN,  PALIT_RTX3070_LHR_SUB_DEV,              PNY_RGB,    "Palit 3070 LHR"                    },
+    { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       PALIT_SUB_VEN,  PALIT_RTX3070TI_GAMING_PRO_SUB_DEV,     PNY_RGB,    "Palit 3070Ti GamingPro"            },
+    { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       PALIT_SUB_VEN,  PALIT_RTX3070TI_SUB_DEV,                PNY_RGB,    "Palit 3070Ti"                      },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         PALIT_SUB_VEN,  PALIT_RTX3080_SUB_DEV,                  PNY_RGB,    "Palit 3080"                        },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     PALIT_SUB_VEN,  PALIT_RTX3080_LHR_SUB_DEV,              PNY_RGB,    "Palit 3080 LHR"                    },
+    { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       PALIT_SUB_VEN,  PALIT_RTX3080TI_SUB_DEV,                PNY_RGB,    "Palit 3080Ti"                      },
+    { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         PALIT_SUB_VEN,  PALIT_RTX3090_SUB_DEV,                  PNY_RGB,    "Palit 3090"                        }
 };
 
 /******************************************************************************************\
