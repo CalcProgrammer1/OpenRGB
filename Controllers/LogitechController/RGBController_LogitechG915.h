@@ -14,13 +14,13 @@
 class RGBController_LogitechG915 : public RGBController
 {
 public:
-    RGBController_LogitechG915(LogitechG915Controller* logitech_ptr);
+    RGBController_LogitechG915(LogitechG915Controller* logitech_ptr, bool tkl);
     ~RGBController_LogitechG915();
 
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
@@ -29,6 +29,8 @@ public:
     void        DeviceUpdateMode();
 
 private:
+    bool is_tkl;
+
     LogitechG915Controller* logitech;
     std::vector<RGBColor>   current_colors;
 };

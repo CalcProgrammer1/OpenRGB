@@ -17,13 +17,22 @@ const size_t max_key_per_color  = 13;
 const size_t data_size          = 16;
 
 static unsigned int matrix_map[7][27] =
-    { { 110, NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  111, NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA  },
-      { NA,  NA,  37,  NA,  54,  55,  56,  57,  NA,  58,  59,  60,  61,  NA,  62,  63,  64,  65,  NA,  66,  67,  68,  NA,  106, 107, 108, 109 },
-      { 112, NA,  49,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  NA,  41,  42,  38,  NA,  NA,  69,  70,  71,  NA,  79,  80,  81,  82  },
-      { 113, NA,  39,  NA,  16,  22,  4,   17,  NA,  19,  24,  20,  8,   14,  15,  43,  44,  45,  NA,  72,  73,  74,  NA,  91,  92,  93,  83  },
-      { 114, NA,  53,  NA,  0,   18,  3,   5,   NA,  6,   7,   9,   10,  11,  47,  48,  46,  36,  NA,  NA,  NA,  NA,  NA,  88,  89,  90,  NA  },
-      { 115, NA,  99,  96,  25,  23,  2,   21,  NA,  1,   NA,  13,  12,  50,  51,  52,  103, NA,  NA,  NA,  78,  NA,  NA,  85,  86,  87,  84  },
-      { 116, NA,  98,  101, 100, NA,  NA,  NA,  NA,  40,  NA,  NA,  NA,  NA,  104, 105, 97,  102, NA,  76,  77,  75,  NA,  94,  NA,  95,  NA  }  };
+    { {  93, NA,  NA,  NA, NA, NA, NA, NA, NA, NA, 94, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,  NA,  NA,  NA,  NA },
+      {  NA, NA,  37,  NA, 54, 55, 56, 57, NA, 58, 59, 60, 61, NA, 62, 63, 64, 65, NA, 66, 67, 68, NA,  89,  90,  91,  92 },
+      { 112, NA,  49,  26, 27, 28, 29, 30, 31, 32, 33, 34, 35, NA, 41, 42, 38, NA, NA, 69, 70, 71, NA,  95,  96,  97,  98 },
+      { 113, NA,  39,  NA, 16, 22,  4, 17, NA, 19, 24, 20,  8, 14, 15, 43, 44, 45, NA, 72, 73, 74, NA, 107, 108, 109,  99 },
+      { 114, NA,  53,  NA,  0, 18,  3,  5, NA,  6,  7,  9, 10, 11, 47, 48, 46, 36, NA, NA, NA, NA, NA, 104, 105, 106,  NA },
+      { 115, NA,  82,  79, 25, 23,  2, 21, NA,  1, NA, 13, 12, 50, 51, 52, 86, NA, NA, NA, 78, NA, NA, 101, 102, 103, 100 },
+      { 116, NA,  81,  84, 83, NA, NA, NA, NA, 40, NA, NA, NA, NA, 87, 88, 80, 85, NA, 76, 77, 75, NA, 110,  NA, 111,  NA } };
+
+static unsigned int matrix_map_tkl[7][20] =
+    { { 93,  NA, NA, NA, NA,  94, NA, NA, NA, NA, NA, NA, 89, 90, 91, 92, NA, NA, NA, NA },
+      { 37,  NA, 54, 55, 56,  57, NA, 58, 59, 60, 61, NA, 62, 63, 64, 65, NA, 66, 67, 68 },
+      { 49,  26, 27, 28, 29,  30, 31, 32, 33, 34, 35, NA, 41, 42, 38, NA, NA, 69, 70, 71 },
+      { 39,  NA, 16, 22,  4,  17, NA, 19, 24, 20,  8, 14, 15, 43, 44, 45, NA, 72, 73, 74 },
+      { 53,  NA,  0, 18,  3,  5,  NA,  6,  7,  9, 10, 11, 47, 48, 46, 36, NA, NA, NA, NA },
+      { 82,  79, 25, 23,  2,  21, NA,  1, NA, 13, 12, 50, 51, 52, 86, NA, NA, NA, 78, NA },
+      { 81,  84, 83, NA, NA,  NA, NA, 40, NA, NA, NA, NA, 87, 88, 80, 85, NA, 76, 77, 75 } };
 
 static const char* zone_names[] =
 {
@@ -34,6 +43,9 @@ static zone_type zone_types[] =
 {
     ZONE_TYPE_MATRIX,
 };
+
+static const unsigned int tkl_led_count = 95;
+static const unsigned int full_led_count = 117;
 
 static const unsigned int zone_sizes[] =
 {
@@ -129,7 +141,23 @@ static const led_type led_names[] =
     { "Key: Left Arrow",        LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x50    },
     { "Key: Down Arrow",        LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x51    },
     { "Key: Up Arrow",          LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x52    },
-    { "Key: Num Lock",          LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x53    },
+    { "Key: \\ (ISO)",          LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x64    },//ISO only
+    { "Key: Menu",              LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x65    },
+    { "Key: Left Control",      LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE0    },
+    { "Key: Left Shift",        LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE1    },
+    { "Key: Left Alt",          LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE2    },
+    { "Key: Left Windows",      LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE3    },
+    { "Key: Right Control",     LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE4    },
+    { "Key: Right Shift",       LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE5    },
+    { "Key: Right Alt",         LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE6    },
+    { "Key: Right Windows",     LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE7    },
+    { "Key: Media Previous",    LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9E    },
+    { "Key: Media Play/Pause",  LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9B    },
+    { "Key: Media Next",        LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9D    },
+    { "Key: Media Mute",        LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9C    },
+    { "Logo",                   LOGITECH_G915_ZONE_DIRECT_LOGO,         0x01    },
+    { "Key: Brightness",        LOGITECH_G915_ZONE_DIRECT_INDICATORS,   0x99    },
+    { "Key: Num Lock",          LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x53    }, // First Non-TKL Key
     { "Key: Number Pad /",      LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x54    },
     { "Key: Number Pad *",      LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x55    },
     { "Key: Number Pad -",      LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x56    },
@@ -146,22 +174,6 @@ static const led_type led_names[] =
     { "Key: Number Pad 9",      LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x61    },
     { "Key: Number Pad 0",      LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x62    },
     { "Key: Number Pad .",      LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x63    },
-    { "Key: \\ (ISO)",          LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x64    },//ISO only
-    { "Key: Menu",              LOGITECH_G915_ZONE_DIRECT_KEYBOARD,     0x65    },
-    { "Key: Left Control",      LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE0    },
-    { "Key: Left Shift",        LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE1    },
-    { "Key: Left Alt",          LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE2    },
-    { "Key: Left Windows",      LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE3    },
-    { "Key: Right Control",     LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE4    },
-    { "Key: Right Shift",       LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE5    },
-    { "Key: Right Alt",         LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE6    },
-    { "Key: Right Windows",     LOGITECH_G915_ZONE_MODE_MODIFIERS,      0xE7    },
-    { "Key: Media Previous",    LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9E    },
-    { "Key: Media Play/Pause",  LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9B    },
-    { "Key: Media Next",        LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9D    },
-    { "Key: Media Mute",        LOGITECH_G915_ZONE_DIRECT_MEDIA,        0x9C    },
-    { "Logo",                   LOGITECH_G915_ZONE_DIRECT_LOGO,         0x01    },
-    { "Lighting",               LOGITECH_G915_ZONE_DIRECT_INDICATORS,   0x99    },
     { "Key: G1",                LOGITECH_G915_ZONE_MODE_GKEYS,          0x01    },
     { "Key: G2",                LOGITECH_G915_ZONE_MODE_GKEYS,          0x02    },
     { "Key: G3",                LOGITECH_G915_ZONE_MODE_GKEYS,          0x03    },
@@ -169,15 +181,24 @@ static const led_type led_names[] =
     { "Key: G5",                LOGITECH_G915_ZONE_MODE_GKEYS,          0x05    },
 };
 
-RGBController_LogitechG915::RGBController_LogitechG915(LogitechG915Controller* logitech_ptr)
+RGBController_LogitechG915::RGBController_LogitechG915(LogitechG915Controller* logitech_ptr, bool tkl)
 {
-    logitech    = logitech_ptr;
+    is_tkl = tkl;
 
-    name        = "Logitech G915 Keyboard Device";
-    vendor      = "Logitech";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Logitech G915 Keyboard Device";
-    serial      = logitech->GetSerialString();
+    if(is_tkl)
+    {
+        name                        = "Logitech G915TKL Keyboard Device";
+    }
+    else
+    {
+        name                        = "Logitech G915 Keyboard Device";
+    }
+
+    description                     = name;
+    logitech                        = logitech_ptr;
+    vendor                          = "Logitech";
+    type                            = DEVICE_TYPE_KEYBOARD;
+    serial                          = logitech->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";
@@ -249,22 +270,32 @@ void RGBController_LogitechG915::SetupZones()
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
+
     unsigned int total_led_count = 0;
     for(unsigned int zone_idx = 0; zone_idx < 1; zone_idx++)
     {
         zone new_zone;
         new_zone.name                   = zone_names[zone_idx];
         new_zone.type                   = zone_types[zone_idx];
-        new_zone.leds_min               = zone_sizes[zone_idx];
-        new_zone.leds_max               = zone_sizes[zone_idx];
-        new_zone.leds_count             = zone_sizes[zone_idx];
+        new_zone.leds_count             = (is_tkl) ? tkl_led_count : full_led_count;
+        new_zone.leds_min               = new_zone.leds_count;
+        new_zone.leds_max               = new_zone.leds_count;
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
             new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 7;
-            new_zone.matrix_map->width  = 27;
-            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+            if(is_tkl)
+            {
+                new_zone.matrix_map->map    = (unsigned int *)&matrix_map_tkl;
+                new_zone.matrix_map->height = 7;
+                new_zone.matrix_map->width  = 20;
+            }
+            else
+            {
+                new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+                new_zone.matrix_map->height = 7;
+                new_zone.matrix_map->width  = 27;
+            }
         }
         else
         {
@@ -273,7 +304,7 @@ void RGBController_LogitechG915::SetupZones()
 
         zones.push_back(new_zone);
 
-        total_led_count += zone_sizes[zone_idx];
+        total_led_count += new_zone.leds_count;
     }
 
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)

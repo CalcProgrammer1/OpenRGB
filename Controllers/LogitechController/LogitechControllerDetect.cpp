@@ -55,6 +55,8 @@ using namespace std::chrono_literals;
 #define LOGITECH_G815_PID                           0xC33F
 #define LOGITECH_G915_WIRED_PID                     0xC33E
 #define LOGITECH_G915_RECEIVER_PID                  0xC541
+#define LOGITECH_G915TKL_WIRED_PID                  0xC343
+#define LOGITECH_G915TKL_RECEIVER_PID               0xC545
 #define LOGITECH_G910_ORION_SPARK_PID               0xC32B
 #define LOGITECH_G910_PID                           0xC335
 #define LOGITECH_GPRO_KEYBOARD_1_PID                0xC339
@@ -328,11 +330,12 @@ void DetectLogitechKeyboardG815(hid_device_info* info, const std::string& name)
 void DetectLogitechKeyboardG915(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
+    bool is_tkl = info->product_id == LOGITECH_G915TKL_RECEIVER_PID;
 
     if(dev)
     {
         LogitechG915Controller*     controller     = new LogitechG915Controller(dev, false);
-        RGBController_LogitechG915* rgb_controller = new RGBController_LogitechG915(controller);
+        RGBController_LogitechG915* rgb_controller = new RGBController_LogitechG915(controller, is_tkl);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -341,11 +344,12 @@ void DetectLogitechKeyboardG915(hid_device_info* info, const std::string& name)
 void DetectLogitechKeyboardG915Wired(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
+    bool is_tkl = info->product_id == LOGITECH_G915TKL_WIRED_PID;
 
     if(dev)
     {
         LogitechG915Controller*     controller     = new LogitechG915Controller(dev, true);
-        RGBController_LogitechG915* rgb_controller = new RGBController_LogitechG915(controller);
+        RGBController_LogitechG915* rgb_controller = new RGBController_LogitechG915(controller, is_tkl);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -520,7 +524,7 @@ static void addLogitechLightsyncMouse2zone(hid_device_info* info, const std::str
 #else
     {
         hid_device* dev = hid_open_path(info->path);
-    
+
         if(dev)
         {
             LogitechGLightsyncController*     controller     = new LogitechGLightsyncController(dev, dev, info->path, hid_dev_index, hid_feature_index, hid_fctn_ase_id);
@@ -633,6 +637,8 @@ REGISTER_HID_DETECTOR_IP ("Logitech G910 Orion Spectrum",                   Dete
 REGISTER_HID_DETECTOR_IP ("Logitech G Pro RGB Mechanical Gaming Keyboard",  DetectLogitechKeyboardGPro, LOGITECH_VID, LOGITECH_GPRO_KEYBOARD_1_PID,         1, 0xFF43);
 REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard",          DetectLogitechKeyboardG915,      LOGITECH_VID, LOGITECH_G915_RECEIVER_PID,           2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G915 Wireless RGB Mechanical Gaming Keyboard (Wired)",  DetectLogitechKeyboardG915Wired, LOGITECH_VID, LOGITECH_G915_WIRED_PID,              2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G915TKL Wireless RGB Mechanical Gaming Keyboard",          DetectLogitechKeyboardG915,      LOGITECH_VID, LOGITECH_G915TKL_RECEIVER_PID,           2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G915TKL Wireless RGB Mechanical Gaming Keyboard (Wired)",  DetectLogitechKeyboardG915Wired, LOGITECH_VID, LOGITECH_G915TKL_WIRED_PID,              2, 0xFF00, 2);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                                                              |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
