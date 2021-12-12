@@ -2,14 +2,14 @@
 
 Name:           openrgb
 Version:        0.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Open source RGB lighting control that doesn't depend on manufacturer software
 
 License:        GPLv2
 URL:            https://gitlab.com/CalcProgrammer1/%{_name}
 Source0:        OpenRGB.tar.gz
 
-BuildRequires:  gcc-c++ libusb-devel libstdc++-devel qt5-qtbase-devel desktop-file-utils hidapi-devel mbedtls-devel
+BuildRequires:  gcc-c++ libusb-devel libstdc++-devel qt5-qtbase-devel desktop-file-utils hidapi-devel mbedtls-devel systemd-rpm-macros
 Requires:       hicolor-icon-theme
 
 %description
@@ -42,11 +42,14 @@ fi
 %{_datadir}/icons/hicolor/*/apps/%{_name}.png
 %{_datadir}/applications/%{_name}.desktop
 %{_metainfodir}/org.%{name}.%{_name}.metainfo.xml
-/lib/udev/rules.d/60-%{name}.rules
+%{_udevrulesdir}/60-%{name}.rules
 %license LICENSE
 %doc README.md
 
 %changelog
+* Sun Dec 12 2021 Artem Polishchuk <ego.cordatus@gmail.com> - 0.6.1-2
+- build: Fix udev rules install path | MR#933
+
 * Tue Jun 1 2021 Adam Honse <calcprogrammer1@gmail.com> - 0.6.1-0
 - Updated to 0.6-1
 
