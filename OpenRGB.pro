@@ -1246,7 +1246,7 @@ unix:!macx {
     icon.files+=qt/OpenRGB.png
     metainfo.path=$$PREFIX/share/metainfo/
     metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
-    rules.path=/lib/udev/rules.d/
+    rules.path=$$PREFIX/lib/udev/rules.d/
     rules.files+=60-openrgb.rules
     INSTALLS += target desktop icon metainfo rules
 }
