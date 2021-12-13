@@ -1238,13 +1238,13 @@ unix:!macx {
     target.path=$$PREFIX/bin/
     desktop.path=$$PREFIX/share/applications/
     desktop.files+=qt/OpenRGB.desktop
-    pixmap.path=$$PREFIX/share/pixmaps/
-    pixmap.files+=qt/OpenRGB.png
+    icon.path=$$PREFIX/share/icons/hicolor/128x128/apps/
+    icon.files+=qt/OpenRGB.png
     metainfo.path=$$PREFIX/share/metainfo/
     metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
     rules.path=/lib/udev/rules.d/
     rules.files+=60-openrgb.rules
-    INSTALLS += target desktop pixmap metainfo rules
+    INSTALLS += target desktop icon metainfo rules
 }
 
 unix:!macx:CONFIG(asan) {
