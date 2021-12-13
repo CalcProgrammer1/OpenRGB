@@ -28,9 +28,6 @@ cd %{_builddir}
 %install
 %make_install INSTALL_ROOT=%{buildroot}
 
-#icon
-install -Dpm 644 qt/%{_name}.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{_name}.png
-
 #desktop
 desktop-file-install %{_sourcedir}/%{_name}/qt/%{_name}.desktop
 
@@ -42,9 +39,8 @@ fi
 
 %files
 %{_bindir}/%{name}
-%{_datadir}/icons/hicolor/128x128/apps/%{_name}.png
+%{_datadir}/icons/hicolor/*/apps/%{_name}.png
 %{_datadir}/applications/%{_name}.desktop
-%{_datadir}/pixmaps/%{_name}.png
 %{_metainfodir}/org.%{name}.%{_name}.metainfo.xml
 /lib/udev/rules.d/60-%{name}.rules
 %license LICENSE
