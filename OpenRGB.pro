@@ -94,6 +94,7 @@ INCLUDEPATH +=                                                                  
     Controllers/DasKeyboardController/                                                          \
     Controllers/DebugController/                                                                \
     Controllers/DuckyKeyboardController/                                                        \
+    Controllers/DygmaRaiseController/                                                           \
     Controllers/E131Controller/                                                                 \
     Controllers/EKController/                                                                   \
     Controllers/ENESMBusController/                                                             \
@@ -284,6 +285,8 @@ HEADERS +=                                                                      
     Controllers/DasKeyboardController/RGBController_DasKeyboard.h                               \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h                               \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.h                           \
+    Controllers/DygmaRaiseController/DygmaRaiseController.h                                     \
+    Controllers/DygmaRaiseController/RGBController_DygmaRaise.h                                 \
     Controllers/DebugController/RGBController_Debug.h                                           \
     Controllers/E131Controller/RGBController_E131.h                                             \
     Controllers/EKController/EKController.h                                                     \
@@ -668,6 +671,9 @@ SOURCES +=                                                                      
     Controllers/DuckyKeyboardController/DuckyKeyboardControllerDetect.cpp                       \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.cpp                         \
     Controllers/DebugController/RGBController_Debug.cpp                                         \
+    Controllers/DygmaRaiseController/DygmaRaiseController.cpp                                   \
+    Controllers/DygmaRaiseController/DygmaRaiseControllerDetect.cpp                             \
+    Controllers/DygmaRaiseController/RGBController_DygmaRaise.cpp                               \
     Controllers/E131Controller/E131ControllerDetect.cpp                                         \
     Controllers/E131Controller/RGBController_E131.cpp                                           \
     Controllers/EKController/EKControllerDetect.cpp                                             \
