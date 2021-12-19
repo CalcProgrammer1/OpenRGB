@@ -100,6 +100,7 @@
 | ASUS Sub-Device IDs                                   |
 \*-----------------------------------------------------*/
 #define ASUS_GTX1050_STRIX_O2G_GAMING                   0x85D8
+#define ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING             0x85CD
 #define ASUS_GTX1060_STRIX_6G_GAMING                    0x85A4
 #define ASUS_GTX1060_STRIX                              0x85AC
 #define ASUS_GTX1070_STRIX_GAMING                       0x8598
