@@ -1,10 +1,13 @@
 #include "Detector.h"
 #include "CorsairPeripheralController.h"
 #include "CorsairK100Controller.h"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_CorsairPeripheral.h"
 #include "RGBController_CorsairK100.h"
 #include <hidapi/hidapi.h>
+
+#define CORSAIR_PERIPHERAL_CONTROLLER_NAME "Corsair peripheral"
 
 /*-----------------------------------------------------*\
 | Corsair vendor ID                                     |
@@ -104,6 +107,8 @@ void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string
 
     if(dev)
     {
+        LOG_DEBUG("[%s] Device opened. VID/PID %02X:%02X", CORSAIR_PERIPHERAL_CONTROLLER_NAME, info->vendor_id , info->product_id);
+
         CorsairPeripheralController* controller = new CorsairPeripheralController(dev, info->path);
         controller->SetName(name);
 
@@ -114,6 +119,7 @@ void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string
         }
         else
         {
+            LOG_DEBUG("[%s] Device type is unknown", CORSAIR_PERIPHERAL_CONTROLLER_NAME);
             delete controller;
         }
     }

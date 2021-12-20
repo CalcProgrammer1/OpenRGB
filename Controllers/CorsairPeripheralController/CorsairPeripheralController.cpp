@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "CorsairPeripheralController.h"
+#include "LogManager.h"
 
 #include <cstring>
 
@@ -59,6 +60,8 @@ static unsigned int st100[] = { 0x00, 0x01, 0x02, 0x03, 0x05, 0x06, 0x07, 0x08, 
 
 static unsigned int key_mapping_k95_plat_ansi[] = { 0x31, 0x3f, 0x41, 0x42, 0x51, 0x53, 0x55, 0x6f, 0x7e, 0x7f, 0x80, 0x81 };
 static unsigned int key_mapping_k95_plat_iso[] = { 0x3f, 0x41, 0x42, 0x48, 0x50, 0x53, 0x55, 0x6f, 0x7e, 0x7f, 0x80, 0x81 };
+
+#define CORSAIR_PERIPHERAL_CONTROLLER_NAME "Corsair peripheral"
 
 CorsairPeripheralController::CorsairPeripheralController(hid_device* dev_handle, const char* path)
 {
@@ -213,7 +216,7 @@ void CorsairPeripheralController::SetLEDsKeyboardFull(std::vector<RGBColor> colo
             blu_val[keys_k95[color_idx]] = RGBGetBValue(color);
             data_sz = 48; //untested
         }
-        else if (logical_layout = CORSAIR_TYPE_K70_MK2)
+        else if (logical_layout == CORSAIR_TYPE_K70_MK2)
         {
             red_val[keys_k70_mk2[color_idx]] = RGBGetRValue(color);
             grn_val[keys_k70_mk2[color_idx]] = RGBGetGValue(color);
@@ -532,7 +535,9 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     |   0xC0    Device is a keyboard                        |
     |   0xC1    Device is a mouse                           |
     |   0xC2    Device is a mousepad or headset stand       |
-    \*-----------------------------------------------------*/
+    \*-----------------------------------------------------*/    
+    LOG_DEBUG("[%s] Device type %02X", CORSAIR_PERIPHERAL_CONTROLLER_NAME, (unsigned char)usb_buf[0x14 + offset]);
+
     switch((unsigned char)usb_buf[0x14 + offset])
     {
         case 0xC0:
