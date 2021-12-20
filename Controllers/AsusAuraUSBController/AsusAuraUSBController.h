@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController.h"
+#include "LogManager.h"
 
 #include <string>
 #include <vector>

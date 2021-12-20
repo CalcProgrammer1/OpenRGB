@@ -100,9 +100,8 @@ void AuraUSBController::GetConfigTable()
     }
     else
     {       
-        hid_close(dev);
-
-        throw std::runtime_error("Could not read config table");
+        LOG_INFO("[%s] Could not read config table, can not add device", device_name);
+        delete this;
     }
 }
 
