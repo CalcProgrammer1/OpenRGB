@@ -62,6 +62,7 @@
 #define NVIDIA_RTX2070_DEV                              0x1F02
 #define NVIDIA_RTX2070_OC_DEV                           0x1F07
 #define NVIDIA_RTX2070S_DEV                             0x1E84
+#define NVIDIA_RTX2070S_DEV_1EC7                        0x1EC7
 #define NVIDIA_RTX2080_DEV                              0x1E82
 #define NVIDIA_RTX2080_A_DEV                            0x1E87
 #define NVIDIA_RTX2080S_DEV                             0x1E81
@@ -123,6 +124,7 @@
 #define ASUS_ROG_STRIX_RTX2070_O8G_GAMING               0x8670
 #define ASUS_ROG_STRIX_RTX2070S_A8G_GAMING              0x8728
 #define ASUS_ROG_STRIX_RTX2070S_A8G_GAMING_8706         0x8706
+#define ASUS_ROG_STRIX_RTX2070S_A8G_GAMING_86FF         0x86FF
 #define ASUS_ROG_STRIX_RTX2070S_O8G_GAMING              0x8727
 #define ASUS_ROG_STRIX_RTX2080_O8G_GAMING               0x865F
 #define ASUS_ROG_STRIX_RTX2080S_O8G_GAMING              0x8711
