@@ -16,6 +16,10 @@
 
 #define ROCCAT_VID                  0x1E7D
 
+#define ROCCAT_KONE_AIMO_PID        0x2E27
+#define ROCCAT_KONE_AIMO_16K_PID    0x2E2C
+#define ROCCAT_VULCAN_120_AIMO_PID  0x3098
+
 void DetectRoccatMouseControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -42,6 +46,6 @@ void DetectRoccatKeyboardControllers(hid_device_info* info, const std::string& n
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo 16K",   DetectRoccatMouseControllers,    ROCCAT_VID, 0x2E2C, 0, 0x0B, 0);
-REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",       DetectRoccatMouseControllers,    ROCCAT_VID, 0x2E27, 0, 0x0B, 0);
-REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120 Aimo", DetectRoccatKeyboardControllers, ROCCAT_VID, 0x3098, 3, 1);
+REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",       DetectRoccatMouseControllers,    ROCCAT_VID, ROCCAT_KONE_AIMO_PID,          0, 0x0B,    0);
+REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo 16K",   DetectRoccatMouseControllers,    ROCCAT_VID, ROCCAT_KONE_AIMO_16K_PID,      0, 0x0B,    0);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120 Aimo", DetectRoccatKeyboardControllers, ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,    3,          1);

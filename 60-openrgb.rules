@@ -676,8 +676,9 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0f1b", TAG+="uacces
 #---------------------------------------------------------------#
 #  Roccat Devices                                               #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1e7d", ATTR{idProduct}=="2e2c", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="1e7d", ATTR{idProduct}=="2e27", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e7d", ATTR{idProduct}=="2e27", TAG+="uaccess", TAG+="Roccat_Kone_Aimo"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e7d", ATTR{idProduct}=="2e2c", TAG+="uaccess", TAG+="Roccat_Kone_Aimo_16K"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1e7d", ATTR{idProduct}=="3098", TAG+="uaccess", TAG+="Roccat_Vulcan_120_Aimo"
 
 #---------------------------------------------------------------#
 #  Redragon Peripheral Devices                                  #
