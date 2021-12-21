@@ -61,8 +61,8 @@
 #define NVIDIA_RTX2060S_OC_DEV                          0x1F06
 #define NVIDIA_RTX2070_DEV                              0x1F02
 #define NVIDIA_RTX2070_OC_DEV                           0x1F07
-#define NVIDIA_RTX2070S_DEV                             0x1E84
-#define NVIDIA_RTX2070S_DEV_1EC7                        0x1EC7
+#define NVIDIA_RTX2070S_DEV                             0x1EC7
+#define NVIDIA_RTX2070S_OC_DEV                          0x1E84
 #define NVIDIA_RTX2080_DEV                              0x1E82
 #define NVIDIA_RTX2080_A_DEV                            0x1E87
 #define NVIDIA_RTX2080S_DEV                             0x1E81
