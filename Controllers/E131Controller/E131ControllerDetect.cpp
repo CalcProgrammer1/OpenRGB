@@ -154,7 +154,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
                     }
                     else if(rgb_order_val == "BRG")
                     {
-                        dev.rgb_order = E131_RGB_ORDER_BGR;
+                        dev.rgb_order = E131_RGB_ORDER_BRG;
                     }
                     else if(rgb_order_val == "BGR")
                     {
