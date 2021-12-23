@@ -45,6 +45,7 @@ fi
 %{_datadir}/icons/hicolor/128x128/apps/%{_name}.png
 %{_datadir}/applications/%{_name}.desktop
 %{_datadir}/pixmaps/%{_name}.png
+%{_metainfodir}/org.%{name}.%{_name}.metainfo.xml
 /lib/udev/rules.d/60-%{name}.rules
 %license LICENSE
 %doc README.md

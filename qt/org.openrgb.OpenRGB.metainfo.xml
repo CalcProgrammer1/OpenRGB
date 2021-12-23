@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2021 Artem Polishchuk <ego.cordatus@gmail.com> -->
+<component type="desktop-application">
+  <id>org.openrgb.OpenRGB</id>
+  <launchable type="desktop-id">OpenRGB.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+
+  <name>OpenRGB</name>
+  <provides>
+    <binary>openrgb</binary>
+  </provides>
+
+  <content_rating type="oars-1.0">
+  </content_rating>
+
+  <summary>
+    Open source RGB lighting control that doesn't depend on manufacturer
+    software.
+  </summary>
+
+  <description>
+    <p>
+      One of the biggest complaints about RGB is the software ecosystem
+      surrounding it.  Every manufacturer has their own app, their own brand,
+      their own style.  If you want to mix and match devices, you end up with a
+      ton of conflicting, functionally identical apps competing for your
+      background resources.  On top of that, these apps are proprietary and
+      Windows-only.  Some even require online accounts.  What if there was a way
+      to control all of your RGB devices from a single app, on both Windows and
+      Linux, without any nonsense?  That is what OpenRGB sets out to achieve.
+      One app to rule them all.
+    </p><p>
+      Features
+    </p>
+    <ul>
+      <li>Set colors and select effect modes for a wide variety of RGB
+      hardware</li>
+      <li>Save and load profiles</li>
+      <li>Control lighting from third party software using the OpenRGB SDK</li>
+      <li>Command line interface</li>
+      <li>Connect multiple instances of OpenRGB to synchronize lighting
+      across multiple PCs</li>
+      <li>Can operate standalone or in a client/headless server configuration</li>
+      <li>View device information</li>
+      <li>No official/manufacturer software required</li>
+      <li>Graphical view of device LEDs makes creating custom patterns easy</li>
+    </ul>
+  </description>
+
+  <releases>
+    <release version="0.6" date="2021-06-01"></release>
+    <release version="0.5" date="2021-12-07"></release>
+    <release version="0.4" date="2020-09-09"></release>
+    <release version="0.3" date="2020-07-22"></release>
+    <release version="0.2" date="2020-05-13"></release>
+    <release version="0.1" date="2020-03-28"></release>
+  </releases>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG</image>
+    </screenshot>
+  </screenshots>
+
+  <keywords>
+    <keyword>rgb</keyword>
+    <keyword>utility</keyword>
+  </keywords>
+
+  <url type="bugtracker">https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues</url>
+  <url type="contact">https://discord.gg/AQwjJPY</url>
+  <url type="donation">https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home#support-openrgb</url>
+  <url type="faq">https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Frequently-Asked-Questions</url>
+  <url type="help">https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home</url>
+  <url type="homepage">https://openrgb.org</url>
+</component>

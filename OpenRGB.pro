@@ -1240,9 +1240,11 @@ unix:!macx {
     desktop.files+=qt/OpenRGB.desktop
     pixmap.path=$$PREFIX/share/pixmaps/
     pixmap.files+=qt/OpenRGB.png
+    metainfo.path=$$PREFIX/share/metainfo/
+    metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
     rules.path=/lib/udev/rules.d/
     rules.files+=60-openrgb.rules
-    INSTALLS += target desktop pixmap rules
+    INSTALLS += target desktop pixmap metainfo rules
 }
 
 unix:!macx:CONFIG(asan) {
