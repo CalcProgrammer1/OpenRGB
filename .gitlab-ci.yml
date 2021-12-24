@@ -333,23 +333,6 @@ before_script:
   - "Linux 64 deb"
 
 #-----------------------------------------------------------------------#
-# Ubuntu 64 20.10 test                                                  #
-#-----------------------------------------------------------------------#
-"Ubuntu 64 20.10":
-  image: ubuntu:groovy
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 64 deb"
-  needs:
-  - "Linux 64 deb"
-
-#-----------------------------------------------------------------------#
 # Mint 64 20.1 test                                                     #
 #-----------------------------------------------------------------------#
 "Mint 64 20.1":
