@@ -183,12 +183,14 @@ s32 i2c_smbus_interface::i2c_smbus_xfer_call(u8 addr, char read_write, u8 comman
     return(i2c_ret);
 }
 
-s32 i2c_smbus_interface::i2c_xfer_call(u8 addr, char read_write, int* size, u8 *data)
+s32 i2c_smbus_interface::i2c_xfer_call(u8 addr, char read_write, int reg_size, u8* reg_data, int* size, u8 *data)
 {
     i2c_smbus_xfer_mutex.lock();
 
     i2c_addr        = addr;
     i2c_read_write  = read_write;
+    i2c_reg_size    = reg_size;
+    i2c_reg_data    = reg_data;
     i2c_size        = size;
     i2c_data        = data;
     smbus_xfer      = false;
@@ -210,12 +212,22 @@ s32 i2c_smbus_interface::i2c_xfer_call(u8 addr, char read_write, int* size, u8 *
 
 s32 i2c_smbus_interface::i2c_read_block(u8 addr, int* size, u8* data)
 {
-    return i2c_xfer_call(addr, I2C_SMBUS_READ, size, data);
+    return i2c_xfer_call(addr, I2C_SMBUS_READ, 0, NULL, size, data);
 }
 
 s32 i2c_smbus_interface::i2c_write_block(u8 addr, int size, u8 *data)
 {
-    return i2c_xfer_call(addr, I2C_SMBUS_WRITE, &size, data);
+    return i2c_xfer_call(addr, I2C_SMBUS_WRITE, 0, NULL, &size, data);
+}
+
+s32 i2c_smbus_interface::i2c_read_block_reg(u8 addr, int reg_size, u8* reg_data, int* size, u8* data)
+{
+    return i2c_xfer_call(addr, I2C_SMBUS_READ, reg_size, reg_data, size, data);
+}
+
+s32 i2c_smbus_interface::i2c_write_block_reg(u8 addr, int reg_size, u8* reg_data, int size, u8 *data)
+{
+    return i2c_xfer_call(addr, I2C_SMBUS_WRITE, reg_size, reg_data, &size, data);
 }
 
 void i2c_smbus_interface::i2c_smbus_thread_function()
@@ -238,7 +250,7 @@ void i2c_smbus_interface::i2c_smbus_thread_function()
         }
         else
         {
-            i2c_ret = i2c_xfer(i2c_addr, i2c_read_write, i2c_size, i2c_data);
+            i2c_ret = i2c_xfer(i2c_addr, i2c_read_write, i2c_reg_size, i2c_reg_data, i2c_size, i2c_data);
         }
 
         std::unique_lock<std::mutex> done_lock(i2c_smbus_done_mutex);

@@ -118,7 +118,7 @@ s32 i2c_smbus_nvapi::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int mo
     return(ret);
 }
 
-s32 i2c_smbus_nvapi::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+s32 i2c_smbus_nvapi::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_data, int* size, u8* data)
 {
     NV_STATUS ret;
     unsigned int unknown = 0;

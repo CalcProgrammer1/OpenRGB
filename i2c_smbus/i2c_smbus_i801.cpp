@@ -484,7 +484,7 @@ s32 i2c_smbus_i801::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int siz
     return i801_access(addr, read_write, command, size, data);
 }
 
-s32 i2c_smbus_i801::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+s32 i2c_smbus_i801::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_data, int* size, u8* data)
 {
     return -1;
 }

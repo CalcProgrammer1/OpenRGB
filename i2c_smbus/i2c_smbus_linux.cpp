@@ -30,7 +30,7 @@ s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
     return ioctl(handle, I2C_SMBUS, &args);
 }
 
-s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_data, int* size, u8* data)
 {
     i2c_rdwr_ioctl_data rdwr;
     i2c_msg msg;
