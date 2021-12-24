@@ -33,16 +33,39 @@ s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int si
 s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_data, int* size, u8* data)
 {
     i2c_rdwr_ioctl_data rdwr;
-    i2c_msg msg;
+    i2c_msg msgs[2];
 
-    msg.addr  = addr;
-    msg.flags = read_write;
-    msg.len   = *size;
-    msg.buf   = (u8*)malloc(*size);
-    memcpy(&msg.buf, &data, *size);
+    /*-------------------------------------------------*\
+    | Create register message                           |
+    \*-------------------------------------------------*/
+    if(reg_size > 0)
+    {
+        msgs[0].addr    = addr;
+        msgs[0].flags   = I2C_SMBUS_WRITE;
+        msgs[0].len     = reg_size;
+        msgs[0].buf     = (u8*)malloc(reg_size);
+        memcpy(&msgs[0].buf, &reg_data, reg_size);
+    }
 
-    rdwr.msgs  = &msg;
-    rdwr.nmsgs = 1;
+    /*-------------------------------------------------*\
+    | Create data message                               |
+    \*-------------------------------------------------*/
+    msgs[1].addr  = addr;
+    msgs[1].flags = read_write;
+    msgs[1].len   = *size;
+    msgs[1].buf   = (u8*)malloc(*size);
+    memcpy(&msgs[1].buf, &data, *size);
+
+    if(reg_size > 0)
+    {
+        rdwr.msgs   = &msgs[0];
+        rdwr.nmsgs  = 2;
+    }
+    else
+    {
+        rdwr.msgs   = &msgs[1];
+        rdwr.nmsgs  = 1;
+    }
 
     ioctl(handle, I2C_SLAVE, addr);
     return ioctl(handle, I2C_RDWR, &rdwr);

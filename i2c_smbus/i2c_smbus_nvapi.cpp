@@ -124,8 +124,8 @@ s32 i2c_smbus_nvapi::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_da
     unsigned int unknown = 0;
     NV_I2C_INFO_V3 i2c_data;
 
-    i2c_data.i2c_reg_address = NULL;
-    i2c_data.reg_addr_size = 0;
+    i2c_data.i2c_reg_address = reg_data;
+    i2c_data.reg_addr_size = reg_size;
 
     // Set up data buffer, zero bytes in length
 	i2c_data.data = data;
