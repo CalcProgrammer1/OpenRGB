@@ -34,6 +34,7 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_da
 {
     i2c_rdwr_ioctl_data rdwr;
     i2c_msg msgs[2];
+    s32 ret_val;
 
     /*-------------------------------------------------*\
     | Create register message                           |
@@ -68,7 +69,18 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_da
     }
 
     ioctl(handle, I2C_SLAVE, addr);
-    return ioctl(handle, I2C_RDWR, &rdwr);
+    ret_val = ioctl(handle, I2C_RDWR, &rdwr);
+
+    /*-------------------------------------------------*\
+    | If operation was a read, copy read data and size  |
+    \*-------------------------------------------------*/
+    if(read_write == I2C_SMBUS_READ)
+    {
+        *size = msgs[1].len;
+        memcpy(data, &msgs[1].buf, *size);
+    }
+
+    return ret_val;
 }
 
 #include "Detector.h"
