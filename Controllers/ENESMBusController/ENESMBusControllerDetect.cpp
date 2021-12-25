@@ -121,7 +121,8 @@ static const gpu_pci_device device_list[] =
 unsigned char ENERegisterRead(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg)
 {
     //Write ENE register
-    bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
+    bus->i2c_smbus_write_byte_data(dev, 0x00, ((reg >> 8) & 0x00FF));
+    bus->i2c_smbus_write_byte(dev, (reg  & 0x00FF));
 
     //Read ENE value
     return(bus->i2c_smbus_read_byte_data(dev, 0x81));
