@@ -37,38 +37,64 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int reg_size, u8* reg_da
     s32 ret_val;
 
     /*-------------------------------------------------*\
-    | Create register message                           |
+    | Ensure reg_size zero or positive                  |
     \*-------------------------------------------------*/
-    if(reg_size > 0)
+    if(reg_size < 0)
     {
-        msgs[0].addr    = addr;
-        msgs[0].flags   = I2C_SMBUS_WRITE;
-        msgs[0].len     = reg_size;
-        msgs[0].buf     = (u8*)malloc(reg_size);
-        memcpy(&msgs[0].buf, &reg_data, reg_size);
+        reg_size = 0;
     }
 
     /*-------------------------------------------------*\
-    | Create data message                               |
+    | If operation is a write, create write message     |
+    | consisting of reg data and data                   |
     \*-------------------------------------------------*/
-    msgs[1].addr  = addr;
-    msgs[1].flags = read_write;
-    msgs[1].len   = *size;
-    msgs[1].buf   = (u8*)malloc(*size);
-    memcpy(&msgs[1].buf, &data, *size);
-
-    if(reg_size > 0)
+    if(read_write == I2C_SMBUS_WRITE)
     {
-        rdwr.msgs   = &msgs[0];
-        rdwr.nmsgs  = 2;
+        msgs[0].addr    = addr;
+        msgs[0].flags   = I2C_SMBUS_WRITE;
+        msgs[0].len     = reg_size + *size;
+        msgs[0].buf     = (u8*)malloc(reg_size + *size);
+
+        if(reg_size > 0)
+        {
+            memcpy(&msgs[0].buf, &reg_data, reg_size);
+        }
+        
+        memcpy(&msgs[0].buf + reg_size, data, *size);
+
+        rdwr.msgs       = &msgs[0];
+        rdwr.nmsgs      = 1;
     }
     else
     {
-        rdwr.msgs   = &msgs[1];
-        rdwr.nmsgs  = 1;
+        /*---------------------------------------------*\
+        | Create a read message                         |
+        \*---------------------------------------------*/
+        msgs[1].addr        = addr;
+        msgs[1].flags       = I2C_SMBUS_READ;
+        msgs[1].len         = *size;
+        msgs[1].buf         = (u8*)malloc(*size);
+
+        rdwr.msgs           = &msgs[1];
+        rdwr.nmsgs          = 1;
+
+        if(reg_size > 0)
+        {
+            /*-------------------------------------------------*\
+            | If operation is a read, create a write message    |
+            | consisting of reg data if reg data is in use      |
+            \*-------------------------------------------------*/
+            msgs[0].addr    = addr;
+            msgs[0].flags   = I2C_SMBUS_WRITE;
+            msgs[0].len     = reg_size;
+            msgs[0].buf     = (u8*)malloc(reg_size);
+            memcpy(&msgs[0].buf, &reg_data, reg_size);
+
+            rdwr.msgs       = &msgs[0];
+            rdwr.nmsgs      = 2;
+        }
     }
 
-    ioctl(handle, I2C_SLAVE, addr);
     ret_val = ioctl(handle, I2C_RDWR, &rdwr);
 
     /*-------------------------------------------------*\
