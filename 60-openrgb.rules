@@ -579,6 +579,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0227", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0257", TAG+="uaccess", TAG+="Huntsman_Mini"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0243", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0207", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0266", TAG+="uaccess", TAG+="Huntsman V2 Analog"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="021e", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025d", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0208", TAG+="uaccess"
