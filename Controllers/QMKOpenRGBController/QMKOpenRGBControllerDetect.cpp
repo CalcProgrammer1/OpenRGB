@@ -13,9 +13,11 @@
 #include "Detector.h"
 #include "QMKOpenRGBRev9Controller.h"
 #include "QMKOpenRGBRevBController.h"
+#include "QMKOpenRGBRevDController.h"
 #include "RGBController.h"
 #include "RGBController_QMKOpenRGBRev9.h"
 #include "RGBController_QMKOpenRGBRevB.h"
+#include "RGBController_QMKOpenRGBRevD.h"
 #include "LogManager.h"
 #include <hidapi/hidapi.h>
 
@@ -25,6 +27,7 @@
 #define QMK_OPENRGB_PROTOCOL_VERSION_9          0x09
 #define QMK_OPENRGB_PROTOCOL_VERSION_B          0x0B
 #define QMK_OPENRGB_PROTOCOL_VERSION_C          0x0C
+#define QMK_OPENRGB_PROTOCOL_VERSION_D          0x0D
 
 /*-----------------------------------------------------*\
 | Usage and Usage Page                                  |
@@ -93,6 +96,13 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
+            case QMK_OPENRGB_PROTOCOL_VERSION_D:
+                {
+                QMKOpenRGBRevDController*     controller     = new QMKOpenRGBRevDController(dev, info->path);
+                RGBController_QMKOpenRGBRevD* rgb_controller = new RGBController_QMKOpenRGBRevD(controller, true);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                break;
             default:
                 if (version == 0)
                 {
@@ -105,7 +115,7 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                     "For officaly supported QMK boards grab <a href=\"https://github.com/Kasper24/QMK-OpenRGB\">url</a> \n"
                     "For Sonix boards grab <a href=\"https://github.com/SonixQMK/qmk_firmware/tree/sn32_openrgb\">url</a>", version);
                 }
-                else if (version > QMK_OPENRGB_PROTOCOL_VERSION_C)
+                else if (version > QMK_OPENRGB_PROTOCOL_VERSION_D)
                 {
                     LOG_WARNING("[QMK OpenRGB] Detection failed - the detected keyboard is using version protocol %i which is not supported by this OpenRGB build. Please update OpenRGB!", version);
                 }
