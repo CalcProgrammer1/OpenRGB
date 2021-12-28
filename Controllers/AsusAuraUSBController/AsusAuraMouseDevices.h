@@ -20,7 +20,7 @@
 #define AURA_ROG_GLADIUS_II_WIRELESS_2_PID      0x18A0
 #define AURA_ROG_CHAKRAM_WIRELESS_PID           0x18E5
 #define AURA_ROG_CHAKRAM_WIRED_1_PID            0x18E3
-#define AURA_ROG_CHAKRAM_WIRED_2_PID            0x1958
+#define AURA_ROG_CHAKRAM_CORE_PID               0x1958
 #define AURA_ROG_PUGIO_PID                      0x1846
 #define AURA_ROG_PUGIO_II_WIRED_PID             0x1906
 #define AURA_ROG_PUGIO_II_WIRELESS_PID          0x1908
@@ -168,14 +168,14 @@ static std::map<int,mouse_type> aura_mouse_devices =
         }
     },
     {
-        AURA_ROG_CHAKRAM_WIRED_2_PID, // ROG Chakram Wired 2
+        AURA_ROG_CHAKRAM_CORE_PID, // ROG Chakram Core
         {
-            15,
-            1,
+            0,
+            0,
             false,
             1,
-            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
-            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }
     },
     {

@@ -46,14 +46,14 @@ std::string AuraMouseController::GetSerialString()
 
 std::string AuraMouseController::GetVersion(bool wireless, int protocol)
 {
-    unsigned char usb_buf[65];
+    unsigned char usb_buf[ASUS_AURA_MOUSE_PACKET_SIZE];
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]   = 0x00;
     usb_buf[0x01]   = 0x12;
-    hid_write(dev, usb_buf, 65);
+    hid_write(dev, usb_buf, ASUS_AURA_MOUSE_PACKET_SIZE);
 
-    unsigned char usb_buf_out[65];
-    hid_read(dev, usb_buf_out, 65);
+    unsigned char usb_buf_out[ASUS_AURA_MOUSE_PACKET_SIZE];
+    hid_read(dev, usb_buf_out, ASUS_AURA_MOUSE_PACKET_SIZE);
 
     std::string str;
 
@@ -107,6 +107,14 @@ void AuraMouseController::SendUpdate
     unsigned char   brightness
     )
 {
+    int bytes_read = 1;
+    unsigned char usb_buf_flush[ASUS_AURA_MOUSE_PACKET_SIZE];
+
+    while(bytes_read > 0)
+    {
+      bytes_read = hid_read_timeout(dev, usb_buf_flush, ASUS_AURA_MOUSE_PACKET_SIZE, 0);
+    }
+
     unsigned char usb_buf[ASUS_AURA_MOUSE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
@@ -127,6 +135,7 @@ void AuraMouseController::SendUpdate
     usb_buf[0x07]   = red;
     usb_buf[0x08]   = grn;
     usb_buf[0x09]   = blu;
+
     if (device_pid == AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID)
     {
         usb_buf[0x0A]   = 0;
@@ -147,4 +156,7 @@ void AuraMouseController::SendUpdate
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, ASUS_AURA_MOUSE_PACKET_SIZE);
+
+    unsigned char usb_buf_out[ASUS_AURA_MOUSE_PACKET_SIZE];
+    hid_read(dev, usb_buf_out, ASUS_AURA_MOUSE_PACKET_SIZE);
 }

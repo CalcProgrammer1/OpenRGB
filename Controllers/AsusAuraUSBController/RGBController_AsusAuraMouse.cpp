@@ -191,9 +191,9 @@ void RGBController_AuraMouse::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AuraMouse::DeviceUpdateLEDs()
 {
-    for(std::vector<led>::iterator led_it = leds.begin(); led_it != leds.end(); led_it++)
+    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
     {
-        UpdateSingleLED(led_it->value);
+        UpdateSingleLED(zone_index);
     }
 }
 
