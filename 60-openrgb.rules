@@ -544,6 +544,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025a", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025b", TAG+="uaccess", TAG+="Blackwidow_V3_Pro-Bluetooth"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="025c", TAG+="uaccess", TAG+="Blackwidow_V3_Pro-Wireless"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0a24", TAG+="uaccess", TAG+="Blackwidow_V3_TKL"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0258", TAG+="uaccess", TAG+="Blackwidow_V3_Mini-Wired"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0271", TAG+="uaccess", TAG+="Blackwidow_V3_Mini-Wireless"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0216", TAG+="uaccess", TAG+="Blackwidow_X Chroma"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="021a", TAG+="uaccess", TAG+="Blackwidow_X_Chroma_TE"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="020f", TAG+="uaccess"
