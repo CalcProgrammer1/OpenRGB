@@ -56,6 +56,8 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
         memcpy(data, &msg.buf, *size);
     }
 
+    free(msg.buf);
+    
     return ret_val;
 }
 
