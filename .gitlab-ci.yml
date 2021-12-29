@@ -32,7 +32,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 32 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-32
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-32
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -51,7 +51,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-64
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-64
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -66,9 +66,9 @@ before_script:
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
-# Linux (.deb) 32-bit Build Target                                      #
+# Linux (.deb) Debian Buster (Legacy) 32-bit Build Target               #
 #-----------------------------------------------------------------------#
-"Linux 32 deb":
+"Linux 32 .deb (Debian Buster)":
   <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-32
   stage: build
@@ -87,11 +87,53 @@ before_script:
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
-# Linux (.deb) 64-bit Build Target                                      #
+# Linux (.deb) Debian Buster (Legacy) 64-bit Build Target               #
 #-----------------------------------------------------------------------#
-"Linux 64 deb":
+"Linux 64 .deb (Debian Buster)":
   <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-64
+  stage: build
+  script:
+  - dpkg-architecture -l
+  - dpkg-buildpackage -us -B
+  - rm -v ../openrgb-dbgsym*.deb
+  - mv -v ../openrgb*.deb ./
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_64_deb_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - openrgb*.deb
+    exclude:
+    - openrgb-dbgsym*.deb
+    expire_in: 30 days
+
+#-----------------------------------------------------------------------#
+# Linux (.deb) Debian Bullseye 32-bit Build Target                      #
+#-----------------------------------------------------------------------#
+"Linux 32 .deb (Debian Bullseye)":
+  <<: *ccache_init
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-32
+  stage: build
+  script:
+  - dpkg-architecture -l
+  - dpkg-buildpackage --target-arch i386 -us -B
+  - rm -v ../openrgb-dbgsym*.deb
+  - mv -v ../openrgb*.deb ./
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_32_deb_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - openrgb*.deb
+    exclude:
+    - openrgb-dbgsym*.deb
+    expire_in: 30 days
+    
+#-----------------------------------------------------------------------#
+# Linux (.deb) Debian Bullseye 64-bit Build Target                      #
+#-----------------------------------------------------------------------#
+"Linux 64 .deb (Debian Bullseye)":
+  <<: *ccache_init
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-64
   stage: build
   script:
   - dpkg-architecture -l
@@ -133,52 +175,6 @@ before_script:
     paths:
     - openrgb*.rpm
     expire_in: 30 days
-  
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bullseye 32-bit Build Target                      #
-#-----------------------------------------------------------------------#
-"Linux 32 deb Bullseye":
-  <<: *ccache_init
-  image: i386/debian:bullseye
-  stage: build
-  script:
-  - apt update
-  - apt install -y build-essential qtcreator qtbase5-dev libusb-1.0-0-dev libhidapi-dev libmbedtls-dev pkgconf wget git file debhelper
-  - dpkg-architecture -l
-  - dpkg-buildpackage --target-arch i386 -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_32_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bullseye 64-bit Build Target                      #
-#-----------------------------------------------------------------------#
-"Linux 64 deb Bullseye":
-  <<: *ccache_init
-  image: debian:bullseye
-  stage: build
-  script:
-  - apt update
-  - apt install -y build-essential qtcreator qtbase5-dev libusb-1.0-0-dev libhidapi-dev libmbedtls-dev pkgconf wget git file debhelper
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_64_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
 
 #-----------------------------------------------------------------------#
 # Debian 32 Buster test                                                 #
@@ -193,9 +189,26 @@ before_script:
   - openrgb -l
   - apt remove -y openrgb
   dependencies:
-  - "Linux 32 deb"
+  - "Linux 32 .deb (Debian Buster)"
   needs:
-  - "Linux 32 deb"
+  - "Linux 32 .deb (Debian Buster)"
+
+#-----------------------------------------------------------------------#
+# Debian 64 Buster test                                                 #
+#-----------------------------------------------------------------------#
+"Debian 64 Buster":
+  image: amd64/debian:buster
+  stage: test
+  script:
+  - apt update
+  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+  - openrgb --version
+  - openrgb -l
+  - apt remove -y openrgb
+  dependencies:
+  - "Linux 64 .deb (Debian Buster)"
+  needs:
+  - "Linux 64 .deb (Debian Buster)"
 
 #-----------------------------------------------------------------------#
 # Debian 32 Bullseye test                                               #
@@ -210,66 +223,15 @@ before_script:
   - openrgb -l
   - apt remove -y openrgb
   dependencies:
-  - "Linux 32 deb"
+  - "Linux 32 .deb (Debian Bullseye)"
   needs:
-  - "Linux 32 deb"
-
-# #-----------------------------------------------------------------------#
-# # Ubuntu 32 18.04LTS test                                               #
-# #-----------------------------------------------------------------------#
-# "Ubuntu 32 18.04LTS":
-#   image: i386/ubuntu:bionic
-#   stage: test
-#   script:
-#   - apt update
-#   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
-#   - openrgb --version
-#   - openrgb -l
-#   - apt remove -y openrgb
-#   dependencies:
-#   - "Linux 32 deb"
-#   needs:
-#   - "Linux 32 deb"
-
-# #-----------------------------------------------------------------------#
-# # Mint 32 19.3 test                                                     #
-# #-----------------------------------------------------------------------#
-# "Mint 32 20.1":
-#   image: linuxmintd/mint19.3-i386
-#   stage: test
-#   script:
-#   - apt update
-#   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
-#   - openrgb --version
-#   - openrgb -l
-#   - apt remove -y openrgb
-#   dependencies:
-#   - "Linux 32 deb"
-#   needs:
-#   - "Linux 32 deb"
-
-#-----------------------------------------------------------------------#
-# Debian 64 Buster test                                                 #
-#-----------------------------------------------------------------------#
-"Debian 64 Buster":
-  image: debian:buster
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 64 deb"
-  needs:
-  - "Linux 64 deb"
+  - "Linux 32 .deb (Debian Bullseye)"
 
 #-----------------------------------------------------------------------#
 # Debian 64 Bullseye test                                               #
 #-----------------------------------------------------------------------#
 "Debian 64 Bullseye":
-  image: debian:bullseye
+  image: amd64/debian:bullseye
   stage: test
   script:
   - apt update
@@ -278,9 +240,43 @@ before_script:
   - openrgb -l
   - apt remove -y openrgb
   dependencies:
-  - "Linux 64 deb"
+  - "Linux 64 .deb (Debian Bullseye)"
   needs:
-  - "Linux 64 deb"
+  - "Linux 64 .deb (Debian Bullseye)"
+
+#-----------------------------------------------------------------------#
+# Ubuntu 64 20.04LTS test                                               #
+#-----------------------------------------------------------------------#
+"Ubuntu 64 20.04LTS":
+  image: ubuntu:focal
+  stage: test
+  script:
+  - apt update
+  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+  - openrgb --version
+  - openrgb -l
+  - apt remove -y openrgb
+  dependencies:
+  - "Linux 64 .deb (Debian Buster)"
+  needs:
+  - "Linux 64 .deb (Debian Buster)"
+
+#-----------------------------------------------------------------------#
+# Ubuntu 64 21.10 test                                                  #
+#-----------------------------------------------------------------------#
+"Ubuntu 64 21.10":
+  image: ubuntu:impish
+  stage: test
+  script:
+  - apt update
+  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+  - openrgb --version
+  - openrgb -l
+  - apt remove -y openrgb
+  dependencies:
+  - "Linux 64 .deb (Debian Bullseye)"
+  needs:
+  - "Linux 64 .deb (Debian Bullseye)"
 
 #-----------------------------------------------------------------------#
 # Fedora 64 v34 test                                                    #
@@ -297,57 +293,6 @@ before_script:
   - "Linux 64 rpm"
   needs:
   - "Linux 64 rpm"
-
-# #-----------------------------------------------------------------------#
-# # Ubuntu 64 18.04LTS test                                               #
-# #-----------------------------------------------------------------------#
-# "Ubuntu 64 18.04LTS":
-#   image: ubuntu:bionic
-#   stage: test
-#   script:
-#   - apt update
-#   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-#   - openrgb --version
-#   - openrgb -l
-#   - apt remove -y openrgb
-#   dependencies:
-#   - "Linux 64 deb"
-#   needs:
-#   - "Linux 64 deb"
-
-#-----------------------------------------------------------------------#
-# Ubuntu 64 20.04LTS test                                               #
-#-----------------------------------------------------------------------#
-"Ubuntu 64 20.04LTS":
-  image: ubuntu:focal
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 64 deb"
-  needs:
-  - "Linux 64 deb"
-
-#-----------------------------------------------------------------------#
-# Mint 64 20.1 test                                                     #
-#-----------------------------------------------------------------------#
-"Mint 64 20.1":
-  image: linuxmintd/mint20.1-amd64
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 64 deb"
-  needs:
-  - "Linux 64 deb"
 
 #-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #
