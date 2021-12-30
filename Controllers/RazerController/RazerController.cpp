@@ -62,6 +62,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_O11_DYNAMIC_PID:
+        case RAZER_VIPER_8KHZ_PID:
             dev_transaction_id = 0x1F;
             break;
 
@@ -262,6 +263,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_SEIREN_EMOTE_PID:
         case RAZER_TARTARUS_V2_PID:
         case RAZER_TIAMAT_71_V2_PID:
+        case RAZER_VIPER_8KHZ_PID:
         case RAZER_VIPER_MINI_PID:
         case RAZER_VIPER_PID:
         case RAZER_VIPER_ULTIMATE_WIRED_PID:

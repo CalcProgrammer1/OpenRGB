@@ -143,6 +143,7 @@
 #define RAZER_OROCHI_CHROMA_PID                         0x0048
 #define RAZER_OUROBOROS_PID                             0x0032
 #define RAZER_TAIPAN_PID                                0x0034
+#define RAZER_VIPER_8KHZ_PID                            0x0091
 #define RAZER_VIPER_MINI_PID                            0x008A
 #define RAZER_VIPER_PID                                 0x0078
 #define RAZER_VIPER_ULTIMATE_WIRED_PID                  0x007A
@@ -6177,6 +6178,41 @@ static const razer_device naga_trinity_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Viper 8kHz 1532:0091                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Matrix                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone viper_8khz_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device viper_8khz_device =
+{
+    "Razer Viper 8kHz",
+    RAZER_VIPER_8KHZ_PID,
+    DEVICE_TYPE_MOUSE,
+    true,
+    1,
+    1,
+    {
+        &viper_8khz_logo_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Viper Mini 1532:008A                                   |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -7652,6 +7688,7 @@ static const razer_device* device_list[] =
     &naga_hex_v2_device,
     &naga_left_handed_device,
     &naga_trinity_device,
+    &viper_8khz_device,
     &viper_mini_device,
     &viper_ultimate_wired_device,
     &viper_ultimate_wireless_device,

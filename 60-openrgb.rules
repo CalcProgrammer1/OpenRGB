@@ -647,6 +647,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0039", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0048", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0032", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0034", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0091", TAG+="uaccess", TAG+="Viper_8kHz"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="008a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="0078", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1532", ATTR{idProduct}=="007a", TAG+="uaccess"
