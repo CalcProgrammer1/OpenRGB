@@ -177,6 +177,18 @@ before_script:
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#
+# Alpine Linux 64-bit Build Target                                      #
+#-----------------------------------------------------------------------#
+"Alpine Linux 64":
+  image: alpinelinux/alpine-gitlab-ci:latest
+  stage: build
+  script:
+  - doas apk update
+  - doas apk add hidapi-dev libusb-dev mbedtls-dev qt5-qtbase-dev
+  - qmake .
+  - make
+
+#-----------------------------------------------------------------------#
 # Debian 32 Buster test                                                 #
 #-----------------------------------------------------------------------#
 "Debian 32 Buster":
