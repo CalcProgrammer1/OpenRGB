@@ -40,7 +40,7 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
     msg.flags = read_write;
     msg.len   = *size;
     msg.buf   = (u8*)malloc(*size);
-    memcpy(&msg.buf, &data, *size);
+    memcpy(msg.buf, data, *size);
 
     rdwr.msgs  = &msg;
     rdwr.nmsgs = 1;
@@ -53,7 +53,7 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
     if(read_write == I2C_SMBUS_READ)
     {
         *size = msg.len;
-        memcpy(data, &msg.buf, *size);
+        memcpy(data, msg.buf, *size);
     }
 
     free(msg.buf);
