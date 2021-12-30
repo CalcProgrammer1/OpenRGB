@@ -181,7 +181,7 @@ void RGBController_LogitechLightspeed::UpdateZoneLEDs(int zone)
     /*---------------------------------------------------------*\
     | Workaround for G502 mode breathing / spectrum cycle swap  |
     \*---------------------------------------------------------*/
-    bool bright_cycle_swap  = (pid == 0xC08B || pid == 0xC332);
+    bool bright_cycle_swap  = (pid == 0xC08B || pid == 0xC332 || pid == 0x0AB5);
 
     /*---------------------------------------------------------*\
     | Replace direct mode with static when sending to controller|
