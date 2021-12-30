@@ -1,0 +1,102 @@
+# OpenRGB CODEOWNERS
+
+# Default Code Owner
+* @Calcprogrammer1
+
+CODEOWNERS @Calcprogrammer1
+
+#-----------------------------------------------------------------------------#
+# Controllers - Directories                                                   #
+#-----------------------------------------------------------------------------#
+[Controllers]
+/Controllers/AMDWraithPrismController/
+/Controllers/ASRockPolychromeSMBusController/
+/Controllers/ASRockPolychromeUSBController/
+/Controllers/AlienwareController/
+/Controllers/AlienwareKeyboardController/
+/Controllers/AnnePro2Controller/
+/Controllers/AsusAuraCoreController/
+/Controllers/AsusAuraGPUController/
+/Controllers/AsusAuraUSBController/
+/Controllers/AsusTUFLaptopController/
+/Controllers/BlinkyTapeController/
+/Controllers/CoolerMasterController/                        @Dr_No
+/Controllers/CorsairCommanderCoreController/
+/Controllers/CorsairDominatorPlatinumController/
+/Controllers/CorsairHydroController/
+/Controllers/CorsairHydroPlatinumController/
+/Controllers/CorsairLightingNodeController/
+/Controllers/CorsairPeripheralController/
+/Controllers/CorsairVengeanceController/
+/Controllers/CorsairVengeanceProController/
+/Controllers/CorsairWirelessController/
+/Controllers/CreativeController/
+/Controllers/CrucialController/
+/Controllers/DasKeyboardController/
+/Controllers/DebugController/
+/Controllers/DuckyKeyboardController/
+/Controllers/DygmaRaiseController/
+/Controllers/E131Controller/
+/Controllers/EKController/                                  @Dr_No
+/Controllers/ENESMBusController/
+/Controllers/EVGAGPUController/                             @TheRogueZeta
+/Controllers/EVisionKeyboardController/
+/Controllers/EspurnaController/
+/Controllers/FanBusController/
+/Controllers/FaustusController/
+/Controllers/GainwardGPUController/
+/Controllers/GalaxGPUController/
+/Controllers/GigabyteAorusCPUCoolerController/
+/Controllers/GigabyteRGBFusion2DRAMController/
+/Controllers/GigabyteRGBFusion2GPUController/
+/Controllers/GigabyteRGBFusion2SMBusController/             @Dr_No
+/Controllers/GigabyteRGBFusion2USBController/               @Dr_No
+/Controllers/GigabyteRGBFusionController/
+/Controllers/GigabyteRGBFusionGPUController/
+/Controllers/HPOmen30LController/
+/Controllers/HoltekController/
+/Controllers/HyperXDRAMController/
+/Controllers/HyperXKeyboardController/
+/Controllers/HyperXMouseController/
+/Controllers/HyperXMousematController/
+/Controllers/LEDStripController/
+/Controllers/LianLiController/
+/Controllers/LinuxLEDController/
+/Controllers/LogitechController/                            @Dr_No
+/Controllers/MSI3ZoneController/
+/Controllers/MSIGPUController/
+/Controllers/MSIMysticLightController/
+/Controllers/MSIRGBController/
+/Controllers/NZXTHue2Controller/
+/Controllers/NZXTHuePlusController/
+/Controllers/NZXTKrakenController/
+/Controllers/OpenRazerController/
+/Controllers/PNYGPUController/
+/Controllers/PatriotViperController/
+/Controllers/PhilipsHueController/
+/Controllers/PhilipsWizController/
+/Controllers/QMKOpenRGBController/
+/Controllers/RazerController/
+/Controllers/RedragonController/
+/Controllers/RoccatController/
+/Controllers/SapphireGPUController/
+/Controllers/SinowealthController/
+/Controllers/SonyDS4Controller/
+/Controllers/SteelSeriesController/
+/Controllers/TecknetController/
+/Controllers/ThermaltakePoseidonZRGBController/
+/Controllers/ThermaltakeRiingController/
+/Controllers/ThingMController/
+/Controllers/WootingKeyboardController/                     @Dr_No
+/Controllers/YeelightController/
+/Controllers/ZalmanZSyncController/
+
+#-----------------------------------------------------------------------------#
+# Controllers - File exceptions                                               #
+#                                                                             #
+#   As sections get combined and the last rule applies any specific file      #
+#   that is an exception to the above should be explicitly named here         #
+#-----------------------------------------------------------------------------#
+[Controllers]
+/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.cpp                @TheRogueZeta
+/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.h                  @TheRogueZeta
