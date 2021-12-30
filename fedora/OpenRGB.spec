@@ -1,8 +1,8 @@
 %global _name OpenRGB
 
 Name:           openrgb
-Version:        0.6.1
-Release:        2%{?dist}
+Version:        0.7
+Release:        0%{?dist}
 Summary:        Open source RGB lighting control that doesn't depend on manufacturer software
 
 License:        GPLv2
@@ -47,6 +47,9 @@ fi
 %doc README.md
 
 %changelog
+* Thu Dec 30 2021 Adam Honse <calcprogrammer1@gmail.com> - 0.7-0
+- Updated to 0.7
+
 * Sun Dec 12 2021 Artem Polishchuk <ego.cordatus@gmail.com> - 0.6.1-2
 - build: Fix udev rules install path | MR#933
 
