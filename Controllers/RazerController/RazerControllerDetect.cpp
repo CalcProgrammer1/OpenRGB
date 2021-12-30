@@ -10,6 +10,8 @@
 #include "RGBController_RazerKraken.h"
 #include <hidapi/hidapi.h>
 
+#include <unordered_set>
+
 static bool openrazer_checked = false;
 static bool openrazer_enabled = false;
 
@@ -88,6 +90,21 @@ void DetectRazerControllers(hid_device_info* info, const std::string& name)
 *                                                                                          *
 \******************************************************************************************/
 
+
+/*---------------------------------------------------------------------*\
+| Tracks the paths used in DetectRazerARGBControllers so multiple Razer |
+| devices can be detected without all controlling the same device.      |
+\*---------------------------------------------------------------------*/
+static std::unordered_set<std::string> used_paths;
+
+/*--------------------------------------------------------------------------------*\
+| Removes all entries in used_paths so device discovery does not skip any of them. |
+\*--------------------------------------------------------------------------------*/
+void ResetRazerARGBControllersPaths()
+{
+    used_paths.clear();
+}
+
 void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
 {
     /*-------------------------------------------------------------------------------------------------*\
@@ -102,19 +119,31 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
      hid_device* dev_interface_1 = nullptr;
      hid_device_info* info_full = hid_enumerate(RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID);
      hid_device_info* info_temp = info_full;
+    /*--------------------------------------------------------------------------------------------*\
+    | Keep track of paths so they can be added to used_paths only if both interfaces can be found. |
+    \*--------------------------------------------------------------------------------------------*/
+     std::string dev_interface_0_path;
+     std::string dev_interface_1_path;
 
      while(info_temp)
      {
-         if(info_temp->vendor_id        == info->vendor_id
-         && info_temp->product_id       == info->product_id )
+        /*----------------------------------------------------------------------------*\
+        | Check for paths used on an already registered Razer ARGB controller to avoid |
+        | registering multiple controllers that refer to the same physical hardware.   |
+        \*----------------------------------------------------------------------------*/
+         if(info_temp->vendor_id             == info->vendor_id
+         && info_temp->product_id            == info->product_id
+         && used_paths.find(info_temp->path) == used_paths.end() )
          {
              if(info_temp->interface_number == 0)
              {
-                dev_interface_0 = hid_open_path(info_temp->path);
+                 dev_interface_0 = hid_open_path(info_temp->path);
+                 dev_interface_0_path = info_temp->path;
              }
              else if(info_temp->interface_number == 1)
              {
                  dev_interface_1 = hid_open_path(info_temp->path);
+                 dev_interface_1_path = info_temp->path;
              }
          }
          if(dev_interface_0 && dev_interface_1)
@@ -131,6 +160,8 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
          RazerController* controller                    = new RazerController(dev_interface_0, dev_interface_1, info->path, info->product_id, name);
          RGBController_RazerAddressable* rgb_controller = new RGBController_RazerAddressable(controller);
          ResourceManager::get()->RegisterRGBController(rgb_controller);
+         used_paths.insert(dev_interface_0_path);
+         used_paths.insert(dev_interface_1_path);
      }
      else
      {
@@ -348,6 +379,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Base Station Chroma",                       Det
 REGISTER_HID_DETECTOR_IPU("Razer Base Station V2 Chroma",                    DetectRazerControllers,        RAZER_VID,  RAZER_BASE_STATION_V2_CHROMA_PID,               0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Charging Pad Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_CHARGING_PAD_CHROMA_PID,                  0x00,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_I  ("Razer Chroma Addressable RGB Controller",         DetectRazerARGBControllers,    RAZER_VID,  RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID,    0x00                );
+REGISTER_DYNAMIC_DETECTOR("Razer Chrome Addressable RGB Controller Setup",   ResetRazerARGBControllersPaths                                                                                 );
 REGISTER_HID_DETECTOR_IPU("Razer Chroma HDK",                                DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_HDK_PID,                           0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Chroma Mug Holder",                         DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_MUG_PID,                           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Chroma PC Case Lighting Kit",               DetectRazerControllers,        RAZER_VID,  RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID,          0x02,   0x01,   0x02);
