@@ -67,6 +67,12 @@ public:
     virtual void                                RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg)            = 0;
     virtual void                                RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg)    = 0;
 
+    virtual void                                UnregisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * callback_arg)          = 0;
+    virtual void                                UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void *callback_arg)         = 0;
+    virtual void                                UnregisterDetectionStartCallback(DetectionStartCallback callback, void *callback_arg)               = 0;
+    virtual void                                UnregisterDetectionEndCallback(DetectionEndCallback callback, void *callback_arg)                   = 0;
+    virtual void                                UnregisterI2CBusListChangeCallback(I2CBusListChangeCallback callback, void * callback_arg)          = 0;
+
     virtual std::vector<RGBController*> &       GetRGBControllers()                                                                                 = 0;
 
     virtual unsigned int                        GetDetectionPercent()                                                                               = 0;
@@ -119,6 +125,12 @@ public:
     void RegisterDetectionStartCallback(DetectionStartCallback new_callback, void * new_callback_arg);
     void RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg);
     void RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg);
+
+    void UnregisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * callback_arg);
+    void UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void *callback_arg);
+    void UnregisterDetectionStartCallback(DetectionStartCallback callback, void *callback_arg);
+    void UnregisterDetectionEndCallback(DetectionEndCallback callback, void *callback_arg);
+    void UnregisterI2CBusListChangeCallback(I2CBusListChangeCallback callback, void * callback_arg);
 
     bool         GetDetectionEnabled();
     unsigned int GetDetectionPercent();

@@ -17,7 +17,13 @@
 
 #define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
 
-#define OPENRGB_PLUGIN_API_VERSION  1
+/*-----------------------------------------------------------------------------------------------------*\
+| OpenRGB Plugin API Versions                                                                           |
+| 0:    OpenRGB 0.6     Unversioned, early plugin API.                                                  |
+| 1:    OpenRGB 0.61    First versioned API, introduced with plugin settings changes                    |
+| 2:    OpenRGB 0.7     First released versioned API, callback unregister functions in ResourceManager  |
+\*-----------------------------------------------------------------------------------------------------*/
+#define OPENRGB_PLUGIN_API_VERSION  2
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Plugin Tab Location Values                                                                            |

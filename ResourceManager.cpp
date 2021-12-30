@@ -232,6 +232,22 @@ void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback 
 {
     DeviceListChangeCallbacks.push_back(new_callback);
     DeviceListChangeCallbackArgs.push_back(new_callback_arg);
+
+    LOG_TRACE("[ResourceManager] Registered device list change callback.  Total callbacks registered: %d", DeviceListChangeCallbacks.size());
+}
+
+void ResourceManager::UnregisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * callback_arg)
+{
+    for(size_t idx = 0; idx < DeviceListChangeCallbacks.size(); idx++)
+    {
+        if(DeviceListChangeCallbacks[idx] == callback && DeviceListChangeCallbackArgs[idx] == callback_arg)
+        {
+            DeviceListChangeCallbacks.erase(DeviceListChangeCallbacks.begin() + idx);
+            DeviceListChangeCallbackArgs.erase(DeviceListChangeCallbackArgs.begin() + idx);
+        }
+    }
+
+    LOG_TRACE("[ResourceManager] Unregistered device list change callback.  Total callbacks registered: %d", DeviceListChangeCallbacks.size());
 }
 
 void ResourceManager::RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg)
@@ -240,10 +256,38 @@ void ResourceManager::RegisterI2CBusListChangeCallback(I2CBusListChangeCallback 
     I2CBusListChangeCallbackArgs.push_back(new_callback_arg);
 }
 
+void ResourceManager::UnregisterI2CBusListChangeCallback(I2CBusListChangeCallback callback, void * callback_arg)
+{
+    for(size_t idx = 0; idx < I2CBusListChangeCallbacks.size(); idx++)
+    {
+        if(I2CBusListChangeCallbacks[idx] == callback && I2CBusListChangeCallbackArgs[idx] == callback_arg)
+        {
+            I2CBusListChangeCallbacks.erase(I2CBusListChangeCallbacks.begin() + idx);
+            I2CBusListChangeCallbackArgs.erase(I2CBusListChangeCallbackArgs.begin() + idx);
+        }
+    }
+}
+
 void ResourceManager::RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void *new_callback_arg)
 {
     DetectionProgressCallbacks.push_back(new_callback);
     DetectionProgressCallbackArgs.push_back(new_callback_arg);
+
+    LOG_TRACE("[ResourceManager] Registered detection progress callback.  Total callbacks registered: %d", DetectionProgressCallbacks.size());
+}
+
+void ResourceManager::UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void *callback_arg)
+{
+    for(size_t idx = 0; idx < DetectionProgressCallbacks.size(); idx++)
+    {
+        if(DetectionProgressCallbacks[idx] == callback && DetectionProgressCallbackArgs[idx] == callback_arg)
+        {
+            DetectionProgressCallbacks.erase(DetectionProgressCallbacks.begin() + idx);
+            DetectionProgressCallbackArgs.erase(DetectionProgressCallbackArgs.begin() + idx);
+        }
+    }
+
+    LOG_TRACE("[ResourceManager] Unregistered detection progress callback.  Total callbacks registered: %d", DetectionProgressCallbacks.size());
 }
 
 void ResourceManager::RegisterDetectionStartCallback(DetectionStartCallback new_callback, void *new_callback_arg)
@@ -252,10 +296,34 @@ void ResourceManager::RegisterDetectionStartCallback(DetectionStartCallback new_
     DetectionStartCallbackArgs.push_back(new_callback_arg);
 }
 
+void ResourceManager::UnregisterDetectionStartCallback(DetectionStartCallback callback, void *callback_arg)
+{
+    for(size_t idx = 0; idx < DetectionStartCallbacks.size(); idx++)
+    {
+        if(DetectionStartCallbacks[idx] == callback && DetectionStartCallbackArgs[idx] == callback_arg)
+        {
+            DetectionStartCallbacks.erase(DetectionStartCallbacks.begin() + idx);
+            DetectionStartCallbackArgs.erase(DetectionStartCallbackArgs.begin() + idx);
+        }
+    }
+}
+
 void ResourceManager::RegisterDetectionEndCallback(DetectionEndCallback new_callback, void *new_callback_arg)
 {
     DetectionEndCallbacks.push_back(new_callback);
     DetectionEndCallbackArgs.push_back(new_callback_arg);
+}
+
+void ResourceManager::UnregisterDetectionEndCallback(DetectionEndCallback callback, void *callback_arg)
+{
+    for(size_t idx = 0; idx < DetectionEndCallbacks.size(); idx++)
+    {
+        if(DetectionEndCallbacks[idx] == callback && DetectionEndCallbackArgs[idx] == callback_arg)
+        {
+            DetectionEndCallbacks.erase(DetectionEndCallbacks.begin() + idx);
+            DetectionEndCallbackArgs.erase(DetectionEndCallbackArgs.begin() + idx);
+        }
+    }
 }
 
 void ResourceManager::UpdateDeviceList()
@@ -318,6 +386,8 @@ void ResourceManager::DeviceListChanged()
     /*-------------------------------------------------*\
     | Device list has changed, call the callbacks       |
     \*-------------------------------------------------*/
+    LOG_TRACE("[ResourceManager] Calling device list change callbacks.");
+
     for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
     {
         ResourceManager::DeviceListChangeCallbacks[callback_idx](DeviceListChangeCallbackArgs[callback_idx]);
@@ -331,6 +401,8 @@ void ResourceManager::DetectionProgressChanged()
     /*-------------------------------------------------*\
     | Detection progress has changed, call the callbacks|
     \*-------------------------------------------------*/
+    LOG_TRACE("[ResourceManager] Calling detection progress callbacks.");
+
     for(unsigned int callback_idx = 0; callback_idx < DetectionProgressCallbacks.size(); callback_idx++)
     {
         DetectionProgressCallbacks[callback_idx](DetectionProgressCallbackArgs[callback_idx]);
@@ -569,6 +641,8 @@ void ResourceManager::DetectDevices()
     /*-----------------------------------------------------*\
     | Call detection start callbacks                        |
     \*-----------------------------------------------------*/
+    LOG_TRACE("[ResourceManager] Calling detection start callbacks.");
+
     for(unsigned int callback_idx = 0; callback_idx < DetectionStartCallbacks.size(); callback_idx++)
     {
         DetectionStartCallbacks[callback_idx](DetectionStartCallbackArgs[callback_idx]);
