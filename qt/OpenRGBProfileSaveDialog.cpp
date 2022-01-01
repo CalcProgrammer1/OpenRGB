@@ -11,22 +11,6 @@
 Ui::OpenRGBProfileSaveDialog::OpenRGBProfileSaveDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::OpenRGBProfileSaveDialogUi)
 {
-    #ifdef _WIN32
-    bool DarkTheme = OpenRGBDialog2::IsDarkTheme();
-    /*-------------------------------------------------*\
-    | Apply dark theme on Windows if configured         |
-    \*-------------------------------------------------*/
-    if(DarkTheme)
-    {
-        darkTheme = 1;
-        QPalette pal = palette();
-        pal.setColor(QPalette::WindowText, Qt::white);
-        QApplication::setPalette(pal);
-        QFile darkTheme(":/windows_dark.qss");
-        darkTheme.open(QFile::ReadOnly);
-        setStyleSheet(darkTheme.readAll());
-    }
-    #endif
     ui->setupUi(this);
 }
 

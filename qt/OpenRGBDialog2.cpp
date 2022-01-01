@@ -11,15 +11,12 @@
 #include "ResourceManager.h"
 #include "TabLabel.h"
 #include "OpenRGBZonesBulkResizer.h"
+#include "OpenRGBThemeManager.h"
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QStyleFactory>
-
-#ifdef _WIN32
-#include <QSettings>
-#endif
 
 using namespace Ui;
 
@@ -132,60 +129,6 @@ static void DialogShowCallback(void * this_ptr, PLogMessage msg)
     QMetaObject::invokeMethod(this_obj, "onShowDialogMessage", Qt::QueuedConnection);
 }
 
-bool OpenRGBDialog2::IsDarkTheme()
-    {
-#ifdef _WIN32
-    /*-------------------------------------------------*\
-    | Windows dark theme settings                       |
-    \*-------------------------------------------------*/
-    json            theme_settings;
-
-    /*-------------------------------------------------*\
-    | Get prefered theme from settings manager          |
-    \*-------------------------------------------------*/
-    theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Theme");
-
-    /*-------------------------------------------------*\
-    | Read the theme key and adjust accordingly         |
-    \*-------------------------------------------------*/
-    std::string current_theme = "light";
-
-    if(theme_settings.contains("theme"))
-    {
-        current_theme = theme_settings["theme"];
-    }
-
-    if((current_theme == "auto") || (current_theme == "dark"))
-    {
-        if(current_theme == "auto")
-        {
-            QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
-
-            if(settings.value("AppsUseLightTheme") != 0)
-            {
-                return false;
-            }
-            else if(settings.value("AppsUseLightTheme") == 0)
-            {
-                return true;
-            }
-        }
-        else if(current_theme == "dark")
-        {
-            return true;
-        }
-    }
-    return false;
-
-#else
-    if(QPalette().window().color().value() < 127)
-    {
-        return true;
-    }
-#endif
-
-    return false;
-}
 
 bool OpenRGBDialog2::IsMinimizeOnClose()
 {
@@ -386,30 +329,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
 
-#ifdef _WIN32
-    /*-------------------------------------------------*\
-    | Apply dark theme on Windows if configured         |
-    \*-------------------------------------------------*/
-    if(IsDarkTheme())
-    {
-        QPalette pal = palette();
-        pal.setColor(QPalette::WindowText, Qt::white);
-        pal.setColor(QPalette::Link, QColor(0,127,220));
-        pal.setColor(QPalette::LinkVisited, QColor(64,196,220));
-        QApplication::setPalette(pal);
-        QFile darkTheme(":/windows_dark.qss");
-        darkTheme.open(QFile::ReadOnly);
-        setStyleSheet(darkTheme.readAll());
-    }
-#endif
-
-#ifdef __APPLE__
-    /*-------------------------------------------------*\
-    | Apply Qt Fusion theme on MacOS, as the MacOS      |
-    | default theme does not handle vertical tabs well  |
-    \*-------------------------------------------------*/
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
-#endif
+    OpenRGBThemeManager::Init();
 
     /*-----------------------------------------------------*\
     | Update the profile list                               |
@@ -450,7 +370,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     /*-----------------------------------------------------*\
     | Initialize the plugin manager                         |
     \*-----------------------------------------------------*/
-    plugin_manager = new PluginManager(IsDarkTheme());
+    plugin_manager = new PluginManager();
     plugin_manager->RegisterAddPluginCallback(&CreatePluginCallback, this);
     plugin_manager->RegisterRemovePluginCallback(&DeletePluginCallback, this);
     plugin_manager->ScanAndLoadPlugins();
@@ -585,7 +505,7 @@ void OpenRGBDialog2::AddPluginsPage()
 
     QString PluginsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         PluginsLabelString = "plugin_dark.png";
     }
@@ -613,7 +533,7 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
 
     QString SoftwareLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SoftwareLabelString = "software_dark.png";
     }
@@ -641,7 +561,7 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "software_dark.png";
     }
@@ -670,7 +590,7 @@ void OpenRGBDialog2::AddSettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "settings_dark.png";
     }
@@ -698,7 +618,7 @@ void OpenRGBDialog2::AddE131SettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "wireless_dark.png";
     }
@@ -726,7 +646,7 @@ void OpenRGBDialog2::AddLIFXSettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "light_dark.png";
     }
@@ -754,7 +674,7 @@ void OpenRGBDialog2::AddPhilipsHueSettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "light_dark.png";
     }
@@ -782,7 +702,7 @@ void OpenRGBDialog2::AddPhilipsWizSettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "light_dark.png";
     }
@@ -810,7 +730,7 @@ void OpenRGBDialog2::AddQMKORGBSettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "keyboard_dark.png";
     }
@@ -838,7 +758,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "serial_dark.png";
     }
@@ -866,7 +786,7 @@ void OpenRGBDialog2::AddYeelightSettingsPage()
 
     QString SettingsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SettingsLabelString = "light_dark.png";
     }
@@ -896,7 +816,7 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
     \*-----------------------------------------------------*/
     QString PluginLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         PluginLabelString = "plugin_dark.png";
     }
@@ -1080,7 +1000,7 @@ void OpenRGBDialog2::AddI2CToolsPage()
 
     QString SMBusToolsLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         SMBusToolsLabelString = "tools_dark.png";
     }
@@ -1211,7 +1131,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             /*-----------------------------------------------------*\
             | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
+            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
 
             ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
@@ -1262,7 +1182,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             /*-----------------------------------------------------*\
             | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
+            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
@@ -1498,16 +1418,6 @@ void OpenRGBDialog2::onShowDialogMessage()
     }
 
     QMessageBox box;
-
-    if(IsDarkTheme())
-    {
-        QPalette pal = palette();
-        pal.setColor(QPalette::WindowText, Qt::white);
-        box.setPalette(pal);
-        QFile darkTheme(":/windows_dark.qss");
-        darkTheme.open(QFile::ReadOnly);
-        box.setStyleSheet(darkTheme.readAll());
-    }
 
     box.setInformativeText(dialog_message);
 
@@ -1868,7 +1778,7 @@ void Ui::OpenRGBDialog2::AddConsolePage()
 
     QString ConsoleLabelString;
 
-    if(IsDarkTheme())
+    if(OpenRGBThemeManager::IsDarkTheme())
     {
         ConsoleLabelString = "console_dark.png";
     }

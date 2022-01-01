@@ -14,9 +14,8 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     ui->setupUi(this);
 
     /*---------------------------------------------------------*\
-    | Load theme settings (Windows only)                        |
+    | Load theme settings                                       |
     \*---------------------------------------------------------*/
-#ifdef _WIN32
     ui->ComboBoxTheme->addItems({"auto", "light", "dark"});
 
     json theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Theme");
@@ -32,10 +31,6 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     }
 
     theme_initialized = true;
-#else
-    ui->ComboBoxTheme->hide();
-    ui->ThemeLabel->hide();
-#endif
 
     /*---------------------------------------------------------*\
     | Load user interface settings                              |

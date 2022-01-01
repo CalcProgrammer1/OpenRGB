@@ -195,6 +195,7 @@ HEADERS +=                                                                      
     qt/OpenRGBSoftwareInfoPage.h                                                                \
     qt/OpenRGBSupportedDevicesPage.h                                                            \
     qt/OpenRGBSystemInfoPage.h                                                                  \
+    qt/OpenRGBThemeManager.h                                                                    \
     qt/OpenRGBZoneResizeDialog.h                                                                \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.h                                       \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h                                        \
@@ -575,6 +576,7 @@ SOURCES +=                                                                      
     qt/OpenRGBSoftwareInfoPage.cpp                                                              \
     qt/OpenRGBSupportedDevicesPage.cpp                                                          \
     qt/OpenRGBSystemInfoPage.cpp                                                                \
+    qt/OpenRGBThemeManager.cpp                                                                  \
     qt/OpenRGBZoneResizeDialog.cpp                                                              \
     qt/OpenRGBZonesBulkResizer.cpp                                                              \
     qt/TabLabel.cpp                                                                             \

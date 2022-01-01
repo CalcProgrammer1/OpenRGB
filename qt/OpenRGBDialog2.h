@@ -55,7 +55,6 @@ public:
 
     void setMode(unsigned char mode_val);
 
-    static bool IsDarkTheme();
     static bool IsMinimizeOnClose();
 
     void SetDialogMessage(PLogMessage msg);

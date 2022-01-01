@@ -22,7 +22,6 @@ public:
 
 private:
     Ui::OpenRGBProfileSaveDialogUi *ui;
-    bool darkTheme = false;
 };
 
 #endif // OPENRGBPROFILESAVEDIALOG_H

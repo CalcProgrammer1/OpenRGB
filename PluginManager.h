@@ -29,7 +29,7 @@ typedef void (*RemovePluginCallback)(void *, OpenRGBPluginEntry* plugin);
 class PluginManager
 {
 public:
-    PluginManager(bool dark_theme);
+    PluginManager();
 
     void RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg);
     void RegisterRemovePluginCallback(RemovePluginCallback new_callback, void * new_callback_arg);
@@ -47,8 +47,6 @@ public:
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
 private:
-    bool dark_theme;
-
     AddPluginCallback       AddPluginCallbackVal;
     void *                  AddPluginCallbackArg;
 

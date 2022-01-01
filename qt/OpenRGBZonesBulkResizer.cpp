@@ -65,17 +65,6 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
         QDialog* dialog = new QDialog(parent);
         dialog->setWindowTitle("Resize the zones");
 
-        if (OpenRGBDialog2::IsDarkTheme())
-        {
-            QPalette pal;
-            pal.setColor(QPalette::WindowText, Qt::white);
-            dialog->setPalette(pal);
-            QFile dark_theme(":/windows_dark.qss");
-            dark_theme.open(QFile::ReadOnly);
-            dialog->setStyleSheet(dark_theme.readAll());
-            dark_theme.close();
-        }
-
         dialog->setMinimumSize(600,480);
         dialog->setModal(true);
 

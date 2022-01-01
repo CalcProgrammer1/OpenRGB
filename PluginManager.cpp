@@ -1,12 +1,12 @@
 #include "LogManager.h"
 #include "PluginManager.h"
+#include "OpenRGBThemeManager.h"
 
-PluginManager::PluginManager(bool dark_theme_val)
+PluginManager::PluginManager()
 {
     /*---------------------------------------------------------*\
     | Initialize plugin manager class variables                 |
     \*---------------------------------------------------------*/
-    dark_theme              = dark_theme_val;
     AddPluginCallbackVal    = nullptr;
     AddPluginCallbackArg    = nullptr;
     RemovePluginCallbackVal = nullptr;
@@ -258,6 +258,8 @@ void PluginManager::LoadPlugin(std::string path)
         ActivePlugins[plugin_idx].loaded = true;
 
         QObject* instance                = ActivePlugins[plugin_idx].loader->instance();
+
+        bool dark_theme = OpenRGBThemeManager::IsDarkTheme();
 
         if(instance)
         {
