@@ -133,7 +133,7 @@ bool i2c_smbus_linux_detect()
                     strcat(path, ent->d_name);
                     if(ent->d_type == DT_LNK)
                     {
-                        ptr = canonicalize_file_name(path);
+                        ptr = realpath(path, NULL);
                         if(ptr == NULL)
                             continue;
 
