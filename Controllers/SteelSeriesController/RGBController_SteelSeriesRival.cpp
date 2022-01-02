@@ -45,6 +45,7 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     description = "SteelSeries Rival Device";
     location    = rival->GetDeviceLocation();
     serial      = rival->GetSerialString();
+    version     = rival->GetFirmwareVersion();
 
     mode Direct;
     Direct.name       = "Direct";

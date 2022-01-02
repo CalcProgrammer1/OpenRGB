@@ -70,6 +70,19 @@ std::string SteelSeriesRivalController::GetSerialString()
     return(return_string);
 }
 
+std::string SteelSeriesRivalController::GetFirmwareVersion()
+{
+    char            usb_buf[2] = { 0x10, 0x00 };
+    uint16_t        version;
+    std::string     return_string;
+
+    send_usb_msg(dev, usb_buf, 2);
+    hid_read(dev, (unsigned char *)&version, 2);
+
+    return_string = std::to_string(version);
+    return return_string;
+}
+
 steelseries_type SteelSeriesRivalController::GetMouseType()
 {
     return proto;
