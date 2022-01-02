@@ -48,7 +48,7 @@ public:
 
     steelseries_type GetMouseType();
 
-    void Save();
+    void SaveMode();
 
     void SetLightEffect
             (

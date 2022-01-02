@@ -28,6 +28,7 @@ public:
 
     void        SetCustomMode();
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
 private:
     SteelSeriesRivalController*     rival;

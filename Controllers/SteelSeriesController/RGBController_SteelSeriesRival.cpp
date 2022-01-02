@@ -49,7 +49,7 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = STEELSERIES_RIVAL_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -242,4 +242,10 @@ void RGBController_SteelSeriesRival::DeviceUpdateMode()
     }
 
     DeviceUpdateLEDs();
+}
+
+void RGBController_SteelSeriesRival::DeviceSaveMode()
+{
+    DeviceUpdateMode();
+    rival->SaveMode();
 }
