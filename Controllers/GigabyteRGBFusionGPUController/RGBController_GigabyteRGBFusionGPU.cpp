@@ -69,6 +69,16 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* r
     DualFlashing.brightness     = RGB_FUSION_GPU_BRIGHTNESS_MAX;
     modes.push_back(DualFlashing);
 
+    mode ColorCycle;
+    ColorCycle.name       = "Color Cycle";
+    ColorCycle.value      = RGB_FUSION_GPU_MODE_COLOR_CYCLE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    ColorCycle.flags      = MODE_FLAG_HAS_SPEED;
+    ColorCycle.speed_min  = RGB_FUSION_GPU_SPEED_SLOWEST;
+    ColorCycle.speed_max  = RGB_FUSION_GPU_SPEED_FASTEST;
+    ColorCycle.speed      = RGB_FUSION_GPU_SPEED_NORMAL;
+    ColorCycle.color_mode = MODE_COLORS_NONE;
+    modes.push_back(ColorCycle);
+
     mode SpectrumCycle;
     SpectrumCycle.name           = "Spectrum Cycle";
     SpectrumCycle.value          = RGB_FUSION_GPU_MODE_SPECTRUM_CYCLE;
