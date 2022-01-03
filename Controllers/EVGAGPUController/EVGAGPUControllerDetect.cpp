@@ -58,6 +58,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2080_A_DEV,       EVGA_SUB_VEN,   EVGA_RTX2080_XC_ULTRA_GAMING_SUB_DEV,       EVGA_RGB_V2,    "EVGA GeForce RTX 2080 XC Ultra Gaming"                 },
     { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,        EVGA_SUB_VEN,   EVGA_RTX2080S_XC_GAMING_SUB_DEV,            EVGA_RGB_V2,    "EVGA GeForce RTX 2080 SUPER XC Gaming"                 },
     { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,        EVGA_SUB_VEN,   EVGA_RTX2080S_FTW3_ULTRA_SUB_DEV,           EVGA_RGB_V2,    "EVGA GeForce RTX 2080 SUPER FTW3 Ultra"                },
+    { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,        EVGA_SUB_VEN,   EVGA_RTX2080S_FTW3_HYBRID_OC_SUB_DEV,       EVGA_RGB_V2,    "EVGA GeForce RTX 2080 SUPER FTW3 Hybrid OC"            },
     { NVIDIA_VEN,   NVIDIA_RTX2080S_DEV,        EVGA_SUB_VEN,   EVGA_RTX2080S_FTW3_ULTRA_HC_SUB_DEV,        EVGA_RGB_V2,    "EVGA GeForce RTX 2080 SUPER FTW3 Ultra Hydro Copper"   },
     { NVIDIA_VEN,   NVIDIA_RTX2080TI_DEV,       EVGA_SUB_VEN,   EVGA_RTX2080TI_BLACK_SUB_DEV,               EVGA_RGB_V2,    "EVGA GeForce RTX 2080Ti Black"                         },
     { NVIDIA_VEN,   NVIDIA_RTX2080TI_A_DEV,     EVGA_SUB_VEN,   EVGA_RTX2080TI_XC_ULTRA_GAMING_SUB_DEV,     EVGA_RGB_V2,    "EVGA GeForce RTX 2080Ti XC Ultra"                      },
