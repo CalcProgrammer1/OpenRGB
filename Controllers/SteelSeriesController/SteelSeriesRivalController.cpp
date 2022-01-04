@@ -72,6 +72,8 @@ std::string SteelSeriesRivalController::GetSerialString()
 
 std::string SteelSeriesRivalController::GetFirmwareVersion()
 {
+    if (proto != RIVAL_300 && proto != RIVAL_700) return "";
+
     char            usb_buf[2] = { 0x10, 0x00 };
     uint16_t        version;
     std::string     return_string;

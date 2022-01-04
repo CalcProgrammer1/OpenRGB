@@ -57,7 +57,7 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     mode Pulsate;
     Pulsate.name       = "Pulsate";
     Pulsate.value      = STEELSERIES_RIVAL_PULSATE;
-    Pulsate.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    Pulsate.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Pulsate.color_mode = MODE_COLORS_PER_LED;
     Pulsate.speed_min  = STEELSERIES_RIVAL_EFFECT_PULSATE_MIN;
     Pulsate.speed_max  = STEELSERIES_RIVAL_EFFECT_PULSATE_MAX;
