@@ -163,6 +163,11 @@ void RGBController_Crucial::DeviceUpdateLEDs()
     else
     {
         crucial->SetAllColorsEffect(&colors[0]);
+
+        if(modes[active_mode].value == CRUCIAL_MODE_STATIC)
+        {
+            crucial->SetMode(modes[active_mode].value);
+        }
     }
 }
 
