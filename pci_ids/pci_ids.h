@@ -101,6 +101,14 @@
 /*-----------------------------------------------------*\
 | ASUS Sub-Device IDs                                   |
 \*-----------------------------------------------------*/
+#define ASUS_VEGA64_STRIX                               0x04C4
+#define ASUS_RX5600XT_STRIX_O6G_GAMING                  0x04EC
+#define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
+#define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
+#define ASUS_RX560_STRIX_4G_GAMING                      0x04BC
+#define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
+#define ASUS_RX580_STRIX_GAMING_OC                      0x0517
+#define ASUS_RX580_STRIX_GAMING_TOP                     0x0519
 #define ASUS_GTX1050_STRIX_O2G_GAMING                   0x85D8
 #define ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING             0x85CD
 #define ASUS_GTX1060_STRIX_6G_GAMING                    0x85A4
@@ -133,14 +141,6 @@
 #define ASUS_ROG_STRIX_RTX2080S_O8G_GAMING              0x8711
 #define ASUS_ROG_STRIX_RTX2080TI_11G_GAMING             0x8687
 #define ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING            0x866A
-#define ASUS_VEGA64_STRIX                               0x04C4
-#define ASUS_RX5600XT_STRIX_O6G_GAMING                  0x04EC
-#define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
-#define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
-#define ASUS_RX560_STRIX_4G_GAMING                      0x04BC
-#define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
-#define ASUS_RX580_STRIX_GAMING_OC                      0x0517
-#define ASUS_RX580_STRIX_GAMING_TOP                     0x0519
 #define ASUS_ROG_STRIX_RTX_3060_O12G_GAMING             0x87F3
 #define ASUS_TUF_RTX_3060_TI_O8G_OC                     0x87C6
 #define ASUS_ROG_STRIX_RTX_3070_OC                      0x87B8
@@ -148,6 +148,7 @@
 #define ASUS_ROG_STRIX_RTX_3070_08G_V2_GAMING           0x882C
 #define ASUS_TUF_RTX_3070_O8G_GAMING                    0x87C1
 #define ASUS_TUF_RTX_3070_O8G_V2_GAMING                 0x8825
+#define ASUS_ROG_STRIX_RTX_3070TI_O8G_GAMING            0x880E
 #define ASUS_ROG_STRIX_RTX_3080_O10G_GAMING             0x87AC
 #define ASUS_ROG_STRIX_RTX_3080_O10G_WHITE              0x87D1
 #define ASUS_ROG_STRIX_RTX_3080_O10G_V2_WHITE           0x8830
@@ -156,11 +157,12 @@
 #define ASUS_TUF_RTX_3080_O10G_V2_GAMING_8822           0x8822
 #define ASUS_TUF_RTX_3080_O10G_V2_GAMING                0x8823
 #define ASUS_ROG_STRIX_RTX_3080TI_O12G_GAMING           0x8807
-#define ASUS_ROG_STRIX_RTX_3070TI_O8G_GAMING            0x880E
+#define ASUS_ROG_STRIX_RTX_3090_24G_GAMING              0x87AD
 #define ASUS_ROG_STRIX_RTX_3090_O24G_GAMING             0x87AF
 #define ASUS_ROG_STRIX_RTX_3090_O24G_GAMING_WHITE       0x87D9
 #define ASUS_TUF_RTX_3090_O24G                          0x87B5
 #define ASUS_TUF_RTX_3090_O24G_OC                       0x87B3
+
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
