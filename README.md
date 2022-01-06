@@ -172,6 +172,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * OpenRGB-Client - Java Client (by morg): https://gitlab.com/mguimard/openrgb-client
   * OpenRGB-SDK - NodeJS client (by Mola19): https://www.npmjs.com/package/openrgb-sdk
   * OpenRGB-cppSDK - C++ client (by Youda008): https://github.com/Youda008/OpenRGB-cppSDK
+  * openrgb-rs - Rust client (by nicoulaj): https://github.com/nicoulaj/openrgb-rs
 
 ## Applications Supporting OpenRGB SDK
 
