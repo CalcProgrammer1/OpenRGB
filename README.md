@@ -198,6 +198,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * Skin Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/openrgbskinplugin 
   * Hardware Sync Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHardwareSyncPlugin
   * Http Hook Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHttpHookPlugin
+  * Razer extras Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBRazerExtrasPlugin
   
 ## Projects Used
 
