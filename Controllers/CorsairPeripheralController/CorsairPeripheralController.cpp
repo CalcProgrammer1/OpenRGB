@@ -60,6 +60,7 @@ static unsigned int st100[] = { 0x00, 0x01, 0x02, 0x03, 0x05, 0x06, 0x07, 0x08, 
 
 static unsigned int key_mapping_k95_plat_ansi[] = { 0x31, 0x3f, 0x41, 0x42, 0x51, 0x53, 0x55, 0x6f, 0x7e, 0x7f, 0x80, 0x81 };
 static unsigned int key_mapping_k95_plat_iso[] = { 0x3f, 0x41, 0x42, 0x48, 0x50, 0x53, 0x55, 0x6f, 0x7e, 0x7f, 0x80, 0x81 };
+static unsigned int key_mapping_k70_mk2_plat_iso[] = { 0x3f, 0x41, 0x42, 0x50, 0x53, 0x55, 0x6f, 0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e, 0x7f, 0x80, 0x81 };
 
 #define CORSAIR_PERIPHERAL_CONTROLLER_NAME "Corsair peripheral"
 
@@ -421,8 +422,16 @@ void CorsairPeripheralController::SetupK55AndK95LightingControl()
     
     if (physical_layout == CORSAIR_LAYOUT_ISO)
     {
-        skipped_identifiers = key_mapping_k95_plat_iso;
-        skipped_identifiers_count = sizeof(key_mapping_k95_plat_iso) / sizeof(key_mapping_k95_plat_iso[0]);
+        if(logical_layout == CORSAIR_TYPE_K70_MK2)
+        {
+            skipped_identifiers = key_mapping_k70_mk2_plat_iso;
+            skipped_identifiers_count = sizeof(key_mapping_k70_mk2_plat_iso) / sizeof(key_mapping_k70_mk2_plat_iso[0]);
+        }
+        else
+        {
+            skipped_identifiers = key_mapping_k95_plat_iso;
+            skipped_identifiers_count = sizeof(key_mapping_k95_plat_iso) / sizeof(key_mapping_k95_plat_iso[0]);
+        }
     }
 
     unsigned int identifier = 0;
