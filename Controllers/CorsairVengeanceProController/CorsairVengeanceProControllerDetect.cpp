@@ -4,6 +4,7 @@
 #include "RGBController_CorsairVengeancePro.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
+#include "LogManager.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,6 +25,8 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
 
+    LOG_DEBUG("[%s] Trying address %02X", CORSAIR_VENGEANCE_RGB_PRO_NAME, address);
+
     if (res >= 0)
     {
         pass = true;
@@ -33,6 +36,7 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
         if (res != 0x1C)
         {
             pass = false;
+            LOG_DEBUG("[%s] Failed: was expecting 0x1C got %02X", CORSAIR_VENGEANCE_RGB_PRO_NAME, res);
         }
 
         res = bus->i2c_smbus_read_byte_data(address, 0x44);
@@ -40,7 +44,12 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
         if (!((res == 0x03) || (res == 0x04)))
         {
             pass = false;
+            LOG_DEBUG("[%s] Failed: was expecting 0x03 or 0x04 got %02X", CORSAIR_VENGEANCE_RGB_PRO_NAME, res);
         }
+    }
+    else
+    {
+        LOG_DEBUG("[%s] Failed: res was %04X", CORSAIR_VENGEANCE_RGB_PRO_NAME, res);
     }
 
     std::this_thread::sleep_for(10ms);
@@ -67,6 +76,8 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
 
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
+        LOG_DEBUG("[%s] Testing bus %d", CORSAIR_VENGEANCE_RGB_PRO_NAME, bus);
+
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
             // Check for Corsair controller at 0x58
@@ -132,6 +143,10 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
                 new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
                 ResourceManager::get()->RegisterRGBController(new_controller);
             }
+        }
+        else
+        {
+            LOG_DEBUG("[%s] Check failed for VID:PID %04X:%04X", CORSAIR_VENGEANCE_RGB_PRO_NAME, busses[bus]->pci_vendor, busses[bus]->pci_device);
         }
     }
 
