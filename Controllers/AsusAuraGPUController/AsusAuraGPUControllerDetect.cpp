@@ -75,6 +75,7 @@ static const gpu_pci_device device_list[] =
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX570_STRIX_O4G_GAMING_OC,             0x29,   "ASUS RX 570 Strix O4G Gaming OC"           },
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_OC,                 0x29,   "ASUS RX 580 Strix Gaming OC"               },
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_TOP,                0x29,   "ASUS RX 580 Strix Gaming TOP"              },
+    { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC,                0x2A,   "ASUS TUF RTX 3060 Ti 8G Gaming OC"         },
 };  
 
 /******************************************************************************************\
