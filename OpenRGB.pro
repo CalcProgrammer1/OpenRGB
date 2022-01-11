@@ -231,6 +231,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraKeyboardController.h                              \
     Controllers/AsusAuraUSBController/AsusAuraMainboardController.h                             \
     Controllers/AsusAuraUSBController/AsusAuraMouseController.h                                 \
+    Controllers/AsusAuraUSBController/AsusAuraMousematController.h                              \
     Controllers/AsusAuraUSBController/AsusAuraMouseDevices.h                                    \
     Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.h                           \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.h                           \
@@ -238,6 +239,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.h                      \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraKeyboard.h                          \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.h                             \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.h                          \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.h                       \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.h                       \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.h                               \
@@ -605,12 +607,14 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraKeyboardController.cpp                            \
     Controllers/AsusAuraUSBController/AsusAuraMainboardController.cpp                           \
     Controllers/AsusAuraUSBController/AsusAuraMouseController.cpp                               \
+    Controllers/AsusAuraUSBController/AsusAuraMousematController.cpp                            \
     Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraUSBControllerDetect.cpp                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.cpp                    \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraKeyboard.cpp                        \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.cpp                           \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.cpp                        \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.cpp                     \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.cpp                     \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.cpp                             \

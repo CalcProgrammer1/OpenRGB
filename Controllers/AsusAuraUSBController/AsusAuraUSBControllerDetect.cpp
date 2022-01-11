@@ -5,6 +5,7 @@
 #include "AsusAuraTUFKeyboardController.h"
 #include "AsusAuraMainboardController.h"
 #include "AsusAuraMouseController.h"
+#include "AsusAuraMousematController.h"
 #include "AsusAuraStrixEvolveController.h"
 #include "RGBController.h"
 #include "RGBController_AsusAuraUSB.h"
@@ -12,6 +13,7 @@
 #include "RGBController_AsusAuraKeyboard.h"
 #include "RGBController_AsusAuraTUFKeyboard.h"
 #include "RGBController_AsusAuraMouse.h"
+#include "RGBController_AsusAuraMousemat.h"
 #include "RGBController_AsusAuraStrixEvolve.h"
 #include <stdexcept>
 #include <hidapi/hidapi.h>
@@ -47,6 +49,11 @@
 \*-----------------------------------------------------------------*/
 
 #define AURA_ROG_STRIX_EVOLVE_PID               0x185B
+
+/*-----------------------------------------------------------------*\
+| MOUSEMATS                                                         |
+\*-----------------------------------------------------------------*/
+#define AURA_ROG_BALTEUS_PID                    0x1891
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
@@ -154,6 +161,18 @@ void DetectAsusAuraUSBMice(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectAsusAuraUSBMousemats(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        AuraMousematController* controller = new AuraMousematController(dev, info->path);
+        RGBController_AuraMousemat* rgb_controller = new RGBController_AuraMousemat(controller);
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectAsusAuraUSBStrixEvolve(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -234,6 +253,11 @@ REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M3",                  DetectAsusAuraUS
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                  DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_TUF_M5_PID,                          2,  0xFF01);
 
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Evolve",               DetectAsusAuraUSBStrixEvolve,   AURA_USB_VID, AURA_ROG_STRIX_EVOLVE_PID,                1,  0x0008);
+
+/*-----------------------------------------------------------------*\
+| MOUSEMATS                                                         |
+\*-----------------------------------------------------------------*/
+REGISTER_HID_DETECTOR ("ASUS ROG Balteus",                    DetectAsusAuraUSBMousemats,     AURA_USB_VID, AURA_ROG_BALTEUS_PID                     );
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |

@@ -1,0 +1,130 @@
+/*-----------------------------------------*\
+|  AsusAuraMousematController.cpp           |
+|                                           |
+|  Driver for ASUS Aura RGB USB             |
+|  lighting controller                      |
+|                                           |
+|  Adam Honse (CalcProgrammer1) 1/10/2022   |
+\*-----------------------------------------*/
+
+#include "AsusAuraMousematController.h"
+#include <cstring>
+
+AuraMousematController::AuraMousematController(hid_device* dev_handle, const char* path)
+{
+    dev         = dev_handle;
+    location    = path;
+}
+
+AuraMousematController::~AuraMousematController()
+{
+	hid_close(dev);
+}
+
+std::string AuraMousematController::GetDeviceLocation()
+{
+    return("HID: " + location);
+}
+
+std::string AuraMousematController::GetSerialString()
+{
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    std::wstring return_wstring = serial_string;
+    std::string return_string(return_wstring.begin(), return_wstring.end());
+
+    return(return_string);
+}
+
+std::string AuraMousematController::GetVersion()
+{
+    unsigned char usb_buf[65];
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]   = 0xEE;
+    usb_buf[0x01]   = 0x12;
+    usb_buf[0x02]   = 0x00;
+
+    hid_write(dev, usb_buf, 65);
+
+    unsigned char usb_buf_out[65];
+    hid_read(dev, usb_buf_out, 65);
+
+    char version[5];
+    snprintf(version, 5, "%04X", (usb_buf_out[6] << 8) | usb_buf_out[7]);
+    return std::string(version);
+}
+
+void AuraMousematController::UpdateLeds
+    (
+    std::vector<RGBColor>    colors
+    )
+{
+    unsigned char usb_buf[65];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0xEE;
+    usb_buf[0x01]   = 0xC0;
+    usb_buf[0x02]   = 0x81;
+    usb_buf[0x03]   = 0x00;
+    usb_buf[0x04]   = 0x00;
+
+    for(unsigned int i = 0; i < 60; i += 4)
+    {
+        usb_buf[5 + i]   = 0x00;
+        usb_buf[6 + i]   = RGBGetRValue(colors[i / 4]);
+        usb_buf[7 + i]   = RGBGetGValue(colors[i / 4]);
+        usb_buf[8 + i]   = RGBGetBValue(colors[i / 4]);
+    }
+
+    hid_write(dev, usb_buf, 65);
+}
+
+void AuraMousematController::UpdateDevice
+    (
+    unsigned char   mode,
+    unsigned char   red,
+    unsigned char   grn,
+    unsigned char   blu,
+    unsigned char   speed,
+    unsigned char   brightness
+    )
+{
+    unsigned char usb_buf[65];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0xEE;
+    usb_buf[0x01]   = 0x51;
+    usb_buf[0x02]   = 0x28;
+    usb_buf[0x03]   = 0x00;
+    usb_buf[0x04]   = 0x00;
+    usb_buf[0x05]   = mode;
+    usb_buf[0x06]   = speed;
+    usb_buf[0x07]   = brightness;
+    usb_buf[0x08]   = 0x00;
+    usb_buf[0x09]   = 0x00;
+    usb_buf[0x0a]   = red;
+    usb_buf[0x0b]   = grn;
+    usb_buf[0x0c]   = blu;
+    hid_write(dev, usb_buf, 65);
+}
+
+void AuraMousematController::SaveMode()
+{
+    unsigned char usb_save_buf[65];
+
+    memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
+
+    usb_save_buf[0x00]   = 0xEE;
+    usb_save_buf[0x01]   = 0x50;
+    usb_save_buf[0x02]   = 0x55;
+
+    hid_write(dev, usb_save_buf, 65);
+}
