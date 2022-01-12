@@ -93,6 +93,7 @@ static const std::map<std::string, led_label> led_label_lookup =
     { "Key: \\ (ISO)",          { "\\"    , "\\",              }},
     { "Key: ;",                 { ";"     , ";",               }},
     { "Key: '",                 { "'"     , "'",               }},
+    { "Key: #",                 { "#"     , "#",               }},
     { "Key: ,",                 { ","     , ",",               }},
     { "Key: .",                 { "."     , ".",               }},
     { "Key: /",                 { "/"     , "/",               }},
