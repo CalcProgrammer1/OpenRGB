@@ -146,7 +146,7 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
         }
         else
         {
-            LOG_DEBUG("[%s] Check failed for VID:PID %04X:%04X", CORSAIR_VENGEANCE_RGB_PRO_NAME, busses[bus]->pci_vendor, busses[bus]->pci_device);
+            LOG_DEBUG("[%s] Bus %d is not a DRAM bus", CORSAIR_VENGEANCE_RGB_PRO_NAME, bus);
         }
     }
 
