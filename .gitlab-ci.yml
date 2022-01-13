@@ -13,7 +13,7 @@
   - shared-windows
   - windows
   - windows-1809
-  
+
 stages:
   - build
   - test
@@ -37,7 +37,7 @@ before_script:
   script:
   - export $(dpkg-architecture)
   - ./scripts/build-appimage.sh
-  
+
   artifacts:
     name: "${CI_PROJECT_NAME}_Linux_32_${CI_COMMIT_SHORT_SHA}"
     paths:
@@ -56,7 +56,7 @@ before_script:
   script:
   - export $(dpkg-architecture)
   - ./scripts/build-appimage.sh
-  
+
   artifacts:
     name: "${CI_PROJECT_NAME}_Linux_64_${CI_COMMIT_SHORT_SHA}"
     paths:
@@ -183,8 +183,8 @@ before_script:
   image: fedora:36
   stage: build
   script:
-  - dnf install rpmdevtools dnf-plugins-core -y 
-  - rpmdev-setuptree 
+  - dnf install rpmdevtools dnf-plugins-core libcurl-devel -y
+  - rpmdev-setuptree
   - ls /root/
   - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
   - cp ../OpenRGB /root/rpmbuild/SOURCES/ -r
@@ -357,42 +357,42 @@ before_script:
   - '& cmd.exe /C "vcvarsall.bat x86 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
   - Pop-Location
   - _fold_final_
-  
+
   - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
   - mkdir _qt
   - mkdir _qt_download
   - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2019/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86.7z' 
+  - curl.exe -LJ -o qt-base.7z  'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2019/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86.7z'
   - curl.exe -LJ -o qt-tools.7z 'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_msvc2019/5.15.0-0-202005150700qttools-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86.7z'
   - curl.exe -LJ -o qt-jom.zip  'https://qt-mirror.dannhauer.de/official_releases/jom/jom.zip'
   - _fold_final_
-  
+
   - _fold_start_ 'extracting the downloaded qt binaries'
   - 7z x qt-base.7z  '-o../_qt' -y
   - 7z x qt-tools.7z '-o../_qt' -y
   - 7z x qt-jom.zip  '-o../_qt' -y
   - _fold_final_
-  
+
   - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
   - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019\mkspecs\qconfig.pri'
   - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
   - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
   - Pop-Location
   - _fold_final_
-  
+
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'
   - mkdir _build; cd _build
   - ..\_qt\5.15.0\msvc2019\bin\qmake ..\OpenRGB.pro
   - _fold_final_
-  
+
   - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
   - ..\_qt\jom
   - _fold_final_
-  
+
   - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
   - ..\_qt\5.15.0\msvc2019\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
   - _fold_final_
-  
+
   - _fold_start_ 'Moving results for upload'
   - mv release ../'OpenRGB Windows 32-bit'
   - _fold_final_
@@ -426,42 +426,42 @@ before_script:
   - '& cmd.exe /C "vcvarsall.bat x64 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
   - Pop-Location
   - _fold_final_
-  
+
   - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
   - mkdir _qt
   - mkdir _qt_download
   - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win64_msvc2019_64/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z' 
+  - curl.exe -LJ -o qt-base.7z  'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win64_msvc2019_64/5.15.0-0-202005150700qtbase-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z'
   - curl.exe -LJ -o qt-tools.7z 'https://qt-mirror.dannhauer.de/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win64_msvc2019_64/5.15.0-0-202005150700qttools-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z'
   - curl.exe -LJ -o qt-jom.zip  'https://qt-mirror.dannhauer.de/official_releases/jom/jom.zip'
   - _fold_final_
-  
+
   - _fold_start_ 'extracting the downloaded qt binaries'
   - 7z x qt-base.7z  '-o../_qt' -y
   - 7z x qt-tools.7z '-o../_qt' -y
   - 7z x qt-jom.zip  '-o../_qt' -y
   - _fold_final_
-  
+
   - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
   - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019_64\mkspecs\qconfig.pri'
   - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
   - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
   - Pop-Location
   - _fold_final_
-  
+
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'
   - mkdir _build; cd _build
   - ..\_qt\5.15.0\msvc2019_64\bin\qmake ..\OpenRGB.pro
   - _fold_final_
-  
+
   - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
   - ..\_qt\jom
   - _fold_final_
-  
+
   - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
   - ..\_qt\5.15.0\msvc2019_64\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
   - _fold_final_
-  
+
   - _fold_start_ 'Moving results for upload'
   - mv release ../'OpenRGB Windows 64-bit'
   - _fold_final_

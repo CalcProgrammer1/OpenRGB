@@ -174,14 +174,14 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     if(!ui_settings.contains("geometry"))
     {
         json geometry_settings;
-        
+
         geometry_settings["load_geometry"]  = false;
         geometry_settings["save_on_exit"]   = false;
         geometry_settings["x"]              = 0;
         geometry_settings["y"]              = 0;
         geometry_settings["width"]          = 0;
         geometry_settings["height"]         = 0;
-        
+
         ui_settings["geometry"] = geometry_settings;
 
         settings_manager->SetSettings(ui_string, ui_settings);
@@ -192,7 +192,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     | If geometry information exists in settings, apply it  |
     \*-----------------------------------------------------*/
     bool load_geometry = false;
-    
+
     if(ui_settings["geometry"].contains("load_geometry"))
     {
         load_geometry = ui_settings["geometry"]["load_geometry"].get<bool>();
@@ -423,12 +423,17 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddYeelightSettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the Nanoleaf settings page                        |
+    \*-----------------------------------------------------*/
+    AddNanoleafSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
     \*-----------------------------------------------------*/
     if(ShowI2CTools)
     {
         AddI2CToolsPage();
-    }    
+    }
 
     /*-----------------------------------------------------*\
     | If log console is enabled in settings, enable it      |
@@ -809,6 +814,34 @@ void OpenRGBDialog2::AddYeelightSettingsPage()
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
     TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Yeelight Devices");
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddNanoleafSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    NanoleafSettingsPage = new OpenRGBNanoleafSettingsPage();
+
+    ui->SettingsTabBar->addTab(NanoleafSettingsPage, "");
+
+    QString SettingsLabelString;
+
+    if(OpenRGBThemeManager::IsDarkTheme())
+    {
+        SettingsLabelString = "light_dark.png";
+    }
+    else
+    {
+        SettingsLabelString = "light.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Nanoleaf Devices");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }

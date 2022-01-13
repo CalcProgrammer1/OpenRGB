@@ -289,7 +289,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * Effects Engine Plugin (by herosilas12, morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBEffectsPlugin
   * OpenRGB Visual Map Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBVisualMapPlugin
   * Scheduler Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBSchedulerPlugin
-  * Skin Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/openrgbskinplugin 
+  * Skin Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/openrgbskinplugin
   * Hardware Sync Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHardwareSyncPlugin
   * Http Hook Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHttpHookPlugin
   * Razer extras Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBRazerExtrasPlugin
@@ -308,7 +308,9 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * AMD ADL Libraries: https://github.com/GPUOpen-LibrariesAndSDKs/display-library
   * libcmmk: https://github.com/chmod222/libcmmk
   * hueplusplus: https://github.com/enwi/hueplusplus
-  
+  * httplib: https://github.com/yhirose/cpp-httplib
+  * mdns: https://github.com/mjansson/mdns
+
 ## Projects Researched
 
 While no code from these projects directly made its way into OpenRGB, these projects have been invaluable resources for protocol information.
