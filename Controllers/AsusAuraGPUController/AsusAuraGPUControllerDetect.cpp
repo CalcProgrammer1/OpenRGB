@@ -65,9 +65,11 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,       NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_A8G_GAMING_8706,    0x2A,   "ASUS ROG STRIX RTX 2070S A8G Gaming 8G"    },
     { NVIDIA_VEN,       NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_O8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2070S O8G Gaming 8G"    },
     { NVIDIA_VEN,       NVIDIA_RTX2080_A_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080_O8G_GAMING,          0x2A,   "ASUS ROG STRIX RTX 2080 O8G Gaming"        },
+    { NVIDIA_VEN,       NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080S_A8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2080S A8G Gaming"       },
     { NVIDIA_VEN,       NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080S_O8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2080S O8G Gaming"       },
     { NVIDIA_VEN,       NVIDIA_RTX2080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080TI_11G_GAMING,        0x2A,   "ASUS ROG STRIX RTX 2080 Ti 11G Gaming"     },
     { NVIDIA_VEN,       NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING,       0x2A,   "ASUS ROG STRIX RTX 2080 Ti O11G Gaming"    },
+    { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC,                0x2A,   "ASUS TUF RTX 3060 Ti 8G Gaming OC"         },
     { AMD_GPU_VEN,      AMD_VEGA10_DEV,             ASUS_SUB_VEN,       ASUS_VEGA64_STRIX,                          0x29,   "ASUS Vega 64 Strix"                        },
     { AMD_GPU_VEN,      AMD_NAVI10_DEV,             ASUS_SUB_VEN,       ASUS_RX5600XT_STRIX_O6G_GAMING,             0x2A,   "ASUS RX 5600XT Strix O6G Gaming"           },
     { AMD_GPU_VEN,      AMD_NAVI10_DEV,             ASUS_SUB_VEN,       ASUS_RX5700XT_STRIX_GAMING_OC,              0x2A,   "ASUS RX 5700XT Strix Gaming OC"            },
@@ -76,7 +78,6 @@ static const gpu_pci_device device_list[] =
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX570_STRIX_O4G_GAMING_OC,             0x29,   "ASUS RX 570 Strix O4G Gaming OC"           },
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_OC,                 0x29,   "ASUS RX 580 Strix Gaming OC"               },
     { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_TOP,                0x29,   "ASUS RX 580 Strix Gaming TOP"              },
-    { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC,                0x2A,   "ASUS TUF RTX 3060 Ti 8G Gaming OC"         },
 };  
 
 /******************************************************************************************\
