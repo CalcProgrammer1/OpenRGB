@@ -155,6 +155,7 @@
 #define RAZER_KRAKEN_CLASSIC_ALT_PID                    0x0506
 #define RAZER_KRAKEN_CLASSIC_PID                        0x0501
 #define RAZER_KRAKEN_KITTY_EDITION_PID                  0x0F19
+#define RAZER_KRAKEN_KITTY_BLACK_EDITION_PID            0x0F21
 #define RAZER_KRAKEN_PID                                0x0504
 #define RAZER_KRAKEN_ULTIMATE_PID                       0x0527
 #define RAZER_KRAKEN_V2_PID                             0x0510
