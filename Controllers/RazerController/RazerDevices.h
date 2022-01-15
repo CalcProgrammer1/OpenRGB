@@ -4923,8 +4923,8 @@ static const razer_device basilisk_v2_device =
     1,
     2,
     {
-        &basilisk_scroll_wheel_zone,
-        &basilisk_logo_zone,
+        &basilisk_v2_scroll_wheel_zone,
+        &basilisk_v2_logo_zone,
         NULL,
         NULL,
         NULL,
