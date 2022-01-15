@@ -47,6 +47,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     \*-----------------------------------------------------------------*/
     switch(dev_pid)
     {
+        case RAZER_BASILISK_V3_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
@@ -107,20 +108,20 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     \*-----------------------------------------------------------------*/
     switch(dev_pid)
     {
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_MAMBA_ELITE_PID:
-        case RAZER_TARTARUS_V2_PID:
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_X_PID:
         case RAZER_DEATHADDER_ELITE_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
+        case RAZER_GOLIATHUS_CHROMA_PID:
+        case RAZER_MAMBA_ELITE_PID:
+        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_O11_DYNAMIC_PID:
+        case RAZER_TARTARUS_V2_PID:
             dev_led_id = RAZER_LED_ID_ZERO;
             break;
 
@@ -209,6 +210,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASILISK_ULTIMATE_WIRED_PID:
         case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
         case RAZER_BASILISK_V2_PID:
+        case RAZER_BASILISK_V3_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_V3_PID:
@@ -513,6 +515,7 @@ bool RazerController::SupportsWave()
         \*-----------------------------------------------------*/
         case RAZER_BASILISK_ULTIMATE_WIRED_PID:
         case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PID:
         case RAZER_DIAMONDBACK_CHROMA_PID:
         case RAZER_MAMBA_2015_WIRED_PID:
         case RAZER_MAMBA_2015_WIRELESS_PID:
@@ -598,9 +601,9 @@ razer_report RazerController::razer_create_report(unsigned char command_class, u
     new_report.transaction_id.id    = dev_transaction_id;
     new_report.remaining_packets    = 0x00;
     new_report.protocol_type        = 0x00;
+    new_report.data_size            = data_size;
     new_report.command_class        = command_class;
     new_report.command_id.id        = command_id;
-    new_report.data_size            = data_size;
 
     return new_report;
 }

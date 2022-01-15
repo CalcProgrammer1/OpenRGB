@@ -100,6 +100,7 @@
 #define RAZER_BASILISK_ULTIMATE_WIRELESS_PID            0x0088
 #define RAZER_BASILISK_X_HYPERSPEED_PID                 0x0083
 #define RAZER_BASILISK_V2_PID                           0x0085
+#define RAZER_BASILISK_V3_PID                           0x0099
 #define RAZER_DEATHADDER_1800_PID                       0x0038
 #define RAZER_DEATHADDER_2000_PID                       0x004F
 #define RAZER_DEATHADDER_2013_PID                       0x0037
@@ -4935,6 +4936,65 @@ static const razer_device basilisk_v2_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Basilisk V3 1532:0099                                  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       9 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_ledstrip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device basilisk_v3_device =
+{
+    "Razer Basilisk V3",
+    RAZER_BASILISK_V3_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    11,
+    {
+        &basilisk_v3_scroll_wheel_zone,
+        &basilisk_v3_logo_zone,
+        &basilisk_v3_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer DeathAdder Chroma                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -7753,6 +7813,7 @@ static const razer_device* device_list[] =
     &basilisk_ultimate_wired_device,
     &basilisk_ultimate_wireless_device,
     &basilisk_v2_device,
+    &basilisk_v3_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
     &deathadder_essential_device,
