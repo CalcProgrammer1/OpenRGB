@@ -124,6 +124,7 @@ struct HumanColors { uint32_t rgb; const char* keyword; } static const human_col
     { COLOR_AQUAMARINE, "aquamarine" },
     { COLOR_MAROON, "maroon" },
     { COLOR_PURPLE, "purple" },
+    { COLOR_ELECTRIC_ULTRAMARINE, "electricultramarine" },
     { COLOR_OLIVE, "olive" },
     { COLOR_GRAY, "gray" },
     { COLOR_GREY, "grey" },
