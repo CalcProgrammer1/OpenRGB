@@ -5102,8 +5102,8 @@ static const razer_device basilisk_v3_device =
     1,
     11,
     {
-        &basilisk_v3_scroll_wheel_zone,
         &basilisk_v3_logo_zone,
+        &basilisk_v3_scroll_wheel_zone,
         &basilisk_v3_ledstrip_zone,
         NULL,
         NULL,

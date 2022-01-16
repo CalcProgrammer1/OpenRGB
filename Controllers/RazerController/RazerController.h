@@ -182,6 +182,7 @@ public:
     void                    SetModeStatic(unsigned char red, unsigned char grn, unsigned char blu);
     void                    SetModeWave(unsigned char direction);
 
+    bool                    SupportsBreathing();
     bool                    SupportsReactive();
     bool                    SupportsWave();
 

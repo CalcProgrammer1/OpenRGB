@@ -110,6 +110,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     \*-----------------------------------------------------------------*/
     switch(dev_pid)
     {
+        case RAZER_BASILISK_V3_PID:
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
@@ -444,6 +445,30 @@ void RazerController::SetModeStatic(unsigned char red, unsigned char grn, unsign
 void RazerController::SetModeWave(unsigned char direction)
 {
     razer_set_mode_wave(direction);
+}
+
+bool RazerController::SupportsBreathing()
+{
+    /*-----------------------------------------------------*\
+    | Breathing Mode is assumed as supported in hardware    |
+    |   Add PIDs only for devices that DO NOT support the   |
+    |   hardware breathing mode i.e. Packet captures show   |
+    |   software driving the basic `Breathing` mode         |
+    \*-----------------------------------------------------*/
+    bool supports_breathing = true;
+
+    switch(dev_pid)
+    {
+        /*-----------------------------------------------------*\
+        | Mice                                                  |
+        \*-----------------------------------------------------*/
+        case RAZER_BASILISK_V3_PID:
+
+            supports_breathing = false;
+            break;
+    }
+
+    return(supports_breathing);
 }
 
 bool RazerController::SupportsReactive()
