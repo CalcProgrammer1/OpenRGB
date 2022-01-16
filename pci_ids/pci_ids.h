@@ -147,6 +147,7 @@
 #define ASUS_ROG_STRIX_RTX_3060_O12G_GAMING             0x87F3
 #define ASUS_ROG_STRIX_RTX_3060_O12G_LHR_GAMING         0x8818
 #define ASUS_TUF_RTX_3060_TI_O8G_OC                     0x87C6
+#define ASUS_TUF_RTX_3060_TI_O8G_OC_V2                  0x8827
 #define ASUS_ROG_STRIX_RTX_3070_OC                      0x87B8
 #define ASUS_ROG_STRIX_RTX_3070_O8G_WHITE               0x87E0
 #define ASUS_ROG_STRIX_RTX_3070_08G_V2_GAMING           0x882C
