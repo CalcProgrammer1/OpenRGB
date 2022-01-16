@@ -258,8 +258,8 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Evolve",               DetectAsusAuraUS
 /*-----------------------------------------------------------------*\
 | MOUSEMATS                                                         |
 \*-----------------------------------------------------------------*/
-REGISTER_HID_DETECTOR ("ASUS ROG Balteus",                    DetectAsusAuraUSBMousemats,     AURA_USB_VID, AURA_ROG_BALTEUS_PID                     );
-REGISTER_HID_DETECTOR ("ASUS ROG Balteus Qi",                 DetectAsusAuraUSBMousemats,     AURA_USB_VID, AURA_ROG_BALTEUS_QI_PID                  );
+REGISTER_HID_DETECTOR_PU("ASUS ROG Balteus",                    DetectAsusAuraUSBMousemats,     AURA_USB_VID, AURA_ROG_BALTEUS_PID,                     0xFF06, 1);
+REGISTER_HID_DETECTOR_PU("ASUS ROG Balteus Qi",                 DetectAsusAuraUSBMousemats,     AURA_USB_VID, AURA_ROG_BALTEUS_QI_PID,                  0xFF06, 1);
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
