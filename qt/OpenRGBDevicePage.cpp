@@ -917,6 +917,7 @@ void Ui::OpenRGBDevicePage::UpdateDevice()
 
 void Ui::OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green, unsigned char blue)
 {
+    RGBColor color = ToRGBColor(red, green, blue);
     /*-----------------------------------------------------*\
     | Set the selected mode to the custom mode and update UI|
     \*-----------------------------------------------------*/
@@ -945,37 +946,19 @@ void Ui::OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green
     switch(device->modes[selected_mode].color_mode)
     {
         case MODE_COLORS_PER_LED:
-            {
-                /*-----------------------------------------------------*\
-                | Set all device LEDs to the current color              |
-                \*-----------------------------------------------------*/
-                RGBColor color = ToRGBColor(
-                    ui->RedSpinBox->text().toInt(),
-                    ui->GreenSpinBox->text().toInt(),
-                    ui->BlueSpinBox->text().toInt()
-                );
-
-                device->SetAllLEDs(color);
-            }
-            break;
+        {
+            device->SetAllLEDs(color);
+        }
+        break;
 
         case MODE_COLORS_MODE_SPECIFIC:
+        {
+            for(std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
             {
-                /*-----------------------------------------------------*\
-                | Set all device LEDs to the current color              |
-                \*-----------------------------------------------------*/
-                RGBColor color = ToRGBColor(
-                    ui->RedSpinBox->text().toInt(),
-                    ui->GreenSpinBox->text().toInt(),
-                    ui->BlueSpinBox->text().toInt()
-                );
-
-                for(std::size_t i = 0; i < device->modes[selected_mode].colors.size(); i++)
-                {
-                    device->modes[selected_mode].colors[i] = color;
-                }
+                device->modes[selected_mode].colors[i] = color;
             }
             break;
+        }
     }
 
     /*-----------------------------------------------------*\
