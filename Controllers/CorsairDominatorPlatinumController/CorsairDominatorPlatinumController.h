@@ -15,6 +15,8 @@
 
 typedef unsigned char corsair_dev_id;
 
+#define CORSAIR_DOMINATOR_PLATINUM_NAME "Corsair Dominator Platinum"
+
 class CorsairDominatorPlatinumController
 {
 public:

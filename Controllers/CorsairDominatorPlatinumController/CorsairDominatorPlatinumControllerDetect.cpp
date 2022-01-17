@@ -4,6 +4,7 @@
 #include "RGBController_CorsairDominatorPlatinum.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
+#include "LogManager.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,8 +15,12 @@ bool TestForCorsairDominatorPlatinumController(i2c_smbus_interface *bus, unsigne
 {
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
+
+    LOG_DEBUG("[%s] Trying address %02X", CORSAIR_DOMINATOR_PLATINUM_NAME, address);
+
     if(res < 0)
     {
+        LOG_DEBUG("[%s] Failed: res was %04X", CORSAIR_DOMINATOR_PLATINUM_NAME, res);
         return false;
     }
 
@@ -23,6 +28,7 @@ bool TestForCorsairDominatorPlatinumController(i2c_smbus_interface *bus, unsigne
 
     if(res != 0x1b)
     {
+        LOG_DEBUG("[%s] Failed: expected 0x1b, got %04X", CORSAIR_DOMINATOR_PLATINUM_NAME, res);
         return false;
     }
 
@@ -30,6 +36,7 @@ bool TestForCorsairDominatorPlatinumController(i2c_smbus_interface *bus, unsigne
 
     if(res != 0x04)
     {
+        LOG_DEBUG("[%s] Failed: expected 0x04, got %04X", CORSAIR_DOMINATOR_PLATINUM_NAME, res);
         return false;
     }
 
@@ -53,6 +60,8 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
     {
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
+            LOG_DEBUG("[%s] Testing bus %d", CORSAIR_DOMINATOR_PLATINUM_NAME, bus);
+
             for(unsigned char addr = 0x58; addr <= 0x5f; addr++)
             {
                 if(TestForCorsairDominatorPlatinumController(busses[bus], addr))
@@ -63,6 +72,10 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
                 }
                 std::this_thread::sleep_for(10ms);
             }
+        }
+        else
+        {
+            LOG_DEBUG("[%s] Bus %d is not a DRAM bus", CORSAIR_DOMINATOR_PLATINUM_NAME, bus);
         }
     }
 }
