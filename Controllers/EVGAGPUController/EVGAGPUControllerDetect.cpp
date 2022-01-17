@@ -88,6 +88,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         EVGA_SUB_VEN,   EVGA_RTX3080_XC3_ULTRA_HC_SUB_DEV,          EVGA_RGB_V3,    "EVGA GeForce RTX 3080 XC3 Ultra Hydro Copper"          },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         EVGA_SUB_VEN,   EVGA_RTX3080_FTW3_GAMING_SUB_DEV,           EVGA_RGB_V3,    "EVGA GeForce RTX 3080 FTW3 Gaming"                     },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         EVGA_SUB_VEN,   EVGA_RTX3080_FTW3_ULTRA_SUB_DEV,            EVGA_RGB_V3,    "EVGA GeForce RTX 3080 FTW3 Ultra"                      },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_12G_LHR_DEV, EVGA_SUB_VEN,   EVGA_RTX3080_FTW3_ULTRA_12G_SUB_DEV,        EVGA_RGB_V3,    "EVGA GeForce RTX 3080 FTW3 Ultra 12GB"                 },
     { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     EVGA_SUB_VEN,   EVGA_RTX3080_FTW3_ULTRA_LHR_SUB_DEV,        EVGA_RGB_V3,    "EVGA GeForce RTX 3080 FTW3 Ultra LHR"                  },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         EVGA_SUB_VEN,   EVGA_RTX3080_FTW3_ULTRA_HYBRID_SUB_DEV,     EVGA_RGB_V3,    "EVGA GeForce RTX 3080 FTW3 Ultra Hybrid"               },
     { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     EVGA_SUB_VEN,   EVGA_RTX3080_FTW3_ULTRA_HYBRID_LHR_SUB_DEV, EVGA_RGB_V3,    "EVGA GeForce RTX 3080 FTW3 Ultra Hybrid LHR"           },

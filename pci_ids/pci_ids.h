@@ -78,6 +78,7 @@
 #define NVIDIA_RTX3070TI_DEV                            0x2482
 #define NVIDIA_RTX3080_DEV                              0x2206
 #define NVIDIA_RTX3080_LHR_DEV                          0x2216
+#define NVIDIA_RTX3080_12G_LHR_DEV                      0x220A
 #define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
 
@@ -225,6 +226,7 @@
 #define EVGA_RTX3080_XC3_ULTRA_HC_SUB_DEV               0x3889
 #define EVGA_RTX3080_FTW3_GAMING_SUB_DEV                0x3895
 #define EVGA_RTX3080_FTW3_ULTRA_SUB_DEV                 0x3897
+#define EVGA_RTX3080_FTW3_ULTRA_12G_SUB_DEV             0x4877
 #define EVGA_RTX3080_FTW3_ULTRA_LHR_SUB_DEV             0x4897
 #define EVGA_RTX3080_FTW3_ULTRA_HYBRID_SUB_DEV          0x3898
 #define EVGA_RTX3080_FTW3_ULTRA_HYBRID_LHR_SUB_DEV      0x4898
