@@ -497,6 +497,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7d09", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="905d", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  MSI Optix                                                    #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="3fa4", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  MSI/SteelSeries 3-Zone Laptop Keyboard                       #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1770", ATTR{idProduct}=="ff00", TAG+="uaccess"

@@ -124,6 +124,7 @@ INCLUDEPATH +=                                                                  
     Controllers/MSI3ZoneController/                                                             \
     Controllers/MSIGPUController/                                                               \
     Controllers/MSIMysticLightController/                                                       \
+    Controllers/MSIOptixController/                                                             \
     Controllers/MSIRGBController/                                                               \
     Controllers/NZXTHue2Controller/                                                             \
     Controllers/NZXTHuePlusController/                                                          \
@@ -403,6 +404,8 @@ HEADERS +=                                                                      
     Controllers/MSIMysticLightController/MSIMysticLight185Controller.h                          \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight162.h                      \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight185.h                      \
+    Controllers/MSIOptixController/MSIOptixController.h                                         \
+    Controllers/MSIOptixController/RGBController_MSIOptix.h                                     \
     Controllers/MSIRGBController/MSIRGBController.h                                             \
     Controllers/MSIRGBController/RGBController_MSIRGB.h                                         \
     Controllers/NZXTHue2Controller/NZXTHue2Controller.h                                         \
@@ -820,6 +823,9 @@ SOURCES +=                                                                      
     Controllers/MSIMysticLightController/MSIMysticLightControllerDetect.cpp                     \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight162.cpp                    \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight185.cpp                    \
+    Controllers/MSIOptixController/MSIOptixController.cpp                                       \
+    Controllers/MSIOptixController/MSIOptixControllerDetect.cpp                                 \
+    Controllers/MSIOptixController/RGBController_MSIOptix.cpp                                   \
     Controllers/MSIRGBController/MSIRGBController.cpp                                           \
     Controllers/MSIRGBController/MSIRGBControllerDetect.cpp                                     \
     Controllers/MSIRGBController/RGBController_MSIRGB.cpp                                       \
