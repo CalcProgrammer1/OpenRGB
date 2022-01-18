@@ -13,15 +13,15 @@
 #define ASROCK_USB_MAX_ZONES        8
 #define ASROCK_ADDRESSABLE_MAX_LEDS 100
 
-RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController* polychrome_ptr)
+RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController* controller_ptr)
 {
-    polychrome                  = polychrome_ptr;
+    controller                  = controller_ptr;
 
-    name                        = polychrome->GetDeviceName();
+    name                        = controller->GetDeviceName();
     description                 = "ASRock Polychrome USB Device";
     vendor                      = "ASRock";
     type                        = DEVICE_TYPE_MOTHERBOARD;
-    location                    = polychrome->GetDeviceLocation();
+    location                    = controller->GetDeviceLocation();
 
     mode Off;
     Off.name                    = "Off";
@@ -176,14 +176,14 @@ void RGBController_PolychromeUSB::SetupZones()
     \*-------------------------------------------------*/
     leds.clear();
     colors.clear();
-    zones.resize(polychrome->GetChannelCount());
+    zones.resize(controller->GetChannelCount());
 
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
     for(unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
-        PolychromeDeviceInfo device_info = polychrome->GetPolychromeDevices()[channel_idx];
+        PolychromeDeviceInfo device_info = controller->GetPolychromeDevices()[channel_idx];
 
         zones[channel_idx].type     = ZONE_TYPE_LINEAR;
 
@@ -226,7 +226,7 @@ void RGBController_PolychromeUSB::SetupZones()
     {
         unsigned char led = (unsigned char)leds[led_idx].value;
 
-        colors[led_idx] = polychrome->GetZoneConfig(led).color;     // TODO Get addressable instead of zone idx
+        colors[led_idx] = controller->GetZoneConfig(led).color;     // TODO Get addressable instead of zone idx
     }
 
     /*---------------------------------------------------------*\
@@ -236,7 +236,7 @@ void RGBController_PolychromeUSB::SetupZones()
      for (unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
         PolychromeZoneInfo zoneinfo;
-        zoneinfo = polychrome->GetZoneConfig(channel_idx); 
+        zoneinfo = controller->GetZoneConfig(channel_idx); 
         zones_info.push_back(zoneinfo);
     }
 
@@ -273,7 +273,7 @@ void RGBController_PolychromeUSB::DeviceUpdateLEDs()
             set_mode = active_mode;
         }
 
-        polychrome->WriteZone(zone_idx, set_mode, zones_info[zone_idx].speed, zones[zone_idx].colors[0], false);
+        controller->WriteZone(zone_idx, set_mode, zones_info[zone_idx].speed, zones[zone_idx].colors[0], false);
     }
 }
 
@@ -286,7 +286,7 @@ void RGBController_PolychromeUSB::UpdateZoneLEDs(int zone)
         set_mode = active_mode;
     }
 
-    polychrome->WriteZone(zone, set_mode, zones_info[zone].speed, zones[zone].colors[0], false);
+    controller->WriteZone(zone, set_mode, zones_info[zone].speed, zones[zone].colors[0], false);
 }
 
 void RGBController_PolychromeUSB::UpdateSingleLED(int led)
@@ -299,14 +299,14 @@ void RGBController_PolychromeUSB::UpdateSingleLED(int led)
         set_mode = active_mode;
     }
 
-    polychrome->WriteZone(channel, set_mode, zones_info[channel].speed, zones[channel].colors[0], false);
+    controller->WriteZone(channel, set_mode, zones_info[channel].speed, zones[channel].colors[0], false);
 }
 
 unsigned char RGBController_PolychromeUSB::GetDeviceMode(unsigned char zone)
 {
     int dev_mode;
 
-    dev_mode    = polychrome->GetZoneConfig(zone).mode;
+    dev_mode    = controller->GetZoneConfig(zone).mode;
     active_mode = dev_mode;
 
     return(active_mode);  
@@ -332,7 +332,7 @@ void RGBController_PolychromeUSB::DeviceUpdateMode()
                 set_mode = active_mode;                    
             }
 
-            polychrome->WriteZone(zone_idx, set_mode, zones_info[zone_idx].speed, zones[zone_idx].colors[0], false);
+            controller->WriteZone(zone_idx, set_mode, zones_info[zone_idx].speed, zones[zone_idx].colors[0], false);
         }
     }
 }

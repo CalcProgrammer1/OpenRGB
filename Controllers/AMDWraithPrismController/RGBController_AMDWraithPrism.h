@@ -14,7 +14,7 @@
 class RGBController_AMDWraithPrism : public RGBController
 {
 public:
-    RGBController_AMDWraithPrism(AMDWraithPrismController* wraith_ptr);
+    RGBController_AMDWraithPrism(AMDWraithPrismController* controller_ptr);
     ~RGBController_AMDWraithPrism();
 
     void        SetupZones();
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AMDWraithPrismController*   wraith;
+    AMDWraithPrismController*   controller;
 };

@@ -15,7 +15,7 @@
 class RGBController_Polychrome : public RGBController
 {
 public:
-    RGBController_Polychrome(PolychromeController* polychrome_ptr);
+    RGBController_Polychrome(PolychromeController* controller_ptr);
     ~RGBController_Polychrome();
 
     void        SetupZones();
@@ -30,5 +30,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    PolychromeController* polychrome;
+    PolychromeController* controller;
 };

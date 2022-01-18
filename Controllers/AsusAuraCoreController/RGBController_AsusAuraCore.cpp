@@ -8,22 +8,22 @@
 
 #include "RGBController_AsusAuraCore.h"
 
-RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* aura_ptr)
+RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* controller_ptr)
 {
-    aura        = aura_ptr;
+    controller  = controller_ptr;
 
     name        = "ASUS Aura Core Device";
     vendor      = "ASUS";
-    location    = aura->GetDeviceLocation();
-    serial      = aura->GetSerialString();    
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();    
     description = "ASUS Aura Core Device";
     type        = DEVICE_TYPE_UNKNOWN;
 
-    if(aura->aura_device.aura_type == AURA_CORE_DEVICE_KEYBOARD)
+    if(controller->aura_device.aura_type == AURA_CORE_DEVICE_KEYBOARD)
     {
         SetupKeyboard();
     }
-    else if(aura->aura_device.aura_type == AURA_CORE_DEVICE_GA15DH)
+    else if(controller->aura_device.aura_type == AURA_CORE_DEVICE_GA15DH)
     {
         SetupGA15DH();
     }
@@ -158,14 +158,14 @@ void RGBController_AuraCore::SetupGA15DH()
 
 RGBController_AuraCore::~RGBController_AuraCore()
 {
-    delete aura;
+    delete controller;
 }
 
 void RGBController_AuraCore::SetupZones()
 {
     zone auraZone;
 
-    if(aura->aura_device.aura_type == AURA_CORE_DEVICE_KEYBOARD)
+    if(controller->aura_device.aura_type == AURA_CORE_DEVICE_KEYBOARD)
     {
         auraZone.name       = "Keyboard";
         auraZone.type       = ZONE_TYPE_SINGLE;
@@ -174,7 +174,7 @@ void RGBController_AuraCore::SetupZones()
         auraZone.leds_count = 4;
         auraZone.matrix_map = NULL;
     }
-    else if(aura->aura_device.aura_type == AURA_CORE_DEVICE_GA15DH)
+    else if(controller->aura_device.aura_type == AURA_CORE_DEVICE_GA15DH)
     {
         auraZone.name       = "GA15DH";
         auraZone.type       = ZONE_TYPE_LINEAR;
@@ -236,7 +236,7 @@ void RGBController_AuraCore::UpdateZoneLEDs(int /*zone*/)
             aura_colors.push_back(new_color);
         }
 
-        aura->UpdateDirect(aura_colors);
+        controller->UpdateDirect(aura_colors);
     }
     else if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
@@ -286,7 +286,7 @@ void RGBController_AuraCore::UpdateSingleLED(int led)
         }
     }
 
-    aura->SendUpdate
+    controller->SendUpdate
             (
             led,
             curr_mode.value,
@@ -297,8 +297,8 @@ void RGBController_AuraCore::UpdateSingleLED(int led)
             blue
             );
 
-    aura->SendSet();
-    aura->SendApply();
+    controller->SendSet();
+    controller->SendApply();
 }
 
 void RGBController_AuraCore::SetCustomMode()
@@ -310,7 +310,7 @@ void RGBController_AuraCore::DeviceUpdateMode()
 {
     if(modes[active_mode].value == AURA_CORE_MODE_DIRECT)
     {
-        aura->InitDirectMode();
+        controller->InitDirectMode();
     }
     else
     {

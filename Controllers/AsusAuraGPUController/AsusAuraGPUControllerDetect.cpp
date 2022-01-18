@@ -116,10 +116,7 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
 
 void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    AuraGPUController* new_aura_gpu;
-    RGBController_AuraGPU* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
@@ -129,12 +126,13 @@ void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses)
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
                 LOG_DEBUG(GPU_DETECT_MESSAGE, ASUSGPU_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
-                if (TestForAsusAuraGPUController(busses[bus], device_list[dev_idx].controller_address))
+                
+                if(TestForAsusAuraGPUController(busses[bus], device_list[dev_idx].controller_address))
                 {
-                    new_aura_gpu         = new AuraGPUController(busses[bus], device_list[dev_idx].controller_address);
-                    new_controller       = new RGBController_AuraGPU(new_aura_gpu);
-                    new_controller->name = device_list[dev_idx].name;
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    AuraGPUController*     controller     = new AuraGPUController(busses[bus], device_list[dev_idx].controller_address);
+                    RGBController_AuraGPU* rgb_controller = new RGBController_AuraGPU(controller);
+                    rgb_controller->name = device_list[dev_idx].name;
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
         }

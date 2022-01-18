@@ -10,12 +10,12 @@
 
 int RGBController_AuraGPU::GetDeviceMode()
 {
-    int dev_mode = aura_gpu->AuraGPURegisterRead(AURA_GPU_REG_MODE);
+    int dev_mode = controller->AuraGPURegisterRead(AURA_GPU_REG_MODE);
     int color_mode = MODE_COLORS_PER_LED;
 
     if(dev_mode == AURA_GPU_MODE_STATIC)
     {
-        if (aura_gpu->direct)
+        if (controller->direct)
         {
             dev_mode = AURA_GPU_MODE_DIRECT;
         } 
@@ -41,17 +41,15 @@ int RGBController_AuraGPU::GetDeviceMode()
     return(active_mode);
 }
 
-RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
+RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * controller_ptr)
 {
-    aura_gpu = aura_gpu_ptr;
+    controller  = controller_ptr;
 
-
-    name        = aura_gpu->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "ASUS";
     type        = DEVICE_TYPE_GPU;
     description = "ASUS Aura GPU Device";
-    version     = "0.00.1";
-    location    = aura_gpu->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -102,7 +100,7 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * aura_gpu_ptr)
 
 RGBController_AuraGPU::~RGBController_AuraGPU()
 {
-    delete aura_gpu;
+    delete controller;
 }
 
 void RGBController_AuraGPU::SetupZones()
@@ -123,7 +121,7 @@ void RGBController_AuraGPU::SetupZones()
     | Set up LED                                                |
     \*---------------------------------------------------------*/
     led aura_gpu_led;
-    aura_gpu_led.name = "GPU";
+    aura_gpu_led.name           = "GPU";
     leds.push_back(aura_gpu_led);
 
     SetupColors();
@@ -131,9 +129,9 @@ void RGBController_AuraGPU::SetupZones()
     /*---------------------------------------------------------*\
     | Initialize color                                          |
     \*---------------------------------------------------------*/
-    unsigned char red = aura_gpu->GetLEDRed();
-    unsigned char grn = aura_gpu->GetLEDGreen();
-    unsigned char blu = aura_gpu->GetLEDBlue();
+    unsigned char red = controller->GetLEDRed();
+    unsigned char grn = controller->GetLEDGreen();
+    unsigned char blu = controller->GetLEDBlue();
 
     colors[0] =  ToRGBColor(red, grn, blu);
 }
@@ -155,11 +153,11 @@ void RGBController_AuraGPU::DeviceUpdateLEDs()
 
         if (GetMode() == 0)
         {
-            aura_gpu->SetLEDColorsDirect(red, grn, blu);
+            controller->SetLEDColorsDirect(red, grn, blu);
         }
         else 
         {
-            aura_gpu->SetLEDColorsEffect(red, grn, blu);
+            controller->SetLEDColorsEffect(red, grn, blu);
         }
     }
 }
@@ -181,24 +179,23 @@ void RGBController_AuraGPU::SetCustomMode()
 
 void RGBController_AuraGPU::DeviceUpdateMode()
 {
-    int new_mode = modes[active_mode].value;
-    aura_gpu->direct = false;
+    int new_mode       = modes[active_mode].value;
+    controller->direct = false;
     
     switch(new_mode)
     {
+        // Set all LEDs to 0 and Mode to static as a workaround for the non existing Off Mode
+        case AURA_GPU_MODE_OFF:
+            controller->SetLEDColorsEffect(0, 0, 0);
+            new_mode           = AURA_GPU_MODE_STATIC;
+            break;
         
-    // Set all LEDs to 0 and Mode to static as a workaround for the non existing Off Mode
-    case AURA_GPU_MODE_OFF:
-        aura_gpu->SetLEDColorsEffect(0, 0, 0);
-        new_mode = AURA_GPU_MODE_STATIC;
-        break;
-    
-    // Direct mode is done by switching to Static and not applying color changes
-    case AURA_GPU_MODE_DIRECT:
-        aura_gpu->direct = true;
-        new_mode = AURA_GPU_MODE_STATIC;
-        break;
+        // Direct mode is done by switching to Static and not applying color changes
+        case AURA_GPU_MODE_DIRECT:
+            controller->direct = true;
+            new_mode           = AURA_GPU_MODE_STATIC;
+            break;
     }
 
-    aura_gpu->SetMode(new_mode);
+    controller->SetMode(new_mode);
 }

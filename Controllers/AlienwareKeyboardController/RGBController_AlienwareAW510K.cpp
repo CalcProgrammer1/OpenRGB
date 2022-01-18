@@ -157,16 +157,16 @@ static const led_type led_names[] =
     { "Logo",                   ALIENWARE_AW510K_ZONE_DIRECT_LOGO,         0x07    }
 };
 
-RGBController_AlienwareAW510K::RGBController_AlienwareAW510K(AlienwareAW510KController* alienware_ptr)
+RGBController_AlienwareAW510K::RGBController_AlienwareAW510K(AlienwareAW510KController* controller_ptr)
 {
-    alienware   = alienware_ptr;
+    controller  = controller_ptr;
 
     name        = "Alienware AW510K Keyboard Device";
     vendor      = "Alienware";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Alienware AW510K Keyboard Device";
-    location    = alienware->GetDeviceLocation();
-    serial      = alienware->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct_Per_LED;
     Direct_Per_LED.name             = "Direct";
@@ -274,7 +274,7 @@ RGBController_AlienwareAW510K::~RGBController_AlienwareAW510K()
         }
     }
 
-    delete alienware;
+    delete controller;
 }
 
 void RGBController_AlienwareAW510K::SetupZones()
@@ -349,10 +349,10 @@ void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
         {
             SelectedKeys key;
 
-            key.idx = (unsigned char)leds[led_idx].value;
-            key.red = RGBGetRValue(colors[led_idx]);
-            key.green = RGBGetGValue(colors[led_idx]);
-            key.blue = RGBGetBValue(colors[led_idx]);
+            key.idx     = (unsigned char)leds[led_idx].value;
+            key.red     = RGBGetRValue(colors[led_idx]);
+            key.green   = RGBGetGValue(colors[led_idx]);
+            key.blue    = RGBGetBValue(colors[led_idx]);
 
             frame_buf_keys.push_back(key);
         }
@@ -360,22 +360,22 @@ void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
         {
             SelectedKeys key;
 
-            key.idx = (unsigned char)leds[led_idx].value;
-            key.red = RGBGetRValue(colors[led_idx]);
-            key.green = RGBGetGValue(colors[led_idx]);
-            key.blue = RGBGetBValue(colors[led_idx]);
+            key.idx     = (unsigned char)leds[led_idx].value;
+            key.red     = RGBGetRValue(colors[led_idx]);
+            key.green   = RGBGetGValue(colors[led_idx]);
+            key.blue    = RGBGetBValue(colors[led_idx]);
 
             frame_buf_keys.push_back(key);
         }
     }
 
-    alienware->SendInitialize();
-    alienware->SendfeatureReport(0x05, 0x01, 0x51, 0x00);
-    alienware->SendCommit();
+    controller->SendInitialize();
+    controller->SendfeatureReport(0x05, 0x01, 0x51, 0x00);
+    controller->SendCommit();
 
     if(frame_buf_keys.size() > 0)
     {
-        alienware->SendDirectOn(frame_buf_keys);
+        controller->SendDirectOn(frame_buf_keys);
     }
 
     std::copy(new_colors.begin(), new_colors.end(),current_colors.begin());
@@ -383,12 +383,12 @@ void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
 
 void RGBController_AlienwareAW510K::UpdateZoneLEDs(int zone)
 {
-    alienware->SetDirect((unsigned char) zone, RGBGetRValue(zones[zone].colors[0]), RGBGetGValue(zones[zone].colors[0]), RGBGetBValue(zones[zone].colors[0]));
+    controller->SetDirect((unsigned char) zone, RGBGetRValue(zones[zone].colors[0]), RGBGetGValue(zones[zone].colors[0]), RGBGetBValue(zones[zone].colors[0]));
 }
 
 void RGBController_AlienwareAW510K::UpdateSingleLED(int led)
 {
-    alienware->UpdateSingleLED(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
+    controller->UpdateSingleLED(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
 }
 
 void RGBController_AlienwareAW510K::SetCustomMode()
@@ -404,7 +404,7 @@ void RGBController_AlienwareAW510K::DeviceUpdateMode()
         return;
     }
 
-    alienware->SendfeatureReport(0x05, 0x01, 0x51, 0x00);
+    controller->SendfeatureReport(0x05, 0x01, 0x51, 0x00);
     unsigned char red = 0;
     unsigned char grn = 0;
     unsigned char blu = 0;
@@ -427,7 +427,7 @@ void RGBController_AlienwareAW510K::DeviceUpdateMode()
                 unsigned char grn2 = RGBGetGValue(modes[active_mode].colors[1]);
                 unsigned char blu2 = RGBGetBValue(modes[active_mode].colors[1]);
 
-                alienware->SetMorphMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu, red2, grn2, blu2);
+                controller->SetMorphMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu, red2, grn2, blu2);
             }
             break;
 
@@ -435,7 +435,7 @@ void RGBController_AlienwareAW510K::DeviceUpdateMode()
             /*-------------------------------------------------------------*\
             | Spectrum only set mode, speed and colorMode                   |
             \*-------------------------------------------------------------*/
-            alienware->SetMode(modes[active_mode].value, modes[active_mode].speed, 0x00, ALIENWARE_AW510K_RANBOW_COLOR_MODE, 0x00, 0x00, 0x00);
+            controller->SetMode(modes[active_mode].value, modes[active_mode].speed, 0x00, ALIENWARE_AW510K_RANBOW_COLOR_MODE, 0x00, 0x00, 0x00);
             break;
 
         case ALIENWARE_AW510K_MODE_SINGLE_WAVE:
@@ -444,7 +444,7 @@ void RGBController_AlienwareAW510K::DeviceUpdateMode()
             \*-------------------------------------------------------------*/
             {
                 int waveDirection = GetAW520K_WaveDirection(modes[active_mode].direction);
-                alienware->SetMode(modes[active_mode].value, modes[active_mode].speed, waveDirection, ALIENWARE_AW510K_SINGLE_COLOR_MODE, red, grn, blu);
+                controller->SetMode(modes[active_mode].value, modes[active_mode].speed, waveDirection, ALIENWARE_AW510K_SINGLE_COLOR_MODE, red, grn, blu);
             }
             break;
 
@@ -454,13 +454,13 @@ void RGBController_AlienwareAW510K::DeviceUpdateMode()
             \*-------------------------------------------------------------*/
             {
             int waveDirection = GetAW520K_WaveDirection(modes[active_mode].direction);
-            alienware->SetMode(modes[active_mode].value, modes[active_mode].speed, waveDirection, ALIENWARE_AW510K_RANBOW_COLOR_MODE, 0x00, 0x00, 0x00);
+            controller->SetMode(modes[active_mode].value, modes[active_mode].speed, waveDirection, ALIENWARE_AW510K_RANBOW_COLOR_MODE, 0x00, 0x00, 0x00);
             }
             break;
 
 
         default:
-            alienware->SetMode(modes[active_mode].value, modes[active_mode].speed, 0x00, ALIENWARE_AW510K_SINGLE_COLOR_MODE, red, grn, blu);
+            controller->SetMode(modes[active_mode].value, modes[active_mode].speed, 0x00, ALIENWARE_AW510K_SINGLE_COLOR_MODE, red, grn, blu);
             break;
     }
 }

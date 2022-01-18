@@ -15,7 +15,7 @@
 class RGBController_AlienwareAW510K : public RGBController
 {
 public:
-    RGBController_AlienwareAW510K(AlienwareAW510KController* alienware_ptr);
+    RGBController_AlienwareAW510K(AlienwareAW510KController* controller_ptr);
     ~RGBController_AlienwareAW510K();
 
     void        SetupZones();
@@ -30,6 +30,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AlienwareAW510KController*  alienware;
+    AlienwareAW510KController*  controller;
     std::vector<RGBColor>       current_colors;
 };

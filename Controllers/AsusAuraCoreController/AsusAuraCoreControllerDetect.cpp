@@ -26,6 +26,10 @@ void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string&)
         {
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
+        else
+        {
+            delete rgb_controller;
+        }
     }
 }
 

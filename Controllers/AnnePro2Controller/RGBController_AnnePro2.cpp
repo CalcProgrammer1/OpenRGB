@@ -107,16 +107,16 @@ static const led_type led_names[] =
     { "Key: Right Control",     60      },
 };
 
-RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* annepro2_ptr) 
+RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* controller_ptr) 
 {
-    annepro2    = annepro2_ptr;
+    controller  = controller_ptr;
 
     name        = "Anne Pro 2";
     vendor      = "Obinslab";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Obinslab Anne Pro 2 Device";
-    location    = annepro2->GetDeviceLocation();
-    serial      = annepro2->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -130,7 +130,7 @@ RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* annepro2_ptr)
 
 RGBController_AnnePro2::~RGBController_AnnePro2() 
 {
-    delete annepro2;
+    delete controller;
 }
 
 void RGBController_AnnePro2::SetupZones() 
@@ -211,7 +211,7 @@ void RGBController_AnnePro2::DeviceUpdateLEDs()
         led_real_idx++;
     }
 
-    annepro2->SendDirect(frame_buf_length, frame_buf);
+    controller->SendDirect(frame_buf_length, frame_buf);
 }
 
 void RGBController_AnnePro2::UpdateZoneLEDs(int /*zone*/) 

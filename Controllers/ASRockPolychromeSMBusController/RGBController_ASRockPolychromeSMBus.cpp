@@ -32,17 +32,17 @@ static const char* polychrome_v2_zone_names[] =
     "Addressable Header"
 };
 
-RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychrome_ptr)
+RGBController_Polychrome::RGBController_Polychrome(PolychromeController* controller_ptr)
 {
-    polychrome = polychrome_ptr;
+    controller  = controller_ptr;
 
-    name        = polychrome->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "ASRock";
-    version     = polychrome->GetFirmwareVersion();
+    version     = controller->GetFirmwareVersion();
     type        = DEVICE_TYPE_MOTHERBOARD;
-    location    = polychrome->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
-    switch(polychrome->GetASRockType())
+    switch(controller->GetASRockType())
     {
         case ASROCK_TYPE_ASRLED:
             {
@@ -416,12 +416,12 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* polychr
 
 RGBController_Polychrome::~RGBController_Polychrome()
 {
-    delete polychrome;
+    delete controller;
 }
 
 void RGBController_Polychrome::SetupZones()
 {
-    switch(polychrome->GetASRockType())
+    switch(controller->GetASRockType())
     {
         /*---------------------------------------------------------*\
         | ASR LED motherboards only have a single zone/LED          |
@@ -477,14 +477,14 @@ void RGBController_Polychrome::SetupZones()
                 \*---------------------------------------------------------*/
                 for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_COUNT; zone_idx++)
                 {
-                    if(polychrome->zone_led_count[zone_idx] > 0)
+                    if(controller->zone_led_count[zone_idx] > 0)
                     {
                         zone* new_zone = new zone();
 
                         /*---------------------------------------------------------*\
                         | Set zone name to channel name                             |
                         \*---------------------------------------------------------*/
-                        if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
+                        if(controller->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
                         {
                             new_zone->name          = polychrome_v1_zone_names[zone_idx];
                         }
@@ -501,9 +501,9 @@ void RGBController_Polychrome::SetupZones()
                         }
                         else
                         {
-                            new_zone->leds_min      = polychrome->zone_led_count[zone_idx];
-                            new_zone->leds_max      = polychrome->zone_led_count[zone_idx];
-                            new_zone->leds_count    = polychrome->zone_led_count[zone_idx];
+                            new_zone->leds_min      = controller->zone_led_count[zone_idx];
+                            new_zone->leds_max      = controller->zone_led_count[zone_idx];
+                            new_zone->leds_count    = controller->zone_led_count[zone_idx];
                         }
 
                         if(new_zone->leds_count > 1)
@@ -530,16 +530,16 @@ void RGBController_Polychrome::SetupZones()
                 \*---------------------------------------------------------*/
                 for(unsigned int zone_idx = 0; zone_idx < POLYCHROME_ZONE_COUNT; zone_idx++)
                 {
-                    if(polychrome->zone_led_count[zone_idx] > 0)
+                    if(controller->zone_led_count[zone_idx] > 0)
                     {
-                        for(unsigned int led_idx = 0; led_idx < polychrome->zone_led_count[zone_idx]; led_idx++)
+                        for(unsigned int led_idx = 0; led_idx < controller->zone_led_count[zone_idx]; led_idx++)
                         {
                             /*---------------------------------------------------------*\
                             | Each zone only has one LED                                |
                             \*---------------------------------------------------------*/
                             led* new_led = new led();
 
-                            if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
+                            if(controller->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
                                 {
                                     new_led->name           = polychrome_v1_zone_names[zone_idx];
                                 }
@@ -551,7 +551,7 @@ void RGBController_Polychrome::SetupZones()
                             new_led->name.append(" " + std::to_string(led_idx + 1));
                             new_led->value = 0;
 
-                            if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
+                            if(controller->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
                             {
                                 new_led->value              = zone_idx;
                             }
@@ -616,7 +616,7 @@ void RGBController_Polychrome::UpdateSingleLED(int led)
         led = leds[led].value;
     }
 
-    polychrome->SetColorsAndSpeed(led, red, grn, blu);
+    controller->SetColorsAndSpeed(led, red, grn, blu);
 }
 
 void RGBController_Polychrome::SetCustomMode()
@@ -626,16 +626,16 @@ void RGBController_Polychrome::SetCustomMode()
 
 void RGBController_Polychrome::DeviceUpdateMode()
 {
-    if(polychrome->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
+    if(controller->GetASRockType() == ASROCK_TYPE_POLYCHROME_V1)
     {
         for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
         {
-            polychrome->SetMode(led_idx, modes[active_mode].value, modes[active_mode].speed);
+            controller->SetMode(led_idx, modes[active_mode].value, modes[active_mode].speed);
         }
     }
     else
     {
-        polychrome->SetMode(0, modes[active_mode].value, modes[active_mode].speed);
+        controller->SetMode(0, modes[active_mode].value, modes[active_mode].speed);
     }
 
     DeviceUpdateLEDs();
