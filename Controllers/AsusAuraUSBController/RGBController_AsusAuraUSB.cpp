@@ -9,18 +9,18 @@
 
 #include "RGBController_AsusAuraUSB.h"
 
-RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* aura_ptr) :
+RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* controller_ptr) :
     initializedMode(false)
 {
-    aura = aura_ptr;
+    controller  = controller_ptr;
 
     name        = "ASUS Aura USB";
     vendor      = "ASUS";
-    version     = aura->GetDeviceName();
+    version     = controller->GetDeviceName();
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "ASUS Aura USB Device";
-    location    = aura->GetDeviceLocation();
-    serial      = aura->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -105,7 +105,7 @@ RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* aura_ptr) :
 
 RGBController_AuraUSB::~RGBController_AuraUSB()
 {
-    delete aura;
+    delete controller;
 }
 
 void RGBController_AuraUSB::SetupZones()
@@ -125,7 +125,7 @@ void RGBController_AuraUSB::SetupZones()
     \*-------------------------------------------------*/
     leds.clear();
     colors.clear();
-    zones.resize(aura->GetChannelCount());
+    zones.resize(controller->GetChannelCount());
 
     /*-------------------------------------------------*\
     | Set zones and leds                                |
@@ -133,7 +133,7 @@ void RGBController_AuraUSB::SetupZones()
     int addressableCounter = 1;
     for (unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
-        AuraDeviceInfo device_info = aura->GetAuraDevices()[channel_idx];
+        AuraDeviceInfo device_info  = controller->GetAuraDevices()[channel_idx];
 
         zones[channel_idx].type     = ZONE_TYPE_LINEAR;
 
@@ -211,7 +211,7 @@ void RGBController_AuraUSB::DeviceUpdateLEDs()
     }
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        aura->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
@@ -221,7 +221,8 @@ void RGBController_AuraUSB::UpdateZoneLEDs(int zone)
     {
         DeviceUpdateMode();
     }
-    aura->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+
+    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_AuraUSB::UpdateSingleLED(int led)
@@ -230,9 +231,10 @@ void RGBController_AuraUSB::UpdateSingleLED(int led)
     {
         DeviceUpdateMode();
     }
+
     unsigned int channel = leds[led].value;
 
-    aura->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
+    controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
 void RGBController_AuraUSB::SetCustomMode()
@@ -242,7 +244,7 @@ void RGBController_AuraUSB::SetCustomMode()
 
 void RGBController_AuraUSB::DeviceUpdateMode()
 {
-    initializedMode = true;
+    initializedMode   = true;
     unsigned char red = 0;
     unsigned char grn = 0;
     unsigned char blu = 0;
@@ -258,7 +260,7 @@ void RGBController_AuraUSB::DeviceUpdateMode()
     {
         if(zones[zone_idx].leds_count > 0)
         {
-            aura->SetMode(zone_idx, modes[active_mode].value, red, grn, blu);
+            controller->SetMode(zone_idx, modes[active_mode].value, red, grn, blu);
         }
     }
 }

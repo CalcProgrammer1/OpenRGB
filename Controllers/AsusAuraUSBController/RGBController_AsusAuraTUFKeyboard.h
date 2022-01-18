@@ -24,7 +24,7 @@ enum
 class RGBController_AuraTUFKeyboard : public RGBController
 {
 public:
-    RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* aura_ptr);
+    RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* controller_ptr);
     ~RGBController_AuraTUFKeyboard();
 
     void        SetupZones();
@@ -40,5 +40,5 @@ public:
     void        DeviceSaveMode();
 
 private:
-    AuraTUFKeyboardController*  aura;
+    AuraTUFKeyboardController*  controller;
 };

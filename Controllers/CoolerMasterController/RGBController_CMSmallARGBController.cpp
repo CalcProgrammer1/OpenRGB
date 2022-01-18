@@ -9,18 +9,18 @@
 
 #include "RGBController_CMSmallARGBController.h"
 
-RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmallARGBController *cmargb_ptr)
+RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmallARGBController* controller_ptr)
 {
-    cmargb                      = cmargb_ptr;
-    unsigned char speed         = cmargb->GetLedSpeed();
+    controller                  = controller_ptr;
+    unsigned char speed         = controller->GetLedSpeed();
 
-    name                        = small_argb_header_data[cmargb->GetZoneIndex()].name;
+    name                        = small_argb_header_data[controller->GetZoneIndex()].name;
     vendor                      = "Cooler Master";
     type                        = DEVICE_TYPE_LEDSTRIP;
-    description                 = cmargb->GetDeviceName();
+    description                 = controller->GetDeviceName();
     version                     = "2.0 for FW0012";
-    serial                      = cmargb->GetSerial();
-    location                    = cmargb->GetLocation();
+    serial                      = controller->GetSerial();
+    location                    = controller->GetLocation();
 
     mode Off;
     Off.name                    = "Turn Off";
@@ -137,34 +137,38 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Init_Controller();         //Only processed on first run
     SetupZones();
 
-    int temp_mode   = cmargb->GetMode();
+    int temp_mode               = controller->GetMode();
+
     for(std::size_t mode_idx = 0; mode_idx < modes.size() ; mode_idx++)
     {
         if (temp_mode == modes[mode_idx].value)
         {
-            active_mode = mode_idx;
+            active_mode         = mode_idx;
             break;
         }
     }
+
     if (modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
     {
-        modes[active_mode].colors[0] = ToRGBColor(cmargb->GetLedRed(), cmargb->GetLedGreen(), cmargb->GetLedBlue());
+        modes[active_mode].colors[0] = ToRGBColor(controller->GetLedRed(), controller->GetLedGreen(), controller->GetLedBlue());
     }
-    modes[active_mode].color_mode = (cmargb->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
+
+    modes[active_mode].color_mode = (controller->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
+
     if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
     {
-        modes[active_mode].speed = cmargb->GetLedSpeed();
+        modes[active_mode].speed = controller->GetLedSpeed();
     }
 }
 
 RGBController_CMSmallARGBController::~RGBController_CMSmallARGBController()
 {
-    delete cmargb;
+    delete controller;
 }
 
 void RGBController_CMSmallARGBController::Init_Controller()
 {
-    int zone_idx            = cmargb->GetZoneIndex();
+    int zone_idx            = controller->GetZoneIndex();
     int zone_led_count      = small_argb_header_data[zone_idx].count;
     bool boolSingleLED      = ( zone_led_count == 1 );          //If argb_header_data[zone_idx].count == 1 then the zone is ZONE_TYPE_SINGLE
 
@@ -195,7 +199,7 @@ void RGBController_CMSmallARGBController::SetupZones()
 
         if (!boolSingleLED)
         {
-            cmargb->SetLedCount(small_argb_header_data[zone_idx].header, zones[zone_idx].leds_count);
+            controller->SetLedCount(small_argb_header_data[zone_idx].header, zones[zone_idx].leds_count);
         }
 
         for(unsigned int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
@@ -249,7 +253,7 @@ void RGBController_CMSmallARGBController::UpdateZoneLEDs(int zone)
 {
     if(serial >= CM_SMALL_ARGB_FW0012)
     {
-        cmargb->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
+        controller->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
     }
 }
 
@@ -260,13 +264,16 @@ void RGBController_CMSmallARGBController::UpdateSingleLED(int led)
 
 void RGBController_CMSmallARGBController::SetCustomMode()
 {
-    active_mode = CM_SMALL_ARGB_MODE_DIRECT;  //The small ARGB may not support "Direct" mode
+    /*-------------------------------------------------*\
+    | The small ARGB may not support "Direct" mode      |
+    \*-------------------------------------------------*/
+    active_mode = CM_SMALL_ARGB_MODE_DIRECT;  
 }
 
 void RGBController_CMSmallARGBController::DeviceUpdateMode()
 {
-    bool random_colours     = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    bool     random_colours = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     RGBColor colour         = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;
 
-    cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colour, random_colours);
+    controller->SetMode( modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colour, random_colours);
 }

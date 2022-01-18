@@ -43,17 +43,16 @@
 |   Single color for Star                                                                                                                   |
 \*-----------------------------------------------------------------------------------------------------------------------------------------*/
 
-RGBController_CMRGBController::RGBController_CMRGBController(CMRGBController *cmrgb_ptr)
+RGBController_CMRGBController::RGBController_CMRGBController(CMRGBController* controller_ptr)
 {
-    cmrgb                       = cmrgb_ptr;
+    controller                  = controller_ptr;
 
     name                        = "Cooler Master RGB Controller";
     vendor                      = "Cooler Master";
     type                        = DEVICE_TYPE_LEDSTRIP;
-    description                 = cmrgb->GetDeviceName();
-    version                     = "";
-    serial                      = cmrgb->GetSerial();
-    location                    = cmrgb->GetLocation();
+    description                 = controller->GetDeviceName();
+    serial                      = controller->GetSerial();
+    location                    = controller->GetLocation();
 
     mode Static;
     Static.name                 = "Static";
@@ -128,10 +127,10 @@ RGBController_CMRGBController::RGBController_CMRGBController(CMRGBController *cm
     modes.push_back(Multiple);
 
     mode Off;
-    Off.name                = "Off";
-    Off.value               = CM_RGBC_MODE_OFF;
-    Off.color_mode          = MODE_COLORS_NONE;
-    Off.flags               = 0;
+    Off.name                    = "Off";
+    Off.value                   = CM_RGBC_MODE_OFF;
+    Off.color_mode              = MODE_COLORS_NONE;
+    Off.flags                   = 0;
     modes.push_back(Off);
 
     SetupZones();
@@ -141,12 +140,12 @@ RGBController_CMRGBController::RGBController_CMRGBController(CMRGBController *cm
 
 RGBController_CMRGBController::~RGBController_CMRGBController()
 {
-    delete cmrgb;
+    delete controller;
 }
 
 void RGBController_CMRGBController::ReadAllModeConfigsFromDevice()
 {
-    int device_mode = cmrgb->GetMode();
+    int device_mode = controller->GetMode();
 
     for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
     {
@@ -161,7 +160,7 @@ void RGBController_CMRGBController::ReadAllModeConfigsFromDevice()
             continue;
         }
 
-        cmrgb->ReadModeConfig(modes[mode_idx].value);
+        controller->ReadModeConfig(modes[mode_idx].value);
         LoadConfigFromDeviceController(mode_idx);
     }
 
@@ -171,7 +170,7 @@ void RGBController_CMRGBController::ReadAllModeConfigsFromDevice()
     \*---------------------------------------------------------*/
     if(active_mode != -1)
     {
-        cmrgb->ReadModeConfig(modes[active_mode].value);
+        controller->ReadModeConfig(modes[active_mode].value);
         LoadConfigFromDeviceController(active_mode);
     }
 }
@@ -180,25 +179,25 @@ void RGBController_CMRGBController::LoadConfigFromDeviceController(int mode_idx)
 {
     for(std::size_t color_idx = 0; color_idx < modes[mode_idx].colors.size(); color_idx++)
     {
-        modes[mode_idx].colors[0] = cmrgb->GetModeColor(color_idx);
+        modes[mode_idx].colors[0] = controller->GetModeColor(color_idx);
     }
 
     if(modes[mode_idx].flags & MODE_FLAG_HAS_PER_LED_COLOR)
     {
         for (std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
         {
-            SetLED(led_idx, cmrgb->GetPortColor(led_idx));
+            SetLED(led_idx, controller->GetPortColor(led_idx));
         }
     }
 
     if(modes[mode_idx].flags & MODE_FLAG_HAS_SPEED)
     {
-        modes[mode_idx].speed = cmrgb->GetSpeed();
+        modes[mode_idx].speed = controller->GetSpeed();
     }
 
     if(modes[mode_idx].flags & MODE_FLAG_HAS_BRIGHTNESS)
     {
-        modes[active_mode].brightness = cmrgb->GetBrightness();
+        modes[active_mode].brightness = controller->GetBrightness();
     }
 }
 
@@ -223,8 +222,8 @@ void RGBController_CMRGBController::SetupZones()
 
     for(int i = 1; i <= CM_RGBC_NUM_LEDS; i++)
     {
-        led*  new_led  = new led();
-        new_led->name  = "LED " + std::to_string(i);
+        led*  new_led       = new led();
+        new_led->name       = "LED " + std::to_string(i);
         leds.push_back(*new_led);
     }
 
@@ -246,7 +245,7 @@ void RGBController_CMRGBController::DeviceUpdateLEDs()
 
 void RGBController_CMRGBController::UpdateZoneLEDs(int zone)
 {
-    cmrgb->SetLedsDirect(zones[zone].colors[0], zones[zone].colors[1], zones[zone].colors[2], zones[zone].colors[3]);
+    controller->SetLedsDirect(zones[zone].colors[0], zones[zone].colors[1], zones[zone].colors[2], zones[zone].colors[3]);
 }
 
 void RGBController_CMRGBController::UpdateSingleLED(int /*led*/)
@@ -270,5 +269,5 @@ void RGBController_CMRGBController::DeviceUpdateMode()
     RGBColor color_1 = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;
     RGBColor color_2 = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC && modes[active_mode].colors.size() > 1) ? modes[active_mode].colors[1] : 0;
 
-    cmrgb->SetMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, color_1, color_2);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, color_1, color_2);
 }

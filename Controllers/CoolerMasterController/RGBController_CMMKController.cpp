@@ -4,7 +4,7 @@
 |  Driver for Coolermaster MasterKeys keyboards                       |
 |                                                                     |
 |  Lukas N (chmod222)          28th Jun 2020                          |
-|  Tam D (too.manyhobbies)  25th Apr 2021                             |
+|  Tam D (too.manyhobbies)     25th Apr 2021                          |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
@@ -20,17 +20,17 @@ using namespace std::chrono_literals;
 #define CMMK_MODE_FIRMWARE      0xFF
 #define CMMK_MODE_MANUAL        0x7F
 
-RGBController_CMMKController::RGBController_CMMKController(CMMKController* cmmk_ctrl)
+RGBController_CMMKController::RGBController_CMMKController(CMMKController* controller_ptr)
 {
-    cmmk                        = cmmk_ctrl;
+    controller                  = controller_ptr;
 
-    name                        = cmmk->GetDeviceName();
-    vendor                      = cmmk->GetDeviceVendor();
+    name                        = controller->GetDeviceName();
+    vendor                      = controller->GetDeviceVendor();
     type                        = DEVICE_TYPE_KEYBOARD;
     description                 = "Cooler Master MasterKeys Device";
-    version                     = cmmk->GetFirmwareVersion();
+    version                     = controller->GetFirmwareVersion();
     serial                      = "";
-    location                    = cmmk->GetLocation();
+    location                    = controller->GetLocation();
     
     mode Direct;
     Direct.name                 = "Direct";
@@ -173,7 +173,7 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* cmmk_
 
 RGBController_CMMKController::~RGBController_CMMKController()
 {
-    delete cmmk;
+    delete controller;
 }
 
 void RGBController_CMMKController::SetupMatrixMap()
@@ -199,14 +199,14 @@ void RGBController_CMMKController::SetupMatrixMap()
 
 void RGBController_CMMKController::SetupZones()
 {
-    uint8_t row_count       = cmmk->GetRowCount();
-    uint8_t column_count    = cmmk->GetColumnCount();
+    uint8_t row_count       = controller->GetRowCount();
+    uint8_t column_count    = controller->GetColumnCount();
 
     for(int y = 0; y < row_count; y++)
     {
         for(int x = 0; x < column_count; x++)
         {
-            if(!cmmk->PositionValid(y, x))
+            if(!controller->PositionValid(y, x))
             {
                 continue;
             }
@@ -308,7 +308,7 @@ void RGBController_CMMKController::DeviceUpdateLEDs()
 
     if(force_update.load() || dirty.load())
     {
-        cmmk->SetAll(current_matrix);
+        controller->SetAll(current_matrix);
 
         force_update.store(false);
     }
@@ -322,7 +322,7 @@ void RGBController_CMMKController::UpdateZoneLEDs(int zone_idx)
 
     if(force_update.load() || dirty.load())
     {
-        cmmk->SetAll(current_matrix);
+        controller->SetAll(current_matrix);
 
         force_update.store(false);
     }
@@ -337,7 +337,7 @@ void RGBController_CMMKController::UpdateSingleLED(int led_idx)
 
     current_matrix.data[y][x] = map_to_cmmk_rgb(colors[led_idx]);
 
-    cmmk->SetSingle(y, x, map_to_cmmk_rgb(colors[led_idx]));
+    controller->SetSingle(y, x, map_to_cmmk_rgb(colors[led_idx]));
     dirty.store(false);
 }
 
@@ -353,11 +353,11 @@ void RGBController_CMMKController::DeviceUpdateMode()
     switch(modes[active_mode].value)
     {
         case CMMK_MODE_FIRMWARE:
-            cmmk->SetFirmwareControl();
+            controller->SetFirmwareControl();
             break;
         
         case CMMK_MODE_MANUAL:
-            cmmk->SetManualControl();
+            controller->SetManualControl();
             break;
 
         case CMMK_EFFECT_FULLY_LIT:
@@ -366,7 +366,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
 
                 fully_lit_effect.color  = map_to_cmmk_rgb(modes[active_mode].colors[0]);
 
-                cmmk->SetMode(fully_lit_effect);
+                controller->SetMode(fully_lit_effect);
             }
             break;
 
@@ -377,7 +377,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 breathe_effect.speed    = (uint8_t)modes[active_mode].speed;
                 breathe_effect.color    = map_to_cmmk_rgb(modes[active_mode].colors[0]);
 
-                cmmk->SetMode(breathe_effect);
+                controller->SetMode(breathe_effect);
             }
             break;
 
@@ -387,7 +387,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
 
                 cycle_effect.speed  = (uint8_t)modes[active_mode].speed;
 
-                cmmk->SetMode(cycle_effect);
+                controller->SetMode(cycle_effect);
             }
             break;
         
@@ -399,7 +399,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 single_effect.active    = map_to_cmmk_rgb(modes[active_mode].colors[0]);
                 single_effect.rest      = map_to_cmmk_rgb(modes[active_mode].colors[1]);
 
-                cmmk->SetMode(single_effect);
+                controller->SetMode(single_effect);
             }
             break;
         
@@ -411,7 +411,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 wave_effect.direction   = map_to_cmmk_dir(modes[active_mode].direction);
                 wave_effect.start       = map_to_cmmk_rgb(modes[active_mode].colors[0]);
 
-                cmmk->SetMode(wave_effect);
+                controller->SetMode(wave_effect);
             }
             break;
         
@@ -432,7 +432,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                     ripple_effect.ripple_type   = CMMK_RIPPLE_GIVEN_COLOR;
                 }
 
-                cmmk->SetMode(ripple_effect);
+                controller->SetMode(ripple_effect);
             }
             break;
         
@@ -444,7 +444,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 cross_effect.active = map_to_cmmk_rgb(modes[active_mode].colors[0]);
                 cross_effect.rest   = map_to_cmmk_rgb(modes[active_mode].colors[1]);
 
-                cmmk->SetMode(cross_effect);
+                controller->SetMode(cross_effect);
             }
             break;
         
@@ -457,7 +457,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 raindrops_effect.active     = map_to_cmmk_rgb(modes[active_mode].colors[0]);
                 raindrops_effect.rest       = map_to_cmmk_rgb(modes[active_mode].colors[1]);
 
-                cmmk->SetMode(raindrops_effect);
+                controller->SetMode(raindrops_effect);
             }
             break;
 
@@ -470,7 +470,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 stars_effect.active     = map_to_cmmk_rgb(modes[active_mode].colors[0]);
                 stars_effect.rest       = map_to_cmmk_rgb(modes[active_mode].colors[1]);
     
-                cmmk->SetMode(stars_effect);
+                controller->SetMode(stars_effect);
             }
             break;
 
@@ -480,7 +480,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 
                 snake_effect.speed = (uint8_t)modes[active_mode].speed;
 
-                cmmk->SetMode(snake_effect);
+                controller->SetMode(snake_effect);
             }
             break;
     }

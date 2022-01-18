@@ -20,7 +20,7 @@
 class RGBController_CMSmallARGBController : public RGBController
 {
 public:
-    RGBController_CMSmallARGBController(CMSmallARGBController* cmargb_ptr);
+    RGBController_CMSmallARGBController(CMSmallARGBController* controller_ptr);
     ~RGBController_CMSmallARGBController();
 
     void        SetupZones();
@@ -36,5 +36,5 @@ private:
     void        Init_Controller();
     int         GetDeviceMode();
 
-    CMSmallARGBController* cmargb;
+    CMSmallARGBController*  controller;
 };

@@ -16,7 +16,7 @@
 class RGBController_AuraUSB : public RGBController
 {
 public:
-    RGBController_AuraUSB(AuraUSBController* aura_ptr);
+    RGBController_AuraUSB(AuraUSBController* controller_ptr);
     ~RGBController_AuraUSB();
 
     void        SetupZones();
@@ -31,7 +31,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AuraUSBController*          aura;
+    AuraUSBController*          controller;
     std::vector<unsigned int>   leds_channel;
     std::vector<unsigned int>   zones_channel;
     bool                        initializedMode;

@@ -16,19 +16,19 @@ static std::string aura_mouse_zone_names[3]
     "Underglow"
 };
 
-RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* aura_ptr)
+RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller_ptr)
 {
-    aura                    = aura_ptr;
+    controller              = controller_ptr;
 
-    uint16_t pid            = aura->device_pid;
+    uint16_t pid            = controller->device_pid;
 
     name                    = "ASUS Aura Mouse";
     vendor                  = "ASUS";
     type                    = DEVICE_TYPE_MOUSE;
     description             = "ASUS Aura Mouse Device";
-    version                 = aura->GetVersion(aura_mouse_devices[pid].wireless, aura_mouse_devices[pid].version_protocol);
-    location                = aura->GetDeviceLocation();
-    serial                  = aura->GetSerialString();
+    version                 = controller->GetVersion(aura_mouse_devices[pid].wireless, aura_mouse_devices[pid].version_protocol);
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     std::vector<uint8_t> mm = aura_mouse_devices[pid].mouse_modes;
 
@@ -152,13 +152,12 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* aura_ptr)
 
 RGBController_AuraMouse::~RGBController_AuraMouse()
 {
-    delete aura;
+    delete controller;
 }
 
 void RGBController_AuraMouse::SetupZones()
 {
-
-    uint16_t pid                = aura->device_pid;
+    uint16_t pid                = controller->device_pid;
 
     for(std::vector<uint8_t>::iterator zone_it = aura_mouse_devices[pid].mouse_zones.begin(); zone_it != aura_mouse_devices[pid].mouse_zones.end(); zone_it++)
     {
@@ -208,7 +207,7 @@ void RGBController_AuraMouse::UpdateSingleLED(int led)
     uint8_t grn = RGBGetGValue(colors[led]);
     uint8_t blu = RGBGetBValue(colors[led]);
 
-    aura->SendUpdate(leds[led].value, modes[active_mode].value, red, grn, blu, 0, false, 0, modes[active_mode].brightness);
+    controller->SendUpdate(leds[led].value, modes[active_mode].value, red, grn, blu, 0, false, 0, modes[active_mode].brightness);
 }
 
 void RGBController_AuraMouse::SetCustomMode()
@@ -235,12 +234,12 @@ void RGBController_AuraMouse::DeviceUpdateMode()
             blu = RGBGetBValue(modes[active_mode].colors[0]);
         }
 
-        aura->SendUpdate(AURA_MOUSE_ZONE_ALL, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);
+        controller->SendUpdate(AURA_MOUSE_ZONE_ALL, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);
     }
 }
 
 void RGBController_AuraMouse::DeviceSaveMode()
 {
     DeviceUpdateMode();
-    aura->SaveMode();
+    controller->SaveMode();
 }

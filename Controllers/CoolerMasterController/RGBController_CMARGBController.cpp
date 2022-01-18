@@ -9,20 +9,20 @@
 
 #include "RGBController_CMARGBController.h"
 
-RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController *cmargb_ptr)
+RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController* controller_ptr)
 {
-    cmargb                          = cmargb_ptr;
-    unsigned char speed             = cmargb->GetLedSpeed();
+    controller                      = controller_ptr;
+    unsigned char speed             = controller->GetLedSpeed();
 
-    name                            = argb_header_data[cmargb->GetZoneIndex()].name;
+    name                            = argb_header_data[controller->GetZoneIndex()].name;
     vendor                          = "Cooler Master";
     type                            = DEVICE_TYPE_LEDSTRIP;
-    description                     = cmargb->GetDeviceName();
+    description                     = controller->GetDeviceName();
     version                         = "3.0 for FW0028";
-    serial                          = cmargb->GetSerial();
-    location                        = cmargb->GetLocation();
+    serial                          = controller->GetSerial();
+    location                        = controller->GetLocation();
 
-    if(argb_header_data[cmargb->GetZoneIndex()].digital)
+    if(argb_header_data[controller->GetZoneIndex()].digital)
     {
         mode Off;
         Off.name                    = "Turn Off";
@@ -256,7 +256,7 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
     Init_Controller();
     SetupZones();
 
-    int temp_mode   = cmargb->GetMode();
+    int temp_mode   = controller->GetMode();
     for(std::size_t mode_idx = 0; mode_idx < modes.size() ; mode_idx++)
     {
         if (temp_mode == modes[mode_idx].value)
@@ -267,23 +267,23 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController 
     }
     if (modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
     {
-        modes[active_mode].colors[0] = ToRGBColor(cmargb->GetLedRed(), cmargb->GetLedGreen(), cmargb->GetLedBlue());
-        modes[active_mode].color_mode = (cmargb->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
+        modes[active_mode].colors[0] = ToRGBColor(controller->GetLedRed(), controller->GetLedGreen(), controller->GetLedBlue());
+        modes[active_mode].color_mode = (controller->GetRandomColours()) ? MODE_COLORS_RANDOM : MODE_COLORS_MODE_SPECIFIC;
     }
     if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
     {
-        modes[active_mode].speed = cmargb->GetLedSpeed();
+        modes[active_mode].speed = controller->GetLedSpeed();
     }
 }
 
 RGBController_CMARGBController::~RGBController_CMARGBController()
 {
-    delete cmargb;
+    delete controller;
 }
 
 void RGBController_CMARGBController::Init_Controller()
 {
-    int zone_idx            = cmargb->GetZoneIndex();
+    int zone_idx            = controller->GetZoneIndex();
     int zone_led_count      = argb_header_data[zone_idx].count;
 
     /*-------------------------------------------------*\
@@ -319,7 +319,7 @@ void RGBController_CMARGBController::SetupZones()
 
         if (!boolSingleLED)
         {
-            cmargb->SetLedCount( std::stoi(zones[zone_idx].name), zones[zone_idx].leds_count);
+            controller->SetLedCount( std::stoi(zones[zone_idx].name), zones[zone_idx].leds_count);
         }
 
         for(unsigned int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
@@ -377,7 +377,7 @@ void RGBController_CMARGBController::DeviceUpdateLEDs()
 
 void RGBController_CMARGBController::UpdateZoneLEDs(int zone)
 {
-    cmargb->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
+    controller->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
 }
 
 void RGBController_CMARGBController::UpdateSingleLED(int led)
@@ -399,10 +399,10 @@ void RGBController_CMARGBController::SetCustomMode()
 
 void RGBController_CMARGBController::DeviceUpdateMode()
 {
-    bool random_colours     = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    bool     random_colours = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     RGBColor colour         = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;
 
-    cmargb->SetMode( modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colour, random_colours );
+    controller->SetMode( modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colour, random_colours );
 }
 
 int RGBController_CMARGBController::GetLED_Zone(int led_idx)

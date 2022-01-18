@@ -18,7 +18,7 @@
 class RGBController_CMARGBController : public RGBController
 {
 public:
-    RGBController_CMARGBController(CMARGBController* cmargb_ptr);
+    RGBController_CMARGBController(CMARGBController* controller_ptr);
     ~RGBController_CMARGBController();
 
     void        SetupZones();
@@ -36,5 +36,5 @@ private:
     int         GetDeviceMode();
     int         GetLED_Zone(int led_idx);
 
-    CMARGBController* cmargb;
+    CMARGBController*   controller;
 };

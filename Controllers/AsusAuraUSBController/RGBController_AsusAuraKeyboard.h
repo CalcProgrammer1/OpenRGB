@@ -37,7 +37,7 @@ typedef struct
 class RGBController_AuraKeyboard : public RGBController
 {
 public:
-    RGBController_AuraKeyboard(AuraKeyboardController* aura_ptr, AuraKeyboardMappingLayoutType keyboard_layout);
+    RGBController_AuraKeyboard(AuraKeyboardController* controller_ptr, AuraKeyboardMappingLayoutType keyboard_layout);
     ~RGBController_AuraKeyboard();
 
     void        SetupZones();
@@ -52,6 +52,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AuraKeyboardController*         aura;
+    AuraKeyboardController*         controller;
     AuraKeyboardMappingLayoutType   layout;
 };

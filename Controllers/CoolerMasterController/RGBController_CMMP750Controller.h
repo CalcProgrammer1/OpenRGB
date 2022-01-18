@@ -14,7 +14,7 @@
 class RGBController_CMMP750Controller : public RGBController
 {
 public:
-    RGBController_CMMP750Controller(CMMP750Controller* cmmp_ptr);
+    RGBController_CMMP750Controller(CMMP750Controller* controller_ptr);
     ~RGBController_CMMP750Controller();
 
     void        SetupZones();
@@ -27,7 +27,7 @@ public:
     void        SetCustomMode();
     void        DeviceUpdateMode();
 private:
-    CMMP750Controller* cmmp750;
+    CMMP750Controller*  controller;
 
     int         GetDeviceMode();
 };

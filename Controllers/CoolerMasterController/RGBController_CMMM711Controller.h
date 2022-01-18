@@ -19,7 +19,7 @@
 class RGBController_CMMM711Controller : public RGBController
 {
 public:
-    RGBController_CMMM711Controller(CMMM711Controller* cmargb_ptr);
+    RGBController_CMMM711Controller(CMMM711Controller* controller_ptr);
     ~RGBController_CMMM711Controller();
 
     void        SetupZones();
@@ -36,5 +36,5 @@ private:
     void        Init_Controller();
     int         GetDeviceMode();
 
-    CMMM711Controller* cmmm711;
+    CMMM711Controller*  controller;
 };

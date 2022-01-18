@@ -11,18 +11,17 @@
 
 #include "RGBController_CMMM711Controller.h"
 
-RGBController_CMMM711Controller::RGBController_CMMM711Controller(CMMM711Controller *cmmm711_ptr)
+RGBController_CMMM711Controller::RGBController_CMMM711Controller(CMMM711Controller* controller_ptr)
 {
-    cmmm711                         = cmmm711_ptr;
-    uint8_t speed                   = cmmm711->GetLedSpeed();
+    controller                      = controller_ptr;
+    uint8_t speed                   = controller->GetLedSpeed();
 
-    name                            = cmmm711->GetDeviceName();
+    name                            = controller->GetDeviceName();
     vendor                          = "Cooler Master";
     type                            = DEVICE_TYPE_MOUSE;
-    description                     = cmmm711->GetDeviceName();
-    version                         = "1.0";
-    serial                          = cmmm711->GetSerial();
-    location                        = cmmm711->GetLocation();
+    description                     = controller->GetDeviceName();
+    serial                          = controller->GetSerial();
+    location                        = controller->GetLocation();
 
     mode Custom;
     Custom.name                     = "Direct";
@@ -96,26 +95,29 @@ RGBController_CMMM711Controller::RGBController_CMMM711Controller(CMMM711Controll
     Init_Controller();         //Only processed on first run
     SetupZones();
 
-    uint8_t temp_mode           = cmmm711->GetMode();
+    uint8_t temp_mode               = controller->GetMode();
+
     for(std::size_t mode_index = 0; mode_index < modes.size(); mode_index++)
     {
         if (modes[mode_index].value == temp_mode)
         {
-            active_mode = mode_index;
+            active_mode             = mode_index;
             break;
         }
     }
+
     if (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
-        modes[active_mode].colors[0] = ToRGBColor(cmmm711->GetLedRed(),cmmm711->GetLedGreen(),cmmm711->GetLedBlue());
+        modes[active_mode].colors[0] = ToRGBColor(controller->GetLedRed(),controller->GetLedGreen(),controller->GetLedBlue());
     }
-    colors[0] = cmmm711->GetWheelColour();
-    colors[1] = cmmm711->GetLogoColour();
+
+    colors[0]                       = controller->GetWheelColour();
+    colors[1]                       = controller->GetLogoColour();
 }
 
 RGBController_CMMM711Controller::~RGBController_CMMM711Controller()
 {
-    delete cmmm711;
+    delete controller;
 }
 
 void RGBController_CMMM711Controller::Init_Controller()
@@ -157,7 +159,7 @@ void RGBController_CMMM711Controller::DeviceUpdateLEDs()
     RGBColor wheel  = applyBrightness(colors[0], modes[active_mode].brightness);
     RGBColor logo   = applyBrightness(colors[1], modes[active_mode].brightness);
 
-    cmmm711->SetLedsDirect( wheel, logo);
+    controller->SetLedsDirect( wheel, logo);
 }
 
 void RGBController_CMMM711Controller::UpdateZoneLEDs(int /*zone*/)
@@ -193,12 +195,12 @@ void RGBController_CMMM711Controller::DeviceUpdateMode()
             colour = modes[active_mode].colors[0];
         }
 
-        cmmm711->SendUpdate(modes[active_mode].value, modes[active_mode].speed, colour, modes[active_mode].brightness);
+        controller->SendUpdate(modes[active_mode].value, modes[active_mode].speed, colour, modes[active_mode].brightness);
     }
 }
 
 void RGBController_CMMM711Controller::DeviceSaveMode()
 {
     DeviceUpdateMode();
-    cmmm711->SendSavePacket();
+    controller->SendSavePacket();
 }

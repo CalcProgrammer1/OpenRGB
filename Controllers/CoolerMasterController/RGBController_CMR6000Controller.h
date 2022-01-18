@@ -13,7 +13,7 @@
 class RGBController_CMR6000Controller : public RGBController
 {
 public:
-    RGBController_CMR6000Controller(CMR6000Controller* cmmp_ptr);
+    RGBController_CMR6000Controller(CMR6000Controller* controller_ptr);
     ~RGBController_CMR6000Controller();
 
     void        SetupZones();
@@ -26,7 +26,7 @@ public:
     void        SetCustomMode();
     void        DeviceUpdateMode();
 private:
-    CMR6000Controller* cmr6000;
+    CMR6000Controller*  controller;
 
     int         GetDeviceMode();
 };

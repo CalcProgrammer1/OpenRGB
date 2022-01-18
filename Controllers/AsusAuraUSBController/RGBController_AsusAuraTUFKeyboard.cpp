@@ -11,17 +11,17 @@
 #include <vector>
 #include <cmath>
 
-RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* aura_ptr)
+RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* controller_ptr)
 {
-    aura = aura_ptr;
+    controller  = controller_ptr;
 
     name        = "ASUS Aura Keyboard";
     vendor      = "ASUS";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "ASUS Aura Keyboard Device";
-    version     = aura->GetVersion();
-    location    = aura->GetDeviceLocation();
-    serial      = aura->GetSerialString();
+    version     = controller->GetVersion();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name                 = "Direct";
@@ -191,12 +191,12 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
 
 RGBController_AuraTUFKeyboard::~RGBController_AuraTUFKeyboard()
 {
-    delete aura;
+    delete controller;
 }
 
 void RGBController_AuraTUFKeyboard::SetupZones()
 {
-    int layout = aura->GetLayout();
+    int layout = controller->GetLayout();
 
     if(AsusTUFK7Layouts.find(layout % 100) == AsusTUFK7Layouts.end())
     {
@@ -248,7 +248,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
 
 void RGBController_AuraTUFKeyboard::UpdateZoneLEDs(int /*zone*/)
 {
-    aura->UpdateLeds(colors);
+    controller->UpdateLeds(colors);
 }
 
 void RGBController_AuraTUFKeyboard::UpdateSingleLED(int led)
@@ -256,7 +256,8 @@ void RGBController_AuraTUFKeyboard::UpdateSingleLED(int led)
     unsigned char red   = RGBGetRValue(colors[led]);
     unsigned char green = RGBGetGValue(colors[led]);
     unsigned char blue  = RGBGetBValue(colors[led]);
-    aura->UpdateSingleLed(led, red, green, blue);
+
+    controller->UpdateSingleLed(led, red, green, blue);
 }
 
 void RGBController_AuraTUFKeyboard::SetCustomMode()
@@ -271,7 +272,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
 
     if(modes[active_mode].value == AURA_KEYBOARD_MODE_DIRECT)
     {
-        aura->UpdateLeds(colors);
+        controller->UpdateLeds(colors);
     }
     else
     {
@@ -319,14 +320,14 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
 
         mode_colors = modes[active_mode].color_mode == MODE_COLORS_PER_LED ? std::vector<RGBColor>(colors) : std::vector<RGBColor>(modes[active_mode].colors);
 
-        aura->UpdateDevice(modes[active_mode].value, mode_colors, direction, color_mode, (15 - modes[active_mode].speed), modes[active_mode].brightness * 25);
+        controller->UpdateDevice(modes[active_mode].value, mode_colors, direction, color_mode, (15 - modes[active_mode].speed), modes[active_mode].brightness * 25);
     }
 }
 
 void RGBController_AuraTUFKeyboard::DeviceSaveMode()
 {
-    aura->ClearResponses();
+    controller->ClearResponses();
     DeviceUpdateMode();
-    aura->AwaitResponse();
-    aura->SaveMode();
+    controller->AwaitResponse();
+    controller->SaveMode();
 }

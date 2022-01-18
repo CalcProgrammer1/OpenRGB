@@ -342,17 +342,17 @@ static const std::vector<led_type> default_65pct_led_names =
     { "Key: Right Arrow",       0x74    },
 };
 
-RGBController_AuraKeyboard::RGBController_AuraKeyboard(AuraKeyboardController* aura_ptr, AuraKeyboardMappingLayoutType keyboard_layout)
+RGBController_AuraKeyboard::RGBController_AuraKeyboard(AuraKeyboardController* controller_ptr, AuraKeyboardMappingLayoutType keyboard_layout)
 {
-    aura        = aura_ptr;
+    controller  = controller_ptr;
     layout      = keyboard_layout;
 
     name        = "ASUS Aura Keyboard";
     vendor      = "ASUS";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "ASUS Aura Keyboard Device";
-    location    = aura->GetDeviceLocation();
-    serial      = aura->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -373,7 +373,8 @@ RGBController_AuraKeyboard::~RGBController_AuraKeyboard()
             delete zones[zone_idx].matrix_map;
         }
     }
-    delete aura;
+
+    delete controller;
 }
 
 void RGBController_AuraKeyboard::SetupZones()
@@ -501,7 +502,7 @@ void RGBController_AuraKeyboard::DeviceUpdateLEDs()
         frame_buf[(led_idx * 4) + 3] = RGBGetBValue(colors[led_idx]);
     }
 
-    aura->SendDirect(leds.size(), frame_buf.data());
+    controller->SendDirect(leds.size(), frame_buf.data());
 }
 
 void RGBController_AuraKeyboard::UpdateZoneLEDs(int /*zone*/)

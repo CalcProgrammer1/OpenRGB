@@ -9,17 +9,17 @@
 
 #include "RGBController_AsusAuraHeadsetStand.h"
 
-RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandController* aura_ptr)
+RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandController* controller_ptr)
 {
-    aura        = aura_ptr;
+    controller  = controller_ptr;
 
     name        = "ASUS Aura Headset Stand";
     vendor      = "ASUS";
     type        = DEVICE_TYPE_HEADSET_STAND;
     description = "ASUS Aura Headset Stand Device";
-    version     = aura->GetVersion();
-    location    = aura->GetDeviceLocation();
-    serial      = aura->GetSerialString();
+    version     = controller->GetVersion();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -99,7 +99,7 @@ RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandC
 
 RGBController_AuraHeadsetStand::~RGBController_AuraHeadsetStand()
 {
-	delete aura;
+	delete controller;
 }
 
 void RGBController_AuraHeadsetStand::SetupZones()
@@ -153,7 +153,7 @@ void RGBController_AuraHeadsetStand::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AuraHeadsetStand::DeviceUpdateLEDs()
 {
-    aura->UpdateLeds(std::vector<RGBColor>(colors));
+    controller->UpdateLeds(std::vector<RGBColor>(colors));
 }
 
 void RGBController_AuraHeadsetStand::UpdateZoneLEDs(int /*zone*/)
@@ -180,7 +180,7 @@ void RGBController_AuraHeadsetStand::DeviceUpdateMode()
     switch(modes[active_mode].value)
     {
         case 0:
-            aura->UpdateLeds(std::vector<RGBColor>(colors));
+            controller->UpdateLeds(std::vector<RGBColor>(colors));
             break;
         case 1:
         case 2:
@@ -188,11 +188,11 @@ void RGBController_AuraHeadsetStand::DeviceUpdateMode()
             red = RGBGetRValue(modes[active_mode].colors[0]);
             grn = RGBGetGValue(modes[active_mode].colors[0]);
             blu = RGBGetBValue(modes[active_mode].colors[0]);
-            aura->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, modes[active_mode].brightness);
+            controller->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, modes[active_mode].brightness);
             break;
         case 4:
         case 5:
-            aura->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, modes[active_mode].brightness);
+            controller->UpdateDevice(modes[active_mode].value, red, grn, blu, modes[active_mode].speed, modes[active_mode].brightness);
             break;
     }
 }
@@ -200,5 +200,5 @@ void RGBController_AuraHeadsetStand::DeviceUpdateMode()
 void RGBController_AuraHeadsetStand::DeviceSaveMode()
 {
     DeviceUpdateMode();
-    aura->SaveMode();
+    controller->SaveMode();
 }

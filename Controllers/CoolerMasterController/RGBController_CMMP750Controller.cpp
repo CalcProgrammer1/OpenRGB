@@ -9,18 +9,17 @@
 
 #include "RGBController_CMMP750Controller.h"
 
-RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controller* cmmp_ptr)
+RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controller* controller_ptr)
 {
-    cmmp750                 = cmmp_ptr;
-    unsigned char speed     = cmmp750->GetLedSpeed();
+    controller              = controller_ptr;
+    unsigned char speed     = controller->GetLedSpeed();
 
-    name                    = cmmp750->GetDeviceName();
+    name                    = controller->GetDeviceName();
     vendor                  = "Cooler Master";
     type                    = DEVICE_TYPE_MOUSEMAT;
-    description             = cmmp750->GetDeviceName();
-    version                 = "1.0";
-    serial                  = cmmp750->GetSerial();
-    location                = cmmp750->GetLocation();
+    description             = controller->GetDeviceName();
+    serial                  = controller->GetSerial();
+    location                = controller->GetLocation();
 
     mode Static;
     Static.name             = "Static";
@@ -81,12 +80,13 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
 
 RGBController_CMMP750Controller::~RGBController_CMMP750Controller()
 {
-    delete cmmp750;
+    delete controller;
 }
 
 int RGBController_CMMP750Controller::GetDeviceMode()
 {
-    int temp_mode = cmmp750->GetMode();
+    int temp_mode = controller->GetMode();
+
     for(unsigned int i = 0; i < modes.size(); i++)
     {
         if (temp_mode == modes[i].value)
@@ -94,23 +94,26 @@ int RGBController_CMMP750Controller::GetDeviceMode()
             return i;
         }
     }
-    //If not found return 0
+
+    /*---------------------------------------------------------*\
+    | If not found return 0                                     |
+    \*---------------------------------------------------------*/
     return 0;
 }
 
 void RGBController_CMMP750Controller::SetupZones()
 {
     zone MP_zone;
-    MP_zone.name          = "Mousepad";
-    MP_zone.type          = ZONE_TYPE_SINGLE;
-    MP_zone.leds_min      = 1;
-    MP_zone.leds_max      = 1;
-    MP_zone.leds_count    = 1;
-    MP_zone.matrix_map    = NULL;
+    MP_zone.name        = "Mousepad";
+    MP_zone.type        = ZONE_TYPE_SINGLE;
+    MP_zone.leds_min    = 1;
+    MP_zone.leds_max    = 1;
+    MP_zone.leds_count  = 1;
+    MP_zone.matrix_map  = NULL;
     zones.push_back(MP_zone);
 
     led MP_led;
-    MP_led.name = "Mousepad LED";
+    MP_led.name         = "Mousepad LED";
     leds.push_back(MP_led);
 
     SetupColors();
@@ -120,9 +123,9 @@ void RGBController_CMMP750Controller::SetupZones()
     \*---------------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        unsigned char red = cmmp750->GetLedRed();
-        unsigned char grn = cmmp750->GetLedGreen();
-        unsigned char blu = cmmp750->GetLedBlue();
+        unsigned char red = controller->GetLedRed();
+        unsigned char grn = controller->GetLedGreen();
+        unsigned char blu = controller->GetLedBlue();
 
         colors[led_idx] = ToRGBColor(red, grn, blu);
     }
@@ -140,7 +143,8 @@ void RGBController_CMMP750Controller::DeviceUpdateLEDs()
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
-    cmmp750->SetColor(red, grn, blu);
+
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_CMMP750Controller::UpdateZoneLEDs(int zone)
@@ -149,7 +153,8 @@ void RGBController_CMMP750Controller::UpdateZoneLEDs(int zone)
     unsigned char red   = RGBGetRValue(color);
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
-    cmmp750->SetColor(red, grn, blu);
+
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_CMMP750Controller::UpdateSingleLED(int led)
@@ -164,5 +169,5 @@ void RGBController_CMMP750Controller::SetCustomMode()
 
 void RGBController_CMMP750Controller::DeviceUpdateMode()
 {
-    cmmp750->SetMode(modes[active_mode].value, modes[active_mode].speed);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed);
 }

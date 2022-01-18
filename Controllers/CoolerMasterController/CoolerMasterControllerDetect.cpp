@@ -45,6 +45,7 @@
 void DetectCoolerMasterARGB(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
         /*-------------------------------------------------*\
@@ -55,7 +56,7 @@ void DetectCoolerMasterARGB(hid_device_info* info, const std::string&)
 
         for(std::size_t i = 0; i < CM_ARGB_HEADER_DATA_SIZE; i++)
         {
-            CMARGBController* controller = new CMARGBController(dev, info->path, i, cm_mutex);
+            CMARGBController*               controller     = new CMARGBController(dev, info->path, i, cm_mutex);
             RGBController_CMARGBController* rgb_controller = new RGBController_CMARGBController(controller);
             // Constructor sets the name
             ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -66,9 +67,10 @@ void DetectCoolerMasterARGB(hid_device_info* info, const std::string&)
 void DetectCoolerMasterGPU(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        CMR6000Controller* controller                   = new CMR6000Controller(dev, info->path);
+        CMR6000Controller*               controller     = new CMR6000Controller(dev, info->path);
         RGBController_CMR6000Controller* rgb_controller = new RGBController_CMR6000Controller(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -77,11 +79,11 @@ void DetectCoolerMasterGPU(hid_device_info* info, const std::string&)
 
 void DetectCoolerMasterKeyboards(hid_device_info* info, const std::string&)
 {
-
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        CMMKController* controller                   = new CMMKController(dev, info);
+        CMMKController*               controller     = new CMMKController(dev, info);
         RGBController_CMMKController* rgb_controller = new RGBController_CMMKController(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -91,9 +93,10 @@ void DetectCoolerMasterKeyboards(hid_device_info* info, const std::string&)
 void DetectCoolerMasterMouse(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        CMMM711Controller* controller                   = new CMMM711Controller(dev, info->path);
+        CMMM711Controller*               controller     = new CMMM711Controller(dev, info->path);
         RGBController_CMMM711Controller* rgb_controller = new RGBController_CMMM711Controller(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -103,9 +106,10 @@ void DetectCoolerMasterMouse(hid_device_info* info, const std::string&)
 void DetectCoolerMasterMousemats(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        CMMP750Controller* controller                   = new CMMP750Controller(dev, info->path);
+        CMMP750Controller*               controller     = new CMMP750Controller(dev, info->path);
         RGBController_CMMP750Controller* rgb_controller = new RGBController_CMMP750Controller(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -115,9 +119,10 @@ void DetectCoolerMasterMousemats(hid_device_info* info, const std::string&)
 void DetectCoolerMasterRGB(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        CMRGBController* controller = new CMRGBController(dev, info->path);
+        CMRGBController*               controller     = new CMRGBController(dev, info->path);
         RGBController_CMRGBController* rgb_controller = new RGBController_CMRGBController(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -127,9 +132,10 @@ void DetectCoolerMasterRGB(hid_device_info* info, const std::string&)
 void DetectCoolerMasterSmallARGB(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        CMSmallARGBController* controller = new CMSmallARGBController(dev, info->path, 0);
+        CMSmallARGBController*               controller     = new CMSmallARGBController(dev, info->path, 0);
         RGBController_CMSmallARGBController* rgb_controller = new RGBController_CMSmallARGBController(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);

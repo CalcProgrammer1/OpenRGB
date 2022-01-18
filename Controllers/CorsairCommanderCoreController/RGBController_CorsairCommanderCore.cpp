@@ -9,14 +9,14 @@
 
 #include "RGBController_CorsairCommanderCore.h"
 
-RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCommanderCoreController* corsair_ptr)
+RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCommanderCoreController* controller_ptr)
 {
-    corsair     = corsair_ptr;
+    controller  = controller_ptr;
 
     vendor      = "Corsair";
     description = "Corsair Commander Core";
     type        = DEVICE_TYPE_COOLER;
-    location    = corsair->GetLocationString();
+    location    = controller->GetLocationString();
 
     SetupZones();
 
@@ -30,7 +30,7 @@ RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCo
 
 RGBController_CorsairCommanderCore::~RGBController_CorsairCommanderCore()
 {
-    delete corsair;
+    delete controller;
 }
 
 void RGBController_CorsairCommanderCore::SetupZones()
@@ -58,7 +58,7 @@ void RGBController_CorsairCommanderCore::SetupZones()
 
         if(first_run)
         {
-            zones[i].leds_count = 0;
+            zones[i].leds_count     = 0;
         }
     }
 
@@ -119,7 +119,7 @@ void RGBController_CorsairCommanderCore::DeviceUpdateMode()
     switch(modes[active_mode].value)
     {
         case CORSAIR_COMMANDER_CORE_MODE_DIRECT:
-            corsair->SetDirectColor(colors, zones);
+            controller->SetDirectColor(colors, zones);
             break;
     }
 }

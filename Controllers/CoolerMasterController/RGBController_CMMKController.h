@@ -16,7 +16,7 @@
 class RGBController_CMMKController : public RGBController
 {
 public:
-    RGBController_CMMKController(CMMKController* cmmk_ptr);
+    RGBController_CMMKController(CMMKController* controller_ptr);
     ~RGBController_CMMKController();
 
     void SetupZones();
@@ -32,11 +32,11 @@ public:
 private:
     void SetupMatrixMap();
 
-    CMMKController* cmmk;
+    CMMKController*             controller;
 
-    int matrix_map[CMMK_ROWS_MAX][CMMK_COLS_MAX];
-    struct cmmk_color_matrix current_matrix;
+    int                         matrix_map[CMMK_ROWS_MAX][CMMK_COLS_MAX];
+    struct cmmk_color_matrix    current_matrix;
 
-    std::atomic<bool> dirty;
-    std::atomic<bool> force_update;
+    std::atomic<bool>           dirty;
+    std::atomic<bool>           force_update;
 };

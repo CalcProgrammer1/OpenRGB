@@ -15,7 +15,7 @@
 class RGBController_CMRGBController : public RGBController
 {
 public:
-    RGBController_CMRGBController(CMRGBController* cmrgb_ptr);
+    RGBController_CMRGBController(CMRGBController* controller_ptr);
     ~RGBController_CMRGBController();
 
     void        SetupZones();
@@ -29,7 +29,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    CMRGBController*    cmrgb;
+    CMRGBController*    controller;
     void                LoadConfigFromDeviceController(int device_mode);
     void                ReadAllModeConfigsFromDevice();
 };
