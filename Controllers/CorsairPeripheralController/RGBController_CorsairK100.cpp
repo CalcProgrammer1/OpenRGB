@@ -218,19 +218,19 @@ typedef struct
     matrix_map_type* matrix;
 } led_zone_layout;
 
-RGBController_CorsairK100::RGBController_CorsairK100(CorsairK100Controller* corsair_ptr)
+RGBController_CorsairK100::RGBController_CorsairK100(CorsairK100Controller* controller_ptr)
 {
-    corsair         = corsair_ptr;
+    controller      = controller_ptr;
 
-    name            = corsair->GetName();
+    name            = controller->GetName();
     vendor          = "Corsair";
     description     = "Corsair K100 Keyboard Device";
     type            = DEVICE_TYPE_KEYBOARD;
-    version         = corsair->GetFirmwareString();
-    location        = corsair->GetDeviceLocation();
-    serial          = corsair->GetSerialString();
+    version         = controller->GetFirmwareString();
+    location        = controller->GetDeviceLocation();
+    serial          = controller->GetSerialString();
 
-    logical_layout  = corsair->GetKeyboardType();
+    logical_layout  = controller->GetKeyboardType();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -240,6 +240,7 @@ RGBController_CorsairK100::RGBController_CorsairK100(CorsairK100Controller* cors
     modes.push_back(Direct);
 
     SetupZones();
+
     /*-----------------------------------------------------*\
     | The Corsair K100 requires a packet within             |
     | 1 minutes of sending the lighting change in order     |
@@ -270,7 +271,7 @@ RGBController_CorsairK100::~RGBController_CorsairK100()
         }
     }
 
-    delete corsair;
+    delete controller;
 }
 
 void RGBController_CorsairK100::SetupZones()
@@ -333,17 +334,17 @@ void RGBController_CorsairK100::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
 
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairK100::UpdateZoneLEDs(int /*zone*/)
 {
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairK100::UpdateSingleLED(int /*led*/)
 {
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairK100::SetCustomMode()

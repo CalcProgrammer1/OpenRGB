@@ -9,15 +9,15 @@
 
 #include "RGBController_CorsairHydro.h"
 
-RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* corsair_ptr)
+RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* controller_ptr)
 {
-    corsair = corsair_ptr;
+    controller  = controller_ptr;
 
     vendor      = "Corsair";
     description = "Corsair Hydro Series Device";
-    version     = corsair->GetFirmwareString();
+    version     = controller->GetFirmwareString();
     type        = DEVICE_TYPE_COOLER;
-    location    = corsair->GetLocation();
+    location    = controller->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -70,7 +70,7 @@ RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* c
 
 RGBController_CorsairHydro::~RGBController_CorsairHydro()
 {
-    delete corsair;
+    delete controller;
 }
 
 void RGBController_CorsairHydro::SetupZones()
@@ -125,19 +125,19 @@ void RGBController_CorsairHydro::DeviceUpdateMode()
     switch(modes[active_mode].value)
     {
         case 0:
-            corsair->SetFixed(colors);
+            controller->SetFixed(colors);
             break;
 
         case 1:
-            corsair->SetBlink(modes[active_mode].colors, modes[active_mode].speed);
+            controller->SetBlink(modes[active_mode].colors, modes[active_mode].speed);
             break;
 
         case 2:
-            corsair->SetShift(modes[active_mode].colors, modes[active_mode].speed);
+            controller->SetShift(modes[active_mode].colors, modes[active_mode].speed);
             break;
 
         case 3:
-            corsair->SetPulse(modes[active_mode].colors, modes[active_mode].speed);
+            controller->SetPulse(modes[active_mode].colors, modes[active_mode].speed);
             break;
     }
 }

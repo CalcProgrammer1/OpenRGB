@@ -25,9 +25,10 @@
 void DetectCorsairLightingNodeControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
-    if( dev )
+
+    if(dev)
     {
-        CorsairLightingNodeController* controller = new CorsairLightingNodeController(dev, info->path);
+        CorsairLightingNodeController*     controller     = new CorsairLightingNodeController(dev, info->path);
         RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);

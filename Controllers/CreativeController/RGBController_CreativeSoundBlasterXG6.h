@@ -5,7 +5,7 @@
 class RGBController_CreativeSoundBlasterXG6: public RGBController
 {
 public:
-    RGBController_CreativeSoundBlasterXG6(CreativeSoundBlasterXG6Controller* creative_device);
+    RGBController_CreativeSoundBlasterXG6(CreativeSoundBlasterXG6Controller* controller_ptr);
     ~RGBController_CreativeSoundBlasterXG6();
 
     void        SetupZones();
@@ -20,5 +20,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    CreativeSoundBlasterXG6Controller*   creative;
+    CreativeSoundBlasterXG6Controller*  controller;
 };

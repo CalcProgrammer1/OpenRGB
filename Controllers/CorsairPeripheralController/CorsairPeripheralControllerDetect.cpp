@@ -110,7 +110,7 @@ void DetectCorsairK55RGBPROControllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        CorsairK55RGBPROController* controller = new CorsairK55RGBPROController(dev, info->path);
+        CorsairK55RGBPROController*     controller     = new CorsairK55RGBPROController(dev, info->path);
         controller->SetName(name);
         RGBController_CorsairK55RGBPRO* rgb_controller = new RGBController_CorsairK55RGBPRO(controller);
         ResourceManager::get()->RegisterRGBController(rgb_controller);

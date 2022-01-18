@@ -30,9 +30,10 @@
 void DetectEVisionKeyboards(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
-    if( dev )
+
+    if(dev)
     {
-        EVisionKeyboardController* controller = new EVisionKeyboardController(dev, info->path);
+        EVisionKeyboardController*     controller     = new EVisionKeyboardController(dev, info->path);
         RGBController_EVisionKeyboard* rgb_controller = new RGBController_EVisionKeyboard(controller);
         rgb_controller->name = "EVision Keyboard";
         ResourceManager::get()->RegisterRGBController(rgb_controller);

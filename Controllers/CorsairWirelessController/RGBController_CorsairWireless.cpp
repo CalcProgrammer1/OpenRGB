@@ -179,17 +179,17 @@ static const char* led_names[] =
     "Key: G6",
 };
 
-RGBController_CorsairWireless::RGBController_CorsairWireless(CorsairWirelessController* corsair_ptr)
+RGBController_CorsairWireless::RGBController_CorsairWireless(CorsairWirelessController* controller_ptr)
 {
-    corsair = corsair_ptr;
+    controller  = controller_ptr;
 
-    name        = corsair->GetName();
+    name        = controller->GetName();
     vendor      = "Corsair";
     description = "Corsair RGB Peripheral Device";
-    type        = corsair->GetDeviceType();
-    version     = corsair->GetFirmwareString();
-    location    = corsair->GetDeviceLocation();
-    serial      = corsair->GetSerialString();
+    type        = controller->GetDeviceType();
+    version     = controller->GetFirmwareString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -218,6 +218,7 @@ RGBController_CorsairWireless::~RGBController_CorsairWireless()
     keepalive_thread_run = false;
     keepalive_thread->join();
     delete keepalive_thread;
+
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
     \*---------------------------------------------------------*/
@@ -229,7 +230,7 @@ RGBController_CorsairWireless::~RGBController_CorsairWireless()
         }
     }
 
-    delete corsair;
+    delete controller;
 }
 
 void RGBController_CorsairWireless::SetupZones()
@@ -274,7 +275,7 @@ void RGBController_CorsairWireless::SetupZones()
     {
         led new_led;
 
-        new_led.name = led_names[led_idx];
+        new_led.name                    = led_names[led_idx];
 
         leds.push_back(new_led);
     }
@@ -293,17 +294,17 @@ void RGBController_CorsairWireless::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
 
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairWireless::UpdateZoneLEDs(int /*zone*/)
 {
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairWireless::UpdateSingleLED(int /*led*/)
 {
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairWireless::SetCustomMode()

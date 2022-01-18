@@ -14,7 +14,7 @@
 class RGBController_DuckyKeyboard : public RGBController
 {
 public:
-    RGBController_DuckyKeyboard(DuckyKeyboardController* ducky_ptr);
+    RGBController_DuckyKeyboard(DuckyKeyboardController* controller_ptr);
     ~RGBController_DuckyKeyboard();
 
     void        SetupZones();
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    DuckyKeyboardController*    ducky;
+    DuckyKeyboardController* controller;
 };

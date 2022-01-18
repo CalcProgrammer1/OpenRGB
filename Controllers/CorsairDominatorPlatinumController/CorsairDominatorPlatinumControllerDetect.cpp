@@ -13,7 +13,6 @@ using namespace std::chrono_literals;
 
 bool TestForCorsairDominatorPlatinumController(i2c_smbus_interface *bus, unsigned char address)
 {
-
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
 
     LOG_DEBUG("[%s] Trying address %02X", CORSAIR_DOMINATOR_PLATINUM_NAME, address);
@@ -62,12 +61,13 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
         {
             LOG_DEBUG("[%s] Testing bus %d", CORSAIR_DOMINATOR_PLATINUM_NAME, bus);
 
-            for(unsigned char addr = 0x58; addr <= 0x5f; addr++)
+            for(unsigned char addr = 0x58; addr <= 0x5F; addr++)
             {
                 if(TestForCorsairDominatorPlatinumController(busses[bus], addr))
                 {
-                    CorsairDominatorPlatinumController* new_controller        = new CorsairDominatorPlatinumController(busses[bus], addr);
+                    CorsairDominatorPlatinumController*     new_controller    = new CorsairDominatorPlatinumController(busses[bus], addr);
                     RGBController_CorsairDominatorPlatinum* new_rgbcontroller = new RGBController_CorsairDominatorPlatinum(new_controller);
+                    
                     ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                 }
                 std::this_thread::sleep_for(10ms);
@@ -78,6 +78,6 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
             LOG_DEBUG("[%s] Bus %d is not a DRAM bus", CORSAIR_DOMINATOR_PLATINUM_NAME, bus);
         }
     }
-}
+}   /* DetectCorsairDominatorPlatinumControllers() */
 
 REGISTER_I2C_DETECTOR("Corsair Dominator Platinum", DetectCorsairDominatorPlatinumControllers);

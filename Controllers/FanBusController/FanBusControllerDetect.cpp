@@ -4,11 +4,8 @@
 
 void DetectFanBusControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    FanBusInterface*        new_interface;
-    FanBusController*       new_controller;
-    RGBController_FanBus*   new_rgbcontroller;
-
-    json                    fanbus_settings;
+    FanBusInterface*    new_interface;
+    json                fanbus_settings;
 
     /*-------------------------------------------------*\
     | Get LED Strip settings from settings manager      |
@@ -32,10 +29,10 @@ void DetectFanBusControllers(std::vector<RGBController*> &rgb_controllers)
 
                 for(unsigned int controller_idx = 0; controller_idx < detected_controllers.size(); controller_idx++)
                 {
-                    new_controller    = new FanBusController(new_interface, detected_controllers[controller_idx]);
-                    new_rgbcontroller = new RGBController_FanBus(new_controller);
+                        FanBusController*     controller     = new FanBusController(new_interface, detected_controllers[controller_idx]);
+                        RGBController_FanBus* rgb_controller = new RGBController_FanBus(controller);
 
-                    rgb_controllers.push_back(new_rgbcontroller);
+                    rgb_controllers.push_back(rgb_controller);
                 }
             }
         }

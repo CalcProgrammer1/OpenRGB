@@ -185,16 +185,16 @@ static const char *led_names[] =
     "Key: Number Pad Enter",
 };
 
-RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController* ducky_ptr)
+RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController* controller_ptr)
 {
-    ducky = ducky_ptr;
+    controller  = controller_ptr;
 
     name        = "Ducky Keyboard Device";
     vendor      = "Ducky";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Ducky Keyboard Device";
-    location    = ducky->GetDeviceLocation();
-    serial      = ducky->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -219,7 +219,7 @@ RGBController_DuckyKeyboard::~RGBController_DuckyKeyboard()
         }
     }
 
-    delete ducky;
+    delete controller;
 }
 
 void RGBController_DuckyKeyboard::SetupZones()
@@ -234,7 +234,7 @@ void RGBController_DuckyKeyboard::SetupZones()
         unsigned int    matrix_width    = 0;
         unsigned int*   matrix_map_ptr  = NULL;
 
-        switch(ducky->GetUSBPID())
+        switch(controller->GetUSBPID())
         {
             case DUCKY_SHINE_7_ONE_2_RGB_PID:
                 zone_size               = zone_sizes[zone_idx];
@@ -292,7 +292,7 @@ void RGBController_DuckyKeyboard::DeviceUpdateLEDs()
         colordata[(color_idx*3)+2] = RGBGetBValue(colors[color_idx]);
     }
 
-    ducky->SendColors(colordata, sizeof(colordata));
+    controller->SendColors(colordata, sizeof(colordata));
 }
 
 void RGBController_DuckyKeyboard::UpdateZoneLEDs(int /*zone*/)

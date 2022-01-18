@@ -7,7 +7,7 @@
 class RGBController_CorsairK55RGBPRO : public RGBController
 {
 public:
-    RGBController_CorsairK55RGBPRO(CorsairK55RGBPROController* corsair_ptr);
+    RGBController_CorsairK55RGBPRO(CorsairK55RGBPROController* controller_ptr);
     ~RGBController_CorsairK55RGBPRO();
 
     void SetupZones();
@@ -22,10 +22,10 @@ public:
     void        KeepaliveThread();
 
 private:
-    CorsairK55RGBPROController*     corsair;
+    CorsairK55RGBPROController*                         controller;
 
-    std::thread*                    keepalive_thread;
-    std::atomic<bool>               keepalive_thread_run;
+    std::thread*                                        keepalive_thread;
+    std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 
 };

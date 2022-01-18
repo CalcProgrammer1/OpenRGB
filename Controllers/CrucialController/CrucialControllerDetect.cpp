@@ -161,9 +161,6 @@ void CrucialRegisterWrite(i2c_smbus_interface* bus, unsigned char dev, unsigned 
 
 void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    CrucialController* new_crucial;
-    RGBController_Crucial* new_controller;
-
     for (unsigned int bus = 0; bus < busses.size(); bus++)
     {
         int address_list_idx = -1;
@@ -214,9 +211,10 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
             {
                 if (TestForCrucialController(busses[bus], crucial_addresses[address_list_idx]))
                 {
-                    new_crucial = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
-                    new_controller = new RGBController_Crucial(new_crucial);
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    CrucialController*     controller     = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
+                    RGBController_Crucial* rgb_controller = new RGBController_Crucial(controller);
+
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);

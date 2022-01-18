@@ -14,7 +14,7 @@
 class RGBController_CorsairPeripheral : public RGBController
 {
 public:
-    RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr);
+    RGBController_CorsairPeripheral(CorsairPeripheralController* controller_ptr);
     ~RGBController_CorsairPeripheral();
 
     int         physical_layout;
@@ -32,5 +32,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    CorsairPeripheralController*   corsair;
+    CorsairPeripheralController* controller;
 };

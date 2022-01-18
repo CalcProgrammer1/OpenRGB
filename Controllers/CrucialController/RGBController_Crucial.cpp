@@ -9,16 +9,16 @@
 
 #include "RGBController_Crucial.h"
 
-RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
+RGBController_Crucial::RGBController_Crucial(CrucialController* controller_ptr)
 {
-    crucial = crucial_ptr;
+    controller  = controller_ptr;
 
     name        = "Crucial DRAM";
     vendor      = "Crucial";
     type        = DEVICE_TYPE_DRAM;
     description = "Crucial DRAM Device";
-    version     = crucial->GetDeviceVersion();
-    location    = crucial->GetDeviceLocation();
+    version     = controller->GetDeviceVersion();
+    location    = controller->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -116,7 +116,7 @@ RGBController_Crucial::RGBController_Crucial(CrucialController * crucial_ptr)
 
 RGBController_Crucial::~RGBController_Crucial()
 {
-    delete crucial;
+    delete controller;
 }
 
 void RGBController_Crucial::SetupZones()
@@ -139,7 +139,7 @@ void RGBController_Crucial::SetupZones()
     for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         led new_led;
-        new_led.name = "DRAM LED ";
+        new_led.name        = "DRAM LED ";
         new_led.name.append(std::to_string(led_idx));
         leds.push_back(new_led);
     }
@@ -158,15 +158,15 @@ void RGBController_Crucial::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == 0xFFFF)
     {
-        crucial->SetAllColorsDirect(&colors[0]);
+        controller->SetAllColorsDirect(&colors[0]);
     }
     else
     {
-        crucial->SetAllColorsEffect(&colors[0]);
+        controller->SetAllColorsEffect(&colors[0]);
 
         if(modes[active_mode].value == CRUCIAL_MODE_STATIC)
         {
-            crucial->SetMode(modes[active_mode].value);
+            controller->SetMode(modes[active_mode].value);
         }
     }
 }
@@ -190,14 +190,14 @@ void RGBController_Crucial::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)
     {
-        crucial->SetMode(CRUCIAL_MODE_STATIC);
+        controller->SetMode(CRUCIAL_MODE_STATIC);
         return;
     }
 
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        crucial->SetAllColorsEffect(&colors[0]);
+        controller->SetAllColorsEffect(&colors[0]);
     }
 
-    crucial->SetMode(modes[active_mode].value);
+    controller->SetMode(modes[active_mode].value);
 }

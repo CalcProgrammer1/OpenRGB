@@ -15,9 +15,10 @@
 void DetectDuckyKeyboardControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
-    if( dev )
+
+    if(dev)
     {
-        DuckyKeyboardController* controller = new DuckyKeyboardController(dev, info->path, info->product_id);
+        DuckyKeyboardController*     controller     = new DuckyKeyboardController(dev, info->path, info->product_id);
         RGBController_DuckyKeyboard* rgb_controller = new RGBController_DuckyKeyboard(controller);
         rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);

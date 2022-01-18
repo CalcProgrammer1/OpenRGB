@@ -753,20 +753,20 @@ static const char* corsair_harpoon_pro_leds[] =
     "",
 };
 
-RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* corsair_ptr)
+RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* controller_ptr)
 {
-    corsair = corsair_ptr;
+    controller      = controller_ptr;
 
-    name        = corsair->GetName();
-    vendor      = "Corsair";
-    description = "Corsair RGB Peripheral Device";
-    type        = corsair->GetDeviceType();
-    version     = corsair->GetFirmwareString();
-    location    = corsair->GetDeviceLocation();
-    serial      = corsair->GetSerialString();
+    name            = controller->GetName();
+    vendor          = "Corsair";
+    description     = "Corsair RGB Peripheral Device";
+    type            = controller->GetDeviceType();
+    version         = controller->GetFirmwareString();
+    location        = controller->GetDeviceLocation();
+    serial          = controller->GetSerialString();
 
-    physical_layout = corsair->GetPhysicalLayout();
-    logical_layout  = corsair->GetLogicalLayout();
+    physical_layout = controller->GetPhysicalLayout();
+    logical_layout  = controller->GetLogicalLayout();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -791,7 +791,7 @@ RGBController_CorsairPeripheral::~RGBController_CorsairPeripheral()
         }
     }
 
-    delete corsair;
+    delete controller;
 }
 
 void RGBController_CorsairPeripheral::SetupZones()
@@ -1049,17 +1049,17 @@ void RGBController_CorsairPeripheral::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_CorsairPeripheral::DeviceUpdateLEDs()
 {
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairPeripheral::UpdateZoneLEDs(int /*zone*/)
 {
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairPeripheral::UpdateSingleLED(int /*led*/)
 {
-    corsair->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_CorsairPeripheral::SetCustomMode()

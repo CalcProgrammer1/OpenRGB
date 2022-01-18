@@ -9,15 +9,15 @@
 
 #include "RGBController_CorsairVengeancePro.h"
 
-RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVengeanceProController* corsair_ptr)
+RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVengeanceProController* controller_ptr)
 {
-    corsair = corsair_ptr;
+    controller  = controller_ptr;
 
-    name        = corsair->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "Corsair";
     type        = DEVICE_TYPE_DRAM;
     description = "Corsair Vengeance Pro RGB Device";
-    location    = corsair->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -162,7 +162,7 @@ RGBController_CorsairVengeancePro::RGBController_CorsairVengeancePro(CorsairVeng
 
 RGBController_CorsairVengeancePro::~RGBController_CorsairVengeancePro()
 {
-    delete corsair;
+    delete controller;
 }
 
 void RGBController_CorsairVengeancePro::SetupZones()
@@ -173,9 +173,9 @@ void RGBController_CorsairVengeancePro::SetupZones()
     zone new_zone;
     new_zone.name           = "Corsair Pro Zone";
     new_zone.type           = ZONE_TYPE_LINEAR;
-    new_zone.leds_min       = corsair->GetLEDCount();
-    new_zone.leds_max       = corsair->GetLEDCount();
-    new_zone.leds_count     = corsair->GetLEDCount();
+    new_zone.leds_min       = controller->GetLEDCount();
+    new_zone.leds_max       = controller->GetLEDCount();
+    new_zone.leds_count     = controller->GetLEDCount();
     new_zone.matrix_map     = NULL;
     zones.push_back(new_zone);
 
@@ -184,8 +184,8 @@ void RGBController_CorsairVengeancePro::SetupZones()
     \*---------------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
-        led* new_led = new led();
-        new_led->name = "Corsair Pro LED ";
+        led* new_led        = new led();
+        new_led->name       = "Corsair Pro LED ";
         new_led->name.append(std::to_string(led_idx));
         leds.push_back(*new_led);
     }
@@ -202,16 +202,16 @@ void RGBController_CorsairVengeancePro::ResizeZone(int /*zone*/, int /*new_size*
 
 void RGBController_CorsairVengeancePro::DeviceUpdateLEDs()
 {
-    for (std::size_t led = 0; led < colors.size(); led++)
+    for(std::size_t led = 0; led < colors.size(); led++)
     {
         RGBColor      color = colors[led];
         unsigned char red   = RGBGetRValue(color);
         unsigned char grn   = RGBGetGValue(color);
         unsigned char blu   = RGBGetBValue(color);
-        corsair->SetLEDColor(led, red, grn, blu);
+        controller->SetLEDColor(led, red, grn, blu);
     }
 
-    corsair->ApplyColors();
+    controller->ApplyColors();
 }
 
 void RGBController_CorsairVengeancePro::UpdateZoneLEDs(int /*zone*/)
@@ -226,8 +226,8 @@ void RGBController_CorsairVengeancePro::UpdateSingleLED(int led)
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
 
-    corsair->SetLEDColor(led, red, grn, blu);
-    corsair->ApplyColors();
+    controller->SetLEDColor(led, red, grn, blu);
+    controller->ApplyColors();
 }
 
 void RGBController_CorsairVengeancePro::SetCustomMode()
@@ -237,8 +237,8 @@ void RGBController_CorsairVengeancePro::SetCustomMode()
 
 void RGBController_CorsairVengeancePro::DeviceUpdateMode()
 {
-    unsigned int corsair_direction = 0;
-    bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    unsigned int  corsair_direction = 0;
+    bool          random            = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
     unsigned char mode_colors[6];
 
     switch(modes[active_mode].direction)
@@ -286,23 +286,23 @@ void RGBController_CorsairVengeancePro::DeviceUpdateMode()
 
     if (modes[active_mode].name == "Direct")
     {
-        corsair->SetDirect(true);
+        controller->SetDirect(true);
     }
     else
     {
-        corsair->SetDirect(false);
+        controller->SetDirect(false);
     }
 
-    corsair->SetEffect(modes[active_mode].value,
-                       modes[active_mode].speed,
-                       corsair_direction,
-                       random,
-                       mode_colors[0],
-                       mode_colors[1],
-                       mode_colors[2],
-                       mode_colors[3],
-                       mode_colors[4],
-                       mode_colors[5]);
+    controller->SetEffect(modes[active_mode].value,
+                          modes[active_mode].speed,
+                          corsair_direction,
+                          random,
+                          mode_colors[0],
+                          mode_colors[1],
+                          mode_colors[2],
+                          mode_colors[3],
+                          mode_colors[4],
+                          mode_colors[5]);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(15));
 }

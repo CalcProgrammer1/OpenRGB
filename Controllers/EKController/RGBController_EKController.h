@@ -16,7 +16,7 @@
 class RGBController_EKController : public RGBController
 {
 public:
-    RGBController_EKController(EKController *_dev);
+    RGBController_EKController(EKController* controller_ptr);
     ~RGBController_EKController();
 
     void        SetupZones();
@@ -29,7 +29,7 @@ public:
     void        SetCustomMode();
     void        DeviceUpdateMode();
 private:
-    EKController* EK_dev;
+    EKController* controller;
 };
 
 #endif // RGBCONTROLLER_EKCONTROLLER_H

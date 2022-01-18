@@ -19,16 +19,16 @@ static unsigned int matrix_map[5][5] =
     { NA,  7,   6,   5,   NA }
 };
 
-RGBController_CorsairHydroPlatinum::RGBController_CorsairHydroPlatinum(CorsairHydroPlatinumController* corsair_ptr)
+RGBController_CorsairHydroPlatinum::RGBController_CorsairHydroPlatinum(CorsairHydroPlatinumController* controller_ptr)
 {
-    corsair = corsair_ptr;
+    controller  = controller_ptr;
 
     name        = "Corsair Hydro Platinum Series Device";
     vendor      = "Corsair";
     description = "Corsair Hydro Platinum Series Device";
     type        = DEVICE_TYPE_COOLER;
-    location    = corsair->GetLocation();
-    version     = corsair->GetFirmwareString();
+    location    = controller->GetLocation();
+    version     = controller->GetFirmwareString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -103,7 +103,7 @@ void RGBController_CorsairHydroPlatinum::ResizeZone(int zone, int new_size)
 
 void RGBController_CorsairHydroPlatinum::DeviceUpdateLEDs()
 {
-    corsair->SetupColors(colors);
+    controller->SetupColors(colors);
 }
 
 void RGBController_CorsairHydroPlatinum::UpdateZoneLEDs(int /*zone*/)

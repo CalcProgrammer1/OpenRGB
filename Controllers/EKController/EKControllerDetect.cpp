@@ -18,14 +18,14 @@
 void DetectEKControllers(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        EKController* controller = new EKController(dev, info->path);
+        EKController*               controller     = new EKController(dev, info->path);
         RGBController_EKController* rgb_controller = new RGBController_EKController(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
-    info = info->next;
 }   /* DetectEKControllers() */
 
 REGISTER_HID_DETECTOR_IPU("EK Loop Connect", DetectEKControllers, EK_VID, EK_LOOP_CONNECT, 0, 0xFFA0, 1);

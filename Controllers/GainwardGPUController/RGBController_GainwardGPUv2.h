@@ -14,7 +14,7 @@
 class RGBController_GainwardGPUv2 : public RGBController
 {
 public:
-    RGBController_GainwardGPUv2(GainwardGPUv2Controller* gainward_gpu_ptr);
+    RGBController_GainwardGPUv2(GainwardGPUv2Controller* controller_ptr);
     ~RGBController_GainwardGPUv2();
 
     void        SetupZones();
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    GainwardGPUv2Controller* gainward_gpu;
+    GainwardGPUv2Controller* controller;
 };

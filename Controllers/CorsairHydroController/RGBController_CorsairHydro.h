@@ -14,7 +14,7 @@
 class RGBController_CorsairHydro : public RGBController
 {
 public:
-    RGBController_CorsairHydro(CorsairHydroController* corsair_ptr);
+    RGBController_CorsairHydro(CorsairHydroController* controller_ptr);
     ~RGBController_CorsairHydro();
 
     void        SetupZones();
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    CorsairHydroController*     corsair;
+    CorsairHydroController* controller;
 };

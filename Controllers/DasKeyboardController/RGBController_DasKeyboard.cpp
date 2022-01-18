@@ -189,9 +189,9 @@ static const char *led_names[] =
         "Key: Q-Button"
     };
 
-RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController *das_ptr)
+RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController* controller_ptr)
 {
-    das = das_ptr;
+    controller  = controller_ptr;
 
     for(unsigned int ii = 0; ii < zone_sizes[0]; ii++)
     {
@@ -204,9 +204,9 @@ RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController *das_
     vendor      = "Metadot";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Das Keyboard Device";
-    location    = das->GetDeviceLocation();
-    serial      = das->GetSerialString();
-    version     = das->GetVersionString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
+    version     = controller->GetVersionString();
 
     modes.resize(4);
     modes[0].name       = "Direct";
@@ -242,7 +242,7 @@ RGBController_DasKeyboard::~RGBController_DasKeyboard()
         delete zones[zone_index].matrix_map;
     }
 
-    delete das;
+    delete controller;
 }
 
 void RGBController_DasKeyboard::SetupZones()
@@ -264,7 +264,7 @@ void RGBController_DasKeyboard::SetupZones()
         new_zone.matrix_map->height = 7;
         new_zone.matrix_map->width  = 21;
 
-        if(das->GetLayoutString() == "US")
+        if(controller->GetLayoutString() == "US")
         {
             new_zone.matrix_map->map = (unsigned int *) &matrix_map_us;
         }
@@ -281,7 +281,7 @@ void RGBController_DasKeyboard::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name = led_names[led_idx];
+        new_led.name                = led_names[led_idx];
         leds.push_back(new_led);
     }
 
@@ -311,7 +311,7 @@ void RGBController_DasKeyboard::UpdateZoneLEDs(int /*zone*/)
 
     updateDevice = true;
 
-    das->SendApply();
+    controller->SendApply();
 }
 
 void RGBController_DasKeyboard::UpdateSingleLED(int led)
@@ -323,16 +323,16 @@ void RGBController_DasKeyboard::UpdateSingleLED(int led)
         return;
     }
 
-    das->SendColors(led, selected_mode.value,
-                    RGBGetRValue(colors[led]),
-                    RGBGetGValue(colors[led]),
-                    RGBGetBValue(colors[led]));
+    controller->SendColors(led, selected_mode.value,
+                           RGBGetRValue(colors[led]),
+                           RGBGetGValue(colors[led]),
+                           RGBGetBValue(colors[led]));
 
     double_buffer[led] = colors[led];
 
     if(updateDevice)
     {
-        das->SendApply();
+        controller->SendApply();
     }
 }
 

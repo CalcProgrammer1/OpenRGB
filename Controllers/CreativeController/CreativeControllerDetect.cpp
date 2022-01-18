@@ -15,6 +15,7 @@
 void DetectCreativeDevice(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
+    
     if(dev)
     {
         CreativeSoundBlasterXG6Controller*     controller     = new CreativeSoundBlasterXG6Controller(dev, info->path);

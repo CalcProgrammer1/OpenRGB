@@ -54,75 +54,19 @@ bool TestForCorsairVengeanceController(i2c_smbus_interface* bus, unsigned char a
 
 void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    CorsairVengeanceController* new_corsair;
-    RGBController_CorsairVengeance* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            // Check for Corsair controller at 0x58
-            if (TestForCorsairVengeanceController(busses[bus], 0x58))
+            for(unsigned char addr = 0x58; addr <= 0x5F; addr++)
             {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x58);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x59
-            if (TestForCorsairVengeanceController(busses[bus], 0x59))
-            {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x59);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5A
-            if (TestForCorsairVengeanceController(busses[bus], 0x5A))
-            {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x5A);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5B
-            if (TestForCorsairVengeanceController(busses[bus], 0x5B))
-            {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x5B);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5C
-            if (TestForCorsairVengeanceController(busses[bus], 0x5C))
-            {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x5C);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5D
-            if (TestForCorsairVengeanceController(busses[bus], 0x5D))
-            {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x5D);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5E
-            if (TestForCorsairVengeanceController(busses[bus], 0x5E))
-            {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x5E);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5F
-            if (TestForCorsairVengeanceController(busses[bus], 0x5F))
-            {
-                new_corsair = new CorsairVengeanceController(busses[bus], 0x5F);
-                new_controller = new RGBController_CorsairVengeance(new_corsair);
-                ResourceManager::get()->RegisterRGBController(new_controller);
+                if(TestForCorsairVengeanceController(busses[bus], addr))
+                {
+                    CorsairVengeanceController*     new_controller    = new CorsairVengeanceController(busses[bus], addr);
+                    RGBController_CorsairVengeance* new_rgbcontroller = new RGBController_CorsairVengeance(new_controller);
+                    
+                    ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+                }
             }
         }
     }

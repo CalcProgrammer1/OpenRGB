@@ -74,74 +74,21 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
     CorsairVengeanceProController* new_corsair_pro;
     RGBController_CorsairVengeancePro* new_controller;
 
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         LOG_DEBUG("[%s] Testing bus %d", CORSAIR_VENGEANCE_RGB_PRO_NAME, bus);
 
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            // Check for Corsair controller at 0x58
-            if (TestForCorsairVengeanceProController(busses[bus], 0x58))
+            for(unsigned char addr = 0x58; addr <= 0x5F; addr++)
             {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x58);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x59
-            if (TestForCorsairVengeanceProController(busses[bus], 0x59))
-            {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x59);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5A
-            if (TestForCorsairVengeanceProController(busses[bus], 0x5A))
-            {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5A);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5B
-            if (TestForCorsairVengeanceProController(busses[bus], 0x5B))
-            {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5B);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5C
-            if (TestForCorsairVengeanceProController(busses[bus], 0x5C))
-            {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5C);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5D
-            if (TestForCorsairVengeanceProController(busses[bus], 0x5D))
-            {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5D);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5E
-            if (TestForCorsairVengeanceProController(busses[bus], 0x5E))
-            {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5E);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
-            }
-
-            // Check for Corsair controller at 0x5F
-            if (TestForCorsairVengeanceProController(busses[bus], 0x5F))
-            {
-                new_corsair_pro = new CorsairVengeanceProController(busses[bus], 0x5F);
-                new_controller = new RGBController_CorsairVengeancePro(new_corsair_pro);
-                ResourceManager::get()->RegisterRGBController(new_controller);
+                if(TestForCorsairVengeanceProController(busses[bus], addr))
+                {
+                    CorsairVengeanceProController*     new_controller    = new CorsairVengeanceProController(busses[bus], addr);
+                    RGBController_CorsairVengeancePro* new_rgbcontroller = new RGBController_CorsairVengeancePro(new_controller);
+                    
+                    ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+                }
             }
         }
         else

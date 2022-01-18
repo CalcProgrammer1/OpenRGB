@@ -8,14 +8,14 @@
 
 #include "RGBController_Espurna.h"
 
-RGBController_Espurna::RGBController_Espurna(EspurnaController* espurna_ptr)
+RGBController_Espurna::RGBController_Espurna(EspurnaController* controller_ptr)
 {
-    espurna = espurna_ptr;
+    controller  = controller_ptr;
 
     name        = "Espurna";
     type        = DEVICE_TYPE_LIGHT;
     description = "Espurna Device";
-    location    = espurna->GetLocation();
+    location    = controller->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -29,7 +29,7 @@ RGBController_Espurna::RGBController_Espurna(EspurnaController* espurna_ptr)
 
 RGBController_Espurna::~RGBController_Espurna()
 {
-    delete espurna;
+    delete controller;
 }
 
 void RGBController_Espurna::SetupZones()
@@ -60,17 +60,17 @@ void RGBController_Espurna::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_Espurna::DeviceUpdateLEDs()
 {
-    espurna->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_Espurna::UpdateZoneLEDs(int /*zone*/)
 {
-    espurna->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_Espurna::UpdateSingleLED(int /*led*/)
 {
-    espurna->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_Espurna::SetCustomMode()

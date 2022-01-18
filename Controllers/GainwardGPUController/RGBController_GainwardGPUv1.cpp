@@ -14,16 +14,15 @@ int RGBController_GainwardGPUv1::GetDeviceMode()
     return(active_mode);
 }
 
-RGBController_GainwardGPUv1::RGBController_GainwardGPUv1(GainwardGPUv1Controller * gainward_gpu_ptr)
+RGBController_GainwardGPUv1::RGBController_GainwardGPUv1(GainwardGPUv1Controller* controller_ptr)
 {
-    gainward_gpu            = gainward_gpu_ptr;
+    controller              = controller_ptr;
 
     name                    = "Gainward GPU";
     vendor                  = "Gainward";
     type                    = DEVICE_TYPE_GPU;
     description             = "Gainward GTX GPU";
-    version                 = "";
-    location                = gainward_gpu->GetDeviceLocation();
+    location                = controller->GetDeviceLocation();
 
     mode Direct;
     Direct.name             = "Direct";
@@ -37,7 +36,7 @@ RGBController_GainwardGPUv1::RGBController_GainwardGPUv1(GainwardGPUv1Controller
 
 RGBController_GainwardGPUv1::~RGBController_GainwardGPUv1()
 {
-    delete gainward_gpu;
+    delete controller;
 }
 
 void RGBController_GainwardGPUv1::SetupZones()
@@ -58,7 +57,7 @@ void RGBController_GainwardGPUv1::SetupZones()
     | Set up LED                                                |
     \*---------------------------------------------------------*/
     led gainward_gpu_led;
-    gainward_gpu_led.name = "GPU";
+    gainward_gpu_led.name               = "GPU";
     leds.push_back(gainward_gpu_led);
 
     SetupColors();
@@ -66,9 +65,9 @@ void RGBController_GainwardGPUv1::SetupZones()
     /*---------------------------------------------------------*\
     | Initialize color                                          |
     \*---------------------------------------------------------*/
-    unsigned char red = gainward_gpu->GetLEDRed();
-    unsigned char grn = gainward_gpu->GetLEDGreen();
-    unsigned char blu = gainward_gpu->GetLEDBlue();
+    unsigned char red = controller->GetLEDRed();
+    unsigned char grn = controller->GetLEDGreen();
+    unsigned char blu = controller->GetLEDBlue();
 
     colors[0] =  ToRGBColor(red, grn, blu);
 }
@@ -88,7 +87,7 @@ void RGBController_GainwardGPUv1::DeviceUpdateLEDs()
         unsigned char grn = RGBGetGValue(colors[led]);
         unsigned char blu = RGBGetBValue(colors[led]);
 
-        gainward_gpu->SetLEDColors(red, grn, blu);
+        controller->SetLEDColors(red, grn, blu);
     }
 }
 

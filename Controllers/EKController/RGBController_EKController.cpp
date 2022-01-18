@@ -9,17 +9,16 @@
 
 #include "RGBController_EKController.h"
 
-RGBController_EKController::RGBController_EKController(EKController* _dev)
+RGBController_EKController::RGBController_EKController(EKController* controller_ptr)
 {
-    EK_dev  = _dev;
+    controller  = controller_ptr;
 
-    name        = EK_dev->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "EK";
     type        = DEVICE_TYPE_LEDSTRIP;
-    description = EK_dev->GetDeviceName();
-    version     = "1.0";
-    serial      = EK_dev->GetSerial();
-    location    = EK_dev->GetLocation();
+    description = controller->GetDeviceName();
+    serial      = controller->GetSerial();
+    location    = controller->GetLocation();
 
     mode Static;
     Static.name                     = "Static";
@@ -113,22 +112,22 @@ RGBController_EKController::RGBController_EKController(EKController* _dev)
 
 RGBController_EKController::~RGBController_EKController()
 {
-    delete EK_dev;
+    delete controller;
 }
 
 void RGBController_EKController::SetupZones()
 {
     zone EK_zone;
-    EK_zone.name          = "Loop Connect";
-    EK_zone.type          = ZONE_TYPE_SINGLE;
-    EK_zone.leds_min      = 1;
-    EK_zone.leds_max      = 1;
-    EK_zone.leds_count    = 1;
-    EK_zone.matrix_map    = NULL;
+    EK_zone.name        = "Loop Connect";
+    EK_zone.type        = ZONE_TYPE_SINGLE;
+    EK_zone.leds_min    = 1;
+    EK_zone.leds_max    = 1;
+    EK_zone.leds_count  = 1;
+    EK_zone.matrix_map  = NULL;
     zones.push_back(EK_zone);
 
     led EK_led;
-    EK_led.name = "EK LED";
+    EK_led.name         = "EK LED";
     leds.push_back(EK_led);
 
     SetupColors();
@@ -146,7 +145,8 @@ void RGBController_EKController::DeviceUpdateLEDs()
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
-    EK_dev->SetColor(red, grn, blu);
+
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_EKController::UpdateZoneLEDs(int zone)
@@ -155,7 +155,8 @@ void RGBController_EKController::UpdateZoneLEDs(int zone)
     unsigned char red   = RGBGetRValue(color);
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
-    EK_dev->SetColor(red, grn, blu);
+
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_EKController::UpdateSingleLED(int led)
@@ -170,5 +171,5 @@ void RGBController_EKController::SetCustomMode()
 
 void RGBController_EKController::DeviceUpdateMode()
 {
-    EK_dev->SetMode(modes[active_mode].value, modes[active_mode].speed);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed);
 }

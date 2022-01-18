@@ -17,9 +17,7 @@
 
 void DetectEspurnaControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    EspurnaController*      new_espurna;
-    RGBController_Espurna*  new_controller;
-    json                    espurna_settings;
+    json espurna_settings;
 
     /*-------------------------------------------------*\
     | Get Espurna settings from settings manager        |
@@ -61,11 +59,12 @@ void DetectEspurnaControllers(std::vector<RGBController*> &rgb_controllers)
 
             std::string value = ip + "," + port + "," + apikey;
 
-            new_espurna = new EspurnaController();
-            new_espurna->Initialize((char *)value.c_str());
+            EspurnaController*     controller     = new EspurnaController();
+            controller->Initialize((char *)value.c_str());
 
-            new_controller = new RGBController_Espurna(new_espurna);
-            rgb_controllers.push_back(new_controller);
+            RGBController_Espurna* rgb_controller = new RGBController_Espurna(controller);
+
+            rgb_controllers.push_back(rgb_controller);
         }
     }
 

@@ -63,8 +63,7 @@ void DetectCorsairHydroControllers(std::vector<RGBController*>& rgb_controllers)
             libusb_detach_kernel_driver(dev, 0);
             libusb_claim_interface(dev, 0);
 
-            CorsairHydroController* controller = new CorsairHydroController(dev);//, device_list[device_idx].usb_endpoint);
-
+            CorsairHydroController*     controller     = new CorsairHydroController(dev);
             RGBController_CorsairHydro* rgb_controller = new RGBController_CorsairHydro(controller);
 
             rgb_controller->name = device_list[device_idx].name;
