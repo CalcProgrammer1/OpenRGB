@@ -91,6 +91,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,       NVIDIA_RTX3060_LHR_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3060_O12G_LHR_GAMING,    0x67,   "ASUS ROG STRIX 3060 O12G V2 GAMING"        },
     { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_KO_RTX3060TI_O8G_V2_GAMING,            0x67,   "ASUS KO RTX 3060Ti O8G V2 GAMING"          },
     { NVIDIA_VEN,       NVIDIA_RTX3060TI_DEV,       ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC,                0x67,   "ASUS TUF RTX 3060Ti O8G OC"                },
+    { NVIDIA_VEN,       NVIDIA_RTX3060TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_3060_TI_O8G_OC,              0x67,   "ASUS ROG STRIX 3060Ti O8G OC"              },
     { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC_V2,             0x67,   "ASUS TUF RTX 3060Ti O8G OC"                },
     { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070_OC,                 0x67,   "ASUS ROG STRIX 3070 OC"                    },
     { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070_O8G_WHITE,          0x67,   "ASUS ROG STRIX 3070 O8G White"             },
