@@ -61,14 +61,11 @@ bool TestForHyperXDRAMController(i2c_smbus_interface* bus, unsigned char address
 
 void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    HyperXDRAMController* new_hyperx;
-    RGBController_HyperXDRAM* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
-        unsigned char slots_valid = 0x00;
-        bool fury_detected = false;
-        bool pred_detected = false;
+        unsigned char slots_valid   = 0x00;
+        bool          fury_detected = false;
+        bool          pred_detected = false;
 
         LOG_DEBUG("[%s] Checking VID/PID on bus %d...", HYPERX_CONTROLLER_NAME, bus);
 
@@ -76,7 +73,8 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
         {
             // Check for HyperX controller at 0x27
             LOG_DEBUG("[%s] Testing bus %d at address 0x27", HYPERX_CONTROLLER_NAME, bus);
-            if (TestForHyperXDRAMController(busses[bus], 0x27))
+
+            if(TestForHyperXDRAMController(busses[bus], 0x27))
             {
                 busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
 
@@ -113,8 +111,6 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                         LOG_DEBUG("[%s] SPD check failed", HYPERX_CONTROLLER_NAME);
                     }
 
-
-
                     std::this_thread::sleep_for(1ms);
                 }
 
@@ -123,19 +119,19 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 
                 if(slots_valid != 0)
                 {
-                    new_hyperx = new HyperXDRAMController(busses[bus], 0x27, slots_valid);
-                    new_controller = new RGBController_HyperXDRAM(new_hyperx);
+                    HyperXDRAMController*     controller     = new HyperXDRAMController(busses[bus], 0x27, slots_valid);
+                    RGBController_HyperXDRAM* rgb_controller = new RGBController_HyperXDRAM(controller);
 
                     if(fury_detected && !pred_detected)
                     {
-                        new_controller->name = "HyperX Fury RGB";
+                        rgb_controller->name = "HyperX Fury RGB";
                     }
                     else if(!fury_detected && pred_detected)
                     {
-                        new_controller->name = "HyperX Predator RGB";
+                        rgb_controller->name = "HyperX Predator RGB";
                     }
 
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
         }

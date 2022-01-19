@@ -147,9 +147,9 @@ static const char *led_names[] =
     "Key: Number Pad ."
 };
 
-RGBController_HyperXAlloyFPS::RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* hyperx_ptr)
+RGBController_HyperXAlloyFPS::RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* controller_ptr)
 {
-    controller  = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Alloy FPS";
     vendor      = "HyperX";
@@ -231,7 +231,7 @@ void RGBController_HyperXAlloyFPS::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name = led_names[led_idx];
+        new_led.name                    = led_names[led_idx];
         leds.push_back(new_led);
     }
 

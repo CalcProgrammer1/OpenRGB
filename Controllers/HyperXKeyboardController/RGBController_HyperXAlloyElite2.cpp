@@ -192,16 +192,16 @@ static const char *led_names[] =
     "RGB Strip 18",
 };
 
-RGBController_HyperXAlloyElite2::RGBController_HyperXAlloyElite2(HyperXAlloyElite2Controller* hyperx_ptr)
+RGBController_HyperXAlloyElite2::RGBController_HyperXAlloyElite2(HyperXAlloyElite2Controller* controller_ptr)
 {
-    hyperx = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Alloy Elite 2 Keyboard Device";
     vendor      = "HyperX";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX Alloy Elite 2 Keyboard Device";
-    location    = hyperx->GetDeviceLocation();
-    serial      = hyperx->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -239,7 +239,7 @@ RGBController_HyperXAlloyElite2::~RGBController_HyperXAlloyElite2()
         }
     }
 
-    delete hyperx;
+    delete controller;
 }
 
 void RGBController_HyperXAlloyElite2::SetupZones()
@@ -277,7 +277,7 @@ void RGBController_HyperXAlloyElite2::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name = led_names[led_idx];
+        new_led.name                    = led_names[led_idx];
         leds.push_back(new_led);
     }
 
@@ -297,7 +297,7 @@ void RGBController_HyperXAlloyElite2::DeviceUpdateLEDs()
 
     if(active_mode == 0)
     {
-        hyperx->SetLEDsDirect(colors);
+        controller->SetLEDsDirect(colors);
     }
 }
 

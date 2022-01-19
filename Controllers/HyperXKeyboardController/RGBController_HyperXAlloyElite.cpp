@@ -175,9 +175,9 @@ static const char *led_names[] =
     "Key: Media Mute"
 };
 
-RGBController_HyperXAlloyElite::RGBController_HyperXAlloyElite(HyperXAlloyEliteController* hyperx_ptr)
+RGBController_HyperXAlloyElite::RGBController_HyperXAlloyElite(HyperXAlloyEliteController* controller_ptr)
 {
-    controller  = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Alloy Elite";
     vendor      = "HyperX";
@@ -290,7 +290,7 @@ void RGBController_HyperXAlloyElite::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name = led_names[led_idx];
+        new_led.name                    = led_names[led_idx];
         leds.push_back(new_led);
     }
 

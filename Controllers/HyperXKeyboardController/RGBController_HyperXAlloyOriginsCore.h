@@ -16,7 +16,7 @@
 class RGBController_HyperXAlloyOriginsCore : public RGBController
 {
 public:
-    RGBController_HyperXAlloyOriginsCore(HyperXAlloyOriginsCoreController* hyperx_ptr);
+    RGBController_HyperXAlloyOriginsCore(HyperXAlloyOriginsCoreController* controller_ptr);
     ~RGBController_HyperXAlloyOriginsCore();
 
     void        SetupZones();
@@ -33,7 +33,7 @@ public:
     void        KeepaliveThread();
     
 private:
-    HyperXAlloyOriginsCoreController*                   hyperx;
+    HyperXAlloyOriginsCoreController*                   controller;
     std::thread*                                        keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;

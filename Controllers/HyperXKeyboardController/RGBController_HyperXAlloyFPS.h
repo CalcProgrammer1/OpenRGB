@@ -18,7 +18,7 @@
 class RGBController_HyperXAlloyFPS : public RGBController
 {
 public:
-    RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* hyperx_ptr);
+    RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* controller_ptr);
     ~RGBController_HyperXAlloyFPS();
 
     void        SetupZones();

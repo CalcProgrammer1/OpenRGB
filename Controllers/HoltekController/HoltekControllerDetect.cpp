@@ -23,11 +23,13 @@
 void DetectHoltekControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
-        HoltekA070Controller* controller = new HoltekA070Controller(dev, info->path);
+        HoltekA070Controller*     controller     = new HoltekA070Controller(dev, info->path);
         RGBController_HoltekA070* rgb_controller = new RGBController_HoltekA070(controller);
-        rgb_controller->name = name;
+        rgb_controller->name                     = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectHoltekControllers() */
@@ -35,14 +37,16 @@ void DetectHoltekControllers(hid_device_info* info, const std::string& name)
 void DetectHoltekMousemats(hid_device_info *info, const std::string &name)
 {
     hid_device *dev = hid_open_path(info->path);
-    if (dev)
+
+    if(dev)
     {
-        HoltekA1FAController *controller = new HoltekA1FAController(dev, info->path);
-        RGBController_HoltekA1FA *rgb_controller = new RGBController_HoltekA1FA(controller);
-        rgb_controller->name = name;
+        HoltekA1FAController*     controller     = new HoltekA1FAController(dev, info->path);
+        RGBController_HoltekA1FA* rgb_controller = new RGBController_HoltekA1FA(controller);
+        rgb_controller->name                     = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 } /* DetectHoltekMousemats() */
 
 REGISTER_HID_DETECTOR_IPU("Holtek USB Gaming Mouse", DetectHoltekControllers, HOLTEK_VID, HOLTEK_A070_PID, 1, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IPU("Holtek Mousemat", DetectHoltekMousemats, HOLTEK_VID, HOLTEK_A1FA_PID, 2, 0xFF00, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("Holtek Mousemat",         DetectHoltekMousemats,   HOLTEK_VID, HOLTEK_A1FA_PID, 2, 0xFF00, 0xFF00);

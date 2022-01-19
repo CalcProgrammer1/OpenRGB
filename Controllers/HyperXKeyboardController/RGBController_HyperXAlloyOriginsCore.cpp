@@ -145,17 +145,17 @@ static const char *led_names[] =
     "Key: Right Arrow"
 };
 
-RGBController_HyperXAlloyOriginsCore::RGBController_HyperXAlloyOriginsCore(HyperXAlloyOriginsCoreController* hyperx_ptr)
+RGBController_HyperXAlloyOriginsCore::RGBController_HyperXAlloyOriginsCore(HyperXAlloyOriginsCoreController* controller_ptr)
 {
-    hyperx = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Alloy Origins Core Keyboard Device";
     vendor      = "HyperX";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX Alloy Origins Core Keyboard Device";
-    location    = hyperx->GetDeviceLocation();
-    serial      = hyperx->GetSerialString();
-    version     = hyperx->GetFirmwareVersion();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
+    version     = controller->GetFirmwareVersion();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -193,7 +193,7 @@ RGBController_HyperXAlloyOriginsCore::~RGBController_HyperXAlloyOriginsCore()
         }
     }
 
-    delete hyperx;
+    delete controller;
 }
 
 void RGBController_HyperXAlloyOriginsCore::SetupZones()
@@ -244,7 +244,7 @@ void RGBController_HyperXAlloyOriginsCore::ResizeZone(int /*zone*/, int /*new_si
 
 void RGBController_HyperXAlloyOriginsCore::DeviceUpdateLEDs()
 {
-    hyperx->SetLEDsDirect(colors);
+    controller->SetLEDsDirect(colors);
 }
 
 void RGBController_HyperXAlloyOriginsCore::UpdateZoneLEDs(int /*zone*/)

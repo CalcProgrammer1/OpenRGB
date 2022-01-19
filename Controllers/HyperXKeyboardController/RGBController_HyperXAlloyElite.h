@@ -18,7 +18,7 @@
 class RGBController_HyperXAlloyElite : public RGBController
 {
 public:
-    RGBController_HyperXAlloyElite(HyperXAlloyEliteController* hyperx_ptr);
+    RGBController_HyperXAlloyElite(HyperXAlloyEliteController* controller_ptr);
     ~RGBController_HyperXAlloyElite();
 
     void        SetupZones();

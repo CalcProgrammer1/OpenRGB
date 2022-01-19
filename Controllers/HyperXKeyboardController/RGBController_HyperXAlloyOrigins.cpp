@@ -167,16 +167,16 @@ static const char *led_names[] =
     "Key: Number Pad Enter",
 };
 
-RGBController_HyperXAlloyOrigins::RGBController_HyperXAlloyOrigins(HyperXAlloyOriginsController* hyperx_ptr)
+RGBController_HyperXAlloyOrigins::RGBController_HyperXAlloyOrigins(HyperXAlloyOriginsController* controller_ptr)
 {
-    hyperx = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Alloy Origins Keyboard Device";
     vendor      = "HyperX";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "HyperX Alloy Origins Keyboard Device";
-    location    = hyperx->GetDeviceLocation();
-    serial      = hyperx->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -214,7 +214,7 @@ RGBController_HyperXAlloyOrigins::~RGBController_HyperXAlloyOrigins()
         }
     }
 
-    delete hyperx;
+    delete controller;
 }
 
 void RGBController_HyperXAlloyOrigins::SetupZones()
@@ -268,7 +268,7 @@ void RGBController_HyperXAlloyOrigins::ResizeZone(int /*zone*/, int /*new_size*/
     
 void RGBController_HyperXAlloyOrigins::DeviceUpdateLEDs()
 {
-    hyperx->SetLEDsDirect(colors);
+    controller->SetLEDsDirect(colors);
 }
 
 void RGBController_HyperXAlloyOrigins::UpdateZoneLEDs(int /*zone*/)

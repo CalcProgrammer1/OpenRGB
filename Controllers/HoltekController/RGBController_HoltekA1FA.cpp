@@ -8,16 +8,16 @@
 
 #include "RGBController_HoltekA1FA.h"
 
-RGBController_HoltekA1FA::RGBController_HoltekA1FA(HoltekA1FAController* holtek_ptr)
+RGBController_HoltekA1FA::RGBController_HoltekA1FA(HoltekA1FAController* controller_ptr)
 {
-    holtek = holtek_ptr;
+    controller  = controller_ptr;
 
     name        = "Holtek Mousemat Device";
     vendor      = "Holtek";
     type        = DEVICE_TYPE_MOUSEMAT;
     description = "Holtek Mousemat Device";
-    location    = holtek->GetDeviceLocation();
-    serial      = holtek->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Static;
     Static.name       = "Static";
@@ -68,22 +68,22 @@ RGBController_HoltekA1FA::RGBController_HoltekA1FA(HoltekA1FAController* holtek_
 
 RGBController_HoltekA1FA::~RGBController_HoltekA1FA()
 {
-    delete holtek;
+    delete controller;
 }
 
 void RGBController_HoltekA1FA::SetupZones()
 {
     zone mouse_zone;
-    mouse_zone.name          = "Mousemat";
-    mouse_zone.type          = ZONE_TYPE_SINGLE;
-    mouse_zone.leds_min      = 1;
-    mouse_zone.leds_max      = 1;
-    mouse_zone.leds_count    = 1;
-    mouse_zone.matrix_map    = NULL;
+    mouse_zone.name         = "Mousemat";
+    mouse_zone.type         = ZONE_TYPE_SINGLE;
+    mouse_zone.leds_min     = 1;
+    mouse_zone.leds_max     = 1;
+    mouse_zone.leds_count   = 1;
+    mouse_zone.matrix_map   = NULL;
     zones.push_back(mouse_zone);
 
     led mouse_led;
-    mouse_led.name = "Mousemat";
+    mouse_led.name          = "Mousemat";
     leds.push_back(mouse_led);
 
     SetupColors();
@@ -106,7 +106,7 @@ void RGBController_HoltekA1FA::DeviceUpdateLEDs()
     unsigned char green         = RGBGetGValue(colors[0]);
     unsigned char blue          = RGBGetBValue(colors[0]);
 
-    holtek->SendData(mode, brightness, speed, preset, red, green, blue);
+    controller->SendData(mode, brightness, speed, preset, red, green, blue);
 }
 
 void RGBController_HoltekA1FA::UpdateZoneLEDs(int /*zone*/)

@@ -6,17 +6,15 @@
 
 #include "RGBController_HPOmen30L.h"
 
-RGBController_HPOmen30L::RGBController_HPOmen30L(HPOmen30LController* omen_ptr)
+RGBController_HPOmen30L::RGBController_HPOmen30L(HPOmen30LController* controller_ptr)
 {
-    omen        = omen_ptr;
+    controller  = controller_ptr;
 
     name        = "HP Omen 30L";
     vendor      = "HP";
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "HP Omen 30L Device";
-    version     = "";
-    location    = omen->GetLocationString();
-    serial      = "";
+    location    = controller->GetLocationString();
 
     mode Direct;
     Direct.name           = "Direct";
@@ -91,7 +89,7 @@ RGBController_HPOmen30L::RGBController_HPOmen30L(HPOmen30LController* omen_ptr)
 
 RGBController_HPOmen30L::~RGBController_HPOmen30L()
 {
-    delete omen;
+    delete controller;
 }
 
 void RGBController_HPOmen30L::SetupZones()
@@ -109,12 +107,12 @@ void RGBController_HPOmen30L::SetupZones()
     zones.push_back(logo_zone);
 
     zone light_bar;
-    light_bar.name           = "Light Bar";
-    light_bar.type           = ZONE_TYPE_SINGLE;
-    light_bar.leds_min       = 1;
-    light_bar.leds_max       = 1;
-    light_bar.leds_count     = 1;
-    light_bar.matrix_map     = NULL;
+    light_bar.name          = "Light Bar";
+    light_bar.type          = ZONE_TYPE_SINGLE;
+    light_bar.leds_min      = 1;
+    light_bar.leds_max      = 1;
+    light_bar.leds_count    = 1;
+    light_bar.matrix_map    = NULL;
     zones.push_back(light_bar);
 
     zone ring_zone;
@@ -127,31 +125,31 @@ void RGBController_HPOmen30L::SetupZones()
     zones.push_back(ring_zone);
 
     zone cpu_zone;
-    cpu_zone.name          = "CPU Cooler";
-    cpu_zone.type          = ZONE_TYPE_SINGLE;
-    cpu_zone.leds_min      = 1;
-    cpu_zone.leds_max      = 1;
-    cpu_zone.leds_count    = 1;
-    cpu_zone.matrix_map    = NULL;
+    cpu_zone.name           = "CPU Cooler";
+    cpu_zone.type           = ZONE_TYPE_SINGLE;
+    cpu_zone.leds_min       = 1;
+    cpu_zone.leds_max       = 1;
+    cpu_zone.leds_count     = 1;
+    cpu_zone.matrix_map     = NULL;
     zones.push_back(cpu_zone);
 
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
     \*---------------------------------------------------------*/
     led logo_led;
-    logo_led.name = "Logo LED";
+    logo_led.name           = "Logo LED";
     leds.push_back(logo_led);
 
     led bar_led;
-    bar_led.name = "Bar LED";
+    bar_led.name            = "Bar LED";
     leds.push_back(bar_led);
 
     led fan_led;
-    fan_led.name = "Fan LED";
+    fan_led.name            = "Fan LED";
     leds.push_back(fan_led);
 
     led cpu_led;
-    cpu_led.name = "CPU LED";
+    cpu_led.name            = "CPU LED";
     leds.push_back(cpu_led);
 
     SetupColors();
@@ -170,18 +168,18 @@ void RGBController_HPOmen30L::DeviceUpdateLEDs()
     {
         if(modes[active_mode].value == HP_OMEN_30L_STATIC || modes[active_mode].value == HP_OMEN_30L_DIRECT)
         {
-            omen->SetZoneColor(i, colors);
+            controller->SetZoneColor(i, colors);
         }
         else
         {
-            omen->SetZoneColor(i, modes[active_mode].colors);
+            controller->SetZoneColor(i, modes[active_mode].colors);
         }
     }
 }
 
 void RGBController_HPOmen30L::UpdateZoneLEDs(int zone)
 {
-    omen->SetZoneColor(zone,colors);
+    controller->SetZoneColor(zone,colors);
 }
 
 void RGBController_HPOmen30L::UpdateSingleLED(int led)
@@ -198,7 +196,7 @@ void RGBController_HPOmen30L::DeviceUpdateMode()
 {
     for(int i = 0; i < zones.size(); i++)
     {
-        omen->SetZoneMode(i, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness);
+        controller->SetZoneMode(i, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness);
     }
  
     DeviceUpdateLEDs();
