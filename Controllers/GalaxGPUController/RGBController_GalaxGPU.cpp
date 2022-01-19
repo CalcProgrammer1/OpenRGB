@@ -10,28 +10,28 @@
 
 int RGBController_GalaxGPU::GetDeviceMode()
 {
-    int modereg1 = galax_gpu->GalaxGPURegisterRead(GALAX_MODE_REGISTER_1);
-    int modereg2 = galax_gpu->GalaxGPURegisterRead(GALAX_MODE_REGISTER_2);
+    int modereg1 = controller->GalaxGPURegisterRead(GALAX_MODE_REGISTER_1);
+    int modereg2 = controller->GalaxGPURegisterRead(GALAX_MODE_REGISTER_2);
 
-    if (modereg1 == GALAX_MODE_STATIC_VALUE_1 && modereg2 == GALAX_MODE_STATIC_VALUE_2)
+    if(modereg1 == GALAX_MODE_STATIC_VALUE_1 && modereg2 == GALAX_MODE_STATIC_VALUE_2)
     {
         active_mode = 1;
         modes[active_mode].color_mode = MODE_COLORS_PER_LED;
     }
 
-    if (modereg1 == GALAX_MODE_BREATHING_VALUE_1 && modereg2 == GALAX_MODE_BREATHING_VALUE_2)
+    if(modereg1 == GALAX_MODE_BREATHING_VALUE_1 && modereg2 == GALAX_MODE_BREATHING_VALUE_2)
     {
         active_mode = 2;
         modes[active_mode].color_mode = MODE_COLORS_PER_LED;
     }
 
-    if (modereg1 == GALAX_MODE_RAINBOW_VALUE_1 && modereg2 == GALAX_MODE_RAINBOW_VALUE_2)
+    if(modereg1 == GALAX_MODE_RAINBOW_VALUE_1 && modereg2 == GALAX_MODE_RAINBOW_VALUE_2)
     {
         active_mode = 3;
         modes[active_mode].color_mode = MODE_COLORS_NONE;
     }
 
-    if (modereg1 == GALAX_MODE_CYCLE_BREATHING_VALUE_1 && modereg2 == GALAX_MODE_CYCLE_BREATHING_VALUE_2)
+    if(modereg1 == GALAX_MODE_CYCLE_BREATHING_VALUE_1 && modereg2 == GALAX_MODE_CYCLE_BREATHING_VALUE_2)
     {
         active_mode = 4;
         modes[active_mode].color_mode = MODE_COLORS_NONE;
@@ -40,16 +40,15 @@ int RGBController_GalaxGPU::GetDeviceMode()
     return(active_mode);
 }
 
-RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController * galax_gpu_ptr)
+RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController* controller_ptr)
 {
-    galax_gpu = galax_gpu_ptr;
+    controller  = controller_ptr;
 
-    name        = galax_gpu->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "GALAX";
     type        = DEVICE_TYPE_GPU;
     description = "GALAX / KFA2 RTX GPU";
-    version     = "1.0";
-    location    = galax_gpu->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -86,7 +85,7 @@ RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController * galax_gpu_pt
 
 RGBController_GalaxGPU::~RGBController_GalaxGPU()
 {
-    delete galax_gpu;
+    delete controller;
 }
 
 void RGBController_GalaxGPU::SetupZones()
@@ -95,19 +94,19 @@ void RGBController_GalaxGPU::SetupZones()
     | Set up zone                                               |
     \*---------------------------------------------------------*/
     zone galax_gpu_zone;
-    galax_gpu_zone.name          = "GPU";
-    galax_gpu_zone.type          = ZONE_TYPE_SINGLE;
-    galax_gpu_zone.leds_min      = 1;
-    galax_gpu_zone.leds_max      = 1;
-    galax_gpu_zone.leds_count    = 1;
-    galax_gpu_zone.matrix_map    = NULL;
+    galax_gpu_zone.name         = "GPU";
+    galax_gpu_zone.type         = ZONE_TYPE_SINGLE;
+    galax_gpu_zone.leds_min     = 1;
+    galax_gpu_zone.leds_max     = 1;
+    galax_gpu_zone.leds_count   = 1;
+    galax_gpu_zone.matrix_map   = NULL;
     zones.push_back(galax_gpu_zone);
 
     /*---------------------------------------------------------*\
     | Set up LED                                                |
     \*---------------------------------------------------------*/
     led galax_gpu_led;
-    galax_gpu_led.name = "GPU";
+    galax_gpu_led.name          = "GPU";
     leds.push_back(galax_gpu_led);
 
     SetupColors();
@@ -115,11 +114,11 @@ void RGBController_GalaxGPU::SetupZones()
     /*---------------------------------------------------------*\
     | Initialize color                                          |
     \*---------------------------------------------------------*/
-    unsigned char red = galax_gpu->GetLEDRed();
-    unsigned char grn = galax_gpu->GetLEDGreen();
-    unsigned char blu = galax_gpu->GetLEDBlue();
+    unsigned char red = controller->GetLEDRed();
+    unsigned char grn = controller->GetLEDGreen();
+    unsigned char blu = controller->GetLEDBlue();
 
-    colors[0] =  ToRGBColor(red, grn, blu);
+    colors[0] = ToRGBColor(red, grn, blu);
 }
 
 void RGBController_GalaxGPU::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -137,13 +136,13 @@ void RGBController_GalaxGPU::DeviceUpdateLEDs()
         unsigned char grn = RGBGetGValue(colors[led]);
         unsigned char blu = RGBGetBValue(colors[led]);
 
-        if (GetMode() == 1)
+        if(GetMode() == 1)
         {
-            galax_gpu->SetLEDColorsDirect(red, grn, blu);
+            controller->SetLEDColorsDirect(red, grn, blu);
         }
         else
         {
-            galax_gpu->SetLEDColorsEffect(red, grn, blu);
+            controller->SetLEDColorsEffect(red, grn, blu);
         }
     }
 }
@@ -167,5 +166,5 @@ void RGBController_GalaxGPU::DeviceUpdateMode()
 {
     int new_mode = modes[active_mode].value;
 
-    galax_gpu->SetMode(new_mode);
+    controller->SetMode(new_mode);
 }

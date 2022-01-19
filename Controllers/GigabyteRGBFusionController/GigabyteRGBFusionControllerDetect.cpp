@@ -57,22 +57,21 @@ bool TestForGigabyteRGBFusionController(i2c_smbus_interface* bus, unsigned char 
 
 void DetectGigabyteRGBFusionControllers(std::vector<i2c_smbus_interface*>& busses)
 {
-    RGBFusionController* new_rgb_fusion;
-    RGBController_RGBFusion* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
             if(busses[bus]->pci_subsystem_vendor == GIGABYTE_SUB_VEN)
             {
                 LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, SMBUS_ADDRESS);
+
                 // Check for RGB Fusion controller at 0x28
-                if (TestForGigabyteRGBFusionController(busses[bus], SMBUS_ADDRESS))
+                if(TestForGigabyteRGBFusionController(busses[bus], SMBUS_ADDRESS))
                 {
-                    new_rgb_fusion = new RGBFusionController(busses[bus], SMBUS_ADDRESS);
-                    new_controller = new RGBController_RGBFusion(new_rgb_fusion);
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    RGBFusionController*     controller     = new RGBFusionController(busses[bus], SMBUS_ADDRESS);
+                    RGBController_RGBFusion* rgb_controller = new RGBController_RGBFusion(controller);
+
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
             else

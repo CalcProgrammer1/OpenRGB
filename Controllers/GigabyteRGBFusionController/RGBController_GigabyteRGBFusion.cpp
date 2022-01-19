@@ -15,16 +15,15 @@ static const char* rgb_fusion_zone_names[] =
     "RGB Header"
 };
 
-RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion_ptr)
+RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* controller_ptr)
 {
-    rgb_fusion = rgb_fusion_ptr;
+    controller  = controller_ptr;
 
-    name        = rgb_fusion->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "Gigabyte";
     description = "RGB Fusion 1.0";
-    location    = rgb_fusion->GetDeviceLocation();
-
-    type = DEVICE_TYPE_MOTHERBOARD;
+    location    = controller->GetDeviceLocation();
+    type        = DEVICE_TYPE_MOTHERBOARD;
 
     mode Direct;
     Direct.name       = "Direct";
@@ -61,7 +60,7 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* rgb_fusion
 
 RGBController_RGBFusion::~RGBController_RGBFusion()
 {
-    delete rgb_fusion;
+    delete controller;
 }
 
 void RGBController_RGBFusion::SetupZones()
@@ -70,9 +69,9 @@ void RGBController_RGBFusion::SetupZones()
     | Search through all LEDs and create zones for each channel |
     | type                                                      |
     \*---------------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < rgb_fusion->GetLEDCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetLEDCount(); zone_idx++)
     {
-        zone* new_zone = new zone();
+        zone* new_zone          = new zone();
 
         /*---------------------------------------------------------*\
         | Set zone name to channel name                             |
@@ -91,7 +90,7 @@ void RGBController_RGBFusion::SetupZones()
 
     for(unsigned int led_idx = 0; led_idx < zones.size(); led_idx++)
     {
-        led* new_led = new led();
+        led* new_led            = new led();
 
         /*---------------------------------------------------------*\
         | Set LED name to channel name                              |
@@ -123,7 +122,7 @@ void RGBController_RGBFusion::DeviceUpdateLEDs()
         unsigned char grn   = RGBGetGValue(color);
         unsigned char blu   = RGBGetBValue(color);
 
-        rgb_fusion->SetLEDColor(led, red, grn, blu);
+        controller->SetLEDColor(led, red, grn, blu);
     }
 }
 
@@ -134,7 +133,7 @@ void RGBController_RGBFusion::UpdateZoneLEDs(int zone)
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
 
-    rgb_fusion->SetLEDColor(zone, red, grn, blu);
+    controller->SetLEDColor(zone, red, grn, blu);
 }
 
 void RGBController_RGBFusion::UpdateSingleLED(int led)
@@ -144,7 +143,7 @@ void RGBController_RGBFusion::UpdateSingleLED(int led)
 
 int RGBController_RGBFusion::GetDeviceMode()
 {
-    int dev_mode = rgb_fusion->GetMode();
+    int dev_mode = controller->GetMode();
 
     for(std::size_t mode = 0; mode < modes.size(); mode++)
     {
@@ -164,5 +163,5 @@ void RGBController_RGBFusion::SetCustomMode()
 
 void RGBController_RGBFusion::DeviceUpdateMode()
 {
-    rgb_fusion->SetMode(modes[active_mode].value, modes[active_mode].speed);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed);
 }

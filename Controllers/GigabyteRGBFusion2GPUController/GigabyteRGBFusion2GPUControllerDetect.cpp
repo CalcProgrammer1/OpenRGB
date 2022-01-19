@@ -99,14 +99,14 @@ void DetectGigabyteRGBFusion2GPUControllers(std::vector<i2c_smbus_interface*>& b
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
-                LOG_DEBUG(GPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME2, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                LOG_DEBUG(GPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME2, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name);
+
                 // Check for RGB Fusion2 controller
                 if(TestForGigabyteRGBFusion2GPUController(busses[bus], device_list[dev_idx].controller_address))
                 {
                     RGBFusion2GPUController*     controller     = new RGBFusion2GPUController(busses[bus], device_list[dev_idx].controller_address);
                     RGBController_RGBFusion2GPU* rgb_controller = new RGBController_RGBFusion2GPU(controller);
-
-                    rgb_controller->name = device_list[dev_idx].name;
+                    rgb_controller->name                        = device_list[dev_idx].name;
 
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }

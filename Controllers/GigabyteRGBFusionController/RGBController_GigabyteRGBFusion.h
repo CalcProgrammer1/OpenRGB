@@ -15,7 +15,7 @@
 class RGBController_RGBFusion : public RGBController
 {
 public:
-    RGBController_RGBFusion(RGBFusionController* rgb_fusion_ptr);
+    RGBController_RGBFusion(RGBFusionController* controller_ptr);
     ~RGBController_RGBFusion();
 
     void        SetupZones();
@@ -30,7 +30,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    RGBFusionController* rgb_fusion;
+    RGBFusionController* controller;
 
     int         GetDeviceMode();
 };

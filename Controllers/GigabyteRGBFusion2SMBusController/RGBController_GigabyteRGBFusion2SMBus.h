@@ -16,7 +16,7 @@
 class RGBController_RGBFusion2SMBus : public RGBController
 {
 public:
-    RGBController_RGBFusion2SMBus(RGBFusion2SMBusController* rgb_fusion_ptr);
+    RGBController_RGBFusion2SMBus(RGBFusion2SMBusController* controller_ptr);
     ~RGBController_RGBFusion2SMBus();
 
     void        SetupZones();
@@ -31,7 +31,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    RGBFusion2SMBusController* rgb_fusion;
+    RGBFusion2SMBusController* controller;
 
     int         GetDeviceMode();
 };

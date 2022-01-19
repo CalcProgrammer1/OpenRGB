@@ -9,14 +9,14 @@
 
 #include "RGBController_GigabyteRGBFusion2DRAM.h"
 
-RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMController* rgb_fusion_ptr)
+RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMController* controller_ptr)
 {
-    rgb_fusion = rgb_fusion_ptr;
+    controller  = controller_ptr;
 
     name        = "RGB Fusion 2 DRAM";
     vendor      = "Gigabyte";
     description = "RGB Fusion 2 DRAM Device";
-    location    = rgb_fusion->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
     type = DEVICE_TYPE_DRAM;
 
@@ -32,7 +32,7 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
 
 RGBController_RGBFusion2DRAM::~RGBController_RGBFusion2DRAM()
 {
-    delete rgb_fusion;
+    delete controller;
 }
 
 void RGBController_RGBFusion2DRAM::SetupZones()
@@ -78,9 +78,9 @@ void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
     int mode = modes[active_mode].value;
     unsigned int speed = modes[active_mode].speed;
 
-    rgb_fusion->SetLEDEffect(0, mode, speed, red, grn, blu);
+    controller->SetLEDEffect(0, mode, speed, red, grn, blu);
 
-    rgb_fusion->Apply();
+    controller->Apply();
 }
 
 void RGBController_RGBFusion2DRAM::UpdateZoneLEDs(int /*zone*/)

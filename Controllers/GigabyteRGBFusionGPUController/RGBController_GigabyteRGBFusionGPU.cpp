@@ -9,16 +9,15 @@
 
 #include "RGBController_GigabyteRGBFusionGPU.h"
 
-RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* rgb_fusion_ptr)
+RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* controller_ptr)
 {
-    rgb_fusion = rgb_fusion_ptr;
+    controller  = controller_ptr;
 
     name        = "Gigabyte GPU";
     vendor      = "Gigabyte";
     description = "RGB Fusion GPU";
-    location    = rgb_fusion->GetDeviceLocation();
-
-    type = DEVICE_TYPE_GPU;
+    location    = controller->GetDeviceLocation();
+    type        = DEVICE_TYPE_GPU;
 
     mode Direct;
     Direct.name           = "Direct";
@@ -100,7 +99,7 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* r
 
 RGBController_RGBFusionGPU::~RGBController_RGBFusionGPU()
 {
-    delete rgb_fusion;
+    delete controller;
 }
 
 void RGBController_RGBFusionGPU::SetupZones()
@@ -109,8 +108,8 @@ void RGBController_RGBFusionGPU::SetupZones()
     | This device only has one LED, so create a single zone and |
     | LED for it                                                |
     \*---------------------------------------------------------*/
-    zone* new_zone = new zone();
-    led*  new_led  = new led();
+    zone* new_zone          = new zone();
+    led*  new_led           = new led();
 
     new_zone->name          = "GPU Zone";
     new_zone->type          = ZONE_TYPE_SINGLE;
@@ -144,7 +143,7 @@ void RGBController_RGBFusionGPU::DeviceUpdateLEDs()
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
 
-    rgb_fusion->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_RGBFusionGPU::UpdateZoneLEDs(int /*zone*/)
@@ -164,11 +163,11 @@ void RGBController_RGBFusionGPU::SetCustomMode()
 
 void RGBController_RGBFusionGPU::DeviceUpdateMode()
 {
-    rgb_fusion->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed, (unsigned char)modes[(unsigned int)active_mode].brightness);
+    controller->SetMode((unsigned char)modes[(unsigned int)active_mode].value, (unsigned char)modes[(unsigned int)active_mode].speed, (unsigned char)modes[(unsigned int)active_mode].brightness);
 }
 
 void RGBController_RGBFusionGPU::DeviceSaveMode()
 {
     DeviceUpdateMode();
-    rgb_fusion->Save();
+    controller->Save();
 }

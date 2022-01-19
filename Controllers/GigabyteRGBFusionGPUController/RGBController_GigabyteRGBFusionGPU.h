@@ -15,7 +15,7 @@
 class RGBController_RGBFusionGPU : public RGBController
 {
 public:
-    RGBController_RGBFusionGPU(RGBFusionGPUController* rgb_fusion_ptr);
+    RGBController_RGBFusionGPU(RGBFusionGPUController* controller_ptr);
     ~RGBController_RGBFusionGPU();
 
     void        SetupZones();
@@ -31,5 +31,5 @@ public:
     void        DeviceSaveMode();
     
 private:
-    RGBFusionGPUController* rgb_fusion;
+    RGBFusionGPUController* controller;
 };

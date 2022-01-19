@@ -21,10 +21,11 @@ void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::st
 {
     DMIInfo     MB_info;
     hid_device* dev = hid_open_path(info->path);
-    if (dev)
+
+    if(dev)
     {
-        RGBFusion2USBController * controller            = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
-        RGBController_RGBFusion2USB * rgb_controller    = new RGBController_RGBFusion2USB(controller, DETECTOR_NAME);
+        RGBFusion2USBController*     controller     = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
+        RGBController_RGBFusion2USB* rgb_controller = new RGBController_RGBFusion2USB(controller, DETECTOR_NAME);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

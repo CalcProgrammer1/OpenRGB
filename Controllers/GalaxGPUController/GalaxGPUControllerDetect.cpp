@@ -70,10 +70,7 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
 
 void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    GalaxGPUController* new_GalaxGPU;
-    RGBController_GalaxGPU* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         // Check for GALAX controller at 0x23
         for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
@@ -84,12 +81,14 @@ void DetectGalaxGPUControllers(std::vector<i2c_smbus_interface*> &busses)
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
                 LOG_DEBUG(GPU_DETECT_MESSAGE, "Galax GPU", bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
-                if (TestForGalaxGPUController(busses[bus], 0x23))
+
+                if(TestForGalaxGPUController(busses[bus], 0x23))
                 {
-                    new_GalaxGPU         = new GalaxGPUController(busses[bus], 0x23);
-                    new_controller       = new RGBController_GalaxGPU(new_GalaxGPU);
-                    new_controller->name = device_list[dev_idx].name;
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    GalaxGPUController*     controller     = new GalaxGPUController(busses[bus], 0x23);
+                    RGBController_GalaxGPU* rgb_controller = new RGBController_GalaxGPU(controller);
+                    rgb_controller->name                   = device_list[dev_idx].name;
+
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
         }

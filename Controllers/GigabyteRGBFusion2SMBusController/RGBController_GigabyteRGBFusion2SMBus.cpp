@@ -37,14 +37,14 @@ static const char* rgb_fusion_zone_names[] =
     "???"
 };
 
-RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusController* rgb_fusion_ptr)
+RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusController* controller_ptr)
 {
-    rgb_fusion = rgb_fusion_ptr;
+    controller  = controller_ptr;
 
-    name        = rgb_fusion->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "Gigabyte";
     description = "RGB Fusion 2 SMBus";
-    location    = rgb_fusion->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
     type = DEVICE_TYPE_MOTHERBOARD;
 
@@ -189,7 +189,7 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
 
 RGBController_RGBFusion2SMBus::~RGBController_RGBFusion2SMBus()
 {
-    delete rgb_fusion;
+    delete controller;
 }
 
 void RGBController_RGBFusion2SMBus::SetupZones()
@@ -198,7 +198,7 @@ void RGBController_RGBFusion2SMBus::SetupZones()
     | Search through all LEDs and create zones for each channel |
     | type                                                      |
     \*---------------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < rgb_fusion->GetLEDCount(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetLEDCount(); zone_idx++)
     {
         zone* new_zone = new zone();
 
@@ -214,7 +214,7 @@ void RGBController_RGBFusion2SMBus::SetupZones()
 
     for(unsigned int led_idx = 0; led_idx < zones.size(); led_idx++)
     {
-        led* new_led = new led();
+        led* new_led            = new led();
 
         // Set LED name to channel name
         new_led->name           = rgb_fusion_zone_names[led_idx];
@@ -237,19 +237,19 @@ void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
 {
     for (std::size_t led = 0; led < colors.size(); led++)
     {
-        RGBColor      color = colors[led];
-        unsigned char red   = RGBGetRValue(color);
-        unsigned char grn   = RGBGetGValue(color);
-        unsigned char blu   = RGBGetBValue(color);
+        RGBColor      color     = colors[led];
+        unsigned char red       = RGBGetRValue(color);
+        unsigned char grn       = RGBGetGValue(color);
+        unsigned char blu       = RGBGetBValue(color);
 
-        int mode = modes[active_mode].value;
-        unsigned int speed = modes[active_mode].speed;
+        int          mode       = modes[active_mode].value;
+        unsigned int speed      = modes[active_mode].speed;
         unsigned int brightness = modes[active_mode].brightness;
 
-        rgb_fusion->SetLEDEffect(led, mode, brightness, speed, red, grn, blu);
+        controller->SetLEDEffect(led, mode, brightness, speed, red, grn, blu);
     }
 
-    rgb_fusion->Apply();
+    controller->Apply();
 }
 
 void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
@@ -259,12 +259,12 @@ void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
 
-    int mode = modes[active_mode].value;
-    unsigned int speed = modes[active_mode].speed;
+    int          mode       = modes[active_mode].value;
+    unsigned int speed      = modes[active_mode].speed;
     unsigned int brightness = modes[active_mode].brightness;
 
-    rgb_fusion->SetLEDEffect(zone, mode, brightness, speed, red, grn, blu);
-    rgb_fusion->Apply();
+    controller->SetLEDEffect(zone, mode, brightness, speed, red, grn, blu);
+    controller->Apply();
 }
 
 void RGBController_RGBFusion2SMBus::UpdateSingleLED(int led)

@@ -52,19 +52,17 @@ bool TestForGigabyteRGBFusion2DRAMController(i2c_smbus_interface* bus, unsigned 
 
 void DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses)
 {
-    RGBFusion2DRAMController* new_rgb_fusion;
-    RGBController_RGBFusion2DRAM* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
             // Check for RGB Fusion 2 DRAM controller at 0x67
-            if (TestForGigabyteRGBFusion2DRAMController(busses[bus], 0x67))
+            if(TestForGigabyteRGBFusion2DRAMController(busses[bus], 0x67))
             {
-                new_rgb_fusion = new RGBFusion2DRAMController(busses[bus], 0x67);
-                new_controller = new RGBController_RGBFusion2DRAM(new_rgb_fusion);
-                ResourceManager::get()->RegisterRGBController(new_controller);
+                RGBFusion2DRAMController*     controller     = new RGBFusion2DRAMController(busses[bus], 0x67);
+                RGBController_RGBFusion2DRAM* rgb_controller = new RGBController_RGBFusion2DRAM(controller);
+
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

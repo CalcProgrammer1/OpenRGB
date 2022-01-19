@@ -9,16 +9,16 @@
 
 #include "RGBController_AorusATC800.h"
 
-RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* cooler_ptr)
+RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* controller_ptr)
 {
-    cooler = cooler_ptr;
+    controller  = controller_ptr;
 
     name        = "Aorus ATC800 CPU Cooler";
     vendor      = "Gigabyte";
     type        = DEVICE_TYPE_COOLER;
     description = "Aorus ATC800 CPU Cooler";
-    location    = cooler->GetDeviceLocation();
-    serial      = cooler->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Static;
     Static.name       = "Static";
@@ -69,7 +69,7 @@ RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* cooler_pt
 
 RGBController_AorusATC800::~RGBController_AorusATC800()
 {
-    delete cooler;
+    delete controller;
 }
 
 void RGBController_AorusATC800::SetupZones()
@@ -84,20 +84,20 @@ void RGBController_AorusATC800::SetupZones()
     zones.push_back(atc800_cpu_fans_zone);
 
     led atc800_fan_led;
-    atc800_fan_led.name = "Fan";
+    atc800_fan_led.name                 = "Fan";
     leds.push_back(atc800_fan_led);
 
     zone atc800_top_zone;
-    atc800_top_zone.name           = "Top";
-    atc800_top_zone.type           = ZONE_TYPE_SINGLE;
-    atc800_top_zone.leds_min       = 1;
-    atc800_top_zone.leds_max       = 1;
-    atc800_top_zone.leds_count     = 1;
-    atc800_top_zone.matrix_map     = NULL;
+    atc800_top_zone.name                = "Top";
+    atc800_top_zone.type                = ZONE_TYPE_SINGLE;
+    atc800_top_zone.leds_min            = 1;
+    atc800_top_zone.leds_max            = 1;
+    atc800_top_zone.leds_count          = 1;
+    atc800_top_zone.matrix_map          = NULL;
     zones.push_back(atc800_top_zone);
 
     led atc800_top_led;
-    atc800_top_led.name = "Top";
+    atc800_top_led.name                 = "Top";
     leds.push_back(atc800_top_led);
 
     SetupColors();
@@ -123,7 +123,7 @@ void RGBController_AorusATC800::UpdateZoneLEDs(int zone)
     unsigned char grn  = RGBGetGValue(colors[zone]);
     unsigned char blu  = RGBGetBValue(colors[zone]);
 
-    if (mode == AORUS_ATC800_MODE_OFF)
+    if(mode == AORUS_ATC800_MODE_OFF)
     {
         mode = 1;
         red  = 0;
@@ -131,7 +131,7 @@ void RGBController_AorusATC800::UpdateZoneLEDs(int zone)
         blu  = 0;
     }
 
-    cooler->SendCoolerMode(mode, modes[active_mode].speed, zone, red, grn, blu);
+    controller->SendCoolerMode(mode, modes[active_mode].speed, zone, red, grn, blu);
 }
 
 void RGBController_AorusATC800::UpdateSingleLED(int led)

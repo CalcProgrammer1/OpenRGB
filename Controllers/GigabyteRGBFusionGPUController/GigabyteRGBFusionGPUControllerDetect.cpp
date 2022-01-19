@@ -150,10 +150,7 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 
 void DetectGigabyteRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& busses)
 {
-    RGBFusionGPUController* new_rgb_fusion;
-    RGBController_RGBFusionGPU* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
         {
@@ -162,14 +159,16 @@ void DetectGigabyteRGBFusionGPUControllers(std::vector<i2c_smbus_interface*>& bu
                busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
             {
-                LOG_DEBUG(GPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
+                LOG_DEBUG(GPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name);
+
                 // Check for RGB Fusion controller
-                if (TestForGigabyteRGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address))
+                if(TestForGigabyteRGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address))
                 {
-                    new_rgb_fusion = new RGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address);
-                    new_controller = new RGBController_RGBFusionGPU(new_rgb_fusion);
-                    new_controller->name = device_list[dev_idx].name;
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    RGBFusionGPUController*     controller     = new RGBFusionGPUController(busses[bus], device_list[dev_idx].controller_address);
+                    RGBController_RGBFusionGPU* rgb_controller = new RGBController_RGBFusionGPU(controller);
+                    rgb_controller->name                       = device_list[dev_idx].name;
+
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
         }
