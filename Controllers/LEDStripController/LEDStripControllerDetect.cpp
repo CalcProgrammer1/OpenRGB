@@ -17,8 +17,6 @@
 
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    LEDStripController*     new_ledstrip;
-    RGBController_LEDStrip* new_controller;
     json                    ledstrip_settings;
     LEDStripDevice          dev;
 
@@ -80,12 +78,13 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
 
             std::string value = dev.port + "," + std::to_string(dev.baud) + "," + std::to_string(dev.num_leds);
 
-            new_ledstrip = new LEDStripController();
-            new_ledstrip->Initialize((char *)value.c_str(), dev.protocol);
+            LEDStripController*     controller     = new LEDStripController();
+            controller->Initialize((char *)value.c_str(), dev.protocol);
 
-            new_controller = new RGBController_LEDStrip(new_ledstrip);
-            new_controller->name = dev.name;
-            rgb_controllers.push_back(new_controller);
+            RGBController_LEDStrip* rgb_controller = new RGBController_LEDStrip(controller);
+            rgb_controller->name                   = dev.name;
+
+            rgb_controllers.push_back(rgb_controller);
         }
     }
 

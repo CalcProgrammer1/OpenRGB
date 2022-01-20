@@ -142,15 +142,15 @@ static const led_type led_names[] =
     { "Scroll Lock Indicator",  LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x04    },//93
 };
 
-RGBController_LogitechGProKeyboard::RGBController_LogitechGProKeyboard(LogitechGProKeyboardController* logitech_ptr)
+RGBController_LogitechGProKeyboard::RGBController_LogitechGProKeyboard(LogitechGProKeyboardController* controller_ptr)
 {
-    logitech = logitech_ptr;
+    controller  = controller_ptr;
 
     name        = "Logitech Keyboard Device";
     vendor      = "Logitech";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Logitech Keyboard Device";
-    serial      = logitech->GetSerialString();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";
@@ -215,7 +215,7 @@ RGBController_LogitechGProKeyboard::~RGBController_LogitechGProKeyboard()
         }
     }
 
-    delete logitech;
+    delete controller;
 }
 
 void RGBController_LogitechGProKeyboard::SetupZones()
@@ -253,8 +253,8 @@ void RGBController_LogitechGProKeyboard::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name  = led_names[led_idx].name;
-        new_led.value = ( led_names[led_idx].zone << 8 ) + led_names[led_idx].idx;
+        new_led.name                    = led_names[led_idx].name;
+        new_led.value                   = ( led_names[led_idx].zone << 8 ) + led_names[led_idx].idx;
         leds.push_back(new_led);
     }
 
@@ -288,7 +288,7 @@ void RGBController_LogitechGProKeyboard::DeviceUpdateLEDs()
 
         if((zone != prev_zone) && (frame_cnt != 0))
         {
-            logitech->SetDirect(prev_zone, frame_cnt, frame_buf);
+            controller->SetDirect(prev_zone, frame_cnt, frame_buf);
             frame_cnt = 0;
         }
 
@@ -302,17 +302,17 @@ void RGBController_LogitechGProKeyboard::DeviceUpdateLEDs()
 
         if(frame_cnt == MAX_FRAMES_PER_PACKET)
         {
-            logitech->SetDirect(prev_zone, frame_cnt, frame_buf);
+            controller->SetDirect(prev_zone, frame_cnt, frame_buf);
             frame_cnt = 0;
         }
     }
 
     if(frame_cnt != 0)
     {
-        logitech->SetDirect(prev_zone, frame_cnt, frame_buf);
+        controller->SetDirect(prev_zone, frame_cnt, frame_buf);
     }
 
-    logitech->Commit();
+    controller->Commit();
 }
 
 void RGBController_LogitechGProKeyboard::UpdateZoneLEDs(int /*zone*/)
@@ -334,8 +334,8 @@ void RGBController_LogitechGProKeyboard::UpdateSingleLED(int led)
     frame[2] = RGBGetGValue(colors[led]);
     frame[3] = RGBGetBValue(colors[led]);
 
-    logitech->SetDirect(zone, 1, frame);
-    logitech->Commit();
+    controller->SetDirect(zone, 1, frame);
+    controller->Commit();
 }
 
 void RGBController_LogitechGProKeyboard::SetCustomMode()
@@ -366,5 +366,5 @@ void RGBController_LogitechGProKeyboard::DeviceUpdateMode()
         blu = RGBGetBValue(modes[active_mode].colors[0]);
     }
 
-    logitech->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
 }

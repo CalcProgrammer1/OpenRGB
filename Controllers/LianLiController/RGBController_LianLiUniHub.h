@@ -18,7 +18,7 @@
 class RGBController_LianLiUniHub : public RGBController
 {
 public:
-    RGBController_LianLiUniHub(LianLiUniHubController* uniHub_ptr);
+    RGBController_LianLiUniHub(LianLiUniHubController* controller_ptr);
 
     void SetupZones();
 
@@ -40,6 +40,6 @@ private:
     uint8_t convertLedCountToFanCount(uint8_t count);
 
 private:
-    LianLiUniHubController* uniHub;
+    LianLiUniHubController* controller;
     bool                    initializedMode;
 };

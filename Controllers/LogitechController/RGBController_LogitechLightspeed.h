@@ -14,7 +14,7 @@
 class RGBController_LogitechLightspeed : public RGBController
 {
 public:
-    RGBController_LogitechLightspeed(LogitechLightspeedController* logitech_ptr);
+    RGBController_LogitechLightspeed(LogitechLightspeedController* controller_ptr);
     ~RGBController_LogitechLightspeed();
 
     void        SetupZones();
@@ -30,5 +30,5 @@ public:
 
     uint16_t    pid;        //This is a workaround fix for G502 mode breathing / spectrum cycle swap
 private:
-    LogitechLightspeedController*   logitech;
+    LogitechLightspeedController* controller;
 };

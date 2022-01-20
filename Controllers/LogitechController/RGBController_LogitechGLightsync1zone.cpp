@@ -9,16 +9,16 @@
 
 #include "RGBController_LogitechGLightsync1zone.h"
 
-RGBController_LogitechGLightsync1zone::RGBController_LogitechGLightsync1zone(LogitechGLightsyncController* logitech_ptr)
+RGBController_LogitechGLightsync1zone::RGBController_LogitechGLightsync1zone(LogitechGLightsyncController* controller_ptr)
 {
-    logitech                = logitech_ptr;
+    controller              = controller_ptr;
 
     name                    = "Logitech G Lightsync Mouse Single Zone";
     vendor                  = "Logitech";
     type                    = DEVICE_TYPE_MOUSE;
     description             = "Logitech G Lightsync Mouse Single Zone";
-    location                = logitech->GetDeviceLocation();
-    serial                  = logitech->GetSerialString();
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Off;
     Off.name                = "Off";
@@ -72,7 +72,7 @@ RGBController_LogitechGLightsync1zone::RGBController_LogitechGLightsync1zone(Log
 
 RGBController_LogitechGLightsync1zone::~RGBController_LogitechGLightsync1zone()
 {
-    delete logitech;
+    delete controller;
 }
 
 void RGBController_LogitechGLightsync1zone::SetupZones()
@@ -87,7 +87,7 @@ void RGBController_LogitechGLightsync1zone::SetupZones()
     zones.push_back(GLightsync_logo_zone);
 
     led GLightsync_logo_led;
-    GLightsync_logo_led.name = "Logo";
+    GLightsync_logo_led.name                = "Logo";
     leds.push_back(GLightsync_logo_led);
 
     SetupColors();
@@ -116,7 +116,7 @@ void RGBController_LogitechGLightsync1zone::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     unsigned char temp_mode = (modes[active_mode].value != 0xFF) ? modes[active_mode].value : LOGITECH_G_LIGHTSYNC_MODE_STATIC;
 
-    logitech->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness);
+    controller->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness);
 }
 
 void RGBController_LogitechGLightsync1zone::UpdateSingleLED(int led)
@@ -136,6 +136,6 @@ void RGBController_LogitechGLightsync1zone::DeviceUpdateMode()
     | mouse in direct mode.  This code will only be called when |
     | we change modes as to not spam the device.                |
     \*---------------------------------------------------------*/
-    logitech->SetDirectMode(modes[active_mode].value == 0xFF);
+    controller->SetDirectMode(modes[active_mode].value == 0xFF);
     DeviceUpdateLEDs();
 }

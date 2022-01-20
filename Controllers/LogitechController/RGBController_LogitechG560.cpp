@@ -11,15 +11,15 @@
 
 #include "RGBController_LogitechG560.h"
 
-RGBController_LogitechG560::RGBController_LogitechG560(LogitechG560Controller* logitech_ptr)
+RGBController_LogitechG560::RGBController_LogitechG560(LogitechG560Controller* controller_ptr)
 {
-    logitech    = logitech_ptr;
+    controller  = controller_ptr;
 
     name        = "Logitech G560 Lightsync Speaker";
     vendor      = "Logitech";
     type        = DEVICE_TYPE_SPEAKER;
     description = "Logitech G560 Lightsync Speaker";
-    location    = logitech->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
     mode Off;
     Off.name                = "Off";
@@ -40,18 +40,19 @@ RGBController_LogitechG560::RGBController_LogitechG560(LogitechG560Controller* l
 void RGBController_LogitechG560::SetupZones()
 {
     zone G560_left_front;
-    G560_left_front.name           = "Left Front";
-    G560_left_front.type           = ZONE_TYPE_SINGLE;
-    G560_left_front.leds_min       = 1;
-    G560_left_front.leds_max       = 1;
-    G560_left_front.leds_count     = 1;
-    G560_left_front.matrix_map     = NULL;
+    G560_left_front.name            = "Left Front";
+    G560_left_front.type            = ZONE_TYPE_SINGLE;
+    G560_left_front.leds_min        = 1;
+    G560_left_front.leds_max        = 1;
+    G560_left_front.leds_count      = 1;
+    G560_left_front.matrix_map      = NULL;
     zones.push_back(G560_left_front);
 
     led G560_left_front_led;
-    G560_left_front_led.name = "Left Front";
-    G560_left_front_led.value = 0x00;
+    G560_left_front_led.name        = "Left Front";
+    G560_left_front_led.value       = 0x00;
     leds.push_back(G560_left_front_led);
+
 
     zone G560_right_front;
     G560_right_front.name           = "Right Front";
@@ -63,38 +64,38 @@ void RGBController_LogitechG560::SetupZones()
     zones.push_back(G560_right_front);
 
     led G560_right_front_led;
-    G560_right_front_led.name = "Right Front";
-    G560_right_front_led.value = 0x01;
+    G560_right_front_led.name       = "Right Front";
+    G560_right_front_led.value      = 0x01;
     leds.push_back(G560_right_front_led);
 
 
     zone G560_left_rear;
-    G560_left_rear.name           = "Left Rear";
-    G560_left_rear.type           = ZONE_TYPE_SINGLE;
-    G560_left_rear.leds_min       = 1;
-    G560_left_rear.leds_max       = 1;
-    G560_left_rear.leds_count     = 1;
-    G560_left_rear.matrix_map     = NULL;
+    G560_left_rear.name             = "Left Rear";
+    G560_left_rear.type             = ZONE_TYPE_SINGLE;
+    G560_left_rear.leds_min         = 1;
+    G560_left_rear.leds_max         = 1;
+    G560_left_rear.leds_count       = 1;
+    G560_left_rear.matrix_map       = NULL;
     zones.push_back(G560_left_rear);
 
     led G560_left_read_led;
-    G560_left_read_led.name = "Left Rear";
-    G560_left_read_led.value = 0x02;
+    G560_left_read_led.name         = "Left Rear";
+    G560_left_read_led.value        = 0x02;
     leds.push_back(G560_left_read_led);
 
 
     zone G560_right_rear;
-    G560_right_rear.name           = "Right Rear";
-    G560_right_rear.type           = ZONE_TYPE_SINGLE;
-    G560_right_rear.leds_min       = 1;
-    G560_right_rear.leds_max       = 1;
-    G560_right_rear.leds_count     = 1;
-    G560_right_rear.matrix_map     = NULL;
+    G560_right_rear.name            = "Right Rear";
+    G560_right_rear.type            = ZONE_TYPE_SINGLE;
+    G560_right_rear.leds_min        = 1;
+    G560_right_rear.leds_max        = 1;
+    G560_right_rear.leds_count      = 1;
+    G560_right_rear.matrix_map      = NULL;
     zones.push_back(G560_right_rear);
 
     led G560_right_rear_led;
-    G560_right_rear_led.name = "Right Rear";
-    G560_right_rear_led.value = 0x03;
+    G560_right_rear_led.name        = "Right Rear";
+    G560_right_rear_led.value       = 0x03;
     leds.push_back(G560_right_rear_led);
 
     SetupColors();
@@ -114,7 +115,8 @@ void RGBController_LogitechG560::DeviceUpdateLEDs()
         unsigned char red = RGBGetRValue(colors[led_idx]);
         unsigned char grn = RGBGetGValue(colors[led_idx]);
         unsigned char blu = RGBGetBValue(colors[led_idx]);
-        logitech->SendSpeakerMode((unsigned char)leds[led_idx].value, modes[active_mode].value, red, grn, blu);
+
+        controller->SendSpeakerMode((unsigned char)leds[led_idx].value, modes[active_mode].value, red, grn, blu);
     }
 }
 
@@ -139,7 +141,7 @@ void RGBController_LogitechG560::DeviceUpdateMode()
     {
         if(modes[active_mode].value == LOGITECH_G560_MODE_OFF)
         {
-            logitech->SetOffMode(leds[led_idx].value);
+            controller->SetOffMode(leds[led_idx].value);
         }
         else
         {
@@ -147,7 +149,7 @@ void RGBController_LogitechG560::DeviceUpdateMode()
             | Required to "reset" RGB controller and start receiving    |
             | color in direct mode                                      |
             \*---------------------------------------------------------*/
-            logitech->SetDirectMode(leds[led_idx].value);
+            controller->SetDirectMode(leds[led_idx].value);
         }
 
     }

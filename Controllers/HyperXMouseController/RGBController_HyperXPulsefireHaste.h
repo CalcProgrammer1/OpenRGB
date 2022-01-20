@@ -16,7 +16,7 @@
 class RGBController_HyperXPulsefireHaste : public RGBController
 {
 public:
-    RGBController_HyperXPulsefireHaste(HyperXPulsefireHasteController* hyperx_ptr);
+    RGBController_HyperXPulsefireHaste(HyperXPulsefireHasteController* controller_ptr);
     ~RGBController_HyperXPulsefireHaste();
 
     void        SetupZones();
@@ -33,8 +33,8 @@ public:
     void        KeepaliveThread();
     
 private:
-    HyperXPulsefireHasteController*     hyperx;
-    std::thread*                        keepalive_thread;
-    std::atomic<bool>                   keepalive_thread_run;
+    HyperXPulsefireHasteController*                     controller;
+    std::thread*                                        keepalive_thread;
+    std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

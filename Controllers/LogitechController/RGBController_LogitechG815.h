@@ -14,7 +14,7 @@
 class RGBController_LogitechG815 : public RGBController
 {
 public:
-    RGBController_LogitechG815(LogitechG815Controller* logitech_ptr);
+    RGBController_LogitechG815(LogitechG815Controller* controller_ptr);
     ~RGBController_LogitechG815();
 
     void        SetupZones();
@@ -29,6 +29,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LogitechG815Controller* logitech;
+    LogitechG815Controller* controller;
     std::vector<RGBColor>   current_colors;
 };

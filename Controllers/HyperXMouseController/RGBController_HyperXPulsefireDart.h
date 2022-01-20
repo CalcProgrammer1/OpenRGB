@@ -16,7 +16,7 @@
 class RGBController_HyperXPulsefireDart : public RGBController
 {
 public:
-    RGBController_HyperXPulsefireDart(HyperXPulsefireDartController* hyperx_ptr);
+    RGBController_HyperXPulsefireDart(HyperXPulsefireDartController* controller_ptr);
     ~RGBController_HyperXPulsefireDart();
 
     void        SetupZones();
@@ -32,5 +32,5 @@ public:
     void        DeviceSaveMode();
     
 private:
-    HyperXPulsefireDartController*    hyperx;
+    HyperXPulsefireDartController* controller;
 };

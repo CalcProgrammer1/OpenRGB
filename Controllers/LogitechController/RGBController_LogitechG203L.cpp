@@ -1,15 +1,15 @@
 #include "RGBController_LogitechG203L.h"
 
-RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController* logitech_ptr)
+RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController* controller_ptr)
 {
-    logitech = logitech_ptr;
+    controller  = controller_ptr;
 
     name        = "Logitech Mouse Device";
     vendor      = "Logitech";
     type        = DEVICE_TYPE_MOUSE;
     description = "Logitech Mouse Device";
-    location    = logitech->GetDeviceLocation();
-    serial      = logitech->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name             = "Direct";
@@ -75,33 +75,33 @@ RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController
 
 RGBController_LogitechG203L::~RGBController_LogitechG203L()
 {
-    delete logitech;
+    delete controller;
 }
 
 void RGBController_LogitechG203L::SetupZones()
 {
     zone g203L_zone;
-    g203L_zone.name = "Mouse Zone";
-    g203L_zone.type = ZONE_TYPE_LINEAR;
-    g203L_zone.leds_min = 3;
-    g203L_zone.leds_max = 3;
-    g203L_zone.leds_count = 3;
-    g203L_zone.matrix_map = NULL;
+    g203L_zone.name         = "Mouse Zone";
+    g203L_zone.type         = ZONE_TYPE_LINEAR;
+    g203L_zone.leds_min     = 3;
+    g203L_zone.leds_max     = 3;
+    g203L_zone.leds_count   = 3;
+    g203L_zone.matrix_map   = NULL;
     zones.push_back(g203L_zone);
 
     led g203L_led_l;
-    g203L_led_l.name = "Mouse Left";
-    g203L_led_l.value = 1;
+    g203L_led_l.name        = "Mouse Left";
+    g203L_led_l.value       = 1;
     leds.push_back(g203L_led_l);
 
     led g203L_led_c;
-    g203L_led_c.name = "Mouse Center";
-    g203L_led_c.value = 2;
+    g203L_led_c.name        = "Mouse Center";
+    g203L_led_c.value       = 2;
     leds.push_back(g203L_led_c);
 
     led g203L_led_r;
-    g203L_led_r.name = "Mouse Right";
-    g203L_led_r.value = 3;
+    g203L_led_r.name        = "Mouse Right";
+    g203L_led_r.value       = 3;
     leds.push_back(g203L_led_r);
 
     SetupColors();
@@ -116,8 +116,8 @@ void RGBController_LogitechG203L::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_LogitechG203L::DeviceUpdateLEDs()
 {
-    logitech->SetDevice(colors);
-    logitech->SetDevice(colors); //dirty workaround for color lag
+    controller->SetDevice(colors);
+    controller->SetDevice(colors); //dirty workaround for color lag
 }
 
 void RGBController_LogitechG203L::UpdateZoneLEDs(int /*zone*/)
@@ -131,8 +131,8 @@ void RGBController_LogitechG203L::UpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
 
-    logitech->SetSingleLED(leds[led].value, red, grn, blu);
-    logitech->SetSingleLED(leds[led].value, red, grn, blu); //dirty workaround for color lag
+    controller->SetSingleLED(leds[led].value, red, grn, blu);
+    controller->SetSingleLED(leds[led].value, red, grn, blu); //dirty workaround for color lag
 }
 
 void RGBController_LogitechG203L::SetCustomMode()
@@ -167,10 +167,10 @@ void RGBController_LogitechG203L::DeviceUpdateMode()
 
     if(modes[active_mode].value == LOGITECH_G203L_MODE_DIRECT)
     {
-        logitech->SetDevice(colors);
+        controller->SetDevice(colors);
     }
     else
     {
-        logitech->SetMode(modes[active_mode].value, modes[active_mode].speed, val, dir, red, grn, blu);
+        controller->SetMode(modes[active_mode].value, modes[active_mode].speed, val, dir, red, grn, blu);
     }
 }

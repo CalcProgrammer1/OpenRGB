@@ -169,15 +169,15 @@ static const led_type led_names[] =
     { "Key: G5",                LOGITECH_G815_ZONE_MODE_GKEYS,          0x05    },
 };
 
-RGBController_LogitechG815::RGBController_LogitechG815(LogitechG815Controller* logitech_ptr)
+RGBController_LogitechG815::RGBController_LogitechG815(LogitechG815Controller* controller_ptr)
 {
-    logitech    = logitech_ptr;
+    controller  = controller_ptr;
 
     name        = "Logitech G815 Keyboard Device";
     vendor      = "Logitech";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Logitech G815 Keyboard Device";
-    serial      = logitech->GetSerialString();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";
@@ -242,6 +242,8 @@ RGBController_LogitechG815::~RGBController_LogitechG815()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete controller;
 }
 
 void RGBController_LogitechG815::SetupZones()
@@ -279,8 +281,8 @@ void RGBController_LogitechG815::SetupZones()
     for(unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;
-        new_led.name  = led_names[led_idx].name;
-        new_led.value = ( led_names[led_idx].zone << 8 ) + led_names[led_idx].idx;
+        new_led.name                    = led_names[led_idx].name;
+        new_led.value                   = ( led_names[led_idx].zone << 8 ) + led_names[led_idx].idx;
         leds.push_back(new_led);
     }
     SetupColors();
@@ -409,7 +411,7 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
                 /*-----------------------------------------------------*\
                 | Zeroing just what is needed                           |
                 \*-----------------------------------------------------*/
-                logitech->SetDirect(LOGITECH_G815_ZONE_FRAME_TYPE_BIG, frame_buffer_big_mode);
+                controller->SetDirect(LOGITECH_G815_ZONE_FRAME_TYPE_BIG, frame_buffer_big_mode);
                 bi = bi + max_key_per_color;
             }
         }
@@ -435,7 +437,7 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
                     /*-----------------------------------------*\
                     | No End of Data byte if the packet is full |
                     \*-----------------------------------------*/
-                    logitech->SetDirect(LOGITECH_G815_ZONE_FRAME_TYPE_LITTLE, frame_buffer_little_mode);
+                    controller->SetDirect(LOGITECH_G815_ZONE_FRAME_TYPE_LITTLE, frame_buffer_little_mode);
                     led_in_little_frame=0;
                 }
             }
@@ -461,7 +463,7 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
         /*-----------------------------------------------------*\
         | Send little frame and clear little frame buffer       |
         \*-----------------------------------------------------*/
-        logitech->SetDirect(LOGITECH_G815_ZONE_FRAME_TYPE_LITTLE, frame_buffer_little_mode);
+        controller->SetDirect(LOGITECH_G815_ZONE_FRAME_TYPE_LITTLE, frame_buffer_little_mode);
     }
     if(ledsByColors.size() > 0)
     {
@@ -469,7 +471,7 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
         | Copy the current color vector to avoid set keys that  |
         | has not being                                         |
         \*-----------------------------------------------------*/
-        logitech->Commit();
+        controller->Commit();
         std::copy(new_colors.begin(), new_colors.end(),current_colors.begin());
     }
 }
@@ -501,13 +503,13 @@ void RGBController_LogitechG815::DeviceUpdateMode()
         | Send real direct mode initialization. I used same     |
         | sequence as GHUB for screen capture.                  |
         \*-----------------------------------------------------*/
-        logitech->InitializeDirect();
+        controller->InitializeDirect();
 
         /*-----------------------------------------------------*\
         | Set one key to get direct mode engaged.               |
         \*-----------------------------------------------------*/
-        logitech->SendSingleLed(0x29,0,0,0);
-        logitech->Commit();
+        controller->SendSingleLed(0x29,0,0,0);
+        controller->Commit();
         return;
     }
 
@@ -522,5 +524,5 @@ void RGBController_LogitechG815::DeviceUpdateMode()
         blu = RGBGetBValue(modes[active_mode].colors[0]);
     }
 
-    logitech->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
 }

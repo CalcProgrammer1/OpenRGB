@@ -5,7 +5,7 @@
 class RGBController_LogitechG203L : public RGBController
 {
 public:
-    RGBController_LogitechG203L(LogitechG203LController* logitech_ptr);
+    RGBController_LogitechG203L(LogitechG203LController* controller_ptr);
     ~RGBController_LogitechG203L();
 
     void        SetupZones();
@@ -20,5 +20,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LogitechG203LController*    logitech;
+    LogitechG203LController* controller;
 };

@@ -28,16 +28,16 @@ static const unsigned char led_values[] =
 
 #define LOGITECH_G213_ZONES (sizeof(led_values) / sizeof(led_values[ 0 ]))
 
-RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* logitech_ptr)
+RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* controller_ptr)
 {
-    logitechG213 = logitech_ptr;
+    controller  = controller_ptr;
 
     name        = "Logitech G213 Keyboard Device";
     vendor      = "Logitech";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Logitech G213 Keyboard Device";
-    location    = logitechG213->GetDeviceLocation();
-    serial      = logitechG213->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";
@@ -92,7 +92,7 @@ RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* l
 
 RGBController_LogitechG213::~RGBController_LogitechG213()
 {
-    delete logitechG213;
+    delete controller;
 }
 
 void RGBController_LogitechG213::SetupZones()
@@ -114,8 +114,8 @@ void RGBController_LogitechG213::SetupZones()
     for(unsigned int led_idx = 0; led_idx < LOGITECH_G213_ZONES; led_idx++)
     {
         led new_led;
-        new_led.name = led_names[led_idx];
-        new_led.value = led_values[led_idx];
+        new_led.name                = led_names[led_idx];
+        new_led.value               = led_values[led_idx];
         leds.push_back(new_led);
     }
 
@@ -133,18 +133,18 @@ void RGBController_LogitechG213::DeviceUpdateLEDs()
 {
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        logitechG213->SetDirect((unsigned char)leds[led_idx].value, RGBGetRValue(colors[led_idx]), RGBGetGValue(colors[led_idx]), RGBGetBValue(colors[led_idx]));
+        controller->SetDirect((unsigned char)leds[led_idx].value, RGBGetRValue(colors[led_idx]), RGBGetGValue(colors[led_idx]), RGBGetBValue(colors[led_idx]));
     }
 }
 
 void RGBController_LogitechG213::UpdateZoneLEDs(int zone)
 {
-    logitechG213->SetDirect((unsigned char) zone, RGBGetRValue(zones[zone].colors[0]), RGBGetGValue(zones[zone].colors[0]), RGBGetBValue(zones[zone].colors[0]));
+    controller->SetDirect((unsigned char) zone, RGBGetRValue(zones[zone].colors[0]), RGBGetGValue(zones[zone].colors[0]), RGBGetBValue(zones[zone].colors[0]));
 }
 
 void RGBController_LogitechG213::UpdateSingleLED(int led)
 {
-    logitechG213->SetDirect(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
+    controller->SetDirect(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
 }
 
 void RGBController_LogitechG213::SetCustomMode()
@@ -196,5 +196,5 @@ void RGBController_LogitechG213::DeviceUpdateMode()
             break;
     }
 
-    logitechG213->SetMode(modes[active_mode].value, modes[active_mode].speed, direction, red, grn, blu);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, direction, red, grn, blu);
 }

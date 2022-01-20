@@ -11,15 +11,15 @@
 
 #include "RGBController_LogitechG933.h"
 
-RGBController_LogitechG933::RGBController_LogitechG933(LogitechG933Controller* logitech_ptr)
+RGBController_LogitechG933::RGBController_LogitechG933(LogitechG933Controller* controller_ptr)
 {
-    logitech    = logitech_ptr;
+    controller  = controller_ptr;
 
     name        = "Logitech G933 Lightsync Headset";
     vendor      = "Logitech";
     type        = DEVICE_TYPE_HEADSET;
     description = "Logitech G933 Lightsync Headset";
-    location    = logitech->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
 
     mode Off;
     Off.name                = "Off";
@@ -34,37 +34,38 @@ RGBController_LogitechG933::RGBController_LogitechG933(LogitechG933Controller* l
     Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
     SetupZones();
 }
 
 void RGBController_LogitechG933::SetupZones()
 {
     zone G933_logo;
-    G933_logo.name           = "Logo";
-    G933_logo.type           = ZONE_TYPE_SINGLE;
-    G933_logo.leds_min       = 1;
-    G933_logo.leds_max       = 1;
-    G933_logo.leds_count     = 1;
-    G933_logo.matrix_map     = NULL;
+    G933_logo.name          = "Logo";
+    G933_logo.type          = ZONE_TYPE_SINGLE;
+    G933_logo.leds_min      = 1;
+    G933_logo.leds_max      = 1;
+    G933_logo.leds_count    = 1;
+    G933_logo.matrix_map    = NULL;
     zones.push_back(G933_logo);
 
     led G933_logo_led;
-    G933_logo_led.name = "Logo";
-    G933_logo_led.value = 0x00;
+    G933_logo_led.name      = "Logo";
+    G933_logo_led.value     = 0x00;
     leds.push_back(G933_logo_led);
 
     zone G933_strip;
-    G933_strip.name           = "LED Strip";
-    G933_strip.type           = ZONE_TYPE_SINGLE;
-    G933_strip.leds_min       = 1;
-    G933_strip.leds_max       = 1;
-    G933_strip.leds_count     = 1;
-    G933_strip.matrix_map     = NULL;
+    G933_strip.name         = "LED Strip";
+    G933_strip.type         = ZONE_TYPE_SINGLE;
+    G933_strip.leds_min     = 1;
+    G933_strip.leds_max     = 1;
+    G933_strip.leds_count   = 1;
+    G933_strip.matrix_map   = NULL;
     zones.push_back(G933_strip);
 
     led G933_strip_led;
-    G933_strip_led.name = "Led Strip";
-    G933_strip_led.value = 0x01;
+    G933_strip_led.name     = "Led Strip";
+    G933_strip_led.value    = 0x01;
     leds.push_back(G933_strip_led);
 
     SetupColors();
@@ -84,7 +85,8 @@ void RGBController_LogitechG933::DeviceUpdateLEDs()
         unsigned char red = RGBGetRValue(colors[led_idx]);
         unsigned char grn = RGBGetGValue(colors[led_idx]);
         unsigned char blu = RGBGetBValue(colors[led_idx]);
-        logitech->SendHeadsetMode((unsigned char)leds[led_idx].value, modes[active_mode].value, red, grn, blu);
+
+        controller->SendHeadsetMode((unsigned char)leds[led_idx].value, modes[active_mode].value, red, grn, blu);
     }
 }
 
@@ -109,7 +111,7 @@ void RGBController_LogitechG933::DeviceUpdateMode()
     {
         if(modes[active_mode].value == LOGITECH_G933_MODE_OFF)
         {
-            logitech->SetOffMode(leds[led_idx].value);
+            controller->SetOffMode(leds[led_idx].value);
         }
         else
         {
@@ -117,7 +119,7 @@ void RGBController_LogitechG933::DeviceUpdateMode()
             | Required to "reset" RGB controller and start receiving    |
             | color in direct mode                                      |
             \*---------------------------------------------------------*/
-            logitech->SetDirectMode(leds[led_idx].value);
+            controller->SetDirectMode(leds[led_idx].value);
         }
 
     }

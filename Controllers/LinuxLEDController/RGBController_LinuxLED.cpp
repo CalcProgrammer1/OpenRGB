@@ -10,7 +10,7 @@
 
 RGBController_LinuxLED::RGBController_LinuxLED(LinuxLEDController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller  = controller_ptr;
 
     name        = "Linux LED";
     type        = DEVICE_TYPE_LEDSTRIP;
@@ -47,7 +47,7 @@ void RGBController_LinuxLED::SetupZones()
     zones.push_back(led_zone);
 
     led new_led;
-    new_led.name = "RGB Light";
+    new_led.name        = "RGB Light";
 
     leds.push_back(new_led);
 

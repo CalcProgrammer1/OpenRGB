@@ -9,16 +9,16 @@
 
 #include "RGBController_HyperXPulsefireDart.h"
 
-RGBController_HyperXPulsefireDart::RGBController_HyperXPulsefireDart(HyperXPulsefireDartController* hyperx_ptr)
+RGBController_HyperXPulsefireDart::RGBController_HyperXPulsefireDart(HyperXPulsefireDartController* controller_ptr)
 {
-    hyperx = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Pulsefire Dart Device";
     vendor      = "HyperX";
     type        = DEVICE_TYPE_MOUSE;
     description = "HyperX Pulsefire Dart Device";
-    location    = hyperx->GetDeviceLocation();
-    serial      = hyperx->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name           = "Direct";
@@ -130,11 +130,11 @@ void RGBController_HyperXPulsefireDart::UpdateSingleLED(int led)
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        hyperx->SendDirect(colors[led], leds[led].value, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
+        controller->SendDirect(colors[led], leds[led].value, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
     }
     else
     {
-        hyperx->SendDirect(colors[led], HYPERX_PULSEFIRE_DART_LED_ALL, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
+        controller->SendDirect(colors[led], HYPERX_PULSEFIRE_DART_LED_ALL, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
     }
 }
 
@@ -147,16 +147,16 @@ void RGBController_HyperXPulsefireDart::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        hyperx->SendDirect(colors[0], HYPERX_PULSEFIRE_DART_LED_SCROLL, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
-        hyperx->SendDirect(colors[1], HYPERX_PULSEFIRE_DART_LED_LOGO,   modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
+        controller->SendDirect(colors[0], HYPERX_PULSEFIRE_DART_LED_SCROLL, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
+        controller->SendDirect(colors[1], HYPERX_PULSEFIRE_DART_LED_LOGO,   modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
     }
     else
     {
-        hyperx->SendDirect(colors[0], HYPERX_PULSEFIRE_DART_LED_ALL, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
+        controller->SendDirect(colors[0], HYPERX_PULSEFIRE_DART_LED_ALL, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
     }
 }
 
 void RGBController_HyperXPulsefireDart::DeviceSaveMode()
 {
-    hyperx->Save();
+    controller->Save();
 }

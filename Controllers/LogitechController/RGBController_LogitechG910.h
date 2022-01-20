@@ -14,7 +14,7 @@
 class RGBController_LogitechG910 : public RGBController
 {
 public:
-    RGBController_LogitechG910(LogitechG910Controller* logitech_ptr);
+    RGBController_LogitechG910(LogitechG910Controller* controller_ptr);
     ~RGBController_LogitechG910();
 
     void        SetupZones();
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LogitechG910Controller*   logitech;
+    LogitechG910Controller* controller;
 };

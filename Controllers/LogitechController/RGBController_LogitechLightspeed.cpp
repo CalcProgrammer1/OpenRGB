@@ -9,10 +9,10 @@
 
 #include "RGBController_LogitechLightspeed.h"
 
-RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLightspeedController* logitech_ptr)
+RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLightspeedController* controller_ptr)
 {
-    logitech                        = logitech_ptr;
-    bool connected                  = logitech->lightspeed->connected();
+    controller                      = controller_ptr;
+    bool connected                  = controller->lightspeed->connected();
 
     mode Off;
     Off.name                        = "Off";
@@ -23,13 +23,13 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
 
     if(connected)
     {
-        name                        = logitech->lightspeed->device_name;
+        name                        = controller->lightspeed->device_name;
         vendor                      = "Logitech";
         description                 = "Logitech Wireless Lightspeed Device";
-        location                    = logitech->GetDeviceLocation();
-        serial                      = logitech->GetSerialString();
+        location                    = controller->GetDeviceLocation();
+        serial                      = controller->GetSerialString();
 
-        switch(logitech->lightspeed->logitech_device_type)
+        switch(controller->lightspeed->logitech_device_type)
         {
             case LOGITECH_DEVICE_TYPE_KEYBOARD:
                 type                = DEVICE_TYPE_KEYBOARD;
@@ -49,7 +49,7 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
 
             default:
                 type                = DEVICE_TYPE_UNKNOWN;
-                LOG_INFO("Logitech device type not known: %i", logitech->lightspeed->logitech_device_type);
+                LOG_INFO("Logitech device type not known: %i", controller->lightspeed->logitech_device_type);
         }
 
         mode Direct;
@@ -103,21 +103,21 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
         vendor                      = "Logitech";
         type                        = DEVICE_TYPE_UNKNOWN;
         description                 = "Idle Logitech Wireless Lightspeed Device";
-        location                    = logitech->GetDeviceLocation();
-        serial                      = logitech->GetSerialString();
+        location                    = controller->GetDeviceLocation();
+        serial                      = controller->GetSerialString();
     }
 }
 
 RGBController_LogitechLightspeed::~RGBController_LogitechLightspeed()
 {
-    delete logitech;
+    delete controller;
 }
 
 void RGBController_LogitechLightspeed::SetupZones()
 {
     const std::string zone_string   = "Zone";
     const std::string led_string    = "LED";
-    uint8_t led_count               = logitech->lightspeed->getLED_count();
+    uint8_t led_count               = controller->lightspeed->getLED_count();
 
     if(led_count > 0)
     {
@@ -125,7 +125,7 @@ void RGBController_LogitechLightspeed::SetupZones()
         {
             zone Lightspeed_logo_zone;
             led Lightspeed_logo_led;
-            logitech_led new_led                    = logitech->lightspeed->getLED_info(i);
+            logitech_led new_led                    = controller->lightspeed->getLED_info(i);
 
             if(new_led.location < sizeof(logitech_led_locations) )
             {
@@ -188,7 +188,7 @@ void RGBController_LogitechLightspeed::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     unsigned char temp_mode = (modes[active_mode].value == 0xFF) ? LOGITECH_G_PRO_WIRELESS_MODE_STATIC : modes[active_mode].value;
 
-    logitech->SendMouseMode(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness, bright_cycle_swap);
+    controller->SendMouseMode(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness, bright_cycle_swap);
 }
 
 void RGBController_LogitechLightspeed::UpdateSingleLED(int led)
@@ -198,7 +198,7 @@ void RGBController_LogitechLightspeed::UpdateSingleLED(int led)
 
 void RGBController_LogitechLightspeed::SetCustomMode()
 {
-    if(logitech->lightspeed->connected())
+    if(controller->lightspeed->connected())
     {
         active_mode = 1;
     }
@@ -211,6 +211,6 @@ void RGBController_LogitechLightspeed::DeviceUpdateMode()
     | mouse in direct mode.  This code will only be called when |
     | we change modes as to not spam the device.                |
     \*---------------------------------------------------------*/
-    logitech->lightspeed->setDirectMode(modes[active_mode].value == 0xFF);
+    controller->lightspeed->setDirectMode(modes[active_mode].value == 0xFF);
     DeviceUpdateLEDs();
 }

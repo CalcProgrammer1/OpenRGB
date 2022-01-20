@@ -28,17 +28,17 @@ mode makeMode()
   return Mode;
 }
 
-RGBController_LianLiUniHub::RGBController_LianLiUniHub(LianLiUniHubController* uniHub_ptr)
+RGBController_LianLiUniHub::RGBController_LianLiUniHub(LianLiUniHubController* controller_ptr)
 {
-    uniHub      = uniHub_ptr;
+    controller  = controller_ptr;
 
     name        = "Lian Li Uni Hub";
     vendor      = "Lian Li";
-    version     = uniHub->GetVersion();
+    version     = controller->GetVersion();
     type        = DEVICE_TYPE_COOLER;
     description = "Lian Li Uni Hub";
-    location    = uniHub->GetLocation();
-    serial      = uniHub->GetSerial();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerial();
 
     initializedMode = false;
 
@@ -284,11 +284,11 @@ void RGBController_LianLiUniHub::DeviceUpdateLEDs()
     for(size_t channel = 0; channel < zones.size(); channel++)
     {
         uint8_t fanCount = convertLedCountToFanCount(zones[channel].leds_count);
-        uniHub->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
-        uniHub->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
+        controller->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
+        controller->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
     }
 
-    uniHub->Synchronize();
+    controller->Synchronize();
 }
 
 void RGBController_LianLiUniHub::UpdateZoneLEDs(int zone)
@@ -300,10 +300,10 @@ void RGBController_LianLiUniHub::UpdateZoneLEDs(int zone)
     unsigned int channel = zone;
 
     uint8_t fanCount = convertLedCountToFanCount(zones[channel].leds_count);
-    uniHub->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
-    uniHub->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
+    controller->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
+    controller->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
 
-    uniHub->Synchronize();
+    controller->Synchronize();
 }
 
 void RGBController_LianLiUniHub::UpdateSingleLED(int led)
@@ -315,10 +315,10 @@ void RGBController_LianLiUniHub::UpdateSingleLED(int led)
     unsigned int channel = leds[led].value;
 
     uint8_t fanCount = convertLedCountToFanCount(zones[channel].leds_count);
-    uniHub->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
-    uniHub->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
+    controller->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
+    controller->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
 
-    uniHub->Synchronize();
+    controller->Synchronize();
 }
 
 void RGBController_LianLiUniHub::DeviceUpdateMode()
@@ -328,61 +328,61 @@ void RGBController_LianLiUniHub::DeviceUpdateMode()
     for (size_t channel = 0; channel < zones.size(); channel++)
     {
         uint8_t fanCount = convertLedCountToFanCount(zones[channel].leds_count);
-        uniHub->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
+        controller->SetAnyFanCount(channel, convertAnyFanCount(fanCount));
 
         switch (modes[active_mode].color_mode)
         {
             case MODE_COLORS_PER_LED:
-                uniHub->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
+                controller->SetLedColors(channel, zones[channel].colors, zones[channel].leds_count);
                 break;
 
             case MODE_COLORS_MODE_SPECIFIC:
-                uniHub->SetLedColors(channel, modes[active_mode].colors.data(), modes[active_mode].colors.size());
+                controller->SetLedColors(channel, modes[active_mode].colors.data(), modes[active_mode].colors.size());
                 break;
 
             default:
-                uniHub->SetLedColors(channel, nullptr, 0);
+                controller->SetLedColors(channel, nullptr, 0);
                 break;
         }
 
-        uniHub->SetLedMode(channel, modes[active_mode].value);
+        controller->SetLedMode(channel, modes[active_mode].value);
 
         if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
         {
-            uniHub->SetLedSpeed(channel, convertLedSpeed(modes[active_mode].speed));
+            controller->SetLedSpeed(channel, convertLedSpeed(modes[active_mode].speed));
         }
         else
         {
-            uniHub->SetLedSpeed(channel, UNIHUB_LED_SPEED_000);
+            controller->SetLedSpeed(channel, UNIHUB_LED_SPEED_000);
         }
 
         if(modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR)
         {
-            uniHub->SetLedDirection(channel, convertLedDirection(modes[active_mode].direction));
+            controller->SetLedDirection(channel, convertLedDirection(modes[active_mode].direction));
         }
         else
         {
-            uniHub->SetLedDirection(channel, UNIHUB_LED_DIRECTION_LTR);
+            controller->SetLedDirection(channel, UNIHUB_LED_DIRECTION_LTR);
         }
     }
 
     if(modes[active_mode].value & 0x0200)
     {
-        uniHub->EnableRgbhMode();
-        uniHub->DisableSyncMode();
+        controller->EnableRgbhMode();
+        controller->DisableSyncMode();
     }
     else if (modes[active_mode].value & 0x0100)
     {
-        uniHub->DisableRgbhMode();
-        uniHub->EnableSyncMode();
+        controller->DisableRgbhMode();
+        controller->EnableSyncMode();
     }
     else
     {
-        uniHub->DisableRgbhMode();
-        uniHub->DisableSyncMode();
+        controller->DisableRgbhMode();
+        controller->DisableSyncMode();
     }
 
-    uniHub->Synchronize();
+    controller->Synchronize();
 }
 
 void RGBController_LianLiUniHub::SetCustomMode()

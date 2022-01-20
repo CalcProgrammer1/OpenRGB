@@ -11,16 +11,16 @@
 
 using namespace std::chrono_literals;
 
-RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPulsefireSurgeController* hyperx_ptr)
+RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPulsefireSurgeController* controller_ptr)
 {
-    hyperx = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Pulsefire Surge Device";
     vendor      = "HyperX";
     type        = DEVICE_TYPE_MOUSE;
     description = "HyperX Pulsefire Surge Device";
-    location    = hyperx->GetDeviceLocation();
-    serial      = hyperx->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name = "Direct";
@@ -47,7 +47,7 @@ RGBController_HyperXPulsefireSurge::~RGBController_HyperXPulsefireSurge()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    delete hyperx;
+    delete controller;
 }
 
 void RGBController_HyperXPulsefireSurge::SetupZones()
@@ -104,7 +104,7 @@ void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
 
     if(active_mode == 0)
     {
-        hyperx->SendDirect(&colors[0]);
+        controller->SendDirect(&colors[0]);
     }
     else
     {

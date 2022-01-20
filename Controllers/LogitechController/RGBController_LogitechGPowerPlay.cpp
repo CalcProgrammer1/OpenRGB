@@ -9,16 +9,16 @@
 
 #include "RGBController_LogitechGPowerPlay.h"
 
-RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLightsyncController* logitech_ptr)
+RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLightsyncController* controller_ptr)
 {
-    logitech                = logitech_ptr;
+    controller              = controller_ptr;
 
     name                    = "Logitech G PowerPlay Wireless Charging System";
     vendor                  = "Logitech";
     type                    = DEVICE_TYPE_MOUSEMAT;
     description             = "Logitech G PowerPlay Wireless Charging System";
-    location                = logitech->GetDeviceLocation();
-    serial                  = logitech->GetSerialString();
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Off;
     Off.name                = "Off";
@@ -66,7 +66,7 @@ RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLigh
 
 RGBController_LogitechGPowerPlay::~RGBController_LogitechGPowerPlay()
 {
-    delete logitech;
+    delete controller;
 }
 
 void RGBController_LogitechGPowerPlay::SetupZones()
@@ -81,7 +81,7 @@ void RGBController_LogitechGPowerPlay::SetupZones()
     zones.push_back(GPowerPlay_logo_zone);
 
     led GPowerPlay_logo_led;
-    GPowerPlay_logo_led.name = "Logo";
+    GPowerPlay_logo_led.name            = "Logo";
     leds.push_back(GPowerPlay_logo_led);
 
     SetupColors();
@@ -110,7 +110,7 @@ void RGBController_LogitechGPowerPlay::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     unsigned char temp_mode = (modes[active_mode].value != 0xFF) ? modes[active_mode].value : LOGITECH_G_LIGHTSYNC_MODE_STATIC;
 
-    logitech->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, /* Brightness */ 0x64);
+    controller->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, /* Brightness */ 0x64);
 }
 
 void RGBController_LogitechGPowerPlay::UpdateSingleLED(int led)
@@ -130,6 +130,6 @@ void RGBController_LogitechGPowerPlay::DeviceUpdateMode()
     | mouse in direct mode.  This code will only be called when |
     | we change modes as to not spam the device.                |
     \*---------------------------------------------------------*/
-    logitech->SetDirectMode(modes[active_mode].value == 0xFF);
+    controller->SetDirectMode(modes[active_mode].value == 0xFF);
     DeviceUpdateLEDs();
 }

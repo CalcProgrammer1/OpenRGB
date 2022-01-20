@@ -20,8 +20,6 @@
 
 void DetectLinuxLEDControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    LinuxLEDController*     new_controller;
-    RGBController_LinuxLED* new_rgbcontroller;
     json                    linux_led_settings;
 
     /*-------------------------------------------------*\
@@ -61,14 +59,15 @@ void DetectLinuxLEDControllers(std::vector<RGBController*> &rgb_controllers)
                 blue_path = linux_led_settings["devices"][device_idx]["blue_path"];
             }
 
-            new_controller      = new LinuxLEDController();
-            new_controller->OpenRedPath(red_path);
-            new_controller->OpenGreenPath(green_path);
-            new_controller->OpenBluePath(blue_path);
+            LinuxLEDController*     controller     = new LinuxLEDController();
+            controller->OpenRedPath(red_path);
+            controller->OpenGreenPath(green_path);
+            controller->OpenBluePath(blue_path);
 
-            new_rgbcontroller       = new RGBController_LinuxLED(new_controller);
-            new_rgbcontroller->name = name;
-            rgb_controllers.push_back(new_rgbcontroller);
+            RGBController_LinuxLED* rgb_controller = new RGBController_LinuxLED(controller);
+            rgb_controller->name                   = name;
+
+            rgb_controllers.push_back(rgb_controller);
         }
     }
 

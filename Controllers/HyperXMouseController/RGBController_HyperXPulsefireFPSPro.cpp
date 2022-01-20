@@ -11,21 +11,21 @@
 
 using namespace std::chrono_literals;
 
-RGBController_HyperXPulsefireFPSPro::RGBController_HyperXPulsefireFPSPro(HyperXPulsefireFPSProController* hyperx_ptr)
+RGBController_HyperXPulsefireFPSPro::RGBController_HyperXPulsefireFPSPro(HyperXPulsefireFPSProController* controller_ptr)
 {
-    hyperx = hyperx_ptr;
+    controller  = controller_ptr;
 
     name        = "HyperX Pulsefire FPS Pro Device";
     vendor      = "HyperX";
     type        = DEVICE_TYPE_MOUSE;
     description = "HyperX Pulsefire FPS Pro Device";
-    location    = hyperx->GetDeviceLocation();
-    serial      = hyperx->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
-    Direct.name = "Direct";
-    Direct.value = 0xFFFF;
-    Direct.flags = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.name       = "Direct";
+    Direct.value      = 0xFFFF;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -47,7 +47,7 @@ RGBController_HyperXPulsefireFPSPro::~RGBController_HyperXPulsefireFPSPro()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    delete hyperx;
+    delete controller;
 }
 
 void RGBController_HyperXPulsefireFPSPro::SetupZones()
@@ -95,7 +95,7 @@ void RGBController_HyperXPulsefireFPSPro::DeviceUpdateLEDs()
 
     if(active_mode == 0)
     {
-        hyperx->SendDirect(&colors[0]);
+        controller->SendDirect(&colors[0]);
     }
     else
     {

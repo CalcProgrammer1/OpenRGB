@@ -14,7 +14,7 @@
 class RGBController_LogitechG915 : public RGBController
 {
 public:
-    RGBController_LogitechG915(LogitechG915Controller* logitech_ptr, bool tkl);
+    RGBController_LogitechG915(LogitechG915Controller* controller_ptr, bool tkl);
     ~RGBController_LogitechG915();
 
     void        SetupZones();
@@ -31,6 +31,6 @@ public:
 private:
     bool is_tkl;
 
-    LogitechG915Controller* logitech;
+    LogitechG915Controller* controller;
     std::vector<RGBColor>   current_colors;
 };
