@@ -28,6 +28,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,    NVIDIA_RTX2070_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2070_XTREME_SUB_DEV,          0x50,   "Gigabyte AORUS RTX2070 XTREME 8G"                  },
     { NVIDIA_VEN,    NVIDIA_RTX2070S_OC_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV2,           0x50,   "Gigabyte AORUS RTX2070 SUPER 8G"                   },
     { NVIDIA_VEN,    NVIDIA_RTX2080_A_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080_SUB_DEV,                 0x50,   "Gigabyte AORUS RTX2080 8G"                         },
+    { NVIDIA_VEN,    NVIDIA_RTX2080S_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080S_SUB_DEV,                0x50,   "Gigabyte AORUS RTX2080 SUPER 8G"                   },
     { NVIDIA_VEN,    NVIDIA_RTX3060_LHR_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060_ELITE_12GB_SUB_DEV,            0x70,   "Gigabyte AORUS RTX3060 ELITE 12G"                  },
     { NVIDIA_VEN,    NVIDIA_RTX3060TI_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_GAMING_OC_PRO_SUB_DEV,       0x62,   "Gigabyte AORUS RTX3060 Ti GAMING OC PRO 8G"        },
     { NVIDIA_VEN,    NVIDIA_RTX3070_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_MASTER_OC_SUB_DEV,             0x66,   "Gigabyte RTX3070 MASTER 8G"                        },
