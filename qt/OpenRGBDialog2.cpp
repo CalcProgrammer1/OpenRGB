@@ -1729,8 +1729,29 @@ void OpenRGBDialog2::SaveProfileAs()
 
 void Ui::OpenRGBDialog2::on_ButtonRescan_clicked()
 {
+    /*---------------------------------------------------------*\
+    | Hide devices view on rescan so it stops handling paint    |
+    | events.                                                   |
+    \*---------------------------------------------------------*/
+    for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+    {
+        OpenRGBDevicePage* device_page = qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device));
+        if(device_page) // Check the cast to make sure it is a device and not plugin
+        {
+            device_page->HideDeviceView();
+        }
+    }
+
+    device_view_showing = false;
+
+    /*---------------------------------------------------------*\
+    | Show the detection progress bar.                          |
+    \*---------------------------------------------------------*/
     SetDetectionViewState(true);
 
+    /*---------------------------------------------------------*\
+    | Show the detection progress bar.                          |
+    \*---------------------------------------------------------*/
     ResourceManager::get()->DetectDevices();
 }
 
