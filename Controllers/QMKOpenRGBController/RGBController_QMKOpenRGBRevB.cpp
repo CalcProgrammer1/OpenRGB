@@ -272,6 +272,8 @@ void RGBController_QMKOpenRGBRevB::SetupZones()
     const unsigned int total_number_of_leds                     = controller->GetTotalNumberOfLEDs();
     const unsigned int total_number_of_leds_with_empty_space    = controller->GetTotalNumberOfLEDsWithEmptySpace();
 
+    LOG_INFO("[%s] Keyboard has %u LEDs total", name.c_str(), total_number_of_leds);
+
     /*---------------------------------------------------------*\
     | Get information for each LED                              |
     \*---------------------------------------------------------*/
@@ -297,6 +299,7 @@ void RGBController_QMKOpenRGBRevB::SetupZones()
     \*---------------------------------------------------------*/
     unsigned int    number_of_leds                              = number_of_key_leds + number_of_underglow_leds;
     bool            has_underglow                               = number_of_underglow_leds > 0;
+    LOG_INFO("[%s] Keyboard has %u underglow LEDs", name.c_str(), number_of_underglow_leds);
 
     for(unsigned int i = 0; i < number_of_underglow_leds; i++)
     {
@@ -317,6 +320,7 @@ void RGBController_QMKOpenRGBRevB::SetupZones()
     | Calculate matrix map from QMK positions                   |
     \*---------------------------------------------------------*/
     unsigned int divisor = CalculateDivisor(led_points, rows, columns);
+    LOG_DEBUG("[%s] Distance between standard keys calculated to be %u", name.c_str(), divisor);
 
     VectorMatrix matrix_map;
     VectorMatrix underglow_map;
@@ -553,7 +557,7 @@ unsigned int RGBController_QMKOpenRGBRevB::CalculateDivisor
         last_pos = 0;
         std::for_each(row.begin(), row.end(), [&distances, &last_pos](const point_t &pt)
         {
-            distances.push_back(pt.x - last_pos);
+            distances.push_back(std::abs(pt.x - last_pos));
             last_pos = pt.x;
         });
     }
@@ -633,6 +637,7 @@ void RGBController_QMKOpenRGBRevB::PlaceLEDsInMaps
                     x++;
                 }
                 matrix_map_xl[y][x] = i;
+                LOG_DEBUG("[%s] Key Matrix LED %u, (%u, %u) being placed into (%u, %u)", name.c_str(), i, led_points[i].x, led_points[i].y, x, y);
             }
             else
             {
@@ -642,6 +647,7 @@ void RGBController_QMKOpenRGBRevB::PlaceLEDsInMaps
                 }
                 underglow_map_xl[y][x] = underglow_counter;
                 underglow_counter++;
+                LOG_DEBUG("[%s] Underglow  LED %u, (%u, %u) being placed into (%u, %u)", name.c_str(), i, led_points[i].x, led_points[i].y, x, y);
             }
         }
     }
@@ -728,6 +734,8 @@ void RGBController_QMKOpenRGBRevB::CleanMatrixMaps
     unsigned int new_height     = height - empty_rows.size();
     width                       = empty_col ? width - 1 : width;
     width_udg                   = empty_col_udg && empty_col ? width_udg - 1 : width_udg;
+    LOG_DEBUG("[%s] Key LED Matrix: %ux%u", name.c_str(), width, new_height);
+    LOG_DEBUG("[%s] Underglow LED Matrix: %ux%u", name.c_str(), width_udg, new_height);
 
     for(unsigned int i = empty_rows.size(); i --> 0; )
     {
