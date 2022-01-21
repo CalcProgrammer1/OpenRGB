@@ -28,5 +28,5 @@ public:
     void        DeviceSaveMode();
 
 private:
-    SteelSeriesApexTZoneController*     ApexTZone;
+    SteelSeriesApexTZoneController*     controller;
 };

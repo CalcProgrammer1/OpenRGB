@@ -12,6 +12,10 @@
 
 #pragma once
 
+#define STEELSERIES_TZ_WRITE_PACKET_SIZE    33
+#define STEELSERIES_TZ_BRIGHTNESS_MIN       0x00
+#define STEELSERIES_TZ_BRIGHTNESS_MAX       0x64
+
 class SteelSeriesApexTZoneController
 {
 public:

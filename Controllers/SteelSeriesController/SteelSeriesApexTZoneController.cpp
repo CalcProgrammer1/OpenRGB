@@ -58,39 +58,37 @@ steelseries_type SteelSeriesApexTZoneController::GetKeyboardType()
 
 void SteelSeriesApexTZoneController::Save()
 {
-    unsigned char buf[33] = { 0x00 };
-    memset(buf, 0x00, sizeof(buf));
-    buf[0x01]   = 0x06;
-    buf[0x03]   = 0x08;
-    hid_write(dev, buf, sizeof(buf));
+    unsigned char buf[STEELSERIES_TZ_WRITE_PACKET_SIZE] = { 0x00, 0x06, 0x00, 0x08 };
 
-    memset(buf, 0x00, sizeof(buf));
-    buf[0x01]   = 0x09;
-    hid_write(dev, buf, sizeof(buf));
+    hid_write(dev, buf, STEELSERIES_TZ_WRITE_PACKET_SIZE);
+
+    buf[0x01]           = 0x09;
+    buf[0x03]           = 0x00;
+    hid_write(dev, buf, STEELSERIES_TZ_WRITE_PACKET_SIZE);
 }
 
 void SteelSeriesApexTZoneController::SetColor(std::vector<RGBColor> colors, unsigned char brightness)
 {
-    unsigned char buf[33] = { 0x00 };
+    unsigned char buf[STEELSERIES_TZ_WRITE_PACKET_SIZE] = { 0x00 };
 
     /*-----------------------------------------------------*\
     | Zero out buffer, set up packet and send               |
     \*-----------------------------------------------------*/
+    memset(buf, 0x00, STEELSERIES_TZ_WRITE_PACKET_SIZE);
 
-    memset(buf, 0x00, sizeof(buf));
-    buf[0x01]   = 0x0A;
-    buf[0x03]   = brightness;
-    hid_write(dev, buf, sizeof(buf));
+    buf[0x01]           = 0x0A;
+    buf[0x03]           = brightness;
+    hid_write(dev, buf, STEELSERIES_TZ_WRITE_PACKET_SIZE);
 
-    memset(buf, 0x00, sizeof(buf));
-    buf[0x01]   = 0x0B;
-    
-    for(int i = 0; i < 10; i++)
+    buf[0x01]           = 0x0B;
+    for(int i = 0; i < colors.size(); i++)
     {
-        buf[(3*i)+3] = RGBGetRValue(colors[i]);;
-        buf[(3*i)+4] = RGBGetGValue(colors[i]);;
-        buf[(3*i)+5] = RGBGetBValue(colors[i]);;
+        uint8_t index   = i * 3;
+
+        buf[index + 3]  = RGBGetRValue(colors[i]);;
+        buf[index + 4]  = RGBGetGValue(colors[i]);;
+        buf[index + 5]  = RGBGetBValue(colors[i]);;
     }
 
-    hid_write(dev, buf, sizeof(buf));
+    hid_write(dev, buf, STEELSERIES_TZ_WRITE_PACKET_SIZE);
 }
