@@ -779,43 +779,46 @@ void Ui::OpenRGBDevicePage::UpdateMode()
         bool supports_dir_hv        = ( device->modes[(unsigned int)current_mode].flags & MODE_FLAG_HAS_DIRECTION_HV );
 
         /*-----------------------------------------------------*\
-        | Set the direction value                               |
+        | If DirectionBox is enabled, set the direction values  |
         \*-----------------------------------------------------*/
-        if(supports_dir_hv)
+        if(ui->DirectionBox->isEnabled())
         {
-            if(supports_dir_lr && supports_dir_ud)
+            if(supports_dir_hv)
+            {
+                if(supports_dir_lr && supports_dir_ud)
+                {
+                    current_direction = current_dir_idx;
+                }
+                else if(supports_dir_lr || supports_dir_ud)
+                {
+                    current_direction = current_dir_idx + 2;
+                }
+                else
+                {
+                    current_direction = current_dir_idx + 4;
+                }
+            }
+
+            if(supports_dir_ud)
+            {
+                if(supports_dir_lr)
+                {
+                    current_direction = current_dir_idx;
+                }
+                else
+                {
+                    current_direction = current_dir_idx + 2;
+                }
+            }
+
+            if((supports_dir_lr)
+             &&(current_dir_idx < 2))
             {
                 current_direction = current_dir_idx;
             }
-            else if(supports_dir_lr || supports_dir_ud)
-            {
-                current_direction = current_dir_idx + 2;
-            }
-            else
-            {
-                current_direction = current_dir_idx + 4;
-            }
-        }
 
-        if(supports_dir_ud)
-        {
-            if(supports_dir_lr)
-            {
-                current_direction = current_dir_idx;
-            }
-            else
-            {
-                current_direction = current_dir_idx + 2;
-            }
+            device->modes[(unsigned int)current_mode].direction = current_direction;
         }
-
-        if((supports_dir_lr)
-         &&(current_dir_idx < 2))
-        {
-            current_direction = current_dir_idx;
-        }
-
-        device->modes[(unsigned int)current_mode].direction = current_direction;
 
         /*-----------------------------------------------------*\
         | If Speed Slider is enabled, read the speed value      |
