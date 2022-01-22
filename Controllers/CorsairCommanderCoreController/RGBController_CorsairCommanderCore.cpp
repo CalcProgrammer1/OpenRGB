@@ -47,7 +47,7 @@ void RGBController_CorsairCommanderCore::SetupZones()
     zones[0].name                   = "Pump";
     zones[0].type                   = ZONE_TYPE_LINEAR;
     zones[0].leds_min               = 0;
-    zones[0].leds_max               = 29;
+    zones[0].leds_max               = 33;
 
     for(unsigned int i = 1; i < (CORSAIR_COMMANDER_CORE_NUM_CHANNELS + 1); i++)
     {
