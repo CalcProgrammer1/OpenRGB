@@ -53,6 +53,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX2070S_OC_DEV,     EVGA_SUB_VEN,   EVGA_RTX2070S_BLACK_SUB_DEV,                EVGA_RGB_V2,    "EVGA GeForce RTX 2070 SUPER Black"                     },
     { NVIDIA_VEN,   NVIDIA_RTX2070S_OC_DEV,     EVGA_SUB_VEN,   EVGA_RTX2070S_XC_ULTRA_SUB_DEV,             EVGA_RGB_V2,    "EVGA GeForce RTX 2070 SUPER XC Ultra"                  },
     { NVIDIA_VEN,   NVIDIA_RTX2070S_OC_DEV,     EVGA_SUB_VEN,   EVGA_RTX2070S_XC_ULTRA_PLUS_SUB_DEV,        EVGA_RGB_V2,    "EVGA GeForce RTX 2070 SUPER XC Ultra+"                 },
+    { NVIDIA_VEN,   NVIDIA_RTX2070S_OC_DEV,     EVGA_SUB_VEN,   EVGA_RTX2070S_FTW3_ULTRA_PLUS_OC_SUB_DEV,   EVGA_RGB_V2,    "EVGA GeForce RTX 2070 SUPER FTW3 Ultra+"               },
     { NVIDIA_VEN,   NVIDIA_RTX2080_DEV,         EVGA_SUB_VEN,   EVGA_RTX2080_BLACK_SUB_DEV,                 EVGA_RGB_V2,    "EVGA GeForce RTX 2080 Black"                           },
     { NVIDIA_VEN,   NVIDIA_RTX2080_A_DEV,       EVGA_SUB_VEN,   EVGA_RTX2080_XC_BLACK_SUB_DEV,              EVGA_RGB_V2,    "EVGA GeForce RTX 2080 XC Black"                        },
     { NVIDIA_VEN,   NVIDIA_RTX2080_A_DEV,       EVGA_SUB_VEN,   EVGA_RTX2080_XC_GAMING_SUB_DEV,             EVGA_RGB_V2,    "EVGA GeForce RTX 2080 XC Gaming"                       },
