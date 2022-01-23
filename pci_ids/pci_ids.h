@@ -182,6 +182,7 @@
 #define EVGA_GTX1070_FTW_DT_GAMING_SUB_DEV              0x6274
 #define EVGA_GTX1070_FTW_SUB_DEV                        0x6276
 #define EVGA_GTX1070_FTW_HYBRID_SUB_DEV                 0x6278
+#define EVGA_GTX1070_FTW2_SUB_DEV                       0x6676
 #define EVGA_GTX1070TI_FTW2_SUB_DEV                     0x6775
 #define EVGA_GTX1080_FTW_SUB_DEV                        0x6286
 #define EVGA_GTX1080_FTW2_SUB_DEV                       0x6687
