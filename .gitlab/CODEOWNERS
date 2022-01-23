@@ -43,6 +43,7 @@ CODEOWNERS @Calcprogrammer1
 /Controllers/EVGAGP102GPUController/                        
 /Controllers/EVGAPascalGPUController/                       
 /Controllers/EVGATuringGPUController/                       @TheRogueZeta
+/Controllers/EVGAUSBController/                             @Dr_No
 /Controllers/EVisionKeyboardController/
 /Controllers/EspurnaController/
 /Controllers/FanBusController/
@@ -101,5 +102,5 @@ CODEOWNERS @Calcprogrammer1
 #   that is an exception to the above should be explicitly named here         #
 #-----------------------------------------------------------------------------#
 [Controllers]
-/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.cpp                @TheRogueZeta
-/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.h                  @TheRogueZeta
+/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.cpp            @TheRogueZeta
+/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.h              @TheRogueZeta

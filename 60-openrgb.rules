@@ -306,6 +306,15 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="04d9", ATTR{idProduct}=="0356", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="5750", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  EVGA Controller Devices                                      #
+#                                                               #
+#  Keyboards:                                                   #
+#        EVGA Z15                                               #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="3842", ATTR{idProduct}=="2608", TAG+="uaccess", TAG+="EVGA_ANSI_Z15"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="3842", ATTR{idProduct}=="260e", TAG+="uaccess", TAG+="EVGA_ISO_Z15"
+
+#---------------------------------------------------------------#
 #  Holtek Devices                                               #
 #                                                               #
 #  Mice:                                                        #
