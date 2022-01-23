@@ -25,6 +25,7 @@
 #define AURA_ROG_PUGIO_II_WIRED_PID             0x1906
 #define AURA_ROG_PUGIO_II_WIRELESS_PID          0x1908
 #define AURA_ROG_STRIX_IMPACT_II_PID            0x18E1
+#define AURA_ROG_KERIS                          0x195C
 #define AURA_TUF_M3_PID                         0x1910
 #define AURA_TUF_M5_PID                         0x1898
 
@@ -219,6 +220,17 @@ static std::map<int,mouse_type> aura_mouse_devices =
             false,
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
+        AURA_ROG_KERIS, // ROG Keris
+        {
+            0,
+            0,
+            false,
+            1, // might be the wrong protocol for version
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }
     },
