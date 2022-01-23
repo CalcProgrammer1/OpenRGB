@@ -145,6 +145,13 @@ static const std::map<std::string, led_label> led_label_lookup =
     { "Key: Number Pad 7",      { "7"     , "7",               }},
     { "Key: Number Pad 8",      { "8"     , "8",               }},
     { "Key: Number Pad 9",      { "9"     , "9",               }},
+    { "Key: Media Play/Pause",  { "Ply"   , "\xE2\x8F\xAF"    ,}}, // ⏯
+    { "Key: Media Previous",    { "Prv"   , "\xE2\x8F\xAE"    ,}}, // ⏮
+    { "Key: Media Next",        { "Nxt"   , "\xE2\x8F\xAD"    ,}}, // ⏭
+    { "Key: Media Stop",        { "Stp"   , "\xE2\x8F\xB9"    ,}}, // ⏹
+    { "Key: Media Mute",        { "Mte"   , "\xF0\x9F\x94\x87",}}, // 🔇
+    { "Key: Media Volume -",    { "Vl-"   , "\xF0\x9F\x94\x88",}}, // 🔉
+    { "Key: Media Volume +",    { "Vl+"   , "\xF0\x9F\x94\x89",}}, // 🔊
 };
 
 void DeviceView::setController(RGBController * controller_ptr)
