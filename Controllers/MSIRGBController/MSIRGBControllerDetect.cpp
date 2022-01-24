@@ -52,6 +52,7 @@ msi_device compatible_devices[] =
     {"7A72", false},
     {"7A78", false},
     {"7A79", false},
+    {"7A37", false},
     {"7B89", true },
     {"7B90", true },
     {"7B19", true },
@@ -83,7 +84,7 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
     std::string board_dmi = board.getMainboard(); 
     std::string manufacturer = board.getManufacturer();
 
-    if (manufacturer != "Micro-Star International Co., Ltd." && manufacturer != "Micro-Star International Co., Ltd")
+    if (manufacturer != "Micro-Star International Co., Ltd." && manufacturer != "Micro-Star International Co., Ltd" && manufacturer != "MSI")
     {
         return;
     }
