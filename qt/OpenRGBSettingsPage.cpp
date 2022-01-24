@@ -83,6 +83,21 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     }
 
     /*---------------------------------------------------------*\
+    | Load drivers settings (Windows only)                      |
+    \*---------------------------------------------------------*/
+#ifdef _WIN32
+    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+
+    if(drivers_settings.contains("amd_smbus_reduce_cpu"))
+    {
+        ui->CheckboxAMDSMBusReduceCPU->setChecked(drivers_settings["amd_smbus_reduce_cpu"]);
+    }
+#else
+    ui->DriversSettingsLabel->hide();
+    ui->CheckboxAMDSMBusReduceCPU->hide();
+#endif
+
+    /*---------------------------------------------------------*\
     | Load AutoStart settings                                   |
     \*---------------------------------------------------------*/
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
@@ -527,6 +542,14 @@ void Ui::OpenRGBSettingsPage::on_CheckboxLogConsole_clicked()
     json log_manager_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LogManager");
     log_manager_settings["log_console"] = ui->CheckboxLogConsole->isChecked();
     ResourceManager::get()->GetSettingsManager()->SetSettings("LogManager", log_manager_settings);
+    SaveSettings();
+}
+
+void Ui::OpenRGBSettingsPage::on_CheckboxAMDSMBusReduceCPU_clicked()
+{
+    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+    drivers_settings["amd_smbus_reduce_cpu"] = ui->CheckboxAMDSMBusReduceCPU->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Drivers", drivers_settings);
     SaveSettings();
 }
 

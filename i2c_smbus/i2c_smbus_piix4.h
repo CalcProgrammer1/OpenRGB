@@ -10,6 +10,7 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus.h"
+#include "windows.h"
 
 #pragma once
 
@@ -40,10 +41,13 @@ class i2c_smbus_piix4 : public i2c_smbus_interface
 {
 public:
 	u16 piix4_smba = 0x0B00;
+    i2c_smbus_piix4();
+    ~i2c_smbus_piix4();
 
 private:
     int piix4_transaction();
     s32 piix4_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
     s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
+    HANDLE delay_timer;
 };

@@ -50,6 +50,7 @@ private slots:
     void on_CheckboxRunZoneChecks_clicked();
     void on_OpenSettingsFolderButton_clicked();
     void on_CheckboxLogConsole_clicked();
+    void on_CheckboxAMDSMBusReduceCPU_clicked();
 };
 
 #endif // OPENRGBSETTINGSPAGE_H
