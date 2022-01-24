@@ -46,7 +46,9 @@ There have been two instances of hardware damage in OpenRGB's development and we
       2. Open the OpenRGB.pro project in Qt Creator.
       3. Use the MSVC compiler kit, either 32- or 64-bit, to build the application.
       4. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
-  *  **You must run the application as Administrator the first time to allow InpOut32 to set up.  It can be run as a normal user afterwards**
+### SMBus Access
+  *  **You must run the application as Administrator the first time to allow WinRing0 to set up.  It can be run as a normal user afterwards**
+  * Early versions of OpenRGB used InpOut32. This is no longer needed and should be removed to avoid warnings by some anti-cheat software. You can uninstall Inpout32 by following the instructions [here](https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/669#note_461054255).
 
 ### USB Access
 
@@ -202,7 +204,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   
 ## Projects Used
 
-  * InpOutx64: https://www.highrez.co.uk/downloads/inpout32/
+  * WinRing0: https://openlibsys.org/
   * libusb: https://github.com/libusb/libusb
   * hidapi: https://github.com/libusb/hidapi
   * libe131: https://github.com/hhromic/libe131

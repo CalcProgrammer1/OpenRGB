@@ -976,7 +976,7 @@ FORMS +=                                                                        
 win32:INCLUDEPATH +=                                                                            \
     dependencies/display-library/include                                                        \
     dependencies/hidapi                                                                         \
-    dependencies/inpout32_1501/Win32/                                                           \
+    dependencies/winring0/include                                                               \
     dependencies/libusb-1.0.22/include                                                          \
     dependencies/mbedtls-2.24.0/include                                                         \
     dependencies/NVFC                                                                           \
@@ -1092,7 +1092,7 @@ win32:HEADERS +=                                                                
     dependencies/display-library/include/adl_defines.h                                          \
     dependencies/display-library/include/adl_sdk.h                                              \
     dependencies/display-library/include/adl_structures.h                                       \
-    dependencies/inpout32_1501/Win32/inpout32.h                                                 \
+    dependencies/winring0/include/OlsApi.h                                                      \
     dependencies/NVFC/nvapi.h                                                                   \
     i2c_smbus/i2c_smbus_i801.h                                                                  \
     i2c_smbus/i2c_smbus_nct6775.h                                                               \
@@ -1108,7 +1108,7 @@ win32:HEADERS +=                                                                
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     LIBS +=                                                                                     \
         -lws2_32                                                                                \
-        -L"$$PWD/dependencies/inpout32_1501/x64/" -linpoutx64                                   \
+        -L"$$PWD/dependencies/winring0/x64/" -lWinRing0x64                                      \
         -L"$$PWD/dependencies/libusb-1.0.22/MS64/dll" -llibusb-1.0                              \
         -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi                                         \
 }
@@ -1116,7 +1116,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
 win32:contains(QMAKE_TARGET.arch, x86) {
     LIBS +=                                                                                     \
         -lws2_32                                                                                \
-        -L"$$PWD/dependencies/inpout32_1501/Win32/" -linpout32                                  \
+        -L"$$PWD/dependencies/winring0/Win32/" -lWinRing0                                       \
         -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0                              \
         -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi                                         \
 }
@@ -1157,7 +1157,8 @@ win32:UI_DIR      = _intermediate_$$DESTDIR/.ui
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer64.dll      )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
-    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/inpout32_1501/x64/inpoutx64.dll      )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/x64/WinRing0x64.dll         )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/x64/WinRing0x64.sys         )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.22/MS64/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/hidapi-win/x64/hidapi.dll            )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     first.depends = $(first) copydata
@@ -1168,7 +1169,9 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
 
 win32:contains(QMAKE_TARGET.arch, x86) {
     copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer.dll        )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
-    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/inpout32_1501/Win32/inpout32.dll     )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/Win32/WinRing0.dll          )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/Win32/WinRing0.sys          )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/x64/WinRing0x64.sys         )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.22/MS32/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/hidapi-win/x86/hidapi.dll            )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
 

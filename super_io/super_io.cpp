@@ -5,12 +5,11 @@
 |                                           |
 |  Adam Honse (CalcProgrammer1) 2/11/2020   |
 \*-----------------------------------------*/
-
 #include "super_io.h"
 
 #ifdef WIN32
 #include <Windows.h>
-#include "inpout32.h"
+#include "OlsApi.h"
 
 #else
 #include <unistd.h>
@@ -31,8 +30,8 @@ int dev_port_fd;
 void superio_enter(int ioreg)
 {
 #ifdef WIN32
-    Out32(ioreg, 0x87);
-    Out32(ioreg, 0x87);
+    WriteIoPortByte(ioreg, 0x87);
+    WriteIoPortByte(ioreg, 0x87);
 #else
     unsigned char temp = 0x87;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
@@ -60,8 +59,8 @@ void superio_enter(int ioreg)
 void superio_outb(int ioreg, int reg, int val)
 {
 #ifdef WIN32
-    Out32(ioreg, reg);
-    Out32(ioreg + 1, val);
+    WriteIoPortByte(ioreg, reg);
+    WriteIoPortByte(ioreg + 1, val);
 #else
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
     
@@ -87,8 +86,8 @@ void superio_outb(int ioreg, int reg, int val)
 int superio_inb(int ioreg, int reg)
 {
 #ifdef WIN32
-    Out32(ioreg, reg);
-    return Inp32(ioreg + 1);
+    WriteIoPortByte(ioreg, reg);
+    return ReadIoPortByte(ioreg + 1);
 #else
     unsigned char temp = 0;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");

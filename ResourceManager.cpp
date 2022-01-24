@@ -1188,8 +1188,8 @@ void ResourceManager::DetectDevicesThreadFunction()
                                     "<p>One or more I2C/SMBus interfaces failed to initialize.</p>"
                                     "<p>RGB DRAM modules and some motherboards' onboard RGB lighting will not be available without I2C/SMBus.</p>"
 #ifdef _WIN32
-                                    "<p>On Windows, this is usually caused by a failure to load the inpout32 driver.  "
-                                    "You must run OpenRGB as administrator at least once to allow inpout32 to set up.</p>"
+                                    "<p>On Windows, this is usually caused by a failure to load the WinRing0 driver.  "
+                                    "You must run OpenRGB as administrator at least once to allow WinRing0 to set up.</p>"
 #endif
 #ifdef __linux__
                                     "<p>On Linux, this is usually because the i2c-dev module is not loaded.  "

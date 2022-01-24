@@ -10,7 +10,7 @@
 
 #include "i2c_smbus_i801.h"
 #include <Windows.h>
-#include "inpout32.h"
+#include "OlsApi.h"
 #include "LogManager.h"
 
 using namespace std::chrono_literals;
@@ -38,35 +38,35 @@ s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size,
     switch (size)
     {
     case I2C_SMBUS_QUICK:
-        Out32(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
+        WriteIoPortByte(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
         xact = I801_QUICK;
         break;
     case I2C_SMBUS_BYTE:
-        Out32(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
+        WriteIoPortByte(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
         if (read_write == I2C_SMBUS_WRITE)
-            Out32(SMBHSTCMD, command);
+            WriteIoPortByte(SMBHSTCMD, command);
         xact = I801_BYTE;
         break;
     case I2C_SMBUS_BYTE_DATA:
-        Out32(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
-        Out32(SMBHSTCMD, command);
+        WriteIoPortByte(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
+        WriteIoPortByte(SMBHSTCMD, command);
         if (read_write == I2C_SMBUS_WRITE)
-            Out32(SMBHSTDAT0, data->byte);
+            WriteIoPortByte(SMBHSTDAT0, data->byte);
         xact = I801_BYTE_DATA;
         break;
     case I2C_SMBUS_WORD_DATA:
-        Out32(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
-        Out32(SMBHSTCMD, command);
+        WriteIoPortByte(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
+        WriteIoPortByte(SMBHSTCMD, command);
         if (read_write == I2C_SMBUS_WRITE)
         {
-            Out32(SMBHSTDAT0, data->word & 0xff);
-            Out32(SMBHSTDAT1, (data->word & 0xff00) >> 8);
+            WriteIoPortByte(SMBHSTDAT0, data->word & 0xff);
+            WriteIoPortByte(SMBHSTDAT1, (data->word & 0xff00) >> 8);
         }
         xact = I801_WORD_DATA;
         break;
     case I2C_SMBUS_BLOCK_DATA:
-        Out32(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
-        Out32(SMBHSTCMD, command);
+        WriteIoPortByte(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
+        WriteIoPortByte(SMBHSTCMD, command);
         block = 1;
         break;
     case I2C_SMBUS_I2C_BLOCK_DATA:
@@ -76,17 +76,17 @@ s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size,
         * However if SPD Write Disable is set (Lynx Point and later),
         * the read will fail if we don't set the R/#W bit.
         */
-        Out32(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
+        WriteIoPortByte(SMBHSTADD, ((addr & 0x7f) << 1) | (read_write & 0x01));
 
         if (read_write == I2C_SMBUS_READ)
         {
             /* NB: page 240 of ICH5 datasheet also shows
             * that DATA1 is the cmd field when reading */
-            Out32(SMBHSTDAT1, command);
+            WriteIoPortByte(SMBHSTDAT1, command);
         }
         else
         {
-            Out32(SMBHSTCMD, command);
+            WriteIoPortByte(SMBHSTCMD, command);
         }
         block = 1;
         break;
@@ -98,7 +98,7 @@ s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size,
     //if (hwpec)	/* enable/disable hardware PEC */
     //    outb_p(inb_p(SMBAUXCTL(priv)) | SMBAUXCTL_CRC, SMBAUXCTL(priv));
     //else
-	Out32(SMBAUXCTL, Inp32(SMBAUXCTL) & (~SMBAUXCTL_CRC));
+    WriteIoPortByte(SMBAUXCTL, ReadIoPortByte(SMBAUXCTL) & (~SMBAUXCTL_CRC));
 
     if (block)
         ret = i801_block_transaction(data, read_write, size, hwpec);
@@ -109,7 +109,7 @@ s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size,
     time, so we forcibly disable it after every transaction. Turn off
     E32B for the same reason. */
     //if (hwpec || block)
-        Out32(SMBAUXCTL, Inp32(SMBAUXCTL) & ~(SMBAUXCTL_CRC | SMBAUXCTL_E32B));
+    WriteIoPortByte(SMBAUXCTL, ReadIoPortByte(SMBAUXCTL) & ~(SMBAUXCTL_CRC | SMBAUXCTL_E32B));
 
     if (block)
         goto out;
@@ -122,10 +122,10 @@ s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size,
     {
     case I801_BYTE:	/* Result put in SMBHSTDAT0 */
     case I801_BYTE_DATA:
-        data->byte = Inp32(SMBHSTDAT0);
+        data->byte = ReadIoPortByte(SMBHSTDAT0);
         break;
     case I801_WORD_DATA:
-        data->word = Inp32(SMBHSTDAT0) + (Inp32(SMBHSTDAT1) << 8);
+        data->word = ReadIoPortByte(SMBHSTDAT0) + (ReadIoPortByte(SMBHSTDAT1) << 8);
         break;
     }
 
@@ -209,8 +209,8 @@ int i2c_smbus_i801::i801_block_transaction_byte_by_byte(i2c_smbus_data *data, ch
 
     if (read_write == I2C_SMBUS_WRITE)
     {
-        Out32(SMBHSTDAT0, len);
-        Out32(SMBBLKDAT, data->block[1]);
+        WriteIoPortByte(SMBHSTDAT0, len);
+        WriteIoPortByte(SMBBLKDAT, data->block[1]);
     }
 
     if (command == I2C_SMBUS_I2C_BLOCK_DATA && read_write == I2C_SMBUS_READ)
@@ -244,10 +244,10 @@ int i2c_smbus_i801::i801_block_transaction_byte_by_byte(i2c_smbus_data *data, ch
     {
         if (i == len && read_write == I2C_SMBUS_READ)
             smbcmd |= SMBHSTCNT_LAST_BYTE;
-        Out32(SMBHSTCNT, smbcmd);
+        WriteIoPortByte(SMBHSTCNT, smbcmd);
 
         if (i == 1)
-            Out32(SMBHSTCNT, Inp32(SMBHSTCNT) | SMBHSTCNT_START);
+            WriteIoPortByte(SMBHSTCNT, ReadIoPortByte(SMBHSTCNT) | SMBHSTCNT_START);
 
         status = i801_wait_byte_done();
         if (status)
@@ -255,13 +255,13 @@ int i2c_smbus_i801::i801_block_transaction_byte_by_byte(i2c_smbus_data *data, ch
 
         if (i == 1 && read_write == I2C_SMBUS_READ && command != I2C_SMBUS_I2C_BLOCK_DATA)
         {
-            len = Inp32(SMBHSTDAT0);
+            len = ReadIoPortByte(SMBHSTDAT0);
             if (len < 1 || len > I2C_SMBUS_BLOCK_MAX)
             {
                 /* Recover */
-                while (Inp32(SMBHSTSTS) & SMBHSTSTS_HOST_BUSY)
-                    Out32(SMBHSTSTS, SMBHSTSTS_BYTE_DONE);
-                Out32(SMBHSTSTS, SMBHSTSTS_INTR);
+                while (ReadIoPortByte(SMBHSTSTS) & SMBHSTSTS_HOST_BUSY)
+                    WriteIoPortByte(SMBHSTSTS, SMBHSTSTS_BYTE_DONE);
+                WriteIoPortByte(SMBHSTSTS, SMBHSTSTS_INTR);
                 return -EPROTO;
             }
             data->block[0] = len;
@@ -269,12 +269,12 @@ int i2c_smbus_i801::i801_block_transaction_byte_by_byte(i2c_smbus_data *data, ch
 
         /* Retrieve/store value in SMBBLKDAT */
         if (read_write == I2C_SMBUS_READ)
-            data->block[i] = Inp32(SMBBLKDAT);
+            data->block[i] = ReadIoPortByte(SMBBLKDAT);
         if (read_write == I2C_SMBUS_WRITE && i + 1 <= len)
-            Out32(SMBBLKDAT, data->block[i + 1]);
+            WriteIoPortByte(SMBBLKDAT, data->block[i + 1]);
 
         /* signals SMBBLKDAT ready */
-        Out32(SMBHSTSTS, SMBHSTSTS_BYTE_DONE);
+        WriteIoPortByte(SMBHSTSTS, SMBHSTSTS_BYTE_DONE);
     }
 
     status = i801_wait_intr();
@@ -300,12 +300,12 @@ int i2c_smbus_i801::i801_check_post(int status)
     if (status < 0)
     {
         /* try to stop the current command */
-        Out32(SMBHSTCNT, Inp32(SMBHSTCNT) | SMBHSTCNT_KILL);
+        WriteIoPortByte(SMBHSTCNT, ReadIoPortByte(SMBHSTCNT) | SMBHSTCNT_KILL);
         //usleep_range(1000, 2000);
-		std::this_thread::sleep_for(1ms);
-        Out32(SMBHSTCNT, Inp32(SMBHSTCNT) & (~SMBHSTCNT_KILL));
+        std::this_thread::sleep_for(1ms);
+        WriteIoPortByte(SMBHSTCNT, ReadIoPortByte(SMBHSTCNT) & (~SMBHSTCNT_KILL));
 
-        Out32(SMBHSTSTS, STATUS_FLAGS);
+        WriteIoPortByte(SMBHSTSTS, STATUS_FLAGS);
         return -ETIMEDOUT;
     }
 
@@ -349,7 +349,7 @@ int i2c_smbus_i801::i801_check_post(int status)
     }
 
     /* Clear status flags except BYTE_DONE, to be cleared by caller */
-    Out32(SMBHSTSTS, status);
+    WriteIoPortByte(SMBHSTSTS, status);
 
     return result;
 }
@@ -360,7 +360,7 @@ int i2c_smbus_i801::i801_check_pre()
 {
     int status;
 
-    status = Inp32(SMBHSTSTS);
+    status = ReadIoPortByte(SMBHSTSTS);
     if (status & SMBHSTSTS_HOST_BUSY)
     {
         return -EBUSY;
@@ -369,8 +369,8 @@ int i2c_smbus_i801::i801_check_pre()
     status &= STATUS_FLAGS;
     if (status)
     {
-        Out32(SMBHSTSTS, status);
-        status = Inp32(SMBHSTSTS) & STATUS_FLAGS;
+        WriteIoPortByte(SMBHSTSTS, status);
+        status = ReadIoPortByte(SMBHSTSTS) & STATUS_FLAGS;
         if (status)
         {
             return -EBUSY;
@@ -412,7 +412,7 @@ int i2c_smbus_i801::i801_transaction(int xact)
     if (result < 0)
         return result;
 
-	Out32(SMBHSTCNT, Inp32(SMBHSTCNT) & ~SMBHSTCNT_INTREN);
+    WriteIoPortByte(SMBHSTCNT, ReadIoPortByte(SMBHSTCNT) & ~SMBHSTCNT_INTREN);
     //if (priv->features & FEATURE_IRQ)
     //{
     //    outb_p(xact | SMBHSTCNT_INTREN | SMBHSTCNT_START,
@@ -431,7 +431,7 @@ int i2c_smbus_i801::i801_transaction(int xact)
 
     /* the current contents of SMBHSTCNT can be overwritten, since PEC,
     * SMBSCMD are passed in xact */
-    Out32(SMBHSTCNT, xact | SMBHSTCNT_START);
+    WriteIoPortByte(SMBHSTCNT, xact | SMBHSTCNT_START);
 
     status = i801_wait_intr();
     return i801_check_post(status);
@@ -447,9 +447,9 @@ int i2c_smbus_i801::i801_wait_byte_done()
     /* We will always wait for a fraction of a second! */
     do
     {
-		std::this_thread::sleep_for(1ms);
+        std::this_thread::sleep_for(1ms);
         //usleep_range(250, 500);
-        status = Inp32(SMBHSTSTS);
+        status = ReadIoPortByte(SMBHSTSTS);
     } while (!(status & (STATUS_ERROR_FLAGS | SMBHSTSTS_BYTE_DONE)) && (timeout++ < MAX_RETRIES));
 
     if (timeout > MAX_RETRIES)
@@ -469,7 +469,7 @@ int i2c_smbus_i801::i801_wait_intr()
     do
     {
         //usleep_range(250, 500);
-        status = Inp32(SMBHSTSTS);
+        status = ReadIoPortByte(SMBHSTSTS);
     } while (((status & SMBHSTSTS_HOST_BUSY) || !(status & (STATUS_ERROR_FLAGS | SMBHSTSTS_INTR))) && (timeout++ < MAX_RETRIES));
 
     if (timeout > MAX_RETRIES)
@@ -494,9 +494,9 @@ s32 i2c_smbus_i801::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
 
 bool i2c_smbus_i801_detect()
 {
-    if(!IsInpOutDriverOpen())
+    if(!InitializeOls() || GetDllStatus())
     {
-        LOG_INFO("inpout32 is not loaded, i801 I2C bus detection aborted");
+        LOG_INFO("WinRing0 is not loaded, i801 I2C bus detection aborted");
         return(false);
     }
 
