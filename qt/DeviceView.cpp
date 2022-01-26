@@ -7,6 +7,7 @@
 \*-----------------------------------------------------*/
 
 #include "DeviceView.h"
+#include "RGBControllerKeyNames.h"
 #include "RGBController.h"
 #include <QPainter>
 #include <QResizeEvent>
@@ -36,122 +37,122 @@ struct led_label
 
 static const std::map<std::string, led_label> led_label_lookup =
 {
-    { "Key: A",                 { "A"     , "A",               }},
-    { "Key: B",                 { "B"     , "B",               }},
-    { "Key: C",                 { "C"     , "C",               }},
-    { "Key: D",                 { "D"     , "D",               }},
-    { "Key: E",                 { "E"     , "E",               }},
-    { "Key: F",                 { "F"     , "F",               }},
-    { "Key: G",                 { "G"     , "G",               }},
-    { "Key: H",                 { "H"     , "H",               }},
-    { "Key: I",                 { "I"     , "I",               }},
-    { "Key: J",                 { "J"     , "J",               }},
-    { "Key: K",                 { "K"     , "K",               }},
-    { "Key: L",                 { "L"     , "L",               }},
-    { "Key: M",                 { "M"     , "M",               }},
-    { "Key: N",                 { "N"     , "N",               }},
-    { "Key: O",                 { "O"     , "O",               }},
-    { "Key: P",                 { "P"     , "P",               }},
-    { "Key: Q",                 { "Q"     , "Q",               }},
-    { "Key: R",                 { "R"     , "R",               }},
-    { "Key: S",                 { "S"     , "S",               }},
-    { "Key: T",                 { "T"     , "T",               }},
-    { "Key: U",                 { "U"     , "U",               }},
-    { "Key: V",                 { "V"     , "V",               }},
-    { "Key: W",                 { "W"     , "W",               }},
-    { "Key: X",                 { "X"     , "X",               }},
-    { "Key: Y",                 { "Y"     , "Y",               }},
-    { "Key: Z",                 { "Z"     , "Z",               }},
-    { "Key: 0",                 { "0"     , "0",               }},
-    { "Key: 1",                 { "1"     , "1",               }},
-    { "Key: 2",                 { "2"     , "2",               }},
-    { "Key: 3",                 { "3"     , "3",               }},
-    { "Key: 4",                 { "4"     , "4",               }},
-    { "Key: 5",                 { "5"     , "5",               }},
-    { "Key: 6",                 { "6"     , "6",               }},
-    { "Key: 7",                 { "7"     , "7",               }},
-    { "Key: 8",                 { "8"     , "8",               }},
-    { "Key: 9",                 { "9"     , "9",               }},
-    { "Key: F1",                { "F1"    , "F1",              }},
-    { "Key: F2",                { "F2"    , "F2",              }},
-    { "Key: F3",                { "F3"    , "F3",              }},
-    { "Key: F4",                { "F4"    , "F4",              }},
-    { "Key: F5",                { "F5"    , "F5",              }},
-    { "Key: F6",                { "F6"    , "F6",              }},
-    { "Key: F7",                { "F7"    , "F7",              }},
-    { "Key: F8",                { "F8"    , "F8",              }},
-    { "Key: F9",                { "F9"    , "F9",              }},
-    { "Key: F10",               { "F10"   , "F10",             }},
-    { "Key: F11",               { "F11"   , "F11",             }},
-    { "Key: F12",               { "F12"   , "F12",             }},
-    { "Key: `",                 { "`"     , "`",               }},
-    { "Key: -",                 { "-"     , "-",               }},
-    { "Key: =",                 { "="     , "=",               }},
-    { "Key: [",                 { "["     , "[",               }},
-    { "Key: ]",                 { "]"     , "]",               }},
-    { "Key: \\ (ANSI)",         { "\\"    , "\\",              }},
-    { "Key: \\ (ISO)",          { "\\"    , "\\",              }},
-    { "Key: ;",                 { ";"     , ";",               }},
-    { "Key: '",                 { "'"     , "'",               }},
-    { "Key: #",                 { "#"     , "#",               }},
-    { "Key: ,",                 { ","     , ",",               }},
-    { "Key: .",                 { "."     , ".",               }},
-    { "Key: /",                 { "/"     , "/",               }},
-    { "Key: Escape",            { "Esc"   , "Esc",             }},
-    { "Key: Print Screen",      { "Prt"   , "Prt",             }},
-    { "Key: Scroll Lock",       { "Scr"   , "Scr",             }},
-    { "Key: Pause/Break",       { "Brk"   , "Brk",             }},
-    { "Key: Backspace",         { "Bks"   , "\xE2\x8C\xAB"     }}, // ⌫
-    { "Key: Insert",            { "Ins"   , "Ins",             }},
-    { "Key: Home",              { "Hom"   , "Hom",             }},
-    { "Key: Page Up",           { "PUp"   , "PUp",             }},
-    { "Key: Tab",               { "Tab"   , "\xE2\x86\xb9"     }}, // ⭾ ↹ ⇄ ⇥
-    { "Key: Delete",            { "Del"   , "Del",             }},
-    { "Key: End",               { "End"   , "End",             }},
-    { "Key: Page Down",         { "PDn"   , "PDn",             }},
-    { "Key: Caps Lock",         { "Cap"   , "Cap",             }},
-    { "Key: Enter",             { "Ent"   , "\xE2\x86\xB5"     }}, // ↵ ⏎
-    { "Key: Enter (ISO)",       { "Ent"   , "\xE2\x86\xB5"     }}, // ↵ ⏎
-    { "Key: Left Shift",        { "Sft"   , "\xE2\x87\xA7"     }}, // ⇧
-    { "Key: Right Shift",       { "Sft"   , "\xE2\x87\xA7"     }}, // ⇧
-    { "Key: Up Arrow",          { "Up"    , "\xF0\x9F\xA1\xB9" }}, // ↑ 🡹
-    { "Key: Left Control",      { "Ctl"   , "Ctl",             }},
-    { "Key: Left Windows",      { "Win"   , "\xe2\x9d\x96"     }}, // ❖
-    { "Key: Left Fn",           { "Fn"    , "Fn",              }},
-    { "Key: Left Alt",          { "Alt"   , "Alt",             }},
-    { "Key: Space",             { "Spc"   , "Spc",             }},
-    { "Key: Right Alt",         { "Alt"   , "Alt",             }},
-    { "Key: Right Fn",          { "Fn"    , "Fn",              }},
-    { "Key: Right Windows",     { "Win"   , "\xe2\x9d\x96"     }}, // ❖
-    { "Key: Menu",              { "Mnu"   , "\xE2\x98\xB0"     }}, // ▤ ☰ 𝌆 🗏
-    { "Key: Right Control",     { "Ctl"   , "Ctl",             }},
-    { "Key: Left Arrow",        { "Lft"   , "\xF0\x9F\xA1\xB8" }}, // ↑ 🡹
-    { "Key: Down Arrow",        { "Dn"    , "\xF0\x9F\xA1\xBB" }}, // ↑ 🡹
-    { "Key: Right Arrow",       { "Rgt"   , "\xF0\x9F\xA1\xBA" }}, // ↑ 🡹
-    { "Key: Num Lock",          { "Num"   , "Num",             }},
-    { "Key: Number Pad /",      { "/"     , "/",               }},
-    { "Key: Number Pad *",      { "*"     , "*",               }},
-    { "Key: Number Pad -",      { "-"     , "-",               }},
-    { "Key: Number Pad +",      { "+"     , "+",               }},
-    { "Key: Number Pad .",      { "."     , ".",               }},
-    { "Key: Number Pad Enter",  { "Ent"   , "\xE2\x86\xB5"     }}, // ↵ ⏎
-    { "Key: Number Pad 0",      { "0"     , "0",               }},
-    { "Key: Number Pad 1",      { "1"     , "1",               }},
-    { "Key: Number Pad 2",      { "2"     , "2",               }},
-    { "Key: Number Pad 3",      { "3"     , "3",               }},
-    { "Key: Number Pad 4",      { "4"     , "4",               }},
-    { "Key: Number Pad 5",      { "5"     , "5",               }},
-    { "Key: Number Pad 6",      { "6"     , "6",               }},
-    { "Key: Number Pad 7",      { "7"     , "7",               }},
-    { "Key: Number Pad 8",      { "8"     , "8",               }},
-    { "Key: Number Pad 9",      { "9"     , "9",               }},
-    { "Key: Media Play/Pause",  { "Ply"   , "\xE2\x8F\xAF"    ,}}, // ⏯
-    { "Key: Media Previous",    { "Prv"   , "\xE2\x8F\xAE"    ,}}, // ⏮
-    { "Key: Media Next",        { "Nxt"   , "\xE2\x8F\xAD"    ,}}, // ⏭
-    { "Key: Media Stop",        { "Stp"   , "\xE2\x8F\xB9"    ,}}, // ⏹
-    { "Key: Media Mute",        { "Mte"   , "\xF0\x9F\x94\x87",}}, // 🔇
-    { "Key: Media Volume -",    { "Vl-"   , "\xF0\x9F\x94\x88",}}, // 🔉
-    { "Key: Media Volume +",    { "Vl+"   , "\xF0\x9F\x94\x89",}}, // 🔊
+    { KEY_EN_A,                 { "A"     , "A",                }},
+    { KEY_EN_B,                 { "B"     , "B",                }},
+    { KEY_EN_C,                 { "C"     , "C",                }},
+    { KEY_EN_D,                 { "D"     , "D",                }},
+    { KEY_EN_E,                 { "E"     , "E",                }},
+    { KEY_EN_F,                 { "F"     , "F",                }},
+    { KEY_EN_G,                 { "G"     , "G",                }},
+    { KEY_EN_H,                 { "H"     , "H",                }},
+    { KEY_EN_I,                 { "I"     , "I",                }},
+    { KEY_EN_J,                 { "J"     , "J",                }},
+    { KEY_EN_K,                 { "K"     , "K",                }},
+    { KEY_EN_L,                 { "L"     , "L",                }},
+    { KEY_EN_M,                 { "M"     , "M",                }},
+    { KEY_EN_N,                 { "N"     , "N",                }},
+    { KEY_EN_O,                 { "O"     , "O",                }},
+    { KEY_EN_P,                 { "P"     , "P",                }},
+    { KEY_EN_Q,                 { "Q"     , "Q",                }},
+    { KEY_EN_R,                 { "R"     , "R",                }},
+    { KEY_EN_S,                 { "S"     , "S",                }},
+    { KEY_EN_T,                 { "T"     , "T",                }},
+    { KEY_EN_U,                 { "U"     , "U",                }},
+    { KEY_EN_V,                 { "V"     , "V",                }},
+    { KEY_EN_W,                 { "W"     , "W",                }},
+    { KEY_EN_X,                 { "X"     , "X",                }},
+    { KEY_EN_Y,                 { "Y"     , "Y",                }},
+    { KEY_EN_Z,                 { "Z"     , "Z",                }},
+    { KEY_EN_0,                 { "0"     , "0",                }},
+    { KEY_EN_1,                 { "1"     , "1",                }},
+    { KEY_EN_2,                 { "2"     , "2",                }},
+    { KEY_EN_3,                 { "3"     , "3",                }},
+    { KEY_EN_4,                 { "4"     , "4",                }},
+    { KEY_EN_5,                 { "5"     , "5",                }},
+    { KEY_EN_6,                 { "6"     , "6",                }},
+    { KEY_EN_7,                 { "7"     , "7",                }},
+    { KEY_EN_8,                 { "8"     , "8",                }},
+    { KEY_EN_9,                 { "9"     , "9",                }},
+    { KEY_EN_F1,                { "F1"    , "F1",               }},
+    { KEY_EN_F2,                { "F2"    , "F2",               }},
+    { KEY_EN_F3,                { "F3"    , "F3",               }},
+    { KEY_EN_F4,                { "F4"    , "F4",               }},
+    { KEY_EN_F5,                { "F5"    , "F5",               }},
+    { KEY_EN_F6,                { "F6"    , "F6",               }},
+    { KEY_EN_F7,                { "F7"    , "F7",               }},
+    { KEY_EN_F8,                { "F8"    , "F8",               }},
+    { KEY_EN_F9,                { "F9"    , "F9",               }},
+    { KEY_EN_F10,               { "F10"   , "F10",              }},
+    { KEY_EN_F11,               { "F11"   , "F11",              }},
+    { KEY_EN_F12,               { "F12"   , "F12",              }},
+    { KEY_EN_BACK_TICK,         { "`"     , "`",                }},
+    { KEY_EN_MINUS,             { "-"     , "-",                }},
+    { KEY_EN_EQUALS,            { "="     , "=",                }},
+    { KEY_EN_LEFT_BRACKET,      { "["     , "[",                }},
+    { KEY_EN_RIGHT_BRACKET,     { "]"     , "]",                }},
+    { KEY_EN_ANSI_BACK_SLASH,   { "\\"    , "\\",               }},
+    { KEY_EN_ISO_BACK_SLASH,    { "\\"    , "\\",               }},
+    { KEY_EN_SEMICOLON,         { ";"     , ";",                }},
+    { KEY_EN_QUOTE,             { "'"     , "'",                }},
+    { KEY_EN_POUND,             { "#"     , "#",                }},
+    { KEY_EN_COMMA,             { ","     , ",",                }},
+    { KEY_EN_PERIOD,            { "."     , ".",                }},
+    { KEY_EN_FORWARD_SLASH,     { "/"     , "/",                }},
+    { KEY_EN_ESCAPE,            { "Esc"   , "Esc",              }},
+    { KEY_EN_PRINT_SCREEN,      { "Prt"   , "Prt",              }},
+    { KEY_EN_SCROLL_LOCK,       { "Scr"   , "Scr",              }},
+    { KEY_EN_PAUSE_BREAK,       { "Brk"   , "Brk",              }},
+    { KEY_EN_BACKSPACE,         { "Bks"   , "\xE2\x8C\xAB"      }}, // ⌫
+    { KEY_EN_INSERT,            { "Ins"   , "Ins",              }},
+    { KEY_EN_HOME,              { "Hom"   , "Hom",              }},
+    { KEY_EN_PAGE_UP,           { "PUp"   , "PUp",              }},
+    { KEY_EN_TAB,               { "Tab"   , "\xE2\x86\xb9"      }}, // ⭾ ↹ ⇄ ⇥
+    { KEY_EN_DELETE,            { "Del"   , "Del",              }},
+    { KEY_EN_END,               { "End"   , "End",              }},
+    { KEY_EN_PAGE_DOWN,         { "PDn"   , "PDn",              }},
+    { KEY_EN_CAPS_LOCK,         { "Cap"   , "Cap",              }},
+    { KEY_EN_ANSI_ENTER,        { "Ent"   , "\xE2\x86\xB5"      }}, // ↵ ⏎
+    { KEY_EN_ISO_ENTER,         { "Ent"   , "\xE2\x86\xB5"      }}, // ↵ ⏎
+    { KEY_EN_LEFT_SHIFT,        { "Sft"   , "\xE2\x87\xA7"      }}, // ⇧
+    { KEY_EN_RIGHT_SHIFT,       { "Sft"   , "\xE2\x87\xA7"      }}, // ⇧
+    { KEY_EN_UP_ARROW,          { "Up"    , "\xF0\x9F\xA1\xB9"  }}, // ↑ 🡹
+    { KEY_EN_LEFT_CONTROL,      { "Ctl"   , "Ctl",              }},
+    { KEY_EN_LEFT_WINDOWS,      { "Win"   , "\xe2\x9d\x96"      }}, // ❖
+    { KEY_EN_LEFT_FUNCTION,     { "Fn"    , "Fn",               }},
+    { KEY_EN_LEFT_ALT,          { "Alt"   , "Alt",              }},
+    { KEY_EN_SPACE,             { "Spc"   , "Spc",              }},
+    { KEY_EN_RIGHT_ALT,         { "Alt"   , "Alt",              }},
+    { KEY_EN_RIGHT_FUNCTION,    { "Fn"    , "Fn",               }},
+    { KEY_EN_RIGHT_WINDOWS,     { "Win"   , "\xe2\x9d\x96"      }}, // ❖
+    { KEY_EN_MENU,              { "Mnu"   , "\xE2\x98\xB0"      }}, // ▤ ☰ 𝌆 🗏
+    { KEY_EN_RIGHT_CONTROL,     { "Ctl"   , "Ctl",              }},
+    { KEY_EN_LEFT_ARROW,        { "Lft"   , "\xF0\x9F\xA1\xB8"  }}, // ↑ 🡹
+    { KEY_EN_DOWN_ARROW,        { "Dn"    , "\xF0\x9F\xA1\xBB"  }}, // ↑ 🡹
+    { KEY_EN_RIGHT_ARROW,       { "Rgt"   , "\xF0\x9F\xA1\xBA"  }}, // ↑ 🡹
+    { KEY_EN_NUMPAD_LOCK,       { "Num"   , "Num",              }},
+    { KEY_EN_NUMPAD_DIVIDE,     { "/"     , "/",                }},
+    { KEY_EN_NUMPAD_TIMES,      { "*"     , "*",                }},
+    { KEY_EN_NUMPAD_MINUS,      { "-"     , "-",                }},
+    { KEY_EN_NUMPAD_PLUS,       { "+"     , "+",                }},
+    { KEY_EN_NUMPAD_PERIOD,     { "."     , ".",                }},
+    { KEY_EN_NUMPAD_ENTER,      { "Ent"   , "\xE2\x86\xB5"      }}, // ↵ ⏎
+    { KEY_EN_NUMPAD_0,          { "0"     , "0",                }},
+    { KEY_EN_NUMPAD_1,          { "1"     , "1",                }},
+    { KEY_EN_NUMPAD_2,          { "2"     , "2",                }},
+    { KEY_EN_NUMPAD_3,          { "3"     , "3",                }},
+    { KEY_EN_NUMPAD_4,          { "4"     , "4",                }},
+    { KEY_EN_NUMPAD_5,          { "5"     , "5",                }},
+    { KEY_EN_NUMPAD_6,          { "6"     , "6",                }},
+    { KEY_EN_NUMPAD_7,          { "7"     , "7",                }},
+    { KEY_EN_NUMPAD_8,          { "8"     , "8",                }},
+    { KEY_EN_NUMPAD_9,          { "9"     , "9",                }},
+    { KEY_EN_MEDIA_PLAY_PAUSE,  { "Ply"   , "\xE2\x8F\xAF",     }}, // ⏯
+    { KEY_EN_MEDIA_PREVIOUS,    { "Prv"   , "\xE2\x8F\xAE",     }}, // ⏮
+    { KEY_EN_MEDIA_NEXT,        { "Nxt"   , "\xE2\x8F\xAD",     }}, // ⏭
+    { KEY_EN_MEDIA_STOP,        { "Stp"   , "\xE2\x8F\xB9",     }}, // ⏹
+    { KEY_EN_MEDIA_MUTE,        { "Mte"   , "\xF0\x9F\x94\x87", }}, // 🔇
+    { KEY_EN_MEDIA_VOLUME_DOWN, { "Vl-"   , "\xF0\x9F\x94\x88", }}, // 🔉
+    { KEY_EN_MEDIA_VOLUME_UP,   { "Vl+"   , "\xF0\x9F\x94\x89", }}, // 🔊
 };
 
 void DeviceView::setController(RGBController * controller_ptr)
@@ -260,18 +261,18 @@ void DeviceView::setController(RGBController * controller_ptr)
                         \*-----------------------------------------------------*/
                         if(led_x < map->width - 1 && map->map[map_idx + 1] == 0xFFFFFFFF)
                         {
-                            if( ( controller->leds[color_idx].name == "Key: Tab"          )
-                             || ( controller->leds[color_idx].name == "Key: Caps Lock"    )
-                             || ( controller->leds[color_idx].name == "Key: Left Shift"   )
-                             || ( controller->leds[color_idx].name == "Key: Right Shift"  )
-                             || ( controller->leds[color_idx].name == "Key: Backspace"    )
-                             || ( controller->leds[color_idx].name == "Key: Number Pad 0" ) )
+                            if( ( controller->leds[color_idx].name == KEY_EN_TAB        )
+                             || ( controller->leds[color_idx].name == KEY_EN_CAPS_LOCK  )
+                             || ( controller->leds[color_idx].name == KEY_EN_LEFT_SHIFT )
+                             || ( controller->leds[color_idx].name == KEY_EN_RIGHT_SHIFT)
+                             || ( controller->leds[color_idx].name == KEY_EN_BACKSPACE  )
+                             || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_0   ) )
                             {
                                 led_pos[color_idx].matrix_w += atom;
                             }
                         }
-                        if( ( controller->leds[color_idx].name == "Key: Number Pad Enter" )
-                         || ( controller->leds[color_idx].name == "Key: Number Pad +"     ) )
+                        if( ( controller->leds[color_idx].name == KEY_EN_NUMPAD_ENTER   )
+                         || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_PLUS    ) )
                         {
                             if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
                             {
@@ -284,7 +285,7 @@ void DeviceView::setController(RGBController * controller_ptr)
                                 led_pos[color_idx].matrix_h += atom;
                             }
                         }
-                        else if(controller->leds[color_idx].name == "Key: Space")
+                        else if(controller->leds[color_idx].name == KEY_EN_SPACE)
                         {
                             for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
                             {

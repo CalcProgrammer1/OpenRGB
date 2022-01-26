@@ -508,6 +508,7 @@ HEADERS +=                                                                      
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBController_Network.h                                                       \
+    RGBController/RGBControllerKeyNames.h                                                       \
 
 SOURCES +=                                                                                      \
     dependencies/Swatches/swatches.cpp                                                          \

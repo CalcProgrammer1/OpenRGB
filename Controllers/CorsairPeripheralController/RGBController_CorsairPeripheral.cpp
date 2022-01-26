@@ -7,6 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 1/9/2020    |
 \*-----------------------------------------*/
 
+#include "RGBControllerKeyNames.h"
 #include "RGBController_CorsairPeripheral.h"
 
 //0xFFFFFFFF indicates an unused entry in matrix
@@ -148,361 +149,361 @@ static const zone_type zone_types_k55[] =
 
 static const char* led_names[] =
 {
-    "Key: Escape",          //0
-    "Key: `",               //1
-    "Key: Tab",             //2
-    "Key: Caps Lock",       //3
-    "Key: Left Shift",      //4
-    "Key: Left Control",    //5
-    "Key: F12",             //6
-    "Key: =",               //7
-    "Key: Lock",            //8
-    "Key: Number Pad 7",    //9
-    "Key: F1",              //12
-    "Key: 1",               //13
-    "Key: Q",               //14
-    "Key: A",               //15
-    "Key: Left Windows",    //17
-    "Key: Print Screen",    //18
-    "Key: Media Mute",      //20
-    "Key: Number Pad 8",    //21
-    "Key: F2",              //24
-    "Key: 2",               //25
-    "Key: W",               //26
-    "Key: S",               //27
-    "Key: Z",               //28
-    "Key: Left Alt",        //29
-    "Key: Scroll Lock",     //30
-    "Key: Backspace",       //31
-    "Key: Media Stop",      //32
-    "Key: Number Pad 9",    //33
-    "Key: F3",              //36
-    "Key: 3",               //37
-    "Key: E",               //38
-    "Key: D",               //39
-    "Key: X",               //40
-    "Key: Pause/Break",     //42
-    "Key: Delete",          //43
-    "Key: Media Previous",  //44
-    "Key: F4",              //48
-    "Key: 4",               //49
-    "Key: R",               //50
-    "Key: F",               //51
-    "Key: C",               //52
-    "Key: Space",           //53
-    "Key: Insert",          //54
-    "Key: End",             //55
-    "Key: Media Play/Pause",//56
-    "Key: Number Pad 4",    //57
-    "Key: F5",              //60
-    "Key: 5",               //61
-    "Key: T",               //62
-    "Key: G",               //63
-    "Key: V",               //64
-    "Key: Home",            //66
-    "Key: Page Down",       //67
-    "Key: Media Next",      //68
-    "Key: Number Pad 5",    //69
-    "Key: F6",              //72
-    "Key: 6",               //73
-    "Key: Y",               //74
-    "Key: H",               //75
-    "Key: B",               //76
-    "Key: Page Up",         //78
-    "Key: Right Shift",     //79
-    "Key: Num Lock",        //80
-    "Key: Number Pad 6",    //81
-    "Key: F7",              //84
-    "Key: 7",               //85
-    "Key: U",               //86
-    "Key: J",               //87
-    "Key: N",               //88
-    "Key: Right Alt",       //89
-    "Key: ]",               //90
-    "Key: Right Control",   //91
-    "Key: Number Pad /",    //92
-    "Key: Number Pad 1",    //93
-    "Key: F8",              //96
-    "Key: 8",               //97
-    "Key: I",               //98
-    "Key: K",               //99
-    "Key: M",               //100
-    "Key: Right Windows",   //101
-    "Key: \\ (ANSI)",       //102
-    "Key: Up Arrow",        //103
-    "Key: Number Pad *",    //104
-    "Key: Number Pad 2",    //105
-    "Key: F9",              //108
-    "Key: 9",               //109
-    "Key: O",               //110
-    "Key: L",               //111
-    "Key: ,",               //112
-    "Key: Menu",            //113
-    "Key: Left Arrow",      //115
-    "Key: Number Pad -",    //116
-    "Key: Number Pad 3",    //117
-    "Key: F10",             //120
-    "Key: 0",               //121
-    "Key: P",               //122
-    "Key: ;",               //123
-    "Key: .",               //124
-    "Key: Enter",           //126
-    "Key: Down Arrow",      //127
-    "Key: Number Pad +",    //128
-    "Key: Number Pad 0",    //129
-    "Key: F11",             //132
-    "Key: -",               //133
-    "Key: [",               //134
-    "Key: '",               //135
-    "Key: /",               //136
-    "Key: Brightness",      //137
-    "Key: Right Arrow",     //139
-    "Key: Number Pad Enter",//140
-    "Key: Number Pad .",    //141
+    KEY_EN_ESCAPE,              //0
+    KEY_EN_BACK_TICK,           //1
+    KEY_EN_TAB,                 //2
+    KEY_EN_CAPS_LOCK,           //3
+    KEY_EN_LEFT_SHIFT,          //4
+    KEY_EN_LEFT_CONTROL,        //5
+    KEY_EN_F12,                 //6
+    KEY_EN_EQUALS,              //7
+    "Key: Lock",                //8
+    KEY_EN_NUMPAD_7,            //9
+    KEY_EN_F1,                  //12
+    KEY_EN_1,                   //13
+    KEY_EN_Q,                   //14
+    KEY_EN_A,                   //15
+    KEY_EN_LEFT_WINDOWS,        //17
+    KEY_EN_PRINT_SCREEN,        //18
+    KEY_EN_MEDIA_MUTE,          //20
+    KEY_EN_NUMPAD_8,            //21
+    KEY_EN_F2,                  //24
+    KEY_EN_2,                   //25
+    KEY_EN_W,                   //26
+    KEY_EN_S,                   //27
+    KEY_EN_Z,                   //28
+    KEY_EN_LEFT_ALT,            //29
+    KEY_EN_SCROLL_LOCK,         //30
+    KEY_EN_BACKSPACE,           //31
+    KEY_EN_MEDIA_STOP,          //32
+    KEY_EN_NUMPAD_9,            //33
+    KEY_EN_F3,                  //36
+    KEY_EN_3,                   //37
+    KEY_EN_E,                   //38
+    KEY_EN_D,                   //39
+    KEY_EN_X,                   //40
+    KEY_EN_PAUSE_BREAK,         //42
+    KEY_EN_DELETE,              //43
+    KEY_EN_MEDIA_PREVIOUS,      //44
+    KEY_EN_F4,                  //48
+    KEY_EN_4,                   //49
+    KEY_EN_R,                   //50
+    KEY_EN_F,                   //51
+    KEY_EN_C,                   //52
+    KEY_EN_SPACE,               //53
+    KEY_EN_INSERT,              //54
+    KEY_EN_END,                 //55
+    KEY_EN_MEDIA_PLAY_PAUSE,    //56
+    KEY_EN_NUMPAD_4,            //57
+    KEY_EN_F5,                  //60
+    KEY_EN_5,                   //61
+    KEY_EN_T,                   //62
+    KEY_EN_G,                   //63
+    KEY_EN_V,                   //64
+    KEY_EN_HOME,                //66
+    KEY_EN_PAGE_DOWN,           //67
+    KEY_EN_MEDIA_NEXT,          //68
+    KEY_EN_NUMPAD_5,            //69
+    KEY_EN_F6,                  //72
+    KEY_EN_6,                   //73
+    KEY_EN_Y,                   //74
+    KEY_EN_H,                   //75
+    KEY_EN_B,                   //76
+    KEY_EN_PAGE_UP,             //78
+    KEY_EN_RIGHT_SHIFT,         //79
+    KEY_EN_NUMPAD_LOCK,         //80
+    KEY_EN_NUMPAD_6,            //81
+    KEY_EN_F7,                  //84
+    KEY_EN_7,                   //85
+    KEY_EN_U,                   //86
+    KEY_EN_J,                   //87
+    KEY_EN_N,                   //88
+    KEY_EN_RIGHT_ALT,           //89
+    KEY_EN_RIGHT_BRACKET,       //90
+    KEY_EN_RIGHT_CONTROL,       //91
+    KEY_EN_NUMPAD_DIVIDE,       //92
+    KEY_EN_NUMPAD_1,            //93
+    KEY_EN_F8,                  //96
+    KEY_EN_8,                   //97
+    KEY_EN_I,                   //98
+    KEY_EN_K,                   //99
+    KEY_EN_M,                   //100
+    KEY_EN_RIGHT_WINDOWS,       //101
+    KEY_EN_ANSI_BACK_SLASH,     //102
+    KEY_EN_UP_ARROW,            //103
+    KEY_EN_NUMPAD_TIMES,        //104
+    KEY_EN_NUMPAD_2,            //105
+    KEY_EN_F9,                  //108
+    KEY_EN_9,                   //109
+    KEY_EN_O,                   //110
+    KEY_EN_L,                   //111
+    KEY_EN_COMMA,               //112
+    KEY_EN_MENU,                //113
+    KEY_EN_LEFT_ARROW,          //115
+    KEY_EN_NUMPAD_MINUS,        //116
+    KEY_EN_NUMPAD_3,            //117
+    KEY_EN_F10,                 //120
+    KEY_EN_0,                   //121
+    KEY_EN_P,                   //122
+    KEY_EN_SEMICOLON,           //123
+    KEY_EN_PERIOD,              //124
+    KEY_EN_ANSI_ENTER,          //126
+    KEY_EN_DOWN_ARROW,          //127
+    KEY_EN_NUMPAD_PLUS,         //128
+    KEY_EN_NUMPAD_0,            //129
+    KEY_EN_F11,                 //132
+    KEY_EN_MINUS,               //133
+    KEY_EN_LEFT_BRACKET,        //134
+    KEY_EN_QUOTE,               //135
+    KEY_EN_FORWARD_SLASH,       //136
+    "Key: Brightness",          //137
+    KEY_EN_RIGHT_ARROW,         //139
+    KEY_EN_NUMPAD_ENTER,        //140
+    KEY_EN_NUMPAD_PERIOD,       //141
     "Key: / (ISO)",
-    "Key: \\ (ISO)",
+    KEY_EN_ISO_BACK_SLASH,
 };
 
 static const char* led_names_k70_mk2[] =
 {
-    "Key: Escape",          //0
-    "Key: `",               //1
-    "Key: Tab",             //2
-    "Key: Caps Lock",       //3
-    "Key: Left Shift",      //4
-    "Key: Left Control",    //5
-    "Key: F12",             //6
-    "Key: =",               //7
-    "Key: Lock",            //8
-    "Key: Number Pad 7",    //9
-    "Key: F1",              //12
-    "Key: 1",               //13
-    "Key: Q",               //14
-    "Key: A",               //15
-    //"Key: / (ISO)",         //16
-    "Key: Left Windows",    //17
-    "Key: Print Screen",    //18
-    "Key: Media Mute",      //20
-    "Key: Number Pad 8",    //21
-    "Key: F2",              //24
-    "Key: 2",               //25
-    "Key: W",               //26
-    "Key: S",               //27
-    "Key: Z",               //28
-    "Key: Left Alt",        //29
-    "Key: Scroll Lock",     //30
-    "Key: Backspace",       //31
-    "Key: Media Stop",      //32
-    "Key: Number Pad 9",    //33
-    "Key: F3",              //36
-    "Key: 3",               //37
-    "Key: E",               //38
-    "Key: D",               //39
-    "Key: X",               //40
-    "Key: Pause/Break",     //42
-    "Key: Delete",          //43
-    "Key: Media Previous",  //44
-    //"Key: Logo Left",       //047
-    "Key: F4",              //48
-    "Key: 4",               //49
-    "Key: R",               //50
-    "Key: F",               //51
-    "Key: C",               //52
-    "Key: Space",           //53
-    "Key: Insert",          //54
-    "Key: End",             //55
-    "Key: Media Play/Pause",//56
-    "Key: Number Pad 4",    //57
-    //"Key: Logo Right",      //059
-    "Key: F5",              //60
-    "Key: 5",               //61
-    "Key: T",               //62
-    "Key: G",               //63
-    "Key: V",               //64
-    "Key: Home",            //66
-    "Key: Page Down",       //67
-    "Key: Media Next",      //68
-    "Key: Number Pad 5",    //69
-    "Key: F6",              //72
-    "Key: 6",               //73
-    "Key: Y",               //74
-    "Key: H",               //75
-    "Key: B",               //76
-    "Key: Page Up",         //78
-    "Key: Right Shift",     //79
-    "Key: Num Lock",        //80
-    "Key: Number Pad 6",    //81
-    "Key: F7",              //84
-    "Key: 7",               //85
-    "Key: U",               //86
-    "Key: J",               //87
-    "Key: N",               //88
-    "Key: Right Alt",       //89
-    "Key: ]",               //90
-    "Key: Right Control",   //91
-    "Key: Number Pad /",    //92
-    "Key: Number Pad 1",    //93
-    "Key: F8",              //96
-    "Key: 8",               //97
-    "Key: I",               //98
-    "Key: K",               //99
-    "Key: M",               //100
-    "Key: Right Windows",   //101
-    "Key: \\ (ANSI)",       //102
-    "Key: Up Arrow",        //103
-    "Key: Number Pad *",    //104
-    "Key: Number Pad 2",    //105
-    "Key: F9",              //108
-    "Key: 9",               //109
-    "Key: O",               //110
-    "Key: L",               //111
-    "Key: ,",               //112
-    "Key: Menu",            //113
-    //"Key: \\ (ISO)",        //114
-    "Key: Left Arrow",      //115
-    "Key: Number Pad -",    //116
-    "Key: Number Pad 3",    //117
-    "Key: F10",             //120
-    "Key: 0",               //121
-    "Key: P",               //122
-    "Key: ;",               //123
-    //"Key: Profile",         //125
-    "Key: .",               //124
-    "Key: Enter",           //126
-    "Key: Down Arrow",      //127
-    "Key: Number Pad +",    //128
-    "Key: Number Pad 0",    //129
-    "Key: F11",             //132
-    "Key: -",               //133
-    "Key: [",               //134
-    "Key: '",               //135
-    "Key: /",               //136
-    "Key: Brightness",      //137
-    "Key: Right Arrow",     //139
-    "Key: Number Pad Enter",//140
-    "Key: Number Pad .",    //141
-    "Key: / (ISO)",         //16
-    "Key: \\ (ISO)",        //114
-    "Key: Logo Left",       //047
-    "Key: Logo Right",      //059
-    "Key: Profile",         //125
+    KEY_EN_ESCAPE,              //0
+    KEY_EN_BACK_TICK,           //1
+    KEY_EN_TAB,                 //2
+    KEY_EN_CAPS_LOCK,           //3
+    KEY_EN_LEFT_SHIFT,          //4
+    KEY_EN_LEFT_CONTROL,        //5
+    KEY_EN_F12,                 //6
+    KEY_EN_EQUALS,              //7
+    "Key: Lock",                //8
+    KEY_EN_NUMPAD_7,            //9
+    KEY_EN_F1,                  //12
+    KEY_EN_1,                   //13
+    KEY_EN_Q,                   //14
+    KEY_EN_A,                   //15
+    //"Key: / (ISO)",           //16
+    KEY_EN_LEFT_WINDOWS,        //17
+    KEY_EN_PRINT_SCREEN,        //18
+    KEY_EN_MEDIA_MUTE,          //20
+    KEY_EN_NUMPAD_8,            //21
+    KEY_EN_F2,                  //24
+    KEY_EN_2,                   //25
+    KEY_EN_W,                   //26
+    KEY_EN_S,                   //27
+    KEY_EN_Z,                   //28
+    KEY_EN_LEFT_ALT,            //29
+    KEY_EN_SCROLL_LOCK,         //30
+    KEY_EN_BACKSPACE,           //31
+    KEY_EN_MEDIA_STOP,          //32
+    KEY_EN_NUMPAD_9,            //33
+    KEY_EN_F3,                  //36
+    KEY_EN_3,                   //37
+    KEY_EN_E,                   //38
+    KEY_EN_D,                   //39
+    KEY_EN_X,                   //40
+    KEY_EN_PAUSE_BREAK,         //42
+    KEY_EN_DELETE,              //43
+    KEY_EN_MEDIA_PREVIOUS,      //44
+    //"Key: Logo Left",         //047
+    KEY_EN_F4,                  //48
+    KEY_EN_4,                   //49
+    KEY_EN_R,                   //50
+    KEY_EN_F,                   //51
+    KEY_EN_C,                   //52
+    KEY_EN_SPACE,               //53
+    KEY_EN_INSERT,              //54
+    KEY_EN_END,                 //55
+    KEY_EN_MEDIA_PLAY_PAUSE,    //56
+    KEY_EN_NUMPAD_4,            //57
+    //"Key: Logo Right",        //059
+    KEY_EN_F5,                  //60
+    KEY_EN_5,                   //61
+    KEY_EN_T,                   //62
+    KEY_EN_G,                   //63
+    KEY_EN_V,                   //64
+    KEY_EN_HOME,                //66
+    KEY_EN_PAGE_DOWN,           //67
+    KEY_EN_MEDIA_NEXT,          //68
+    KEY_EN_NUMPAD_5,            //69
+    KEY_EN_F6,                  //72
+    KEY_EN_6,                   //73
+    KEY_EN_Y,                   //74
+    KEY_EN_H,                   //75
+    KEY_EN_B,                   //76
+    KEY_EN_PAGE_UP,             //78
+    KEY_EN_RIGHT_SHIFT,         //79
+    KEY_EN_NUMPAD_LOCK,         //80
+    KEY_EN_NUMPAD_6,            //81
+    KEY_EN_F7,                  //84
+    KEY_EN_7,                   //85
+    KEY_EN_U,                   //86
+    KEY_EN_J,                   //87
+    KEY_EN_N,                   //88
+    KEY_EN_RIGHT_ALT,           //89
+    KEY_EN_RIGHT_BRACKET,       //90
+    KEY_EN_RIGHT_CONTROL,       //91
+    KEY_EN_NUMPAD_DIVIDE,       //92
+    KEY_EN_NUMPAD_1,            //93
+    KEY_EN_F8,                  //96
+    KEY_EN_8,                   //97
+    KEY_EN_I,                   //98
+    KEY_EN_K,                   //99
+    KEY_EN_M,                   //100
+    KEY_EN_RIGHT_WINDOWS,       //101
+    KEY_EN_ANSI_BACK_SLASH,     //102
+    KEY_EN_UP_ARROW,            //103
+    KEY_EN_NUMPAD_TIMES,        //104
+    KEY_EN_NUMPAD_2,            //105
+    KEY_EN_F9,                  //108
+    KEY_EN_9,                   //109
+    KEY_EN_O,                   //110
+    KEY_EN_L,                   //111
+    KEY_EN_COMMA,               //112
+    KEY_EN_MENU,                //113
+    //KEY_EN_ISO_BACK_SLASH,    //114
+    KEY_EN_LEFT_ARROW,          //115
+    KEY_EN_NUMPAD_MINUS,        //116
+    KEY_EN_NUMPAD_3,            //117
+    KEY_EN_F10,                 //120
+    KEY_EN_0,                   //121
+    KEY_EN_P,                   //122
+    KEY_EN_SEMICOLON,           //123
+    //"Key: Profile",           //125
+    KEY_EN_PERIOD,              //124
+    KEY_EN_ANSI_ENTER,          //126
+    KEY_EN_DOWN_ARROW,          //127
+    KEY_EN_NUMPAD_PLUS,         //128
+    KEY_EN_NUMPAD_0,            //129
+    KEY_EN_F11,                 //132
+    KEY_EN_MINUS,               //133
+    KEY_EN_LEFT_BRACKET,        //134
+    KEY_EN_QUOTE,               //135
+    KEY_EN_FORWARD_SLASH,       //136
+    "Key: Brightness",          //137
+    KEY_EN_RIGHT_ARROW,         //139
+    KEY_EN_NUMPAD_ENTER,        //140
+    KEY_EN_NUMPAD_PERIOD,       //141
+    "Key: / (ISO)",             //16
+    KEY_EN_ISO_BACK_SLASH,      //114
+    "Key: Logo Left",           //047
+    "Key: Logo Right",          //059
+    "Key: Profile",             //125
 };
 
 static const char* led_names_k95_plat[] =
 {
-    "Key: Escape",          //0
-    "Key: `",               //1
-    "Key: Tab",             //2
-    "Key: Caps Lock",       //3
-    "Key: Left Shift",      //4
-    "Key: Left Control",    //5
-    "Key: F12",             //6
-    "Key: =",               //7
-    "Key: Lock",            //8
-    "Key: Number Pad 7",    //9
-    "Key: F1",              //12
-    "Key: 1",               //13
-    "Key: Q",               //14
-    "Key: A",               //15
-    "Key: Left Windows",    //17
-    "Key: Print Screen",    //18
-    "Key: Media Mute",      //20
-    "Key: Number Pad 8",    //21
-    "Key: F2",              //24
-    "Key: 2",               //25
-    "Key: W",               //26
-    "Key: S",               //27
-    "Key: Z",               //28
-    "Key: Left Alt",        //29
-    "Key: Scroll Lock",     //30
-    "Key: Backspace",       //31
-    "Key: Media Stop",      //32
-    "Key: Number Pad 9",    //33
-    "Key: F3",              //36
-    "Key: 3",               //37
-    "Key: E",               //38
-    "Key: D",               //39
-    "Key: X",               //40
-    "Key: Pause/Break",     //42
-    "Key: Delete",          //43
-    "Key: Media Previous",  //44
-    "Key: F4",              //48
-    "Key: 4",               //49
-    "Key: R",               //50
-    "Key: F",               //51
-    "Key: C",               //52
-    "Key: Space",           //53
-    "Key: Insert",          //54
-    "Key: End",             //55
-    "Key: Media Play/Pause",//56
-    "Key: Number Pad 4",    //57
-    "Key: F5",              //60
-    "Key: 5",               //61
-    "Key: T",               //62
-    "Key: G",               //63
-    "Key: V",               //64
-    "Key: Home",            //66
-    "Key: Page Down",       //67
-    "Key: Media Next",      //68
-    "Key: Number Pad 5",    //69
-    "Key: F6",              //72
-    "Key: 6",               //73
-    "Key: Y",               //74
-    "Key: H",               //75
-    "Key: B",               //76
-    "Key: Page Up",         //78
-    "Key: Right Shift",     //79
-    "Key: Num Lock",        //80
-    "Key: Number Pad 6",    //81
-    "Key: F7",              //84
-    "Key: 7",               //85
-    "Key: U",               //86
-    "Key: J",               //87
-    "Key: N",               //88
-    "Key: Right Alt",       //89
-    "Key: ]",               //90
-    "Key: Right Control",   //91
-    "Key: Number Pad /",    //92
-    "Key: Number Pad 1",    //93
-    "Key: F8",              //96
-    "Key: 8",               //97
-    "Key: I",               //98
-    "Key: K",               //99
-    "Key: M",               //100
-    "Key: Right Windows",   //101
-    "Key: \\ (ANSI)",       //102
-    "Key: Up Arrow",        //103
-    "Key: Number Pad *",    //104
-    "Key: Number Pad 2",    //105
-    "Key: F9",              //108
-    "Key: 9",               //109
-    "Key: O",               //110
-    "Key: L",               //111
-    "Key: ,",               //112
-    "Key: Menu",            //113
-    "Key: Left Arrow",      //115
-    "Key: Number Pad -",    //116
-    "Key: Number Pad 3",    //117
-    "Key: F10",             //120
-    "Key: 0",               //121
-    "Key: P",               //122
-    "Key: ;",               //123
-    "Key: .",               //124
-    "Key: Enter",           //126
-    "Key: Down Arrow",      //127
-    "Key: Number Pad +",    //128
-    "Key: Number Pad 0",    //129
-    "Key: F11",             //132
-    "Key: -",               //133
-    "Key: [",               //134
-    "Key: '",               //135
-    "Key: /",               //136
-    "Key: Brightness",      //137
-    "Key: Right Arrow",     //139
-    "Key: Number Pad Enter",//140
-    "Key: Number Pad .",    //141
+    KEY_EN_ESCAPE,              //0
+    KEY_EN_BACK_TICK,           //1
+    KEY_EN_TAB,                 //2
+    KEY_EN_CAPS_LOCK ,          //3
+    KEY_EN_LEFT_SHIFT,          //4
+    KEY_EN_LEFT_CONTROL,        //5
+    KEY_EN_F12,                 //6
+    KEY_EN_EQUALS,              //7
+    "Key: Lock",                //8
+    KEY_EN_NUMPAD_7,            //9
+    KEY_EN_F1,                  //12
+    KEY_EN_1,                   //13
+    KEY_EN_Q,                   //14
+    KEY_EN_A,                   //15
+    KEY_EN_LEFT_WINDOWS,        //17
+    KEY_EN_PRINT_SCREEN,        //18
+    KEY_EN_MEDIA_MUTE,          //20
+    KEY_EN_NUMPAD_8,            //21
+    KEY_EN_F2,                  //24
+    KEY_EN_2,                   //25
+    KEY_EN_W,                   //26
+    KEY_EN_S,                   //27
+    KEY_EN_Z,                   //28
+    KEY_EN_LEFT_ALT,            //29
+    KEY_EN_SCROLL_LOCK,         //30
+    KEY_EN_BACKSPACE,           //31
+    KEY_EN_MEDIA_STOP,          //32
+    KEY_EN_NUMPAD_9,            //33
+    KEY_EN_F3,                  //36
+    KEY_EN_3,                   //37
+    KEY_EN_E,                   //38
+    KEY_EN_D,                   //39
+    KEY_EN_X,                   //40
+    KEY_EN_PAUSE_BREAK,         //42
+    KEY_EN_DELETE,              //43
+    KEY_EN_MEDIA_PREVIOUS,      //44
+    KEY_EN_F4,                  //48
+    KEY_EN_4,                   //49
+    KEY_EN_R,                   //50
+    KEY_EN_F,                   //51
+    KEY_EN_C,                   //52
+    KEY_EN_SPACE,               //53
+    KEY_EN_INSERT,              //54
+    KEY_EN_END,                 //55
+    KEY_EN_MEDIA_PLAY_PAUSE,    //56
+    KEY_EN_NUMPAD_4,            //57
+    KEY_EN_F5,                  //60
+    KEY_EN_5,                   //61
+    KEY_EN_T,                   //62
+    KEY_EN_G,                   //63
+    KEY_EN_V,                   //64
+    KEY_EN_HOME,                //66
+    KEY_EN_PAGE_DOWN,           //67
+    KEY_EN_MEDIA_NEXT,          //68
+    KEY_EN_NUMPAD_5,            //69
+    KEY_EN_F6,                  //72
+    KEY_EN_6,                   //73
+    KEY_EN_Y,                   //74
+    KEY_EN_H,                   //75
+    KEY_EN_B,                   //76
+    KEY_EN_PAGE_UP,             //78
+    KEY_EN_RIGHT_SHIFT,         //79
+    KEY_EN_NUMPAD_LOCK,         //80
+    KEY_EN_NUMPAD_6,            //81
+    KEY_EN_F7,                  //84
+    KEY_EN_7,                   //85
+    KEY_EN_U,                   //86
+    KEY_EN_J,                   //87
+    KEY_EN_N,                   //88
+    KEY_EN_RIGHT_ALT,           //89
+    KEY_EN_RIGHT_BRACKET,       //90
+    KEY_EN_RIGHT_CONTROL,       //91
+    KEY_EN_NUMPAD_DIVIDE,       //92
+    KEY_EN_NUMPAD_1,            //93
+    KEY_EN_F8,                  //96
+    KEY_EN_8,                   //97
+    KEY_EN_I,                   //98
+    KEY_EN_K,                   //99
+    KEY_EN_M,                   //100
+    KEY_EN_RIGHT_WINDOWS,       //101
+    KEY_EN_ANSI_BACK_SLASH,     //102
+    KEY_EN_UP_ARROW,            //103
+    KEY_EN_NUMPAD_TIMES,        //104
+    KEY_EN_NUMPAD_2,            //105
+    KEY_EN_F9,                  //108
+    KEY_EN_9,                   //109
+    KEY_EN_O,                   //110
+    KEY_EN_L,                   //111
+    KEY_EN_COMMA,               //112
+    KEY_EN_MENU,                //113
+    KEY_EN_LEFT_ARROW,          //115
+    KEY_EN_NUMPAD_MINUS,        //116
+    KEY_EN_NUMPAD_3,            //117
+    KEY_EN_F10,                 //120
+    KEY_EN_0,                   //121
+    KEY_EN_P,                   //122
+    KEY_EN_SEMICOLON,           //123
+    KEY_EN_PERIOD,              //124
+    KEY_EN_ANSI_ENTER,          //126
+    KEY_EN_DOWN_ARROW,          //127
+    KEY_EN_NUMPAD_PLUS,         //128
+    KEY_EN_NUMPAD_0,            //129
+    KEY_EN_F11,                 //132
+    KEY_EN_MINUS,               //133
+    KEY_EN_LEFT_BRACKET,        //134
+    KEY_EN_QUOTE,               //135
+    KEY_EN_FORWARD_SLASH,       //136
+    "Key: Brightness",          //137
+    KEY_EN_RIGHT_ARROW,         //139
+    KEY_EN_NUMPAD_ENTER,        //140
+    KEY_EN_NUMPAD_PERIOD,       //141
     "Key: / (ISO)",
-    "Key: \\ (ISO)",
+    KEY_EN_ISO_BACK_SLASH,
     "Key: Macro G1",
     "Key: Macro G2",
     "Key: Macro G3",
@@ -533,119 +534,119 @@ static const char* led_names_k95_plat[] =
 
 static const char* led_names_k95[] =
 {
-    "Key: Escape",          //0
-    "Key: `",               //1
-    "Key: Tab",             //2
-    "Key: Caps Lock",       //3
-    "Key: Left Shift",      //4
-    "Key: Left Control",    //5
-    "Key: F12",             //6
-    "Key: =",               //7
-    "Key: Lock",            //8
-    "Key: Number Pad 7",    //9
-    "Key: F1",              //12
-    "Key: 1",               //13
-    "Key: Q",               //14
-    "Key: A",               //15
-    "Key: Left Windows",    //17
-    "Key: Print Screen",    //18
-    "Key: Media Mute",      //20
-    "Key: Number Pad 8",    //21
-    "Key: F2",              //24
-    "Key: 2",               //25
-    "Key: W",               //26
-    "Key: S",               //27
-    "Key: Z",               //28
-    "Key: Left Alt",        //29
-    "Key: Scroll Lock",     //30
-    "Key: Backspace",       //31
-    "Key: Media Stop",      //32
-    "Key: Number Pad 9",    //33
-    "Key: F3",              //36
-    "Key: 3",               //37
-    "Key: E",               //38
-    "Key: D",               //39
-    "Key: X",               //40
-    "Key: Pause/Break",     //42
-    "Key: Delete",          //43
-    "Key: Media Previous",  //44
-    "Key: F4",              //48
-    "Key: 4",               //49
-    "Key: R",               //50
-    "Key: F",               //51
-    "Key: C",               //52
-    "Key: Space",           //53
-    "Key: Insert",          //54
-    "Key: End",             //55
-    "Key: Media Play/Pause",//56
-    "Key: Number Pad 4",    //57
-    "Key: F5",              //60
-    "Key: 5",               //61
-    "Key: T",               //62
-    "Key: G",               //63
-    "Key: V",               //64
-    "Key: Home",            //66
-    "Key: Page Down",       //67
-    "Key: Media Next",      //68
-    "Key: Number Pad 5",    //69
-    "Key: F6",              //72
-    "Key: 6",               //73
-    "Key: Y",               //74
-    "Key: H",               //75
-    "Key: B",               //76
-    "Key: Page Up",         //78
-    "Key: Right Shift",     //79
-    "Key: Num Lock",        //80
-    "Key: Number Pad 6",    //81
-    "Key: F7",              //84
-    "Key: 7",               //85
-    "Key: U",               //86
-    "Key: J",               //87
-    "Key: N",               //88
-    "Key: Right Alt",       //89
-    "Key: ]",               //90
-    "Key: Right Control",   //91
-    "Key: Number Pad /",    //92
-    "Key: Number Pad 1",    //93
-    "Key: F8",              //96
-    "Key: 8",               //97
-    "Key: I",               //98
-    "Key: K",               //99
-    "Key: M",               //100
-    "Key: Right Windows",   //101
-    "Key: \\ (ANSI)",       //102
-    "Key: Up Arrow",        //103
-    "Key: Number Pad *",    //104
-    "Key: Number Pad 2",    //105
-    "Key: F9",              //108
-    "Key: 9",               //109
-    "Key: O",               //110
-    "Key: L",               //111
-    "Key: ,",               //112
-    "Key: Menu",            //113
-    "Key: Left Arrow",      //115
-    "Key: Number Pad -",    //116
-    "Key: Number Pad 3",    //117
-    "Key: F10",             //120
-    "Key: 0",               //121
-    "Key: P",               //122
-    "Key: ;",               //123
-    "Key: .",               //124
-    "Key: Enter",           //126
-    "Key: Down Arrow",      //127
-    "Key: Number Pad +",    //128
-    "Key: Number Pad 0",    //129
-    "Key: F11",             //132
-    "Key: -",               //133
-    "Key: [",               //134
-    "Key: '",               //135
-    "Key: /",               //136
-    "Key: Brightness",      //137
-    "Key: Right Arrow",     //139
-    "Key: Number Pad Enter",//140
-    "Key: Number Pad .",    //141
+    KEY_EN_ESCAPE,              //0
+    KEY_EN_BACK_TICK,           //1
+    KEY_EN_TAB,                 //2
+    KEY_EN_CAPS_LOCK,           //3
+    KEY_EN_LEFT_SHIFT,          //4
+    KEY_EN_LEFT_CONTROL,        //5
+    KEY_EN_F12,                 //6
+    KEY_EN_EQUALS,              //7
+    "Key: Lock",                //8
+    KEY_EN_NUMPAD_7,            //9
+    KEY_EN_F1,                  //12
+    KEY_EN_1,                   //13
+    KEY_EN_Q,                   //14
+    KEY_EN_A,                   //15
+    KEY_EN_LEFT_WINDOWS,        //17
+    KEY_EN_PRINT_SCREEN,        //18
+    KEY_EN_MEDIA_MUTE,          //20
+    KEY_EN_NUMPAD_8,            //21
+    KEY_EN_F2,                  //24
+    KEY_EN_2,                   //25
+    KEY_EN_W,                   //26
+    KEY_EN_S,                   //27
+    KEY_EN_Z,                   //28
+    KEY_EN_LEFT_ALT,            //29
+    KEY_EN_SCROLL_LOCK,         //30
+    KEY_EN_BACKSPACE,           //31
+    KEY_EN_MEDIA_STOP,          //32
+    KEY_EN_NUMPAD_9,            //33
+    KEY_EN_F3,                  //36
+    KEY_EN_3,                   //37
+    KEY_EN_E,                   //38
+    KEY_EN_D,                   //39
+    KEY_EN_X,                   //40
+    KEY_EN_PAUSE_BREAK,         //42
+    KEY_EN_DELETE,              //43
+    KEY_EN_MEDIA_PREVIOUS,      //44
+    KEY_EN_F4,                  //48
+    KEY_EN_4,                   //49
+    KEY_EN_R,                   //50
+    KEY_EN_F,                   //51
+    KEY_EN_C,                   //52
+    KEY_EN_SPACE,               //53
+    KEY_EN_INSERT,              //54
+    KEY_EN_END,                 //55
+    KEY_EN_MEDIA_PLAY_PAUSE,    //56
+    KEY_EN_NUMPAD_4,            //57
+    KEY_EN_F5,                  //60
+    KEY_EN_5,                   //61
+    KEY_EN_T,                   //62
+    KEY_EN_G,                   //63
+    KEY_EN_V,                   //64
+    KEY_EN_HOME,                //66
+    KEY_EN_PAGE_DOWN,           //67
+    KEY_EN_MEDIA_NEXT,          //68
+    KEY_EN_NUMPAD_5,            //69
+    KEY_EN_F6,                  //72
+    KEY_EN_6,                   //73
+    KEY_EN_Y,                   //74
+    KEY_EN_H,                   //75
+    KEY_EN_B,                   //76
+    KEY_EN_PAGE_UP,             //78
+    KEY_EN_RIGHT_SHIFT,         //79
+    KEY_EN_NUMPAD_LOCK,         //80
+    KEY_EN_NUMPAD_6,            //81
+    KEY_EN_F7,                  //84
+    KEY_EN_7,                   //85
+    KEY_EN_U,                   //86
+    KEY_EN_J,                   //87
+    KEY_EN_N,                   //88
+    KEY_EN_RIGHT_ALT,           //89
+    KEY_EN_RIGHT_BRACKET,       //90
+    KEY_EN_RIGHT_CONTROL,       //91
+    KEY_EN_NUMPAD_DIVIDE,       //92
+    KEY_EN_NUMPAD_1,            //93
+    KEY_EN_F8,                  //96
+    KEY_EN_8,                   //97
+    KEY_EN_I,                   //98
+    KEY_EN_K,                   //99
+    KEY_EN_M,                   //100
+    KEY_EN_RIGHT_WINDOWS,       //101
+    KEY_EN_ANSI_BACK_SLASH,     //102
+    KEY_EN_UP_ARROW,            //103
+    KEY_EN_NUMPAD_TIMES,        //104
+    KEY_EN_NUMPAD_2,            //105
+    KEY_EN_F9,                  //108
+    KEY_EN_9,                   //109
+    KEY_EN_O,                   //110
+    KEY_EN_L,                   //111
+    KEY_EN_COMMA,               //112
+    KEY_EN_MENU,                //113
+    KEY_EN_LEFT_ARROW,          //115
+    KEY_EN_NUMPAD_MINUS,        //116
+    KEY_EN_NUMPAD_3,            //117
+    KEY_EN_F10,                 //120
+    KEY_EN_0,                   //121
+    KEY_EN_P,                   //122
+    KEY_EN_SEMICOLON,           //123
+    KEY_EN_PERIOD,              //124
+    KEY_EN_ANSI_ENTER,          //126
+    KEY_EN_DOWN_ARROW,          //127
+    KEY_EN_NUMPAD_PLUS,         //128
+    KEY_EN_NUMPAD_0,            //129
+    KEY_EN_F11,                 //132
+    KEY_EN_MINUS,               //133
+    KEY_EN_LEFT_BRACKET,        //134
+    KEY_EN_QUOTE,               //135
+    KEY_EN_FORWARD_SLASH,       //136
+    "Key: Brightness",          //137
+    KEY_EN_RIGHT_ARROW,         //139
+    KEY_EN_NUMPAD_ENTER,        //140
+    KEY_EN_NUMPAD_PERIOD,       //141
     "Key: / (ISO)",
-    "Key: \\ (ISO)",
+    KEY_EN_ISO_BACK_SLASH,
     "Key: Macro G1",
     "Key: Macro G2",
     "Key: Macro G3",
