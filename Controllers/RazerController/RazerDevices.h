@@ -139,6 +139,8 @@
 #define RAZER_NAGA_HEX_V2_PID                           0x0050
 #define RAZER_NAGA_LEFT_HANDED_PID                      0x008D
 #define RAZER_NAGA_TRINITY_PID                          0x0067
+#define RAZER_NAGA_PRO_WIRED_PID                        0x008F
+#define RAZER_NAGA_PRO_WIRELESS_PID                     0x0090
 #define RAZER_OROCHI_2011_PID                           0x0013
 #define RAZER_OROCHI_2013_PID                           0x0039
 #define RAZER_OROCHI_CHROMA_PID                         0x0048
@@ -6445,6 +6447,85 @@ static const razer_device naga_trinity_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Naga Pro 1532:008F (wired) 1532:0090 (wireless)        |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad"                                                |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone naga_pro_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_pro_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_pro_numpad_zone =
+{
+    "Numpad",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device naga_pro_wired_device =
+{
+    "Razer Naga Pro (Wired)",
+    RAZER_NAGA_PRO_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    3,
+    {
+        &naga_pro_scroll_wheel_zone,
+        &naga_pro_logo_zone,
+        &naga_pro_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+static const razer_device naga_pro_wireless_device =
+{
+    "Razer Naga Pro (Wireless)",
+    RAZER_NAGA_PRO_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    3,
+    {
+        &naga_pro_scroll_wheel_zone,
+        &naga_pro_logo_zone,
+        &naga_pro_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Viper 8kHz 1532:0091                                   |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -7956,6 +8037,8 @@ static const razer_device* device_list[] =
     &naga_hex_v2_device,
     &naga_left_handed_device,
     &naga_trinity_device,
+    &naga_pro_wired_device,
+    &naga_pro_wireless_device,
     &viper_8khz_device,
     &viper_mini_device,
     &viper_ultimate_wired_device,

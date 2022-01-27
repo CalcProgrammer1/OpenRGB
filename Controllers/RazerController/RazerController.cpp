@@ -59,6 +59,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_NAGA_EPIC_CHROMA_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
+        case RAZER_NAGA_PRO_WIRED_PID:
+        case RAZER_NAGA_PRO_WIRELESS_PID:
         case RAZER_KRAKEN_KITTY_EDITION_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
@@ -257,6 +259,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_MOUSE_DOCK_CHROMA_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_NAGA_TRINITY_PID:
+        case RAZER_NAGA_PRO_WIRED_PID:
+        case RAZER_NAGA_PRO_WIRELESS_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
         case RAZER_O11_DYNAMIC_PID:
