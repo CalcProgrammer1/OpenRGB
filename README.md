@@ -69,6 +69,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
       5.  make -j$(nproc)
   *  Run the application with ./openrgb
   *  You can also build a Debian package (.deb) from this source code with dpkg-buildpackage -us -B
+    - Building a Debian package requires `debhelper` to be installed: `sudo apt install debhelper`
      
 ### SMBus Access
 
