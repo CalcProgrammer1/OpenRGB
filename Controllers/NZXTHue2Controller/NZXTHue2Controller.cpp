@@ -5,6 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "NZXTHue2Controller.h"
+#include "LogManager.h"
 
 #include <fstream>
 #include <iostream>
@@ -147,68 +148,68 @@ void NZXTHue2Controller::UpdateDeviceList()
         unsigned int start = 0x0F + (6 * chan);
         unsigned int num_leds_on_channel = 0;
 
-        printf("NZXT Hue 2 Devices: ");
-
         for(int dev = 0; dev < 6; dev++)
         {
-            printf("%02X, ", usb_buf[start + dev]);
+            unsigned int num_leds_in_device = 0;
 
             switch(usb_buf[start + dev])
             {
             case 0x01: //Hue 1 strip
-                num_leds_on_channel += 10;
+                num_leds_in_device = 10;
                 break;
 
             case 0x02: //Aer 1 fan
-                num_leds_on_channel += 8;
+                num_leds_in_device = 8;
                 break;
 
             case 0x04: //Hue 2 strip (10 LEDs)
-                num_leds_on_channel += 10;
+                num_leds_in_device = 10;
                 break;
 
             case 0x05: //Hue 2 strip (8 LEDs)
-                num_leds_on_channel += 8;
+                num_leds_in_device = 8;
                 break;
             
             case 0x06: //Hue 2 strip (6 LEDs)
-                num_leds_on_channel += 6;
+                num_leds_in_device = 6;
                 break;
            
             case 0x09: //Hue 2 Underglow (300mm) (15 LEDs)
-                num_leds_on_channel += 15;
+                num_leds_in_device = 15;
                 break;
  
             case 0x0A: //Hue 2 Underglow (200mm) (10 LEDs)
-                num_leds_on_channel += 10;
+                num_leds_in_device = 10;
                 break;
 
             case 0x0B: //Aer 2 fan (120mm)
-                num_leds_on_channel += 8;
+                num_leds_in_device = 8;
                 break;
 
             case 0x0C: //Aer 2 fan (140mm)
-                num_leds_on_channel += 8;
+                num_leds_in_device = 8;
                 break;
 
             case 0x10: //Kraken X3 ring
-                num_leds_on_channel += 8;
+                num_leds_in_device = 8;
                 break;
             
             case 0x11: //Kraken X3 logo
-                num_leds_on_channel += 1;
+                num_leds_in_device = 1;
                 break;
             
             case 0x08: //Hue 2 Cable Comb (14 LEDs)
-                num_leds_on_channel += 14;
+                num_leds_in_device = 14;
                 break;
 
             default:
                 break;
             }
-        }
 
-        printf("\r\n");
+            LOG_DEBUG("[NZXT Hue 2] %d: Device ID: %02X LEDs: %d", dev, usb_buf[start + dev], num_leds_in_device);
+
+            num_leds_on_channel += num_leds_in_device;
+        }
 
         channel_leds[chan] = num_leds_on_channel;
     }
@@ -430,7 +431,7 @@ void NZXTHue2Controller::SendEffect
     | Set moving flag to true in USB packet                 |
     \*-----------------------------------------------------*/
     usb_buf[0x06]   = true;
-    
+
     /*-----------------------------------------------------*\
     | Set direction in USB packet                           |
     \*-----------------------------------------------------*/
