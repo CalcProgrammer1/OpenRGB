@@ -427,9 +427,14 @@ void NZXTHue2Controller::SendEffect
     usb_buf[0x05]   = speed;
 
     /*-----------------------------------------------------*\
+    | Set moving flag to true in USB packet                 |
+    \*-----------------------------------------------------*/
+    usb_buf[0x06]   = true;
+    
+    /*-----------------------------------------------------*\
     | Set direction in USB packet                           |
     \*-----------------------------------------------------*/
-    usb_buf[0x06]   = direction ? 0x01 : 0x00;
+    usb_buf[0x07]   = direction ? 0x01 : 0x00;
 
     /*-----------------------------------------------------*\
     | Set color count in USB packet                         |
