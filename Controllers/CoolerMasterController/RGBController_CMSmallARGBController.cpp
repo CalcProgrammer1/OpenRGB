@@ -22,6 +22,19 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     serial                      = controller->GetSerial();
     location                    = controller->GetLocation();
 
+    if(serial >= CM_SMALL_ARGB_FW0012)
+    {
+        mode Direct;
+        Direct.name             = "Direct";
+        Direct.value            = CM_SMALL_ARGB_MODE_DIRECT;
+        Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Direct.brightness_min   = 0;
+        Direct.brightness_max   = CM_SMALL_ARGB_BRIGHTNESS_MAX;
+        Direct.brightness       = CM_SMALL_ARGB_BRIGHTNESS_MAX;
+        Direct.color_mode       = MODE_COLORS_PER_LED;
+        modes.push_back(Direct);
+    }
+
     mode Off;
     Off.name                    = "Turn Off";
     Off.value                   = CM_SMALL_ARGB_MODE_OFF;
@@ -117,16 +130,6 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     Spectrum.color_mode         = MODE_COLORS_NONE;
     Spectrum.speed              = speed;
     modes.push_back(Spectrum);
-
-    mode Direct;
-    Direct.name                 = "Direct";
-    Direct.value                = CM_SMALL_ARGB_MODE_DIRECT;
-    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.brightness_min       = 0;
-    Direct.brightness_max       = CM_SMALL_ARGB_BRIGHTNESS_MAX;
-    Direct.brightness           = CM_SMALL_ARGB_BRIGHTNESS_MAX;
-    Direct.color_mode           = MODE_COLORS_PER_LED;
-    modes.push_back(Direct);
 
     mode PassThru;
     PassThru.name               = "Pass Thru";
@@ -266,8 +269,16 @@ void RGBController_CMSmallARGBController::SetCustomMode()
 {
     /*-------------------------------------------------*\
     | The small ARGB may not support "Direct" mode      |
+    |   in which case this will select "Pass Thru"      |
     \*-------------------------------------------------*/
-    active_mode = CM_SMALL_ARGB_MODE_DIRECT;  
+    if(serial >= CM_SMALL_ARGB_FW0012)
+    {
+        active_mode = 0;
+    }
+    else
+    {
+        active_mode = 7;
+    }
 }
 
 void RGBController_CMSmallARGBController::DeviceUpdateMode()
