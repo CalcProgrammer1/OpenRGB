@@ -164,14 +164,14 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* p
     mode Static;
     Static.name       = "Static";
     Static.value      = POSEIDONZ_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Wave;
     Wave.name       = "Wave";
     Wave.value      = POSEIDONZ_MODE_WAVE;
-    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_AUTOMATIC_SAVE;
     Wave.speed_min  = POSEIDONZ_SPEED_SLOW;
     Wave.speed_max  = POSEIDONZ_SPEED_FAST;
     Wave.color_mode = MODE_COLORS_NONE;
@@ -182,14 +182,14 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* p
     mode Ripple;
     Ripple.name       = "Ripple";
     Ripple.value      = POSEIDONZ_MODE_RIPPLE;
-    Ripple.flags      = 0;
+    Ripple.flags      = MODE_FLAG_AUTOMATIC_SAVE;
     Ripple.color_mode = MODE_COLORS_NONE;
     modes.push_back(Ripple);
 
     mode Reactive;
     Reactive.name       = "Reactive";
     Reactive.value      = POSEIDONZ_MODE_REACTIVE;
-    Reactive.flags      = 0;
+    Reactive.flags      = MODE_FLAG_AUTOMATIC_SAVE;
     Reactive.color_mode = MODE_COLORS_NONE;
     modes.push_back(Reactive);
 
