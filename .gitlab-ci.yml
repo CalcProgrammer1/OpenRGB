@@ -33,6 +33,7 @@
 stages:
   - build
   - test
+  - deploy
 
 before_script:
  - echo "started by ${GITLAB_USER_NAME}"
@@ -618,3 +619,27 @@ before_script:
   - if: $CI_PIPELINE_SOURCE == "push"
     when: manual
     allow_failure: true
+
+#-----------------------------------------------------------------------#
+# Windows (64-bit) MSI Target                                           #
+#-----------------------------------------------------------------------#
+"Window 64 msi":
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
+  stage: deploy
+  tags:
+  - linux
+  - i386
+  script:
+  -  ls -la
+  -  ls -la "OpenRGB Windows 64-bit/"
+  -  ./scripts/build-msi.sh
+  dependencies:
+  - "Windows 64"
+  needs:
+  - "Windows 64"
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Windows_64_msi_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - openrgb.msi
+    expire_in: 30 days
