@@ -87,6 +87,7 @@ typedef struct
 static const gpu_pci_device device_list[] =
 {
     { NVIDIA_VEN,       NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,       ASUS_KO_RTX_3060_OC_O12G_GAMING,            0x67,   "ASUS KO RTX 3060 OC O12G GAMING"           },
+    { NVIDIA_VEN,       NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_012G_GAMING,              0x67,   "ASUS TUF 3060 012G GAMING"                 },
     { NVIDIA_VEN,       NVIDIA_RTX3060_LHR_DEV,     ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_O12G_LHR_GAMING,          0x67,   "ASUS TUF 3060 O12G V2 GAMING"              },
     { NVIDIA_VEN,       NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3060_O12G_GAMING,        0x67,   "ASUS ROG STRIX 3060 O12G GAMING"           },
     { NVIDIA_VEN,       NVIDIA_RTX3060_LHR_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3060_O12G_LHR_GAMING,    0x67,   "ASUS ROG STRIX 3060 O12G V2 GAMING"        },
