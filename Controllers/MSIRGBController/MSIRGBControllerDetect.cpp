@@ -43,8 +43,9 @@ msi_device compatible_devices[] =
     {"7A68", false},
     {"7B40", false},
     {"7A94", false},
-    {"7B09", false},
     {"7B06", false},
+    {"7B08", false}, // B350 KRAIT GAMING (MS-7B08)
+    {"7B09", false},
     {"7A58", false},
     {"7A62", false},
     {"7A69", false},
