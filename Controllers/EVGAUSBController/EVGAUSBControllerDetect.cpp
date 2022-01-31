@@ -14,6 +14,7 @@
 \*-----------------------------------------------------*/
 #define Z15_ISO_PID                             0x260E
 #define Z15_ANSI_PID                            0x2608
+#define Z20_ANSI_PID                            0x260A
 
 void DetectEVGAKeyboardControllers(hid_device_info* info, const std::string& name)
 {
@@ -33,3 +34,4 @@ void DetectEVGAKeyboardControllers(hid_device_info* info, const std::string& nam
 
 REGISTER_HID_DETECTOR_IPU("EVGA Z15 Keyboard",     DetectEVGAKeyboardControllers,  EVGA_USB_VID,  Z15_ISO_PID,      1,  0x08, 0x4B);
 REGISTER_HID_DETECTOR_IPU("EVGA Z15 Keyboard",     DetectEVGAKeyboardControllers,  EVGA_USB_VID,  Z15_ANSI_PID,     1,  0x08, 0x4B);
+REGISTER_HID_DETECTOR_IPU("EVGA Z20 Keyboard",     DetectEVGAKeyboardControllers,  EVGA_USB_VID,  Z20_ANSI_PID,     1,  0x08, 0x4B);

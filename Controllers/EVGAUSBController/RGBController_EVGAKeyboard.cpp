@@ -22,6 +22,21 @@ static unsigned int full_matrix_map[6][21] =
     {  76,  77,  78,  NA,  NA,  NA,  79,  NA,  NA,  NA,  80,  81,  82,  83,  84,  85,  86, 102,  NA, 103,  NA}
 };
 
+static unsigned int Z20_right_side_matrix[1][9] =
+{
+    { 116, 118, 120, 122, 124, 126, 128, 130, 132}
+};
+
+static unsigned int Z20_left_side_matrix[1][9] =
+{
+     { 115, 117, 119, 121, 123, 125, 127, 129, 131}
+};
+
+static unsigned int Z20_macro_matrix[1][6] =
+{
+    {109, 110, 111, 112, 113, 114}
+};
+
 static const char *led_names[] =
 {
     KEY_EN_ESCAPE,          //  00
@@ -139,6 +154,14 @@ static const char *led_names[] =
     KEY_EN_MEDIA_PLAY_PAUSE,
     KEY_EN_MEDIA_NEXT,
     KEY_EN_MEDIA_MUTE,
+},
+{
+    "Key: Feature Button", "Key: Macro 1", "Key: Macro 2", "Key: Macro 3", "Key: Macro 4", "Key: Macro 5"
+},
+{
+"Key: Number Pad 1", "Key: Number Pad 2", "Key: Number Pad 3", "Key: Number Pad 4", "Key: Number Pad 5", "Key: Number Pad 6", "Key: Number Pad 7", "Key: Number Pad 8", "Key: Number Pad 9"},
+{
+"Key: Number Pad 1", "Key: Number Pad 2", "Key: Number Pad 3", "Key: Number Pad 4", "Key: Number Pad 5", "Key: Number Pad 6", "Key: Number Pad 7", "Key: Number Pad 8", "Key: Number Pad 9"},
 };
 
 RGBController_EVGAKeyboard::RGBController_EVGAKeyboard(EVGAKeyboardController* controller_ptr)
@@ -355,7 +378,47 @@ void RGBController_EVGAKeyboard::SetupZones()
     KB_zone.matrix_map->width   = 21;
     KB_zone.matrix_map->map     = (unsigned int *)&full_matrix_map;
     zones.push_back(KB_zone);
+    if(controller->GetDeviceName() == "EVGA Corporation EVGA Z20 Elite Gaming Keyboard"){
+        zone KB_right_sidelights;
+        KB_right_sidelights.name          = "Right Side Lights";
+        KB_right_sidelights.type          = 1;
+        KB_right_sidelights.leds_min      = 9;
+        KB_right_sidelights.leds_max      = 9;
+        KB_right_sidelights.leds_count    = 9;
+        KB_right_sidelights.matrix_map    = new matrix_map_type;
 
+        zone KB_left_sidelights;
+        KB_left_sidelights.name          = "Left Side Lights";
+        KB_left_sidelights.type          = 1;
+        KB_left_sidelights.leds_min      = 9;
+        KB_left_sidelights.leds_max      = 9;
+        KB_left_sidelights.leds_count    = 9;
+        KB_left_sidelights.matrix_map    = new matrix_map_type;
+
+        zone KB_macros;
+        KB_macros.name          = "Macros";
+        KB_macros.type          = 1;
+        KB_macros.leds_min      = 6;
+        KB_macros.leds_max      = 6;
+        KB_macros.leds_count    = 6;
+        KB_macros.matrix_map    = new matrix_map_type;
+
+        KB_right_sidelights.matrix_map->height  = 1;
+        KB_right_sidelights.matrix_map->width  = 9;
+        KB_right_sidelights.matrix_map->map  = (unsigned int *)&Z20_right_side_matrix;
+
+        KB_left_sidelights.matrix_map->height  = 1;
+        KB_left_sidelights.matrix_map->width  = 9;
+        KB_left_sidelights.matrix_map->map  = (unsigned int *)&Z20_right_side_matrix;
+
+        KB_macros.matrix_map->height  = 1;
+        KB_macros.matrix_map->width  = 6;
+        KB_macros.matrix_map->map  = (unsigned int *)&Z20_macro_matrix;
+
+        zones.push_back(KB_macros);
+        zones.push_back(KB_left_sidelights);
+        zones.push_back(KB_right_sidelights);
+    }
     /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
