@@ -9,11 +9,12 @@
 
 #include "SinowealthController.h"
 #include <cstring>
+#include <LogManager.h>
 
-SinowealthController::SinowealthController(hid_device* dev_handle_id_4, hid_device* dev_handle_id_5, char *_path)
+SinowealthController::SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path)
 {
-    dev_report_id_4 = dev_handle_id_4;
-    dev_report_id_5 = dev_handle_id_5;
+    dev_data = dev_data_handle;
+    dev_cmd  = dev_cmd_handle;
 
     led_count = 1;
 
@@ -26,8 +27,8 @@ SinowealthController::SinowealthController(hid_device* dev_handle_id_4, hid_devi
 
 SinowealthController::~SinowealthController()
 {
-    hid_close(dev_report_id_4);
-    hid_close(dev_report_id_5);
+    hid_close(dev_data);
+    hid_close(dev_cmd);
 }
 
 std::string SinowealthController::GetLocation()
@@ -43,7 +44,7 @@ unsigned int SinowealthController::GetLEDCount()
 std::string SinowealthController::GetSerialString()
 {
     wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev_report_id_4, serial_string, 128);
+    int ret = hid_get_serial_number_string(dev_data, serial_string, 128);
 
     if(ret != 0)
     {
@@ -56,24 +57,36 @@ std::string SinowealthController::GetSerialString()
     return(return_string);
 }
 
+std::string SinowealthController::GetFirmwareVersion()
+{
+    unsigned char usb_buf[SINOWEALTH_COMMAND_REPORT_SIZE + 1]; // Additional byte for null-terminator
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0] = 5;
+    usb_buf[1] = 1;
+
+    int ret = hid_send_feature_report(dev_cmd, usb_buf, SINOWEALTH_COMMAND_REPORT_SIZE);
+    if(ret < 0) return("");
+
+    usb_buf[1] = 0;
+    ret = hid_get_feature_report(dev_cmd, usb_buf, SINOWEALTH_COMMAND_REPORT_SIZE);
+    if(ret < 0) return("");
+
+    return std::string(reinterpret_cast<char*>(usb_buf) + 2); // Skip report and command byte
+}
+
 void SinowealthController::SetLEDColor
     (
     RGBColor* color_buf
     )
 {
-    GetProfile();
+    if (GetProfile() < SINOWEALTH_CONFIG_SIZE_MIN) return;
 
-    unsigned char usb_buf[520];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    for (int i = 0x00; i < 0x83; i++)
-    {
-        usb_buf[i] = device_configuration[i];
-    }
+    unsigned char usb_buf[SINOWEALTH_CONFIG_REPORT_SIZE];
+    memcpy(usb_buf, device_configuration, SINOWEALTH_CONFIG_SIZE); // Yes, we only copy 167 bytes back, for now - if anything weird starts happening use SINOWEALTH_CONFIG_REPORT_SIZE
 
     usb_buf[0x03] = 0x7B;   //write to device
     usb_buf[0x06] = 0x00;
-    usb_buf[0x82] = device_configuration[0x82];
 
     usb_buf[0x35] = GLORIOUS_MODE_STATIC;
     usb_buf[0x38] = 0x40; //max brightness
@@ -81,7 +94,7 @@ void SinowealthController::SetLEDColor
     usb_buf[0x3A] = RGBGetBValue(color_buf[0]);
     usb_buf[0x3B] = RGBGetGValue(color_buf[0]);
 
-    hid_send_feature_report(dev_report_id_4, usb_buf, sizeof(usb_buf));
+    hid_send_feature_report(dev_data, usb_buf, SINOWEALTH_CONFIG_REPORT_SIZE);
 }
 
 void SinowealthController::SetMode
@@ -92,19 +105,13 @@ void SinowealthController::SetMode
     RGBColor*       color_buf
     )
 {
-    GetProfile();
+    if (GetProfile() < SINOWEALTH_CONFIG_SIZE_MIN) return;
 
-    unsigned char usb_buf[520];
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    for (int i = 0x00; i < 0x83; i++)
-    {
-        usb_buf[i] = device_configuration[i];
-    }
+    unsigned char usb_buf[SINOWEALTH_CONFIG_REPORT_SIZE];
+    memcpy(usb_buf, device_configuration, SINOWEALTH_CONFIG_SIZE); // Yes, we only copy 167 bytes back, for now - if anything weird starts happening use SINOWEALTH_CONFIG_REPORT_SIZE
 
     usb_buf[0x03] = 0x7B;   //write to device
     usb_buf[0x06] = 0x00;
-    usb_buf[0x82] = device_configuration[0x82];
 
     usb_buf[0x35] = mode;
 
@@ -171,33 +178,37 @@ void SinowealthController::SetMode
         break;
     }
 
-    hid_send_feature_report(dev_report_id_4, usb_buf, sizeof(usb_buf));
+    hid_send_feature_report(dev_data, usb_buf, SINOWEALTH_CONFIG_REPORT_SIZE);
 }
 
-void SinowealthController::GetProfile()
+int SinowealthController::GetProfile()
 {
     int actual;
-    unsigned char usb_buf[6];
+    unsigned char usb_buf[SINOWEALTH_COMMAND_REPORT_SIZE];
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
     usb_buf[0] = 0x05;
     usb_buf[1] = 0x11;
 
-    actual = hid_send_feature_report(dev_report_id_5, usb_buf, 6);
+    actual = hid_send_feature_report(dev_cmd, usb_buf, sizeof(usb_buf));
 
-    if (actual != 6)
+    if (actual != SINOWEALTH_COMMAND_REPORT_SIZE)
     {
-        printf("Error sending read request!");
+        LOG_ERROR("[Sinowealth Mouse] Error sending read request!");
+        return -1;
     }
     else
     {
-        memset(device_configuration, 0x00, sizeof(device_configuration));
-        //unsigned char device_configuration[520];
+        memset(device_configuration, 0x00, SINOWEALTH_CONFIG_REPORT_SIZE);
         device_configuration[0] = 0x04;
-        device_configuration[1] = 0x11;
-        actual = hid_get_feature_report(dev_report_id_4, device_configuration, 520);
-        if (actual != 131)
+
+        actual = hid_get_feature_report(dev_data, device_configuration, SINOWEALTH_CONFIG_REPORT_SIZE);
+
+        if (actual < 0)
         {
-            printf("Error reading device configuration");
+            LOG_ERROR("[Sinowealth Mouse] Error reading device configuration!");
         }
     }
 
+    return actual;
 }

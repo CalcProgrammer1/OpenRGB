@@ -72,10 +72,10 @@ static unsigned int keys_tkl_keys_indices_static_command[]  = { 0x0022, 0x0024, 
                                                                 0x01E0, 0x01E2, 0x01E4, 0x01E6, 0x01E7, 0x01E8, 0x01E9, 0x01EA};
 
 
-SinowealthKeyboardController::SinowealthKeyboardController(hid_device* dev_handle_id_4, hid_device* dev_handle_id_5, char* path)
+SinowealthKeyboardController::SinowealthKeyboardController(hid_device* dev_cmd_handle, hid_device* dev_data_handle, char* path)
 {
-    dev_report_id_4 = dev_handle_id_4;
-    dev_report_id_5 = dev_handle_id_5;
+    dev_cmd  = dev_cmd_handle;
+    dev_data = dev_data_handle;
 
     led_count       = sizeof(tkl_keys_per_key_index) / sizeof(*tkl_keys_per_key_index);
 
@@ -87,8 +87,8 @@ SinowealthKeyboardController::SinowealthKeyboardController(hid_device* dev_handl
 
 SinowealthKeyboardController::~SinowealthKeyboardController()
 {
-    hid_close(dev_report_id_4);
-    hid_close(dev_report_id_5);
+    hid_close(dev_cmd);
+    hid_close(dev_data);
 }
 
 std::string SinowealthKeyboardController::GetLocation()
@@ -109,7 +109,7 @@ unsigned int SinowealthKeyboardController::GetLEDCount()
 std::string SinowealthKeyboardController::GetSerialString()
 {
     wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev_report_id_4, serial_string, 128);
+    int ret = hid_get_serial_number_string(dev_cmd, serial_string, 128);
 
     if(ret != 0)
     {
@@ -161,7 +161,7 @@ void SinowealthKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev_report_id_5, buf, sizeof(buf));
+    hid_send_feature_report(dev_data, buf, sizeof(buf));
 }
 
 void SinowealthKeyboardController::SetStaticColor(RGBColor* color_buf)
@@ -195,7 +195,7 @@ void SinowealthKeyboardController::SetStaticColor(RGBColor* color_buf)
         usb_buf[key_code] = 0xFF;
     }
 
-    hid_send_feature_report(dev_report_id_5, usb_buf, sizeof(usb_buf));
+    hid_send_feature_report(dev_data, usb_buf, sizeof(usb_buf));
 }
 
 void SinowealthKeyboardController::SetMode(unsigned char mode, unsigned char brightness, unsigned char speed, unsigned char color_mode, RGBColor* color_buf)
@@ -272,7 +272,7 @@ void SinowealthKeyboardController::SetMode(unsigned char mode, unsigned char bri
     usb_buf[speed_and_brightness_byte_index] = speed + brightness;
     usb_buf[color_mode_byte_index] = color_mode_value;
 
-    int result = hid_send_feature_report(dev_report_id_5, usb_buf, sizeof(usb_buf));
+    int result = hid_send_feature_report(dev_data, usb_buf, sizeof(usb_buf));
 
     if(result != -1)
     {

@@ -18,6 +18,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
     description = "Sinowealth Device";
     location    = sinowealth->GetLocation();
     serial      = sinowealth->GetSerialString();
+    version     = sinowealth->GetFirmwareVersion();
 
     mode Static;
     Static.name       = "Static";

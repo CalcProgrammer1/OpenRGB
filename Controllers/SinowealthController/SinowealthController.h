@@ -13,6 +13,11 @@
 
 #pragma once
 
+#define SINOWEALTH_CONFIG_SIZE         167
+#define SINOWEALTH_CONFIG_SIZE_MIN     131
+#define SINOWEALTH_CONFIG_REPORT_SIZE  520
+#define SINOWEALTH_COMMAND_REPORT_SIZE   6
+
 enum
 {
     GLORIOUS_MODE_OFF               = 0x00, //does nothing
@@ -50,26 +55,27 @@ enum
 class SinowealthController
 {
 public:
-    SinowealthController(hid_device* dev_handle_id_4, hid_device* dev_handle_id_5, char *_path); //RGB, Command, path
+    SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path); //RGB, Command, path
     ~SinowealthController();
 
     unsigned int    GetLEDCount();
     std::string     GetLocation();
     std::string     GetSerialString();
+    std::string     GetFirmwareVersion();
 
     void            SetLEDColor(RGBColor* color_buf);
     void            SetMode(unsigned char mode, unsigned char speed, unsigned char direction, RGBColor* color_buf);
-    void            GetProfile();
+    int             GetProfile();
 private:
-    hid_device*             dev_report_id_4;
-    hid_device*             dev_report_id_5;
+    hid_device*             dev_cmd;
+    hid_device*             dev_data;
 
     unsigned int            led_count;
 
     unsigned char           current_mode;
     unsigned char           current_speed;
     unsigned char           current_direction;
-    unsigned char           device_configuration[520];
+    unsigned char           device_configuration[SINOWEALTH_CONFIG_REPORT_SIZE];
 
     std::string             location;
 };

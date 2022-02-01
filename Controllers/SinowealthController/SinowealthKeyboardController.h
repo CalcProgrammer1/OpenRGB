@@ -61,7 +61,7 @@ enum
 class SinowealthKeyboardController
 {
 public:
-    SinowealthKeyboardController(hid_device* dev_handle_id_4, hid_device* dev_handle_id_5, char *_path); //RGB, Command, path
+    SinowealthKeyboardController(hid_device* dev_cmd_handle, hid_device* dev_data_handle, char *_path); //RGB, Command, path
     ~SinowealthKeyboardController();
 
     unsigned int    GetLEDCount();
@@ -77,8 +77,8 @@ public:
     void            ReadFirmwareInfo();
     void            SetLEDsDirect(std::vector<RGBColor> colors);
 private:
-    hid_device*     dev_report_id_4;
-    hid_device*     dev_report_id_5;
+    hid_device*     dev_cmd;
+    hid_device*     dev_data;
     device_type     type;
 
     unsigned int    led_count;
