@@ -163,8 +163,8 @@ static const char *led_names[] =
     "Key: Media Mute", // Last multimedia key
     "Key: Number Pad *",
     "Key: Number Pad 9",
-    "Key: Number Pad 3",
     "Key: Number Pad 6",
+    "Key: Number Pad 3",
     "Key: Number Pad .",
     "Key: Media Previous", // First multimedia key
     "Key: Number Pad -",
