@@ -43,6 +43,14 @@ enum
     RGB_FUSION_2_DRAM_ACTION_APPLY	    = 0x0F,
 };
 
+enum
+{
+    RGB_FUSION_2_DRAM_MODE_OFF          = 0x00,
+    RGB_FUSION_2_DRAM_MODE_STATIC       = 0x01,
+    RGB_FUSION_2_DRAM_MODE_PULSE        = 0x02,
+    RGB_FUSION_2_DRAM_MODE_FLASH        = 0x03
+};
+
 class RGBFusion2DRAMController
 {
 public:

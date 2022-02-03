@@ -66,7 +66,7 @@ void RGBFusion2DRAMController::Apply()
 
 void RGBFusion2DRAMController::SetLEDEffect
     (
-    unsigned int    /*led*/,
+    unsigned int    led,
     int             mode,
     unsigned int    /*speed*/,
     unsigned char   red,
@@ -74,10 +74,17 @@ void RGBFusion2DRAMController::SetLEDEffect
     unsigned char   blue
     )
 {
+    led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = (1 << led);
     led_data[RGB_FUSION_2_DRAM_IDX_MODE]    = mode;
     led_data[RGB_FUSION_2_DRAM_IDX_RED]     = red;
     led_data[RGB_FUSION_2_DRAM_IDX_GREEN]   = green;
     led_data[RGB_FUSION_2_DRAM_IDX_BLUE]    = blue;
+
+    // hack for direct mode
+    led_data[16] = 1;
+    led_data[22] = 2;
+    led_data[29] = 1;
+    led_data[30] = 1;
 
     bus->i2c_smbus_write_block_data(dev, RGB_FUSION_2_DRAM_LED_START_ADDR, 32, led_data);
 }

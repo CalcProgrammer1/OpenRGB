@@ -20,12 +20,21 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
 
     type = DEVICE_TYPE_DRAM;
 
-    mode Static;
-    Static.name       = "Static";
-    Static.value      = 1;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    /*-----------------------------------------------------*\
+    | Direct mode is achieved through bit of a hack.  Use   |
+    | pulse mode but set the configuration such that it does|
+    | not actually pulse.  This allows each LED to be set   |
+    | independently.                                        |
+    | See this Discord conversation:                        |
+    | https://discord.com/channels/699861463375937578/      |
+    | 699861463887773729/719700736845414453                 |
+    \*-----------------------------------------------------*/
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.value      = RGB_FUSION_2_DRAM_MODE_PULSE;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     SetupZones();
 }
@@ -41,22 +50,25 @@ void RGBController_RGBFusion2DRAM::SetupZones()
     | Search through all LEDs and create zones for each channel |
     | type                                                      |
     \*---------------------------------------------------------*/
-    zone* new_zone = new zone();
+    zone* new_zone          = new zone();
 
     // Set zone name to channel name
-    new_zone->name          = "DRAM Zone";
-    new_zone->leds_min      = 1;
-    new_zone->leds_max      = 1;
-    new_zone->leds_count    = 1;
+    new_zone->name          = "DRAM";
+    new_zone->leds_min      = controller->GetLEDCount();
+    new_zone->leds_max      = controller->GetLEDCount();
+    new_zone->leds_count    = controller->GetLEDCount();
 
     // Push new zone to zones vector
     zones.push_back(*new_zone);
 
-    led* new_led = new led();
-    new_led->name           = "DRAM LED";
+    for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
+    {
+        led* new_led        = new led();
+        new_led->name       = "DRAM LED";
 
-    // Push new LED to LEDs vector
-    leds.push_back(*new_led);
+        // Push new LED to LEDs vector
+        leds.push_back(*new_led);
+    }
 
     SetupColors();
 }
@@ -70,36 +82,42 @@ void RGBController_RGBFusion2DRAM::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
 {
-    RGBColor      color = colors[0];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
+    /*---------------------------------------------------------*\
+    | Loop through all LEDs and set effect parameters. Must     |
+    | apply after every effect set                              |
+    \*---------------------------------------------------------*/
+    for(unsigned int led_idx = 0; led_idx < colors.size(); led_idx++)
+    {
+        RGBColor      color = colors[led_idx];
+        unsigned char red   = RGBGetRValue(color);
+        unsigned char grn   = RGBGetGValue(color);
+        unsigned char blu   = RGBGetBValue(color);
 
-    int mode = modes[active_mode].value;
-    unsigned int speed = modes[active_mode].speed;
+        int           mode  = modes[active_mode].value;
+        unsigned int  speed = modes[active_mode].speed;
 
-    controller->SetLEDEffect(0, mode, speed, red, grn, blu);
-
-    controller->Apply();
+        controller->SetLEDEffect(led_idx, mode, speed, red, grn, blu);
+        controller->Apply();
+    }
 }
 
 void RGBController_RGBFusion2DRAM::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RGBFusion2DRAM::UpdateSingleLED(int /*led*/)
 {
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_RGBFusion2DRAM::SetCustomMode()
 {
-
+    active_mode = 0;
 }
 
 void RGBController_RGBFusion2DRAM::DeviceUpdateMode()
 {
-
+    DeviceUpdateLEDs();
 }
 
