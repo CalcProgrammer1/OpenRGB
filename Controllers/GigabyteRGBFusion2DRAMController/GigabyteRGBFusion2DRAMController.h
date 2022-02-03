@@ -45,10 +45,11 @@ enum
 
 enum
 {
-    RGB_FUSION_2_DRAM_MODE_OFF          = 0x00,
-    RGB_FUSION_2_DRAM_MODE_STATIC       = 0x01,
-    RGB_FUSION_2_DRAM_MODE_PULSE        = 0x02,
-    RGB_FUSION_2_DRAM_MODE_FLASH        = 0x03
+    RGB_FUSION_2_DRAM_MODE_OFF          = 0x00,     /* Off mode                                     */
+    RGB_FUSION_2_DRAM_MODE_STATIC       = 0x01,     /* Static mode                                  */
+    RGB_FUSION_2_DRAM_MODE_PULSE        = 0x02,     /* Pulsing mode                                 */
+    RGB_FUSION_2_DRAM_MODE_FLASH        = 0x03,     /* Flashing mode                                */
+    RGB_FUSION_2_DRAM_MODE_DIRECT       = 0xFF      /* Dummy mode, implements per LED using Pulse   */
 };
 
 class RGBFusion2DRAMController

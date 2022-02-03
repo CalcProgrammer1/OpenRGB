@@ -31,10 +31,27 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
     \*-----------------------------------------------------*/
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = RGB_FUSION_2_DRAM_MODE_PULSE;
+    Direct.value      = RGB_FUSION_2_DRAM_MODE_DIRECT;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Off;
+    Off.name       = "Off";
+    Off.value      = RGB_FUSION_2_DRAM_MODE_OFF;
+    Off.flags      = 0;
+    Off.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Off);
+
+    mode Static;
+    Static.name       = "Static";
+    Static.value      = RGB_FUSION_2_DRAM_MODE_STATIC;
+    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.colors_min = 1;
+    Static.colors_max = 1;
+    Static.colors.resize(1);
+    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    modes.push_back(Static);
 
     SetupZones();
 }
@@ -88,7 +105,17 @@ void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
     \*---------------------------------------------------------*/
     for(unsigned int led_idx = 0; led_idx < colors.size(); led_idx++)
     {
-        RGBColor      color = colors[led_idx];
+        RGBColor      color = 0;
+
+        if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
+        {
+            color           = colors[led_idx];
+        }
+        else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+        {
+            color           = modes[active_mode].colors[0];
+        }
+
         unsigned char red   = RGBGetRValue(color);
         unsigned char grn   = RGBGetGValue(color);
         unsigned char blu   = RGBGetBValue(color);
@@ -97,7 +124,14 @@ void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
         unsigned int  speed = modes[active_mode].speed;
 
         controller->SetLEDEffect(led_idx, mode, speed, red, grn, blu);
-        controller->Apply();
+
+        /*---------------------------------------------------------*\
+        | Only update once unless in direct mode                    |
+        \*---------------------------------------------------------*/
+        if(modes[active_mode].value != RGB_FUSION_2_DRAM_MODE_DIRECT)
+        {
+            break;
+        }
     }
 }
 

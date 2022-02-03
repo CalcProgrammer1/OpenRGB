@@ -27,10 +27,9 @@ RGBFusion2DRAMController::RGBFusion2DRAMController(i2c_smbus_interface* bus, rgb
     memset(led_data, 0, sizeof(led_data));
 
     /*-----------------------------------------------------*\
-    | Initialize controller with 6 LEDs and mask 0x3B       |
+    | Initialize controller with 6 LEDs                     |
     | This is hard coded for Aorus RGB RAM                  |
     \*-----------------------------------------------------*/
-    led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = 0x3B;
     led_count = 6;
 
     /*-----------------------------------------------------*\
@@ -74,17 +73,29 @@ void RGBFusion2DRAMController::SetLEDEffect
     unsigned char   blue
     )
 {
-    led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = (1 << led);
-    led_data[RGB_FUSION_2_DRAM_IDX_MODE]    = mode;
-    led_data[RGB_FUSION_2_DRAM_IDX_RED]     = red;
-    led_data[RGB_FUSION_2_DRAM_IDX_GREEN]   = green;
-    led_data[RGB_FUSION_2_DRAM_IDX_BLUE]    = blue;
+    if(mode == RGB_FUSION_2_DRAM_MODE_DIRECT)
+    {
+        led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = (1 << led);
 
-    // hack for direct mode
-    led_data[16] = 1;
-    led_data[22] = 2;
-    led_data[29] = 1;
-    led_data[30] = 1;
+        // hack for direct mode
+        led_data[16] = 1;
+        led_data[22] = 2;
+        led_data[29] = 1;
+        led_data[30] = 1;
+
+        mode = RGB_FUSION_2_DRAM_MODE_PULSE;
+    }
+    else
+    {
+        led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = 0x3F;
+    }
+
+    led_data[RGB_FUSION_2_DRAM_IDX_MODE]        = mode;
+    led_data[RGB_FUSION_2_DRAM_IDX_RED]         = red;
+    led_data[RGB_FUSION_2_DRAM_IDX_GREEN]       = green;
+    led_data[RGB_FUSION_2_DRAM_IDX_BLUE]        = blue;
 
     bus->i2c_smbus_write_block_data(dev, RGB_FUSION_2_DRAM_LED_START_ADDR, 32, led_data);
+
+    Apply();
 }
