@@ -66,6 +66,7 @@ public:
                         (
                         unsigned int    led,
                         int             mode,
+                        unsigned int    brightness,
                         unsigned int    speed,
                         unsigned char   red,
                         unsigned char   green,

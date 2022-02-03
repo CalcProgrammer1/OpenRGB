@@ -30,10 +30,13 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
     | 699861463887773729/719700736845414453                 |
     \*-----------------------------------------------------*/
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = RGB_FUSION_2_DRAM_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name           = "Direct";
+    Direct.value          = RGB_FUSION_2_DRAM_MODE_DIRECT;
+    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode     = MODE_COLORS_PER_LED;
+    Direct.brightness_min = 0;
+    Direct.brightness_max = 100;
+    Direct.brightness     = 100;
     modes.push_back(Direct);
 
     mode Off;
@@ -44,13 +47,16 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
     modes.push_back(Off);
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = RGB_FUSION_2_DRAM_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.colors_min = 1;
-    Static.colors_max = 1;
+    Static.name           = "Static";
+    Static.value          = RGB_FUSION_2_DRAM_MODE_STATIC;
+    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.colors_min     = 1;
+    Static.colors_max     = 1;
     Static.colors.resize(1);
-    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Static.brightness_min = 0;
+    Static.brightness_max = 100;
+    Static.brightness     = 100;
     modes.push_back(Static);
 
     SetupZones();
@@ -105,25 +111,26 @@ void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
     \*---------------------------------------------------------*/
     for(unsigned int led_idx = 0; led_idx < colors.size(); led_idx++)
     {
-        RGBColor      color = 0;
+        RGBColor      color         = 0;
 
         if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
         {
-            color           = colors[led_idx];
+            color                   = colors[led_idx];
         }
         else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
         {
-            color           = modes[active_mode].colors[0];
+            color                   = modes[active_mode].colors[0];
         }
 
-        unsigned char red   = RGBGetRValue(color);
-        unsigned char grn   = RGBGetGValue(color);
-        unsigned char blu   = RGBGetBValue(color);
+        unsigned char red           = RGBGetRValue(color);
+        unsigned char grn           = RGBGetGValue(color);
+        unsigned char blu           = RGBGetBValue(color);
 
-        int           mode  = modes[active_mode].value;
-        unsigned int  speed = modes[active_mode].speed;
+        int           mode          = modes[active_mode].value;
+        unsigned int  speed         = modes[active_mode].speed;
+        unsigned int  brightness    = modes[active_mode].brightness;
 
-        controller->SetLEDEffect(led_idx, mode, speed, red, grn, blu);
+        controller->SetLEDEffect(led_idx, mode, brightness, speed, red, grn, blu);
 
         /*---------------------------------------------------------*\
         | Only update once unless in direct mode                    |

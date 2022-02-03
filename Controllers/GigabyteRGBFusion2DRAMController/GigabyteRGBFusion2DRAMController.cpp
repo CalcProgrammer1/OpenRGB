@@ -33,11 +33,6 @@ RGBFusion2DRAMController::RGBFusion2DRAMController(i2c_smbus_interface* bus, rgb
     led_count = 6;
 
     direct_initialized = false;
-
-    /*-----------------------------------------------------*\
-    | Initialize brightness to 100%                         |
-    \*-----------------------------------------------------*/
-    led_data[RGB_FUSION_2_DRAM_IDX_BRIGHTNESS] = 0x64;
 }
 
 RGBFusion2DRAMController::~RGBFusion2DRAMController()
@@ -69,6 +64,7 @@ void RGBFusion2DRAMController::SetLEDEffect
     (
     unsigned int    led,
     int             mode,
+    unsigned int    brightness,
     unsigned int    /*speed*/,
     unsigned char   red,
     unsigned char   green,
@@ -126,6 +122,7 @@ void RGBFusion2DRAMController::SetLEDEffect
     }
 
     led_data[RGB_FUSION_2_DRAM_IDX_MODE]        = mode;
+    led_data[RGB_FUSION_2_DRAM_IDX_BRIGHTNESS]  = brightness;
     led_data[RGB_FUSION_2_DRAM_IDX_RED]         = red;
     led_data[RGB_FUSION_2_DRAM_IDX_GREEN]       = green;
     led_data[RGB_FUSION_2_DRAM_IDX_BLUE]        = blue;
