@@ -80,5 +80,4 @@ void DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& 
 
 }   /* DetectGigabyteRGBFusion2DRAMControllers() */
 
-// This detector is disabled as proper detection isn't implemented
 REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion 2 DRAM", DetectGigabyteRGBFusion2DRAMControllers);
