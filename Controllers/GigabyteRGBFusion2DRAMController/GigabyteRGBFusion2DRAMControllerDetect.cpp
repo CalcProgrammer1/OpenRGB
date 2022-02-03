@@ -1,4 +1,5 @@
 #include "Detector.h"
+#include "LogManager.h"
 #include "GigabyteRGBFusion2DRAMController.h"
 #include "RGBController.h"
 #include "RGBController_GigabyteRGBFusion2DRAM.h"
@@ -23,16 +24,26 @@ bool TestForGigabyteRGBFusion2DRAMController(i2c_smbus_interface* bus, unsigned 
     bool pass = false;
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
-    if (res >= 0)
+
+    if(res >= 0)
     {
-        pass = true;
+        bus->i2c_smbus_write_byte_data(address, 0xE1, 0x01);
 
-        // res = bus->i2c_smbus_read_byte_data(address, 0xF2);
+        res = bus->i2c_smbus_read_word_data(address, 0xED);
 
-        // if (res != 0xC4)
-        // {
-        //     pass = false;
-        // }
+        LOG_TRACE("[Gigabyte RGB Fusion 2 DRAM] Read from 0xED: 0x%04X", res);
+
+        if(res == 0x3282)
+        {
+            res = bus->i2c_smbus_read_word_data(address, 0xEB);
+
+            LOG_TRACE("[Gigabyte RGB Fusion 2 DRAM] Read from 0xEB: 0x%04X", res);
+
+            if(res == 0x0800)
+            {
+                pass = true;
+            }
+        }
     }
 
     return(pass);
@@ -70,4 +81,4 @@ void DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& 
 }   /* DetectGigabyteRGBFusion2DRAMControllers() */
 
 // This detector is disabled as proper detection isn't implemented
-//REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion 2 DRAM", DetectGigabyteRGBFusion2DRAMControllers);
+REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion 2 DRAM", DetectGigabyteRGBFusion2DRAMControllers);
