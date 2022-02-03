@@ -32,6 +32,8 @@ RGBFusion2DRAMController::RGBFusion2DRAMController(i2c_smbus_interface* bus, rgb
     \*-----------------------------------------------------*/
     led_count = 6;
 
+    direct_initialized = false;
+
     /*-----------------------------------------------------*\
     | Initialize brightness to 100%                         |
     \*-----------------------------------------------------*/
@@ -73,21 +75,54 @@ void RGBFusion2DRAMController::SetLEDEffect
     unsigned char   blue
     )
 {
+    bool truncate_packet = false;
+
     if(mode == RGB_FUSION_2_DRAM_MODE_DIRECT)
     {
+        /*-----------------------------------------------------*\
+        | In Direct mode, set one LED at a time                 |
+        \*-----------------------------------------------------*/
         led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = (1 << led);
 
-        // hack for direct mode
+        /*-----------------------------------------------------*\
+        | Hack for Direct mode                                  |
+        \*-----------------------------------------------------*/
         led_data[16] = 1;
         led_data[22] = 2;
         led_data[29] = 1;
         led_data[30] = 1;
 
+        /*-----------------------------------------------------*\
+        | If bytes 15-31 have already been set, we can speed up |
+        | repeat direct mode packets by only sending the portion|
+        | that changes, in this case bytes 0-14.  If direct mode|
+        | has already been initialized, truncate the packet by  |
+        | only sending the first 15 bytes.                      |
+        \*-----------------------------------------------------*/
+        if(direct_initialized)
+        {
+            truncate_packet = true;
+        }
+
+        direct_initialized = true;
+
+        /*-----------------------------------------------------*\
+        | Direct mode is implemented using Pulse mode           |
+        \*-----------------------------------------------------*/
         mode = RGB_FUSION_2_DRAM_MODE_PULSE;
     }
     else
     {
+        /*-----------------------------------------------------*\
+        | In all other modes, set all LEDs at once              |
+        \*-----------------------------------------------------*/
         led_data[RGB_FUSION_2_DRAM_LED_EN_MASK] = 0x3F;
+
+        /*-----------------------------------------------------*\
+        | Clear direct mode initialized flag when setting a non-|
+        | Direct mode                                           |
+        \*-----------------------------------------------------*/
+        direct_initialized = false;
     }
 
     led_data[RGB_FUSION_2_DRAM_IDX_MODE]        = mode;
@@ -95,7 +130,14 @@ void RGBFusion2DRAMController::SetLEDEffect
     led_data[RGB_FUSION_2_DRAM_IDX_GREEN]       = green;
     led_data[RGB_FUSION_2_DRAM_IDX_BLUE]        = blue;
 
-    bus->i2c_smbus_write_block_data(dev, RGB_FUSION_2_DRAM_LED_START_ADDR, 32, led_data);
+    if(truncate_packet)
+    {
+        bus->i2c_smbus_write_block_data(dev, RGB_FUSION_2_DRAM_LED_START_ADDR, 15, led_data);
+    }
+    else
+    {
+        bus->i2c_smbus_write_block_data(dev, RGB_FUSION_2_DRAM_LED_START_ADDR, 32, led_data);
+    }
 
     Apply();
 }

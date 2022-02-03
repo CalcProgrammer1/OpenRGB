@@ -76,6 +76,7 @@ private:
     unsigned int            led_count;
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
+    bool                    direct_initialized;
 
     unsigned char           led_data[32];
 };
