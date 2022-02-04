@@ -53,7 +53,7 @@ void ZalmanZSyncController::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {
-        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(5))
+        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(1))
         {
             SendCommit();
         }
