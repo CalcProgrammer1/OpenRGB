@@ -123,6 +123,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXMousematController/                                                       \
     Controllers/LEDStripController/                                                             \
     Controllers/LianLiController/                                                               \
+    Controllers/LIFXController/                                                                 \
     Controllers/LogitechController/                                                             \
     Controllers/MSI3ZoneController/                                                             \
     Controllers/MSIGPUController/                                                               \
@@ -197,6 +198,8 @@ HEADERS +=                                                                      
     qt/OpenRGBZoneResizeDialog.h                                                                \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.h                                       \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h                                        \
+    qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.h                                       \
+    qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h                                        \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.h                           \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h                            \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.h                           \
@@ -368,6 +371,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
+    Controllers/LIFXController/LIFXController.h                                                 \
+    Controllers/LIFXController/RGBController_LIFX.h                                             \
     Controllers/LianLiController/LianLiUniHubController.h                                       \
     Controllers/LianLiController/RGBController_LianLiUniHub.h                                   \
     Controllers/LogitechController/LogitechProtocolCommon.h                                     \
@@ -575,6 +580,8 @@ SOURCES +=                                                                      
     qt/hsv.cpp                                                                                  \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.cpp                                      \
+    qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.cpp                                     \
+    qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.cpp                                      \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.cpp                         \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.cpp                          \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.cpp                         \
@@ -792,6 +799,9 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
+    Controllers/LIFXController/LIFXController.cpp                                               \
+    Controllers/LIFXController/LIFXControllerDetect.cpp                                         \
+    Controllers/LIFXController/RGBController_LIFX.cpp                                           \
     Controllers/LianLiController/LianLiControllerDetect.cpp                                     \
     Controllers/LianLiController/LianLiUniHubController.cpp                                     \
     Controllers/LianLiController/RGBController_LianLiUniHub.cpp                                 \
@@ -977,6 +987,8 @@ FORMS +=                                                                        
     qt/OpenRGBZoneResizeDialog.ui                                                               \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui                                      \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
+    qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui                                      \
+    qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui                                       \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui                          \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui                           \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.ui                          \

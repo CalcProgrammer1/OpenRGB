@@ -466,6 +466,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddE131SettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the LIFX settings page                            |
+    \*-----------------------------------------------------*/
+    AddLIFXSettingsPage();
+    
+    /*-----------------------------------------------------*\
     | Add the Serial settings page                          |
     \*-----------------------------------------------------*/
     AddSerialSettingsPage();
@@ -706,6 +711,34 @@ void OpenRGBDialog2::AddE131SettingsPage()
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
     TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "E1.31 Devices");
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddLIFXSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    LIFXSettingsPage = new OpenRGBLIFXSettingsPage();
+
+    ui->SettingsTabBar->addTab(LIFXSettingsPage, "");
+
+    QString SettingsLabelString;
+
+    if(IsDarkTheme())
+    {
+        SettingsLabelString = "light_dark.png";
+    }
+    else
+    {
+        SettingsLabelString = "light.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "LIFX Devices");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
