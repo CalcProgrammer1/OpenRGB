@@ -37,6 +37,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_SUB_DEV,              0x47,   "Gigabyte GTX1080 Ti Xtreme Edition"            },
     { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_GTX1080TI_XTREME_WATERFORCE_SUB_DEV,   0x47,   "Gigabyte GTX1080 Ti Xtreme Waterforce Edition" },
     { NVIDIA_VEN,   NVIDIA_GTX1650_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_GTX1650_GAMING_OC_SUB_DEV,             0x55,   "Gigabyte GTX1650 Gaming OC"                    },
+    { NVIDIA_VEN,   NVIDIA_GTX1660_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_GTX1660_GAMING_OC_6G_SUB_DEV,          0x47,   "Gigabyte GTX1660 Gaming OC 6G"                 },
     { NVIDIA_VEN,   NVIDIA_GTX1660S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_GTX1660S_GAMING_OC_SUB_DEV,            0x47,   "Gigabyte GTX1660 SUPER Gaming OC"              },
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060_GAMING_OC_SUB_DEV,             0x47,   "Gigabyte RTX2060 Gaming OC"                    },
     { NVIDIA_VEN,   NVIDIA_RTX2060_TU106_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX2060_GAMING_OC_PRO_SUB_DEV,         0x47,   "Gigabyte RTX2060 Gaming OC PRO"                },
