@@ -48,6 +48,11 @@ enum
     HUE_2_MODE_ALTERNATING      = 0x05,     /* Alternating mode             */
     HUE_2_MODE_PULSING          = 0x06,     /* Pulsing mode                 */
     HUE_2_MODE_BREATHING        = 0x07,     /* Breathing mode               */
+    HUE_2_MODE_CANDLE           = 0x08,     /* Candle Mode                  */
+    HUE_2_MODE_STARRY_NIGHT     = 0x09,     /* Starry Night mode            */
+    HUE_2_MODE_RAINBOW_FLOW     = 0x0b,     /* Rainbow Flow mode            */
+    HUE_2_MODE_SUPER_RAINBOW    = 0x0c,     /* Super Rainbow mode           */
+    HUE_2_MODE_RAINBOW_PULSE    = 0x0d,     /* Rainbow Pulse mode           */
     HUE_2_NUM_MODES                         /* Number of Hue 2 modes        */
 };
 
