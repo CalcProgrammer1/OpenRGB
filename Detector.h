@@ -12,6 +12,7 @@
 #define REGISTER_HID_DETECTOR_P(name, func, vid, pid, page)                      static HIDDeviceDetector device_detector_obj_##vid##pid##__##page(name, func, vid, pid, HID_INTERFACE_ANY, page, HID_USAGE_ANY)
 #define REGISTER_HID_DETECTOR_PU(name, func, vid, pid, page, usage)              static HIDDeviceDetector device_detector_obj_##vid##pid##__##page##_##usage(name, func, vid, pid, HID_INTERFACE_ANY, page, usage)
 #define REGISTER_DYNAMIC_DETECTOR(name, func)                                    static DynamicDetector   device_detector_obj_##func(name, func)
+#define REGISTER_PRE_DETECTION_HOOK(func)                                        static PreDetectionHook  device_detector_obj_##func(func)
 
 #define REGISTER_DYNAMIC_I2C_DETECTOR(name, func)                                       I2CDeviceDetector device_detector_obj_##func(name, func)
 #define REGISTER_DYNAMIC_I2C_BUS_DETECTOR(func)                                         I2CBusDetector    device_detector_obj_##func(func)

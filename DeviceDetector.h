@@ -50,3 +50,12 @@ public:
         ResourceManager::get()->RegisterDynamicDetector(name, detector);
     }
 };
+
+class PreDetectionHook
+{
+public:
+    PreDetectionHook(PreDetectionHookFunction hook)
+    {
+        ResourceManager::get()->RegisterPreDetectionHook(hook);
+    }
+};

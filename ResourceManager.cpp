@@ -228,6 +228,11 @@ void ResourceManager::RegisterDynamicDetector(std::string name, DynamicDetectorF
     dynamic_detectors.push_back(detector);
 }
 
+void ResourceManager::RegisterPreDetectionHook(PreDetectionHookFunction hook)
+{
+    pre_detection_hooks.push_back(hook);
+}
+
 void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)
 {
     DeviceListChangeCallbacks.push_back(new_callback);
@@ -618,6 +623,14 @@ void ResourceManager::Cleanup()
     }
 }
 
+void ResourceManager::ProcessPreDetectionHooks()
+{
+    for(unsigned int hook_idx = 0; hook_idx < pre_detection_hooks.size(); hook_idx++)
+    {
+        pre_detection_hooks[hook_idx]();
+    }
+}
+
 void ResourceManager::ProcessDynamicDetectors()
 {
     for(unsigned int detector_idx = 0; detector_idx < dynamic_detectors.size(); detector_idx++)
@@ -630,6 +643,11 @@ void ResourceManager::ProcessDynamicDetectors()
 
 void ResourceManager::DetectDevices()
 {
+    /*-----------------------------------------------------*\
+    | Process pre-detection hooks                           |
+    \*-----------------------------------------------------*/
+    ProcessPreDetectionHooks();
+
     /*-----------------------------------------------------*\
     | Process Dynamic Detectors                             |
     \*-----------------------------------------------------*/
