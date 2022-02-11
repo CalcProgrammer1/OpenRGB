@@ -39,7 +39,10 @@ CODEOWNERS @Calcprogrammer1
 /Controllers/E131Controller/
 /Controllers/EKController/                                  @Dr_No
 /Controllers/ENESMBusController/
-/Controllers/EVGAGPUController/                             @TheRogueZeta
+/Controllers/EVGAAmpereGPUController/                       @TheRogueZeta
+/Controllers/EVGAGP102GPUController/                        
+/Controllers/EVGAPascalGPUController/                       
+/Controllers/EVGATuringGPUController/                       @TheRogueZeta
 /Controllers/EVisionKeyboardController/
 /Controllers/EspurnaController/
 /Controllers/FanBusController/

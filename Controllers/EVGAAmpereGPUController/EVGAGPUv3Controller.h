@@ -10,7 +10,6 @@
 #include <string>
 #include "i2c_smbus.h"
 #include "RGBController.h"
-#include "EVGAGPUCommon.h"
 
 #pragma once
 
@@ -22,6 +21,16 @@ typedef unsigned char	evga_dev_id;
 #define EVGAGPUV3_LEDS_MAX          60
 #define EVGAGPUV3_INIT              0xFF
 #define EVGAGPUV3_CONTROLLER_NAME   "EVGAv3"
+
+union u16_to_u8
+{
+    uint16_t   u16;
+    struct
+    {
+        uint8_t LSB;
+        uint8_t MSB;
+    };
+};
 
 struct EVGAv3_config
 {
