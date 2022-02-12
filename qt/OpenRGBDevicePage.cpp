@@ -106,15 +106,11 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     \*-----------------------------------------------------*/
     UpdateModeUi();
 
-    ui->RedSpinBox->blockSignals(true);
-    ui->GreenSpinBox->blockSignals(true);
-    ui->BlueSpinBox->blockSignals(true);
-    ui->RedSpinBox->setValue(ui->ColorWheelBox->color().red());
-    ui->GreenSpinBox->setValue(ui->ColorWheelBox->color().green());
-    ui->BlueSpinBox->setValue(ui->ColorWheelBox->color().blue());
-    ui->RedSpinBox->blockSignals(false);
-    ui->GreenSpinBox->blockSignals(false);
-    ui->BlueSpinBox->blockSignals(false);
+    /*-----------------------------------------------------*\
+    | Set initial color to black and update UI              |
+    \*-----------------------------------------------------*/
+    current_color.setRgb(0, 0, 0);
+    updateColorUi();
 
     ui->ApplyColorsButton->setDisabled(autoUpdateEnabled());
 }
@@ -332,13 +328,9 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 \*-----------------------------------------------------*/
                 if(updateColor)
                 {
-                    UpdatingColor = true;
-                    ui->RedSpinBox->setValue(RGBGetRValue(color));
-                    ui->GreenSpinBox->setValue(RGBGetGValue(color));
-                    ui->BlueSpinBox->setValue(RGBGetBValue(color));
-                    UpdatingColor = false;
-                    updateHSV();
-                    updateWheel();
+                    current_color.setRgb(RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color));
+
+                    updateColorUi();
                 }
             }
             break;
@@ -349,13 +341,10 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 | Update color picker with color of selected mode       |
                 \*-----------------------------------------------------*/
                 RGBColor color = device->modes[selected_mode].colors[index];
-                UpdatingColor = true;
-                ui->RedSpinBox->setValue(RGBGetRValue(color));
-                ui->GreenSpinBox->setValue(RGBGetGValue(color));
-                ui->BlueSpinBox->setValue(RGBGetBValue(color));
-                UpdatingColor = false;
-                updateHSV();
-                updateWheel();
+                
+                current_color.setRgb(RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color));
+
+                updateColorUi();
             }
             break;
     }
@@ -899,14 +888,8 @@ void Ui::OpenRGBDevicePage::UpdateMode()
 
 void Ui::OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, unsigned char blue)
 {
-    UpdatingColor = true;
-    ui->RedSpinBox->setValue(red);
-    ui->GreenSpinBox->setValue(green);
-    ui->BlueSpinBox->setValue(blue);
-    UpdatingColor = false;
-    updateHSV();
-    updateWheel();
-    updateDeviceView();
+    current_color.setRgb(red, green, blue);
+    colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::UpdateDevice()
@@ -933,13 +916,8 @@ void Ui::OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green
     /*-----------------------------------------------------*\
     | Set the color boxes                                   |
     \*-----------------------------------------------------*/
-    UpdatingColor = true;
-    ui->RedSpinBox->setValue(red);
-    ui->GreenSpinBox->setValue(green);
-    ui->BlueSpinBox->setValue(blue);
-    UpdatingColor = false;
-    updateHSV();
-    updateWheel();
+    current_color.setRgb(red, green, blue);
+    updateColorUi();
 
     /*-----------------------------------------------------*\
     | Read selected mode                                    |
@@ -972,147 +950,14 @@ void Ui::OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green
 
 void Ui::OpenRGBDevicePage::on_SwatchBox_swatchChanged(const QColor color)
 {
-    if(UpdatingColor)
-    {
-        return;
-    }
-
-    UpdatingColor = true;
-    ui->RedSpinBox->setValue(color.red());
-    ui->GreenSpinBox->setValue(color.green());
-    ui->BlueSpinBox->setValue(color.blue());
-    UpdatingColor = false;
-
-    ui->ColorWheelBox->setColor(color);
-    updateDeviceView();
+    current_color = color;
+    colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_ColorWheelBox_colorChanged(const QColor color)
 {
-    if(UpdatingColor)
-    {
-        return;
-    }
-
-    UpdatingColor = true;
-    ui->RedSpinBox->setValue(color.red());
-    ui->GreenSpinBox->setValue(color.green());
-    ui->BlueSpinBox->setValue(color.blue());
-    UpdatingColor = false;
-
-    updateHSV();
-
-    ui->SwatchBox->setCurrentColor(color);
-    updateDeviceView();
-}
-
-void Ui::OpenRGBDevicePage::updateRGB()
-{
-    if(UpdatingColor)
-    {
-        return;
-    }
-
-    UpdatingColor = true;
-
-    hsv_t hsv;
-    hsv.hue = ui->HueSpinBox->value();
-    hsv.saturation = ui->SatSpinBox->value();
-    hsv.value = ui->ValSpinBox->value();
-
-    RGBColor rgb = hsv2rgb(&hsv);
-
-    ui->RedSpinBox->setValue(RGBGetRValue(rgb));
-    ui->GreenSpinBox->setValue(RGBGetGValue(rgb));
-    ui->BlueSpinBox->setValue(RGBGetBValue(rgb));
-
-    UpdatingColor = false;
-}
-
-void Ui::OpenRGBDevicePage::updateHSV()
-{
-    if(UpdatingColor)
-    {
-        return;
-    }
-
-    UpdatingColor = true;
-
-    RGBColor rgb = ToRGBColor(ui->RedSpinBox->value(), ui->GreenSpinBox->value(), ui->BlueSpinBox->value());
-
-    hsv_t hsv;
-
-    rgb2hsv(rgb, &hsv);
-
-    ui->HueSpinBox->setValue(hsv.hue);
-    ui->SatSpinBox->setValue(hsv.saturation);
-    ui->ValSpinBox->setValue(hsv.value);
-
-    UpdatingColor = false;
-}
-
-void Ui::OpenRGBDevicePage::updateWheel()
-{
-    if(UpdatingColor)
-    {
-        return;
-    }
-
-    UpdatingColor = true;
-
-    RGBColor qrgb = ToRGBColor
-                        (
-                        ui->BlueSpinBox->value(),
-                        ui->GreenSpinBox->value(),
-                        ui->RedSpinBox->value());
-
-    ui->ColorWheelBox->setColor(QColor::fromRgb(qrgb));
-
-    UpdatingColor = false;
-}
-
-void Ui::OpenRGBDevicePage::updateDeviceView()
-{
-    if(autoUpdateEnabled())
-    {
-        /*-----------------------------------------------------*\
-        | Read selected mode                                    |
-        \*-----------------------------------------------------*/
-        unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
-
-        switch(device->modes[selected_mode].color_mode)
-        {
-            case MODE_COLORS_PER_LED:
-                {
-                    RGBColor qrgb = ToRGBColor
-                                        (
-                                        ui->RedSpinBox->value(),
-                                        ui->GreenSpinBox->value(),
-                                        ui->BlueSpinBox->value());
-                    ui->DeviceViewBox->setSelectionColor(qrgb);
-                }
-                break;
-
-            case MODE_COLORS_MODE_SPECIFIC:
-                {
-                    unsigned int index = ui->LEDBox->currentIndex();
-
-                    /*-----------------------------------------------------*\
-                    | Set all device LEDs to the current color              |
-                    \*-----------------------------------------------------*/
-                    RGBColor color = ToRGBColor(
-                        ui->RedSpinBox->text().toInt(),
-                        ui->GreenSpinBox->text().toInt(),
-                        ui->BlueSpinBox->text().toInt()
-                    );
-
-                    device->modes[selected_mode].colors[index] = color;
-
-                    device->UpdateMode();
-                }
-                break;
-        }
-    }
+    current_color = color;
+    colorChanged();
 }
 
 bool Ui::OpenRGBDevicePage::autoUpdateEnabled()
@@ -1120,46 +965,49 @@ bool Ui::OpenRGBDevicePage::autoUpdateEnabled()
     return !(device->modes[device->active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE);
 }
 
-void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int /*arg1*/)
+void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int red)
 {
-    updateHSV();
-    updateWheel();
-    updateDeviceView();
+    current_color.setRed(red);
+    colorChanged();
 }
 
-void Ui::OpenRGBDevicePage::on_HueSpinBox_valueChanged(int /*arg1*/)
+void Ui::OpenRGBDevicePage::on_HueSpinBox_valueChanged(int hue)
 {
-    updateRGB();
-    updateWheel();
-    updateDeviceView();
+    int sat = current_color.saturation();
+    int val = current_color.value();
+    current_color.setHsv(hue, sat, val);
+
+    colorChanged();
 }
 
-void Ui::OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int /*arg1*/)
+void Ui::OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int green)
 {
-    updateHSV();
-    updateWheel();
-    updateDeviceView();
+    current_color.setGreen(green);
+    colorChanged();
 }
 
-void Ui::OpenRGBDevicePage::on_SatSpinBox_valueChanged(int /*arg1*/)
+void Ui::OpenRGBDevicePage::on_SatSpinBox_valueChanged(int sat)
 {
-    updateRGB();
-    updateWheel();
-    updateDeviceView();
+    int hue = current_color.hue();
+    int val = current_color.value();
+    current_color.setHsv(hue, sat, val);
+    
+    colorChanged();
 }
 
-void Ui::OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int /*arg1*/)
+void Ui::OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int blue)
 {
-    updateHSV();
-    updateWheel();
-    updateDeviceView();
+    current_color.setBlue(blue);
+    colorChanged();
 }
 
-void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int /*arg1*/)
+void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int val)
 {
-    updateRGB();
-    updateWheel();
-    updateDeviceView();
+    int hue = current_color.hue();
+    int sat = current_color.saturation();
+    current_color.setHsv(hue, sat, val);
+    
+    colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
@@ -1205,11 +1053,7 @@ void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indic
 
 void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()
 {
-    unsigned char red   = ui->RedSpinBox->value();
-    unsigned char green = ui->GreenSpinBox->value();
-    unsigned char blue  = ui->BlueSpinBox->value();
-
-    emit SetAllDevices(red, green, blue);
+    emit SetAllDevices(current_color.red(), current_color.green(), current_color.blue());
 }
 
 void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
@@ -1291,17 +1135,18 @@ void Ui::OpenRGBDevicePage::on_ApplyColorsButton_clicked()
     /*-----------------------------------------------------*\
     | Read selected mode                                    |
     \*-----------------------------------------------------*/
-    unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
+    unsigned int selected_mode = (unsigned int)ui->ModeBox->currentIndex();
 
     switch(device->modes[selected_mode].color_mode)
     {
         case MODE_COLORS_PER_LED:
             {
-                RGBColor qrgb = ToRGBColor
-                                    (
-                                    ui->RedSpinBox->value(),
-                                    ui->GreenSpinBox->value(),
-                                    ui->BlueSpinBox->value());
+                RGBColor qrgb = ToRGBColor(
+                                    current_color.red(),
+                                    current_color.green(),
+                                    current_color.blue()
+                                );
+
                 ui->DeviceViewBox->setSelectionColor(qrgb);
             }
             break;
@@ -1314,10 +1159,10 @@ void Ui::OpenRGBDevicePage::on_ApplyColorsButton_clicked()
                 | Set all device LEDs to the current color              |
                 \*-----------------------------------------------------*/
                 RGBColor color = ToRGBColor(
-                    ui->RedSpinBox->text().toInt(),
-                    ui->GreenSpinBox->text().toInt(),
-                    ui->BlueSpinBox->text().toInt()
-                );
+                                    current_color.red(),
+                                    current_color.green(),
+                                    current_color.blue()
+                                );
 
                 device->modes[selected_mode].colors[index] = color;
 
@@ -1343,4 +1188,78 @@ void Ui::OpenRGBDevicePage::on_DeviceSaveButton_clicked()
     {
         device->SaveMode();
     }
+}
+
+void Ui::OpenRGBDevicePage::colorChanged()
+{
+    updateColorUi();
+
+    if(autoUpdateEnabled())
+    {
+        unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
+
+        /*-----------------------------------------------------------------*\
+        | OpenRGB's RGBColor is stored differently than Qt's qrgb type,     |
+        | so casting between them doesn't work                              |
+        \*-----------------------------------------------------------------*/
+        RGBColor rgb_color = ToRGBColor(current_color.red(), current_color.green(), current_color.blue());
+
+        switch(device->modes[selected_mode].color_mode)
+        {
+            case MODE_COLORS_PER_LED: 
+            {
+                ui->DeviceViewBox->setSelectionColor(rgb_color);
+                break;
+            }
+
+            case MODE_COLORS_MODE_SPECIFIC:
+            {
+                unsigned int index = ui->LEDBox->currentIndex();
+
+                device->modes[selected_mode].colors[index] = rgb_color;
+                device->UpdateMode();
+                break;
+            }
+        }
+    }
+}
+
+void Ui::OpenRGBDevicePage::updateColorUi()
+{
+    /*-----------------------------------------------------*\
+    | Update colorwheel                                     |
+    \*-----------------------------------------------------*/
+    ui->ColorWheelBox->blockSignals(true);
+    ui->ColorWheelBox->setColor(current_color);
+    ui->ColorWheelBox->blockSignals(false);
+
+    /*-----------------------------------------------------*\
+    | Update RGB spinboxes                                  |
+    \*-----------------------------------------------------*/
+    ui->RedSpinBox->blockSignals(true);
+    ui->RedSpinBox->setValue(current_color.red());
+    ui->RedSpinBox->blockSignals(false);
+
+    ui->GreenSpinBox->blockSignals(true);
+    ui->GreenSpinBox->setValue(current_color.green());
+    ui->GreenSpinBox->blockSignals(false);
+
+    ui->BlueSpinBox->blockSignals(true);
+    ui->BlueSpinBox->setValue(current_color.blue());
+    ui->BlueSpinBox->blockSignals(false);
+
+    /*-----------------------------------------------------*\
+    | Update HSV spinboxes                                  |
+    \*-----------------------------------------------------*/
+    ui->HueSpinBox->blockSignals(true);
+    ui->HueSpinBox->setValue(current_color.hue());
+    ui->HueSpinBox->blockSignals(false);
+
+    ui->SatSpinBox->blockSignals(true);
+    ui->SatSpinBox->setValue(current_color.saturation());
+    ui->SatSpinBox->blockSignals(false);
+
+    ui->ValSpinBox->blockSignals(true);
+    ui->ValSpinBox->setValue(current_color.value());
+    ui->ValSpinBox->blockSignals(false);
 }

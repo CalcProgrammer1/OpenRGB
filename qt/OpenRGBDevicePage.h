@@ -39,12 +39,12 @@ private slots:
     void on_BrightnessSlider_valueChanged(int value);
     void on_ModeBox_currentIndexChanged(int index);
     void on_SpeedSlider_valueChanged(int value);
-    void on_RedSpinBox_valueChanged(int arg1);
-    void on_HueSpinBox_valueChanged(int arg1);
-    void on_GreenSpinBox_valueChanged(int arg1);
-    void on_SatSpinBox_valueChanged(int arg1);
-    void on_BlueSpinBox_valueChanged(int arg1);
-    void on_ValSpinBox_valueChanged(int arg1);
+    void on_RedSpinBox_valueChanged(int red);
+    void on_HueSpinBox_valueChanged(int hue);
+    void on_GreenSpinBox_valueChanged(int green);
+    void on_SatSpinBox_valueChanged(int sat);
+    void on_BlueSpinBox_valueChanged(int blue);
+    void on_ValSpinBox_valueChanged(int val);
     void on_DeviceViewBox_selectionChanged(QVector<int>);
 
     void on_SetAllButton_clicked();
@@ -63,15 +63,13 @@ private:
     Ui::OpenRGBDevicePageUi *ui;
     RGBController *device;
 
-    bool UpdatingColor      = false;
     bool InvertedSpeed      = false;
     bool InvertedBrightness = false;
     bool MultipleSelected   = false;
 
-    void updateRGB();
-    void updateHSV();
-    void updateWheel();
-    void updateDeviceView();
+    QColor current_color;
+    void updateColorUi();
+    void colorChanged();
 
     bool autoUpdateEnabled();
 
