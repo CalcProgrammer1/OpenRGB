@@ -849,6 +849,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[0-3]", TAG+="ua
 SUBSYSTEMS=="usb", ATTR{idVendor}=="27b8", ATTR{idProduct}=="01ed", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+# Trust Controllers                                             #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="145f", ATTR{idProduct}=="026d", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  Wooting Devices                                              #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="ff01", TAG+="uaccess", TAG+="WootingOne"

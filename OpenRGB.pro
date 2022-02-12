@@ -485,6 +485,8 @@ HEADERS +=                                                                      
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiing.h                     \
     Controllers/ThingMController/BlinkController.h                                              \
     Controllers/ThingMController/RGBController_BlinkController.h                                \
+    Controllers/TrustGXT114Controller/RGBController_TrustGXT114.h                               \
+    Controllers/TrustGXT114Controller/TrustGXT114Controller.h                                   \
     Controllers/WootingKeyboardController/WootingKeyboardController.h                           \
     Controllers/WootingKeyboardController/WootingOneKeyboardController.h                        \
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
@@ -926,6 +928,9 @@ SOURCES +=                                                                      
     Controllers/ThingMController/ThingMControllerDetect.cpp                                     \
     Controllers/ThingMController/BlinkController.cpp                                            \
     Controllers/ThingMController/RGBController_BlinkController.cpp                              \
+    Controllers/TrustGXT114Controller/TrustGXT114Controller.cpp                                 \
+    Controllers/TrustGXT114Controller/TrustGXT114ControllerDetect.cpp                           \
+    Controllers/TrustGXT114Controller/RGBController_TrustGXT114.cpp                             \
     Controllers/WootingKeyboardController/WootingKeyboardController.cpp                         \
     Controllers/WootingKeyboardController/WootingKeyboardControllerDetect.cpp                   \
     Controllers/WootingKeyboardController/WootingOneKeyboardController.cpp                      \
