@@ -870,3 +870,6 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1c57", ATTR{idProduct}=="7ed0", TAG+="uacces
 #  ZET Devices                                                  #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="2ea8", ATTR{idProduct}=="2125", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="25a7", ATTR{idProduct}=="fa3f", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="25a7", ATTR{idProduct}=="fa40", TAG+="uaccess"
+

@@ -496,6 +496,8 @@ HEADERS +=                                                                      
     Controllers/YeelightController/RGBController_Yeelight.h                                     \
     Controllers/ZalmanZSyncController/ZalmanZSyncController.h                                   \
     Controllers/ZalmanZSyncController/RGBController_ZalmanZSync.h                               \
+    Controllers/ZETEdgeAirProController/ZETEdgeAirProController.h                               \
+    Controllers/ZETEdgeAirProController/RGBController_ZETEdgeAirPro.h                           \
     Controllers/ZETKeyboardController/ZETBladeOpticalController.h                               \
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
     RGBController/RGBController.h                                                               \
@@ -943,6 +945,9 @@ SOURCES +=                                                                      
     Controllers/ZalmanZSyncController/ZalmanZSyncController.cpp                                 \
     Controllers/ZalmanZSyncController/ZalmanZSyncControllerDetect.cpp                           \
     Controllers/ZalmanZSyncController/RGBController_ZalmanZSync.cpp                             \
+    Controllers/ZETEdgeAirProController/ZETEdgeAirProController.cpp                             \
+    Controllers/ZETEdgeAirProController/ZETEdgeAirProControllerDetect.cpp                       \
+    Controllers/ZETEdgeAirProController/RGBController_ZETEdgeAirPro.cpp                         \
     Controllers/ZETKeyboardController/ZETBladeOpticalController.cpp                             \
     Controllers/ZETKeyboardController/ZETKeyboardControllerDetect.cpp                           \
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.cpp                         \
