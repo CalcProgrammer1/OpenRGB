@@ -20,18 +20,14 @@ void DetectZalmanZSyncControllers(hid_device_info* info, const std::string& name
 {
     hid_device* dev = hid_open_path(info->path);
 
-    if( dev )
+    if(dev)
     {
-        ZalmanZSyncController* controller = new ZalmanZSyncController(dev, info->path);
+        ZalmanZSyncController*     controller     = new ZalmanZSyncController(dev, info->path);
         RGBController_ZalmanZSync* rgb_controller = new RGBController_ZalmanZSync(controller);
-        rgb_controller->name = name;
+        rgb_controller->name                      = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectZalmanZSyncControllers() */
 
-/*-----------------------------------------------------------------*\
-| Disable due to bricking.  Bricking may not be caused by OpenRGB   |
-| as reports of bricking in the official software are common.  Seems|
-| to be a bug in the firmware, but I want to investigate further    |
-\*-----------------------------------------------------------------*/
-//REGISTER_HID_DETECTOR("Zalman Z Sync", DetectZalmanZSyncControllers, ZALMAN_VID, ZALMAN_Z_SYNC_PID);
+REGISTER_HID_DETECTOR("Zalman Z Sync", DetectZalmanZSyncControllers, ZALMAN_VID, ZALMAN_Z_SYNC_PID);

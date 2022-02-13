@@ -67,7 +67,7 @@ enum
     ZALMAN_Z_SYNC_CHANNEL_6                          = 0x05,     /* Channel 6                            */
     ZALMAN_Z_SYNC_CHANNEL_7                          = 0x06,     /* Channel 7                            */
     ZALMAN_Z_SYNC_CHANNEL_8                          = 0x07,     /* Channel 8                            */
-    ZALMAN_Z_SYNC_NUM_CHANNELS                       = 0x04,     /* Number of channels                   */
+    ZALMAN_Z_SYNC_NUM_CHANNELS                       = 0x08,     /* Number of channels                   */
 };
 
 enum

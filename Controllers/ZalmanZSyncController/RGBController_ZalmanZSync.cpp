@@ -209,7 +209,7 @@ void RGBController_ZalmanZSync::SetupZones()
         | can support is 200.                               |
         \*-------------------------------------------------*/
         zones[channel_idx].leds_min   = 0;
-        zones[channel_idx].leds_max   = 204;
+        zones[channel_idx].leds_max   = 40;
 
         if(first_run)
         {
@@ -254,7 +254,10 @@ void RGBController_ZalmanZSync::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        if(zones[zone_idx].leds_count > 0)
+        {
+            controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        }
     }
 }
 

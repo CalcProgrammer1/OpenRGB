@@ -53,7 +53,7 @@ void ZalmanZSyncController::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {
-        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(5))
+        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(1))
         {
             SendCommit();
         }
@@ -228,7 +228,14 @@ void ZalmanZSyncController::SendFirmwareRequest()
 
     if(actual > 0)
     {
-        firmware_version = std::to_string(usb_buf[0x01]) + "." + std::to_string(usb_buf[0x02]) + "." + std::to_string(usb_buf[0x03]);
+        if(usb_buf[0x03] < 112)
+        {
+            firmware_version = "0.7.1";
+        }
+        else
+        {
+            firmware_version = std::to_string(usb_buf[0x02]) + "." + std::to_string(usb_buf[0x03] >> 4) + "." + std::to_string(usb_buf[0x03] & 0x0F);
+        }
     }
 }
 
