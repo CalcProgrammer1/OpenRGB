@@ -507,8 +507,8 @@ HEADERS +=                                                                      
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
-    RGBController/RGBController_Network.h                                                       \
     RGBController/RGBControllerKeyNames.h                                                       \
+    RGBController/RGBController_Network.h                                                       \
 
 SOURCES +=                                                                                      \
     dependencies/Swatches/swatches.cpp                                                          \
@@ -964,6 +964,7 @@ SOURCES +=                                                                      
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.cpp                         \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
+    RGBController/RGBControllerKeyNames.cpp                                                     \
     RGBController/RGBController_Network.cpp                                                     \
 
 RESOURCES +=                                                                                    \
