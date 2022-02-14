@@ -1,9 +1,11 @@
 #include "Detector.h"
 #include "SinowealthController.h"
+#include "SinowealthController1007.h"
 #include "SinowealthKeyboardController.h"
 #include "SinowealthKeyboard16Controller.h"
 #include "RGBController.h"
 #include "RGBController_Sinowealth.h"
+#include "RGBController_Sinowealth1007.h"
 #include "RGBController_SinowealthKeyboard.h"
 #include "RGBController_SinowealthKeyboard16.h"
 #include <hidapi/hidapi.h>
@@ -14,6 +16,7 @@
 #define Glorious_Model_O_PID 0x0036
 #define Glorious_Model_D_PID 0x0033
 #define Everest_GT100_PID    0x0029
+#define ZET_FURY_PRO_PID     0x1007
 #define Fl_Esports_F11_PID   0x0049
 #define RGB_KEYBOARD_0016PID 0x0016
 
@@ -212,27 +215,52 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
     | The 4 on 0xFF00 is for RGB, 7 is Unknown and 5 (or 8, or whatever...) is for Commands.            |
     \*-------------------------------------------------------------------------------------------------*/
     expected_reports* reports = new expected_reports();
+    RGBController *rgb_controller;
 
-    unsigned char command[6] = {0x05, 0x11, 0x00, 0x00, 0x00, 0x00};
-    reports->emplace_back(new expected_report(0x04, 520, command, sizeof(command)));
-
-    if (DetectUsages(info, name, 3, *reports))
+    if (pid == ZET_FURY_PRO_PID)
     {
-        SinowealthController* controller         = new SinowealthController(reports->at(0)->device, reports->at(0)->cmd_device, info->path);
-        RGBController_Sinowealth* rgb_controller = new RGBController_Sinowealth(controller);
-        rgb_controller->name = name;
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        reports->emplace_back(new expected_report(0x04, 59));
+
+        if (!DetectUsages(info, name, 5, *reports)) return;
+
+        SinowealthController1007* controller = new SinowealthController1007(reports->at(0)->device, info->path);
+        rgb_controller = new RGBController_Sinowealth1007(controller);
     }
+    else
+    {
+        unsigned char command[6] = {0x05, 0x11, 0x00, 0x00, 0x00, 0x00};
+        reports->emplace_back(new expected_report(0x04, 520, command, sizeof(command)));
+
+        if (!DetectUsages(info, name, 3, *reports)) return;
+
+        SinowealthController* controller = new SinowealthController(reports->at(0)->device, reports->at(0)->cmd_device, info->path);
+        rgb_controller = new RGBController_Sinowealth(controller);
+    }
+
+    rgb_controller->name = name;
+    ResourceManager::get()->RegisterRGBController(rgb_controller);
 
     reports->clear();
 #else
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        SinowealthController* controller         = new SinowealthController(dev, dev, info->path);
-        RGBController_Sinowealth* rgb_controller = new RGBController_Sinowealth(controller);
-        rgb_controller->name = name;
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        RGBController *rgb_controller;
+
+        if (pid == ZET_FURY_PRO_PID)
+        {
+            SinowealthController1007* controller = new SinowealthController1007(dev, info->path);
+            rgb_controller                       = new RGBController_Sinowealth1007(controller);
+            rgb_controller->name = name;
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else
+        {
+            SinowealthController* controller = new SinowealthController(dev, dev, info->path);
+            rgb_controller                   = new RGBController_Sinowealth(controller);
+            rgb_controller->name = name;
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
     }
 #endif
 }
@@ -294,12 +322,14 @@ void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
 REGISTER_HID_DETECTOR_P("Glorious Model O / O-", DetectSinowealthMouse,    SINOWEALTH_VID, Glorious_Model_O_PID,   0xFF00);
 REGISTER_HID_DETECTOR_P("Glorious Model D / D-", DetectSinowealthMouse,    SINOWEALTH_VID, Glorious_Model_D_PID,   0xFF00);
 REGISTER_HID_DETECTOR_P("Everest GT-100 RGB",    DetectSinowealthMouse,    SINOWEALTH_VID, Everest_GT100_PID,      0xFF00);
+REGISTER_HID_DETECTOR_IPU("ZET Fury Pro",        DetectSinowealthMouse,    SINOWEALTH_VID, ZET_FURY_PRO_PID,       1, 0xFF00, 1);
 REGISTER_HID_DETECTOR_P("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,     0xFF00);
 REGISTER_HID_DETECTOR_P("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID,   0xFF00);
 #else
 REGISTER_HID_DETECTOR_I("Glorious Model O / O-", DetectSinowealthMouse,    SINOWEALTH_VID, Glorious_Model_O_PID, 1);
 REGISTER_HID_DETECTOR_I("Glorious Model D / D-", DetectSinowealthMouse,    SINOWEALTH_VID, Glorious_Model_D_PID, 1);
 REGISTER_HID_DETECTOR_I("Everest GT-100 RGB",    DetectSinowealthMouse,    SINOWEALTH_VID, Everest_GT100_PID,    1);
+REGISTER_HID_DETECTOR_I("ZET Fury Pro",          DetectSinowealthMouse,    SINOWEALTH_VID, ZET_FURY_PRO_PID,     1);
 REGISTER_HID_DETECTOR_I("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,   1);
 REGISTER_HID_DETECTOR_I("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID, 1);
 #endif

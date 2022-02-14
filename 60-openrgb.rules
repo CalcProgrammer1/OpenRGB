@@ -732,10 +732,12 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="5702", TAG+="uacces
 #  Glorious Model O / O-                                        #
 #  Glorious Model D / D-                                        #
 #  Everest GT-100 RGB                                           #
+#  ZET Fury Pro                                                 #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="0036", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="0033", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="0029", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="1007", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Sony Devices                                                 #
