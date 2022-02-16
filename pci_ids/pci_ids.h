@@ -70,6 +70,7 @@
 #define NVIDIA_RTX2080TI_DEV                            0x1E04
 #define NVIDIA_RTX2080TI_A_DEV                          0x1E07
 #define NVIDIA_RTX3060_DEV                              0x2503
+#define NVIDIA_RTX3060_GA104_DEV                        0x2487
 #define NVIDIA_RTX3060_LHR_DEV                          0x2504
 #define NVIDIA_RTX3060TI_DEV                            0x2486
 #define NVIDIA_RTX3060TI_LHR_DEV                        0x2489
