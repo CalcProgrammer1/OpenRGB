@@ -118,7 +118,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
           - Install Homebrew by following the instructions at https://brew.sh/
           - brew install git qt5 hidapi libusb mbedtls@2
           - brew link qt5
-      2.  Create a local certificate called OpenRGB with code signing capability
+      2.  [Create a local certificate](https://support.apple.com/guide/keychain-access/create-self-signed-certificates-kyca8916/mac) called OpenRGB with code signing capability
       3.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
       4.  cd OpenRGB
       5.  qmake OpenRGB.pro
