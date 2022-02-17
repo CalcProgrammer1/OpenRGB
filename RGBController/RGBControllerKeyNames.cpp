@@ -48,7 +48,7 @@ const char* KEY_EN_INSERT            = "Key: Insert";
 const char* KEY_EN_HOME              = "Key: Home";
 const char* KEY_EN_PAGE_UP           = "Key: Page Up";
 
-const char* KEY_EN_TAB               = "Key: TAB";
+const char* KEY_EN_TAB               = "Key: Tab";
 const char* KEY_EN_Q                 = "Key: Q";
 const char* KEY_EN_W                 = "Key: W";
 const char* KEY_EN_E                 = "Key: E";
