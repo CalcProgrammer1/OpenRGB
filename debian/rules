@@ -1,6 +1,5 @@
 #!/usr/bin/make -f
 export QT_SELECT := qt5
-export DEB_BUILD_MAINT_OPTIONS=optimize=-lto
 
 %:
 	dh $@ --parallel
