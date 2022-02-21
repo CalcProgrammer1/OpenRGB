@@ -507,6 +507,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="3fa4", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1770", ATTR{idProduct}=="ff00", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+# Nvidia ESA Devices                                            #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0955", ATTR{idProduct}=="000a", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  NZXT Hue+                                                    #
 #---------------------------------------------------------------#
 KERNEL=="ttyACM[0-9]*", ATTR{idVendor}=="04d8", ATTR{idProduct}=="00df", TAG+="uaccess"
