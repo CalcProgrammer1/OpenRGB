@@ -16,6 +16,12 @@
 #include <QDebug>
 #include <QMouseEvent>
 
+#define MAX_COLS    20
+#define PAD_LED     0.1
+#define PAD_TEXT    0.1
+#define PAD_ZONE    1.0
+#define SIZE_TEXT   0.5
+
 DeviceView::DeviceView(QWidget *parent) :
     QWidget(parent),
     initSize(128,128),
@@ -178,25 +184,35 @@ void DeviceView::setController(RGBController * controller_ptr)
     | Process position and size for zones                   |
     \*-----------------------------------------------------*/
     unsigned int maxWidth       = 0;
-    unsigned int maxCols        = 20;
     float        totalHeight    = 0;
-    float        zonePadding    = 1;    // Amount of space between zones
-    float        ledPadding     = 0.1;
 
+    /*-----------------------------------------------------*\
+    | Determine the total height (in LEDs) of all zones     |
+    \*-----------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
     {
+        /*-----------------------------------------------------*\
+        | For matrix zones, use matrix height from the map      |
+        \*-----------------------------------------------------*/
         if((controller->zones[zone_idx].type == ZONE_TYPE_MATRIX) && (controller->zones[zone_idx].matrix_map))
         {
-            totalHeight += controller->zones[zone_idx].matrix_map->height;
+            totalHeight                += controller->zones[zone_idx].matrix_map->height;
             zone_pos[zone_idx].matrix_w = controller->zones[zone_idx].matrix_map->width;
         }
+        /*-----------------------------------------------------*\
+        | For all other zones, compute the height including     |
+        | wrap-around                                           |
+        \*-----------------------------------------------------*/
         else
         {
-            unsigned int count = controller->zones[zone_idx].leds_count;
-            zone_pos[zone_idx].matrix_w = std::min(count, maxCols);
-            totalHeight += count / maxCols + !!(count % maxCols); // Equivalent to ceil(float(count) / maxCols);
+            unsigned int count          = controller->zones[zone_idx].leds_count;
+            zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
+            totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
         }
 
+        /*-----------------------------------------------------*\
+        | Determine the maximum width (in LEDs) in the view     |
+        \*-----------------------------------------------------*/
         if(zone_pos[zone_idx].matrix_w > maxWidth)
         {
             maxWidth = zone_pos[zone_idx].matrix_w;
@@ -206,22 +222,23 @@ void DeviceView::setController(RGBController * controller_ptr)
     /*-----------------------------------------------------*\
     | Add some space for zone names and padding             |
     \*-----------------------------------------------------*/
-    totalHeight += controller->zones.size() * zonePadding;
+    totalHeight    += controller->zones.size() * PAD_ZONE;
 
-    float atom      = 1.0 / maxWidth;       // Atom is the width of a single square; if the whole thing becomes too tall, we ignore it and let the view widget take care of it
-    float current_y = 0;                    // We will be descending, placing each zone one atom below the previous one
-    matrix_h        = totalHeight * atom;
+    float current_y = 0;                    // We will be descending, placing each zone one unit below the previous one
+    matrix_h        = totalHeight;
 
     for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
     {
-        zone_pos[zone_idx].matrix_x = (1.0 - (zone_pos[zone_idx].matrix_w * atom)) / 2;
-        zone_pos[zone_idx].matrix_y = current_y + 0.5 * atom;
-        zone_pos[zone_idx].matrix_w *= atom;
-        zone_pos[zone_idx].matrix_h = 0.4 * atom;
-        current_y                  += zonePadding * atom;
+        /*-----------------------------------------------------*\
+        | Calculate zone label position and size                |
+        \*-----------------------------------------------------*/
+        zone_pos[zone_idx].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0;
+        zone_pos[zone_idx].matrix_y = current_y + SIZE_TEXT;
+        zone_pos[zone_idx].matrix_h = SIZE_TEXT - PAD_TEXT;
+        current_y                  += PAD_ZONE;
 
         /*-----------------------------------------------------*\
-        | Now process the position and size for the LEDs        |
+        | Calculate LEDs position and size for zone             |
         \*-----------------------------------------------------*/
         if((controller->zones[zone_idx].type == ZONE_TYPE_MATRIX) && (controller->zones[zone_idx].matrix_map))
         {
@@ -236,10 +253,14 @@ void DeviceView::setController(RGBController * controller_ptr)
 
                     if(map->map[map_idx] != 0xFFFFFFFF && color_idx < led_pos.size())
                     {
-                        led_pos[color_idx].matrix_x = (zone_pos[zone_idx].matrix_x + led_x + ledPadding) * atom;
-                        led_pos[color_idx].matrix_y = current_y + (led_y + ledPadding) * atom;
-                        led_pos[color_idx].matrix_w = (1 - (2 * ledPadding)) * atom;
-                        led_pos[color_idx].matrix_h = (1 - (2 * ledPadding)) * atom;
+                        led_pos[color_idx].matrix_x = (zone_pos[zone_idx].matrix_x + led_x + PAD_LED);
+                        led_pos[color_idx].matrix_y = current_y + (led_y + PAD_LED);
+
+                        /*-----------------------------------------------------*\
+                        | LED is a 1x1 square, minus padding on all sides       |
+                        \*-----------------------------------------------------*/
+                        led_pos[color_idx].matrix_w = (1 - (2 * PAD_LED));
+                        led_pos[color_idx].matrix_h = (1 - (2 * PAD_LED));
 
                         /*-----------------------------------------------------*\
                         | Expand large keys to fill empty spaces in matrix, if  |
@@ -268,7 +289,7 @@ void DeviceView::setController(RGBController * controller_ptr)
                              || ( controller->leds[color_idx].name == KEY_EN_BACKSPACE  )
                              || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_0   ) )
                             {
-                                led_pos[color_idx].matrix_w += atom;
+                                led_pos[color_idx].matrix_w += 1;
                             }
                         }
                         if( ( controller->leds[color_idx].name == KEY_EN_NUMPAD_ENTER   )
@@ -276,44 +297,55 @@ void DeviceView::setController(RGBController * controller_ptr)
                         {
                             if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
                             {
-                                led_pos[color_idx].matrix_h += atom;
+                                led_pos[color_idx].matrix_h += 1;
                             }
                             /* TODO: check if there isn't another widened key above */
                             else if(led_y > 0 && map->map[map_idx - map->width] == 0xFFFFFFFF)
                             {
-                                led_pos[color_idx].matrix_y -= atom;
-                                led_pos[color_idx].matrix_h += atom;
+                                led_pos[color_idx].matrix_y -= 1;
+                                led_pos[color_idx].matrix_h += 1;
                             }
                         }
                         else if(controller->leds[color_idx].name == KEY_EN_SPACE)
                         {
                             for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
                             {
-                                led_pos[color_idx].matrix_x -= atom;
-                                led_pos[color_idx].matrix_w += atom;
+                                led_pos[color_idx].matrix_x -= 1;
+                                led_pos[color_idx].matrix_w += 1;
                             }
                             for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; ++map_idx2)
                             {
-                                led_pos[color_idx].matrix_w += atom;
+                                led_pos[color_idx].matrix_w += 1;
                             }
                         }
                     }
                 }
             }
 
-            current_y += map->height * atom;
+            current_y += map->height;
         }
         else
         {
-            for(unsigned int i = 0; (i + controller->zones[zone_idx].start_idx) < led_pos.size(); i++)
+            /*-----------------------------------------------------*\
+            | Calculate LED box positions for single/linear zones   |
+            \*-----------------------------------------------------*/
+            unsigned int leds_count = controller->zones[zone_idx].leds_count;
+            
+            for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
             {
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_x = zone_pos[zone_idx].matrix_x + (i % maxCols + ledPadding) * atom;
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_y = current_y + (i / maxCols + ledPadding) * atom;
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_w = (1 - (2 * ledPadding)) * atom;
-                led_pos[i + controller->zones[zone_idx].start_idx].matrix_h = (1 - (2 * ledPadding)) * atom;
+                unsigned int led_pos_idx = controller->zones[zone_idx].start_idx + led_idx;
+
+                led_pos[led_pos_idx].matrix_x = zone_pos[zone_idx].matrix_x + ((led_idx % MAX_COLS) + PAD_LED);
+                led_pos[led_pos_idx].matrix_y = current_y + ((led_idx / MAX_COLS) + PAD_LED);
+
+                /*-----------------------------------------------------*\
+                | LED is a 1x1 square, minus padding on all sides       |
+                \*-----------------------------------------------------*/
+                led_pos[led_pos_idx].matrix_w = (1 - (2 * PAD_LED));
+                led_pos[led_pos_idx].matrix_h = (1 - (2 * PAD_LED));
             }
 
-            current_y += (controller->zones[zone_idx].leds_count / maxCols + !!(controller->zones[zone_idx].leds_count % maxCols)) * atom;
+            current_y += (leds_count / MAX_COLS) + ((leds_count % MAX_COLS) > 0);
         }
     }
 
@@ -333,6 +365,33 @@ void DeviceView::setController(RGBController * controller_ptr)
             led_labels[led_idx] = QString::number(led_idx);
         }
     }
+
+    /*-----------------------------------------------------*\
+    | Scale the zones and LEDs                              |
+    |                                                       |
+    | Atom is the width of a single square; if the whole    |
+    | thing becomes too tall, we ignore it and let the view |
+    | widget take care of it                                |
+    \*-----------------------------------------------------*/
+    float atom = 1.0 / maxWidth;
+
+    for(std::size_t zone_idx = 0; zone_idx < zone_pos.size(); zone_idx++)
+    {
+        zone_pos[zone_idx].matrix_x *= atom;
+        zone_pos[zone_idx].matrix_y *= atom;
+        zone_pos[zone_idx].matrix_w *= atom;
+        zone_pos[zone_idx].matrix_h *= atom;
+    }
+
+    for(std::size_t led_idx = 0; led_idx < led_pos.size(); led_idx++)
+    {
+        led_pos[led_idx].matrix_x *= atom;
+        led_pos[led_idx].matrix_y *= atom;
+        led_pos[led_idx].matrix_w *= atom;
+        led_pos[led_idx].matrix_h *= atom;
+    }
+
+    matrix_h *= atom;
 
     /*-----------------------------------------------------*\
     | Update cached size and offset                         |
