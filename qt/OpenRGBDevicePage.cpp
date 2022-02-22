@@ -1085,12 +1085,14 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
 
                     segment new_segment;
                     new_segment.name = "Segment 1";
+                    new_segment.type = ZONE_TYPE_LINEAR;
                     new_segment.start_idx = 0;
                     new_segment.leds_count = 5;
 
                     device->zones[selected_zone].segments.push_back(new_segment);
 
                     new_segment.name = "Segment 2";
+                    new_segment.type = ZONE_TYPE_LINEAR;
                     new_segment.start_idx = 5;
                     new_segment.leds_count = device->zones[selected_zone].leds_count - 5;
 
