@@ -136,6 +136,17 @@ typedef struct
 } matrix_map_type;
 
 /*------------------------------------------------------------------*\
+| Segment Struct                                                     |
+\*------------------------------------------------------------------*/
+typedef struct
+{
+    std::string             name;           /* Segment name             */
+    zone_type               type;           /* Segment type             */
+    unsigned int            start_idx;      /* Start index within zone  */
+    unsigned int            leds_count;     /* Number of LEDs in segment*/
+} segment;
+
+/*------------------------------------------------------------------*\
 | Zone Struct                                                        |
 \*------------------------------------------------------------------*/
 typedef struct
@@ -149,6 +160,7 @@ typedef struct
     unsigned int            leds_min;       /* Minimum number of LEDs   */
     unsigned int            leds_max;       /* Maximum number of LEDs   */
     matrix_map_type *       matrix_map;     /* Matrix map pointer       */
+	std::vector<segment>    segments;       /* Segments in zone         */
 } zone;
 
 /*------------------------------------------------------------------*\
