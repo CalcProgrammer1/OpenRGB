@@ -17,10 +17,11 @@
 #include <string.h>
 #include <cmath>
 
-AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path)
+AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid)
 {
     dev         = dev_handle;
     location    = path;
+    device_pid  = pid;
 }
 
 AuraTUFKeyboardController::~AuraTUFKeyboardController()
@@ -63,7 +64,15 @@ std::string AuraTUFKeyboardController::GetVersion()
     hid_read(dev, usb_buf_out, 65);
 
     char version[9];
-    snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[5], usb_buf_out[6], usb_buf_out[7]);
+    if (device_pid == AURA_TUF_K3_GAMING_PID)
+    {
+        snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[6], usb_buf_out[5], usb_buf_out[4]);
+    }
+    else
+    {
+        snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[5], usb_buf_out[6], usb_buf_out[7]);
+    }
+    
     return std::string(version);
 }
 

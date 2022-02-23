@@ -39,10 +39,17 @@ enum
     AURA_KEYBOARD_MODE_DIRECT       = 15,
 };
 
+enum
+{
+    AURA_TUF_K7_GAMING_PID          = 0x18AA,
+    AURA_TUF_K3_GAMING_PID          = 0x194B,
+};
+
+
 class AuraTUFKeyboardController
 {
 public:
-    AuraTUFKeyboardController(hid_device* dev_handle, const char* path);
+    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid);
     ~AuraTUFKeyboardController();
 
     std::string GetDeviceLocation();
@@ -75,6 +82,8 @@ public:
         );
     void AwaitResponse();
     void ClearResponses();
+
+    uint16_t                    device_pid;
 
 private:
     hid_device*                 dev;

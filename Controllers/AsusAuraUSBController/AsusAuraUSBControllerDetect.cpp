@@ -44,6 +44,7 @@
 #define AURA_ROG_STRIX_SCOPE_RX_PID             0x1951
 #define AURA_ROG_STRIX_SCOPE_TKL_PID            0x190C
 #define AURA_TUF_K7_GAMING_PID                  0x18AA
+#define AURA_TUF_K3_GAMING_PID                  0x194B
 
 /*-----------------------------------------------------------------*\
 |  MICE - defined in AsusAuraMouseDevices.h                         |
@@ -225,7 +226,7 @@ void DetectAsusAuraTUFUSBKeyboard(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        AuraTUFKeyboardController*     controller           = new AuraTUFKeyboardController(dev, info->path);
+        AuraTUFKeyboardController*     controller           = new AuraTUFKeyboardController(dev, info->path, info->product_id);
         RGBController_AuraTUFKeyboard* rgb_controller       = new RGBController_AuraTUFKeyboard(controller);
         rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -253,7 +254,8 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",        DetectAsusAuraUS
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",             DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,              1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",            DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,             1,  0xFF00);
-REGISTER_HID_DETECTOR_I ("ASUS TUF Gaming K7",                  DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                   1);
+REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K7",                  DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                   1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K3",                  DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K3_GAMING_PID,                   1,  0xFF00);
 
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
