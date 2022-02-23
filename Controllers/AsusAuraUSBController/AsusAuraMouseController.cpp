@@ -171,5 +171,5 @@ void AuraMouseController::SendUpdate
     hid_write(dev, usb_buf, ASUS_AURA_MOUSE_PACKET_SIZE);
 
     unsigned char usb_buf_out[ASUS_AURA_MOUSE_PACKET_SIZE];
-    hid_read(dev, usb_buf_out, ASUS_AURA_MOUSE_PACKET_SIZE);
+    hid_read_timeout(dev, usb_buf_out, ASUS_AURA_MOUSE_PACKET_SIZE, 10);
 }
