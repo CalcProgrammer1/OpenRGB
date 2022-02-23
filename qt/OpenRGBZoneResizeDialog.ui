@@ -52,7 +52,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTreeView" name="treeView">
+  <widget class="QTreeWidget" name="SegmentsTreeWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -61,8 +61,13 @@
      <height>101</height>
     </rect>
    </property>
+   <column>
+    <property name="text">
+     <string notr="true">1</string>
+    </property>
+   </column>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="AddSegmentButton">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -75,7 +80,7 @@
     <string>Add Segment</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="RemoveSegmentButton">
    <property name="geometry">
     <rect>
      <x>206</x>

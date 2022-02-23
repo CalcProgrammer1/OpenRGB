@@ -1073,31 +1073,12 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
 
             if(device->zones[selected_zone].type == ZONE_TYPE_LINEAR)
             {
-                OpenRGBZoneResizeDialog dlg(device->zones[selected_zone].leds_min,
-                                            device->zones[selected_zone].leds_max,
-                                            device->zones[selected_zone].leds_count);
+                OpenRGBZoneResizeDialog dlg(device, selected_zone);
 
                 int new_size = dlg.show();
 
                 if(new_size >= 0)
                 {
-                    device->ResizeZone(selected_zone, new_size);
-
-                    segment new_segment;
-                    new_segment.name = "Segment 1";
-                    new_segment.type = ZONE_TYPE_LINEAR;
-                    new_segment.start_idx = 0;
-                    new_segment.leds_count = 5;
-
-                    device->zones[selected_zone].segments.push_back(new_segment);
-
-                    new_segment.name = "Segment 2";
-                    new_segment.type = ZONE_TYPE_LINEAR;
-                    new_segment.start_idx = 5;
-                    new_segment.leds_count = device->zones[selected_zone].leds_count - 5;
-
-                    device->zones[selected_zone].segments.push_back(new_segment);
-                    
                     /*-----------------------------------------------------*\
                     | Update LED box                                        |
                     \*-----------------------------------------------------*/
@@ -1116,7 +1097,7 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
             }
         }
         break;
-
+#if 0
     case MODE_COLORS_MODE_SPECIFIC:
         {
             OpenRGBZoneResizeDialog dlg(device->modes[device->active_mode].colors_min,
@@ -1134,6 +1115,7 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
             UpdateMode();
         }
         break;
+#endif
     }
 }
 
