@@ -256,6 +256,11 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                          &&(temp_controller->zones[zone_idx].leds_count != load_controller->zones[zone_idx].leds_count))
                         {
                             load_controller->ResizeZone(zone_idx, temp_controller->zones[zone_idx].leds_count);
+
+                            for(std::size_t segment_idx = 0; segment_idx < temp_controller->zones[zone_idx].segments.size(); segment_idx++)
+                            {
+                                load_controller->zones[zone_idx].segments.push_back(temp_controller->zones[zone_idx].segments[segment_idx]);
+                            }
                         }
                     }
                 }
