@@ -109,6 +109,8 @@ public:
     void            UpdateStatus();
     
     unsigned int    channel_leds[HUE_2_NUM_CHANNELS];
+    unsigned int    channel_dev_ids[HUE_2_NUM_CHANNELS][6];
+    unsigned int    channel_dev_szs[HUE_2_NUM_CHANNELS][6];
 
 private:
     hid_device*     dev;
