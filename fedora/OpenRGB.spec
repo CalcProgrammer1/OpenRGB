@@ -22,7 +22,7 @@ cp %{_sourcedir}/%{_name}/* %{_builddir} -r
 
 %build
 cd %{_builddir}
-/usr/lib64/qt5/bin/qmake PREFIX=%{_prefix}
+%qmake_qt5 PREFIX=%{_prefix}
 %make_build
 
 %install
