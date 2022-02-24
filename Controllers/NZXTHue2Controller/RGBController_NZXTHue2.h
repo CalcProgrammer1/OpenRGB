@@ -13,7 +13,7 @@
 class RGBController_NZXTHue2 : public RGBController
 {
 public:
-    RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr);
+    RGBController_NZXTHue2(NZXTHue2Controller* controller_ptr);
     ~RGBController_NZXTHue2();
 
     void        SetupZones();
@@ -28,7 +28,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    NZXTHue2Controller*         hue2;
+    NZXTHue2Controller*         controller;
     std::vector<unsigned int>   leds_channel;
     std::vector<unsigned int>   zones_channel;
 };

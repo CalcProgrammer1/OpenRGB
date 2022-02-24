@@ -15,7 +15,7 @@
 class RGBController_NZXTKraken : public RGBController
 {
 public:
-    RGBController_NZXTKraken(NZXTKrakenController* nzxtkraken_ptr);
+    RGBController_NZXTKraken(NZXTKrakenController* controller_ptr);
     ~RGBController_NZXTKraken();
 
     void        SetupZones();
@@ -43,7 +43,7 @@ private:
         const mode& channel_mode
         );
 
-    NZXTKrakenController*       nzxtkraken;
+    NZXTKrakenController*       controller;
     std::set<unsigned int>      logo_modes;
     int                         default_mode;
 };

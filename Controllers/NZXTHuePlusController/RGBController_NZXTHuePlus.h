@@ -14,7 +14,7 @@
 class RGBController_HuePlus : public RGBController
 {
 public:
-    RGBController_HuePlus(HuePlusController* hueplus_ptr);
+    RGBController_HuePlus(HuePlusController* controller_ptr);
     ~RGBController_HuePlus();
 
     void        SetupZones();
@@ -29,7 +29,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    HuePlusController*          hueplus;
+    HuePlusController*          controller;
     std::vector<unsigned int>   leds_channel;
     std::vector<unsigned int>   zones_channel;
 };

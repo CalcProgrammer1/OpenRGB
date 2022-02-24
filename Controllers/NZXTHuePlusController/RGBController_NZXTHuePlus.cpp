@@ -9,15 +9,15 @@
 #include "RGBController_NZXTHuePlus.h"
 
 
-RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
+RGBController_HuePlus::RGBController_HuePlus(HuePlusController* controller_ptr)
 {
-    hueplus = hueplus_ptr;
+    controller  = controller_ptr;
 
     name        = "NZXT Hue+";
     vendor      = "NZXT";
     type        = DEVICE_TYPE_LEDSTRIP;
     description = "NZXT Hue+ Device";
-    location    = hueplus->GetLocation();
+    location    = controller->GetLocation();
     
     mode Direct;
     Direct.name       = "Direct";
@@ -163,7 +163,7 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* hueplus_ptr)
 
 RGBController_HuePlus::~RGBController_HuePlus()
 {
-    delete hueplus;
+    delete controller;
 }
 
 void RGBController_HuePlus::SetupZones()
@@ -243,20 +243,20 @@ void RGBController_HuePlus::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        hueplus->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
 void RGBController_HuePlus::UpdateZoneLEDs(int zone)
 {
-    hueplus->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_HuePlus::UpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 
-    hueplus->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+    controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
 }
 
 void RGBController_HuePlus::SetCustomMode()
@@ -287,7 +287,7 @@ void RGBController_HuePlus::DeviceUpdateMode()
                 colors = &modes[active_mode].colors[0];
             }
 
-            hueplus->SetChannelEffect
+            controller->SetChannelEffect
                     (
                     zone_idx,
                     modes[active_mode].value,

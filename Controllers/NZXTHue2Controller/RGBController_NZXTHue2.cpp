@@ -9,17 +9,17 @@
 #include "RGBController_NZXTHue2.h"
 
 
-RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr)
+RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_ptr)
 {
-    hue2 = hue2_ptr;
+    controller = controller_ptr;
 
     name        = "NZXT Hue 2";
     vendor      = "NZXT";
     type        = DEVICE_TYPE_LEDSTRIP;
     description = "NZXT Hue 2 Device";
-    version     = hue2->GetFirmwareVersion();
-    location    = hue2->GetLocation();
-    serial      = hue2->GetSerialString();
+    version     = controller->GetFirmwareVersion();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name              = "Direct";
@@ -194,7 +194,7 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* hue2_ptr)
 
 RGBController_NZXTHue2::~RGBController_NZXTHue2()
 {
-    delete hue2;
+    delete controller;
 }
 
 void RGBController_NZXTHue2::SetupZones()
@@ -202,7 +202,7 @@ void RGBController_NZXTHue2::SetupZones()
     /*-------------------------------------------------*\
     | Set up zones                                      |
     \*-------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < hue2->GetNumRGBChannels(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < controller->GetNumRGBChannels(); zone_idx++)
     {
         zone* new_zone = new zone;
 
@@ -211,7 +211,7 @@ void RGBController_NZXTHue2::SetupZones()
         new_zone->type          = ZONE_TYPE_LINEAR;
         new_zone->leds_min      = 0;
         new_zone->leds_max      = 40;
-        new_zone->leds_count    = hue2->channel_leds[zone_idx];
+        new_zone->leds_count    = controller->channel_leds[zone_idx];
         new_zone->matrix_map    = NULL;
 
         zones.push_back(*new_zone);
@@ -247,20 +247,20 @@ void RGBController_NZXTHue2::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        hue2->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
 void RGBController_NZXTHue2::UpdateZoneLEDs(int zone)
 {
-    hue2->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_NZXTHue2::UpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 
-    hue2->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+    controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
 }
 
 void RGBController_NZXTHue2::SetCustomMode()
@@ -291,7 +291,7 @@ void RGBController_NZXTHue2::DeviceUpdateMode()
                 colors = &modes[active_mode].colors[0];
             }
 
-            hue2->SetChannelEffect
+            controller->SetChannelEffect
                     (
                     zone_idx,
                     modes[active_mode].value,
