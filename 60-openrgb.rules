@@ -337,6 +337,11 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="16e2", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0951", ATTR{idProduct}=="1705", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Lexip Gaming Mouse                                           #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="04d8", ATTR{idProduct}=="fd0a", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  Lian Li Uni Hub                                              #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0cf2", ATTR{idProduct}=="7750", TAG+="uaccess"

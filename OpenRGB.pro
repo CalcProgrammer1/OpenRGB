@@ -372,6 +372,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
+    Controllers/LexipMouseController/LexipMouseController.h                                     \
+    Controllers/LexipMouseController/RGBController_LexipMouse.h                                 \
     Controllers/LIFXController/LIFXController.h                                                 \
     Controllers/LIFXController/RGBController_LIFX.h                                             \
     Controllers/LianLiController/LianLiUniHubController.h                                       \
@@ -806,6 +808,9 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
+    Controllers/LexipMouseController/LexipMouseController.cpp                                   \
+    Controllers/LexipMouseController/LexipMouseControllerDetect.cpp                             \
+    Controllers/LexipMouseController/RGBController_LexipMouse.cpp                               \
     Controllers/LIFXController/LIFXController.cpp                                               \
     Controllers/LIFXController/LIFXControllerDetect.cpp                                         \
     Controllers/LIFXController/RGBController_LIFX.cpp                                           \
