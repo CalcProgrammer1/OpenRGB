@@ -5,6 +5,7 @@
 #include <iostream>
 #include "OpenRGB.h"
 #include "AutoStart.h"
+#include "filesystem.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "RGBController.h"
@@ -1022,9 +1023,20 @@ unsigned int cli_pre_detection(int argc, char *argv[])
         \*---------------------------------------------------------*/
         else if(option == "--config")
         {
-            ResourceManager::get()->SetConfigurationDirectory(argument);
-            cfg_args++;
+            cfg_args+= 2;
             arg_index++;
+
+            if(filesystem::is_directory(argument))
+            {
+                ResourceManager::get()->SetConfigurationDirectory(argument);
+                LOG_INFO("Setting config directory to %s",argument.c_str());
+            }
+            else
+            {
+                LOG_ERROR("'%s' is not a valid directory",argument.c_str());
+                print_help = true;
+                break;
+            }
         }
 
         /*---------------------------------------------------------*\
