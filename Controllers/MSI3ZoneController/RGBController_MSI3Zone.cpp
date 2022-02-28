@@ -9,16 +9,16 @@
 
 #include "RGBController_MSI3Zone.h"
 
-RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* msi_ptr)
+RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* controller_ptr)
 {
-    msi = msi_ptr;
+    controller  = controller_ptr;
 
     name        = "MSI 3-Zone Keyboard";
     vendor      = "MSI";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "MSI 3-Zone Keyboard Device";
-    location    = msi->GetDeviceLocation();
-    serial      = msi->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -32,7 +32,7 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* msi_ptr)
 
 RGBController_MSI3Zone::~RGBController_MSI3Zone()
 {
-    delete msi;
+    delete controller;
 }
 
 void RGBController_MSI3Zone::SetupZones()
@@ -89,17 +89,17 @@ void RGBController_MSI3Zone::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_MSI3Zone::DeviceUpdateLEDs()
 {
-    msi->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_MSI3Zone::UpdateZoneLEDs(int /*zone*/)
 {
-    msi->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_MSI3Zone::UpdateSingleLED(int /*led*/)
 {
-    msi->SetLEDs(colors);
+    controller->SetLEDs(colors);
 }
 
 void RGBController_MSI3Zone::SetCustomMode()

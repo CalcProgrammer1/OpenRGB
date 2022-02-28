@@ -19,11 +19,13 @@
 void DetectMSI3ZoneControllers(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
-    if( dev )
+
+    if(dev)
     {
-        MSI3ZoneController* controller = new MSI3ZoneController(dev, info->path);
+        MSI3ZoneController*     controller     = new MSI3ZoneController(dev, info->path);
         RGBController_MSI3Zone* rgb_controller = new RGBController_MSI3Zone(controller);
         // Constructor sets the name
+        
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMSI3ZoneControllers() */

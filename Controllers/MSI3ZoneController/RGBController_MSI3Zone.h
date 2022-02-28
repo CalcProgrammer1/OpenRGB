@@ -14,7 +14,7 @@
 class RGBController_MSI3Zone : public RGBController
 {
 public:
-    RGBController_MSI3Zone(MSI3ZoneController* msi_ptr);
+    RGBController_MSI3Zone(MSI3ZoneController* controller_ptr);
     ~RGBController_MSI3Zone();
 
     void        SetupZones();
@@ -29,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    MSI3ZoneController*   msi;
+    MSI3ZoneController* controller;
 };
