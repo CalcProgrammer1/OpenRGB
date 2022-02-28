@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 
 #include "filesystem.h"
+#include "LogManager.h"
 #include "OpenRGBPluginsPage.h"
 #include "ui_OpenRGBPluginsPage.h"
 
@@ -144,9 +145,9 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
 
         return true;
     }
-    catch(std::exception& e)
+    catch(const std::exception& e)
     {
-
+        LOG_ERROR("[PluginsManager] Failed to install plugin: %s", e.what());
     }
 
     return false;

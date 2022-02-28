@@ -10,6 +10,7 @@
 \*-----------------------------------------*/
 
 #include "SettingsManager.h"
+#include "LogManager.h"
 
 #include <fstream>
 #include <iostream>
@@ -82,6 +83,8 @@ void SettingsManager::LoadSettings(std::string filename)
             | parsing failed.  Clear out any data in the store  |
             | as it is corrupt.                                 |
             \*-------------------------------------------------*/
+            LOG_ERROR("[SettingsManager] JSON parsing failed: %s", e.what());
+
             settings_data.clear();
         }
     }
@@ -101,7 +104,7 @@ void SettingsManager::SaveSettings()
         }
         catch(const std::exception& e)
         {
-
+            LOG_ERROR("[SettingsManager] Cannot write to file: %s", e.what());
         }
 
         settings_file.close();

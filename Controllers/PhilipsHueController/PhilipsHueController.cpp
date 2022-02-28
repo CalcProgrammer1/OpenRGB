@@ -5,6 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "PhilipsHueController.h"
+#include "LogManager.h"
 
 PhilipsHueController::PhilipsHueController(hueplusplus::Light light_ptr, std::string bridge_ip):light(light_ptr)
 {
@@ -57,9 +58,9 @@ void PhilipsHueController::SetColor(unsigned char red, unsigned char green, unsi
             {
                 light.setColorRGB(rgb, 0);
             }
-            catch(std::exception& e)
+            catch(const std::exception& e)
             {
-
+                LOG_ERROR("[PhilipsHueController] An error occured while setting the colors: %s", e.what());
             }
         }
 
@@ -75,7 +76,7 @@ void PhilipsHueController::SetColor(unsigned char red, unsigned char green, unsi
         }
         catch(std::exception& e)
         {
-            
+            LOG_ERROR("[PhilipsHueController] An error occured while setting the colors: %s", e.what());
         }
     }
 }

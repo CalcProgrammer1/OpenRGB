@@ -130,9 +130,10 @@ void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& /*n
             rgb_controller->name = "ASUS " + dmi.getMainboard();
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
-        catch(std::runtime_error&)
+        catch(const std::runtime_error& ex)
         {
             // reading the config table failed
+            LOG_ERROR("[AsusAuraUSB] An error occured while reading the config table: %s", ex.what());
         }
     }
 }

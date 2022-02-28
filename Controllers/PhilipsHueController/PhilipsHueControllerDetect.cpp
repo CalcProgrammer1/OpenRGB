@@ -222,9 +222,9 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
                 }
             }
         }
-        catch(std::exception &e)
+        catch(const std::exception &e)
         {
-            LOG_INFO("Exception occurred in Philips Hue detection");
+            LOG_INFO("Exception occurred in Philips Hue detection: %s", e.what());
         }
     }
 }   /* DetectPhilipsHueControllers() */
