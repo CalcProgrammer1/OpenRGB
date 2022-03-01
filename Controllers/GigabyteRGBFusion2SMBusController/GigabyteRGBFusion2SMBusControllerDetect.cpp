@@ -11,8 +11,10 @@
 #include <string>
 #include "dependencies/dmiinfo.h"
 
-#define DETECTOR_NAME   "Gigabyte RGB Fusion 2 SMBus"
-#define VENDOR_NAME     "Gigabyte Technology Co., Ltd."
+#define DETECTOR_NAME                       "Gigabyte RGB Fusion 2 SMBus"
+#define VENDOR_NAME                         "Gigabyte Technology Co., Ltd."
+#define GIGABYTE_FOUND_MB_MESSAGE_EN        "[%s] Success - Found '%s' in the JSON list"
+#define GIGABYTE_NOT_FOUND_MB_MESSAGE_EN    "[%s] FAILED  - '%s' was not found in the JSON list. Do NOT enable if this is a USB based board."
 #define SMBUS_ADDRESS   0x68
 
 typedef struct
@@ -111,6 +113,7 @@ void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>&
 
     if(found)
     {
+        LOG_DEBUG(GIGABYTE_FOUND_MB_MESSAGE_EN, DETECTOR_NAME, dmi.getMainboard().c_str());
         for(unsigned int bus = 0; bus < busses.size(); bus++)
         {
             IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
@@ -141,6 +144,10 @@ void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>&
                 }
             }
         }
+    }
+    else
+    {
+        LOG_DEBUG(GIGABYTE_NOT_FOUND_MB_MESSAGE_EN, DETECTOR_NAME, dmi.getMainboard().c_str());
     }
 
 }   /* DetectRGBFusion2SMBusControllers() */
