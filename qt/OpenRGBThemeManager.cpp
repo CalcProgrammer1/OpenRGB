@@ -40,10 +40,10 @@ void OpenRGBThemeManager::SetDarkTheme()
     pal.setColor(QPalette::Link,            QColor(0,127,220));
     pal.setColor(QPalette::LinkVisited,     QColor(64,196,220));
     pal.setColor(QPalette::Window,          QColor(53,53,53));
-    pal.setColor(QPalette::Base,            QColor(42,42,42));
+    pal.setColor(QPalette::Base,            QColor(53,53,53));
     pal.setColor(QPalette::AlternateBase,   QColor(66,66,66));
     pal.setColor(QPalette::ToolTipBase,     Qt::white);
-    pal.setColor(QPalette::ToolTipText,     Qt::white);
+    pal.setColor(QPalette::ToolTipText,     Qt::black);
     pal.setColor(QPalette::Text,            Qt::white);
     pal.setColor(QPalette::Dark,            QColor(35,35,35));
     pal.setColor(QPalette::Shadow,          QColor(20,20,20));
