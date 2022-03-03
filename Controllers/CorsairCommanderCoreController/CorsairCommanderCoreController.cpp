@@ -141,6 +141,8 @@ void CorsairCommanderCoreController::SendMultiPkt(unsigned char buffarray[][5], 
         hid_write(dev, hidtemp, CORSAIR_COMMANDER_CORE_PACKET_SIZE);
         hid_read(dev, hidtemp, CORSAIR_COMMANDER_CORE_PACKET_SIZE);
     }
+
+    delete[] hidtemp;
 }
 
 void CorsairCommanderCoreController::SetDirectColor
@@ -211,6 +213,8 @@ void CorsairCommanderCoreController::SetDirectColor
         last_commit_time = std::chrono::steady_clock::now();
 
         hid_write(dev, usb_buf, CORSAIR_COMMANDER_CORE_PACKET_SIZE);
+
+        delete[] usb_buf;
     }
 }
 
