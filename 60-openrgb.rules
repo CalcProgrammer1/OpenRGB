@@ -500,6 +500,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7d06", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7d07", TAG+="uaccess", TAG+="MPG_Z590_GAMING_EDGE_WIFI"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7d09", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="905d", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1462", ATTR{idProduct}=="7d31", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  MSI Optix                                                    #
