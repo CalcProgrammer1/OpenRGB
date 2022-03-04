@@ -366,9 +366,9 @@ void LEDStripController::SetLEDsBasicI2C(std::vector<RGBColor> colors)
 
     for(unsigned int color_idx = 0; color_idx < colors.size(); color_idx++)
     {
-        serial_buf[(index * 3) + 0] = RGBGetRValue(colors[color_idx]);
-        serial_buf[(index * 3) + 1] = RGBGetGValue(colors[color_idx]);
-        serial_buf[(index * 3) + 2] = RGBGetBValue(colors[color_idx]);
+        serial_buf[index + 0] = RGBGetRValue(colors[color_idx]);
+        serial_buf[index + 1] = RGBGetGValue(colors[color_idx]);
+        serial_buf[index + 2] = RGBGetBValue(colors[color_idx]);
 
         index += 3;
 
