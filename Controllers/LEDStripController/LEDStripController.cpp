@@ -138,7 +138,7 @@ std::string LEDStripController::GetLocation()
     }
     else if(i2cport != NULL)
     {
-        return("I2C: " + i2cport->device_name);
+        return("I2C: " + std::string(i2cport->device_name));
     }
     else
     {
