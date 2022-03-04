@@ -136,6 +136,10 @@ std::string LEDStripController::GetLocation()
     {
         return("UDP: " + client_name + ":" + port_name);
     }
+    else if(i2cport != NULL)
+    {
+        return("I2C: " + i2cport->device_name);
+    }
     else
     {
         return("");
