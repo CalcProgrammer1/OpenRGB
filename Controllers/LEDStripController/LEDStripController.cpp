@@ -5,6 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "LEDStripController.h"
+#include "ResourceManager.h"
 
 #include <fstream>
 #include <iostream>
@@ -56,7 +57,11 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
 
     if (serial)
     {
-        if (udpport_baud == NULL)
+        if (protocol == LED_PROTOCOL_BASIC_I2C)
+        {
+            InitializeI2C(source);
+        }
+        else if (udpport_baud == NULL)
         {
             //Initialize with default baud rate
             InitializeSerial(source, 115200);
@@ -86,6 +91,21 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
     }
 }
 
+void LEDStripController::InitializeI2C(char* i2cname)
+{
+    for(unsigned int i2c_idx = 0; i2c_idx < ResourceManager::get()->GetI2CBusses().size(); i2c_idx++)
+    {
+        if(ResourceManager::get()->GetI2CBusses()[i2c_idx]->device_name == std::string(i2cname))
+        {
+            i2cport = ResourceManager::get()->GetI2CBusses()[i2c_idx];
+            break;
+        }
+    }
+
+    serialport = NULL;
+    udpport = NULL;
+}
+
 void LEDStripController::InitializeSerial(char* portname, int baud)
 {
     portname = strtok(portname, "\r");
@@ -93,6 +113,7 @@ void LEDStripController::InitializeSerial(char* portname, int baud)
     baud_rate = baud;
     serialport = new serial_port(port_name.c_str(), baud_rate);
     udpport = NULL;
+    i2cport = NULL;
 }
 
 void LEDStripController::InitializeUDP(char * clientname, char * port)
@@ -102,6 +123,7 @@ void LEDStripController::InitializeUDP(char * clientname, char * port)
 
     udpport = new net_port(client_name.c_str(), port_name.c_str());
     serialport = NULL;
+    i2cport = NULL;
 }
 
 std::string LEDStripController::GetLocation()
@@ -317,4 +339,47 @@ void LEDStripController::SetLEDsTPM2(std::vector<RGBColor> colors)
     }
 
     delete[] serial_buf;
+}
+
+void LEDStripController::SetLEDsBasicI2C(std::vector<RGBColor> colors)
+{
+    unsigned char serial_buf[30];
+
+    /*-------------------------------------------------------------*\
+    | Basic I2C Protocol                                            |
+    |                                                               |
+    |   Packet size: At most 32 bytes (SMBus block size)            |
+    |                                                               |
+    |   Packet is in RGBRGBRGB... format, also provide start index  |
+    \*-------------------------------------------------------------*/
+
+    unsigned char index  = 0;
+    unsigned char offset = 0;
+
+    for(unsigned int color_idx = 0; color_idx < colors.size(); color_idx++)
+    {
+        serial_buf[(index * 3) + 0] = RGBGetRValue(colors[color_idx]);
+        serial_buf[(index * 3) + 1] = RGBGetGValue(colors[color_idx]);
+        serial_buf[(index * 3) + 2] = RGBGetBValue(colors[color_idx]);
+
+        index += 3;
+
+        if(index >= 30)
+        {
+            if(i2cport != NULL)
+            {
+                i2cport->i2c_smbus_write_block_data(0x08, offset, 30, serial_buf);
+                offset += 30;
+                index = 0;
+            }
+        }
+    }
+
+    if(index > 0)
+    {
+        if(i2cport != NULL)
+        {
+            i2cport->i2c_smbus_write_block_data(0x08, offset, index, serial_buf);
+        }
+    }
 }
