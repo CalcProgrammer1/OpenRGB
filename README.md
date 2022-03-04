@@ -194,7 +194,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 * OpenRGB provides a plugin interface for adding features to the OpenRGB application.  The following projects provide additional functionality in the form of plugins.
 
-  * OpenRGB E1.31 Receiver Plugin (by me): https://gitlab.com/CalcProgrammer1/OpenRGBE131ReceiverPlugin
+  * OpenRGB E1.31 Receiver Plugin (by me): https://gitlab.com/OpenRGBDevelopers/OpenRGBE131ReceiverPlugin
   * Effects Engine Plugin (by herosilas12, morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBEffectsPlugin
   * OpenRGB Visual Map Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBVisualMapPlugin
   * Scheduler Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBSchedulerPlugin
