@@ -166,6 +166,10 @@ void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
         case LED_PROTOCOL_TPM2:
             SetLEDsTPM2(colors);
             break;
+        
+        case LED_PROTOCOL_BASIC_I2C:
+            SetLEDsBasicI2C(colors);
+            break;
     }
 }
 
