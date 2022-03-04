@@ -390,4 +390,9 @@ void LEDStripController::SetLEDsBasicI2C(std::vector<RGBColor> colors)
             i2cport->i2c_smbus_write_i2c_block_data(0x08, offset, index, serial_buf);
         }
     }
+
+    if(i2cport != NULL)
+    {
+        i2cport->i2c_smbus_write_byte(0x08, 0xFF);
+    }
 }
