@@ -19,6 +19,11 @@ RGBFusion2GPUController::RGBFusion2GPUController(i2c_smbus_interface* bus, rgb_f
 {
     this->bus = bus;
     this->dev = dev;
+
+    for(uint8_t i = 0; i < 4; i++)
+    {
+        zone_led_count[i] = 1;
+    }
 }
 
 RGBFusion2GPUController::~RGBFusion2GPUController()
