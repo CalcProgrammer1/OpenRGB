@@ -370,6 +370,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireDart.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
+    Controllers/KeychronKeyboardController/KeychronKeyboardController.h                         \
+    Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.h                     \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
     Controllers/LexipMouseController/LexipMouseController.h                                     \
@@ -805,6 +807,9 @@ SOURCES +=                                                                      
     Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
     Controllers/HyperXMousematController/HyperXMousematControllerDetect.cpp                     \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
+    Controllers/KeychronKeyboardController/KeychronKeyboardController.cpp                       \
+    Controllers/KeychronKeyboardController/KeychronKeyboardControllerDetect.cpp                 \
+    Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.cpp                   \
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
