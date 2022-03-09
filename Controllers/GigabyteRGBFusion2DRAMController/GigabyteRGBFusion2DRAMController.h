@@ -43,6 +43,15 @@ enum
     RGB_FUSION_2_DRAM_ACTION_APPLY	    = 0x0F,
 };
 
+enum
+{
+    RGB_FUSION_2_DRAM_MODE_OFF          = 0x00,     /* Off mode                                     */
+    RGB_FUSION_2_DRAM_MODE_STATIC       = 0x01,     /* Static mode                                  */
+    RGB_FUSION_2_DRAM_MODE_PULSE        = 0x02,     /* Pulsing mode                                 */
+    RGB_FUSION_2_DRAM_MODE_FLASH        = 0x03,     /* Flashing mode                                */
+    RGB_FUSION_2_DRAM_MODE_DIRECT       = 0xFF      /* Dummy mode, implements per LED using Pulse   */
+};
+
 class RGBFusion2DRAMController
 {
 public:
@@ -57,6 +66,7 @@ public:
                         (
                         unsigned int    led,
                         int             mode,
+                        unsigned int    brightness,
                         unsigned int    speed,
                         unsigned char   red,
                         unsigned char   green,
@@ -67,6 +77,7 @@ private:
     unsigned int            led_count;
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
+    bool                    direct_initialized;
 
     unsigned char           led_data[32];
 };
