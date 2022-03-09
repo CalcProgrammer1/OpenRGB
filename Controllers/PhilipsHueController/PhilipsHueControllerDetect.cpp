@@ -194,6 +194,20 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
                             rgb_controllers.push_back(new_rgbcontroller);
                         }
                     }
+
+					/*-------------------------------------------------*\
+					| Loop through RGB Controllers to find the first    |
+					| Entertainment group and Set it to "Connect",      |
+					| as only one Stream can be open at a time.         |
+					\*-------------------------------------------------*/
+					for (unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+					{
+						if (rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device")
+						{
+							rgb_controllers[controller_idx]->SetMode(0);
+							break;
+						}
+					}
                 }
             }
 

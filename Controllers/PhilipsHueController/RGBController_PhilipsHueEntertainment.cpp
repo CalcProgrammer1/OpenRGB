@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController_PhilipsHueEntertainment.h"
+#include "ResourceManager.h"
 
 using namespace std::chrono_literals;
 
@@ -38,8 +39,12 @@ RGBController_PhilipsHueEntertainment::RGBController_PhilipsHueEntertainment(Phi
 
     SetupZones();
 
-    active_mode = 0;
-    light->Connect();
+    /*-----------------------------------------------------------------------------------------------------*\
+    | The Philips Hue Entertainment Mode only supports one stream at a time. So we must start Disconnected. |
+    | https://developers.meethue.com/develop/hue-entertainment/philips-hue-entertainment-api/               |
+    \*-----------------------------------------------------------------------------------------------------*/
+
+    active_mode = 1;
 
     /*-----------------------------------------------------*\
     | The Philips Hue Entertainment Mode requires a packet  |
@@ -109,7 +114,17 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()
 {
     if(active_mode == 0)
     {
-        light->Connect();
+        std::vector<RGBController*> rgb_controllers = ResourceManager::get()->GetRGBControllers();
+
+		for (unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+		{
+			if (rgb_controllers[controller_idx] != this && rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device" && rgb_controllers[controller_idx]->active_mode == 0)
+			{
+				rgb_controllers[controller_idx]->SetMode(1);
+			}
+		}
+
+		light->Connect();
     }
     else
     {
