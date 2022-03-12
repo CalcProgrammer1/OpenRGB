@@ -50,7 +50,7 @@
       <item row="4" column="3">
        <widget class="QLabel" name="UsernameValue">
         <property name="text">
-         <string>Username Value</string>
+         <string></string>
         </property>
        </widget>
       </item>
@@ -91,7 +91,7 @@
       <item row="5" column="3">
        <widget class="QLabel" name="ClientKeyValue">
         <property name="text">
-         <string>Client Key Value</string>
+         <string></string>
         </property>
        </widget>
       </item>
