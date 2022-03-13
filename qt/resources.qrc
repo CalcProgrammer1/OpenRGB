@@ -47,5 +47,7 @@
         <file>console_dark.png</file>
         <file>storage.png</file>
         <file>storage_dark.png</file>
+        <file>case.png</file>
+        <file>case_dark.png</file>
     </qresource>
 </RCC>

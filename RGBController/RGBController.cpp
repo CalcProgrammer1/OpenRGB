@@ -1609,6 +1609,8 @@ std::string device_type_to_str(device_type type)
         return "Storage";
     case DEVICE_TYPE_VIRTUAL:
         return "Virtual";
+    case DEVICE_TYPE_CASE:
+        return "Case";
     default:
         return "Unknown";
     }

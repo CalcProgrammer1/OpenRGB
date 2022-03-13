@@ -17,7 +17,7 @@ RGBController_NvidiaESA::RGBController_NvidiaESA(NvidiaESAController* controller
     controller                          = controller_ptr;
     name                                = "Nvidia ESA USB Device";
     vendor                              = "NVIDIA";
-    type                                = DEVICE_TYPE_MOTHERBOARD;
+    type                                = DEVICE_TYPE_CASE;
     description                         = name;
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
