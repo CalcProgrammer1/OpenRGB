@@ -110,6 +110,7 @@ INCLUDEPATH +=                                                                  
     qt/OpenRGBZoneResizeDialog/                                                                 \
     qt/OpenRGBZonesBulkResizer/                                                                 \
     Controllers/A4TechController/                                                               \
+    Controllers/AcerMonitorController/                                                          \
     Controllers/AlienwareController/                                                            \
     Controllers/AlienwareKeyboardController/                                                    \
     Controllers/AMDWraithPrismController/                                                       \
@@ -310,6 +311,8 @@ HEADERS +=                                                                      
     AutoStart/AutoStart.h                                                                       \
     Controllers/A4TechController/BloodyMouseController.h                                        \
     Controllers/A4TechController/RGBController_BloodyMouse.h                                    \
+    Controllers/AcerMonitorController/AcerMonitorController.h                                   \
+    Controllers/AcerMonitorController/RGBController_AcerMonitor.h                               \
     Controllers/AlienwareController/AlienwareController.h                                       \
     Controllers/AlienwareController/RGBController_Alienware.h                                   \
     Controllers/AlienwareKeyboardController/AlienwareAW510KController.h                         \
@@ -893,6 +896,9 @@ SOURCES +=                                                                      
     Controllers/A4TechController/A4Tech_Detector.cpp                                            \
     Controllers/A4TechController/BloodyMouseController.cpp                                      \
     Controllers/A4TechController/RGBController_BloodyMouse.cpp                                  \
+    Controllers/AcerMonitorController/AcerMonitorController.cpp                                 \
+    Controllers/AcerMonitorController/AcerMonitorControllerDetect.cpp                           \
+    Controllers/AcerMonitorController/RGBController_AcerMonitor.cpp                             \
     Controllers/AlienwareController/AlienwareController.cpp                                     \
     Controllers/AlienwareController/AlienwareControllerDetect.cpp                               \
     Controllers/AlienwareController/RGBController_Alienware.cpp                                 \
