@@ -14,6 +14,7 @@
 #include "RGBController_AsusAuraTUFKeyboard.h"
 #include "RGBController_AsusAuraMouse.h"
 #include "RGBController_AsusAuraMousemat.h"
+#include "RGBController_ROGStrixLC_Controller.h"
 #include "RGBController_AsusAuraStrixEvolve.h"
 #include <stdexcept>
 #include <hidapi/hidapi.h>
@@ -62,6 +63,7 @@
 #define AURA_TERMINAL_PID                       0x1889
 #define AURA_ROG_THRONE_PID                     0x18D9
 #define AURA_ROG_THRONE_QI_PID                  0x18C5
+#define ROG_STRIX_LC120_PID                     0x879E
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 {
@@ -95,9 +97,9 @@ void DetectAsusAuraUSBTerminal(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AuraAddressableController* controller     = new AuraAddressableController(dev, info->path);
-        RGBController_AuraUSB*     rgb_controller = new RGBController_AuraUSB(controller);
-        rgb_controller->name = name;
+        AuraAddressableController* controller               = new AuraAddressableController(dev, info->path);
+        RGBController_AuraUSB*     rgb_controller           = new RGBController_AuraUSB(controller);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -109,9 +111,9 @@ void DetectAsusAuraUSBAddressable(hid_device_info* info, const std::string& /*na
     if(dev)
     {
         DMIInfo dmi;
-        AuraAddressableController* controller     = new AuraAddressableController(dev, info->path);
-        RGBController_AuraUSB*     rgb_controller = new RGBController_AuraUSB(controller);
-        rgb_controller->name = "ASUS " + dmi.getMainboard() + " Addressable";
+        AuraAddressableController* controller               = new AuraAddressableController(dev, info->path);
+        RGBController_AuraUSB*     rgb_controller           = new RGBController_AuraUSB(controller);
+        rgb_controller->name                                = "ASUS " + dmi.getMainboard() + " Addressable";
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -125,9 +127,9 @@ void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& /*n
         try
         {
             DMIInfo dmi;
-            AuraMainboardController* controller     = new AuraMainboardController(dev, info->path);
-            RGBController_AuraUSB*   rgb_controller = new RGBController_AuraUSB(controller);
-            rgb_controller->name = "ASUS " + dmi.getMainboard();
+            AuraMainboardController* controller             = new AuraMainboardController(dev, info->path);
+            RGBController_AuraUSB*   rgb_controller         = new RGBController_AuraUSB(controller);
+            rgb_controller->name                            = "ASUS " + dmi.getMainboard();
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
         catch(const std::runtime_error& ex)
@@ -144,10 +146,10 @@ void DetectAsusAuraUSBKeyboards(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AuraKeyboardController*       controller     = new AuraKeyboardController(dev, info->path);
-        AuraKeyboardMappingLayoutType layout         = GetKeyboardMappingLayoutType(info->product_id);
-        RGBController_AuraKeyboard*   rgb_controller = new RGBController_AuraKeyboard(controller, layout);
-        rgb_controller->name = name;
+        AuraKeyboardController*       controller            = new AuraKeyboardController(dev, info->path);
+        AuraKeyboardMappingLayoutType layout                = GetKeyboardMappingLayoutType(info->product_id);
+        RGBController_AuraKeyboard*   rgb_controller        = new RGBController_AuraKeyboard(controller, layout);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -158,9 +160,9 @@ void DetectAsusAuraUSBMice(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AuraMouseController*     controller     = new AuraMouseController(dev, info->path, info->product_id);
-        RGBController_AuraMouse* rgb_controller = new RGBController_AuraMouse(controller);
-        rgb_controller->name = name;
+        AuraMouseController*     controller                 = new AuraMouseController(dev, info->path, info->product_id);
+        RGBController_AuraMouse* rgb_controller             = new RGBController_AuraMouse(controller);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -171,9 +173,22 @@ void DetectAsusAuraUSBMousemats(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AuraMousematController*     controller     = new AuraMousematController(dev, info->path);
-        RGBController_AuraMousemat* rgb_controller = new RGBController_AuraMousemat(controller);
-        rgb_controller->name = name;
+        AuraMousematController*     controller              = new AuraMousematController(dev, info->path);
+        RGBController_AuraMousemat* rgb_controller          = new RGBController_AuraMousemat(controller);
+        rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectAsusAuraUSBROGStrixLC(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        ROGStrixLC_Controller* controller                   = new ROGStrixLC_Controller(dev, info->path);
+        RGBController_ROGStrixLC_Controller* rgb_controller = new RGBController_ROGStrixLC_Controller(controller);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -184,9 +199,9 @@ void DetectAsusAuraUSBStrixEvolve(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        AuraStrixEvolveController*     controller     = new AuraStrixEvolveController(dev, info->path, info->product_id);
-        RGBController_AuraStrixEvolve* rgb_controller = new RGBController_AuraStrixEvolve(controller);
-        rgb_controller->name = name;
+        AuraStrixEvolveController*     controller           = new AuraStrixEvolveController(dev, info->path, info->product_id);
+        RGBController_AuraStrixEvolve* rgb_controller       = new RGBController_AuraStrixEvolve(controller);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -197,9 +212,9 @@ void DetectAsusAuraUSBHeadsetStand(hid_device_info* info, const std::string& nam
 
     if(dev)
     {
-        AuraHeadsetStandController*     controller     = new AuraHeadsetStandController(dev, info->path);
-        RGBController_AuraHeadsetStand* rgb_controller = new RGBController_AuraHeadsetStand(controller);
-        rgb_controller->name = name;
+        AuraHeadsetStandController*     controller          = new AuraHeadsetStandController(dev, info->path);
+        RGBController_AuraHeadsetStand* rgb_controller      = new RGBController_AuraHeadsetStand(controller);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -210,9 +225,9 @@ void DetectAsusAuraTUFUSBKeyboard(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        AuraTUFKeyboardController*     controller     = new AuraTUFKeyboardController(dev, info->path);
-        RGBController_AuraTUFKeyboard* rgb_controller = new RGBController_AuraTUFKeyboard(controller);
-        rgb_controller->name = name;
+        AuraTUFKeyboardController*     controller           = new AuraTUFKeyboardController(dev, info->path);
+        RGBController_AuraTUFKeyboard* rgb_controller       = new RGBController_AuraTUFKeyboard(controller);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -272,6 +287,7 @@ REGISTER_HID_DETECTOR_PU("ASUS ROG Balteus Qi",                 DetectAsusAuraUS
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
 \*-----------------------------------------------------------------*/
-REGISTER_HID_DETECTOR   ("ASUS ROG AURA Terminal",              DetectAsusAuraUSBTerminal,      AURA_USB_VID, AURA_TERMINAL_PID);
-REGISTER_HID_DETECTOR_I ("ASUS ROG Throne",         			DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID, 					    0);
-REGISTER_HID_DETECTOR_I ("ASUS ROG Throne QI",                  DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                   0);
+REGISTER_HID_DETECTOR    ("ASUS ROG AURA Terminal",             DetectAsusAuraUSBTerminal,      AURA_USB_VID, AURA_TERMINAL_PID);
+REGISTER_HID_DETECTOR_PU ("ASUS ROG Strix LC",                  DetectAsusAuraUSBROGStrixLC,    AURA_USB_VID, ROG_STRIX_LC120_PID,                      0x00FF, 1);
+REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne",                    DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID,                      0);
+REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI",                 DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                   0);
