@@ -289,6 +289,8 @@ HEADERS +=                                                                      
     Controllers/CorsairVengeanceProController/RGBController_CorsairVengeancePro.h               \
     Controllers/CorsairWirelessController/CorsairWirelessController.h                           \
     Controllers/CorsairWirelessController/RGBController_CorsairWireless.h                       \
+    Controllers/CougarController/CougarRevengerSTController.h                                   \
+    Controllers/CougarController/RGBController_CougarRevengerST.h                               \
     Controllers/CreativeController/CreativeSoundBlasterXG6Controller.h                          \
     Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.h                      \
     Controllers/CrucialController/CrucialController.h                                           \
@@ -698,6 +700,9 @@ SOURCES +=                                                                      
     Controllers/CorsairWirelessController/CorsairWirelessController.cpp                         \
     Controllers/CorsairWirelessController/CorsairWirelessControllerDetect.cpp                   \
     Controllers/CorsairWirelessController/RGBController_CorsairWireless.cpp                     \
+    Controllers/CougarController/CougarRevengerSTController.cpp                                 \
+    Controllers/CougarController/CougarControllerDetect.cpp                                     \
+    Controllers/CougarController/RGBController_CougarRevengerST.cpp                             \
     Controllers/CreativeController/CreativeSoundBlasterXG6Controller.cpp                        \
     Controllers/CreativeController/CreativeControllerDetect.cpp                                 \
     Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.cpp                    \

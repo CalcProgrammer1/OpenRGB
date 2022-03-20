@@ -259,6 +259,14 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b6e", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b62", TAG+="uaccess"
 
 #---------------------------------------------------------------#
+#  Cougar Devices                                               #
+#                                                               #
+#  Devices:                                                     #
+#        Cougar Revenger ST                                     #
+#---------------------------------------------------------------#
+SUBSYSTEMS=="usb", ATTR{idVendor}=="12cf", ATTR{idProduct}=="0412", TAG+="uaccess"
+
+#---------------------------------------------------------------#
 #  Creative Devices                                             #
 #                                                               #
 #  Devices:                                                     #
