@@ -1,11 +1,113 @@
-*.pro.user*
-*.o
-ui_*
-moc_*
-qrc_*
+# This file is used to ignore files that should not be pushed to the repo.
+# ----------------------------------------------------------------------------
+
+# OpenRGB Specific
 OpenRGB
 openrgb
-Makefile
 OpenRGB-x86_64.AppImage
+
+# Directories
+.build/
+.cache/
+.moc/
+.obj/
+.pch/
+.rcc/
+.uic/
+.clangd/
+*_debug/
+*_release/
+debug/
+release/
+build/
+Build/
+.qmake.cache
 .qmake.stash
 .vscode
+.vs
+
+# Generic Files
+.DS_Store
+Thumbs.db
+
+# Binaries
+*.exe
+!dependencies/**/*.exe
+*.bat
+!dependencies/**/*.bat
+
+# C++ objects and libs
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.so.*
+*.dll
+!dependencies/**/*.dll
+*.dylib
+
+# Qt-es
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+*.qm
+*.prl
+
+# Qt unit tests
+target_wrapper.*
+
+# QtCreator
+*.autosave
+
+# QtCreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+# QtCreator CMake
+CMakeLists.txt.user*
+
+# QtCreator 4.8< compilation database
+compile_commands.json
+
+# QtCreator local machine specific files for imported projects
+*creator.user*
+
+*_qmlcache.qrc
+
+# Visual Studio generated files
+*.ib_pdb_index
+*.idb
+*.ilk
+*.ncb
+*.opensdf
+*.pdb
+*.sdf
+*.sln
+*.suo
+*.vcproj
+*.vcxproj
+*vcproj.*.*.user
+*vcxproj.*
+
+# MinGW generated files
+*.Debug
+*.Release
+
+# Clang tooling files
+compile_commands.json
