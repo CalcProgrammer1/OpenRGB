@@ -248,6 +248,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b3b", TAG+="uacces
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0a34", TAG+="uaccess"
 
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1ba4", TAG+="uaccess"
 #---------------------------------------------------------------#
 #  Corsair Wireless Devices                                     #
 #                                                               #
