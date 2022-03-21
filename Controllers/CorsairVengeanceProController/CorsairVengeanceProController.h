@@ -16,7 +16,7 @@
 typedef unsigned char	corsair_dev_id;
 
 #define CORSAIR_PRO_LED_COUNT   ( 10 )
-#define CORSAIR_VENGEANCE_RGB_PRO_NAME "Corsair Vengenance RGB PRO"
+#define CORSAIR_VENGEANCE_RGB_PRO_NAME "Corsair Vengeance RGB PRO"
 
 enum
 {
