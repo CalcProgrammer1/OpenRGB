@@ -792,6 +792,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="054c", ATTR{idProduct}=="0ba0", TAG+="uacces
 #       SteelSeries Rival Sensei 310                            #
 #  Headsets:                                                    #
 #       SteelSeries Siberia 350                                 #
+#       SteelSeries Arctis 5                                    #
 #  Keyboards:                                                   #
 #       SteelSeries Apex 3                                      #
 #       SteelSeries Apex 5                                      #
@@ -831,6 +832,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1824", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="184c", TAG+="uaccess", TAG+="Rival3"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1229", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="12aa", TAG+="uaccess"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="161c", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="1612", TAG+="uaccess"

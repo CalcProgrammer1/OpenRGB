@@ -9,6 +9,7 @@
 #include "SteelSeriesApexMController.h"
 #include "SteelSeriesSenseiController.h"
 #include "SteelSeriesGeneric.h"
+#include "SteelSeriesArctis5Controller.h"
 #include "RGBController.h"
 #include "RGBController_SteelSeriesRival.h"
 #include "RGBController_SteelSeriesRival3.h"
@@ -18,6 +19,7 @@
 #include "RGBController_SteelSeriesApexTZone.h"
 #include "RGBController_SteelSeriesOldApex.h"
 #include "RGBController_SteelSeriesSensei.h"
+#include "RGBController_SteelSeriesArctis5.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -57,6 +59,7 @@
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
 #define STEELSERIES_SIBERIA_350_PID                 0x1229
+#define STEELSERIES_ARCTIS_5_PID                    0x12AA
 /*-----------------------------------------------------*\
 | Mousemat product IDs                                  |
 \*-----------------------------------------------------*/
@@ -247,6 +250,19 @@ void DetectSteelSeriesSensei(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectSteelSeriesArctis5(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        SteelSeriesArctis5Controller*     controller        = new SteelSeriesArctis5Controller(dev, *info);
+        RGBController_SteelSeriesArctis5* rgb_controller    = new RGBController_SteelSeriesArctis5(controller);
+        rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                                                                                  |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -280,6 +296,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                           Dete
 | Headsets                                                                                                                                                              |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_I("SteelSeries Siberia 350",                          DetectSteelSeriesHeadset,   STEELSERIES_VID, STEELSERIES_SIBERIA_350_PID,               3  );
+REGISTER_HID_DETECTOR_I("SteelSeries Arctis 5",                             DetectSteelSeriesArctis5,   STEELSERIES_VID, STEELSERIES_ARCTIS_5_PID,                  5  );
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mousemats                                                                                                                                                             |
 \*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

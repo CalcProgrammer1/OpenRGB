@@ -479,6 +479,7 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
     Controllers/SteelSeriesController/SteelSeriesApexTZoneController.h                          \
     Controllers/SteelSeriesController/SteelSeriesApexMController.h                              \
+    Controllers/SteelSeriesController/SteelSeriesArctis5Controller.h                            \
     Controllers/SteelSeriesController/SteelSeriesGeneric.h                                      \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.h                            \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h                              \
@@ -488,6 +489,7 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.h                             \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.h                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApexTZone.h                      \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesArctis5.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.h                          \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival3.h                         \
@@ -943,6 +945,7 @@ SOURCES +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
     Controllers/SteelSeriesController/SteelSeriesApexTZoneController.cpp                        \
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
+    Controllers/SteelSeriesController/SteelSeriesArctis5Controller.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesRival3Controller.cpp                           \
@@ -952,6 +955,7 @@ SOURCES +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.cpp                         \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApexTZone.cpp                    \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesArctis5.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.cpp                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival3.cpp                       \
