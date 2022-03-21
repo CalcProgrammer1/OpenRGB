@@ -7,6 +7,7 @@
 #include "CMR6000Controller.h"
 #include "CMMKController.h"
 #include "RGBController.h"
+#include "RGBController_CMMMController.h"
 #include "RGBController_CMMM711Controller.h"
 #include "RGBController_CMMP750Controller.h"
 #include "RGBController_CMARGBController.h"
@@ -18,6 +19,8 @@
 
 #define COOLERMASTER_VID                        0x2516
 
+#define COOLERMASTER_MM530_PID                  0x0065
+#define COOLERMASTER_MM531_PID                  0x0097
 #define COOLERMASTER_MM711_PID                  0x0101
 #define COOLERMASTER_MM720_PID                  0x0141
 #define COOLERMASTER_MP750_XL_PID               0x0109
@@ -90,16 +93,27 @@ void DetectCoolerMasterKeyboards(hid_device_info* info, const std::string&)
     }
 }
 
-void DetectCoolerMasterMouse(hid_device_info* info, const std::string&)
+void DetectCoolerMasterMouse(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        CMMM711Controller*               controller     = new CMMM711Controller(dev, info->path);
-        RGBController_CMMM711Controller* rgb_controller = new RGBController_CMMM711Controller(controller);
-        // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        if(info->product_id == COOLERMASTER_MM530_PID || info->product_id == COOLERMASTER_MM531_PID)
+        {
+            CMMMController* controller                      = new CMMMController(dev, info->path, info->product_id);
+            RGBController_CMMMController* rgb_controller    = new RGBController_CMMMController(controller);
+            rgb_controller->name                            = name;
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else if(info->product_id == COOLERMASTER_MM711_PID)
+        {
+            CMMM711Controller*               controller     = new CMMM711Controller(dev, info->path);
+            RGBController_CMMM711Controller* rgb_controller = new RGBController_CMMM711Controller(controller);
+            // Constructor sets the name
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+
     }
 }
 
@@ -142,6 +156,8 @@ void DetectCoolerMasterSmallARGB(hid_device_info* info, const std::string&)
     }
 }
 
+REGISTER_HID_DETECTOR_IPU("Cooler Master MM530",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM530_PID,                     1,      0xFF00, 1);
+//REGISTER_HID_DETECTOR_IPU("Cooler Master MM531",                  DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM531_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM711",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM711_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM720",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM720_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 XL",                 DetectCoolerMasterMousemats,    COOLERMASTER_VID,   COOLERMASTER_MP750_XL_PID,                          0xFF00, 1);
@@ -153,7 +169,7 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro S",         DetectCooler
 REGISTER_HID_DETECTOR_IPU("Cooler Master MK570",                    DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_MK750_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master SK630",                    DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_SK630_PID,          1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master SK650",                    DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_SK650_PID,          1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB",                     DetectCoolerMasterARGB,         COOLERMASTER_VID,   COOLERMASTER_ARGB_PID,         	        0,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master Small ARGB",               DetectCoolerMasterSmallARGB,    COOLERMASTER_VID,   COOLERMASTER_SMALL_ARGB_PID,   	        0,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master RGB",                      DetectCoolerMasterRGB,          COOLERMASTER_VID,   COOLERMASTER_RGB_PID,                       1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB",                     DetectCoolerMasterARGB,         COOLERMASTER_VID,   COOLERMASTER_ARGB_PID,                      0,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master Small ARGB",               DetectCoolerMasterSmallARGB,    COOLERMASTER_VID,   COOLERMASTER_SMALL_ARGB_PID,                0,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master RGB",                      DetectCoolerMasterRGB,          COOLERMASTER_VID,   COOLERMASTER_RGB_PID,                       0,      0xFF00, 1);
 REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6000 GPU",          DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6000_PID,               1                );
