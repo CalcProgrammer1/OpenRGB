@@ -323,13 +323,13 @@ REGISTER_HID_DETECTOR_P("Glorious Model O / O-", DetectSinowealthMouse,    SINOW
 REGISTER_HID_DETECTOR_P("Glorious Model D / D-", DetectSinowealthMouse,    SINOWEALTH_VID, Glorious_Model_D_PID,   0xFF00);
 REGISTER_HID_DETECTOR_P("Everest GT-100 RGB",    DetectSinowealthMouse,    SINOWEALTH_VID, Everest_GT100_PID,      0xFF00);
 REGISTER_HID_DETECTOR_IPU("ZET Fury Pro",        DetectSinowealthMouse,    SINOWEALTH_VID, ZET_FURY_PRO_PID,       1, 0xFF00, 1);
-REGISTER_HID_DETECTOR_P("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,     0xFF00);
-REGISTER_HID_DETECTOR_P("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID,   0xFF00);
+//REGISTER_HID_DETECTOR_P("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,     0xFF00);
+//REGISTER_HID_DETECTOR_P("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID,   0xFF00);
 #else
 REGISTER_HID_DETECTOR_I("Glorious Model O / O-", DetectSinowealthMouse,    SINOWEALTH_VID, Glorious_Model_O_PID, 1);
 REGISTER_HID_DETECTOR_I("Glorious Model D / D-", DetectSinowealthMouse,    SINOWEALTH_VID, Glorious_Model_D_PID, 1);
 REGISTER_HID_DETECTOR_I("Everest GT-100 RGB",    DetectSinowealthMouse,    SINOWEALTH_VID, Everest_GT100_PID,    1);
 REGISTER_HID_DETECTOR_I("ZET Fury Pro",          DetectSinowealthMouse,    SINOWEALTH_VID, ZET_FURY_PRO_PID,     1);
-REGISTER_HID_DETECTOR_I("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,   1);
-REGISTER_HID_DETECTOR_I("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID, 1);
+//REGISTER_HID_DETECTOR_I("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,   1);
+//REGISTER_HID_DETECTOR_I("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID, 1);
 #endif
