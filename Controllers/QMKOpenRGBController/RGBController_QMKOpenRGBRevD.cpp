@@ -37,12 +37,12 @@ RGBController_QMKOpenRGBRevD::RGBController_QMKOpenRGBRevD(QMKOpenRGBRevDControl
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_GRADIENT_UP_DOWN) != enabled_modes.end())
     {
-        InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
+        InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_GRADIENT_LEFT_RIGHT) != enabled_modes.end())
     {
-        InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
+        InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_BREATHING) != enabled_modes.end())

@@ -41,12 +41,12 @@ RGBController_QMKOpenRGBRev9::RGBController_QMKOpenRGBRev9(QMKOpenRGBRev9Control
 
     if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_GRADIENT_UP_DOWN))
     {
-        InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Gradient Up Down", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
     if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_GRADIENT_LEFT_RIGHT))
     {
-        InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE);
+        InitializeMode("Gradient Left Right", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC);
     }
 
     if(controller->GetIsModeEnabled(QMK_OPENRGB_MODE_BREATHING))
