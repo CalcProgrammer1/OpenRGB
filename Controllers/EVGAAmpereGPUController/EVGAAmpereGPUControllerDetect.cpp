@@ -63,6 +63,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_XC3_ULTRA_HC_SUB_DEV,          "EVGA GeForce RTX 3090 XC3 Ultra Hydro Copper"          },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_FTW3_ULTRA_SUB_DEV,            "EVGA GeForce RTX 3090 FTW3 Ultra"                      },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_FTW3_ULTRA_V2_SUB_DEV,         "EVGA GeForce RTX 3090 FTW3 Ultra v2"                   },
+    { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_FTW3_ULTRA_V3_SUB_DEV,         "EVGA GeForce RTX 3090 FTW3 Ultra v3"                   },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_FTW3_ULTRA_HYBRID_SUB_DEV,     "EVGA GeForce RTX 3090 FTW3 Ultra Hybrid"               },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_FTW3_ULTRA_HC_SUB_DEV,         "EVGA GeForce RTX 3090 FTW3 Ultra Hydro Copper"         },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_KINGPIN_HYBRID_SUB_DEV,        "EVGA GeForce RTX 3090 K|NGP|N Hybrid"                  },
@@ -101,7 +102,7 @@ void DetectEVGAAmpereGPUControllers(std::vector<i2c_smbus_interface*>& busses)
 
                 new_controller = new EVGAGPUv3Controller(busses[bus], 0x2D);
                 new_controller-> evgaGPUName = device_list[dev_idx].name; // Pass name of the card into the controller for logging.
-                
+
                 if(new_controller-> ReadFWVersion() != "")
                 {
                     new_rgbcontroller = new RGBController_EVGAGPUv3(new_controller);
