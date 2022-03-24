@@ -6,11 +6,12 @@
 |                                           |
 |  Guimard Morgan (morg) 1/24/2022          |
 \*-----------------------------------------*/
-#pragma once
 
 #include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+
+#pragma once
 
 #define TRUST_GXT_114_REPORT_SIZE       154
 #define TRUST_GXT_114_NUMBER_OF_LEDS    1

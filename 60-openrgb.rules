@@ -880,6 +880,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="27b8", ATTR{idProduct}=="01ed", TAG+="uacces
 # Trust Controllers                                             #
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="145f", ATTR{idProduct}=="026d", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="145f", ATTR{idProduct}=="0248", TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  Wooting Devices                                              #
