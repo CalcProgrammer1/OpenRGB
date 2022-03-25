@@ -4,7 +4,6 @@
 |  Adam Honse (calcprogrammer1@gmail.com), 11/6/2020        |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
 #include "Bridge.h"
 #include "EntertainmentMode.h"
 #include "Group.h"

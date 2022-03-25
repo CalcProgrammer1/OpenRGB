@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>287</width>
-    <height>207</height>
+    <width>297</width>
+    <height>228</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,41 +26,10 @@
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="0">
-       <widget class="QLabel" name="IPLabel">
-        <property name="text">
-         <string>IP:</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0">
        <widget class="QLabel" name="EntertainmentLabel">
         <property name="text">
          <string>Entertainment Mode:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="UsernameLabel">
-        <property name="text">
-         <string>Username:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3">
-       <widget class="QLabel" name="UsernameValue">
-        <property name="text">
-         <string></string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLineEdit" name="MACEdit"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="ClientKeyLabel">
-        <property name="text">
-         <string>Client Key:</string>
         </property>
        </widget>
       </item>
@@ -71,13 +40,45 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="IPEdit"/>
-      </item>
-      <item row="6" column="0" colspan="4">
-       <widget class="QPushButton" name="UnpairButton">
+      <item row="4" column="0">
+       <widget class="QLabel" name="AutoConnectLabel">
         <property name="text">
-         <string>Unpair Bridge</string>
+         <string>Auto Connect Group:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QCheckBox" name="AutoConnectCheckBox">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="IPLabel">
+        <property name="text">
+         <string>IP:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QLabel" name="ClientKeyValue">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="ClientKeyLabel">
+        <property name="text">
+         <string>Client Key:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="UsernameLabel">
+        <property name="text">
+         <string>Username:</string>
         </property>
        </widget>
       </item>
@@ -88,10 +89,23 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="3">
-       <widget class="QLabel" name="ClientKeyValue">
+      <item row="7" column="0" colspan="4">
+       <widget class="QPushButton" name="UnpairButton">
         <property name="text">
-         <string></string>
+         <string>Unpair Bridge</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="MACEdit"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="IPEdit"/>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLabel" name="UsernameValue">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>

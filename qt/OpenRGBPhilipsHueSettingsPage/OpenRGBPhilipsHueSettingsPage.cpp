@@ -41,6 +41,11 @@ OpenRGBPhilipsHueSettingsPage::OpenRGBPhilipsHueSettingsPage(QWidget *parent) :
                 entry->ui->EntertainmentCheckBox->setChecked(hue_settings["bridges"][device_idx]["entertainment"]);
             }
 
+            if(hue_settings["bridges"][device_idx].contains("autoconnect"))
+            {
+                entry->ui->AutoConnectCheckBox->setChecked(hue_settings["bridges"][device_idx]["autoconnect"]);
+            }
+
             if(hue_settings["bridges"][device_idx].contains("username"))
             {
                 entry->ui->UsernameValue->setText(QString::fromStdString(hue_settings["bridges"][device_idx]["username"]));
@@ -120,6 +125,7 @@ void Ui::OpenRGBPhilipsHueSettingsPage::on_SavePhilipsHueConfigurationButton_cli
         hue_settings["bridges"][device_idx]["ip"]               = entries[device_idx]->ui->IPEdit->text().toStdString();
         hue_settings["bridges"][device_idx]["mac"]              = entries[device_idx]->ui->MACEdit->text().toStdString();
         hue_settings["bridges"][device_idx]["entertainment"]    = entries[device_idx]->ui->EntertainmentCheckBox->isChecked();
+        hue_settings["bridges"][device_idx]["autoconnect"]      = entries[device_idx]->ui->AutoConnectCheckBox->isChecked();
 
         if(entries[device_idx]->ui->UsernameValue->text() != "")
         {

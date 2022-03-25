@@ -4,7 +4,6 @@
 |  Adam Honse (calcprogrammer1@gmail.com), 9/15/2020        |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
 #include "HueDeviceTypes.h"
 
 #include <string>

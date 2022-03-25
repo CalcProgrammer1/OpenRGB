@@ -121,6 +121,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
             \*-------------------------------------------------*/
             bool save_settings = false;
             bool use_entertainment = false;
+            bool auto_connect = false;
 
             if(hue_settings.contains("bridges"))
             {
@@ -155,9 +156,10 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
             \*-------------------------------------------------*/
             if(save_settings)
             {
-                hue_settings["bridges"][0]["username"] = bridge.getUsername();
-                hue_settings["bridges"][0]["clientkey"] = bridge.getClientKey();
-                hue_settings["bridges"][0]["entertainment"] = use_entertainment;
+                hue_settings["bridges"][0]["username"]       = bridge.getUsername();
+                hue_settings["bridges"][0]["clientkey"]      = bridge.getClientKey();
+                hue_settings["bridges"][0]["entertainment"]  = use_entertainment;
+                hue_settings["bridges"][0]["autoconnect"]    = auto_connect;
 
                 ResourceManager::get()->GetSettingsManager()->SetSettings("PhilipsHueDevices", hue_settings);
 
@@ -165,11 +167,16 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
             }
 
             /*-------------------------------------------------*\
-            | Get all groups from the bridge                    |
+            | Get entertainment mode settings                    |
             \*-------------------------------------------------*/
             if(hue_settings["bridges"][0].contains("entertainment"))
             {
                 use_entertainment = hue_settings["bridges"][0]["entertainment"];
+            }
+
+            if(hue_settings["bridges"][0].contains("autoconnect"))
+            {
+                auto_connect = hue_settings["bridges"][0]["autoconnect"];
             }
 
             /*-------------------------------------------------*\
@@ -195,19 +202,22 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
                         }
                     }
 
-					/*-------------------------------------------------*\
-					| Loop through RGB Controllers to find the first    |
-					| Entertainment group and Set it to "Connect",      |
-					| as only one Stream can be open at a time.         |
-					\*-------------------------------------------------*/
-					for (unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
-					{
-						if (rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device")
-						{
-							rgb_controllers[controller_idx]->SetMode(0);
-							break;
-						}
-					}
+                    /*-------------------------------------------------*\
+                    | Loop through RGB Controllers to find the first    |
+                    | Entertainment group and Set it to "Connect",      |
+                    | as only one Stream can be open at a time.         |
+                    \*-------------------------------------------------*/
+                    if(auto_connect)
+                    {
+                        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+                        {
+                            if(rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device")
+                            {
+                                rgb_controllers[controller_idx]->SetMode(0);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
