@@ -15,9 +15,13 @@
 
 enum
 {
-    AURA_MOUSEMAT_MODE_DIRECT           = 0,
+    AURA_MOUSEMAT_MODE_STATIC           = 0,
     AURA_MOUSEMAT_MODE_BREATHING        = 1,
+    AURA_MOUSEMAT_MODE_COLOR_CYCLE      = 2,
     AURA_MOUSEMAT_MODE_CHASING          = 3,
+    AURA_MOUSEMAT_MODE_COMET            = 5,
+    AURA_MOUSEMAT_MODE_GLOWING_YOYO     = 6,
+    AURA_MOUSEMAT_MODE_DIRECT           = 0xFF,
 };
 
 class AuraMousematController
