@@ -72,6 +72,7 @@
 #define AURA_TERMINAL_PID                       0x1889
 #define AURA_ROG_THRONE_PID                     0x18D9
 #define AURA_ROG_THRONE_QI_PID                  0x18C5
+#define AURA_ROG_THRONE_QI_GUNDAM_PID           0x1994
 #define ROG_STRIX_LC120_PID                     0x879E
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
@@ -322,3 +323,4 @@ REGISTER_HID_DETECTOR    ("ASUS ROG AURA Terminal",             DetectAsusAuraUS
 REGISTER_HID_DETECTOR_PU ("ASUS ROG Strix LC",                  DetectAsusAuraUSBROGStrixLC,    AURA_USB_VID, ROG_STRIX_LC120_PID,                      0x00FF, 1);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne",                    DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID,                      0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI",                 DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                   0);
+REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI GUNDAM",          DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_GUNDAM_PID,            0);
