@@ -270,14 +270,17 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
         /* swy: (B) no luck, try interpreting it as an hexadecimal number instead */
         if (!parsed)
         {
-            const char *colorptr = color.c_str(); char *endptr = NULL;
+            if (color.length() == 6)
+            {
+                const char *colorptr = color.c_str(); char *endptr = NULL;
 
-            rgb = strtoul(colorptr, &endptr, 16);
+                rgb = strtoul(colorptr, &endptr, 16);
 
-            /* swy: check that strtoul() has advanced the read pointer until the end (NULL terminator);
-                    that means it has read the whole thing */
-            if (colorptr != endptr && endptr && *endptr == '\0')
-                parsed = true;
+                /* swy: check that strtoul() has advanced the read pointer until the end (NULL terminator);
+                        that means it has read the whole thing */
+                if (colorptr != endptr && endptr && *endptr == '\0')
+                    parsed = true;
+            }
         }
 
         /* swy: we got it, save the 32-bit integer as a tuple of three RGB bytes */
