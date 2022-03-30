@@ -18,7 +18,7 @@ AuraMousematController::AuraMousematController(hid_device* dev_handle, const cha
 
 AuraMousematController::~AuraMousematController()
 {
-	hid_close(dev);
+    hid_close(dev);
 }
 
 std::string AuraMousematController::GetDeviceLocation()

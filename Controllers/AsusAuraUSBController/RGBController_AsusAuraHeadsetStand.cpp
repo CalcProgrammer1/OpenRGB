@@ -99,7 +99,7 @@ RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandC
 
 RGBController_AuraHeadsetStand::~RGBController_AuraHeadsetStand()
 {
-	delete controller;
+    delete controller;
 }
 
 void RGBController_AuraHeadsetStand::SetupZones()

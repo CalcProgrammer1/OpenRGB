@@ -107,7 +107,7 @@ RGBController_AuraMousemat::RGBController_AuraMousemat(AuraMousematController* c
 
 RGBController_AuraMousemat::~RGBController_AuraMousemat()
 {
-	delete controller;
+    delete controller;
 }
 
 void RGBController_AuraMousemat::SetupZones()

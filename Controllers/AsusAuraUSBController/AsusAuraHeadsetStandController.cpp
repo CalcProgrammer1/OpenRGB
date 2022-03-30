@@ -19,7 +19,7 @@ AuraHeadsetStandController::AuraHeadsetStandController(hid_device* dev_handle, c
 
 AuraHeadsetStandController::~AuraHeadsetStandController()
 {
-	hid_close(dev);
+    hid_close(dev);
 }
 
 std::string AuraHeadsetStandController::GetDeviceLocation()
