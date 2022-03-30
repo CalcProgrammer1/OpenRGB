@@ -32,6 +32,7 @@
 #define STEELSERIES_RIVAL_100_PID                   0x1702
 #define STEELSERIES_RIVAL_100_DOTA_PID              0x170c
 #define STEELSERIES_RIVAL_105_PID                   0x1814
+#define STEELSERIES_RIVAL_106_PID                   0x1816
 #define STEELSERIES_RIVAL_110_PID                   0x1729
 #define STEELSERIES_RIVAL_300_PID                   0x1710
 #define ACER_PREDATOR_RIVAL_300_PID                 0x1714
@@ -269,6 +270,7 @@ void DetectSteelSeriesArctis5(hid_device_info* info, const std::string& name)
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 100",                            DetectSteelSeriesRival100,  STEELSERIES_VID, STEELSERIES_RIVAL_100_PID,                 0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 100 DotA 2 Edition",             DetectSteelSeriesRival100,  STEELSERIES_VID, STEELSERIES_RIVAL_100_DOTA_PID,            0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 105",                            DetectSteelSeriesRival100,  STEELSERIES_VID, STEELSERIES_RIVAL_105_PID,                 0  );
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 106",                            DetectSteelSeriesRival100,  STEELSERIES_VID, STEELSERIES_RIVAL_106_PID,                 0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 110",                            DetectSteelSeriesRival100,  STEELSERIES_VID, STEELSERIES_RIVAL_110_PID,                 0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 300",                            DetectSteelSeriesRival300,  STEELSERIES_VID, STEELSERIES_RIVAL_300_PID,                 0  );
 REGISTER_HID_DETECTOR_I("Acer Predator Gaming Mouse (Rival 300)",           DetectSteelSeriesRival300,  STEELSERIES_VID, ACER_PREDATOR_RIVAL_300_PID,               0  );
@@ -287,8 +289,8 @@ REGISTER_HID_DETECTOR_I("SteelSeries Rival 650",                            Dete
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 650 Wireless",                   DetectSteelSeriesRival650,  STEELSERIES_VID, STEELSERIES_RIVAL_650_WIRELESS_PID,        0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 700",                            DetectSteelSeriesRival700,  STEELSERIES_VID, STEELSERIES_RIVAL_700_PID,                 0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 710",                            DetectSteelSeriesRival700,  STEELSERIES_VID, STEELSERIES_RIVAL_710_PID,                 0  );
-REGISTER_HID_DETECTOR_I("SteelSeries Rival 3 (Old Firmware)",               DetectSteelSeriesRival3,    STEELSERIES_VID, STEELSERIES_RIVAL_3_OLD_PID,                   3);
-REGISTER_HID_DETECTOR_I("SteelSeries Rival 3",                              DetectSteelSeriesRival3,    STEELSERIES_VID, STEELSERIES_RIVAL_3_PID,                   3);
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 3 (Old Firmware)",               DetectSteelSeriesRival3,    STEELSERIES_VID, STEELSERIES_RIVAL_3_OLD_PID,               3  );
+REGISTER_HID_DETECTOR_I("SteelSeries Rival 3",                              DetectSteelSeriesRival3,    STEELSERIES_VID, STEELSERIES_RIVAL_3_PID,                   3  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN CS:GO Neon Rider Edition",  DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_CSGO_NEON_RIDER_PID,0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_310_PID,                0  );
