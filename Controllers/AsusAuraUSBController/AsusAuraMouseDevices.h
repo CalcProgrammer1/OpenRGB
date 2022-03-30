@@ -26,6 +26,9 @@
 #define AURA_ROG_PUGIO_II_WIRELESS_PID          0x1908
 #define AURA_ROG_STRIX_IMPACT_II_PID            0x18E1
 #define AURA_ROG_KERIS                          0x195C
+#define AURA_ROG_KERIS_WIRELESS_USB_PID         0x195E
+#define AURA_ROG_KERIS_WIRELESS_2_4_PID         0x1960
+#define AURA_ROG_KERIS_WIRELESS_BT_PID          0x1962
 #define AURA_TUF_M3_PID                         0x1910
 #define AURA_TUF_M5_PID                         0x1898
 
@@ -232,6 +235,39 @@ static std::map<int,mouse_type> aura_mouse_devices =
             1, // might be the wrong protocol for version
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
+        AURA_ROG_KERIS_WIRELESS_USB_PID, // ROG Keris
+        {
+            0,
+            0,
+            true,
+            1, // might be the wrong protocol for version
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_KERIS_WIRELESS_2_4_PID, // ROG Keris
+        {
+            0,
+            0,
+            true,
+            1, // might be the wrong protocol for version
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_KERIS_WIRELESS_BT_PID, // ROG Keris
+        {
+            0,
+            0,
+            true,
+            1, // might be the wrong protocol for version
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
         }
     },
     {
