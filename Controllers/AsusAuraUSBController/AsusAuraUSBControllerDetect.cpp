@@ -7,6 +7,7 @@
 #include "AsusAuraMouseController.h"
 #include "AsusAuraMousematController.h"
 #include "AsusAuraStrixEvolveController.h"
+#include "AsusAuraMonitorController.h"
 #include "RGBController.h"
 #include "RGBController_AsusAuraUSB.h"
 #include "RGBController_AsusAuraHeadsetStand.h"
@@ -16,6 +17,7 @@
 #include "RGBController_AsusAuraMousemat.h"
 #include "RGBController_ROGStrixLC_Controller.h"
 #include "RGBController_AsusAuraStrixEvolve.h"
+#include "RGBController_AsusAuraMonitor.h"
 #include <stdexcept>
 #include <hidapi/hidapi.h>
 #include "dependencies/dmiinfo.h"
@@ -57,6 +59,12 @@
 \*-----------------------------------------------------------------*/
 #define AURA_ROG_BALTEUS_PID                    0x1891
 #define AURA_ROG_BALTEUS_QI_PID                 0x1890
+
+/*-----------------------------------------------------------------*\
+| MONITORS                                                          |
+\*-----------------------------------------------------------------*/
+
+#define AURA_ROG_STRIX_XG27AQ_PID               0x198C
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
@@ -233,6 +241,19 @@ void DetectAsusAuraTUFUSBKeyboard(hid_device_info* info, const std::string& name
     }
 }
 
+void DetectAsusAuraUSBMonitor(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        AuraMonitorController*     controller           = new AuraMonitorController(dev, info->path);
+        RGBController_AuraMonitor* rgb_controller       = new RGBController_AuraMonitor(controller);
+        rgb_controller->name                            = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 /*-----------------------------------------------------------------*\
 |  MOTHERBOARDS                                                     |
 \*-----------------------------------------------------------------*/
@@ -288,6 +309,11 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Evolve",               DetectAsusAuraUS
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU("ASUS ROG Balteus",                    DetectAsusAuraUSBMousemats,     AURA_USB_VID, AURA_ROG_BALTEUS_PID,                     0xFF06, 1);
 REGISTER_HID_DETECTOR_PU("ASUS ROG Balteus Qi",                 DetectAsusAuraUSBMousemats,     AURA_USB_VID, AURA_ROG_BALTEUS_QI_PID,                  0xFF06, 1);
+
+/*-----------------------------------------------------------------*\
+| MONITORS                                                          |
+\*-----------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_PU("ASUS ROG Strix XG27AQ",               DetectAsusAuraUSBMonitor,       AURA_USB_VID, AURA_ROG_STRIX_XG27AQ_PID,                0xFFA0, 1);
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
