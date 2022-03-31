@@ -33,12 +33,16 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
     {
         name    = devices[0].name;
     }
+    else if(devices[0].ip != "")
+    {
+        name += " (" + devices[0].ip + ")";
+    }
 
     /*-----------------------------------------*\
     | Append the destination address to the     |
     | location field                            |
     \*-----------------------------------------*/
-    if((devices.size() == 1) && (devices[0].ip != ""))
+    if(devices[0].ip != "")
     {
         location += "Unicast " + devices[0].ip + ", ";
     }
