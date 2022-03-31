@@ -9,7 +9,7 @@
 
 #include "EVGAKeyboardController.h"
 
-static uint8_t packet_map[EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT + EVGA_KEYBOARD_Z20_EXTRA] =
+static uint8_t packet_map[EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT + EVGA_KEYBOARD_Z20_EXTRA_KEYS] =
 {
 /*00        ESC  F1   F2   F3   F4   F5   F6   F7   F8   F9  */
              1,   2,   3,   4,   5,   6,   7,   8,   9,  10,
@@ -41,23 +41,27 @@ static uint8_t packet_map[EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT + EVGA_KEYBOARD_Z20_E
 /*90        NM-  NM+ NETR  NM1  NM2  NM3  NM4  NM5  NM6  NM7 */
             42,  64, 101,  98,  99, 100,  79,  80,  81,  61,
 
-/*100       NM8  NM9  NM0  NM.  PRV  PLY  NXT MTE       */
-            62,  63, 114, 115,  18,  19,  20, 118
-    /*Macros+       GM   M1   M2   M3   M4   M5 */
-                   , 0,  21,  43,   65,  82,  102,
-    /*Left Lights   L1   L2   L3   L4   L5   L6   L7   L8   L9   */
-                   160, 161, 162, 163, 164, 165, 166, 167, 168,
-    /*Right Lights  R1   R2   R3   R4   R5   R6   R7   R8   R9   */
-                   176, 177, 178, 179, 180, 181, 182, 183, 184
+/*100       NM8  NM9  NM0  NM.  PRV  PLY  NXT  MTE  R1   R2  */
+            62,  63, 114, 115,  18,  19,  20, 118, 176, 177,
+
+/*110       R3   R4   R5   R6   R7   R8   R9   L1   L2   L3  */
+           178, 179, 180, 181, 182, 183, 184, 160, 161, 162,
+
+/*120       L4   L5   L6   L7   L8   L9   GM   M1   M2   M3  */
+           163, 164, 165, 166, 167, 168,   0,  21,  43,  65,
+
+/*130       M4   M5  */
+            82, 102
 };
 
-EVGAKeyboardController::EVGAKeyboardController(hid_device* dev_handle, const char* path)
+EVGAKeyboardController::EVGAKeyboardController(hid_device* dev_handle, const char* path, uint16_t kb_pid)
 {
     const uint8_t   sz      = HID_MAX_STR;
     wchar_t         tmp[sz];
 
     dev                     = dev_handle;
     location                = path;
+    pid                     = kb_pid;
 
     hid_get_manufacturer_string(dev, tmp, sz);
     std::wstring w_tmp      = std::wstring(tmp);
@@ -95,6 +99,11 @@ std::string EVGAKeyboardController::GetSerial()
 std::string EVGAKeyboardController::GetLocation()
 {
     return("HID: " + location);
+}
+
+uint16_t EVGAKeyboardController::GetPid()
+{
+    return pid;
 }
 
 void  EVGAKeyboardController::SetLedsDirect(std::vector<RGBColor> colors)

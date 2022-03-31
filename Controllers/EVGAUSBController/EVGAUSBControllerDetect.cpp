@@ -24,7 +24,7 @@ void DetectEVGAKeyboardControllers(hid_device_info* info, const std::string& nam
 
     if(dev)
     {
-        EVGAKeyboardController* controller          = new EVGAKeyboardController(dev, info->path);
+        EVGAKeyboardController* controller          = new EVGAKeyboardController(dev, info->path, info->product_id);
         RGBController_EVGAKeyboard* rgb_controller  = new RGBController_EVGAKeyboard(controller);
         rgb_controller->name                        = name;
 

@@ -21,15 +21,13 @@
 #define EVGA_KEYBOARD_CONTROLLER_ID_4_SIZE          17
 #define EVGA_KEYBOARD_CONTROLLER_ID_6_SIZE          792
 #define EVGA_KEYBOARD_CONTROLLER_ID_7_SIZE          136
-#define EVGA_KEYBOARD_CONTROLLER_ID_Z20_4_SIZE          35
-#define EVGA_KEYBOARD_CONTROLLER_ID_Z20_6_SIZE          828
-#define EVGA_KEYBOARD_CONTROLLER_ID_Z20_7_SIZE          187
 #define EVGA_KEYBOARD_CONTROLLER_INTERRUPT_TIMEOUT  250
 
 #define EVGA_KEYBOARD_CONTROLLER_BRIGHTNESS_MIN     0
 #define EVGA_KEYBOARD_CONTROLLER_BRIGHTNESS_MAX     255
 #define EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT            108
-#define EVGA_KEYBOARD_Z20_EXTRA                     24
+#define EVGA_KEYBOARD_Z20_EXTRA_KEYS                24
+#define EVGA_KEYBOARD_Z20_EXTRA_ZONES               3
 
 static const uint8_t direction_map[8][4] =
 {
@@ -91,7 +89,7 @@ enum EVGA_Keyboard_Controller_Speed
 class EVGAKeyboardController
 {
 public:
-    EVGAKeyboardController(hid_device* dev_handle, const char* path);
+    EVGAKeyboardController(hid_device* dev_handle, const char* path, uint16_t kb_pid);
     ~EVGAKeyboardController();
 
     std::string     GetDeviceName();
@@ -106,10 +104,12 @@ public:
     void            SetSleepTime();
     void            GetStatus(mode *mode);
     uint8_t         GetMode();
+    uint16_t        GetPid();
 private:
     std::string     device_name;
     std::string     location;
     hid_device*     dev;
+    uint16_t        pid;
 
     void            NFIPacket();
     void            FillColours(uint8_t * buffer, uint8_t brightness, std::vector<RGBColor> colors);

@@ -14,27 +14,26 @@
 
 static unsigned int full_matrix_map[6][21] =
 {
-    {   0,  NA,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15, 104, 105, 106, 107},
-    {  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  87,  88,  89,  90},
-    {  33,  34,  35,  36,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  99, 100, 101,  91},
-    {  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  NA,  NA,  NA,  NA,  96,  97,  98,  NA},
-    {  63,  NA,  64,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  NA,  NA,  75,  NA,  93,  94,  95,  92},
-    {  76,  77,  78,  NA,  NA,  NA,  79,  NA,  NA,  NA,  80,  81,  82,  83,  84,  85,  86, 102,  NA, 103,  NA}
+    {   0,  NA,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15, 104, 105, 106, 107 },
+    {  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  87,  88,  89,  90 },
+    {  33,  34,  35,  36,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  99, 100, 101,  91 },
+    {  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  NA,  NA,  NA,  NA,  96,  97,  98,  NA },
+    {  63,  NA,  64,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  NA,  NA,  75,  NA,  93,  94,  95,  92 },
+    {  76,  77,  78,  NA,  NA,  NA,  79,  NA,  NA,  NA,  80,  81,  82,  83,  84,  85,  86, 102,  NA, 103,  NA }
 };
 
-static unsigned int Z20_right_side_matrix[1][9] =
+static unsigned int Z20_extra_zones[EVGA_KEYBOARD_Z20_EXTRA_ZONES][9] =
 {
-    { 116, 118, 120, 122, 124, 126, 128, 130, 132}
+    {   0,   1,   2,   3,   4,   5,   6,   7,   8 },    //Index 108
+    {   0,   1,   2,   3,   4,   5,   6,   7,   8 },    //Index 117
+    {   0,   1,   2,   3,   4,   5,  NA,  NA,  NA }     //Index 126
 };
 
-static unsigned int Z20_left_side_matrix[1][9] =
+const char* Z20_zone_names[EVGA_KEYBOARD_Z20_EXTRA_ZONES] =
 {
-     { 115, 117, 119, 121, 123, 125, 127, 129, 131}
-};
-
-static unsigned int Z20_macro_matrix[1][6] =
-{
-    {109, 110, 111, 112, 113, 114}
+    "Right Side LEDs",
+    "Left Side LEDs",
+    "Macro Keys"
 };
 
 static const char *led_names[] =
@@ -154,15 +153,45 @@ static const char *led_names[] =
     KEY_EN_MEDIA_PLAY_PAUSE,
     KEY_EN_MEDIA_NEXT,
     KEY_EN_MEDIA_MUTE,
-},
-{
-    "Key: Feature Button", "Key: Macro 1", "Key: Macro 2", "Key: Macro 3", "Key: Macro 4", "Key: Macro 5"
-},
-{
-"Key: Number Pad 1", "Key: Number Pad 2", "Key: Number Pad 3", "Key: Number Pad 4", "Key: Number Pad 5", "Key: Number Pad 6", "Key: Number Pad 7", "Key: Number Pad 8", "Key: Number Pad 9"},
-{
-"Key: Number Pad 1", "Key: Number Pad 2", "Key: Number Pad 3", "Key: Number Pad 4", "Key: Number Pad 5", "Key: Number Pad 6", "Key: Number Pad 7", "Key: Number Pad 8", "Key: Number Pad 9"},
+
+    "Key: Right LED 1",
+    "Key: Right LED 2",
+    "Key: Right LED 3",     //110
+    "Key: Right LED 4",
+    "Key: Right LED 5",
+    "Key: Right LED 6",
+    "Key: Right LED 7",
+    "Key: Right LED 8",
+    "Key: Right LED 9",
+
+    "Key: Left LED 1",
+    "Key: Left LED 2",
+    "Key: Left LED 3",
+    "Key: Left LED 4",      //120
+    "Key: Left LED 5",
+    "Key: Left LED 6",
+    "Key: Left LED 7",
+    "Key: Left LED 8",
+    "Key: Left LED 9",
+
+    "Key: Feature Button",
+    "Key: Macro 1",
+    "Key: Macro 2",
+    "Key: Macro 3",
+    "Key: Macro 4",         //130
+    "Key: Macro 5",
 };
+
+/**
+    @name EVGA USB Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectEVGAKeyboardControllers
+    @comment The EVGA USB keyboard controller currently supports
+        the Z15 (both ISO & ANSI) as well as the Z20 ANSI keyboards
+*/
 
 RGBController_EVGAKeyboard::RGBController_EVGAKeyboard(EVGAKeyboardController* controller_ptr)
 {
@@ -364,7 +393,8 @@ RGBController_EVGAKeyboard::~RGBController_EVGAKeyboard()
 void RGBController_EVGAKeyboard::SetupZones()
 {
     /*-------------------------------------------------*\
-    | Clear any existing color/LED configuration        |
+    | Set up the base configuration common to           |
+    |   Z15 and Z20                                     |
     \*-------------------------------------------------*/
     zone KB_zone;
     KB_zone.name                = "Keyboard Zone";
@@ -378,47 +408,41 @@ void RGBController_EVGAKeyboard::SetupZones()
     KB_zone.matrix_map->width   = 21;
     KB_zone.matrix_map->map     = (unsigned int *)&full_matrix_map;
     zones.push_back(KB_zone);
-    if(controller->GetDeviceName() == "EVGA Corporation EVGA Z20 Elite Gaming Keyboard"){
-        zone KB_right_sidelights;
-        KB_right_sidelights.name          = "Right Side Lights";
-        KB_right_sidelights.type          = 1;
-        KB_right_sidelights.leds_min      = 9;
-        KB_right_sidelights.leds_max      = 9;
-        KB_right_sidelights.leds_count    = 9;
-        KB_right_sidelights.matrix_map    = new matrix_map_type;
 
-        zone KB_left_sidelights;
-        KB_left_sidelights.name          = "Left Side Lights";
-        KB_left_sidelights.type          = 1;
-        KB_left_sidelights.leds_min      = 9;
-        KB_left_sidelights.leds_max      = 9;
-        KB_left_sidelights.leds_count    = 9;
-        KB_left_sidelights.matrix_map    = new matrix_map_type;
+    /*-------------------------------------------------*\
+    | Add configuration for the Z20                     |
+    \*-------------------------------------------------*/
+    if(controller->GetPid() == 0x260A)
+    {
 
-        zone KB_macros;
-        KB_macros.name          = "Macros";
-        KB_macros.type          = 1;
-        KB_macros.leds_min      = 6;
-        KB_macros.leds_max      = 6;
-        KB_macros.leds_count    = 6;
-        KB_macros.matrix_map    = new matrix_map_type;
+        for(uint8_t i = 0; i < EVGA_KEYBOARD_Z20_EXTRA_ZONES; i++)
+        {
+            uint8_t zone_size = sizeof(Z20_extra_zones[i]) / sizeof(Z20_extra_zones[i][0]);
 
-        KB_right_sidelights.matrix_map->height  = 1;
-        KB_right_sidelights.matrix_map->width  = 9;
-        KB_right_sidelights.matrix_map->map  = (unsigned int *)&Z20_right_side_matrix;
+            for(uint8_t count = 0; count < zone_size; count++)
+            {
+                if(Z20_extra_zones[i][count] == NA)
+                {
+                    zone_size = count;
+                    break;
+                }
+            }
 
-        KB_left_sidelights.matrix_map->height  = 1;
-        KB_left_sidelights.matrix_map->width  = 9;
-        KB_left_sidelights.matrix_map->map  = (unsigned int *)&Z20_right_side_matrix;
+            zone new_zone;
+            new_zone.name               = Z20_zone_names[i];
+            new_zone.type               = ZONE_TYPE_MATRIX;
+            new_zone.leds_min           = zone_size;
+            new_zone.leds_max           = zone_size;
+            new_zone.leds_count         = zone_size;
 
-        KB_macros.matrix_map->height  = 1;
-        KB_macros.matrix_map->width  = 6;
-        KB_macros.matrix_map->map  = (unsigned int *)&Z20_macro_matrix;
-
-        zones.push_back(KB_macros);
-        zones.push_back(KB_left_sidelights);
-        zones.push_back(KB_right_sidelights);
+            new_zone.matrix_map         = new matrix_map_type;
+            new_zone.matrix_map->height = 1;
+            new_zone.matrix_map->width  = zone_size;
+            new_zone.matrix_map->map    = (unsigned int *)&Z20_extra_zones[i];
+            zones.push_back(new_zone);
+        }
     }
+
     /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
     \*-------------------------------------------------*/
@@ -426,15 +450,17 @@ void RGBController_EVGAKeyboard::SetupZones()
     colors.clear();
 
     /*---------------------------------------------------------*\
-    | Set up zones                                              |
+    | Set up leds                                               |
     \*---------------------------------------------------------*/
     for(std::size_t zone_index = 0; zone_index < zones.size(); zone_index++)
     {
+        int zone_offset = leds.size();
+
         for(unsigned int led_index = 0; led_index < zones[zone_index].leds_count; led_index++)
         {
             led new_led;
-            new_led.name        = led_names[led_index];
-            new_led.value       = led_index;
+            new_led.value       = led_index + zone_offset;
+            new_led.name        = led_names[new_led.value];
             leds.push_back(new_led);
         }
     }

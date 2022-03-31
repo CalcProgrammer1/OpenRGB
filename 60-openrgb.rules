@@ -333,6 +333,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="5750", TAG+="uacces
 #---------------------------------------------------------------#
 SUBSYSTEMS=="usb", ATTR{idVendor}=="3842", ATTR{idProduct}=="2608", TAG+="uaccess", TAG+="EVGA_ANSI_Z15"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="3842", ATTR{idProduct}=="260e", TAG+="uaccess", TAG+="EVGA_ISO_Z15"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="3842", ATTR{idProduct}=="260a", TAG+="uaccess", TAG+="EVGA_ANSI_Z20"
 
 #---------------------------------------------------------------#
 #  Holtek Devices                                               #
