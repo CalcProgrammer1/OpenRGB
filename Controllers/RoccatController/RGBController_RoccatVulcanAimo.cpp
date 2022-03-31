@@ -167,14 +167,39 @@ RGBController_RoccatVulcanAimo::RGBController_RoccatVulcanAimo(RoccatVulcanAimoC
     vendor      = "Roccat";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Roccat Vulcan Aimo Keyboard";
+    version     = controller->GetVersion();
     location    = controller->GetLocation();
     serial      = controller->GetSerial();
 
     mode Direct;
     Direct.name       = "Direct";
+    Direct.value      = ROCCAT_VULCAN_MODE_DIRECT;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Static;
+    Static.name             = "Static";
+    Static.value            = ROCCAT_VULCAN_MODE_STATIC;
+    Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Static.brightness_min   = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+    Static.brightness_max   = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+    Static.brightness       = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+    Static.color_mode       = MODE_COLORS_PER_LED;
+    modes.push_back(Static);
+
+    mode Wave;
+    Wave.name           = "Rainbow Wave";
+    Wave.value          = ROCCAT_VULCAN_MODE_WAVE;
+    Wave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Wave.speed_min      = ROCCAT_VULCAN_SPEED_MIN;
+    Wave.speed_max      = ROCCAT_VULCAN_SPEED_MAX;
+    Wave.speed          = ROCCAT_VULCAN_SPEED_DEFAULT;
+    Wave.brightness_min = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+    Wave.brightness_max = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+    Wave.brightness     = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+    Wave.color_mode     = MODE_COLORS_NONE;
+    modes.push_back(Wave);
 
     SetupZones();
 }
@@ -220,7 +245,14 @@ void RGBController_RoccatVulcanAimo::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_RoccatVulcanAimo::DeviceUpdateLEDs()
 {
-    controller->SendColors(colors);
+    if (modes[active_mode].value == ROCCAT_VULCAN_MODE_DIRECT)
+    {
+        controller->SendColors(colors);
+    }
+    else
+    {
+        DeviceUpdateMode();
+    }
 }
 
 void RGBController_RoccatVulcanAimo::UpdateZoneLEDs(int /*zone_idx*/)
@@ -240,7 +272,5 @@ void RGBController_RoccatVulcanAimo::SetCustomMode()
 
 void RGBController_RoccatVulcanAimo::DeviceUpdateMode()
 {
-    /*---------------------------------------------------------*\
-    | Changing modes is currently not implemented               |
-    \*---------------------------------------------------------*/
+    controller->SendMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colors);
 }

@@ -11,6 +11,16 @@
 #include "RGBController.h"
 #include "RoccatVulcanAimoController.h"
 
+enum
+{
+    ROCCAT_VULCAN_SPEED_MIN             = 0x01,
+    ROCCAT_VULCAN_SPEED_MAX             = 0x0B,
+    ROCCAT_VULCAN_SPEED_DEFAULT         = 0x06,
+    ROCCAT_VULCAN_BRIGHTNESS_MIN        = 0x01,
+    ROCCAT_VULCAN_BRIGHTNESS_MAX        = 0x45,
+    ROCCAT_VULCAN_BRIGHTNESS_DEFAULT    = 0x45,
+};
+
 class RGBController_RoccatVulcanAimo : public RGBController
 {
 public:
