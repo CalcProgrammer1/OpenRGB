@@ -104,6 +104,8 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
     std::string to_file         = to_path + filesystem::path(from_path).filename().string();
     bool        match           = false;
 
+    LOG_TRACE("[OpenRGBPluginsPage] Installing plugin %s", install_file.c_str());
+
     /*-----------------------------------------------------*\
     | Check if a plugin with this path already exists       |
     \*-----------------------------------------------------*/
@@ -139,7 +141,8 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
     {
         plugin_manager->RemovePlugin(to_file);
 
-        filesystem::copy(from_path, to_path, filesystem::copy_options::update_existing);
+        LOG_TRACE("[OpenRGBPluginsPage] Copying from %s to %s", from_path.c_str(), to_path.c_str());
+        filesystem::copy(from_path, to_path, filesystem::copy_options::overwrite_existing);
 
         plugin_manager->AddPlugin(to_file);
 
@@ -147,7 +150,7 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
     }
     catch(const std::exception& e)
     {
-        LOG_ERROR("[PluginsManager] Failed to install plugin: %s", e.what());
+        LOG_ERROR("[OpenRGBPluginsPage] Failed to install plugin: %s", e.what());
     }
 
     return false;
@@ -193,7 +196,7 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
              &&(plugin_settings["plugins"][plugin_idx].contains("description")))
             {
                 if((plugin_settings["plugins"][plugin_idx]["name"] == entries[cur_row]->ui->NameValue->text().toStdString())
-                 &&(plugin_settings["plugins"][plugin_idx]["description"] == entries[cur_row]->ui->DescriptionValue->text().toStdString()))   
+                 &&(plugin_settings["plugins"][plugin_idx]["description"] == entries[cur_row]->ui->DescriptionValue->text().toStdString()))
                 {
                     plugin_settings["plugins"].erase(plugin_idx);
 

@@ -44,6 +44,7 @@ void PluginManager::ScanAndLoadPlugins()
 
     for(int i = 0; i < QDir(plugins_dir).entryList(QDir::Files).size(); i++)
     {
+        LOG_TRACE("[PluginManager] Found plugin file %s", QDir(plugins_dir).entryList(QDir::Files)[i].toStdString().c_str());
         FileList.push_back(QDir(plugins_dir).entryList(QDir::Files)[i].toStdString());
     }
 
@@ -97,6 +98,8 @@ void PluginManager::AddPlugin(std::string path)
             {
                 if(plugin->GetPluginAPIVersion() == OPENRGB_PLUGIN_API_VERSION)
                 {
+                    LOG_TRACE("[PluginManager] Plugin %s has a compatible API version", path.c_str());
+
                     /*-----------------------------------------------------*\
                     | Get the plugin information                            |
                     \*-----------------------------------------------------*/
@@ -184,6 +187,11 @@ void PluginManager::AddPlugin(std::string path)
                         LoadPlugin(path);
                     }
                 }
+                else
+                {
+                    loader->unload();
+                    LOG_WARNING("[PluginManager] Plugin %s has an incompatible API version", path.c_str());
+                }
             }
         }
     }
@@ -192,6 +200,8 @@ void PluginManager::AddPlugin(std::string path)
 void PluginManager::RemovePlugin(std::string path)
 {
     unsigned int plugin_idx;
+
+    LOG_TRACE("[PluginManager] Attempting to remove plugin %s", path.c_str());
 
     /*---------------------------------------------------------------------*\
     | Search active plugins to see if this path already exists              |
@@ -209,6 +219,7 @@ void PluginManager::RemovePlugin(std::string path)
     \*---------------------------------------------------------------------*/
     if(plugin_idx == ActivePlugins.size())
     {
+        LOG_TRACE("[PluginManager] Plugin %s not active", path.c_str());
         return;
     }
 
@@ -217,6 +228,7 @@ void PluginManager::RemovePlugin(std::string path)
     \*---------------------------------------------------------------------*/
     if(ActivePlugins[plugin_idx].loaded)
     {
+        LOG_TRACE("[PluginManager] Plugin %s is active, unloading", path.c_str());
         UnloadPlugin(path);
     }
 
