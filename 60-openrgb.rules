@@ -65,7 +65,8 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18cf", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f8", TAG+="uaccess", TAG+="ROG_Strix_Scope"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1951", TAG+="uaccess", TAG+="ROG_Strix_Scope_RX"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="190c", TAG+="uaccess", TAG+="ROG_Strix_Scope_TKL"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess", TAG+="TUF_K7_Gaming"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18aa", TAG+="uaccess", TAG+="TUF_K7_Gaming"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="194b", TAG+="uaccess", TAG+="TUF_K3_Gaming"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18dd", TAG+="uaccess", TAG+="ROG_Gladius_II_Core"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1845", TAG+="uaccess", TAG+="ROG_Gladius_II"
