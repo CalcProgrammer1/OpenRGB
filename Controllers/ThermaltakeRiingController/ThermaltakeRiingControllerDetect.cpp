@@ -65,3 +65,16 @@ REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2260)", DetectThermaltakeRi
 REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2261)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2261);
 REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2262)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2262);
 REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2263)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2263);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2264)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2264);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2265)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2265);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2266)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2266);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2267)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2267);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2268)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2268);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2269)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2269);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x226A)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x226A);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x226B)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x226B);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x226C)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x226C);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x226D)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x226D);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x226E)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x226E);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x226F)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x226F);
+REGISTER_HID_DETECTOR("Thermaltake Riing Quad (PID 0x2270)", DetectThermaltakeRiingQuadControllers, THERMALTAKE_RIING_VID, 0x2270);
