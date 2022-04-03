@@ -48,15 +48,13 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1866", TAG+="uacces
 #---------------------------------------------------------------#
 #  ASUS Aura USB Devices                                        #
 #---------------------------------------------------------------#
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1867", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1872", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1889", TAG+="uaccess", TAG+="AURA_Terminal"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="879e", TAG+="uaccess", TAG+="ROG_Strix_LC120"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a3", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f3", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a5", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1939", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18af", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1867", TAG+="uaccess", TAG+="AURA_Addressable_1"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1872", TAG+="uaccess", TAG+="AURA_Addressable_2"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a3", TAG+="uaccess", TAG+="AURA_Addressable_3"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a5", TAG+="uaccess", TAG+="AURA_Addressable_4"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18f3", TAG+="uaccess", TAG+="AURA_Motherboard_1"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1939", TAG+="uaccess", TAG+="AURA_Motherboard_2"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="19af", TAG+="uaccess", TAG+="AURA_Motherboard_3"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193c", TAG+="uaccess", TAG+="ROG_Falchion_Wired"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="193e", TAG+="uaccess", TAG+="ROG_Falchion_Wireless"
@@ -77,12 +75,31 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="189e", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18a0", TAG+="uaccess", TAG+="ROG_Gladius_II_Wireless2"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e5", TAG+="uaccess", TAG+="ROG_Chakram_Wireless"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e3", TAG+="uaccess", TAG+="ROG_Chakram_Wired1"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1958", TAG+="uaccess", TAG+="ROG_Chakram_Wired2"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1958", TAG+="uaccess", TAG+="ROG_Chakram_Core"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1846", TAG+="uaccess", TAG+="ROG_Pugio"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1906", TAG+="uaccess", TAG+="ROG_Pugio_II_Wired"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1908", TAG+="uaccess", TAG+="ROG_Pugio_II_Wireless"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e1", TAG+="uaccess", TAG+="ROG_Strix_Impact_II"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1910", TAG+="uaccess", TAG+="TUF_M3_&_M7"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="195c", TAG+="uaccess", TAG+="ROG_Keris"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="195e", TAG+="uaccess", TAG+="ROG_Keris_Wireless_USB"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1960", TAG+="uaccess", TAG+="ROG_Keris_Wireless_2_4"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1962", TAG+="uaccess", TAG+="ROG_Keris_Wireless_BT"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1910", TAG+="uaccess", TAG+="TUF_M3"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1898", TAG+="uaccess", TAG+="TUF_M5"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="185b", TAG+="uaccess", TAG+="ROG_Strix_Evolve"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1891", TAG+="uaccess", TAG+="ROG_Balteus"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1890", TAG+="uaccess", TAG+="ROG_Balteus_Qi"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="198c", TAG+="uaccess", TAG+="ROG_Strix_XG27AQ"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18d9", TAG+="uaccess", TAG+="ROG_Throne"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18c5", TAG+="uaccess", TAG+="ROG_Throne_Qi"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1994", TAG+="uaccess", TAG+="ROG_Throne_Qi_GUNDAM"
+
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1889", TAG+="uaccess", TAG+="AURA_Terminal"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="879e", TAG+="uaccess", TAG+="ROG_Strix_LC120"
 
 #---------------------------------------------------------------#
 #  ASUS TUF Laptops (faustus)                                   #

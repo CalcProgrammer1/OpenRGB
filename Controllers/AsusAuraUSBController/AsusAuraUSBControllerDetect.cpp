@@ -67,12 +67,17 @@
 #define AURA_ROG_STRIX_XG27AQ_PID               0x198C
 
 /*-----------------------------------------------------------------*\
-|  OTHER                                                            |
+| HEADSETSTANDS                                                     |
 \*-----------------------------------------------------------------*/
-#define AURA_TERMINAL_PID                       0x1889
+
 #define AURA_ROG_THRONE_PID                     0x18D9
 #define AURA_ROG_THRONE_QI_PID                  0x18C5
 #define AURA_ROG_THRONE_QI_GUNDAM_PID           0x1994
+
+/*-----------------------------------------------------------------*\
+|  OTHER                                                            |
+\*-----------------------------------------------------------------*/
+#define AURA_TERMINAL_PID                       0x1889
 #define ROG_STRIX_LC120_PID                     0x879E
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
