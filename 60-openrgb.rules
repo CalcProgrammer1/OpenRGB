@@ -879,7 +879,9 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="3006", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1fa[5-9]", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1fa[a-f]", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="1fb[0-5]", TAG+="uaccess"
-SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[0-3]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[0-9]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="226[a-f]", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="264a", ATTR{idProduct}=="2270",     TAG+="uaccess"
 
 #---------------------------------------------------------------#
 #  ThingM Controllers                                           #
