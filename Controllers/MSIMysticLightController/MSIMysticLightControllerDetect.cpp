@@ -98,6 +98,7 @@ REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D09",    DetectMSIMysticLight185C
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D13",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D13,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D15",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D15,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D25",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D25,   0x0001, 0x00); // MSI PRO Z690-A WiFi DDR4
+REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D29",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D29,   0x0001, 0x00); // MSI MEF Z690-I Unify
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D54",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D54,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D31",    DetectMSIMysticLight185Controllers,   MSI_USB_VID,    0x7D31,   0x0001, 0x00); // MSI MPG Z690 EDGE WIFI DDR4
 
