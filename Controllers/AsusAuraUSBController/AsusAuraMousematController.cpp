@@ -88,12 +88,11 @@ void AuraMousematController::UpdateLeds
 
 void AuraMousematController::UpdateDevice
     (
-    unsigned char   mode,
-    unsigned char   red,
-    unsigned char   grn,
-    unsigned char   blu,
-    unsigned char   speed,
-    unsigned char   brightness
+    unsigned char           mode,
+    std::vector<RGBColor>   colors,
+    unsigned char           speed,
+    unsigned char           brightness,
+    unsigned char           pattern
     )
 {
     unsigned char usb_buf[65];
@@ -108,11 +107,16 @@ void AuraMousematController::UpdateDevice
     usb_buf[0x05]   = mode;
     usb_buf[0x06]   = speed;
     usb_buf[0x07]   = brightness;
-    usb_buf[0x08]   = 0x00;
+    usb_buf[0x08]   = pattern;
     usb_buf[0x09]   = 0x00;
-    usb_buf[0x0a]   = red;
-    usb_buf[0x0b]   = grn;
-    usb_buf[0x0c]   = blu;
+
+    for(int i = 0; i < colors.size(); i++)
+    {
+        usb_buf[0x0a + i * 3]   = RGBGetRValue(colors[i]);
+        usb_buf[0x0b + i * 3]   = RGBGetGValue(colors[i]);
+        usb_buf[0x0c + i * 3]   = RGBGetBValue(colors[i]);
+    }
+    
     hid_write(dev, usb_buf, 65);
 }
 
