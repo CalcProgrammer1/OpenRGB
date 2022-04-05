@@ -59,9 +59,9 @@ There have been two instances of hardware damage in OpenRGB's development and we
   *  Pre-built binaries in AppImage format are available under the Releases section on GitLab.
   *  You can build the project using Qt Creator or on the command line.
       1.  Install build dependencies
-          - Debian/Ubuntu: `sudo apt install git build-essential qtcreator qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev`
-          - Debian (before `bullseye`) or Ubuntu (before 21.04): `sudo apt install git build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev`
-          - Fedora: `sudo dnf install automake gcc-c++ qt5-qtbase-devel hidapi-devel libusbx-devel mbedtls-devel`
+          - Debian/Ubuntu: `sudo apt install git build-essential qtcreator qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev libcurl4-openssl-dev`
+          - Debian (before `bullseye`) or Ubuntu (before 21.04): `sudo apt install git build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev libcurl4-openssl-dev`
+          - Fedora: `sudo dnf install automake gcc-c++ qt5-qtbase-devel hidapi-devel libusbx-devel mbedtls-devel libcurl-devel`
       2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
       3.  cd OpenRGB
       4.  qmake OpenRGB.pro
@@ -70,7 +70,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   *  Run the application with ./openrgb
   *  You can also build a Debian package (.deb) from this source code with dpkg-buildpackage -us -B
     - Building a Debian package requires `debhelper` to be installed: `sudo apt install debhelper`
-     
+
 ### SMBus Access
 
   *  SMBus access is necessary for controlling RGB RAM and certain motherboard on-board LEDs.
@@ -83,7 +83,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
               - `sudo modprobe i2c-i801`
               - `sudo modprobe i2c-nct6775` - Secondary controller for motherboard LEDs (requires patch)
           -  AMD:
-              - `modprobe i2c-piix4` 
+              - `modprobe i2c-piix4`
               - Unmodified kernel will have one interface, patched kernel will have two.  The first at 0x0B00 and the second at 0x0B20.  The 0x0B20 interface is for motherboard LEDs.
   *  Instructions on patching the kernel:
       - https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Kernel-Patch
@@ -199,11 +199,11 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * Effects Engine Plugin (by herosilas12, morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBEffectsPlugin
   * OpenRGB Visual Map Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBVisualMapPlugin
   * Scheduler Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBSchedulerPlugin
-  * Skin Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/openrgbskinplugin 
+  * Skin Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/openrgbskinplugin
   * Hardware Sync Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHardwareSyncPlugin
   * Http Hook Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHttpHookPlugin
   * Razer extras Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBRazerExtrasPlugin
-  
+
 ## Projects Used
 
   * WinRing0: https://openlibsys.org/
@@ -217,7 +217,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * AMD ADL Libraries: https://github.com/GPUOpen-LibrariesAndSDKs/display-library
   * libcmmk: https://github.com/chmod222/libcmmk
   * hueplusplus: https://github.com/enwi/hueplusplus
-  
+
 ## Projects Researched
 
 While no code from these projects directly made its way into OpenRGB, these projects have been invaluable resources for protocol information.

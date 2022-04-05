@@ -23,7 +23,7 @@ const char yes = 1;
 
 net_port::net_port()
 {
-
+    result_list = NULL;
 }
 
 //net_port (constructor)
@@ -36,7 +36,10 @@ net_port::net_port(const char * client_name, const char * port)
 
 net_port::~net_port()
 {
-    freeaddrinfo(result_list);
+    if(result_list)
+    {
+        freeaddrinfo(result_list);
+    }
 }
 
 bool net_port::udp_client(const char * client_name, const char * port)
@@ -76,6 +79,7 @@ bool net_port::udp_client(const char * client_name, const char * port)
     {
         memcpy(&addrDest, result_list->ai_addr, result_list->ai_addrlen);
         freeaddrinfo(result_list);
+        result_list = NULL;
         return(true);
     }
     else

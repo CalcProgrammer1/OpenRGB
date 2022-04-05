@@ -64,6 +64,7 @@ INCLUDEPATH +=                                                                  
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
     dependencies/libcmmk/include/                                                               \
+    dependencies/mdns                                                                           \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
     net_port/                                                                                   \
@@ -130,6 +131,7 @@ INCLUDEPATH +=                                                                  
     Controllers/MSIMysticLightController/                                                       \
     Controllers/MSIOptixController/                                                             \
     Controllers/MSIRGBController/                                                               \
+    Controllers/NanoleafController/                                                             \
     Controllers/NZXTHue2Controller/                                                             \
     Controllers/NZXTHuePlusController/                                                          \
     Controllers/NZXTKrakenController/                                                           \
@@ -201,6 +203,9 @@ HEADERS +=                                                                      
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h                                        \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.h                                       \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h                                        \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.h                               \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h                                \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafScanningThread.h                              \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.h                           \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h                            \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.h                           \
@@ -284,7 +289,7 @@ HEADERS +=                                                                      
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h                   \
     Controllers/CorsairLightingNodeController/RGBController_CorsairLightingNode.h               \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.h                       \
-    Controllers/CorsairPeripheralController/CorsairK100Controller.h                             \    
+    Controllers/CorsairPeripheralController/CorsairK100Controller.h                             \
     Controllers/CorsairPeripheralController/CorsairK55RGBPROController.h                        \
     Controllers/CorsairPeripheralController/CorsairK65MiniController.h                          \
     Controllers/CorsairPeripheralController/RGBController_CorsairPeripheral.h                   \
@@ -316,7 +321,7 @@ HEADERS +=                                                                      
     Controllers/ENESMBusController/ENESMBusController.h                                         \
     Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface.h                        \
-    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.h              \    
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.h              \
     Controllers/EspurnaController/EspurnaController.h                                           \
     Controllers/EspurnaController/RGBController_Espurna.h                                       \
     Controllers/EVGAGP102GPUController/EVGAGP102Controller.h                                    \
@@ -398,7 +403,7 @@ HEADERS +=                                                                      
     Controllers/LogitechController/LogitechG560Controller.h                                     \
     Controllers/LogitechController/LogitechG933Controller.h                                     \
     Controllers/LogitechController/LogitechG810Controller.h                                     \
-    Controllers/LogitechController/LogitechGProKeyboardController.h                             \    
+    Controllers/LogitechController/LogitechGProKeyboardController.h                             \
     Controllers/LogitechController/LogitechG910Controller.h                                     \
     Controllers/LogitechController/LogitechG815Controller.h                                     \
     Controllers/LogitechController/LogitechG915Controller.h                                     \
@@ -431,8 +436,10 @@ HEADERS +=                                                                      
     Controllers/MSIOptixController/MSIOptixController.h                                         \
     Controllers/MSIOptixController/RGBController_MSIOptix.h                                     \
     Controllers/MSIRGBController/MSIRGBController.h                                             \
+    Controllers/NanoleafController/NanoleafController.h                                         \
     Controllers/MSIRGBController/RGBController_MSIRGB.h                                         \
     Controllers/NvidiaESAController/NvidiaESAController.h                                       \
+    Controllers/NanoleafController/RGBController_Nanoleaf.h                                     \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.h                                   \
     Controllers/NZXTHue2Controller/NZXTHue2Controller.h                                         \
     Controllers/NZXTHue2Controller/RGBController_NZXTHue2.h                                     \
@@ -611,6 +618,9 @@ SOURCES +=                                                                      
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.cpp                                      \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.cpp                                     \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.cpp                                      \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.cpp                             \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.cpp                              \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafScanningThread.cpp                            \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.cpp                         \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.cpp                          \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.cpp                         \
@@ -750,7 +760,7 @@ SOURCES +=                                                                      
     Controllers/ENESMBusController/ENESMBusController.cpp                                       \
     Controllers/ENESMBusController/ENESMBusControllerDetect.cpp                                 \
     Controllers/ENESMBusController/RGBController_ENESMBus.cpp                                   \
-    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.cpp            \    
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.cpp            \
     Controllers/EspurnaController/EspurnaController.cpp                                         \
     Controllers/EspurnaController/EspurnaControllerDetect.cpp                                   \
     Controllers/EspurnaController/RGBController_Espurna.cpp                                     \
@@ -899,6 +909,9 @@ SOURCES +=                                                                      
     Controllers/MSIRGBController/MSIRGBController.cpp                                           \
     Controllers/MSIRGBController/MSIRGBControllerDetect.cpp                                     \
     Controllers/MSIRGBController/RGBController_MSIRGB.cpp                                       \
+    Controllers/NanoleafController/NanoleafController.cpp                                       \
+    Controllers/NanoleafController/NanoleafControllerDetect.cpp                                 \
+    Controllers/NanoleafController/RGBController_Nanoleaf.cpp                                   \
     Controllers/NvidiaESAController/NvidiaESAController.cpp                                     \
     Controllers/NvidiaESAController/NvidiaESAControllerDetect.cpp                               \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.cpp                                 \
@@ -1050,6 +1063,8 @@ FORMS +=                                                                        
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui                                      \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui                                       \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui                               \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.ui                              \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui                          \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui                           \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.ui                          \
@@ -1062,6 +1077,9 @@ FORMS +=                                                                        
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.ui                               \
     qt/OpenRGBZonesBulkResizer.ui                                                               \
     qt/TabLabel.ui                                                                              \
+
+LIBS +=                                                                                         \
+    -lcurl                                                                                      \
 
 #-----------------------------------------------------------------------------------------------#
 # Windows-specific Configuration                                                                #
@@ -1387,7 +1405,7 @@ macx {
 
     HEADERS +=                                                                                  \
     AutoStart/AutoStart-MacOS.h                                                                 \
-    
+
     SOURCES +=                                                                                  \
     dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
