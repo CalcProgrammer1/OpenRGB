@@ -1,17 +1,20 @@
 #include "Detector.h"
-#include "CougarRevengerSTController.h"
 #include "RGBController.h"
+
+#include "RGBController_CougarKeyboard.h"
 #include "RGBController_CougarRevengerST.h"
 
-/*---------------------------------------------------------*\
-| Cougar vendor ID                                          |
-\*---------------------------------------------------------*/
-#define COUGAR_VID                                     0x12CF
+/*----------------------------------------------------------*\
+| Cougar vendor ID                                           |
+\*----------------------------------------------------------*/
+#define COUGAR_VID                                      0x12CF
+#define COUGAR_VID_2                                    0x060B
 
-/*---------------------------------------------------------*\
-| Product ID                                                |
-\*---------------------------------------------------------*/
-#define COUGAR_REVENGER_ST_PID                         0x0412
+/*----------------------------------------------------------*\
+| Product ID                                                 |
+\*----------------------------------------------------------*/
+#define COUGAR_700K_EVO_PID                             0x7010
+#define COUGAR_REVENGER_ST_PID                          0x0412
 
 void DetectCougarRevengerSTControllers(hid_device_info* info, const std::string& name)
 {
@@ -26,4 +29,21 @@ void DetectCougarRevengerSTControllers(hid_device_info* info, const std::string&
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("Cougar Revenger ST", DetectCougarRevengerSTControllers, COUGAR_VID, COUGAR_REVENGER_ST_PID, 0, 0x0001, 0x02);
+
+void DetectCougar700kEvo(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if (dev)
+    {
+        CougarKeyboardController*     controller        = new CougarKeyboardController(dev, info->path);
+        RGBController_CougarKeyboard* rgb_controller    = new RGBController_CougarKeyboard(controller);
+        rgb_controller->name                            = name;
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+
+REGISTER_HID_DETECTOR_IPU("Cougar 700K EVO Gaming Keyboard",        DetectCougar700kEvo,                COUGAR_VID_2,   COUGAR_700K_EVO_PID,    3, 0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cougar Revenger ST",                     DetectCougarRevengerSTControllers,  COUGAR_VID,     COUGAR_REVENGER_ST_PID, 0, 0x0001, 2);

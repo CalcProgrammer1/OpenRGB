@@ -332,7 +332,9 @@ HEADERS +=                                                                      
     Controllers/CorsairVengeanceProController/RGBController_CorsairVengeancePro.h               \
     Controllers/CorsairWirelessController/CorsairWirelessController.h                           \
     Controllers/CorsairWirelessController/RGBController_CorsairWireless.h                       \
+    Controllers/CougarController/CougarKeyboardController.h                                     \
     Controllers/CougarController/CougarRevengerSTController.h                                   \
+    Controllers/CougarController/RGBController_CougarKeyboard.h                                 \
     Controllers/CougarController/RGBController_CougarRevengerST.h                               \
     Controllers/CreativeController/CreativeSoundBlasterXG6Controller.h                          \
     Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.h                      \
@@ -820,8 +822,10 @@ SOURCES +=                                                                      
     Controllers/CorsairWirelessController/CorsairWirelessController.cpp                         \
     Controllers/CorsairWirelessController/CorsairWirelessControllerDetect.cpp                   \
     Controllers/CorsairWirelessController/RGBController_CorsairWireless.cpp                     \
+    Controllers/CougarController/CougarKeyboardController.cpp                                   \
     Controllers/CougarController/CougarRevengerSTController.cpp                                 \
     Controllers/CougarController/CougarControllerDetect.cpp                                     \
+    Controllers/CougarController/RGBController_CougarKeyboard.cpp                               \
     Controllers/CougarController/RGBController_CougarRevengerST.cpp                             \
     Controllers/CreativeController/CreativeSoundBlasterXG6Controller.cpp                        \
     Controllers/CreativeController/CreativeControllerDetect.cpp                                 \
