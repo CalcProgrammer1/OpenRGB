@@ -209,6 +209,7 @@
 #define EVGA_RTX2070S_BLACK_SUB_DEV                     0x3071
 #define EVGA_RTX2070S_XC_ULTRA_SUB_DEV                  0x3173
 #define EVGA_RTX2070S_XC_ULTRA_PLUS_SUB_DEV             0x3175
+#define EVGA_RTX2070S_FTW3_ULTRA_OC_SUB_DEV             0x3277
 #define EVGA_RTX2070S_FTW3_ULTRA_PLUS_OC_SUB_DEV        0x3377
 #define EVGA_RTX2080_BLACK_SUB_DEV                      0x2081
 #define EVGA_RTX2080_XC_BLACK_SUB_DEV                   0x2082
