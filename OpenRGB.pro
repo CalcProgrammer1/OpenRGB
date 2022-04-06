@@ -724,15 +724,15 @@ HEADERS +=                                                                      
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
     Controllers/RoccatController/RGBController_RoccatKova.h                                     \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.h                                \
-    Controllers/RoccatController/RGBController_RoccatVulcanAimo.h                               \
+    Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.h                           \
     Controllers/RoccatController/RoccatBurstController.h                                        \
     Controllers/RoccatController/RoccatEloController.h                                          \
     Controllers/RoccatController/RoccatHordeAimoController.h                                    \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
     Controllers/RoccatController/RoccatKovaController.h                                         \
     Controllers/RoccatController/RoccatSenseAimoController.h                                    \
-    Controllers/RoccatController/RoccatVulcanAimoController.h                                   \
-    Controllers/RoccatController/RoccatVulcanAimoLayouts.h                                      \
+    Controllers/RoccatController/RoccatVulcanKeyboardController.h                               \
+    Controllers/RoccatController/RoccatVulcanKeyboardLayouts.h                                  \
     Controllers/SapphireGPUController/SapphireNitroGlowV1Controller.h                           \
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.h                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.h                       \
@@ -1449,14 +1449,14 @@ SOURCES +=                                                                      
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
     Controllers/RoccatController/RGBController_RoccatKova.cpp                                   \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.cpp                              \
-    Controllers/RoccatController/RGBController_RoccatVulcanAimo.cpp                             \
+    Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.cpp                         \
     Controllers/RoccatController/RoccatBurstController.cpp                                      \
     Controllers/RoccatController/RoccatEloController.cpp                                        \
     Controllers/RoccatController/RoccatHordeAimoController.cpp                                  \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
     Controllers/RoccatController/RoccatKovaController.cpp                                       \
     Controllers/RoccatController/RoccatSenseAimoController.cpp                                  \
-    Controllers/RoccatController/RoccatVulcanAimoController.cpp                                 \
+    Controllers/RoccatController/RoccatVulcanKeyboardController.cpp                             \
     Controllers/RoccatController/RoccatControllerDetect.cpp                                     \
     Controllers/SapphireGPUController/SapphireNitroGlowV1Controller.cpp                         \
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.cpp                         \

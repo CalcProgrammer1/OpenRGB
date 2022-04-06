@@ -1,33 +1,36 @@
 /*-------------------------------------------------------------------*\
-|  RoccatVulcanAimoController.cpp                                     |
+|  RoccatVulcanKeyboardController.cpp                                 |
 |                                                                     |
-|  Driver for Roccat Vulcan Aimo Mouse                                |
+|  Driver for Roccat Vulcan Keyboard                                  |
 |                                                                     |
 |  Mola19 17/12/2021                                                  |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "RoccatVulcanAimoController.h"
+#include "RoccatVulcanKeyboardController.h"
 
 #include <cstring>
 #include <math.h>
+#include <chrono>
+#include <thread>
 
 #include "LogManager.h"
 
-RoccatVulcanAimoController::RoccatVulcanAimoController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path)
+RoccatVulcanKeyboardController::RoccatVulcanKeyboardController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path, uint16_t pid)
 {
     dev_ctrl    = dev_ctrl_handle;
     dev_led     = dev_led_handle;
     location    = path;
+    device_pid  = pid;
 }
 
-RoccatVulcanAimoController::~RoccatVulcanAimoController()
+RoccatVulcanKeyboardController::~RoccatVulcanKeyboardController()
 {
     hid_close(dev_ctrl);
     hid_close(dev_led);
 }
 
-std::string RoccatVulcanAimoController::GetSerial()
+std::string RoccatVulcanKeyboardController::GetSerial()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev_ctrl, serial_string, 128);
@@ -44,13 +47,13 @@ std::string RoccatVulcanAimoController::GetSerial()
 
 }
 
-std::string RoccatVulcanAimoController::GetLocation()
+std::string RoccatVulcanKeyboardController::GetLocation()
 {
     return("HID: " + location);
 }
 
 
-device_info RoccatVulcanAimoController::InitDeviceInfo()
+device_info RoccatVulcanKeyboardController::InitDeviceInfo()
 {
     unsigned char usb_buf[8] = { 0x0F };
     hid_get_feature_report(dev_ctrl, usb_buf, 8);
@@ -58,18 +61,23 @@ device_info RoccatVulcanAimoController::InitDeviceInfo()
     dev_info.version = std::to_string((int) floor(usb_buf[2] / 100)) + "." + std::to_string(usb_buf[2] % 100);
 
     dev_info.layout_type = usb_buf[6];
-    LOG_DEBUG("[Roccat Vulcan Aimo]: Detected layout '0x%02X'", usb_buf[6]);
+    LOG_DEBUG("[Roccat Vulcan Keyboard]: Detected layout '0x%02X'", usb_buf[6]);
 
     return dev_info;
 }
 
-device_info RoccatVulcanAimoController::GetDeviceInfo()
+device_info RoccatVulcanKeyboardController::GetDeviceInfo()
 {
     return dev_info;
 }
 
+void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
+{
+    unsigned char buf[3] = { 0x15, 0x00, on_off_switch };
+    hid_send_feature_report(dev_ctrl, buf, 3);
+}
 
-void RoccatVulcanAimoController::SendColors(std::vector<led_color> colors)
+void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
 {
     unsigned char bufs[7][65];
 
@@ -105,12 +113,15 @@ void RoccatVulcanAimoController::SendColors(std::vector<led_color> colors)
     {
         hid_write(dev_led, bufs[p], 65);
     }
+
+    ClearResponses();
+    AwaitResponse(20);
 }
 
-void RoccatVulcanAimoController::SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<led_color> colors)
+void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<led_color> colors)
 {
-	if(speed      == 0) speed      = 1;
-	if(brightness == 0) brightness = 1;
+	if(speed      == 0) speed      = ROCCAT_VULCAN_SPEED_DEFAULT;
+	if(brightness == 0) brightness = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
 
     unsigned char buf[443];
 
@@ -155,4 +166,35 @@ void RoccatVulcanAimoController::SendMode(unsigned int mode, unsigned int speed,
     buf[442] = total >> 8;
 
     hid_send_feature_report(dev_ctrl, buf, 443);
+}
+
+void RoccatVulcanKeyboardController::WaitUntilReady()
+{
+    unsigned char buf[3] = { 0x04, 0x00, 0x00 };
+
+    for(unsigned char i = 0; buf[1] != 1 && i < 100; i++)
+    {
+        if(i != 0)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+        }
+
+        hid_get_feature_report(dev_ctrl, buf, 3);
+    }
+}
+
+void RoccatVulcanKeyboardController::AwaitResponse(int ms)
+{
+    unsigned char usb_buf_out[65];
+    hid_read_timeout(dev_led, usb_buf_out, 65, ms);
+}
+
+void RoccatVulcanKeyboardController::ClearResponses()
+{
+    int result = 1;
+    unsigned char usb_buf_flush[65];
+    while(result > 0)
+    {
+        result = hid_read_timeout(dev_led, usb_buf_flush, 65, 0);
+    }
 }

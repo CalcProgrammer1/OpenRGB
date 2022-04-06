@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------*\
-|  RoccatVulcanAimoController.h                                       |
+|  RoccatVulcanKeyboardController.h                                   |
 |                                                                     |
-|  Driver for Roccat Vulcan Aimo Keyboard                             |
+|  Driver for Roccat Vulcan Keyboard                                  |
 |                                                                     |
 |  Mola19 17/12/2021                                                  |
 |                                                                     |
@@ -10,16 +10,33 @@
 #pragma once
 
 #include "RGBController.h"
-#include "RoccatVulcanAimoLayouts.h"
+#include "RoccatVulcanKeyboardLayouts.h"
 
 #include <string>
 #include <hidapi/hidapi.h>
 
 enum
 {
+    ROCCAT_VULCAN_120_AIMO      = 0x3098,
+    ROCCAT_VULCAN_TKL           = 0x2FEE,
+};
+
+enum
+{
     ROCCAT_VULCAN_MODE_DIRECT   = 0x0B,
     ROCCAT_VULCAN_MODE_STATIC   = 0x01,
     ROCCAT_VULCAN_MODE_WAVE     = 0x0A,
+    ROCCAT_VULCAN_MODE_DEFAULT  = 0x00,
+};
+
+enum
+{
+    ROCCAT_VULCAN_SPEED_MIN             = 0x01,
+    ROCCAT_VULCAN_SPEED_MAX             = 0x0B,
+    ROCCAT_VULCAN_SPEED_DEFAULT         = 0x06,
+    ROCCAT_VULCAN_BRIGHTNESS_MIN        = 0x01,
+    ROCCAT_VULCAN_BRIGHTNESS_MAX        = 0x45,
+    ROCCAT_VULCAN_BRIGHTNESS_DEFAULT    = 0x45,
 };
 
 struct device_info
@@ -34,19 +51,25 @@ struct led_color
     RGBColor        color;
 };
 
-class RoccatVulcanAimoController
+class RoccatVulcanKeyboardController
 {
 public:
-    RoccatVulcanAimoController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path);
-    ~RoccatVulcanAimoController();
+    RoccatVulcanKeyboardController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path, uint16_t pid);
+    ~RoccatVulcanKeyboardController();
 
     std::string     GetSerial();
     std::string     GetLocation();
     device_info     InitDeviceInfo();
     device_info     GetDeviceInfo();
 
+    void            EnableDirect(bool on_off_switch);
     void            SendColors(std::vector<led_color> colors);
     void            SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<led_color> colors);
+    void            WaitUntilReady();
+    void            AwaitResponse(int ms);
+    void            ClearResponses();
+
+    uint16_t        device_pid;
 
 private:
     std::string     location;

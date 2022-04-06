@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_RoccatVulcanAimo.cpp       |
+|  RGBController_RoccatVulcanKeyboard.cpp   |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
 |                                           |
@@ -8,32 +8,36 @@
 \*-----------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
-#include "RGBController_RoccatVulcanAimo.h"
+#include "RGBController_RoccatVulcanKeyboard.h"
 #include <vector>
 
 #define NA  0xFFFFFFFF
 
 /**------------------------------------------------------------------*\
-    @name Roccat Vulcan Aimo
+    @name Roccat Vulcan Keyboard
     @category Keyboard
     @type USB
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectRoccatVulcanAimoControllers
-    @comment
+    @detectors DetectRoccatVulcanKeyboardControllers
+    @comment The mode "Default" differs from device to device and 
+    and sometimes also based on which profile you are on.
+    Often it is very close to the rainbow mode.
 \*-------------------------------------------------------------------*/
 
-RGBController_RoccatVulcanAimo::RGBController_RoccatVulcanAimo(RoccatVulcanAimoController* controller_ptr)
+RGBController_RoccatVulcanKeyboard::RGBController_RoccatVulcanKeyboard(RoccatVulcanKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;
 
+    pid = controller->device_pid;
+
     controller->InitDeviceInfo();
 
-    name        = "Roccat Vulcan 120-Series Aimo";
+    name        = "Roccat Vulcan Keyboard";
     vendor      = "Roccat";
     type        = DEVICE_TYPE_KEYBOARD;
-    description = "Roccat Vulcan Aimo Keyboard";
+    description = "Roccat Vulcan Keyboard";
     version     = controller->GetDeviceInfo().version;
     location    = controller->GetLocation();
     serial      = controller->GetSerial();
@@ -68,16 +72,42 @@ RGBController_RoccatVulcanAimo::RGBController_RoccatVulcanAimo(RoccatVulcanAimoC
     Wave.color_mode     = MODE_COLORS_NONE;
     modes.push_back(Wave);
 
+    mode Default;
+    Default.name           = "Default";
+    Default.value          = ROCCAT_VULCAN_MODE_DEFAULT;
+    Default.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Default.brightness_min = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+    Default.brightness_max = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+    Default.brightness     = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+    Default.color_mode     = MODE_COLORS_NONE;
+    modes.push_back(Default);
+
     SetupZones();
 }
 
-RGBController_RoccatVulcanAimo::~RGBController_RoccatVulcanAimo()
+RGBController_RoccatVulcanKeyboard::~RGBController_RoccatVulcanKeyboard()
 {
     delete controller;
 }
 
-void RGBController_RoccatVulcanAimo::SetupZones()
+void RGBController_RoccatVulcanKeyboard::SetupZones()
 {
+    std::map<int,layout_info> * keyboard_ptr;
+
+    switch(pid)
+    {
+        case ROCCAT_VULCAN_120_AIMO:
+            keyboard_ptr = &RoccatVulcan120AimoLayouts;
+            break;
+        case ROCCAT_VULCAN_TKL:
+            keyboard_ptr = &RoccatVulcanTKLLayouts;
+            break;
+        default:
+            keyboard_ptr = &RoccatVulcan120AimoLayouts;
+    }
+
+    std::map<int,layout_info> & keyboard = *keyboard_ptr;
+
     unsigned char layout;
 
     switch(controller->GetDeviceInfo().layout_type)
@@ -96,20 +126,20 @@ void RGBController_RoccatVulcanAimo::SetupZones()
     zone keyboard_zone;
     keyboard_zone.name               = "Keyboard";
     keyboard_zone.type               = ZONE_TYPE_MATRIX;
-    keyboard_zone.leds_min           = RoccatVulcanLayouts[layout].size;
-    keyboard_zone.leds_max           = RoccatVulcanLayouts[layout].size;
-    keyboard_zone.leds_count         = RoccatVulcanLayouts[layout].size;
+    keyboard_zone.leds_min           = keyboard[layout].size;
+    keyboard_zone.leds_max           = keyboard[layout].size;
+    keyboard_zone.leds_count         = keyboard[layout].size;
     keyboard_zone.matrix_map         = new matrix_map_type;
-    keyboard_zone.matrix_map->height = RoccatVulcanLayouts[layout].rows;
-    keyboard_zone.matrix_map->width  = RoccatVulcanLayouts[layout].cols;
-    keyboard_zone.matrix_map->map    = RoccatVulcanLayouts[layout].matrix_map;
+    keyboard_zone.matrix_map->height = keyboard[layout].rows;
+    keyboard_zone.matrix_map->width  = keyboard[layout].cols;
+    keyboard_zone.matrix_map->map    = keyboard[layout].matrix_map;
     zones.push_back(keyboard_zone);
 
-    for(int led_id = 0; led_id < RoccatVulcanLayouts[layout].size; led_id++)
+    for(unsigned int led_id = 0; led_id < keyboard[layout].size; led_id++)
     {
         led new_led;
-        new_led.name  = RoccatVulcanLayouts[layout].led_names[led_id].name;
-        new_led.value = RoccatVulcanLayouts[layout].led_names[led_id].id;
+        new_led.name  = keyboard[layout].led_names[led_id].name;
+        new_led.value = keyboard[layout].led_names[led_id].id;
         leds.push_back(new_led);
     }
 
@@ -119,16 +149,17 @@ void RGBController_RoccatVulcanAimo::SetupZones()
     | sends the init packet for the default mode (direct)       |
     \*---------------------------------------------------------*/
     DeviceUpdateMode();
+    DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatVulcanAimo::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RoccatVulcanKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_RoccatVulcanAimo::DeviceUpdateLEDs()
+void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs()
 {
     if (modes[active_mode].value == ROCCAT_VULCAN_MODE_DIRECT)
     {
@@ -147,17 +178,17 @@ void RGBController_RoccatVulcanAimo::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RoccatVulcanAimo::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_RoccatVulcanKeyboard::UpdateZoneLEDs(int /*zone_idx*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatVulcanAimo::UpdateSingleLED(int /*led_idx*/)
+void RGBController_RoccatVulcanKeyboard::UpdateSingleLED(int /*led_idx*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatVulcanAimo::DeviceUpdateMode()
+void RGBController_RoccatVulcanKeyboard::DeviceUpdateMode()
 {
     std::vector<led_color> led_color_list = {};
 
@@ -170,4 +201,8 @@ void RGBController_RoccatVulcanAimo::DeviceUpdateMode()
     }
 
     controller->SendMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, led_color_list);
+    controller->WaitUntilReady();
+
+    controller->EnableDirect(modes[active_mode].value != ROCCAT_VULCAN_MODE_DEFAULT);
+    controller->WaitUntilReady();
 }

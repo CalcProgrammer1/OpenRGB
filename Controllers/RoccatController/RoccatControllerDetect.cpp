@@ -1,16 +1,8 @@
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRoccatControllers                                                                *
-*                                                                                          *
-*       Tests the USB address to see if a Roccat Kone Aimo controller exists there.        *
-*                                                                                          *
-\******************************************************************************************/
-
 #include "Detector.h"
 #include "RoccatBurstController.h"
 #include "RoccatKoneAimoController.h"
 #include "RoccatSenseAimoController.h"
-#include "RoccatVulcanAimoController.h"
+#include "RoccatVulcanKeyboardController.h"
 #include "RoccatKovaController.h"
 #include "RoccatEloController.h"
 #include "RGBController.h"
@@ -18,7 +10,7 @@
 #include "RGBController_RoccatHordeAimo.h"
 #include "RGBController_RoccatKoneAimo.h"
 #include "RGBController_RoccatSenseAimo.h"
-#include "RGBController_RoccatVulcanAimo.h"
+#include "RGBController_RoccatVulcanKeyboard.h"
 #include "RGBController_RoccatKova.h"
 #include "RGBController_RoccatElo.h"
 #include <hidapi/hidapi.h>
@@ -29,6 +21,7 @@
 #define ROCCAT_KONE_AIMO_PID        0x2E27
 #define ROCCAT_KONE_AIMO_16K_PID    0x2E2C
 #define ROCCAT_VULCAN_120_AIMO_PID  0x3098
+#define ROCCAT_VULCAN_TKL_PID       0x2FEE
 #define ROCCAT_HORDE_AIMO_PID       0x303E
 #define ROCCAT_BURST_CORE_PID       0x2DE6
 #define ROCCAT_BURST_PRO_PID        0x2DE1
@@ -50,24 +43,24 @@ void DetectRoccatMouseControllers(hid_device_info* info, const std::string& name
     }
 }
 
-/*-----------------------------------------------------------------------------*\
-| Tracks the paths used in DetectRoccatVulcanAimoControllers so multiple Roccat |
-| devices can be detected without all controlling the same device.              |
-\*-----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------*\
+| Tracks the paths used in DetectRoccatVulcanKeyboardControllers so multiple Roccat |
+| devices can be detected without all controlling the same device.                  |
+\*---------------------------------------------------------------------------------*/
 static std::unordered_set<std::string> used_paths;
 
 /*--------------------------------------------------------------------------------*\
 | Removes all entries in used_paths so device discovery does not skip any of them. |
 \*--------------------------------------------------------------------------------*/
-void ResetRoccatVulcanAimoControllersPaths()
+void ResetRoccatVulcanKeyboardControllersPaths()
 {
     used_paths.clear();
 }
 
-void DetectRoccatVulcanAimoControllers(hid_device_info* info, const std::string& name)
+void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::string& name)
 {
     /*-------------------------------------------------------------------------------------------------*\
-    | Create a local copy of the HID enumerations for the Roccat Vulcan Aimo VID/PID and iterate        |
+    | Create a local copy of the HID enumerations for the Roccat Vulcan Keyboard VID/PID and iterate    |
     | through it.  This prevents detection from failing if interface 1 comes before interface 0 in the  |
     | main info list.                                                                                   |
     \*-------------------------------------------------------------------------------------------------*/
@@ -83,10 +76,10 @@ void DetectRoccatVulcanAimoControllers(hid_device_info* info, const std::string&
 
     while(info_temp)
     {
-        /*------------------------------------------------------------------------------------*\
-        | Check for paths used on an already registered Roccat Vulcan Aimo controller to avoid |
-        | registering multiple controllers that refer to the same physical hardware.           |
-        \*------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------*\
+        | Check for paths used on an already registered Roccat Vulcan Keyboard controller to avoid |
+        | registering multiple controllers that refer to the same physical hardware.               |
+        \*----------------------------------------------------------------------------------------*/
         if(info_temp->vendor_id             == info->vendor_id
         && info_temp->product_id            == info->product_id
         && used_paths.find(info_temp->path) == used_paths.end() )
@@ -113,8 +106,8 @@ void DetectRoccatVulcanAimoControllers(hid_device_info* info, const std::string&
 
     if(dev_ctrl && dev_led)
     {
-        RoccatVulcanAimoController *     controller     = new RoccatVulcanAimoController(dev_ctrl, dev_led, info->path);
-        RGBController_RoccatVulcanAimo * rgb_controller = new RGBController_RoccatVulcanAimo(controller);
+        RoccatVulcanKeyboardController *     controller     = new RoccatVulcanKeyboardController(dev_ctrl, dev_led, info->path, info->product_id);
+        RGBController_RoccatVulcanKeyboard * rgb_controller = new RGBController_RoccatVulcanKeyboard(controller);
         rgb_controller->name                            = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
         used_paths.insert(dev_ctrl_path);
@@ -206,11 +199,12 @@ void DetectRoccatSenseAimoControllers(hid_device_info* info, const std::string& 
     }
 }
 
-REGISTER_PRE_DETECTION_HOOK(ResetRoccatVulcanAimoControllersPaths);
+REGISTER_PRE_DETECTION_HOOK(ResetRoccatVulcanKeyboardControllersPaths);
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",               DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_PID,          0, 0x0B,    0 );
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo 16K",           DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_16K_PID,      0, 0x0B,    0 );
-REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",  DetectRoccatVulcanAimoControllers,          ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,    1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,    1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_TKL_PID,         1,          11);
 REGISTER_HID_DETECTOR_IPU("Roccat Horde Aimo",              DetectRoccatHordeAimoKeyboardControllers,   ROCCAT_VID, ROCCAT_HORDE_AIMO_PID,         1, 0x0B,    0 );
 REGISTER_HID_DETECTOR_IPU("Roccat Burst Core",              DetectRoccatBurstCoreControllers,           ROCCAT_VID, ROCCAT_BURST_CORE_PID,         3, 0xFF01,  1 );
 REGISTER_HID_DETECTOR_IPU("Roccat Burst Pro",               DetectRoccatBurstProControllers,            ROCCAT_VID, ROCCAT_BURST_PRO_PID,          3, 0xFF01,  1 );
