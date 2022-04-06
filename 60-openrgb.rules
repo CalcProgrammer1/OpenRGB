@@ -228,6 +228,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="0c23", TAG+="uacces
 #       Corsair Harpoon RGB                                     #
 #       Corsair Harpoon RGB Pro                                 #
 #       Corsair Scimitar Pro RGB                                #
+#       Corsair Scimitar Elite RGB                              #
 #       Corsair Sabre RGB                                       #
 #                                                               #
 #  Mousemats:                                                   #
@@ -263,6 +264,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b2e", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b5a", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b5c", TAG+="uaccess", TAG+="Nightsword"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b3e", TAG+="uaccess"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b8b", TAG+="uaccess"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b2f", TAG+="uaccess"
 
 SUBSYSTEMS=="usb", ATTR{idVendor}=="1b1c", ATTR{idProduct}=="1b3b", TAG+="uaccess"
