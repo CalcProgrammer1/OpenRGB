@@ -28,5 +28,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    NanoleafController nanoleaf;
+    NanoleafController controller;
 };

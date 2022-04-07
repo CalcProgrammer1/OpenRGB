@@ -14,18 +14,20 @@
 using json = nlohmann::json;
 
 RGBController_Nanoleaf::RGBController_Nanoleaf(std::string a_address, int a_port, std::string a_auth_token) :
-    nanoleaf(a_address, a_port, a_auth_token)
+    controller(a_address, a_port, a_auth_token)
 {
-    location = a_address+":"+std::to_string(a_port);
-    name = nanoleaf.GetName();
-    serial = nanoleaf.GetSerial();
-    vendor = nanoleaf.GetManufacturer();
-    version = nanoleaf.GetFirmwareVersion();
-    description = nanoleaf.GetModel();
-    type = DEVICE_TYPE_LIGHT;
+    location    = a_address+":"+std::to_string(a_port);
+    name        = controller.GetName();
+    serial      = controller.GetSerial();
+    vendor      = controller.GetManufacturer();
+    version     = controller.GetFirmwareVersion();
+    description = controller.GetModel();
+    type        = DEVICE_TYPE_LIGHT;
 
-    // Direct mode currently only supported for Nanoleaf Panels.
-    if(nanoleaf.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
+    /*-------------------------------------------------------------*\
+    | Direct mode currently only supported for Nanoleaf Panels.     |
+    \*-------------------------------------------------------------*/
+    if(controller.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
     {
         mode Direct;
         Direct.name       = "Direct";
@@ -33,31 +35,41 @@ RGBController_Nanoleaf::RGBController_Nanoleaf(std::string a_address, int a_port
         Direct.color_mode = MODE_COLORS_PER_LED;
         modes.push_back(Direct);
 
-        // Set this effect as current if the name is selected.
-        if(nanoleaf.GetSelectedEffect() == NANOLEAF_DIRECT_MODE_EFFECT_NAME)
+        /*---------------------------------------------------------*\
+        | Set this effect as current if the name is selected.       |
+        \*---------------------------------------------------------*/
+        if(controller.GetSelectedEffect() == NANOLEAF_DIRECT_MODE_EFFECT_NAME)
         {
-            // If the direct mode is active, we need to call this method to open the socket.
-            nanoleaf.StartExternalControl();
+            /*-----------------------------------------------------*\
+            | If the direct mode is active, we need to call this    |
+            | method to open the socket.                            |
+            \*-----------------------------------------------------*/
+            controller.StartExternalControl();
             active_mode = 0;
         }
     }
 
-    for(std::vector<std::string>::const_iterator it = nanoleaf.GetEffects().begin(); it != nanoleaf.GetEffects().end(); ++it)
+    /*-------------------------------------------------------------*\
+    | Create additional modes from device effects list              |
+    \*-------------------------------------------------------------*/
+    for(std::vector<std::string>::const_iterator it = controller.GetEffects().begin(); it != controller.GetEffects().end(); ++it)
     {
         mode effect;
-        effect.name = *it;
-        effect.flags      = MODE_FLAG_HAS_BRIGHTNESS;
-        effect.color_mode = MODE_COLORS_NONE;
-        effect.brightness_max = 100;
-        effect.brightness_min = 0;
-        effect.brightness = 100;
+        effect.name             = *it;
+        effect.flags            = MODE_FLAG_HAS_BRIGHTNESS;
+        effect.color_mode       = MODE_COLORS_NONE;
+        effect.brightness_max   = 100;
+        effect.brightness_min   = 0;
+        effect.brightness       = 100;
 
         modes.push_back(effect);
 
-        // Set this effect as current if the name is selected.
-        if(nanoleaf.GetSelectedEffect() == effect.name)
+        /*---------------------------------------------------------*\
+        | Set this effect as current if the name is selected.       |
+        \*---------------------------------------------------------*/
+        if(controller.GetSelectedEffect() == effect.name)
         {
-            active_mode = modes.size() - 1;
+            active_mode         = modes.size() - 1;
         }
     }
 
@@ -69,12 +81,12 @@ void RGBController_Nanoleaf::SetupZones()
     zone led_zone;
     led_zone.name           = "Nanoleaf Layout";
     led_zone.type           = ZONE_TYPE_LINEAR;
-    led_zone.leds_count     = nanoleaf.GetPanelIds().size();
+    led_zone.leds_count     = controller.GetPanelIds().size();
     led_zone.leds_min       = led_zone.leds_count;
     led_zone.leds_max       = led_zone.leds_count;
     led_zone.matrix_map     = NULL;
 
-    for(std::vector<int>::const_iterator it = nanoleaf.GetPanelIds().begin(); it != nanoleaf.GetPanelIds().end(); ++it)
+    for(std::vector<int>::const_iterator it = controller.GetPanelIds().begin(); it != controller.GetPanelIds().end(); ++it)
     {
         led new_led;
         new_led.name = std::to_string(*it);
@@ -95,9 +107,9 @@ void RGBController_Nanoleaf::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_Nanoleaf::DeviceUpdateLEDs()
 {
-    if(nanoleaf.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
+    if(controller.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
     {
-        nanoleaf.UpdateLEDs(colors);
+        controller.UpdateLEDs(colors);
     }
 }
 
@@ -113,27 +125,24 @@ void RGBController_Nanoleaf::UpdateSingleLED(int /*led*/)
 
 void RGBController_Nanoleaf::SetCustomMode()
 {
-    if(nanoleaf.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
-    {
-        // Put the Nanoleaf into direct mode.
-        nanoleaf.StartExternalControl();
-    }
+    active_mode = 0;
 }
 
 void RGBController_Nanoleaf::DeviceUpdateMode()
 {
-    // 0 mode is reserved for Direct mode
-    if(active_mode == 0 && nanoleaf.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
+    /*---------------------------------------------------------*\
+    | Mode 0 is reserved for Direct mode                        |
+    \*---------------------------------------------------------*/
+    if(active_mode == 0 && controller.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
     {
-        nanoleaf.StartExternalControl();
+        controller.StartExternalControl();
     }
-    // Update normal effects.
+    /*---------------------------------------------------------*\
+    | Update normal effects.                                    |
+    \*---------------------------------------------------------*/
     else
     {
-        // Select effect.
-        nanoleaf.SelectEffect(modes[active_mode].name);
-
-        // Update brightness.
-        nanoleaf.SetBrightness(modes[active_mode].brightness);
+        controller.SelectEffect(modes[active_mode].name);
+        controller.SetBrightness(modes[active_mode].brightness);
     }
 }

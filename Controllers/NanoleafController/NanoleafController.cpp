@@ -23,46 +23,60 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
 
     CURL* curl = curl_easy_init();
 
-    // Set remote URL.
+    /*-------------------------------------------------------------*\
+    | Set remote URL.                                               |
+    \*-------------------------------------------------------------*/
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, method.c_str());
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
-    // Don't bother trying IPv6, which would increase DNS resolution time.
+    /*-------------------------------------------------------------*\
+    | Don't bother trying IPv6, which would increase DNS resolution |
+    | time.                                                         |
+    \*-------------------------------------------------------------*/
     curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
-    // Don't wait forever, time out after 10 seconds.
+    /*-------------------------------------------------------------*\
+    | Don't wait forever, time out after 10 seconds.                |
+    \*-------------------------------------------------------------*/
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
 
-    // Follow HTTP redirects if necessary.
+    /*-------------------------------------------------------------*\
+    | Follow HTTP redirects if necessary.                           |
+    \*-------------------------------------------------------------*/
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
     if(request_data)
     {
-        // LOG_DEBUG("[Nanoleaf] Sending data: %s", request_data->dump().c_str());
         curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, request_data->dump().c_str());
     }
 
-    // Response information.
-    long httpCode(0);
-    std::unique_ptr<std::string> httpData(new std::string());
+    /*-------------------------------------------------------------*\
+    | Response information.                                         |
+    \*-------------------------------------------------------------*/
+    long                            httpCode(0);
+    std::unique_ptr<std::string>    httpData(new std::string());
 
-    // Hook up data handling function.
+    /*-------------------------------------------------------------*\
+    | Hook up data handling function.                               |
+    \*-------------------------------------------------------------*/
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
 
-    /*---------------------------------------------------------*\
-    | Hook up data container (will be passed as the last        |
-    | parameter to the callback handling function). Can be any  |
-    | pointer type, since it will internally be passed as a     |
-    | void pointer.                                             |
-    \*---------------------------------------------------------*/
+    /*-------------------------------------------------------------*\
+    | Hook up data container (will be passed as the last parameter  |
+    | to the callback handling function). Can be any pointer type,  |
+    | since it will internally be passed as a void pointer.         |
+    \*-------------------------------------------------------------*/
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
 
-    // Run our HTTP GET command, capture the HTTP response code, and clean up.
+    /*-------------------------------------------------------------*\
+    | Run our HTTP GET command, capture the HTTP response code, and |
+    | clean up.                                                     |
+    \*-------------------------------------------------------------*/
     curl_easy_perform(curl);
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
     curl_easy_cleanup(curl);
 
-    if (httpCode/100 == 2)
+    if((httpCode / 100) == 2)
     {
         if(response_data)
         {
@@ -79,22 +93,22 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
 
 NanoleafController::NanoleafController(std::string a_address, int a_port, std::string a_auth_token)
 {
-    address = a_address;
-    port = a_port;
-    auth_token = a_auth_token;
-    location = address+":"+std::to_string(port);
+    address                 = a_address;
+    port                    = a_port;
+    auth_token              = a_auth_token;
+    location                = address + ":" + std::to_string(port);
 
     json data;
     if(APIRequest("GET", location, "/api/v1/"+auth_token, nullptr, &data) == 200)
     {
-        name = data["name"];
-        serial = data["serialNo"];
-        manufacturer = data["manufacturer"];
-        firmware_version = data["firmwareVersion"];
-        model = data["model"];
+        name                = data["name"];
+        serial              = data["serialNo"];
+        manufacturer        = data["manufacturer"];
+        firmware_version    = data["firmwareVersion"];
+        model               = data["model"];
 
-        brightness = data["state"]["brightness"]["value"];
-        selectedEffect = data["effects"]["select"];
+        brightness          = data["state"]["brightness"]["value"];
+        selectedEffect      = data["effects"]["select"];
 
         for(json::const_iterator it = data["effects"]["effectsList"].begin(); it != data["effects"]["effectsList"].end(); ++it)
         {
@@ -131,46 +145,52 @@ void NanoleafController::Unpair(std::string address, int port, std::string auth_
 {
     const std::string location = address+":"+std::to_string(port);
 
-    // We really don't care if this fails.
+    /*-------------------------------------------------------------*\
+    | We really don't care if this fails.                           |
+    \*-------------------------------------------------------------*/
     APIRequest("DELETE", location, "/api/v1/"+auth_token, nullptr, nullptr);
 }
 
 void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
 {
-    // Requires StartExternalControl() to have been called prior.
+    /*-------------------------------------------------------------*\
+    | Requires StartExternalControl() to have been called prior.    |
+    \*-------------------------------------------------------------*/
 
     if(model == NANOLEAF_LIGHT_PANELS_MODEL)
     {
-        uint8_t size = panel_ids.size();
+        uint8_t size        = panel_ids.size();
 
-        uint8_t* message = (uint8_t*)malloc(size*7+6+1);
+        uint8_t* message    = (uint8_t*)malloc(size*7+6+1);
 
-        message[0] = (uint8_t)size;
+        message[0]          = (uint8_t)size;
 
-        for (int i = 0; i < size; i++)
+        for(int i = 0; i < size; i++)
         {
-            message[7*i+0+1] = (uint8_t)panel_ids[i];
-            message[7*i+1+1] = (uint8_t)1;
-            message[7*i+2+1] = (uint8_t)RGBGetRValue(colors[i]);
-            message[7*i+3+1] = (uint8_t)RGBGetGValue(colors[i]);
-            message[7*i+4+1] = (uint8_t)RGBGetBValue(colors[i]);
-            message[7*i+5+1] = (uint8_t)0;
-            message[7*i+6+1] = (uint8_t)0;
+            message[( 7 * i) + 0 + 1] = (uint8_t)panel_ids[i];
+            message[( 7 * i) + 1 + 1] = (uint8_t)1;
+            message[( 7 * i) + 2 + 1] = (uint8_t)RGBGetRValue(colors[i]);
+            message[( 7 * i) + 3 + 1] = (uint8_t)RGBGetGValue(colors[i]);
+            message[( 7 * i) + 4 + 1] = (uint8_t)RGBGetBValue(colors[i]);
+            message[( 7 * i) + 5 + 1] = (uint8_t)0;
+            message[( 7 * i) + 6 + 1] = (uint8_t)0;
         }
 
         external_control_socket.udp_write(reinterpret_cast<char*>(message), size*7+6+1);
     }
     else if(model == NANOLEAF_CANVAS_MODEL)
     {
-        // Insert V2 protocol implementation here.
+        /*---------------------------------------------------------*\
+        | Insert V2 protocol implementation here.                   |
+        \*---------------------------------------------------------*/
     }
 }
 
 void NanoleafController::StartExternalControl()
 {
     json request;
-    request["write"]["command"] = "display";
-    request["write"]["animType"] = "extControl";
+    request["write"]["command"]     = "display";
+    request["write"]["animType"]    = "extControl";
 
     if(model == NANOLEAF_LIGHT_PANELS_MODEL)
     {
@@ -182,7 +202,7 @@ void NanoleafController::StartExternalControl()
     }
 
     json response;
-    if(APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request, &response)/100 == 2)
+    if((APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request, &response) / 100) == 2)
     {
         external_control_socket.udp_client(response["streamControlIpAddr"].get<std::string>().c_str(), std::to_string(response["streamControlPort"].get<int>()).c_str());
 
@@ -194,7 +214,8 @@ void NanoleafController::SelectEffect(std::string effect_name)
 {
     json request;
     request["select"] = effect_name;
-    if(APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request)/100 == 2)
+
+    if((APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request) / 100) == 2)
     {
         selectedEffect = effect_name;
     }
@@ -204,8 +225,59 @@ void NanoleafController::SetBrightness(int a_brightness)
 {
     json request;
     request["brightness"]["value"] = a_brightness;
-    if(APIRequest("PUT", location, "/api/v1/"+auth_token+"/state", &request)/100 == 2)
+
+    if((APIRequest("PUT", location, "/api/v1/"+auth_token+"/state", &request) / 100) == 2)
     {
         brightness = a_brightness;
     }
 }
+
+std::string NanoleafController::GetAuthToken()
+{
+    return auth_token;
+};
+
+std::string NanoleafController::GetName()
+{
+    return name;
+};
+
+std::string NanoleafController::GetSerial()
+{
+    return serial;
+};
+
+std::string NanoleafController::GetManufacturer()
+{
+    return manufacturer;
+};
+
+std::string NanoleafController::GetFirmwareVersion()
+{
+    return firmware_version;
+};
+
+std::string NanoleafController::GetModel()
+{
+    return model;
+};
+
+std::vector<std::string>& NanoleafController::GetEffects()
+{
+    return effects;
+};
+
+std::vector<int>& NanoleafController::GetPanelIds()
+{
+    return panel_ids;
+};
+
+std::string NanoleafController::GetSelectedEffect()
+{
+    return selectedEffect;
+};
+
+int NanoleafController::GetBrightness()
+{
+    return brightness;
+};
