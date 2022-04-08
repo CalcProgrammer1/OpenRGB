@@ -303,6 +303,8 @@ HEADERS +=                                                                      
     Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.h                      \
     Controllers/CrucialController/CrucialController.h                                           \
     Controllers/CrucialController/RGBController_Crucial.h                                       \
+    Controllers/DarkProject/DarkProjectKeyboardController.h                                     \
+    Controllers/DarkProject/RGBController_DarkProjectKeyboard.h                                 \
     Controllers/DasKeyboardController/DasKeyboardController.h                                   \
     Controllers/DasKeyboardController/RGBController_DasKeyboard.h                               \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h                               \
@@ -732,6 +734,9 @@ SOURCES +=                                                                      
     Controllers/CrucialController/CrucialControllerDetect.cpp                                   \
     Controllers/CrucialController/RGBController_Crucial.cpp                                     \
     Controllers/DebugController/DebugControllerDetect.cpp                                       \
+    Controllers/DarkProject/DarkProjectControllerDetect.cpp                                     \
+    Controllers/DarkProject/DarkProjectKeyboardController.cpp                                   \
+    Controllers/DarkProject/RGBController_DarkProjectKeyboard.cpp                               \
     Controllers/DasKeyboardController/DasKeyboardController.cpp                                 \
     Controllers/DasKeyboardController/DasKeyboardControllerDetect.cpp                           \
     Controllers/DasKeyboardController/RGBController_DasKeyboard.cpp                             \
