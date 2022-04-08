@@ -295,9 +295,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Breathing.name              = "Breathing";
                 Breathing.value             = POLYCHROME_V2_MODE_BREATHING;
                 Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-                Breathing.speed_min         = POLYCHROME_V2_SPEED_MIN;
-                Breathing.speed_max         = POLYCHROME_V2_SPEED_MAX;
-                Breathing.speed             = POLYCHROME_V2_SPEED_DEFAULT;
+                Breathing.speed_min         = POLYCHROME_V2_BREATHING_SPEED_MIN;
+                Breathing.speed_max         = POLYCHROME_V2_BREATHING_SPEED_MAX;
+                Breathing.speed             = POLYCHROME_V2_BREATHING_SPEED_DEFAULT;
                 Breathing.color_mode        = MODE_COLORS_PER_LED;
                 modes.push_back(Breathing);
 
@@ -305,9 +305,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Strobe.name                 = "Strobe";
                 Strobe.value                = POLYCHROME_V2_MODE_STROBE;
                 Strobe.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-                Strobe.speed_min            = POLYCHROME_V2_SPEED_MIN;
-                Strobe.speed_max            = POLYCHROME_V2_SPEED_MAX;
-                Strobe.speed                = POLYCHROME_V2_SPEED_DEFAULT;
+                Strobe.speed_min            = POLYCHROME_V2_STROBE_SPEED_MIN;
+                Strobe.speed_max            = POLYCHROME_V2_STROBE_SPEED_MAX;
+                Strobe.speed                = POLYCHROME_V2_STROBE_SPEED_DEFAULT;
                 Strobe.color_mode           = MODE_COLORS_PER_LED;
                 modes.push_back(Strobe);
 
@@ -315,9 +315,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 SpectrumCycle.name          = "Spectrum Cycle";
                 SpectrumCycle.value         = POLYCHROME_V2_MODE_SPECTRUM_CYCLE;
                 SpectrumCycle.flags         = MODE_FLAG_HAS_SPEED;
-                SpectrumCycle.speed_min     = POLYCHROME_V2_SPEED_MIN;
-                SpectrumCycle.speed_max     = POLYCHROME_V2_SPEED_MAX;
-                SpectrumCycle.speed         = POLYCHROME_V2_SPEED_DEFAULT;
+                SpectrumCycle.speed_min     = POLYCHROME_V2_SPECTRUM_CYCLE_SPEED_MIN;
+                SpectrumCycle.speed_max     = POLYCHROME_V2_SPECTRUM_CYCLE_SPEED_MAX;
+                SpectrumCycle.speed         = POLYCHROME_V2_SPECTRUM_CYCLE_SPEED_DEFAULT;
                 SpectrumCycle.color_mode    = MODE_COLORS_NONE;
                 modes.push_back(SpectrumCycle);
 
@@ -325,9 +325,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Random.name                 = "Random";
                 Random.value                = POLYCHROME_V2_MODE_RANDOM;
                 Random.flags                = MODE_FLAG_HAS_SPEED;
-                Random.speed_min            = POLYCHROME_V2_SPEED_MIN;
-                Random.speed_max            = POLYCHROME_V2_SPEED_MAX;
-                Random.speed                = POLYCHROME_V2_SPEED_DEFAULT;
+                Random.speed_min            = POLYCHROME_V2_RANDOM_SPEED_MIN;
+                Random.speed_max            = POLYCHROME_V2_RANDOM_SPEED_MAX;
+                Random.speed                = POLYCHROME_V2_RANDOM_SPEED_DEFAULT;
                 Random.color_mode           = MODE_COLORS_NONE;
                 modes.push_back(Random);
 
@@ -335,9 +335,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Wave.name                   = "Wave";
                 Wave.value                  = POLYCHROME_V2_MODE_WAVE;
                 Wave.flags                  = MODE_FLAG_HAS_SPEED;
-                Wave.speed_min              = POLYCHROME_V2_SPEED_MIN;
-                Wave.speed_max              = POLYCHROME_V2_SPEED_MAX;
-                Wave.speed                  = POLYCHROME_V2_SPEED_DEFAULT;
+                Wave.speed_min              = POLYCHROME_V2_WAVE_SPEED_MIN;
+                Wave.speed_max              = POLYCHROME_V2_WAVE_SPEED_MAX;
+                Wave.speed                  = POLYCHROME_V2_WAVE_SPEED_DEFAULT;
                 Wave.color_mode             = MODE_COLORS_NONE;
                 modes.push_back(Wave);
 
@@ -345,9 +345,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Spring.name                 = "Spring";
                 Spring.value                = POLYCHROME_V2_MODE_SPRING;
                 Spring.flags                = MODE_FLAG_HAS_SPEED;
-                Spring.speed_min            = POLYCHROME_V2_SPEED_MIN;
-                Spring.speed_max            = POLYCHROME_V2_SPEED_MAX;
-                Spring.speed                = POLYCHROME_V2_SPEED_DEFAULT;
+                Spring.speed_min            = POLYCHROME_V2_SPRING_SPEED_MIN;
+                Spring.speed_max            = POLYCHROME_V2_SPRING_SPEED_MAX;
+                Spring.speed                = POLYCHROME_V2_SPRING_SPEED_DEFAULT;
                 Spring.color_mode           = MODE_COLORS_NONE;
                 modes.push_back(Spring);
 
@@ -355,9 +355,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Stack.name                  = "Stack";
                 Stack.value                 = POLYCHROME_V2_MODE_STACK;
                 Stack.flags                 = MODE_FLAG_HAS_SPEED;
-                Stack.speed_min             = POLYCHROME_V2_SPEED_MIN;
-                Stack.speed_max             = POLYCHROME_V2_SPEED_MAX;
-                Stack.speed                 = POLYCHROME_V2_SPEED_DEFAULT;
+                Stack.speed_min             = POLYCHROME_V2_STACK_SPEED_MIN;
+                Stack.speed_max             = POLYCHROME_V2_STACK_SPEED_MAX;
+                Stack.speed                 = POLYCHROME_V2_STACK_SPEED_DEFAULT;
                 Stack.color_mode            = MODE_COLORS_NONE;
                 modes.push_back(Stack);
 
@@ -365,9 +365,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Cram.name                   = "Cram";
                 Cram.value                  = POLYCHROME_V2_MODE_CRAM;
                 Cram.flags                  = MODE_FLAG_HAS_SPEED;
-                Cram.speed_min              = POLYCHROME_V2_SPEED_MIN;
-                Cram.speed_max              = POLYCHROME_V2_SPEED_MAX;
-                Cram.speed                  = POLYCHROME_V2_SPEED_DEFAULT;
+                Cram.speed_min              = POLYCHROME_V2_CRAM_SPEED_MIN;
+                Cram.speed_max              = POLYCHROME_V2_CRAM_SPEED_MAX;
+                Cram.speed                  = POLYCHROME_V2_CRAM_SPEED_DEFAULT;
                 Cram.color_mode             = MODE_COLORS_NONE;
                 modes.push_back(Cram);
 
@@ -375,16 +375,19 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Scan.name                   = "Scan";
                 Scan.value                  = POLYCHROME_V2_MODE_SCAN;
                 Scan.flags                  = MODE_FLAG_HAS_SPEED;
-                Scan.speed_min              = POLYCHROME_V2_SPEED_MIN;
-                Scan.speed_max              = POLYCHROME_V2_SPEED_MAX;
-                Scan.speed                  = POLYCHROME_V2_SPEED_DEFAULT;
+                Scan.speed_min              = POLYCHROME_V2_SCAN_SPEED_MIN;
+                Scan.speed_max              = POLYCHROME_V2_SCAN_SPEED_MAX;
+                Scan.speed                  = POLYCHROME_V2_SCAN_SPEED_DEFAULT;
                 Scan.color_mode             = MODE_COLORS_NONE;
                 modes.push_back(Scan);
 
                 mode Neon;
                 Neon.name                   = "Neon";
                 Neon.value                  = POLYCHROME_V2_MODE_NEON;
-                Neon.flags                  = 0;
+                Neon.flags                  = MODE_FLAG_HAS_SPEED;
+                Neon.speed_min              = POLYCHROME_V2_NEON_SPEED_MIN;
+                Neon.speed_max              = POLYCHROME_V2_NEON_SPEED_MAX;
+                Neon.speed                  = POLYCHROME_V2_NEON_SPEED_DEFAULT;
                 Neon.color_mode             = MODE_COLORS_NONE;
                 modes.push_back(Neon);
 
@@ -392,9 +395,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Water.name                  = "Water";
                 Water.value                 = POLYCHROME_V2_MODE_WATER;
                 Water.flags                 = MODE_FLAG_HAS_SPEED;
-                Water.speed_min             = POLYCHROME_V2_SPEED_MIN;
-                Water.speed_max             = POLYCHROME_V2_SPEED_MAX;
-                Water.speed                 = POLYCHROME_V2_SPEED_DEFAULT;
+                Water.speed_min             = POLYCHROME_V2_WATER_SPEED_MIN;
+                Water.speed_max             = POLYCHROME_V2_WATER_SPEED_MAX;
+                Water.speed                 = POLYCHROME_V2_WATER_SPEED_DEFAULT;
                 Water.color_mode            = MODE_COLORS_NONE;
                 modes.push_back(Water);
 
@@ -402,9 +405,9 @@ RGBController_Polychrome::RGBController_Polychrome(PolychromeController* control
                 Rainbow.name                = "Rainbow";
                 Rainbow.value               = POLYCHROME_V2_MODE_RAINBOW;
                 Rainbow.flags               = MODE_FLAG_HAS_SPEED;
-                Rainbow.speed_min           = POLYCHROME_V2_SPEED_MIN;
-                Rainbow.speed_max           = POLYCHROME_V2_SPEED_MAX;
-                Rainbow.speed               = POLYCHROME_V2_SPEED_DEFAULT;
+                Rainbow.speed_min           = POLYCHROME_V2_RAINBOW_SPEED_MIN;
+                Rainbow.speed_max           = POLYCHROME_V2_RAINBOW_SPEED_MAX;
+                Rainbow.speed               = POLYCHROME_V2_RAINBOW_SPEED_DEFAULT;
                 Rainbow.color_mode          = MODE_COLORS_NONE;
                 modes.push_back(Rainbow);
             }

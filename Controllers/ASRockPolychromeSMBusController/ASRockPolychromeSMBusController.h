@@ -191,9 +191,53 @@ enum
 
 enum
 {
-    POLYCHROME_V2_SPEED_MIN                 = 0x05,     /* Slowest speed                        */
-    POLYCHROME_V2_SPEED_DEFAULT             = 0x03,     /* Default speed                        */
-    POLYCHROME_V2_SPEED_MAX                 = 0x00,     /* Fastest speed                        */
+    POLYCHROME_V2_BREATHING_SPEED_MIN               = 0x0A,     /* Slowest speed                        */
+    POLYCHROME_V2_BREATHING_SPEED_DEFAULT           = 0x06,     /* Default speed                        */
+    POLYCHROME_V2_BREATHING_SPEED_MAX               = 0x02,     /* Fastest speed                        */
+
+    POLYCHROME_V2_STROBE_SPEED_MIN                  = 0xA0,     /* Slowest speed                        */
+    POLYCHROME_V2_STROBE_SPEED_DEFAULT              = 0x4D,     /* Default speed                        */
+    POLYCHROME_V2_STROBE_SPEED_MAX                  = 0x05,     /* Fastest speed                        */
+
+    POLYCHROME_V2_SPECTRUM_CYCLE_SPEED_MIN          = 0xA0,     /* Slowest speed                        */
+    POLYCHROME_V2_SPECTRUM_CYCLE_SPEED_DEFAULT      = 0x50,     /* Default speed                        */
+    POLYCHROME_V2_SPECTRUM_CYCLE_SPEED_MAX          = 0x0A,     /* Fastest speed                        */
+
+    POLYCHROME_V2_RANDOM_SPEED_MIN                  = 0xA0,     /* Slowest speed                        */
+    POLYCHROME_V2_RANDOM_SPEED_DEFAULT              = 0x4D,     /* Default speed                        */
+    POLYCHROME_V2_RANDOM_SPEED_MAX                  = 0x05,     /* Fastest speed                        */
+
+    POLYCHROME_V2_WAVE_SPEED_MIN                    = 0x06,     /* Slowest speed                        */
+    POLYCHROME_V2_WAVE_SPEED_DEFAULT                = 0x03,     /* Default speed                        */
+    POLYCHROME_V2_WAVE_SPEED_MAX                    = 0x01,     /* Fastest speed                        */
+
+    POLYCHROME_V2_SPRING_SPEED_MIN                  = 0x20,     /* Slowest speed                        */
+    POLYCHROME_V2_SPRING_SPEED_DEFAULT              = 0x11,     /* Default speed                        */
+    POLYCHROME_V2_SPRING_SPEED_MAX                  = 0x02,     /* Fastest speed                        */
+
+    POLYCHROME_V2_STACK_SPEED_MIN                   = 0x20,     /* Slowest speed                        */
+    POLYCHROME_V2_STACK_SPEED_DEFAULT               = 0x11,     /* Default speed                        */
+    POLYCHROME_V2_STACK_SPEED_MAX                   = 0x02,     /* Fastest speed                        */
+
+    POLYCHROME_V2_CRAM_SPEED_MIN                    = 0x20,     /* Slowest speed                        */
+    POLYCHROME_V2_CRAM_SPEED_DEFAULT                = 0x11,     /* Default speed                        */
+    POLYCHROME_V2_CRAM_SPEED_MAX                    = 0x02,     /* Fastest speed                        */
+
+    POLYCHROME_V2_SCAN_SPEED_MIN                    = 0x20,     /* Slowest speed                        */
+    POLYCHROME_V2_SCAN_SPEED_DEFAULT                = 0x11,     /* Default speed                        */
+    POLYCHROME_V2_SCAN_SPEED_MAX                    = 0x02,     /* Fastest speed                        */
+
+    POLYCHROME_V2_NEON_SPEED_MIN                    = 0x20,     /* Slowest speed                        */
+    POLYCHROME_V2_NEON_SPEED_DEFAULT                = 0x11,     /* Default speed                        */
+    POLYCHROME_V2_NEON_SPEED_MAX                    = 0x02,     /* Fastest speed                        */
+
+    POLYCHROME_V2_WATER_SPEED_MIN                   = 0x20,     /* Slowest speed                        */
+    POLYCHROME_V2_WATER_SPEED_DEFAULT               = 0x11,     /* Default speed                        */
+    POLYCHROME_V2_WATER_SPEED_MAX                   = 0x02,     /* Fastest speed                        */
+
+    POLYCHROME_V2_RAINBOW_SPEED_MIN                 = 0x12,     /* Slowest speed                        */
+    POLYCHROME_V2_RAINBOW_SPEED_DEFAULT             = 0x08,     /* Default speed                        */
+    POLYCHROME_V2_RAINBOW_SPEED_MAX                 = 0x02,     /* Fastest speed                        */
 };
 
 class PolychromeController
