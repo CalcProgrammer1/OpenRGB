@@ -118,6 +118,7 @@ i2c_smbus_amdadl::i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context)
             this->pci_device           = dev_id;
             this->pci_subsystem_vendor = sbv_id;
             this->pci_subsystem_device = sbd_id;
+            this->port_id              = 1;
             strcpy(this->device_name, "AMD ADL");
         }
     }
@@ -138,13 +139,6 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     pI2C->iAddress = addr << 1;
     pI2C->iOffset = command;
     pI2C->pcData = (char*)data;
-
-
-    if (ADL_OK != ADL2_Main_Control_Create(::ADL_Main_Memory_Alloc, 1, &context))
-    {
-        printf("Cannot get handle!\n");
-        return ADL_ERR;
-    }
 
     if (ADL_OK != ADL2_Adapter_Primary_Get(context, &PrimaryDisplay))
     {
@@ -173,7 +167,8 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         break;
 
     case I2C_SMBUS_BLOCK_DATA:
-        return -1;
+        pI2C->iDataSize = data->block[0];
+        pI2C->pcData = (char*)&data->block[1];
         break;
 
     default:
@@ -203,8 +198,6 @@ s32 i2c_smbus_amdadl::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
 
 bool i2c_smbus_amdadl_detect()
 {
-    int adl_status;
-    int gpu_count = 0;
     ADL_CONTEXT_HANDLE context;
 
     if(ADL_OK == LoadLibraries())
