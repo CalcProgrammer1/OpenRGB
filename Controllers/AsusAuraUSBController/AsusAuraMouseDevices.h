@@ -24,6 +24,7 @@
 #define AURA_ROG_PUGIO_PID                      0x1846
 #define AURA_ROG_PUGIO_II_WIRED_PID             0x1906
 #define AURA_ROG_PUGIO_II_WIRELESS_PID          0x1908
+#define AURA_ROG_STRIX_IMPACT_PID               0x1847
 #define AURA_ROG_STRIX_IMPACT_II_PID            0x18E1
 #define AURA_ROG_KERIS                          0x195C
 #define AURA_ROG_KERIS_WIRELESS_USB_PID         0x195E
@@ -213,6 +214,17 @@ static std::map<int,mouse_type> aura_mouse_devices =
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_STRIX_IMPACT_PID, // ROG Strix Impact
+        {
+            0,
+            0,
+            false,
+            3,
+            { AURA_MOUSE_ZONE_LOGO },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM }
         }
     },
     {

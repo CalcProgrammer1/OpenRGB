@@ -79,6 +79,7 @@ SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1958", TAG+="uacces
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1846", TAG+="uaccess", TAG+="ROG_Pugio"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1906", TAG+="uaccess", TAG+="ROG_Pugio_II_Wired"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1908", TAG+="uaccess", TAG+="ROG_Pugio_II_Wireless"
+SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="1847", TAG+="uaccess", TAG+="ROG_Strix_Impact"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="18e1", TAG+="uaccess", TAG+="ROG_Strix_Impact_II"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="195c", TAG+="uaccess", TAG+="ROG_Keris"
 SUBSYSTEMS=="usb", ATTR{idVendor}=="0b05", ATTR{idProduct}=="195e", TAG+="uaccess", TAG+="ROG_Keris_Wireless_USB"
