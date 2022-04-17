@@ -9,6 +9,18 @@
 
 #include "RGBController_CMSmallARGBController.h"
 
+/**------------------------------------------------------------------*\
+    @name Coolermaster Small ARGB
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterSmallARGB
+    @comment The Coolermaster Small ARGB device supports `Direct` mode
+        from firmware 0012 onwards. Check the serial number for the date
+        "A202104052336" or newer.
+\*-------------------------------------------------------------------*/
+
 RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmallARGBController* controller_ptr)
 {
     controller                  = controller_ptr;

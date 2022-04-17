@@ -15,6 +15,16 @@ static const char* rgb_fusion_zone_names[] =
     "RGB Header"
 };
 
+/**------------------------------------------------------------------*\
+    @name Gigabyte Fusion SMBus
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectGigabyteRGBFusionControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* controller_ptr)
 {
     controller  = controller_ptr;

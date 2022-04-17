@@ -8,6 +8,16 @@
 
 #include "RGBController_HoltekA070.h"
 
+/**------------------------------------------------------------------*\
+    @name Holtek A070
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectHoltekControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* controller_ptr)
 {
     controller  = controller_ptr;

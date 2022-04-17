@@ -176,6 +176,16 @@ static const char *led_names[] =
     KEY_EN_MEDIA_MUTE
 };
 
+/**------------------------------------------------------------------*\
+    @name HyperX Alloy Elite
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectHyperXAlloyElite
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HyperXAlloyElite::RGBController_HyperXAlloyElite(HyperXAlloyEliteController* controller_ptr)
 {
     controller  = controller_ptr;

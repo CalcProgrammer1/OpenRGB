@@ -9,6 +9,16 @@
 
 #include "RGBController_AsusAuraMousemat.h"
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura Mousemat
+    @type USB
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAsusAuraUSBMousemats
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraMousemat::RGBController_AuraMousemat(AuraMousematController* controller_ptr)
 {
     controller  = controller_ptr;

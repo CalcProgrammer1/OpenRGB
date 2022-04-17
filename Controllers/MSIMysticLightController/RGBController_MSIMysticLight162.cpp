@@ -73,6 +73,16 @@ static const ZoneDescription led_zones[] =
     ZoneDescription{"Onboard LEDs",     ZoneList_Onboard    },
 };
 
+/**------------------------------------------------------------------*\
+    @name MSI Mystic Light (162 Byte)
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectMSIMysticLight162Controllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_MSIMysticLight162::RGBController_MSIMysticLight162(MSIMysticLight162Controller* controller_ptr)
 {
     controller = controller_ptr;

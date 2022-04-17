@@ -12,6 +12,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name NVidia ESA
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectNvidiaESAControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_NvidiaESA::RGBController_NvidiaESA(NvidiaESAController* controller_ptr)
 {
     controller                          = controller_ptr;

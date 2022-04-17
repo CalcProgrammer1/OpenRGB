@@ -8,6 +8,16 @@
 
 #include "RGBController_PhilipsWiz.h"
 
+/**------------------------------------------------------------------*\
+    @name Philips Wiz
+    @type Network
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectPhilipsWizControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* light_ptr)
 {
     light = light_ptr;

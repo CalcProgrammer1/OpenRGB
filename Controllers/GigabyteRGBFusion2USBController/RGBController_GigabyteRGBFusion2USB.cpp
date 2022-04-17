@@ -188,6 +188,17 @@ static KnownLayout knownLayoutsLookup
     },
 };
 
+/**------------------------------------------------------------------*\
+    @name Gigabyte RGB Fusion 2 USB
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectGigabyteRGBFusion2USBControllers
+    @comment The Fusion 2 USB controller applies to most AMD and
+        Intel mainboards from the x570 and z390 chipsets onwards.
+\*-------------------------------------------------------------------*/
+
 RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController* controller_ptr, std::string detector)
 {
     controller              = controller_ptr;

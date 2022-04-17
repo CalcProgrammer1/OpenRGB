@@ -23,6 +23,16 @@ static const steelseries_rival_led_info rival_3_leds[]=
     {"Logo",            0x04}
 };
 
+/**------------------------------------------------------------------*\
+    @name Steel Series Rival 3
+    @type USB
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectSteelSeriesRival3
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRival3Controller* rival_ptr)
 {
     rival       = rival_ptr;

@@ -3,6 +3,16 @@
 #include <dirent.h>
 #include <string.h>
 
+/**------------------------------------------------------------------*\
+    @name ASUS TUF Keyboard (Faustus)
+    @type File Stream
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectFaustusControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
 {
     name        = "ASUS TUF Keyboard";

@@ -14,6 +14,16 @@ int RGBController_GainwardGPUv1::GetDeviceMode()
     return(active_mode);
 }
 
+/**------------------------------------------------------------------*\
+    @name Gainward GPU v1
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectGainwardGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_GainwardGPUv1::RGBController_GainwardGPUv1(GainwardGPUv1Controller* controller_ptr)
 {
     controller              = controller_ptr;

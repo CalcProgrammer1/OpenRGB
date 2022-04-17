@@ -12,6 +12,16 @@
 
 using namespace std::chrono_literals;
 
+/**------------------------------------------------------------------*\
+    @name Philips Hue Entertainment
+    @type Network
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectPhilipsHueControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_PhilipsHueEntertainment::RGBController_PhilipsHueEntertainment(PhilipsHueEntertainmentController* light_ptr)
 {
     light = light_ptr;

@@ -8,6 +8,16 @@
 
 #include "RGBController_BlinkController.h"
 
+/**------------------------------------------------------------------*\
+    @name ThingM Blink
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectThingMBlink
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_BlinkController::RGBController_BlinkController(BlinkController* blink_ptr)
 {
     Blink               = blink_ptr;

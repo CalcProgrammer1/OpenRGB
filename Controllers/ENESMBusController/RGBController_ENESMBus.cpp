@@ -8,6 +8,16 @@
 
 #include "RGBController_ENESMBus.h"
 
+/**------------------------------------------------------------------*\
+    @name ENE SMBus Device
+    @type SMBus
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectENESMBusDRAMControllers,DetectENESMBusMotherboardControllers,DetectENESMBusGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_ptr)
 {
     controller  = controller_ptr;

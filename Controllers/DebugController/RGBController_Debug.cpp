@@ -3,6 +3,16 @@
 #include <algorithm>
 #include <cstring>
 
+/**------------------------------------------------------------------*\
+    @name Debug
+    @type I2C
+    @save :x:
+    @direct :x:
+    @effects :x:
+    @detectors DetectDebugControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Debug::RGBController_Debug()
 {
 

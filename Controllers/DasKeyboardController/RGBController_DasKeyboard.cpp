@@ -190,6 +190,16 @@ static const char *led_names[] =
         "Key: Q-Button"
     };
 
+/**------------------------------------------------------------------*\
+    @name Das Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectDasKeyboardControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;

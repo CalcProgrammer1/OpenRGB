@@ -9,6 +9,16 @@
 
 #include "RGBController_EKController.h"
 
+/**------------------------------------------------------------------*\
+    @name EK Loop Connect
+    @type USB
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectEKControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_EKController::RGBController_EKController(EKController* controller_ptr)
 {
     controller  = controller_ptr;

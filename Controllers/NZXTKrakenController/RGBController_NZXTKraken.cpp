@@ -10,6 +10,16 @@
 
 #include <iostream>
 
+/**------------------------------------------------------------------*\
+    @name NZXT Kraken
+    @type USB
+    @saven :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectNZXTKrakenControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_NZXTKraken::RGBController_NZXTKraken(NZXTKrakenController* controller_ptr)
 {
     controller  = controller_ptr;

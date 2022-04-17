@@ -9,6 +9,18 @@
 
 #include "RGBController_CMARGBController.h"
 
+/**------------------------------------------------------------------*\
+    @name Coolermaster ARGB
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterARGB
+    @comment The Coolermaster ARGB device supports `Direct` mode from
+        firmware 0028 onwards. Check the serial number for the date
+        "A202105291658" or newer.
+\*-------------------------------------------------------------------*/
+
 RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController* controller_ptr)
 {
     controller                      = controller_ptr;

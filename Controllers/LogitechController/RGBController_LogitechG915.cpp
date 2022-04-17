@@ -182,6 +182,16 @@ static const led_type led_names[] =
     { "Key: G5",                LOGITECH_G915_ZONE_MODE_GKEYS,          0x05    },
 };
 
+/**------------------------------------------------------------------*\
+    @name Logitech G915
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechKeyboardG915,DetectLogitechKeyboardG915Wired
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechG915::RGBController_LogitechG915(LogitechG915Controller* controller_ptr, bool tkl)
 {
     controller                      = controller_ptr;

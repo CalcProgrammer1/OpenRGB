@@ -11,6 +11,16 @@
 
 using namespace std::chrono_literals;
 
+/**------------------------------------------------------------------*\
+    @name HyperX Pulsefire FPS
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectHyperXPulsefireFPSProControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HyperXPulsefireFPSPro::RGBController_HyperXPulsefireFPSPro(HyperXPulsefireFPSProController* controller_ptr)
 {
     controller  = controller_ptr;

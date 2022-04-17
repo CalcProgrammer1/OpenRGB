@@ -9,6 +9,17 @@
 
 #include "RGBController_AsusAuraUSB.h"
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura USB
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAsusAuraUSBTerminal,DetectAsusAuraUSBAddressable,DetectAsusAuraUSBMotherboards
+    @comment The Asus AUra USB controller applies to most AMD and
+        Intel mainboards from the x470 and z390 chipsets onwards.
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* controller_ptr) :
     initializedMode(false)
 {

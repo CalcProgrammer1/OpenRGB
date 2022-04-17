@@ -9,6 +9,16 @@
 
 #include "RGBController_Tecknet.h"
 
+/**------------------------------------------------------------------*\
+    @name Tecknet Mouse
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectTecknetControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
 {
     Tecknet_dev = _dev;

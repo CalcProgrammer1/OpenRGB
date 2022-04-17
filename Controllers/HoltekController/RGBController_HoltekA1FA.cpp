@@ -8,6 +8,16 @@
 
 #include "RGBController_HoltekA1FA.h"
 
+/**------------------------------------------------------------------*\
+    @name Holtek A1FA
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectHoltekMousemats
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HoltekA1FA::RGBController_HoltekA1FA(HoltekA1FAController* controller_ptr)
 {
     controller  = controller_ptr;

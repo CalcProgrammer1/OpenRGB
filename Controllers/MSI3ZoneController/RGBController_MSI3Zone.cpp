@@ -9,6 +9,16 @@
 
 #include "RGBController_MSI3Zone.h"
 
+/**------------------------------------------------------------------*\
+    @name MSI 3 Zone Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectMSI3ZoneControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* controller_ptr)
 {
     controller  = controller_ptr;

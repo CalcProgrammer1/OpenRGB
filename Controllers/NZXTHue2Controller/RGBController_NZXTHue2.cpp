@@ -8,6 +8,15 @@
 
 #include "RGBController_NZXTHue2.h"
 
+/**------------------------------------------------------------------*\
+    @name NZXT Hue2
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectNZXTHue2,DetectNZXTHue2Ambient,DetectNZXTHue2Motherboard,DetectNZXTSmartDeviceV2,DetectNZXTKrakenX3,DetectNZXTFanController
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_ptr)
 {

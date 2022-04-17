@@ -32,6 +32,17 @@ static const char* polychrome_v2_zone_names[] =
     "Addressable Header"
 };
 
+/**------------------------------------------------------------------*\
+    @name ASRock Polychrome SMBus
+    @type SMBus
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectPolychromeSMBusControllers
+    @comment ASRock Polychrome controllers will save with each update.
+        Per ARGB LED support is not possible with these devices.
+\*-------------------------------------------------------------------*/
+
 RGBController_Polychrome::RGBController_Polychrome(PolychromeController* controller_ptr)
 {
     controller  = controller_ptr;

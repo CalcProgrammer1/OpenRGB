@@ -9,6 +9,16 @@
 
 #include "RGBController_PNYGPU.h"
 
+/**------------------------------------------------------------------*\
+    @name PNY GPU
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectPNYGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_PNYGPU::RGBController_PNYGPU(PNYGPUController* pny_ptr)
 {
     pny = pny_ptr;

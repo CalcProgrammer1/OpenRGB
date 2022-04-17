@@ -9,6 +9,16 @@
 
 #include "RGBController_CMMP750Controller.h"
 
+/**------------------------------------------------------------------*\
+    @name Coolermaster Mouse Pad
+    @type USB
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterMousemats
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controller* controller_ptr)
 {
     controller              = controller_ptr;

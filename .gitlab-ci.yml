@@ -127,7 +127,7 @@ before_script:
     exclude:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
-    
+
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bullseye 64-bit Build Target                      #
 #-----------------------------------------------------------------------#

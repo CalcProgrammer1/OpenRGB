@@ -12,6 +12,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name Lexip Mouse
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLexipMouseControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LexipMouse::RGBController_LexipMouse(LexipMouseController* controller_ptr)
 {
     controller                          = controller_ptr;

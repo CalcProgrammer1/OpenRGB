@@ -9,6 +9,15 @@
 
 #include "RGBController_HyperXDRAM.h"
 
+/**------------------------------------------------------------------*\
+    @name HyperX DRAM
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectHyperXDRAMControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_HyperXDRAM::RGBController_HyperXDRAM(HyperXDRAMController* controller_ptr)
 {

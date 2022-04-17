@@ -1,5 +1,15 @@
 #include "RGBController_LogitechG203L.h"
 
+/**------------------------------------------------------------------*\
+    @name Logitech G203L
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechMouseG203L
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController* controller_ptr)
 {
     controller  = controller_ptr;

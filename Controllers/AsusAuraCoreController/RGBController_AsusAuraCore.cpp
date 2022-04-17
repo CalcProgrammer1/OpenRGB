@@ -8,6 +8,16 @@
 
 #include "RGBController_AsusAuraCore.h"
 
+/**------------------------------------------------------------------*\
+    @name Asus AURA Core
+    @type USB
+    @save :x:
+    @direct :warning:
+    @effects :white_check_mark:
+    @detectors DetectAsusAuraCoreControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* controller_ptr)
 {
     controller  = controller_ptr;

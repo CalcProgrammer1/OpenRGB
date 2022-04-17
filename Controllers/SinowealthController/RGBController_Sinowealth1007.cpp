@@ -20,6 +20,16 @@ static const char *led_names[] =
     "Top Right"
 };
 
+/**------------------------------------------------------------------*\
+    @name Sinowealth 1007 Mouse
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectSinowealthMouse
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Sinowealth1007::RGBController_Sinowealth1007(SinowealthController1007* controller_ptr)
 {
     controller = controller_ptr;

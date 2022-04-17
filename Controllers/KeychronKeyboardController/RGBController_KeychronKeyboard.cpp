@@ -414,6 +414,16 @@ typedef struct
     int flags;
 } keychron_effect;
 
+/**------------------------------------------------------------------*\
+    @name Keychron Keyboard
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectKeychronKeyboardControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_KeychronKeyboard::RGBController_KeychronKeyboard(KeychronKeyboardController* controller_ptr)
 {
     controller                          = controller_ptr;

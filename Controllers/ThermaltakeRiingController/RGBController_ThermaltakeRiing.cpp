@@ -9,6 +9,15 @@
 
 #include "RGBController_ThermaltakeRiing.h"
 
+/**------------------------------------------------------------------*\
+    @name Thermaltake Riing
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectThermaltakeRiingControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingController* riing_ptr)
 {

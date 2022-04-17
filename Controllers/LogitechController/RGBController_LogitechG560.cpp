@@ -11,6 +11,16 @@
 
 #include "RGBController_LogitechG560.h"
 
+/**------------------------------------------------------------------*\
+    @name Logitech G560
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLogitechG560
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechG560::RGBController_LogitechG560(LogitechG560Controller* controller_ptr)
 {
     controller  = controller_ptr;

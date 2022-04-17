@@ -9,6 +9,16 @@
 
 #include "RGBController_Crucial.h"
 
+/**------------------------------------------------------------------*\
+    @name Crucial RAM
+    @type SMBus
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCrucialControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Crucial::RGBController_Crucial(CrucialController* controller_ptr)
 {
     controller  = controller_ptr;

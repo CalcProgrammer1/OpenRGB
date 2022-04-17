@@ -158,6 +158,16 @@ static const led_type led_names[] =
     { "Logo",                   ALIENWARE_AW510K_ZONE_DIRECT_LOGO,         0x07    }
 };
 
+/**------------------------------------------------------------------*\
+    @name Alienware AW510 Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAlienwareAW510KControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AlienwareAW510K::RGBController_AlienwareAW510K(AlienwareAW510KController* controller_ptr)
 {
     controller  = controller_ptr;

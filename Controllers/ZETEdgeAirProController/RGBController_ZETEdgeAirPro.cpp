@@ -11,6 +11,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name ZET Edge Air Pro
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectZETGAMINGEdgeAirProControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_ZETEdgeAirPro::RGBController_ZETEdgeAirPro(ZETEdgeAirProController* controller_ptr)
 {
     controller                          = controller_ptr;

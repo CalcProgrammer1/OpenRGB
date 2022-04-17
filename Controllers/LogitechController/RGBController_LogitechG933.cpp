@@ -11,6 +11,16 @@
 
 #include "RGBController_LogitechG933.h"
 
+/**------------------------------------------------------------------*\
+    @name Dummy
+    @type I2C or Serial or WMI or USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLogitechG933
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechG933::RGBController_LogitechG933(LogitechG933Controller* controller_ptr)
 {
     controller  = controller_ptr;

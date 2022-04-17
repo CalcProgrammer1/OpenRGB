@@ -8,6 +8,16 @@
 
 #include "RGBController_Yeelight.h"
 
+/**------------------------------------------------------------------*\
+    @name Yeelight
+    @type Network
+    @save :x:
+    @direct :warning:
+    @effects :white_check_mark:
+    @detectors DetectYeelightControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Yeelight::RGBController_Yeelight(YeelightController* light_ptr)
 {
     light = light_ptr;

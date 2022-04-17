@@ -8,6 +8,17 @@
 
 #include "RGBController_CMR6000Controller.h"
 
+/**------------------------------------------------------------------*\
+    @name AMD Radeon 6000
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterGPU
+    @comment Similar to the Wraith Spire before it the AMD branded Radeon
+        GPUs have an RGB controller provided by Coolermaster.
+\*-------------------------------------------------------------------*/
+
 RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controller* controller_ptr)
 {
     controller          = controller_ptr;
@@ -94,6 +105,7 @@ void RGBController_CMR6000Controller::SetupZones()
     leds.push_back(GP_led);
 
     SetupColors();
+
 }
 
 void RGBController_CMR6000Controller::ResizeZone(int /*zone*/, int /*new_size*/)

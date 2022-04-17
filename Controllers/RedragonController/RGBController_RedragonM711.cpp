@@ -9,6 +9,16 @@
 
 #include "RGBController_RedragonM711.h"
 
+/**------------------------------------------------------------------*\
+    @name Redragon Mice
+    @type USB
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectRedragonMice
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* redragon_ptr)
 {
     redragon = redragon_ptr;

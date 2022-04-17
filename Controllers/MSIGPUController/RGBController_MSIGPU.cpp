@@ -26,6 +26,16 @@ int RGBController_MSIGPU::GetDeviceMode()
     return(active_mode);
 }
 
+/**------------------------------------------------------------------*\
+    @name MSI GPU
+    @type I2C
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectMSIGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
 {
     msi_gpu = msi_gpu_ptr;

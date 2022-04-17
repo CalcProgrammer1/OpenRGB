@@ -135,6 +135,17 @@ void RGBController_OpenRazer::SetupNonMatrixDevice()
     matrix_type = RAZER_TYPE_NOMATRIX;
 }
 
+/**------------------------------------------------------------------*\
+    @name Openrazer
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectOpenRazerControllers
+    @comment The Openrazer controller has been deprecated in favour of
+        the in built Razer controller.
+\*-------------------------------------------------------------------*/
+
 RGBController_OpenRazer::RGBController_OpenRazer(device * razer_device, device_fn_type* razer_functions)
 {
     char string_buf[1024];

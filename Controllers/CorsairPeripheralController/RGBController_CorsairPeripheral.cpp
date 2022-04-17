@@ -754,6 +754,16 @@ static const char* corsair_harpoon_pro_leds[] =
     "",
 };
 
+/**------------------------------------------------------------------*\
+    @name Corsair Peripheral
+    @type USB
+    @save :white_check_mark: or :warning: or :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairPeripheralControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* controller_ptr)
 {
     controller      = controller_ptr;

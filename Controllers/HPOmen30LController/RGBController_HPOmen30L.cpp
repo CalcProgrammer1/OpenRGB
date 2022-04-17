@@ -6,6 +6,16 @@
 
 #include "RGBController_HPOmen30L.h"
 
+/**------------------------------------------------------------------*\
+    @name HP Omen 30L
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectHPOmen30LController
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HPOmen30L::RGBController_HPOmen30L(HPOmen30LController* controller_ptr)
 {
     controller  = controller_ptr;

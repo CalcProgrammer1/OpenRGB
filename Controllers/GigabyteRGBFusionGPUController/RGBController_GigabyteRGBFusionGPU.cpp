@@ -9,6 +9,16 @@
 
 #include "RGBController_GigabyteRGBFusionGPU.h"
 
+/**------------------------------------------------------------------*\
+    @name Gigabyte Fusion GPU
+    @type I2C
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectGigabyteRGBFusionGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* controller_ptr)
 {
     controller  = controller_ptr;

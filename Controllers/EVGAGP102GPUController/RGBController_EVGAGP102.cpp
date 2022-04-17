@@ -10,6 +10,16 @@
 #include "RGBController_EVGAGP102.h"
 #include <array>
 
+/**------------------------------------------------------------------*\
+    @name EVGA GP102 GPU
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectEVGAGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_EVGAGP102::RGBController_EVGAGP102(std::vector<EVGAGP102Controller*> evga_ptr)
 {
     evga = evga_ptr;

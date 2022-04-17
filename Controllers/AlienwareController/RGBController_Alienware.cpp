@@ -12,6 +12,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name Alienware
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectAlienwareControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Alienware::RGBController_Alienware(AlienwareController* controller_ptr)
 {
     controller                  = controller_ptr;

@@ -9,6 +9,16 @@
 
 #include "RGBController_PatriotViper.h"
 
+/**------------------------------------------------------------------*\
+    @name Patriot Viper
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectPatriotViperControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* viper_ptr)
 {
     viper = viper_ptr;

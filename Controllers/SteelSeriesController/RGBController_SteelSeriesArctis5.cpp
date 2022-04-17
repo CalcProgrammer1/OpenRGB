@@ -9,6 +9,16 @@
 
 #include "RGBController_SteelSeriesArctis5.h"
 
+/**------------------------------------------------------------------*\
+    @name Steelseries Arctis 5
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectSteelSeriesArctis5
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesArctis5::RGBController_SteelSeriesArctis5(SteelSeriesArctis5Controller* controller_ptr)
 {
     controller  = controller_ptr;

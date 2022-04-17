@@ -9,6 +9,16 @@
 
 #include "RGBController_AsusAuraMonitor.h"
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura Monitor
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectAsusAuraUSBMonitor
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraMonitor::RGBController_AuraMonitor(AuraMonitorController* controller_ptr)
 {
     controller  = controller_ptr;

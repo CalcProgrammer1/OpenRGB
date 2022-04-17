@@ -120,6 +120,16 @@ std::vector<std::tuple<unsigned int, std::string>> keys =
     {109,   KEY_EN_RIGHT_CONTROL}
 };
 
+/**------------------------------------------------------------------*\
+    @name Corsair K65 Mini
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairK65MiniControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairK65Mini::RGBController_CorsairK65Mini(CorsairK65MiniController* controller_ptr)
 {
     controller      = controller_ptr;

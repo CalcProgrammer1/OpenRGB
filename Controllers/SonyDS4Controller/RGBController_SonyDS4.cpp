@@ -10,6 +10,16 @@
 #include "RGBController.h"
 #include "RGBController_SonyDS4.h"
 
+/**------------------------------------------------------------------*\
+    @name Sony Dual Shock 4 controller
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectSonyDS4Controllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* dualshock)
 {
     this->dualshock = dualshock;

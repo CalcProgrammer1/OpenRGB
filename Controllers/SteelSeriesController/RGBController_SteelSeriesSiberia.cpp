@@ -9,6 +9,16 @@
 
 #include "RGBController_SteelSeriesSiberia.h"
 
+/**------------------------------------------------------------------*\
+    @name Steel Series Siberia
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectSteelSeriesHeadset
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* siberia_ptr)
 {
     siberia = siberia_ptr;

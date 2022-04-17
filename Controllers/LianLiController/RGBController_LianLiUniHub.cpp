@@ -28,6 +28,16 @@ mode makeMode()
   return Mode;
 }
 
+/**------------------------------------------------------------------*\
+    @name Lian Li Uni Hub
+    @type USB
+    @save :x:
+    @direct :warning:
+    @effects :white_check_mark:
+    @detectors DetectLianLiUniHub
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LianLiUniHub::RGBController_LianLiUniHub(LianLiUniHubController* controller_ptr)
 {
     controller  = controller_ptr;

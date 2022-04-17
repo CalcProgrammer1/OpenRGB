@@ -43,6 +43,16 @@
 |   Single color for Star                                                                                                                   |
 \*-----------------------------------------------------------------------------------------------------------------------------------------*/
 
+/**------------------------------------------------------------------*\
+    @name Coolermaster RGB
+    @type USB
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterRGB
+    @comment This is a 12V analogue RGB controller only.
+\*-------------------------------------------------------------------*/
+
 RGBController_CMRGBController::RGBController_CMRGBController(CMRGBController* controller_ptr)
 {
     controller                  = controller_ptr;

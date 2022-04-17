@@ -19,6 +19,16 @@ static unsigned int matrix_map[5][5] =
     { NA,  7,   6,   5,   NA }
 };
 
+/**------------------------------------------------------------------*\
+    @name Corsair Hydro Platinum
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairHydroPlatinumControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairHydroPlatinum::RGBController_CorsairHydroPlatinum(CorsairHydroPlatinumController* controller_ptr)
 {
     controller  = controller_ptr;

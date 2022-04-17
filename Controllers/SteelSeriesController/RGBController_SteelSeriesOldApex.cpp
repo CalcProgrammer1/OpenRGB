@@ -18,6 +18,16 @@
 
 #include "RGBController_SteelSeriesOldApex.h"
 
+/**------------------------------------------------------------------*\
+    @name Steel Series Apex (Old)
+    @type USB
+    @save :x:
+    @direct :white_check_mark::
+    @effects :x:
+    @detectors DetectSteelSeriesApexOld
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* old_apex_ptr)
 {
     OldApex     = old_apex_ptr;

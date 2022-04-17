@@ -9,6 +9,16 @@
 
 #include "RGBController_GigabyteRGBFusion2DRAM.h"
 
+/**------------------------------------------------------------------*\
+    @name Gigabyte Fusion2 DRAM
+    @type I2C
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectGigabyteRGBFusion2DRAMControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMController* controller_ptr)
 {
     controller  = controller_ptr;

@@ -35,6 +35,16 @@ static const steelseries_rival_led_info rival_600_leds[]=
     {"Right bottom",    0x07},
 };
 
+/**------------------------------------------------------------------*\
+    @name Steel Series Rival
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectSteelSeriesRival100,DetectSteelSeriesRival300,DetectSteelSeriesRival600,DetectSteelSeriesRival650,DetectSteelSeriesRival700
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalController* rival_ptr)
 {
     rival       = rival_ptr;

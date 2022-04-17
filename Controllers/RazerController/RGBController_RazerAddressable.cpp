@@ -3,6 +3,16 @@
 
 #include <string.h>
 
+/**------------------------------------------------------------------*\
+    @name Razer ARGB
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectRazerARGBControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RazerAddressable::RGBController_RazerAddressable(RazerController* controller_ptr)
 {
     controller      = controller_ptr;

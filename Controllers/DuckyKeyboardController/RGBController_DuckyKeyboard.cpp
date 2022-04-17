@@ -186,6 +186,16 @@ static const char *led_names[] =
     KEY_EN_NUMPAD_ENTER,
 };
 
+/**------------------------------------------------------------------*\
+    @name Ducky Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark
+    @effects :x:
+    @detectors DetectDuckyKeyboardControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;

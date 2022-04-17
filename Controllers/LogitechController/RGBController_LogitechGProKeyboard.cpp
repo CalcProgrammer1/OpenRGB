@@ -143,6 +143,16 @@ static const led_type led_names[] =
     { "Scroll Lock Indicator",  LOGITECH_GPRO_ZONE_DIRECT_INDICATORS,   0x04    },//93
 };
 
+/**------------------------------------------------------------------*\
+    @name Logitech G Pro
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechKeyboardGPro
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechGProKeyboard::RGBController_LogitechGProKeyboard(LogitechGProKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;

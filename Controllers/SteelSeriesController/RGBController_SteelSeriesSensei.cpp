@@ -9,6 +9,16 @@
 
 #include "RGBController_SteelSeriesSensei.h"
 
+/**------------------------------------------------------------------*\
+    @name Steel Series Sensei
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectSteelSeriesSensei
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSenseiController* sensei_ptr)
 {
     sensei      = sensei_ptr;

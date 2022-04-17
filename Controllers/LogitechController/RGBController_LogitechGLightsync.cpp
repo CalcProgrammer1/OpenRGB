@@ -9,6 +9,16 @@
 
 #include "RGBController_LogitechGLightsync.h"
 
+/**------------------------------------------------------------------*\
+    @name Logitech Lightsync Mouse
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechMouseG303, DetectLogitechMouseG403
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechGLightsync::RGBController_LogitechGLightsync(LogitechGLightsyncController* controller_ptr)
 {
     controller              = controller_ptr;

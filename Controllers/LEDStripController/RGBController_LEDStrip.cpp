@@ -9,6 +9,15 @@
 
 #include "RGBController_LEDStrip.h"
 
+/**------------------------------------------------------------------*\
+    @name Serial LED Strip
+    @type Serial
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLEDStripControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* controller_ptr)
 {

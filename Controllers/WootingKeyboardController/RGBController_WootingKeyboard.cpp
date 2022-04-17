@@ -171,6 +171,16 @@ static const char *led_names[] =
     KEY_EN_UNUSED    
 };
 
+/**------------------------------------------------------------------*\
+    @name Wooting Keyboards
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectWootingOneKeyboardControllers,DetectWootingTwoKeyboardControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardController *wooting_ptr)
 {
     wooting     = wooting_ptr;

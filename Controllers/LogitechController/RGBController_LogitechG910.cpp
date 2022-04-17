@@ -167,6 +167,16 @@ static const led_type led_names[] =
     { "Nameplate",              LOGITECH_G910_ZONE_DIRECT_LOGO,         0x02    },
 };
 
+/**------------------------------------------------------------------*\
+    @name Logitech G910
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechKeyboardG910
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechG910::RGBController_LogitechG910(LogitechG910Controller* controller_ptr)
 {
     controller  = controller_ptr;

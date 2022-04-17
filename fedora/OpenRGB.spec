@@ -22,7 +22,7 @@ cp %{_sourcedir}/%{_name}/* %{_builddir} -r
 
 %build
 cd %{_builddir}
-%qmake_qt5 PREFIX=%{_prefix}
+%qmake_qt5 PREFIX=%{_prefix} "QMAKE_CXXFLAGS+=-save-temps"
 %make_build
 
 %install

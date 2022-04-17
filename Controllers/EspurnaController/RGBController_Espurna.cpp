@@ -8,6 +8,16 @@
 
 #include "RGBController_Espurna.h"
 
+/**------------------------------------------------------------------*\
+    @name Espurna
+    @type TCP
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectEspurnaControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Espurna::RGBController_Espurna(EspurnaController* controller_ptr)
 {
     controller  = controller_ptr;

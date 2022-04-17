@@ -8,6 +8,16 @@
 
 #include "RGBController_LinuxLED.h"
 
+/**------------------------------------------------------------------*\
+    @name Dummy
+    @type File Stream
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLinuxLEDControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LinuxLED::RGBController_LinuxLED(LinuxLEDController* controller_ptr)
 {
     controller  = controller_ptr;

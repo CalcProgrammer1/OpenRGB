@@ -11,6 +11,16 @@
 #include "RGBControllerKeyNames.h"
 #include "RGBController_ROGStrixLC_Controller.h"
 
+/**------------------------------------------------------------------*\
+    @name Asus ROG Strix Liquid Cooler
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAsusAuraUSBROGStrixLC
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_ROGStrixLC_Controller::RGBController_ROGStrixLC_Controller(ROGStrixLC_Controller *controller_ptr)
 {
     controller                  = controller_ptr;

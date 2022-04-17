@@ -219,6 +219,16 @@ typedef struct
     matrix_map_type* matrix;
 } led_zone_layout;
 
+/**------------------------------------------------------------------*\
+    @name Corsair K100 Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairK100Controllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairK100::RGBController_CorsairK100(CorsairK100Controller* controller_ptr)
 {
     controller      = controller_ptr;

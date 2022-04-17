@@ -8,6 +8,15 @@
 
 #include "RGBController_NZXTHuePlus.h"
 
+/**------------------------------------------------------------------*\
+    @name NZXT Hue+
+    @type Serial
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectNZXTHuePlusControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_HuePlus::RGBController_HuePlus(HuePlusController* controller_ptr)
 {

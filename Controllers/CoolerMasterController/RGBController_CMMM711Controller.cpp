@@ -11,6 +11,16 @@
 
 #include "RGBController_CMMM711Controller.h"
 
+/**------------------------------------------------------------------*\
+    @name Coolermaster Master Mouse
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterMouse
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CMMM711Controller::RGBController_CMMM711Controller(CMMM711Controller* controller_ptr)
 {
     controller                      = controller_ptr;

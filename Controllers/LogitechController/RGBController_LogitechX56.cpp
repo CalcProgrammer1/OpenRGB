@@ -9,6 +9,16 @@
 
 #include "RGBController_LogitechX56.h"
 
+/**------------------------------------------------------------------*\
+    @name Logitech X56
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLogitechKeyboardGPro
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechX56::RGBController_LogitechX56(LogitechX56Controller* controller_ptr)
 {
     controller  = controller_ptr;

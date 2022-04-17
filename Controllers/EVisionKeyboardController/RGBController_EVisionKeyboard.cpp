@@ -20,6 +20,16 @@ static unsigned int matrix_map[6][23] =
       {  84,  NA,  86,  87,  88,  89,  NA,  90,  NA,  91,  92,  93,  94,  95,  97,  NA,  NA,  99,  NA, 101, 102, 103, 104 },
       { 105, 106, 107,  NA,  NA,  NA,  NA, 108,  NA,  NA,  NA,  NA, 109, 110, 111, 113, 119, 120, 121, 123,  NA, 124,  NA } };
 
+/**------------------------------------------------------------------*\
+    @name EVision Keyboard
+    @type USB
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectEVisionKeyboards
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;

@@ -159,6 +159,16 @@ static const char *led_names[] =
     KEY_EN_NUMPAD_ENTER,
 };
 
+/**------------------------------------------------------------------*\
+    @name Roccat Vulcan Aimo
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectRoccatKeyboardControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RoccatVulcanAimo::RGBController_RoccatVulcanAimo(RoccatVulcanAimoController* controller_ptr)
 {
     controller  = controller_ptr;

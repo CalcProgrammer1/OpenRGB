@@ -40,6 +40,16 @@ int RGBController_GalaxGPU::GetDeviceMode()
     return(active_mode);
 }
 
+/**------------------------------------------------------------------*\
+    @name Galax GPU
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectGalaxGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_GalaxGPU::RGBController_GalaxGPU(GalaxGPUController* controller_ptr)
 {
     controller  = controller_ptr;

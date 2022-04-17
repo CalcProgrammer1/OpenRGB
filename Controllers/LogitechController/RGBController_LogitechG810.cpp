@@ -166,6 +166,16 @@ static const led_type led_names[] =
     { "Num Lock Indicator",     LOGITECH_G810_ZONE_DIRECT_INDICATORS,   0x05    },
 };
 
+/**------------------------------------------------------------------*\
+    @name Logitech G810
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechKeyboardG810
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* controller_ptr)
 {
     controller  = controller_ptr;

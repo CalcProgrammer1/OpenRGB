@@ -108,6 +108,16 @@ static const led_type led_names[] =
     { KEY_EN_RIGHT_CONTROL,     60      },
 };
 
+/**------------------------------------------------------------------*\
+    @name Anne Pro 2
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectAnnePro2Controllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* controller_ptr) 
 {
     controller  = controller_ptr;

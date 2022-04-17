@@ -1349,6 +1349,35 @@ unix:!macx {
         PREFIX = /usr
     }
 
+    #-------------------------------------------------------------------------------------------#
+    # Custom target for dynamically created udev_rules                                          #
+    #   Ordinarily you would add the 'udev_rules' target to both QMAKE_EXTRA_TARGETS to add a   #
+    #   rule in the Makefile and PRE_TARGETDEPS to ensure it is a dependency of the TARGET      #
+    #                                                                                           #
+    #   ie. QMAKE_EXTRA_TARGETS += udev_rules                                                   #
+    #       PRE_TARGETDEPS      += udev_rules                                                   #
+    #-------------------------------------------------------------------------------------------#
+    udev_rules.CONFIG       = no_check_exist
+    udev_rules.target       = 60-openrgb.rules
+    udev_rules.path         = $$PREFIX/lib/udev/rules.d/
+
+    exists($$udev_rules.target) {
+        message($$udev_rules.target " - UDEV rules file exists. Removing from build")
+        udev_rules.files    = $$udev_rules.target
+    } else {
+        message($$udev_rules.target " - UDEV rules file missing. Adding script to build")
+        #-------------------------------------------------------------------------------------------#
+        # This is a compiler config flag to save the preproccessed .ii & .s                         #
+        #   files so as to automatically process the UDEV rules and the Supported Devices           #
+        #-------------------------------------------------------------------------------------------#
+        QMAKE_CXXFLAGS+=-save-temps
+        udev_rules.extra    = $$PWD/scripts/build-udev-rules.sh $$PWD $$GIT_COMMIT_ID
+        udev_rules.files    = $$OUT_PWD/60-openrgb.rules
+    }
+
+    #-------------------------------------------------------------------------------------------#
+    # Add static files to installation                                                                      #
+    #-------------------------------------------------------------------------------------------#
     target.path=$$PREFIX/bin/
     desktop.path=$$PREFIX/share/applications/
     desktop.files+=qt/OpenRGB.desktop
@@ -1356,9 +1385,7 @@ unix:!macx {
     icon.files+=qt/OpenRGB.png
     metainfo.path=$$PREFIX/share/metainfo/
     metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
-    rules.path=$$PREFIX/lib/udev/rules.d/
-    rules.files+=60-openrgb.rules
-    INSTALLS += target desktop icon metainfo rules
+    INSTALLS += target desktop icon metainfo udev_rules
 }
 
 unix:!macx:CONFIG(asan) {

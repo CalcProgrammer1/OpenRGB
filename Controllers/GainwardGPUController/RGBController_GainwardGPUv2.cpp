@@ -8,6 +8,16 @@
 
 #include "RGBController_GainwardGPUv2.h"
 
+/**------------------------------------------------------------------*\
+    @name Gainward GPU v2
+    @type I2C
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectGainwardGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_GainwardGPUv2::RGBController_GainwardGPUv2(GainwardGPUv2Controller* controller_ptr)
 {
     controller                  = controller_ptr;

@@ -12,6 +12,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name Cougar Revenger ST
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCougarRevengerSTControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CougarRevengerST::RGBController_CougarRevengerST(CougarRevengerSTController* controller_ptr)
 {
     controller                  = controller_ptr;

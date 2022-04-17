@@ -9,6 +9,17 @@
 
 #include "RGBController_LogitechLightspeed.h"
 
+/**------------------------------------------------------------------*\
+    @name Logitech Lightspeed
+    @type USB
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechWireless,DetectLogitechWired
+    @comment The Lightspeed controller is the generic RGB Controller
+        for all Logitech HID++ devices that support feature page 8070.
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLightspeedController* controller_ptr)
 {
     controller                      = controller_ptr;

@@ -28,6 +28,16 @@ static const unsigned char led_values[] =
 
 #define LOGITECH_G213_ZONES (sizeof(led_values) / sizeof(led_values[ 0 ]))
 
+/**------------------------------------------------------------------*\
+    @name Logitech G213
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectLogitechKeyboardG213
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* controller_ptr)
 {
     controller  = controller_ptr;

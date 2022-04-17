@@ -9,6 +9,16 @@
 
 #include "RGBController_AorusATC800.h"
 
+/**------------------------------------------------------------------*\
+    @name Aorus ATC800
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectGigabyteAorusCPUCoolerControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* controller_ptr)
 {
     controller  = controller_ptr;

@@ -9,6 +9,16 @@
 
 using namespace std::chrono_literals;
 
+/**------------------------------------------------------------------*\
+    @name Corsair K55 RGB Pro
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairK55RGBPROControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairK55RGBPRO::RGBController_CorsairK55RGBPRO(CorsairK55RGBPROController* controller_ptr)
 {
     controller      = controller_ptr;

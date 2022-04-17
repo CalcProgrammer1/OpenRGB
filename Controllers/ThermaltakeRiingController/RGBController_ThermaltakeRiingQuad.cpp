@@ -9,6 +9,16 @@
 
 #include "RGBController_ThermaltakeRiingQuad.h"
 
+/**------------------------------------------------------------------*\
+    @name Thermaltake Riing Quad
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectThermaltakeRiingQuadControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_ThermaltakeRiingQuad::RGBController_ThermaltakeRiingQuad(ThermaltakeRiingQuadController* quad_ptr)
 {
     quad = quad_ptr;

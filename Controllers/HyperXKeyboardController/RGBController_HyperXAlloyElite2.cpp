@@ -193,6 +193,16 @@ static const char *led_names[] =
     "RGB Strip 18",
 };
 
+/**------------------------------------------------------------------*\
+    @name HyperX Alloy Elite 2
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectHyperXAlloyElite2
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HyperXAlloyElite2::RGBController_HyperXAlloyElite2(HyperXAlloyElite2Controller* controller_ptr)
 {
     controller  = controller_ptr;

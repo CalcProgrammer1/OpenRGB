@@ -169,6 +169,16 @@ static const char *led_names_tkl[] =
     KEY_EN_NUMPAD_ENTER
 };
 
+/**------------------------------------------------------------------*\
+    @name Sinowealth Keyboard 16
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectSinowealthKeyboard
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(SinowealthKeyboard16Controller* sinowealth_ptr)
 {
     sinowealth  = sinowealth_ptr;

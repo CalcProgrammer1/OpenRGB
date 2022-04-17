@@ -9,6 +9,16 @@
 
 #include "RGBController_Sinowealth.h"
 
+/**------------------------------------------------------------------*\
+    @name Sinowealth Mice
+    @type USB
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectSinowealthMouse
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowealth_ptr)
 {
     sinowealth = sinowealth_ptr;

@@ -41,6 +41,16 @@ int RGBController_AuraGPU::GetDeviceMode()
     return(active_mode);
 }
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura GPU
+    @type SMBus
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark::
+    @detectors DetectAsusAuraGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * controller_ptr)
 {
     controller  = controller_ptr;

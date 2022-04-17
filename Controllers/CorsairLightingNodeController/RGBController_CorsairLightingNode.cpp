@@ -9,6 +9,15 @@
 
 #include "RGBController_CorsairLightingNode.h"
 
+/**------------------------------------------------------------------*\
+    @name Corsair Lighting Node
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCorsairLightingNodeControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLightingNodeController* controller_ptr)
 {

@@ -12,6 +12,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name Trust GXT 114
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectTrustGXT114Controllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_TrustGXT114::RGBController_TrustGXT114(TrustGXT114Controller* controller_ptr)
 {
     controller                          = controller_ptr;

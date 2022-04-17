@@ -161,6 +161,16 @@ static const char *led_names[] =
     KEY_EN_NUMPAD_PERIOD,
 };
 
+/**------------------------------------------------------------------*\
+    @name Steel Series APEX
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectSteelSeriesApex,DetectSteelSeriesApexTKL,DetectSteelSeriesApexM
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBaseController* steelseries_ptr)
 {
     steelseries = steelseries_ptr;

@@ -210,6 +210,17 @@ void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
     }
 }
 
+/**------------------------------------------------------------------*\
+    @name Openrazer
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectOpenRazerControllers
+    @comment The Openrazer controller has been deprecated in favour of
+        the in built Razer controller.
+\*-------------------------------------------------------------------*/
+
 RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
 {
     /*-----------------------------------------------------------------*\

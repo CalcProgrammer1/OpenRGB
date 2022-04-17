@@ -79,7 +79,7 @@ linuxdeploy-plugin-qt-"$ARCH".AppImage --appdir AppDir
 linuxdeploy-"$ARCH".AppImage --appdir AppDir --output appimage
 
 #-----------------------------------------------------------------------#
-# Move built AppImage back into original CWD                            #
+# Move built AppImage & udev_rules back into original CWD               #
 #-----------------------------------------------------------------------#
+mv -v "$BUILD_DIR"/60-openrgb.rules "$OLD_CWD"
 mv -v "$TARGET"*.AppImage "$OLD_CWD"
-

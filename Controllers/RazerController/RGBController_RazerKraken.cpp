@@ -1,6 +1,16 @@
 #include "RGBController_RazerKraken.h"
 #include "RazerDevices.h"
 
+/**------------------------------------------------------------------*\
+    @name Razer Kraken
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectRazerKrakenControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RazerKraken::RGBController_RazerKraken(RazerKrakenController* controller_ptr)
 {
     controller      = controller_ptr;

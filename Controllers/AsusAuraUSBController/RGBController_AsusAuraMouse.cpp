@@ -16,6 +16,16 @@ static std::string aura_mouse_zone_names[3]
     "Underglow"
 };
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura Mouse
+    @type USB
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAsusAuraUSBMice
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller_ptr)
 {
     controller              = controller_ptr;

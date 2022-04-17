@@ -170,6 +170,16 @@ static const char *led_names[] =
     KEY_EN_NUMPAD_PERIOD,
 };
 
+/**------------------------------------------------------------------*\
+    @name Zet Blade Optical
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectZETBladeOptical
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_ZETBladeOptical::RGBController_ZETBladeOptical(ZETBladeOpticalController* controller_ptr)
 {
     controller  = controller_ptr;

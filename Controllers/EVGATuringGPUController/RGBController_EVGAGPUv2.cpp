@@ -9,6 +9,16 @@
 
 #include "RGBController_EVGAGPUv2.h"
 
+/**------------------------------------------------------------------*\
+    @name EVGA RGB v2 GPU
+    @type I2C
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectEVGAGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
 {
     evga = evga_ptr;

@@ -343,6 +343,16 @@ static const std::vector<led_type> default_65pct_led_names =
     { KEY_EN_RIGHT_ARROW,       0x74    },
 };
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectAsusAuraUSBKeyboards
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraKeyboard::RGBController_AuraKeyboard(AuraKeyboardController* controller_ptr, AuraKeyboardMappingLayoutType keyboard_layout)
 {
     controller  = controller_ptr;

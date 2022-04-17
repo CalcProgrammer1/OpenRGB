@@ -12,6 +12,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name MSI Optix
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectMSIOptixControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_MSIOptix::RGBController_MSIOptix(MSIOptixController* controller_ptr)
 {
     controller                          = controller_ptr;

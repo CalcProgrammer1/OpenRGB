@@ -8,6 +8,16 @@
 
 #include "RGBController_BlinkyTape.h"
 
+/**------------------------------------------------------------------*\
+    @name Blinky Tape
+    @type Serial
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectBlinkyTapeControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_BlinkyTape::RGBController_BlinkyTape(BlinkyTapeController* controller_ptr)
 {
     controller  = controller_ptr;

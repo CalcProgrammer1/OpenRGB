@@ -1,6 +1,16 @@
 #include "RGBController_Razer.h"
 #include "RazerDevices.h"
 
+/**------------------------------------------------------------------*\
+    @name Razer
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectRazerControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
 {
     controller      = controller_ptr;

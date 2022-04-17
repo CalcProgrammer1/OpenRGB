@@ -9,6 +9,16 @@
 
 #include "RGBController_CorsairVengeance.h"
 
+/**------------------------------------------------------------------*\
+    @name Corsair Vengeance
+    @type SMBus
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectCorsairVengeanceControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairVengeance::RGBController_CorsairVengeance(CorsairVengeanceController* controller_ptr)
 {
     controller  = controller_ptr;

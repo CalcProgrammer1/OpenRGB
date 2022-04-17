@@ -8,6 +8,16 @@
 
 #include "RGBController_LIFX.h"
 
+/**------------------------------------------------------------------*\
+    @name LIFX Globes
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLIFXControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LIFX::RGBController_LIFX(LIFXController* controller_ptr)
 {
     controller  = controller_ptr;

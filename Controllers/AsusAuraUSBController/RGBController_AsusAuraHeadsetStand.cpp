@@ -9,6 +9,16 @@
 
 #include "RGBController_AsusAuraHeadsetStand.h"
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura Headset Stand
+    @type USB
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAsusAuraUSBHeadsetStand
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandController* controller_ptr)
 {
     controller  = controller_ptr;

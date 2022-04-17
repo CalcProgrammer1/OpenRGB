@@ -11,6 +11,16 @@
 
 using namespace std::chrono_literals;
 
+/**------------------------------------------------------------------*\
+    @name HyperX Mousemat
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectHyperXMousematControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HyperXMousemat::RGBController_HyperXMousemat(HyperXMousematController* controller_ptr)
 {
     controller  = controller_ptr;

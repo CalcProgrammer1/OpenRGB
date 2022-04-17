@@ -8,6 +8,16 @@
 
 #include "RGBController_FanBus.h"
 
+/**------------------------------------------------------------------*\
+    @name FanBus
+    @type Serial
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectFanBusControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_FanBus::RGBController_FanBus(FanBusController* controller_ptr)
 {
     controller  = controller_ptr;

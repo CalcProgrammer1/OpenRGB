@@ -9,6 +9,16 @@
 
 #include "RGBController_SapphireNitroGlowV3.h"
 
+/**------------------------------------------------------------------*\
+    @name Sapphire Nitro Glow v3
+    @type I2C
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectSapphireGPUControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SapphireNitroGlowV3::RGBController_SapphireNitroGlowV3(SapphireNitroGlowV3Controller* sapphire_ptr)
 {
     sapphire = sapphire_ptr;

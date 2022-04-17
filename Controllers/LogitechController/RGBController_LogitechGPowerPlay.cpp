@@ -9,6 +9,16 @@
 
 #include "RGBController_LogitechGPowerPlay.h"
 
+/**------------------------------------------------------------------*\
+    @name Logitech Powerplay Mat
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLightsyncController* controller_ptr)
 {
     controller              = controller_ptr;

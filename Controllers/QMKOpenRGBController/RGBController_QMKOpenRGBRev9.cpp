@@ -11,6 +11,17 @@
 #include "LogManager.h"
 #include "RGBController_QMKOpenRGBRev9.h"
 
+/**------------------------------------------------------------------*\
+    @name Quantum Mechanical Keyboard (QMK)
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors
+    @comment Please see [the github page](https://github.com/qmk/qmk_firmware#supported-keyboards) for the up to date list of
+        keyboards supported by the QMK controller.
+\*-------------------------------------------------------------------*/
+
 RGBController_QMKOpenRGBRev9::RGBController_QMKOpenRGBRev9(QMKOpenRGBRev9Controller* controller_ptr)
 {
     controller  = controller_ptr;

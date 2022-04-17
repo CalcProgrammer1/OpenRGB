@@ -9,6 +9,19 @@
 
 #include "RGBController_AMDWraithPrism.h"
 
+/**------------------------------------------------------------------*\
+    @name AMD Wraith Prism
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :warning:
+    @detectors DetectAMDWraithPrismControllers
+    @comment The Wraith Prism comes with 2 cables but is only detectable
+        and controlable when using the USB cable. `Morse Code` and `Mirage`
+        modes have not been implemented. Saving to flash is supported by
+        the device but not yet implemented.
+\*-------------------------------------------------------------------*/
+
 RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismController* controller_ptr)
 {
     controller  = controller_ptr;

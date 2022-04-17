@@ -20,6 +20,16 @@ using namespace std::chrono_literals;
 #define CMMK_MODE_FIRMWARE      0xFF
 #define CMMK_MODE_MANUAL        0x7F
 
+/**------------------------------------------------------------------*\
+    @name Coolermaster Masterkeys Keyboards
+    @type USB
+    @save :warning:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCoolerMasterKeyboards
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CMMKController::RGBController_CMMKController(CMMKController* controller_ptr)
 {
     controller                  = controller_ptr;

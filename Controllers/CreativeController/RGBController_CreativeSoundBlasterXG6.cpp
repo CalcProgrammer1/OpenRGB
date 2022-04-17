@@ -1,5 +1,15 @@
 #include "RGBController_CreativeSoundBlasterXG6.h"
 
+/**------------------------------------------------------------------*\
+    @name Creative Sound BlasterX G6
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCreativeDevice
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CreativeSoundBlasterXG6::RGBController_CreativeSoundBlasterXG6(CreativeSoundBlasterXG6Controller* controller_ptr)
 {
     controller  = controller_ptr;

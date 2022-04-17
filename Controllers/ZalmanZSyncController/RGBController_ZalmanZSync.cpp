@@ -9,6 +9,15 @@
 
 #include "RGBController_ZalmanZSync.h"
 
+/**------------------------------------------------------------------*\
+    @name Zalmna Z Sync
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectZalmanZSyncControllers
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* controller_ptr)
 {

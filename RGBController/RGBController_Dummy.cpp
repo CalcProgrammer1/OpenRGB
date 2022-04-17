@@ -8,6 +8,16 @@
 
 #include "RGBController_Dummy.h"
 
+/**------------------------------------------------------------------*\
+    @name Dummy
+    @type I2C or Serial or WMI or USB
+    @save :white_check_mark: or :warning: or :x:
+    @direct :white_check_mark: or :warning: or :x:
+    @effects :white_check_mark: or :warning: or :x:
+    @detectors DetectDummy,DetectDummy2
+    @comment Insert multiline dummy comment here
+*/
+
 RGBController_Dummy::RGBController_Dummy()
 {
 

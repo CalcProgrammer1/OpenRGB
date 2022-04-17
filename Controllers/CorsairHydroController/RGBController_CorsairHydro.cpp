@@ -9,6 +9,16 @@
 
 #include "RGBController_CorsairHydro.h"
 
+/**------------------------------------------------------------------*\
+    @name Corsair Hydro
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCorsairHydroControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* controller_ptr)
 {
     controller  = controller_ptr;

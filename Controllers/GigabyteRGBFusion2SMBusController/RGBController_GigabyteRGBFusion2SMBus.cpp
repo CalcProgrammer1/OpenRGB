@@ -37,6 +37,16 @@ static const char* rgb_fusion_zone_names[] =
     "???"
 };
 
+/**------------------------------------------------------------------*\
+    @name Gigabyte Fusion2 SMBus
+    @type I2C
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectGigabyteRGBFusion2SMBusControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusController* controller_ptr)
 {
     controller  = controller_ptr;

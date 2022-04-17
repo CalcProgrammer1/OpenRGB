@@ -11,6 +11,16 @@
 #include <vector>
 #include <cmath>
 
+/**------------------------------------------------------------------*\
+    @name Asus Aura TUF Keyboard
+    @type USB
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectAsusAuraTUFUSBKeyboard
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;

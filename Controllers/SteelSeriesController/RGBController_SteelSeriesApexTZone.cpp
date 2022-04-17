@@ -6,6 +6,16 @@
 
 #include "RGBController_SteelSeriesApexTZone.h"
 
+/**------------------------------------------------------------------*\
+    @name Steel Series Apex Tri Zone Keyboards
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectSteelSeriesApexTZone
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_SteelSeriesApexTZone::RGBController_SteelSeriesApexTZone(SteelSeriesApexTZoneController* controller_ptr)
 {
     controller              = controller_ptr;

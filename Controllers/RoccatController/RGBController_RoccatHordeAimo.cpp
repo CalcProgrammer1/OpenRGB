@@ -9,6 +9,16 @@
 
 #include "RGBController_RoccatHordeAimo.h"
 
+/**------------------------------------------------------------------*\
+    @name Roccat Horde Aimo
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectRoccatHordeAimoKeyboardControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RoccatHordeAimo::RGBController_RoccatHordeAimo(RoccatHordeAimoController* controller_ptr)
 {
     controller          = controller_ptr;

@@ -13,6 +13,17 @@
 #define ASROCK_USB_MAX_ZONES        8
 #define ASROCK_ADDRESSABLE_MAX_LEDS 100
 
+/**------------------------------------------------------------------*\
+    @name ASrock Polychrome USB
+    @type USB
+    @save :warning:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectPolychromeUSBControllers
+    @comment ASRock Polychrome controllers will save with each update.
+        Per ARGB LED support is not possible with these devices.
+\*-------------------------------------------------------------------*/
+
 RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController* controller_ptr)
 {
     controller                  = controller_ptr;

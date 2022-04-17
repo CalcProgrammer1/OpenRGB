@@ -129,6 +129,16 @@ static const char* led_names[] =
     "Key: T7",             
 };
 
+/**------------------------------------------------------------------*\
+    @name Dygma Raise Keyboard
+    @type Serial
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectDygmaRaiseControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_DygmaRaise::RGBController_DygmaRaise(DygmaRaiseController* controller_ptr) 
 {
     controller      = controller_ptr;

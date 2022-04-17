@@ -9,6 +9,16 @@
 
 #include "RGBController_HyperXPulsefireDart.h"
 
+/**------------------------------------------------------------------*\
+    @name HyoerX Pulsefire Dart
+    @type USB
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectHyperXPulsefireDartControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HyperXPulsefireDart::RGBController_HyperXPulsefireDart(HyperXPulsefireDartController* controller_ptr)
 {
     controller  = controller_ptr;

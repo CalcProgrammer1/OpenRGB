@@ -9,6 +9,16 @@
 
 #include "RGBController_RoccatKoneAimo.h"
 
+/**------------------------------------------------------------------*\
+    @name Roccat Kone Aimo
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectRoccatMouseControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoController* mouse_ptr)
 {
     name        = "Roccat Kone Aimo";

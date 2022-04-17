@@ -182,7 +182,7 @@ static const char *led_names[] =
     "Key: Macro 5",
 };
 
-/**
+/**------------------------------------------------------------------*\
     @name EVGA USB Keyboard
     @type USB
     @save :x:
@@ -191,7 +191,7 @@ static const char *led_names[] =
     @detectors DetectEVGAKeyboardControllers
     @comment The EVGA USB keyboard controller currently supports
         the Z15 (both ISO & ANSI) as well as the Z20 ANSI keyboards
-*/
+\*-------------------------------------------------------------------*/
 
 RGBController_EVGAKeyboard::RGBController_EVGAKeyboard(EVGAKeyboardController* controller_ptr)
 {

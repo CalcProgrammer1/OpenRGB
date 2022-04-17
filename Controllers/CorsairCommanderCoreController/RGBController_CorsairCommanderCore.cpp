@@ -9,6 +9,16 @@
 
 #include "RGBController_CorsairCommanderCore.h"
 
+/**------------------------------------------------------------------*\
+    @name Corsair Commander Core
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairCapellixHIDControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCommanderCoreController* controller_ptr)
 {
     controller  = controller_ptr;

@@ -180,6 +180,16 @@ static const char* led_names[] =
     "Key: G6",
 };
 
+/**------------------------------------------------------------------*\
+    @name Corsair Wireless Peripheral
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairWirelessControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairWireless::RGBController_CorsairWireless(CorsairWirelessController* controller_ptr)
 {
     controller  = controller_ptr;

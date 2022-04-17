@@ -146,6 +146,16 @@ static const char *led_names[] =
     KEY_EN_RIGHT_ARROW
 };
 
+/**------------------------------------------------------------------*\
+    @name HyperX Alloy Origins Core
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectHyperXAlloyOriginsCore
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HyperXAlloyOriginsCore::RGBController_HyperXAlloyOriginsCore(HyperXAlloyOriginsCoreController* controller_ptr)
 {
     controller  = controller_ptr;

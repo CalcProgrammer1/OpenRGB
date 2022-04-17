@@ -12,6 +12,16 @@
 #include <thread>
 #include <chrono>
 
+/**------------------------------------------------------------------*\
+    @name Trust GXT 180
+    @type USB
+    @save :x:
+    @direct :x:
+    @effects :white_check_mark:
+    @detectors DetectTrustGXT180Controllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_TrustGXT180::RGBController_TrustGXT180(TrustGXT180Controller* controller_ptr)
 {
     controller                          = controller_ptr;

@@ -8,6 +8,16 @@
 
 #include "RGBController_CorsairDominatorPlatinum.h"
 
+/**------------------------------------------------------------------*\
+    @name Corsair Dominator Platinum
+    @type SMBus
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectCorsairDominatorPlatinumControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CorsairDominatorPlatinum::RGBController_CorsairDominatorPlatinum(CorsairDominatorPlatinumController* controller_ptr)
 {
     controller  = controller_ptr;

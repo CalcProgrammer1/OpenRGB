@@ -144,6 +144,16 @@ static const char* led_names[] =
     KEY_EN_BACKSPACE 
 };
 
+/**------------------------------------------------------------------*\
+    @name Thermaltake PoseidonZ
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectPoseidonZRGBControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* poseidon_ptr)
 {
     poseidon = poseidon_ptr;
