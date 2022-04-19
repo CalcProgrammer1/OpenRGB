@@ -78,8 +78,14 @@ do
                 pid=${pid/0x/}
                 device_name=${device_name//[^[:alnum:][:blank:]]/}
 
-                udev_line=$(printf 'SUBSYSTEMS=="%s|hidraw", ATTR{idVendor}=="%s", ATTR{idProduct}=="%s", TAG+="uaccess", TAG+="%s"\n' ${type,,} ${vid,,} ${pid,,} ${device_name// /_})
-                echo -e "$udev_line" >>"$UDEV_FILE"
+                udev_line=$(printf 'SUBSYSTEMS=="%s|hidraw", ATTRS{idVendor}=="%s", ATTRS{idProduct}=="%s", TAG+="uaccess", TAG+="%s"\n' ${type,,} ${vid,,} ${pid,,} ${device_name// /_})
+                
+                #Check to ensure that the vid and pid are not blank
+                if [[ $vid = "" || $pid = "" ]]; then
+                    echo -e "Blank VID or PID Skipping: ${udev_line}"
+                else
+                    echo -e "$udev_line" >>"$UDEV_FILE"
+                fi
             done <<< "$text"
         done <<< "$detectors"
     fi

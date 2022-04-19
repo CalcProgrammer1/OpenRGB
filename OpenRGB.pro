@@ -1357,22 +1357,24 @@ unix:!macx {
     #   ie. QMAKE_EXTRA_TARGETS += udev_rules                                                   #
     #       PRE_TARGETDEPS      += udev_rules                                                   #
     #-------------------------------------------------------------------------------------------#
-    udev_rules.CONFIG       = no_check_exist
-    udev_rules.target       = 60-openrgb.rules
-    udev_rules.path         = $$PREFIX/lib/udev/rules.d/
-
-    exists($$udev_rules.target) {
-        message($$udev_rules.target " - UDEV rules file exists. Removing from build")
-        udev_rules.files    = $$udev_rules.target
-    } else {
-        message($$udev_rules.target " - UDEV rules file missing. Adding script to build")
-        #-------------------------------------------------------------------------------------------#
-        # This is a compiler config flag to save the preproccessed .ii & .s                         #
-        #   files so as to automatically process the UDEV rules and the Supported Devices           #
-        #-------------------------------------------------------------------------------------------#
-        QMAKE_CXXFLAGS+=-save-temps
-        udev_rules.extra    = $$PWD/scripts/build-udev-rules.sh $$PWD $$GIT_COMMIT_ID
-        udev_rules.files    = $$OUT_PWD/60-openrgb.rules
+    CONFIG(release, debug|release) {
+        udev_rules.CONFIG       = no_check_exist
+        udev_rules.target       = 60-openrgb.rules
+        udev_rules.path         = $$PREFIX/lib/udev/rules.d/
+    
+        exists($$udev_rules.target) {
+            message($$udev_rules.target " - UDEV rules file exists. Removing from build")
+            udev_rules.files    = $$udev_rules.target
+        } else {
+            message($$udev_rules.target " - UDEV rules file missing. Adding script to build")
+            #-------------------------------------------------------------------------------------------#
+            # This is a compiler config flag to save the preproccessed .ii & .s                         #
+            #   files so as to automatically process the UDEV rules and the Supported Devices           #
+            #-------------------------------------------------------------------------------------------#
+            QMAKE_CXXFLAGS+=-save-temps
+            udev_rules.extra    = $$PWD/scripts/build-udev-rules.sh $$PWD $$GIT_COMMIT_ID
+            udev_rules.files    = $$OUT_PWD/60-openrgb.rules
+        }
     }
 
     #-------------------------------------------------------------------------------------------#
