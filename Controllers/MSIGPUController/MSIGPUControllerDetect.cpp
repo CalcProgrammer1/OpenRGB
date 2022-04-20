@@ -73,6 +73,7 @@ static const msi_gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       MSI_SUB_VEN,    MSI_RTX3080TI_SUPRIM_X_SUB_DEV,         "MSI GeForce RTX 3080 Ti Suprim X 12G"          },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         MSI_SUB_VEN,    MSI_RTX3090_GAMING_X_TRIO_SUB_DEV,      "MSI GeForce RTX 3090 24GB Gaming X Trio"       },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         MSI_SUB_VEN,    MSI_RTX3090_SUPRIM_X_SUB_DEV,           "MSI GeForce RTX 3090 Suprim X 24G"             }, 
+    { AMD_GPU_VEN,  AMD_NAVI21_DEV1,            MSI_SUB_VEN,    MSI_RX6800XT_GAMING_Z_TRIO_SUB_DEV,     "MSI Radeon RX 6800 XT Gaming Z Trio"           },
 };
 
 
@@ -93,7 +94,7 @@ void DetectMSIGPUControllers(std::vector<i2c_smbus_interface*> &busses)
     {
         for(unsigned int dev_idx = 0; dev_idx < MSI_GPU_NUM_DEVICES; dev_idx++)
         {
-            if (busses[bus]->port_id != 1)
+            if (busses[bus]->pci_vendor == NVIDIA_VEN && busses[bus]->port_id != 1)
             {
                 break;
             }
