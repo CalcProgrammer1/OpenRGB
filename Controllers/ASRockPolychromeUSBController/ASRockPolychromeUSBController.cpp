@@ -76,10 +76,18 @@ void PolychromeUSBController::SetDeviceInfo()
     {
         if(configtable[zonecnt] == 0x1E)
         {
-            break;
+			/*-----------------------------------------------------------------------*\
+			| If we don't have this device type (0x1E) we will skip it and continue.  |
+			\*-----------------------------------------------------------------------*/
+            continue;
         }
 
         newdev_info.num_leds = configtable[zonecnt];
+
+		/*--------------------------------------------------------------------------------------------------*\
+		| We will need to know what zone type this is, so that we can look up the name and make calls later. |
+		\*--------------------------------------------------------------------------------------------------*/
+        newdev_info.zone_type = zonecnt;
 
         switch (zonecnt)
         {
@@ -124,6 +132,12 @@ void PolychromeUSBController::WriteZone
     bool            allzone = false
     )
 {
+
+	/*----------------------------------------------------*\
+    | Get the device info so we can look up the zone type. | 
+	\*----------------------------------------------------*/
+    PolychromeDeviceInfo device_info = GetPolychromeDevices()[zone];
+
     unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
@@ -135,7 +149,7 @@ void PolychromeUSBController::WriteZone
     | Set up message packet with leading 00                  |
     \*-----------------------------------------------------*/
 	usb_buf[0x01] = POLYCHROME_USB_SET_ZONE;
-	usb_buf[0x03] = zone;
+    usb_buf[0x03] = device_info.zone_type; 
 	usb_buf[0x04] = mode;
 	usb_buf[0x05] = RGBGetRValue(rgb);
 	usb_buf[0x06] = RGBGetGValue(rgb);
@@ -211,9 +225,13 @@ void PolychromeUSBController::WriteHeader
 
 PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
 {
+    /*-----------------------------------------------------*\
+    | Get the device info so we can look up the zone type   |
+	\*-----------------------------------------------------*/
+    PolychromeDeviceInfo device_info = GetPolychromeDevices()[zone];
+
     unsigned char       usb_buf[65];
     PolychromeZoneInfo  zoneinfo;
-    //unsigned char       all;
     unsigned char       r;
     unsigned char       g;
     unsigned char       b;
@@ -227,7 +245,7 @@ PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
     | Set up config table request packet                    |
     \*-----------------------------------------------------*/
     usb_buf[0x01]   = POLYCHROME_USB_READ_ZONE_CONFIG;
-    usb_buf[0x03]   = zone; 
+    usb_buf[0x03]   = device_info.zone_type; 
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -248,7 +266,6 @@ PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
     zoneinfo.color  = ToRGBColor(r,g,b);  
     zoneinfo.speed  = usb_buf[0x08];
     zoneinfo.zone   = usb_buf[0x03];
-    //all             = usb_buf[0x10];
 
     return(zoneinfo);
 }

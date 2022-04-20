@@ -99,6 +99,7 @@ struct PolychromeDeviceInfo
 {
     unsigned char           effect_channel;
     unsigned char           num_leds;
+	unsigned char			zone_type;
     PolychromeDeviceType    device_type;
 };
 
