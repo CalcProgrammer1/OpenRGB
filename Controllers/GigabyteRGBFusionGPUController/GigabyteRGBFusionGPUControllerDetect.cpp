@@ -75,6 +75,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3080 Gaming OC 10G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3080_12G_LHR_DEV, GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_12G_SUB_DEV,         0x62,   "Gigabyte RTX3080 Gaming OC 12G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3080 Gaming OC 10G"                },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3080 Vision OC 10G (REV 2.0)"       },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3080 Vision OC 10G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_GAMING_OC_SUB_DEV,           0x62,   "Gigabyte RTX3080 Ti Gaming OC 12G"             },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_EAGLE_SUB_DEV,               0x63,   "Gigabyte RTX3080 Ti EAGLE 12G"                 },
@@ -125,9 +126,9 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
 
         res = bus->i2c_smbus_read_byte(address);
 
-        if ((res != 0x14)&& (res != 0x12) && (res != 0x10))
+        if ((res != 0x14)&& (res != 0x12) && (res != 0x10) && (res != 0x11))
         {
-            LOG_DEBUG("[%s] at 0x%02X address expected 0x14|0x12|0x10 but recieved: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME, address, res);
+            LOG_DEBUG("[%s] at 0x%02X address expected 0x10|0x11|0x12|0x14 but recieved: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME, address, res);
             pass = false;
         }
 
