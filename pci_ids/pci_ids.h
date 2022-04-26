@@ -276,6 +276,7 @@
 | Gainward Sub-Device IDs                               |
 \*-----------------------------------------------------*/
 #define GAINWARD_GTX_1080_PHOENIX                       0x1B80
+#define GAINWARD_GTX_1080_TI_PHOENIX                    0x1B06
 
 /*-----------------------------------------------------*\
 | GALAX / KFA2 Sub-Device IDs                           |
