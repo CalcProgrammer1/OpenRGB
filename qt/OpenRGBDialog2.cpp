@@ -18,6 +18,10 @@
 #include <QCloseEvent>
 #include <QStyleFactory>
 
+#ifdef __APPLE__
+#include "macutils.h"
+#endif
+
 using namespace Ui;
 
 static QString GetIconString(device_type type, bool dark)
@@ -486,6 +490,9 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 
     if (IsMinimizeOnClose() && !this->isHidden())
     {
+#ifdef __APPLE__
+        MacUtils::ToggleApplicationDocklessState(false);
+#endif
         hide();
         event->ignore();
     }
@@ -1382,10 +1389,16 @@ void OpenRGBDialog2::on_ShowHide()
 {
     if(isHidden())
     {
+#ifdef __APPLE__
+        MacUtils::ToggleApplicationDocklessState(true);
+#endif
         show();
     }
     else
     {
+#ifdef __APPLE__
+        MacUtils::ToggleApplicationDocklessState(false);
+#endif
         hide();
     }
 }

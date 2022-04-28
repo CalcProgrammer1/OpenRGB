@@ -21,6 +21,10 @@
 
 #include "OpenRGBDialog2.h"
 
+#ifdef __APPLE__
+#include "macutils.h"
+#endif
+
 using namespace std::chrono_literals;
 
 /*-------------------------------------------------------------*\
@@ -339,6 +343,9 @@ int main(int argc, char* argv[])
         
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {
+#ifdef __APPLE__
+            MacUtils::ToggleApplicationDocklessState(false);
+#endif
             dlg.hide();
         }
         else
