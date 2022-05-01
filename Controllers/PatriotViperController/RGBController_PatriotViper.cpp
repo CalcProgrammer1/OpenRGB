@@ -35,8 +35,8 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.speed_min  = 0;
     Direct.speed_max  = 0;
-    Direct.color_mode = MODE_COLORS_PER_LED;
     Direct.speed      = 0;
+    Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Dark;
@@ -45,69 +45,79 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
     Dark.flags      = 0;
     Dark.speed_min  = 0;
     Dark.speed_max  = 0;
-    Dark.color_mode = MODE_COLORS_NONE;
     Dark.speed      = 0;
+    Dark.color_mode = MODE_COLORS_NONE;
     modes.push_back(Dark);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = VIPER_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Breathing.speed_min  = VIPER_SPEED_BREATHING_MIN;
-    Breathing.speed_max  = VIPER_SPEED_BREATHING_MAX;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed      = VIPER_SPEED_BREATHING_DEFAULT;
+    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Breathing.speed_min  = 0x06;
+    Breathing.speed_max  = 0x06;
+    Breathing.speed      = 0x06;
+    Breathing.color_mode = MODE_COLORS_RANDOM;
     modes.push_back(Breathing);
 
     mode Viper;
     Viper.name       = "Viper";
     Viper.value      = VIPER_MODE_VIPER;
-    Viper.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Viper.speed_min  = VIPER_SPEED_MIN;
-    Viper.speed_max  = VIPER_SPEED_MAX;
-    Viper.color_mode = MODE_COLORS_PER_LED;
-    Viper.speed      = VIPER_SPEED_DEFAULT;
+    Viper.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Viper.speed_min  = 0x3C;
+    Viper.speed_max  = 0x3C;
+    Viper.speed      = 0x3C;
+    Viper.color_mode = MODE_COLORS_RANDOM;
     modes.push_back(Viper);
 
     mode Heartbeat;
     Heartbeat.name       = "Heartbeat";
     Heartbeat.value      = VIPER_MODE_HEARTBEAT;
-    Heartbeat.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Heartbeat.speed_min  = VIPER_SPEED_MIN;
-    Heartbeat.speed_max  = VIPER_SPEED_MAX;
-    Heartbeat.color_mode = MODE_COLORS_PER_LED;
-    Heartbeat.speed      = VIPER_SPEED_DEFAULT;
+    Heartbeat.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Heartbeat.speed_min  = 0x3C;
+    Heartbeat.speed_max  = 0x3C;
+    Heartbeat.speed      = 0x3C;
+    Heartbeat.color_mode = MODE_COLORS_RANDOM;
     modes.push_back(Heartbeat);
 
     mode Marquee;
     Marquee.name       = "Marquee";
     Marquee.value      = VIPER_MODE_MARQUEE;
-    Marquee.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Marquee.speed_min  = VIPER_SPEED_MIN;
-    Marquee.speed_max  = VIPER_SPEED_MAX;
-    Marquee.color_mode = MODE_COLORS_PER_LED;
-    Marquee.speed      = VIPER_SPEED_DEFAULT;
+    Marquee.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    Marquee.speed_min  = 0x3C;
+    Marquee.speed_max  = 0x3C;
+    Marquee.speed      = 0x3C;
+    Marquee.color_mode = MODE_COLORS_RANDOM;
     modes.push_back(Marquee);
 
     mode Raindrop;
     Raindrop.name       = "Raindrop";
     Raindrop.value      = VIPER_MODE_RAINDROP;
-    Raindrop.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    Raindrop.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Raindrop.speed_min  = VIPER_SPEED_MIN;
     Raindrop.speed_max  = VIPER_SPEED_MAX;
-    Raindrop.color_mode = MODE_COLORS_PER_LED;
     Raindrop.speed      = VIPER_SPEED_DEFAULT;
+    Raindrop.color_mode = MODE_COLORS_RANDOM;
     modes.push_back(Raindrop);
 
     mode Aurora;
     Aurora.name       = "Aurora";
     Aurora.value      = VIPER_MODE_AURORA;
-    Aurora.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Aurora.speed_min  = VIPER_SPEED_MIN;
-    Aurora.speed_max  = VIPER_SPEED_MAX;
-    Aurora.color_mode = MODE_COLORS_PER_LED;
-    Aurora.speed      = VIPER_SPEED_DEFAULT;
+    Aurora.flags      = MODE_FLAG_HAS_RANDOM_COLOR;
+    Aurora.speed_min  = 0x3C;
+    Aurora.speed_max  = 0x3C;
+    Aurora.speed      = 0x3C;
+    Aurora.color_mode = MODE_COLORS_RANDOM;
     modes.push_back(Aurora);
+
+    mode Neon;
+    Neon.name       = "Neon";
+    Neon.value      = VIPER_MODE_NEON;
+    Neon.flags      = MODE_FLAG_HAS_RANDOM_COLOR;
+    Neon.speed_min  = 0x3C;
+    Neon.speed_max  = 0x3C;
+    Neon.speed      = 0x3C;
+    Neon.color_mode = MODE_COLORS_RANDOM;
+    modes.push_back(Neon);
 
     SetupZones();
 }
@@ -214,6 +224,6 @@ void RGBController_PatriotViper::DeviceUpdateMode()
     }
     else
     {
-        viper->SetMode(modes[active_mode].value, modes[active_mode].speed);
+        viper->SetMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].color_mode);
     }
 }

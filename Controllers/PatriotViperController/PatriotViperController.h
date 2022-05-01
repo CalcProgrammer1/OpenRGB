@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include <string>
+#include <map>
 #include "i2c_smbus.h"
 
 #pragma once
@@ -42,8 +43,10 @@ enum
     VIPER_MODE_MARQUEE                  = 0x04,     /* Marquee mode                         */
     VIPER_MODE_RAINDROP                 = 0x05,     /* Raindrop mode                        */
     VIPER_MODE_AURORA                   = 0x06,     /* Aurora mode                          */
-    VIPER_MODE_NEON                     = 0x08,     /* Neon mode                            */
+    VIPER_MODE_DIRECT                   = 0x07,     /* Direct mode                          */
+    VIPER_MODE_NEON                     = 0x08,     /* Color cycle mode                     */
 };
+
 
 enum
 {
@@ -66,7 +69,7 @@ public:
     unsigned int    GetLEDCount();
     unsigned int    GetSlotCount();
     unsigned int    GetMode();
-    void            SetMode(unsigned char new_mode, unsigned char new_speed);
+    void            SetMode(unsigned char new_mode, unsigned char new_speed, unsigned int color_mode);
     void            SetDirect();
 
     void            SetAllColors(unsigned char red, unsigned char green, unsigned char blue);
@@ -75,6 +78,10 @@ public:
     void            SetLEDColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDEffectColor(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void            SetLEDEffectColor(unsigned int slot, unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
+
+    void            KeepaliveThread();
+    void            StopKeepaliveThread();
+    unsigned int    GetDelay(unsigned char mode, unsigned int step, unsigned int sub_step, bool loop_end);
 
     void            ViperRegisterWrite(viper_register reg, unsigned char val0, unsigned char val1, unsigned char val2);
     bool            direct;
@@ -87,4 +94,53 @@ private:
     viper_dev_id            dev;
     unsigned char           mode;
     unsigned char           speed;
+    
+    std::thread*            keepalive_thread;
+    std::atomic<bool>       keepalive_thread_run;
+    std::atomic<int>        step;
+    std::atomic<int>        sub_step;
+    std::condition_variable thread_ctrl;
+    std::mutex              thread_ctrl_m;
+
+
+    /*-------------------------------------------------------*\
+    | Value -1 means mode is not synced, doesn't have steps   |
+    | and the Keepalive thread is not needed                  |
+    \*-------------------------------------------------------*/
+
+    std::map <int, int> mode_steps = 
+    {
+        {VIPER_MODE_DARK, -1},
+        {VIPER_MODE_BREATHING, 4},
+        {VIPER_MODE_VIPER, 4},
+        {VIPER_MODE_HEARTBEAT, 6},
+        {VIPER_MODE_MARQUEE, 3},
+        {VIPER_MODE_RAINDROP, -1},
+        {VIPER_MODE_AURORA, 4},
+        {VIPER_MODE_NEON, 0},
+    };
+
+    std::map <int, int> mode_sub_steps = 
+    {
+        {VIPER_MODE_DARK, -1},
+        {VIPER_MODE_BREATHING, 1},
+        {VIPER_MODE_VIPER, 6},
+        {VIPER_MODE_HEARTBEAT, 59},
+        {VIPER_MODE_MARQUEE, 30},
+        {VIPER_MODE_RAINDROP, -1},
+        {VIPER_MODE_AURORA, 0},
+        {VIPER_MODE_NEON, 5},
+    };
+
+    std::map <int, int> mode_speed = 
+    {
+        {VIPER_MODE_DARK, -1},
+        {VIPER_MODE_BREATHING, 0x06},
+        {VIPER_MODE_VIPER, 0x3C},
+        {VIPER_MODE_HEARTBEAT, 0x3C},
+        {VIPER_MODE_MARQUEE, 0x3C},
+        {VIPER_MODE_RAINDROP, -1},
+        {VIPER_MODE_AURORA, 0x3C},
+        {VIPER_MODE_NEON, 0x3C},
+    };
 };
