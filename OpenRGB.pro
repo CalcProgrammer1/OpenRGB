@@ -135,6 +135,7 @@ INCLUDEPATH +=                                                                  
     Controllers/NZXTKrakenController/                                                           \
     Controllers/OpenRazerController/                                                            \
     Controllers/PatriotViperController/                                                         \
+    Controllers/PatriotViperSteelController/                                                    \
     Controllers/PhilipsHueController/                                                           \
     Controllers/PhilipsWizController/                                                           \
     Controllers/PNYGPUController/                                                               \
@@ -445,6 +446,8 @@ HEADERS +=                                                                      
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
     Controllers/PatriotViperController/PatriotViperController.h                                 \
     Controllers/PatriotViperController/RGBController_PatriotViper.h                             \
+    Controllers/PatriotViperSteelController/PatriotViperSteelController.h                       \
+    Controllers/PatriotViperSteelController/RGBController_PatriotViperSteel.h                   \
     Controllers/PhilipsHueController/PhilipsHueController.h                                     \
     Controllers/PhilipsHueController/RGBController_PhilipsHue.h                                 \
     Controllers/PhilipsWizController/PhilipsWizController.h                                     \
@@ -919,6 +922,9 @@ SOURCES +=                                                                      
     Controllers/PatriotViperController/PatriotViperController.cpp                               \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp                         \
     Controllers/PatriotViperController/RGBController_PatriotViper.cpp                           \
+    Controllers/PatriotViperSteelController/PatriotViperSteelController.cpp                     \
+    Controllers/PatriotViperSteelController/PatriotViperSteelControllerDetect.cpp               \
+    Controllers/PatriotViperSteelController/RGBController_PatriotViperSteel.cpp                 \
     Controllers/PhilipsHueController/PhilipsHueController.cpp                                   \
     Controllers/PhilipsHueController/PhilipsHueControllerDetect.cpp                             \
     Controllers/PhilipsHueController/PhilipsHueEntertainmentController.cpp                      \
