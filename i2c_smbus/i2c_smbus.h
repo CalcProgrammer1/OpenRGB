@@ -41,7 +41,7 @@ union i2c_smbus_data
 
 #endif  /* __linux__ */
 
-#ifdef __APPLE__
+#if defined(__APPLE___) || defined(__FreeBSD__)
 
 //Data for SMBus Messages
 #define I2C_SMBUS_BLOCK_MAX     32
@@ -53,7 +53,7 @@ union i2c_smbus_data
     u8          block[I2C_SMBUS_BLOCK_MAX + 2];
 };
 
-#endif /* __APPLE__ */
+#endif /* __APPLE__ or __FreeBSD__ */
 
 // i2c_smbus_xfer read or write markers
 #define I2C_SMBUS_READ  1

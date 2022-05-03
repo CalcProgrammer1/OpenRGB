@@ -15,7 +15,11 @@
 
 #include "RGBController.h"
 
+#ifdef __FreeBSD__
+#include <libusb.h>
+#else
 #include <libusb-1.0/libusb.h>
+#endif
 
 /*----------------------------------------------------------------------------*\
 | Global definitions.                                                          |

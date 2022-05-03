@@ -156,6 +156,11 @@ INCLUDEPATH +=                                                                  
     RGBController/                                                                              \
     qt/
 
+contains(QMAKE_PLATFORM, freebsd) {
+    INCLUDEPATH -=                                                                              \
+        Controllers/GigabyteRGBFusion2GPUController/
+}
+
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
     dependencies/ColorWheel/ColorWheel.h                                                        \
@@ -541,6 +546,16 @@ HEADERS +=                                                                      
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBControllerKeyNames.h                                                       \
     RGBController/RGBController_Network.h                                                       \
+
+contains(QMAKE_PLATFORM, freebsd) {
+    HEADERS -=                                                                                  \
+        Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.h           \
+        Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.h       \
+        Controllers/HoltekController/HoltekA070Controller.h                                     \
+        Controllers/HoltekController/HoltekA1FAController.h                                     \
+        Controllers/HoltekController/RGBController_HoltekA070.h                                 \
+        Controllers/HoltekController/RGBController_HoltekA1FA.h
+}
 
 SOURCES +=                                                                                      \
     dependencies/Swatches/swatches.cpp                                                          \
@@ -1037,6 +1052,18 @@ SOURCES +=                                                                      
     RGBController/RGBControllerKeyNames.cpp                                                     \
     RGBController/RGBController_Network.cpp                                                     \
 
+contains(QMAKE_PLATFORM, freebsd) {
+    SOURCES -=                                                                                  \
+        Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.cpp         \
+        Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUControllerDetect.cpp   \
+        Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.cpp     \
+        Controllers/HoltekController/HoltekA070Controller.cpp                                   \
+        Controllers/HoltekController/HoltekA1FAController.cpp                                   \
+        Controllers/HoltekController/HoltekControllerDetect.cpp                                 \
+        Controllers/HoltekController/RGBController_HoltekA070.cpp                               \
+        Controllers/HoltekController/RGBController_HoltekA1FA.cpp
+}
+
 RESOURCES +=                                                                                    \
     qt/resources.qrc
 
@@ -1288,7 +1315,7 @@ win32:contains(QMAKE_TARGET.arch, x86) {
 #-----------------------------------------------------------------------------------------------#
 # Linux-specific Configuration                                                                  #
 #-----------------------------------------------------------------------------------------------#
-unix:!macx {
+contains(QMAKE_PLATFORM, linux) {
     TARGET = $$lower($$TARGET)
 
     INCLUDEPATH +=                                                                              \
@@ -1399,6 +1426,91 @@ unix:!macx {
     metainfo.path=$$PREFIX/share/metainfo/
     metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
     INSTALLS += target desktop icon metainfo udev_rules
+}
+
+#-----------------------------------------------------------------------------------------------#
+# FreeBSD-specific Configuration                                                                #
+#-----------------------------------------------------------------------------------------------#
+contains(QMAKE_PLATFORM, freebsd) {
+    TARGET = $$lower($$TARGET)
+
+    INCLUDEPATH +=                                                                              \
+    Controllers/FaustusController                                                               \
+    Controllers/LinuxLEDController                                                              \
+
+    HEADERS +=                                                                                  \
+    AutoStart/AutoStart-FreeBSD.h                                                               \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.h           \
+    Controllers/FaustusController/RGBController_Faustus.h                                       \
+    Controllers/LinuxLEDController/LinuxLEDController.h                                         \
+    Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
+    Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
+
+    LIBS +=                                                                                     \
+    -lusb                                                                                       \
+    -lmbedx509                                                                                  \
+    -lmbedtls                                                                                   \
+    -lmbedcrypto                                                                                \
+
+    COMPILER_VERSION = $$system($$QMAKE_CXX " -dumpversion")
+    if (!versionAtLeast(COMPILER_VERSION, "9")) {
+         LIBS += -lstdc++fs
+    }
+
+    #-------------------------------------------------------------------------------------------#
+    # Determine which hidapi to use based on availability                                       #
+    #   Prefer hidraw backend, then libusb                                                      #
+    #-------------------------------------------------------------------------------------------#
+    packagesExist(hidapi-hidraw) {
+        LIBS += -lhidapi-hidraw
+
+        #---------------------------------------------------------------------------------------#
+        # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
+        # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
+        #---------------------------------------------------------------------------------------#
+        HIDAPI_HIDRAW_VERSION = $$system($$PKG_CONFIG --modversion hidapi-hidraw)
+        if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
+            DEFINES += USE_HID_USAGE
+        }
+    } else {
+        packagesExist(hidapi-libusb) {
+            LIBS += -lhidapi-libusb
+        } else {
+            LIBS += -lhidapi
+        }
+    }
+
+    SOURCES +=                                                                                  \
+    dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
+    serial_port/find_usb_serial_port_linux.cpp                                                  \
+    AutoStart/AutoStart-FreeBSD.cpp                                                             \
+    Controllers/ENESMBusController/XPGSpectrixS40GDetect.cpp                                    \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.cpp         \
+    Controllers/FaustusController/RGBController_Faustus.cpp                                     \
+    Controllers/LinuxLEDController/LinuxLEDController.cpp                                       \
+    Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp                                 \
+    Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \
+    Controllers/OpenRazerController/OpenRazerDetect.cpp                                         \
+    Controllers/OpenRazerController/RGBController_OpenRazer.cpp                                 \
+
+    #-------------------------------------------------------------------------------------------#
+    # Set up install paths                                                                      #
+    # These install paths are used for AppImage and .deb packaging                              #
+    #-------------------------------------------------------------------------------------------#
+    isEmpty(PREFIX) {
+        PREFIX = /usr
+    }
+
+    target.path=$$PREFIX/bin/
+    desktop.path=$$PREFIX/share/applications/
+    desktop.files+=qt/OpenRGB.desktop
+    icon.path=$$PREFIX/share/icons/hicolor/128x128/apps/
+    icon.files+=qt/OpenRGB.png
+    metainfo.path=$$PREFIX/share/metainfo/
+    metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
+    rules.path=$$PREFIX/lib/udev/rules.d/
+    rules.files+=60-openrgb.rules
+    INSTALLS += target desktop icon metainfo rules
 }
 
 unix:!macx:CONFIG(asan) {

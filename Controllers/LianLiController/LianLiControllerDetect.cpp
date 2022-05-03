@@ -15,7 +15,11 @@
 #include "RGBController_LianLiUniHub.h"
 #include "ResourceManager.h"
 
+#ifdef __FreeBSD__
+#include <libusb.h>
+#else
 #include <libusb-1.0/libusb.h>
+#endif
 
 #define UNI_HUB_VID 0x0CF2
 #define UNI_HUB_PID 0x7750
