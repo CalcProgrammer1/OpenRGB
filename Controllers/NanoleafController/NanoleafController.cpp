@@ -192,6 +192,8 @@ void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
         }
 
         external_control_socket.udp_write((char*)message, (size * 7) + 1);
+
+        free(message);
     }
     else if((model == NANOLEAF_CANVAS_MODEL)
          || (model == NANOLEAF_SHAPES_MODEL))
@@ -230,6 +232,8 @@ void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
         }
 
         external_control_socket.udp_write((char *)message, (size * 8) + 2);
+
+        free(message);
     }
 }
 
@@ -252,7 +256,7 @@ void NanoleafController::StartExternalControl()
 
         json response;
         if((APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request, &response) / 100) == 2)
-        {           
+        {
             external_control_socket.udp_client(response["streamControlIpAddr"].get<std::string>().c_str(), std::to_string(response["streamControlPort"].get<int>()).c_str());
 
             selectedEffect = NANOLEAF_DIRECT_MODE_EFFECT_NAME;
