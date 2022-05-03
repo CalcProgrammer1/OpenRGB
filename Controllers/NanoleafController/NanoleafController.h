@@ -14,6 +14,7 @@
 #define NANOLEAF_DIRECT_MODE_EFFECT_NAME    "*Dynamic*"
 #define NANOLEAF_LIGHT_PANELS_MODEL         "NL22"
 #define NANOLEAF_CANVAS_MODEL               "NL29"
+#define NANOLEAF_SHAPES_MODEL               "NL42"
 
 class NanoleafController
 {

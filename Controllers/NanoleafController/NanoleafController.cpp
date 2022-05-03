@@ -159,30 +159,77 @@ void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
 
     if(model == NANOLEAF_LIGHT_PANELS_MODEL)
     {
+        /*---------------------------------------------------------*\
+        | Protocol V1 - https://forum.nanoleaf.me/docs              |
+        |                                                           |
+        | Size      Description                                     |
+        | --------------------------------------------------------- |
+        | 1         nPanels         Number of panels                |
+        |                                                           |
+        | 1         panelId         ID of panel                     |
+        | 1         nFrames         Number of frames (always 1)     |
+        | 1         R               Red channel                     |
+        | 1         G               Green channel                   |
+        | 1         B               Blue channel                    |
+        | 1         W               White channel (ignored)         |
+        | 1         transitionTime  Transition time (x 100ms)       |
+        \*---------------------------------------------------------*/
         uint8_t size        = panel_ids.size();
 
-        uint8_t* message    = (uint8_t*)malloc(size*7+6+1);
+        uint8_t* message    = (uint8_t*)malloc((size * 7) + 1);
 
-        message[0]          = (uint8_t)size;
+        message[0]          = (uint8_t)size;                                /* nPanels          */
 
         for(int i = 0; i < size; i++)
         {
-            message[( 7 * i) + 0 + 1] = (uint8_t)panel_ids[i];
-            message[( 7 * i) + 1 + 1] = (uint8_t)1;
-            message[( 7 * i) + 2 + 1] = (uint8_t)RGBGetRValue(colors[i]);
-            message[( 7 * i) + 3 + 1] = (uint8_t)RGBGetGValue(colors[i]);
-            message[( 7 * i) + 4 + 1] = (uint8_t)RGBGetBValue(colors[i]);
-            message[( 7 * i) + 5 + 1] = (uint8_t)0;
-            message[( 7 * i) + 6 + 1] = (uint8_t)0;
+            message[(7 * i) + 0 + 1] = (uint8_t)panel_ids[i];               /* panelId          */
+            message[(7 * i) + 1 + 1] = (uint8_t)1;                          /* nFrames          */
+            message[(7 * i) + 2 + 1] = (uint8_t)RGBGetRValue(colors[i]);    /* R                */
+            message[(7 * i) + 3 + 1] = (uint8_t)RGBGetGValue(colors[i]);    /* G                */
+            message[(7 * i) + 4 + 1] = (uint8_t)RGBGetBValue(colors[i]);    /* B                */
+            message[(7 * i) + 5 + 1] = (uint8_t)0;                          /* W                */
+            message[(7 * i) + 6 + 1] = (uint8_t)0;                          /* transitionTime   */
         }
 
-        external_control_socket.udp_write(reinterpret_cast<char*>(message), size*7+6+1);
+        external_control_socket.udp_write((char*)message, (size * 7) + 1);
     }
-    else if(model == NANOLEAF_CANVAS_MODEL)
+    else if((model == NANOLEAF_CANVAS_MODEL)
+         || (model == NANOLEAF_SHAPES_MODEL))
     {
         /*---------------------------------------------------------*\
-        | Insert V2 protocol implementation here.                   |
+        | Protocol V2 - https://forum.nanoleaf.me/docs              |
+        |                                                           |
+        | Size      Description                                     |
+        | --------------------------------------------------------- |
+        | 2         nPanels         Number of panels                |
+        |                                                           |
+        | 2         panelId         ID of panel                     |
+        | 1         R               Red channel                     |
+        | 1         G               Green channel                   |
+        | 1         B               Blue channel                    |
+        | 1         W               White channel (ignored)         |
+        | 2         transitionTime  Transition time (x 100ms)       |
         \*---------------------------------------------------------*/
+        uint8_t size        = panel_ids.size();
+
+        uint8_t* message    = (uint8_t*)malloc((size * 8) + 2);
+
+        message[0]          = (uint8_t)(size >> 8);                         /* nPanels H        */
+        message[1]          = (uint8_t)(size & 0xFF);                       /* nPanels L        */
+
+        for(int i = 0; i < size; i++)
+        {
+            message[(8 * i) + 0 + 2] = (uint8_t)(panel_ids[i] >> 8);        /* panelId H        */
+            message[(8 * i) + 1 + 2] = (uint8_t)(panel_ids[i] & 0xFF);      /* panelId L        */
+            message[(8 * i) + 2 + 2] = (uint8_t)RGBGetRValue(colors[i]);    /* R                */
+            message[(8 * i) + 3 + 2] = (uint8_t)RGBGetGValue(colors[i]);    /* G                */
+            message[(8 * i) + 4 + 2] = (uint8_t)RGBGetBValue(colors[i]);    /* B                */
+            message[(8 * i) + 5 + 2] = (uint8_t)0;                          /* W                */
+            message[(8 * i) + 6 + 2] = (uint8_t)0;                          /* transitionTime H */
+            message[(8 * i) + 7 + 2] = (uint8_t)0;                          /* transitionTime L */
+        }
+
+        external_control_socket.udp_write((char *)message, (size * 8) + 2);
     }
 }
 
@@ -192,21 +239,40 @@ void NanoleafController::StartExternalControl()
     request["write"]["command"]     = "display";
     request["write"]["animType"]    = "extControl";
 
+    /*-------------------------------------------------------------*\
+    | Determine whether to use v1 or v2 extControl protocol based   |
+    | on model string                                               |
+    \*-------------------------------------------------------------*/
     if(model == NANOLEAF_LIGHT_PANELS_MODEL)
     {
+        /*---------------------------------------------------------*\
+        | Protocol v1 returns IP and port for UDP communication     |
+        \*---------------------------------------------------------*/
         request["write"]["extControlVersion"] = "v1";
+
+        json response;
+        if((APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request, &response) / 100) == 2)
+        {           
+            external_control_socket.udp_client(response["streamControlIpAddr"].get<std::string>().c_str(), std::to_string(response["streamControlPort"].get<int>()).c_str());
+
+            selectedEffect = NANOLEAF_DIRECT_MODE_EFFECT_NAME;
+        }
     }
-    else if(model == NANOLEAF_CANVAS_MODEL)
+    else if((model == NANOLEAF_CANVAS_MODEL)
+         || (model == NANOLEAF_SHAPES_MODEL))
     {
+        /*---------------------------------------------------------*\
+        | Protocol v2 does not return anything, use device IP and   |
+        | port 60222                                                |
+        \*---------------------------------------------------------*/
         request["write"]["extControlVersion"] = "v2";
-    }
 
-    json response;
-    if((APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request, &response) / 100) == 2)
-    {
-        external_control_socket.udp_client(response["streamControlIpAddr"].get<std::string>().c_str(), std::to_string(response["streamControlPort"].get<int>()).c_str());
+        if((APIRequest("PUT", location, "/api/v1/"+auth_token+"/effects", &request) / 100) == 2)
+        {
+            external_control_socket.udp_client(address.c_str(), "60222");
 
-        selectedEffect = NANOLEAF_DIRECT_MODE_EFFECT_NAME;
+            selectedEffect = NANOLEAF_DIRECT_MODE_EFFECT_NAME;
+        }
     }
 }
 

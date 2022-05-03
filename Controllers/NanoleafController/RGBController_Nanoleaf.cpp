@@ -25,28 +25,25 @@ RGBController_Nanoleaf::RGBController_Nanoleaf(std::string a_address, int a_port
     type        = DEVICE_TYPE_LIGHT;
 
     /*-------------------------------------------------------------*\
-    | Direct mode currently only supported for Nanoleaf Panels.     |
+    | Direct mode uses external control protocol.                   |
     \*-------------------------------------------------------------*/
-    if(controller.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
-    {
-        mode Direct;
-        Direct.name       = "Direct";
-        Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode = MODE_COLORS_PER_LED;
-        modes.push_back(Direct);
+    mode Direct;
+    Direct.name       = "Direct";
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
-        /*---------------------------------------------------------*\
-        | Set this effect as current if the name is selected.       |
-        \*---------------------------------------------------------*/
-        if(controller.GetSelectedEffect() == NANOLEAF_DIRECT_MODE_EFFECT_NAME)
-        {
-            /*-----------------------------------------------------*\
-            | If the direct mode is active, we need to call this    |
-            | method to open the socket.                            |
-            \*-----------------------------------------------------*/
-            controller.StartExternalControl();
-            active_mode = 0;
-        }
+    /*---------------------------------------------------------*\
+    | Set this effect as current if the name is selected.       |
+    \*---------------------------------------------------------*/
+    if(controller.GetSelectedEffect() == NANOLEAF_DIRECT_MODE_EFFECT_NAME)
+    {
+        /*-----------------------------------------------------*\
+        | If the direct mode is active, we need to call this    |
+        | method to open the socket.                            |
+        \*-----------------------------------------------------*/
+        controller.StartExternalControl();
+        active_mode = 0;
     }
 
     /*-------------------------------------------------------------*\
@@ -89,7 +86,7 @@ void RGBController_Nanoleaf::SetupZones()
     for(std::vector<int>::const_iterator it = controller.GetPanelIds().begin(); it != controller.GetPanelIds().end(); ++it)
     {
         led new_led;
-        new_led.name = std::to_string(*it);
+        new_led.name        = std::to_string(*it);
         leds.push_back(new_led);
     }
 
@@ -107,10 +104,7 @@ void RGBController_Nanoleaf::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_Nanoleaf::DeviceUpdateLEDs()
 {
-    if(controller.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
-    {
-        controller.UpdateLEDs(colors);
-    }
+    controller.UpdateLEDs(colors);
 }
 
 void RGBController_Nanoleaf::UpdateZoneLEDs(int /*zone*/)
@@ -133,7 +127,7 @@ void RGBController_Nanoleaf::DeviceUpdateMode()
     /*---------------------------------------------------------*\
     | Mode 0 is reserved for Direct mode                        |
     \*---------------------------------------------------------*/
-    if(active_mode == 0 && controller.GetModel() == NANOLEAF_LIGHT_PANELS_MODEL)
+    if(active_mode == 0)
     {
         controller.StartExternalControl();
     }
