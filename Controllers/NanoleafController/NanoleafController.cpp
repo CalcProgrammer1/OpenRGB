@@ -59,6 +59,13 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
         status  = result->status;
         body    = result->body;
     }
+    else if(method == "POST")
+    {
+        httplib::Result result = client.Post(URI.c_str());
+
+        status  = result->status;
+        body    = result->body;
+    }
 
     LOG_DEBUG("[Nanoleaf] Result %d %s", status, body.c_str());
 
@@ -71,7 +78,7 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
     }
     else
     {
-        //LOG_DEBUG("[Nanoleaf] HTTP %i:Could not %s from %s", httpCode, method.c_str(), url.c_str());
+        LOG_DEBUG("[Nanoleaf] HTTP %i:Could not %s from %s", status, method.c_str(), url.c_str());
     }
 
     return status;
