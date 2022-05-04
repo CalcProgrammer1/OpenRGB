@@ -10,16 +10,12 @@
 #include "LogManager.h"
 #include "httplib.h"
 
-std::size_t WriteMemoryCallback(const char* in, std::size_t size, std::size_t num, std::string* out)
-{
-    const std::size_t totalBytes(size * num);
-    out->append(in, totalBytes);
-    return totalBytes;
-}
-
 long APIRequest(std::string method, std::string location, std::string URI, json* request_data = nullptr, json* response_data = nullptr)
 {
-    const std::string url("http://"+location);
+    /*-------------------------------------------------------------*\
+    | Append http:// to the location field to create the URL        |
+    \*-------------------------------------------------------------*/
+    const std::string url("http://" + location);
 
     /*-------------------------------------------------------------*\
     | Create httplib Client and variables to hold result            |
@@ -28,6 +24,9 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
     int             status  = 0;
     std::string     body    = "";
 
+    /*-------------------------------------------------------------*\
+    | Perform the appropriate call for the given method             |
+    \*-------------------------------------------------------------*/
     if(method == "GET")
     {
         httplib::Result result = client.Get(URI.c_str());
@@ -67,8 +66,9 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
         body    = result->body;
     }
 
-    LOG_DEBUG("[Nanoleaf] Result %d %s", status, body.c_str());
-
+    /*-------------------------------------------------------------*\
+    | If status is in the 200 range the request was successful      |
+    \*-------------------------------------------------------------*/
     if((status / 100) == 2)
     {
         if(response_data)
