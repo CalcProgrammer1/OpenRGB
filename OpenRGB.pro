@@ -61,6 +61,7 @@ INCLUDEPATH +=                                                                  
     dependencies/CRCpp/                                                                         \
     dependencies/hueplusplus-1.0.0/include                                                      \
     dependencies/hueplusplus-1.0.0/include/hueplusplus                                          \
+    dependencies/httplib                                                                        \
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
     dependencies/libcmmk/include/                                                               \
@@ -1116,9 +1117,6 @@ FORMS +=                                                                        
     qt/OpenRGBZonesBulkResizer.ui                                                               \
     qt/TabLabel.ui                                                                              \
 
-LIBS +=                                                                                         \
-    -lcurl                                                                                      \
-
 #-----------------------------------------------------------------------------------------------#
 # Windows-specific Configuration                                                                #
 #-----------------------------------------------------------------------------------------------#
@@ -1257,6 +1255,7 @@ win32:HEADERS +=                                                                
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     LIBS +=                                                                                     \
         -lws2_32                                                                                \
+        -liphlpapi                                                                              \
         -L"$$PWD/dependencies/winring0/x64/" -lWinRing0x64                                      \
         -L"$$PWD/dependencies/libusb-1.0.22/MS64/dll" -llibusb-1.0                              \
         -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi                                         \
@@ -1265,6 +1264,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
 win32:contains(QMAKE_TARGET.arch, x86) {
     LIBS +=                                                                                     \
         -lws2_32                                                                                \
+        -liphlpapi                                                                              \
         -L"$$PWD/dependencies/winring0/Win32/" -lWinRing0                                       \
         -L"$$PWD/dependencies/libusb-1.0.22/MS32/dll" -llibusb-1.0                              \
         -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi                                         \

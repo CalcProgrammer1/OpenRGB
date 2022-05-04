@@ -8,7 +8,7 @@
 
 #include "NanoleafController.h"
 #include "LogManager.h"
-#include <curl/curl.h>
+#include "httplib.h"
 
 std::size_t WriteMemoryCallback(const char* in, std::size_t size, std::size_t num, std::string* out)
 {
@@ -19,76 +19,62 @@ std::size_t WriteMemoryCallback(const char* in, std::size_t size, std::size_t nu
 
 long APIRequest(std::string method, std::string location, std::string URI, json* request_data = nullptr, json* response_data = nullptr)
 {
-    const std::string url("http://"+location+URI);
-
-    CURL* curl = curl_easy_init();
+    const std::string url("http://"+location);
 
     /*-------------------------------------------------------------*\
-    | Set remote URL.                                               |
+    | Create httplib Client and variables to hold result            |
     \*-------------------------------------------------------------*/
-    curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, method.c_str());
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    httplib::Client client(url.c_str());
+    int             status  = 0;
+    std::string     body    = "";
 
-    /*-------------------------------------------------------------*\
-    | Don't bother trying IPv6, which would increase DNS resolution |
-    | time.                                                         |
-    \*-------------------------------------------------------------*/
-    curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-
-    /*-------------------------------------------------------------*\
-    | Don't wait forever, time out after 10 seconds.                |
-    \*-------------------------------------------------------------*/
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
-
-    /*-------------------------------------------------------------*\
-    | Follow HTTP redirects if necessary.                           |
-    \*-------------------------------------------------------------*/
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-
-    if(request_data)
+    if(method == "GET")
     {
-        curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, request_data->dump().c_str());
+        httplib::Result result = client.Get(URI.c_str());
+
+        status  = result->status;
+        body    = result->body;
+    }
+    else if(method == "PUT")
+    {
+        if(request_data)
+        {
+            httplib::Result result = client.Put(URI.c_str(), request_data->dump(), "application/json");
+
+            status  = result->status;
+            body    = result->body;
+        }
+        else
+        {
+            httplib::Result result = client.Put(URI.c_str());
+
+            status  = result->status;
+            body    = result->body;
+        }
+    }
+    else if(method == "DELETE")
+    {
+        httplib::Result result = client.Delete(URI.c_str());
+
+        status  = result->status;
+        body    = result->body;
     }
 
-    /*-------------------------------------------------------------*\
-    | Response information.                                         |
-    \*-------------------------------------------------------------*/
-    long                            httpCode(0);
-    std::unique_ptr<std::string>    httpData(new std::string());
+    LOG_DEBUG("[Nanoleaf] Result %d %s", status, body.c_str());
 
-    /*-------------------------------------------------------------*\
-    | Hook up data handling function.                               |
-    \*-------------------------------------------------------------*/
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
-
-    /*-------------------------------------------------------------*\
-    | Hook up data container (will be passed as the last parameter  |
-    | to the callback handling function). Can be any pointer type,  |
-    | since it will internally be passed as a void pointer.         |
-    \*-------------------------------------------------------------*/
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
-
-    /*-------------------------------------------------------------*\
-    | Run our HTTP GET command, capture the HTTP response code, and |
-    | clean up.                                                     |
-    \*-------------------------------------------------------------*/
-    curl_easy_perform(curl);
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
-    curl_easy_cleanup(curl);
-
-    if((httpCode / 100) == 2)
+    if((status / 100) == 2)
     {
         if(response_data)
         {
-            *response_data = json::parse(*httpData.get());
+            *response_data = json::parse(body);
         }
     }
     else
     {
-        LOG_DEBUG("[Nanoleaf] HTTP %i:Could not %s from %s", httpCode, method, url);
+        //LOG_DEBUG("[Nanoleaf] HTTP %i:Could not %s from %s", httpCode, method.c_str(), url.c_str());
     }
 
-    return httpCode;
+    return status;
 }
 
 NanoleafController::NanoleafController(std::string a_address, int a_port, std::string a_auth_token)

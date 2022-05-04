@@ -30,7 +30,7 @@ void DetectNanoleafControllers(std::vector<RGBController*> &rgb_controllers)
                 }
                 catch(...)
                 {
-                    LOG_DEBUG("[Nanoleaf] Could not connect to device at %s:%s using auth_token %s", device["ip"], device["port"], device["auth_token"]);
+                    LOG_DEBUG("[Nanoleaf] Could not connect to device at %s:%s using auth_token %s", device["ip"].get<std::string>().c_str(), device["port"].get<std::string>().c_str(), device["auth_token"].get<std::string>().c_str());
                 }
             }
         }

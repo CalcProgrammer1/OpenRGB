@@ -9,7 +9,6 @@
 #include "RGBController_Nanoleaf.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
-#include <curl/curl.h>
 #include "json.hpp"
 using json = nlohmann::json;
 
