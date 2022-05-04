@@ -41,7 +41,7 @@ union i2c_smbus_data
 
 #endif  /* __linux__ */
 
-#if defined(__APPLE___) || defined(__FreeBSD__)
+#if defined(__APPLE__) || defined(__FreeBSD__)
 
 //Data for SMBus Messages
 #define I2C_SMBUS_BLOCK_MAX     32
