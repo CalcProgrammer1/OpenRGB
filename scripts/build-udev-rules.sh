@@ -39,11 +39,17 @@ echo -e "$UDEV_HEADER" > "$UDEV_FILE"
 echo -e "Creating device list"
 HID_LIST=$(grep -hR -e "static\ HIDDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
 
+#Check the output of the hid_list
+# echo -e "$HID_LIST" >> "hid_list.txt"
+
 #-----------------------------------------------------------------------------#
 #  Create a list of RGBController.cpp classes including path                  #
 #-----------------------------------------------------------------------------#
 echo -e "Creating file list to parse metadata"
 FILE_LIST=$(find ${CONTROLLER_PATH} | grep RGBController_ | grep cpp)
+
+#Check the output of the file_list
+# echo -e "$FILE_LIST" >> "file_list.txt"
 
 #-----------------------------------------------------------------------------#
 #  Iterate over the Controller file list and repplace the detectors           #
@@ -53,9 +59,9 @@ while read -r controller
 do
     DATA=$(awk -v RS='' '/\/\*\*/' ${controller})
 
-    name=$(printf %s "$DATA" | grep @name |  sed -e 's/@name//g' -e 's/^ *//g')
-    type=$(printf %s "$DATA" | grep @type |  sed -e 's/@type//g' -e 's/^ *//g')
-    detectors=$(printf %s "$DATA" | grep @detectors |  sed -e 's/@detectors *//g' -e 's/^ *//g' -e 's/\,/\n/g')
+    name=$(printf %s "$DATA" | grep @name |  sed -e 's/\r$//' -e 's/@name//g' -e 's/^ *//g')
+    type=$(printf %s "$DATA" | grep @type |  sed -e 's/\r$//' -e 's/@type//g' -e 's/^ *//g')
+    detectors=$(printf %s "$DATA" | grep @detectors |  sed -e 's/\r$//' -e 's/@detectors *//g' -e 's/^ *//g' -e 's/\,/\n/g')
 
     if [[ $type = USB || $type = Serial ]]; then    #Check that the type is USB
         ## Iterate over the comma seperated detector function list
@@ -79,7 +85,7 @@ do
                 device_name=${device_name//[^[:alnum:][:blank:]]/}
 
                 udev_line=$(printf 'SUBSYSTEMS=="%s|hidraw", ATTRS{idVendor}=="%s", ATTRS{idProduct}=="%s", TAG+="uaccess", TAG+="%s"\n' ${type,,} ${vid,,} ${pid,,} ${device_name// /_})
-                
+
                 #Check to ensure that the vid and pid are not blank
                 if [[ $vid = "" || $pid = "" ]]; then
                     echo -e "Blank VID or PID Skipping: ${udev_line}"
