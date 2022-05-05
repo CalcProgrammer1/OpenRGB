@@ -153,6 +153,7 @@ INCLUDEPATH +=                                                                  
     Controllers/TecknetController/                                                              \
     Controllers/ThermaltakePoseidonZRGBController/                                              \
     Controllers/ThermaltakeRiingController/                                                     \
+    Controllers/ViewSonicController/                                                            \
     Controllers/WootingKeyboardController/                                                      \
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
@@ -539,6 +540,8 @@ HEADERS +=                                                                      
     Controllers/TrustController/RGBController_TrustGXT180.h                                     \
     Controllers/TrustController/TrustGXT114Controller.h                                         \
     Controllers/TrustController/TrustGXT180Controller.h                                         \
+    Controllers/ViewSonicController/VS_XG270QG_Controller.h                                     \
+    Controllers/ViewSonicController/RGBController_XG270QG.h                                     \
     Controllers/WootingKeyboardController/WootingKeyboardController.h                           \
     Controllers/WootingKeyboardController/WootingOneKeyboardController.h                        \
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
@@ -1047,6 +1050,9 @@ SOURCES +=                                                                      
     Controllers/TrustController/TrustControllerDetect.cpp                                       \
     Controllers/TrustController/RGBController_TrustGXT114.cpp                                   \
     Controllers/TrustController/RGBController_TrustGXT180.cpp                                   \
+    Controllers/ViewSonicController/ViewSonicControllerDetect.cpp                               \
+    Controllers/ViewSonicController/RGBController_XG270QG.cpp                                   \
+    Controllers/ViewSonicController/VS_XG270QG_Controller.cpp                                   \
     Controllers/WootingKeyboardController/WootingKeyboardController.cpp                         \
     Controllers/WootingKeyboardController/WootingKeyboardControllerDetect.cpp                   \
     Controllers/WootingKeyboardController/WootingOneKeyboardController.cpp                      \
