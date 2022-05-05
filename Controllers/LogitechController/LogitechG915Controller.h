@@ -19,9 +19,9 @@
 
 enum
 {
-    LOGITECH_G915_ZONE_MODE_KEYBOARD        = 0x00,
-    LOGITECH_G915_ZONE_MODE_LOGO            = 0x01,
-    LOGITECH_G915_ZONE_MODE_MULTIMEDIA      = 0X02,
+    LOGITECH_G915_ZONE_MODE_KEYBOARD        = 0x01,
+    LOGITECH_G915_ZONE_MODE_LOGO            = 0x00,
+    LOGITECH_G915_ZONE_MODE_MULTIMEDIA      = 0x02,
     LOGITECH_G915_ZONE_MODE_GKEYS           = 0x03,
     LOGITECH_G915_ZONE_MODE_MODIFIERS       = 0x04
 };
@@ -47,7 +47,16 @@ enum
     LOGITECH_G915_MODE_BREATHING            = 0x02,
     LOGITECH_G915_MODE_CYCLE                = 0x03,
     LOGITECH_G915_MODE_WAVE                 = 0x04,
-    LOGITECH_G915_MODE_DIRECT               = 0x05,
+    LOGITECH_G915_MODE_RIPPLE               = 0x05,
+    LOGITECH_G915_MODE_DIRECT               = 0xFF,
+};
+
+enum
+{
+    LOGITECH_G915_LOGO_MODE_OFF             = 0x00,
+    LOGITECH_G915_LOGO_MODE_STATIC          = 0x01,
+    LOGITECH_G915_LOGO_MODE_CYCLE           = 0x02,
+    LOGITECH_G915_LOGO_MODE_BREATHING       = 0x03,
 };
 
 /*---------------------------------------------------------------------------------------------*\
@@ -61,6 +70,14 @@ enum
     LOGITECH_G915_SPEED_FASTEST             = 0x0A,     /* Fastest speed                       */
 };
 
+/* Ripple speeds are in ms directly. */
+enum
+{
+    LOGITECH_G915_SPEED_RIPPLE_SLOW         = 200,
+    LOGITECH_G915_SPEED_RIPPLE_NORMAL       = 20,
+    LOGITECH_G915_SPEED_RIPPLE_FAST         = 2,
+};
+
 class LogitechG915Controller
 {
 public:
@@ -70,6 +87,8 @@ public:
     std::string GetSerialString();
     void        Commit();
     void        InitializeDirect();
+    void        InitializeModeSet();
+    void        BeginModeSet();
     void        SetDirect
                     (
                     unsigned char       frame_type,
@@ -86,6 +105,7 @@ public:
                     (
                     unsigned char       mode,
                     unsigned short      speed,
+                    unsigned short      brightness,
                     unsigned char       red,
                     unsigned char       green,
                     unsigned char       blue
@@ -94,6 +114,7 @@ public:
 private:
     hid_device* dev_handle;
     char feature_4522_idx;
+    char device_index;
     char feature_8040_idx;
     char feature_8071_idx;
     char feature_8081_idx;
@@ -109,6 +130,7 @@ private:
                     unsigned char       zone,
                     unsigned char       mode,
                     unsigned short      speed,
+                    unsigned short      brightness,
                     unsigned char       red,
                     unsigned char       green,
                     unsigned char       blue

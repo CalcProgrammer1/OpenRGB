@@ -235,28 +235,62 @@ RGBController_LogitechG915::RGBController_LogitechG915(LogitechG915Controller* c
     Off.color_mode                  = MODE_COLORS_NONE;
     modes.push_back(Off);
 
-    mode Cycle;
-    Cycle.name                      = "Cycle";
-    Cycle.value                     = LOGITECH_G915_MODE_CYCLE;
-    Cycle.flags                     = MODE_FLAG_HAS_SPEED;
-    Cycle.color_mode                = MODE_COLORS_NONE;
-    Cycle.speed_min                 = LOGITECH_G915_SPEED_SLOWEST;
-    Cycle.speed_max                 = LOGITECH_G915_SPEED_FASTEST;
-    Cycle.speed                     = LOGITECH_G915_SPEED_NORMAL;
-    modes.push_back(Cycle);
-
     mode Breathing;
     Breathing.name                  = "Breathing";
     Breathing.value                 = LOGITECH_G915_MODE_BREATHING;
-    Breathing.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Breathing.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
     Breathing.colors_min            = 1;
     Breathing.colors_max            = 1;
     Breathing.color_mode            = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize(1);
+    Breathing.brightness_min        = 1;
+    Breathing.brightness_max        = 100;
+    Breathing.brightness            = 100;
     Breathing.speed_min             = LOGITECH_G915_SPEED_SLOWEST;
     Breathing.speed_max             = LOGITECH_G915_SPEED_FASTEST;
     Breathing.speed                 = LOGITECH_G915_SPEED_NORMAL;
     modes.push_back(Breathing);
+
+    mode Cycle;
+    Cycle.name                      = "Spectrum Cycle";
+    Cycle.value                     = LOGITECH_G915_MODE_CYCLE;
+    Cycle.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Cycle.color_mode                = MODE_COLORS_NONE;
+    Cycle.speed_min                 = LOGITECH_G915_SPEED_SLOWEST;
+    Cycle.speed_max                 = LOGITECH_G915_SPEED_FASTEST;
+    Cycle.speed                     = LOGITECH_G915_SPEED_NORMAL;
+    Cycle.brightness_min            = 1;
+    Cycle.brightness_max            = 100;
+    Cycle.brightness                = 100;
+    modes.push_back(Cycle);
+
+    mode Wave;
+    Wave.name                       = "Rainbow Wave";
+    Wave.value                      = LOGITECH_G915_MODE_WAVE;
+    Wave.flags                      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    //Wave.flags                      |= MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_DIRECTION_HV;
+    Wave.brightness_min             = 1;
+    Wave.brightness_max             = 100;
+    Wave.brightness                 = 100;
+    Wave.color_mode                 = MODE_COLORS_NONE;
+    Wave.direction                  = MODE_DIRECTION_HORIZONTAL | MODE_DIRECTION_RIGHT;
+    Wave.speed_min                  = LOGITECH_G915_SPEED_SLOWEST;
+    Wave.speed_max                  = LOGITECH_G915_SPEED_FASTEST;
+    Wave.speed                      = LOGITECH_G915_SPEED_NORMAL;
+    modes.push_back(Wave);
+
+    mode Ripple;
+    Ripple.name                     = "Reactive (Ripple)";
+    Ripple.value                    = LOGITECH_G915_MODE_RIPPLE;
+    Ripple.flags                    = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED;
+    Ripple.colors_min               = 1;
+    Ripple.colors_max               = 1;
+    Ripple.color_mode               = MODE_COLORS_MODE_SPECIFIC;
+    Ripple.colors.resize(1);
+    Ripple.speed_min                = LOGITECH_G915_SPEED_RIPPLE_SLOW;
+    Ripple.speed_max                = LOGITECH_G915_SPEED_RIPPLE_FAST;
+    Ripple.speed                    = LOGITECH_G915_SPEED_RIPPLE_NORMAL;
+    modes.push_back(Ripple);
 
     SetupZones();
     std::copy(colors.begin(), colors.end(),std::back_inserter(current_colors));
@@ -554,6 +588,7 @@ void RGBController_LogitechG915::DeviceUpdateMode()
         controller->Commit();
         return;
     }
+    controller->InitializeModeSet();
 
     unsigned char red = 0;
     unsigned char grn = 0;
@@ -565,6 +600,5 @@ void RGBController_LogitechG915::DeviceUpdateMode()
         grn = RGBGetGValue(modes[active_mode].colors[0]);
         blu = RGBGetBValue(modes[active_mode].colors[0]);
     }
-
-    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, red, grn, blu);
 }
