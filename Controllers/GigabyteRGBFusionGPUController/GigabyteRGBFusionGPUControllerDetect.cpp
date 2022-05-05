@@ -24,6 +24,7 @@ typedef struct
 
 static const gpu_pci_device device_list[] =
 {
+    { NVIDIA_VEN,   NVIDIA_GTX1050TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_GTX1050TI_G1_GAMING_SUB_DEV,           0x47,   "Gigabyte GTX1050 Ti G1 Gaming (rev A1)"        },
     { NVIDIA_VEN,   NVIDIA_GTX1050TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_GTX1050TI_G1_GAMING_SUB_DEV,           0x48,   "Gigabyte GTX1050 Ti G1 Gaming"                 },
     { NVIDIA_VEN,   NVIDIA_GTX1060_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_GTX1060_G1_GAMING_SUB_DEV,             0x48,   "Gigabyte GTX1060 G1 Gaming 6G"                 },
     { NVIDIA_VEN,   NVIDIA_GTX1060_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_GTX1060_G1_GAMING_OC_SUB_DEV,          0x47,   "Gigabyte GTX1060 G1 Gaming 6G OC"              },
@@ -68,14 +69,14 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3070 Gaming OC 8G"                 },
     { NVIDIA_VEN,   NVIDIA_RTX3070_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3070 Gaming OC 8G v3.0 LHR"        },
     { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3070 Vision 8G"                    },
-    { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_EAGLE_OC_SUB_DEV,              0x63,   "Gigabyte RTX3070 Eagle OC 8G"                  },    
+    { NVIDIA_VEN,   NVIDIA_RTX3070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_EAGLE_OC_SUB_DEV,              0x63,   "Gigabyte RTX3070 Eagle OC 8G"                  },
     { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070TI_GAMING_OC_SUB_DEV,           0x62,   "Gigabyte RTX3070 Ti Gaming OC 8G"              },
     { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070TI_EAGLE_SUB_DEV,               0x63,   "Gigabyte RTX3070 Ti EAGLE 8G"                  },
     { NVIDIA_VEN,   NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070TI_VISION_OC_SUB_DEV,           0x63,   "Gigabyte RTX3070 Ti Vision OC 8G"              },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3080 Gaming OC 10G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3080_12G_LHR_DEV, GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_12G_SUB_DEV,         0x62,   "Gigabyte RTX3080 Gaming OC 12G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_GAMING_OC_SUB_DEV,             0x62,   "Gigabyte RTX3080 Gaming OC 10G"                },
-    { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3080 Vision OC 10G (REV 2.0)"       },
+    { NVIDIA_VEN,   NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3080 Vision OC 10G (REV 2.0)"      },
     { NVIDIA_VEN,   NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_VISION_OC_SUB_DEV,             0x63,   "Gigabyte RTX3080 Vision OC 10G"                },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_GAMING_OC_SUB_DEV,           0x62,   "Gigabyte RTX3080 Ti Gaming OC 12G"             },
     { NVIDIA_VEN,   NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_EAGLE_SUB_DEV,               0x63,   "Gigabyte RTX3080 Ti EAGLE 12G"                 },
@@ -104,7 +105,7 @@ bool TestForGigabyteRGBFusionGPUController(i2c_smbus_interface* bus, unsigned ch
         bus->i2c_smbus_write_byte(address, 0x00);
         bus->i2c_smbus_write_byte(address, 0x00);
         bus->i2c_smbus_write_byte(address, 0x00);
-        
+
         // NVIDIA_RTX3060_DEV requires additional bytes to initialise
         if (address == 0x62)
         {
