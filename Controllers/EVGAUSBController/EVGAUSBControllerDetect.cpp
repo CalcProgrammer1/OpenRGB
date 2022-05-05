@@ -2,6 +2,7 @@
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_EVGAKeyboard.h"
+#include "RGBController_EVGAMouse.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -15,6 +16,12 @@
 #define Z15_ISO_PID                             0x260E
 #define Z15_ANSI_PID                            0x2608
 #define Z20_ANSI_PID                            0x260A
+
+/*-----------------------------------------------------*\
+| Mouse product IDs                                     |
+\*-----------------------------------------------------*/
+#define X20_WIRED_PID              0x2420
+#define X20_WIRELESS_ADAPTER_PID   0x2402
 
 void DetectEVGAKeyboardControllers(hid_device_info* info, const std::string& name)
 {
@@ -32,6 +39,34 @@ void DetectEVGAKeyboardControllers(hid_device_info* info, const std::string& nam
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("EVGA Z15 Keyboard",     DetectEVGAKeyboardControllers,  EVGA_USB_VID,  Z15_ISO_PID,      1,  0x08, 0x4B);
-REGISTER_HID_DETECTOR_IPU("EVGA Z15 Keyboard",     DetectEVGAKeyboardControllers,  EVGA_USB_VID,  Z15_ANSI_PID,     1,  0x08, 0x4B);
-REGISTER_HID_DETECTOR_IPU("EVGA Z20 Keyboard",     DetectEVGAKeyboardControllers,  EVGA_USB_VID,  Z20_ANSI_PID,     1,  0x08, 0x4B);
+void DetectEVGAMouse(hid_device_info* info, const std::string &, int connection_type)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if (dev)
+    {
+        EVGAMouseController* controller         = new EVGAMouseController(dev, info->path, connection_type);
+        RGBController_EVGAMouse *rgb_controller = new RGBController_EVGAMouse(controller);
+        /*-------------------------*\
+        | Constructor sets the name |
+        \*-------------------------*/
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectWiredEVGAMouse(hid_device_info* info, const std::string &name)
+{
+    DetectEVGAMouse(info, name, EVGA_PERIPHERAL_CONNECTION_TYPE_WIRED);
+}
+
+void DetectWirelessEVGAMouse(hid_device_info* info, const std::string &name)
+{
+    DetectEVGAMouse(info, name, EVGA_PERIPHERAL_CONNECTION_TYPE_WIRELESS);
+}
+
+
+REGISTER_HID_DETECTOR_IPU("EVGA Z15 Keyboard",     DetectEVGAKeyboardControllers,   EVGA_USB_VID,   Z15_ISO_PID,                1,  0x08,   0x4B);
+REGISTER_HID_DETECTOR_IPU("EVGA Z15 Keyboard",     DetectEVGAKeyboardControllers,   EVGA_USB_VID,   Z15_ANSI_PID,               1,  0x08,   0x4B);
+REGISTER_HID_DETECTOR_IPU("EVGA Z20 Keyboard",     DetectEVGAKeyboardControllers,   EVGA_USB_VID,   Z20_ANSI_PID,               1,  0x08,   0x4B);
+
+REGISTER_HID_DETECTOR_IPU("EVGA X20 Gaming Mouse",  DetectWiredEVGAMouse,           EVGA_USB_VID,   X20_WIRED_PID,              2,  0xFFFF, 0);
+REGISTER_HID_DETECTOR_IPU("EVGA X20 USB Receiver",  DetectWirelessEVGAMouse,        EVGA_USB_VID,   X20_WIRELESS_ADAPTER_PID,   2,  0xFFFF, 0);

@@ -341,8 +341,10 @@ HEADERS +=                                                                      
     Controllers/EVGATuringGPUController/RGBController_EVGAGPUv2.h                               \
     Controllers/EVGAAmpereGPUController/EVGAGPUv3Controller.h                                   \
     Controllers/EVGAAmpereGPUController/RGBController_EVGAGPUv3.h                               \
-    Controllers/EVGAUSBController/EVGAKeyboardController.h                                    \
-    Controllers/EVGAUSBController/RGBController_EVGAKeyboard.h                      \
+    Controllers/EVGAUSBController/EVGAKeyboardController.h                                      \
+    Controllers/EVGAUSBController/EVGAMouseController.h                                         \
+    Controllers/EVGAUSBController/RGBController_EVGAKeyboard.h                                  \
+    Controllers/EVGAUSBController/RGBController_EVGAMouse.h                                     \
     Controllers/EVisionKeyboardController/EVisionKeyboardController.h                           \
     Controllers/EVisionKeyboardController/RGBController_EVisionKeyboard.h                       \
     Controllers/FanBusController/FanBusController.h                                             \
@@ -800,9 +802,11 @@ SOURCES +=                                                                      
     Controllers/EVGAAmpereGPUController/EVGAGPUv3Controller.cpp                                 \
     Controllers/EVGAAmpereGPUController/EVGAAmpereGPUControllerDetect.cpp                       \
     Controllers/EVGAAmpereGPUController/RGBController_EVGAGPUv3.cpp                             \
-    Controllers/EVGAUSBController/EVGAKeyboardController.cpp                                  \
+    Controllers/EVGAUSBController/EVGAKeyboardController.cpp                                    \
+    Controllers/EVGAUSBController/EVGAMouseController.cpp                                       \
     Controllers/EVGAUSBController/EVGAUSBControllerDetect.cpp                                   \
-    Controllers/EVGAUSBController/RGBController_EVGAKeyboard.cpp                    \
+    Controllers/EVGAUSBController/RGBController_EVGAKeyboard.cpp                                \
+    Controllers/EVGAUSBController/RGBController_EVGAMouse.cpp                                   \
     Controllers/EVisionKeyboardController/EVisionKeyboardController.cpp                         \
     Controllers/EVisionKeyboardController/EVisionKeyboardControllerDetect.cpp                   \
     Controllers/EVisionKeyboardController/RGBController_EVisionKeyboard.cpp                     \
