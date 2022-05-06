@@ -12,10 +12,11 @@
 #include "RGBController_SonyDS4.h"
 #include "Detector.h"
 
-const unsigned short vendor_id     = 0x054C;
-const unsigned short product_id_v1 = 0x05C4;
-const unsigned short product_id_v2 = 0x09CC;
-const unsigned short adapter_id    = 0x0ba0;
+#define SONY_DUALSHOCK_VID              0x054C
+
+#define SONY_DS4_V1_PID                 0x05C4
+#define SONY_DS4_V2_PID                 0x09CC
+#define SONY_DS4_RECEIVER_PID           0x0BA0
 
 void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
 {
@@ -29,6 +30,6 @@ void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
     }
 }
 
-REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, product_id_v1);
-REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, product_id_v2);
-REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, vendor_id, adapter_id);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, SONY_DUALSHOCK_VID, SONY_DS4_V1_PID);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, SONY_DUALSHOCK_VID, SONY_DS4_V2_PID);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers, SONY_DUALSHOCK_VID, SONY_DS4_RECEIVER_PID);
