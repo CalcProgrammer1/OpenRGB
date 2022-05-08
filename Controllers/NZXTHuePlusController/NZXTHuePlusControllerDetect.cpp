@@ -34,3 +34,8 @@ void DetectNZXTHuePlusControllers(std::vector<RGBController*> &rgb_controllers)
 }   /* DetectHuePlusControllers() */
 
 REGISTER_DETECTOR("NZXT Hue+", DetectNZXTHuePlusControllers);
+/*---------------------------------------------------------------------------------------------------------*\
+| Entries for dynamic UDEV rules                                                                            |
+|                                                                                                           |
+| DUMMY_DEVICE_DETECTOR("NZXT Hue+", DetectNZXTHuePlusControllers, 0x04D8, 0x00DF )                         |
+\*---------------------------------------------------------------------------------------------------------*/

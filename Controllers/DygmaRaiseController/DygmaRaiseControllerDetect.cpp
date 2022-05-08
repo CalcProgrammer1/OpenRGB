@@ -37,3 +37,8 @@ void DetectDygmaRaiseControllers(std::vector<RGBController*> &rgb_controllers)
 }
 
 REGISTER_DETECTOR("Dygma Raise", DetectDygmaRaiseControllers);
+/*---------------------------------------------------------------------------------------------------------*\
+| Entries for dynamic UDEV rules                                                                            |
+|                                                                                                           |
+| DUMMY_DEVICE_DETECTOR("Dygma Raise", DetectDygmaRaiseControllers, 0x1209, 0x2201 )                        |
+\*---------------------------------------------------------------------------------------------------------*/

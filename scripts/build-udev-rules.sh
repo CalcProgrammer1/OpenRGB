@@ -38,9 +38,10 @@ echo -e "$UDEV_HEADER" > "$UDEV_FILE"
 #-----------------------------------------------------------------------------#
 echo -e "Creating device list"
 HID_LIST=$(grep -hR -e "static\ HIDDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
+DUMMY_LIST=$( grep -hR -e DUMMY_DEVICE_DETECTOR ${CONTROLLER_PATH} | cut -d '(' -f 2- | cut -d ')' -f 1 | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
 
 #Check the output of the hid_list
-# echo -e "$HID_LIST" >> "hid_list.txt"
+# echo -e "$HID_LIST\n$DUMMY_LIST" >> "hid_list.txt"
 
 #-----------------------------------------------------------------------------#
 #  Create a list of RGBController.cpp classes including path                  #
@@ -68,7 +69,7 @@ do
         while read -r detector
         do
             #Filter the list for all devices that use this detector
-            text=$(printf %s "$HID_LIST" | grep ${detector} | cut -d: -f 2- | sed -e 's/"//g')
+            text=$(printf '%s\n%s' "$HID_LIST" "$DUMMY_LIST" | grep ${detector} | cut -d: -f 2- | sed -e 's/"//g')
 
             #Replace the detector string with the list of devices
             detectors=${detectors/${detector}/${text}}
@@ -88,7 +89,7 @@ do
 
                 #Check to ensure that the vid and pid are not blank
                 if [[ $vid = "" || $pid = "" ]]; then
-                    echo -e "Blank VID or PID Skipping: ${udev_line}"
+                    echo -e "Blank VID or PID Skipping: ${name} ${detector} ${udev_line}"
                 else
                     echo -e "$udev_line" >>"$UDEV_FILE"
                 fi
@@ -100,6 +101,9 @@ done <<< "$FILE_LIST"
 if [ -f "$UDEV_FILE" ]; then
     outpath=$(readlink -f "$UDEV_FILE")
     echo -e "Udev rules built at: $outpath"
+
+    #Clean up the preprocessor files if the rules file was created successfully
+    rm *.{ii,s}
 else
     echo -e "Something went wrong. No Udev file was found"
 fi

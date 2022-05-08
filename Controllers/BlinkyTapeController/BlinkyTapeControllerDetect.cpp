@@ -34,3 +34,8 @@ void DetectBlinkyTapeControllers(std::vector<RGBController*> &rgb_controllers)
 }
 
 REGISTER_DETECTOR("BlinkyTape", DetectBlinkyTapeControllers);
+/*---------------------------------------------------------------------------------------------------------*\
+| Entries for dynamic UDEV rules                                                                            |
+|                                                                                                           |
+| DUMMY_DEVICE_DETECTOR("BlinkyTape", DetectBlinkyTapeControllers, 0x1D50, 0x605E )                         |
+\*---------------------------------------------------------------------------------------------------------*/

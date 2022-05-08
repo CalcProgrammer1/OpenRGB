@@ -77,3 +77,8 @@ void DetectLianLiUniHub(std::vector<RGBController*>&)
 }
 
 REGISTER_DETECTOR("Lian Li Uni Hub", DetectLianLiUniHub);
+/*---------------------------------------------------------------------------------------------------------*\
+| Entries for dynamic UDEV rules                                                                            |
+|                                                                                                           |
+| DUMMY_DEVICE_DETECTOR("Lian Li Uni Hub", DetectLianLiUniHub, 0x0CF2, 0x7750 )                             |
+\*---------------------------------------------------------------------------------------------------------*/
