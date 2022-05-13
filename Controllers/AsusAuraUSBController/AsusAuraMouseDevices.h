@@ -11,30 +11,32 @@
 
 #pragma once
 
-#define AURA_ROG_GLADIUS_II_CORE_PID            0x18DD
-#define AURA_ROG_GLADIUS_II_PID                 0x1845
-#define AURA_ROG_GLADIUS_II_ORIGIN_PID          0x1877
-#define AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID  0x18CD
-#define AURA_ROG_GLADIUS_II_ORIGIN_COD_PID      0x18B1
-#define AURA_ROG_GLADIUS_II_WIRELESS_1_PID      0x189E
-#define AURA_ROG_GLADIUS_II_WIRELESS_2_PID      0x18A0
-#define AURA_ROG_GLADIUS_III_WIRELESS_USB_PID   0x197D
-#define AURA_ROG_GLADIUS_III_WIRELESS_2_4_PID   0x197F
-#define AURA_ROG_GLADIUS_III_WIRELESS_BT_PID    0x1981
-#define AURA_ROG_CHAKRAM_WIRELESS_PID           0x18E5
-#define AURA_ROG_CHAKRAM_WIRED_1_PID            0x18E3
-#define AURA_ROG_CHAKRAM_CORE_PID               0x1958
-#define AURA_ROG_PUGIO_PID                      0x1846
-#define AURA_ROG_PUGIO_II_WIRED_PID             0x1906
-#define AURA_ROG_PUGIO_II_WIRELESS_PID          0x1908
-#define AURA_ROG_STRIX_IMPACT_PID               0x1847
-#define AURA_ROG_STRIX_IMPACT_II_PID            0x18E1
-#define AURA_ROG_KERIS                          0x195C
-#define AURA_ROG_KERIS_WIRELESS_USB_PID         0x195E
-#define AURA_ROG_KERIS_WIRELESS_2_4_PID         0x1960
-#define AURA_ROG_KERIS_WIRELESS_BT_PID          0x1962
-#define AURA_TUF_M3_PID                         0x1910
-#define AURA_TUF_M5_PID                         0x1898
+#define AURA_ROG_GLADIUS_II_CORE_PID                0x18DD
+#define AURA_ROG_GLADIUS_II_PID                     0x1845
+#define AURA_ROG_GLADIUS_II_ORIGIN_PID              0x1877
+#define AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID      0x18CD
+#define AURA_ROG_GLADIUS_II_ORIGIN_COD_PID          0x18B1
+#define AURA_ROG_GLADIUS_II_WIRELESS_1_PID          0x189E
+#define AURA_ROG_GLADIUS_II_WIRELESS_2_PID          0x18A0
+#define AURA_ROG_GLADIUS_III_WIRELESS_USB_PID       0x197D
+#define AURA_ROG_GLADIUS_III_WIRELESS_2_4_PID       0x197F
+#define AURA_ROG_GLADIUS_III_WIRELESS_BT_PID        0x1981
+#define AURA_ROG_CHAKRAM_WIRELESS_PID               0x18E5
+#define AURA_ROG_CHAKRAM_WIRED_1_PID                0x18E3
+#define AURA_ROG_CHAKRAM_CORE_PID                   0x1958
+#define AURA_ROG_PUGIO_PID                          0x1846
+#define AURA_ROG_PUGIO_II_WIRED_PID                 0x1906
+#define AURA_ROG_PUGIO_II_WIRELESS_PID              0x1908
+#define AURA_ROG_STRIX_IMPACT_PID                   0x1847
+#define AURA_ROG_STRIX_IMPACT_II_PID                0x18E1
+#define AURA_ROG_STRIX_IMPACT_II_WIRELESS_USB_PID   0x1947
+#define AURA_ROG_STRIX_IMPACT_II_WIRELESS_2_4_PID   0x1949
+#define AURA_ROG_KERIS                              0x195C
+#define AURA_ROG_KERIS_WIRELESS_USB_PID             0x195E
+#define AURA_ROG_KERIS_WIRELESS_2_4_PID             0x1960
+#define AURA_ROG_KERIS_WIRELESS_BT_PID              0x1962
+#define AURA_TUF_M3_PID                             0x1910
+#define AURA_TUF_M5_PID                             0x1898
 
 enum
 {
@@ -310,6 +312,32 @@ static std::map<int,mouse_type> aura_mouse_devices =
             1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
+        AURA_ROG_STRIX_IMPACT_II_WIRELESS_USB_PID, // ROG Strix Impact II Wireless USB
+        {
+            0,
+            0,
+            0,
+            4,
+            false,
+            1, // not tested, but likely same as ROG Strix Impact II non wireless
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_STRIX_IMPACT_II_WIRELESS_2_4_PID, // ROG Strix Impact II Wireless 2.4 GHz Dongle
+        {
+            0,
+            0,
+            0,
+            4,
+            true,
+            1, // not tested, but likely same as ROG Strix Impact II non wireless
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
         }
     },
     {
