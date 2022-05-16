@@ -57,6 +57,7 @@
 #define CORSAIR_M65_PRO_PID             0x1B2E
 #define CORSAIR_M65_RGB_ELITE_PID       0x1B5A
 #define CORSAIR_NIGHTSWORD_PID          0x1B5C
+#define CORSAIR_SCIMITAR_RGB_PID        0x1B1E
 #define CORSAIR_SCIMITAR_PRO_RGB_PID    0x1B3E
 #define CORSAIR_SCIMITAR_ELITE_RGB_PID  0x1B8B
 #define CORSAIR_SABRE_RGB_PID           0x1B2F
@@ -201,6 +202,7 @@ REGISTER_HID_DETECTOR_IP("Corsair M65",                     DetectCorsairPeriphe
 REGISTER_HID_DETECTOR_IP("Corsair M65 PRO",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_M65_PRO_PID,           1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Elite",           DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_M65_RGB_ELITE_PID,     1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Nightsword",              DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_NIGHTSWORD_PID,        1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair Scimitar RGB",            DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SCIMITAR_RGB_PID,      1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Scimitar PRO RGB",        DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SCIMITAR_PRO_RGB_PID,  1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Scimitar Elite RGB",      DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SCIMITAR_ELITE_RGB_PID,1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair Sabre RGB",               DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_SABRE_RGB_PID,         1, 0xFFC2);
