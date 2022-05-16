@@ -37,17 +37,19 @@ Thumbs.db
 !dependencies/**/*.bat
 
 # C++ objects and libs
-*.slo
-*.lo
-*.o
 *.a
+*.dll
+*.dylib
+*.ii
 *.la
 *.lai
+*.lo
+*.o
+*.s
+*.slo
 *.so
 *.so.*
-*.dll
 !dependencies/**/*.dll
-*.dylib
 
 # Qt-es
 object_script.*.Release
