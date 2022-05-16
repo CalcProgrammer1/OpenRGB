@@ -5,6 +5,7 @@
 OpenRGB
 openrgb
 OpenRGB-x86_64.AppImage
+60-openrgb.rules
 
 # Directories
 .build/
