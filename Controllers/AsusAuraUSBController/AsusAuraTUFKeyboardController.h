@@ -18,14 +18,6 @@
 
 enum
 {
-    AURA_KEYBOARD_ZONE_LOGO         = 0,
-    AURA_KEYBOARD_ZONE_SCROLL       = 1,
-    AURA_KEYBOARD_ZONE_UNDERGLOW    = 2,
-    AURA_KEYBOARD_ZONE_ALL          = 3,
-};
-
-enum
-{
     AURA_KEYBOARD_MODE_STATIC       =  0,
     AURA_KEYBOARD_MODE_BREATHING    =  1,
     AURA_KEYBOARD_MODE_COLOR_CYCLE  =  2,
@@ -43,20 +35,28 @@ enum
 {
     AURA_TUF_K7_GAMING_PID          = 0x18AA,
     AURA_TUF_K3_GAMING_PID          = 0x194B,
+    AURA_ROG_CLAYMORE_PID           = 0x184D,
 };
 
+struct led_color
+{
+    unsigned int    value;
+    RGBColor        color;
+};
 
 class AuraTUFKeyboardController
 {
 public:
-    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid);
+    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short rev_version);
     ~AuraTUFKeyboardController();
 
     std::string GetDeviceLocation();
     std::string GetSerialString();
     std::string GetVersion();
     int         GetLayout();
+    int         GetNumpadLocation();
     void        SaveMode();
+    void        AllowRemoteControl(unsigned char type);
 
     void UpdateSingleLed
         (
@@ -68,7 +68,7 @@ public:
 
     void UpdateLeds
         (
-        std::vector<RGBColor>    colors
+        std::vector<led_color>    colors
         );
 
     void UpdateDevice
@@ -80,7 +80,9 @@ public:
         unsigned char           speed,
         unsigned char           brightness
         );
-    void AwaitResponse();
+    void UpdateQuicksandColors(std::vector<RGBColor> colors);
+    void UpdateMode(unsigned char mode);
+    void AwaitResponse(int ms);
     void ClearResponses();
 
     uint16_t                    device_pid;
@@ -88,5 +90,6 @@ public:
 private:
     hid_device*                 dev;
     std::string                 location;
+    unsigned short              version;
 };
 
