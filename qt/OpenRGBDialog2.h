@@ -62,6 +62,9 @@ public:
 
     bool DontShowAgain;
 
+public slots:
+    void SetTrayIcon(bool tray_icon);
+
 private:
     /*-------------------------------------*\
     | Page pointers                         |

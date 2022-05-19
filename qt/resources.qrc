@@ -49,5 +49,6 @@
         <file>storage_dark.png</file>
         <file>case.png</file>
         <file>case_dark.png</file>
+        <file>OpenRGBGreyscale.png</file>
     </qresource>
 </RCC>

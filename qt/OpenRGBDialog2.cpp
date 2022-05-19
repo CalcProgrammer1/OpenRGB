@@ -331,7 +331,27 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
 
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
 
-    trayIcon->setIcon(logo);
+    /*-------------------------------------------------*\
+    | If Greyscale Tray Icon flag is not set in config  |
+    | then set the default value to false               |
+    \*-------------------------------------------------*/
+    if(!ui_settings.contains("greyscale_tray_icon"))
+    {
+        ui_settings["greyscale_tray_icon"] = false;
+
+        settings_manager->SetSettings(ui_string, ui_settings);
+        settings_manager->SaveSettings();
+    }
+
+    /*-----------------------------------------------------*\
+    | If greyscale tray icon exists in settings, apply it   |
+    |   or else set the icon to the default window logo     |
+    \*-----------------------------------------------------*/
+    if(ui_settings.contains("greyscale_tray_icon"))
+    {
+        SetTrayIcon(ui_settings["greyscale_tray_icon"].get<bool>());
+    }
+
     trayIcon->setToolTip("OpenRGB");
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
@@ -396,7 +416,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     | Add the LIFX settings page                            |
     \*-----------------------------------------------------*/
     AddLIFXSettingsPage();
-    
+
     /*-----------------------------------------------------*\
     | Add the Serial settings page                          |
     \*-----------------------------------------------------*/
@@ -620,6 +640,11 @@ void OpenRGBDialog2::AddSettingsPage()
     TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "General Settings");
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+
+    /*-----------------------------------------------------*\
+    | Connect signals to slots                              |
+    \*-----------------------------------------------------*/
+    connect(SettingsPage, SIGNAL(TrayIconChanged(bool)), this, SLOT(SetTrayIcon(bool)));
 }
 
 void OpenRGBDialog2::AddE131SettingsPage()
@@ -1665,6 +1690,18 @@ void Ui::OpenRGBDialog2::SetDetectionViewState(bool detection_showing)
         ui->ButtonSaveProfile->setVisible(true);
         ui->ButtonDeleteProfile->setVisible(true);
         ui->ProfileBox->setVisible(true);
+    }
+}
+
+void OpenRGBDialog2::SetTrayIcon(bool tray_icon)
+{
+    if(tray_icon)
+    {
+        trayIcon->setIcon(QIcon(":OpenRGBGreyscale.png"));
+    }
+    else
+    {
+        trayIcon->setIcon(QIcon(":OpenRGB.png"));
     }
 }
 

@@ -17,6 +17,9 @@ public:
     explicit OpenRGBSettingsPage(QWidget *parent = nullptr);
     ~OpenRGBSettingsPage();
 
+signals:
+    void TrayIconChanged(bool tray_icon);
+
 private:
     Ui::OpenRGBSettingsPageUi *ui;
     void SaveSettings();
@@ -34,6 +37,7 @@ private:
 private slots:
     void on_ComboBoxTheme_currentTextChanged(const QString);
     void on_CheckboxMinimizeOnClose_clicked();
+    void on_CheckboxTrayIconGreyscale_clicked();
     void on_CheckboxLoadGeometry_clicked();
     void on_CheckboxSaveGeometry_clicked();
     void on_CheckboxAutoStart_clicked();

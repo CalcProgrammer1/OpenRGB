@@ -37,6 +37,11 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     \*---------------------------------------------------------*/
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
 
+    if(ui_settings.contains("greyscale_tray_icon"))
+    {
+        ui->CheckboxTrayIconGreyscale->setChecked(ui_settings["greyscale_tray_icon"]);
+    }
+
     if(ui_settings.contains("minimize_on_close"))
     {
         ui->CheckboxMinimizeOnClose->setChecked(ui_settings["minimize_on_close"]);
@@ -166,6 +171,18 @@ void OpenRGBSettingsPage::on_ComboBoxTheme_currentTextChanged(const QString them
     }
 }
 
+void OpenRGBSettingsPage::on_CheckboxTrayIconGreyscale_clicked()
+{
+    json ui_settings    = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    bool tray_icon      = ui->CheckboxTrayIconGreyscale->isChecked();
+
+    ui_settings["greyscale_tray_icon"] = tray_icon;
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+
+    emit TrayIconChanged(tray_icon);
+}
+
 void OpenRGBSettingsPage::on_CheckboxMinimizeOnClose_clicked()
 {
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
@@ -204,7 +221,7 @@ void Ui::OpenRGBSettingsPage::on_CheckboxAutoStart_clicked()
     {
         json autostart_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("AutoStart");
         autostart_settings["enabled"] = ui->CheckboxAutoStart->isChecked();
-        
+
         if(autostart_settings["enabled"])
         {
             RemediateAutoStartProfile(autostart_settings);
@@ -502,13 +519,13 @@ void OpenRGBSettingsPage::RemediateAutoStartProfile(json &autostart_settings)
             ui->ComboBoxAutoStartProfile->findText(QString::fromStdString(autostart_settings["profile"])) == -1))
     {
         autostart_settings["profile"] = ui->ComboBoxAutoStartProfile->itemText(0).toStdString();
-        
+
         if(autostart_settings["enabled"])
         {
             autostart_settings["setprofile"] = false;
-            
+
             ResourceManager::get()->GetSettingsManager()->SetSettings("AutoStart", autostart_settings);
-            
+
             ConfigureAutoStart();
             SaveSettings();
         }
