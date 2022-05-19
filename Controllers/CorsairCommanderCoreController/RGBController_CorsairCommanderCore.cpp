@@ -19,12 +19,25 @@
     @comment
 \*-------------------------------------------------------------------*/
 
+#define NA 0xFFFFFFFF
+static unsigned int matrix_map[7][7] =
+{
+    { 28,  NA,  27,  NA,  26,  NA,  25 },
+    { NA,  16,  NA,  15,  NA,  14,  NA },
+    { 17,  NA,   0,   5,   3,  NA,  24 },
+    { NA,   9,   4,   8,   6,  13,  NA },
+    { 18,  NA,   1,   7,   2,  NA,  23 },
+    { NA,  10,  NA,  11,  NA,  12,  NA },
+    { 19,  NA,  20,  NA,  21,  NA,  22 },
+};
+
 RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCommanderCoreController* controller_ptr)
 {
     controller  = controller_ptr;
 
     vendor      = "Corsair";
     description = "Corsair Commander Core";
+    version     = controller->GetFirmwareString();
     type        = DEVICE_TYPE_COOLER;
     location    = controller->GetLocationString();
 
@@ -55,9 +68,14 @@ void RGBController_CorsairCommanderCore::SetupZones()
 
     zones.resize(7);
     zones[0].name                   = "Pump";
-    zones[0].type                   = ZONE_TYPE_LINEAR;
-    zones[0].leds_min               = 0;
-    zones[0].leds_max               = 33;
+    zones[0].type                   = ZONE_TYPE_MATRIX;
+    zones[0].leds_min               = 29;
+    zones[0].leds_max               = 29;
+    zones[0].leds_count             = 29;
+    zones[0].matrix_map             = new matrix_map_type;
+    zones[0].matrix_map->height     = 7;
+    zones[0].matrix_map->width      = 7;
+    zones[0].matrix_map->map        = (unsigned int *)&matrix_map;
 
     for(unsigned int i = 1; i < (CORSAIR_COMMANDER_CORE_NUM_CHANNELS + 1); i++)
     {

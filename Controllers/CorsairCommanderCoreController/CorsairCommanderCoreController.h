@@ -15,9 +15,9 @@
 
 #pragma once
 
-#define CORSAIR_COMMANDER_CORE_PACKET_SIZE      1025
-#define CORSAIR_COMMANDER_CORE_PREAMBLE_OFFSET  10
-#define CORSAIR_ELITE_CAPELLIX_PUMP_LED_OFFSET  87
+#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1   1025 // First bit is the report bit
+#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2   97   // First bit is the report bit
+#define CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH  699
 #define CORSAIR_QL_FAN_ZONE_OFFSET              102
 #define CORSAIR_COMMANDER_CORE_NUM_CHANNELS     6
 
@@ -32,6 +32,7 @@ public:
     CorsairCommanderCoreController(hid_device* dev_handle, const char* path);
     ~CorsairCommanderCoreController();
 
+    std::string GetFirmwareString();
     std::string GetLocationString();
 
     void        SetDirectColor
@@ -51,14 +52,13 @@ private:
     std::string             location;
     std::vector<RGBColor>   lastcolors;
     std::vector<zone>       lastzones;
+    unsigned short int      version[3] = {0, 0, 0};
+    int                     packet_size;
+    int                     command_res_size;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
 
-    void        SendMultiPkt
-                (
-                    unsigned char buffarray[][5],
-                    int r,
-                    int c
-                );
+    void        SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[]);
+    void        WriteData(unsigned char endpoint[2], unsigned char data_type[2], unsigned char data[], unsigned short int data_len);
 
     void        SendCommit();
     void        InitController();
