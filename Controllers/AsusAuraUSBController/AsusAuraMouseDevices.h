@@ -29,6 +29,9 @@
 #define AURA_ROG_PUGIO_II_WIRELESS_PID              0x1908
 #define AURA_ROG_STRIX_IMPACT_PID                   0x1847
 #define AURA_ROG_STRIX_IMPACT_II_PID                0x18E1
+#define AURA_ROG_STRIX_IMPACT_II_GUNDAM_PID         0x189E
+#define AURA_ROG_STRIX_IMPACT_II_PUNK_PID           0x1956
+#define AURA_ROG_STRIX_IMPACT_II_WHITE_PID          0x19D2
 #define AURA_ROG_STRIX_IMPACT_II_WIRELESS_USB_PID   0x1947
 #define AURA_ROG_STRIX_IMPACT_II_WIRELESS_2_4_PID   0x1949
 #define AURA_ROG_KERIS                              0x195C
@@ -303,6 +306,45 @@ static std::map<int,mouse_type> aura_mouse_devices =
     },
     {
         AURA_ROG_STRIX_IMPACT_II_PID, // ROG Strix Impact II
+        {
+            0,
+            0,
+            0,
+            4,
+            false,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
+        AURA_ROG_STRIX_IMPACT_II_GUNDAM_PID, // ROG Strix Impact II Gundam
+        {
+            0,
+            0,
+            0,
+            4,
+            false,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
+        AURA_ROG_STRIX_IMPACT_II_PUNK_PID, // ROG Strix Impact II Electro Punk
+        {
+            0,
+            0,
+            0,
+            4,
+            false,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
+        AURA_ROG_STRIX_IMPACT_II_WHITE_PID, // ROG Strix Impact II Moonlight White
         {
             0,
             0,
