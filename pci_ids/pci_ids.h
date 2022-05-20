@@ -235,7 +235,7 @@
 #define EVGA_RTX3070_FTW3_ULTRA_SUB_DEV                 0x3767
 #define EVGA_RTX3070_FTW3_ULTRA_LHR_SUB_DEV             0x4767
 #define EVGA_RTX3070TI_XC3_GAMING_SUB_DEV               0x3783
-#define EVGA_RTX3070TI_XC3_ULTRA_SUB_DEV                0x3785
+#define EVGA_RTX3070TI_XC3_ULTRA_SUB_DEV                0x3485
 #define EVGA_RTX3070TI_FTW3_ULTRA_SUB_DEV               0x3797
 #define EVGA_RTX3080_XC3_BLACK_SUB_DEV                  0x3881
 #define EVGA_RTX3080_XC3_BLACK_LHR_SUB_DEV              0x4881
