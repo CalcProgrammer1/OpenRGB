@@ -65,6 +65,7 @@
 \*-----------------------------------------------------------------*/
 
 #define AURA_ROG_STRIX_XG27AQ_PID               0x198C
+#define AURA_ROG_PG32UQ_PID                     0x19B9
 
 /*-----------------------------------------------------------------*\
 | HEADSETSTANDS                                                     |
@@ -253,7 +254,7 @@ void DetectAsusAuraUSBMonitor(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AuraMonitorController*     controller           = new AuraMonitorController(dev, info->path);
+        AuraMonitorController*     controller           = new AuraMonitorController(dev, info->path, info->product_id);
         RGBController_AuraMonitor* rgb_controller       = new RGBController_AuraMonitor(controller);
         rgb_controller->name                            = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -326,6 +327,7 @@ REGISTER_HID_DETECTOR_PU("ASUS ROG Balteus Qi",                         DetectAs
 | MONITORS                                                          |
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU("ASUS ROG Strix XG27AQ",                       DetectAsusAuraUSBMonitor,       AURA_USB_VID, AURA_ROG_STRIX_XG27AQ_PID,                    0xFFA0, 1);
+REGISTER_HID_DETECTOR_PU("ASUS ROG PG32UQ",                             DetectAsusAuraUSBMonitor,       AURA_USB_VID, AURA_ROG_PG32UQ_PID,                          0xFFA0, 1);
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |

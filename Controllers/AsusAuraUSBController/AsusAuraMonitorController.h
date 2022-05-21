@@ -13,17 +13,27 @@
 
 #pragma once
 
+enum
+{
+    AURA_ROG_STRIX_XG27AQ_PID    = 0x198C,
+    AURA_ROG_PG32UQ_PID          = 0x19B9,
+};
+
+
 class AuraMonitorController
 {
 public:
-    AuraMonitorController(hid_device* dev_handle, const char* path);
+    AuraMonitorController(hid_device* dev_handle, const char* path, uint16_t pid);
     virtual ~AuraMonitorController();
 
     std::string GetDeviceLocation();
     std::string GetSerialString();
 
+    void BeginUpdate();
     void UpdateLed(int led, unsigned char red, unsigned char green, unsigned char blue);
     void ApplyChanges();
+
+    uint16_t                    device_pid;
 
 private:
     hid_device*                 dev;

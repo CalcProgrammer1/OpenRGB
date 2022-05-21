@@ -79,6 +79,8 @@ void RGBController_AuraMonitor::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AuraMonitor::DeviceUpdateLEDs()
 {
+    controller->BeginUpdate();
+
     for (int i = 0; i < 3; i++)
     {
         unsigned char red   = RGBGetRValue(colors[i]);
@@ -98,6 +100,8 @@ void RGBController_AuraMonitor::UpdateZoneLEDs(int /*zone*/)
 
 void RGBController_AuraMonitor::UpdateSingleLED(int led)
 {
+    controller->BeginUpdate();
+
     unsigned char red   = RGBGetRValue(colors[led]);
     unsigned char green = RGBGetGValue(colors[led]);
     unsigned char blue  = RGBGetBValue(colors[led]);

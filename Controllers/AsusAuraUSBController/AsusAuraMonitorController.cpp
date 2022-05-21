@@ -12,10 +12,11 @@
 #include <cstring>
 #include "LogManager.h"
 
-AuraMonitorController::AuraMonitorController(hid_device* dev_handle, const char* path)
+AuraMonitorController::AuraMonitorController(hid_device* dev_handle, const char* path, uint16_t pid)
 {
     dev         = dev_handle;
     location    = path;
+    device_pid  = pid;
 }
 
 AuraMonitorController::~AuraMonitorController()
@@ -44,6 +45,27 @@ std::string AuraMonitorController::GetSerialString()
     return(return_string);
 }
 
+void AuraMonitorController::BeginUpdate()
+{
+    unsigned char usb_buf[8];
+
+    if (device_pid == AURA_ROG_PG32UQ_PID)
+    {
+        memset(usb_buf, 0x00, sizeof(usb_buf));
+
+        usb_buf[0x00]   = 0x03;
+        usb_buf[0x01]   = 0x02;
+        usb_buf[0x02]   = 0xA1;
+        usb_buf[0x03]   = 0x80;
+
+        usb_buf[0x04]   = 0x20;
+        hid_send_feature_report(dev, usb_buf, 8);
+
+        usb_buf[0x04]   = 0x30;
+        hid_send_feature_report(dev, usb_buf, 8);
+    }
+}
+
 void AuraMonitorController::UpdateLed
     (
     int             led,
@@ -58,7 +80,7 @@ void AuraMonitorController::UpdateLed
 
     usb_buf[0x00]   = 0x03;
     usb_buf[0x01]   = 0x02;
-    usb_buf[0x02]   = 0xa1;
+    usb_buf[0x02]   = 0xA1;
     usb_buf[0x03]   = 0x80;
 
     usb_buf[0x04]   = 16 + led * 3;
@@ -85,9 +107,9 @@ void AuraMonitorController::ApplyChanges()
 
     usb_buf[0x00]   = 0x03;
     usb_buf[0x01]   = 0x02;
-    usb_buf[0x02]   = 0xa1;
+    usb_buf[0x02]   = 0xA1;
     usb_buf[0x03]   = 0x80;
-    usb_buf[0x04]   = 0xa0;
+    usb_buf[0x04]   = 0xA0;
     usb_buf[0x05]   = 0x01;
     
     hid_send_feature_report(dev, usb_buf, 8);
