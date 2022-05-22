@@ -9,40 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct
-{
-    int             pci_vendor;
-    int             pci_device;
-    int             pci_subsystem_vendor;
-    int             pci_subsystem_device;
-    unsigned char   controller_address;
-    const char *    name;
-} gpu_pci_device;
-
 #define GIGABYTEGPU_CONTROLLER_NAME2    "Gigabyte RGB Fusion2 GPU"
-#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
-static const gpu_pci_device device_list[] =
-{
-    { NVIDIA_VEN,    NVIDIA_RTX2060S_OC_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2060S_V1_SUB_DEV,             0x50,   "Gigabyte AORUS RTX2060 SUPER 8G V1"                    },
-    { NVIDIA_VEN,    NVIDIA_RTX2070_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2070_XTREME_SUB_DEV,          0x50,   "Gigabyte AORUS RTX2070 XTREME 8G"                      },
-    { NVIDIA_VEN,    NVIDIA_RTX2070S_OC_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV2,           0x50,   "Gigabyte AORUS RTX2070 SUPER 8G"                       },
-    { NVIDIA_VEN,    NVIDIA_RTX2070S_OC_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2070S_8G_SUB_DEV,             0x50,   "Gigabyte AORUS RTX2070 SUPER 8G"                       },
-    { NVIDIA_VEN,    NVIDIA_RTX2080_A_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080_SUB_DEV,                 0x50,   "Gigabyte AORUS RTX2080 8G"                             },
-    { NVIDIA_VEN,    NVIDIA_RTX2080S_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080S_SUB_DEV,                0x50,   "Gigabyte AORUS RTX2080 SUPER 8G"                       },
-    { NVIDIA_VEN,    NVIDIA_RTX2080S_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080S_WATERFORCE_WB_SUB_DEV,  0x51,   "Gigabyte AORUS RTX2080 SUPER Waterforce WB 8G"         },
-    { NVIDIA_VEN,    NVIDIA_RTX3060_LHR_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060_ELITE_12GB_SUB_DEV,            0x70,   "Gigabyte AORUS RTX3060 ELITE 12G"                      },
-    { NVIDIA_VEN,    NVIDIA_RTX3060TI_LHR_DEV,  GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_ELITE_8GB_SUB_DEV,           0x70,   "Gigabyte AORUS RTX3060 Ti ELITE 8G LHR"                },
-    { NVIDIA_VEN,    NVIDIA_RTX3060TI_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_GAMING_OC_PRO_SUB_DEV,       0x62,   "Gigabyte RTX3060 Ti GAMING OC PRO 8G"                  },
-    { NVIDIA_VEN,    NVIDIA_RTX3060TI_LHR_DEV,  GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_GAMING_OC_PRO_SUB_DEV,       0x62,   "Gigabyte RTX3060 Ti Gaming OC PRO 8G LHR"              },
-    { NVIDIA_VEN,    NVIDIA_RTX3070_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_MASTER_OC_SUB_DEV,             0x66,   "Gigabyte RTX3070 MASTER 8G"                            },
-    { NVIDIA_VEN,    NVIDIA_RTX3080_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_SUB_DEV,     0x64,   "Gigabyte AORUS RTX3080 XTREME WATERFORCE WB 10G"       },
-    { NVIDIA_VEN,    NVIDIA_RTX3080_LHR_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_SUB_DEV,     0x64,   "Gigabyte AORUS RTX3080 XTREME WATERFORCE WB 10G"       },
-    { NVIDIA_VEN,    NVIDIA_RTX3080_LHR_DEV,    GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_V2_SUB_DEV,  0x65,   "Gigabyte AORUS RTX3080 XTREME WATERFORCE 10G Rev 2.0"  },
-    { NVIDIA_VEN,    NVIDIA_RTX3080TI_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_VISION_OC_SUB_DEV,           0x63,   "Gigabyte RTX3080 Ti Vision OC 12G"                     },
-    { NVIDIA_VEN,    NVIDIA_RTX3080TI_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_XTREME_WATERFORCE_SUB_DEV,   0x65,   "Gigabyte AORUS RTX3080 Ti XTREME WATERFORCE 12G"       },
-    { NVIDIA_VEN,    NVIDIA_RTX3090_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_RTX3090_XTREME_WATERFORCE_SUB_DEV,     0x64,   "Gigabyte AORUS RTX3090 XTREME WATERFORCE WB 24G"       },
-};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -95,31 +62,34 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
 *                                                                                           *
 \*******************************************************************************************/
 
-void DetectGigabyteRGBFusion2GPUControllers(std::vector<i2c_smbus_interface*>& busses)
+void DetectGigabyteRGBFusion2GPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    // Check for RGB Fusion2 controller
+    if(TestForGigabyteRGBFusion2GPUController(bus, i2c_addr))
     {
-        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
-        {
-            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
-               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
-               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
-               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
-            {
-                LOG_DEBUG(GPU_DETECT_MESSAGE, GIGABYTEGPU_CONTROLLER_NAME2, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name);
+        RGBFusion2GPUController*     controller     = new RGBFusion2GPUController(bus, i2c_addr);
+        RGBController_RGBFusion2GPU* rgb_controller = new RGBController_RGBFusion2GPU(controller);
+        rgb_controller->name                        = name;
 
-                // Check for RGB Fusion2 controller
-                if(TestForGigabyteRGBFusion2GPUController(busses[bus], device_list[dev_idx].controller_address))
-                {
-                    RGBFusion2GPUController*     controller     = new RGBFusion2GPUController(busses[bus], device_list[dev_idx].controller_address);
-                    RGBController_RGBFusion2GPU* rgb_controller = new RGBController_RGBFusion2GPU(controller);
-                    rgb_controller->name                        = device_list[dev_idx].name;
-
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
-            }
-        }
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectGigabyteRGBFusion2GPUControllers() */
 
-REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion2 GPU", DetectGigabyteRGBFusion2GPUControllers);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX2060 SUPER 8G V1",                     DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2060S_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2060S_V1_SUB_DEV,             0x50);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX2070 XTREME 8G",                       DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2070_OC_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2070_XTREME_SUB_DEV,          0x50);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX2070 SUPER 8G",                        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2070S_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV2,           0x50);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX2070 SUPER 8G",                        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2070S_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2070S_8G_SUB_DEV,             0x50);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX2080 8G",                              DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2080_A_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080_SUB_DEV,                 0x50);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX2080 SUPER 8G",                        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2080S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080S_SUB_DEV,                0x50);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX2080 SUPER Waterforce WB 8G",          DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2080S_DEV,        GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2080S_WATERFORCE_WB_SUB_DEV,  0x51);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3060 ELITE 12G",                       DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3060_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060_ELITE_12GB_SUB_DEV,            0x70);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3060 Ti ELITE 8G LHR",                 DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3060TI_LHR_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_ELITE_8GB_SUB_DEV,           0x70);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX3060 Ti GAMING OC PRO 8G",                   DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3060TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_GAMING_OC_PRO_SUB_DEV,       0x62);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX3060 Ti Gaming OC PRO 8G LHR",               DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3060TI_LHR_DEV,   GIGABYTE_SUB_VEN,   GIGABYTE_RTX3060TI_GAMING_OC_PRO_SUB_DEV,       0x62);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX3070 MASTER 8G",                             DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3070_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3070_MASTER_OC_SUB_DEV,             0x66);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 XTREME WATERFORCE WB 10G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_SUB_DEV,     0x64);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 XTREME WATERFORCE WB 10G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_SUB_DEV,     0x64);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 XTREME WATERFORCE 10G Rev 2.0",   DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_V2_SUB_DEV,  0x65);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX3080 Ti Vision OC 12G",                      DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_VISION_OC_SUB_DEV,           0x63);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 Ti XTREME WATERFORCE 12G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_XTREME_WATERFORCE_SUB_DEV,   0x65);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3090 XTREME WATERFORCE WB 24G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3090_XTREME_WATERFORCE_SUB_DEV,     0x64);
