@@ -24,6 +24,15 @@ public:
 	}
 };
 
+class I2CPCIDeviceDetector
+{
+public:
+    I2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr)
+    {
+        ResourceManager::get()->RegisterI2CPCIDeviceDetector(name, detector, ven_id, dev_id, subven_id, subdev_id, i2c_addr);
+    }
+};
+
 class I2CBusDetector
 {
 public:

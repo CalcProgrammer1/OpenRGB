@@ -195,6 +195,21 @@ void ResourceManager::RegisterI2CDeviceDetector(std::string name, I2CDeviceDetec
     i2c_device_detectors.push_back(detector);
 }
 
+void ResourceManager::RegisterI2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr)
+{
+    I2CPCIDeviceDetectorBlock block;
+
+    block.name          = name;
+    block.function      = detector;
+    block.ven_id        = ven_id;
+    block.dev_id        = dev_id;
+    block.subven_id     = subven_id;
+    block.subdev_id     = subdev_id;
+    block.i2c_addr      = i2c_addr;
+
+    i2c_pci_device_detectors.push_back(block);
+}
+
 void ResourceManager::RegisterDeviceDetector(std::string name, DeviceDetectorFunction detector)
 {
     device_detector_strings.push_back(name);
@@ -219,7 +234,6 @@ void ResourceManager::RegisterHIDDeviceDetector(std::string name,
     block.usage         = usage;
 
     hid_device_detectors.push_back(block);
-    hid_device_detector_strings.push_back(name);
 }
 
 void ResourceManager::RegisterDynamicDetector(std::string name, DynamicDetectorFunction detector)
@@ -835,7 +849,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         current_hid_device = current_hid_device->next;
     }
 
-    percent_denominator = i2c_device_detectors.size() + device_detectors.size() + hid_device_count;
+    percent_denominator = i2c_device_detectors.size() + i2c_pci_device_detectors.size() + device_detectors.size() + hid_device_count;
 
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
@@ -920,6 +934,73 @@ void ResourceManager::DetectDevicesThreadFunction()
         detection_percent = percent * 100.0f;
     }
 
+    /*-------------------------------------------------*\
+    | Detect i2c PCI devices                            |
+    \*-------------------------------------------------*/
+    LOG_INFO("------------------------------------------------------");
+    LOG_INFO("|               Detecting I2C PCI devices            |");
+    LOG_INFO("------------------------------------------------------");
+    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_pci_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
+    {
+        detection_string = i2c_pci_device_detectors[i2c_detector_idx].name.c_str();
+
+        /*-------------------------------------------------*\
+        | Check if this detector is enabled                 |
+        \*-------------------------------------------------*/
+        bool this_device_enabled = true;
+        if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+        {
+            this_device_enabled = detector_settings["detectors"][detection_string];
+        }
+
+        LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+        if(this_device_enabled)
+        {
+            DetectionProgressChanged();
+            
+            for(unsigned int bus = 0; bus < busses.size(); bus++)
+            {
+                if(busses[bus]->pci_vendor           == i2c_pci_device_detectors[i2c_detector_idx].ven_id    &&
+                   busses[bus]->pci_device           == i2c_pci_device_detectors[i2c_detector_idx].dev_id    &&
+                   busses[bus]->pci_subsystem_vendor == i2c_pci_device_detectors[i2c_detector_idx].subven_id &&
+                   busses[bus]->pci_subsystem_device == i2c_pci_device_detectors[i2c_detector_idx].subdev_id)
+                {
+                    i2c_pci_device_detectors[i2c_detector_idx].function(busses[bus], i2c_pci_device_detectors[i2c_detector_idx].i2c_addr, i2c_pci_device_detectors[i2c_detector_idx].name);
+                }
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | If the device list size has changed, call the     |
+        | device list changed callbacks                     |
+        \*-------------------------------------------------*/
+        if(rgb_controllers_hw.size() != prev_count)
+        {
+            /*-------------------------------------------------*\
+            | First, load sizes for the new controllers         |
+            \*-------------------------------------------------*/
+            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            {
+                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+            }
+
+            UpdateDeviceList();
+        }
+        else
+        {
+            LOG_DEBUG("[%s] no devices found", detection_string);
+        }
+        prev_count = rgb_controllers_hw.size();
+
+        LOG_TRACE("[%s] detection end", detection_string);
+        
+        /*-------------------------------------------------*\
+        | Update detection percent                          |
+        \*-------------------------------------------------*/
+        percent = (i2c_device_detectors.size() + i2c_detector_idx + 1.0f) / percent_denominator;
+
+        detection_percent = percent * 100.0f;
+    }
 
     /*-------------------------------------------------*\
     | Detect HID devices                                |
@@ -1095,7 +1176,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             \*-------------------------------------------------*/
             hid_device_count++;
 
-            percent = (i2c_device_detectors.size() + hid_device_count) / percent_denominator;
+            percent = (i2c_device_detectors.size() + i2c_pci_device_detectors.size() + hid_device_count) / percent_denominator;
 
             detection_percent = percent * 100.0f;
 
