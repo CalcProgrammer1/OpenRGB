@@ -68,62 +68,6 @@ static const unsigned char aura_mobo_addresses[] =
     0x4F
 };
 
-/*---------------------------------------------------------------------------------*\
-| This list contains ASUS GPUs which use an ENE RGB controller                      |
-\*---------------------------------------------------------------------------------*/
-
-typedef struct
-{
-    int             pci_vendor;
-    int             pci_device;
-    int             pci_subsystem_vendor;
-    int             pci_subsystem_device;
-    unsigned char   controller_address;
-    const char *    name;
-} gpu_pci_device;
-
-#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
-static const gpu_pci_device device_list[] =
-{
-    { NVIDIA_VEN,       NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,       ASUS_KO_RTX_3060_OC_O12G_GAMING,            0x67,   "ASUS KO RTX 3060 OC O12G GAMING"           },
-    { NVIDIA_VEN,       NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_O12G_GAMING,              0x67,   "ASUS TUF 3060 O12G GAMING"                 },
-    { NVIDIA_VEN,       NVIDIA_RTX3060_GA104_DEV,   ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_O12G_V2_GAMING,           0x67,   "ASUS TUF 3060 O12G V2 GAMING"              },
-    { NVIDIA_VEN,       NVIDIA_RTX3060_LHR_DEV,     ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_O12G_LHR_GAMING,          0x67,   "ASUS TUF 3060 O12G V2 GAMING"              },
-    { NVIDIA_VEN,       NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3060_O12G_GAMING,        0x67,   "ASUS ROG STRIX 3060 O12G GAMING"           },
-    { NVIDIA_VEN,       NVIDIA_RTX3060_LHR_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3060_O12G_LHR_GAMING,    0x67,   "ASUS ROG STRIX 3060 O12G V2 GAMING"        },
-    { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_KO_RTX3060TI_O8G_V2_GAMING,            0x67,   "ASUS KO RTX 3060Ti O8G V2 GAMING"          },
-    { NVIDIA_VEN,       NVIDIA_RTX3060TI_DEV,       ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC,                0x67,   "ASUS TUF RTX 3060Ti O8G OC"                },
-    { NVIDIA_VEN,       NVIDIA_RTX3060TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_3060_TI_O8G_OC,              0x67,   "ASUS ROG STRIX 3060Ti O8G OC"              },
-    { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC_V2,             0x67,   "ASUS TUF RTX 3060Ti O8G OC"                },
-    { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3060TI_O8G_V2_GAMING,    0x67,   "ASUS ROG STRIX 3060Ti O8G V2"              },
-    { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070_OC,                 0x67,   "ASUS ROG STRIX 3070 OC"                    },
-    { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070_O8G_WHITE,          0x67,   "ASUS ROG STRIX 3070 O8G White"             },
-    { NVIDIA_VEN,       NVIDIA_RTX3070_LHR_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070_08G_V2_GAMING,      0x67,   "ASUS ROG STRIX 3070 O8G V2 GAMING"         },
-    { NVIDIA_VEN,       NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3070_O8G_GAMING,               0x67,   "ASUS TUF RTX 3070 O8G GAMING"              },
-    { NVIDIA_VEN,       NVIDIA_RTX3070_LHR_DEV,     ASUS_SUB_VEN,       ASUS_KO_RTX_3070_O8G_GAMING,                0x67,   "ASUS KO RTX 3070 O8G V2 GAMING"            },
-    { NVIDIA_VEN,       NVIDIA_RTX3070_LHR_DEV,     ASUS_SUB_VEN,       ASUS_TUF_RTX_3070_O8G_V2_GAMING,            0x67,   "ASUS TUF RTX 3070 O8G V2 GAMING"           },
-    { NVIDIA_VEN,       NVIDIA_RTX3070TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3070TI_O8G_GAMING,       0x67,   "ASUS ROG STRIX 3070Ti O8G GAMING"          },
-    { NVIDIA_VEN,       NVIDIA_RTX3070TI_DEV,       ASUS_SUB_VEN,       ASUS_TUF_RTX_3070TI_O8G_V2_GAMING,          0x67,   "ASUS TUF RTX 3070Ti O8G V2 GAMING"         },
-    { NVIDIA_VEN,       NVIDIA_RTX3070TI_DEV,       ASUS_SUB_VEN,       ASUS_TUF_RTX_3070TI_O8G_GAMING,             0x67,   "ASUS TUF RTX 3070Ti O8G GAMING"            },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3080_O10G_GAMING,        0x67,   "ASUS ROG STRIX 3080 O10G GAMING"           },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3080_O10G_WHITE,         0x67,   "ASUS ROG STRIX 3080 O10G WHITE"            },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3080_O10G_V2_WHITE,      0x67,   "ASUS ROG STRIX 3080 O10G V2 WHITE"         },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3080_10G_GAMING_PD,            0x67,   "ASUS TUF RTX 3080 10G GAMING"              },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3080_O10G_OC,                  0x67,   "ASUS TUF RTX 3080 O10G OC"                 },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,       ASUS_TUF_RTX_3080_O10G_V2_GAMING_8822,      0x67,   "ASUS TUF RTX 3080 O10G V2 GAMING"          },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,       ASUS_TUF_RTX_3080_O10G_V2_GAMING,           0x67,   "ASUS TUF RTX 3080 O10G V2 GAMING"          },
-    { NVIDIA_VEN,       NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3080_O10G_V2_GAMING,     0x67,   "ASUS ROG STRIX RTX 3080 O10G V2 GAMING"    },
-    { NVIDIA_VEN,       NVIDIA_RTX3080TI_DEV,       ASUS_SUB_VEN,       ASUS_TUF_RTX_3080TI_O12G_GAMING,            0x67,   "ASUS TUF RTX 3080Ti O12G GAMING"           },
-    { NVIDIA_VEN,       NVIDIA_RTX3080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3080TI_O12G_GAMING,      0x67,   "ASUS ROG STRIX 3080Ti O12G GAMING"         },
-    { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_24G_GAMING,         0x67,   "ASUS ROG STRIX 3090 24G GAMING"            },
-    { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_O24G_GAMING,        0x67,   "ASUS ROG STRIX 3090 O24G GAMING"           },
-    { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX_3090_O24G_GAMING_WHITE,  0x67,   "ASUS ROG STRIX 3090 O24G GAMING White OC"  },
-    { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3090_O24G,                     0x67,   "ASUS TUF RTX 3090 O24G"                    },
-    { NVIDIA_VEN,       NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,       ASUS_TUF_RTX_3090_O24G_OC,                  0x67,   "ASUS TUF RTX 3090 O24G OC"                 },
-};
-
-
 /******************************************************************************************\
 *                                                                                          *
 *   ENERegisterRead                                                                        *
