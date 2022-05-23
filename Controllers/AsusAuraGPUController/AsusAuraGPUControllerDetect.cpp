@@ -17,75 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-using namespace std::chrono_literals;
-
-typedef struct
-{
-    int             pci_vendor;
-    int             pci_device;
-    int             pci_subsystem_vendor;
-    int             pci_subsystem_device;
-    unsigned char   controller_address;
-    const char *    name;
-} gpu_pci_device;
-
 #define ASUSGPU_CONTROLLER_NAME "ASUS Aura GPU"
-#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
-static const gpu_pci_device device_list[] =
-{
-    { NVIDIA_VEN,       NVIDIA_GTX1050_DEV,         ASUS_SUB_VEN,       ASUS_GTX1050_STRIX_O2G_GAMING,              0x29,   "ASUS ROG Strix GTX 1050 O2G Gaming"        },
-    { NVIDIA_VEN,       NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING,        0x29,   "ASUS ROG Strix GTX 1050 TI O4G Gaming"     },
-    { NVIDIA_VEN,       NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING_2,      0x29,   "ASUS ROG Strix GTX 1050 TI O4G Gaming"     },
-    { NVIDIA_VEN,       NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,       ASUS_GTX1060_STRIX_6G_GAMING,               0x29,   "ASUS GTX 1060 Strix 6G Gaming"             },
-    { NVIDIA_VEN,       NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,       ASUS_GTX1060_STRIX,                         0x29,   "ASUS GTX 1060 Strix"                       },
-    { NVIDIA_VEN,       NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,       ASUS_GTX1070_STRIX_GAMING,                  0x29,   "ASUS GTX 1070 Strix Gaming"                },
-    { NVIDIA_VEN,       NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,       ASUS_GTX1070_STRIX_OC,                      0x29,   "ASUS GTX 1070 Strix OC"                    },
-    { NVIDIA_VEN,       NVIDIA_GTX1070TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1070TI_8G_GAMING,         0x29,   "ASUS ROG Strix GTX1070 Ti 8G Gaming"       },
-    { NVIDIA_VEN,       NVIDIA_GTX1070TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1070TI_A8G_GAMING,        0x29,   "ASUS ROG Strix GTX1070 Ti A8G Gaming"      },
-    { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,       ASUS_GTX1080_STRIX,                         0x29,   "ASUS GTX 1080 Strix OC"                    },
-    { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080_A8G_GAMING,          0x29,   "ASUS ROG Strix GTX1080 A8G Gaming"         },
-    { NVIDIA_VEN,       NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080_O8G_GAMING,          0x29,   "ASUS ROG Strix GTX1080 O8G Gaming"         },
-    { NVIDIA_VEN,       NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080TI_GAMING,            0x29,   "ASUS ROG Strix GTX1080 Ti Gaming"          },
-    { NVIDIA_VEN,       NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080TI_11G_GAMING,        0x29,   "ASUS ROG Strix GTX1080 Ti 11G Gaming"      },
-    { NVIDIA_VEN,       NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080TI_O11G_GAMING,       0x29,   "ASUS ROG Strix GTX1080 Ti O11G Gaming"     },
-    { NVIDIA_VEN,       NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1080TI_O11G_GAMING_A02,   0x29,   "ASUS ROG Strix GTX1080 Ti O11G Gaming"     },
-    { NVIDIA_VEN,       NVIDIA_GTX1650S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1650S_OC,                 0x2A,   "ASUS ROG Strix GTX 1650S OC 4G"            },
-    { NVIDIA_VEN,       NVIDIA_GTX1660S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_GTX1660S_O6G_GAMING,         0x2A,   "ASUS ROG Strix GTX 1660S O6G Gaming"       },
-    { NVIDIA_VEN,       NVIDIA_GTX1660TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_GTX1660TI_OC,                      0x2A,   "ASUS ROG GTX 1660 Ti OC 6G"                },
-    { NVIDIA_VEN,       NVIDIA_RTX2060_TU106_DEV,   ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060_EVO_GAMING,          0x2A,   "ASUS ROG STRIX RTX 2060 EVO Gaming 6G"     },
-    { NVIDIA_VEN,       NVIDIA_RTX2060_TU106_DEV,   ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060_O6G_GAMING,          0x2A,   "ASUS ROG STRIX RTX 2060 O6G Gaming 6G"     },
-    { NVIDIA_VEN,       NVIDIA_RTX2060_TU104_DEV,   ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060_O6G_EVO_GAMING,      0x2A,   "ASUS ROG STRIX RTX 2060 O6G EVO Gaming"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2060S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060S_8G_GAMING,          0x2A,   "ASUS ROG STRIX RTX 2060S 8G Gaming 8G"     },
-    { NVIDIA_VEN,       NVIDIA_RTX2060S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060S_A8G_EVO_GAMING,     0x2A,   "ASUS ROG STRIX RTX 2060S A8G EVO Gaming 8G"},
-    { NVIDIA_VEN,       NVIDIA_RTX2060S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060S_O8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2060S O8G Gaming 8G"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2060S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2060S_A8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2060S A8G Gaming 8G"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2070_OC_DEV,      ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070_A8G_GAMING,          0x2A,   "ASUS ROG STRIX RTX 2070 A8G Gaming 8G"     },
-    { NVIDIA_VEN,       NVIDIA_RTX2070_OC_DEV,      ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070_O8G_GAMING,          0x2A,   "ASUS ROG STRIX RTX 2070 O8G Gaming 8G"     },
-    { NVIDIA_VEN,       NVIDIA_RTX2070S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_A8G_GAMING_86FF,    0x2A,   "ASUS ROG STRIX RTX 2070S A8G Gaming 8G"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_A8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2070S A8G Gaming 8G"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_A8G_GAMING_8706,    0x2A,   "ASUS ROG STRIX RTX 2070S A8G Gaming 8G"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_O8G_GAMING_8729,    0x2A,   "ASUS ROG STRIX RTX 2070S O8G Gaming"       },
-    { NVIDIA_VEN,       NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_8G_GAMING_8707,     0x2A,   "ASUS ROG STRIX RTX 2070S 8G Gaming"        },
-    { NVIDIA_VEN,       NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2070S_O8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2070S O8G Gaming 8G"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2080_A_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080_O8G_GAMING,          0x2A,   "ASUS ROG STRIX RTX 2080 O8G Gaming"        },
-    { NVIDIA_VEN,       NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080S_A8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2080S A8G Gaming"       },
-    { NVIDIA_VEN,       NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080S_O8G_GAMING,         0x2A,   "ASUS ROG STRIX RTX 2080S O8G Gaming"       },
-    { NVIDIA_VEN,       NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080S_O8G_WHITE,          0x2A,   "ASUS ROG STRIX RTX 2080S O8G White"        },
-    { NVIDIA_VEN,       NVIDIA_RTX2080TI_DEV,       ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080TI_11G_GAMING,        0x2A,   "ASUS ROG STRIX RTX 2080 Ti 11G Gaming"     },
-    { NVIDIA_VEN,       NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING,       0x2A,   "ASUS ROG STRIX RTX 2080 Ti O11G Gaming"    },
-    { NVIDIA_VEN,       NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,       ASUS_ROG_STRIX_RTX2080TI_A11G_GAMING,       0x2A,   "ASUS ROG STRIX RTX 2080 Ti A11G Gaming"    },
-    { NVIDIA_VEN,       NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,       ASUS_TUF_RTX_3060_TI_O8G_OC,                0x2A,   "ASUS TUF RTX 3060 Ti 8G Gaming OC"         },
-    { AMD_GPU_VEN,      AMD_VEGA10_DEV,             ASUS_SUB_VEN,       ASUS_AREZ_STRIX_VEGA56_08G_GAMING,          0x29,   "ASUS AREZ Strix RX Vega 56 O8G"            },
-    { AMD_GPU_VEN,      AMD_VEGA10_DEV,             ASUS_SUB_VEN,       ASUS_VEGA64_STRIX,                          0x29,   "ASUS Vega 64 Strix"                        },
-    { AMD_GPU_VEN,      AMD_NAVI10_DEV,             ASUS_SUB_VEN,       ASUS_RX5600XT_STRIX_O6G_GAMING,             0x2A,   "ASUS RX 5600XT Strix O6G Gaming"           },
-    { AMD_GPU_VEN,      AMD_NAVI10_DEV,             ASUS_SUB_VEN,       ASUS_RX5700XT_STRIX_GAMING_OC,              0x2A,   "ASUS RX 5700XT Strix Gaming OC"            },
-    { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX480_STRIX_GAMING_OC,                 0x29,   "ASUS ROG STRIX RX480 Gaming OC"            },
-    { AMD_GPU_VEN,      AMD_POLARIS11,              ASUS_SUB_VEN,       ASUS_RX560_STRIX_4G_GAMING,                 0x29,   "ASUS ROG STRIX RX560 Gaming"               },
-    { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX570_STRIX_O4G_GAMING_OC,             0x29,   "ASUS RX 570 Strix O4G Gaming OC"           },
-    { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_OC,                 0x29,   "ASUS RX 580 Strix Gaming OC"               },
-    { AMD_GPU_VEN,      AMD_POLARIS_DEV,            ASUS_SUB_VEN,       ASUS_RX580_STRIX_GAMING_TOP,                0x29,   "ASUS RX 580 Strix Gaming TOP"              },
-};  
 
 /******************************************************************************************\
 *                                                                                          *
@@ -99,8 +31,8 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
 {
     bool pass = false;
 
-    unsigned char aura_gpu_magic_high = bus->i2c_smbus_read_byte_data(address, 0x20);                        // High Byte of magic (0x15)                        
-    unsigned char aura_gpu_magic_low = bus->i2c_smbus_read_byte_data(address, 0x21);                         // Low Byte of magic (0x89)
+    unsigned char aura_gpu_magic_high = bus->i2c_smbus_read_byte_data(address, 0x20);   // High Byte of magic (0x15)                        
+    unsigned char aura_gpu_magic_low  = bus->i2c_smbus_read_byte_data(address, 0x21);   // Low Byte of magic (0x89)
 
     LOG_DEBUG("[%s] Test GPU expect: 0x1589 received: 0x%02X%02X", ASUSGPU_CONTROLLER_NAME, aura_gpu_magic_high, aura_gpu_magic_low);
 
@@ -121,29 +53,66 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAsusAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses)
+void DetectAsusAuraGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    if(TestForAsusAuraGPUController(bus, i2c_addr))
     {
-        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
-        {
-            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
-               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
-               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
-               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
-            {
-                LOG_DEBUG(GPU_DETECT_MESSAGE, ASUSGPU_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
-                
-                if(TestForAsusAuraGPUController(busses[bus], device_list[dev_idx].controller_address))
-                {
-                    AuraGPUController*     controller     = new AuraGPUController(busses[bus], device_list[dev_idx].controller_address);
-                    RGBController_AuraGPU* rgb_controller = new RGBController_AuraGPU(controller);
-                    rgb_controller->name = device_list[dev_idx].name;
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
-            }
-        }
+        AuraGPUController*     controller     = new AuraGPUController(bus, i2c_addr);
+        RGBController_AuraGPU* rgb_controller = new RGBController_AuraGPU(controller);
+        rgb_controller->name                  = name;
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 } /* DetectAsusAuraGPUControllers() */
 
-REGISTER_I2C_DETECTOR(ASUSGPU_CONTROLLER_NAME, DetectAsusAuraGPUControllers);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 O2G Gaming"        , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050_DEV,         ASUS_SUB_VEN,   ASUS_GTX1050_STRIX_O2G_GAMING,              0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 TI O4G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING,        0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 TI O4G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING_2,      0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS GTX 1060 Strix 6G Gaming"             , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,   ASUS_GTX1060_STRIX_6G_GAMING,               0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS GTX 1060 Strix"                       , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,   ASUS_GTX1060_STRIX,                         0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS GTX 1070 Strix Gaming"                , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,   ASUS_GTX1070_STRIX_GAMING,                  0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS GTX 1070 Strix OC"                    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1070_DEV,         ASUS_SUB_VEN,   ASUS_GTX1070_STRIX_OC,                      0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1070 Ti 8G Gaming"       , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1070TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1070TI_8G_GAMING,         0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1070 Ti A8G Gaming"      , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1070TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1070TI_A8G_GAMING,        0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS GTX 1080 Strix OC"                    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,   ASUS_GTX1080_STRIX,                         0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 A8G Gaming"         , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080_A8G_GAMING,          0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 O8G Gaming"         , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080_O8G_GAMING,          0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 Ti Gaming"          , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080TI_GAMING,            0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 Ti 11G Gaming"      , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080TI_11G_GAMING,        0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 Ti O11G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080TI_O11G_GAMING,       0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 Ti O11G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080TI_O11G_GAMING_A02,   0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1650S OC 4G"            , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1650S_DEV,        ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1650S_OC,                 0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1660S O6G Gaming"       , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1660S_DEV,        ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1660S_O6G_GAMING,         0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG GTX 1660 Ti OC 6G"                , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1660TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_GTX1660TI_OC,                      0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2060 EVO Gaming 6G"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2060_TU106_DEV,   ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2060_EVO_GAMING,          0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2060 O6G Gaming 6G"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2060_TU106_DEV,   ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2060_O6G_GAMING,          0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2060 O6G EVO Gaming"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2060_TU104_DEV,   ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2060_O6G_EVO_GAMING,      0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2060S 8G Gaming 8G"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2060S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2060S_8G_GAMING,          0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2060S A8G EVO Gaming 8G", DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2060S_DEV,        ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2060S_A8G_EVO_GAMING,     0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2060S O8G Gaming 8G"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2060S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2060S_O8G_GAMING,         0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2060S A8G Gaming 8G"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2060S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2060S_A8G_GAMING,         0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070 A8G Gaming 8G"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070_OC_DEV,      ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070_A8G_GAMING,          0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070 O8G Gaming 8G"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070_OC_DEV,      ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070_O8G_GAMING,          0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070S A8G Gaming 8G"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070S_DEV,        ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070S_A8G_GAMING_86FF,    0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070S A8G Gaming 8G"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070S_A8G_GAMING,         0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070S A8G Gaming 8G"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070S_A8G_GAMING_8706,    0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070S O8G Gaming"       , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070S_O8G_GAMING_8729,    0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070S 8G Gaming"        , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070S_8G_GAMING_8707,     0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2070S O8G Gaming 8G"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2070S_OC_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2070S_O8G_GAMING,         0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080 O8G Gaming"        , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080_A_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080_O8G_GAMING,          0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080S A8G Gaming"       , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080S_A8G_GAMING,         0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080S O8G Gaming"       , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080S_O8G_GAMING,         0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080S O8G White"        , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080S_DEV,        ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080S_O8G_WHITE,          0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080 Ti 11G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080TI_11G_GAMING,        0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080 Ti O11G Gaming"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING,       0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080 Ti A11G Gaming"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080TI_A11G_GAMING,       0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3060 Ti 8G Gaming OC"         , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_TI_O8G_OC,                0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS AREZ Strix RX Vega 56 O8G"            , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_VEGA10_DEV,             ASUS_SUB_VEN,   ASUS_AREZ_STRIX_VEGA56_08G_GAMING,          0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS Vega 64 Strix"                        , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_VEGA10_DEV,             ASUS_SUB_VEN,   ASUS_VEGA64_STRIX,                          0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS RX 5600XT Strix O6G Gaming"           , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_NAVI10_DEV,             ASUS_SUB_VEN,   ASUS_RX5600XT_STRIX_O6G_GAMING,             0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS RX 5700XT Strix Gaming OC"            , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_NAVI10_DEV,             ASUS_SUB_VEN,   ASUS_RX5700XT_STRIX_GAMING_OC,              0x2A);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RX480 Gaming OC"            , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX480_STRIX_GAMING_OC,                 0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RX560 Gaming"               , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS11,              ASUS_SUB_VEN,   ASUS_RX560_STRIX_4G_GAMING,                 0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS RX 570 Strix O4G Gaming OC"           , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX570_STRIX_O4G_GAMING_OC,             0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS RX 580 Strix Gaming OC"               , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX580_STRIX_GAMING_OC,                 0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS RX 580 Strix Gaming TOP"              , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX580_STRIX_GAMING_TOP,                0x29);
