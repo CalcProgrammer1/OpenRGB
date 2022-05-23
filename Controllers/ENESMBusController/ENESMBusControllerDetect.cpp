@@ -361,39 +361,60 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
 
 #define GPU_CHECK_DEVICE_MESSAGE_EN     "[%s] Bus %02d is a GPU and the subvendor matches the one for %s, looking for a device at %02X"
 
-void DetectENESMBusGPUControllers(std::vector<i2c_smbus_interface*> &busses)
+void DetectENESMBusGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    if(TestForENESMBusController(bus, i2c_addr))
     {
-        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
-        {
-            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
-               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
-               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
-               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
-            {
-                LOG_DEBUG(GPU_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, device_list[dev_idx].controller_address);
+        ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(bus);
+        ENESMBusController*          controller     = new ENESMBusController(interface, i2c_addr);
+        RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
-                if(TestForENESMBusController(busses[bus], device_list[dev_idx].controller_address))
-                {
-                    ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
-                    ENESMBusController*          controller     = new ENESMBusController(interface, device_list[dev_idx].controller_address);
-                    RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
+        rgb_controller->name                        = name;
+        rgb_controller->type                        = DEVICE_TYPE_GPU;
 
-                    rgb_controller->name = device_list[dev_idx].name;
-                    rgb_controller->type = DEVICE_TYPE_GPU;
-
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
-                else
-                {
-                    LOG_DEBUG("[ENE SMBus ASUS GPU] Testing for controller at %d failed", device_list[dev_idx].controller_address);
-                }
-            }
-        }
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+    else
+    {
+        LOG_DEBUG("[ENE SMBus ASUS GPU] Testing for controller at %d failed", i2c_addr);
     }
 } /* DetectENESMBusGPUControllers() */
 
 REGISTER_I2C_DETECTOR("ENE SMBus DRAM",                 DetectENESMBusDRAMControllers);
 REGISTER_I2C_DETECTOR("ASUS Aura SMBus Motherboard",    DetectENESMBusMotherboardControllers);
-REGISTER_I2C_DETECTOR("ASUS Aura GPU (ENE)",            DetectENESMBusGPUControllers);
+
+REGISTER_I2C_PCI_DETECTOR("ASUS KO RTX 3060 OC O12G GAMING",            DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,   ASUS_KO_RTX_3060_OC_O12G_GAMING,            0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF 3060 O12G GAMING",                  DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_O12G_GAMING,              0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF 3060 O12G V2 GAMING",               DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_GA104_DEV,   ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_O12G_V2_GAMING,           0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF 3060 O12G V2 GAMING",               DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_LHR_DEV,     ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_O12G_LHR_GAMING,          0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3060 O12G GAMING",            DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3060_O12G_GAMING,        0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3060 O12G V2 GAMING",         DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060_LHR_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3060_O12G_LHR_GAMING,    0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS KO RTX 3060Ti O8G V2 GAMING",           DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,   ASUS_KO_RTX3060TI_O8G_V2_GAMING,            0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3060Ti O8G OC",                 DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060TI_DEV,       ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_TI_O8G_OC,                0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3060Ti O8G OC",               DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_3060_TI_O8G_OC,              0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3060Ti O8G OC",                 DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_TI_O8G_OC_V2,             0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3060Ti O8G V2",               DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3060TI_O8G_V2_GAMING,    0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3070 OC",                     DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3070_OC,                 0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3070 O8G White",              DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3070_O8G_WHITE,          0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3070 O8G V2 GAMING",          DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070_LHR_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3070_08G_V2_GAMING,      0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3070 O8G GAMING",               DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070_DEV,         ASUS_SUB_VEN,   ASUS_TUF_RTX_3070_O8G_GAMING,               0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS KO RTX 3070 O8G V2 GAMING",             DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070_LHR_DEV,     ASUS_SUB_VEN,   ASUS_KO_RTX_3070_O8G_GAMING,                0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3070 O8G V2 GAMING",            DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070_LHR_DEV,     ASUS_SUB_VEN,   ASUS_TUF_RTX_3070_O8G_V2_GAMING,            0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3070Ti O8G GAMING",           DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3070TI_O8G_GAMING,       0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3070Ti O8G V2 GAMING",          DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070TI_DEV,       ASUS_SUB_VEN,   ASUS_TUF_RTX_3070TI_O8G_V2_GAMING,          0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3070Ti O8G GAMING",             DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3070TI_DEV,       ASUS_SUB_VEN,   ASUS_TUF_RTX_3070TI_O8G_GAMING,             0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3080 O10G GAMING",            DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3080_O10G_GAMING,        0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3080 O10G WHITE",             DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3080_O10G_WHITE,         0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3080 O10G V2 WHITE",          DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3080_O10G_V2_WHITE,      0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3080 10G GAMING",               DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,   ASUS_TUF_RTX_3080_10G_GAMING_PD,            0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3080 O10G OC",                  DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_DEV,         ASUS_SUB_VEN,   ASUS_TUF_RTX_3080_O10G_OC,                  0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3080 O10G V2 GAMING",           DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,   ASUS_TUF_RTX_3080_O10G_V2_GAMING_8822,      0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3080 O10G V2 GAMING",           DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,   ASUS_TUF_RTX_3080_O10G_V2_GAMING,           0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 3080 O10G V2 GAMING",     DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3080_O10G_V2_GAMING,     0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3080Ti O12G GAMING",            DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080TI_DEV,       ASUS_SUB_VEN,   ASUS_TUF_RTX_3080TI_O12G_GAMING,            0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3080Ti O12G GAMING",          DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3080TI_O12G_GAMING,      0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3090 24G GAMING",             DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3090_24G_GAMING,         0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3090 O24G GAMING",            DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3090_O24G_GAMING,        0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX 3090 O24G GAMING White OC",   DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX_3090_O24G_GAMING_WHITE,  0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3090 O24G",                     DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,   ASUS_TUF_RTX_3090_O24G,                     0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3090 O24G OC",                  DetectENESMBusGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3090_DEV,         ASUS_SUB_VEN,   ASUS_TUF_RTX_3090_O24G_OC,                  0x67);
