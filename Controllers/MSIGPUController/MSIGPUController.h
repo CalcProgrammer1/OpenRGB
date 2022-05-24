@@ -57,7 +57,7 @@ enum
 class MSIGPUController
 {
 public:
-    MSIGPUController(i2c_smbus_interface* bus);
+    MSIGPUController(i2c_smbus_interface* bus, msi_gpu_dev_id dev);
     ~MSIGPUController();
 
     std::string   GetDeviceLocation();

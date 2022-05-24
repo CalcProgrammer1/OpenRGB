@@ -8,10 +8,10 @@
 #include "MSIGPUController.h"
 #include <cstring>
 
-MSIGPUController::MSIGPUController(i2c_smbus_interface* bus)
+MSIGPUController::MSIGPUController(i2c_smbus_interface* bus, msi_gpu_dev_id dev)
 {
     this->bus = bus;
-    this->dev = 0x68;
+    this->dev = dev;
 }
 
 MSIGPUController::~MSIGPUController()
