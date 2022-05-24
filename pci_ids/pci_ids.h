@@ -83,6 +83,7 @@
 #define NVIDIA_RTX3080_12G_LHR_DEV                      0x220A
 #define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
+#define NVIDIA_RTX3090TI_DEV                            0x2203
 
 /*---------------------------------------------------------*\
 | PCI Sub-Vendor IDs                                        |
@@ -273,6 +274,7 @@
 #define EVGA_RTX3090_FTW3_ULTRA_HC_SUB_DEV              0x3989
 #define EVGA_RTX3090_KINGPIN_HYBRID_SUB_DEV             0x3998
 #define EVGA_RTX3090_KINGPIN_HC_SUB_DEV                 0x3999
+#define EVGA_RTX3090TI_FTW3_GAMING_SUB_DEV              0x4983
 
 /*-----------------------------------------------------*\
 | Gainward Sub-Device IDs                               |

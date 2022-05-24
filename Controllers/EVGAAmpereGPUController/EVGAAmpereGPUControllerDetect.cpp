@@ -69,6 +69,7 @@ static const gpu_pci_device device_list[] =
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_FTW3_ULTRA_HC_SUB_DEV,         "EVGA GeForce RTX 3090 FTW3 Ultra Hydro Copper"         },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_KINGPIN_HYBRID_SUB_DEV,        "EVGA GeForce RTX 3090 K|NGP|N Hybrid"                  },
     { NVIDIA_VEN,   NVIDIA_RTX3090_DEV,         EVGA_SUB_VEN,   EVGA_RTX3090_KINGPIN_HC_SUB_DEV,            "EVGA GeForce RTX 3090 K|NGP|N Hydro Copper"            },
+    { NVIDIA_VEN,   NVIDIA_RTX3090TI_DEV,       EVGA_SUB_VEN,   EVGA_RTX3090TI_FTW3_GAMING_SUB_DEV,         "EVGA GeForce RTX 3090Ti FTW3 Gaming"                   },
 };
 /******************************************************************************************\
 *                                                                                          *
