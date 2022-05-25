@@ -141,11 +141,12 @@ static const char* led_names[] =
     KEY_EN_SCROLL_LOCK,
     KEY_EN_RIGHT_SHIFT,
     KEY_EN_PAUSE_BREAK,
-    KEY_EN_BACKSPACE 
+    KEY_EN_BACKSPACE
 };
 
 /**------------------------------------------------------------------*\
     @name Thermaltake PoseidonZ
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

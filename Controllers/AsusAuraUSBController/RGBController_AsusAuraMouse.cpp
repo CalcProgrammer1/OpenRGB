@@ -18,6 +18,7 @@ static std::string aura_mouse_zone_names[3]
 
 /**------------------------------------------------------------------*\
     @name Asus Aura Mouse
+    @category Mouse
     @type USB
     @save :white_check_mark:
     @direct :white_check_mark:

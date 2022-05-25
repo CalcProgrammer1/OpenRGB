@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name HyperX DRAM
+    @category RAM
     @type I2C
     @save :x:
     @direct :white_check_mark:

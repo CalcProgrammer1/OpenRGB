@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Espurna
+    @category Light
     @type TCP
     @save :x:
     @direct :white_check_mark:

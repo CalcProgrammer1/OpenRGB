@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus AURA Core
+    @category Keyboard,LEDStrip
     @type USB
     @save :x:
     @direct :warning:
@@ -25,7 +26,7 @@ RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* controller_pt
     name        = "ASUS Aura Core Device";
     vendor      = "ASUS";
     location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();    
+    serial      = controller->GetSerialString();
     description = "ASUS Aura Core Device";
     type        = DEVICE_TYPE_UNKNOWN;
 

@@ -416,6 +416,7 @@ typedef struct
 
 /**------------------------------------------------------------------*\
     @name Keychron Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :x:

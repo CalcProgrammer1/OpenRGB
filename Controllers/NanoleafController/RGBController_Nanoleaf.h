@@ -10,16 +10,6 @@
 #include "RGBController.h"
 #include "NanoleafController.h"
 
-/**------------------------------------------------------------------*\
-    @name Nanoleaf
-    @type Network
-    @save :x:
-    @direct :white_check_mark:
-    @effects :white_check_mark:
-    @detectors DetectNanoleafControllers
-    @comment
-\*-------------------------------------------------------------------*/
-
 class RGBController_Nanoleaf : public RGBController
 {
 

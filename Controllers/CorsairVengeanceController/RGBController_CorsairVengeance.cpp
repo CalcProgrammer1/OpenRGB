@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Corsair Vengeance
+    @category RAM
     @type SMBus
     @save :warning:
     @direct :x:

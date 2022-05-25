@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name NZXT Hue+
+    @category LEDStrip
     @type Serial
     @save :warning:
     @direct :white_check_mark:
@@ -27,7 +28,7 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* controller_ptr)
     type        = DEVICE_TYPE_LEDSTRIP;
     description = "NZXT Hue+ Device";
     location    = controller->GetLocation();
-    
+
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = HUE_PLUS_MODE_DIRECT;
@@ -205,7 +206,7 @@ void RGBController_HuePlus::SetupZones()
         zones[zone_idx].leds_min        = 0;
         zones[zone_idx].leds_max        = 40;
         zones[zone_idx].matrix_map      = NULL;
-        
+
         if(first_run)
         {
             zones[zone_idx].leds_count  = 0;

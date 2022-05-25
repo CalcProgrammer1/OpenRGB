@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Dummy
+    @category LEDStrip
     @type File Stream
     @save :x:
     @direct :white_check_mark:

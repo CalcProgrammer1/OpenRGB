@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Sinowealth Mice
+    @category Mouse
     @type USB
     @save :warning:
     @direct :x:

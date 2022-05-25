@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Steelseries Arctis 5
+    @category Headset
     @type USB
     @save :x:
     @direct :white_check_mark:

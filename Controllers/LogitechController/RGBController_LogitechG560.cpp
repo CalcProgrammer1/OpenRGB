@@ -13,6 +13,7 @@
 
 /**------------------------------------------------------------------*\
     @name Logitech G560
+    @category Speaker
     @type USB
     @save :x:
     @direct :white_check_mark:

@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Corsair Dominator Platinum
+    @category RAM
     @type SMBus
     @save :x:
     @direct :white_check_mark:

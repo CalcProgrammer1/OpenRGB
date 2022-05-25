@@ -18,7 +18,7 @@ int RGBController_AuraGPU::GetDeviceMode()
         if (controller->direct)
         {
             dev_mode = AURA_GPU_MODE_DIRECT;
-        } 
+        }
     }
 
     switch(dev_mode)
@@ -35,7 +35,7 @@ int RGBController_AuraGPU::GetDeviceMode()
         {
             active_mode            = mode;
             modes[mode].color_mode = color_mode;
-        }   
+        }
     }
 
     return(active_mode);
@@ -43,10 +43,11 @@ int RGBController_AuraGPU::GetDeviceMode()
 
 /**------------------------------------------------------------------*\
     @name Asus Aura GPU
-    @type I2C
+    @category GPU
+    @type SMBus
     @save :x:
     @direct :white_check_mark:
-    @effects :white_check_mark::
+    @effects :white_check_mark:
     @detectors DetectAsusAuraGPUControllers
     @comment
 \*-------------------------------------------------------------------*/
@@ -165,7 +166,7 @@ void RGBController_AuraGPU::DeviceUpdateLEDs()
         {
             controller->SetLEDColorsDirect(red, grn, blu);
         }
-        else 
+        else
         {
             controller->SetLEDColorsEffect(red, grn, blu);
         }
@@ -191,7 +192,7 @@ void RGBController_AuraGPU::DeviceUpdateMode()
 {
     int new_mode       = modes[active_mode].value;
     controller->direct = false;
-    
+
     switch(new_mode)
     {
         // Set all LEDs to 0 and Mode to static as a workaround for the non existing Off Mode
@@ -199,7 +200,7 @@ void RGBController_AuraGPU::DeviceUpdateMode()
             controller->SetLEDColorsEffect(0, 0, 0);
             new_mode           = AURA_GPU_MODE_STATIC;
             break;
-        
+
         // Direct mode is done by switching to Static and not applying color changes
         case AURA_GPU_MODE_DIRECT:
             controller->direct = true;

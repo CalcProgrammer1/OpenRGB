@@ -168,11 +168,12 @@ static const char *led_names[] =
     KEY_EN_NUMPAD_PLUS,
     KEY_EN_UNUSED,
     KEY_EN_NUMPAD_ENTER,
-    KEY_EN_UNUSED    
+    KEY_EN_UNUSED
 };
 
 /**------------------------------------------------------------------*\
     @name Wooting Keyboards
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

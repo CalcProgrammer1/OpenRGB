@@ -15,6 +15,7 @@
 
 /**------------------------------------------------------------------*\
     @name ASrock Polychrome USB
+    @category Motherboard
     @type USB
     @save :warning:
     @direct :x:
@@ -203,15 +204,15 @@ void RGBController_PolychromeUSB::SetupZones()
             zones[channel_idx].name       = polychrome_USB_zone_names[device_info.zone_type];
             zones[channel_idx].leds_min   = 0;
             zones[channel_idx].leds_max   = ASROCK_ADDRESSABLE_MAX_LEDS;
-            zones[channel_idx].leds_count = device_info.num_leds; 
+            zones[channel_idx].leds_count = device_info.num_leds;
         }
-        else if(device_info.device_type==PolychromeDeviceType::FIXED) 
+        else if(device_info.device_type==PolychromeDeviceType::FIXED)
         {
             zones[channel_idx].name       = polychrome_USB_zone_names[device_info.zone_type];
             zones[channel_idx].leds_min   = device_info.num_leds;
             zones[channel_idx].leds_max   = device_info.num_leds;
-            zones[channel_idx].leds_count = device_info.num_leds; 
-        }       
+            zones[channel_idx].leds_count = device_info.num_leds;
+        }
 
 
         for(unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
@@ -247,7 +248,7 @@ void RGBController_PolychromeUSB::SetupZones()
      for (unsigned int channel_idx = 0; channel_idx < zones.size(); channel_idx++)
     {
         PolychromeZoneInfo zoneinfo;
-        zoneinfo = controller->GetZoneConfig(channel_idx); 
+        zoneinfo = controller->GetZoneConfig(channel_idx);
         zones_info.push_back(zoneinfo);
     }
 
@@ -320,7 +321,7 @@ unsigned char RGBController_PolychromeUSB::GetDeviceMode(unsigned char zone)
     dev_mode    = controller->GetZoneConfig(zone).mode;
     active_mode = dev_mode;
 
-    return(active_mode);  
+    return(active_mode);
 }
 
 void RGBController_PolychromeUSB::SetCustomMode()
@@ -337,10 +338,10 @@ void RGBController_PolychromeUSB::DeviceUpdateMode()
             unsigned char set_mode      =(unsigned char) modes[active_mode].value;
             zones_info[zone_idx].mode   =(unsigned char) modes[active_mode].value;
             zones_info[zone_idx].speed  =(unsigned char) modes[active_mode].speed;
-            
+
             if(set_mode > modes.size())
             {
-                set_mode = active_mode;                    
+                set_mode = active_mode;
             }
 
             controller->WriteZone(zone_idx, set_mode, zones_info[zone_idx].speed, zones[zone_idx].colors[0], false);

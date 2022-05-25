@@ -2,6 +2,7 @@
 
 /**------------------------------------------------------------------*\
     @name Logitech G203L
+    @category Mouse
     @type USB
     @save :warning:
     @direct :white_check_mark:
@@ -165,7 +166,7 @@ void RGBController_LogitechG203L::DeviceUpdateMode()
         blu = RGBGetBValue(modes[active_mode].colors[0]);
     }
 
-    if(modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR) 
+    if(modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR)
     {
         dir = (unsigned char)modes[active_mode].direction;
     }

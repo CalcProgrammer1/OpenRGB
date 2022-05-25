@@ -25,7 +25,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
         case RAZER_TYPE_MATRIX_STATIC:
             {
                 char update_value = 1;
-                
+
                 for (unsigned int row = 0; row < matrix_rows; row++)
                 {
                     unsigned int output_array_size;
@@ -42,7 +42,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
                         output_array_size = 3;
                         output_offset = 0;
                     }
-                    
+
                     char* output_array = new char[output_array_size];
 
                     if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
@@ -59,7 +59,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
                         output_array[(col * 3) + 1 + output_offset] = (char)RGBGetGValue(colors[color_idx]);
                         output_array[(col * 3) + 2 + output_offset] = (char)RGBGetBValue(colors[color_idx]);
                     }
-                    
+
                     if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
                     {
                         matrix_custom_frame.write(output_array, output_array_size);
@@ -80,7 +80,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
 
                     std::this_thread::sleep_for(1ms);
                 }
-                
+
                 if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
                 {
                     matrix_effect_custom.write(&update_value, 1);
@@ -212,6 +212,7 @@ void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
 
 /**------------------------------------------------------------------*\
     @name Openrazer
+    @category Keyboard,Mouse,Mousemat,HeadsetStand
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -242,7 +243,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     | Set the description to indicate this is an OpenRazer device       |
     \*-----------------------------------------------------------------*/
     description = "OpenRazer Device";
-    
+
     /*-----------------------------------------------------------------*\
     | Set the device path as the location                               |
     \*-----------------------------------------------------------------*/
@@ -447,19 +448,19 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
                 Reactive.color_mode = MODE_COLORS_NONE;
                 modes.push_back(Reactive);
             }
-            
+
             /*---------------------------------------------------------*\
             | Initialize file descriptors                               |
             \*---------------------------------------------------------*/
             if(device_list[i]->matrix_type == true)
             {
-                SetupMatrixDevice(device_list[i]->rows, device_list[i]->cols);    
+                SetupMatrixDevice(device_list[i]->rows, device_list[i]->cols);
             }
             else
             {
                 SetupNonMatrixDevice();
             }
-            
+
             SetupZones();
         }
     }
@@ -524,7 +525,7 @@ void RGBController_OpenRazer::SetupZones()
             {
                 new_zone.matrix_map = NULL;
             }
-            
+
             zones.push_back(new_zone);
         }
     }
@@ -543,7 +544,7 @@ void RGBController_OpenRazer::SetupZones()
                 {
                     new_led->name.append(" LED ");
                     new_led->name.append(std::to_string(col_id + 1));
-                }  
+                }
 
                 if(device_list[device_index]->keymap != NULL)
                 {
@@ -557,7 +558,7 @@ void RGBController_OpenRazer::SetupZones()
                         }
                     }
                 }
-                
+
                 leds.push_back(*new_led);
             }
         }
@@ -593,7 +594,7 @@ void RGBController_OpenRazer::SetCustomMode()
             {
                 active_mode = i;
                 break;
-            } 
+            }
         }
     }
 }

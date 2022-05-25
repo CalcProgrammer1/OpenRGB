@@ -42,6 +42,7 @@ int RGBController_GalaxGPU::GetDeviceMode()
 
 /**------------------------------------------------------------------*\
     @name Galax GPU
+    @category GPU
     @type I2C
     @save :x:
     @direct :white_check_mark:

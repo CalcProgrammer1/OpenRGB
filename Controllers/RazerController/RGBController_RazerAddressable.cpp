@@ -5,6 +5,7 @@
 
 /**------------------------------------------------------------------*\
     @name Razer ARGB
+    @category LEDStrip
     @type USB
     @save :warning:
     @direct :white_check_mark:
@@ -148,7 +149,7 @@ void RGBController_RazerAddressable::SetupZones()
     leds.clear();
     colors.clear();
     zones.resize(zone_count);
-    
+
     /*---------------------------------------------------------*\
     | Fill in zone information based on device table            |
     \*---------------------------------------------------------*/

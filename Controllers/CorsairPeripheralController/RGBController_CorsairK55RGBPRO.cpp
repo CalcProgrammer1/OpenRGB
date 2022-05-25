@@ -11,6 +11,7 @@ using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name Corsair K55 RGB Pro
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

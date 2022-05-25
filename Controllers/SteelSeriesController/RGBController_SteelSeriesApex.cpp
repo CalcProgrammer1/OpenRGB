@@ -15,7 +15,7 @@ using namespace std::chrono_literals;
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
-static unsigned int matrix_map[6][23] = 
+static unsigned int matrix_map[6][23] =
     { {   37,  NA,  53,  54,  55,  56,  NA,  57,  58,  59,  60,  NA,  61 ,  62 ,  63 ,  64 ,  65,  66,  67,  NA,  NA,  NA,  NA },
       {   48,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  41,  42 ,  NA ,  38 ,  88 ,  68,  69,  70,  89,  90,  91,  92 },
       {   39,  NA,  16,  22,  4 ,  17,  19,  24,  20,  8 ,  14,  15,  43 ,  44 ,  NA ,  36 ,  71,  72,  73, 101, 102, 103,  93 },
@@ -23,7 +23,7 @@ static unsigned int matrix_map[6][23] =
       {   80,  78,  25,  23,  2 ,  21,  NA,  1 ,  13,  12,  49,  50,  51 ,  NA ,  84 ,  NA ,  NA,  77,  NA,  95,  96,  97,  94 },
       {   79,  82,  81,  NA,  NA,  NA,  NA,  40,  NA,  NA,  NA,  NA,  85 ,  86 ,  87 ,  83 ,  75,  76,  74, 104,  NA, 105,  NA } };
 
-static unsigned int matrix_map_tkl[6][19] = 
+static unsigned int matrix_map_tkl[6][19] =
     { {   37,  NA,  53,  54,  55,  56,  NA,  57,  58,  59,  60,  NA,  61 ,  62 ,  63 ,  64 ,  65,  66,  67},
       {   48,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  41,  42 ,  NA ,  38 ,  88 ,  68,  69,  70},
       {   39,  NA,  16,  22,  4 ,  17,  19,  24,  20,  8 ,  14,  15,  43 ,  44 ,  NA ,  36 ,  71,  72,  73},
@@ -163,6 +163,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Steel Series APEX
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -181,7 +182,7 @@ RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBase
     description = "SteelSeries Apex RGB Device";
     location    = steelseries->GetDeviceLocation();
     serial      = "";
-    
+
     proto_type = steelseries->proto_type;
 
     mode Direct;

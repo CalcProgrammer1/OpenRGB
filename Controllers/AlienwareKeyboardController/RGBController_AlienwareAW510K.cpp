@@ -160,6 +160,7 @@ static const led_type led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Alienware AW510 Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

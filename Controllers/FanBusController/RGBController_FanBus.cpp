@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name FanBus
+    @category Cooler
     @type Serial
     @save :x:
     @direct :white_check_mark:

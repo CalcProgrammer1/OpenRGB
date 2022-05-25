@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Coolermaster Mouse Pad
+    @category Mousemat
     @type USB
     @save :warning:
     @direct :x:

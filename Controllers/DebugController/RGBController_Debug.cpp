@@ -5,6 +5,7 @@
 
 /**------------------------------------------------------------------*\
     @name Debug
+    @category Unknown
     @type I2C
     @save :x:
     @direct :x:
@@ -43,7 +44,7 @@ void RGBController_Debug::ResizeZone(int index, int new_size)
 
     // Add the new ammount of LEDs to the old ammount
     size_t new_leds_size = leds.size() - old_size + new_size;
-    
+
     leds.resize(std::max(old_leds_size, new_leds_size));
 
     memmove(&leds[zones[index].start_idx] + old_leds_size, &leds[zones[index].start_idx] + new_leds_size, (old_leds_size - zones[index].start_idx - old_size) * sizeof(led));
@@ -54,6 +55,6 @@ void RGBController_Debug::ResizeZone(int index, int new_size)
     {
         leds[zones[index].start_idx + i].name = "Linear LED " + std::to_string(i);
     }
-    
+
     SetupColors();
 }

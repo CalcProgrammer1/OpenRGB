@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Serial LED Strip
+    @category LEDStrip
     @type Serial
     @save :x:
     @direct :white_check_mark:

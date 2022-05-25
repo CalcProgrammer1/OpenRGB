@@ -25,6 +25,7 @@ static const steelseries_rival_led_info rival_3_leds[]=
 
 /**------------------------------------------------------------------*\
     @name Steel Series Rival 3
+    @category Mouse
     @type USB
     @save :white_check_mark:
     @direct :white_check_mark:
@@ -36,10 +37,10 @@ static const steelseries_rival_led_info rival_3_leds[]=
 RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRival3Controller* rival_ptr)
 {
     rival       = rival_ptr;
-    
+
     name        = rival->GetDeviceName();
     vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_MOUSE; 
+    type        = DEVICE_TYPE_MOUSE;
     description = "SteelSeries Rival 3 Device";
     location    = rival->GetDeviceLocation();
     serial      = rival->GetSerialString();
@@ -85,7 +86,7 @@ RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRiva
     |                                                                          |
     | It is disabled in the vendor software, and is only known about as it is  |
     | documented in rivalcfg.                                                  |
-    |                                                                          |   
+    |                                                                          |
     | If this does get re-enabled, worth noting it has an issue where this     |
     | mode is black if you come directly from one of the pulsating modes.      |
     \*------------------------------------------------------------------------*/
@@ -153,7 +154,7 @@ void RGBController_SteelSeriesRival3::UpdateZoneLEDs(int zone)
     | Subtracting one as the zone and led indexes differ |
     \*--------------------------------------------------*/
     UpdateSingleLED(zones[zone].leds[0].value - 1);
-}   
+}
 
 void RGBController_SteelSeriesRival3::UpdateSingleLED(int led)
 {

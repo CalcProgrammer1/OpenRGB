@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name EK Loop Connect
+    @category LEDStrip
     @type USB
     @save :warning:
     @direct :x:

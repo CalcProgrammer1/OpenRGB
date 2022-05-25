@@ -14,6 +14,7 @@
 
 /**------------------------------------------------------------------*\
     @name Trust GXT 180
+    @category Mouse
     @type USB
     @save :x:
     @direct :x:
@@ -135,6 +136,6 @@ void RGBController_TrustGXT180::SetCustomMode()
 }
 
 void RGBController_TrustGXT180::DeviceUpdateMode()
-{    
+{
     controller->SetMode(colors[0], modes[active_mode].brightness, modes[active_mode].speed, modes[active_mode].value);
 }

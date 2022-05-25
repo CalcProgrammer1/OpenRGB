@@ -30,6 +30,7 @@ mode makeMode()
 
 /**------------------------------------------------------------------*\
     @name Lian Li Uni Hub
+    @category Cooler
     @type USB
     @save :x:
     @direct :warning:

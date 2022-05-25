@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus Aura Headset Stand
+    @category HeadsetStand
     @type USB
     @save :white_check_mark:
     @direct :white_check_mark:

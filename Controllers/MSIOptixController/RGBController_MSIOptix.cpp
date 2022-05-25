@@ -14,6 +14,7 @@
 
 /**------------------------------------------------------------------*\
     @name MSI Optix
+    @category LEDStrip
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -387,7 +388,7 @@ void RGBController_MSIOptix::SetCustomMode()
 }
 
 void RGBController_MSIOptix::DeviceUpdateMode()
-{    
+{
     if(modes[active_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR)
     {
         controller->SetMode(colors, modes[active_mode].brightness, modes[active_mode].speed, modes[active_mode].value, modes[active_mode].flags);

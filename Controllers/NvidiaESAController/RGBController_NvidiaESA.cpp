@@ -14,6 +14,7 @@
 
 /**------------------------------------------------------------------*\
     @name NVidia ESA
+    @category Case
     @type USB
     @save :x:
     @direct :x:

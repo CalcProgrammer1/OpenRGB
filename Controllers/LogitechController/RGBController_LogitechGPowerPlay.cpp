@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Logitech Powerplay Mat
+    @category Mousemat
     @type USB
     @save :x:
     @direct :white_check_mark:

@@ -14,6 +14,7 @@
 
 /**------------------------------------------------------------------*\
     @name Alienware
+    @category Keyboard
     @type USB
     @save :x:
     @direct :x:
@@ -147,7 +148,7 @@ void RGBController_Alienware::SetupZones()
     for(unsigned int led_idx = 0; led_idx < zones.size(); led_idx++)
     {
         led new_led;
-        
+
         new_led.name        = zones[led_idx].name + std::string(" LED");
 
         leds.emplace_back(new_led);
@@ -228,7 +229,7 @@ void RGBController_Alienware::DeviceUpdateMode()
             uint16_t period = 0x07d0;
 
             controller->SetMode(zone_idx, current_mode.value);
-            
+
             switch(current_mode_idx)
             {
                 case ALIENWARE_MODE_COLOR:

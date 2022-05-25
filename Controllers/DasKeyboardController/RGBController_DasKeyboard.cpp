@@ -192,6 +192,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Das Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

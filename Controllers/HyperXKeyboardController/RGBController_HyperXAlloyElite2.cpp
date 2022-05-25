@@ -195,6 +195,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name HyperX Alloy Elite 2
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

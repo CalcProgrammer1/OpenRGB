@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Redragon Mice
+    @category Mouse
     @type USB
     @save :warning:
     @direct :x:
@@ -36,7 +37,7 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
     Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
-    
+
     mode Wave;
     Wave.name       = "Wave";
     Wave.value      = REDRAGON_M711_MODE_WAVE;

@@ -22,6 +22,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Sinowealth 1007 Mouse
+    @category Mouse
     @type USB
     @save :x:
     @direct :x:
@@ -236,7 +237,7 @@ void RGBController_Sinowealth1007::DeviceUpdateMode()
 {
     unsigned char random = (modes[active_mode].flags & MODE_FLAG_HAS_RANDOM_COLOR) ? ZET_FURY_PRO_SUBMODE_SET_COLOR : 0x00;
                   random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM)   ? ZET_FURY_PRO_SUBMODE_RANDOM    : random;
-    
+
     if (modes[active_mode].value == ZET_FURY_PRO_MODE_BREATHING)
     {
         random = ZET_FURY_PRO_SUBMODE_SET_COLOR; // An unfortunate exception that has no random option but requires this

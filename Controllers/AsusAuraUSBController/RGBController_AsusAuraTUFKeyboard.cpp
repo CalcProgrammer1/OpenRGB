@@ -13,6 +13,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus Aura TUF Keyboard
+    @category Keyboard
     @type USB
     @save :white_check_mark:
     @direct :white_check_mark:
@@ -276,7 +277,7 @@ void RGBController_AuraTUFKeyboard::SetCustomMode()
 }
 
 void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
-{   
+{
     unsigned char color_mode;
     std::vector<RGBColor> mode_colors;
 

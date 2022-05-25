@@ -116,8 +116,9 @@ static const char *led_names[] =
     KEY_EN_RIGHT_ARROW
 };
 
-/**
+/**------------------------------------------------------------------*\
     @name Dark Project Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -125,7 +126,7 @@ static const char *led_names[] =
     @detectors DetectDarkProjectKeyboardControllers
     @comment The Dark Project keyboard controller currently supports
         the full size KD3B Version 2 (ANSI layout).
-*/
+\*-------------------------------------------------------------------*/
 
 RGBController_DarkProjectKeyboard::RGBController_DarkProjectKeyboard(DarkProjectKeyboardController *controller_ptr)
 {

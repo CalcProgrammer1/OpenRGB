@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Crucial RAM
+    @category RAM
     @type SMBus
     @save :x:
     @direct :white_check_mark:
@@ -43,7 +44,7 @@ RGBController_Crucial::RGBController_Crucial(CrucialController* controller_ptr)
     Shift.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Shift.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Shift);
-    
+
     mode GradientShift;
     GradientShift.name       = "Gradient Shift";
     GradientShift.value      = CRUCIAL_MODE_GRADIENT_SHIFT;

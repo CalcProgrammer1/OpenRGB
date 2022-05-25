@@ -20,6 +20,7 @@ static const char* evga_v3_zone_names[] =
 
 /**------------------------------------------------------------------*\
     @name EVGA RGB v3 GPU
+    @category GPU
     @type I2C
     @save :white_check_mark:
     @direct :white_check_mark:
@@ -167,7 +168,7 @@ RGBController_EVGAGPUv3::RGBController_EVGAGPUv3(EVGAGPUv3Controller* evga_ptr)
     for( uint8_t zone_idx = 0; zone_idx < zoneIndexMap.size(); zone_idx++)
     {
         active_mode = evga->GetZoneMode(0); // Hard coding zone 0 until per zone modes are available.
-        
+
         if(active_mode != EVGA_GPU_V3_MODE_OFF)
         {
             EVGAv3_config hw_config = evga->GetZoneConfig(zoneIndexMap[zone_idx], active_mode);
@@ -266,7 +267,7 @@ void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
     | modes and as such colorB will always be black (0x000000)  |
     \*---------------------------------------------------------*/
     EVGAv3_config zone_config;
-    
+
     zone_config.brightness      = modes[active_mode].brightness;
     zone_config.speed           = modes[active_mode].speed;
     zone_config.direction       = modes[active_mode].direction;
@@ -311,7 +312,7 @@ void RGBController_EVGAGPUv3::DeviceUpdateMode()
     for(uint8_t zone = 0; zone < 4; zone++)
     {
         evga->SetZoneMode(zone, modes[active_mode].value);
-    } 
+    }
     */
     //LOG_TRACE("[%s] Updating to mode %1d", evga->evgaGPUName, modes[active_mode].value);
     DeviceUpdateLEDs();

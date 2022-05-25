@@ -40,7 +40,7 @@ static unsigned int scope_tkl_matrix_map[6][18] =
 static unsigned int falchion_matrix_map[5][16] =
     { {   0,   5,   9,  14,  18,  22,  26,  31,  35,  39,  44,  49,  54,  58,  NA,  63 },
       {   1,  NA,   6,  10,  15,  19,  23,  27,  32,  36,  40,  45,  50,  55,  59,  64 },
-      {   2,  NA,   7,  11,  16,  20,  24,  28,  33,  37,  41,  46,  51,  60,  NA,  65 }, 
+      {   2,  NA,   7,  11,  16,  20,  24,  28,  33,  37,  41,  46,  51,  60,  NA,  65 },
       {   3,  NA,  12,  17,  21,  25,  29,  34,  38,  42,  47,  52,  56,  NA,  61,  66 },
       {   4,   8,  13,  NA,  NA,  NA,  30,  NA,  NA,  NA,  43,  48,  53,  57,  62,  67 } };
 
@@ -345,6 +345,7 @@ static const std::vector<led_type> default_65pct_led_names =
 
 /**------------------------------------------------------------------*\
     @name Asus Aura Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

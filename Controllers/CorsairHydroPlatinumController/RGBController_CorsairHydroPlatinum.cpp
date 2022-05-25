@@ -21,6 +21,7 @@ static unsigned int matrix_map[5][5] =
 
 /**------------------------------------------------------------------*\
     @name Corsair Hydro Platinum
+    @category Cooler
     @type USB
     @save :x:
     @direct :white_check_mark:

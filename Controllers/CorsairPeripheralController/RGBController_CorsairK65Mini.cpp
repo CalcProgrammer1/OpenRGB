@@ -122,6 +122,7 @@ std::vector<std::tuple<unsigned int, std::string>> keys =
 
 /**------------------------------------------------------------------*\
     @name Corsair K65 Mini
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

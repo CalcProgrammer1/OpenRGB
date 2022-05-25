@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Steel Series Sensei
+    @category Mouse
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -22,10 +23,10 @@
 RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSenseiController* sensei_ptr)
 {
     sensei      = sensei_ptr;
-    
+
     name        = sensei->GetDeviceName();
     vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_MOUSE; 
+    type        = DEVICE_TYPE_MOUSE;
     description = "SteelSeries Sensei Device";
     location    = sensei->GetDeviceLocation();
     serial      = sensei->GetSerialString();
@@ -127,7 +128,7 @@ void RGBController_SteelSeriesSensei::UpdateZoneLEDs(int zone)
             sensei->SetLightEffect(zone, modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
             break;
     }
-}   
+}
 
 void RGBController_SteelSeriesSensei::UpdateSingleLED(int led)
 {

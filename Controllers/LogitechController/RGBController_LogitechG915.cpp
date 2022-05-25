@@ -184,6 +184,7 @@ static const led_type led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Logitech G915
+    @category Keyboard
     @type USB
     @save :warning:
     @direct :white_check_mark:

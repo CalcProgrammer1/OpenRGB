@@ -12,8 +12,9 @@
 
 /**------------------------------------------------------------------*\
     @name NZXT Kraken
+    @category Cooler
     @type USB
-    @saven :x:
+    @save :x:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectNZXTKrakenControllers

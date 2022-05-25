@@ -39,6 +39,7 @@ static const char* rgb_fusion_zone_names[] =
 
 /**------------------------------------------------------------------*\
     @name Gigabyte Fusion2 SMBus
+    @category Motherboard
     @type I2C
     @save :x:
     @direct :white_check_mark:

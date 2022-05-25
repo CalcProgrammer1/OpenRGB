@@ -2,6 +2,7 @@
 
 /**------------------------------------------------------------------*\
     @name Creative Sound BlasterX G6
+    @category Headset
     @type USB
     @save :x:
     @direct :white_check_mark:

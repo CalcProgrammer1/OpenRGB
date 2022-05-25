@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Coolermaster Small ARGB
+    @category LEDStrip
     @type USB
     @save :warning:
     @direct :white_check_mark:

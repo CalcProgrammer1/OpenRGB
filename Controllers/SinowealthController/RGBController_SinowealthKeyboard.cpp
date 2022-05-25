@@ -120,6 +120,7 @@ static const char *led_names_tkl[] =
 
 /**------------------------------------------------------------------*\
     @name Sinowealth Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :x:

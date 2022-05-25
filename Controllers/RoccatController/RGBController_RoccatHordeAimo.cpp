@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Roccat Horde Aimo
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -72,7 +73,7 @@ void RGBController_RoccatHordeAimo::ResizeZone(int /*zone*/, int /*new_size*/)
 }
 
 void RGBController_RoccatHordeAimo::DeviceUpdateLEDs()
-{   
+{
     UpdateZoneLEDs(0);
 }
 

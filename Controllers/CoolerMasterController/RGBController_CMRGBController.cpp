@@ -45,6 +45,7 @@
 
 /**------------------------------------------------------------------*\
     @name Coolermaster RGB
+    @category LEDStrip
     @type USB
     @save :warning:
     @direct :x:

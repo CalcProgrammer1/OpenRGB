@@ -13,6 +13,7 @@ using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name HyperX Pulsefire Surge
+    @category Mouse
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -85,14 +86,14 @@ void RGBController_HyperXPulsefireSurge::SetupZones()
         for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
-            
+
             new_led.name = zones[zone_idx].name;
 
             if(zones[zone_idx].leds_count > 1)
             {
                 new_led.name.append(" LED ");
                 new_led.name.append(std::to_string(led_idx + 1));
-            }  
+            }
 
             leds.push_back(new_led);
         }

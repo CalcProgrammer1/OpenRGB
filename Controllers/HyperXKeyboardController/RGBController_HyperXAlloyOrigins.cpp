@@ -170,6 +170,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name HyperX Alloy Origins
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -276,7 +277,7 @@ void RGBController_HyperXAlloyOrigins::ResizeZone(int /*zone*/, int /*new_size*/
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
-    
+
 void RGBController_HyperXAlloyOrigins::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(colors);

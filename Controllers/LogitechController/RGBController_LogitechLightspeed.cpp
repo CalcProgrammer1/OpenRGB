@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Logitech Lightspeed
+    @category Keyboard,Mouse,Mousemat,Headset
     @type USB
     @save :white_check_mark:
     @direct :white_check_mark:

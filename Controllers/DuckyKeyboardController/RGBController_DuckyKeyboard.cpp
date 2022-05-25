@@ -188,9 +188,10 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Ducky Keyboard
+    @category Keyboard
     @type USB
     @save :x:
-    @direct :white_check_mark
+    @direct :white_check_mark:
     @effects :x:
     @detectors DetectDuckyKeyboardControllers
     @comment
@@ -291,11 +292,11 @@ void RGBController_DuckyKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
-    
+
 void RGBController_DuckyKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[155*3];
-    
+
     for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
     {
         colordata[(color_idx*3)+0] = RGBGetRValue(colors[color_idx]);

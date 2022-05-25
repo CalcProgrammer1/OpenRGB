@@ -5,6 +5,7 @@
 
 /**------------------------------------------------------------------*\
     @name ASUS TUF Keyboard (Faustus)
+    @category Keyboard
     @type File Stream
     @save :x:
     @direct :x:

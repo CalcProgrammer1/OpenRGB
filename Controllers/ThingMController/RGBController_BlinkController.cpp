@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name ThingM Blink
+    @category LEDStrip
     @type USB
     @save :x:
     @direct :white_check_mark:

@@ -34,6 +34,7 @@ static const char* polychrome_v2_zone_names[] =
 
 /**------------------------------------------------------------------*\
     @name ASRock Polychrome SMBus
+    @category Motherboard
     @type SMBus
     @save :warning:
     @direct :x:
@@ -506,7 +507,7 @@ void RGBController_Polychrome::SetupZones()
                         {
                             new_zone->name          = polychrome_v2_zone_names[zone_idx];
                         }
-                        
+
                         if(zone_idx == POLYCHROME_ZONE_ADDRESSABLE)
                         {
                             new_zone->leds_min      = 1;

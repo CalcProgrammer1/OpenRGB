@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Dummy
+    @category Unknown
     @type I2C or Serial or WMI or USB
     @save :white_check_mark: or :warning: or :x:
     @direct :white_check_mark: or :warning: or :x:
@@ -55,5 +56,5 @@ void RGBController_Dummy::SetCustomMode()
 
 void RGBController_Dummy::DeviceUpdateMode()
 {
-    
+
 }

@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Steel Series Siberia
+    @category Headset
     @type USB
     @save :x:
     @direct :x:
@@ -22,10 +23,10 @@
 RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* siberia_ptr)
 {
     siberia = siberia_ptr;
-    
+
     name        = siberia->GetDeviceName();
     vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_HEADSET; 
+    type        = DEVICE_TYPE_HEADSET;
     description = "SteelSeries Siberia Device";
     location    = siberia->GetDeviceLocation();
     serial      = siberia->GetSerialString();

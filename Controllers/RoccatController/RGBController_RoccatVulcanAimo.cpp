@@ -161,6 +161,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Roccat Vulcan Aimo
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

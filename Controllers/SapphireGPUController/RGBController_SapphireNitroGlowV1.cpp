@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Sapphire Nitro Glow v1
+    @category GPU
     @type I2C
     @save :x:
     @direct :x:

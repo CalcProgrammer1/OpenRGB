@@ -3,6 +3,7 @@
 
 /**------------------------------------------------------------------*\
     @name Razer Kraken
+    @category Headset
     @type USB
     @save :warning:
     @direct :white_check_mark:

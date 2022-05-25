@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name NZXT Hue2
+    @category LEDStrip
     @type USB
     @save :warning:
     @direct :white_check_mark:
@@ -138,7 +139,7 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Breathing.color_mode     = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize( 1);
     modes.push_back(Breathing);
-    
+
     mode Candle;
     Candle.name              = "Candle";
     Candle.value             = HUE_2_MODE_CANDLE;
@@ -151,7 +152,7 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Candle.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Candle.colors.resize(1) ;
     modes.push_back(Candle);
-    
+
     mode StarryNight;
     StarryNight.name         = "Starry Night";
     StarryNight.value        = HUE_2_MODE_STARRY_NIGHT;
@@ -164,7 +165,7 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     StarryNight.color_mode   = MODE_COLORS_MODE_SPECIFIC;
     StarryNight.colors.resize(1);
     modes.push_back(StarryNight);
-    
+
     mode SuperRainbow;
     SuperRainbow.name        = "Super Rainbow";
     SuperRainbow.value       = HUE_2_MODE_SUPER_RAINBOW;
@@ -175,7 +176,7 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     SuperRainbow.direction   = MODE_DIRECTION_RIGHT;
     SuperRainbow.color_mode  = MODE_COLORS_NONE;
     modes.push_back(SuperRainbow);
-    
+
     mode RainbowPulse;
     RainbowPulse.name        = "Rainbow Pulse";
     RainbowPulse.value       = HUE_2_MODE_RAINBOW_PULSE;
@@ -186,7 +187,7 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     RainbowPulse.direction   = MODE_DIRECTION_RIGHT;
     RainbowPulse.color_mode  = MODE_COLORS_NONE;
     modes.push_back(RainbowPulse);
-    
+
     mode RainbowFlow;
     RainbowFlow.name         = "Rainbow Flow";
     RainbowFlow.value        = HUE_2_MODE_RAINBOW_FLOW;

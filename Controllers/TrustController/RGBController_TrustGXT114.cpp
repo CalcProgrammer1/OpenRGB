@@ -14,6 +14,7 @@
 
 /**------------------------------------------------------------------*\
     @name Trust GXT 114
+    @category Mouse
     @type USB
     @save :x:
     @direct :x:
@@ -43,7 +44,7 @@ RGBController_TrustGXT114::RGBController_TrustGXT114(TrustGXT114Controller* cont
     Static.brightness_min               = TRUST_GXT_114_BRIGHTNESS_MIN;
     Static.brightness_max               = TRUST_GXT_114_BRIGHTNESS_MAX;
     Static.brightness                   = TRUST_GXT_114_BRIGHTNESS_MAX;
-    Static.colors.resize(1);   
+    Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Breathing;
@@ -131,6 +132,6 @@ void RGBController_TrustGXT114::SetCustomMode()
 }
 
 void RGBController_TrustGXT114::DeviceUpdateMode()
-{    
+{
     controller->SetMode(modes[active_mode].colors[0], modes[active_mode].brightness, modes[active_mode].speed, modes[active_mode].value);
 }

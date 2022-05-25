@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Zalmna Z Sync
+    @category LEDStrip
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -226,7 +227,7 @@ void RGBController_ZalmanZSync::SetupZones()
         }
 
         zones[channel_idx].matrix_map = NULL;
-        
+
         for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
             char led_idx_string[4];

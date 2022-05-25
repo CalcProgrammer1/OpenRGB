@@ -171,6 +171,7 @@ static const char *led_names_tkl[] =
 
 /**------------------------------------------------------------------*\
     @name Sinowealth Keyboard 16
+    @category Keyboard
     @type USB
     @save :x:
     @direct :x:
@@ -234,7 +235,7 @@ RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(Sinowealt
         mode PerLed;
 
         PerLed.name         = "Custom";
-        
+
         if(i > 0)
         {
             PerLed.name    += " " + std::to_string(i + 1);
@@ -472,6 +473,6 @@ void RGBController_SinowealthKeyboard16::DeviceUpdateMode()
             std::fill(colors.begin(), colors.end(), ActiveMode.colors[0]);
         }
     }
-    
+
     SignalUpdate();
 }

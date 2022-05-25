@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name AMD Radeon 6000
+    @category GPU
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -77,7 +78,7 @@ RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controll
     Breathing.colors_max = 1;
     Breathing.colors.resize(1);
     Breathing.speed      = speed;
-    modes.push_back(Breathing);    
+    modes.push_back(Breathing);
 
     SetupZones();
     active_mode = 1;

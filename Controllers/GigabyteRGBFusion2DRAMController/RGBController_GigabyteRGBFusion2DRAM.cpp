@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Gigabyte Fusion2 DRAM
+    @category RAM
     @type I2C
     @save :x:
     @direct :x:

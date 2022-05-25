@@ -14,6 +14,7 @@ using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name Philips Hue Entertainment
+    @category Light
     @type Network
     @save :x:
     @direct :white_check_mark:
@@ -126,15 +127,15 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()
     {
         std::vector<RGBController*> rgb_controllers = ResourceManager::get()->GetRGBControllers();
 
-		for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
-		{
-			if(rgb_controllers[controller_idx] != this && rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device" && rgb_controllers[controller_idx]->active_mode == 0)
-			{
-				rgb_controllers[controller_idx]->SetMode(1);
-			}
-		}
+        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+        {
+            if(rgb_controllers[controller_idx] != this && rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device" && rgb_controllers[controller_idx]->active_mode == 0)
+            {
+                rgb_controllers[controller_idx]->SetMode(1);
+            }
+        }
 
-		light->Connect();
+        light->Connect();
     }
     else
     {

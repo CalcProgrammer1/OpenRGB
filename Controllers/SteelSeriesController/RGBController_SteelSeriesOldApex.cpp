@@ -20,9 +20,10 @@
 
 /**------------------------------------------------------------------*\
     @name Steel Series Apex (Old)
+    @category Keyboard
     @type USB
     @save :x:
-    @direct :white_check_mark::
+    @direct :white_check_mark:
     @effects :x:
     @detectors DetectSteelSeriesApexOld
     @comment
@@ -31,10 +32,10 @@
 RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* old_apex_ptr)
 {
     OldApex     = old_apex_ptr;
-    
+
     name        = OldApex->GetDeviceName();
     vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_KEYBOARD; 
+    type        = DEVICE_TYPE_KEYBOARD;
     description = "SteelSeries old Apex device";
     location    = OldApex->GetDeviceLocation();
     serial      = OldApex->GetSerialString();
@@ -65,11 +66,11 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     qwerty_zone.leds_count  = 1;
     qwerty_zone.matrix_map  = NULL;
     zones.push_back(qwerty_zone);
-    
+
     led qwerty_led;
     qwerty_led.name = "QWERTY";
     leds.push_back(qwerty_led);
-    
+
     zone tenkey_zone;
     tenkey_zone.name        = "TenKey";
     tenkey_zone.type        = ZONE_TYPE_LINEAR;
@@ -78,11 +79,11 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     tenkey_zone.leds_count  = 1;
     tenkey_zone.matrix_map  = NULL;
     zones.push_back(tenkey_zone);
-    
+
     led tenkey_led;
     tenkey_led.name = "TenKey";
     leds.push_back(tenkey_led);
-    
+
     zone function_zone;
     function_zone.name        = "FunctionKeys";
     function_zone.type        = ZONE_TYPE_LINEAR;
@@ -91,11 +92,11 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     function_zone.leds_count  = 1;
     function_zone.matrix_map  = NULL;
     zones.push_back(function_zone);
-    
+
     led function_led;
     function_led.name = "FunctionKeys";
     leds.push_back(function_led);
-    
+
     zone mx_zone;
     mx_zone.name        = "MXKeys";
     mx_zone.type        = ZONE_TYPE_LINEAR;
@@ -104,7 +105,7 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     mx_zone.leds_count  = 1;
     mx_zone.matrix_map  = NULL;
     zones.push_back(mx_zone);
-    
+
     led mx_led;
     mx_led.name = "MXKeys";
     leds.push_back(mx_led);
@@ -117,11 +118,11 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     logo_zone.leds_count  = 1;
     logo_zone.matrix_map  = NULL;
     zones.push_back(logo_zone);
-    
+
     led logo_led;
     logo_led.name = "Logo";
     leds.push_back(logo_led);
-    
+
     SetupColors();
 }
 

@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Holtek A070
+    @category Mouse
     @type USB
     @save :x:
     @direct :x:

@@ -22,6 +22,7 @@ static unsigned int matrix_map[6][23] =
 
 /**------------------------------------------------------------------*\
     @name EVision Keyboard
+    @category Keyboard
     @type USB
     @save :warning:
     @direct :x:
@@ -175,7 +176,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     Blooming.speed      = EVISION_KB_SPEED_NORMAL;
     Blooming.color_mode = MODE_COLORS_NONE;
     modes.push_back(Blooming);
-    
+
     mode Reactive;
     Reactive.name       = "Reactive";
     Reactive.value      = EVISION_KB_MODE_REACTIVE;
@@ -247,7 +248,7 @@ void RGBController_EVisionKeyboard::SetupZones()
     new_zone.matrix_map->height = 6;
     new_zone.matrix_map->width  = 23;
     new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-    
+
     zones.push_back(new_zone);
 
     for(int led_idx = 0; led_idx < 126; led_idx++)

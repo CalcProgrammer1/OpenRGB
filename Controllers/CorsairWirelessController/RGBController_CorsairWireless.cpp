@@ -182,6 +182,7 @@ static const char* led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Corsair Wireless Peripheral
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

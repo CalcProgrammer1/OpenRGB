@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Corsair Vengeance Pro
+    @category RAM
     @type SMBus
     @save :warning:
     @direct :white_check_mark:
@@ -291,7 +292,7 @@ void RGBController_CorsairVengeancePro::DeviceUpdateMode()
             mode_colors[3] = RGBGetRValue(modes[active_mode].colors[1]);
             mode_colors[4] = RGBGetGValue(modes[active_mode].colors[1]);
             mode_colors[5] = RGBGetBValue(modes[active_mode].colors[1]);
-        }        
+        }
     }
 
     if (modes[active_mode].name == "Direct")

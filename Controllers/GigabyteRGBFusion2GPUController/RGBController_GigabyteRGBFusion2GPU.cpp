@@ -20,6 +20,7 @@ static const char* gigabyte_fusion2_gpu_zone[] =
 
 /**------------------------------------------------------------------*\
     @name Gigabyte Fusion 2 GPU
+    @category GPU
     @type I2C
     @save :white_check_mark:
     @direct :white_check_mark:
@@ -130,7 +131,7 @@ RGBController_RGBFusion2GPU::RGBController_RGBFusion2GPU(RGBFusion2GPUController
     mode Shift;
     Shift.name                  = "Color Shift";
     Shift.value                 = RGB_FUSION2_GPU_MODE_COLOR_SHIFT;
-    Shift.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE; 
+    Shift.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Shift.speed_min             = RGB_FUSION2_GPU_SPEED_SLOWEST;
     Shift.speed_max             = RGB_FUSION2_GPU_SPEED_FASTEST;
     Shift.speed                 = RGB_FUSION2_GPU_SPEED_NORMAL;

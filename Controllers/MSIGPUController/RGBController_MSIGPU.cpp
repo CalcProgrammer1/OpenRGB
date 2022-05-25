@@ -28,6 +28,7 @@ int RGBController_MSIGPU::GetDeviceMode()
 
 /**------------------------------------------------------------------*\
     @name MSI GPU
+    @category GPU
     @type I2C
     @save :white_check_mark:
     @direct :white_check_mark:

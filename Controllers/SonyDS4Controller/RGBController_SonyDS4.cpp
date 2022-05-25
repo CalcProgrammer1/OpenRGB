@@ -12,6 +12,7 @@
 
 /**------------------------------------------------------------------*\
     @name Sony Dual Shock 4 controller
+    @category Gamepad
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -23,14 +24,14 @@
 RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* dualshock)
 {
     this->dualshock = dualshock;
-    
+
     name        = "Sony DualShock 4";
     vendor      = "Sony";
     type        = DEVICE_TYPE_GAMEPAD;
     description = "Sony DualShock 4 Device";
     location    = dualshock->GetLocation();
     serial      = dualshock->GetSerialString();
-    
+
     mode Direct;
     Direct.value      = 0;
     Direct.name       = "Direct";

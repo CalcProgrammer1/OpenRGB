@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name MSI RGB
+    @category Motherboard
     @type SuperIO
     @save :x:
     @direct :white_check_mark:
@@ -26,7 +27,7 @@ RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* msi_ptr)
     vendor      = "MSI";
     type        = DEVICE_TYPE_MOTHERBOARD;
     description = "MSI-RGB Device";
-    
+
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0;

@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name EVGA RGB v2 GPU
+    @category GPU
     @type I2C
     @save :white_check_mark:
     @direct :white_check_mark:
@@ -218,7 +219,7 @@ void RGBController_EVGAGPUv2::DeviceUpdateMode()
         colorA = modes[active_mode].colors[0];
         colorB = (modes[active_mode].colors.size() == 2) ? modes[active_mode].colors[1] : 0 ;
     }
-    
+
     evga->SetMode( modes[active_mode].value, colorA, colorB, modes[active_mode].speed, modes[active_mode].brightness);
 }
 

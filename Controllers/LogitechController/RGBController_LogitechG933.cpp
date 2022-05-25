@@ -12,8 +12,9 @@
 #include "RGBController_LogitechG933.h"
 
 /**------------------------------------------------------------------*\
-    @name Dummy
-    @type I2C or Serial or WMI or USB
+    @name Logitech G933
+    @category Headset
+    @type USB
     @save :x:
     @direct :white_check_mark:
     @effects :x:

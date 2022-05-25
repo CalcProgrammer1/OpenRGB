@@ -184,6 +184,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name EVGA USB Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

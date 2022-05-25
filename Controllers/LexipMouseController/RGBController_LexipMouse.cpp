@@ -14,6 +14,7 @@
 
 /**------------------------------------------------------------------*\
     @name Lexip Mouse
+    @category Mouse
     @type USB
     @save :x:
     @direct :white_check_mark:

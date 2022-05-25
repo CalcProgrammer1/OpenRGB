@@ -8,6 +8,7 @@
 
 /**------------------------------------------------------------------*\
     @name HP Omen 30L
+    @category Motherboard
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -208,6 +209,6 @@ void RGBController_HPOmen30L::DeviceUpdateMode()
     {
         controller->SetZoneMode(i, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness);
     }
- 
+
     DeviceUpdateLEDs();
 }

@@ -18,7 +18,7 @@ static unsigned int matrix_map[5][14] =
     { { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13 },
       { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27 },
       { 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, NA },
-      { 41, NA, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, NA }, 
+      { 41, NA, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, NA },
       { 53, NA, 54, 55, NA, NA, 56, NA, NA, 57, 58, 59, 60, NA } };
 
 static const char* zone_names[] =
@@ -110,6 +110,7 @@ static const led_type led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Anne Pro 2
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -118,7 +119,7 @@ static const led_type led_names[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* controller_ptr) 
+RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* controller_ptr)
 {
     controller  = controller_ptr;
 
@@ -139,12 +140,12 @@ RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* controller_pt
     SetupZones();
 }
 
-RGBController_AnnePro2::~RGBController_AnnePro2() 
+RGBController_AnnePro2::~RGBController_AnnePro2()
 {
     delete controller;
 }
 
-void RGBController_AnnePro2::SetupZones() 
+void RGBController_AnnePro2::SetupZones()
 {
     /*---------------------------------------------------------*\
     | Set up zones                                              |
@@ -187,14 +188,14 @@ void RGBController_AnnePro2::SetupZones()
     SetupColors();
 }
 
-void RGBController_AnnePro2::ResizeZone(int /*zone*/, int /*new_size*/) 
+void RGBController_AnnePro2::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_AnnePro2::DeviceUpdateLEDs() 
+void RGBController_AnnePro2::DeviceUpdateLEDs()
 {
     const unsigned char frame_buf_length = LED_REAL_COUNT * 3;
     unsigned char frame_buf[frame_buf_length];
@@ -225,22 +226,22 @@ void RGBController_AnnePro2::DeviceUpdateLEDs()
     controller->SendDirect(frame_buf_length, frame_buf);
 }
 
-void RGBController_AnnePro2::UpdateZoneLEDs(int /*zone*/) 
+void RGBController_AnnePro2::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AnnePro2::UpdateSingleLED(int /*led*/) 
+void RGBController_AnnePro2::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AnnePro2::SetCustomMode() 
+void RGBController_AnnePro2::SetCustomMode()
 {
     active_mode = 0;
 }
 
-void RGBController_AnnePro2::DeviceUpdateMode() 
+void RGBController_AnnePro2::DeviceUpdateMode()
 {
-    
+
 }

@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Aorus ATC800
+    @category Cooler
     @type USB
     @save :x:
     @direct :x:

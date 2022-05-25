@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name EVGA RGB v1 GPU
+    @category GPU
     @type I2C
     @save :white_check_mark:
     @direct :white_check_mark:

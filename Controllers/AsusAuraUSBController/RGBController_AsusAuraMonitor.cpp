@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus Aura Monitor
+    @category LEDStrip
     @type USB
     @save :x:
     @direct :white_check_mark:

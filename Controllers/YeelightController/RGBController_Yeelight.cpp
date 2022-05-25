@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Yeelight
+    @category Light
     @type Network
     @save :x:
     @direct :warning:

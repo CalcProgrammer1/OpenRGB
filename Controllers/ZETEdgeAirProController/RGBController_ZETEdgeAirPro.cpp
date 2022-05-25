@@ -13,6 +13,7 @@
 
 /**------------------------------------------------------------------*\
     @name ZET Edge Air Pro
+    @category Mouse
     @type USB
     @save :x:
     @direct :x:
@@ -134,7 +135,7 @@ void RGBController_ZETEdgeAirPro::SetCustomMode()
 }
 
 void RGBController_ZETEdgeAirPro::DeviceUpdateMode()
-{    
+{
     RGBColor color;
 
     if(modes[active_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR)

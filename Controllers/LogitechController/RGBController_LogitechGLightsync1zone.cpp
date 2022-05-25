@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Logitech Lightsync Mouse (1 Zone)
+    @category Mouse
     @type USB
     @save :warning:
     @direct :white_check_mark:

@@ -756,8 +756,9 @@ static const char* corsair_harpoon_pro_leds[] =
 
 /**------------------------------------------------------------------*\
     @name Corsair Peripheral
+    @category Keyboard,Mouse,Mousemat,HeadsetStand
     @type USB
-    @save :white_check_mark: or :warning: or :x:
+    @save :x:
     @direct :white_check_mark:
     @effects :x:
     @detectors DetectCorsairPeripheralControllers
@@ -1037,14 +1038,14 @@ void RGBController_CorsairPeripheral::SetupZones()
                     new_led.name = corsair_mouse_leds[led_idx];
                 }
                 break;
-            
+
             case DEVICE_TYPE_MOUSEMAT:
             case DEVICE_TYPE_HEADSET_STAND:
                 new_led.name = "Mousemat LED ";
                 new_led.name.append(std::to_string(led_idx + 1));
                 break;
         }
-        
+
         leds.push_back(new_led);
     }
 

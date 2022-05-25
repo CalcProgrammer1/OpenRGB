@@ -12,6 +12,17 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
+/**------------------------------------------------------------------*\
+    @name Nanoleaf
+    @category Light
+    @type Network
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectNanoleafControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_Nanoleaf::RGBController_Nanoleaf(std::string a_address, int a_port, std::string a_auth_token) :
     controller(a_address, a_port, a_auth_token)
 {
@@ -108,12 +119,12 @@ void RGBController_Nanoleaf::DeviceUpdateLEDs()
 
 void RGBController_Nanoleaf::UpdateZoneLEDs(int /*zone*/)
 {
-	DeviceUpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_Nanoleaf::UpdateSingleLED(int /*led*/)
 {
-	DeviceUpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_Nanoleaf::SetCustomMode()

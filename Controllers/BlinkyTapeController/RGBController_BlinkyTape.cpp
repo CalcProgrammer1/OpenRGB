@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Blinky Tape
+    @category LEDStrip
     @type Serial
     @save :x:
     @direct :white_check_mark:

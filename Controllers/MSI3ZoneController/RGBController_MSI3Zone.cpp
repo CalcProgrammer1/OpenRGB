@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name MSI 3 Zone Keyboard
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

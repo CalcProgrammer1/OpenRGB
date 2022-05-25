@@ -58,11 +58,14 @@ FILE_LIST=$(find ${CONTROLLER_PATH} | grep RGBController_ | grep cpp)
 #-----------------------------------------------------------------------------#
 while read -r controller
 do
-    DATA=$(awk -v RS='' '/\/\*\*/' ${controller})
+    ## 's/\r$//' - Convert DOS text to Unix text
+    DATA=$(sed -e 's/\r$//' ${controller} | awk -v RS='' '/\/\*\*/')
 
-    name=$(printf %s "$DATA" | grep @name |  sed -e 's/\r$//' -e 's/@name//g' -e 's/^ *//g')
-    type=$(printf %s "$DATA" | grep @type |  sed -e 's/\r$//' -e 's/@type//g' -e 's/^ *//g')
-    detectors=$(printf %s "$DATA" | grep @detectors |  sed -e 's/\r$//' -e 's/@detectors *//g' -e 's/^ *//g' -e 's/\,/\n/g')
+    ## 's/^ *//g' - Remove all leading whitespace
+    ## 's/\,/\n/g' - Convert a comma separated list to lines
+    name=$(printf %s "$DATA" | grep @name |  sed -e 's/@name//g' -e 's/^ *//g')
+    type=$(printf %s "$DATA" | grep @type |  sed -e 's/@type//g' -e 's/^ *//g')
+    detectors=$(printf %s "$DATA" | grep @detectors |  sed -e 's/@detectors *//g' -e 's/^ *//g' -e 's/\,/\n/g')
 
     if [[ $type = USB || $type = Serial ]]; then    #Check that the type is USB
         ## Iterate over the comma seperated detector function list
@@ -102,8 +105,8 @@ if [ -f "$UDEV_FILE" ]; then
     outpath=$(readlink -f "$UDEV_FILE")
     echo -e "Udev rules built at: $outpath"
 
-    #Clean up the preprocessor files if the rules file was created successfully
-    rm *.{ii,s}
+    ## Clean up the preprocessor files if the rules file was created
+    # rm *.{ii,s}
 else
     echo -e "Something went wrong. No Udev file was found"
 fi

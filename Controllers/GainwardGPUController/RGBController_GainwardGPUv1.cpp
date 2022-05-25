@@ -16,6 +16,7 @@ int RGBController_GainwardGPUv1::GetDeviceMode()
 
 /**------------------------------------------------------------------*\
     @name Gainward GPU v1
+    @category GPU
     @type I2C
     @save :x:
     @direct :white_check_mark:

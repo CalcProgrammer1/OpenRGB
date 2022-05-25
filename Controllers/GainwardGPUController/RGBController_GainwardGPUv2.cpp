@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Gainward GPU v2
+    @category GPU
     @type I2C
     @save :x:
     @direct :x:
@@ -181,7 +182,7 @@ void RGBController_GainwardGPUv2::DeviceUpdateMode()
                 unsigned char b = RGBGetBValue(current_mode.colors[0]);
                 controller->SetLEDColors(r, g, b, GAINWARD_V2_COLOR_REGISTER_TERTIARY);
             }
-        
+
         case 2:
             controller->SetMode((unsigned char)(current_mode.value), (unsigned char)(current_mode.speed));
             controller->SetDirection(current_mode.direction);

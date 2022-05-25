@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name AMD Wraith Prism
+    @category Cooler
     @type USB
     @save :x:
     @direct :white_check_mark:

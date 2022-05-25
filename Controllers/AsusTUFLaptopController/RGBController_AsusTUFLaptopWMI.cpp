@@ -12,6 +12,7 @@ using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name Asus TUF Laptop
+    @category Keyboard
     @type WMI
     @save :x:
     @direct :white_check_mark:

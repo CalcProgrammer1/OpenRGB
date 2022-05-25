@@ -8,6 +8,7 @@
 
 /**------------------------------------------------------------------*\
     @name Steel Series Apex Tri Zone Keyboards
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -19,7 +20,7 @@
 RGBController_SteelSeriesApexTZone::RGBController_SteelSeriesApexTZone(SteelSeriesApexTZoneController* controller_ptr)
 {
     controller              = controller_ptr;
-    
+
     name                    = controller->GetDeviceName();
     vendor                  = "SteelSeries";
     type                    = DEVICE_TYPE_KEYBOARD;

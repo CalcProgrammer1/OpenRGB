@@ -10,6 +10,7 @@
 
 /**------------------------------------------------------------------*\
     @name Philips Hue
+    @category Light
     @type Network
     @save :x:
     @direct :white_check_mark:

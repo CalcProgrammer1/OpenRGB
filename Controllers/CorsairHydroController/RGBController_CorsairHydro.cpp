@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Corsair Hydro
+    @category Cooler
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -86,7 +87,7 @@ RGBController_CorsairHydro::~RGBController_CorsairHydro()
 void RGBController_CorsairHydro::SetupZones()
 {
     zone new_zone;
-    
+
     new_zone.name       = "Pump Zone";
     new_zone.type       = ZONE_TYPE_SINGLE;
     new_zone.leds_min   = 1;

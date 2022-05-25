@@ -28,6 +28,31 @@ before_script:
     - export APPIMAGE_EXTRACT_AND_RUN=1
 
 #-----------------------------------------------------------------------#
+# Supported Devices Build Target                                        #
+#-----------------------------------------------------------------------#
+"Supported Devices":
+  <<: *ccache_init
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-64
+  stage: build
+  script:
+  - qmake
+  - make -j$(nproc)
+  - ./scripts/build-supported-devices-md.sh $CI_PROJECT_DIR $CI_COMMIT_SHORT_SHA
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Supported_Devices_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - ./*.md
+    exclude:
+    - README.md
+    - CONTRIBUTING.md
+    expire_in: 30 days
+
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+
+#-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
 #-----------------------------------------------------------------------#
 "Linux 32 AppImage":

@@ -13,6 +13,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus ROG Strix Liquid Cooler
+    @category Cooler
     @type USB
     @save :x:
     @direct :white_check_mark:

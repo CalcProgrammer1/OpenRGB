@@ -11,6 +11,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus Aura Mousemat
+    @category Mousemat
     @type USB
     @save :white_check_mark:
     @direct :white_check_mark:
@@ -259,7 +260,7 @@ void RGBController_AuraMousemat::DeviceUpdateMode()
             case AURA_MOUSEMAT_MODE_WAVE:
                 pattern = modes[active_mode].colors.size() * 16 + modes[active_mode].direction;
                 break;
-            case AURA_MOUSEMAT_MODE_WAVE_PLANE:       
+            case AURA_MOUSEMAT_MODE_WAVE_PLANE:
                 switch(modes[active_mode].direction)
                 {
                     case MODE_DIRECTION_LEFT:

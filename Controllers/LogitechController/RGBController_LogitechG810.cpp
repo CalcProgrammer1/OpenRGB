@@ -168,6 +168,7 @@ static const led_type led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Logitech G810
+    @category Keyboard
     @type USB
     @save :warning:
     @direct :white_check_mark:
@@ -202,7 +203,7 @@ RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* c
     Static.color_mode               = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
     modes.push_back(Static);
-    
+
     mode Off;
     Off.name                        = "Off";
     Off.value                       = LOGITECH_G810_MODE_OFF;
@@ -330,7 +331,7 @@ void RGBController_LogitechG810::DeviceUpdateLEDs()
         frame_buf[(frame_cnt * 4) + 1] = RGBGetRValue(colors[led_idx]);
         frame_buf[(frame_cnt * 4) + 2] = RGBGetGValue(colors[led_idx]);
         frame_buf[(frame_cnt * 4) + 3] = RGBGetBValue(colors[led_idx]);
-        
+
         frame_cnt++;
         prev_zone = zone;
 

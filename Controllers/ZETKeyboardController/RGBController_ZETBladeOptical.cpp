@@ -172,6 +172,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name Zet Blade Optical
+    @category Keyboard
     @type USB
     @save :x:
     @direct :x:

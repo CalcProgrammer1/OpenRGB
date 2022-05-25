@@ -13,6 +13,7 @@
 
 /**------------------------------------------------------------------*\
     @name Quantum Mechanical Keyboard (QMK)
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:

@@ -22,6 +22,7 @@ using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name Coolermaster Masterkeys Keyboards
+    @category Keyboard
     @type USB
     @save :warning:
     @direct :white_check_mark:
@@ -41,7 +42,7 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* contr
     version                     = controller->GetFirmwareVersion();
     serial                      = "";
     location                    = controller->GetLocation();
-    
+
     mode Direct;
     Direct.name                 = "Direct";
     Direct.value                = CMMK_MODE_MANUAL;
@@ -58,7 +59,7 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* contr
     Static.colors_max           = 1;
     Static.colors.resize(1);
     modes.push_back(Static);
-    
+
     mode Breathing;
     Breathing.name              = "Breathing";
     Breathing.value             = CMMK_EFFECT_BREATHE;
@@ -108,7 +109,7 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* contr
     Wave.colors_max             = 1;
     Wave.colors.resize(1);
     modes.push_back(Wave);
-    
+
     mode Ripple;
     Ripple.name                 = "Ripple Effect";
     Ripple.value                = CMMK_EFFECT_RIPPLE;
@@ -121,7 +122,7 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* contr
     Ripple.colors_max           = 2;
     Ripple.colors.resize(2);
     modes.push_back(Ripple);
-    
+
     mode Cross;
     Cross.name                  = "Cross";
     Cross.value                 = CMMK_EFFECT_CROSS;
@@ -147,7 +148,7 @@ RGBController_CMMKController::RGBController_CMMKController(CMMKController* contr
     Raindrops.colors_max        = 2;
     Raindrops.colors.resize(2);
     modes.push_back(Raindrops);
-    
+
     mode Stars;
     Stars.name                  = "Starfield";
     Stars.value                 = CMMK_EFFECT_STARS;
@@ -224,7 +225,7 @@ void RGBController_CMMKController::SetupZones()
             std::stringstream namestrm;
 
             led key;
-            
+
             namestrm << "Key @ Row " << (y + 1) << ", Column" << (x + 1);
 
             key.name = namestrm.str();
@@ -365,7 +366,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
         case CMMK_MODE_FIRMWARE:
             controller->SetFirmwareControl();
             break;
-        
+
         case CMMK_MODE_MANUAL:
             controller->SetManualControl();
             break;
@@ -400,7 +401,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 controller->SetMode(cycle_effect);
             }
             break;
-        
+
         case CMMK_EFFECT_SINGLE:
             {
                 cmmk_effect_single single_effect;
@@ -412,7 +413,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 controller->SetMode(single_effect);
             }
             break;
-        
+
         case CMMK_EFFECT_WAVE:
             {
                 cmmk_effect_wave wave_effect;
@@ -424,7 +425,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 controller->SetMode(wave_effect);
             }
             break;
-        
+
         case CMMK_EFFECT_RIPPLE:
             {
                 cmmk_effect_ripple ripple_effect;
@@ -445,7 +446,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 controller->SetMode(ripple_effect);
             }
             break;
-        
+
         case CMMK_EFFECT_CROSS:
             {
                 cmmk_effect_cross cross_effect;
@@ -457,7 +458,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
                 controller->SetMode(cross_effect);
             }
             break;
-        
+
         case CMMK_EFFECT_RAINDROPS:
             {
                 cmmk_effect_raindrops raindrops_effect;
@@ -474,12 +475,12 @@ void RGBController_CMMKController::DeviceUpdateMode()
         case CMMK_EFFECT_STARS:
             {
                 cmmk_effect_stars stars_effect;
-                
+
                 stars_effect.speed      = (uint8_t)modes[active_mode].speed;
                 stars_effect.interval   = CMMK_SPEED_MID;
                 stars_effect.active     = map_to_cmmk_rgb(modes[active_mode].colors[0]);
                 stars_effect.rest       = map_to_cmmk_rgb(modes[active_mode].colors[1]);
-    
+
                 controller->SetMode(stars_effect);
             }
             break;
@@ -487,7 +488,7 @@ void RGBController_CMMKController::DeviceUpdateMode()
         case CMMK_EFFECT_SNAKE:
             {
                 cmmk_effect_snake snake_effect;
-                
+
                 snake_effect.speed = (uint8_t)modes[active_mode].speed;
 
                 controller->SetMode(snake_effect);

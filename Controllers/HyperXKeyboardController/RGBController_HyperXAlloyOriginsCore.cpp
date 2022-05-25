@@ -17,12 +17,12 @@ using namespace std::chrono_literals;
 
 static unsigned int matrix_map[6][19] =
 {
-		{   0,  NA,   1,   2,   3,   4,   5,   6,   7,  44,  NA,  45,  46,  47,  48,  NA,  49,  50,  51 },
-		{   8,   9,  10,  11,  12,  13,  14,  15,  16,  52,  53,  54,  55,  56,  NA,  NA,  57,  58,  59 },
-		{  17,  NA,  18,  19,  20,  21,  22,  23,  24,  60,  61,  62,  63,  64,  65,  NA,  66,  67,  68 },
-		{  25,  NA,  26,  27,  28,  29,  30,  31,  32,  69,  70,  71,  72,  73,  NA,  NA,  NA,  NA,  NA },
-		{  33,  NA,  34,  35,  36,  37,  38,  NA,  39,  74,  75,  76,  77,  78,  NA,  NA,  NA,  79,  NA },
-		{  40,  41,  42,  NA,  NA,  NA,  43,  NA,  NA,  NA,  NA,  80,  81,  82,  83,  NA,  84,  85,  86 }
+        {   0,  NA,   1,   2,   3,   4,   5,   6,   7,  44,  NA,  45,  46,  47,  48,  NA,  49,  50,  51 },
+        {   8,   9,  10,  11,  12,  13,  14,  15,  16,  52,  53,  54,  55,  56,  NA,  NA,  57,  58,  59 },
+        {  17,  NA,  18,  19,  20,  21,  22,  23,  24,  60,  61,  62,  63,  64,  65,  NA,  66,  67,  68 },
+        {  25,  NA,  26,  27,  28,  29,  30,  31,  32,  69,  70,  71,  72,  73,  NA,  NA,  NA,  NA,  NA },
+        {  33,  NA,  34,  35,  36,  37,  38,  NA,  39,  74,  75,  76,  77,  78,  NA,  NA,  NA,  79,  NA },
+        {  40,  41,  42,  NA,  NA,  NA,  43,  NA,  NA,  NA,  NA,  80,  81,  82,  83,  NA,  84,  85,  86 }
 };
 
 static const char* zone_names[] =
@@ -92,7 +92,7 @@ static const char *led_names[] =
     KEY_EN_LEFT_ALT,
     KEY_EN_SPACE,
 
-	// End of first section
+    // End of first section
 
     KEY_EN_F8,
     KEY_EN_F9,
@@ -148,6 +148,7 @@ static const char *led_names[] =
 
 /**------------------------------------------------------------------*\
     @name HyperX Alloy Origins Core
+    @category Keyboard
     @type USB
     @save :x:
     @direct :white_check_mark:
