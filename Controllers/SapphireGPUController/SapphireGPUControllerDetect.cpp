@@ -17,47 +17,6 @@ enum
     SAPPHIRE_NITRO_GLOW_V3_ADDR = 0x28,
 };
 
-/*-----------------------------------------------------*\
-| Nitro Glow Versions                                   |
-\*-----------------------------------------------------*/
-enum
-{
-    SAPPHIRE_NITRO_GLOW_V1,
-    SAPPHIRE_NITRO_GLOW_V2,
-    SAPPHIRE_NITRO_GLOW_V3,
-};
-
-typedef struct
-{
-    int             pci_vendor;
-    int             pci_device;
-    int             pci_subsystem_vendor;
-    int             pci_subsystem_device;
-    int             version;
-    const char *    name;
-} gpu_pci_device;
-
-#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
-static const gpu_pci_device device_list[] =
-{
-    { AMD_GPU_VEN,  AMD_POLARIS_DEV,        SAPPHIRE_LEGACY_SUB_VEN,    SAPPHIRE_LEGACY_POLARIS_NITRO_PLUS_SUB_DEV, SAPPHIRE_NITRO_GLOW_V1, "RX 470/480 Nitro+"             },
-    { AMD_GPU_VEN,  AMD_POLARIS_DEV,        SAPPHIRE_SUB_VEN,           SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV1,       SAPPHIRE_NITRO_GLOW_V1, "RX 570/580/590 Nitro+"         },
-    { AMD_GPU_VEN,  AMD_POLARIS_DEV,        SAPPHIRE_SUB_VEN,           SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV2,       SAPPHIRE_NITRO_GLOW_V1, "RX 570/580/590 Nitro+"         },
-    { AMD_GPU_VEN,  AMD_POLARIS20XL_DEV,    SAPPHIRE_SUB_VEN,           SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV1,       SAPPHIRE_NITRO_GLOW_V1, "RX 580 Nitro+ (2048SP)"        },
-    { AMD_GPU_VEN,  AMD_VEGA10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_VEGA10_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V1, "RX Vega 56/64 Nitro+"          },
-    { AMD_GPU_VEN,  AMD_NAVI10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV1,        SAPPHIRE_NITRO_GLOW_V3, "RX 5700 (XT) Nitro+"           },
-    { AMD_GPU_VEN,  AMD_NAVI10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV2,        SAPPHIRE_NITRO_GLOW_V3, "RX 5700 XT Nitro+"             },
-    { AMD_GPU_VEN,  AMD_NAVI10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV3,        SAPPHIRE_NITRO_GLOW_V3, "RX 5700 XT Nitro+"             },
-    { AMD_GPU_VEN,  AMD_NAVI14_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI14_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V3, "RX 5500 XT Nitro+"             },
-    { AMD_GPU_VEN,  AMD_NAVI21_DEV1,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV1,        SAPPHIRE_NITRO_GLOW_V3, "RX 6800 XT Nitro+ SE"          },
-    { AMD_GPU_VEN,  AMD_NAVI21_DEV1,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV2,        SAPPHIRE_NITRO_GLOW_V3, "RX 6800 XT/6900 XT Nitro+"     },
-    { AMD_GPU_VEN,  AMD_NAVI21_DEV1,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV3,        SAPPHIRE_NITRO_GLOW_V3, "RX 6800 Nitro+"                },
-    { AMD_GPU_VEN,  AMD_NAVI22_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI22_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V3, "RX 6700 XT Nitro+"             },
-    { AMD_GPU_VEN,  AMD_NAVI23_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI23_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V3, "RX 6600 XT Nitro+"             },
-    { AMD_GPU_VEN,  AMD_NAVI21_DEV2,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_TOXIC_SUB_DEV,              SAPPHIRE_NITRO_GLOW_V3, "RX 6900 XT Toxic"              },
-};
-
 /******************************************************************************************\
 *                                                                                          *
 *   TestForSapphireGPUController                                                           *
@@ -92,42 +51,46 @@ bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char addres
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectSapphireGPUControllers(std::vector<i2c_smbus_interface *> &busses)
+void DetectSapphireGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    switch(i2c_addr)
     {
-        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
-        {
-            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
-               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
-               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
-               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
+        case SAPPHIRE_NITRO_GLOW_V1_ADDR:
+            if(TestForSapphireGPUController(bus, i2c_addr))
             {
-                switch(device_list[dev_idx].version)
-                {
-                    case SAPPHIRE_NITRO_GLOW_V1:
-                        if(TestForSapphireGPUController(busses[bus], SAPPHIRE_NITRO_GLOW_V1_ADDR))
-                        {
-                            SapphireNitroGlowV1Controller*     new_sapphire_gpu = new SapphireNitroGlowV1Controller(busses[bus], SAPPHIRE_NITRO_GLOW_V1_ADDR);
-                            RGBController_SapphireNitroGlowV1* new_controller   = new RGBController_SapphireNitroGlowV1(new_sapphire_gpu);
-                            new_controller->name = device_list[dev_idx].name;
-                            ResourceManager::get()->RegisterRGBController(new_controller);
-                        }
-                        break;
+                SapphireNitroGlowV1Controller*     new_sapphire_gpu = new SapphireNitroGlowV1Controller(bus, i2c_addr);
+                RGBController_SapphireNitroGlowV1* new_controller   = new RGBController_SapphireNitroGlowV1(new_sapphire_gpu);
+                new_controller->name                                = name;
 
-                    case SAPPHIRE_NITRO_GLOW_V3:
-                        if(TestForSapphireGPUController(busses[bus], SAPPHIRE_NITRO_GLOW_V3_ADDR))
-                        {
-                            SapphireNitroGlowV3Controller*     new_sapphire_gpu = new SapphireNitroGlowV3Controller(busses[bus], SAPPHIRE_NITRO_GLOW_V3_ADDR);
-                            RGBController_SapphireNitroGlowV3* new_controller   = new RGBController_SapphireNitroGlowV3(new_sapphire_gpu);
-                            new_controller->name = device_list[dev_idx].name;
-                            ResourceManager::get()->RegisterRGBController(new_controller);
-                        }
-                        break;
-                }
+                ResourceManager::get()->RegisterRGBController(new_controller);
             }
-        }
+            break;
+
+        case SAPPHIRE_NITRO_GLOW_V3_ADDR:
+            if(TestForSapphireGPUController(bus, i2c_addr))
+            {
+                SapphireNitroGlowV3Controller*     new_sapphire_gpu = new SapphireNitroGlowV3Controller(bus, i2c_addr);
+                RGBController_SapphireNitroGlowV3* new_controller   = new RGBController_SapphireNitroGlowV3(new_sapphire_gpu);
+                new_controller->name                                = name;
+
+                ResourceManager::get()->RegisterRGBController(new_controller);
+            }
+            break;
     }
 }   /* DetectSapphireGPUControllers() */
 
-REGISTER_I2C_DETECTOR("Sapphire GPU", DetectSapphireGPUControllers);
+REGISTER_I2C_PCI_DETECTOR("RX 470/480 Nitro+",          DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,        SAPPHIRE_LEGACY_SUB_VEN,    SAPPHIRE_LEGACY_POLARIS_NITRO_PLUS_SUB_DEV, SAPPHIRE_NITRO_GLOW_V1_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 570/580/590 Nitro+",      DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,        SAPPHIRE_SUB_VEN,           SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV1,       SAPPHIRE_NITRO_GLOW_V1_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 570/580/590 Nitro+",      DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,        SAPPHIRE_SUB_VEN,           SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV2,       SAPPHIRE_NITRO_GLOW_V1_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 580 Nitro+ (2048SP)",     DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS20XL_DEV,    SAPPHIRE_SUB_VEN,           SAPPHIRE_POLARIS_NITRO_PLUS_SUB_DEV1,       SAPPHIRE_NITRO_GLOW_V1_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX Vega 56/64 Nitro+",       DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_VEGA10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_VEGA10_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V1_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 5700 (XT) Nitro+",        DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV1,        SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 5700 XT Nitro+",          DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV2,        SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 5700 XT Nitro+",          DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI10_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI10_NITRO_PLUS_SUB_DEV3,        SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 5500 XT Nitro+",          DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI14_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI14_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 6800 XT Nitro+ SE",       DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV1,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV1,        SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 6800 XT/6900 XT Nitro+",  DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV1,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV2,        SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 6800 Nitro+",             DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV1,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_NITRO_PLUS_SUB_DEV3,        SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 6700 XT Nitro+",          DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI22_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI22_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 6600 XT Nitro+",          DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI23_DEV,         SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI23_NITRO_PLUS_SUB_DEV,         SAPPHIRE_NITRO_GLOW_V3_ADDR);
+REGISTER_I2C_PCI_DETECTOR("RX 6900 XT Toxic",           DetectSapphireGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV2,        SAPPHIRE_SUB_VEN,           SAPPHIRE_NAVI21_TOXIC_SUB_DEV,              SAPPHIRE_NITRO_GLOW_V3_ADDR);
