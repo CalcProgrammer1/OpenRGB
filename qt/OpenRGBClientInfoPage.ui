@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Frame</string>
+   <string>Client info page</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="6">

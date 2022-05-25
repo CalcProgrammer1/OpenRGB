@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>i18n/OpenRGB_en.qm</file>
+        <file>i18n/OpenRGB_fr.qm</file>
+        <file>i18n/OpenRGB_es.qm</file>
+        <file>i18n/OpenRGB_de.qm</file>
+        <file>i18n/OpenRGB_ru.qm</file>
+    </qresource>
+</RCC>

@@ -114,3 +114,7 @@ compile_commands.json
 
 # Clang tooling files
 compile_commands.json
+
+# Generated i18n files
+*.qm
+

@@ -1089,7 +1089,15 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 RESOURCES +=                                                                                    \
-    qt/resources.qrc
+    qt/resources.qrc                                                                            \
+    qt/languages.qrc                                                                            \
+
+TRANSLATIONS += \
+    qt/i18n/OpenRGB_en.ts  \
+    qt/i18n/OpenRGB_de.ts  \
+    qt/i18n/OpenRGB_es.ts  \
+    qt/i18n/OpenRGB_fr.ts  \
+    qt/i18n/OpenRGB_ru.ts  \
 
 FORMS +=                                                                                        \
     qt/OpenRGBClientInfoPage.ui                                                                 \

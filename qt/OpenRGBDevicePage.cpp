@@ -13,7 +13,7 @@ static void UpdateCallback(void * this_ptr)
     QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
 }
 
-static QString ModeDescription(const mode& m)
+QString OpenRGBDevicePage::ModeDescription(const mode& m)
 {
     /*-----------------------------------------------------------------*\
     | List of common mode names can be found on the OpenRGB Wiki:       |
@@ -21,14 +21,14 @@ static QString ModeDescription(const mode& m)
     \*-----------------------------------------------------------------*/
     static const std::unordered_map<std::string, QString> descriptions =
     {
-        {"Direct",          "Set individual LEDs to static colors.  Safe for use with software-driven effects."                     },
-        {"Custom",          "Set individual LEDs to static colors.  Not safe for use with software-driven effects."                 },
-        {"Static",          "Sets the entire device or a zone to a single color."                                                   },
-        {"Breathing",       "Gradually fades between fully off and fully on."                                                       },
-        {"Flashing",        "Abruptly changes between fully off and fully on."                                                      },
-        {"Spectrum Cycle",  "Gradually cycles through the entire color spectrum.  All lights on the device are the same color."     },
-        {"Rainbow Wave",    "Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves."           },
-        {"Reactive",        "Flashes lights when keys or buttons are pressed."                                                      },
+        {"Direct",          tr("Set individual LEDs to static colors.  Safe for use with software-driven effects.")                     },
+        {"Custom",          tr("Set individual LEDs to static colors.  Not safe for use with software-driven effects.")                 },
+        {"Static",          tr("Sets the entire device or a zone to a single color.")                                                   },
+        {"Breathing",       tr("Gradually fades between fully off and fully on.")                                                       },
+        {"Flashing",        tr("Abruptly changes between fully off and fully on.")                                                      },
+        {"Spectrum Cycle",  tr("Gradually cycles through the entire color spectrum.  All lights on the device are the same color.")     },
+        {"Rainbow Wave",    tr("Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.")           },
+        {"Reactive",        tr("Flashes lights when keys or buttons are pressed.")                                                      },
     };
 
     /*-----------------------------------------------------------------*\
@@ -165,7 +165,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                     {
                         if(device->leds.size() > 1)
                         {
-                            ui->LEDBox->addItem("Entire Device");
+                            ui->LEDBox->addItem(tr("Entire Device"));
                             ui->LEDBox->setEnabled(1);
                         }
                         else
@@ -197,7 +197,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                     // Disable led box if there's only one LED anyway
                     if(device->zones[selected_zone].leds_count > 1)
                     {
-                        ui->LEDBox->addItem("Entire Zone");
+                        ui->LEDBox->addItem(tr("Entire Zone"));
                         ui->LEDBox->setEnabled(1);
                     }
                     else
@@ -533,20 +533,20 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         
         if(supports_dir_lr)
         {
-            ui->DirectionBox->addItem("Left");
-            ui->DirectionBox->addItem("Right");
+            ui->DirectionBox->addItem(tr("Left"));
+            ui->DirectionBox->addItem(tr("Right"));
         }
 
         if(supports_dir_ud)
         {
-            ui->DirectionBox->addItem("Up");
-            ui->DirectionBox->addItem("Down");
+            ui->DirectionBox->addItem(tr("Up"));
+            ui->DirectionBox->addItem(tr("Down"));
         }
 
         if(supports_dir_hv)
         {
-            ui->DirectionBox->addItem("Horizontal");
-            ui->DirectionBox->addItem("Vertical");
+            ui->DirectionBox->addItem(tr("Horizontal"));
+            ui->DirectionBox->addItem(tr("Vertical"));
         }
 
         if(supports_dir_lr || supports_dir_ud || supports_dir_hv)
@@ -642,17 +642,17 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
 
         if(automatic_save)
         {
-            ui->DeviceSaveButton->setText("Saved To Device");
+            ui->DeviceSaveButton->setText(tr("Saved To Device"));
             ui->DeviceSaveButton->setEnabled(false);
         }
         else if(manual_save)
         {
-            ui->DeviceSaveButton->setText("Save To Device");
+            ui->DeviceSaveButton->setText(tr("Save To Device"));
             ui->DeviceSaveButton->setEnabled(true);
         }
         else
         {
-            ui->DeviceSaveButton->setText("Saving Not Supported");
+            ui->DeviceSaveButton->setText(tr("Saving Not Supported"));
             ui->DeviceSaveButton->setEnabled(false);
         }
 
@@ -683,7 +683,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 if(device->zones.size() > 1)
                 {
                     ui->ZoneBox->setEnabled(1);
-                    ui->ZoneBox->addItem("All Zones");
+                    ui->ZoneBox->addItem(tr("All Zones"));
                 }
                 else
                 {
@@ -714,7 +714,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
             case MODE_COLORS_MODE_SPECIFIC:
                 ui->ZoneBox->blockSignals(true);
                 ui->ZoneBox->clear();
-                ui->ZoneBox->addItem("Mode Specific");
+                ui->ZoneBox->addItem(tr("Mode Specific"));
                 ui->ZoneBox->blockSignals(false);
 
                 ui->LEDBox->blockSignals(true);
@@ -732,6 +732,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 for(unsigned int i = 0; i < device->modes[selected_mode].colors.size(); i++)
                 {
                     char id_buf[32];
+                    // TODO: translate
                     snprintf(id_buf, 16, "Mode Color %u", i);
                     ui->LEDBox->addItem(id_buf);
                 }
@@ -1039,6 +1040,7 @@ void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indic
             {
                 ui->LEDBox->removeItem(device->leds.size() + 1);
             }
+            // TODO: translate
             ui->LEDBox->addItem("Multiple (" + QVariant(indices.size()).toString() + ")");
             ui->LEDBox->setCurrentIndex(device->leds.size() + 1);
             MultipleSelected = 1;

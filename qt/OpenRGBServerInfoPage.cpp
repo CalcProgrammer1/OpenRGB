@@ -34,21 +34,21 @@ void OpenRGBServerInfoPage::UpdateInfo()
 
     if(network_server->GetListening() && !network_server->GetOnline())
     {
-        ui->ServerStatusValue->setText("Stopping...");
+        ui->ServerStatusValue->setText(tr("Stopping..."));
         ui->ServerStartButton->setEnabled(false);
         ui->ServerStopButton->setEnabled(false);
         ui->ServerPortValue->setEnabled(false);
     }
     else if(network_server->GetListening())
     {
-        ui->ServerStatusValue->setText("Online");
+        ui->ServerStatusValue->setText(tr("Online"));
         ui->ServerStartButton->setEnabled(false);
         ui->ServerStopButton->setEnabled(true);
         ui->ServerPortValue->setEnabled(false);
     }
     else
     {
-        ui->ServerStatusValue->setText("Offline");
+        ui->ServerStatusValue->setText(tr("Offline"));
         ui->ServerStartButton->setEnabled(true);
         ui->ServerStopButton->setEnabled(false);
         ui->ServerPortValue->setEnabled(true);
@@ -56,7 +56,7 @@ void OpenRGBServerInfoPage::UpdateInfo()
 
     ui->ServerClientTree->clear();
     ui->ServerClientTree->setColumnCount(3);
-    ui->ServerClientTree->setHeaderLabels(QStringList() << "Client IP" << "Protocol Version" << "Client Name");
+    ui->ServerClientTree->setHeaderLabels(QStringList() << tr("Client IP") << tr("Protocol Version") << tr("Client Name"));
     for(unsigned int client_idx = 0; client_idx < network_server->GetNumClients(); client_idx++)
     {
         QTreeWidgetItem * new_item = new QTreeWidgetItem();

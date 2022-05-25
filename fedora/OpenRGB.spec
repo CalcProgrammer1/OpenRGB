@@ -9,7 +9,7 @@ License:        GPLv2
 URL:            https://gitlab.com/CalcProgrammer1/%{_name}
 Source0:        OpenRGB.tar.gz
 
-BuildRequires:  gcc-c++ libusb-devel libstdc++-devel qt5-qtbase-devel desktop-file-utils hidapi-devel mbedtls-devel systemd-rpm-macros
+BuildRequires:  gcc-c++ libusb-devel libstdc++-devel qt5-qtbase-devel qt5-linguist desktop-file-utils hidapi-devel mbedtls-devel systemd-rpm-macros
 Requires:       hicolor-icon-theme
 
 %description
@@ -22,6 +22,7 @@ cp %{_sourcedir}/%{_name}/* %{_builddir} -r
 
 %build
 cd %{_builddir}
+/usr/bin/lrelease-qt5 OpenRGB.pro
 %qmake_qt5 PREFIX=%{_prefix} "QMAKE_CXXFLAGS+=-save-temps"
 %make_build
 
@@ -47,6 +48,9 @@ fi
 %doc README.md
 
 %changelog
+* Mon Jan 03 2022 Morgan Guimard <morgan.gimard@gmail.com> 0.7.1-1
+- Add linguist package from qt and add lrelease build step.
+
 * Thu Dec 30 2021 Adam Honse <calcprogrammer1@gmail.com> - 0.7.1-0
 - Updated to 0.7.1
 

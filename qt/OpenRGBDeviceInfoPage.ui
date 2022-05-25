@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Frame</string>
+   <string>Device info page</string>
   </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="20,80">
    <item row="0" column="0" alignment="Qt::AlignHCenter">
@@ -66,7 +66,7 @@
    <item row="0" column="1">
     <widget class="QLabel" name="NameValue">
      <property name="text">
-      <string>Name Value</string>
+      <string notr="true">Name Value</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -76,7 +76,7 @@
    <item row="1" column="1">
     <widget class="QLabel" name="VendorValue">
      <property name="text">
-      <string>Vendor Value</string>
+      <string notr="true">Vendor Value</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -86,7 +86,7 @@
    <item row="2" column="1">
     <widget class="QLabel" name="TypeValue">
      <property name="text">
-      <string>Type Value</string>
+      <string notr="true">Type Value</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -96,7 +96,7 @@
    <item row="3" column="1">
     <widget class="QLabel" name="DescriptionValue">
      <property name="text">
-      <string>Description Value</string>
+      <string notr="true">Description Value</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -106,7 +106,7 @@
    <item row="4" column="1">
     <widget class="QLabel" name="VersionValue">
      <property name="text">
-      <string>Version Value</string>
+      <string notr="true">Version Value</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -116,7 +116,7 @@
    <item row="5" column="1">
     <widget class="QLabel" name="LocationValue">
      <property name="text">
-      <string>Location Value</string>
+      <string notr="true">Location Value</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -126,7 +126,7 @@
    <item row="6" column="1">
     <widget class="QLabel" name="SerialValue">
      <property name="text">
-      <string>Serial Value</string>
+      <string notr="true">Serial Value</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

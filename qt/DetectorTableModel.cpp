@@ -99,9 +99,9 @@ QVariant DetectorTableModel::headerData(int index, Qt::Orientation orientation, 
                 switch(index)
                 {
                     case 0:
-                        return "Name";
+                        return tr("Name");
                     case 1:
-                        return "Enabled";
+                        return tr("Enabled");
                 }
         }
     }

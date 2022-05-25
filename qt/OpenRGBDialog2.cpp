@@ -268,52 +268,52 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
 
     trayIcon = new QSystemTrayIcon(this);
 
-    QAction* actionShowHide = new QAction("Show/Hide", this);
+    QAction* actionShowHide = new QAction(tr("Show/Hide"), this);
     connect(actionShowHide, SIGNAL(triggered()), this, SLOT(on_ShowHide()));
     trayIconMenu->addAction(actionShowHide);
 
-    profileMenu = new QMenu("Profiles", this);
+    profileMenu = new QMenu(tr("Profiles"), this);
 
     trayIconMenu->addMenu(profileMenu);
 
-    QMenu* quickColorsMenu = new QMenu("Quick Colors", this);
+    QMenu* quickColorsMenu = new QMenu(tr("Quick Colors"), this);
 
-    QAction* actionQuickRed = new QAction("Red", this);
+    QAction* actionQuickRed = new QAction(tr("Red"), this);
     connect(actionQuickRed, SIGNAL(triggered()), this, SLOT(on_QuickRed()));
     quickColorsMenu->addAction(actionQuickRed);
 
-    QAction* actionQuickYellow = new QAction("Yellow", this);
+    QAction* actionQuickYellow = new QAction(tr("Yellow"), this);
     connect(actionQuickYellow, SIGNAL(triggered()), this, SLOT(on_QuickYellow()));
     quickColorsMenu->addAction(actionQuickYellow);
 
-    QAction* actionQuickGreen = new QAction("Green", this);
+    QAction* actionQuickGreen = new QAction(tr("Green"), this);
     connect(actionQuickGreen, SIGNAL(triggered()), this, SLOT(on_QuickGreen()));
     quickColorsMenu->addAction(actionQuickGreen);
 
-    QAction* actionQuickCyan = new QAction("Cyan", this);
+    QAction* actionQuickCyan = new QAction(tr("Cyan"), this);
     connect(actionQuickCyan, SIGNAL(triggered()), this, SLOT(on_QuickCyan()));
     quickColorsMenu->addAction(actionQuickCyan);
 
-    QAction* actionQuickBlue = new QAction("Blue", this);
+    QAction* actionQuickBlue = new QAction(tr("Blue"), this);
     connect(actionQuickBlue, SIGNAL(triggered()), this, SLOT(on_QuickBlue()));
     quickColorsMenu->addAction(actionQuickBlue);
 
-    QAction* actionQuickMagenta = new QAction("Magenta", this);
+    QAction* actionQuickMagenta = new QAction(tr("Magenta"), this);
     connect(actionQuickMagenta, SIGNAL(triggered()), this, SLOT(on_QuickMagenta()));
     quickColorsMenu->addAction(actionQuickMagenta);
 
-    QAction* actionQuickWhite = new QAction("White", this);
+    QAction* actionQuickWhite = new QAction(tr("White"), this);
     connect(actionQuickWhite, SIGNAL(triggered()), this, SLOT(on_QuickWhite()));
     quickColorsMenu->addAction(actionQuickWhite);
 
     trayIconMenu->addMenu(quickColorsMenu);
 
-    QAction* actionLightsOff = new QAction("Lights Off", this);
+    QAction* actionLightsOff = new QAction(tr("Lights Off"), this);
     actionLightsOff->setObjectName("ActionLightsOff");
     connect(actionLightsOff, SIGNAL(triggered()), this, SLOT(on_LightsOff()));
     trayIconMenu->addAction(actionLightsOff);
 
-    actionExit = new QAction( "Exit", this );
+    actionExit = new QAction(tr("Exit"), this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
     trayIconMenu->addAction(actionExit);
 
@@ -552,7 +552,7 @@ void OpenRGBDialog2::AddPluginsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* PluginTabLabel = new TabLabel(PluginsLabelString, "Plugins");
+    TabLabel* PluginTabLabel = new TabLabel(PluginsLabelString, tr("Plugins"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, PluginTabLabel);
 }
@@ -580,7 +580,7 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, "Software");
+    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, tr("Software"));
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
@@ -608,7 +608,7 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SupportedTabLabel = new TabLabel(SettingsLabelString, "Supported Devices");
+    TabLabel* SupportedTabLabel = new TabLabel(SettingsLabelString, tr("Supported Devices"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
 }
@@ -637,7 +637,7 @@ void OpenRGBDialog2::AddSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "General Settings");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("General Settings"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 
@@ -670,7 +670,7 @@ void OpenRGBDialog2::AddE131SettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "E1.31 Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("E1.31 Devices"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -726,7 +726,7 @@ void OpenRGBDialog2::AddPhilipsHueSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Philips Hue Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Hue Devices"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -754,7 +754,7 @@ void OpenRGBDialog2::AddPhilipsWizSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Philips Wiz Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Wiz Devices"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -782,7 +782,7 @@ void OpenRGBDialog2::AddQMKORGBSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "OpenRGB QMK Protocol");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("OpenRGB QMK Protocol"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -810,7 +810,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Serial Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Serial Devices"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -838,7 +838,7 @@ void OpenRGBDialog2::AddYeelightSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Yeelight Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Yeelight Devices"));
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -1080,7 +1080,7 @@ void OpenRGBDialog2::AddI2CToolsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SMBusToolsTabLabel = new TabLabel(SMBusToolsLabelString, "SMBus Tools");
+    TabLabel* SMBusToolsTabLabel = new TabLabel(SMBusToolsLabelString, tr("SMBus Tools"));
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
 }
@@ -1093,7 +1093,7 @@ void OpenRGBDialog2::AddClientTab()
     if(ClientInfoPage == NULL)
     {
         ClientInfoPage = new OpenRGBClientInfoPage();
-        ui->MainTabBar->insertTab(2, ClientInfoPage, "SDK Client");
+        ui->MainTabBar->insertTab(2, ClientInfoPage, tr("SDK Client"));
     }
 }
 
@@ -1114,7 +1114,7 @@ void OpenRGBDialog2::AddServerTab()
     | Add server information tab if there is a server       |
     \*-----------------------------------------------------*/
     OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(ResourceManager::get()->GetServer());
-    ui->MainTabBar->insertTab(2, ServerInfoPage, "SDK Server");
+    ui->MainTabBar->insertTab(2, ServerInfoPage, tr("SDK Server"));
 }
 
 void OpenRGBDialog2::ClearDevicesList()
@@ -1606,7 +1606,7 @@ void Ui::OpenRGBDialog2::on_ButtonDeleteProfile_clicked()
         | Confirm we want to delete the profile                     |
         \*---------------------------------------------------------*/
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Delete Profile", "Do you really want to delete this profile?", QMessageBox::Yes|QMessageBox::No);
+        reply = QMessageBox::question(this, tr("Delete Profile"), tr("Do you really want to delete this profile?"), QMessageBox::Yes|QMessageBox::No);
 
         /*---------------------------------------------------------*\
         | Load the profile                                          |
@@ -1876,7 +1876,7 @@ void Ui::OpenRGBDialog2::AddConsolePage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* ConsoleTabLabel = new TabLabel(ConsoleLabelString, "Log Console");
+    TabLabel* ConsoleTabLabel = new TabLabel(ConsoleLabelString, tr("Log Console"));
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, ConsoleTabLabel);
 }

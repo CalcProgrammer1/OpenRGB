@@ -82,7 +82,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
     ui->ClientTree->setColumnWidth(1, 100);
     ui->ClientTree->setColumnWidth(2, 100);
     ui->ClientTree->setColumnWidth(3, 100);
-    ui->ClientTree->setHeaderLabels(QStringList() << "Connected Clients" << "Protocol Version" << "Save Connection" << "");
+    ui->ClientTree->setHeaderLabels(QStringList() << tr("Connected Clients") << tr("Protocol Version") << tr("Save Connection") << "");
 
     /*-----------------------------------------------------*\
     | Set up a signal mapper to handle disconnect buttons   |
@@ -157,7 +157,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
         | Create the disconnect buttons and connect them to the |
         | signal mapper                                         |
         \*-----------------------------------------------------*/
-        QPushButton* new_button = new QPushButton( "Disconnect" );
+        QPushButton* new_button = new QPushButton(tr("Disconnect"));
         ui->ClientTree->setItemWidget(new_top_item, 3, new_button);
 
         connect(new_button, SIGNAL(clicked()), signalMapper, SLOT(map()));
@@ -194,7 +194,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
                 std::string zone_str = ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->zones[zone_idx].name + ", ";
                 zone_str.append(std::to_string(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->zones[zone_idx].leds_count));
                 zone_str.append(" LEDs, ");
-
+                // TODO : translate
                 switch(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->zones[zone_idx].type)
                 {
                     case ZONE_TYPE_SINGLE:

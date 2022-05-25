@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
+#include <QTranslator>
 
 #include "OpenRGBDialog2.h"
 
@@ -332,6 +333,46 @@ int main(int argc, char* argv[])
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
 
+        /*---------------------------------------------------------*\
+        | App translation                                           |
+        | How to add a new language:                                |
+        | Create a file under qt/i18n/OpenRGB_<locale>.ts           |
+        | Add it to TRANSLATIONS in OpenRGB.pro                     |
+        | Run: lupdate -verbose OpenRGB.pro                         |
+        | Edit this file (manually or with                          |
+        |   linguist qt/i18n/OpenRGB_en.ts qt/i18n/OpenRGB_XX.ts    |
+        | Generate the .qm file: lrelease OpenRGB.pro               |
+        \*---------------------------------------------------------*/
+        QTranslator translator;
+
+        QString defaultLocale = QLocale::system().name();
+        defaultLocale.truncate(defaultLocale.lastIndexOf('_'));
+
+        // For local tests without changing the PC locale, override this value.
+        //defaultLocale="fr";
+
+        QLocale locale = QLocale(defaultLocale);
+        QLocale::setDefault(locale);
+
+        QString languageName = QLocale::languageToString(locale.language());
+
+        a.removeTranslator(&translator);
+
+        QString path = ":/i18n/";
+
+        if(translator.load(path + QString("OpenRGB_%1.qm").arg(defaultLocale)))
+        {
+            a.installTranslator(&translator);
+            printf("Current Language changed to %s\n", languageName.toStdString().c_str());
+        }
+        else
+        {
+            printf("Failed to load translation file for default locale '%s'\n", defaultLocale.toStdString().c_str());
+        }
+
+        /*---------------------------------------------------------*\
+        | Main UI widget                                            |
+        \*---------------------------------------------------------*/
         Ui::OpenRGBDialog2 dlg;
 
         if(ret_flags & RET_FLAG_I2C_TOOLS)

@@ -73,6 +73,8 @@ private:
 
     bool autoUpdateEnabled();
 
+    QString ModeDescription(const mode& m);
+
 signals:
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void SaveSizeProfile();

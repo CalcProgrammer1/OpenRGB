@@ -9,18 +9,18 @@ OpenRGBE131SettingsEntry::OpenRGBE131SettingsEntry(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->TypeComboBox->addItem("Single");
-    ui->TypeComboBox->addItem("Linear");
-    ui->TypeComboBox->addItem("Matrix");
+    ui->TypeComboBox->addItem(tr("Single"));
+    ui->TypeComboBox->addItem(tr("Linear"));
+    ui->TypeComboBox->addItem(tr("Matrix"));
 
-    ui->MatrixOrderComboBox->addItem("Horizontal Top Left");
-    ui->MatrixOrderComboBox->addItem("Horizontal Top Right");
-    ui->MatrixOrderComboBox->addItem("Horizontal Bottom Left");
-    ui->MatrixOrderComboBox->addItem("Horizontal Bottom Right");
-    ui->MatrixOrderComboBox->addItem("Vertical Top Left");
-    ui->MatrixOrderComboBox->addItem("Vertical Top Right");
-    ui->MatrixOrderComboBox->addItem("Vertical Bottom Left");
-    ui->MatrixOrderComboBox->addItem("Vertical Bottom Right");
+    ui->MatrixOrderComboBox->addItem(tr("Horizontal Top Left"));
+    ui->MatrixOrderComboBox->addItem(tr("Horizontal Top Right"));
+    ui->MatrixOrderComboBox->addItem(tr("Horizontal Bottom Left"));
+    ui->MatrixOrderComboBox->addItem(tr("Horizontal Bottom Right"));
+    ui->MatrixOrderComboBox->addItem(tr("Vertical Top Left"));
+    ui->MatrixOrderComboBox->addItem(tr("Vertical Top Right"));
+    ui->MatrixOrderComboBox->addItem(tr("Vertical Bottom Left"));
+    ui->MatrixOrderComboBox->addItem(tr("Vertical Bottom Right"));
 
     ui->RGBOrderComboBox->addItem("RGB");
     ui->RGBOrderComboBox->addItem("RBG");

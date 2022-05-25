@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Frame</string>
+   <string>Software info page</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1">
     <widget class="QLabel" name="VersionValue">
      <property name="text">
-      <string>Version Value</string>
+      <string notr="true">Version Value</string>
      </property>
     </widget>
    </item>
@@ -38,14 +38,14 @@
    <item row="4" column="1">
     <widget class="QLabel" name="GitBranchValue">
      <property name="text">
-      <string>Git Branch Value</string>
+      <string notr="true">Git Branch Value</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
     <widget class="QLabel" name="GitCommitDateValue">
      <property name="text">
-      <string>Git Commit Date Value</string>
+      <string notr="true">Git Commit Date Value</string>
      </property>
     </widget>
    </item>
@@ -73,14 +73,14 @@
    <item row="1" column="1">
     <widget class="QLabel" name="BuildDateValue">
      <property name="text">
-      <string>Build Date Value</string>
+      <string notr="true">Build Date Value</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
     <widget class="QLabel" name="GitCommitIDValue">
      <property name="text">
-      <string>Git Commit ID Value</string>
+      <string notr="true">Git Commit ID Value</string>
      </property>
      <property name="textInteractionFlags">
       <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>

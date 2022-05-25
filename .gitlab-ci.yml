@@ -27,6 +27,9 @@ before_script:
     - export QT_SELECT=qt5
     - export APPIMAGE_EXTRACT_AND_RUN=1
 
+.generate-qm-files: &generate-qm-files
+  - lrelease OpenRGB.pro
+
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
 #-----------------------------------------------------------------------#
@@ -36,6 +39,7 @@ before_script:
   stage: build
   script:
   - export $(dpkg-architecture)
+  - *generate-qm-files
   - ./scripts/build-appimage.sh
 
   artifacts:
@@ -55,6 +59,7 @@ before_script:
   stage: build
   script:
   - export $(dpkg-architecture)
+  - *generate-qm-files
   - ./scripts/build-appimage.sh
 
   artifacts:
@@ -74,6 +79,7 @@ before_script:
   stage: build
   script:
   - dpkg-architecture -l
+  - *generate-qm-files
   - dpkg-buildpackage --target-arch i386 -us -B
   - rm -v ../openrgb-dbgsym*.deb
   - mv -v ../openrgb*.deb ./
@@ -95,6 +101,7 @@ before_script:
   stage: build
   script:
   - dpkg-architecture -l
+  - *generate-qm-files
   - dpkg-buildpackage -us -B
   - rm -v ../openrgb-dbgsym*.deb
   - mv -v ../openrgb*.deb ./
@@ -116,6 +123,7 @@ before_script:
   stage: build
   script:
   - dpkg-architecture -l
+  - *generate-qm-files
   - dpkg-buildpackage --target-arch i386 -us -B
   - rm -v ../openrgb-dbgsym*.deb
   - mv -v ../openrgb*.deb ./
@@ -137,6 +145,7 @@ before_script:
   stage: build
   script:
   - dpkg-architecture -l
+  - *generate-qm-files
   - dpkg-buildpackage -us -B
   - rm -v ../openrgb-dbgsym*.deb
   - mv -v ../openrgb*.deb ./
@@ -156,7 +165,7 @@ before_script:
   image: fedora:35
   stage: build
   script:
-  - dnf install rpmdevtools dnf-plugins-core -y 
+  - dnf install rpmdevtools dnf-plugins-core -y
   - rpmdev-setuptree 
   - ls /root/
   - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
@@ -380,6 +389,10 @@ before_script:
   - Pop-Location
   - _fold_final_
 
+  - _fold_start_ 'Generate qm files'
+  - .\_qt\5.15.0\msvc2019\bin\lrelease OpenRGB.pro
+  - _fold_final_
+
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'
   - mkdir _build; cd _build
   - ..\_qt\5.15.0\msvc2019\bin\qmake ..\OpenRGB.pro
@@ -449,6 +462,10 @@ before_script:
   - Pop-Location
   - _fold_final_
 
+  - _fold_start_ 'Generate qm files'
+  - .\_qt\5.15.0\msvc2019_64\bin\lrelease OpenRGB.pro
+  - _fold_final_
+
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'
   - mkdir _build; cd _build
   - ..\_qt\5.15.0\msvc2019_64\bin\qmake ..\OpenRGB.pro
@@ -484,6 +501,7 @@ before_script:
   stage: build
   script:
   - eval $(/opt/homebrew/bin/brew shellenv)
+  - *generate-qm-files
   - qmake OpenRGB.pro
   - make -j16
   - macdeployqt OpenRGB.app -codesign=OpenRGB
@@ -506,6 +524,7 @@ before_script:
   stage: build
   script:
   - eval $(/usr/local/bin/brew shellenv)
+  - *generate-qm-files
   - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
   - arch -x86_64 make -j16
   - arch -x86_64 macdeployqt OpenRGB.app -codesign=OpenRGB

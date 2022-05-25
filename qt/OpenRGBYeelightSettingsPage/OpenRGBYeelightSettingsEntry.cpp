@@ -36,8 +36,8 @@ void OpenRGBYeelightSettingsEntry::on_HostIPChooserButton_clicked()
 
     inp.setOptions(QInputDialog::UseListViewForComboBoxItems);
     inp.setComboBoxItems(in_addr_list);
-    inp.setWindowTitle("Choose an IP...");
-    inp.setLabelText("Choose the correct IP for the host");
+    inp.setWindowTitle(tr("Choose an IP..."));
+    inp.setLabelText(tr("Choose the correct IP for the host"));
 
     if(!inp.exec())
     {
