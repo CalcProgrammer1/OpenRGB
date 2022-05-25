@@ -43,7 +43,7 @@ int RGBController_AuraGPU::GetDeviceMode()
 
 /**------------------------------------------------------------------*\
     @name Asus Aura GPU
-    @type SMBus
+    @type I2C
     @save :x:
     @direct :white_check_mark:
     @effects :white_check_mark::
