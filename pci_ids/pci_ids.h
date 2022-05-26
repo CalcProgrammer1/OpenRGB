@@ -364,6 +364,7 @@
 \*-----------------------------------------------------*/
 #define MSI_GTX1070_GAMING_X_SUB_DEV                    0x3306
 #define MSI_GTX1660_GAMING_X_6G_SUB_DEV                 0x3790
+#define MSI_GTX1660TI_GAMING_6G_SUB_DEV                 0x375C
 #define MSI_GTX1660TI_GAMING_X_6G_SUB_DEV               0x375A
 #define MSI_GTX1660S_GAMING_6G_SUB_DEV                  0xC759
 #define MSI_GTX1660S_GAMING_X_6G_SUB_DEV                0xC758

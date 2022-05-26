@@ -41,6 +41,7 @@ void DetectMSIGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const s
 
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1070 Gaming X",                  DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1070_DEV,         MSI_SUB_VEN,    MSI_GTX1070_GAMING_X_SUB_DEV,           0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1660 Gaming X 6G",               DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1660_DEV,         MSI_SUB_VEN,    MSI_GTX1660_GAMING_X_6G_SUB_DEV,        0x68);
+REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1660Ti Gaming 6G",               DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1660TI_DEV,       MSI_SUB_VEN,    MSI_GTX1660TI_GAMING_6G_SUB_DEV,        0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1660Ti Gaming X 6G",             DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1660TI_DEV,       MSI_SUB_VEN,    MSI_GTX1660TI_GAMING_X_6G_SUB_DEV,      0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1660 Super Gaming 6G",           DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1660S_DEV,        MSI_SUB_VEN,    MSI_GTX1660S_GAMING_6G_SUB_DEV,         0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1660 Super Gaming X 6G",         DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1660S_DEV,        MSI_SUB_VEN,    MSI_GTX1660S_GAMING_X_6G_SUB_DEV,       0x68);
