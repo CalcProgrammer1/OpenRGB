@@ -137,4 +137,5 @@ private:
     int                             numof_JRGBs;
     const std::vector<MSI_ZONE>*    supported_zones;
     DIRECT_MODE                     per_led_mode;
+    unsigned short                  active_pid;
 };

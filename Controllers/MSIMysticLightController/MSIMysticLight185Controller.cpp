@@ -233,6 +233,7 @@ MSIMysticLight185Controller::MSIMysticLight185Controller
     )
 {
     dev = handle;
+    active_pid = pid;
 
     if(dev)
     {
@@ -427,7 +428,7 @@ void MSIMysticLight185Controller::SetMode
     bool            rainbow_color
     )
 {
-    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
+    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0) && (active_pid != 0x7B93))
     {
         return;
     }
@@ -464,6 +465,22 @@ void MSIMysticLight185Controller::SetMode
     {
         on_board_zone->speedAndBrightnessFlags &= ~SYNC_SETTING_JRGB;
         on_board_zone->colorFlags              &= ~(SYNC_SETTING_JPIPE1 | SYNC_SETTING_JPIPE2);
+    }
+
+    if((active_pid == 0x7B93) && (zone == MSI_ZONE_ON_BOARD_LED_0) && (mode <= MSI_MODE_LIGHTNING))
+    {
+        for(int i = 0; i < numof_onboard_leds; ++i)
+        {
+            zone_data = GetZoneData(data, (MSI_ZONE)((int)MSI_ZONE_ON_BOARD_LED_1 + i));
+
+            if(zone_data != nullptr)
+            {
+                zone_data->effect                    = mode;
+                zone_data->speedAndBrightnessFlags   = (brightness << 2) | (speed & 0x03);
+                zone_data->colorFlags                = BITSET(zone_data->colorFlags, !rainbow_color, 7u);
+                zone_data->padding                   = 0x00;
+            }
+        }
     }
 }
 
@@ -532,7 +549,7 @@ void MSIMysticLight185Controller::SetZoneColor
     unsigned char   blu2
     )
 {
-    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
+    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0) && (active_pid != 0x7B93))
     {
         return;
     }
@@ -561,6 +578,24 @@ void MSIMysticLight185Controller::SetZoneColor
         on_board_zone->color2.R = red2;
         on_board_zone->color2.G = grn2;
         on_board_zone->color2.B = blu2;
+    }
+
+    if((active_pid == 0x7B93) && (zone == MSI_ZONE_ON_BOARD_LED_0))
+    {
+        for(int i = 0; i < numof_onboard_leds; ++i)
+        {
+            zone_data = GetZoneData(data, (MSI_ZONE)((int)MSI_ZONE_ON_BOARD_LED_1 + i));
+
+            if(zone_data != nullptr)
+            {
+                zone_data->color.R  = red1;
+                zone_data->color.G  = grn1;
+                zone_data->color.B  = blu1;
+                zone_data->color2.R = red2;
+                zone_data->color2.G = grn2;
+                zone_data->color2.B = blu2;
+            }
+        }
     }
 }
 
