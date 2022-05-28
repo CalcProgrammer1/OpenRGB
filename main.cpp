@@ -335,13 +335,11 @@ int main(int argc, char* argv[])
 
         /*---------------------------------------------------------*\
         | App translation                                           |
-        | How to add a new language:                                |
+        | To add a new language:                                    |
         | Create a file under qt/i18n/OpenRGB_<locale>.ts           |
         | Add it to TRANSLATIONS in OpenRGB.pro                     |
-        | Run: lupdate -verbose OpenRGB.pro                         |
         | Edit this file (manually or with                          |
         |   linguist qt/i18n/OpenRGB_en.ts qt/i18n/OpenRGB_XX.ts    |
-        | Generate the .qm file: lrelease OpenRGB.pro               |
         \*---------------------------------------------------------*/
         QTranslator translator;
 
@@ -381,7 +379,7 @@ int main(int argc, char* argv[])
         }
 
         dlg.AddClientTab();
-        
+
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {
 #ifdef __APPLE__
@@ -393,7 +391,7 @@ int main(int argc, char* argv[])
         {
             dlg.show();
         }
-        
+
         return a.exec();
     }
     else

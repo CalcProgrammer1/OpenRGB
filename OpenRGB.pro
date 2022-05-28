@@ -14,7 +14,9 @@ QT +=                                                                           
 #-----------------------------------------------------------------------------------------------#
 # Set compiler to use C++17 to make std::filesystem available                                   #
 #-----------------------------------------------------------------------------------------------#
-CONFIG += c++17
+CONFIG +=   c++17                                                                               \
+            lrelease                                                                            \
+            embed_translations                                                                  \
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -1090,7 +1092,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 RESOURCES +=                                                                                    \
     qt/resources.qrc                                                                            \
-    qt/languages.qrc                                                                            \
 
 TRANSLATIONS += \
     qt/i18n/OpenRGB_en.ts  \
