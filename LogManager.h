@@ -12,10 +12,10 @@
 | Common LOG strings                                |
 |   This may need to be in it's own .h file         |
 \*-------------------------------------------------*/
-#define SMBUS_CHECK_DEVICE_MESSAGE_EN   "[%s] Bus %02d is a motherboard and the subvendor matches the one for %s, looking for a device at %02X"
+#define SMBUS_CHECK_DEVICE_MESSAGE_EN   "[%s] Bus %02d is a motherboard and the subvendor matches the one for %s, looking for a device at 0x%02X"
 #define SMBUS_CHECK_DEVICE_FAILURE_EN   "[%s] Bus %02d is not a motherboard or the subvendor does not match the one for %s, skipping detection"
 
-#define GPU_DETECT_MESSAGE              "[%s] Found a device match at Bus %02d for Device %04X and SubDevice %04X: %s"
+#define GPU_DETECT_MESSAGE              "[%s] Found a device match at Bus %02d for Device 0x%04X and SubDevice 0x%04X: %s"
 
 using json = nlohmann::json;
 

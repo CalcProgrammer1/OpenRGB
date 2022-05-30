@@ -303,7 +303,7 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
 *                                                                                          *
 \******************************************************************************************/
 
-#define GPU_CHECK_DEVICE_MESSAGE_EN     "[%s] Bus %02d is a GPU and the subvendor matches the one for %s, looking for a device at %02X"
+#define GPU_CHECK_DEVICE_MESSAGE_EN     "[%s] Bus %02d is a GPU and the subvendor matches the one for %s, looking for a device at 0x%02X"
 
 void DetectENESMBusGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
