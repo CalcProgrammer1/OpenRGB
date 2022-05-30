@@ -993,10 +993,24 @@ size_t MSIMysticLight185Controller::GetMaxDirectLeds
         case MSI_ZONE_J_RAINBOW_1:
         case MSI_ZONE_J_RAINBOW_2:
         case MSI_ZONE_J_RAINBOW_3:
-            return 200;
+            if(per_led_mode == DIRECT_MODE_PER_LED)
+            {
+                return 200;
+            }
+            else
+            {
+                return 1;
+            }
 
         case MSI_ZONE_J_CORSAIR:
-            return PER_LED_MODE_CORSAIR_LED_COUNT;
+            if(per_led_mode == DIRECT_MODE_PER_LED)
+            {
+                return PER_LED_MODE_CORSAIR_LED_COUNT;
+            }
+            else
+            {
+                return 1;
+            }
 
         case MSI_ZONE_ON_BOARD_LED_0:
             return numof_onboard_leds;

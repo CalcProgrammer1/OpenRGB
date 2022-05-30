@@ -130,20 +130,46 @@ void RGBController_MSIMysticLight185::SetupZones()
 
             zone new_zone;
 
-            new_zone.name       = zd->name;
-            new_zone.type       = ZONE_TYPE_LINEAR;
-            new_zone.leds_min   = 1;
+            new_zone.name           = zd->name;
 
             int maxLeds = (int)controller->GetMaxDirectLeds(zd->zone_type);
 
-            if((controller->GetSupportedDirectMode() == MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED) && (zd->zone_type == MSI_ZONE_ON_BOARD_LED_0))
+            /*-------------------------------------------------*\
+            | This is a fixed size zone                         |
+            |   Either this is a board which only supports zone |
+            |   control or this is not an ARGB header zone      |
+            \*-------------------------------------------------*/
+            if((controller->GetSupportedDirectMode() == MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED)
+            || ((zd->zone_type != MSI_ZONE_J_RAINBOW_1) && (zd->zone_type != MSI_ZONE_J_RAINBOW_2) && (zd->zone_type != MSI_ZONE_J_RAINBOW_3) && (zd->zone_type != MSI_ZONE_J_CORSAIR)))
             {
-                new_zone.leds_min = maxLeds;
+                new_zone.leds_min   = maxLeds;
+                new_zone.leds_min   = maxLeds;
+                new_zone.leds_count = maxLeds;
+            }
+            /*--------------------------------------------------\
+            | This is a resizable zone on a per-LED board       |
+            \*-------------------------------------------------*/
+            else
+            {
+                new_zone.leds_min   = 0;
+                new_zone.leds_max   = maxLeds;
+                new_zone.leds_count = 0;
             }
 
-            new_zone.leds_max   = maxLeds;
-            new_zone.leds_count = maxLeds;
-            new_zone.matrix_map = NULL;
+            /*-------------------------------------------------*\
+            | Determine zone type based on max number of LEDs   |
+            \*-------------------------------------------------*/
+            if(new_zone.leds_max == 1)
+            {
+                new_zone.type       = ZONE_TYPE_SINGLE;
+            }
+            else
+            {
+                new_zone.type       = ZONE_TYPE_LINEAR;
+            }
+
+            new_zone.matrix_map     = NULL;
+
             zones.push_back(new_zone);
         }
     }
