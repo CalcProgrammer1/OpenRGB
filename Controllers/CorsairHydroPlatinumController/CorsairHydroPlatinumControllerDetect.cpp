@@ -25,6 +25,7 @@
 #define CORSAIR_HYDRO_H100I_PLATINUM_SE_PID 0x0C19
 #define CORSAIR_HYDRO_H115I_PLATINUM_PID    0x0C17
 #define CORSAIR_HYDRO_H100I_PRO_XT_PID      0x0C20
+#define CORSAIR_HYDRO_H100I_PRO_XT_V2_PID   0x0C2D
 #define CORSAIR_HYDRO_H115I_PRO_XT_PID      0x0C21
 #define CORSAIR_HYDRO_H150I_PRO_XT_PID      0x0C22
 
@@ -45,5 +46,6 @@ REGISTER_HID_DETECTOR("Corsair Hydro H100i Platinum",       DetectCorsairHydroPl
 REGISTER_HID_DETECTOR("Corsair Hydro H100i Platinum SE",    DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H100I_PLATINUM_SE_PID );
 REGISTER_HID_DETECTOR("Corsair Hydro H115i Platinum",       DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H115I_PLATINUM_PID    );
 REGISTER_HID_DETECTOR("Corsair Hydro H100i Pro XT",         DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H100I_PRO_XT_PID      );
+REGISTER_HID_DETECTOR("Corsair Hydro H100i Pro XT v2",      DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H100I_PRO_XT_V2_PID   );
 REGISTER_HID_DETECTOR("Corsair Hydro H115i Pro XT",         DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H115I_PRO_XT_PID      );
 REGISTER_HID_DETECTOR("Corsair Hydro H150i Pro XT",         DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H150I_PRO_XT_PID      );
