@@ -20,29 +20,13 @@
 class MSIMysticLight185Controller
 {
 public:
-    MSIMysticLight185Controller(hid_device* handle, const char *path);
+    MSIMysticLight185Controller
+        (
+        hid_device*     handle,
+        const char      *path,
+        unsigned short  pid
+        );
     ~MSIMysticLight185Controller();
-
-    unsigned int    GetZoneMinLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    unsigned int    GetZoneMaxLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    unsigned int    GetZoneLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    void            SetZoneLedCount
-                        (
-                        MSI_ZONE        zone,
-                        unsigned int    led_count
-                        );
 
     void            SetMode
                         (
@@ -73,44 +57,84 @@ public:
                         unsigned char   blu2
                         );
 
+    void            SetLedColor
+                        (
+                        MSI_ZONE        zone,
+                        int             index,
+                        unsigned char   red,
+                        unsigned char   grn,
+                        unsigned char   blu
+                        );
+
     void            SetCycleCount
                         (
                         MSI_ZONE        zone,
                         unsigned char   cycle_num
                         );
 
-    unsigned char   GetCycleCount
+    bool            Update
                         (
-                        MSI_ZONE        zone
+                        bool save
                         );
-
-    std::pair<Color, Color>
-                    GetZoneColor(MSI_ZONE zone);
-
-    bool            Update();
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
     std::string     GetFWVersion();
     std::string     GetSerial();
 
+    void            SetDirectMode
+                        (
+                        bool mode
+                        );
+    bool            IsDirectModeActive() { return direct_mode; }
+    size_t          GetMaxDirectLeds
+                        (
+                        MSI_ZONE zone
+                        );
+    const std::vector<MSI_ZONE>*
+                    GetSupportedZones() { return supported_zones; }
+
+    enum DIRECT_MODE
+    {
+        DIRECT_MODE_DISABLED,
+        DIRECT_MODE_PER_LED,
+        DIRECT_MODE_ZONE_BASED
+    };
+
+    DIRECT_MODE     GetSupportedDirectMode() { return per_led_mode; }
+
 private:
     bool            ReadSettings();
-    void            SaveOnUpdate(bool send);
     bool            ReadFwVersion();
     void            ReadSerial();
     void            ReadName();
-    ZoneData*       GetZoneData(MSI_ZONE zone);
-    RainbowZoneData*
-                    GetRainbowZoneData(MSI_ZONE zone);
-    static unsigned char   BitSet(unsigned char value, bool bit, unsigned int position);
+    ZoneData*       GetZoneData
+                        (
+                        FeaturePacket_185&  data_packet,
+                        MSI_ZONE            zone
+                        );
+    RainbowZoneData* GetRainbowZoneData(MSI_ZONE zone);
+    Color*          GetPerLedZoneData
+                        (
+                        MSI_ZONE zone
+                        );
 
-    hid_device*             dev;
-    std::string             name;
-    std::string             location;
-    std::string             version_APROM;
-    std::string             version_LDROM;
-    std::string             chip_id;
+    hid_device*                     dev;
+    std::string                     name;
+    std::string                     location;
+    std::string                     version_APROM;
+    std::string                     version_LDROM;
+    std::string                     chip_id;
 
-    FeaturePacket_185       data;
+    FeaturePacket_185               data;
+    FeaturePacket_PerLED_185        per_led_data;
+    FeaturePacket_185               zone_based_per_led_data;
+    bool                            direct_mode;
+    bool                            no_onboards;
+    int                             numof_onboard_leds;
+    int                             numof_pipe1_leds;
+    int                             numof_pipe2_leds;
+    int                             numof_JRGBs;
+    const std::vector<MSI_ZONE>*    supported_zones;
+    DIRECT_MODE                     per_led_mode;
 };

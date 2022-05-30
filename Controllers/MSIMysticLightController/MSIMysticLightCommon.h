@@ -20,19 +20,20 @@ enum MSI_ZONE
     MSI_ZONE_J_PIPE_2               = 4,
     MSI_ZONE_J_RAINBOW_1            = 5,
     MSI_ZONE_J_RAINBOW_2            = 6,
-    MSI_ZONE_J_CORSAIR              = 7,
-    MSI_ZONE_J_CORSAIR_OUTERLL120   = 8,
-    MSI_ZONE_ON_BOARD_LED_0         = 9,
-    MSI_ZONE_ON_BOARD_LED_1         = 10,
-    MSI_ZONE_ON_BOARD_LED_2         = 11,
-    MSI_ZONE_ON_BOARD_LED_3         = 12,
-    MSI_ZONE_ON_BOARD_LED_4         = 13,
-    MSI_ZONE_ON_BOARD_LED_5         = 14,
-    MSI_ZONE_ON_BOARD_LED_6         = 15,
-    MSI_ZONE_ON_BOARD_LED_7         = 16,
-    MSI_ZONE_ON_BOARD_LED_8         = 17,
-    MSI_ZONE_ON_BOARD_LED_9         = 18,
-    MSI_ZONE_ON_BOARD_LED_10        = 19
+    MSI_ZONE_J_RAINBOW_3            = 7,
+    MSI_ZONE_J_CORSAIR              = 8,
+    MSI_ZONE_J_CORSAIR_OUTERLL120   = 9,
+    MSI_ZONE_ON_BOARD_LED_0         = 10,
+    MSI_ZONE_ON_BOARD_LED_1         = 11,
+    MSI_ZONE_ON_BOARD_LED_2         = 12,
+    MSI_ZONE_ON_BOARD_LED_3         = 13,
+    MSI_ZONE_ON_BOARD_LED_4         = 14,
+    MSI_ZONE_ON_BOARD_LED_5         = 15,
+    MSI_ZONE_ON_BOARD_LED_6         = 16,
+    MSI_ZONE_ON_BOARD_LED_7         = 17,
+    MSI_ZONE_ON_BOARD_LED_8         = 18,
+    MSI_ZONE_ON_BOARD_LED_9         = 19,
+    MSI_ZONE_ON_BOARD_LED_10        = 20
 };
 
 enum MSI_MODE
@@ -77,6 +78,7 @@ enum MSI_MODE
     MSI_MODE_CORSAIR_QUE                = 37,
     MSI_MODE_FIRE                       = 38,
     MSI_MODE_LAVA                       = 39,
+    MSI_MODE_DIRECT_DUMMY               = 100
 };
 
 enum MSI_SPEED
@@ -108,6 +110,18 @@ enum MSI_BRIGHTNESS
     MSI_BRIGHTNESS_LEVEL_100            = 10, 
 };
 
+#define PER_LED_MODE_JRAINBOW_LED_COUNT     40
+#define PER_LED_MODE_CORSAIR_LED_COUNT      120
+#define NUMOF_PER_LED_MODE_LEDS             240
+
+#define SYNC_SETTING_ONBOARD        0x01
+#define SYNC_SETTING_JRAINBOW1      0x02
+#define SYNC_SETTING_JRAINBOW2      0x04
+#define SYNC_SETTING_JCORSAIR       0x08
+#define SYNC_SETTING_JPIPE1         0x10
+#define SYNC_SETTING_JPIPE2         0x20
+#define SYNC_SETTING_JRGB           0x80
+
 struct Color
 {
     unsigned char R;
@@ -120,8 +134,8 @@ struct CorsairZoneData
     unsigned char effect                    = MSI_MODE_STATIC;
     Color         color                     { 0, 0, 0 };
     unsigned char fan_flags                 = 40;
-    unsigned char corsair_quantity;
-    unsigned char padding[4];
+    unsigned char corsair_quantity          = 0;
+    unsigned char padding[4]                = { 0, 0, 0, 0 };
     unsigned char is_individual             = 0;
 };
 
@@ -137,7 +151,7 @@ struct ZoneData
 
 struct RainbowZoneData : ZoneData
 {
-    unsigned char cycle_or_led_num          = 20;
+    unsigned char cycle_or_led_num          = PER_LED_MODE_JRAINBOW_LED_COUNT;
 };
 
 struct FeaturePacket_162
@@ -184,4 +198,14 @@ struct FeaturePacket_185
     ZoneData            on_board_led_9;             // 164
     ZoneData            j_rgb_2;                    // 174
     unsigned char       save_data           = 0;    // 184
+};
+
+struct FeaturePacket_PerLED_185
+{
+    unsigned char report_id                              = 0x53;      // Report ID
+    unsigned char hdr0                                   = 0x25;      // header byte 0
+    unsigned char hdr1                                   = 0x06;      // header byte 1
+    unsigned char hdr2                                   = 0x00;      // header byte 2
+    unsigned char hdr3                                   = 0x00;      // header byte 3
+    Color         leds[NUMOF_PER_LED_MODE_LEDS];
 };

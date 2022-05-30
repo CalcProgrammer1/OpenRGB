@@ -19,7 +19,12 @@
 class MSIMysticLight162Controller
 {
 public:
-    MSIMysticLight162Controller(hid_device* handle, const char *path);
+    MSIMysticLight162Controller
+        (
+        hid_device*     handle,
+        const char      *path,
+        unsigned short  pid
+        );
     ~MSIMysticLight162Controller();
 
     void            SetMode
@@ -40,7 +45,7 @@ public:
                         bool            &rainbow_color
                         );
 
-    void            SetLEDColor
+    void            SetZoneColor
                         (
                         MSI_ZONE        zone,
                         unsigned char   red1,
@@ -51,30 +56,55 @@ public:
                         unsigned char   blu2
                         );
 
-    bool            Update();
+    void            SetLedColor
+                        (
+                        MSI_ZONE        zone,
+                        unsigned char   red,
+                        unsigned char   grn,
+                        unsigned char   blu
+                        );
+
+    bool            Update
+                        (
+                        bool save
+                        );
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
     std::string     GetFWVersion();
     std::string     GetSerial();
 
+
+    void            SetDirectMode
+                        (
+                        bool mode
+                        );
+    bool            IsDirectModeActive() { return direct_mode; }
+    size_t          GetMaxOnboardLeds();
+    const std::vector<MSI_ZONE>*
+                    GetSupportedZones() { return supported_zones; }
+
 private:
     bool            ReadSettings();
-    void            SaveOnUpdate(bool send);
     bool            ReadFwVersion();
     void            ReadSerial();
     void            ReadName();
-    ZoneData*       GetZoneData(MSI_ZONE zone);
-    RainbowZoneData*
-                    GetRainbowZoneData(MSI_ZONE zone);
-    static unsigned char   BitSet(unsigned char value, bool bit, unsigned int position);
+    ZoneData*       GetZoneData
+                        (
+                        FeaturePacket_162&  dataPacket,
+                        MSI_ZONE            zone
+                        );
 
-    hid_device*             dev;
-    std::string             name;
-    std::string             location;
-    std::string             version_APROM;
-    std::string             version_LDROM;
-    std::string             chip_id;
+    hid_device*                     dev;
+    std::string                     name;
+    std::string                     location;
+    std::string                     version_APROM;
+    std::string                     version_LDROM;
+    std::string                     chip_id;
 
-    FeaturePacket_162       data;
+    FeaturePacket_162               data;
+    FeaturePacket_162               zone_based_per_led_data;
+    bool                            direct_mode;
+    size_t                          numof_onboard_leds;
+    const std::vector<MSI_ZONE>*    supported_zones;
 };
