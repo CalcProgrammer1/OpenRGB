@@ -31,7 +31,7 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
 {
     bool pass = false;
 
-    unsigned char aura_gpu_magic_high = bus->i2c_smbus_read_byte_data(address, 0x20);   // High Byte of magic (0x15)                        
+    unsigned char aura_gpu_magic_high = bus->i2c_smbus_read_byte_data(address, 0x20);   // High Byte of magic (0x15)
     unsigned char aura_gpu_magic_low  = bus->i2c_smbus_read_byte_data(address, 0x21);   // Low Byte of magic (0x89)
 
     LOG_DEBUG("[%s] Test GPU expect: 0x1589 received: 0x%02X%02X", ASUSGPU_CONTROLLER_NAME, aura_gpu_magic_high, aura_gpu_magic_low);
@@ -77,6 +77,7 @@ REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1070 Ti A8G Gaming"      , DetectAs
 REGISTER_I2C_PCI_DETECTOR("ASUS GTX 1080 Strix OC"                    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,   ASUS_GTX1080_STRIX,                         0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 A8G Gaming"         , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080_A8G_GAMING,          0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 O8G Gaming"         , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080_O8G_GAMING,          0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 O8G 11Gbps"         , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080_O8G_11GBPS,          0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 Ti Gaming"          , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080TI_GAMING,            0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 Ti 11G Gaming"      , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080TI_11G_GAMING,        0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX1080 Ti O11G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1080TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1080TI_O11G_GAMING,       0x29);
