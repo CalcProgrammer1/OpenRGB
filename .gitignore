@@ -90,8 +90,7 @@ compile_commands.json
 
 # QtCreator local machine specific files for imported projects
 *creator.user*
-
-*_qmlcache.qrc
+*.qrc
 
 # Visual Studio generated files
 *.ib_pdb_index
