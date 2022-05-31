@@ -183,7 +183,7 @@ do
         while read -r detector
         do
             #Filter the list for all devices that use this detector
-            text=$(printf %s\n%s "$HID_LIST" "$I2C_LIST" | grep ${detector} | cut -d: -f 2- | sed -e 's/"//g')
+            text=$(printf "%s\n%s" "$HID_LIST" "$I2C_LIST" | grep ${detector} | cut -d: -f 2- | sed -e 's/"//g')
 
             #Replace the detector string with the list of devices
             detectors=${detectors/${detector}/${text}}
