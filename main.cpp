@@ -20,6 +20,11 @@
 #include <thread>
 #include <QTranslator>
 
+#ifdef _MACOSX_X86_X64
+#include "macUSPCIOAccess.h"
+io_connect_t macUSPCIO_driver_connection;
+#endif
+
 #include "OpenRGBDialog2.h"
 
 #ifdef __APPLE__
@@ -262,6 +267,14 @@ int main(int argc, char* argv[])
     \*---------------------------------------------------------*/
     InstallWinRing0();
 #endif
+
+    /*---------------------------------------------------------*\
+    | Mac x86/x64 only - Install SMBus Driver macUSPCIO         |
+    \*---------------------------------------------------------*/
+#ifdef _MACOSX_X86_X64
+    InitMacUSPCIODriver();
+#endif
+
     /*---------------------------------------------------------*\
     | Process command line arguments before detection           |
     \*---------------------------------------------------------*/
@@ -400,15 +413,24 @@ int main(int argc, char* argv[])
         {
             if(!ResourceManager::get()->GetServer()->GetOnline())
             {
+#ifdef _MACOSX_X86_X64
+                CloseMacUSPCIODriver();
+#endif
                 return 1;
             }
             else
             {
                 WaitWhileServerOnline(ResourceManager::get()->GetServer());
+#ifdef _MACOSX_X86_X64
+                CloseMacUSPCIODriver();
+#endif
             }
         }
         else
         {
+#ifdef _MACOSX_X86_X64
+            CloseMacUSPCIODriver();
+#endif
             return 0;
         }
     }

@@ -77,6 +77,10 @@
 #define STATUS_ERROR_FLAGS  (SMBHSTSTS_FAILED | SMBHSTSTS_BUS_ERR | SMBHSTSTS_DEV_ERR)
 #define STATUS_FLAGS        (SMBHSTSTS_BYTE_DONE | SMBHSTSTS_INTR | STATUS_ERROR_FLAGS)
 
+/* I801 Host Config */
+#define SMBHSTCFG               0x040
+#define SMBHSTCFG_HST_EN        BIT(0)
+
 class i2c_smbus_i801 : public i2c_smbus_interface
 {
 public:

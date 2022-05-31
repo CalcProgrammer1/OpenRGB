@@ -1616,12 +1616,23 @@ macx:contains(QMAKE_HOST.arch, arm64) {
 #-------------------------------------------------------------------------------------------#
 macx:contains(QMAKE_HOST.arch, x86_64) {
     INCLUDEPATH +=                                                                              \
+    dependencies/macUSPCIO                                                                      \
     /usr/local/include                                                                          \
     /usr/local/homebrew/include                                                                 \
+
+    SOURCES +=                                                                                  \
+    i2c_smbus/i2c_smbus_i801.cpp                                                                \
+
+    HEADERS +=                                                                                  \
+    dependencies/macUSPCIO/macUSPCIOAccess.h                                                    \
+    i2c_smbus/i2c_smbus_i801.h                                                                  \
 
     LIBS +=                                                                                     \
     -L/usr/local/lib                                                                            \
     -L/usr/local/homebrew/lib                                                                   \
+
+    DEFINES +=                                                                                  \
+    _MACOSX_X86_X64                                                                             \
 }
 
 DISTFILES += \

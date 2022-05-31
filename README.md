@@ -218,7 +218,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ### SMBus Access
 
-  * SMBus/I2C devices are currently not supported on MacOS.
+  * For Intel devices using a controller in the I801 family you have to download and install the [macUSPCIO driver](https://github.com/ShadyNawara/macUSPCIO/releases)
 
 ### USB Access
 
@@ -310,7 +310,8 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * hueplusplus: https://github.com/enwi/hueplusplus
   * httplib: https://github.com/yhirose/cpp-httplib
   * mdns: https://github.com/mjansson/mdns
-
+  * macUSPCIO: https://github.com/ShadyNawara/macUSPCIO
+  
 ## Projects Researched
 
 While no code from these projects directly made its way into OpenRGB, these projects have been invaluable resources for protocol information.
