@@ -7,9 +7,11 @@
 \******************************************************************************************/
 
 #include "Detector.h"
+#include "RoccatBurstCoreController.h"
 #include "RoccatKoneAimoController.h"
 #include "RoccatVulcanAimoController.h"
 #include "RGBController.h"
+#include "RGBController_RoccatBurstCore.h"
 #include "RGBController_RoccatHordeAimo.h"
 #include "RGBController_RoccatKoneAimo.h"
 #include "RGBController_RoccatVulcanAimo.h"
@@ -22,6 +24,7 @@
 #define ROCCAT_KONE_AIMO_16K_PID    0x2E2C
 #define ROCCAT_VULCAN_120_AIMO_PID  0x3098
 #define ROCCAT_HORDE_AIMO_PID       0x303E
+#define ROCCAT_BURST_CORE_PID       0x2DE6
 
 void DetectRoccatMouseControllers(hid_device_info* info, const std::string& name)
 {
@@ -127,8 +130,22 @@ void DetectRoccatHordeAimoKeyboardControllers(hid_device_info* info, const std::
     }
 }
 
+void DetectRoccatBurstCoreControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RoccatBurstCoreController *     controller      = new RoccatBurstCoreController(dev, *info);
+        RGBController_RoccatBurstCore * rgb_controller  = new RGBController_RoccatBurstCore(controller);
+        rgb_controller->name                            = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",               DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_PID,          0, 0x0B,    0 );
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo 16K",           DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_16K_PID,      0, 0x0B,    0 );
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120 Aimo",         DetectRoccatKeyboardControllers,            ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,    1,          11);
 REGISTER_DYNAMIC_DETECTOR("Roccat Vulcan 120 Aimo Setup",   ResetRoccatKeyboardControllersPaths);
 REGISTER_HID_DETECTOR_IPU("Roccat Horde Aimo",              DetectRoccatHordeAimoKeyboardControllers,   ROCCAT_VID, ROCCAT_HORDE_AIMO_PID,         1, 0x0B,    0);
+REGISTER_HID_DETECTOR_IPU("Roccat Burst Core",              DetectRoccatBurstCoreControllers,           ROCCAT_VID, ROCCAT_BURST_CORE_PID,         3, 0xFF01,  1);

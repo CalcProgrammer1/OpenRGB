@@ -490,9 +490,11 @@ HEADERS +=                                                                      
     Controllers/RazerController/RGBController_RazerKraken.h                                     \
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
+    Controllers/RoccatController/RGBController_RoccatBurstCore.h                                \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
     Controllers/RoccatController/RGBController_RoccatVulcanAimo.h                               \
+    Controllers/RoccatController/RoccatBurstCoreController.h                                    \
     Controllers/RoccatController/RoccatHordeAimoController.h                                    \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
     Controllers/RoccatController/RoccatVulcanAimoController.h                                   \
@@ -996,9 +998,11 @@ SOURCES +=                                                                      
     Controllers/RedragonController/RedragonM711Controller.cpp                                   \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
     Controllers/RedragonController/RGBController_RedragonM711.cpp                               \
+    Controllers/RoccatController/RGBController_RoccatBurstCore.cpp                              \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
     Controllers/RoccatController/RGBController_RoccatVulcanAimo.cpp                             \
+    Controllers/RoccatController/RoccatBurstCoreController.cpp                                  \
     Controllers/RoccatController/RoccatHordeAimoController.cpp                                  \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
     Controllers/RoccatController/RoccatVulcanAimoController.cpp                                 \
