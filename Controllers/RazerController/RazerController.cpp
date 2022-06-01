@@ -56,6 +56,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_TARTARUS_CHROMA_PID:
         case RAZER_TARTARUS_V2_PID:
         case RAZER_DEATHADDER_CHROMA_PID:
+        case RAZER_DEATHADDER_V2_MINI_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_NAGA_EPIC_CHROMA_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
@@ -82,7 +83,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
             dev_transaction_id = 0x3F;
             }
             break;
-            
+
         case RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID:
             {
             dev_transaction_id = 0x9F;
@@ -117,6 +118,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_X_PID:
         case RAZER_DEATHADDER_ELITE_PID:
+        case RAZER_DEATHADDER_V2_MINI_PID:
         case RAZER_FIREFLY_V2_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         case RAZER_GOLIATHUS_CHROMA_PID:
@@ -1199,7 +1201,7 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
                     razer_usb_send(&report);
                     break;
-                    
+
                 case RAZER_DEATHADDER_CHROMA_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
                     razer_usb_send(&report);
@@ -1487,7 +1489,7 @@ void RazerController::razer_set_mode_none()
             report                          = razer_create_mode_none_extended_matrix_report(RAZER_STORAGE_NO_SAVE, dev_led_id);
             razer_usb_send(&report);
             break;
-        
+
         case RAZER_MATRIX_TYPE_CUSTOM:
             unsigned char rgb_data[6];
             rgb_data[0]             = 0x00;

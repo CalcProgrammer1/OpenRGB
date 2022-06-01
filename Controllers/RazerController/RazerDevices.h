@@ -5347,6 +5347,41 @@ static const razer_device deathadder_v2_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer DeathAdder V2 Mini 1532:008C                           |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone deathadder_v2_mini_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device deathadder_v2_mini_device =
+{
+    "Razer DeathAdder V2 Mini",
+    RAZER_DEATHADDER_V2_MINI_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    1,
+    {
+        &deathadder_v2_mini_logo_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer DeathAdder V2 Pro (Wired) 1532:007C	                |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -8015,6 +8050,7 @@ static const razer_device* device_list[] =
     &deathadder_essential_device,
     &deathadder_essential_white_edition_device,
     &deathadder_v2_device,
+    &deathadder_v2_mini_device,
     &deathadder_v2_pro_wired_device,
     &deathadder_v2_pro_wireless_device,
     &diamondback_chroma_device,
