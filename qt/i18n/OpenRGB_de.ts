@@ -121,7 +121,7 @@
     </message>
     <message>
         <source>Dir:</source>
-        <translation>Verzeichnis:</translation>
+        <translation>Richtung:</translation>
     </message>
     <message>
         <source>S:</source>
