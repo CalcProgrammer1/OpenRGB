@@ -134,6 +134,7 @@ INCLUDEPATH +=                                                                  
     Controllers/MSIMysticLightController/                                                       \
     Controllers/MSIOptixController/                                                             \
     Controllers/MSIRGBController/                                                               \
+    Controllers/MSIVigorController/                                                             \
     Controllers/NanoleafController/                                                             \
     Controllers/NZXTHue2Controller/                                                             \
     Controllers/NZXTHuePlusController/                                                          \
@@ -450,6 +451,8 @@ HEADERS +=                                                                      
     Controllers/MSIOptixController/MSIOptixController.h                                         \
     Controllers/MSIOptixController/RGBController_MSIOptix.h                                     \
     Controllers/MSIRGBController/MSIRGBController.h                                             \
+    Controllers/MSIVigorController/RGBController_MSIVigorGK30.h                                 \
+    Controllers/MSIVigorController/MSIVigorGK30Controller.h                                     \
     Controllers/NanoleafController/NanoleafController.h                                         \
     Controllers/MSIRGBController/RGBController_MSIRGB.h                                         \
     Controllers/NvidiaESAController/NvidiaESAController.h                                       \
@@ -942,6 +945,9 @@ SOURCES +=                                                                      
     Controllers/MSIRGBController/MSIRGBController.cpp                                           \
     Controllers/MSIRGBController/MSIRGBControllerDetect.cpp                                     \
     Controllers/MSIRGBController/RGBController_MSIRGB.cpp                                       \
+    Controllers/MSIVigorController/RGBController_MSIVigorGK30.cpp                               \
+    Controllers/MSIVigorController/MSIVigorControllerDetect.cpp                                 \
+    Controllers/MSIVigorController/MSIVigorGK30Controller.cpp                                   \
     Controllers/NanoleafController/NanoleafController.cpp                                       \
     Controllers/NanoleafController/NanoleafControllerDetect.cpp                                 \
     Controllers/NanoleafController/RGBController_Nanoleaf.cpp                                   \
