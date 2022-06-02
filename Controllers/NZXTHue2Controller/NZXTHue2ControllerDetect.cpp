@@ -52,7 +52,7 @@ void DetectNZXTSmartDeviceV2(hid_device_info* info, const std::string& name)
 
 void DetectNZXTKrakenX3(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 4, 0);
+    spawn_hue(info, name, 3, 0);
 }
 
 void DetectNZXTFanController(hid_device_info* info, const std::string& name)
