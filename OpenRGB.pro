@@ -126,6 +126,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
     Controllers/LEDStripController/                                                             \
+    Controllers/LenovoControllers/                                                              \
     Controllers/LianLiController/                                                               \
     Controllers/LIFXController/                                                                 \
     Controllers/LogitechController/                                                             \
@@ -408,6 +409,9 @@ HEADERS +=                                                                      
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.h                     \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
+    Controllers/LenovoControllers/LenovoDevices.h                                               \
+    Controllers/LenovoControllers/LenovoUSBController.h                                         \
+    Controllers/LenovoControllers/RGBController_LenovoUSB.h                                     \
     Controllers/LexipMouseController/LexipMouseController.h                                     \
     Controllers/LexipMouseController/RGBController_LexipMouse.h                                 \
     Controllers/LIFXController/LIFXController.h                                                 \
@@ -897,6 +901,9 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
+    Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
+    Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
+    Controllers/LenovoControllers/RGBController_LenovoUSB.cpp                                   \
     Controllers/LexipMouseController/LexipMouseController.cpp                                   \
     Controllers/LexipMouseController/LexipMouseControllerDetect.cpp                             \
     Controllers/LexipMouseController/RGBController_LexipMouse.cpp                               \
