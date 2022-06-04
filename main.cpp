@@ -356,29 +356,24 @@ int main(int argc, char* argv[])
         \*---------------------------------------------------------*/
         QTranslator translator;
 
-        QString defaultLocale = QLocale::system().name();
-        defaultLocale.truncate(defaultLocale.lastIndexOf('_'));
-
-        // For local tests without changing the PC locale, override this value.
-        //defaultLocale="fr";
-
-        QLocale locale = QLocale(defaultLocale);
+        QLocale locale = QLocale(QLocale::system());
         QLocale::setDefault(locale);
 
-        QString languageName = QLocale::languageToString(locale.language());
+        // For local tests without changing the PC locale, override this value.
+        //locale = QLocale(QLocale::French, QLocale::France);
 
         a.removeTranslator(&translator);
 
         QString path = ":/i18n/";
 
-        if(translator.load(path + QString("OpenRGB_%1.qm").arg(defaultLocale)))
+        if(translator.load(path + QString("OpenRGB_%1.qm").arg(locale.name())))
         {
             a.installTranslator(&translator);
-            printf("Current Language changed to %s\n", languageName.toStdString().c_str());
+            printf("Current Language changed to %s\n", locale.name().toStdString().c_str());
         }
         else
         {
-            printf("Failed to load translation file for default locale '%s'\n", defaultLocale.toStdString().c_str());
+            printf("Failed to load translation file for default locale '%s'\n", locale.name().toStdString().c_str());
         }
 
         /*---------------------------------------------------------*\
