@@ -8,6 +8,7 @@
 #include "AsusAuraMousematController.h"
 #include "AsusAuraStrixEvolveController.h"
 #include "AsusAuraMonitorController.h"
+#include "AsusAuraRyuoAIOController.h"
 #include "RGBController.h"
 #include "RGBController_AsusAuraUSB.h"
 #include "RGBController_AsusAuraHeadsetStand.h"
@@ -18,6 +19,7 @@
 #include "RGBController_ROGStrixLC_Controller.h"
 #include "RGBController_AsusAuraStrixEvolve.h"
 #include "RGBController_AsusAuraMonitor.h"
+#include "RGBController_AsusAuraRyuoAIO.h"
 #include <stdexcept>
 #include <hidapi/hidapi.h>
 #include "dependencies/dmiinfo.h"
@@ -80,6 +82,7 @@
 \*-----------------------------------------------------------------*/
 #define AURA_TERMINAL_PID                       0x1889
 #define ROG_STRIX_LC120_PID                     0x879E
+#define AURA_RYUO_AIO_PID                       0x1887
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 {
@@ -205,6 +208,19 @@ void DetectAsusAuraUSBROGStrixLC(hid_device_info* info, const std::string& name)
         ROGStrixLC_Controller* controller                   = new ROGStrixLC_Controller(dev, info->path);
         RGBController_ROGStrixLC_Controller* rgb_controller = new RGBController_ROGStrixLC_Controller(controller);
         rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectAsusAuraUSBRyuoAIO(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        AsusAuraRyuoAIOController* controller         = new AsusAuraRyuoAIOController(dev, info->path);
+        RGBController_AsusAuraRyuoAIO* rgb_controller = new RGBController_AsusAuraRyuoAIO(controller);
+        rgb_controller->name                          = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -337,6 +353,7 @@ REGISTER_HID_DETECTOR_PU("ASUS ROG PG32UQ",                             DetectAs
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR    ("ASUS ROG AURA Terminal",                     DetectAsusAuraUSBTerminal,      AURA_USB_VID, AURA_TERMINAL_PID);
 REGISTER_HID_DETECTOR_PU ("ASUS ROG Strix LC",                          DetectAsusAuraUSBROGStrixLC,    AURA_USB_VID, ROG_STRIX_LC120_PID,                          0x00FF, 1);
+REGISTER_HID_DETECTOR_PU ("ASUS ROG Ryuo AIO",                          DetectAsusAuraUSBRyuoAIO,       AURA_USB_VID, AURA_RYUO_AIO_PID,                        0xFF72, 0x00A1);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne",                            DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID,                          0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI",                         DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                       0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI GUNDAM",                  DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_GUNDAM_PID,                0);
