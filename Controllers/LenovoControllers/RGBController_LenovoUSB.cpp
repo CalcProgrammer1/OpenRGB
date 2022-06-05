@@ -21,6 +21,29 @@ using namespace std;
     @comment Tested on Lenovo Legion 7/7i gen. 6 ANSI and ISO models
         Hardware modes are not implented
         PLEASE UPDATE YOUR BIOS IF YOU HAVE ISSUES WITH HARDWARE MODES AFTER CLOSING OPENRGB
+
+        If you have other models beside the Legion 7 gen 6 and want to test if RGB can be added to OpenRGB,
+        you can do so if you're on Windows by running
+        [this Powershell script](https://gitlab.com/pvazny/legion7-rgb-ps) with the `-test` parameter:
+
+        ```powershell
+        legion7-rgb.ps1 -test -v 0x048D -p 0xC935 -up 0xFF89 -u 0x07 -c 0xa1 -start 0x15 -stop 0xa1
+        ```
+
+        This script will iterate through each LED one by one, in bank `$c = 0xa1`, between IDs
+        `-start 0x15` and `-stop 0xa1`, on the HID device with VID `-v 0x048D` PID `-p 0xC935` usage page
+        `-up 0xFF89` and usage `-u 0x07`. It will default to the Legion 7 Gen 6 description, however you can
+        enter a new description for each LED and at the end it will generate the differences.
+
+        To check if you have an eligible HID device that could potentially be iterated by the script please
+        open the powershell command prompt and executre the follow:
+
+        ```powershell
+        Get-PnpDevice -Class 'HIDClass' | ForEach-Object { [PSCustomObject]@{Name = $_.FriendlyName; InstanceId = $_.InstanceId; HardwareId = ($_.HardwareId | Where-Object {$_ -like 'HID_DEVICE_UP:*' })}} | Where-Object { $_.HardwareId -ne $null } | Sort-Object InstanceId
+        ```
+
+        If the script is successful please create a [new device issue](https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/new?issuable_template=New%20Device#)
+        and attach the relevant details to request support for your device.
 \*-------------------------------------------------------------------*/
 
 /*--------------------------------------------------------*\
@@ -188,7 +211,7 @@ void RGBController_LenovoUSB::SetupZones()
             new_zone.matrix_map->map    = new unsigned int[new_zone.matrix_map->height * new_zone.matrix_map->width];
 
             /*----------------------------------------------------*\
-            | This section sets up the maps of zones where elements| 
+            | This section sets up the maps of zones where elements|
             | may have an oddly aligned on the matrix              |
             | please be sure to document in some way which zones   |
             | in a device you may be implementing have this poperty|
