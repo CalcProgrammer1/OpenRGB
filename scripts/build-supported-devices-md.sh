@@ -58,7 +58,7 @@ echo -e "- [Other Devices](#other-devices)" >> "$MAIN_FILE"
 while read -r controller
 do
     ## 's/\r$//' - Convert DOS text to Unix text
-    DATA=$(sed -e 's/\r$//' ${controller} | awk -v RS='' '/\/\*\*/')
+    DATA=$(sed -e 's/\r$//' ${controller} | awk '/\/\*\*/{flag=1;next}/\\\*/{flag=0}flag')
 
     ## 's/^ *//g' - Remove all leading whitespace
     ## 's/\,/\n/g' - Convert a comma separated list to lines
@@ -69,7 +69,7 @@ do
     direct=$(printf %s "$DATA" | grep @direct |  sed -e 's/@direct//g' -e 's/^ *//g')
     effects=$(printf %s "$DATA" | grep @effects |  sed -e 's/@effects//g' -e 's/^ *//g')
     detectors=$(printf %s "$DATA" | grep @detectors |  sed -e 's/@detectors *//g' -e 's/^ *//g' -e 's/\,/\n/g')
-    comment=$(printf %s "$DATA" | awk -v RS='@' '/comment/' | grep -v '\*' |  sed -e 's/comment//g' -e 's/^ *//g')
+    comment=$(printf %s "$DATA" | awk -v RS='    @' '/comment/' | sed -e 's/comment//g' -e 's/^ *//g')
 
     if [[ $name = *[![:blank:]]* ]]; then    #Check that the name is not blank
         case $save in
