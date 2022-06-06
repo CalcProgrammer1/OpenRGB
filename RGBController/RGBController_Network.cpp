@@ -24,6 +24,9 @@ void RGBController_Network::SetupZones()
 void RGBController_Network::ResizeZone(int zone, int new_size)
 {
     client->SendRequest_RGBController_ResizeZone(dev_idx, zone, new_size);
+
+    client->SendRequest_ControllerData(dev_idx);
+    client->WaitOnControllerData();
 }
 
 void RGBController_Network::DeviceUpdateLEDs()

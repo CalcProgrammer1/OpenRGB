@@ -620,6 +620,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     memcpy(&new_size, data + sizeof(int), sizeof(int));
 
                     controllers[header.pkt_dev_idx]->ResizeZone(zone, new_size);
+                    profile_manager->SaveProfile("sizes", true);
                 }
                 break;
 
@@ -858,7 +859,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         unsigned int   reply_size;
 
         memcpy(&reply_size, reply_data, sizeof(reply_size));
-        
+
         reply_hdr.pkt_magic[0] = 'O';
         reply_hdr.pkt_magic[1] = 'R';
         reply_hdr.pkt_magic[2] = 'G';

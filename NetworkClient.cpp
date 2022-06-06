@@ -320,7 +320,7 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
     {
         timeout.tv_sec      = 5;
         timeout.tv_usec     = 0;
-        
+
         FD_ZERO(&set);      /* clear the set */
         FD_SET(s, &set);    /* add our file descriptor to the set */
 
@@ -339,7 +339,7 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
             // socket has something to read
             return(recv(s, buf, len, flags));
         }
-        
+
     }
 }
 
@@ -545,6 +545,10 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int /*data_size*/, char
     else
     {
         server_controllers[dev_idx]->active_mode = new_controller->active_mode;
+        for(unsigned int i = 0; i < server_controllers[dev_idx]->zones.size(); i++)
+        {
+            server_controllers[dev_idx]->zones[i].leds_count = new_controller->zones[i].leds_count;
+        }
         delete new_controller;
     }
 
