@@ -463,6 +463,8 @@ HEADERS +=                                                                      
     Controllers/MSIVigorController/MSIVigorGK30Controller.h                                     \
     Controllers/NanoleafController/NanoleafController.h                                         \
     Controllers/MSIRGBController/RGBController_MSIRGB.h                                         \
+    Controllers/N5312AController/N5312AController.h                                             \
+    Controllers/N5312AController/RGBController_N5312A.h                                         \
     Controllers/NvidiaESAController/NvidiaESAController.h                                       \
     Controllers/NanoleafController/RGBController_Nanoleaf.h                                     \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.h                                   \
@@ -968,6 +970,9 @@ SOURCES +=                                                                      
     Controllers/NanoleafController/NanoleafController.cpp                                       \
     Controllers/NanoleafController/NanoleafControllerDetect.cpp                                 \
     Controllers/NanoleafController/RGBController_Nanoleaf.cpp                                   \
+    Controllers/N5312AController/N5312AController.cpp                                           \
+    Controllers/N5312AController/N5312AControllerDetect.cpp                                     \
+    Controllers/N5312AController/RGBController_N5312A.cpp                                       \
     Controllers/NvidiaESAController/NvidiaESAController.cpp                                     \
     Controllers/NvidiaESAController/NvidiaESAControllerDetect.cpp                               \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.cpp                                 \
