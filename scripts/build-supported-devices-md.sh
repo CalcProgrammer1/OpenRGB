@@ -43,6 +43,7 @@ echo -e "- [Graphics Cards](#graphics-cards)" >> "$MAIN_FILE"
 echo -e "- [Coolers](#coolers)" >> "$MAIN_FILE"
 echo -e "- [LED Strips](#led-strips)" >> "$MAIN_FILE"
 echo -e "- [Keyboards](#keyboards)" >> "$MAIN_FILE"
+echo -e "- [Microphones](#microphones)" >> "$MAIN_FILE"
 echo -e "- [Mice](#mouse)" >> "$MAIN_FILE"
 echo -e "- [Mouse Mats](#mouse-mats)" >> "$MAIN_FILE"
 echo -e "- [Headsets](#headsets)" >> "$MAIN_FILE"
@@ -134,6 +135,9 @@ do
                 Keyboard)
                     keyboard+=$current_controller
                     ;;
+                Microphone)
+                    microphone+=$current_controller
+                    ;;
                 Mouse)
                     mouse+=$current_controller
                     ;;
@@ -218,10 +222,13 @@ do
                         table_row=$(printf '| `%s:%s` | `%s:%s` | %s |' "${vid}" "${pid/ /}" "${svid}" "${spid/ /}" "${device_name}")
                         ;;
                     *)
+                        table_row=""
                         ;;
                 esac
 
-                echo -e "$table_row" >>"$outfile"
+                if [[ $table_row = *[![:blank:]]* ]]; then
+                    echo -e "$table_row" >>"$outfile"
+                fi
             done <<< "$text"
         done <<< "$detectors"
     fi
@@ -233,6 +240,7 @@ printf "\n## Graphics Cards\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo 
 printf "\n## Coolers\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${cooler}| sort)" >> "$MAIN_FILE"
 printf "\n## LED Strips\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${ledstrip}| sort)" >> "$MAIN_FILE"
 printf "\n## Keyboards\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${keyboard}| sort)" >> "$MAIN_FILE"
+printf "\n## Microphones\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${microphone}| sort)" >> "$MAIN_FILE"
 printf "\n## Mice\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${mouse}| sort)" >> "$MAIN_FILE"
 printf "\n## Mouse Mats\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${mousemat}| sort)" >> "$MAIN_FILE"
 printf "\n## Headsets\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${headset}| sort)" >> "$MAIN_FILE"

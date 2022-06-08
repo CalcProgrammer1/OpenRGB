@@ -86,7 +86,7 @@ public:
     unsigned int        brightness_max; /*brightness max value      */
     unsigned int        colors_min; /* minimum number of mode colors*/
     unsigned int        colors_max; /* maximum numver of mode colors*/
-    
+
     /*--------------------------------------------------------------*\
     | Mode Settings                                                  |
     \*--------------------------------------------------------------*/
@@ -153,6 +153,9 @@ typedef struct
 
 /*------------------------------------------------------------------*\
 | Device Types                                                       |
+|   The enum order should be maintained as is for the API however    |
+|   DEVICE_TYPE_UNKNOWN needs to remain last. Any new device types   |
+|   need to be inserted at the end of the list but before unknown.   |
 \*------------------------------------------------------------------*/
 typedef int device_type;
 
@@ -174,7 +177,8 @@ enum
     DEVICE_TYPE_VIRTUAL,
     DEVICE_TYPE_STORAGE,
     DEVICE_TYPE_CASE,
-    DEVICE_TYPE_UNKNOWN
+    DEVICE_TYPE_MICROPHONE,
+    DEVICE_TYPE_UNKNOWN,
 };
 
 /*------------------------------------------------------------------*\

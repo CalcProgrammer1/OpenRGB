@@ -50,5 +50,7 @@
         <file>case.png</file>
         <file>case_dark.png</file>
         <file>OpenRGBGreyscale.png</file>
+        <file>microphone.png</file>
+        <file>microphone_dark.png</file>
     </qresource>
 </RCC>

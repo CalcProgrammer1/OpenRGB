@@ -7947,7 +7947,7 @@ static const razer_device seiren_emote_device =
 {
     "Razer Seiren Emote",
     RAZER_SEIREN_EMOTE_PID,
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_MICROPHONE,
     true,
     4,
     16,

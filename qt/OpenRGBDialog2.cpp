@@ -51,6 +51,9 @@ static QString GetIconString(device_type type, bool dark)
     case DEVICE_TYPE_KEYBOARD:
         filename = "keyboard";
         break;
+    case DEVICE_TYPE_MICROPHONE:
+        filename = "microphone";
+        break;
     case DEVICE_TYPE_MOUSE:
         filename = "mouse";
         break;
