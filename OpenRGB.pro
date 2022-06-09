@@ -525,12 +525,14 @@ HEADERS +=                                                                      
     Controllers/SonyDS4Controller/SonyDS4Controller.h                                           \
     Controllers/SonyDS4Controller/RGBController_SonyDS4.h                                       \
     Controllers/SteelSeriesController/color32.h                                                 \
+    Controllers/SteelSeriesController/SteelSeriesAerox3Controller.h                             \
     Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
-    Controllers/SteelSeriesController/SteelSeriesApexTZoneController.h                          \
     Controllers/SteelSeriesController/SteelSeriesApexMController.h                              \
+    Controllers/SteelSeriesController/SteelSeriesApexTZoneController.h                          \
     Controllers/SteelSeriesController/SteelSeriesArctis5Controller.h                            \
     Controllers/SteelSeriesController/SteelSeriesGeneric.h                                      \
+    Controllers/SteelSeriesController/SteelSeriesMouseController.h                              \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.h                            \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h                              \
     Controllers/SteelSeriesController/SteelSeriesRival3Controller.h                             \
@@ -1048,17 +1050,19 @@ SOURCES +=                                                                      
     Controllers/SonyDS4Controller/SonyDS4Controller.cpp                                         \
     Controllers/SonyDS4Controller/SonyDS4ControllerDetect.cpp                                   \
     Controllers/SonyDS4Controller/RGBController_SonyDS4.cpp                                     \
+    Controllers/SteelSeriesController/SteelSeriesAerox3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
-    Controllers/SteelSeriesController/SteelSeriesApexTZoneController.cpp                        \
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
+    Controllers/SteelSeriesController/SteelSeriesApexTZoneController.cpp                        \
     Controllers/SteelSeriesController/SteelSeriesArctis5Controller.cpp                          \
+    Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp                           \
+    Controllers/SteelSeriesController/SteelSeriesMouseController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesOldApexController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesRivalController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesRival3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesSenseiController.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.cpp                           \
-    Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.cpp                         \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApexTZone.cpp                    \
     Controllers/SteelSeriesController/RGBController_SteelSeriesArctis5.cpp                      \

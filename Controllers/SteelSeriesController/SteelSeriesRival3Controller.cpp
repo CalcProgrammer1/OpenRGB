@@ -17,11 +17,11 @@ SteelSeriesRival3Controller::SteelSeriesRival3Controller
     hid_device*         dev_handle,
     steelseries_type    proto_type,
     const char*         path
-    )
+    ) : SteelSeriesMouseController(dev_handle, proto_type, path)
 {
-    dev         = dev_handle;
-    location    = path;
-    proto       = proto_type;
+    //dev         = dev_handle;
+    //location    = path;
+    //proto       = proto_type;
 }
 
 SteelSeriesRival3Controller::~SteelSeriesRival3Controller()
@@ -29,6 +29,7 @@ SteelSeriesRival3Controller::~SteelSeriesRival3Controller()
     hid_close(dev);
 }
 
+/*
 std::string SteelSeriesRival3Controller::GetDeviceLocation()
 {
     return("HID: " + location);
@@ -43,7 +44,7 @@ std::string SteelSeriesRival3Controller::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
-    
+
     if (ret != 0)
     {
         return("");
@@ -54,6 +55,7 @@ std::string SteelSeriesRival3Controller::GetSerialString()
 
     return(return_string);
 }
+*/
 
 std::string SteelSeriesRival3Controller::GetFirmwareVersion()
 {
@@ -69,6 +71,12 @@ std::string SteelSeriesRival3Controller::GetFirmwareVersion()
     return return_string;
 }
 
+steelseries_mouse SteelSeriesRival3Controller::GetMouse()
+{
+    return rival_3;
+}
+
+/*
 steelseries_type SteelSeriesRival3Controller::GetMouseType()
 {
     return proto;
@@ -78,9 +86,10 @@ void SteelSeriesRival3Controller::Save()
 {
     const uint8_t   SAVE_BUFFER_SIZE            = 10;
     uint8_t         usb_buf[SAVE_BUFFER_SIZE]   = { 0x00, 0x09 };
-    
+
     hid_write(dev, usb_buf, SAVE_BUFFER_SIZE);
 }
+*/
 
 void SteelSeriesRival3Controller::SetLightEffectAll(uint8_t effect)
 {

@@ -9,20 +9,6 @@
 
 #include "RGBController_SteelSeriesRival3.h"
 
-typedef struct
-{
-    const char* name;
-    const int   value;
-} steelseries_rival_led_info;
-
-static const steelseries_rival_led_info rival_3_leds[]=
-{
-    {"Front",           0x01},
-    {"Middle",          0x02},
-    {"Rear",            0x03},
-    {"Logo",            0x04}
-};
-
 /**------------------------------------------------------------------*\
     @name Steel Series Rival 3
     @category Mouse
@@ -34,49 +20,45 @@ static const steelseries_rival_led_info rival_3_leds[]=
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRival3Controller* rival_ptr)
+RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesMouseController *controller_ptr)
 {
-    rival       = rival_ptr;
+    controller              = controller_ptr;
 
-    name        = rival->GetDeviceName();
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "SteelSeries Rival 3 Device";
-    location    = rival->GetDeviceLocation();
-    serial      = rival->GetSerialString();
-    version     = rival->GetFirmwareVersion();
+    name                    = controller->GetDeviceName();
+    vendor                  = "SteelSeries";
+    type                    = DEVICE_TYPE_MOUSE;
+    description             = "SteelSeries Mouse Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
+    version                 = controller->GetFirmwareVersion();
 
     mode Direct;
     Direct.name             = "Direct";
-    Direct.value            = STEELSERIES_RIVAL_3_EFFECT_DIRECT;
+    Direct.value            = STEELSERIES_MOUSE_EFFECT_DIRECT;
     Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     Direct.brightness_min   = 0x00;
-    Direct.brightness_max   = STEELSERIES_RIVAL_3_BRIGHTNESS_MAX;
-    Direct.brightness       = STEELSERIES_RIVAL_3_BRIGHTNESS_MAX;
-    modes.push_back(Direct);
+    Direct.brightness_max   = STEELSERIES_MOUSE_BRIGHTNESS_MAX;
+    Direct.brightness       = STEELSERIES_MOUSE_BRIGHTNESS_MAX;
 
     mode Breathing;
     Breathing.name          = "Breathing";
-    Breathing.value         = STEELSERIES_RIVAL_3_EFFECT_BREATHING_MIN;
+    Breathing.value         = STEELSERIES_MOUSE_EFFECT_BREATHING_MIN;
     Breathing.flags         = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
     Breathing.color_mode    = MODE_COLORS_PER_LED;
     Breathing.speed_min     = 0;
     Breathing.speed_max     = 2;
     Breathing.speed         = 1;
-    modes.push_back(Breathing);
 
     mode SpectrumCycle;
     SpectrumCycle.name      = "Spectrum Cycle";
-    SpectrumCycle.value     = STEELSERIES_RIVAL_3_EFFECT_SPECTRUM_CYCLE;
+    SpectrumCycle.value     = STEELSERIES_MOUSE_EFFECT_SPECTRUM_CYCLE;
     SpectrumCycle.flags     = MODE_FLAG_MANUAL_SAVE;
-    modes.push_back(SpectrumCycle);
 
     mode RainbowBreathing;
     RainbowBreathing.name   = "Rainbow Breathing";
-    RainbowBreathing.value  = STEELSERIES_RIVAL_3_EFFECT_RAINBOW_BREATHING;
+    RainbowBreathing.value  = STEELSERIES_MOUSE_EFFECT_RAINBOW_BREATHING;
     RainbowBreathing.flags  = MODE_FLAG_MANUAL_SAVE;
-    modes.push_back(RainbowBreathing);
 
     /*------------------------------------------------------------------------*\
     | This is a pretty cool mode where it flashes random colors.               |
@@ -93,30 +75,53 @@ RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesRiva
     /*
     mode Disco;
     Disco.name              = "Disco";
-    Disco.value             = STEELSERIES_RIVAL_3_EFFECT_DISCO;
+    Disco.value             = STEELSERIES_MOUSE_EFFECT_DISCO;
     Disco.flags             = MODE_FLAG_MANUAL_SAVE;
     modes.push_back(Disco);
     */
+
+    steelseries_mouse mouse = controller->GetMouse();
+
+    for(const uint8_t i: mouse.modes)
+    {
+        switch(i)
+        {
+            case STEELSERIES_MOUSE_EFFECT_SPECTRUM_CYCLE:
+                modes.push_back(SpectrumCycle);
+                break;
+            case STEELSERIES_MOUSE_EFFECT_BREATHING_MIN:
+                modes.push_back(Breathing);
+                break;
+            case STEELSERIES_MOUSE_EFFECT_DIRECT:
+                modes.push_back(Direct);
+                break;
+            case STEELSERIES_MOUSE_EFFECT_RAINBOW_BREATHING:
+                modes.push_back(RainbowBreathing);
+                break;
+        }
+    }
 
     SetupZones();
 }
 
 void RGBController_SteelSeriesRival3::DeviceSaveMode()
 {
-    rival->Save();
+    controller->Save();
 }
 
 RGBController_SteelSeriesRival3::~RGBController_SteelSeriesRival3()
 {
-    delete rival;
+    delete controller;
 }
 
 void RGBController_SteelSeriesRival3::SetupZones()
 {
-    for(const steelseries_rival_led_info led_info: rival_3_leds)
+    steelseries_mouse mouse = controller->GetMouse();
+
+    for(const led_info info: mouse.leds)
     {
         zone zone;
-        zone.name          = led_info.name;
+        zone.name          = info.name;
         zone.type          = ZONE_TYPE_SINGLE;
         zone.leds_min      = 1;
         zone.leds_max      = 1;
@@ -125,8 +130,8 @@ void RGBController_SteelSeriesRival3::SetupZones()
         zones.push_back(zone);
 
         led mouse_led;
-        mouse_led.name          = led_info.name;
-        mouse_led.value         = led_info.value;
+        mouse_led.name          = info.name;
+        mouse_led.value         = info.value;
         leds.push_back(mouse_led);
     }
     SetupColors();
@@ -150,10 +155,7 @@ void RGBController_SteelSeriesRival3::DeviceUpdateLEDs()
 
 void RGBController_SteelSeriesRival3::UpdateZoneLEDs(int zone)
 {
-    /*--------------------------------------------------*\
-    | Subtracting one as the zone and led indexes differ |
-    \*--------------------------------------------------*/
-    UpdateSingleLED(zones[zone].leds[0].value - 1);
+    UpdateSingleLED(zone);
 }
 
 void RGBController_SteelSeriesRival3::UpdateSingleLED(int led)
@@ -161,7 +163,7 @@ void RGBController_SteelSeriesRival3::UpdateSingleLED(int led)
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
-    rival->SetColor(leds[led].value, red, grn, blu, modes[active_mode].brightness);
+    controller->SetColor(leds[led].value, red, grn, blu, modes[active_mode].brightness);
 }
 
 void RGBController_SteelSeriesRival3::SetCustomMode()
@@ -171,5 +173,5 @@ void RGBController_SteelSeriesRival3::SetCustomMode()
 
 void RGBController_SteelSeriesRival3::DeviceUpdateMode()
 {
-    rival->SetLightEffectAll(modes[active_mode].value - modes[active_mode].speed);
+    controller->SetLightEffectAll(modes[active_mode].value - modes[active_mode].speed);
 }

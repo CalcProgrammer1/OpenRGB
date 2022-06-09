@@ -10,12 +10,13 @@
 #pragma once
 
 #include "RGBController.h"
+#include "SteelSeriesAerox3Controller.h"
 #include "SteelSeriesRival3Controller.h"
 
 class RGBController_SteelSeriesRival3 : public RGBController
 {
 public:
-    RGBController_SteelSeriesRival3(SteelSeriesRival3Controller* rival_ptr);
+    RGBController_SteelSeriesRival3(SteelSeriesMouseController* controller_ptr);
     ~RGBController_SteelSeriesRival3();
 
     void        SetupZones();
@@ -32,5 +33,5 @@ public:
 
 
 private:
-    SteelSeriesRival3Controller*     rival;
+    SteelSeriesMouseController*     controller;
 };

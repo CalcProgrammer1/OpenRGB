@@ -11,26 +11,32 @@
 #include <hidapi/hidapi.h>
 
 #include "SteelSeriesGeneric.h"
+#include "SteelSeriesMouseController.h"
 
 #pragma once
 
-#define STEELSERIES_RIVAL_3_BRIGHTNESS_MAX          0x64
+//#define STEELSERIES_RIVAL_3_BRIGHTNESS_MAX          0x64
 
-/*-----------------------------------------------------------*\
-| Theses are the specific values that get sent to set a mode  |
-\*-----------------------------------------------------------*/
-enum
+/*static const steelseries_mouse_led_info rival_3_leds[]=
 {
-    STEELSERIES_RIVAL_3_EFFECT_SPECTRUM_CYCLE       = 0x00,
-    STEELSERIES_RIVAL_3_EFFECT_BREATHING_MAX        = 0x01,
-    STEELSERIES_RIVAL_3_EFFECT_BREATHING_MID        = 0x02,
-    STEELSERIES_RIVAL_3_EFFECT_BREATHING_MIN        = 0x03,
-    STEELSERIES_RIVAL_3_EFFECT_DIRECT               = 0x04,
-    STEELSERIES_RIVAL_3_EFFECT_RAINBOW_BREATHING    = 0x05,
-    STEELSERIES_RIVAL_3_EFFECT_DISCO                = 0x06
+    {"Front",           0x01},
+    {"Middle",          0x02},
+    {"Rear",            0x03},
+    {"Logo",            0x04}
+};*/
+
+static const steelseries_mouse rival_3 =
+{
+    {   0x04, 0x03, 0x00, 0x05  },
+    {
+        {"Front",           0x01},
+        {"Middle",          0x02},
+        {"Rear",            0x03},
+        {"Logo",            0x04}
+    }
 };
 
-class SteelSeriesRival3Controller
+class SteelSeriesRival3Controller: public SteelSeriesMouseController
 {
 public:
     SteelSeriesRival3Controller
@@ -42,14 +48,14 @@ public:
 
     ~SteelSeriesRival3Controller();
 
-    std::string         GetDeviceLocation();
-    char*               GetDeviceName();
-    std::string         GetSerialString();
+    //std::string         GetDeviceLocation();
+    //char*               GetDeviceName();
+    //std::string         GetSerialString();
     std::string         GetFirmwareVersion();
+    steelseries_mouse   GetMouse();
+    //steelseries_type    GetMouseType();
 
-    steelseries_type    GetMouseType();
-
-    void                Save();
+    //void                Save();
 
     void                SetLightEffectAll(uint8_t effect);
 
@@ -63,8 +69,8 @@ public:
                             );
 
 private:
-    char                    device_name[32];
-    hid_device*             dev;
-    std::string             location;
-    steelseries_type        proto;
+    //char                    device_name[32];
+    //hid_device*             dev;
+    //std::string             location;
+    //steelseries_type        proto;
 };
