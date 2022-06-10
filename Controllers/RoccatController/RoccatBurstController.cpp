@@ -1,17 +1,17 @@
 /*-------------------------------------------------------------------*\
-|  RoccatBurstCoreController.cpp                                      |
+|  RoccatBurstController.cpp                                          |
 |                                                                     |
-|  Driver for Roccat Horde Aimo Keyboard                              |
+|  Driver for Roccat Burst Core and Pro Mouse                         |
 |                                                                     |
 |  Morgan Guimard (morg)          2/24/2022                           |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "RoccatBurstCoreController.h"
+#include "RoccatBurstController.h"
 
 #include <cstring>
 
-RoccatBurstCoreController::RoccatBurstCoreController(hid_device* dev_handle, const hid_device_info& info)
+RoccatBurstController::RoccatBurstController(hid_device* dev_handle, const hid_device_info& info)
 {
     dev                 = dev_handle;
     version             = "";
@@ -33,34 +33,34 @@ RoccatBurstCoreController::RoccatBurstCoreController(hid_device* dev_handle, con
     SetupDirectMode();
 }
 
-RoccatBurstCoreController::~RoccatBurstCoreController()
+RoccatBurstController::~RoccatBurstController()
 {
     hid_close(dev);
 }
 
-std::string RoccatBurstCoreController::GetFirmwareVersion()
+std::string RoccatBurstController::GetFirmwareVersion()
 {
     return version;
 }
 
-std::string RoccatBurstCoreController::GetSerialString()
+std::string RoccatBurstController::GetSerialString()
 {
     return serial_number;
 }
 
-std::string RoccatBurstCoreController::GetDeviceLocation()
+std::string RoccatBurstController::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-void RoccatBurstCoreController::SetupDirectMode()
+void RoccatBurstController::SetupDirectMode()
 {
     SwitchControl(true);
 }
 
-void RoccatBurstCoreController::SwitchControl(bool direct)
+void RoccatBurstController::SwitchControl(bool direct)
 {
-    unsigned char usb_buf[ROCCAT_BURST_CORE_CONTROL_MODE_PACKET_LENGTH];
+    unsigned char usb_buf[ROCCAT_BURST_CONTROL_MODE_PACKET_LENGTH];
 
     usb_buf[0x00] = 0x0E;
     usb_buf[0x01] = 0x06;
@@ -69,36 +69,39 @@ void RoccatBurstCoreController::SwitchControl(bool direct)
     usb_buf[0x04] = 0x00;
     usb_buf[0x05] = 0xFF;
 
-    hid_send_feature_report(dev, usb_buf, ROCCAT_BURST_CORE_CONTROL_MODE_PACKET_LENGTH);
+    hid_send_feature_report(dev, usb_buf, ROCCAT_BURST_CONTROL_MODE_PACKET_LENGTH);
 }
 
-void RoccatBurstCoreController::SendDirect(std::vector<RGBColor> colors)
+void RoccatBurstController::SendDirect(std::vector<RGBColor> colors)
 {
-    unsigned char usb_buf[ROCCAT_BURST_CORE_DIRECT_MODE_PACKET_LENGTH];
+    unsigned char usb_buf[ROCCAT_BURST_DIRECT_MODE_PACKET_LENGTH];
 
-    memset(usb_buf, 0x00, ROCCAT_BURST_CORE_DIRECT_MODE_PACKET_LENGTH);
+    memset(usb_buf, 0x00, ROCCAT_BURST_DIRECT_MODE_PACKET_LENGTH);
 
-    usb_buf[0x00] = ROCCAT_BURST_CORE_DIRECT_MODE_REPORT_ID;
-    usb_buf[0x01] = ROCCAT_BURST_CORE_DIRECT_MODE_BYTE;
+    usb_buf[0x00] = ROCCAT_BURST_DIRECT_MODE_REPORT_ID;
+    usb_buf[0x01] = ROCCAT_BURST_DIRECT_MODE_BYTE;
 
-    usb_buf[0x02] = RGBGetRValue(colors[0]);
-    usb_buf[0x03] = RGBGetGValue(colors[0]);
-    usb_buf[0x04] = RGBGetBValue(colors[0]);
+    for(unsigned int i = 0; i < colors.size(); i++)
+    {
+        usb_buf[0x02 + 3 * i] = RGBGetRValue(colors[i]);
+        usb_buf[0x03 + 3 * i] = RGBGetGValue(colors[i]);
+        usb_buf[0x04 + 3 * i] = RGBGetBValue(colors[i]);
+    }
 
-    hid_send_feature_report(dev, usb_buf, ROCCAT_BURST_CORE_DIRECT_MODE_PACKET_LENGTH);
+    hid_send_feature_report(dev, usb_buf, ROCCAT_BURST_DIRECT_MODE_PACKET_LENGTH);
 }
 
-void RoccatBurstCoreController::SetMode(std::vector<RGBColor> colors, unsigned char mode_value, unsigned char speed, unsigned char brightness, unsigned int color_mode, unsigned int mode_flags)
+void RoccatBurstController::SetMode(std::vector<RGBColor> colors, unsigned char mode_value, unsigned char speed, unsigned char brightness, unsigned int color_mode, unsigned int mode_flags)
 {
     /*---------------------------------------------------------*\
     | 1. Read from flash                                        |
     \*---------------------------------------------------------*/
-    unsigned char usb_buf[ROCCAT_BURST_CORE_FLASH_PACKET_LENGTH];
-    memset(usb_buf, 0x00, ROCCAT_BURST_CORE_FLASH_PACKET_LENGTH);
+    unsigned char usb_buf[ROCCAT_BURST_FLASH_PACKET_LENGTH];
+    memset(usb_buf, 0x00, ROCCAT_BURST_FLASH_PACKET_LENGTH);
 
     usb_buf[0x00] = 0x06;
 
-    hid_get_feature_report(dev, usb_buf, ROCCAT_BURST_CORE_FLASH_PACKET_LENGTH);
+    hid_get_feature_report(dev, usb_buf, ROCCAT_BURST_FLASH_PACKET_LENGTH);
 
     /*---------------------------------------------------------*\
     | 2. Update needed bytes                                    |
@@ -118,15 +121,21 @@ void RoccatBurstCoreController::SetMode(std::vector<RGBColor> colors, unsigned c
     {
         usb_buf[36] = 0x14;
         usb_buf[37] = 0xFF;
-        usb_buf[38] = RGBGetRValue(colors[0]);
-        usb_buf[39] = RGBGetGValue(colors[0]);
-        usb_buf[40] = RGBGetBValue(colors[0]);
+        for(unsigned int i = 0; i < colors.size(); i++)
+        {
+            usb_buf[38 + 10 * i] = RGBGetRValue(colors[i]);
+            usb_buf[39 + 10 * i] = RGBGetGValue(colors[i]);
+            usb_buf[40 + 10 * i] = RGBGetBValue(colors[i]);
+        }
     }
     else if (color_mode & MODE_COLORS_NONE)
     {
-        usb_buf[38] = 0xF4;
-        usb_buf[39] = 0x00;
-        usb_buf[40] = 0x00;
+        for(unsigned int i = 0; i < colors.size(); i++)
+        {
+            usb_buf[38 + 10 * i] = 0xF4;
+            usb_buf[39 + 10 * i] = 0x00;
+            usb_buf[40 + 10 * i] = 0x00;
+        }
     }
 
     unsigned int crc = CalculateCRC(&usb_buf[0]);
@@ -137,7 +146,7 @@ void RoccatBurstCoreController::SetMode(std::vector<RGBColor> colors, unsigned c
     /*---------------------------------------------------------*\
     | 3. Send to flash                                          |
     \*---------------------------------------------------------*/
-    hid_send_feature_report(dev, usb_buf, ROCCAT_BURST_CORE_FLASH_PACKET_LENGTH);
+    hid_send_feature_report(dev, usb_buf, ROCCAT_BURST_FLASH_PACKET_LENGTH);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
@@ -147,11 +156,11 @@ void RoccatBurstCoreController::SetMode(std::vector<RGBColor> colors, unsigned c
     SwitchControl(false);
 }
 
-unsigned int RoccatBurstCoreController::CalculateCRC(unsigned char* bytes)
+unsigned int RoccatBurstController::CalculateCRC(unsigned char* bytes)
 {
     unsigned int crc = 0;
 
-    for(unsigned int i = 0; i < ROCCAT_BURST_CORE_FLASH_PACKET_LENGTH - 2; i++)
+    for(unsigned int i = 0; i < ROCCAT_BURST_FLASH_PACKET_LENGTH - 2; i++)
     {
         crc += bytes[i];
     }
