@@ -1269,14 +1269,15 @@ void OpenRGBDialog2::UpdateDevicesList()
     | Remove all remaining device tabs                      |
     \*-----------------------------------------------------*/
     unsigned int tab_count = ui->DevicesTabBar->count();
+    unsigned int base_tab = controllers.size();
 
     for(unsigned int tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
     {
-        QWidget* tab_widget = ui->DevicesTabBar->widget(tab_idx);
+        QWidget* tab_widget = ui->DevicesTabBar->widget(base_tab);
 
         if(dynamic_cast<OpenRGBPluginContainer*>(tab_widget) == nullptr)
         {
-            ui->DevicesTabBar->removeTab(tab_idx);
+            ui->DevicesTabBar->removeTab(base_tab);
             delete tab_widget;
         }
     }
@@ -1293,17 +1294,18 @@ void OpenRGBDialog2::UpdateDevicesList()
         \*-----------------------------------------------------*/
         for(int tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
         {
-            std::string type_str = ui->InformationTabBar->widget(tab_idx)->metaObject()->className();
+            std::string type_str = ui->InformationTabBar->widget(base_tab)->metaObject()->className();
             if(type_str == "Ui::OpenRGBDeviceInfoPage")
             {
                 found = true;
-                QWidget* tab_widget = ui->InformationTabBar->widget(tab_idx);
+                QWidget* tab_widget = ui->InformationTabBar->widget(base_tab);
 
-                ui->InformationTabBar->removeTab(tab_idx);
+                ui->InformationTabBar->removeTab(base_tab);
 
                 delete tab_widget;
                 break;
             }
+            base_tab += 1;
         }
     }
 }

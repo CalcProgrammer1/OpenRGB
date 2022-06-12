@@ -157,14 +157,14 @@ void NetworkClient::StartClient()
 
 void NetworkClient::StopClient()
 {
-    server_connected = false;
-    client_active    = false;
-
-    if (server_connected)
+    if(server_connected)
     {
         shutdown(client_sock, SD_RECEIVE);
         closesocket(client_sock);
     }
+
+    client_active    = false;
+    server_connected = false;
 
     if(ListenThread)
     {
