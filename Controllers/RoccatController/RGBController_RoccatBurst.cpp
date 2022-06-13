@@ -10,24 +10,13 @@
 #include "RGBController_RoccatBurst.h"
 
 /**------------------------------------------------------------------*\
-    @name Roccat Burst Core
+    @name Roccat Burst Mouse
     @category Mouse
     @type USB
     @save :warning:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectRoccatBurstCoreControllers
-    @comment
-\*-------------------------------------------------------------------*/
-
-/**------------------------------------------------------------------*\
-    @name Roccat Burst Pro
-    @category Mouse
-    @type USB
-    @save :warning:
-    @direct :white_check_mark:
-    @effects :white_check_mark:
-    @detectors DetectRoccatBurstProControllers
+    @detectors DetectRoccatBurstCoreControllers,DetectRoccatBurstProControllers
     @comment
 \*-------------------------------------------------------------------*/
 
