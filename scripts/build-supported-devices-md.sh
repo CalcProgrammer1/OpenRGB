@@ -13,7 +13,8 @@ OPENRGB_PATH=$1
 CONTROLLER_PATH=${OPENRGB_PATH}'/Controllers'
 DATA_TABLE_HEAD='| Controller Name | Connection | Save to Flash | Direct | Hardware Effects |\n'
 DATA_TABLE_ALIGN='| :--- | :---: | :---: | :---: | :---: |'
-DEVICE_TABLE_HEAD='| VID | PID | Device Name |\n'
+USB_DEVICE_TABLE_HEAD='| Vendor ID | Product ID | Device Name |\n'
+GPU_DEVICE_TABLE_HEAD='| Vendor &<br/>Device ID | Sub-Vendor &<br/>Product ID | Device Name |\n'
 DEVICE_TABLE_ALIGN='| :---: | :---: | :--- |'
 MAIN_FILE='Supported Devices.md'
 
@@ -44,7 +45,7 @@ echo -e "- [Coolers](#coolers)" >> "$MAIN_FILE"
 echo -e "- [LED Strips](#led-strips)" >> "$MAIN_FILE"
 echo -e "- [Keyboards](#keyboards)" >> "$MAIN_FILE"
 echo -e "- [Microphones](#microphones)" >> "$MAIN_FILE"
-echo -e "- [Mice](#mouse)" >> "$MAIN_FILE"
+echo -e "- [Mice](#mice)" >> "$MAIN_FILE"
 echo -e "- [Mouse Mats](#mouse-mats)" >> "$MAIN_FILE"
 echo -e "- [Headsets](#headsets)" >> "$MAIN_FILE"
 echo -e "- [Headset Stands](#headset-stands)" >> "$MAIN_FILE"
@@ -181,7 +182,11 @@ do
         echo -e "## Saving\n ${save_title}\n" >> "$outfile"
         echo -e "## Direct Mode\n ${direct_title}\n" >> "$outfile"
         echo -e "## Hardware Effects\n ${effects_title}\n" >> "$outfile"
-        echo -e "## Device List\n\n${DEVICE_TABLE_HEAD}${DEVICE_TABLE_ALIGN}" >> "$outfile"
+        if [[ $categories = GPU ]]; then
+            echo -e "## Device List\n\n${GPU_DEVICE_TABLE_HEAD}${DEVICE_TABLE_ALIGN}" >> "$outfile"
+        else
+            echo -e "## Device List\n\n${USB_DEVICE_TABLE_HEAD}${DEVICE_TABLE_ALIGN}" >> "$outfile"
+        fi
 
         ## Iterate over the comma seperated detector function list
         while read -r detector
@@ -219,7 +224,7 @@ do
                         spid=${spid/0x/}
                         device_name=${device_name//[^[:alnum:][:blank:]]/}
 
-                        table_row=$(printf '| `%s:%s` | `%s:%s` | %s |' "${vid}" "${pid/ /}" "${svid}" "${spid/ /}" "${device_name}")
+                        table_row=$(printf '| `%s:%s` | `%s:%s` | %s |' "${vid/ /}" "${pid/ /}" "${svid/ /}" "${spid/ /}" "${device_name}")
                         ;;
                     *)
                         table_row=""

@@ -25,7 +25,7 @@ static const char* evga_v3_zone_names[] =
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectEVGAGPUControllers
+    @detectors DetectEVGAAmpereGPUControllers
     @comment EVGA has not exposed a per LED control method yet so OpenRGB
         is only able to set all LED's to a single color.
 \*-------------------------------------------------------------------*/

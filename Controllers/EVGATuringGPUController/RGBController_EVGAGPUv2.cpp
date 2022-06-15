@@ -16,7 +16,7 @@
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectEVGAGPUControllers
+    @detectors DetectEVGATuringGPUControllers
     @comment
 \*-------------------------------------------------------------------*/
 
