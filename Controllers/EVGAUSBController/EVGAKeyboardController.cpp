@@ -89,7 +89,13 @@ std::string EVGAKeyboardController::GetSerial()
     const uint8_t   sz  = HID_MAX_STR;
     wchar_t         tmp[sz];
 
-    hid_get_serial_number_string(dev, tmp, sz);
+    int ret             = hid_get_serial_number_string(dev, tmp, sz);
+
+    if (ret != 0)
+    {
+        return("");
+    }
+
     std::wstring w_tmp  = std::wstring(tmp);
     std::string serial  = std::string(w_tmp.begin(), w_tmp.end());
 
