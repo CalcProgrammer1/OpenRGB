@@ -183,6 +183,7 @@
 #define RAZER_FIREFLY_V2_PID                            0x0C04
 #define RAZER_GOLIATHUS_CHROMA_EXTENDED_PID             0x0C02
 #define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
+#define RAZER_LAPTOP_STAND_CHROMA_V2_PID                0x0F2B
 #define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID                0x0F1D
 #define RAZER_MOUSE_DOCK_CHROMA_PID                     0x007E
 #define RAZER_NOMMO_CHROMA_PID                          0x0517
@@ -7725,6 +7726,41 @@ static const razer_device base_station_v2_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Laptop Stand Chroma V2 1532:0F2B                       |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       15 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone laptop_stand_chroma_v2_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_device laptop_stand_chroma_v2_device =
+{
+    "Razer Laptop Stand Chroma V2",
+    RAZER_LAPTOP_STAND_CHROMA_V2_PID,
+    DEVICE_TYPE_LEDSTRIP,
+    true,
+    1,
+    15,
+    {
+        &laptop_stand_chroma_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Mouse Dock Chroma 1532:007E                            |
 |                                                               |
 |  Zone "Base"                                                  |
@@ -8113,6 +8149,7 @@ static const razer_device* device_list[] =
     &chroma_pc_case_lighting_kit_device,
     &core_device,
     &core_x_device,
+    &laptop_stand_chroma_v2_device,
     &mug_holder_device,
     &mouse_dock_chroma_device,
     &nommo_chroma_device,

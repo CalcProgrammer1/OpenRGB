@@ -57,6 +57,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_TARTARUS_V2_PID:
         case RAZER_DEATHADDER_CHROMA_PID:
         case RAZER_DEATHADDER_V2_MINI_PID:
+        case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_NAGA_EPIC_CHROMA_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
@@ -122,6 +123,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_FIREFLY_V2_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         case RAZER_GOLIATHUS_CHROMA_PID:
+        case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
@@ -255,6 +257,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_LANCEHEAD_2017_WIRELESS_PID:
         case RAZER_LANCEHEAD_2019_WIRED_PID:
         case RAZER_LANCEHEAD_2019_WIRELESS_PID:
+        case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_MAMBA_2018_WIRED_PID:
         case RAZER_MAMBA_2018_WIRELESS_PID:
         case RAZER_MAMBA_ELITE_PID:
@@ -572,6 +575,7 @@ bool RazerController::SupportsWave()
         case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
