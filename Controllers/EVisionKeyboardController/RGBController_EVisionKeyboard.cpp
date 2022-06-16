@@ -24,7 +24,7 @@ static unsigned int matrix_map[6][23] =
     @name EVision Keyboard
     @category Keyboard
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :x:
     @effects :white_check_mark:
     @detectors DetectEVisionKeyboards

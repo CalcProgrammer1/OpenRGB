@@ -33,7 +33,7 @@ mode makeMode()
     @category Cooler
     @type USB
     @save :x:
-    @direct :warning:
+    @direct :rotating_light:
     @effects :white_check_mark:
     @detectors DetectLianLiUniHub
     @comment

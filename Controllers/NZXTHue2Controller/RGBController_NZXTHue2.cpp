@@ -12,7 +12,7 @@
     @name NZXT Hue2
     @category LEDStrip
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectNZXTHue2,DetectNZXTHue2Ambient,DetectNZXTHue2Motherboard,DetectNZXTSmartDeviceV2,DetectNZXTKrakenX3,DetectNZXTFanController

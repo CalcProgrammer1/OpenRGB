@@ -32,7 +32,7 @@ static const unsigned char led_values[] =
     @name Logitech G213
     @category Keyboard
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectLogitechKeyboardG213

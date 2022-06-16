@@ -13,7 +13,7 @@
     @name EK Loop Connect
     @category LEDStrip
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :x:
     @effects :white_check_mark:
     @detectors DetectEKControllers

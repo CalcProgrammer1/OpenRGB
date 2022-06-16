@@ -13,7 +13,7 @@
     @category Light
     @type Network
     @save :x:
-    @direct :warning:
+    @direct :rotating_light:
     @effects :white_check_mark:
     @detectors DetectYeelightControllers
     @comment

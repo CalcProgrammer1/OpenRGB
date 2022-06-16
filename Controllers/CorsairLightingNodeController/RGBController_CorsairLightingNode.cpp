@@ -13,7 +13,7 @@
     @name Corsair Lighting Node
     @category LEDStrip
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectCorsairLightingNodeControllers

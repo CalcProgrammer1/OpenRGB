@@ -85,7 +85,7 @@ static const ZoneDescription led_zones[] =
     @name MSI Mystic Light (185 Byte)
     @category Motherboard
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectMSIMysticLight185Controllers

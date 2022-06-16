@@ -13,7 +13,7 @@
     @name Logitech Lightsync Mouse
     @category Mouse
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectLogitechMouseG303, DetectLogitechMouseG403

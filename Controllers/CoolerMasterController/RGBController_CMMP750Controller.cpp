@@ -13,7 +13,7 @@
     @name Coolermaster Mouse Pad
     @category Mousemat
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :x:
     @effects :white_check_mark:
     @detectors DetectCoolerMasterMousemats

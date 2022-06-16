@@ -147,7 +147,7 @@ static const led_type led_names[] =
     @name Logitech G Pro
     @category Keyboard
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectLogitechKeyboardGPro

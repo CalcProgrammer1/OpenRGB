@@ -7,7 +7,7 @@
     @name Razer ARGB
     @category LEDStrip
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectRazerARGBControllers

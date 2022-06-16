@@ -24,7 +24,7 @@ using namespace std::chrono_literals;
     @name Coolermaster Masterkeys Keyboards
     @category Keyboard
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectCoolerMasterKeyboards

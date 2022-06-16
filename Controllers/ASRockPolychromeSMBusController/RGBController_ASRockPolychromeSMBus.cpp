@@ -36,7 +36,7 @@ static const char* polychrome_v2_zone_names[] =
     @name ASRock Polychrome SMBus
     @category Motherboard
     @type SMBus
-    @save :warning:
+    @save :robot:
     @direct :x:
     @effects :white_check_mark:
     @detectors DetectPolychromeSMBusControllers

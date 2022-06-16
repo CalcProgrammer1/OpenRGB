@@ -57,6 +57,16 @@ echo -e "- [Storage](#storage)" >> "$MAIN_FILE"
 echo -e "- [Cases](#cases)" >> "$MAIN_FILE"
 echo -e "- [Other Devices](#other-devices)" >> "$MAIN_FILE"
 
+echo -e "\n## Legend\n\n" >> "$MAIN_FILE"
+echo -e "| Symbol | Meaning |" >> "$MAIN_FILE"
+echo -e "| :---: | :--- |" >> "$MAIN_FILE"
+echo -e "| :white_check_mark: | Fully supported by OpenRGB |" >> "$MAIN_FILE"
+echo -e "| :rotating_light: | Support is problematic<br/>See device page for details |" >> "$MAIN_FILE"
+echo -e "| :robot: | Feature is automatic and can not be turned off |" >> "$MAIN_FILE"
+echo -e "| :tools: | Partially supported by OpenRGB<br/>See device page for details |" >> "$MAIN_FILE"
+echo -e "| :o: | Not currently supported by OpenRGB |" >> "$MAIN_FILE"
+echo -e "| :x: | Not applicable for this device |" >> "$MAIN_FILE"
+
 while read -r controller
 do
     ## 's/\r$//' - Convert DOS text to Unix text
@@ -78,8 +88,11 @@ do
             :x:)
                 save_title="Not supported by controller"
                 ;;
-            :warning:)
-                save_title="Controller saves on every update"
+            :o:)
+                save_title="Not currently supported by OpenRGB"
+                ;;
+            :robot:)
+                save_title="Controller saves automatically on every update"
                 ;;
             :white_check_mark:)
                 save_title="Saving is supported by this controller"
@@ -90,8 +103,11 @@ do
             :x:)
                 direct_title="Not supported by controller"
                 ;;
-            :warning:)
-                direct_title="Direct control is problematic"
+            :o:)
+                direct_title="Not currently supported by OpenRGB"
+                ;;
+            :rotating_light:)
+                direct_title="Direct control is problematic (See device page for details)"
                 ;;
             :white_check_mark:)
                 direct_title="Direct control is supported for Software Effects"
@@ -102,8 +118,14 @@ do
             :x:)
                 effects_title="Hardware effects are not supported by controller"
                 ;;
-            :warning:)
-                effects_title="Hardware effects are not fully implemented by controller"
+            :o:)
+                effects_title="Not currently supported by OpenRGB"
+                ;;
+            :rotating_light:)
+                effects_title="Hardware effects implementation is problematic"
+                ;;
+            :tools:)
+                effects_title="Hardware effects are not fully implemented by controller (See device page for details)"
                 ;;
             :white_check_mark:)
                 effects_title="Hardware effects are supported"
@@ -169,6 +191,9 @@ do
                 Case)
                     case+=$current_controller
                     ;;
+                Dummy)
+                    ## Do nothing for the Dummy controller
+                    ;;
                 *)
                     unknown+=$current_controller
                     ;;
@@ -211,7 +236,7 @@ do
                         #Remove leading hex signifier from $vid and $pid
                         vid=${vid/0x/}
                         pid=${pid/0x/}
-                        device_name=${device_name//[^[:alnum:][:blank:]]/}
+                        device_name=${device_name//[^[:alnum:][:punct:][:blank:]]/}
 
                         table_row=$(printf '| `%s` | `%s` | %s |' "${vid/ /}" "${pid/ /}" "${device_name}")
                         ;;
@@ -222,7 +247,7 @@ do
                         pid=${pid/0x/}
                         svid=${svid/0x/}
                         spid=${spid/0x/}
-                        device_name=${device_name//[^[:alnum:][:blank:]]/}
+                        device_name=${device_name//[^[:alnum:][:punct:][:blank:]]/}
 
                         table_row=$(printf '| `%s:%s` | `%s:%s` | %s |' "${vid/ /}" "${pid/ /}" "${svid/ /}" "${spid/ /}" "${device_name}")
                         ;;

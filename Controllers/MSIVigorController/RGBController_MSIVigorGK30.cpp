@@ -16,7 +16,7 @@
     @name MSI Vigor GK30
     @category Keyboard
     @type USB
-    @save :warning:
+    @save :robot:
     @direct :x:
     @effects :white_check_mark:
     @detectors DetectMSIVigorGK30Controllers

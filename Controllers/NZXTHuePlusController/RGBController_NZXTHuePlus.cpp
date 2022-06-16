@@ -12,7 +12,7 @@
     @name NZXT Hue+
     @category LEDStrip
     @type Serial
-    @save :warning:
+    @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectNZXTHuePlusControllers

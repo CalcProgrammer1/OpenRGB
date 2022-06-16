@@ -13,9 +13,9 @@
     @name AMD Wraith Prism
     @category Cooler
     @type USB
-    @save :x:
+    @save :o:
     @direct :white_check_mark:
-    @effects :warning:
+    @effects :tools:
     @detectors DetectAMDWraithPrismControllers
     @comment The Wraith Prism comes with 2 cables but is only detectable
         and controlable when using the USB cable. `Morse Code` and `Mirage`

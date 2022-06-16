@@ -13,7 +13,7 @@
     @name Corsair Vengeance
     @category RAM
     @type SMBus
-    @save :warning:
+    @save :robot:
     @direct :x:
     @effects :white_check_mark:
     @detectors DetectCorsairVengeanceControllers

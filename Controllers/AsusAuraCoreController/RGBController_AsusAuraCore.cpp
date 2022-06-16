@@ -13,7 +13,7 @@
     @category Keyboard,LEDStrip
     @type USB
     @save :x:
-    @direct :warning:
+    @direct :rotating_light:
     @effects :white_check_mark:
     @detectors DetectAsusAuraCoreControllers
     @comment
