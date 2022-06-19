@@ -306,10 +306,12 @@ HEADERS +=                                                                      
     Controllers/CorsairPeripheralController/CorsairK100Controller.h                             \
     Controllers/CorsairPeripheralController/CorsairK55RGBPROController.h                        \
     Controllers/CorsairPeripheralController/CorsairK65MiniController.h                          \
+    Controllers/CorsairPeripheralController/CorsairK95PlatinumXTController.h                    \
     Controllers/CorsairPeripheralController/RGBController_CorsairPeripheral.h                   \
     Controllers/CorsairPeripheralController/RGBController_CorsairK100.h                         \
     Controllers/CorsairPeripheralController/RGBController_CorsairK55RGBPRO.h                    \
     Controllers/CorsairPeripheralController/RGBController_CorsairK65Mini.h                      \
+    Controllers/CorsairPeripheralController/RGBController_CorsairK95PlatinumXT.h                \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.h                         \
     Controllers/CorsairVengeanceController/RGBController_CorsairVengeance.h                     \
     Controllers/CorsairVengeanceProController/CorsairVengeanceProController.h                   \
@@ -764,10 +766,12 @@ SOURCES +=                                                                      
     Controllers/CorsairPeripheralController/CorsairK100Controller.cpp                           \
     Controllers/CorsairPeripheralController/CorsairK55RGBPROController.cpp                      \
     Controllers/CorsairPeripheralController/CorsairK65MiniController.cpp                        \
+    Controllers/CorsairPeripheralController/CorsairK95PlatinumXTController.cpp                  \
     Controllers/CorsairPeripheralController/RGBController_CorsairPeripheral.cpp                 \
     Controllers/CorsairPeripheralController/RGBController_CorsairK100.cpp                       \
     Controllers/CorsairPeripheralController/RGBController_CorsairK55RGBPRO.cpp                  \
     Controllers/CorsairPeripheralController/RGBController_CorsairK65Mini.cpp                    \
+    Controllers/CorsairPeripheralController/RGBController_CorsairK95PlatinumXT.cpp              \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.cpp                       \
     Controllers/CorsairVengeanceController/CorsairVengeanceControllerDetect.cpp                 \
     Controllers/CorsairVengeanceController/RGBController_CorsairVengeance.cpp                   \
