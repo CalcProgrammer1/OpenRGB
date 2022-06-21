@@ -1,4 +1,4 @@
-/*-----------------------------------------*\
+﻿/*-----------------------------------------*\
 |  RGBController_CorsairPeripheral.cpp      |
 |                                           |
 |  Generic RGB Interface for Corsair RGB    |
@@ -760,12 +760,16 @@ static const char* corsair_harpoon_pro_leds[] =
     @type USB
     @save :x:
     @direct :white_check_mark:
-    @effects :x:
+    @effects :tools:
     @detectors DetectCorsairPeripheralControllers
     @comment
+    All controllers support `Direct` mode
+    Currently HW modes are implemented for the following devices:
+    * Corsair K70 RGB MK.2
+    * Corsair K70 RGB MK.2 Low Profile
 \*-------------------------------------------------------------------*/
 
-RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* controller_ptr)
+RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripheralController* controller_ptr, bool supports_hardware_modes)
 {
     controller      = controller_ptr;
 
@@ -782,10 +786,141 @@ RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripher
 
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = 0;
+    Direct.value      = CORSAIR_MODE_DIRECT_VALUE;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    if(supports_hardware_modes)
+    {
+        mode ColorPulse;
+        ColorPulse.name                 = "ColorPulse";
+        ColorPulse.value                = CORSAIR_HW_MODE_COLOR_PULSE_VALUE;
+        ColorPulse.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        ColorPulse.color_mode           = MODE_COLORS_RANDOM;
+        ColorPulse.speed                = CORSAIR_HW_MODE_SPEED_MIN;
+        ColorPulse.speed_min            = CORSAIR_HW_MODE_SPEED_MIN;
+        ColorPulse.speed_max            = CORSAIR_HW_MODE_SPEED_MAX;
+        ColorPulse.brightness           = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        ColorPulse.brightness_min       = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        ColorPulse.brightness_max       = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        ColorPulse.colors.resize(2);
+        modes.push_back(ColorPulse);
+
+        mode ColorShift;
+        ColorShift.name                 = "ColorShift";
+        ColorShift.value                = CORSAIR_HW_MODE_COLOR_SHIFT_VALUE;
+        ColorShift.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        ColorShift.color_mode           = MODE_COLORS_RANDOM;
+        ColorShift.speed                = CORSAIR_HW_MODE_SPEED_MIN;
+        ColorShift.speed_min            = CORSAIR_HW_MODE_SPEED_MIN;
+        ColorShift.speed_max            = CORSAIR_HW_MODE_SPEED_MAX;
+        ColorShift.brightness           = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        ColorShift.brightness_min       = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        ColorShift.brightness_max       = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        ColorShift.colors.resize(2);
+        modes.push_back(ColorShift);
+
+        mode ColorWave;
+        ColorWave.name                  = "ColorWave";
+        ColorWave.value                 = CORSAIR_HW_MODE_COLOR_WAVE_VALUE;
+        ColorWave.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        ColorWave.color_mode            = MODE_COLORS_RANDOM;
+        ColorWave.direction             = MODE_DIRECTION_LEFT;
+        ColorWave.speed                 = CORSAIR_HW_MODE_SPEED_MIN;
+        ColorWave.speed_min             = CORSAIR_HW_MODE_SPEED_MIN;
+        ColorWave.speed_max             = CORSAIR_HW_MODE_SPEED_MAX;
+        ColorWave.brightness            = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        ColorWave.brightness_min        = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        ColorWave.brightness_max        = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        ColorWave.colors.resize(2);
+        modes.push_back(ColorWave);
+
+        mode RainbowWave;
+        RainbowWave.name                = "RainbowWave";
+        RainbowWave.value               = CORSAIR_HW_MODE_RAINBOW_WAVE_VALUE;
+        RainbowWave.flags               = MODE_FLAG_HAS_SPEED |  MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        RainbowWave.color_mode          = MODE_COLORS_NONE;
+        RainbowWave.direction           = MODE_DIRECTION_LEFT;
+        RainbowWave.speed               = CORSAIR_HW_MODE_SPEED_MIN;
+        RainbowWave.speed_min           = CORSAIR_HW_MODE_SPEED_MIN;
+        RainbowWave.speed_max           = CORSAIR_HW_MODE_SPEED_MAX;
+        RainbowWave.brightness          = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        RainbowWave.brightness_min      = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        RainbowWave.brightness_max      = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        modes.push_back(RainbowWave);
+
+        mode Rain;
+        Rain.name                       = "Rain";
+        Rain.value                      = CORSAIR_HW_MODE_RAIN_VALUE;
+        Rain.flags                      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        Rain.color_mode                 = MODE_COLORS_RANDOM;
+        Rain.speed                      = CORSAIR_HW_MODE_SPEED_MIN;
+        Rain.speed_min                  = CORSAIR_HW_MODE_SPEED_MIN;
+        Rain.speed_max                  = CORSAIR_HW_MODE_SPEED_MAX;
+        Rain.brightness                 = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        Rain.brightness_min             = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        Rain.brightness_max             = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        Rain.colors.resize(2);
+        modes.push_back(Rain);
+
+        mode Spiral;
+        Spiral.name                     = "Spiral";
+        Spiral.value                    = CORSAIR_HW_MODE_SPIRAL_VALUE;
+        Spiral.flags                    = MODE_FLAG_HAS_SPEED |  MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        Spiral.color_mode               = MODE_COLORS_NONE;
+        Spiral.speed                    = CORSAIR_HW_MODE_SPEED_MIN;
+        Spiral.speed_min                = CORSAIR_HW_MODE_SPEED_MIN;
+        Spiral.speed_max                = CORSAIR_HW_MODE_SPEED_MAX;
+        Spiral.brightness               = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        Spiral.brightness_min           = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        Spiral.brightness_max           = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        Spiral.direction                = MODE_DIRECTION_LEFT;
+        modes.push_back(Spiral);
+
+        mode TypeKey;
+        TypeKey.name                    = "TypeKey";
+        TypeKey.value                   = CORSAIR_HW_MODE_TYPE_KEY_VALUE;
+        TypeKey.flags                   = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        TypeKey.color_mode              = MODE_COLORS_RANDOM;
+        TypeKey.speed                   = CORSAIR_HW_MODE_SPEED_MIN;
+        TypeKey.speed_min               = CORSAIR_HW_MODE_SPEED_MIN;
+        TypeKey.speed_max               = CORSAIR_HW_MODE_SPEED_MAX;
+        TypeKey.brightness              = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        TypeKey.brightness_min          = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        TypeKey.brightness_max          = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        TypeKey.colors.resize(2);
+        modes.push_back(TypeKey);
+
+        mode TypeRipple;
+        TypeRipple.name                 = "TypeRipple";
+        TypeRipple.value                = CORSAIR_HW_MODE_TYPE_RIPPLE_VALUE;
+        TypeRipple.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        TypeRipple.color_mode           = MODE_COLORS_RANDOM;
+        TypeRipple.speed                = CORSAIR_HW_MODE_SPEED_MIN;
+        TypeRipple.speed_min            = CORSAIR_HW_MODE_SPEED_MIN;
+        TypeRipple.speed_max            = CORSAIR_HW_MODE_SPEED_MAX;
+        TypeRipple.brightness           = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        TypeRipple.brightness_min       = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        TypeRipple.brightness_max       = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        TypeRipple.colors.resize(2);
+        modes.push_back(TypeRipple);
+
+        mode Visor;
+        Visor.name                      = "Visor";
+        Visor.value                     = CORSAIR_HW_MODE_VISOR_VALUE;
+        Visor.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+        Visor.color_mode                = MODE_COLORS_RANDOM;
+        Visor.speed                     = CORSAIR_HW_MODE_SPEED_MIN;
+        Visor.speed_min                 = CORSAIR_HW_MODE_SPEED_MIN;
+        Visor.speed_max                 = CORSAIR_HW_MODE_SPEED_MAX;
+        Visor.brightness                = CORSAIR_HW_MODE_BRIGHTNESS_MAX / 2;
+        Visor.brightness_min            = CORSAIR_HW_MODE_BRIGHTNESS_MIN;
+        Visor.brightness_max            = CORSAIR_HW_MODE_BRIGHTNESS_MAX;
+        Visor.colors.resize(2);
+        modes.push_back(Visor);
+    }
+
 
     SetupZones();
 }
@@ -1081,5 +1216,30 @@ void RGBController_CorsairPeripheral::SetCustomMode()
 
 void RGBController_CorsairPeripheral::DeviceUpdateMode()
 {
+
+    if(modes[active_mode].value == CORSAIR_MODE_DIRECT_VALUE)
+    {
+        controller->SwitchMode(true);
+    }
+    else
+    {
+        const mode& active = modes[active_mode];
+
+        unsigned int direction = active.direction;
+
+        if(active.flags & MODE_FLAG_HAS_DIRECTION_LR || active.flags & MODE_FLAG_HAS_DIRECTION_UD)
+        {
+            direction += 1;
+
+            if(active.value == CORSAIR_HW_MODE_SPIRAL_VALUE)
+            {
+                direction += 4;
+            }
+        }
+
+        controller->SetHardwareMode(active.value, active.color_mode, active.colors, active.speed, direction, active.brightness);
+
+        controller->SwitchMode(false);
+    }
 
 }

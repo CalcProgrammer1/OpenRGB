@@ -338,18 +338,48 @@ void CorsairPeripheralController::SetName(std::string device_name)
     name = device_name;
 }
 
+void CorsairPeripheralController::SwitchMode(bool software)
+{
+    if(software)
+    {
+        if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2 || logical_layout == CORSAIR_TYPE_K68)
+        {
+            SpecialFunctionControl();
+        }
+
+        LightingControl();
+
+        if (logical_layout == CORSAIR_TYPE_K55 || logical_layout == CORSAIR_TYPE_K95_PLAT || logical_layout == CORSAIR_TYPE_K70_MK2 || logical_layout == CORSAIR_TYPE_K68)
+        {
+            SetupK55AndK95LightingControl();
+        }
+    }
+    else
+    {
+        unsigned char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
+
+        memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+        usb_buf[1] = CORSAIR_COMMAND_WRITE;
+        usb_buf[2] = CORSAIR_PROPERTY_SPECIAL_FUNCTION;
+        usb_buf[3] = CORSAIR_LIGHTING_CONTROL_HARDWARE;
+
+        hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+    }
+}
+
 /*-------------------------------------------------------------------------------------------------*\
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
 void CorsairPeripheralController::LightingControl()
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up Lighting Control packet                        |
@@ -386,7 +416,7 @@ void CorsairPeripheralController::LightingControl()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }
 
 /*-----------------------------------------------------*\
@@ -395,12 +425,12 @@ void CorsairPeripheralController::LightingControl()
 
 void CorsairPeripheralController::SetupK55AndK95LightingControl()
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up a packet                                       |
@@ -415,7 +445,7 @@ void CorsairPeripheralController::SetupK55AndK95LightingControl()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     unsigned int* skipped_identifiers = key_mapping_k95_plat_ansi;
     int skipped_identifiers_count = sizeof(key_mapping_k95_plat_ansi) / sizeof(key_mapping_k95_plat_ansi[0]);
@@ -440,7 +470,7 @@ void CorsairPeripheralController::SetupK55AndK95LightingControl()
         /*-----------------------------------------------------*\
         | Zero out buffer                                       |
         \*-----------------------------------------------------*/
-        memset(usb_buf, 0x00, sizeof(usb_buf));
+        memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
         /*-----------------------------------------------------*\
         | Set up a packet - a sequence of 120 ids               |
@@ -467,18 +497,18 @@ void CorsairPeripheralController::SetupK55AndK95LightingControl()
         /*-----------------------------------------------------*\
         | Send packet                                           |
         \*-----------------------------------------------------*/
-        hid_write(dev, (unsigned char *)usb_buf, 65);
+        hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
     }
 }
 
 void CorsairPeripheralController::SpecialFunctionControl()
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up Lighting Control packet                        |
@@ -491,19 +521,19 @@ void CorsairPeripheralController::SpecialFunctionControl()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }
 
 void CorsairPeripheralController::ReadFirmwareInfo()
 {
     int  actual;
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
     char offset = 0;
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up Read Firmware Info packet                      |
@@ -517,15 +547,15 @@ void CorsairPeripheralController::ReadFirmwareInfo()
     | If that fails, repeat the send and read the reply as  |
     | a feature report.                                     |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char*)usb_buf, 65);
-    actual = hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
+    hid_write(dev, (unsigned char*)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+    actual = hid_read_timeout(dev, (unsigned char*)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH, 1000);
 
     if(actual == 0)
     {
         /*-------------------------------------------------*\
         | Zero out buffer                                   |
         \*-------------------------------------------------*/
-        memset(usb_buf, 0x00, sizeof(usb_buf));
+        memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
         /*-------------------------------------------------*\
         | Set up Read Firmware Info packet                  |
@@ -534,8 +564,8 @@ void CorsairPeripheralController::ReadFirmwareInfo()
         usb_buf[0x01]   = CORSAIR_COMMAND_READ;
         usb_buf[0x02]   = CORSAIR_PROPERTY_FIRMWARE_INFO;
 
-        hid_send_feature_report(dev, (unsigned char*)usb_buf, 65);
-        actual = hid_get_feature_report(dev, (unsigned char*)usb_buf, 65);
+        hid_send_feature_report(dev, (unsigned char*)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+        actual = hid_get_feature_report(dev, (unsigned char*)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
         offset = 1;
     }
 
@@ -659,12 +689,12 @@ void CorsairPeripheralController::StreamPacket
     unsigned char*  data_ptr
     )
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up Stream packet                                  |
@@ -682,7 +712,107 @@ void CorsairPeripheralController::StreamPacket
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+}
+
+void CorsairPeripheralController::SetHardwareMode
+    (
+        int mode_value,
+        unsigned int color_mode,
+        std::vector<RGBColor> colors,
+        unsigned int speed,
+        unsigned int direction,
+        unsigned char brightness
+    )
+{
+    unsigned char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    /*-----------------------------------------------------*\
+    | Set the brightness                                    |
+    \*-----------------------------------------------------*/
+    usb_buf[1] = CORSAIR_COMMAND_WRITE;
+    usb_buf[2] = 0x05;
+    usb_buf[3] = 0x02;
+    usb_buf[5] = brightness;
+
+    hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    /*-----------------------------------------------------*\
+    | Send "lght_00.d"                                      |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    usb_buf[1]  = CORSAIR_COMMAND_WRITE;
+    usb_buf[2]  = 0x17;
+    usb_buf[3]  = 0x05;
+    usb_buf[5]  = 0x6c;
+    usb_buf[6]  = 0x67;
+    usb_buf[7]  = 0x68;
+    usb_buf[8]  = 0x74;
+    usb_buf[9]  = 0x5F;
+    usb_buf[10] = 0x30;
+    usb_buf[11] = 0x30;
+    usb_buf[12] = 0x2E;
+    usb_buf[13] = 0x64;
+
+    hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    /*-----------------------------------------------------*\
+    | Stream the mode data                                  |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    usb_buf[1] = CORSAIR_COMMAND_STREAM;
+    usb_buf[2] = 0x01;
+    usb_buf[3] = 0x0D;
+    usb_buf[5] = mode_value;
+    usb_buf[8] = direction;
+
+    if(mode_value == CORSAIR_HW_MODE_TYPE_KEY_VALUE)
+    {
+        usb_buf[9] = speed;
+    }
+    else
+    {
+        usb_buf[6] = speed;
+    }
+
+    if(color_mode == MODE_COLORS_RANDOM)
+    {
+        usb_buf[7] = 0x01;
+    }
+    else if (color_mode == MODE_COLORS_MODE_SPECIFIC)
+    {
+        usb_buf[7] = 0x03;
+
+        usb_buf[10] = RGBGetRValue(colors[0]);
+        usb_buf[11] = RGBGetGValue(colors[0]);
+        usb_buf[12] = RGBGetBValue(colors[0]);
+        usb_buf[13] = 0xFF;
+
+        usb_buf[14] = RGBGetRValue(colors[1]);
+        usb_buf[15] = RGBGetGValue(colors[1]);
+        usb_buf[16] = RGBGetBValue(colors[1]);
+        usb_buf[17] = 0xFF;
+    }
+
+    hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    /*-----------------------------------------------------*\
+    | Stop stream and commit                                |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    usb_buf[1]  = CORSAIR_COMMAND_WRITE;
+    usb_buf[2]  = 0x17;
+    usb_buf[3]  = 0x09;
+
+    hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
+
+    usb_buf[3]  = 0x08;
+
+    hid_write(dev, usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }
 
 void CorsairPeripheralController::SubmitKeyboardFullColors
@@ -692,12 +822,12 @@ void CorsairPeripheralController::SubmitKeyboardFullColors
     unsigned char   finish_val
     )
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up Submit Keyboard 24-Bit Colors packet           |
@@ -712,7 +842,7 @@ void CorsairPeripheralController::SubmitKeyboardFullColors
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }
 
 void CorsairPeripheralController::SubmitKeyboardZonesColors
@@ -722,7 +852,7 @@ void CorsairPeripheralController::SubmitKeyboardZonesColors
     RGBColor right
     )
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -750,7 +880,7 @@ void CorsairPeripheralController::SubmitKeyboardZonesColors
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }
 
 void CorsairPeripheralController::SubmitKeyboardLimitedColors
@@ -758,7 +888,7 @@ void CorsairPeripheralController::SubmitKeyboardLimitedColors
     unsigned char   byte_count
     )
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -776,7 +906,7 @@ void CorsairPeripheralController::SubmitKeyboardLimitedColors
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }
 
 void CorsairPeripheralController::SubmitMouseColors
@@ -785,12 +915,12 @@ void CorsairPeripheralController::SubmitMouseColors
     RGBColor *      color_data
     )
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up Submit Mouse Colors packet                     |
@@ -815,7 +945,7 @@ void CorsairPeripheralController::SubmitMouseColors
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }
 
 void CorsairPeripheralController::SubmitMousematColors
@@ -824,12 +954,12 @@ void CorsairPeripheralController::SubmitMousematColors
     RGBColor *      color_data
     )
 {
-    char usb_buf[65];
+    char usb_buf[CORSAIR_PERIPHERAL_PACKET_LENGTH];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 
     /*-----------------------------------------------------*\
     | Set up Submit Mouse Colors packet                     |
@@ -854,5 +984,5 @@ void CorsairPeripheralController::SubmitMousematColors
     | Send packet using feature reports, as headset stand   |
     | seems to not update completely using HID writes       |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, (unsigned char *)usb_buf, CORSAIR_PERIPHERAL_PACKET_LENGTH);
 }

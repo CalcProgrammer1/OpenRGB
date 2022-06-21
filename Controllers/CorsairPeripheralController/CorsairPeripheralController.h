@@ -15,6 +15,8 @@
 
 #pragma once
 
+#define CORSAIR_PERIPHERAL_PACKET_LENGTH 65
+
 enum
 {
     CORSAIR_COMMAND_WRITE       = 0x07,
@@ -67,6 +69,28 @@ enum
     CORSAIR_TYPE_K68                = 5
 };
 
+enum
+{
+    CORSAIR_MODE_DIRECT_VALUE           = 0xFF,
+    CORSAIR_HW_MODE_COLOR_PULSE_VALUE   = 0x01,
+    CORSAIR_HW_MODE_COLOR_SHIFT_VALUE   = 0x00,
+    CORSAIR_HW_MODE_COLOR_WAVE_VALUE    = 0x04,
+    CORSAIR_HW_MODE_RAINBOW_WAVE_VALUE  = 0x03,
+    CORSAIR_HW_MODE_RAIN_VALUE          = 0x06,
+    CORSAIR_HW_MODE_SPIRAL_VALUE        = 0x02,
+    CORSAIR_HW_MODE_TYPE_KEY_VALUE      = 0x08,
+    CORSAIR_HW_MODE_TYPE_RIPPLE_VALUE   = 0x09,
+    CORSAIR_HW_MODE_VISOR_VALUE         = 0x05
+};
+
+enum
+{
+    CORSAIR_HW_MODE_SPEED_MIN           = 0x01,
+    CORSAIR_HW_MODE_SPEED_MAX           = 0x03,
+    CORSAIR_HW_MODE_BRIGHTNESS_MIN      = 0x00,
+    CORSAIR_HW_MODE_BRIGHTNESS_MAX      = 0x03
+};
+
 class CorsairPeripheralController
 {
 public:
@@ -87,6 +111,18 @@ public:
     void            SetLEDsMouse(std::vector<RGBColor> colors);
     void            SetLEDsMousemat(std::vector<RGBColor> colors);
     void            SetName(std::string device_name);
+    void            SetHardwareMode
+                    (
+                        int mode_value,
+                        unsigned int color_mode,
+                        std::vector<RGBColor> colors,
+                        unsigned int speed,
+                        unsigned int direction,
+                        unsigned char brightness
+                    );
+
+
+    void SwitchMode(bool software);
 
 private:
     hid_device*             dev;

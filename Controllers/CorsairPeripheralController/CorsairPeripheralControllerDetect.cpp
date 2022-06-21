@@ -179,7 +179,11 @@ void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string
 
         if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
-            RGBController_CorsairPeripheral* rgb_controller = new RGBController_CorsairPeripheral(controller);
+            bool supports_hardware_modes =
+                    (info->product_id == CORSAIR_K70_RGB_MK2_PID) ||
+                    (info->product_id == CORSAIR_K70_RGB_MK2_LP_PID);
+
+            RGBController_CorsairPeripheral* rgb_controller = new RGBController_CorsairPeripheral(controller, supports_hardware_modes);
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
         else
