@@ -1197,8 +1197,8 @@
         <translation>Installer un plugin OpenRGB</translation>
     </message>
     <message>
-        <source>Plugin files (*.dll; *.dylib; *.so; *.so.*)</source>
-        <translation>Fichiers de plugin (*.dll; *.dylib; *.so; *.so.*)</translation>
+        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
+        <translation>Fichiers de plugin (*.dll *.dylib *.so *.so.*)</translation>
     </message>
     <message>
         <source>Replace Plugin</source>

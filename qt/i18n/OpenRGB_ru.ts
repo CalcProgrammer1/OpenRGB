@@ -1207,8 +1207,8 @@
         <translation>Установить плагин OpenRGB</translation>
     </message>
     <message>
-        <source>Plugin files (*.dll; *.dylib; *.so; *.so.*)</source>
-        <translation>Файлы плагинов (*.dll; *.dylib; *.so; *.so.*)</translation>
+        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
+        <translation>Файлы плагинов (*.dll *.dylib *.so; *.so.*)</translation>
     </message>
     <message>
         <source>Replace Plugin</source>

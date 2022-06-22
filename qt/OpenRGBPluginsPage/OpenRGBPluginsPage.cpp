@@ -87,7 +87,7 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
     /*-----------------------------------------------------*\
     | Open a file selection prompt to choose the plugin file|
     \*-----------------------------------------------------*/
-    QString     install_file    = QFileDialog::getOpenFileName(this, tr("Install OpenRGB Plugin"), "", tr("Plugin files (*.dll; *.dylib; *.so; *.so.*)"));
+    QString     install_file    = QFileDialog::getOpenFileName(this, tr("Install OpenRGB Plugin"), "", tr("Plugin files (*.dll *.dylib *.so *.so.*)"));
 
     bool installed = InstallPlugin(install_file.toStdString());
 

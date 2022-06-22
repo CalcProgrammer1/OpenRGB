@@ -1197,7 +1197,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Plugin files (*.dll; *.dylib; *.so; *.so.*)</source>
+        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
