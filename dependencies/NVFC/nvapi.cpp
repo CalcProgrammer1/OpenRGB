@@ -238,6 +238,16 @@ static NV_STATUS(*pNvAPI_I2CReadEx)(
 	NV_I2C_INFO_V3* i2c_info,
 	NV_U32 *unknown);
 
+// Interface: 3DBF5764
+static NV_STATUS(*pNvAPI_GPU_ClientIllumZonesGetControl)(
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
+
+// Interface: 197D065E
+static NV_STATUS(*pNvAPI_GPU_ClientIllumZonesSetControl)(
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
+
 static bool QueryInterfaceOpaque(FARPROC query_interface, NV_U32 id, void **result)
 {
 	void *address = ((void *(*)(NV_U32))query_interface)(id);
@@ -291,6 +301,8 @@ static void QueryInterfaces(FARPROC query_interface)
 
 	QueryInterface(query_interface, 0x283AC65A, NvAPI_I2CWriteEx);
 	QueryInterface(query_interface, 0x4D7B0709, NvAPI_I2CReadEx);
+	QueryInterface(query_interface, 0x3DBF5764, NvAPI_GPU_ClientIllumZonesGetControl);
+	QueryInterface(query_interface, 0x197D065E, NvAPI_GPU_ClientIllumZonesSetControl);
 }
 
 NV_STATUS NvAPI_Initialize()
@@ -556,5 +568,23 @@ NV_STATUS NvAPI_I2CReadEx(
 {
 	return pNvAPI_I2CReadEx
 		? (*pNvAPI_I2CReadEx)(physical_gpu_handle, i2c_info, unknown)
+		: -1;
+}
+
+NV_STATUS NvAPI_GPU_ClientIllumZonesGetControl(
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl)
+{
+	return pNvAPI_GPU_ClientIllumZonesGetControl
+		? (*pNvAPI_GPU_ClientIllumZonesGetControl)(physical_gpu_handle, pIllumZonesControl)
+		: -1;
+}
+
+NV_STATUS NvAPI_GPU_ClientIllumZonesSetControl(
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl)
+{
+	return pNvAPI_GPU_ClientIllumZonesSetControl
+		? (*pNvAPI_GPU_ClientIllumZonesSetControl)(physical_gpu_handle, pIllumZonesControl)
 		: -1;
 }
