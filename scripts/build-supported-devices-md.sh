@@ -23,9 +23,10 @@ MAIN_FILE='Supported Devices.md'
 #make -j$(nproc)
 
 ## The HID list is produced from each "REGISTER_DETECTOR" macro replacement.
+DELIMITER='‖'
 ## | callback_function | VID | PID | Name |
-HID_LIST=$(grep -hR -e "static\ HIDDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
-I2C_LIST=$(grep -hR -e "static\ I2CPCIDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $5 "|" $6 "|" $1 "|" }')
+HID_LIST=$(grep -hR -e "static\ HIDDeviceDetector" . | cut -d '(' -f 2- | awk -F , -v delim="${DELIMITER}" '{ print $2 ":"delim $3 delim $4 delim $1 delim }')
+I2C_LIST=$(grep -hR -e "static\ I2CPCIDeviceDetector" . | cut -d '(' -f 2- | awk -F , -v delim="${DELIMITER}" '{ print $2 ":"delim $3 delim $4 delim $5 delim $6 delim $1 delim }')
 
 printf %s\n%s "$HID_LIST" "$I2C_LIST" > "device.list"
 
@@ -232,16 +233,16 @@ do
             do
                 case $type in
                     USB)
-                        IFS='|' read null vid pid device_name null <<<"$device"
+                        IFS="${DELIMITER}" read null vid pid device_name null <<<"$device"
                         #Remove leading hex signifier from $vid and $pid
                         vid=${vid/0x/}
                         pid=${pid/0x/}
                         device_name=${device_name//[^[:alnum:][:punct:][:blank:]]/}
 
-                        table_row=$(printf '| `%s` | `%s` | %s |' "${vid/ /}" "${pid/ /}" "${device_name}")
+                        table_row=$(printf '| `%s` | `%s` | %s |' "${vid/ /}" "${pid/ /}" "${device_name//|/\\|}")
                         ;;
                     I2C | SMBus)
-                        IFS='|' read null vid pid svid spid device_name null <<<"$device"
+                        IFS="${DELIMITER}" read null vid pid svid spid device_name null <<<"$device"
                         #Remove leading hex signifiers
                         vid=${vid/0x/}
                         pid=${pid/0x/}
@@ -249,7 +250,7 @@ do
                         spid=${spid/0x/}
                         device_name=${device_name//[^[:alnum:][:punct:][:blank:]]/}
 
-                        table_row=$(printf '| `%s:%s` | `%s:%s` | %s |' "${vid/ /}" "${pid/ /}" "${svid/ /}" "${spid/ /}" "${device_name}")
+                        table_row=$(printf '| `%s:%s` | `%s:%s` | %s |' "${vid/ /}" "${pid/ /}" "${svid/ /}" "${spid/ /}" "${device_name//|/\\|}")
                         ;;
                     *)
                         table_row=""
