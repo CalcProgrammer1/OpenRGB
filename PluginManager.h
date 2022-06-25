@@ -52,4 +52,6 @@ private:
 
     RemovePluginCallback    RemovePluginCallbackVal;
     void *                  RemovePluginCallbackArg;
+
+    const char *            plugins_path = "plugins/";
 };

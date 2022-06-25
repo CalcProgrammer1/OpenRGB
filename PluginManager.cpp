@@ -1,4 +1,5 @@
 #include "LogManager.h"
+#include "filesystem.h"
 #include "PluginManager.h"
 #include "OpenRGBThemeManager.h"
 
@@ -11,6 +12,13 @@ PluginManager::PluginManager()
     AddPluginCallbackArg    = nullptr;
     RemovePluginCallbackVal = nullptr;
     RemovePluginCallbackArg = nullptr;
+
+    /*-------------------------------------------------------------------------*\
+    | Create OpenRGB plugins directory                                          |
+    \*-------------------------------------------------------------------------*/
+    std::string plugins_dir = ResourceManager::get()->GetConfigurationDirectory() + plugins_path;
+
+    filesystem::create_directories(plugins_dir);
 }
 
 void PluginManager::RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg)
@@ -27,15 +35,14 @@ void PluginManager::RegisterRemovePluginCallback(RemovePluginCallback new_callba
 
 void PluginManager::ScanAndLoadPlugins()
 {
-    LOG_INFO("Loading plugins");
-
     /*---------------------------------------------------------*\
     | Get the plugins directory                                 |
     |                                                           |
     | The plugins directory is a directory named "plugins" in   |
     | the configuration directory                               |
     \*---------------------------------------------------------*/
-    const QDir plugins_dir = QString().fromStdString(ResourceManager::get()->GetConfigurationDirectory()) + "plugins/";
+    const QDir plugins_dir = QString(ResourceManager::get()->GetConfigurationDirectory().c_str()).append(plugins_path);
+    LOG_INFO("[PluginManager] Scanning plugin directory: %s", plugins_dir.absolutePath().toStdString().c_str());
 
     /*---------------------------------------------------------*\
     | Get a list of all files in the plugins directory          |

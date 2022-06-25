@@ -481,13 +481,6 @@ void ResourceManager::SetupConfigurationDirectory()
         | Create OpenRGB configuration directory if it doesn't exist                |
         \*-------------------------------------------------------------------------*/
         filesystem::create_directories(config_dir);
-
-        /*-------------------------------------------------------------------------*\
-        | Create OpenRGB plugins directory                                          |
-        \*-------------------------------------------------------------------------*/
-        std::string plugins_dir = config_dir + "plugins";
-
-        filesystem::create_directories(plugins_dir);
     }
     else
     {
@@ -498,6 +491,26 @@ void ResourceManager::SetupConfigurationDirectory()
 std::string ResourceManager::GetConfigurationDirectory()
 {
     return(config_dir);
+}
+
+void ResourceManager::SetConfigurationDirectory(std::string directory)
+{
+    /*-----------------------------------------------------*\
+    | Ensure the directory string has a trailing slash      |
+    \*-----------------------------------------------------*/
+    const char separator = filesystem::path::preferred_separator;
+
+    if(directory[directory.size() - 1] != separator)
+    {
+        directory += separator;
+    }
+
+    config_dir = directory;
+    settings_manager->LoadSettings(directory + "OpenRGB.json");
+    profile_manager->SetConfigurationDirectory(directory);
+
+    rgb_controllers_sizes.clear();
+    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
 }
 
 NetworkServer* ResourceManager::GetServer()
@@ -577,15 +590,6 @@ unsigned int ResourceManager::GetDetectionPercent()
 const char *ResourceManager::GetDetectionString()
 {
     return (detection_string);
-}
-
-void ResourceManager::SetConfigurationDirectory(std::string directory)
-{
-    settings_manager->LoadSettings(directory + "OpenRGB.json");
-    profile_manager->SetConfigurationDirectory(directory);
-
-    rgb_controllers_sizes.clear();
-    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
 }
 
 void ResourceManager::Cleanup()
