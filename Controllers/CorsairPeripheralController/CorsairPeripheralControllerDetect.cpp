@@ -260,7 +260,7 @@ REGISTER_HID_DETECTOR_IP("Corsair K55 RGB PRO",             DetectCorsairK55RGBP
 /*-----------------------------------------------------------------------------------------------------*\
 | Corsair K65 Mini Keyboard                                                                             |
 \*-----------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IPU("Corsair K65 Mini",                DetectCorsairK65MiniControllers,    CORSAIR_VID, CORSAIR_K65_MINI_PID,         1, 0, 0);
+REGISTER_HID_DETECTOR_I("Corsair K65 Mini",                DetectCorsairK65MiniControllers,    CORSAIR_VID, CORSAIR_K65_MINI_PID,         1);
 /*-----------------------------------------------------------------------------------------------------*\
 | Corsair K95 Platinum XT Keyboard                                                                      |
 \*-----------------------------------------------------------------------------------------------------*/
