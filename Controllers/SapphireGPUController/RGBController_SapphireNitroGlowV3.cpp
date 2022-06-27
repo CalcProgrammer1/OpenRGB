@@ -16,70 +16,69 @@
     @save :x:
     @direct :x:
     @effects :white_check_mark:
-    @detectors DetectSapphireGPUControllers
+    @detectors DetectSapphireV3Controllers
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SapphireNitroGlowV3::RGBController_SapphireNitroGlowV3(SapphireNitroGlowV3Controller* sapphire_ptr)
+RGBController_SapphireNitroGlowV3::RGBController_SapphireNitroGlowV3(SapphireNitroGlowV3Controller* controller_ptr)
 {
-    sapphire = sapphire_ptr;
+    controller              = controller_ptr;
 
-    name        = "Sapphire Nitro Glow V3 Device";
-    vendor      = "Sapphire";
-    description = "Sapphire Nitro Glow V3 Device";
-    location    = sapphire->GetDeviceLocation();
-
-    type        = DEVICE_TYPE_GPU;
+    name                    = "Sapphire Nitro Glow V3 Device";
+    vendor                  = "Sapphire";
+    description             = "Sapphire Nitro Glow V3 Device";
+    location                = controller->GetDeviceLocation();
+    type                    = DEVICE_TYPE_GPU;
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = SAPPHIRE_NITRO_GLOW_V3_MODE_CUSTOM;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name             = "Static";
+    Static.value            = SAPPHIRE_NITRO_GLOW_V3_MODE_CUSTOM;
+    Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Rainbow;
-    Rainbow.name       = "Rainbow";
-    Rainbow.value      = SAPPHIRE_NITRO_GLOW_V3_MODE_RAINBOW;
-    Rainbow.flags      = MODE_FLAG_HAS_SPEED;
-    Rainbow.speed_min  = 10;
-    Rainbow.speed_max  = 250;
-    Rainbow.color_mode = MODE_COLORS_NONE;
+    Rainbow.name            = "Rainbow Wave";
+    Rainbow.value           = SAPPHIRE_NITRO_GLOW_V3_MODE_RAINBOW;
+    Rainbow.flags           = MODE_FLAG_HAS_SPEED;
+    Rainbow.speed_min       = 10;
+    Rainbow.speed_max       = 250;
+    Rainbow.color_mode      = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode Runway;
-    Runway.name       = "Runway";
-    Runway.value      = SAPPHIRE_NITRO_GLOW_V3_MODE_RUNWAY;
-    Runway.flags      = MODE_FLAG_HAS_SPEED;
-    Runway.speed_min  = 5;
-    Runway.speed_max  = 50;
-    Runway.color_mode = MODE_COLORS_NONE;
+    Runway.name             = "Runway";
+    Runway.value            = SAPPHIRE_NITRO_GLOW_V3_MODE_RUNWAY;
+    Runway.flags            = MODE_FLAG_HAS_SPEED;
+    Runway.speed_min        = 5;
+    Runway.speed_max        = 50;
+    Runway.color_mode       = MODE_COLORS_NONE;
     modes.push_back(Runway);
 
     mode ColorCycle;
-    ColorCycle.name       = "Color Cycle";
-    ColorCycle.value      = SAPPHIRE_NITRO_GLOW_V3_MODE_COLOR_CYCLE;
-    ColorCycle.flags      = MODE_FLAG_HAS_SPEED;
-    ColorCycle.speed_min  = 30;
-    ColorCycle.speed_max  = 1;
-    ColorCycle.color_mode = MODE_COLORS_NONE;
+    ColorCycle.name         = "Spectrum Cycle";
+    ColorCycle.value        = SAPPHIRE_NITRO_GLOW_V3_MODE_COLOR_CYCLE;
+    ColorCycle.flags        = MODE_FLAG_HAS_SPEED;
+    ColorCycle.speed_min    = 30;
+    ColorCycle.speed_max    = 1;
+    ColorCycle.color_mode   = MODE_COLORS_NONE;
     modes.push_back(ColorCycle);
 
     mode Serial;
-    Serial.name       = "Serial";
-    Serial.value      = SAPPHIRE_NITRO_GLOW_V3_MODE_SERIAL;
-    Serial.flags      = MODE_FLAG_HAS_SPEED;
-    Serial.speed_min  = 255;
-    Serial.speed_max  = 5;
-    Serial.color_mode = MODE_COLORS_NONE;
+    Serial.name             = "Serial";
+    Serial.value            = SAPPHIRE_NITRO_GLOW_V3_MODE_SERIAL;
+    Serial.flags            = MODE_FLAG_HAS_SPEED;
+    Serial.speed_min        = 255;
+    Serial.speed_max        = 5;
+    Serial.color_mode       = MODE_COLORS_NONE;
     modes.push_back(Serial);
 
-    mode ExternalControl;
-    ExternalControl.name       = "External Control";
-    ExternalControl.value      = SAPPHIRE_NITRO_GLOW_V3_MODE_EXTERNAL_CONTROL;
-    ExternalControl.flags      = 0;
-    ExternalControl.color_mode = MODE_COLORS_NONE;
-    modes.push_back(ExternalControl);
+    mode External;
+    External.name           = "External Control";
+    External.value          = SAPPHIRE_NITRO_GLOW_V3_MODE_EXTERNAL_CONTROL;
+    External.flags          = 0;
+    External.color_mode     = MODE_COLORS_NONE;
+    modes.push_back(External);
 
     SetupZones();
 
@@ -88,7 +87,7 @@ RGBController_SapphireNitroGlowV3::RGBController_SapphireNitroGlowV3(SapphireNit
 
 RGBController_SapphireNitroGlowV3::~RGBController_SapphireNitroGlowV3()
 {
-    delete sapphire;
+    delete controller;
 }
 
 void RGBController_SapphireNitroGlowV3::SetupZones()
@@ -120,24 +119,24 @@ void RGBController_SapphireNitroGlowV3::SetupZones()
 
 void RGBController_SapphireNitroGlowV3::ReadConfiguration()
 {
-    modes[1].speed = sapphire->GetRainbowAnimationSpeed();
-    modes[2].speed = sapphire->GetRunwayAnimationSpeed();
-    modes[3].speed = sapphire->GetColorCycleAnimationSpeed();
-    modes[4].speed = sapphire->GetSerialAnimationSpeed();
+    modes[1].speed = controller->GetRainbowAnimationSpeed();
+    modes[2].speed = controller->GetRunwayAnimationSpeed();
+    modes[3].speed = controller->GetColorCycleAnimationSpeed();
+    modes[4].speed = controller->GetSerialAnimationSpeed();
 
     colors[0] = ToRGBColor(
-        sapphire->GetRed(),
-        sapphire->GetBlue(),
-        sapphire->GetGreen()
+        controller->GetRed(),
+        controller->GetBlue(),
+        controller->GetGreen()
     );
 
-    if(sapphire->GetExternalControl())
+    if(controller->GetExternalControl())
     {
         active_mode = 5;
         return;
     }
 
-    switch(sapphire->GetMode())
+    switch(controller->GetMode())
     {
         case SAPPHIRE_NITRO_GLOW_V3_MODE_CUSTOM:
             active_mode = 0;
@@ -184,7 +183,7 @@ void RGBController_SapphireNitroGlowV3::DeviceUpdateLEDs()
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
 
-    sapphire->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_SapphireNitroGlowV3::UpdateZoneLEDs(int /*zone*/)
@@ -209,36 +208,36 @@ void RGBController_SapphireNitroGlowV3::DeviceUpdateMode()
     switch(mode.value)
     {
         case SAPPHIRE_NITRO_GLOW_V3_MODE_CUSTOM:
-            sapphire->SetExternalControl(false);
-            sapphire->SetMode(mode.value);
+            controller->SetExternalControl(false);
+            controller->SetMode(mode.value);
             break;
 
         case SAPPHIRE_NITRO_GLOW_V3_MODE_RAINBOW:
-            sapphire->SetExternalControl(false);
-            sapphire->SetRainbowAnimationSpeed(mode.speed);
-            sapphire->SetMode(mode.value);
+            controller->SetExternalControl(false);
+            controller->SetRainbowAnimationSpeed(mode.speed);
+            controller->SetMode(mode.value);
             break;
 
         case SAPPHIRE_NITRO_GLOW_V3_MODE_RUNWAY:
-            sapphire->SetExternalControl(false);
-            sapphire->SetRunwayAnimationSpeed(mode.speed);
-            sapphire->SetMode(mode.value);
+            controller->SetExternalControl(false);
+            controller->SetRunwayAnimationSpeed(mode.speed);
+            controller->SetMode(mode.value);
             break;
 
         case SAPPHIRE_NITRO_GLOW_V3_MODE_COLOR_CYCLE:
-            sapphire->SetExternalControl(false);
-            sapphire->SetColorCycleAnimationSpeed(mode.speed);
-            sapphire->SetMode(mode.value);
+            controller->SetExternalControl(false);
+            controller->SetColorCycleAnimationSpeed(mode.speed);
+            controller->SetMode(mode.value);
             break;
 
         case SAPPHIRE_NITRO_GLOW_V3_MODE_SERIAL:
-            sapphire->SetExternalControl(false);
-            sapphire->SetSerialAnimationSpeed(mode.speed);
-            sapphire->SetMode(mode.value);
+            controller->SetExternalControl(false);
+            controller->SetSerialAnimationSpeed(mode.speed);
+            controller->SetMode(mode.value);
             break;
 
         case SAPPHIRE_NITRO_GLOW_V3_MODE_EXTERNAL_CONTROL:
-            sapphire->SetExternalControl(true);
+            controller->SetExternalControl(true);
             break;
     }
 }

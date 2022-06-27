@@ -16,33 +16,32 @@
     @save :x:
     @direct :x:
     @effects :white_check_mark:
-    @detectors DetectSapphireGPUControllers
+    @detectors DetectSapphireV1Controllers
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNitroGlowV1Controller* sapphire_ptr)
+RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNitroGlowV1Controller* controller_ptr)
 {
-    sapphire = sapphire_ptr;
+    controller          = controller_ptr;
 
-    name        = "Sapphire Nitro Glow V1 Device";
-    vendor      = "Sapphire";
-    description = "Sapphire Nitro Glow V1 Device";
-    location    = sapphire->GetDeviceLocation();
-
-    type = DEVICE_TYPE_GPU;
+    name                = "Sapphire Nitro Glow V1 Device";
+    vendor              = "Sapphire";
+    description         = "Sapphire Nitro Glow V1 Device";
+    location            = controller->GetDeviceLocation();
+    type                = DEVICE_TYPE_GPU;
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = 0x04;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name         = "Static";
+    Static.value        = 0x04;
+    Static.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Rainbow;
-    Rainbow.name       = "Rainbow";
-    Rainbow.value      = 0x01;
-    Rainbow.flags      = 0;
-    Rainbow.color_mode = MODE_COLORS_NONE;
+    Rainbow.name        = "Rainbow Wave";
+    Rainbow.value       = 0x01;
+    Rainbow.flags       = 0;
+    Rainbow.color_mode  = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     SetupZones();
@@ -52,7 +51,7 @@ RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNit
 
 RGBController_SapphireNitroGlowV1::~RGBController_SapphireNitroGlowV1()
 {
-    delete sapphire;
+    delete controller;
 }
 
 void RGBController_SapphireNitroGlowV1::SetupZones()
@@ -85,12 +84,12 @@ void RGBController_SapphireNitroGlowV1::SetupZones()
 void RGBController_SapphireNitroGlowV1::ReadConfiguration()
 {
     colors[0] = ToRGBColor(
-        sapphire->GetRed(),
-        sapphire->GetGreen(),
-        sapphire->GetBlue()
+        controller->GetRed(),
+        controller->GetGreen(),
+        controller->GetBlue()
     );
 
-    switch(sapphire->GetMode())
+    switch(controller->GetMode())
     {
         case SAPPHIRE_NITRO_GLOW_V1_MODE_CUSTOM:
             active_mode = 0;
@@ -133,7 +132,7 @@ void RGBController_SapphireNitroGlowV1::DeviceUpdateLEDs()
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
 
-    sapphire->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_SapphireNitroGlowV1::UpdateZoneLEDs(int /*zone*/)
@@ -153,5 +152,5 @@ void RGBController_SapphireNitroGlowV1::SetCustomMode()
 
 void RGBController_SapphireNitroGlowV1::DeviceUpdateMode()
 {
-    sapphire->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
+    controller->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
 }

@@ -735,7 +735,7 @@ void ResourceManager::DetectDevices()
         {
             DetectionEndCallbacks[callback_idx](DetectionEndCallbackArgs[callback_idx]);
         }
-    }   
+    }
 }
 
 void ResourceManager::DisableDetection()
@@ -862,7 +862,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|             Detecting I2C interfaces               |");
     LOG_INFO("------------------------------------------------------");
-    
+
     bool i2c_interface_fail = false;
 
     for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
@@ -898,7 +898,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         if(this_device_enabled)
         {
             DetectionProgressChanged();
-            
+
             i2c_device_detectors[i2c_detector_idx](busses);
         }
 
@@ -925,7 +925,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         prev_count = rgb_controllers_hw.size();
 
         LOG_TRACE("[%s] detection end", detection_string);
-        
+
         /*-------------------------------------------------*\
         | Update detection percent                          |
         \*-------------------------------------------------*/
@@ -957,7 +957,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         if(this_device_enabled)
         {
             DetectionProgressChanged();
-            
+
             for(unsigned int bus = 0; bus < busses.size(); bus++)
             {
                 if(busses[bus]->pci_vendor           == i2c_pci_device_detectors[i2c_detector_idx].ven_id    &&
@@ -993,7 +993,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         prev_count = rgb_controllers_hw.size();
 
         LOG_TRACE("[%s] detection end", detection_string);
-        
+
         /*-------------------------------------------------*\
         | Update detection percent                          |
         \*-------------------------------------------------*/
@@ -1116,7 +1116,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             }
             detection_string = "";
             DetectionProgressChanged();
-            
+
             unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
 
             /*-----------------------------------------------------------------------------*\
@@ -1217,7 +1217,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         if(this_device_enabled)
         {
             DetectionProgressChanged();
-            
+
             device_detectors[detector_idx](rgb_controllers_hw);
         }
 
@@ -1262,7 +1262,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     detection_string = "";
 
     DetectionProgressChanged();
-    
+
     DetectDeviceMutex.unlock();
 
     /*-----------------------------------------------------*\
@@ -1313,7 +1313,7 @@ void ResourceManager::UpdateDetectorSettings()
 {
     json                detector_settings;
     bool                save_settings       = false;
-    
+
     /*-------------------------------------------------*\
     | Open device disable list and read in disabled     |
     | device strings                                    |
@@ -1336,13 +1336,28 @@ void ResourceManager::UpdateDetectorSettings()
     }
 
     /*-------------------------------------------------*\
+    | Loop through all I2C PCI detectors and see if any |
+    | need to be saved to the settings                  |
+    \*-------------------------------------------------*/
+    for(unsigned int i2c_pci_detector_idx = 0; i2c_pci_detector_idx < i2c_pci_device_detectors.size(); i2c_pci_detector_idx++)
+    {
+        detection_string = i2c_pci_device_detectors[i2c_pci_detector_idx].name.c_str();
+
+        if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
+        }
+    }
+
+    /*-------------------------------------------------*\
     | Loop through all HID detectors and see if any     |
     | need to be saved to the settings                  |
     \*-------------------------------------------------*/
     for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
     {
         detection_string = hid_device_detectors[hid_detector_idx].name.c_str();
-        
+
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
             detector_settings["detectors"][detection_string] = true;
