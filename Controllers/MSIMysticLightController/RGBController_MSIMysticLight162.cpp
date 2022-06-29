@@ -95,21 +95,37 @@ void RGBController_MSIMysticLight162::SetupZones()
 
         zone new_zone;
 
-        new_zone.name = zd->name;
-        new_zone.type = ZONE_TYPE_LINEAR;
+        new_zone.name           = zd->name;
 
+        /*--------------------------------------------------\
+        | 162-byte MSI does not have resizable zones, but   |
+        | onboard LED zones have multiple LEDs              |
+        \*-------------------------------------------------*/
         if(zd->zone_type == MSI_ZONE_ON_BOARD_LED_0)
         {
-            new_zone.leds_max = (int)controller->GetMaxOnboardLeds();
+            new_zone.leds_max   = (int)controller->GetMaxOnboardLeds();
         }
         else
         {
-            new_zone.leds_max = 1;
+            new_zone.leds_max   = 1;
         }
 
-        new_zone.leds_min   = new_zone.leds_max;
-        new_zone.leds_count = new_zone.leds_max;
-        new_zone.matrix_map = NULL;
+        new_zone.leds_min       = new_zone.leds_max;
+        new_zone.leds_count     = new_zone.leds_max;
+
+        /*-------------------------------------------------*\
+        | Determine zone type based on max number of LEDs   |
+        \*-------------------------------------------------*/
+        if(new_zone.leds_max == 1)
+        {
+            new_zone.type       = ZONE_TYPE_SINGLE;
+        }
+        else
+        {
+            new_zone.type       = ZONE_TYPE_LINEAR;
+        }
+
+        new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
 	}
 
