@@ -443,6 +443,7 @@
 #define PALIT_RTX3080_SUB_DEV                           0x2206
 #define PALIT_RTX3080_LHR_SUB_DEV                       0x2216
 #define PALIT_RTX3080TI_SUB_DEV                         0x2208
+#define PALIT_RTX3080TI_GAMEROCK_SUB_DEV                0xF278
 
 #define PALIT_RTX3090_SUB_DEV                           0x2204
 
