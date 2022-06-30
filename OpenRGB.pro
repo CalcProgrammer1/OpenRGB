@@ -75,6 +75,7 @@ INCLUDEPATH +=                                                                  
     serial_port/                                                                                \
     super_io/                                                                                   \
     AutoStart/                                                                                  \
+    Controllers/A4TechController/                                                               \
     Controllers/AlienwareController/                                                            \
     Controllers/AlienwareKeyboardController/                                                    \
     Controllers/AMDWraithPrismController/                                                       \
@@ -234,6 +235,8 @@ HEADERS +=                                                                      
     serial_port/serial_port.h                                                                   \
     super_io/super_io.h                                                                         \
     AutoStart/AutoStart.h                                                                       \
+    Controllers/A4TechController/BloodyMouseController.h                                        \
+    Controllers/A4TechController/RGBController_BloodyMouse.h                                    \
     Controllers/AlienwareController/AlienwareController.h                                       \
     Controllers/AlienwareController/RGBController_Alienware.h                                   \
     Controllers/AlienwareKeyboardController/AlienwareAW510KController.h                         \
@@ -681,6 +684,9 @@ SOURCES +=                                                                      
     serial_port/serial_port.cpp                                                                 \
     super_io/super_io.cpp                                                                       \
     AutoStart/AutoStart.cpp                                                                     \
+    Controllers/A4TechController/A4Tech_Detector.cpp                                            \
+    Controllers/A4TechController/BloodyMouseController.cpp                                      \
+    Controllers/A4TechController/RGBController_BloodyMouse.cpp                                  \
     Controllers/AlienwareController/AlienwareController.cpp                                     \
     Controllers/AlienwareController/AlienwareControllerDetect.cpp                               \
     Controllers/AlienwareController/RGBController_Alienware.cpp                                 \
