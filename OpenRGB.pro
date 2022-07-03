@@ -431,6 +431,8 @@ HEADERS +=                                                                      
     Controllers/LIFXController/RGBController_LIFX.h                                             \
     Controllers/LianLiController/LianLiUniHubController.h                                       \
     Controllers/LianLiController/RGBController_LianLiUniHub.h                                   \
+    Controllers/LianLiController/RGBController_StrimerLConnect.h                                \
+    Controllers/LianLiController/StrimerLConnectController.h                                    \
     Controllers/LogitechController/LogitechProtocolCommon.h                                     \
     Controllers/LogitechController/LogitechG203LController.h                                    \
     Controllers/LogitechController/LogitechG213Controller.h                                     \
@@ -946,6 +948,8 @@ SOURCES +=                                                                      
     Controllers/LianLiController/LianLiControllerDetect.cpp                                     \
     Controllers/LianLiController/LianLiUniHubController.cpp                                     \
     Controllers/LianLiController/RGBController_LianLiUniHub.cpp                                 \
+    Controllers/LianLiController/RGBController_StrimerLConnect.cpp                              \
+    Controllers/LianLiController/StrimerLConnectController.cpp                                  \
     Controllers/LogitechController/LogitechControllerDetect.cpp                                 \
     Controllers/LogitechController/LogitechProtocolCommon.cpp                                   \
     Controllers/LogitechController/LogitechG203LController.cpp                                  \
