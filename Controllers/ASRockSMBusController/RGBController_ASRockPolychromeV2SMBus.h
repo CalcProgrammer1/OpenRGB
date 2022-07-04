@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_ASRockPolychromeSMBus.h    |
+|  RGBController_ASRockPolychromev2SMBus.h  |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
 |  ASRock ASR LED and Polychrome RGB Driver |
@@ -10,13 +10,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "ASRockPolychromeSMBusController.h"
+#include "ASRockPolychromeV2SMBusController.h"
 
-class RGBController_Polychrome : public RGBController
+class RGBController_ASRockPolychromeV2SMBus : public RGBController
 {
 public:
-    RGBController_Polychrome(PolychromeController* controller_ptr);
-    ~RGBController_Polychrome();
+    RGBController_ASRockPolychromeV2SMBus(ASRockPolychromeV2SMBusController* controller_ptr);
+    ~RGBController_ASRockPolychromeV2SMBus();
 
     void        SetupZones();
 
@@ -30,5 +30,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    PolychromeController* controller;
+    ASRockPolychromeV2SMBusController* controller;
 };
