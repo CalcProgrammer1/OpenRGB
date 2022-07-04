@@ -56,7 +56,7 @@ void LenovoUSBController::setZoneLeds(uint8_t zone_num, vector<pair<uint8_t, RGB
 {
     for(size_t curr = 0; curr < led_colors.size();)
     {
-        uint8_t buffer[LENOVO_HID_PACKET_SIZE] = {LENOVO_INSTRUCTION_START, LENOVO_ZONE_ID_0+zone_num, 0, 0};
+        uint8_t buffer[LENOVO_HID_PACKET_SIZE] = {LENOVO_INSTRUCTION_START, (uint8_t) (LENOVO_ZONE_ID_0+zone_num), 0, 0};
 
         /*---------------------------------------------------------*\
         | Set the colour bytes in the packet                        |
@@ -87,7 +87,7 @@ void LenovoUSBController::setZoneLeds(uint8_t zone_num, vector<pair<uint8_t, RGB
 
 void LenovoUSBController::setSingleLED(uint8_t zone_num, uint8_t led_num, RGBColor color)
 {
-    uint8_t buffer[LENOVO_HID_PACKET_SIZE] = {LENOVO_INSTRUCTION_START, LENOVO_ZONE_ID_0+zone_num, 1, 0, led_num, RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color)};
+    uint8_t buffer[LENOVO_HID_PACKET_SIZE] = {LENOVO_INSTRUCTION_START, (uint8_t) (LENOVO_ZONE_ID_0+zone_num), 1, 0, led_num, (uint8_t) (RGBGetRValue(color)), (uint8_t) (RGBGetGValue(color)), (uint8_t) (RGBGetBValue(color))};
     hid_send_feature_report(dev, buffer, LENOVO_HID_PACKET_SIZE);
 }
 

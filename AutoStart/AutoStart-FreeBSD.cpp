@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <limits.h>
 #include <unistd.h>
 #include <sstream>
 
@@ -120,7 +121,7 @@ std::string AutoStart::GetExePath()
     char exepath[ PATH_MAX ];
 
     ssize_t count = readlink("/proc/self/exe", exepath, PATH_MAX);
-    
+
     return(std::string(exepath, (count > 0) ? count : 0));
 }
 
@@ -159,7 +160,7 @@ void AutoStart::InitAutoStart(std::string name)
         std::error_code ec;
 
         bool success = true;
-        
+
         if(!filesystem::exists(autostart_dir))
         {
             success = filesystem::create_directories(autostart_dir, ec);
