@@ -35,6 +35,7 @@ json rgb_fusion_2_smbus_motherboards[] =
     "B450 AORUS PRO-CF4",
     "B450 I AORUS PRO WIFI-CF",
     "B450M DS3H-CF",
+    "X299 DESIGNARE EX-CF",
     "X399 AORUS XTREME-CF",
     "X399 DESIGNARE EX-CF",
     "X470 AORUS GAMING 5 WIFI",
