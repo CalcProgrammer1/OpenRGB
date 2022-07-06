@@ -35,7 +35,7 @@ std::string LogitechX56Controller::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
-    
+
     if(ret != 0)
     {
         return("");
@@ -47,23 +47,23 @@ std::string LogitechX56Controller::GetSerialString()
     return(return_string);
 }
 
-void LogitechX56Controller::SetColor(RGBColor color)
+void LogitechX56Controller::SetColor(RGBColor color, uint8_t brightness)
 {
-    unsigned char buf[64];
-    unsigned char cbuf[64];
+    unsigned char buf[X56_CONTROLLER_PACKET_SIZE];
+    unsigned char cbuf[X56_CONTROLLER_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-    memset(cbuf, 0x00, sizeof(cbuf));
+    memset(buf, 0x00, X56_CONTROLLER_PACKET_SIZE);
+    memset(cbuf, 0x00, X56_CONTROLLER_PACKET_SIZE);
 
     /*-----------------------------------------------------*\
     | Set up init packet                                    |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x09;
     buf[0x02]   = 0x02;
-    buf[0x03]   = 0x64;
+    buf[0x03]   = brightness;
 
     /*-----------------------------------------------------*\
     | Set up color packet                                   |
@@ -73,11 +73,29 @@ void LogitechX56Controller::SetColor(RGBColor color)
     cbuf[0x03]  = RGBGetRValue(color);
     cbuf[0x04]  = RGBGetGValue(color);
     cbuf[0x05]  = RGBGetBValue(color);
-    
+
     /*-----------------------------------------------------*\
     | Send packets                                          |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf,  64);
-    hid_send_feature_report(dev, cbuf, 64);
+    hid_send_feature_report(dev, buf,  X56_CONTROLLER_PACKET_SIZE);
+    hid_send_feature_report(dev, cbuf, X56_CONTROLLER_PACKET_SIZE);
 
+}
+
+void LogitechX56Controller::Save()
+{
+    uint8_t buffer[X56_CONTROLLER_PACKET_SIZE];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buffer, 0x00, X56_CONTROLLER_PACKET_SIZE);
+
+    /*-----------------------------------------------------*\
+    | Set up init packet                                    |
+    \*-----------------------------------------------------*/
+    buffer[0x00]    = 0x01;
+    buffer[0x01]    = 0x01;
+
+    hid_send_feature_report(dev, buffer, X56_CONTROLLER_PACKET_SIZE);
 }

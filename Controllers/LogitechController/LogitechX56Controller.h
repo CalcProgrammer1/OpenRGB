@@ -13,6 +13,8 @@
 
 #pragma once
 
+#define X56_CONTROLLER_PACKET_SIZE          64
+
 class LogitechX56Controller
 {
 public:
@@ -24,7 +26,8 @@ public:
     char*       GetDeviceName();
     std::string GetSerialString();
 
-    void SetColor(RGBColor colors);
+    void SetColor(RGBColor colors, uint8_t brightness);
+    void Save();
 
 private:
     char                    device_name[32];

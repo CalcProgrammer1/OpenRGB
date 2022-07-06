@@ -681,8 +681,8 @@ REGISTER_HID_DETECTOR_IPU("Logitech G933 Lightsync Headset",                Dete
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Joysticks                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("Logitech X56 Rhino Hotas Joystick",               DetectLogitechX56,          LOGITECH_X56_VID, LOGITECH_X56_JOYSTICK_PID,        2, 0xFF00);
-REGISTER_HID_DETECTOR_IP("Logitech X56 Rhino Hotas Throttle",               DetectLogitechX56,          LOGITECH_X56_VID, LOGITECH_X56_THROTTLE_PID,        2, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("Logitech X56 Rhino Hotas Joystick",              DetectLogitechX56,          LOGITECH_X56_VID, LOGITECH_X56_JOYSTICK_PID,        2, 0xFF00, 3);
+REGISTER_HID_DETECTOR_IPU("Logitech X56 Rhino Hotas Throttle",              DetectLogitechX56,          LOGITECH_X56_VID, LOGITECH_X56_THROTTLE_PID,        2, 0xFF00, 3);
 
 
 
