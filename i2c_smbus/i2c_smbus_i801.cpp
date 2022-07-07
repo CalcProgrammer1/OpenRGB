@@ -544,7 +544,7 @@ bool i2c_smbus_i801_detect()
             std::smatch matches;
 
             // Query the StartingAddress for the matching device ID and use it to enumerate the bus
-            if (std::regex_search(q_res_PNPAllocatedResource[0]["Antecedent"], matches, rgx2))
+            if (!q_res_PNPAllocatedResource.empty() && std::regex_search(q_res_PNPAllocatedResource[0]["Antecedent"], matches, rgx2))
             {
                 unsigned int IORangeStart = std::stoi(matches[1].str());
 
