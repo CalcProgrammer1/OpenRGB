@@ -153,7 +153,7 @@ INCLUDEPATH +=                                                                  
     Controllers/RoccatController/                                                               \
     Controllers/SapphireGPUController/                                                          \
     Controllers/SinowealthController/                                                           \
-    Controllers/SonyDS4Controller/                                                              \
+    Controllers/SonyGamepadController/                                                          \
     Controllers/SteelSeriesController/                                                          \
     Controllers/TecknetController/                                                              \
     Controllers/ThermaltakePoseidonZRGBController/                                              \
@@ -529,8 +529,11 @@ HEADERS +=                                                                      
     Controllers/SinowealthController/RGBController_Sinowealth1007.h                             \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard.h                         \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard16.h                       \
-    Controllers/SonyDS4Controller/SonyDS4Controller.h                                           \
-    Controllers/SonyDS4Controller/RGBController_SonyDS4.h                                       \
+    Controllers/SonyGamepadController/SonyDualSenseController.h                                 \
+    Controllers/SonyGamepadController/SonyDualSenseControllerDetect.h                           \
+    Controllers/SonyGamepadController/RGBController_SonyDualSense.h                             \
+    Controllers/SonyGamepadController/SonyDS4Controller.h                                       \
+    Controllers/SonyGamepadController/RGBController_SonyDS4.h                                   \
     Controllers/SteelSeriesController/color32.h                                                 \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.h                             \
     Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
@@ -1061,9 +1064,11 @@ SOURCES +=                                                                      
     Controllers/SinowealthController/RGBController_Sinowealth1007.cpp                           \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard.cpp                       \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard16.cpp                     \
-    Controllers/SonyDS4Controller/SonyDS4Controller.cpp                                         \
-    Controllers/SonyDS4Controller/SonyDS4ControllerDetect.cpp                                   \
-    Controllers/SonyDS4Controller/RGBController_SonyDS4.cpp                                     \
+    Controllers/SonyGamepadController/SonyDualSenseController.cpp                               \
+    Controllers/SonyGamepadController/RGBController_SonyDualSense.cpp                           \
+    Controllers/SonyGamepadController/SonyDS4Controller.cpp                                     \
+    Controllers/SonyGamepadController/RGBController_SonyDS4.cpp                                 \
+    Controllers/SonyGamepadController/SonyGamepadControllerDetect.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
@@ -1304,7 +1309,7 @@ win32:SOURCES +=                                                                
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.cpp                      \
     Controllers/ENESMBusController/XPGSpectrixS40GDetect_Windows.cpp                            \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G_Windows.cpp \
-    Controllers/NVIDIAIlluminationController/nvapi_accessor.cpp                                                        \
+    Controllers/NVIDIAIlluminationController/nvapi_accessor.cpp                                 \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.cpp                 \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationControllerDetect.cpp             \
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.cpp               \
@@ -1326,7 +1331,7 @@ win32:HEADERS +=                                                                
     AutoStart/AutoStart-Windows.h                                                               \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G_Windows.h   \
-    Controllers/NVIDIAIlluminationController/nvapi_accessor.h                                                          \
+    Controllers/NVIDIAIlluminationController/nvapi_accessor.h                                   \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.h                   \
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.h                 \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
