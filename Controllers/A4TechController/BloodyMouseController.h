@@ -14,6 +14,16 @@
 
 #pragma once
 
+/*-----------------------------------------------------*\
+| Mouse product IDs                                     |
+\*-----------------------------------------------------*/
+#define BLOODY_W60_PRO_PID                          0x37EA
+
+/*-----------------------------------------------------*\
+| Mousemat product IDs                                  |
+\*-----------------------------------------------------*/
+#define BLOODY_MP_50RS_PID                          0xFA60
+
 #define HID_MAX_STR 255
 #define BLOODYMOUSE_WRITE_PACKET_SIZE   64
 
@@ -36,14 +46,16 @@ enum
 class BloodyMouseController
 {
 public:
-    BloodyMouseController(hid_device* dev_handle, const char* path);
+    BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id);
     ~BloodyMouseController();
 
+    uint16_t        GetPid();
     std::string     GetSerial();
     std::string     GetLocation();
 
     void            SetLedsDirect(std::vector<RGBColor> colors);
 private:
+    uint16_t        pid;
     std::string     location;
     hid_device*     dev;
 

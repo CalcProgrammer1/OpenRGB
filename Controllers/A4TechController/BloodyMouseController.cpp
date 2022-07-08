@@ -9,10 +9,11 @@
 
 #include "BloodyMouseController.h"
 
-BloodyMouseController::BloodyMouseController(hid_device* dev_handle, const char* path)
+BloodyMouseController::BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id)
 {
     dev                 = dev_handle;
     location            = path;
+    pid                 = product_id;
 
     InitDevice();
 }
@@ -20,6 +21,11 @@ BloodyMouseController::BloodyMouseController(hid_device* dev_handle, const char*
 BloodyMouseController::~BloodyMouseController()
 {
     hid_close(dev);
+}
+
+uint16_t BloodyMouseController::GetPid()
+{
+    return pid;
 }
 
 std::string BloodyMouseController::GetSerial()

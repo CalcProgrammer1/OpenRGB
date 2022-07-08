@@ -25,6 +25,13 @@ static const mouse_layout w60_pro
     }
 };
 
+static const mouse_layout mp_50rs
+{
+    {
+        "Mouse Pad",    {  0,  1,  2,  3,  4,  5,  6,  7,  8,  9 }
+    }
+};
+
 /**------------------------------------------------------------------*\
     @name BloodyMouse
     @category Mouse
@@ -40,10 +47,18 @@ RGBController_BloodyMouse::RGBController_BloodyMouse(BloodyMouseController *cont
 {
     controller                  = controller_ptr;
 
+    switch(controller->GetPid())
+    {
+        case BLOODY_MP_50RS_PID:
+            type                = DEVICE_TYPE_MOUSEMAT;
+            break;
+        default:
+            type                = DEVICE_TYPE_MOUSE;
+    }
+
     name                        = "BloodyMouse";
     vendor                      = "Bloody";
-    type                        = DEVICE_TYPE_MOUSE;
-    description                 = "Controller compatible with the Bloody W60 Pro";
+    description                 = "Controller compatible with the Bloody W60 Pro and MP 50RS";
     serial                      = controller->GetSerial();
     location                    = controller->GetLocation();
 
@@ -70,12 +85,26 @@ void RGBController_BloodyMouse::SetupZones()
     leds.clear();
     colors.clear();
 
+    /*-------------------------------------------------*\
+    | Select layout from PID                            |
+    \*-------------------------------------------------*/
+    mouse_layout layout;
+    switch(controller->GetPid())
+    {
+        case BLOODY_W60_PRO_PID:
+            layout = w60_pro;
+            break;
+        case BLOODY_MP_50RS_PID:
+            layout = mp_50rs;
+            break;
+    }
+
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    for(uint8_t zone_idx = 0; zone_idx < w60_pro.size(); zone_idx++)
+    for(uint8_t zone_idx = 0; zone_idx < layout.size(); zone_idx++)
     {
-        mouse_zone mz           = w60_pro[zone_idx];
+        mouse_zone mz           = layout[zone_idx];
         bool bool_single        = mz.zone_leds.size() == 1;
 
         zone new_zone;
