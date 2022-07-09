@@ -428,7 +428,7 @@ void MSIMysticLight185Controller::SetMode
     bool            rainbow_color
     )
 {
-    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0) && (active_pid != 0x7B93))
+    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
     {
         return;
     }
@@ -467,7 +467,7 @@ void MSIMysticLight185Controller::SetMode
         on_board_zone->colorFlags              &= ~(SYNC_SETTING_JPIPE1 | SYNC_SETTING_JPIPE2);
     }
 
-    if((active_pid == 0x7B93) && (zone == MSI_ZONE_ON_BOARD_LED_0) && (mode <= MSI_MODE_LIGHTNING))
+    if((zone == MSI_ZONE_ON_BOARD_LED_0) && (mode <= MSI_MODE_LIGHTNING))
     {
         for(int i = 0; i < numof_onboard_leds; ++i)
         {
@@ -549,7 +549,7 @@ void MSIMysticLight185Controller::SetZoneColor
     unsigned char   blu2
     )
 {
-    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0) && (active_pid != 0x7B93))
+    if((per_led_mode == DIRECT_MODE_ZONE_BASED) && (zone > MSI_ZONE_ON_BOARD_LED_0))
     {
         return;
     }
@@ -580,7 +580,7 @@ void MSIMysticLight185Controller::SetZoneColor
         on_board_zone->color2.B = blu2;
     }
 
-    if((active_pid == 0x7B93) && (zone == MSI_ZONE_ON_BOARD_LED_0))
+    if(zone == MSI_ZONE_ON_BOARD_LED_0)
     {
         for(int i = 0; i < numof_onboard_leds; ++i)
         {
