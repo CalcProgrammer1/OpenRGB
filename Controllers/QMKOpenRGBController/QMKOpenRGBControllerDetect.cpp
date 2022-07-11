@@ -18,6 +18,7 @@
 #include "RGBController_QMKOpenRGBRev9.h"
 #include "RGBController_QMKOpenRGBRevB.h"
 #include "RGBController_QMKOpenRGBRevD.h"
+#include "RGBController_QMKOpenRGBRevE.h"
 #include "LogManager.h"
 #include <hidapi/hidapi.h>
 
@@ -28,6 +29,7 @@
 #define QMK_OPENRGB_PROTOCOL_VERSION_B          0x0B
 #define QMK_OPENRGB_PROTOCOL_VERSION_C          0x0C
 #define QMK_OPENRGB_PROTOCOL_VERSION_D          0x0D
+#define QMK_OPENRGB_PROTOCOL_VERSION_E          0x0E
 
 /*-----------------------------------------------------*\
 | Usage and Usage Page                                  |
