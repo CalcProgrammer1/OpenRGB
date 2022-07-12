@@ -68,6 +68,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_O11_DYNAMIC_PID:
         case RAZER_VIPER_8KHZ_PID:
+        case RAZER_BLADE_STEALTH_LATE_2020_PID:
             dev_transaction_id = 0x1F;
             break;
 
@@ -200,7 +201,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_STEALTH_2019_PID:
         case RAZER_BLADE_STEALTH_LATE_2019_PID:
         case RAZER_BLADE_STEALTH_2020_PID:
-        case RAZER_BLADE_STEALTH_LATE_2020_PID:
+        
         case RAZER_BOOK_13_2020_PID:
         case RAZER_NAGA_HEX_V2_PID:
         case RAZER_CORE_PID:
@@ -312,6 +313,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHADDER_CHROMA_PID:
         case RAZER_NAGA_EPIC_CHROMA_PID:
         case RAZER_ORBWEAVER_CHROMA_PID:
+        case RAZER_BLADE_STEALTH_LATE_2020_PID:
             matrix_type = RAZER_MATRIX_TYPE_CUSTOM;
             break;
     }
@@ -1202,6 +1204,7 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
                 | These devices use individual LED effect reports   |
                 \*-------------------------------------------------*/
                 case RAZER_TARTARUS_CHROMA_PID:
+                case RAZER_BLADE_STEALTH_LATE_2020_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
                     razer_usb_send(&report);
                     break;
@@ -1299,6 +1302,7 @@ void RazerController::razer_set_mode_breathing_one_color(unsigned char red, unsi
                 | These devices use individual LED effect reports   |
                 \*-------------------------------------------------*/
                 case RAZER_TARTARUS_CHROMA_PID:
+                case RAZER_BLADE_STEALTH_LATE_2020_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
                     razer_usb_send(&report);
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 2);
@@ -1442,6 +1446,7 @@ void RazerController::razer_set_mode_custom()
                 | These devices use individual LED effect reports   |
                 \*-------------------------------------------------*/
                 case RAZER_TARTARUS_CHROMA_PID:
+                case RAZER_BLADE_STEALTH_LATE_2020_PID:
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
                     razer_usb_send(&report);
                     break;
@@ -1509,6 +1514,7 @@ void RazerController::razer_set_mode_none()
                 | These devices use individual LED effect reports   |
                 \*-------------------------------------------------*/
                 case RAZER_TARTARUS_CHROMA_PID:
+                case RAZER_BLADE_STEALTH_LATE_2020_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
                     razer_usb_send(&report);
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
@@ -1584,6 +1590,7 @@ void RazerController::razer_set_mode_spectrum_cycle()
                 | These devices use individual LED effect reports   |
                 \*-------------------------------------------------*/
                 case RAZER_TARTARUS_CHROMA_PID:
+                case RAZER_BLADE_STEALTH_LATE_2020_PID:
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 4);
                     razer_usb_send(&report);
                     break;
@@ -1651,6 +1658,7 @@ void RazerController::razer_set_mode_static(unsigned char red, unsigned char grn
                 | These devices use individual LED effect reports   |
                 \*-------------------------------------------------*/
                 case RAZER_TARTARUS_CHROMA_PID:
+                case RAZER_BLADE_STEALTH_LATE_2020_PID:
                     report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, rgb_data);
                     razer_usb_send(&report);
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
