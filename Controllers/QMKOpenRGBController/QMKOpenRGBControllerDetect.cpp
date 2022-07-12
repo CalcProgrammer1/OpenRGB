@@ -105,6 +105,13 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
+            case QMK_OPENRGB_PROTOCOL_VERSION_E:
+                {
+                QMKOpenRGBRevDController*     controller     = new QMKOpenRGBRevDController(dev, info->path);
+                RGBController_QMKOpenRGBRevE* rgb_controller = new RGBController_QMKOpenRGBRevE(controller, true);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                break;
             default:
                 if (version == 0)
                 {
@@ -117,7 +124,7 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                     "For officaly supported QMK boards grab <a href=\"https://github.com/Kasper24/QMK-OpenRGB\">url</a> \n"
                     "For Sonix boards grab <a href=\"https://github.com/SonixQMK/qmk_firmware/tree/sn32_openrgb\">url</a>", version);
                 }
-                else if (version > QMK_OPENRGB_PROTOCOL_VERSION_D)
+                else if (version > QMK_OPENRGB_PROTOCOL_VERSION_E)
                 {
                     LOG_WARNING("[QMK OpenRGB] Detection failed - the detected keyboard is using version protocol %i which is not supported by this OpenRGB build. Please update OpenRGB!", version);
                 }

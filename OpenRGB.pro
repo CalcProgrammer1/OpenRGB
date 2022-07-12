@@ -501,6 +501,7 @@ HEADERS +=                                                                      
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRev9.h                             \
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevB.h                             \
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevD.h                             \
+    Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevE.h                             \
     Controllers/RazerController/RazerController.h                                               \
     Controllers/RazerController/RazerKrakenController.h                                         \
     Controllers/RazerController/RazerDevices.h                                                  \
@@ -1032,6 +1033,7 @@ SOURCES +=                                                                      
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRev9.cpp                           \
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevB.cpp                           \
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevD.cpp                           \
+    Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevE.cpp                           \
     Controllers/RazerController/RazerController.cpp                                             \
     Controllers/RazerController/RazerKrakenController.cpp                                       \
     Controllers/RazerController/RazerControllerDetect.cpp                                       \

@@ -161,21 +161,6 @@ RGBController_QMKOpenRGBRevE::RGBController_QMKOpenRGBRevE(QMKOpenRGBRevDControl
         InitializeMode("Hue Wave", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
-    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_PIXEL_RAIN) != enabled_modes.end())
-    {
-        InitializeMode("Pixel Rain", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
-    }
-
-    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_PIXEL_FLOW) != enabled_modes.end())
-    {
-        InitializeMode("Pixel Flow", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
-    }
-
-    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_PIXEL_FRACTAL) != enabled_modes.end())
-    {
-        InitializeMode("Pixel Fractal", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
-    }
-
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_TYPING_HEATMAP) != enabled_modes.end())
     {
         InitializeMode("Typing Heatmap", current_mode, 0, MODE_COLORS_NONE, save);
@@ -244,6 +229,21 @@ RGBController_QMKOpenRGBRevE::RGBController_QMKOpenRGBRevE(QMKOpenRGBRevDControl
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_SOLID_MULTISPLASH) != enabled_modes.end())
     {
         InitializeMode("Solid Reactive Multi Splash", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
+    }
+
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_PIXEL_RAIN) != enabled_modes.end())
+    {
+        InitializeMode("Pixel Rain", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
+    }
+
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_PIXEL_FLOW) != enabled_modes.end())
+    {
+        InitializeMode("Pixel Flow", current_mode, MODE_FLAG_HAS_SPEED, MODE_COLORS_NONE, save);
+    }
+
+    if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_PIXEL_FRACTAL) != enabled_modes.end())
+    {
+        InitializeMode("Pixel Fractal", current_mode, MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED, MODE_COLORS_MODE_SPECIFIC, save);
     }
 
     if(std::find(enabled_modes.begin(), enabled_modes.end(), QMK_OPENRGB_MODE_OPENRGB_DIRECT) != enabled_modes.end())
