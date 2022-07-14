@@ -8,6 +8,7 @@ Build-Depends:
  pkg-config,
  qtbase5-dev,
  qtbase5-dev-tools,
+ qttools5-dev-tools,
  qt5-qmake,
  libusb-1.0-0-dev,
  libhidapi-dev,
