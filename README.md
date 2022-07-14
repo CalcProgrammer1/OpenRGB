@@ -274,7 +274,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
   * Keyboard Visualizer (by me): https://gitlab.com/CalcProgrammer1/KeyboardVisualizer
   * OpenRGB E1.31 Receiver (by me): https://gitlab.com/CalcProgrammer1/OpenRGBE131Receiver
-  * Project Aurora (support added by diogotr7 in dev branch): https://github.com/antonpup/Aurora
+  * Project Aurora (support added by diogotr7): https://github.com/Aurora-RGB/Aurora
   * Artemis 2 (support added by diogotr7 as a plugin): https://github.com/Artemis-RGB/Artemis
   * RemoteLight (by Drumber, need OpenRGB plugin): https://github.com/Drumber/RemoteLight
   * OpenRGB-python-FX (by herosilas12): https://github.com/herosilas12/OpenRGB-python-FX
