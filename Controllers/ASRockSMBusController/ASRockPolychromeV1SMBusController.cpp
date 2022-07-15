@@ -22,7 +22,6 @@ ASRockPolychromeV1SMBusController::ASRockPolychromeV1SMBusController(i2c_smbus_i
     this->dev = dev;
 
     DMIInfo dmi;
-
     device_name =   "ASRock " + dmi.getMainboard();
 
     ReadLEDConfiguration();
@@ -62,9 +61,9 @@ void ASRockPolychromeV1SMBusController::ReadLEDConfiguration()
     | The LED configuration register holds 6 bytes, so the first read should return 6   |
     | If not, set all zone sizes to zero                                                |
     \*---------------------------------------------------------------------------------*/
-    LOG_DEBUG("[%s] Reading LED config from controller", device_name.c_str());
+    LOG_DEBUG("[%s] Reading Zone sizes from controller", device_name.c_str());
     uint8_t asrock_zone_count[I2C_SMBUS_BLOCK_MAX] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
-    if (bus->i2c_smbus_read_block_data(dev, POLYCHROME_V1_REG_LED_CONFIG, asrock_zone_count) == 0x06)
+    if (bus->i2c_smbus_read_block_data(dev, POLYCHROME_V1_REG_ZONE_SIZE, asrock_zone_count) == 0x06)
     {
         zone_led_count[POLYCHROME_V1_ZONE_1]           = asrock_zone_count[0];
         zone_led_count[POLYCHROME_V1_ZONE_2]           = asrock_zone_count[1];
@@ -86,27 +85,156 @@ void ASRockPolychromeV1SMBusController::ReadLEDConfiguration()
     }
 }
 
-uint8_t ASRockPolychromeV1SMBusController::GetMode()
+uint8_t ASRockPolychromeV1SMBusController::GetARGBColorOrder()
 {
-    return(active_mode);
+    uint8_t temp[1] = { 0x00 };
+    LOG_TRACE("[%s] Reading ARGB color order config from the controller", device_name.c_str());
+
+    //Read the data
+    if(bus->i2c_smbus_read_block_data(dev, POLYCHROME_V1_REG_ARGB_GRB, temp) == 0x01)
+    {
+        if(temp[0] == 1)
+        {
+            LOG_DEBUG("[%s] Color order is GRB for the ARGB header", device_name.c_str());
+        }
+        else
+        {
+            LOG_DEBUG("[%s] Color order is RGB for the ARGB header", device_name.c_str());
+        }
+        return temp[0];
+    }
+    else
+    {
+        return 0;
+    }
 }
 
-void ASRockPolychromeV1SMBusController::SetColorsAndSpeed(uint8_t led, uint8_t red, uint8_t green, uint8_t blue)
+RGBColor ASRockPolychromeV1SMBusController::GetZoneColor(uint8_t zone)
 {
-    uint8_t color_speed_pkt[4] = { red, green, blue, active_speed };
-    uint8_t select_led_pkt[1]  = { led };
-    
+    LOG_TRACE("[%s] Reading color from zone %02d", device_name.c_str(), zone);
+    return zone_config[zone].color;
+}
+
+uint8_t ASRockPolychromeV1SMBusController::GetZoneMode(uint8_t zone)
+{
+    LOG_TRACE("[%s] Retreving mode %02X from zone_modes for zone %02d", device_name.c_str(), zone_config[zone].mode, zone);
+    return(zone_config[zone].mode);
+}
+
+void ASRockPolychromeV1SMBusController::LoadZoneConfig()
+{
+    uint8_t zone[1] = { 0x00 };
+    uint8_t mode[1] = { 0xFF };
+    uint8_t color_speed_pkt[4] = { 0, 0, 0, 0 };
+
+    LOG_TRACE("[%s] Reading modes from all zones", device_name.c_str());
+    //Polychrome v1 supports per zone modes so we need to set the zone before we can read the mode.
+    //Write the zone index.
+
+    for(uint8_t zone_idx = 0 ; zone_idx < POLYCHROME_V1_ZONE_COUNT; zone_idx ++)
+    {
+        if(zone_led_count[zone_idx] > 0)
+        {
+            zone[0] = zone_idx;
+            bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_ZONE_SELECT, 1, zone);
+
+            //Read the data back.
+            if(bus->i2c_smbus_read_block_data(dev, POLYCHROME_V1_REG_ZONE_SELECT, zone) == 0x01)
+            {
+                //Validate that we changed correctly.
+                if(zone[0] == zone_idx)
+                {
+                    //Read the mode for the zone.
+                    if(bus->i2c_smbus_read_block_data(dev, POLYCHROME_V1_REG_MODE, mode) == 0x01)
+                    {
+                        LOG_DEBUG("[%s] Mode 0x%02x for zone %02d", device_name.c_str(), mode[0], zone_idx);
+                        zone_config[zone_idx].mode = mode[0];
+
+                        bus->i2c_smbus_read_block_data(dev, zone_config[zone_idx].mode, color_speed_pkt);
+
+                        zone_config[zone_idx].color = color_speed_pkt[0] << 16 | color_speed_pkt[1] << 8 | color_speed_pkt[2];
+                        zone_config[zone_idx].speed = color_speed_pkt [3];
+
+                        LOG_TRACE("[%s] Mode config: %06X, %02X", device_name.c_str(), zone_config[zone_idx].color, zone_config[zone_idx].speed );
+                    }
+                }
+                else
+                {
+                    LOG_WARNING("[%s] Zone mode register failed to change!", device_name.c_str() );
+                }
+            }
+        }
+        else
+        {
+            zone_config[zone_idx].mode = 0;
+            zone_config[zone_idx].color = 0;
+            zone_config[zone_idx].speed = 0;
+        }
+    }
+}
+
+void ASRockPolychromeV1SMBusController::SetARGBColorOrder(bool value)
+{
+    uint8_t temp[1] = { 0x00 };
+
+    LOG_TRACE("[%s] Setting ARGB color order config to the controller", device_name.c_str());
+
+    temp[0] = (value) ? 0x01 : 0x00;
+    bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_ARGB_GRB, 1, temp);
+    GetARGBColorOrder();
+}
+
+bool ASRockPolychromeV1SMBusController::SetARGBSize(uint8_t new_size)
+{
+    LOG_DEBUG("[%s] Setting ARGB header to %02d.", device_name.c_str(), new_size);
+
+    uint8_t asrock_zone_count[6] = { 0x0 };
+    uint8_t new_asrock_zone_count[6] = { 0x0 };
+
+    //memcpy(new_asrock_zone_count, zone_led_count, sizeof(new_asrock_zone_count - 1));
+    new_asrock_zone_count[POLYCHROME_V1_ZONE_1] = zone_led_count[POLYCHROME_V1_ZONE_1];
+    new_asrock_zone_count[POLYCHROME_V1_ZONE_2] = zone_led_count[POLYCHROME_V1_ZONE_2];
+    new_asrock_zone_count[POLYCHROME_V1_ZONE_3] = zone_led_count[POLYCHROME_V1_ZONE_3];
+    new_asrock_zone_count[POLYCHROME_V1_ZONE_4] = zone_led_count[POLYCHROME_V1_ZONE_4];
+    new_asrock_zone_count[POLYCHROME_V1_ZONE_5] = zone_led_count[POLYCHROME_V1_ZONE_5];
+    new_asrock_zone_count[POLYCHROME_V1_ZONE_ADDRESSABLE] = new_size;
+
+    //Write the new config to the register
+    bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_ZONE_SIZE, 6, new_asrock_zone_count);
+
+    //Validate the write
+    if (bus->i2c_smbus_read_block_data(dev, POLYCHROME_V1_REG_ZONE_SIZE, asrock_zone_count) == 0x06)
+    {
+        for (uint8_t i = 0; i < 6; i++)
+        {
+            if (new_asrock_zone_count[i] != asrock_zone_count[i])
+            {
+                LOG_WARNING("[%s] Failed to validate zone %02d size!", device_name.c_str(), i);
+                return false;
+            }
+        }
+        LOG_DEBUG("[%s] Zone configuration validation completed.", device_name.c_str());
+        return true;
+    }
+    return false;
+}
+
+void ASRockPolychromeV1SMBusController::SetColorsAndSpeed(uint8_t zone, uint8_t red, uint8_t green, uint8_t blue)
+{
+    LOG_TRACE("[%s] Updating color and speed for zone %02d: 0x%06X", device_name.c_str(), zone, (red << 16 | green << 8 | blue));
+    uint8_t color_speed_pkt[4] = { red, green, blue, zone_config[zone].speed };
+    uint8_t select_zone_pkt[1]  = { zone };
 
     /*-----------------------------------------------------*\
-    | Select LED                                            |
+    | Select Zone                                           |
     \*-----------------------------------------------------*/
-    if(active_mode != POLYCHROME_V1_MODE_OFF)
+    if(zone_config[zone].mode != POLYCHROME_V1_MODE_OFF)
     {
-        bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_LED_SELECT, 1, select_led_pkt);
+        bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_ZONE_SELECT, 1, select_zone_pkt);
         std::this_thread::sleep_for(1ms);
     }
 
-    switch(active_mode)
+    switch(zone_config[zone].mode)
     {
         /*-----------------------------------------------------*\
         | These modes take 4 bytes in R/G/B/S order             |
@@ -122,7 +250,7 @@ void ASRockPolychromeV1SMBusController::SetColorsAndSpeed(uint8_t led, uint8_t r
         case POLYCHROME_V1_MODE_NEON:
         case POLYCHROME_V1_MODE_WATER:
 
-            bus->i2c_smbus_write_block_data(dev, active_mode, 4, color_speed_pkt);
+            bus->i2c_smbus_write_block_data(dev, zone_config[zone].mode, 4, color_speed_pkt);
             break;
 
         /*-----------------------------------------------------*\
@@ -131,7 +259,7 @@ void ASRockPolychromeV1SMBusController::SetColorsAndSpeed(uint8_t led, uint8_t r
         default:
         case POLYCHROME_V1_MODE_STATIC:
         case POLYCHROME_V1_MODE_MUSIC:
-            bus->i2c_smbus_write_block_data(dev, active_mode, 3, color_speed_pkt);
+            bus->i2c_smbus_write_block_data(dev, zone_config[zone].mode, 3, color_speed_pkt);
             break;
 
         /*-----------------------------------------------------*\
@@ -140,7 +268,7 @@ void ASRockPolychromeV1SMBusController::SetColorsAndSpeed(uint8_t led, uint8_t r
         case POLYCHROME_V1_MODE_RANDOM:
         case POLYCHROME_V1_MODE_WAVE:
         case POLYCHROME_V1_MODE_RAINBOW:
-            bus->i2c_smbus_write_block_data(dev, active_mode, 1, &active_speed);
+            bus->i2c_smbus_write_block_data(dev, zone_config[zone].mode, 1, &zone_config[zone].speed);
             break;
 
         /*-----------------------------------------------------*\
@@ -153,12 +281,12 @@ void ASRockPolychromeV1SMBusController::SetColorsAndSpeed(uint8_t led, uint8_t r
 
 }
 
-void ASRockPolychromeV1SMBusController::SetMode(uint8_t zone,uint8_t mode, uint8_t speed)
+void ASRockPolychromeV1SMBusController::SetMode(uint8_t zone, uint8_t mode, uint8_t speed)
 {
-    uint8_t led_count_pkt[1]  = { 0x00 };
-    active_zone                     = zone;
-    active_mode                     = mode;
-    active_speed                    = speed;
+    LOG_TRACE("[%s] Updating mode for zone %02d, Mode 0x%02X, Speed 0x%02X", device_name.c_str(), zone, mode, speed);
+    uint8_t led_count_pkt[1]    = { 0x00 };
+    zone_config[zone].mode      = mode;
+    zone_config[zone].speed     = speed;
 
     /*-----------------------------------------------------*\
     | Make sure set all register is set to 0                |
@@ -169,12 +297,12 @@ void ASRockPolychromeV1SMBusController::SetMode(uint8_t zone,uint8_t mode, uint8
     /*-----------------------------------------------------*\
     | Set the zone we are working on                        |
     \*-----------------------------------------------------*/
-    bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_LED_SELECT, 1, &active_zone);
+    bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_ZONE_SELECT, 1, &zone);
     std::this_thread::sleep_for(1ms);
 
     /*-----------------------------------------------------*\
     | Write the mode                                        |
     \*-----------------------------------------------------*/
-    bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_MODE, 1, &active_mode);
-    std::this_thread::sleep_for(1ms);    
+    bus->i2c_smbus_write_block_data(dev, POLYCHROME_V1_REG_MODE, 1, &zone_config[zone].mode);
+    std::this_thread::sleep_for(1ms);
 }

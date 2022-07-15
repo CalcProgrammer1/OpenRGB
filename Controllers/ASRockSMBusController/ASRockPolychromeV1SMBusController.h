@@ -9,6 +9,7 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus.h"
+#include "RGBController.h"
 #include <string>
 
 #pragma once
@@ -24,22 +25,22 @@ enum
     \*------------------------------------------------------------------------------------------*/
     POLYCHROME_V1_REG_FIRMWARE_VER          = 0x00,     /* Firmware version Major.Minor         */
     POLYCHROME_V1_REG_MODE                  = 0x30,     /* Mode selection register              */
-    POLYCHROME_V1_REG_LED_SELECT            = 0x31,     /* LED selection register               */
+    POLYCHROME_V1_REG_ZONE_SELECT           = 0x31,     /* Zone selection register              */
     POLYCHROME_V1_REG_SET_ALL               = 0x32,     /* Set All register 0x1 = set all       */
-    POLYCHROME_V1_REG_LED_CONFIG            = 0x33,     /* LED configuration register           */
-    POLYCHROME_V1_REG_ARGB_GRB              = 0x35,     /* ARGB bistream reversing register     */
+    POLYCHROME_V1_REG_ZONE_SIZE             = 0x33,     /* Zone size configuration register     */
+    POLYCHROME_V1_REG_ARGB_GRB              = 0x35,     /* ARGB bitstream reversing register    */
 };
 
 enum
 {
     POLYCHROME_V1_ZONE_1                    = 0x00,     /* RGB LED 1 Header                     */
     POLYCHROME_V1_ZONE_2                    = 0x01,     /* RGB LED 2 Header                     */
-    POLYCHROME_V1_ZONE_3                    = 0x02,     /* Audio/PCH Zone LEDs                  */
-    POLYCHROME_V1_ZONE_4                    = 0x03,     /* Audio/PCH Zone LEDs                  */
-    POLYCHROME_V1_ZONE_5                    = 0x04,     /* IO Cover Zone LEDs                   */
+    POLYCHROME_V1_ZONE_3                    = 0x02,     /* PCH Zone                             */
+    POLYCHROME_V1_ZONE_4                    = 0x03,     /* IO Cover Zone                        */
+    POLYCHROME_V1_ZONE_5                    = 0x04,     /* Audio Zone LEDs                      */
     POLYCHROME_V1_ZONE_ADDRESSABLE          = 0x05,     /* Addressable LED header               */
     POLYCHROME_V1_ZONE_COUNT                = 0x06,     /* Total number of zones                */
-    POLYCHROME_V1_ZONE_ADDRESSABLE_MAX      = 0x64,     /* Maxinum number of ARGB LEDs          */
+    POLYCHROME_V1_ZONE_ADDRESSABLE_MAX      = 0x64,     /* Maximum number of ARGB LEDs          */
 };
 
 /*----------------------------------------------------------------------------------------------*\
@@ -51,7 +52,7 @@ enum
 {
     POLYCHROME_V1_MODE_OFF                  = 0x10,     /* OFF mode                             */
     POLYCHROME_V1_MODE_STATIC               = 0x11,     /* Static color mode                    */
-    POLYCHROME_V1_MODE_BREATHING            = 0x12,     /* Breating effect mode                 */
+    POLYCHROME_V1_MODE_BREATHING            = 0x12,     /* Breathing effect mode                */
     POLYCHROME_V1_MODE_STROBE               = 0x13,     /* Strobe effect mode                   */
     POLYCHROME_V1_MODE_SPECTRUM_CYCLE       = 0x14,     /* Spectrum Cycle effect mode           */
     POLYCHROME_V1_MODE_RANDOM               = 0x15,     /* Random effect mode                   */
@@ -119,6 +120,13 @@ enum
     POLYCHROME_V1_SPEED_MAX_ARGB            = 0x02,     /* Fastest speed                        */
 };
 
+struct zone_cfg
+{
+    uint8_t     mode;
+    uint8_t     speed;
+    RGBColor    color;
+};
+
 class ASRockPolychromeV1SMBusController
 {
 public:
@@ -128,20 +136,24 @@ public:
     std::string             GetDeviceLocation();
     std::string             GetDeviceName();
     std::string             GetFirmwareVersion();
-    uint8_t                 GetMode();
+
+    uint8_t                 GetARGBColorOrder();
+    RGBColor                GetZoneColor(uint8_t zone);
+    uint8_t                 GetZoneMode(uint8_t zone);
+    void                    LoadZoneConfig();
+    void                    SetARGBColorOrder(bool value);
+    bool                    SetARGBSize(uint8_t led_count);
     void                    SetColorsAndSpeed(uint8_t led, uint8_t red, uint8_t green, uint8_t blue);
     void                    SetMode(uint8_t zone, uint8_t mode, uint8_t speed);
 
     uint8_t                 zone_led_count[6];
+    zone_cfg                zone_config[6];
     uint16_t                fw_version;
-    
+
 private:
     std::string             device_name;
-    uint8_t                 active_zone;
-    uint8_t                 active_mode;
-    uint8_t                 active_speed;
     i2c_smbus_interface*    bus;
     polychrome_dev_id       dev;
 
-    void                ReadLEDConfiguration();
+    void                    ReadLEDConfiguration();
 };

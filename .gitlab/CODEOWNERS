@@ -10,8 +10,8 @@ CODEOWNERS @Calcprogrammer1
 #-----------------------------------------------------------------------------#
 [Controllers]
 /Controllers/AMDWraithPrismController/
-/Controllers/ASRockPolychromeSMBusController/
 /Controllers/ASRockPolychromeUSBController/
+/Controllers/ASRockSMBusController/
 /Controllers/AlienwareController/
 /Controllers/AlienwareKeyboardController/
 /Controllers/AnnePro2Controller/
@@ -40,8 +40,8 @@ CODEOWNERS @Calcprogrammer1
 /Controllers/EKController/                                  @Dr_No
 /Controllers/ENESMBusController/
 /Controllers/EVGAAmpereGPUController/                       @TheRogueZeta
-/Controllers/EVGAGP102GPUController/                        
-/Controllers/EVGAPascalGPUController/                       
+/Controllers/EVGAGP102GPUController/
+/Controllers/EVGAPascalGPUController/
 /Controllers/EVGATuringGPUController/                       @TheRogueZeta
 /Controllers/EVGAUSBController/                             @Dr_No
 /Controllers/EVisionKeyboardController/
@@ -102,5 +102,7 @@ CODEOWNERS @Calcprogrammer1
 #   that is an exception to the above should be explicitly named here         #
 #-----------------------------------------------------------------------------#
 [Controllers]
-/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.cpp            @TheRogueZeta
-/Controllers/ASRockPolychromeSMBusController/ASRockPolychromeSMBusController.h              @TheRogueZeta
+/Controllers/ASRockSMBusController/ASRockPolychromeV1SMBusController.cpp          @TheRogueZeta
+/Controllers/ASRockSMBusController/ASRockPolychromeV1SMBusController.h            @TheRogueZeta
+/Controllers/ASRockSMBusController/RGBController_ASRockPolychromeV1SMBus.cpp      @TheRogueZeta
+/Controllers/ASRockSMBusController/RGBController_ASRockPolychromeV1SMBus.h        @TheRogueZeta

@@ -31,4 +31,6 @@ public:
 
 private:
     ASRockPolychromeV1SMBusController* controller;
+    uint8_t                 getModeIndex(uint8_t mode_value);
+    std::vector<uint8_t>    zoneIndexMap;
 };
