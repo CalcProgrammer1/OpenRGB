@@ -12,6 +12,16 @@ To create a merge request, log into GitLab and fork the OpenRGB project.  Push y
 * Follow the Style Guidelines below when making your code changes.
 * Avoid using `git merge` when updating your fork.  The OpenRGB project uses a linear git history, meaning all changes are rebased onto the tip of master.  By using `git rebase` to update your fork, you will make it easier to accept merge requests.
 
+### Pipelines, Shared Runners and Quotas
+
+Since mid 2022 Gitlab has limited the usage of shared runners to all projects and whilst quite geneorous quotas are allowed
+ for open source projects it is possible to exhaust them. With that in mind not all jobs within the pipeline build are
+ triggered to automatically run with every push to your branch with the exception of the Windows 64bit and Linux Appimage 64bit
+ jobs. If you need to test or share another build you can still start it manually from your pipeline queue.
+ Once a merge request is created all architectures and platforms will be compiled to ensure that they are ready to merge.
+
+Please refer to the following link for [further information relating to minutes and quotas](https://docs.gitlab.com/ee/ci/pipelines/cicd_minutes.html).
+
 ## Style Guidelines
 
 OpenRGB is written in C++, uses the Qt framework for UI, and uses the QMake build system.  While OpenRGB does use C++, I am primarily a C programmer and prefer doing things "C Style" vs. C++ style.  C++'s object oriented programming features fit the needs of a program such as OpenRGB where there are many implementations of a single interface so I chose to write it in C++ over C.  Still, however, I prefer using C-style code where possible.  When making changes to existing code files, try to follow the existing style.  Merge requests that go out of their way to restyle code will not be accepted and will be sent back for rework.

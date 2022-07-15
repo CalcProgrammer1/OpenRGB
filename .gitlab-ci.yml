@@ -71,6 +71,13 @@ before_script:
     - README.md
     expire_in: 30 days
 
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 64-bit Build Target                                  #
 #-----------------------------------------------------------------------#
@@ -111,6 +118,13 @@ before_script:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
 
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Buster (Legacy) 64-bit Build Target               #
 #-----------------------------------------------------------------------#
@@ -131,6 +145,13 @@ before_script:
     exclude:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
+
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bullseye 32-bit Build Target                      #
@@ -153,6 +174,13 @@ before_script:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
 
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bullseye 64-bit Build Target                      #
 #-----------------------------------------------------------------------#
@@ -174,6 +202,12 @@ before_script:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
 
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm 32-bit Build Target                      #
@@ -196,6 +230,13 @@ before_script:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
 
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm 64-bit Build Target                      #
 #-----------------------------------------------------------------------#
@@ -216,6 +257,13 @@ before_script:
     exclude:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
+
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
 
 #-----------------------------------------------------------------------#
 # Linux (.rpm, f35) 64-bit Build Target                                 #
@@ -244,6 +292,13 @@ before_script:
     - openrgb*.rpm
     expire_in: 30 days
 
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
 #-----------------------------------------------------------------------#
 # Linux (.rpm, f36) 64-bit Build Target                                 #
 #-----------------------------------------------------------------------#
@@ -270,6 +325,13 @@ before_script:
     paths:
     - openrgb*.rpm
     expire_in: 30 days
+
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
 
 #-----------------------------------------------------------------------#
 # Debian 32 Buster test                                                 #
@@ -529,6 +591,13 @@ before_script:
     - 'OpenRGB Windows 32-bit'
     expire_in: 30 days
 
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
 #-----------------------------------------------------------------------#
 # Windows (64-bit) Build Target                                         #
 #-----------------------------------------------------------------------#
@@ -626,6 +695,9 @@ before_script:
     when: on_success
   - if: '$BUILD_MACOS =~ /.+/'
     when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
 
 "MacOS Intel":
   tags:
@@ -648,3 +720,6 @@ before_script:
     when: on_success
   - if: '$BUILD_MACOS =~ /.+/'
     when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
