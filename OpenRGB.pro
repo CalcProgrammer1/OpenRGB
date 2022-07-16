@@ -531,7 +531,6 @@ HEADERS +=                                                                      
     Controllers/SinowealthController/RGBController_SinowealthKeyboard.h                         \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard16.h                       \
     Controllers/SonyGamepadController/SonyDualSenseController.h                                 \
-    Controllers/SonyGamepadController/SonyDualSenseControllerDetect.h                           \
     Controllers/SonyGamepadController/RGBController_SonyDualSense.h                             \
     Controllers/SonyGamepadController/SonyDS4Controller.h                                       \
     Controllers/SonyGamepadController/RGBController_SonyDS4.h                                   \
