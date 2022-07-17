@@ -97,23 +97,7 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     ui->CheckboxAMDSMBusReduceCPU->hide();
 #endif
 
-    /*---------------------------------------------------------*\
-    | Load AutoStart settings                                   |
-    \*---------------------------------------------------------*/
-    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
-
-    /*---------------------------------------------------------*\
-    | Load profiles into combo box                              |
-    \*---------------------------------------------------------*/
-    if(profile_manager != NULL)
-    {
-        ui->ComboBoxAutoStartProfile->clear();
-
-        for(std::size_t profile_index = 0; profile_index < profile_manager->profile_list.size(); profile_index++)
-        {
-            ui->ComboBoxAutoStartProfile->addItem(profile_manager->profile_list[profile_index].c_str());
-        }
-    }
+    UpdateProfiles();
 
     /*---------------------------------------------------------*\
     | Make sure autostart settings exist                        |
@@ -158,6 +142,88 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
 OpenRGBSettingsPage::~OpenRGBSettingsPage()
 {
     delete ui;
+}
+
+void OpenRGBSettingsPage::UpdateProfiles()
+{
+    /*---------------------------------------------------------*\
+    | Load AutoStart settings                                   |
+    \*---------------------------------------------------------*/
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+
+    /*---------------------------------------------------------*\
+    | Load profiles into combo box                              |
+    \*---------------------------------------------------------*/
+    if(profile_manager != NULL)
+    {
+        ui->ComboBoxAutoStartProfile->blockSignals(true);
+        ui->ComboBoxExitProfile->blockSignals(true);
+
+        ui->ComboBoxAutoStartProfile->clear();
+        ui->ComboBoxExitProfile->clear();
+
+        for(std::size_t profile_index = 0; profile_index < profile_manager->profile_list.size(); profile_index++)
+        {
+            QString new_profile = QString(profile_manager->profile_list[profile_index].c_str());
+
+            ui->ComboBoxAutoStartProfile->addItem(new_profile);
+            ui->ComboBoxExitProfile->addItem(new_profile);
+        }
+
+        ui->ComboBoxAutoStartProfile->blockSignals(false);
+        ui->ComboBoxExitProfile->blockSignals(false);
+    }
+
+    /*---------------------------------------------------------*\
+    | Load user interface settings                              |
+    \*---------------------------------------------------------*/
+    json autostart_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("AutoStart");
+
+    if(autostart_settings.contains("profile"))
+    {
+        /*-----------------------------------------------------*\
+        | Set the profile name from settings and check the      |
+        |   profile combobox for a match                        |
+        \*-----------------------------------------------------*/
+        std::string profile_name    = autostart_settings["profile"].get<std::string>();
+        int profile_index           = ui->ComboBoxAutoStartProfile->findText(QString::fromStdString(profile_name));
+
+        if(profile_index > -1)
+        {
+            ui->ComboBoxAutoStartProfile->setCurrentIndex(profile_index);
+        }
+    }
+
+    /*---------------------------------------------------------*\
+    | Load user interface settings                              |
+    \*---------------------------------------------------------*/
+    json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+
+    if(ui_settings.contains("exit_profile"))
+    {
+        if(ui_settings["exit_profile"].contains("set_on_exit"))
+        {
+            bool is_set_on_exit = ui_settings["exit_profile"]["set_on_exit"];
+
+            ui->CheckboxSetOnExit->setChecked(is_set_on_exit);
+            ui->ComboBoxExitProfile->setEnabled(is_set_on_exit);
+        }
+
+        if(ui_settings["exit_profile"].contains("profile_name"))
+        {
+            /*-----------------------------------------------------*\
+            | Set the profile name from settings and check the      |
+            |   profile combobox for a match                        |
+            \*-----------------------------------------------------*/
+            std::string profile_name    = ui_settings["exit_profile"]["profile_name"].get<std::string>();
+            int profile_index           = ui->ComboBoxExitProfile->findText(QString::fromStdString(profile_name));
+
+            if(profile_index > -1)
+            {
+                ui->ComboBoxExitProfile->setCurrentIndex(profile_index);
+            }
+        }
+    }
 }
 
 void OpenRGBSettingsPage::on_ComboBoxTheme_currentTextChanged(const QString theme)
@@ -211,6 +277,25 @@ void Ui::OpenRGBSettingsPage::on_CheckboxRunZoneChecks_clicked()
 {
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
     ui_settings["RunZoneChecks"] = ui->CheckboxRunZoneChecks->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
+
+void Ui::OpenRGBSettingsPage::on_CheckboxSetOnExit_clicked(bool checked)
+{
+    json ui_settings                            = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    ui_settings["exit_profile"]["set_on_exit"]  = checked;
+    ui_settings["exit_profile"]["profile_name"] = ui->ComboBoxExitProfile->currentText().toStdString();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+
+    ui->ComboBoxExitProfile->setEnabled(checked);
+}
+
+void Ui::OpenRGBSettingsPage::on_ComboBoxExitProfile_currentTextChanged(const QString exit_profile_name)
+{
+    json ui_settings                            = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    ui_settings["exit_profile"]["profile_name"] = exit_profile_name.toStdString();
     ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
     SaveSettings();
 }

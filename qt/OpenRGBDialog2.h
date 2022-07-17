@@ -62,6 +62,9 @@ public:
 
     bool DontShowAgain;
 
+signals:
+    void ProfileListChanged();
+
 public slots:
     void SetTrayIcon(bool tray_icon);
 
@@ -116,6 +119,7 @@ private:
     void UpdateDevicesList();
     void UpdateProfileList();
     void closeEvent(QCloseEvent *event);
+    void LoadExitProfile();
 
     void SetDetectionViewState(bool detection_showing);
     void SaveProfile();

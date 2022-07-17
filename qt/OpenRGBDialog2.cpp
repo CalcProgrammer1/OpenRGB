@@ -228,6 +228,22 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     }
 
     /*-----------------------------------------------------*\
+    | If set_on_exit doesn't exist, write it to config      |
+    \*-----------------------------------------------------*/
+    if(!ui_settings.contains("exit_profile"))
+    {
+        json on_exit_settings;
+
+        on_exit_settings["set_on_exit"]     = false;
+        on_exit_settings["profile_name"]    = "";
+
+        ui_settings["exit_profile"]         = on_exit_settings;
+
+        settings_manager->SetSettings(ui_string, ui_settings);
+        settings_manager->SaveSettings();
+    }
+
+    /*-----------------------------------------------------*\
     | Register detection progress callback with resource    |
     | manager                                               |
     \*-----------------------------------------------------*/
@@ -527,8 +543,47 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
     else
     {
         plugin_manager->UnloadPlugins();
+        LoadExitProfile();
         event->accept();
         QApplication::exit(0);
+    }
+}
+
+void OpenRGBDialog2::LoadExitProfile()
+{
+    /*-----------------------------------------------------*\
+    | Set Exit Profile (if enabled and valid)               |
+    \*-----------------------------------------------------*/
+    const std::string exit_profile          = "exit_profile";
+    const std::string set_on_exit           = "set_on_exit";
+    const std::string profile_name          = "profile_name";
+    json  ui_settings                       = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+
+    if(ui_settings.contains(exit_profile))
+    {
+        if( ui_settings[exit_profile].contains(set_on_exit)
+         && ui_settings[exit_profile].contains(profile_name) )
+        {
+            if(ui_settings[exit_profile][set_on_exit].get<bool>())
+            {
+                /*-----------------------------------------------------*\
+                | Set the profile name from settings and check the      |
+                |   profile combobox for a match                        |
+                \*-----------------------------------------------------*/
+                std::string profile         = ui_settings[exit_profile][profile_name].get<std::string>();
+                int profile_index           = ui->ProfileBox->findText(QString::fromStdString(profile));
+
+                if(profile_index > -1)
+                {
+                    ui->ProfileBox->setCurrentIndex(profile_index);
+                    on_ButtonLoadProfile_clicked();
+                    /*-----------------------------------------------------*\
+                    | Pause briefly to ensure that all profiles are loaded. |
+                    \*-----------------------------------------------------*/
+                    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+                }
+            }
+        }
     }
 }
 
@@ -648,6 +703,7 @@ void OpenRGBDialog2::AddSettingsPage()
     | Connect signals to slots                              |
     \*-----------------------------------------------------*/
     connect(SettingsPage, SIGNAL(TrayIconChanged(bool)), this, SLOT(SetTrayIcon(bool)));
+    connect(this, SIGNAL(ProfileListChanged()), SettingsPage, SLOT(UpdateProfiles()));
 }
 
 void OpenRGBDialog2::AddE131SettingsPage()
@@ -1343,6 +1399,8 @@ void OpenRGBDialog2::UpdateProfileList()
             profileMenu->addAction(actionProfileSelected);
         }
     }
+
+    emit ProfileListChanged();
 }
 
 void OpenRGBDialog2::on_Exit()
