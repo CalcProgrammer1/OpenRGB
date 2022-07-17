@@ -114,6 +114,9 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     /*---------------------------------------------------------*\
     | Text boxes                                                |
     \*---------------------------------------------------------*/
+    ui->TextServerHost->setText(QString::fromStdString(autostart_settings["host"]));
+    ui->TextServerHost->setEnabled(autostart_settings["setserverhost"]);
+
     ui->TextServerPort->setText(QString::fromStdString(autostart_settings["port"]));
     ui->TextServerPort->setEnabled(autostart_settings["setserverport"]);
 
@@ -132,6 +135,7 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     ui->CheckboxAutoStartMinimized->setChecked(autostart_settings["setminimized"]);
     ui->CheckboxAutoStartClient->setChecked(autostart_settings["setclient"]);
     ui->CheckboxAutoStartServer->setChecked(autostart_settings["setserver"]);
+    ui->CheckboxAutoStartSetServerHost->setChecked(autostart_settings["setserverhost"]);
     ui->CheckboxAutoStartSetServerPort->setChecked(autostart_settings["setserverport"]);
     ui->CheckboxAutoStartCustom->setChecked(autostart_settings["setcustom"]);
 
@@ -331,6 +335,12 @@ void Ui::OpenRGBSettingsPage::on_CheckboxAutoStartServer_clicked()
     SaveAutoStartSetting("setserver", ui->CheckboxAutoStartServer->isChecked());
 }
 
+void Ui::OpenRGBSettingsPage::on_CheckboxAutoStartSetServerHost_clicked()
+{
+    SaveAutoStartSetting("setserverhost", ui->CheckboxAutoStartSetServerHost->isChecked());
+    ui->TextServerHost->setEnabled(ui->CheckboxAutoStartSetServerHost->isChecked());
+}
+
 void Ui::OpenRGBSettingsPage::on_CheckboxAutoStartSetServerPort_clicked()
 {
     SaveAutoStartSetting("setserverport", ui->CheckboxAutoStartSetServerPort->isChecked());
@@ -353,6 +363,11 @@ void Ui::OpenRGBSettingsPage::on_CheckboxAutoStartCustom_clicked()
 {
     SaveAutoStartSetting("setcustom", ui->CheckboxAutoStartCustom->isChecked());
     ui->TextCustomArgs->setEnabled(ui->CheckboxAutoStartCustom->isChecked());
+}
+
+void Ui::OpenRGBSettingsPage::on_TextServerHost_textChanged(QString host)
+{
+    SaveAutoStartSetting("host", host);
 }
 
 void Ui::OpenRGBSettingsPage::on_TextServerPort_textChanged(QString port)
@@ -411,9 +426,11 @@ void OpenRGBSettingsPage::SetAutoStartVisibility(bool visible)
         ui->CheckboxAutoStartMinimized->hide();
         ui->CheckboxAutoStartProfile->hide();
         ui->CheckboxAutoStartServer->hide();
+        ui->CheckboxAutoStartSetServerHost->hide();
         ui->CheckboxAutoStartSetServerPort->hide();
         ui->TextCustomArgs->hide();
         ui->TextClientHost->hide();
+        ui->TextServerHost->hide();
         ui->TextServerPort->hide();
         ui->AutoStartStatusLabel->hide();
     }
@@ -425,9 +442,11 @@ void OpenRGBSettingsPage::SetAutoStartVisibility(bool visible)
         ui->CheckboxAutoStartMinimized->show();
         ui->CheckboxAutoStartProfile->show();
         ui->CheckboxAutoStartServer->show();
+        ui->CheckboxAutoStartSetServerHost->show();
         ui->CheckboxAutoStartSetServerPort->show();
         ui->TextCustomArgs->show();
         ui->TextClientHost->show();
+        ui->TextServerHost->show();
         ui->TextServerPort->show();
         ui->AutoStartStatusLabel->show();
     }
@@ -438,6 +457,7 @@ void OpenRGBSettingsPage::ConfigureAutoStart()
     std::map<std::string, std::tuple<std::string, std::string, bool>> autostart_map = {
         {"setminimized", {"--startminimized","",false}},
         {"setserver", {"--server","",false}},
+        {"setserverhost", {"--server-host","host",false}},
         {"setserverport", {"--server-port","port",false}},
         {"setclient", {"--client","client",false}},
         {"setprofile", {"--profile","profile",true}},
@@ -533,6 +553,7 @@ void OpenRGBSettingsPage::CreateAutoStartSettings()
 {
     std::map<std::string, std::string> autostart_default_map_string = {
         {"custom", ""},
+        {"host", "0.0.0.0"},
         {"port", "6742"},
         {"client","localhost:6742"},
         {"profile",ui->ComboBoxAutoStartProfile->count() > 0 ? ui->ComboBoxAutoStartProfile->itemText(0).toStdString(): ""}
@@ -543,6 +564,7 @@ void OpenRGBSettingsPage::CreateAutoStartSettings()
         {"setminimized", false},
         {"setclient", false},
         {"setserver", false},
+        {"setserverhost", false},
         {"setserverport", false},
         {"setcustom", false},
         {"setprofile", false},

@@ -30,6 +30,7 @@ OpenRGBServerInfoPage::~OpenRGBServerInfoPage()
 
 void OpenRGBServerInfoPage::UpdateInfo()
 {
+    ui->ServerHostValue->setText(network_server->GetHost().c_str());
     ui->ServerPortValue->setText(std::to_string(network_server->GetPort()).c_str());
 
     if(network_server->GetListening() && !network_server->GetOnline())
@@ -37,6 +38,7 @@ void OpenRGBServerInfoPage::UpdateInfo()
         ui->ServerStatusValue->setText(tr("Stopping..."));
         ui->ServerStartButton->setEnabled(false);
         ui->ServerStopButton->setEnabled(false);
+        ui->ServerHostValue->setEnabled(false);
         ui->ServerPortValue->setEnabled(false);
     }
     else if(network_server->GetListening())
@@ -44,6 +46,7 @@ void OpenRGBServerInfoPage::UpdateInfo()
         ui->ServerStatusValue->setText(tr("Online"));
         ui->ServerStartButton->setEnabled(false);
         ui->ServerStopButton->setEnabled(true);
+        ui->ServerHostValue->setEnabled(false);
         ui->ServerPortValue->setEnabled(false);
     }
     else
@@ -51,6 +54,7 @@ void OpenRGBServerInfoPage::UpdateInfo()
         ui->ServerStatusValue->setText(tr("Offline"));
         ui->ServerStartButton->setEnabled(true);
         ui->ServerStopButton->setEnabled(false);
+        ui->ServerHostValue->setEnabled(true);
         ui->ServerPortValue->setEnabled(true);
     }
 
@@ -73,6 +77,7 @@ void Ui::OpenRGBServerInfoPage::on_ServerStartButton_clicked()
 {
     if(network_server->GetOnline() == false)
     {
+        network_server->SetHost(ui->ServerHostValue->text().toStdString());
         network_server->SetPort(ui->ServerPortValue->text().toInt());
         network_server->StartServer();
 

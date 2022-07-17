@@ -993,6 +993,7 @@ unsigned int cli_pre_detection(int argc, char *argv[])
     int             arg_index    = 1;
     unsigned int    cfg_args     = 0;
     unsigned int    ret_flags    = 0;
+    std::string     server_host  = OPENRGB_SDK_HOST;
     unsigned short  server_port  = OPENRGB_SDK_PORT;
     bool            server_start = false;
     bool            print_help   = false;
@@ -1144,6 +1145,27 @@ unsigned int cli_pre_detection(int argc, char *argv[])
             else
             {
                 std::cout << "Error: Missing argument for --server-port" << std::endl;
+                print_help = true;
+                break;
+            }
+            cfg_args++;
+            arg_index++;
+        }
+        /*---------------------------------------------------------*\
+        | --server-host                                             |
+        \*---------------------------------------------------------*/
+        else if(option == "--server-host")
+        {
+            if (argument != "")
+            {
+                std::string host = argument;
+
+                server_host  = host;
+                server_start = true;
+            }
+            else
+            {
+                std::cout << "Error: Missing argument for --server-host" << std::endl;
                 print_help = true;
                 break;
             }
@@ -1382,7 +1404,9 @@ unsigned int cli_pre_detection(int argc, char *argv[])
 
     if(server_start)
     {
-        ResourceManager::get()->GetServer()->SetPort(server_port);
+        NetworkServer * server = ResourceManager::get()->GetServer();
+        server->SetHost(server_host);
+        server->SetPort(server_port);
         ret_flags |= RET_FLAG_START_SERVER;
     }
 

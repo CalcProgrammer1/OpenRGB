@@ -26,7 +26,7 @@ public:
     void            ClientInfoChanged();
 
     bool            GetConnected();
-    const char *    GetIP();
+    std::string     GetIP();
     unsigned short  GetPort();
     unsigned int    GetProtocolVersion();
     bool            GetOnline();
@@ -34,8 +34,8 @@ public:
     void            ClearCallbacks();
     void            RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
 
-    void            SetIP(const char *new_ip);
-    void            SetName(const char *new_name);
+    void            SetIP(std::string new_ip);
+    void            SetName(std::string new_name);
     void            SetPort(unsigned short new_port);
 
     void            StartClient();
@@ -89,7 +89,7 @@ private:
     SOCKET          client_sock;
     std::string     client_name;
     net_port        port;
-    char            port_ip[20];
+    std::string     port_ip;
     unsigned short  port_num;
     bool            client_active;
     bool            controller_data_received;

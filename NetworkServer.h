@@ -17,6 +17,7 @@
 
 #pragma once
 
+#define MAXSOCK 32
 #define TCP_TIMEOUT_SECONDS 5
 
 typedef void (*NetServerCallback)(void *);
@@ -31,7 +32,7 @@ public:
     std::thread *   client_listen_thread;
     std::string     client_string;
     unsigned int    client_protocol_version;
-    char            client_ip[INET_ADDRSTRLEN];
+    std::string     client_ip;
 };
 
 class NetworkServer
@@ -40,6 +41,7 @@ public:
     NetworkServer(std::vector<RGBController *>& control);
     ~NetworkServer();
 
+    std::string                         GetHost();
     unsigned short                      GetPort();
     bool                                GetOnline();
     bool                                GetListening();
@@ -55,12 +57,13 @@ public:
     void                                ServerListeningChanged();
     void                                RegisterServerListeningChangeCallback(NetServerCallback, void * new_callback_arg);
 
+    void                                SetHost(std::string host);
     void                                SetPort(unsigned short new_port);
 
     void                                StartServer();
     void                                StopServer();
 
-    void                                ConnectionThreadFunction();
+    void                                ConnectionThreadFunction(int socket_idx);
     void                                ListenThreadFunction(NetworkClientInfo * client_sock);
 
     void                                ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data);
@@ -76,6 +79,7 @@ public:
     void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
 
 protected:
+    std::string                         host;
     unsigned short                      port_num;
     bool                                server_online;
     bool                                server_listening;
@@ -84,7 +88,7 @@ protected:
 
     std::mutex                          ServerClientsMutex;
     std::vector<NetworkClientInfo *>    ServerClients;
-    std::thread *                       ConnectionThread;
+    std::thread *                       ConnectionThread[MAXSOCK];
 
     std::mutex                          ClientInfoChangeMutex;
     std::vector<NetServerCallback>      ClientInfoChangeCallbacks;
@@ -101,8 +105,9 @@ private:
     WSADATA     wsa;
 #endif
 
-    SOCKET          server_sock;
+    int             socket_count;
+    SOCKET          server_sock[MAXSOCK];
 
-    int             accept_select(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+    int             accept_select(int sockfd);
     int             recv_select(SOCKET s, char *buf, int len, int flags);
 };

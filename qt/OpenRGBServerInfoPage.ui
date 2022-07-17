@@ -14,17 +14,62 @@
    <string>Server info page</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="3">
+   <item row="2" column="3">
     <widget class="QPushButton" name="ServerStopButton">
      <property name="text">
       <string>Stop Server</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="ServerPortLabel">
      <property name="text">
       <string>Server Port:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="ServerClientsLabel">
+     <property name="text">
+      <string>Connected Clients:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="4">
+    <widget class="QTreeWidget" name="ServerClientTree">
+     <property name="columnCount">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="ServerPortValue">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="ServerStatusLabel">
+     <property name="text">
+      <string>Server Status:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QPushButton" name="ServerStartButton">
+     <property name="text">
+      <string>Start Server</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="ServerStatusValue">
+     <property name="text">
+      <string>Offline</string>
      </property>
     </widget>
    </item>
@@ -41,48 +86,20 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="3">
-    <widget class="QPushButton" name="ServerStartButton">
+   <item row="1" column="0">
+    <widget class="QLabel" name="ServerHostLabel">
      <property name="text">
-      <string>Start Server</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="4">
-    <widget class="QTreeWidget" name="ServerClientTree">
-     <property name="columnCount">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="ServerStatusLabel">
-     <property name="text">
-      <string>Server Status:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="ServerStatusValue">
-     <property name="text">
-      <string>Offline</string>
+      <string>Server Host:</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="ServerPortValue">
+    <widget class="QLineEdit" name="ServerHostValue">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="ServerClientsLabel">
-     <property name="text">
-      <string>Connected Clients:</string>
      </property>
     </widget>
    </item>

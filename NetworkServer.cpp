@@ -35,8 +35,11 @@ using namespace std::chrono_literals;
 
 NetworkClientInfo::NetworkClientInfo()
 {
-    client_sock          = INVALID_SOCKET;
-    client_listen_thread = nullptr;
+    client_string           = "Client";
+    client_ip               = OPENRGB_SDK_HOST;
+    client_sock             = INVALID_SOCKET;
+    client_listen_thread    = nullptr;
+    client_protocol_version = 0;
 }
 
 NetworkClientInfo::~NetworkClientInfo()
@@ -52,10 +55,14 @@ NetworkClientInfo::~NetworkClientInfo()
 
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
+    host             = OPENRGB_SDK_HOST;
     port_num         = OPENRGB_SDK_PORT;
     server_online    = false;
     server_listening = false;
-    ConnectionThread = nullptr;
+    for(int i = 0; i < MAXSOCK; i++)
+    {
+        ConnectionThread[i] = nullptr;
+    }
     profile_manager  = nullptr;
 }
 
@@ -106,6 +113,11 @@ void NetworkServer::ServerListeningChanged()
     ServerListeningChangeMutex.unlock();
 }
 
+std::string NetworkServer::GetHost()
+{
+    return host;
+}
+
 unsigned short NetworkServer::GetPort()
 {
     return port_num;
@@ -154,7 +166,7 @@ const char * NetworkServer::GetClientIP(unsigned int client_num)
 
     if(client_num < ServerClients.size())
     {
-        result = ServerClients[client_num]->client_ip;
+        result = ServerClients[client_num]->client_ip.c_str();
     }
     else
     {
@@ -198,6 +210,14 @@ void NetworkServer::RegisterServerListeningChangeCallback(NetServerCallback new_
     ServerListeningChangeCallbackArgs.push_back(new_callback_arg);
 }
 
+void NetworkServer::SetHost(std::string new_host)
+{
+    if(server_online == false)
+    {
+        host = new_host;
+    }
+}
+
 void NetworkServer::SetPort(unsigned short new_port)
 {
     if(server_online == false)
@@ -208,92 +228,112 @@ void NetworkServer::SetPort(unsigned short new_port)
 
 void NetworkServer::StartServer()
 {
+    int err;
+    struct addrinfo hints, *res, *result;
     //Start a TCP server and launch threads
     char port_str[6];
     snprintf(port_str, 6, "%d", port_num);
 
-    sockaddr_in myAddress;
+    socket_count = 0;
 
     /*-------------------------------------------------*\
     | Windows requires WSAStartup before using sockets  |
     \*-------------------------------------------------*/
 #ifdef WIN32
-    if (WSAStartup(MAKEWORD(2, 2), &wsa) != NO_ERROR)
+    if(WSAStartup(MAKEWORD(2, 2), &wsa) != NO_ERROR)
     {
         WSACleanup();
         return;
     }
 #endif
 
-    /*-------------------------------------------------*\
-    | Create the server socket                          |
-    \*-------------------------------------------------*/
-    server_sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_sock == INVALID_SOCKET)
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+    err = getaddrinfo(host.c_str(), port_str, &hints, &result);
+
+    if(err)
     {
-        printf("Error: network socket could not be created\n");
+        printf("Error: Unable to get address.\n");
         WSACleanup();
         return;
     }
 
     /*-------------------------------------------------*\
-    | Fill in server address info with port value       |
+    | Create a server socket for each address returned. |
     \*-------------------------------------------------*/
-    myAddress.sin_family = AF_INET;
-    myAddress.sin_addr.s_addr = inet_addr("0.0.0.0");
-    myAddress.sin_port = htons(atoi(port_str));
-
-    /*-------------------------------------------------*\
-    | Bind the server socket                            |
-    \*-------------------------------------------------*/
-    if (bind(server_sock, (sockaddr*)&myAddress, sizeof(myAddress)) == SOCKET_ERROR)
+    for(res = result; res && socket_count < MAXSOCK; res = res->ai_next)
     {
-        if(errno == EADDRINUSE)
+        server_sock[socket_count] = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+        
+        if(server_sock[socket_count] == INVALID_SOCKET)
         {
-            printf("Error: Could not bind network socket \nIs port %hu already being used?\n", GetPort());
-        }
-        else if(errno == EACCES)
-        {
-            printf("Error: Access to socket was denied.\n");
-        }
-        else if(errno == EBADF)
-        {
-            printf("Error: sockfd is not a valid file descriptor.\n");
-        }
-        else if(errno == EINVAL)
-        {
-            printf("Error: The socket is already bound to an address, or addrlen is wrong, or addr is not a valid address for this socket's domain..\n");
-        }
-        else if(errno == ENOTSOCK)
-        {
-            printf("Error: The file descriptor sockfd does not refer to a socket.\n");
-        }
-        else
-        {
-            // could be a linux specific error
-            // https://man7.org/linux/man-pages/man2/bind.2.html
-            printf("Error: Could not bind network socket, error code:%d\n", errno);
+            printf("Error: network socket could not be created\n");
+            WSACleanup();
+            return;
         }
 
-        WSACleanup();
-        return;
+        /*-------------------------------------------------*\
+        | Bind the server socket                            |
+        \*-------------------------------------------------*/
+        if(bind(server_sock[socket_count], res->ai_addr, res->ai_addrlen) == SOCKET_ERROR)
+        {
+            if(errno == EADDRINUSE)
+            {
+                printf("Error: Could not bind network socket \nIs port %hu already being used?\n", GetPort());
+            }
+            else if(errno == EACCES)
+            {
+                printf("Error: Access to socket was denied.\n");
+            }
+            else if(errno == EBADF)
+            {
+                printf("Error: sockfd is not a valid file descriptor.\n");
+            }
+            else if(errno == EINVAL)
+            {
+                printf("Error: The socket is already bound to an address, or addrlen is wrong, or addr is not a valid address for this socket's domain..\n");
+            }
+            else if(errno == ENOTSOCK)
+            {
+                printf("Error: The file descriptor sockfd does not refer to a socket.\n");
+            }
+            else
+            {
+                // could be a linux specific error
+                // https://man7.org/linux/man-pages/man2/bind.2.html
+                printf("Error: Could not bind network socket, error code:%d\n", errno);
+            }
+
+            WSACleanup();
+            return;
+        }
+
+        /*-------------------------------------------------*\
+        | Set socket options - no delay                     |
+        \*-------------------------------------------------*/
+        setsockopt(server_sock[socket_count], IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
+
+        socket_count += 1;
     }
 
-    /*-------------------------------------------------*\
-    | Set socket options - no delay                     |
-    \*-------------------------------------------------*/
-    setsockopt(server_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
-
+    freeaddrinfo(result);
     server_online = true;
+    
     /*-------------------------------------------------*\
     | Start the connection thread                       |
     \*-------------------------------------------------*/
-    ConnectionThread = new std::thread(&NetworkServer::ConnectionThreadFunction, this);
-    ConnectionThread->detach();
+    for(int curr_socket = 0; curr_socket < socket_count; curr_socket++)
+    {
+        ConnectionThread[curr_socket] = new std::thread(&NetworkServer::ConnectionThreadFunction, this, curr_socket);
+        ConnectionThread[curr_socket]->detach();
+    }
 }
 
 void NetworkServer::StopServer()
 {
+    int curr_socket;
     server_online = false;
 
     ServerClientsMutex.lock();
@@ -305,16 +345,24 @@ void NetworkServer::StopServer()
 
     ServerClients.clear();
 
-    shutdown(server_sock, SD_RECEIVE);
-    closesocket(server_sock);
+    for(curr_socket = 0; curr_socket < socket_count; curr_socket++)
+    {
+        shutdown(server_sock[curr_socket], SD_RECEIVE);
+        closesocket(server_sock[curr_socket]);
+    }
 
     ServerClientsMutex.unlock();
 
-    if(ConnectionThread)
+    for(curr_socket = 0; curr_socket < socket_count; curr_socket++)
     {
-        delete ConnectionThread;
-        ConnectionThread = nullptr;
+        if(ConnectionThread[curr_socket])
+        {
+            delete ConnectionThread[curr_socket];
+            ConnectionThread[curr_socket] = nullptr;
+        }
     }
+
+    socket_count = 0;
 
     /*-------------------------------------------------*\
     | Client info has changed, call the callbacks       |
@@ -322,7 +370,7 @@ void NetworkServer::StopServer()
     ClientInfoChanged();
 }
 
-void NetworkServer::ConnectionThreadFunction()
+void NetworkServer::ConnectionThreadFunction(int socket_idx)
 {
     //This thread handles client connections
 
@@ -339,7 +387,7 @@ void NetworkServer::ConnectionThreadFunction()
         | server socket.  This call blocks until a          |
         | connection is established                         |
         \*-------------------------------------------------*/
-        if(listen(server_sock, 10) < 0)
+        if(listen(server_sock[socket_idx], 10) < 0)
         {
             printf("Connection thread closed\r\n");
             server_online = false;
@@ -353,9 +401,7 @@ void NetworkServer::ConnectionThreadFunction()
         /*-------------------------------------------------*\
         | Accept the client connection                      |
         \*-------------------------------------------------*/
-        struct sockaddr_in client_addr;
-        socklen_t          client_addr_len = sizeof(client_addr);
-        client_info->client_sock = accept_select(server_sock, (struct sockaddr *)&client_addr, &client_addr_len);
+        client_info->client_sock = accept_select(server_sock[socket_idx]);
 
         if(client_info->client_sock < 0)
         {
@@ -376,9 +422,27 @@ void NetworkServer::ConnectionThreadFunction()
         ioctlsocket(client_info->client_sock, FIONBIO, &arg);
         setsockopt(client_info->client_sock, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes));
 
-        inet_ntop(AF_INET, &client_addr.sin_addr, client_info->client_ip, INET_ADDRSTRLEN);
-
-        client_info->client_string = "Client";
+        /*-------------------------------------------------*\
+        | Discover the remote hosts IP                      |
+        \*-------------------------------------------------*/
+        struct sockaddr_storage tmp_addr;
+        char ipstr[INET6_ADDRSTRLEN];
+        socklen_t len;
+        len = sizeof(tmp_addr);
+        getpeername(client_info->client_sock, (struct sockaddr*)&tmp_addr, &len);
+        
+        if(tmp_addr.ss_family == AF_INET)
+        {
+            struct sockaddr_in *s_4 = (struct sockaddr_in *)&tmp_addr;
+            inet_ntop(AF_INET, &s_4->sin_addr, ipstr, sizeof(ipstr));
+            client_info->client_ip = ipstr;
+        }
+        else
+        {
+            struct sockaddr_in6 *s_6 = (struct sockaddr_in6 *)&tmp_addr;
+            inet_ntop(AF_INET6, &s_6->sin6_addr, ipstr, sizeof(ipstr));
+            client_info->client_ip = ipstr;
+        }
 
         /* We need to lock before the thread could possibly finish */
         ServerClientsMutex.lock();
@@ -402,7 +466,7 @@ void NetworkServer::ConnectionThreadFunction()
     ServerListeningChanged();
 }
 
-int NetworkServer::accept_select(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+int NetworkServer::accept_select(int sockfd)
 {
     fd_set              set;
     struct timeval      timeout;
@@ -428,7 +492,7 @@ int NetworkServer::accept_select(int sockfd, struct sockaddr *addr, socklen_t *a
         else
         {
             // socket has something to read
-            return(accept(sockfd, addr, addrlen));
+            return(accept(sockfd, NULL, NULL));
         }
     }
 }

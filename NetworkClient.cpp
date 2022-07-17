@@ -29,7 +29,7 @@ using namespace std::chrono_literals;
 
 NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
 {
-    strcpy(port_ip, "127.0.0.1");
+    port_ip                 = "127.0.0.1";
     port_num                = OPENRGB_SDK_PORT;
     client_sock             = -1;
     server_connected        = false;
@@ -68,9 +68,9 @@ void NetworkClient::ClientInfoChanged()
     ClientInfoChangeMutex.unlock();
 }
 
-const char * NetworkClient::GetIP()
+std::string NetworkClient::GetIP()
 {
-    return(port_ip);
+    return port_ip;
 }
 
 unsigned short NetworkClient::GetPort()
@@ -110,15 +110,15 @@ void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callb
     ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
 }
 
-void NetworkClient::SetIP(const char *new_ip)
+void NetworkClient::SetIP(std::string new_ip)
 {
     if(server_connected == false)
     {
-        strcpy(port_ip, new_ip);
+        port_ip = new_ip;
     }
 }
 
-void NetworkClient::SetName(const char *new_name)
+void NetworkClient::SetName(std::string new_name)
 {
     client_name = new_name;
 
@@ -142,7 +142,7 @@ void NetworkClient::StartClient()
     char port_str[6];
     snprintf(port_str, 6, "%d", port_num);
 
-    port.tcp_client(port_ip, port_str);
+    port.tcp_client(port_ip.c_str(), port_str);
 
     client_active = true;
 
@@ -157,6 +157,9 @@ void NetworkClient::StartClient()
 
 void NetworkClient::StopClient()
 {
+    server_connected = false;
+    client_active    = false;
+
     if(server_connected)
     {
         shutdown(client_sock, SD_RECEIVE);

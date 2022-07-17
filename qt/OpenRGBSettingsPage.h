@@ -48,10 +48,12 @@ private slots:
     void on_CheckboxAutoStartServer_clicked();
     void on_CheckboxAutoStartClient_clicked();
     void on_CheckboxAutoStartProfile_clicked();
+    void on_TextServerHost_textChanged(const QString);
     void on_TextServerPort_textChanged(const QString);
     void on_TextClientHost_textChanged(const QString);
     void on_TextCustomArgs_textChanged(const QString);
     void on_ComboBoxAutoStartProfile_currentTextChanged(const QString);
+    void on_CheckboxAutoStartSetServerHost_clicked();
     void on_CheckboxAutoStartSetServerPort_clicked();
     void on_CheckboxAutoStartCustom_clicked();
     void on_CheckboxRunZoneChecks_clicked();

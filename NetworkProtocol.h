@@ -19,6 +19,11 @@
 #define OPENRGB_SDK_PROTOCOL_VERSION    3
 
 /*-----------------------------------------------------*\
+| Default Interface to bind to.                         |
+\*-----------------------------------------------------*/
+#define OPENRGB_SDK_HOST "0.0.0.0"
+
+/*-----------------------------------------------------*\
 | Default OpenRGB SDK port is 6742                      |
 | This is "ORGB" on a phone keypad                      |
 \*-----------------------------------------------------*/
