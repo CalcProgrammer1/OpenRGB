@@ -46,7 +46,7 @@ NetworkClientInfo::~NetworkClientInfo()
 {
     if(client_sock != INVALID_SOCKET)
     {
-        LOG_INFO("Closing server connection: %s", client_ip);
+        LOG_INFO("Closing server connection: %s", client_ip.c_str());
         delete client_listen_thread;
         shutdown(client_sock, SD_RECEIVE);
         closesocket(client_sock);
