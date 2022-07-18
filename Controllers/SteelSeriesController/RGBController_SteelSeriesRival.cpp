@@ -75,8 +75,6 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
     Pulsate.speed      = STEELSERIES_RIVAL_EFFECT_PULSATE_MID;
     modes.push_back(Pulsate);
 
-
-
     SetupZones();
 }
 

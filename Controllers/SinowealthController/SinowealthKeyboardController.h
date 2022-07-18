@@ -71,8 +71,7 @@ public:
 
     void            SetLEDColor(RGBColor* color_buf);
     void            SetStaticColor(RGBColor* color_buf);
-    void            SetMode(unsigned char mode, unsigned char brightness, unsigned char speed, RGBColor* color_buf);
-    void            SetMode(unsigned char mode, unsigned char brightness, unsigned char speed, unsigned char color_mode, RGBColor *color_buf);
+    void            SetMode(unsigned char mode, unsigned char brightness, unsigned char speed, unsigned char color_mode);
     void            GetProfile();
     void            ReadFirmwareInfo();
     void            SetLEDsDirect(std::vector<RGBColor> colors);

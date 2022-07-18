@@ -77,7 +77,7 @@ void WootingTwoKeyboardController::SendDirect(RGBColor* colors, uint8_t color_co
         rgb_buffer[buffer_index+1]  = color16 >> 8;
     }
 
-    uint8_t result = wooting_usb_send_buffer(RGB_PARTS::PART0, rgb_buffer);
+    wooting_usb_send_buffer(RGB_PARTS::PART0, rgb_buffer);
 }
 
 void WootingTwoKeyboardController::SendInitialize()

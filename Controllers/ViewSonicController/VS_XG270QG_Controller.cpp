@@ -86,10 +86,10 @@ void VS_XG270QG_Controller::SendModeComplete
     data[0x0D] = 0x0A; // Might be speed related
 
     // original data packets are 0x40=64 long
-    SendCommand(0, data, 0x20);
+    SendCommand(data, 0x20);
 }
 
-void VS_XG270QG_Controller::SendCommand(uint16_t wIndex, uint8_t  *data, size_t length)
+void VS_XG270QG_Controller::SendCommand(uint8_t  *data, size_t length)
 {
     hid_send_feature_report(dev, data, length);
 }

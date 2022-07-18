@@ -75,6 +75,7 @@ static int nvme_passthru(int fd, unsigned long ioctl_cmd, uint8_t opcode,
 		.cdw14		= cdw14,
 		.cdw15		= cdw15,
 		.timeout_ms	= timeout_ms,
+        .result     = 0,
 	};
 
 	return nvme_submit_passthru(fd, ioctl_cmd, &cmd, result);
@@ -101,6 +102,11 @@ ENESMBusInterface_SpectrixS40G::ENESMBusInterface_SpectrixS40G(int fd, char* pat
 {
     this->nvme_fd = fd;
 	this->path    = path;
+}
+
+ENESMBusInterface_SpectrixS40G::~ENESMBusInterface_SpectrixS40G()
+{
+
 }
 
 std::string ENESMBusInterface_SpectrixS40G::GetLocation()

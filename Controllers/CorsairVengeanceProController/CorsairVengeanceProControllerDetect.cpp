@@ -27,7 +27,7 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
 
     LOG_DEBUG("[%s] Trying address %02X", CORSAIR_VENGEANCE_RGB_PRO_NAME, address);
 
-    if (res >= 0)
+    if(res >= 0)
     {
         pass = true;
 
@@ -41,7 +41,7 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
 
         res = bus->i2c_smbus_read_byte_data(address, 0x44);
 
-        if (!((res == 0x03) || (res == 0x04)))
+        if(!((res == 0x03) || (res == 0x04)))
         {
             pass = false;
             LOG_DEBUG("[%s] Failed: was expecting 0x03 or 0x04 got %02X", CORSAIR_VENGEANCE_RGB_PRO_NAME, res);
@@ -53,7 +53,7 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
     }
 
     std::this_thread::sleep_for(10ms);
-    
+
     return(pass);
 
 }   /* TestForCorsairVengeanceProController() */
@@ -71,9 +71,6 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
 
 void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    CorsairVengeanceProController* new_corsair_pro;
-    RGBController_CorsairVengeancePro* new_controller;
-
     for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         LOG_DEBUG("[%s] Testing bus %d", CORSAIR_VENGEANCE_RGB_PRO_NAME, bus);
@@ -86,7 +83,7 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
                 {
                     CorsairVengeanceProController*     new_controller    = new CorsairVengeanceProController(busses[bus], addr);
                     RGBController_CorsairVengeancePro* new_rgbcontroller = new RGBController_CorsairVengeancePro(new_controller);
-                    
+
                     ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                 }
             }

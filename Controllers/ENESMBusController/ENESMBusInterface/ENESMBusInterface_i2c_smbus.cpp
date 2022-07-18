@@ -13,6 +13,11 @@ ENESMBusInterface_i2c_smbus::ENESMBusInterface_i2c_smbus(i2c_smbus_interface* bu
     this->bus = bus;
 }
 
+ENESMBusInterface_i2c_smbus::~ENESMBusInterface_i2c_smbus()
+{
+
+}
+
 std::string ENESMBusInterface_i2c_smbus::GetLocation()
 {
     std::string return_string(bus->device_name);

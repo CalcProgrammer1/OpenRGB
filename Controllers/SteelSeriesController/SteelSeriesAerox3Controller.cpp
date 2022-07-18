@@ -72,7 +72,7 @@ steelseries_mouse SteelSeriesAerox3Controller::GetMouse()
     return aerox_3;
 }
 
-void SteelSeriesAerox3Controller::SetLightEffectAll(uint8_t effect)
+void SteelSeriesAerox3Controller::SetLightEffectAll(uint8_t /*effect*/)
 {
     /*-----------------------------------------------------------------*\
     | Not used by this device                                           |

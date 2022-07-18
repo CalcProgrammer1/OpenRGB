@@ -11,8 +11,6 @@
 #include "SinowealthKeyboardController.h"
 #include <cstring>
 
-static unsigned char handshake_packet[]                     = { 0x06, 0x03, 0x01, 0x00, 0x08, 0x04 };
-
 static unsigned char send_per_key_part_of_command_packet[]  = { 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                                                 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
                                                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -198,7 +196,7 @@ void SinowealthKeyboardController::SetStaticColor(RGBColor* color_buf)
     hid_send_feature_report(dev_data, usb_buf, sizeof(usb_buf));
 }
 
-void SinowealthKeyboardController::SetMode(unsigned char mode, unsigned char brightness, unsigned char speed, unsigned char color_mode, RGBColor* color_buf)
+void SinowealthKeyboardController::SetMode(unsigned char mode, unsigned char brightness, unsigned char speed, unsigned char color_mode)
 {
     const int buffer_size = 1032;
 

@@ -78,7 +78,7 @@ void ZETBladeOpticalController::PrepareHeader(unsigned char* packet, unsigned ch
     packet[0x08]   = color; // Separator FF or Color, 0-7 (0-6 in static color mode) (Rainbow,) R, G, B, Y, M, C, W
 }
 
-void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors, unsigned char brightness, int led)
+void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors, unsigned char brightness)
 {
     unsigned char buf[65];
 
@@ -103,17 +103,17 @@ void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors
     | Continue filling and sending packets while color data |
     | remains                                               |
     \*-----------------------------------------------------*/
-    while (color_idx < colors.size())
+    while(color_idx < colors.size())
     {
         /*-------------------------------------------------*\
         | If at a skipped index, increment skipped count    |
         | and index                                         |
         \*-------------------------------------------------*/
-        if (*skip_idx == color_idx + skipped)
+        if(*skip_idx == color_idx + skipped)
         {
             skip_idx++;
 
-            if (skip_idx >= SKIP_INDICES + sizeof(SKIP_INDICES) / sizeof(unsigned int))
+            if(skip_idx >= SKIP_INDICES + sizeof(SKIP_INDICES) / sizeof(unsigned int))
             {
                 skip_idx = SKIP_INDICES;
             }
@@ -145,13 +145,13 @@ void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors
         | If all colors have been filled into the buffer,   |
         | send the packet                                   |
         \*-------------------------------------------------*/
-        if ((buf_idx + ZET_BLADE_OPTICAL_HEADER_LEN >= sizeof(buf)) || last_color)
+        if((buf_idx + ZET_BLADE_OPTICAL_HEADER_LEN >= sizeof(buf)) || last_color)
         {
             /*---------------------------------------------*\
             | If we still have place for an                 |
             | ending sequence - squeeze it in!              |
             \*---------------------------------------------*/
-            if (last_color && (buf_idx + ZET_BLADE_OPTICAL_COLOR_LEN < sizeof(buf)))
+            if(last_color && (buf_idx + ZET_BLADE_OPTICAL_COLOR_LEN < sizeof(buf)))
             {
                 buf[buf_idx] = 0xFF;
                 ending_flag = true;
@@ -166,7 +166,7 @@ void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors
             | Wait for the poor slowpoke to process packet  |
             \*---------------------------------------------*/
             std::this_thread::sleep_for(ZET_BLADE_OPTICAL_DELAY);
-            
+
             /*---------------------------------------------*\
             | Zero out buffer, reset index, prepare header  |
             \*---------------------------------------------*/
@@ -184,7 +184,7 @@ void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors
     /*---------------------------------------------*\
     | If there's anything left to send - send it    |
     \*---------------------------------------------*/
-    if (!ending_flag)
+    if(!ending_flag)
     {
         buf[buf_idx] = 0xFF;
         hid_write(dev, buf, sizeof(buf));
@@ -208,7 +208,7 @@ unsigned char ZETBladeOpticalController::RGBToPalette(unsigned char red,
     \*------------------------*/
     unsigned char color_mask = ((blu > 127) << 2 & 4) | ((grn > 127) << 1 & 2) | ((red > 127) & 1);
 
-    switch (color_mask) // (Rainbow/Off,) R, G, B, Y, M, C, W
+    switch(color_mask) // (Rainbow/Off,) R, G, B, Y, M, C, W
     {
         case 3:
             return 4;
@@ -235,9 +235,11 @@ void ZETBladeOpticalController::SetEffect(unsigned char mode,
     effect_mode = mode;
     custom_mode = (effect_mode == ZET_BLADE_OPTICAL_MODE_CUSTOM);
 
-    if (custom_mode) return;
+    if(custom_mode)
+    {
+        return;
+    }
 
-    
     unsigned char color = RGBToPalette(red, grn, blu);
     unsigned char buf[65];
 

@@ -267,7 +267,7 @@ void PatriotViperController::StopKeepaliveThread()
     }
 }
 
-unsigned int PatriotViperController::GetDelay(unsigned char mode, unsigned int step, unsigned int sub_step, bool loop_end)
+unsigned int PatriotViperController::GetDelay(unsigned char mode, unsigned int /*step*/, unsigned int sub_step, bool loop_end)
 {
     if(loop_end)
     {

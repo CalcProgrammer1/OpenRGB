@@ -194,7 +194,7 @@ void RGBController_LenovoUSB::SetupZones()
         break;
     }
 
-    for(int i = 0; i < lenovo_zones.size(); i++)
+    for(unsigned int i = 0; i < lenovo_zones.size(); i++)
     {
         zone new_zone;
         new_zone.name       = lenovo_zones[i].name;
@@ -264,7 +264,7 @@ void RGBController_LenovoUSB::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_LenovoUSB::UpdateSingleLED(int led)
 {
-    if(led != NA)
+    if(led != (int)NA)
     {
         controller->setSingleLED(lenovo_leds[led].zone_num, lenovo_leds[led].led_num, colors[led]);
     }
@@ -275,7 +275,7 @@ void RGBController_LenovoUSB::UpdateZoneLEDs(int zone)
     uint8_t device_zone = lenovo_leds[zones[zone].start_idx].zone_num;
     vector<pair<uint8_t, RGBColor>> color_map;
 
-    for(int i = 0; i < zones[zone].leds_count; i++)
+    for(unsigned int i = 0; i < zones[zone].leds_count; i++)
     {
         int index = zones[zone].start_idx+i;
 

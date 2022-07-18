@@ -39,7 +39,7 @@ std::string SteelSeriesApexTZoneController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
-    
+
     if (ret != 0)
     {
         return("");
@@ -81,7 +81,8 @@ void SteelSeriesApexTZoneController::SetColor(std::vector<RGBColor> colors, unsi
     hid_write(dev, buf, STEELSERIES_TZ_WRITE_PACKET_SIZE);
 
     buf[0x01]           = 0x0B;
-    for(int i = 0; i < colors.size(); i++)
+
+    for(unsigned int i = 0; i < colors.size(); i++)
     {
         uint8_t index   = i * 3;
 

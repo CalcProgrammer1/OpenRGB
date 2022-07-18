@@ -121,7 +121,7 @@ bool TestForCrucialController(i2c_smbus_interface* bus, unsigned char address)
                 {
                     buf[i] = CrucialRegisterRead(bus, address, CRUCIAL_REG_MICRON_CHECK_2 + i);
                 }
-                
+
                 if(strcmp(buf, "Micron") == 0)
                 {
                     LOG_DEBUG("[%s] Device %02X is a Micron device, continuing", CRUCIAL_CONTROLLER_NAME, address);
@@ -161,18 +161,17 @@ void CrucialRegisterWrite(i2c_smbus_interface* bus, unsigned char dev, unsigned 
 
 void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         int address_list_idx = -1;
 
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-
-            for (unsigned int slot = 0; slot < 4; slot++)
+            for(unsigned int slot = 0; slot < 4; slot++)
             {
                 int res = busses[bus]->i2c_smbus_write_quick(0x27, I2C_SMBUS_WRITE);
 
-                if (res < 0)
+                if(res < 0)
                 {
                     break;
                 }
@@ -188,10 +187,9 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
                     }
                     else
                     {
-                        LOG_DEBUG("[%s] Testing address %02X to see if there is a device there", CRUCIAL_CONTROLLER_NAME, crucial_addresses[address_list_idx]);
                         break;
                     }
-                } while (res >= 0);
+                } while(res >= 0);
 
                 if(address_list_idx < CRUCIAL_ADDRESS_COUNT)
                 {
@@ -207,9 +205,11 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
             LOG_DEBUG("[%s] In bus: %02X:%02X looking for devices at [%s]", CRUCIAL_CONTROLLER_NAME, busses[bus]->pci_vendor, busses[bus]->pci_device, TESTING_ADDRESSES);
 
             // Add Crucial controllers
-            for (unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)
+            for(unsigned int address_list_idx = 0; address_list_idx < CRUCIAL_ADDRESS_COUNT; address_list_idx++)
             {
-                if (TestForCrucialController(busses[bus], crucial_addresses[address_list_idx]))
+                LOG_DEBUG("[%s] Testing address %02X to see if there is a device there", CRUCIAL_CONTROLLER_NAME, crucial_addresses[address_list_idx]);
+
+                if(TestForCrucialController(busses[bus], crucial_addresses[address_list_idx]))
                 {
                     CrucialController*     controller     = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
                     RGBController_Crucial* rgb_controller = new RGBController_Crucial(controller);

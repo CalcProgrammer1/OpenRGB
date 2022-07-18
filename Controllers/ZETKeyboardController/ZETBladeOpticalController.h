@@ -55,7 +55,7 @@ public:
     std::string                         GetDeviceLocation();
     std::string                         GetSerialString();
 
-    void                                SetLEDDirect(const std::vector<RGBColor>& colors, unsigned char brightness, int led);
+    void                                SetLEDDirect(const std::vector<RGBColor>& colors, unsigned char brightness);
 
     void                                SetEffect(unsigned char mode, unsigned char speed, unsigned char brightness, bool random, unsigned char red1, unsigned char grn1, unsigned char blu1);
 private:

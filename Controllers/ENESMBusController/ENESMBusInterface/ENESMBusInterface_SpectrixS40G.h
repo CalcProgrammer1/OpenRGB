@@ -15,6 +15,7 @@ class ENESMBusInterface_SpectrixS40G : public ENESMBusInterface
 {
 public:
     ENESMBusInterface_SpectrixS40G(int fd, char* path);
+    ~ENESMBusInterface_SpectrixS40G();
 
     std::string   GetLocation();
     int           GetMaxBlock();

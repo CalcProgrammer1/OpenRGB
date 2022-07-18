@@ -381,7 +381,7 @@ RGBController_EVGAKeyboard::RGBController_EVGAKeyboard(EVGAKeyboardController* c
     ThreeBy3.speed                  = EVGA_KEYBOARD_CONTROLLER_SPEED_NORMAL;
     modes.push_back(ThreeBy3);
 
-    uint8_t set_mode                = controller->GetMode();
+    //uint8_t set_mode                = controller->GetMode();
     //active_mode                     = set_mode;
     SetupZones();
 }
@@ -532,7 +532,7 @@ void RGBController_EVGAKeyboard::DeviceUpdateMode()
 
     if(set_mode.color_mode == MODE_COLORS_RANDOM)
     {
-        for(int i = 0; i < colours.size(); i++)
+        for(unsigned int i = 0; i < colours.size(); i++)
         {
             colours[i] = GetRandomColor();
         }

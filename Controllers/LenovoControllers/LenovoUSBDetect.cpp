@@ -31,13 +31,11 @@ enum
 
 void DetectLenovoLegionUSBControllers(hid_device_info* info, const std::string& name)
 {
-    static const char* controller_name = "Lenovo Legion Laptop";
-
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        LenovoUSBController* controller          = new LenovoUSBController(dev, info->path, info->product_id);
+        LenovoUSBController*     controller      = new LenovoUSBController(dev, info->path, info->product_id);
         RGBController_LenovoUSB* rgb_controller  = new RGBController_LenovoUSB(controller);
         rgb_controller->name                     = name;
 

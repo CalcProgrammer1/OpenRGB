@@ -495,22 +495,22 @@ void RGBController_ZETBladeOptical::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_ZETBladeOptical::DeviceUpdateLEDs()
 {
-    UpdateSingleLED(-1);
+    last_update_time = std::chrono::steady_clock::now();
+
+    if(active_mode == 0)
+    {
+        controller->SetLEDDirect(colors, modes[active_mode].brightness);
+    }
 }
 
 void RGBController_ZETBladeOptical::UpdateZoneLEDs(int /*zone*/)
 {
-    UpdateSingleLED(-1);
+    DeviceUpdateLEDs();
 }
 
-void RGBController_ZETBladeOptical::UpdateSingleLED(int led)
+void RGBController_ZETBladeOptical::UpdateSingleLED(int /*led*/)
 {
-    last_update_time = std::chrono::steady_clock::now();
-
-    if (active_mode == 0)
-    {
-        controller->SetLEDDirect(colors, modes[active_mode].brightness, led);
-    }
+    DeviceUpdateLEDs();
 }
 
 void RGBController_ZETBladeOptical::SetCustomMode()

@@ -479,6 +479,6 @@ void RGBController_SinowealthKeyboard::DeviceUpdateMode()
     }
     else
     {
-        sinowealth->SetMode(modes[active_mode].value, brightness, modes[active_mode].speed, modes[active_mode].color_mode, selected_color);
+        sinowealth->SetMode(modes[active_mode].value, brightness, modes[active_mode].speed, modes[active_mode].color_mode);
     }
 }

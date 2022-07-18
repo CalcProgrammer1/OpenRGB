@@ -16,6 +16,7 @@ class ENESMBusInterface_i2c_smbus : public ENESMBusInterface
 {
 public:
     ENESMBusInterface_i2c_smbus(i2c_smbus_interface* bus);
+    ~ENESMBusInterface_i2c_smbus();
 
     std::string   GetLocation();
     int           GetMaxBlock();

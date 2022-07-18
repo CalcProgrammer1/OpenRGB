@@ -86,10 +86,6 @@ void CorsairWirelessController::SetLEDs(std::vector<RGBColor>colors)
     SendDirectFrame(false, &buf[362]);
 }
 
-void CorsairWirelessController::SetLEDsKeyboardFull(std::vector<RGBColor> colors)
-{
-}
-
 void CorsairWirelessController::SetName(std::string device_name)
 {
     name = device_name;

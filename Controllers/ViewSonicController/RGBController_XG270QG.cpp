@@ -120,24 +120,28 @@ void RGBController_XG270QG::SetupZones()
     SetupColors();
 }
 
-void RGBController_XG270QG::ResizeZone(int zone, int new_size)
+void RGBController_XG270QG::ResizeZone(int /*zone*/, int /*new_size*/)
 {
-    // Not applicable
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_XG270QG::DeviceUpdateLEDs()
 {
-    //
+    /*---------------------------------------------------------*\
+    | This device does not include any per-LED modes            |
+    \*---------------------------------------------------------*/
 }
 
-void RGBController_XG270QG::UpdateZoneLEDs(int zone)
+void RGBController_XG270QG::UpdateZoneLEDs(int /*zone*/)
 {
-    //
+    DeviceUpdateLEDs();
 }
 
-void RGBController_XG270QG::UpdateSingleLED(int led)
+void RGBController_XG270QG::UpdateSingleLED(int /*led*/)
 {
-    //
+    DeviceUpdateLEDs();
 }
 
 void RGBController_XG270QG::DeviceUpdateMode()

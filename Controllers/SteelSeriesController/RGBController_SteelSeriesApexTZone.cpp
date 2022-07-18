@@ -63,7 +63,7 @@ void RGBController_SteelSeriesApexTZone::SetupZones()
     curr_zone.matrix_map    = NULL;
     zones.push_back(curr_zone);
 
-    for (int i = 1; i <= curr_zone.leds_count; i++)
+    for(unsigned int i = 1; i <= curr_zone.leds_count; i++)
     {
         led zone_led;
         zone_led.name = "LED " + std::to_string(i);

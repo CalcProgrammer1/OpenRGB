@@ -60,7 +60,6 @@ void HyperXAlloyFPSController::SetLEDsDirect(std::vector<RGBColor> colors)
     unsigned char red_color_data[106];
     unsigned char grn_color_data[106];
     unsigned char blu_color_data[106];
-    unsigned char ext_color_data[150];
 
     for(std::size_t i = 0; i < 106; i++)
     {

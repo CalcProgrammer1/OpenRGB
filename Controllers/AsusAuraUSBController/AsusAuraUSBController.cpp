@@ -26,6 +26,7 @@ AuraUSBController::~AuraUSBController()
 {
     hid_close(dev);
 }
+
 unsigned int AuraUSBController::GetChannelCount()
 {
     return(device_info.size());
@@ -104,7 +105,7 @@ void AuraUSBController::GetConfigTable()
         }
     }
     else
-    {       
+    {
         LOG_INFO("[%s] Could not read config table, can not add device", device_name);
         delete this;
     }

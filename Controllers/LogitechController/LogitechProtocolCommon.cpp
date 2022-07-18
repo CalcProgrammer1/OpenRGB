@@ -307,7 +307,7 @@ hid_device* logitech_device::getDevice(uint8_t usage_index)
     else
     {
         return find_usage->second;
-    }    
+    }
 }
 
 uint8_t logitech_device::getFeatureIndex(uint16_t feature_page)

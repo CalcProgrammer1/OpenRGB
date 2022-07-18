@@ -175,7 +175,7 @@ void RGBController_HPOmen30L::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_HPOmen30L::DeviceUpdateLEDs()
 {
-    for(int i = 0; i < zones.size(); i++)
+    for(unsigned int i = 0; i < zones.size(); i++)
     {
         if(modes[active_mode].value == HP_OMEN_30L_STATIC || modes[active_mode].value == HP_OMEN_30L_DIRECT)
         {
@@ -205,7 +205,7 @@ void RGBController_HPOmen30L::SetCustomMode()
 
 void RGBController_HPOmen30L::DeviceUpdateMode()
 {
-    for(int i = 0; i < zones.size(); i++)
+    for(unsigned int i = 0; i < zones.size(); i++)
     {
         controller->SetZoneMode(i, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness);
     }

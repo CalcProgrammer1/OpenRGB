@@ -45,7 +45,7 @@ class SteelSeriesMouseController
 {
 public:
     SteelSeriesMouseController(hid_device*  dev_handle, steelseries_type proto_type, const char* path);
-    ~SteelSeriesMouseController();
+    virtual ~SteelSeriesMouseController();
 
     std::string                 GetDeviceLocation();
     char*                       GetDeviceName();

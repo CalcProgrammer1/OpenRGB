@@ -25,26 +25,21 @@ using namespace std::chrono_literals;
 
 void DetectPatriotViperSteelControllers(std::vector<i2c_smbus_interface *> &busses)
 {
-    PatriotViperSteelController *new_viper;
-    RGBController_PatriotViperSteel *new_controller;
-
     for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
-
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
-            int res = busses[bus]->i2c_smbus_read_byte_data(0x20, 0x1D);
-
             std::this_thread::sleep_for(1ms);
 
-            if((busses[bus]->i2c_smbus_read_byte_data(0x20, 0x1D) == 0x0F) 
+            if((busses[bus]->i2c_smbus_read_byte_data(0x20, 0x1D) == 0x0F)
              &&(busses[bus]->i2c_smbus_read_byte_data(0x20, 0x1E) == 0x0C)
              &&(busses[bus]->i2c_smbus_read_byte_data(0x20, 0x39) == 0x0F)
              &&(busses[bus]->i2c_smbus_read_byte_data(0x20, 0x3A) == 0x0C))
             {
-                new_viper      = new PatriotViperSteelController(busses[bus], 0x77);
-                new_controller = new RGBController_PatriotViperSteel(new_viper);
-                ResourceManager::get()->RegisterRGBController(new_controller);
+                PatriotViperSteelController*     controller     = new PatriotViperSteelController(busses[bus], 0x77);
+                RGBController_PatriotViperSteel* rgb_controller = new RGBController_PatriotViperSteel(controller);
+
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

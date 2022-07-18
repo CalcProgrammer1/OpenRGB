@@ -27,7 +27,6 @@ public:
     std::string     GetSerialString();
 
     void            SetLEDs(std::vector<RGBColor> colors);
-    void            SetLEDsKeyboardFull(std::vector<RGBColor> colors);
     void            SetName(std::string device_name);
 
 private:

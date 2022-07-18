@@ -16,6 +16,8 @@ typedef unsigned char	ene_dev_id;
 class ENESMBusInterface
 {
 public:
+    virtual               ~ENESMBusInterface() = default;
+
     virtual std::string   GetLocation() = 0;
     virtual int           GetMaxBlock() = 0;
     virtual unsigned char ENERegisterRead(ene_dev_id dev, ene_register reg) = 0;

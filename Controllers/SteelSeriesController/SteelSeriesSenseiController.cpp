@@ -15,15 +15,15 @@
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
     char* usb_pkt = new char[size + 1];
-    
+
     usb_pkt[0] = 0x00;
     for(unsigned int i = 1; i < size + 1; i++)
     {
         usb_pkt[i] = data_pkt[i-1];
     }
-    
+
     hid_write(dev, (unsigned char *)usb_pkt, size + 1);
-    
+
     delete usb_pkt;
 }
 
@@ -119,8 +119,8 @@ void SteelSeriesSenseiController::SetLightEffect
     /*-----------------------------------------------------*\
     | Set up Light Effect packet                            |
     \*-----------------------------------------------------*/
-    char dur1;
-    char dur2;
+    char dur1 = 0x27;
+    char dur2 = 0x10;                       //10 sec cycle
 
     switch(effect)
     {

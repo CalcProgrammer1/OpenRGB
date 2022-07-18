@@ -16,7 +16,7 @@ HPOmen30LController::HPOmen30LController(hid_device* dev_handle, const char* pat
     location    = path;
 
     strcpy(device_name, "HP Omen 30L");
-    
+
     hp_zone logo;
     logo.value      = HP_OMEN_30L_LOGO_ZONE;
     logo.mode       = HP_OMEN_30L_DIRECT;
@@ -43,7 +43,7 @@ HPOmen30LController::HPOmen30LController(hid_device* dev_handle, const char* pat
     cpu.mode       = HP_OMEN_30L_DIRECT;
     cpu.speed      = HP_OMEN_30L_SPEED_MED;
     cpu.brightness = 0x64;
-    hp_zones.push_back(cpu);    
+    hp_zones.push_back(cpu);
 
 }
 
@@ -68,7 +68,7 @@ std::string HPOmen30LController::GetSerialString()
     return(ret_string);
 }
 
-std::string HPOmen30LController::GetEffectChannelString(unsigned char channel)
+std::string HPOmen30LController::GetEffectChannelString(unsigned char /*channel*/)
 {
     std::string ret_string = "";
     return(ret_string);
@@ -81,7 +81,7 @@ std::string HPOmen30LController::GetFirmwareVersionString()
 }
 
 void HPOmen30LController::SetZoneMode(int zone,unsigned char mode, unsigned char speed,unsigned char brightness)
-{   
+{
     hp_zones[zone].mode       = mode;
     hp_zones[zone].speed      = speed;
     hp_zones[zone].brightness = brightness;
@@ -115,7 +115,7 @@ void HPOmen30LController::SendZoneUpdate(int zone, std::vector<RGBColor> colors)
     };
 
     usb_buf[0x36]   = hp_zones[zone].value;
-    
+
     if(hp_zones[zone].mode != HP_OMEN_30L_DIRECT)
     {
         hid_write(dev, usb_buf, 58);
@@ -136,7 +136,7 @@ void HPOmen30LController::SendZoneUpdate(int zone, std::vector<RGBColor> colors)
         usb_buf[0x31]   = 0x0A;
     }
 
-    if(hp_zones[zone].mode == HP_OMEN_30L_DIRECT) 
+    if(hp_zones[zone].mode == HP_OMEN_30L_DIRECT)
     {
         usb_buf[0x08] = usb_buf[0x0C] = usb_buf[0x10] = usb_buf[0x14] = 0x64;
         usb_buf[0x09] = usb_buf[0x0D] = usb_buf[0x11] = usb_buf[0x15] = RGBGetRValue(colors[zone]);
@@ -157,10 +157,10 @@ void HPOmen30LController::SendZoneUpdate(int zone, std::vector<RGBColor> colors)
     {
         usb_buf[0x04] = colors.size();
 
-        for(int i = 0; i < colors.size(); i++)
+        for(unsigned int i = 0; i < colors.size(); i++)
         {
             usb_buf[0x05] = i + 1;
-        
+
             usb_buf[0x08] = usb_buf[0x0B] = usb_buf[0x0E] = usb_buf[0x11] = RGBGetRValue(colors[i]);
             usb_buf[0x09] = usb_buf[0x0C] = usb_buf[0x0F] = usb_buf[0x12] = RGBGetGValue(colors[i]);
             usb_buf[0x0A] = usb_buf[0x0D] = usb_buf[0x10] = usb_buf[0x13] = RGBGetBValue(colors[i]);
