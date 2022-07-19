@@ -248,7 +248,7 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
         if (color == "random")
         {
             options->random_colors = true;
-            srand(time(NULL));
+            srand((unsigned int)time(NULL));
             int index = rand() % (sizeof(human_colors) / sizeof(human_colors[0])) + 1; //Anything other than black
             rgb = human_colors[index].rgb;
             parsed = true;
@@ -435,7 +435,7 @@ void OptionVersion()
     std::cout << version_text << std::endl;
 }
 
-void OptionListDevices(std::vector<RGBController *> &rgb_controllers)
+void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
@@ -538,7 +538,7 @@ void OptionListDevices(std::vector<RGBController *> &rgb_controllers)
     }
 }
 
-bool OptionDevice(int *current_device, std::string argument, Options *options, std::vector<RGBController *> &rgb_controllers)
+bool OptionDevice(int* current_device, std::string argument, Options* options, std::vector<RGBController *>& rgb_controllers)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
@@ -570,7 +570,7 @@ bool OptionDevice(int *current_device, std::string argument, Options *options, s
     }
 }
 
-bool OptionZone(int *current_device, int *current_zone, std::string argument, Options */*options*/, std::vector<RGBController *> &rgb_controllers)
+bool OptionZone(int* current_device, int* current_zone, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
@@ -595,7 +595,7 @@ bool OptionZone(int *current_device, int *current_zone, std::string argument, Op
     }
 }
 
-bool OptionColor(int *currentDev, int */*current_zone*/, std::string argument, Options *options)
+bool OptionColor(int* currentDev, int* /*current_zone*/, std::string argument, Options* options)
 {
     DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
 
@@ -611,9 +611,9 @@ bool OptionColor(int *currentDev, int */*current_zone*/, std::string argument, O
     }
 }
 
-bool OptionMode(int *currentDev, std::string argument, Options *options)
+bool OptionMode(int* currentDev, std::string argument, Options* options)
 {
-    if (argument.size() == 0)
+    if(argument.size() == 0)
     {
         std::cout << "Error: --mode passed with no argument" << std::endl;
         return false;
@@ -625,7 +625,7 @@ bool OptionMode(int *currentDev, std::string argument, Options *options)
     return true;
 }
 
-bool OptionSize(int *current_device, int *current_zone, std::string argument, Options */*options*/, std::vector<RGBController *> &rgb_controllers)
+bool OptionSize(int* current_device, int* current_zone, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
 {
     const unsigned int new_size = std::stoi(argument);
 
@@ -662,7 +662,7 @@ bool OptionSize(int *current_device, int *current_zone, std::string argument, Op
     return true;
 }
 
-bool OptionProfile(std::string argument, std::vector<RGBController *> &rgb_controllers)
+bool OptionProfile(std::string argument, std::vector<RGBController *>& rgb_controllers)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
@@ -707,7 +707,7 @@ bool OptionSaveProfile(std::string argument)
     return(true);
 }
 
-int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBController *> &rgb_controllers)
+int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBController *>& rgb_controllers)
 {
     unsigned int ret_flags  = 0;
     int arg_index           = 1;
@@ -897,9 +897,9 @@ int ProcessOptions(int argc, char *argv[], Options *options, std::vector<RGBCont
     }
 }
 
-void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_controllers)
+void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_controllers)
 {
-    RGBController *device = rgb_controllers[options.device];
+    RGBController* device = rgb_controllers[options.device];
 
     /*---------------------------------------------------------*\
     | Set mode first, in case it's 'direct' (which affects      |
@@ -912,7 +912,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_cont
     |   supports that colour mode then swich to it before       |
     |   evaluating if a colour needs to be set                  |
     \*---------------------------------------------------------*/
-    if (options.random_colors && (device->modes[mode].flags & MODE_FLAG_HAS_RANDOM_COLOR))
+    if(options.random_colors && (device->modes[mode].flags & MODE_FLAG_HAS_RANDOM_COLOR))
     {
         device->modes[mode].color_mode = MODE_COLORS_RANDOM;
     }
@@ -984,7 +984,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *> &rgb_cont
 }
 
 
-unsigned int cli_pre_detection(int argc, char *argv[])
+unsigned int cli_pre_detection(int argc, char* argv[])
 {
     /*---------------------------------------------------------*\
     | Process only the arguments that should be performed prior |
