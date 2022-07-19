@@ -1325,9 +1325,9 @@ void OpenRGBDialog2::UpdateDevicesList()
     | Remove all remaining device tabs                      |
     \*-----------------------------------------------------*/
     unsigned int tab_count = ui->DevicesTabBar->count();
-    unsigned int base_tab = controllers.size();
+    unsigned int base_tab = (unsigned int)controllers.size();
 
-    for(unsigned int tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
+    for(std::size_t tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
     {
         QWidget* tab_widget = ui->DevicesTabBar->widget(base_tab);
 
@@ -1348,7 +1348,7 @@ void OpenRGBDialog2::UpdateDevicesList()
         | Remove all remaining device information tabs, leaving |
         | other information tabs alone                          |
         \*-----------------------------------------------------*/
-        for(int tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        for(std::size_t tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
         {
             std::string type_str = ui->InformationTabBar->widget(base_tab)->metaObject()->className();
             if(type_str == "Ui::OpenRGBDeviceInfoPage")

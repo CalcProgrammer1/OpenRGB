@@ -92,10 +92,10 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     ui->ModeBox->blockSignals(true);
     ui->ModeBox->clear();
 
-    for (std::size_t i = 0; i < device->modes.size(); i++)
+    for(std::size_t i = 0; i < device->modes.size(); i++)
     {
         ui->ModeBox->addItem(device->modes[i].name.c_str());
-        ui->ModeBox->setItemData(i, ModeDescription(device->modes[i]), Qt::ToolTipRole);
+        ui->ModeBox->setItemData((int)i, ModeDescription(device->modes[i]), Qt::ToolTipRole);
     }
 
     ui->ModeBox->setCurrentIndex(device->GetMode());
@@ -179,7 +179,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
                         if(MultipleSelected) // Preserve the multiple() option
                         {
                             ui->LEDBox->addItem(msLine);
-                            ui->LEDBox->setCurrentIndex(device->leds.size());
+                            ui->LEDBox->setCurrentIndex((int)device->leds.size());
                         }
 
                         ui->ResizeButton->setEnabled(false);
@@ -276,7 +276,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                         {
                             if(MultipleSelected)
                             {
-                                ui->LEDBox->removeItem(device->leds.size() + 1);
+                                ui->LEDBox->removeItem((int)(device->leds.size() + 1));
                             }
                             MultipleSelected = 0;
                             color = device->GetLED(index); // One LED, proceed
@@ -1038,11 +1038,11 @@ void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indic
         {
             if(MultipleSelected)
             {
-                ui->LEDBox->removeItem(device->leds.size() + 1);
+                ui->LEDBox->removeItem((int)(device->leds.size() + 1));
             }
             // TODO: translate
             ui->LEDBox->addItem("Multiple (" + QVariant(indices.size()).toString() + ")");
-            ui->LEDBox->setCurrentIndex(device->leds.size() + 1);
+            ui->LEDBox->setCurrentIndex((int)(device->leds.size() + 1));
             MultipleSelected = 1;
         }
     }
@@ -1106,7 +1106,7 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
         {
             OpenRGBZoneResizeDialog dlg(device->modes[device->active_mode].colors_min,
                                         device->modes[device->active_mode].colors_max,
-                                        device->modes[device->active_mode].colors.size());
+                                        (int)device->modes[device->active_mode].colors.size());
 
             int new_size = dlg.show();
 

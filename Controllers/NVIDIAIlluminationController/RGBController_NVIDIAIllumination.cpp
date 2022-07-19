@@ -163,6 +163,13 @@ void RGBController_NVIDIAIlluminationV1::SetupZones()
 
 }
 
+void RGBController_NVIDIAIlluminationV1::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
+}
+
 void RGBController_NVIDIAIlluminationV1::DeviceUpdateLEDs()
 {
     NVIDIAIllumination_Config nv_zone_config;
@@ -202,9 +209,4 @@ void RGBController_NVIDIAIlluminationV1::SetCustomMode()
 void RGBController_NVIDIAIlluminationV1::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_NVIDIAIlluminationV1::ResizeZone(int zone, int new_size)
-{
-
 }
