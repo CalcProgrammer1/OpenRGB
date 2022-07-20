@@ -474,6 +474,7 @@
 #define SAPPHIRE_NAVI22_NITRO_PLUS_SUB_DEV              0xE445
 #define SAPPHIRE_NAVI23_NITRO_PLUS_SUB_DEV              0xE448
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV                   0xF440
+#define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |
