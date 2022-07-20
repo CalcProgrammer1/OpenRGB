@@ -4677,15 +4677,15 @@ static const razer_device blade_stealth_2020_device =
 |  Razer Blade Stealth (Late 2020)                              |
 |                                                               |
 |  Zone "Keyboard"                                              |
-|       Single                                                  |
-|       1 LED                                                   |
+|       Linear                                                  |
+|       1 Row, 16 Columns                                       |
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_late_2020_zone =
 {
     "Keyboard",
-    ZONE_TYPE_SINGLE,
+    ZONE_TYPE_LINEAR,
     1,
-    1
+    16
 };
 
 static const razer_device blade_stealth_late_2020_device =
@@ -4693,9 +4693,9 @@ static const razer_device blade_stealth_late_2020_device =
     "Razer Blade Stealth (Late 2020)",
     RAZER_BLADE_STEALTH_LATE_2020_PID,
     DEVICE_TYPE_KEYBOARD,
-    false,
+    true,
     1,
-    1,
+    16,
     {
         &blade_stealth_late_2020_zone,
         NULL,
