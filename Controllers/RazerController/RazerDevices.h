@@ -45,6 +45,7 @@
 #define RAZER_BLADE_LATE_2020_PID                       0x0268
 #define RAZER_BLADE_2021_ADVANCED_PID                   0x026D
 #define RAZER_BLADE_2021_BASE_PID                       0x026F
+#define RAZER_BLADE_2021_BASE_V2_PID                    0x027A
 
 #define RAZER_BLADE_14_2021_PID                         0x0270
 
@@ -4115,6 +4116,41 @@ static const razer_device blade_15_2021_base_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Blade 15 (2021 Base) 1532:027A                         |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Linear                                                  |
+|       1 Row, 16 Columns                                       |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_15_2021_base_v2_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_device blade_15_2021_base_v2_device =
+{
+    "Razer Blade 15 (2021 Base)",
+    RAZER_BLADE_2021_BASE_V2_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    1,
+    16,
+    {
+        &blade_15_2021_base_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Blade 14 (2021)                                        |
 |                                                               |
 |   Zone "Keyboard"                                             |
@@ -8052,6 +8088,7 @@ static const razer_device* device_list[] =
     &blade_late_2020_device,
     &blade_15_2021_advanced_device,
     &blade_15_2021_base_device,
+    &blade_15_2021_base_v2_device,
     &blade_14_2021_device,
     &book_13_2020_device,
     &blade_pro_2016_device,
