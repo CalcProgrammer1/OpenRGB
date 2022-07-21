@@ -10,6 +10,8 @@
 #include "RGBController.h"
 #include "RazerController.h"
 
+#define NA      0xFFFFFFFF
+
 enum
 {
     RAZER_MODE_DIRECT,
@@ -30,7 +32,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

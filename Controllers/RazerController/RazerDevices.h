@@ -432,7 +432,9 @@ static const razer_key blackwidow_chroma_te_keymap[] =
     {   0,      5,      1,              KEY_EN_LEFT_CONTROL                 },
     {   0,      5,      2,              KEY_EN_LEFT_WINDOWS                 },
     {   0,      5,      3,              KEY_EN_LEFT_ALT                     },
+    {   0,      5,      7,              KEY_EN_SPACE                        },
     {   0,      5,      11,             KEY_EN_RIGHT_ALT                    },
+    {   0,      5,      12,             KEY_EN_RIGHT_FUNCTION               },
     {   0,      5,      13,             KEY_EN_MENU                         },
     {   0,      5,      14,             KEY_EN_RIGHT_CONTROL                },
     {   0,      5,      15,             KEY_EN_LEFT_ARROW                   },
@@ -3172,8 +3174,8 @@ static const razer_device blackwidow_x_chroma_te_device =
         NULL,
         NULL
     },
-    NULL,
-    0
+    blackwidow_chroma_te_keymap,
+    BLACKWIDOW_CHROMA_TE_KEYMAP_SIZE
 };
 
 /*-------------------------------------------------------------*\

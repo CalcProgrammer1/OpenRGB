@@ -183,6 +183,8 @@ void RGBController_Razer::SetupZones()
 
                 if(device_list[device_index]->keymap != NULL)
                 {
+                    bool not_found = true;
+
                     for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
                     {
                         if(zone_id == device_list[device_index]->keymap[i].zone &&
@@ -190,7 +192,14 @@ void RGBController_Razer::SetupZones()
                            col_id  == device_list[device_index]->keymap[i].col)
                         {
                             new_led->name = device_list[device_index]->keymap[i].name;
+                            not_found = false;
+                            break;
                         }
+                    }
+
+                    if(not_found)
+                    {
+                        zones[zone_id].matrix_map->map[row_id * zones[zone_id].matrix_map->width + col_id] = NA;
                     }
                 }
 
