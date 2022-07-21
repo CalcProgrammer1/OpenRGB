@@ -9,10 +9,11 @@
 #include "CMR6000Controller.h"
 #include <cstring>
 
-CMR6000Controller::CMR6000Controller(hid_device* dev_handle, char *_path)
+CMR6000Controller::CMR6000Controller(hid_device* dev_handle, char *_path, uint16_t _pid)
 {
     dev             = dev_handle;
     location        = _path;
+    pid             = _pid;
 
     const int szTemp = 256;
     wchar_t tmpName[szTemp];
@@ -59,21 +60,6 @@ unsigned char CMR6000Controller::GetMode()
     return current_mode;
 }
 
-unsigned char CMR6000Controller::GetLedRed()
-{
-    return current_red;
-}
-
-unsigned char CMR6000Controller::GetLedGreen()
-{
-    return current_green;
-}
-
-unsigned char CMR6000Controller::GetLedBlue()
-{
-    return current_blue;
-}
-
 unsigned char CMR6000Controller::GetLedSpeed()
 {
     return current_speed;
@@ -89,13 +75,17 @@ bool CMR6000Controller::GetRandomColours()
     return current_random;
 }
 
-void CMR6000Controller::SetMode(unsigned char mode, unsigned char speed, unsigned char red, unsigned char green, unsigned char blue, unsigned char random, unsigned char brightness)
+uint16_t CMR6000Controller::GetPID()
+{
+    return pid;
+}
+
+void CMR6000Controller::SetMode(unsigned char mode, unsigned char speed, RGBColor color1, RGBColor color2, unsigned char random, unsigned char brightness)
 {
     current_mode        = mode;
     current_speed       = speed;
-    current_red         = red;
-    current_green       = green;
-    current_blue        = blue;
+    primary             = color1;
+    secondary           = color2;
     current_random      = random;
     current_brightness  = brightness;
 
@@ -103,7 +93,7 @@ void CMR6000Controller::SetMode(unsigned char mode, unsigned char speed, unsigne
 }
 
 void CMR6000Controller::SendUpdate()
-{    
+{
     if(current_mode == CM_MR6000_MODE_OFF)
     {
         unsigned char buffer[CM_6K_PACKET_SIZE] = { 0x00, 0x41, 0x43 };
@@ -113,6 +103,11 @@ void CMR6000Controller::SendUpdate()
     else
     {
         SendEnableCommand();
+
+        if(pid == COOLERMASTER_RADEON_6900_PID)
+        {
+            SendSecondColour();
+        }
 
         unsigned char buffer[CM_6K_PACKET_SIZE] = { 0x00 };
         int buffer_size = (sizeof(buffer) / sizeof(buffer[0]));
@@ -124,17 +119,38 @@ void CMR6000Controller::SendUpdate()
         buffer[0x03] = 0x01;
         buffer[0x04] = 0x00;
         buffer[0x05] = current_mode;
-        buffer[0x06] = (current_mode == CM_MR6000_MODE_DIRECT) ? 0xFF: current_speed;
-        buffer[0x07] = (current_mode == CM_MR6000_MODE_BREATHE)? current_random : 0x00; //random (A0)
-        buffer[0x08] = (current_mode == CM_MR6000_MODE_BREATHE)? 0x03 : 0xFF;
+        buffer[0x06] = current_speed;
+        buffer[0x07] = current_random; //random (A0)
         //buffer[0x09] = 0xFF;
         buffer[0x0A] = current_brightness;
-        buffer[0x0B] = (current_mode == CM_MR6000_MODE_COLOR_CYCLE) ? 0xFF : current_red;
-        buffer[0x0C] = (current_mode == CM_MR6000_MODE_COLOR_CYCLE) ? 0xFF : current_green;
-        buffer[0x0D] = (current_mode == CM_MR6000_MODE_COLOR_CYCLE) ? 0xFF : current_blue;
+        buffer[0x0B] = (current_mode == CM_MR6000_MODE_COLOR_CYCLE) ? 0xFF : RGBGetRValue(primary);
+        buffer[0x0C] = (current_mode == CM_MR6000_MODE_COLOR_CYCLE) ? 0xFF : RGBGetGValue(primary);
+        buffer[0x0D] = (current_mode == CM_MR6000_MODE_COLOR_CYCLE) ? 0xFF : RGBGetBValue(primary);
         buffer[0x0E] = 0x00;
         buffer[0x0F] = 0x00;
         buffer[0x10] = 0x00;
+
+        /*-----------------------------------------------------------------*\
+        | Index 0x08 looks to be mode specific flags / options              |
+        \*-----------------------------------------------------------------*/
+        switch(current_mode)
+        {
+            case CM_MR6000_MODE_BREATHE:
+                buffer[0x08] = 0x03;
+                break;
+            case CM_MR6000_MODE_RAINBOW:
+                buffer[0x08] = 0x05;
+                break;
+            case CM_MR6000_MODE_CHASE:
+                buffer[0x08] = 0xC3;
+                break;
+            case CM_MR6000_MODE_SWIRL:
+                buffer[0x08] = 0x4A;
+                break;
+            default:
+                buffer[0x08] = 0xFF;
+        }
+
 
         hid_write(dev, buffer, buffer_size);
 
@@ -173,4 +189,19 @@ void CMR6000Controller::SendColourConfig()
 
     hid_write(dev, buffer, buffer_size);
     hid_read_timeout(dev, buffer, buffer_size, CM_6K_INTERRUPT_TIMEOUT);
+}
+
+void CMR6000Controller::SendSecondColour()
+{
+    unsigned char buffer[CM_6K_PACKET_SIZE] = { 0x00, 0x51, 0x9C, 0x01, 0x00 };
+
+    buffer[5]   = RGBGetRValue(primary);
+    buffer[6]   = RGBGetGValue(primary);
+    buffer[7]   = RGBGetBValue(primary);
+    buffer[8]   = RGBGetRValue(secondary);
+    buffer[9]   = RGBGetGValue(secondary);
+    buffer[10]  = RGBGetBValue(secondary);
+
+    hid_write(dev, buffer, CM_6K_PACKET_SIZE);
+    hid_read_timeout(dev, buffer, CM_6K_PACKET_SIZE, CM_6K_INTERRUPT_TIMEOUT);
 }

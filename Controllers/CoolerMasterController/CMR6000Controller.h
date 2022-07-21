@@ -9,21 +9,31 @@
 #include <string>
 #include <array>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #pragma once
 
-#define CM_6K_PACKET_SIZE       65  //Includes extra first byte for non HID Report packets
-#define CM_6K_INTERRUPT_TIMEOUT 250
-#define CM_6K_DEVICE_NAME_SIZE  (sizeof(device_name) / sizeof(device_name[ 0 ]))
-#define CM_6K_SERIAL_SIZE       (sizeof(serial) / sizeof(serial[ 0 ]))
-#define HID_MAX_STR             255
+#define COOLERMASTER_RADEON_6000_PID            0x014D
+#define COOLERMASTER_RADEON_6900_PID            0x015B
+
+#define CM_6K_PACKET_SIZE           65  //Includes extra first byte for non HID Report packets
+#define CM_6K_INTERRUPT_TIMEOUT     250
+#define CM_6K_DEVICE_NAME_SIZE      (sizeof(device_name) / sizeof(device_name[ 0 ]))
+#define CM_6K_SERIAL_SIZE           (sizeof(serial) / sizeof(serial[ 0 ]))
+#define HID_MAX_STR                 255
 
 enum
 {
-    CM_MR6000_MODE_DIRECT        = 0x00, //Direct Mode
-    CM_MR6000_MODE_BREATHE       = 0x01, //Breathe Mode
-    CM_MR6000_MODE_COLOR_CYCLE   = 0x02, //Color cycle
-    CM_MR6000_MODE_OFF           = 0xFF, //Off
+    CM_MR6000_MODE_DIRECT           = 0x00, //Direct Mode
+    CM_MR6000_MODE_BREATHE          = 0x01, //Breathe Mode
+    CM_MR6000_MODE_COLOR_CYCLE      = 0x02, //Color cycle
+
+    CM_MR6000_MODE_RAINBOW          = 0x07, //Rainbow
+    CM_MR6000_MODE_BOUNCE           = 0x08, //Bounce
+    CM_MR6000_MODE_CHASE            = 0x09, //Chase
+    CM_MR6000_MODE_SWIRL            = 0x0A, //Swirl
+
+    CM_MR6000_MODE_OFF              = 0xFF, //Off
 };
 
 enum
@@ -33,6 +43,10 @@ enum
     MR6000_CYCLE_SPEED_NORMAL               = 0x80, /* Normal speed                 */
     MR6000_CYCLE_SPEED_FAST                 = 0x6E, /* Fast speed                   */
     MR6000_CYCLE_SPEED_FASTEST              = 0x68, /* Fastest speed                */
+
+    MR6000_RAINBOW_SPEED_SLOWEST            = 0x78, /* Slowest speed                */
+    MR6000_RAINBOW_SPEED_NORMAL             = 0x6B, /* Normal speed                */
+    MR6000_RAINBOW_SPEED_FASTEST            = 0x60, /* Fastest speed                */
 
     MR6000_BREATHE_SPEED_SLOWEST            = 0x3C, /* Slowest speed                */
     MR6000_BREATHE_SPEED_SLOW               = 0x37, /* Slow speed                   */
@@ -44,39 +58,39 @@ enum
 class CMR6000Controller
 {
 public:
-    CMR6000Controller(hid_device* dev_handle, char *_path);
+    CMR6000Controller(hid_device* dev_handle, char *_path, uint16_t _pid);
     ~CMR6000Controller();
 
-    std::string   GetDeviceName();
-    std::string   GetSerial();
-    std::string   GetLocation();
+    std::string     GetDeviceName();
+    std::string     GetSerial();
+    std::string     GetLocation();
 
-    unsigned char GetMode();
-    unsigned char GetLedRed();
-    unsigned char GetLedGreen();
-    unsigned char GetLedBlue();
-    unsigned char GetLedSpeed();
-    unsigned char GetBrightness();
-    bool          GetRandomColours();
-    void          SetMode(unsigned char mode, unsigned char speed, unsigned char red, unsigned char green, unsigned char blue, unsigned char random, unsigned char brightness);
+    unsigned char   GetMode();
+    unsigned char   GetLedSpeed();
+    unsigned char   GetBrightness();
+    bool            GetRandomColours();
+    uint16_t        GetPID();
+
+    void            SetMode(unsigned char mode, unsigned char speed, RGBColor color1, RGBColor color2, unsigned char random, unsigned char brightness);
 
 private:
-    std::string             device_name;
-    std::string             serial;
-    std::string             location;
-    hid_device*             dev;
+    std::string     device_name;
+    std::string     serial;
+    std::string     location;
+    hid_device*     dev;
+    uint16_t        pid;
 
-    unsigned char           current_mode;
-    unsigned char           current_speed;
-    unsigned char           current_random;
+    unsigned char   current_mode;
+    unsigned char   current_speed;
+    unsigned char   current_random;
 
-    unsigned char           current_red;
-    unsigned char           current_green;
-    unsigned char           current_blue;
-    unsigned char           current_brightness;
+    unsigned char   current_brightness;
+    RGBColor        primary;
+    RGBColor        secondary;
 
-    void SendUpdate();
-    void SendEnableCommand();
-    void SendApplyCommand();
-    void SendColourConfig();
+    void            SendUpdate();
+    void            SendEnableCommand();
+    void            SendApplyCommand();
+    void            SendColourConfig();
+    void            SendSecondColour();
 };

@@ -1,11 +1,4 @@
 #include "Detector.h"
-#include "CMMM711Controller.h"
-#include "CMMP750Controller.h"
-#include "CMARGBcontroller.h"
-#include "CMSmallARGBController.h"
-#include "CMRGBController.h"
-#include "CMR6000Controller.h"
-#include "CMMKController.h"
 #include "RGBController.h"
 #include "RGBController_CMMMController.h"
 #include "RGBController_CMMM711Controller.h"
@@ -31,7 +24,6 @@
 #define COOLERMASTER_ARGB_GEN2_A1_PID           0x0173
 #define COOLERMASTER_SMALL_ARGB_PID             0x1000
 #define COOLERMASTER_RGB_PID                    0x004F
-#define COOLERMASTER_RADEON_6000_PID            0x014D
 #define COOLERMASTER_MASTERKEYS_PRO_L_PID       0x003B
 #define COOLERMASTER_MASTERKEYS_PRO_L_WHITE_PID 0x0047
 #define COOLERMASTER_MASTERKEYS_PRO_S_PID       0x003C
@@ -88,7 +80,7 @@ void DetectCoolerMasterGPU(hid_device_info* info, const std::string&)
 
     if(dev)
     {
-        CMR6000Controller*               controller     = new CMR6000Controller(dev, info->path);
+        CMR6000Controller*               controller     = new CMR6000Controller(dev, info->path, info->product_id);
         RGBController_CMR6000Controller* rgb_controller = new RGBController_CMR6000Controller(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -189,3 +181,4 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB Gen 2 A1",            DetectCooler
 REGISTER_HID_DETECTOR_IPU("Cooler Master Small ARGB",               DetectCoolerMasterSmallARGB,    COOLERMASTER_VID,   COOLERMASTER_SMALL_ARGB_PID,                0,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master RGB",                      DetectCoolerMasterRGB,          COOLERMASTER_VID,   COOLERMASTER_RGB_PID,                       1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6000 GPU",          DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6000_PID,               1                );
+REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6900 GPU",          DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6900_PID,               1                );
