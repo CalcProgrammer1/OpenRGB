@@ -154,6 +154,7 @@ INCLUDEPATH +=                                                                  
     Controllers/SapphireGPUController/                                                          \
     Controllers/SinowealthController/                                                           \
     Controllers/SonyGamepadController/                                                          \
+    Controllers/SRGBmodsController/                                                             \
     Controllers/SteelSeriesController/                                                          \
     Controllers/TecknetController/                                                              \
     Controllers/ThermaltakePoseidonZRGBController/                                              \
@@ -538,6 +539,8 @@ HEADERS +=                                                                      
     Controllers/SonyGamepadController/RGBController_SonyDualSense.h                             \
     Controllers/SonyGamepadController/SonyDS4Controller.h                                       \
     Controllers/SonyGamepadController/RGBController_SonyDS4.h                                   \
+    Controllers/SRGBmodsController/SRGBmodsPicoController.h                                     \
+    Controllers/SRGBmodsController/RGBController_SRGBmodsPico.h                                 \
     Controllers/SteelSeriesController/color32.h                                                 \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.h                             \
     Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
@@ -1078,6 +1081,9 @@ SOURCES +=                                                                      
     Controllers/SonyGamepadController/SonyDS4Controller.cpp                                     \
     Controllers/SonyGamepadController/RGBController_SonyDS4.cpp                                 \
     Controllers/SonyGamepadController/SonyGamepadControllerDetect.cpp                           \
+    Controllers/SRGBmodsController/SRGBmodsPicoController.cpp                                   \
+    Controllers/SRGBmodsController/SRGBmodsControllerDetect.cpp                                 \
+    Controllers/SRGBmodsController/RGBController_SRGBmodsPico.cpp                               \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
