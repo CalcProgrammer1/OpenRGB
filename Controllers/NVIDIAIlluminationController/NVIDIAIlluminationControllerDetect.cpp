@@ -57,7 +57,7 @@ static const gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX3090TI_DEV,           NVIDIA_VEN,     NVIDIA_RTX3090TI_FE_SUB_DEV,                NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 3090TI FE"              },
 };
 
-bool DetectNVIDIAIllumGPUs()
+void DetectNVIDIAIllumGPUs(std::vector<RGBController*> &rgb_controllers)
 {
     static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
     static NV_S32                   gpu_count = 0;
@@ -98,7 +98,7 @@ bool DetectNVIDIAIllumGPUs()
                                 new_controller          = new NVIDIAIlluminationV1Controller(new_nvapi, device_list[dev_idx].treats_rgbw_as_rgb);
                                 new_rgbcontroller       = new RGBController_NVIDIAIlluminationV1(new_controller);
                                 new_rgbcontroller->name = device_list[dev_idx].name;
-                                ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+                                rgb_controllers.push_back(new_rgbcontroller);
                             }
                             break;
                     }
@@ -106,7 +106,6 @@ bool DetectNVIDIAIllumGPUs()
             }
         }
     }
-    return(true);
 }
 
-REGISTER_I2C_BUS_DETECTOR(DetectNVIDIAIllumGPUs);
+REGISTER_DETECTOR("NVidia NvAPI Illumination", DetectNVIDIAIllumGPUs);
