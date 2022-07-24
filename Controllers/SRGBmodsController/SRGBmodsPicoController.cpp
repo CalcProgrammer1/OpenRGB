@@ -107,6 +107,11 @@ void SRGBmodsPicoController::SendPacket
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
+    | Update last commit time                               |
+    \*-----------------------------------------------------*/
+    last_commit_time = std::chrono::steady_clock::now();
+
+    /*-----------------------------------------------------*\
     | Set up Firmware Version Request packet                |
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0x00;             /* hidapi Report ID*/
