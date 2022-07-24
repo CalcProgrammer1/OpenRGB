@@ -453,23 +453,6 @@ before_script:
   - "Linux 64 .deb (Debian Buster)"
 
 #-----------------------------------------------------------------------#
-# Ubuntu 64 21.10 test                                                  #
-#-----------------------------------------------------------------------#
-"Ubuntu 64 21.10":
-  image: ubuntu:impish
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - openrgb -l
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux 64 .deb (Debian Bullseye)"
-  needs:
-  - "Linux 64 .deb (Debian Bullseye)"
-
-#-----------------------------------------------------------------------#
 # Ubuntu 64 22.04 test                                                  #
 #-----------------------------------------------------------------------#
 "Ubuntu 64 22.04LTS":
