@@ -44,6 +44,7 @@ json rgb_fusion_2_smbus_motherboards[] =
     "X470 AORUS ULTRA GAMING",
     "X470 AORUS ULTRA GAMING-CF",
     "Z370 AORUS Gaming 5-CF"
+    "Z370 AORUS Ultra Gaming-CF"
 };
 
 /******************************************************************************************\
@@ -60,12 +61,12 @@ bool TestForGigabyteRGBFusion2SMBusController(i2c_smbus_interface* bus, unsigned
     bool pass = false;
 
     int res = bus->i2c_smbus_write_quick(address, I2C_SMBUS_WRITE);
-    
+
     if (res >= 0)
     {
         pass = true;
     }
-    
+
     return(pass);
 
 }   /* TestForRGBFusion2SMBusController() */
@@ -93,7 +94,7 @@ void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>&
     | Get Linux LED settings from settings manager      |
     \*-------------------------------------------------*/
     device_settings = set_man->GetSettings(DETECTOR_NAME);
-    
+
     if(!device_settings.contains("SupportedDevices"))
     {
         //If supported devices is not found then write it to settings
