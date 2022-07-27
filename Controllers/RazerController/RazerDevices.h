@@ -84,6 +84,7 @@
 #define RAZER_ORNATA_CHROMA_V2_PID                      0x025D
 #define RAZER_TARTARUS_CHROMA_PID                       0x0208
 #define RAZER_TARTARUS_V2_PID                           0x022B
+#define RAZER_TURRET_FOR_XBOX_ONE_PID                   0x0904
 
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
@@ -3620,6 +3621,41 @@ static const razer_device huntsman_v2_device =
     },
     huntsman_v2_keymap,
     HUNTSMAN_V2_KEYMAP_SIZE
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Turret for Xbox One                                    |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 17 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone turret_for_xbox_one_keyboard_zone =
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    6,
+    17
+};
+
+static const razer_device turret_for_xbox_one_device =
+{
+    "Razer Turret for Xbox One",
+    RAZER_TURRET_FOR_XBOX_ONE_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    17,
+    {
+        &turret_for_xbox_one_keyboard_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
 };
 
 /*-------------------------------------------------------------------------*\
@@ -8073,6 +8109,7 @@ static const razer_device* device_list[] =
     &huntsman_v2_analog_device,
     &huntsman_v2_tkl_device,
     &ornata_chroma_device,
+    &turret_for_xbox_one_device,
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
 \*-----------------------------------------------------------------*/

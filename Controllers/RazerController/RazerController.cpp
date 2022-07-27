@@ -87,6 +87,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
             break;
 
         case RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID:
+        case RAZER_TURRET_FOR_XBOX_ONE_PID:
             {
             dev_transaction_id = 0x9F;
             break;
@@ -277,6 +278,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_SEIREN_EMOTE_PID:
         case RAZER_TARTARUS_V2_PID:
         case RAZER_TIAMAT_71_V2_PID:
+        case RAZER_TURRET_FOR_XBOX_ONE_PID:
         case RAZER_VIPER_8KHZ_PID:
         case RAZER_VIPER_MINI_PID:
         case RAZER_VIPER_PID:
