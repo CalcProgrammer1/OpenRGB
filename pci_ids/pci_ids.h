@@ -430,6 +430,7 @@
 #define MSI_RTX3080TI_SUPRIM_X_SUB_DEV                  0x3897
 #define MSI_RTX3090_GAMING_X_TRIO_SUB_DEV               0x3884
 #define MSI_RTX3090_SUPRIM_X_SUB_DEV                    0x3882
+#define MSI_RTX3090TI_SUPRIM_X_SUB_DEV                  0x5090
 #define MSI_RX6800XT_GAMING_Z_TRIO_SUB_DEV              0x3953
 
 /*-----------------------------------------------------*\
