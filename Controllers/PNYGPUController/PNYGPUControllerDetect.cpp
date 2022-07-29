@@ -35,6 +35,7 @@ void DetectPNYGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const s
     ResourceManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectPNYGPUControllers() */
 
+REGISTER_I2C_PCI_DETECTOR("PNY XLR8 Revel EPIC-X RTX 3080",     DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3080_DEV,         PNY_SUB_VEN,    PNY_RTX_3080_XLR8_REVEL_EPIC_X_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("PNY XLR8 Revel EPIC-X RTX 3090",     DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3090_DEV,         PNY_SUB_VEN,    PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("Palit 3060",                         DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3060_DEV,         PALIT_SUB_VEN,  PALIT_RTX3060_SUB_DEV,                  0x49);
 REGISTER_I2C_PCI_DETECTOR("Palit 3060 LHR",                     DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3060_LHR_DEV,     PALIT_SUB_VEN,  PALIT_RTX3060_LHR_SUB_DEV,              0x49);
