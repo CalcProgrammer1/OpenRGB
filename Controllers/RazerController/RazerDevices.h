@@ -184,6 +184,7 @@
 #define RAZER_FIREFLY_V2_PID                            0x0C04
 #define RAZER_GOLIATHUS_CHROMA_EXTENDED_PID             0x0C02
 #define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
+#define RAZER_LAPTOP_STAND_CHROMA_PID                   0x0F0D
 #define RAZER_LAPTOP_STAND_CHROMA_V2_PID                0x0F2B
 #define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID                0x0F1D
 #define RAZER_MOUSE_DOCK_CHROMA_PID                     0x007E
@@ -7752,6 +7753,41 @@ static const razer_device base_station_v2_device =
     8,
     {
         &base_station_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Laptop Stand Chroma 1532:0F0D                          |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       15 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone laptop_stand_chroma_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    15
+};
+
+static const razer_device laptop_stand_chroma_device =
+{
+    "Razer Laptop Stand Chroma",
+    RAZER_LAPTOP_STAND_CHROMA_PID,
+    DEVICE_TYPE_LEDSTRIP,
+    true,
+    1,
+    15,
+    {
+        &laptop_stand_chroma_zone,
         NULL,
         NULL,
         NULL,
