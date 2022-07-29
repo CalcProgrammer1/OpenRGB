@@ -255,7 +255,9 @@ HEADERS +=                                                                      
     Controllers/ASRockSMBusController/ASRockPolychromeV2SMBusController.h                       \
     Controllers/ASRockSMBusController/RGBController_ASRockPolychromeV2SMBus.h                   \
     Controllers/AsusAuraCoreController/AsusAuraCoreController.h                                 \
+    Controllers/AsusAuraCoreController/AsusAuraCoreLaptopController.h                           \
     Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.h                             \
+    Controllers/AsusAuraCoreController/RGBController_AsusAuraCoreLaptop.h                       \
     Controllers/AsusAuraGPUController/AsusAuraGPUController.h                                   \
     Controllers/AsusAuraGPUController/RGBController_AsusAuraGPU.h                               \
     Controllers/AsusAuraUSBController/AsusAuraUSBController.h                                   \
@@ -727,7 +729,9 @@ SOURCES +=                                                                      
     Controllers/ASRockSMBusController/RGBController_ASRockPolychromeV2SMBus.cpp                 \
     Controllers/AsusAuraCoreController/AsusAuraCoreController.cpp                               \
     Controllers/AsusAuraCoreController/AsusAuraCoreControllerDetect.cpp                         \
+    Controllers/AsusAuraCoreController/AsusAuraCoreLaptopController.cpp                         \
     Controllers/AsusAuraCoreController/RGBController_AsusAuraCore.cpp                           \
+    Controllers/AsusAuraCoreController/RGBController_AsusAuraCoreLaptop.cpp                     \
     Controllers/AsusAuraGPUController/AsusAuraGPUController.cpp                                 \
     Controllers/AsusAuraGPUController/AsusAuraGPUControllerDetect.cpp                           \
     Controllers/AsusAuraGPUController/RGBController_AsusAuraGPU.cpp                             \
