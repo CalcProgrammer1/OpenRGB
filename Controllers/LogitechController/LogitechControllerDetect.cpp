@@ -766,33 +766,30 @@ usages BundleLogitechUsages(hid_device_info* info)
     |   Grab all usages that you can open. For normal Logitech FAP      |
     |   devices this will be usage 1, 2 and 4                           |
     \*-----------------------------------------------------------------*/
+    usages temp_usages;
 
-    usages              temp_usages;
-    uint16_t            current_pid     = info->product_id;
-    hid_device_info*    temp_info       = info;
-
-    /*-----------------------------------------------------------------*\
-    | To avoid duplicate entries per device only look from usage 1      |
-    \*-----------------------------------------------------------------*/
-    if(temp_info->usage == 1)
+    hid_device_info* temp_info  = hid_enumerate(info->vendor_id, info->product_id);
+    while(temp_info)
     {
-        while(temp_info)
+        /*-----------------------------------------------------------------*\
+        | Only bundle the device that triggered this callback               |
+        \*-----------------------------------------------------------------*/
+        if(temp_info->interface_number == 2)
         {
-            /*-----------------------------------------------------------------*\
-            | Only bundle the device that triggered this callback               |
-            \*-----------------------------------------------------------------*/
-            if(temp_info->product_id == current_pid)
-            {
-                hid_device* dev = hid_open_path(temp_info->path);
+            LOG_DEBUG("Attempting to open dev path: %s", info->path);
+            hid_device* dev = hid_open_path(temp_info->path);
 
-                if(dev)
-                {
-                    LOG_DEBUG("Adding Usage %i for device @ path %s", temp_info->usage, temp_info->path);
-                    temp_usages.emplace((uint8_t)temp_info->usage, dev);
-                }
+            if(dev)
+            {
+                LOG_DEBUG("Success! Adding Usage %i for device @ path %s", temp_info->usage, temp_info->path);
+                temp_usages.emplace((uint8_t)temp_info->usage, dev);
             }
-            temp_info = temp_info->next;
+            else
+            {
+                LOG_INFO("FAILED! Can not add Usage %i for device @ path %s", temp_info->usage, temp_info->path);
+            }
         }
+        temp_info = temp_info->next;
     }
 
     return temp_usages;
@@ -833,8 +830,8 @@ void DetectLogitechLightspeedReceiver(hid_device_info* info, const std::string& 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Lightspeed Receivers (Windows Wireless)                                                                                                           |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("Logitech Lightspeed Receiver",                        DetectLogitechLightspeedReceiver,   LOGITECH_VID, LOGITECH_G_LIGHTSPEED_RECEIVER_PID,   2, 0xFF00);
-REGISTER_HID_DETECTOR_IP("Logitech G Powerplay Mousepad",                       DetectLogitechLightspeedReceiver,   LOGITECH_VID, LOGITECH_G_LIGHTSPEED_POWERPLAY_PID,  2, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("Logitech Lightspeed Receiver",                        DetectLogitechLightspeedReceiver,   LOGITECH_VID, LOGITECH_G_LIGHTSPEED_RECEIVER_PID,   2, 0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Logitech G Powerplay Mousepad",                       DetectLogitechLightspeedReceiver,   LOGITECH_VID, LOGITECH_G_LIGHTSPEED_POWERPLAY_PID,  2, 0xFF00, 1);
 
 #endif
 
