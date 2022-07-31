@@ -15,43 +15,6 @@
     @save :x:
     @direct :white_check_mark:
     @effects :x:
-    @detectors DetectNVIDIAIlluminationGPUControllers
-    @comment Tested on various 30 series GPUs and a Founders Edition 2070 Super
-        If you want to see if your card should also use this controller, download the DLLs from the release of [this](https://gitlab.com/OpenRGBDevelopers/NvAPISpy).
-
-        Perform the global replacement technique, which is specified in the README of NvAPI spy.  Once this is complete, use an RGB program of your choice and make some basic
-        lighting changes.
-
-        Check the C:\NvAPISpy\ folder and see if the logs created are filled with calls like this:
-        ```
-        NvAPI_GPU_ClientIllumZonesGetControl:   version: 72012  numIllumZones: 2  bDefault: 0  rsvdField: 0
-                                                ZoneIdx: 0 ----------------------------------------
-                                                **ZoneType: RGBW  ControlMode: MANUAL
-                                                **DATA_RGBW::  Red: 255  Green: 0  Blue: 0  White: 0  Brightness%: 36
-                                                ZoneIdx: 1 ----------------------------------------
-                                                **ZoneType: SINGLE_COLOR  ControlMode: MANUAL
-                                                **DATA_SINGLE_COLOR::  Brightness% 100
-        NvAPI_GPU_ClientIllumZonesSetControl:   version: 72012  numIllumZones: 2  bDefault: 0  rsvdField: 0
-                                                ZoneIdx: 0 ----------------------------------------
-                                                **ZoneType: RGBW  ControlMode: MANUAL
-                                                **DATA_RGBW::  Red: 255  Green: 0  Blue: 0  White: 0  Brightness%: 36
-                                                ZoneIdx: 1 ----------------------------------------
-                                                **ZoneType: SINGLE_COLOR  ControlMode: MANUAL
-                                                **DATA_SINGLE_COLOR::  Brightness% 44
-        ```
-        If you see Get/Set Calls above for zone control, please create a [new device issue](https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/new?issuable_template=New%20Device#)
-        and attach the relevant details to request support for your device (try various modes in each color, especially white and shades around it, since some cards treat RGBW as
-        standard RGB).
-\*-------------------------------------------------------------------*/
-
-
-/**------------------------------------------------------------------*\
-    @name NVIDIA Illumination
-    @category GPU
-    @type PCI
-    @save :x:
-    @direct :white_check_mark:
-    @effects :x:
     @detectors DetectNVIDIAIllumGPUs
     @comment Tested on various 30 series GPUs and a Founders Edition 2070 Super
         If you want to see if your card should also use this controller, download the DLLs from the release of [this](https://gitlab.com/OpenRGBDevelopers/NvAPISpy).

@@ -110,18 +110,6 @@ void NVIDIAIlluminationV1Controller::setZone(uint8_t zone, uint8_t mode, NVIDIAI
             {
                 zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = 0;
             }
-            else if (zone_params.zones[zone].type == NV_GPU_CLIENT_ILLUM_ZONE_TYPE_COLOR_FIXED)
-            {
-                zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = 0;
-            }
-            else if(zone_params.zones[zone].type == NV_GPU_CLIENT_ILLUM_ZONE_TYPE_COLOR_FIXED)
-            {
-                zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = 0;
-            }
-            else if (zone_params.zones[zone].type == NV_GPU_CLIENT_ILLUM_ZONE_TYPE_COLOR_FIXED)
-            {
-                zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = 0;
-            }
             break;
         case NVIDIA_ILLUMINATION_DIRECT:
             zone_params.zones[zone].ctrlMode = NV_GPU_CLIENT_ILLUM_CTRL_MODE_MANUAL_RGB;
@@ -165,18 +153,6 @@ void NVIDIAIlluminationV1Controller::setZone(uint8_t zone, uint8_t mode, NVIDIAI
                 zone_params.zones[zone].data.singleColor.data.manualSingleColor.singleColorParams.brightnessPct = allZero({red, green, blue, white}) ? 0 : zone_config.brightness;
             }
             else if(zone_params.zones[zone].type == NV_GPU_CLIENT_ILLUM_ZONE_TYPE_COLOR_FIXED)
-            {
-                zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = allZero({red, green, blue, white}) ? 0 : zone_config.brightness;
-            }
-            else if (zone_params.zones[zone].type == NV_GPU_CLIENT_ILLUM_ZONE_TYPE_COLOR_FIXED)
-            {
-                zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = allZero({red, green, blue, white}) ? 0 : zone_config.brightness;
-            }
-            else if(zone_params.zones[zone].type == NV_GPU_CLIENT_ILLUM_ZONE_TYPE_COLOR_FIXED)
-            {
-                zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = allZero({red, green, blue, white}) ? 0 : zone_config.brightness;
-            }
-            else if (zone_params.zones[zone].type == NV_GPU_CLIENT_ILLUM_ZONE_TYPE_COLOR_FIXED)
             {
                 zone_params.zones[zone].data.colorFixed.data.manualColorFixed.colorFixedParams.brightnessPct = allZero({red, green, blue, white}) ? 0 : zone_config.brightness;
             }
