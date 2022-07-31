@@ -32,4 +32,6 @@ private:
     MSIGPUController* msi_gpu;
 
     int        GetDeviceMode();
+    int        GetModeBrightness();
+    int        GetModeSpeed();
 };
