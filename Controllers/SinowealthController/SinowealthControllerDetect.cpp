@@ -19,6 +19,8 @@
 #define Glorious_Model_OW_PID1	0x2022 // wireless
 #define Glorious_Model_OW_PID2	0x2011 // when connected via cable
 #define Glorious_Model_D_PID	0x0033
+#define Glorious_Model_DW_PID1  0x2023 // Wireless
+#define Glorious_Model_DW_PID2  0x2012 // When connected via cable
 #define Everest_GT100_PID       0x0029
 #define ZET_FURY_PRO_PID	    0x1007
 #define Fl_Esports_F11_PID      0x0049
@@ -238,7 +240,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
     | the device is PID=2011). However, when both are plugged in, packets       |
     | should only go to the cable connected device                              |
     \*-------------------------------------------------------------------------*/
-    else if(pid == Glorious_Model_OW_PID1) // if dongle
+    else if(pid == Glorious_Model_OW_PID1 || pid == Glorious_Model_DW_PID1) // if dongle
     {
         LOG_DEBUG("[%s] Detected connection via wireless dongle", name.c_str());
         hid_device_info* start = hid_enumerate(SINOWEALTH_VID,0);
@@ -246,7 +248,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
 
         while(curr)
         {
-            if(curr->product_id == Glorious_Model_OW_PID2)
+            if(curr->product_id == Glorious_Model_OW_PID2 || curr->product_id == Glorious_Model_DW_PID2)
             {
                 return;
             }
@@ -257,7 +259,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
         SinowealthGMOWController* controller = new SinowealthGMOWController(dev, info->path, GMOW_DONGLE_CONNECTED);
         rgb_controller                       = new RGBController_GMOW(controller);
     }
-    else if(pid == Glorious_Model_OW_PID2)
+    else if(pid == Glorious_Model_OW_PID2 || pid == Glorious_Model_DW_PID2)
     {
         LOG_DEBUG("[%s] Detected connection via USB cable", name.c_str());
         hid_device *dev                      = hid_open_path(info->path);
@@ -296,7 +298,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
         | See above where USE_HID_USAGE is true for explanation of the detection    |
         | process for the GMOW                                                      |
         \*-------------------------------------------------------------------------*/
-        else if(pid == Glorious_Model_OW_PID1) // if dongle
+        else if(pid == Glorious_Model_OW_PID1 || pid == Glorious_Model_DW_PID1) // if dongle
         {
             LOG_DEBUG("[%s] Detected connection via wireless dongle", name.c_str());
             hid_device_info* start = hid_enumerate(SINOWEALTH_VID,0);
@@ -304,7 +306,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
 
             while(curr)
             {
-                if(curr->product_id == Glorious_Model_OW_PID2)
+                if(curr->product_id == Glorious_Model_OW_PID2 || curr->product_id == Glorious_Model_DW_PID2)
                 {
                     return;
                 }
@@ -315,7 +317,7 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
             SinowealthGMOWController* controller = new SinowealthGMOWController(dev, info->path, GMOW_DONGLE_CONNECTED);
             rgb_controller                       = new RGBController_GMOW(controller);
         }
-        else if(pid == Glorious_Model_OW_PID2)
+        else if(pid == Glorious_Model_OW_PID2 || pid == Glorious_Model_DW_PID2)
         {
             LOG_DEBUG("[%s] Detected connection via USB cable", name.c_str());
             hid_device *dev                      = hid_open_path(info->path);
@@ -369,7 +371,7 @@ void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
     if(dev)
     {
         RGBController *rgb_controller;
-        
+
         if(pid == RGB_KEYBOARD_0016PID)
         {
             SinowealthKeyboard16Controller* controller = new SinowealthKeyboard16Controller(dev, dev, info->path, name);
@@ -393,6 +395,8 @@ REGISTER_HID_DETECTOR_P("Everest GT-100 RGB",              DetectSinowealthMouse
 REGISTER_HID_DETECTOR_IPU("ZET Fury Pro",                  DetectSinowealthMouse, SINOWEALTH_VID, ZET_FURY_PRO_PID, 1,    0xFF00, 1);
 REGISTER_HID_DETECTOR_PU("Glorious Model O / O- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_OW_PID1, 0xFFFF, 0x0000);
 REGISTER_HID_DETECTOR_PU("Glorious Model O / O- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_OW_PID2, 0xFFFF, 0x0000);
+REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID1, 0xFFFF, 0x0000);
+REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID2, 0xFFFF, 0x0000);
 
 //REGISTER_HID_DETECTOR_P("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,     0xFF00);
 //REGISTER_HID_DETECTOR_P("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID,   0xFF00);
@@ -403,6 +407,8 @@ REGISTER_HID_DETECTOR_I("Everest GT-100 RGB",             DetectSinowealthMouse,
 REGISTER_HID_DETECTOR_I("ZET Fury Pro",                   DetectSinowealthMouse, SINOWEALTH_VID, ZET_FURY_PRO_PID,       1);
 REGISTER_HID_DETECTOR_I("Glorious Model O / O- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_OW_PID1, 2);
 REGISTER_HID_DETECTOR_I("Glorious Model O / O- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_OW_PID2, 2);
+REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID1, 2);
+REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID2, 2);
 
 //REGISTER_HID_DETECTOR_I("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,   1);
 //REGISTER_HID_DETECTOR_I("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID, 1);
