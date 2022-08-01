@@ -55,7 +55,7 @@ void RGBController_SteelSeriesApexTZone::DeviceSaveMode()
 void RGBController_SteelSeriesApexTZone::SetupZones()
 {
     zone curr_zone;
-    curr_zone.name          = "Keyboard Zone";
+    curr_zone.name          = "Keyboard";
     curr_zone.type          = ZONE_TYPE_LINEAR;
     curr_zone.leds_min      = 10;
     curr_zone.leds_max      = 10;

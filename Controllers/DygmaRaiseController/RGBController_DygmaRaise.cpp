@@ -37,7 +37,7 @@ static unsigned int underglow_matrix[11][14] =
 
 static const char* zone_names[] =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     "Underglow",
     "Neuron",
 };

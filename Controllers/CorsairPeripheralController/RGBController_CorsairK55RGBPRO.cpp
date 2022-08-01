@@ -1,4 +1,3 @@
-#include "RGBController_CorsairK55RGBPRO.h"
 /*-----------------------------------------*\
 |  RGBController_CorsairK55RGBPRO.cpp       |
 |                                           |
@@ -6,6 +5,7 @@
 \*-----------------------------------------*/
 
 #include "LogManager.h"
+#include "RGBController_CorsairK55RGBPRO.h"
 
 using namespace std::chrono_literals;
 

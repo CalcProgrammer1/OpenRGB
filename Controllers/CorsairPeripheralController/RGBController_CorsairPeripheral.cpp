@@ -53,7 +53,7 @@ static unsigned int matrix_map_k95[7][26] =
 \*---------------------------------------------------------*/
 static const char* zone_names[] =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
 };
 
 static const unsigned int zone_sizes[] =
@@ -71,7 +71,7 @@ static const zone_type zone_types[] =
 \*---------------------------------------------------------*/
 static const char* zone_names_k70_mk2[] =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
 };
 
 static const unsigned int zone_sizes_k70_mk2[] =
@@ -89,7 +89,7 @@ static const zone_type zone_types_k70_mk2[] =
 \*---------------------------------------------------------*/
 static const char* zone_names_k95_platinum[] =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     "Light Bar"
 };
 
@@ -110,7 +110,7 @@ static const zone_type zone_types_k95_platinum[] =
 \*---------------------------------------------------------*/
 static const char* zone_names_k95[] =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
 };
 
 static const unsigned int zone_sizes_k95[] =

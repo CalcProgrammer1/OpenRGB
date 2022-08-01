@@ -197,7 +197,11 @@ void RGBController_Razer::SetupZones()
                         }
                     }
 
-                    if(not_found)
+                    /*-----------------------------------------------------------------*\
+                    | If this is the "Keyboard" zone and key was not found in the map   |
+                    |   then change the value of the key to hide it from view           |
+                    \*-----------------------------------------------------------------*/
+                    if(not_found && zones[zone_id].name == ZONE_EN_KEYBOARD)
                     {
                         zones[zone_id].matrix_map->map[row_id * zones[zone_id].matrix_map->width + col_id] = NA;
                     }

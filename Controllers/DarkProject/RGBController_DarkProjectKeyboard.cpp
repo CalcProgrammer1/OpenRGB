@@ -160,7 +160,7 @@ void RGBController_DarkProjectKeyboard::SetupZones()
     | Create the Keyboard zone and add the matix map    |
     \*-------------------------------------------------*/
     zone KB_zone;
-    KB_zone.name                = "Keyboard Zone";
+    KB_zone.name                = ZONE_EN_KEYBOARD;
     KB_zone.type                = ZONE_TYPE_MATRIX;
     KB_zone.leds_min            = DARKPROKECTKEYBOARD_TKL_KEYCOUNT;
     KB_zone.leds_max            = DARKPROKECTKEYBOARD_TKL_KEYCOUNT;

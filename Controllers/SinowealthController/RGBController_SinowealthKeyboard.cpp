@@ -416,7 +416,7 @@ void RGBController_SinowealthKeyboard::SetupZones()
     \*---------------------------------------------------------*/
     zone new_zone;
 
-    new_zone.name                   = "Keyboard";
+    new_zone.name                   = ZONE_EN_KEYBOARD;
     new_zone.type                   = ZONE_TYPE_MATRIX;
     new_zone.leds_min               = 86;
     new_zone.leds_max               = 86;

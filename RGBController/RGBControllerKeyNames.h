@@ -12,6 +12,7 @@
 #pragma once
 
 extern const char* KEY_EN_UNUSED;
+extern const char* ZONE_EN_KEYBOARD;
 
 extern const char* KEY_EN_ESCAPE;
 extern const char* KEY_EN_F1;

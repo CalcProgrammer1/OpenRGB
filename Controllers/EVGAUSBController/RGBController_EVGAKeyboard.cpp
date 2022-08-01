@@ -398,7 +398,7 @@ void RGBController_EVGAKeyboard::SetupZones()
     |   Z15 and Z20                                     |
     \*-------------------------------------------------*/
     zone KB_zone;
-    KB_zone.name                = "Keyboard Zone";
+    KB_zone.name                = ZONE_EN_KEYBOARD;
     KB_zone.type                = ZONE_TYPE_MATRIX;
     KB_zone.leds_min            = EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT;
     KB_zone.leds_max            = EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT;

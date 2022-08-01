@@ -2670,7 +2670,7 @@ static const razer_key tartarus_v2_keymap[] =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_2019_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2705,7 +2705,7 @@ static const razer_device blackwidow_2019_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_chroma_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2740,7 +2740,7 @@ static const razer_device blackwidow_chroma_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_chroma_overwatch_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2775,7 +2775,7 @@ static const razer_device blackwidow_chroma_overwatch_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_v3_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2810,7 +2810,7 @@ static const razer_device blackwidow_v3_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_chroma_te_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2845,7 +2845,7 @@ static const razer_device blackwidow_chroma_te_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_elite_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2880,7 +2880,7 @@ static const razer_device blackwidow_elite_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_chroma_v2_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2915,7 +2915,7 @@ static const razer_device blackwidow_chroma_v2_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_v3_pro_wired_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2950,7 +2950,7 @@ static const razer_device blackwidow_v3_pro_wired_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_v3_pro_bluetooth_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -2985,7 +2985,7 @@ static const razer_device blackwidow_v3_pro_bluetooth_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_v3_pro_wireless_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3020,7 +3020,7 @@ static const razer_device blackwidow_v3_pro_wireless_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_v3_tkl_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     18
@@ -3055,7 +3055,7 @@ static const razer_device blackwidow_v3_tkl_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_v3_mini_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     5,
     16
@@ -3117,7 +3117,7 @@ static const razer_device blackwidow_v3_mini_wireless_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_x_chroma_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3152,7 +3152,7 @@ static const razer_device blackwidow_x_chroma_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blackwidow_x_chroma_te_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3187,7 +3187,7 @@ static const razer_device blackwidow_x_chroma_te_device =
 \*-------------------------------------------------------------*/
 static const razer_zone cynosa_chroma_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3222,7 +3222,7 @@ static const razer_device cynosa_chroma_device =
 \*-------------------------------------------------------------*/
 static const razer_zone cynosa_v2_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3257,7 +3257,7 @@ static const razer_device cynosa_v2_device =
 \*-------------------------------------------------------------*/
 static const razer_zone cynosa_lite_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
     1,
     1
@@ -3292,7 +3292,7 @@ static const razer_device cynosa_lite_device =
 \*-------------------------------------------------------------*/
 static const razer_zone ornata_chroma_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3327,7 +3327,7 @@ static const razer_device ornata_chroma_device =
 \*-------------------------------------------------------------*/
 static const razer_zone deathstalker_chroma_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_LINEAR,
     1,
     12
@@ -3362,7 +3362,7 @@ static const razer_device deathstalker_chroma_device =
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3401,7 +3401,7 @@ static const razer_device huntsman_device =
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_elite_keyboard_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3448,7 +3448,7 @@ static const razer_device huntsman_elite_device =
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_v2_analog_keyboard_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3491,7 +3491,7 @@ static const razer_device huntsman_v2_analog_device =
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_mini_keyboard_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     5,
     15
@@ -3526,7 +3526,7 @@ static const razer_device huntsman_mini_device =
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_te_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     18
@@ -3561,7 +3561,7 @@ static const razer_device huntsman_te_device =
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_v2_tkl_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     17
@@ -3596,7 +3596,7 @@ static const razer_device huntsman_v2_tkl_device =
 \*-------------------------------------------------------------*/
 static const razer_zone huntsman_v2_keyboard_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     22
@@ -3630,13 +3630,12 @@ static const razer_device huntsman_v2_device =
 |  Razer Blade (2016)                                           |
 |                                                               |
 |  Zone "Keyboard"                                              |
-|  Zone "Keyboard"                                              |
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
 static const razer_zone blade_2016_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3671,7 +3670,7 @@ static const razer_device blade_2016_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_late_2016_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3706,7 +3705,7 @@ static const razer_device blade_late_2016_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2018_advanced_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3741,7 +3740,7 @@ static const razer_device blade_15_2018_advanced_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2018_base_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3776,7 +3775,7 @@ static const razer_device blade_15_2018_base_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2018_mercury_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3811,7 +3810,7 @@ static const razer_device blade_15_2018_mercury_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2019_advanced_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3846,7 +3845,7 @@ static const razer_device blade_15_2019_advanced_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2019_base_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
     1,
     1
@@ -3881,7 +3880,7 @@ static const razer_device blade_15_2019_base_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2019_mercury_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3916,7 +3915,7 @@ static const razer_device blade_15_2019_mercury_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2019_studio_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3951,7 +3950,7 @@ static const razer_device blade_15_2019_studio_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2020_advanced_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -3986,7 +3985,7 @@ static const razer_device blade_15_2020_advanced_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2020_base_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_LINEAR,
     1,
     16
@@ -4021,7 +4020,7 @@ static const razer_device blade_15_2020_base_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_late_2020_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4056,7 +4055,7 @@ static const razer_device blade_late_2020_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2021_advanced_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4091,7 +4090,7 @@ static const razer_device blade_15_2021_advanced_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2021_base_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_LINEAR,
     1,
     16
@@ -4126,7 +4125,7 @@ static const razer_device blade_15_2021_base_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_15_2021_base_v2_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_LINEAR,
     1,
     16
@@ -4161,7 +4160,7 @@ static const razer_device blade_15_2021_base_v2_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_14_2021_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4196,7 +4195,7 @@ static const razer_device blade_14_2021_device =
 \*-------------------------------------------------------------*/
 static const razer_zone book_13_2020_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4231,7 +4230,7 @@ static const razer_device book_13_2020_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_pro_2016_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     25
@@ -4266,7 +4265,7 @@ static const razer_device blade_pro_2016_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_pro_2017_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     25
@@ -4301,7 +4300,7 @@ static const razer_device blade_pro_2017_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_pro_2017_fullhd_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     25
@@ -4335,7 +4334,7 @@ static const razer_device blade_pro_2017_fullhd_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_pro_2019_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4370,7 +4369,7 @@ static const razer_device blade_pro_2019_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_pro_late_2019_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4405,7 +4404,7 @@ static const razer_device blade_pro_late_2019_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_pro_17_2020_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4440,7 +4439,7 @@ static const razer_device blade_pro_17_2020_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_pro_17_2021_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4475,7 +4474,7 @@ static const razer_device blade_pro_17_2021_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_2016_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4510,7 +4509,7 @@ static const razer_device blade_stealth_2016_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_late_2016_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4545,7 +4544,7 @@ static const razer_device blade_stealth_late_2016_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_2017_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4580,7 +4579,7 @@ static const razer_device blade_stealth_2017_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_late_2017_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4615,7 +4614,7 @@ static const razer_device blade_stealth_late_2017_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_2019_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     6,
     16
@@ -4650,7 +4649,7 @@ static const razer_device blade_stealth_2019_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_late_2019_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
     1,
     1
@@ -4685,7 +4684,7 @@ static const razer_device blade_stealth_late_2019_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_2020_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
     1,
     1
@@ -4720,7 +4719,7 @@ static const razer_device blade_stealth_2020_device =
 \*-------------------------------------------------------------*/
 static const razer_zone blade_stealth_late_2020_zone =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_LINEAR,
     1,
     16

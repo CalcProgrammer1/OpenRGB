@@ -26,7 +26,7 @@ static unsigned int matrix_map[7][24] =
 
 static const char* zone_names[] =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
 };
 
 static const unsigned int zone_sizes[] =

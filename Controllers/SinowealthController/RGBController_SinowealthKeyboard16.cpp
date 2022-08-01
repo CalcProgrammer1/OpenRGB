@@ -372,7 +372,7 @@ void RGBController_SinowealthKeyboard16::SetupZones()
     \*---------------------------------------------------------*/
     zone new_zone;
 
-    new_zone.name                   = "Keyboard";
+    new_zone.name                   = ZONE_EN_KEYBOARD;
     new_zone.type                   = ZONE_TYPE_MATRIX;
     new_zone.leds_count             = sinowealth->GetLEDCount();
     new_zone.leds_min               = new_zone.leds_count;

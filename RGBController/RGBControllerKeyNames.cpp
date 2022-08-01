@@ -12,6 +12,7 @@
 #include "RGBControllerKeyNames.h"
 
 const char* KEY_EN_UNUSED            = "";
+const char* ZONE_EN_KEYBOARD         = "Keyboard";
 
 const char* KEY_EN_ESCAPE            = "Key: Escape";
 const char* KEY_EN_F1                = "Key: F1";

@@ -28,7 +28,7 @@ static unsigned int matrix_map[ZET_BLADE_OPTICAL_ROWS][ZET_BLADE_OPTICAL_COLUMNS
 
 static const char* zone_names[] =
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
 };
 
 static zone_type zone_types[] =

@@ -179,7 +179,7 @@ void RGBController_CorsairK65Mini::SetupZones()
     unsigned int zone_size          = 0;
 
     zone keyboard_zone;
-    keyboard_zone.name               = "Keyboard";
+    keyboard_zone.name               = ZONE_EN_KEYBOARD;
     keyboard_zone.type               = ZONE_TYPE_MATRIX;
 
     keyboard_zone.matrix_map         = new matrix_map_type;

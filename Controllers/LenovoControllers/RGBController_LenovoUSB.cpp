@@ -59,7 +59,7 @@ using namespace std;
 \*------*/
 lenovo_zone lenovo_legion_7_gen_6_kbd
 {
-    "Keyboard",
+    ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
     10,
     22,
