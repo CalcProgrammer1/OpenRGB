@@ -40,7 +40,7 @@ LogitechGLightsyncController::~LogitechGLightsyncController()
 
 std::string LogitechGLightsyncController::GetDeviceLocation()
 {
-    return (location);
+    return ("HID: " + location);
 }
 
 std::string LogitechGLightsyncController::GetSerialString()
