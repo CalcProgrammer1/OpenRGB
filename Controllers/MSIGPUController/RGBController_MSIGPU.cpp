@@ -6,9 +6,10 @@
 \*-----------------------------------------*/
 
 #include "RGBController_MSIGPU.h"
+#include <array>
 
-static unsigned char brightness_values[] = { 0x14, 0x28, 0x3c, 0x50, 0x64 };
-static unsigned char speed_values[]      = { 0x04, 0x02, 0x01 };
+static const std::array<unsigned char, 5> brightness_values = { 0x14, 0x28, 0x3c, 0x50, 0x64 };
+static const std::array<unsigned char, 3> speed_values      = { 0x04, 0x02, 0x01 };
 
 int RGBController_MSIGPU::GetDeviceMode()
 {
@@ -30,7 +31,7 @@ int RGBController_MSIGPU::GetModeSpeed()
 {
     unsigned char mode_speed = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_SPEED);
 
-    for(std::size_t speed = 0; speed < std::size(speed_values); speed++)
+    for(std::size_t speed = 0; speed < speed_values.size(); speed++)
     {
         if(speed_values[speed] == mode_speed)
         {
@@ -45,7 +46,7 @@ int RGBController_MSIGPU::GetModeBrightness()
 {
     unsigned char mode_brightness = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_BRIGHTNESS);
 
-    for(std::size_t brightness = 0; brightness < std::size(brightness_values); brightness++)
+    for(std::size_t brightness = 0; brightness < brightness_values.size(); brightness++)
     {
         if (brightness_values[brightness] == mode_brightness)
         {
