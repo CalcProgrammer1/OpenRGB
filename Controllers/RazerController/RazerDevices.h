@@ -8228,6 +8228,7 @@ static const razer_device* device_list[] =
     &chroma_pc_case_lighting_kit_device,
     &core_device,
     &core_x_device,
+    &laptop_stand_chroma_device,
     &laptop_stand_chroma_v2_device,
     &mug_holder_device,
     &mouse_dock_chroma_device,
