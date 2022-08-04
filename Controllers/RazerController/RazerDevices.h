@@ -111,6 +111,7 @@
 #define RAZER_DEATHADDER_CHROMA_PID                     0x0043
 #define RAZER_DEATHADDER_ELITE_PID                      0x005C
 #define RAZER_DEATHADDER_ESSENTIAL_PID                  0x006E
+#define RAZER_DEATHADDER_ESSENTIAL_V2_PID               0x0098
 #define RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID    0x0071
 #define RAZER_DEATHADDER_V2_MINI_PID                    0x008C
 #define RAZER_DEATHADDER_V2_PID                         0x0084
@@ -5298,6 +5299,53 @@ static const razer_device deathadder_essential_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Deathadder Essential V2 1532:0098                      |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone deathadder_essential_v2_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone deathadder_essential_v2_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device deathadder_essential_v2_device =
+{
+    "Razer DeathAdder Essential V2",
+    RAZER_DEATHADDER_ESSENTIAL_V2_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    2,
+    {
+        &deathadder_essential_v2_logo_zone,
+        &deathadder_essential_v2_scroll_wheel_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Deathadder Essential White Edition 1532:0071           |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -8222,6 +8270,7 @@ static const razer_device* device_list[] =
     &deathadder_chroma_device,
     &deathadder_elite_device,
     &deathadder_essential_device,
+    &deathadder_essential_v2_device,
     &deathadder_essential_white_edition_device,
     &deathadder_v2_device,
     &deathadder_v2_mini_device,

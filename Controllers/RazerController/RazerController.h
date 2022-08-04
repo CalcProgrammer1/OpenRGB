@@ -168,6 +168,7 @@ public:
     std::string             GetFirmwareString();
     std::string             GetName();
     std::string             GetSerialString();
+    unsigned char           GetMaxBrightness();
 
     void                    SetBrightness(unsigned char brightness);
 
@@ -263,7 +264,7 @@ private:
     void                    razer_set_custom_frame(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
 
     void                    razer_set_device_mode(unsigned char device_mode);
-    
+
     void                    razer_set_mode_breathing_random();
     void                    razer_set_mode_breathing_one_color(unsigned char red, unsigned char grn, unsigned char blu);
     void                    razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);

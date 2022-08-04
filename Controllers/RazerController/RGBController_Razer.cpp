@@ -14,44 +14,45 @@
 
 RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
 {
-    controller      = controller_ptr;
+    controller              = controller_ptr;
 
-    name            = controller->GetName();
-    vendor          = "Razer";
-    type            = controller->GetDeviceType();
-    description     = "Razer Device";
-    location        = controller->GetDeviceLocation();
-    version         = controller->GetFirmwareString();
-    serial          = controller->GetSerialString();
+    name                    = controller->GetName();
+    vendor                  = "Razer";
+    type                    = controller->GetDeviceType();
+    description             = "Razer Device";
+    location                = controller->GetDeviceLocation();
+    version                 = controller->GetFirmwareString();
+    serial                  = controller->GetSerialString();
+    uint8_t max_brightness  = controller->GetMaxBrightness();
 
     mode Direct;
-    Direct.name           = "Direct";
-    Direct.value          = RAZER_MODE_DIRECT;
-    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.color_mode     = MODE_COLORS_PER_LED;
-    Direct.brightness_min = 0;
-    Direct.brightness_max = 255;
-    Direct.brightness     = 255;
+    Direct.name             = "Direct";
+    Direct.value            = RAZER_MODE_DIRECT;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
+    Direct.brightness_min   = 0;
+    Direct.brightness_max   = max_brightness;
+    Direct.brightness       = max_brightness;
     modes.push_back(Direct);
 
     mode Off;
-    Off.name       = "Off";
-    Off.value      = RAZER_MODE_OFF;
-    Off.flags      = 0;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name                = "Off";
+    Off.value               = RAZER_MODE_OFF;
+    Off.flags               = 0;
+    Off.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
-    Static.name           = "Static";
-    Static.value          = RAZER_MODE_STATIC;
-    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min     = 1;
-    Static.colors_max     = 1;
+    Static.name             = "Static";
+    Static.value            = RAZER_MODE_STATIC;
+    Static.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors_min       = 1;
+    Static.colors_max       = 1;
     Static.colors.resize(1);
-    Static.brightness_min = 0;
-    Static.brightness_max = 255;
-    Static.brightness     = 255;
+    Static.brightness_min   = 0;
+    Static.brightness_max   = max_brightness;
+    Static.brightness       = max_brightness;
     modes.push_back(Static);
 
     if(controller->SupportsBreathing())
@@ -65,8 +66,8 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
         Breathing.colors_max     = 2;
         Breathing.colors.resize(1);
         Breathing.brightness_min = 0;
-        Breathing.brightness_max = 255;
-        Breathing.brightness     = 255;
+        Breathing.brightness_max = max_brightness;
+        Breathing.brightness     = max_brightness;
         modes.push_back(Breathing);
     }
 
@@ -76,21 +77,21 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     SpectrumCycle.flags          = MODE_FLAG_HAS_BRIGHTNESS;
     SpectrumCycle.color_mode     = MODE_COLORS_NONE;
     SpectrumCycle.brightness_min = 0;
-    SpectrumCycle.brightness_max = 255;
-    SpectrumCycle.brightness     = 255;
+    SpectrumCycle.brightness_max = max_brightness;
+    SpectrumCycle.brightness     = max_brightness;
     modes.push_back(SpectrumCycle);
 
     if(controller->SupportsWave())
     {
         mode Wave;
-        Wave.name           = "Wave";
-        Wave.value          = RAZER_MODE_WAVE;
-        Wave.flags          = MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS;
-        Wave.direction      = MODE_DIRECTION_RIGHT;
-        Wave.color_mode     = MODE_COLORS_NONE;
-        Wave.brightness_min = 0;
-        Wave.brightness_max = 255;
-        Wave.brightness     = 255;
+        Wave.name               = "Wave";
+        Wave.value              = RAZER_MODE_WAVE;
+        Wave.flags              = MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS;
+        Wave.direction          = MODE_DIRECTION_RIGHT;
+        Wave.color_mode         = MODE_COLORS_NONE;
+        Wave.brightness_min     = 0;
+        Wave.brightness_max     = max_brightness;
+        Wave.brightness         = max_brightness;
         modes.push_back(Wave);
     }
 
@@ -105,8 +106,8 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
         Reactive.colors_max     = 1;
         Reactive.colors.resize(1);
         Reactive.brightness_min = 0;
-        Reactive.brightness_max = 255;
-        Reactive.brightness     = 255;
+        Reactive.brightness_max = max_brightness;
+        Reactive.brightness     = max_brightness;
         modes.push_back(Reactive);
     }
 
