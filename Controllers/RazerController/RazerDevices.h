@@ -134,6 +134,7 @@
 #define RAZER_NAGA_2012_PID                             0x002E
 #define RAZER_NAGA_2014_PID                             0x0040
 #define RAZER_NAGA_CHROMA_PID                           0x0053
+#define RAZER_NAGA_CLASSIC_PID                          0x0093
 #define RAZER_NAGA_EPIC_CHROMA_DOCK_PID                 0x003F
 #define RAZER_NAGA_EPIC_CHROMA_PID                      0x003E
 #define RAZER_NAGA_HEX_PID                              0x0041
@@ -6346,6 +6347,64 @@ static const razer_device naga_chroma_device =
     0
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Naga Classic 1532:0093                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Numpad"                                                |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone naga_classic_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_classic_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone naga_classic_numpad_zone =
+{
+    "Numpad",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device naga_classic_device =
+{
+    "Razer Naga Classic",
+    RAZER_NAGA_CLASSIC_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    3,
+    {
+        &naga_classic_logo_zone,
+        &naga_classic_scroll_wheel_zone,
+        &naga_classic_numpad_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
 
 /*-------------------------------------------------------------*\
 |  Razer Naga Hex V2 1532:0050                                  |
@@ -8183,6 +8242,7 @@ static const razer_device* device_list[] =
     &mamba_te_device,
     &mamba_elite_device,
     &naga_chroma_device,
+    &naga_classic_device,
     &naga_epic_chroma_device,
     &naga_hex_v2_device,
     &naga_left_handed_device,
