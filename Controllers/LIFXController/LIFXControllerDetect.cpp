@@ -34,8 +34,9 @@ void DetectLIFXControllers(std::vector<RGBController*> &rgb_controllers)
             if(lifx_settings["devices"][device_idx].contains("ip"))
             {
                 std::string lifx_ip = lifx_settings["devices"][device_idx]["ip"];
+                std::string name    = lifx_settings["devices"][device_idx]["name"];
 
-                LIFXController*     controller     = new LIFXController(lifx_ip);
+                LIFXController*     controller     = new LIFXController(lifx_ip, name);
                 RGBController_LIFX* rgb_controller = new RGBController_LIFX(controller);
 
                 rgb_controllers.push_back(rgb_controller);

@@ -42,7 +42,7 @@ enum
 class LIFXController
 {
 public:
-    LIFXController(std::string ip);
+    LIFXController(std::string ip, std::string name);
     ~LIFXController();
 
     std::string GetLocation();
@@ -58,6 +58,7 @@ private:
     unsigned char*      data;
     unsigned char       sequence;
     unsigned int        source;
+    std::string         name;
     std::string         firmware_version;
     std::string         module_name;
     std::string         module_mac;

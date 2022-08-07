@@ -11,8 +11,10 @@
 using json = nlohmann::json;
 using namespace std::chrono_literals;
 
-LIFXController::LIFXController(std::string ip)
+LIFXController::LIFXController(std::string ip, std::string name)
 {
+    this->name  = name;
+
     /*-----------------------------------------------------------------*\
     | Fill in location string with device's IP address                  |
     \*-----------------------------------------------------------------*/
@@ -36,7 +38,7 @@ std::string LIFXController::GetLocation()
 
 std::string LIFXController::GetName()
 {
-    return("LIFX");
+    return(name);
 }
 
 std::string LIFXController::GetVersion()
