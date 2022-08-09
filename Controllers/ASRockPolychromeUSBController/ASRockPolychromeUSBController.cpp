@@ -165,6 +165,37 @@ void PolychromeUSBController::WriteZone
     hid_read(dev, usb_buf, 64);
 };
 
+void   PolychromeUSBController::WriteAllZones (
+        const std::vector<PolychromeZoneInfo> &zones_info,
+        const std::vector<zone> &zones
+ ){
+    unsigned char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up message packet with leading 00                  |
+    \*-----------------------------------------------------*/
+    usb_buf[0x01] = POLYCHROME_USB_SET_ZONE;
+    usb_buf[0x03] = 0x07;
+    usb_buf[0x04] = zones_info[0].mode;
+    usb_buf[0x04] = 0xE2;
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        usb_buf[0x05 + (3 * zone_idx)] = RGBGetRValue(zones[zone_idx].colors[0]);
+        usb_buf[0x05 + (3 * zone_idx) + 1] = RGBGetGValue(zones[zone_idx].colors[0]);
+        usb_buf[0x05 + (3 * zone_idx) + 2] = RGBGetBValue(zones[zone_idx].colors[0]);
+    }
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 65);
+    hid_read(dev, usb_buf, 64);
+}
+
 void PolychromeUSBController::WriteRGSwap
     (
     bool ahdr1,
@@ -262,7 +293,7 @@ PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
     g   = usb_buf[0x06];
     b   = usb_buf[0x07];
 
-    zoneinfo.mode   = usb_buf[0x04];
+    zoneinfo.mode   = usb_buf[0x04] != 0xE2 ? usb_buf[0x04] : 0x0F;
     zoneinfo.color  = ToRGBColor(r,g,b);  
     zoneinfo.speed  = usb_buf[0x08];
     zoneinfo.zone   = usb_buf[0x03];

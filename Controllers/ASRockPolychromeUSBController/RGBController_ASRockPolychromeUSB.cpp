@@ -173,6 +173,13 @@ RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController
     Rainbow.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
+    mode Direct;
+    Direct.name                = "Direct";
+    Direct.value               = POLYCHROME_USB_MODE_DIRECT;
+    Direct.flags               = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode          = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
+
     SetupZones();
 
     /*-------------------------------------------------*\
@@ -276,6 +283,11 @@ void RGBController_PolychromeUSB::ResizeZone(int zone, int new_size)
 
 void RGBController_PolychromeUSB::DeviceUpdateLEDs()
 {
+    if(POLYCHROME_USB_MODE_DIRECT == zones_info[0].mode )
+    {
+        controller->WriteAllZones(zones_info,zones);
+        return;
+    }
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         unsigned char set_mode = zones_info[zone_idx].mode;
