@@ -338,7 +338,7 @@ unsigned char RGBController_PolychromeUSB::GetDeviceMode(unsigned char zone)
 
 void RGBController_PolychromeUSB::SetCustomMode()
 {
-    active_mode = POLYCHROME_USB_MODE_STATIC;
+    active_mode = POLYCHROME_USB_MODE_DIRECT;
 }
 
 void RGBController_PolychromeUSB::DeviceUpdateMode()

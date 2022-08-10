@@ -134,7 +134,6 @@ public:
                                                     const std::vector<zone> &zones
                                                     );
 
-
     void                                        WriteHeader
                                                     (
                                                     unsigned char   cfg,
