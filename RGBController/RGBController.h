@@ -325,7 +325,7 @@ public:
     virtual void            DeviceUpdateMode()                          = 0;
     void                    DeviceSaveMode();
 
-    virtual void            SetCustomMode()                             = 0;
+    void                    SetCustomMode();
 
 private:
     std::thread*            DeviceCallThread;
