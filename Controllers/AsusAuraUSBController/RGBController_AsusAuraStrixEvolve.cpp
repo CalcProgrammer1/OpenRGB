@@ -129,11 +129,6 @@ void RGBController_AuraStrixEvolve::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraStrixEvolve::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AuraStrixEvolve::DeviceUpdateMode()
 {
     unsigned char red = RGBGetRValue(colors[0]);

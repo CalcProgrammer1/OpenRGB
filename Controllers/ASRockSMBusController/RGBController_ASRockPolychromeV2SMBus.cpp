@@ -33,14 +33,14 @@ static const char* polychrome_v2_zone_names[] =
 
 RGBController_ASRockPolychromeV2SMBus::RGBController_ASRockPolychromeV2SMBus(ASRockPolychromeV2SMBusController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "ASRock";
-    version     = controller->GetFirmwareVersion();
-    type        = DEVICE_TYPE_MOTHERBOARD;
-    description = "ASRock Polychrome v2 Device";
-    location    = controller->GetDeviceLocation();
+    name                        = controller->GetDeviceName();
+    vendor                      = "ASRock";
+    version                     = controller->GetFirmwareVersion();
+    type                        = DEVICE_TYPE_MOTHERBOARD;
+    description                 = "ASRock Polychrome v2 Device";
+    location                    = controller->GetDeviceLocation();
 
 
     mode Off;
@@ -314,11 +314,6 @@ void RGBController_ASRockPolychromeV2SMBus::UpdateSingleLED(int led)
     }
 
     controller->SetColorsAndSpeed(led, red, grn, blu);
-}
-
-void RGBController_ASRockPolychromeV2SMBus::SetCustomMode()
-{
-    active_mode = 1;
 }
 
 void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateMode()

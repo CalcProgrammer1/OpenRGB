@@ -177,12 +177,6 @@ void RGBController_AuraHeadsetStand::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraHeadsetStand::SetCustomMode()
-{
-    active_mode = 0;
-}
-
-
 void RGBController_AuraHeadsetStand::DeviceUpdateMode()
 {
     unsigned char red = 0;

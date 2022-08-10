@@ -171,21 +171,21 @@ static const led_type led_names[] =
 
 RGBController_AlienwareAW510K::RGBController_AlienwareAW510K(AlienwareAW510KController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "Alienware AW510K Keyboard Device";
-    vendor      = "Alienware";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Alienware AW510K Keyboard Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = "Alienware AW510K Keyboard Device";
+    vendor                          = "Alienware";
+    type                            = DEVICE_TYPE_KEYBOARD;
+    description                     = "Alienware AW510K Keyboard Device";
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
-    mode Direct_Per_LED;
-    Direct_Per_LED.name             = "Direct";
-    Direct_Per_LED.value            = ALIENWARE_AW510K_MODE_DIRECT_PER_LED;
-    Direct_Per_LED.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct_Per_LED.color_mode       = MODE_COLORS_PER_LED;
-    modes.push_back(Direct_Per_LED);
+    mode Direct;
+    Direct.name                     = "Direct";
+    Direct.value                    = ALIENWARE_AW510K_MODE_DIRECT_PER_LED;
+    Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode               = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     mode Static;
     Static.name                     = "Static";
@@ -401,11 +401,6 @@ void RGBController_AlienwareAW510K::UpdateZoneLEDs(int zone)
 void RGBController_AlienwareAW510K::UpdateSingleLED(int led)
 {
     controller->UpdateSingleLED(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
-}
-
-void RGBController_AlienwareAW510K::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_AlienwareAW510K::DeviceUpdateMode()

@@ -20,8 +20,6 @@ public:
     void UpdateSingleLED(int led) override;
 
     void DeviceUpdateMode() override;
-
-    void SetCustomMode() override;
 };
 
 #endif

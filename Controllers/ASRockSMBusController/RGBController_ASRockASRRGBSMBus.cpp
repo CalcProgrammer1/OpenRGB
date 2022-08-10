@@ -26,14 +26,14 @@
 
 RGBController_ASRockASRRGBSMBus::RGBController_ASRockASRRGBSMBus(ASRockASRRGBSMBusController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "ASRock";
-    version     = controller->GetFirmwareVersion();
-    type        = DEVICE_TYPE_MOTHERBOARD;
-    description = "ASRock ASR RGB LED Device";
-    location    = controller->GetDeviceLocation();
+    name                        = controller->GetDeviceName();
+    vendor                      = "ASRock";
+    version                     = controller->GetFirmwareVersion();
+    type                        = DEVICE_TYPE_MOTHERBOARD;
+    description                 = "ASRock ASR RGB LED Device";
+    location                    = controller->GetDeviceLocation();
 
     mode Off;
     Off.name                    = "Off";
@@ -194,11 +194,6 @@ void RGBController_ASRockASRRGBSMBus::UpdateSingleLED(int led)
     }
 
     controller->SetColorsAndSpeed(led, red, grn, blu);
-}
-
-void RGBController_ASRockASRRGBSMBus::SetCustomMode()
-{
-    active_mode = 1;
 }
 
 void RGBController_ASRockASRRGBSMBus::DeviceUpdateMode()

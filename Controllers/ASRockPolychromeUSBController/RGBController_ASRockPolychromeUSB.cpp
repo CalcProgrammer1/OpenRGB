@@ -336,11 +336,6 @@ unsigned char RGBController_PolychromeUSB::GetDeviceMode(unsigned char zone)
     return(active_mode);
 }
 
-void RGBController_PolychromeUSB::SetCustomMode()
-{
-    active_mode = POLYCHROME_USB_MODE_DIRECT;
-}
-
 void RGBController_PolychromeUSB::DeviceUpdateMode()
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)

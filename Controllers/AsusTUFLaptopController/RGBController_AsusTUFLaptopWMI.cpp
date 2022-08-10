@@ -141,11 +141,6 @@ void RGBController_AsusTUFLaptopWMI::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_AsusTUFLaptopWMI::SetCustomMode()
-{
-    SetMode(0);
-}
-
 void RGBController_AsusTUFLaptopWMI::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

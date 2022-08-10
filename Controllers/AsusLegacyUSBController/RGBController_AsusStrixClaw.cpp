@@ -115,11 +115,6 @@ void RGBController_StrixClaw::UpdateSingleLED(int /*led*/)
     
 }
 
-void RGBController_StrixClaw::SetCustomMode()
-{
-    
-}
-
 void RGBController_StrixClaw::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0)

@@ -221,11 +221,6 @@ void RGBController_AuraMouse::UpdateSingleLED(int led)
     controller->SendUpdate(leds[led].value, modes[active_mode].value, red, grn, blu, 0, false, 0, modes[active_mode].brightness);
 }
 
-void RGBController_AuraMouse::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AuraMouse::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)

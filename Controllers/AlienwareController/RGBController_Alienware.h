@@ -29,8 +29,6 @@ public:
 
     void        DeviceUpdateMode();
 
-    void        SetCustomMode();
-
 private:
     AlienwareController*                    controller;
     std::chrono::steady_clock::time_point   last_packet_ts;

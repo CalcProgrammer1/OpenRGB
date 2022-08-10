@@ -179,11 +179,6 @@ void RGBController_Alienware::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_Alienware::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 static bool modes_eq(const mode& mode1, const mode& mode2)
 {
     return( ( mode1.name           == mode2.name       )

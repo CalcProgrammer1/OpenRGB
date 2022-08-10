@@ -249,11 +249,6 @@ void RGBController_AuraUSB::UpdateSingleLED(int led)
     controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
-void RGBController_AuraUSB::SetCustomMode()
-{
-
-}
-
 void RGBController_AuraUSB::DeviceUpdateMode()
 {
     initializedMode   = true;

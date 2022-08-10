@@ -196,18 +196,6 @@ void RGBController_ROGStrixLC_Controller::UpdateSingleLED(int led)
     UpdateZoneLEDs(GetLED_Zone(led));
 }
 
-void RGBController_ROGStrixLC_Controller::SetCustomMode()
-{
-    for(std::size_t mode_idx = 0; mode_idx < modes.size() ; mode_idx++)
-    {
-        if (modes[mode_idx].value == ROGSTRIXLC_CONTROLLER_MODE_DIRECT)
-        {
-            active_mode = mode_idx;
-            break;
-        }
-    }
-}
-
 void RGBController_ROGStrixLC_Controller::DeviceUpdateMode()
 {
     RGBColor colour         = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;

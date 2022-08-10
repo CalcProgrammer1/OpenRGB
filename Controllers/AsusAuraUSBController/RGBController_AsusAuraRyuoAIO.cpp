@@ -194,11 +194,6 @@ void RGBController_AsusAuraRyuoAIO::UpdateSingleLED(int led)
     UpdateZoneLEDs(GetLED_Zone(led));
 }
 
-void RGBController_AsusAuraRyuoAIO::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AsusAuraRyuoAIO::DeviceUpdateMode()
 {
     RGBColor colour = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;

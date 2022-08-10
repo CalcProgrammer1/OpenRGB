@@ -475,11 +475,6 @@ void RGBController_AsusAuraCoreLaptop::UpdateSingleLED(int led)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_AsusAuraCoreLaptop::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AsusAuraCoreLaptop::DeviceUpdateMode()
 {
     mode set_mode       = modes[active_mode];

@@ -236,11 +236,6 @@ void RGBController_AMDWraithPrism::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_AMDWraithPrism::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AMDWraithPrism::DeviceUpdateMode()
 {
     bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);

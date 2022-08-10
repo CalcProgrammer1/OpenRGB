@@ -183,11 +183,6 @@ void RGBController_AuraGPU::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraGPU::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AuraGPU::DeviceUpdateMode()
 {
     int new_mode       = modes[active_mode].value;

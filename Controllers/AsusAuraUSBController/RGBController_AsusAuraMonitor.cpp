@@ -112,12 +112,6 @@ void RGBController_AuraMonitor::UpdateSingleLED(int led)
     controller->ApplyChanges();
 }
 
-void RGBController_AuraMonitor::SetCustomMode()
-{
-    active_mode = 0;
-}
-
-
 void RGBController_AuraMonitor::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

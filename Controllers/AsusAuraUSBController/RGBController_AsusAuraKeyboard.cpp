@@ -527,11 +527,6 @@ void RGBController_AuraKeyboard::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AuraKeyboard::DeviceUpdateMode()
 {
 

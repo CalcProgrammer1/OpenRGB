@@ -22,15 +22,15 @@
 
 RGBController_AuraMousemat::RGBController_AuraMousemat(AuraMousematController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "ASUS Aura Mousemat";
-    vendor      = "ASUS";
-    type        = DEVICE_TYPE_MOUSEMAT;
-    description = "ASUS Aura Mousemat Device";
-    version     = controller->GetVersion();
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                        = "ASUS Aura Mousemat";
+    vendor                      = "ASUS";
+    type                        = DEVICE_TYPE_MOUSEMAT;
+    description                 = "ASUS Aura Mousemat Device";
+    version                     = controller->GetVersion();
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
 
     mode Direct;
     Direct.name                 = "Direct";
@@ -228,11 +228,6 @@ void RGBController_AuraMousemat::UpdateZoneLEDs(int /*zone*/)
 void RGBController_AuraMousemat::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_AuraMousemat::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_AuraMousemat::DeviceUpdateMode()

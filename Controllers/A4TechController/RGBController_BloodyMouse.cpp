@@ -168,11 +168,6 @@ void RGBController_BloodyMouse::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_BloodyMouse::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_BloodyMouse::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

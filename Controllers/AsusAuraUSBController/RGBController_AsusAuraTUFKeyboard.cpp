@@ -271,11 +271,6 @@ void RGBController_AuraTUFKeyboard::UpdateSingleLED(int led)
     controller->UpdateSingleLed(led, red, green, blue);
 }
 
-void RGBController_AuraTUFKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
 {
     unsigned char color_mode;
