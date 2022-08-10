@@ -227,11 +227,6 @@ void RGBController_DarkProjectKeyboard::UpdateSingleLED(int led)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_DarkProjectKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_DarkProjectKeyboard::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

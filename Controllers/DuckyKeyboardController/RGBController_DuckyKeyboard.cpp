@@ -317,11 +317,6 @@ void RGBController_DuckyKeyboard::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_DuckyKeyboard::SetCustomMode()
-{
-
-}
-
 void RGBController_DuckyKeyboard::DeviceUpdateMode()
 {
 

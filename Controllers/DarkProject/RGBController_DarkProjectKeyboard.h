@@ -19,16 +19,15 @@ public:
     RGBController_DarkProjectKeyboard(DarkProjectKeyboardController* controller_ptr);
     ~RGBController_DarkProjectKeyboard();
 
-    void                SetupZones();
-    void                ResizeZone(int zone, int new_size);
+    void    SetupZones();
+    void    ResizeZone(int zone, int new_size);
 
-    void                DeviceUpdateLEDs();
-    void                UpdateZoneLEDs(int zone);
-    void                UpdateSingleLED(int led);
+    void    DeviceUpdateLEDs();
+    void    UpdateZoneLEDs(int zone);
+    void    UpdateSingleLED(int led);
 
-    void                SetCustomMode();
-    void                DeviceUpdateMode();
+    void    DeviceUpdateMode();
 
 private:
-    DarkProjectKeyboardController*      controller;
+    DarkProjectKeyboardController* controller;
 };

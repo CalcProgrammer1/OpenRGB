@@ -348,11 +348,6 @@ void RGBController_DasKeyboard::UpdateSingleLED(int led)
     }
 }
 
-void RGBController_DasKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_DasKeyboard::DeviceUpdateMode()
 {
 }

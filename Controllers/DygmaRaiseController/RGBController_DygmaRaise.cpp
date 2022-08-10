@@ -250,11 +250,6 @@ void RGBController_DygmaRaise::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_DygmaRaise::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_DygmaRaise::DeviceUpdateMode()
 {
 
