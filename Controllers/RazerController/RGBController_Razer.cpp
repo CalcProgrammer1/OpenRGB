@@ -237,11 +237,6 @@ void RGBController_Razer::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_Razer::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_Razer::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)

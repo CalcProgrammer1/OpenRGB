@@ -283,11 +283,6 @@ void RGBController_ZalmanZSync::UpdateSingleLED(int led)
     controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
-void RGBController_ZalmanZSync::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_ZalmanZSync::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)

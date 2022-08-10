@@ -315,11 +315,6 @@ void RGBController_CorsairLightingNode::UpdateSingleLED(int led)
     controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
-void RGBController_CorsairLightingNode::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairLightingNode::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)

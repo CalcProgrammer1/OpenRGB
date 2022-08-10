@@ -398,11 +398,6 @@ void RGBController_ENESMBus::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_ENESMBus::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_ENESMBus::DeviceUpdateMode()
 {
     if (modes[active_mode].value == 0xFFFF)

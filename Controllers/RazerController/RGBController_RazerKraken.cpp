@@ -193,11 +193,6 @@ void RGBController_RazerKraken::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_RazerKraken::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RazerKraken::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)
