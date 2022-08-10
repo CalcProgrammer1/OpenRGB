@@ -162,11 +162,6 @@ void RGBController_CougarRevengerST::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_CougarRevengerST::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CougarRevengerST::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)

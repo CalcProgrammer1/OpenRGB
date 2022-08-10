@@ -1209,11 +1209,6 @@ void RGBController_CorsairPeripheral::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairPeripheral::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairPeripheral::DeviceUpdateMode()
 {
 

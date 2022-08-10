@@ -447,11 +447,6 @@ void RGBController_CougarKeyboard::UpdateSingleLED(int led)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_CougarKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CougarKeyboard::DeviceUpdateMode()
 {
     mode set_mode                   = modes[active_mode];

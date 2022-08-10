@@ -238,11 +238,6 @@ void RGBController_CorsairK65Mini::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairK65Mini::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairK65Mini::DeviceUpdateMode()
 {
 

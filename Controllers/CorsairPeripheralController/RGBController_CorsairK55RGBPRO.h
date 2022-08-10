@@ -18,8 +18,8 @@ public:
     void UpdateSingleLED(int led);
 
     void DeviceUpdateMode();
-    void SetCustomMode();
-    void        KeepaliveThread();
+
+    void KeepaliveThread();
 
 private:
     CorsairK55RGBPROController*                         controller;

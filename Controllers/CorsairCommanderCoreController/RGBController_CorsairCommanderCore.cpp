@@ -138,11 +138,6 @@ void RGBController_CorsairCommanderCore::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairCommanderCore::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairCommanderCore::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)

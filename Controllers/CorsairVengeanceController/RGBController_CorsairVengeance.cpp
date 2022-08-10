@@ -113,11 +113,6 @@ void RGBController_CorsairVengeance::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairVengeance::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairVengeance::DeviceUpdateMode()
 {
     controller->SetMode(modes[active_mode].value);

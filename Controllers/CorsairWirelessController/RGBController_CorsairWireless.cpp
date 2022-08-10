@@ -319,11 +319,6 @@ void RGBController_CorsairWireless::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairWireless::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairWireless::DeviceUpdateMode()
 {
 

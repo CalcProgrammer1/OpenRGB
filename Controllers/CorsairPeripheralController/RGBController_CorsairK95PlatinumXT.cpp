@@ -351,11 +351,6 @@ void RGBController_CorsairK95PlatinumXT::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairK95PlatinumXT::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairK95PlatinumXT::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

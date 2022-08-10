@@ -81,11 +81,6 @@ void RGBController_CreativeSoundBlasterXG6::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CreativeSoundBlasterXG6::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CreativeSoundBlasterXG6::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

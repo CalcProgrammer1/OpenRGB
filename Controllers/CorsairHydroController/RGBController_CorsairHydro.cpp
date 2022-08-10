@@ -126,11 +126,6 @@ void RGBController_CorsairHydro::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairHydro::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairHydro::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)

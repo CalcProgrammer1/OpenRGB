@@ -115,11 +115,6 @@ void RGBController_CorsairDominatorPlatinum::UpdateSingleLED(int led)
     controller->ApplyColors();
 }
 
-void RGBController_CorsairDominatorPlatinum::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairDominatorPlatinum::DeviceUpdateMode()
 {
 

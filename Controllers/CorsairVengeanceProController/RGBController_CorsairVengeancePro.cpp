@@ -241,11 +241,6 @@ void RGBController_CorsairVengeancePro::UpdateSingleLED(int led)
     controller->ApplyColors();
 }
 
-void RGBController_CorsairVengeancePro::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairVengeancePro::DeviceUpdateMode()
 {
     unsigned int  corsair_direction = 0;

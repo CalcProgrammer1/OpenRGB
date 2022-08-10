@@ -137,11 +137,6 @@ void RGBController_BlinkyTape::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_BlinkyTape::SetCustomMode()
-{
-
-}
-
 void RGBController_BlinkyTape::DeviceUpdateMode()
 {
 

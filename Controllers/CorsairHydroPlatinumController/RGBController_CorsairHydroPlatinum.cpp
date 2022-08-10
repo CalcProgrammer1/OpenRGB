@@ -127,11 +127,6 @@ void RGBController_CorsairHydroPlatinum::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairHydroPlatinum::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairHydroPlatinum::DeviceUpdateMode()
 {
 

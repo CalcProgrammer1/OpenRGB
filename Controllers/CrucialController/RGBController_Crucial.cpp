@@ -192,11 +192,6 @@ void RGBController_Crucial::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_Crucial::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_Crucial::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)

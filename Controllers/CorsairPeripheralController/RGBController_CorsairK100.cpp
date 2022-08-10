@@ -359,11 +359,6 @@ void RGBController_CorsairK100::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairK100::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CorsairK100::DeviceUpdateMode()
 {
 
