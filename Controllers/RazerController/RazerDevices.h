@@ -3616,7 +3616,7 @@ static const razer_device huntsman_v2_device =
     RAZER_HUNTSMAN_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     true,
-    9,
+    6,
     22,
     {
         &huntsman_v2_keyboard_zone,
@@ -8217,6 +8217,7 @@ static const razer_device* device_list[] =
     &huntsman_elite_device,
     &huntsman_mini_device,
     &huntsman_te_device,
+    &huntsman_v2_device,
     &huntsman_v2_analog_device,
     &huntsman_v2_tkl_device,
     &ornata_chroma_device,
