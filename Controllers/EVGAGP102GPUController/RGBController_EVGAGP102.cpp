@@ -139,11 +139,6 @@ void RGBController_EVGAGP102::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGP102::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_EVGAGP102::DeviceUpdateMode()
 {
     for (int i = 0; i < evga.size(); i++)

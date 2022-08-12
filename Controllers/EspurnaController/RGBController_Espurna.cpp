@@ -84,11 +84,6 @@ void RGBController_Espurna::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_Espurna::SetCustomMode()
-{
-
-}
-
 void RGBController_Espurna::DeviceUpdateMode()
 {
 

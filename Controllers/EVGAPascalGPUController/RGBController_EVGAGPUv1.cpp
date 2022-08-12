@@ -142,11 +142,6 @@ void RGBController_EVGAGPUv1::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPUv1::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_EVGAGPUv1::DeviceUpdateMode()
 {
     evga->SetMode((unsigned char)modes[(unsigned int)active_mode].value);

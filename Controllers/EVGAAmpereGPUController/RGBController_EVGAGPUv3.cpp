@@ -301,11 +301,6 @@ void RGBController_EVGAGPUv3::UpdateSingleLED(int /*led*/ led)
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPUv3::SetCustomMode()
-{
-    active_mode = getModeIndex(EVGA_GPU_V3_MODE_STATIC);
-}
-
 void RGBController_EVGAGPUv3::DeviceUpdateMode()
 {
     /* Update all zone modes in a loop, each one with a packet to be use with per zone control

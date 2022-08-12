@@ -450,11 +450,6 @@ void RGBController_E131::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_E131::SetCustomMode()
-{
-
-}
-
 void RGBController_E131::DeviceUpdateMode()
 {
 

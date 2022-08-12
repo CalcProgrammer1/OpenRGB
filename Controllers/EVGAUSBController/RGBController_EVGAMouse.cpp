@@ -205,14 +205,6 @@ void RGBController_EVGAMouse::UpdateSingleLED(int led)
     controller->SetLed(led,  modes[active_mode].brightness, modes[active_mode].speed, colors[led]);
 }
 
-void RGBController_EVGAMouse::SetCustomMode()
-{
-    /*-------------------------------------------------*\
-    | Static lets OpenRGB set device LEDs individually. |
-    \*-------------------------------------------------*/
-    active_mode = EVGA_PERIPHERAL_MODE_STATIC;
-}
-
 void RGBController_EVGAMouse::DeviceUpdateMode()
 {
     controller->SetMode(modes[active_mode].value);

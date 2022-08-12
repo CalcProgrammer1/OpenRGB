@@ -175,11 +175,6 @@ void RGBController_EKController::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_EKController::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_EKController::DeviceUpdateMode()
 {
     controller->SetMode(modes[active_mode].value, modes[active_mode].speed);

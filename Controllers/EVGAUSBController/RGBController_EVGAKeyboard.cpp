@@ -500,11 +500,6 @@ void RGBController_EVGAKeyboard::UpdateSingleLED(int led)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_EVGAKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_EVGAKeyboard::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

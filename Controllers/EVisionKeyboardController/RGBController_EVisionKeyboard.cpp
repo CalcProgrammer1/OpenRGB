@@ -299,11 +299,6 @@ void RGBController_EVisionKeyboard::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVisionKeyboard::SetCustomMode()
-{
-
-}
-
 void RGBController_EVisionKeyboard::DeviceUpdateMode()
 {
     unsigned char red    = 0x00;
