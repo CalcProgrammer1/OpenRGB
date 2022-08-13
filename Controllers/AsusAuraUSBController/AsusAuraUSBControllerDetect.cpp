@@ -67,6 +67,7 @@
 \*-----------------------------------------------------------------*/
 
 #define AURA_ROG_STRIX_XG27AQ_PID               0x198C
+#define AURA_ROG_STRIX_XG27W_PID                0x1933
 #define AURA_ROG_PG32UQ_PID                     0x19B9
 
 /*-----------------------------------------------------------------*\
@@ -346,6 +347,7 @@ REGISTER_HID_DETECTOR_PU("ASUS ROG Balteus Qi",                         DetectAs
 | MONITORS                                                          |
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_PU("ASUS ROG Strix XG27AQ",                       DetectAsusAuraUSBMonitor,       AURA_USB_VID, AURA_ROG_STRIX_XG27AQ_PID,                    0xFFA0, 1);
+REGISTER_HID_DETECTOR_PU("ASUS ROG Strix XG27W",                        DetectAsusAuraUSBMonitor,       AURA_USB_VID, AURA_ROG_STRIX_XG27W_PID,                     0xFFA0, 1);
 REGISTER_HID_DETECTOR_PU("ASUS ROG PG32UQ",                             DetectAsusAuraUSBMonitor,       AURA_USB_VID, AURA_ROG_PG32UQ_PID,                          0xFFA0, 1);
 
 /*-----------------------------------------------------------------*\

@@ -16,6 +16,7 @@
 enum
 {
     AURA_ROG_STRIX_XG27AQ_PID    = 0x198C,
+    AURA_ROG_STRIX_XG27W_PID     = 0x1933,
     AURA_ROG_PG32UQ_PID          = 0x19B9,
 };
 
