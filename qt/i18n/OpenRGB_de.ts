@@ -654,12 +654,20 @@
         <translation>Minimiert Starten</translation>
     </message>
     <message>
+        <source>Greyscale Tray Icon</source>
+        <translation>Graues Icon</translation>
+    </message>
+    <message>
         <source>User Interface Settings:</source>
         <translation>Einstellungen der Benutzeroberfläche:</translation>
     </message>
     <message>
         <source>Start At Login</source>
         <translation>Start bei der Anmeldung</translation>
+    </message>
+    <message>
+        <source>Set Profile on Exit</source>
+        <translation>Profil beim Schließen anwenden</translation>
     </message>
     <message>
         <source>Minimize On Close</source>
@@ -688,6 +696,14 @@
     <message>
         <source>Enable Log Console (restart required)</source>
         <translation>Log Konsole aktivieren (Programmneustart erforderlich)</translation>
+    </message>
+    <message>
+        <source>Drivers Settings</source>
+        <translation>Treibereinstellungen</translation>
+    </message>
+    <message>
+        <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
+        <translation>AMD SMBus: CPU-Auslastung reduzieren</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
