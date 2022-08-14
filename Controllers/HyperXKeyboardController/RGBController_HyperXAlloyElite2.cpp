@@ -323,11 +323,6 @@ void RGBController_HyperXAlloyElite2::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyElite2::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXAlloyElite2::DeviceUpdateMode()
 {
 

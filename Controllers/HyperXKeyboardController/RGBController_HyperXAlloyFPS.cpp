@@ -277,11 +277,6 @@ void RGBController_HyperXAlloyFPS::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyFPS::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXAlloyFPS::DeviceUpdateMode()
 {
 

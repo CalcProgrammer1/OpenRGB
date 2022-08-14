@@ -149,11 +149,6 @@ void RGBController_HyperXPulsefireDart::UpdateSingleLED(int led)
     }
 }
 
-void RGBController_HyperXPulsefireDart::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXPulsefireDart::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)

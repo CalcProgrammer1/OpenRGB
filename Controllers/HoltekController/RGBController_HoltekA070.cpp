@@ -98,11 +98,6 @@ void RGBController_HoltekA070::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HoltekA070::SetCustomMode()
-{
-
-}
-
 void RGBController_HoltekA070::DeviceUpdateMode()
 {
     controller->SendMode(modes[active_mode].speed);

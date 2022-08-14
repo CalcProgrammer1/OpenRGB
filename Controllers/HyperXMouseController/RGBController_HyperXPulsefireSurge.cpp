@@ -133,11 +133,6 @@ void RGBController_HyperXPulsefireSurge::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXPulsefireSurge::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXPulsefireSurge::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

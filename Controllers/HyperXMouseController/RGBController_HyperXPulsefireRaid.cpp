@@ -107,11 +107,6 @@ void RGBController_HyperXPulsefireRaid::UpdateSingleLED(int /*led*/)
     controller->SendColors(colors);
 }
 
-void RGBController_HyperXPulsefireRaid::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXPulsefireRaid::DeviceUpdateMode()
 {
 

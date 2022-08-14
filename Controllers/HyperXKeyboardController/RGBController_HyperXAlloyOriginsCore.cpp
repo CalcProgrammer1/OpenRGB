@@ -269,11 +269,6 @@ void RGBController_HyperXAlloyOriginsCore::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyOriginsCore::SetCustomMode()
-{
-
-}
-
 void RGBController_HyperXAlloyOriginsCore::DeviceUpdateMode()
 {
 

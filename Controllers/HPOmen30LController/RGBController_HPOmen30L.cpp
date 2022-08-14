@@ -198,11 +198,6 @@ void RGBController_HPOmen30L::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_HPOmen30L::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HPOmen30L::DeviceUpdateMode()
 {
     for(unsigned int i = 0; i < zones.size(); i++)

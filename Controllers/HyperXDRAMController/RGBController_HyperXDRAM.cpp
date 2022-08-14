@@ -253,11 +253,6 @@ void RGBController_HyperXDRAM::UpdateSingleLED(int led)
     controller->SendApply();
 }
 
-void RGBController_HyperXDRAM::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXDRAM::DeviceUpdateMode()
 {
     bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);

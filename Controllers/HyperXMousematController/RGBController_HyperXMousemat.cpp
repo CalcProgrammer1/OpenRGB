@@ -132,11 +132,6 @@ void RGBController_HyperXMousemat::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXMousemat::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXMousemat::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

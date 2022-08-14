@@ -130,11 +130,6 @@ void RGBController_HoltekA1FA::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HoltekA1FA::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HoltekA1FA::DeviceUpdateMode()
 {
     if((active_mode < HOLTEK_A1FA_MODE_NEON) && (previous_mode < HOLTEK_A1FA_MODE_NEON))

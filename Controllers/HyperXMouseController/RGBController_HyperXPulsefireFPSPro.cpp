@@ -124,11 +124,6 @@ void RGBController_HyperXPulsefireFPSPro::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXPulsefireFPSPro::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HyperXPulsefireFPSPro::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
