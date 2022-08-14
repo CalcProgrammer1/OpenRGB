@@ -670,11 +670,6 @@ void RGBController_KeychronKeyboard::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_KeychronKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_KeychronKeyboard::DeviceUpdateMode()
 {
     UpdateZoneLEDs(0);
