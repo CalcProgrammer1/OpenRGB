@@ -195,11 +195,6 @@ void RGBController_MSIVigorGK30::UpdateSingleLED(int /*led*/)
                 );
 }
 
-void RGBController_MSIVigorGK30::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_MSIVigorGK30::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

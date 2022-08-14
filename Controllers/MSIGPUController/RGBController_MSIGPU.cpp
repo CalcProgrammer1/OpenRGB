@@ -420,11 +420,6 @@ void RGBController_MSIGPU::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_MSIGPU::SetCustomMode()
-{
-    active_mode = 2;  //Set to MSI_GPU_MODE_STATIC
-}
-
 void RGBController_MSIGPU::DeviceUpdateMode()
 {
     if (modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)

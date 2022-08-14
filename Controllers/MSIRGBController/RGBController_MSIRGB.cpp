@@ -19,9 +19,9 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* msi_ptr)
+RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* controller_ptr)
 {
-    msi = msi_ptr;
+    controller  = controller_ptr;
 
     name        = "MSI Motherboard";
     vendor      = "MSI";
@@ -40,7 +40,7 @@ RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* msi_ptr)
 
 RGBController_MSIRGB::~RGBController_MSIRGB()
 {
-    delete msi;
+    delete controller;
 }
 
 void RGBController_MSIRGB::SetupZones()
@@ -73,7 +73,7 @@ void RGBController_MSIRGB::DeviceUpdateLEDs()
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
 
-    msi->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_MSIRGB::UpdateZoneLEDs(int /*zone*/)
@@ -84,11 +84,6 @@ void RGBController_MSIRGB::UpdateZoneLEDs(int /*zone*/)
 void RGBController_MSIRGB::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_MSIRGB::SetCustomMode()
-{
-
 }
 
 void RGBController_MSIRGB::DeviceUpdateMode()

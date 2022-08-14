@@ -382,11 +382,6 @@ void RGBController_MSIOptix::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_MSIOptix::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_MSIOptix::DeviceUpdateMode()
 {
     if(modes[active_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR)

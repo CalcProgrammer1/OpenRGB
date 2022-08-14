@@ -13,20 +13,18 @@
 class RGBController_MSIRGB : public RGBController
 {
 public:
-    RGBController_MSIRGB(MSIRGBController* msi_ptr);
+    RGBController_MSIRGB(MSIRGBController* controller_ptr);
     ~RGBController_MSIRGB();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    MSIRGBController*       msi;
+    MSIRGBController*       controller;
 };

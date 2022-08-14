@@ -113,11 +113,6 @@ void RGBController_MSI3Zone::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_MSI3Zone::SetCustomMode()
-{
-
-}
-
 void RGBController_MSI3Zone::DeviceUpdateMode()
 {
 

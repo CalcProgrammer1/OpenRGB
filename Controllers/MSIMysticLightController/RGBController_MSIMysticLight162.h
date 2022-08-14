@@ -15,31 +15,16 @@
 class RGBController_MSIMysticLight162: public RGBController
 {
 public:
-    RGBController_MSIMysticLight162
-        (
-        MSIMysticLight162Controller* controller_ptr
-        );
+    RGBController_MSIMysticLight162(MSIMysticLight162Controller* controller_ptr);
     ~RGBController_MSIMysticLight162();
 
     void        SetupZones();
-
-    void        ResizeZone
-                    (
-                    int zone,
-                    int new_size
-                    );
+    void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
-    void        UpdateZoneLEDs
-                    (
-                    int zone
-                    );
-    void        UpdateSingleLED
-                    (
-                    int led
-                    );
+    void        UpdateZoneLEDs(int zone);
+    void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
     void        DeviceSaveMode();
 

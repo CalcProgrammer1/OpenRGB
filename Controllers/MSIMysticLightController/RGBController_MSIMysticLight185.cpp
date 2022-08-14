@@ -219,11 +219,6 @@ void RGBController_MSIMysticLight185::ResizeZone
     }
 }
 
-void RGBController_MSIMysticLight185::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_MSIMysticLight185::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); ++zone_idx)
