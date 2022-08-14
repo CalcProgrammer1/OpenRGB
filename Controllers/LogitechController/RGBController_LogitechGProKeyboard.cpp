@@ -350,11 +350,6 @@ void RGBController_LogitechGProKeyboard::UpdateSingleLED(int led)
     controller->Commit();
 }
 
-void RGBController_LogitechGProKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_LogitechGProKeyboard::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

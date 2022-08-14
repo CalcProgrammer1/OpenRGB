@@ -141,11 +141,6 @@ void RGBController_LogitechG560::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG560::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_LogitechG560::DeviceUpdateMode()
 {
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)

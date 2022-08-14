@@ -20,7 +20,7 @@
 
 class RGBController_LenovoUSB : public RGBController
 {
-    public:
+public:
     RGBController_LenovoUSB(LenovoUSBController* controller_ptr);
     ~RGBController_LenovoUSB();
 
@@ -31,14 +31,13 @@ class RGBController_LenovoUSB : public RGBController
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
     void        DeviceSaveMode();
 
-    private:
-    unsigned int lenovo_size_of_leds;
-    LenovoUSBController *controller;
-    const lenovo_led *lenovo_leds;
+private:
+    unsigned int            lenovo_size_of_leds;
+    LenovoUSBController*    controller;
+    const lenovo_led*       lenovo_leds;
 };
 
 #endif

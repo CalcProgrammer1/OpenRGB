@@ -135,11 +135,6 @@ void RGBController_LogitechGLightsync1zone::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_LogitechGLightsync1zone::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_LogitechGLightsync1zone::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

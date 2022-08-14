@@ -111,11 +111,6 @@ void RGBController_LogitechG933::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG933::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_LogitechG933::DeviceUpdateMode()
 {
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)

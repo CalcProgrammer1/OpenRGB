@@ -25,7 +25,6 @@ public:
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
     uint16_t    pid;        //This is a workaround fix for G502 mode breathing / spectrum cycle swap

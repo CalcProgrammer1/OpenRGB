@@ -129,11 +129,6 @@ void RGBController_LogitechGPowerPlay::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_LogitechGPowerPlay::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_LogitechGPowerPlay::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

@@ -21,7 +21,6 @@ public:
     RGBController_LianLiUniHub(LianLiUniHubController* controller_ptr);
 
     void SetupZones();
-
     void ResizeZone(int zone, int new_size);
 
     void DeviceUpdateLEDs();
@@ -29,8 +28,6 @@ public:
     void UpdateSingleLED(int led);
 
     void DeviceUpdateMode();
-
-    void SetCustomMode();
 
 private:
     uint8_t convertAnyFanCount(uint8_t count);

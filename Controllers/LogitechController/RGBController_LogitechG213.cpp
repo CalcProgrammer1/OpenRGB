@@ -158,11 +158,6 @@ void RGBController_LogitechG213::UpdateSingleLED(int led)
     controller->SetDirect(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
 }
 
-void RGBController_LogitechG213::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_LogitechG213::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

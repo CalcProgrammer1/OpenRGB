@@ -91,11 +91,6 @@ void RGBController_LIFX::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_LIFX::SetCustomMode()
-{
-
-}
-
 void RGBController_LIFX::DeviceUpdateMode()
 {
 

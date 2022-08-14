@@ -26,9 +26,8 @@ public:
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        DeviceSaveMode();
-    void        SetCustomMode();
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
 private:
     LogitechX56Controller*      controller;

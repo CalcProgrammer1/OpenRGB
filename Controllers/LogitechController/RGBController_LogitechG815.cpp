@@ -498,11 +498,6 @@ void RGBController_LogitechG815::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG815::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_LogitechG815::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

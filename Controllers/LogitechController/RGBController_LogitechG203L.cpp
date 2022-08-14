@@ -146,11 +146,6 @@ void RGBController_LogitechG203L::UpdateSingleLED(int led)
     controller->SetSingleLED(leds[led].value, red, grn, blu); //dirty workaround for color lag
 }
 
-void RGBController_LogitechG203L::SetCustomMode()
-{
-
-}
-
 void RGBController_LogitechG203L::DeviceUpdateMode()
 {
     unsigned char red = 0;

@@ -89,11 +89,6 @@ void RGBController_LEDStrip::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_LEDStrip::SetCustomMode()
-{
-
-}
-
 void RGBController_LEDStrip::DeviceUpdateMode()
 {
 

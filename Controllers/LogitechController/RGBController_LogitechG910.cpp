@@ -374,11 +374,6 @@ void RGBController_LogitechG910::UpdateSingleLED(int led)
     controller->Commit();
 }
 
-void RGBController_LogitechG910::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_LogitechG910::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

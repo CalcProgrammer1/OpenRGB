@@ -90,11 +90,6 @@ void RGBController_LexipMouse::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_LexipMouse::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_LexipMouse::DeviceUpdateMode()
 {
     UpdateZoneLEDs(0);

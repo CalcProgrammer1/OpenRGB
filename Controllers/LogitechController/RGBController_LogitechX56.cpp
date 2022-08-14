@@ -97,11 +97,6 @@ void RGBController_LogitechX56::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechX56::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_LogitechX56::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

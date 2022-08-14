@@ -303,14 +303,6 @@ void RGBController_LenovoUSB::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LenovoUSB::SetCustomMode()
-{
-    /*---------------------------------------------------------*\
-    | This device has only one mode                             |
-    \*---------------------------------------------------------*/
-    active_mode = 0;
-}
-
 void RGBController_LenovoUSB::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

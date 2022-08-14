@@ -91,11 +91,6 @@ void RGBController_LinuxLED::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_LinuxLED::SetCustomMode()
-{
-
-}
-
 void RGBController_LinuxLED::DeviceUpdateMode()
 {
 
