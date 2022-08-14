@@ -50,6 +50,12 @@ typedef struct
 #define CORSAIR_K60_RGB_PRO_LP_PID                  0x1BAD
 
 /*-----------------------------------------------------*\
+| Corsair V2 Protocol Mice                              |
+\*-----------------------------------------------------*/
+#define CORSAIR_IRONCLAW_WIRELESS_PID               0x1BA6
+#define CORSAIR_IRONCLAW_WIRELESS_WIRED_PID         0x1B4C
+
+/*-----------------------------------------------------*\
 | Corsair V2 Protocol Mousemats                         |
 \*-----------------------------------------------------*/
 #define CORSAIR_MM700_PID                           0x1B9B
