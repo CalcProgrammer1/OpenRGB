@@ -148,11 +148,6 @@ void RGBController_Faustus::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_Faustus::SetCustomMode()
-{
-    SetMode(0);
-}
-
 void RGBController_Faustus::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

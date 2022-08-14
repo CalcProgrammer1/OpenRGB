@@ -168,11 +168,6 @@ void RGBController_GalaxGPU::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_GalaxGPU::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_GalaxGPU::DeviceUpdateMode()
 {
     int new_mode = modes[active_mode].value;

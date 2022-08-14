@@ -254,11 +254,6 @@ void RGBController_RGBFusion2GPU::UpdateSingleLED(int led)
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2GPU::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RGBFusion2GPU::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

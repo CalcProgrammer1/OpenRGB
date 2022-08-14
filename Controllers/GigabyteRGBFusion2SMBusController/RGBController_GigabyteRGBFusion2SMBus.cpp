@@ -283,19 +283,13 @@ void RGBController_RGBFusion2SMBus::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-// TODO - Research if possible to read device state
-int RGBController_RGBFusion2SMBus::GetDeviceMode()
-{
-    return(0);
-}
-
-void RGBController_RGBFusion2SMBus::SetCustomMode()
-{
-
-}
-
 void RGBController_RGBFusion2SMBus::DeviceUpdateMode()
 {
 
 }
 
+// TODO - Research if possible to read device state
+int RGBController_RGBFusion2SMBus::GetDeviceMode()
+{
+    return(0);
+}

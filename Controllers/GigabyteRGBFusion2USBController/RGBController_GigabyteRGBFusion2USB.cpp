@@ -527,11 +527,6 @@ void RGBController_RGBFusion2USB::ResizeZone(int zone, int new_size)
     }
 }
 
-void RGBController_RGBFusion2USB::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
 {
     for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)

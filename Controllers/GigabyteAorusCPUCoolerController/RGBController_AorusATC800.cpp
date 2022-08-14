@@ -150,11 +150,6 @@ void RGBController_AorusATC800::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_AorusATC800::SetCustomMode()
-{
-
-}
-
 void RGBController_AorusATC800::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

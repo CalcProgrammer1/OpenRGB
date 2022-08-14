@@ -88,11 +88,6 @@ void RGBController_FanBus::UpdateSingleLED(int /*led*/)
     controller->SetLEDs(colors);
 }
 
-void RGBController_FanBus::SetCustomMode()
-{
-
-}
-
 void RGBController_FanBus::DeviceUpdateMode()
 {
 

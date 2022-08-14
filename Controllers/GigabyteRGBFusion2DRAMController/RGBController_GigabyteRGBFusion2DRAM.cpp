@@ -163,11 +163,6 @@ void RGBController_RGBFusion2DRAM::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2DRAM::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RGBFusion2DRAM::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
