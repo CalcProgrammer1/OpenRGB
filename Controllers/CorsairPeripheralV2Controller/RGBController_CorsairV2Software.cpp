@@ -196,7 +196,7 @@ void RGBController_CorsairV2SW::SetupZones()
 
             LOG_DEBUG("[%s] Creating a %s zone: %s with %d LEDs", name.c_str(),
                       ((new_zone.type == ZONE_TYPE_MATRIX) ? "matrix": "linear"),
-                      new_zone.name, new_zone.leds_count);
+                      new_zone.name.c_str(), new_zone.leds_count);
             new_zone.leds_min               = new_zone.leds_count;
             new_zone.leds_max               = new_zone.leds_count;
             zones.push_back(new_zone);
