@@ -21,7 +21,7 @@ CorsairPeripheralV2SWController::~CorsairPeripheralV2SWController()
 
 }
 
-void CorsairPeripheralV2SWController::SetLedsDirect(std::vector<RGBColor>colors)
+void CorsairPeripheralV2SWController::SetLedsDirect(std::vector<RGBColor *>colors)
 {
     uint16_t count          = colors.size();
     uint16_t green          = count;
@@ -33,7 +33,7 @@ void CorsairPeripheralV2SWController::SetLedsDirect(std::vector<RGBColor>colors)
 
     for(std::size_t i = 0; i < count; i++)
     {
-        RGBColor color = colors[i];
+        RGBColor color      = *colors[i];
 
         buffer[i]           = RGBGetRValue(color);
         buffer[green + i]   = RGBGetGValue(color);

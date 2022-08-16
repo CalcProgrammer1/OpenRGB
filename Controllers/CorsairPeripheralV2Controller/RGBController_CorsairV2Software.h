@@ -31,6 +31,9 @@ public:
 private:
     CorsairPeripheralV2Controller*          controller;
 
+    RGBColor                                null_color              = 0;
+    std::vector<RGBColor *>                 buffer_map;
+
     std::thread*                            keepalive_thread;
     std::atomic<bool>                       keepalive_thread_run;
     std::chrono::time_point

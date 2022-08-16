@@ -202,7 +202,7 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
     /*---------------------------------------------------------*\
     | Check if the data needs more than 1 packet                |
     \*---------------------------------------------------------*/
-    uint8_t copy_bytes      = CORSAIR_V2_WRITE_SIZE - offset1;
+    uint16_t copy_bytes     = CORSAIR_V2_WRITE_SIZE - offset1;
     if(remaining < copy_bytes)
     {
         copy_bytes          = remaining;
@@ -221,7 +221,7 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
     \*---------------------------------------------------------*/
     while(remaining)
     {
-        uint8_t index       = data_size - remaining;
+        uint16_t index      = data_size - remaining;
         if(remaining < copy_bytes)
         {
             memset(&buffer[offset2], 0, copy_bytes);

@@ -4,7 +4,7 @@
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 
-#define CORSAIR_ZONES_MAX   5
+#define CORSAIR_ZONES_MAX   6
 
 enum corsair_v2_device_mode
 {
@@ -25,6 +25,7 @@ typedef struct
     uint8_t                 zone;
     uint8_t                 row;
     uint8_t                 col;
+    uint8_t                 index;
     const char*             name;
 }   corsair_v2_led;
 
@@ -45,6 +46,8 @@ typedef struct
 | Corsair V2 Protocol Keyboards                         |
 \*-----------------------------------------------------*/
 #define CORSAIR_K55_RGB_PRO_PID                     0x1BA4
+#define CORSAIR_K60_RGB_PRO_PID                     0x1BA0
+#define CORSAIR_K60_RGB_PRO_LP_PID                  0x1BAD
 
 /*-----------------------------------------------------*\
 | Corsair V2 Protocol Mousemats                         |

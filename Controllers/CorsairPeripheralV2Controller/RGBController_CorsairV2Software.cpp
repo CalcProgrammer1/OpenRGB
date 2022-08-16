@@ -97,6 +97,7 @@ RGBController_CorsairV2SW::~RGBController_CorsairV2SW()
 
 void RGBController_CorsairV2SW::SetupZones()
 {
+    unsigned int max_led_value              = 0;
     const corsair_v2_device* corsair        = controller->GetDeviceData();
 
     /*---------------------------------------------------------*\
@@ -114,10 +115,10 @@ void RGBController_CorsairV2SW::SetupZones()
 
             new_zone.name                   = corsair->zones[i]->name;
             new_zone.type                   = corsair->zones[i]->type;
-            new_zone.leds_count             = corsair->zones[i]->rows * corsair->zones[i]->cols;
 
             if(new_zone.type == ZONE_TYPE_MATRIX)
             {
+                new_zone.leds_count         = corsair->layout_size;
                 matrix_map_type * new_map   = new matrix_map_type;
                 new_zone.matrix_map         = new_map;
 
@@ -126,58 +127,44 @@ void RGBController_CorsairV2SW::SetupZones()
 
                 new_map->map = new unsigned int[new_map->height * new_map->width];
 
+                /*---------------------------------------------------------*\
+                | Create an empty matrix                                    |
+                \*---------------------------------------------------------*/
                 for(unsigned int y = 0; y < new_map->height; y++)
                 {
                     for(unsigned int x = 0; x < new_map->width; x++)
                     {
-                        new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                        new_map->map[(y * new_map->width) + x] = NA;
                     }
                 }
 
                 /*---------------------------------------------------------*\
                 | Create LEDs for the Matrix zone                           |
+                |   Place keys in the layout to populate the matrix         |
                 \*---------------------------------------------------------*/
-                uint8_t blanks              = 0;
                 for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
                 {
-                    led  new_led;
-                    bool not_found = true;
+                    led new_led;
 
-                    for(size_t layout_index = 0; layout_index < corsair->layout_size; layout_index++)
-                    {
-                        uint8_t row         = layout_index / new_map->width;
-                        uint8_t col         = layout_index % new_map->width;
+                    new_led.name                = corsair->layout[led_idx].name;
+                    new_led.value               = corsair->layout[led_idx].index;
+                    max_led_value               = std::max(max_led_value, new_led.value);
+                    leds.push_back(new_led);
 
-                        if(  i == corsair->layout[layout_index].zone    &&
-                           row == corsair->layout[layout_index].row     &&
-                           col == corsair->layout[layout_index].col     )
-                        {
-                            new_led.name    = corsair->layout[layout_index].name;
-                            not_found       = false;
-                            break;
-                        }
-                    }
-
-                    /*-----------------------------------------------------------------*\
-                    | If this is the "Keyboard" zone and key was not found in the map   |
-                    |   then change the value of the key to hide it from view           |
-                    \*-----------------------------------------------------------------*/
-                    if(not_found && new_zone.name == ZONE_EN_KEYBOARD)
-                    {
-                        new_zone.matrix_map->map[led_idx] = NA;
-                        blanks++;
-                    }
-                    else
-                    {
-                        leds.push_back(new_led);
-                    }
+                    uint8_t layout_index        = (corsair->layout[led_idx].row * new_map->width)
+                                                +  corsair->layout[led_idx].col;
+                    new_map->map[layout_index]  = led_idx;
                 }
 
-                new_zone.leds_count        -= blanks;
+                /*---------------------------------------------------------*\
+                | Add 1 the max_led_value to account for the 0th index      |
+                \*---------------------------------------------------------*/
+                max_led_value++;
             }
             else
             {
-                new_zone.matrix_map         = NULL;
+                new_zone.leds_count             = corsair->zones[i]->rows * corsair->zones[i]->cols;
+                new_zone.matrix_map             = NULL;
 
                 /*---------------------------------------------------------*\
                 | Create LEDs for the Linear / Single zone                  |
@@ -186,24 +173,40 @@ void RGBController_CorsairV2SW::SetupZones()
                 {
                     led new_led;
 
-                    new_led.name            = new_zone.name + " ";
+                    new_led.name                = new_zone.name + " ";
                     new_led.name.append(std::to_string( led_idx ));
-                    new_led.value           = leds.size();
+                    new_led.value               = leds.size();
 
                     leds.push_back(new_led);
                 }
+
+                max_led_value                   = std::max(max_led_value, (unsigned int)leds.size());
             }
 
             LOG_DEBUG("[%s] Creating a %s zone: %s with %d LEDs", name.c_str(),
                       ((new_zone.type == ZONE_TYPE_MATRIX) ? "matrix": "linear"),
                       new_zone.name.c_str(), new_zone.leds_count);
-            new_zone.leds_min               = new_zone.leds_count;
-            new_zone.leds_max               = new_zone.leds_count;
+            new_zone.leds_min                   = new_zone.leds_count;
+            new_zone.leds_max                   = new_zone.leds_count;
             zones.push_back(new_zone);
         }
     }
 
     SetupColors();
+
+    /*---------------------------------------------------------*\
+    | Create a buffer map of pointers which contains the        |
+    |   layout order of colors the device expects.              |
+    \*---------------------------------------------------------*/
+    for(size_t led_idx = 0; led_idx < max_led_value; led_idx++)
+    {
+        buffer_map.push_back(&null_color);
+    }
+
+    for(size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        buffer_map[leds[led_idx].value] = &colors[led_idx];
+    }
 }
 
 void RGBController_CorsairV2SW::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -217,17 +220,17 @@ void RGBController_CorsairV2SW::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
 
-    controller->SetLedsDirect(colors);
+    controller->SetLedsDirect(buffer_map);
 }
 
 void RGBController_CorsairV2SW::UpdateZoneLEDs(int /*zone*/)
 {
-    controller->SetLedsDirect(colors);
+    controller->SetLedsDirect(buffer_map);
 }
 
 void RGBController_CorsairV2SW::UpdateSingleLED(int /*led*/)
 {
-    controller->SetLedsDirect(colors);
+    controller->SetLedsDirect(buffer_map);
 }
 
 void RGBController_CorsairV2SW::DeviceUpdateMode()

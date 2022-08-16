@@ -37,6 +37,8 @@ void DetectCorsairV2SoftwareControllers(hid_device_info* info, const std::string
 | Keyboards                                                                                             |
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Corsair K55 RGB PRO",             DetectCorsairV2SoftwareControllers, CORSAIR_VID, CORSAIR_K55_RGB_PRO_PID,       1, 0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO",             DetectCorsairV2SoftwareControllers, CORSAIR_VID, CORSAIR_K60_RGB_PRO_PID,       1, 0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO Low Profile", DetectCorsairV2SoftwareControllers, CORSAIR_VID, CORSAIR_K60_RGB_PRO_LP_PID,    1, 0xFF42);
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Mousemat                                                                                              |

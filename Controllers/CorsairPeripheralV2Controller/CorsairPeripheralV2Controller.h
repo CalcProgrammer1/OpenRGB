@@ -79,7 +79,7 @@ public:
     void                            UpdateHWMode(uint16_t mode, corsair_v2_color color_mode, uint8_t speed,
                                                  uint8_t direction, uint8_t brightness, std::vector<RGBColor> colors);
 
-    virtual void                    SetLedsDirect(std::vector<RGBColor> colors)                     = 0;
+    virtual void                    SetLedsDirect(std::vector<RGBColor *> colors)                   = 0;
 private:
     void                            GetAddress(uint8_t address);
     void                            StartTransaction(uint8_t opt1);
