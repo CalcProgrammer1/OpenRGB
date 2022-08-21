@@ -17,23 +17,21 @@
 class RGBController_PhilipsHueEntertainment : public RGBController
 {
 public:
-    RGBController_PhilipsHueEntertainment(PhilipsHueEntertainmentController* light_ptr);
+    RGBController_PhilipsHueEntertainment(PhilipsHueEntertainmentController* controller_ptr);
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
     void        KeepaliveThreadFunction();
 
 private:
-    PhilipsHueEntertainmentController* light;
+    PhilipsHueEntertainmentController* controller;
 
     std::atomic<bool>   KeepaliveThreadRunning;
     std::thread*        KeepaliveThread;

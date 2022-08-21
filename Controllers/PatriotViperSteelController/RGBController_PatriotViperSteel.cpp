@@ -110,10 +110,6 @@ void RGBController_PatriotViperSteel::UpdateSingleLED(int led)
     controller->SetLEDColor(led, red, grn, blu);
 }
 
-void RGBController_PatriotViperSteel::SetCustomMode()
-{
-}
-
 void RGBController_PatriotViperSteel::DeviceUpdateMode()
 {
 }

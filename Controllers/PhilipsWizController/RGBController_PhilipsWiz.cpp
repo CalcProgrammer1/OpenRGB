@@ -19,17 +19,17 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* light_ptr)
+RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* controller_ptr)
 {
-    light = light_ptr;
+    controller  = controller_ptr;
 
-    name        = light->GetManufacturer() + " " + light->GetName();
-    vendor      = light->GetManufacturer();
+    name        = controller->GetManufacturer() + " " + controller->GetName();
+    vendor      = controller->GetManufacturer();
     type        = DEVICE_TYPE_LIGHT;
-    version     = light->GetVersion();
+    version     = controller->GetVersion();
     description = "Philips Wiz Device";
-    serial      = light->GetUniqueID();
-    location    = light->GetLocation();
+    serial      = controller->GetUniqueID();
+    location    = controller->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -43,7 +43,7 @@ RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* light_p
 
 RGBController_PhilipsWiz::~RGBController_PhilipsWiz()
 {
-    delete light;
+    delete controller;
 }
 
 void RGBController_PhilipsWiz::SetupZones()
@@ -78,7 +78,7 @@ void RGBController_PhilipsWiz::DeviceUpdateLEDs()
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    light->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_PhilipsWiz::UpdateZoneLEDs(int /*zone*/)
@@ -89,11 +89,6 @@ void RGBController_PhilipsWiz::UpdateZoneLEDs(int /*zone*/)
 void RGBController_PhilipsWiz::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_PhilipsWiz::SetCustomMode()
-{
-
 }
 
 void RGBController_PhilipsWiz::DeviceUpdateMode()

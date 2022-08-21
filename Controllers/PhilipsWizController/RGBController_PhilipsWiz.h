@@ -13,20 +13,18 @@
 class RGBController_PhilipsWiz : public RGBController
 {
 public:
-    RGBController_PhilipsWiz(PhilipsWizController* light_ptr);
+    RGBController_PhilipsWiz(PhilipsWizController* controller_ptr);
     ~RGBController_PhilipsWiz();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    PhilipsWizController* light;
+    PhilipsWizController* controller;
 };

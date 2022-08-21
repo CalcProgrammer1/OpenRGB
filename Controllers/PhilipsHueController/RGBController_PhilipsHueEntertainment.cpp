@@ -23,16 +23,16 @@ using namespace std::chrono_literals;
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_PhilipsHueEntertainment::RGBController_PhilipsHueEntertainment(PhilipsHueEntertainmentController* light_ptr)
+RGBController_PhilipsHueEntertainment::RGBController_PhilipsHueEntertainment(PhilipsHueEntertainmentController* controller_ptr)
 {
-    light = light_ptr;
+    controller  = controller_ptr;
 
-    name        = light->GetManufacturer() + " " + light->GetName();
+    name        = controller->GetManufacturer() + " " + controller->GetName();
     type        = DEVICE_TYPE_LIGHT;
-    version     = light->GetVersion();
+    version     = controller->GetVersion();
     description = "Philips Hue Entertainment Mode Device";
-    serial      = light->GetUniqueID();
-    location    = light->GetLocation();
+    serial      = controller->GetUniqueID();
+    location    = controller->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -72,13 +72,13 @@ void RGBController_PhilipsHueEntertainment::SetupZones()
     zone led_zone;
     led_zone.name       = "RGB Light";
     led_zone.type       = ZONE_TYPE_SINGLE;
-    led_zone.leds_min   = light->GetNumLEDs();
-    led_zone.leds_max   = light->GetNumLEDs();
-    led_zone.leds_count = light->GetNumLEDs();
+    led_zone.leds_min   = controller->GetNumLEDs();
+    led_zone.leds_max   = controller->GetNumLEDs();
+    led_zone.leds_count = controller->GetNumLEDs();
     led_zone.matrix_map = NULL;
     zones.push_back(led_zone);
 
-    for(unsigned int led_idx = 0; led_idx < light->GetNumLEDs(); led_idx++)
+    for(unsigned int led_idx = 0; led_idx < controller->GetNumLEDs(); led_idx++)
     {
         led new_led;
         new_led.name = "RGB Light";
@@ -102,7 +102,7 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateLEDs()
 
     if(active_mode == 0)
     {
-        light->SetColor(&colors[0]);
+        controller->SetColor(&colors[0]);
     }
 }
 
@@ -114,11 +114,6 @@ void RGBController_PhilipsHueEntertainment::UpdateZoneLEDs(int /*zone*/)
 void RGBController_PhilipsHueEntertainment::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_PhilipsHueEntertainment::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()
@@ -135,11 +130,11 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()
             }
         }
 
-        light->Connect();
+        controller->Connect();
     }
     else
     {
-        light->Disconnect();
+        controller->Disconnect();
     }
 }
 

@@ -15,19 +15,17 @@
 class RGBController_PNYGPU : public RGBController
 {
 public:
-    RGBController_PNYGPU(PNYGPUController* pny_ptr);
+    RGBController_PNYGPU(PNYGPUController* controller_ptr);
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    PNYGPUController* pny;
+    PNYGPUController* controller;
 };

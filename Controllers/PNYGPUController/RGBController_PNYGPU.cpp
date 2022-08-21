@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_PNYGPU::RGBController_PNYGPU(PNYGPUController* pny_ptr)
+RGBController_PNYGPU::RGBController_PNYGPU(PNYGPUController* controller_ptr)
 {
-    pny = pny_ptr;
+    controller              = controller_ptr;
 
     name                    = "PNY/Palit GPU";
     vendor                  = "PNY/Palit";
     description             = "PNY/Palit RGB GPU Device";
-    location                = pny->GetDeviceLocation();
+    location                = controller->GetDeviceLocation();
 
-    type = DEVICE_TYPE_GPU;
+    type                    = DEVICE_TYPE_GPU;
 
     mode Off;
     Off.name                = "Off";
@@ -126,11 +126,6 @@ void RGBController_PNYGPU::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_PNYGPU::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_PNYGPU::DeviceUpdateMode()
 {
     RGBColor      color = colors[0];
@@ -141,23 +136,23 @@ void RGBController_PNYGPU::DeviceUpdateMode()
     switch(modes[active_mode].value)
     {
         case PNY_GPU_MODE_OFF:
-            pny->SetOff();
+            controller->SetOff();
             break;
 
         case PNY_GPU_MODE_DIRECT:
             brightness = modes[active_mode].brightness;
-            pny->SetDirect(r, g, b, brightness);
+            controller->SetDirect(r, g, b, brightness);
             break;
 
         case PNY_GPU_MODE_CYCLE:
             speed = modes[active_mode].speed;
-            pny->SetCycle(speed);
+            controller->SetCycle(speed);
             break;
 
         case PNY_GPU_MODE_STROBE:
             speed      = modes[active_mode].speed;
             brightness = modes[active_mode].brightness;
-            pny->SetStrobe(r, g, b, speed, brightness);
+            controller->SetStrobe(r, g, b, speed, brightness);
             break;
         default:
         break;

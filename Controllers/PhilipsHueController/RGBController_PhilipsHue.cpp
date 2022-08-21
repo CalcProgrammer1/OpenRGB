@@ -19,16 +19,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_PhilipsHue::RGBController_PhilipsHue(PhilipsHueController* light_ptr)
+RGBController_PhilipsHue::RGBController_PhilipsHue(PhilipsHueController* controller_ptr)
 {
-    light = light_ptr;
+    controller  = controller_ptr;
 
-    name        = light->GetManufacturer() + " " + light->GetName();
+    name        = controller->GetManufacturer() + " " + controller->GetName();
     type        = DEVICE_TYPE_LIGHT;
-    version     = light->GetVersion();
+    version     = controller->GetVersion();
     description = "Philips Hue Device";
-    serial      = light->GetUniqueID();
-    location    = light->GetLocation();
+    serial      = controller->GetUniqueID();
+    location    = controller->GetLocation();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -72,7 +72,7 @@ void RGBController_PhilipsHue::DeviceUpdateLEDs()
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    light->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_PhilipsHue::UpdateZoneLEDs(int /*zone*/)
@@ -83,11 +83,6 @@ void RGBController_PhilipsHue::UpdateZoneLEDs(int /*zone*/)
 void RGBController_PhilipsHue::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_PhilipsHue::SetCustomMode()
-{
-
 }
 
 void RGBController_PhilipsHue::DeviceUpdateMode()

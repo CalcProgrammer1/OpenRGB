@@ -212,11 +212,6 @@ void RGBController_PatriotViper::UpdateSingleLED(int led)
     }
 }
 
-void RGBController_PatriotViper::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_PatriotViper::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)
