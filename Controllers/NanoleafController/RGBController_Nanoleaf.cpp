@@ -127,11 +127,6 @@ void RGBController_Nanoleaf::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_Nanoleaf::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_Nanoleaf::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\

@@ -106,11 +106,6 @@ void RGBController_NvidiaESA::UpdateSingleLED(int /*led*/)
     UpdateZoneLEDs(0);
 }
 
-void RGBController_NvidiaESA::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_NvidiaESA::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

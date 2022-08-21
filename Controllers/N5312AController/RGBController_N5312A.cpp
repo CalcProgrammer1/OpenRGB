@@ -131,11 +131,6 @@ void RGBController_N5312A::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_N5312A::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_N5312A::DeviceUpdateMode()
 {    
     const RGBColor& color = modes[active_mode].value == N5312A_OFF_MODE_VALUE ? 0 : colors[0];

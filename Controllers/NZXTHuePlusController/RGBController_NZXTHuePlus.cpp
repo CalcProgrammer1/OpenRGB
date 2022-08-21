@@ -269,11 +269,6 @@ void RGBController_HuePlus::UpdateSingleLED(int led)
     controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
 }
 
-void RGBController_HuePlus::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_HuePlus::DeviceUpdateMode()
 {
     if(modes[active_mode].value == HUE_PLUS_MODE_FIXED)

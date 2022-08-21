@@ -273,11 +273,6 @@ void RGBController_NZXTHue2::UpdateSingleLED(int led)
     controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
 }
 
-void RGBController_NZXTHue2::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_NZXTHue2::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)

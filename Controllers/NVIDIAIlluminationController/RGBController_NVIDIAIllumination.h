@@ -22,19 +22,14 @@ class RGBController_NVIDIAIlluminationV1 : public RGBController
         RGBController_NVIDIAIlluminationV1(NVIDIAIlluminationV1Controller* nvidia_founders_ptr);
         ~RGBController_NVIDIAIlluminationV1();
 
-        void UpdateSingleLED(int led);
-
         void SetupZones();
+        void ResizeZone(int zone, int new_size);
 
         void DeviceUpdateLEDs();
-
-        void UpdateZoneLEDs(int);
-
-        void SetCustomMode();
+        void UpdateZoneLEDs(int zone);
+        void UpdateSingleLED(int led);
 
         void DeviceUpdateMode();
-
-        void ResizeZone(int, int);
 
     private:
         uint8_t getModeIndex(uint8_t mode_value);
