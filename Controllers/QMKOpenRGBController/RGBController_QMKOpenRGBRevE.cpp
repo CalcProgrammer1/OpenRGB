@@ -444,11 +444,6 @@ void RGBController_QMKOpenRGBRevE::UpdateSingleLED(int led)
     controller->DirectModeSetSingleLED(led, red, grn, blu);
 }
 
-void RGBController_QMKOpenRGBRevE::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_QMKOpenRGBRevE::DeviceUpdateMode()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
