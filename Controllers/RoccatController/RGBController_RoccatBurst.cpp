@@ -170,11 +170,6 @@ void RGBController_RoccatBurst::UpdateSingleLED(int /*led_idx*/)
     UpdateZoneLEDs(0);
 }
 
-void RGBController_RoccatBurst::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RoccatBurst::DeviceUpdateMode()
 {
     if(modes[active_mode].value == ROCCAT_BURST_DIRECT_MODE_VALUE)

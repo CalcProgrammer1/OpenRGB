@@ -87,11 +87,6 @@ void RGBController_RoccatHordeAimo::UpdateSingleLED(int /*led_idx*/)
     UpdateZoneLEDs(0);
 }
 
-void RGBController_RoccatHordeAimo::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RoccatHordeAimo::DeviceUpdateMode()
 {
 

@@ -20,15 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoController* mouse_ptr)
+RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoController* controller_ptr)
 {
+    controller  = controller_ptr;
+
     name        = "Roccat Kone Aimo";
     vendor      = "Roccat";
     type        = DEVICE_TYPE_MOUSE;
     description = "Roccat Kone Aimo Mouse";
-    mouse       = mouse_ptr;
-    location    = mouse->GetLocation();
-    serial      = mouse->GetSerial();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerial();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -43,12 +44,11 @@ RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoControl
     active_mode = 0;
 
     SetupZones();
-
 }
 
 RGBController_RoccatKoneAimo::~RGBController_RoccatKoneAimo()
 {
-    delete mouse;
+    delete controller;
 }
 
 void RGBController_RoccatKoneAimo::SetupZones()
@@ -171,12 +171,12 @@ void RGBController_RoccatKoneAimo::DeviceUpdateLEDs()
     \*---------------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        mouse->SetChannelColors(zones_channel[zone_idx], zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelColors(zones_channel[zone_idx], zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
     /*---------------------------------------------------------*\
     | Apply new colors to the mouse                             |
     \*---------------------------------------------------------*/
-    mouse->SendUpdate();
+    controller->SendUpdate();
 }
 
 void RGBController_RoccatKoneAimo::UpdateZoneLEDs(int zone_idx)
@@ -184,11 +184,11 @@ void RGBController_RoccatKoneAimo::UpdateZoneLEDs(int zone_idx)
     /*---------------------------------------------------------*\
     | Set colors for one channel of leds                        |
     \*---------------------------------------------------------*/
-    mouse->SetChannelColors(zones_channel[zone_idx], zones[zone_idx].colors, zones[zone_idx].leds_count);
+    controller->SetChannelColors(zones_channel[zone_idx], zones[zone_idx].colors, zones[zone_idx].leds_count);
     /*---------------------------------------------------------*\
     | Apply new colors to the mouse                             |
     \*---------------------------------------------------------*/
-    mouse->SendUpdate();
+    controller->SendUpdate();
 }
 
 void RGBController_RoccatKoneAimo::UpdateSingleLED(int led_idx)
@@ -200,16 +200,11 @@ void RGBController_RoccatKoneAimo::UpdateSingleLED(int led_idx)
     /*---------------------------------------------------------*\
     | Update channel corresponding to led                       |
     \*---------------------------------------------------------*/
-    mouse->SetChannelColors(channel, zones[leds[led_idx].value].colors, zones[leds[led_idx].value].leds_count);
+    controller->SetChannelColors(channel, zones[leds[led_idx].value].colors, zones[leds[led_idx].value].leds_count);
     /*---------------------------------------------------------*\
     | Apply new colors to the mouse                             |
     \*---------------------------------------------------------*/
-    mouse->SendUpdate();
-}
-
-void RGBController_RoccatKoneAimo::SetCustomMode()
-{
-    active_mode = 0;
+    controller->SendUpdate();
 }
 
 void RGBController_RoccatKoneAimo::DeviceUpdateMode()

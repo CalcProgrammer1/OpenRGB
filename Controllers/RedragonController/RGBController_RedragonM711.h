@@ -14,20 +14,18 @@
 class RGBController_RedragonM711 : public RGBController
 {
 public:
-    RGBController_RedragonM711(RedragonM711Controller* redragon_ptr);
+    RGBController_RedragonM711(RedragonM711Controller* controller_ptr);
     ~RGBController_RedragonM711();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
     
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    RedragonM711Controller*   redragon;
+    RedragonM711Controller*   controller;
 };

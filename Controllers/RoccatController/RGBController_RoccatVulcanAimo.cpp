@@ -276,11 +276,6 @@ void RGBController_RoccatVulcanAimo::UpdateSingleLED(int /*led_idx*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatVulcanAimo::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RoccatVulcanAimo::DeviceUpdateMode()
 {
     controller->SendMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, colors);

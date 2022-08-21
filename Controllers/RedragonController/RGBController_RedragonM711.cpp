@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* redragon_ptr)
+RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* controller_ptr)
 {
-    redragon = redragon_ptr;
+    controller  = controller_ptr;
 
     name        = "Redragon Mouse Device";
     vendor      = "Redragon";
     type        = DEVICE_TYPE_MOUSE;
     description = "Redragon Mouse Device";
-    location    = redragon->GetDeviceLocation();
-    serial      = redragon->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Static;
     Static.name       = "Static";
@@ -71,7 +71,7 @@ RGBController_RedragonM711::RGBController_RedragonM711(RedragonM711Controller* r
 
 RGBController_RedragonM711::~RGBController_RedragonM711()
 {
-    delete redragon;
+    delete controller;
 }
 
 void RGBController_RedragonM711::SetupZones()
@@ -105,8 +105,8 @@ void RGBController_RedragonM711::DeviceUpdateLEDs()
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    redragon->SendMouseColor(red, grn, blu);
-    redragon->SendMouseApply();
+    controller->SendMouseColor(red, grn, blu);
+    controller->SendMouseApply();
 }
 
 void RGBController_RedragonM711::UpdateZoneLEDs(int /*zone*/)
@@ -119,11 +119,6 @@ void RGBController_RedragonM711::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_RedragonM711::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_RedragonM711::DeviceUpdateMode()
 {
     bool random       = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
@@ -133,12 +128,12 @@ void RGBController_RedragonM711::DeviceUpdateMode()
 
     if((modes[active_mode].value == REDRAGON_M711_MODE_BREATHING) && random)
     {
-        redragon->SendMouseMode(REDRAGON_M711_MODE_RANDOM_BREATHING, 0, red, grn, blu);
+        controller->SendMouseMode(REDRAGON_M711_MODE_RANDOM_BREATHING, 0, red, grn, blu);
     }
     else
     {
-        redragon->SendMouseMode(modes[active_mode].value, 0, red, grn, blu);
+        controller->SendMouseMode(modes[active_mode].value, 0, red, grn, blu);
     }
 
-    redragon->SendMouseApply();
+    controller->SendMouseApply();
 }
