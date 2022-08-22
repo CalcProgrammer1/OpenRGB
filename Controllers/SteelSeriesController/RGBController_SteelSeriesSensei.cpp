@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSenseiController* sensei_ptr)
+RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSenseiController* controller_ptr)
 {
-    sensei      = sensei_ptr;
+    controller  = controller_ptr;
 
-    name        = sensei->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "SteelSeries";
     type        = DEVICE_TYPE_MOUSE;
     description = "SteelSeries Sensei Device";
-    location    = sensei->GetDeviceLocation();
-    serial      = sensei->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -63,7 +63,7 @@ RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSens
 
 RGBController_SteelSeriesSensei::~RGBController_SteelSeriesSensei()
 {
-    delete sensei;
+    delete controller;
 }
 
 void RGBController_SteelSeriesSensei::SetupZones()
@@ -120,12 +120,12 @@ void RGBController_SteelSeriesSensei::UpdateZoneLEDs(int zone)
     switch(modes[active_mode].value)
     {
         case STEELSERIES_SENSEI_MODE_DIRECT:
-            sensei->SetColor(zone, red, grn, blu);
+            controller->SetColor(zone, red, grn, blu);
             break;
 
         case STEELSERIES_SENSEI_MODE_BREATHING:
         case STEELSERIES_SENSEI_MODE_RAINBOW:
-            sensei->SetLightEffect(zone, modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
+            controller->SetLightEffect(zone, modes[active_mode].value, modes[active_mode].speed, red, grn, blu);
             break;
     }
 }
@@ -137,11 +137,6 @@ void RGBController_SteelSeriesSensei::UpdateSingleLED(int led)
     | to reference the existing zone code.                      |
     \*---------------------------------------------------------*/
     UpdateZoneLEDs(led);
-}
-
-void RGBController_SteelSeriesSensei::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_SteelSeriesSensei::DeviceUpdateMode()

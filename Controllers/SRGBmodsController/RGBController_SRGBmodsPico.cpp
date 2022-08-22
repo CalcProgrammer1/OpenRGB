@@ -146,11 +146,6 @@ void RGBController_SRGBmodsPico::UpdateSingleLED(int led)
     controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
-void RGBController_SRGBmodsPico::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_SRGBmodsPico::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

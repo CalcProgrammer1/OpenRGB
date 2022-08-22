@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesQCKMat::RGBController_SteelSeriesQCKMat(SteelSeriesQCKMatController* qck_ptr)
+RGBController_SteelSeriesQCKMat::RGBController_SteelSeriesQCKMat(SteelSeriesQCKMatController* controller_ptr)
 {
-    qck         = qck_ptr;
+    controller  = controller_ptr;
 
-    name        = qck->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "SteelSeries";
     type        = DEVICE_TYPE_MOUSEMAT;
     description = "SteelSeries QCK Mat Device";
-    location    = qck->GetDeviceLocation();
-    serial      = qck->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -42,7 +42,7 @@ RGBController_SteelSeriesQCKMat::RGBController_SteelSeriesQCKMat(SteelSeriesQCKM
 
 RGBController_SteelSeriesQCKMat::~RGBController_SteelSeriesQCKMat()
 {
-    delete qck;
+    delete controller;
 }
 
 void RGBController_SteelSeriesQCKMat::SetupZones()
@@ -79,7 +79,7 @@ void RGBController_SteelSeriesQCKMat::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_SteelSeriesQCKMat::DeviceUpdateLEDs()
 {
-    qck->SetColors(colors);
+    controller->SetColors(colors);
 }
 
 void RGBController_SteelSeriesQCKMat::UpdateZoneLEDs(int /*zone*/)
@@ -96,11 +96,6 @@ void RGBController_SteelSeriesQCKMat::UpdateSingleLED(int /*led*/)
     | Packet expects both LEDs                                  |
     \*---------------------------------------------------------*/
     DeviceUpdateLEDs();
-}
-
-void RGBController_SteelSeriesQCKMat::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_SteelSeriesQCKMat::DeviceUpdateMode()

@@ -22,9 +22,9 @@
 
 RGBController_SonyDualSense::RGBController_SonyDualSense(SonyDualSenseController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller  = controller_ptr;
 
-    name    = "Sony DualSense";
+    name        = "Sony DualSense";
 
     if(controller->IsBluetooth())
     {
@@ -131,11 +131,6 @@ void RGBController_SonyDualSense::UpdateZoneLEDs(int /*zone*/)
 void RGBController_SonyDualSense::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_SonyDualSense::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_SonyDualSense::DeviceUpdateMode()

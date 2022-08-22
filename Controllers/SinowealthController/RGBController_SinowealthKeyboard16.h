@@ -19,23 +19,20 @@
 class RGBController_SinowealthKeyboard16 : public RGBController
 {
 public:
-    RGBController_SinowealthKeyboard16(SinowealthKeyboard16Controller* sinowealth_ptr);
+    RGBController_SinowealthKeyboard16(SinowealthKeyboard16Controller* controller_ptr);
     ~RGBController_SinowealthKeyboard16();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
-
     void        DeviceUpdateMode();
 
 private:
-    SinowealthKeyboard16Controller* sinowealth;
+    SinowealthKeyboard16Controller* controller;
 
     mode getModeItem(unsigned int mode_id);
 };

@@ -29,16 +29,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* old_apex_ptr)
+RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* controller_ptr)
 {
-    OldApex     = old_apex_ptr;
+    controller  = controller_ptr;
 
-    name        = OldApex->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "SteelSeries";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "SteelSeries old Apex device";
-    location    = OldApex->GetDeviceLocation();
-    serial      = OldApex->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode direct;
     direct.name       = "Direct";
@@ -52,7 +52,7 @@ RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOl
 
 RGBController_SteelSeriesOldApex::~RGBController_SteelSeriesOldApex()
 {
-    delete OldApex;
+    delete controller;
 }
 
 void RGBController_SteelSeriesOldApex::SetupZones()
@@ -167,8 +167,7 @@ void RGBController_SteelSeriesOldApex::DeviceUpdateLEDs()
     logo.blue = RGBGetBValue(colors[4]);
     logo.alpha = modes[active_mode].value;
 
-    OldApex->SetColorDetailed(qwerty, tenkey, functionkey, mxkey, logo);
-
+    controller->SetColorDetailed(qwerty, tenkey, functionkey, mxkey, logo);
 }
 
 void RGBController_SteelSeriesOldApex::UpdateZoneLEDs(int /*zone*/)
@@ -187,11 +186,6 @@ void RGBController_SteelSeriesOldApex::UpdateSingleLED(int /*led*/)
     // all zones have to be blasted anyway
     // so just do a full update
     DeviceUpdateLEDs();
-}
-
-void RGBController_SteelSeriesOldApex::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_SteelSeriesOldApex::DeviceUpdateMode()

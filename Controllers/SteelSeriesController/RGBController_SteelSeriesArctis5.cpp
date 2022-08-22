@@ -98,11 +98,6 @@ void RGBController_SteelSeriesArctis5::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_SteelSeriesArctis5::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_SteelSeriesArctis5::DeviceUpdateMode()
 {
 

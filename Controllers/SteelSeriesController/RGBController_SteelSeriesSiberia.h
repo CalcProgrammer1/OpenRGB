@@ -15,20 +15,18 @@
 class RGBController_SteelSeriesSiberia : public RGBController
 {
 public:
-    RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* siberia_ptr);
+    RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* controller_ptr);
     ~RGBController_SteelSeriesSiberia();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    SteelSeriesSiberiaController*     siberia;
+    SteelSeriesSiberiaController* controller;
 };

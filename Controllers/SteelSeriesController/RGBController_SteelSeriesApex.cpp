@@ -172,18 +172,18 @@ static const char *led_names[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBaseController* steelseries_ptr)
+RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBaseController* controller_ptr)
 {
-    steelseries = steelseries_ptr;
+    controller  = controller_ptr;
 
     name        = "SteelSeries Apex RGB Keyboard";
     vendor      = "SteelSeries";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "SteelSeries Apex RGB Device";
-    location    = steelseries->GetDeviceLocation();
+    location    = controller->GetDeviceLocation();
     serial      = "";
 
-    proto_type = steelseries->proto_type;
+    proto_type  = controller->proto_type;
 
     mode Direct;
     Direct.name       = "Direct";
@@ -193,7 +193,6 @@ RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBase
     modes.push_back(Direct);
 
     SetupZones();
-
 }
 
 RGBController_SteelSeriesApex::~RGBController_SteelSeriesApex()
@@ -209,7 +208,7 @@ RGBController_SteelSeriesApex::~RGBController_SteelSeriesApex()
         }
     }
 
-    delete steelseries;
+    delete controller;
 }
 
 void RGBController_SteelSeriesApex::SetupZones()
@@ -290,7 +289,7 @@ void RGBController_SteelSeriesApex::ResizeZone(int /*zone*/, int /*new_size*/)
 void RGBController_SteelSeriesApex::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
-    steelseries->SetLEDsDirect(colors);
+    controller->SetLEDsDirect(colors);
 }
 
 void RGBController_SteelSeriesApex::UpdateZoneLEDs(int /*zone*/)
@@ -303,13 +302,8 @@ void RGBController_SteelSeriesApex::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_SteelSeriesApex::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_SteelSeriesApex::DeviceUpdateMode()
 {
     std::vector<RGBColor> temp_colors;
-    steelseries->SetMode(modes[active_mode].value, temp_colors);
+    controller->SetMode(modes[active_mode].value, temp_colors);
 }

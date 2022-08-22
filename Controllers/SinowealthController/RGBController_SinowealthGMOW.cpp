@@ -183,22 +183,8 @@ void RGBController_GMOW::UpdateSingleLED(int led)
 
 }
 
-void RGBController_GMOW::SetCustomMode()
-{
-    active_mode = GMOW_MODE_STATIC;
-}
-void RGBController_GMOW::SetMode()
-{
-
-}
-
 void RGBController_GMOW::DeviceUpdateMode()
 {
     mode curr = modes[active_mode];
     controller->SetMode(active_mode, curr.speed,curr.brightness, curr.brightness, curr.colors.data(), curr.colors.size());
-}
-
-void RGBController_GMOW::DeviceSaveMode()
-{
-
 }

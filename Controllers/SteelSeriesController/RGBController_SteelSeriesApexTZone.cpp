@@ -90,15 +90,9 @@ void RGBController_SteelSeriesApexTZone::UpdateZoneLEDs(int /*zone*/)
     DeviceUpdateLEDs();
 }
 
-
 void RGBController_SteelSeriesApexTZone::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_SteelSeriesApexTZone::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_SteelSeriesApexTZone::DeviceUpdateMode()

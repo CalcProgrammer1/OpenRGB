@@ -16,21 +16,18 @@
 class RGBController_SinowealthKeyboard : public RGBController
 {
 public:
-    RGBController_SinowealthKeyboard(SinowealthKeyboardController* sinowealth_ptr);
+    RGBController_SinowealthKeyboard(SinowealthKeyboardController* controller_ptr);
     ~RGBController_SinowealthKeyboard();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
-
     void        DeviceUpdateMode();
 
 private:
-    SinowealthKeyboardController* sinowealth;
+    SinowealthKeyboardController* controller;
 };

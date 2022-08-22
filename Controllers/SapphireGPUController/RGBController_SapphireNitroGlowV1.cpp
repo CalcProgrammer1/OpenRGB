@@ -145,11 +145,6 @@ void RGBController_SapphireNitroGlowV1::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_SapphireNitroGlowV1::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_SapphireNitroGlowV1::DeviceUpdateMode()
 {
     controller->SetMode((unsigned char)modes[(unsigned int)active_mode].value);

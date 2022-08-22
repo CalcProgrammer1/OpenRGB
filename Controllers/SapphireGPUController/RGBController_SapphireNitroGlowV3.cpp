@@ -196,11 +196,6 @@ void RGBController_SapphireNitroGlowV3::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_SapphireNitroGlowV3::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_SapphireNitroGlowV3::DeviceUpdateMode()
 {
     auto mode = modes[active_mode];

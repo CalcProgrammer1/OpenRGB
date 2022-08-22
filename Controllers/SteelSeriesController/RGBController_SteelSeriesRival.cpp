@@ -46,17 +46,17 @@ static const steelseries_rival_led_info rival_600_leds[]=
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalController* rival_ptr)
+RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalController* controller_ptr)
 {
-    rival       = rival_ptr;
+    controller  = controller_ptr;
 
-    name        = rival->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "SteelSeries";
     type        = DEVICE_TYPE_MOUSE;
     description = "SteelSeries Rival Device";
-    location    = rival->GetDeviceLocation();
-    serial      = rival->GetSerialString();
-    version     = rival->GetFirmwareVersion();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
+    version     = controller->GetFirmwareVersion();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -80,7 +80,7 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
 
 RGBController_SteelSeriesRival::~RGBController_SteelSeriesRival()
 {
-    delete rival;
+    delete controller;
 }
 
 void RGBController_SteelSeriesRival::SetupZones()
@@ -101,8 +101,8 @@ void RGBController_SteelSeriesRival::SetupZones()
     leds.push_back(logo_led);
 
     /* Rival 300 and 700 extend this by adding Scroll Wheel LED + Zone */
-    if(rival->GetMouseType() == RIVAL_300 ||
-       rival->GetMouseType() == RIVAL_700)
+    if(controller->GetMouseType() == RIVAL_300 ||
+       controller->GetMouseType() == RIVAL_700)
     {
         zone wheel_zone;
         wheel_zone.name         = "Scroll Wheel";
@@ -119,7 +119,7 @@ void RGBController_SteelSeriesRival::SetupZones()
         leds.push_back(wheel_led);
     }
     /* Rival 650 extends this by Scroll Wheel LED + Zone and additional lights LEDs + Zone */
-    else if(rival->GetMouseType() == RIVAL_650)
+    else if(controller->GetMouseType() == RIVAL_650)
     {
         leds[0].value           = 0x11;
 
@@ -155,7 +155,7 @@ void RGBController_SteelSeriesRival::SetupZones()
         }
     }
     /* Rival 600 is simular to Rival 650 */
-    else if(rival->GetMouseType() == RIVAL_600)
+    else if(controller->GetMouseType() == RIVAL_600)
     {
         leds[0].value           = 0x01;
 
@@ -208,7 +208,7 @@ void RGBController_SteelSeriesRival::DeviceUpdateLEDs()
         unsigned char red = RGBGetRValue(colors[i]);
         unsigned char grn = RGBGetGValue(colors[i]);
         unsigned char blu = RGBGetBValue(colors[i]);
-        rival->SetColor(leds[i].value, red, grn, blu);
+        controller->SetColor(leds[i].value, red, grn, blu);
     }
 }
 
@@ -219,7 +219,7 @@ void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
         unsigned char red = RGBGetRValue(zones[zone].colors[i]);
         unsigned char grn = RGBGetGValue(zones[zone].colors[i]);
         unsigned char blu = RGBGetBValue(zones[zone].colors[i]);
-        rival->SetColor(zones[zone].leds[i].value, red, grn, blu);
+        controller->SetColor(zones[zone].leds[i].value, red, grn, blu);
     }
 }
 
@@ -228,12 +228,7 @@ void RGBController_SteelSeriesRival::UpdateSingleLED(int led)
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
-    rival->SetColor(leds[led].value, red, grn, blu);
-}
-
-void RGBController_SteelSeriesRival::SetCustomMode()
-{
-    active_mode = 0;
+    controller->SetColor(leds[led].value, red, grn, blu);
 }
 
 void RGBController_SteelSeriesRival::DeviceUpdateMode()
@@ -244,10 +239,11 @@ void RGBController_SteelSeriesRival::DeviceUpdateMode()
     switch (modes[active_mode].value)
     {
         case STEELSERIES_RIVAL_DIRECT:
-            rival->SetLightEffectAll(STEELSERIES_RIVAL_EFFECT_DIRECT);
+            controller->SetLightEffectAll(STEELSERIES_RIVAL_EFFECT_DIRECT);
             break;
+
         case STEELSERIES_RIVAL_PULSATE:
-            rival->SetLightEffectAll(modes[active_mode].speed);
+            controller->SetLightEffectAll(modes[active_mode].speed);
             break;
     }
 
@@ -257,5 +253,5 @@ void RGBController_SteelSeriesRival::DeviceUpdateMode()
 void RGBController_SteelSeriesRival::DeviceSaveMode()
 {
     DeviceUpdateMode();
-    rival->SaveMode();
+    controller->SaveMode();
 }

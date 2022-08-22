@@ -20,7 +20,7 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesMouseController *controller_ptr)
+RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesMouseController* controller_ptr)
 {
     controller              = controller_ptr;
 
@@ -164,11 +164,6 @@ void RGBController_SteelSeriesRival3::UpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
     controller->SetColor(leds[led].value, red, grn, blu, modes[active_mode].brightness);
-}
-
-void RGBController_SteelSeriesRival3::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_SteelSeriesRival3::DeviceUpdateMode()

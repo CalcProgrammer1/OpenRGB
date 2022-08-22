@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* siberia_ptr)
+RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* controller_ptr)
 {
-    siberia = siberia_ptr;
+    controller  = controller_ptr;
 
-    name        = siberia->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "SteelSeries";
     type        = DEVICE_TYPE_HEADSET;
     description = "SteelSeries Siberia Device";
-    location    = siberia->GetDeviceLocation();
-    serial      = siberia->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Static;
     Static.name       = "Static";
@@ -42,7 +42,7 @@ RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSi
 
 RGBController_SteelSeriesSiberia::~RGBController_SteelSeriesSiberia()
 {
-    delete siberia;
+    delete controller;
 }
 
 void RGBController_SteelSeriesSiberia::SetupZones()
@@ -76,7 +76,7 @@ void RGBController_SteelSeriesSiberia::DeviceUpdateLEDs()
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
-    siberia->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_SteelSeriesSiberia::UpdateZoneLEDs(int zone)
@@ -85,7 +85,7 @@ void RGBController_SteelSeriesSiberia::UpdateZoneLEDs(int zone)
     unsigned char red   = RGBGetRValue(color);
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
-    siberia->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_SteelSeriesSiberia::UpdateSingleLED(int led)
@@ -93,11 +93,6 @@ void RGBController_SteelSeriesSiberia::UpdateSingleLED(int led)
     /* Each zone only has a single LED, so we can use the LED ID to reference
      * the existing zone code. */
     UpdateZoneLEDs(led);
-}
-
-void RGBController_SteelSeriesSiberia::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_SteelSeriesSiberia::DeviceUpdateMode()

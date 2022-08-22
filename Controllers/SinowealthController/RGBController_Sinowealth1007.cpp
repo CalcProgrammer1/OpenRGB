@@ -33,7 +33,7 @@ static const char *led_names[] =
 
 RGBController_Sinowealth1007::RGBController_Sinowealth1007(SinowealthController1007* controller_ptr)
 {
-    controller = controller_ptr;
+    controller  = controller_ptr;
 
     name        = "ZET Fury Pro Mouse Device";
     vendor      = "ZET";
@@ -227,13 +227,7 @@ void RGBController_Sinowealth1007::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_Sinowealth1007::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_Sinowealth1007::DeviceUpdateMode()
-
 {
     unsigned char random = (modes[active_mode].flags & MODE_FLAG_HAS_RANDOM_COLOR) ? ZET_FURY_PRO_SUBMODE_SET_COLOR : 0x00;
                   random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM)   ? ZET_FURY_PRO_SUBMODE_RANDOM    : random;

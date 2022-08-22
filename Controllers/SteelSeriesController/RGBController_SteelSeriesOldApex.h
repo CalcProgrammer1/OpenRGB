@@ -25,20 +25,18 @@
 class RGBController_SteelSeriesOldApex : public RGBController
 {
 public:
-    RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* old_apex_ptr);
+    RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* controller_ptr);
     ~RGBController_SteelSeriesOldApex();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    SteelSeriesOldApexController*     OldApex;
+    SteelSeriesOldApexController* controller;
 };

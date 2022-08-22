@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowealth_ptr)
+RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* controller_ptr)
 {
-    sinowealth = sinowealth_ptr;
+    controller  = controller_ptr;
 
     name        = "Sinowealth Device";
     type        = DEVICE_TYPE_MOUSE;
     description = "Sinowealth Device";
-    location    = sinowealth->GetLocation();
-    serial      = sinowealth->GetSerialString();
-    version     = sinowealth->GetFirmwareVersion();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerialString();
+    version     = controller->GetFirmwareVersion();
 
     mode Static;
     Static.name       = "Static";
@@ -137,7 +137,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* sinowea
 
 RGBController_Sinowealth::~RGBController_Sinowealth()
 {
-    delete sinowealth;
+    delete controller;
 }
 
 void RGBController_Sinowealth::SetupZones()
@@ -148,9 +148,9 @@ void RGBController_Sinowealth::SetupZones()
     zone new_zone;
     new_zone.name       = "Mouse";
     new_zone.type       = ZONE_TYPE_SINGLE;
-    new_zone.leds_min   = sinowealth->GetLEDCount();
-    new_zone.leds_max   = sinowealth->GetLEDCount();
-    new_zone.leds_count = sinowealth->GetLEDCount();
+    new_zone.leds_min   = controller->GetLEDCount();
+    new_zone.leds_max   = controller->GetLEDCount();
+    new_zone.leds_count = controller->GetLEDCount();
     new_zone.matrix_map = NULL;
     zones.push_back(new_zone);
 
@@ -176,7 +176,7 @@ void RGBController_Sinowealth::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_Sinowealth::DeviceUpdateLEDs()
 {
-    sinowealth->SetLEDColor(&colors[0]);
+    controller->SetLEDColor(&colors[0]);
 }
 
 void RGBController_Sinowealth::UpdateZoneLEDs(int /*zone*/)
@@ -188,14 +188,8 @@ void RGBController_Sinowealth::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_Sinowealth::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 
 void RGBController_Sinowealth::DeviceUpdateMode()
-
 {
     unsigned int direction = 0;
     unsigned int speed = GLORIOUS_SPEED_NORMAL;
@@ -237,13 +231,12 @@ void RGBController_Sinowealth::DeviceUpdateMode()
 
         if (modes[active_mode].color_mode == MODE_COLORS_NONE)
         {
-            sinowealth->SetMode(modes[active_mode].value, speed, direction, 0);
+            controller->SetMode(modes[active_mode].value, speed, direction, 0);
         }
         else
         {
-            sinowealth->SetMode(modes[active_mode].value, speed, direction, &modes[active_mode].colors[0]);
+            controller->SetMode(modes[active_mode].value, speed, direction, &modes[active_mode].colors[0]);
         }
     }
 }
-//wave, epilepsy, spectrum cycle, tail, glorious mode, off
 

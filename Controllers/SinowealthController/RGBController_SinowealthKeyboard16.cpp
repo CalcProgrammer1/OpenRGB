@@ -180,18 +180,18 @@ static const char *led_names_tkl[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(SinowealthKeyboard16Controller* sinowealth_ptr)
+RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(SinowealthKeyboard16Controller* controller_ptr)
 {
-    sinowealth  = sinowealth_ptr;
+    controller  = controller_ptr;
 
     name        = "Sinowealth Keyboard";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Generic Sinowealth Keyboard";
-    location    = sinowealth->GetLocation();
-    serial      = sinowealth->GetSerialString();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerialString();
 
-    std::vector<ModeCfg>      modes_cfg     = sinowealth->GetDeviceModes();
-    std::vector<ModeColorCfg> color_presets = sinowealth->GetDeviceColors();
+    std::vector<ModeCfg>      modes_cfg     = controller->GetDeviceModes();
+    std::vector<ModeColorCfg> color_presets = controller->GetDeviceColors();
 
     int mode_id         = 0;
 
@@ -250,12 +250,12 @@ RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(Sinowealt
 
     SetupZones();
 
-    int device_mode = sinowealth->GetCurrentMode();
+    int device_mode = controller->GetCurrentMode();
 
     if(device_mode >= MODE_PER_KEY1)
     {
         device_mode = mode_id+(device_mode & 0x0F);
-        colors = sinowealth->GetPerLedColors();
+        colors = controller->GetPerLedColors();
     }
 
     active_mode = device_mode;
@@ -263,7 +263,7 @@ RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(Sinowealt
 
 RGBController_SinowealthKeyboard16::~RGBController_SinowealthKeyboard16()
 {
-    delete sinowealth;
+    delete controller;
 }
 
 mode RGBController_SinowealthKeyboard16::getModeItem(unsigned int mode_id)
@@ -374,7 +374,7 @@ void RGBController_SinowealthKeyboard16::SetupZones()
 
     new_zone.name                   = ZONE_EN_KEYBOARD;
     new_zone.type                   = ZONE_TYPE_MATRIX;
-    new_zone.leds_count             = sinowealth->GetLEDCount();
+    new_zone.leds_count             = controller->GetLEDCount();
     new_zone.leds_min               = new_zone.leds_count;
     new_zone.leds_max               = new_zone.leds_count;
     new_zone.matrix_map             = new matrix_map_type;
@@ -406,7 +406,7 @@ void RGBController_SinowealthKeyboard16::ResizeZone(int /*zone*/, int /*new_size
 
 void RGBController_SinowealthKeyboard16::DeviceUpdateLEDs()
 {
-    sinowealth->SetLEDsDirect(colors);
+    controller->SetLEDsDirect(colors);
 }
 
 void RGBController_SinowealthKeyboard16::UpdateZoneLEDs(int /*zone*/)
@@ -417,21 +417,6 @@ void RGBController_SinowealthKeyboard16::UpdateZoneLEDs(int /*zone*/)
 void RGBController_SinowealthKeyboard16::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_SinowealthKeyboard16::SetCustomMode()
-{
-    /*---------------------------------------------------------*\
-    | Search the mode list and find Custom mode                 |
-    \*---------------------------------------------------------*/
-    for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
-    {
-        if(modes[mode_idx].name == "Custom")
-        {
-            active_mode = mode_idx;
-            break;
-        }
-    }
 }
 
 void RGBController_SinowealthKeyboard16::DeviceUpdateMode()
@@ -449,18 +434,18 @@ void RGBController_SinowealthKeyboard16::DeviceUpdateMode()
         color_mode = COLOR_PRESET_RANDOM;
     }
 
-    sinowealth->ClearMode();
+    controller->ClearMode();
 
     if(ActiveMode.colors.size())
     {
-        sinowealth->SetColorsForMode(ActiveMode.value, &ActiveMode.colors[0]);
+        controller->SetColorsForMode(ActiveMode.value, &ActiveMode.colors[0]);
     }
 
-    sinowealth->SetMode(ActiveMode.value, ActiveMode.brightness, ActiveMode.speed, ActiveMode.direction, color_mode);
+    controller->SetMode(ActiveMode.value, ActiveMode.brightness, ActiveMode.speed, ActiveMode.direction, color_mode);
 
     if(ActiveMode.value >= MODE_PER_KEY1)
     {
-        colors = sinowealth->GetPerLedColors();
+        colors = controller->GetPerLedColors();
     }
     else
     {

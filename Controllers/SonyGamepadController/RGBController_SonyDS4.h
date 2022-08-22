@@ -12,20 +12,18 @@
 class RGBController_SonyDS4 : public RGBController
 {
 public:
-    RGBController_SonyDS4(SonyDS4Controller* dualshock);
+    RGBController_SonyDS4(SonyDS4Controller* controller_ptr);
     ~RGBController_SonyDS4();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    SonyDS4Controller* dualshock;
+    SonyDS4Controller* controller;
 };

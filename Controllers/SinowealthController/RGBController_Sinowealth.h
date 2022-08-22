@@ -15,22 +15,19 @@
 class RGBController_Sinowealth : public RGBController
 {
 public:
-    RGBController_Sinowealth(SinowealthController* sinowealth_ptr);
+    RGBController_Sinowealth(SinowealthController* controller_ptr);
     ~RGBController_Sinowealth();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
-
     void        DeviceUpdateMode();
 
 
 private:
-    SinowealthController* sinowealth;
+    SinowealthController* controller;
 };

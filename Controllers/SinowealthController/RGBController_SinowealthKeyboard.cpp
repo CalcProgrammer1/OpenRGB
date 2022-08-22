@@ -129,15 +129,15 @@ static const char *led_names_tkl[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SinowealthKeyboard::RGBController_SinowealthKeyboard(SinowealthKeyboardController* sinowealth_ptr)
+RGBController_SinowealthKeyboard::RGBController_SinowealthKeyboard(SinowealthKeyboardController* controller_ptr)
 {
-    sinowealth  = sinowealth_ptr;
+    controller  = controller_ptr;
 
     name        = "Sinowealth Keyboard";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Sinowealth Keyboard";
-    location    = sinowealth->GetLocation();
-    serial      = sinowealth->GetSerialString();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerialString();
 
     mode Static;
     Static.name       = "Static";
@@ -406,7 +406,7 @@ RGBController_SinowealthKeyboard::RGBController_SinowealthKeyboard(SinowealthKey
 
 RGBController_SinowealthKeyboard::~RGBController_SinowealthKeyboard()
 {
-    delete sinowealth;
+    delete controller;
 }
 
 void RGBController_SinowealthKeyboard::SetupZones()
@@ -450,7 +450,7 @@ void RGBController_SinowealthKeyboard::ResizeZone(int /*zone*/, int /*new_size*/
 
 void RGBController_SinowealthKeyboard::DeviceUpdateLEDs()
 {
-    sinowealth->SetLEDsDirect(colors);
+    controller->SetLEDsDirect(colors);
 }
 
 void RGBController_SinowealthKeyboard::UpdateZoneLEDs(int /*zone*/)
@@ -463,11 +463,6 @@ void RGBController_SinowealthKeyboard::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_SinowealthKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_SinowealthKeyboard::DeviceUpdateMode()
 {
     unsigned int brightness  = BRIGHTNESS_FULL;
@@ -475,10 +470,10 @@ void RGBController_SinowealthKeyboard::DeviceUpdateMode()
 
     if(modes[active_mode].value == MODE_STATIC)
     {
-        sinowealth->SetStaticColor(selected_color);
+        controller->SetStaticColor(selected_color);
     }
     else
     {
-        sinowealth->SetMode(modes[active_mode].value, brightness, modes[active_mode].speed, modes[active_mode].color_mode);
+        controller->SetMode(modes[active_mode].value, brightness, modes[active_mode].speed, modes[active_mode].color_mode);
     }
 }

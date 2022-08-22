@@ -21,16 +21,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* dualshock)
+RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* controller_ptr)
 {
-    this->dualshock = dualshock;
+    controller  = controller_ptr;
 
     name        = "Sony DualShock 4";
     vendor      = "Sony";
     type        = DEVICE_TYPE_GAMEPAD;
     description = "Sony DualShock 4 Device";
-    location    = dualshock->GetLocation();
-    serial      = dualshock->GetSerialString();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.value      = 0;
@@ -44,7 +44,7 @@ RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* dualshock)
 
 RGBController_SonyDS4::~RGBController_SonyDS4()
 {
-    delete dualshock;
+    delete controller;
 }
 
 void RGBController_SonyDS4::SetupZones()
@@ -85,7 +85,7 @@ void RGBController_SonyDS4::DeviceUpdateLEDs()
     unsigned char red =     char(RGBGetRValue(colors[0]));
     unsigned char green =   char(RGBGetGValue(colors[0]));
     unsigned char blue =    char(RGBGetBValue(colors[0]));
-    dualshock->SetColors(red, green, blue);
+    controller->SetColors(red, green, blue);
 }
 
 void RGBController_SonyDS4::UpdateZoneLEDs(int /*zone*/)
@@ -96,10 +96,6 @@ void RGBController_SonyDS4::UpdateZoneLEDs(int /*zone*/)
 void RGBController_SonyDS4::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_SonyDS4::SetCustomMode()
-{
 }
 
 void RGBController_SonyDS4::DeviceUpdateMode()
