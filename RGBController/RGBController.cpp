@@ -1561,7 +1561,9 @@ void RGBController::SetCustomMode()
     {
         for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
         {
-            if(modes[mode_idx].name == custom_mode_names[custom_mode_idx] && modes[mode_idx].color_mode == MODE_COLORS_PER_LED)
+            if((modes[mode_idx].name == custom_mode_names[custom_mode_idx])
+            && ((modes[mode_idx].color_mode == MODE_COLORS_PER_LED)
+             || (modes[mode_idx].color_mode == MODE_COLORS_MODE_SPECIFIC)))
             {
                 active_mode = mode_idx;
                 return;
