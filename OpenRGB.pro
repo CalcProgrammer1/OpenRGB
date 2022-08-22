@@ -1200,6 +1200,7 @@ TRANSLATIONS +=                                                                 
     qt/i18n/OpenRGB_es.ts                                                                       \
     qt/i18n/OpenRGB_fr.ts                                                                       \
     qt/i18n/OpenRGB_ru.ts                                                                       \
+    qt/i18n/OpenRGB_zh.ts                                                                       \
 
 FORMS +=                                                                                        \
     qt/OpenRGBClientInfoPage.ui                                                                 \
