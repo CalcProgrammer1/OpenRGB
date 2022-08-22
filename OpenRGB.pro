@@ -112,6 +112,7 @@ INCLUDEPATH +=                                                                  
     Controllers/EVisionKeyboardController/                                                      \
     Controllers/FanBusController/                                                               \
     Controllers/GainwardGPUController/                                                          \
+    Controllers/GaiZongGaiKeyboardController/                                                   \
     Controllers/GalaxGPUController/                                                             \
     Controllers/GigabyteAorusCPUCoolerController/                                               \
     Controllers/GigabyteRGBFusion2DRAMController/                                               \
@@ -381,6 +382,8 @@ HEADERS +=                                                                      
     Controllers/GainwardGPUController/GainwardGPUv2Controller.h                                 \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv1.h                             \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv2.h                             \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardController.h                    \
+    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGaiKeyboard.h                \
     Controllers/GalaxGPUController/GalaxGPUController.h                                         \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
@@ -892,6 +895,9 @@ SOURCES +=                                                                      
     Controllers/GainwardGPUController/GainwardGPUv2Controller.cpp                               \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv1.cpp                           \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv2.cpp                           \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardController.cpp                  \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardControllerDetect.cpp            \
+    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGaiKeyboard.cpp              \
     Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
