@@ -19,17 +19,17 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_Yeelight::RGBController_Yeelight(YeelightController* light_ptr)
+RGBController_Yeelight::RGBController_Yeelight(YeelightController* controller_ptr)
 {
-    light = light_ptr;
+    controller  = controller_ptr;
 
-    name        = light->GetName();
-    vendor      = light->GetManufacturer();
+    name        = controller->GetName();
+    vendor      = controller->GetManufacturer();
     type        = DEVICE_TYPE_LIGHT;
-    version     = light->GetVersion();
+    version     = controller->GetVersion();
     description = "Yeelight Device";
-    serial      = light->GetUniqueID();
-    location    = light->GetLocation();
+    serial      = controller->GetUniqueID();
+    location    = controller->GetLocation();
 
     /*---------------------------------------------------------*\
     | If using music mode, use mode name "Direct" as the music  |
@@ -38,7 +38,7 @@ RGBController_Yeelight::RGBController_Yeelight(YeelightController* light_ptr)
     | "Static" to prevent effect engine use, as the standard    |
     | interface is limited to a very low update rate            |
     \*---------------------------------------------------------*/
-    if(light->GetMusicMode())
+    if(controller->GetMusicMode())
     {
         mode Direct;
         Direct.name       = "Direct";
@@ -62,7 +62,7 @@ RGBController_Yeelight::RGBController_Yeelight(YeelightController* light_ptr)
 
 RGBController_Yeelight::~RGBController_Yeelight()
 {
-    delete light;
+    delete controller;
 }
 
 void RGBController_Yeelight::SetupZones()
@@ -97,7 +97,7 @@ void RGBController_Yeelight::DeviceUpdateLEDs()
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    light->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_Yeelight::UpdateZoneLEDs(int /*zone*/)
@@ -108,11 +108,6 @@ void RGBController_Yeelight::UpdateZoneLEDs(int /*zone*/)
 void RGBController_Yeelight::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_Yeelight::SetCustomMode()
-{
-
 }
 
 void RGBController_Yeelight::DeviceUpdateMode()

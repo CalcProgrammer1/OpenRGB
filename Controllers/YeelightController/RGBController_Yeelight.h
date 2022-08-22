@@ -13,20 +13,18 @@
 class RGBController_Yeelight : public RGBController
 {
 public:
-    RGBController_Yeelight(YeelightController* light_ptr);
+    RGBController_Yeelight(YeelightController* controller_ptr);
     ~RGBController_Yeelight();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    YeelightController* light;
+    YeelightController* controller;
 };

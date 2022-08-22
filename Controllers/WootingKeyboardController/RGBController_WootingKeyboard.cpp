@@ -182,17 +182,17 @@ static const char *led_names[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardController *wooting_ptr)
+RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardController* controller_ptr)
 {
-    wooting     = wooting_ptr;
+    controller  = controller_ptr;
 
     LOG_DEBUG("%sAdding meta data", WOOTING_CONTROLLER_NAME);
-    name        = wooting_ptr->GetName();
-    vendor      = wooting_ptr->GetVendor();
+    name        = controller->GetName();
+    vendor      = controller->GetVendor();
     type        = DEVICE_TYPE_KEYBOARD;
-    description = wooting_ptr->GetDescription();
-    location    = wooting_ptr->GetLocation();
-    serial      = wooting_ptr->GetSerial();
+    description = controller->GetDescription();
+    location    = controller->GetLocation();
+    serial      = controller->GetSerial();
 
     LOG_DEBUG("%sAdding modes", WOOTING_CONTROLLER_NAME);
     mode Direct;
@@ -217,6 +217,8 @@ RGBController_WootingKeyboard::~RGBController_WootingKeyboard()
             delete zones[zone_index].matrix_map;
         }
     }
+
+    delete controller;
 }
 
 void RGBController_WootingKeyboard::SetupZones()
@@ -224,7 +226,7 @@ void RGBController_WootingKeyboard::SetupZones()
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    uint8_t         wooting_type    = wooting->GetWootingType();
+    uint8_t         wooting_type    = controller->GetWootingType();
     unsigned int    total_led_count = zone_sizes[wooting_type];
 
     LOG_DEBUG("%sCreating New Zone", WOOTING_CONTROLLER_NAME);
@@ -276,7 +278,7 @@ void RGBController_WootingKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_WootingKeyboard::DeviceUpdateLEDs()
 {
-    wooting->SendDirect(&colors[0], colors.size());
+    controller->SendDirect(&colors[0], colors.size());
 }
 
 void RGBController_WootingKeyboard::UpdateZoneLEDs(int /*zone*/)
@@ -287,11 +289,6 @@ void RGBController_WootingKeyboard::UpdateZoneLEDs(int /*zone*/)
 void RGBController_WootingKeyboard::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_WootingKeyboard::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_WootingKeyboard::DeviceUpdateMode()

@@ -513,11 +513,6 @@ void RGBController_ZETBladeOptical::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_ZETBladeOptical::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_ZETBladeOptical::DeviceUpdateMode()
 {
     bool          random            = (modes[active_mode].color_mode == MODE_COLORS_RANDOM || modes[active_mode].color_mode == MODE_COLORS_NONE);

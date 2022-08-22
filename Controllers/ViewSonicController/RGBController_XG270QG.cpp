@@ -157,12 +157,3 @@ void RGBController_XG270QG::DeviceUpdateMode()
     }
     controller->SetMode(modes[active_mode].value, r, g, b);
 }
-
-void RGBController_XG270QG::SetCustomMode()
-{
-    /*-------------------------------------------------*\
-    | Set mode to Static Color                          |
-    \*-------------------------------------------------*/
-    active_mode = 1;
-}
-

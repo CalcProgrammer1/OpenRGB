@@ -18,7 +18,6 @@ public:
     ~RGBController_ZalmanZSync();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();

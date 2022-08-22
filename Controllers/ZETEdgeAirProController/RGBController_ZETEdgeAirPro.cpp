@@ -129,11 +129,6 @@ void RGBController_ZETEdgeAirPro::UpdateSingleLED(int /*led*/)
     DeviceUpdateMode();
 }
 
-void RGBController_ZETEdgeAirPro::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_ZETEdgeAirPro::DeviceUpdateMode()
 {
     RGBColor color;
