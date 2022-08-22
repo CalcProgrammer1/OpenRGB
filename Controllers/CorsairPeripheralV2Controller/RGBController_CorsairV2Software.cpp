@@ -19,7 +19,7 @@ using namespace std::chrono_literals;
     @save :x:
     @direct :white_check_mark:
     @effects :x:
-    @detectors DetectCorsairK55RGBPROControllers
+    @detectors DetectCorsairV2SoftwareControllers
     @comment
 \*-------------------------------------------------------------------*/
 
