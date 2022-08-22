@@ -43,6 +43,8 @@ void DetectLenovoLegionUSBControllers(hid_device_info* info, const std::string& 
     }
 }
 
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 6",     DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_7_6_PID_1,      LENOVO_PAGE, LENOVO_USEAGE);
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 6",     DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_7_6_PID_2,      LENOVO_PAGE, LENOVO_USEAGE);
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 6",     DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_7_6_PID_3,      LENOVO_PAGE, LENOVO_USEAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion Y740",                DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_Y740,           LENOVO_PAGE, LENOVO_USEAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 5",             DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_Y750,           LENOVO_PAGE, LENOVO_USEAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7S gen 5",            DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_Y750S,          LENOVO_PAGE, LENOVO_USEAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 6",             DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_Y760,           LENOVO_PAGE, LENOVO_USEAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7S gen 6",            DetectLenovoLegionUSBControllers,  ITE_VID,  LEGION_Y760S,          LENOVO_PAGE, LENOVO_USEAGE);

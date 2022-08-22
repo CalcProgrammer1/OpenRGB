@@ -46,6 +46,7 @@ class LenovoUSBController
     uint16_t getPid();
     std::string getName();
     std::string getLocation();
+    std::vector<uint8_t> getInformation(uint8_t information_id);
     void setDeviceSoftwareMode();
     void setDeviceHardwareMode();
 

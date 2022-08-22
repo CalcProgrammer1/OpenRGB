@@ -35,9 +35,15 @@ public:
     void        DeviceSaveMode();
 
 private:
-    unsigned int            lenovo_size_of_leds;
-    LenovoUSBController*    controller;
-    const lenovo_led*       lenovo_leds;
+    std::string ConvertBytesToHex(const std::vector<uint8_t> &input);
+    std::string keyboardToString(LENOVO_KEYBOARD kb);
+    std::string sizeToString(LENOVO_SIZE size);
+    void        DumpControllerInformation();
+
+    LENOVO_KEYBOARD keyboard_type;
+    LENOVO_SIZE chasis_size;
+
+    LenovoUSBController *controller;
 };
 
 #endif
