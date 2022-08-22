@@ -25,8 +25,13 @@ echo -e "Adding Static Headers"
 UDEV_HEADER=${UDEV_LINE}'#  OpenRGB udev rules - Git Commit: '${GIT_SHORT_HASH:0:8}'                    #\n'${UDEV_LINE}'\n'
 UDEV_HEADER+=${UDEV_LINE}'#  User I2C/SMBus Access                                        #\n'${UDEV_LINE}'KERNEL=="i2c-[0-99]*", TAG+="uaccess"\n\n'
 UDEV_HEADER+=${UDEV_LINE}'#  Super I/O Access                                             #\n'${UDEV_LINE}'KERNEL=="port", TAG+="uaccess"\n\n'
-# Faustus rule needs to be tested
-UDEV_HEADER+=${UDEV_LINE}'#  ASUS TUF Laptops (faustus)                                   #\n'${UDEV_LINE}'ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", MODE="770"\n\n'
+
+# Faustus rules
+ASUS_TUF_DEVICES=('blue' 'flags' 'green' 'mode' 'red' 'set' 'speed')
+UDEV_HEADER+=${UDEV_LINE}'#  ASUS TUF Laptops (faustus)                                   #\n'${UDEV_LINE}
+for DEV in ${ASUS_TUF_DEVICES[@]}; do
+  UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_'${DEV}'"\n'
+done
 
 echo -e "$UDEV_HEADER" > "$UDEV_FILE"
 
