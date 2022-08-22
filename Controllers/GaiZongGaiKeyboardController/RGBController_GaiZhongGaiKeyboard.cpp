@@ -326,11 +326,6 @@ void RGBController_GaiZhongGaiKeyboard::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_GaiZhongGaiKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_GaiZhongGaiKeyboard::DeviceUpdateMode()
 {
 
