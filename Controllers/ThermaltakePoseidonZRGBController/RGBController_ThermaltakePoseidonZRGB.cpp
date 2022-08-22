@@ -155,16 +155,16 @@ static const char* led_names[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* poseidon_ptr)
+RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* controller_ptr)
 {
-    poseidon = poseidon_ptr;
+    controller  = controller_ptr;
 
     name        = "Thermaltake Poseidon Z RGB";
     vendor      = "Thermaltake";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Thermaltake Poseidon Z RGB Device";
-    location    = poseidon->GetDeviceLocation();
-    serial      = poseidon->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -221,7 +221,7 @@ RGBController_PoseidonZRGB::~RGBController_PoseidonZRGB()
         }
     }
 
-    delete poseidon;
+    delete controller;
 }
 
 void RGBController_PoseidonZRGB::SetupZones()
@@ -268,11 +268,11 @@ void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
 {
     if(active_mode == 0)
     {
-        poseidon->SetLEDsDirect(colors);
+        controller->SetLEDsDirect(colors);
     }
     else
     {
-        poseidon->SetLEDs(colors);
+        controller->SetLEDs(colors);
     }
 }
 
@@ -286,12 +286,7 @@ void RGBController_PoseidonZRGB::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_PoseidonZRGB::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_PoseidonZRGB::DeviceUpdateMode()
 {
-    poseidon->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].direction, modes[active_mode].speed);
 }

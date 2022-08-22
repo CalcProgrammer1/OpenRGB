@@ -19,17 +19,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_BlinkController::RGBController_BlinkController(BlinkController* blink_ptr)
+RGBController_BlinkController::RGBController_BlinkController(BlinkController* controller_ptr)
 {
-    Blink               = blink_ptr;
+    controller          = controller_ptr;
 
     name                = "Blink";
     vendor              = "ThingM";
     type                = DEVICE_TYPE_LEDSTRIP;
-    description         = Blink->GetDeviceName();
-    version             = "1.0";
-    serial              = Blink->GetSerial();
-    location            = Blink->GetLocation();
+    description         = controller->GetDeviceName();
+    serial              = controller->GetSerial();
+    location            = controller->GetLocation();
 
     mode Off;
     Off.name            = "Off";
@@ -67,7 +66,7 @@ RGBController_BlinkController::RGBController_BlinkController(BlinkController* bl
 
 RGBController_BlinkController::~RGBController_BlinkController()
 {
-    delete Blink;
+    delete controller;
 }
 
 void RGBController_BlinkController::SetupZones()
@@ -120,12 +119,7 @@ void RGBController_BlinkController::UpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
 
-    Blink->SendUpdate(leds[led].value, red, grn, blu, modes[active_mode].speed);
-}
-
-void RGBController_BlinkController::SetCustomMode()
-{
-    active_mode = 1;
+    controller->SendUpdate(leds[led].value, red, grn, blu, modes[active_mode].speed);
 }
 
 void RGBController_BlinkController::DeviceUpdateMode()

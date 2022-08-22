@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_ThermaltakeRiingQuad::RGBController_ThermaltakeRiingQuad(ThermaltakeRiingQuadController* quad_ptr)
+RGBController_ThermaltakeRiingQuad::RGBController_ThermaltakeRiingQuad(ThermaltakeRiingQuadController* controller_ptr)
 {
-    quad = quad_ptr;
+    controller  = controller_ptr;
 
-    name        = quad->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "Thermaltake";
     type        = DEVICE_TYPE_COOLER;
     description = "Thermaltake Riing Quad Device";
-    location    = quad->GetDeviceLocation();
-    serial      = quad->GetSerial();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerial();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -46,7 +46,7 @@ RGBController_ThermaltakeRiingQuad::RGBController_ThermaltakeRiingQuad(Thermalta
 
 RGBController_ThermaltakeRiingQuad::~RGBController_ThermaltakeRiingQuad()
 {
-    delete quad;
+    delete controller;
 }
 
 void RGBController_ThermaltakeRiingQuad::SetupZones()
@@ -132,32 +132,27 @@ void RGBController_ThermaltakeRiingQuad::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        quad->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
 void RGBController_ThermaltakeRiingQuad::UpdateZoneLEDs(int zone)
 {
-    quad->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_ThermaltakeRiingQuad::UpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 
-    quad->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
-}
-
-void RGBController_ThermaltakeRiingQuad::SetCustomMode()
-{
-    active_mode = 0;
+    controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
 void RGBController_ThermaltakeRiingQuad::DeviceUpdateMode()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        quad->SetMode(modes[active_mode].value, modes[active_mode].speed);
-        quad->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetMode(modes[active_mode].value, modes[active_mode].speed);
+        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }

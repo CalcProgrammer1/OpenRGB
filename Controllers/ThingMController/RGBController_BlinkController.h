@@ -13,7 +13,7 @@
 class RGBController_BlinkController : public RGBController
 {
 public:
-    RGBController_BlinkController(BlinkController* blink_ptr);
+    RGBController_BlinkController(BlinkController* controller_ptr);
     ~RGBController_BlinkController();
 
     void        SetupZones();
@@ -23,10 +23,8 @@ public:
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
-private:
-    BlinkController* Blink;
 
-    int         GetDeviceMode();
+private:
+    BlinkController* controller;
 };

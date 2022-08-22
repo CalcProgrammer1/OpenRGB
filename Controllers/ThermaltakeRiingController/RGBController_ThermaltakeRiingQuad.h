@@ -14,7 +14,7 @@
 class RGBController_ThermaltakeRiingQuad : public RGBController
 {
 public:
-    RGBController_ThermaltakeRiingQuad(ThermaltakeRiingQuadController* quad_ptr);
+    RGBController_ThermaltakeRiingQuad(ThermaltakeRiingQuadController* controller_ptr);
     ~RGBController_ThermaltakeRiingQuad();
 
     void        SetupZones();
@@ -24,11 +24,10 @@ public:
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
 
 private:
-    ThermaltakeRiingQuadController* quad;
+    ThermaltakeRiingQuadController* controller;
     std::vector<unsigned int>       leds_channel;
     std::vector<unsigned int>       zones_channel;
 };

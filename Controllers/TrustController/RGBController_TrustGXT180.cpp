@@ -130,11 +130,6 @@ void RGBController_TrustGXT180::UpdateSingleLED(int /*led*/)
     DeviceUpdateMode();
 }
 
-void RGBController_TrustGXT180::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_TrustGXT180::DeviceUpdateMode()
 {
     controller->SetMode(colors[0], modes[active_mode].brightness, modes[active_mode].speed, modes[active_mode].value);

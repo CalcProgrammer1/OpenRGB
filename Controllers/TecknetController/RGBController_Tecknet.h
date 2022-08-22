@@ -16,7 +16,7 @@
 class RGBController_Tecknet : public RGBController
 {
 public:
-    RGBController_Tecknet(TecknetController *_dev);
+    RGBController_Tecknet(TecknetController* controller_ptr);
     ~RGBController_Tecknet();
 
     void        SetupZones();
@@ -26,10 +26,10 @@ public:
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
-    void        SetCustomMode();
     void        DeviceUpdateMode();
+
 private:
-    TecknetController* Tecknet_dev;
+    TecknetController* controller;
 };
 
 #endif // RGBCONTROLLER_TECKNET_H

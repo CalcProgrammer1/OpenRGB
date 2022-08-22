@@ -20,16 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingController* riing_ptr)
+RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingController* controller_ptr)
 {
-    riing = riing_ptr;
+    controller  = controller_ptr;
 
     name        = "Thermaltake Riing";
     vendor      = "Thermaltake";
     type        = DEVICE_TYPE_COOLER;
     description = "Thermaltake Riing Device";
-    location    = riing->GetDeviceLocation();
-    serial      = riing->GetSerialString();
+    location    = controller->GetDeviceLocation();
+    serial      = controller->GetSerialString();
 
     mode Direct;
     Direct.name       = "Direct";
@@ -119,7 +119,7 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
 
 RGBController_ThermaltakeRiing::~RGBController_ThermaltakeRiing()
 {
-    delete riing;
+    delete controller;
 }
 
 void RGBController_ThermaltakeRiing::SetupZones()
@@ -205,32 +205,27 @@ void RGBController_ThermaltakeRiing::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        riing->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
 void RGBController_ThermaltakeRiing::UpdateZoneLEDs(int zone)
 {
-    riing->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
 void RGBController_ThermaltakeRiing::UpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 
-    riing->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
-}
-
-void RGBController_ThermaltakeRiing::SetCustomMode()
-{
-    active_mode = 0;
+    controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
 }
 
 void RGBController_ThermaltakeRiing::DeviceUpdateMode()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        riing->SetMode(modes[active_mode].value, modes[active_mode].speed);
-        riing->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetMode(modes[active_mode].value, modes[active_mode].speed);
+        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }

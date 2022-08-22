@@ -20,17 +20,16 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
+RGBController_Tecknet::RGBController_Tecknet(TecknetController* controller_ptr)
 {
-    Tecknet_dev = _dev;
+    controller  = controller_ptr;
 
-    name        = Tecknet_dev->GetDeviceName();
+    name        = controller->GetDeviceName();
     vendor      = "Tecknet";
     type        = DEVICE_TYPE_MOUSE;
-    description = Tecknet_dev->GetDeviceName();
-    version     = "1.0";
-    serial      = Tecknet_dev->GetSerial();
-    location    = Tecknet_dev->GetLocation();
+    description = controller->GetDeviceName();
+    serial      = controller->GetSerial();
+    location    = controller->GetLocation();
 
     mode Direct;
     Direct.name                     = "Direct";
@@ -66,7 +65,7 @@ RGBController_Tecknet::RGBController_Tecknet(TecknetController *_dev)
 
 RGBController_Tecknet::~RGBController_Tecknet()
 {
-    delete Tecknet_dev;
+    delete controller;
 }
 
 void RGBController_Tecknet::SetupZones()
@@ -90,7 +89,7 @@ void RGBController_Tecknet::SetupZones()
 void RGBController_Tecknet::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
-    | Not implemented for thiis device                          |
+    | Not implemented for this device                           |
     \*---------------------------------------------------------*/
 }
 
@@ -99,7 +98,7 @@ void RGBController_Tecknet::DeviceUpdateLEDs()
     unsigned char red = RGBGetRValue(colors[0]);
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
-    Tecknet_dev->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_Tecknet::UpdateZoneLEDs(int zone)
@@ -108,7 +107,7 @@ void RGBController_Tecknet::UpdateZoneLEDs(int zone)
     unsigned char red   = RGBGetRValue(color);
     unsigned char grn   = RGBGetGValue(color);
     unsigned char blu   = RGBGetBValue(color);
-    Tecknet_dev->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu);
 }
 
 void RGBController_Tecknet::UpdateSingleLED(int led)
@@ -116,15 +115,10 @@ void RGBController_Tecknet::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_Tecknet::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_Tecknet::DeviceUpdateMode()
 {
     //If active_mode is "Off" then set brightness to off otherwise high
     unsigned char brightness = (active_mode == TECKNET_MODE_OFF) ? TECKNET_BRIGHTNESS_OFF : TECKNET_BRIGHTNESS_HIGH;
 
-    Tecknet_dev->SetMode(modes[active_mode].value, modes[active_mode].speed, brightness);
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, brightness);
 }
