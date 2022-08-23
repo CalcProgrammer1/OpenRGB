@@ -34,4 +34,5 @@ private:
     std::string             location;
 
     void        SendApply();
+    void        SendPacket(unsigned char* buffer);
 };

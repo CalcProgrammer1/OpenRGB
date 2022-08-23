@@ -23,62 +23,74 @@ RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController
     serial      = controller->GetSerialString();
 
     mode Direct;
-    Direct.name             = "Direct";
-    Direct.value            = LOGITECH_G203L_MODE_DIRECT;
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode       = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = LOGITECH_G203L_MODE_DIRECT;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Off;
-    Off.name                = "Off";
-    Off.value               = LOGITECH_G203L_MODE_OFF;
-    Off.flags               = 0;
-    Off.color_mode          = MODE_COLORS_NONE;
+    Off.name                    = "Off";
+    Off.value                   = LOGITECH_G203L_MODE_OFF;
+    Off.flags                   = 0;
+    Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
-    Static.name             = "Static";
-    Static.value            = LOGITECH_G203L_MODE_STATIC;
-    Static.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
+    Static.name                 = "Static";
+    Static.value                = LOGITECH_G203L_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Cycle;
-    Cycle.name              = "Cycle";
-    Cycle.value             = LOGITECH_G203L_MODE_CYCLE;
-    Cycle.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Cycle.color_mode        = MODE_COLORS_NONE;
-    Cycle.speed_min         = 0x4E20;
-    Cycle.speed_max         = 0x03E8;
+    Cycle.name                  = "Cycle";
+    Cycle.value                 = LOGITECH_G203L_MODE_CYCLE;
+    Cycle.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Cycle.color_mode            = MODE_COLORS_NONE;
+    Cycle.speed_min             = 0x4E20;
+    Cycle.speed_max             = 0x03E8;
+    Cycle.brightness            = 20;
+    Cycle.brightness_min        = 0;
+    Cycle.brightness_max        = 20;
     modes.push_back(Cycle);
 
     mode Breathing;
-    Breathing.name          = "Breathing";
-    Breathing.value         = LOGITECH_G203L_MODE_BREATHING;
-    Breathing.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Breathing.color_mode    = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.speed_min     = 0x4E20;
-    Breathing.speed_max     = 0x03E8;
+    Breathing.name              = "Breathing";
+    Breathing.value             = LOGITECH_G203L_MODE_BREATHING;
+    Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.speed_min         = 0x4E20;
+    Breathing.speed_max         = 0x03E8;
+    Breathing.brightness        = 20;
+    Breathing.brightness_min    = 0;
+    Breathing.brightness_max    = 20;
     Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     mode Wave;
-    Wave.name               = "Wave";
-    Wave.value              = LOGITECH_G203L_MODE_WAVE;
-    Wave.flags              = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_LR;
-    Wave.color_mode         = MODE_COLORS_NONE;
-    Wave.speed_min          = 0x4E20;
-    Wave.speed_max          = 0x03E8;
+    Wave.name                   = "Wave";
+    Wave.value                  = LOGITECH_G203L_MODE_WAVE;
+    Wave.flags                  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_LR;
+    Wave.color_mode             = MODE_COLORS_NONE;
+    Wave.speed_min              = 0x4E20;
+    Wave.speed_max              = 0x03E8;
+    Wave.brightness             = 20;
+    Wave.brightness_min         = 0;
+    Wave.brightness_max         = 20;
     modes.push_back(Wave);
 
     mode Colormixing;
-    Colormixing.name        = "Colormixing";
-    Colormixing.value       = LOGITECH_G203L_MODE_COLORMIXING;
-    Colormixing.flags       = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Colormixing.color_mode  = MODE_COLORS_NONE;
-    Colormixing.speed_min   = 0x4E20;
-    Colormixing.speed_max   = 0x03E8;
+    Colormixing.name            = "Colormixing";
+    Colormixing.value           = LOGITECH_G203L_MODE_COLORMIXING;
+    Colormixing.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Colormixing.color_mode      = MODE_COLORS_NONE;
+    Colormixing.speed_min       = 0x4E20;
+    Colormixing.speed_max       = 0x03E8;
+    Colormixing.brightness      = 20;
+    Colormixing.brightness_min  = 0;
+    Colormixing.brightness_max  = 20;
     modes.push_back(Colormixing);
 
     SetupZones();
@@ -152,7 +164,6 @@ void RGBController_LogitechG203L::DeviceUpdateMode()
     unsigned char grn = 0;
     unsigned char blu = 0;
     unsigned char dir = 0;
-    unsigned char val = 0xFF;
 
     if(modes[active_mode].color_mode & MODE_COLORS_MODE_SPECIFIC)
     {
@@ -177,6 +188,6 @@ void RGBController_LogitechG203L::DeviceUpdateMode()
     }
     else
     {
-        controller->SetMode(modes[active_mode].value, modes[active_mode].speed, val, dir, red, grn, blu);
+        controller->SetMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, dir, red, grn, blu);
     }
 }

@@ -2,15 +2,36 @@
 
 #include <cstring>
 
+#define PACKET_SIZE     20
+
+
 LogitechG203LController::LogitechG203LController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
+
+    // enable software control
+    unsigned char usb_buf[PACKET_SIZE];
+
+    memset(usb_buf, 0x00, PACKET_SIZE);
+
+    usb_buf[0x00] = 0x11;
+    usb_buf[0x01] = 0xFF;
+    usb_buf[0x02] = 0x0E;
+    usb_buf[0x03] = 0x50;
+    usb_buf[0x04] = 0x01;
+    usb_buf[0x05] = 0x03;
+    usb_buf[0x06] = 0x07;
+
+    SendPacket(usb_buf);
 }
 
 LogitechG203LController::~LogitechG203LController()
 {
-    hid_close(dev);
+    if(dev != nullptr)
+    {
+        hid_close(dev);
+    }
 }
 
 std::string LogitechG203LController::GetDeviceLocation()
@@ -36,29 +57,28 @@ std::string LogitechG203LController::GetSerialString()
 
 void LogitechG203LController::SendApply()
 {
-    unsigned char usb_buf[20];
+    unsigned char usb_buf[PACKET_SIZE];
 
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, PACKET_SIZE);
 
     usb_buf[0x00] = 0x11;
     usb_buf[0x01] = 0xFF;
     usb_buf[0x02] = 0x12;
-    usb_buf[0x03] = 0x7A;
+    usb_buf[0x03] = 0x70;
 
-    hid_write(dev, usb_buf, 20);
-    hid_read(dev, usb_buf, 20);
+    SendPacket(usb_buf);
 }
 
 void LogitechG203LController::SetSingleLED(int led, unsigned char red, unsigned char green, unsigned char blue)
 {
-    unsigned char usb_buf[20];
+    unsigned char usb_buf[PACKET_SIZE];
 
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, PACKET_SIZE);
 
     usb_buf[0x00] = 0x11;
     usb_buf[0x01] = 0xFF;
     usb_buf[0x02] = 0x12;
-    usb_buf[0x03] = 0x19;
+    usb_buf[0x03] = 0x10;
 
     usb_buf[0x04] = (unsigned char)led;
     usb_buf[0x05] = red;
@@ -67,8 +87,7 @@ void LogitechG203LController::SetSingleLED(int led, unsigned char red, unsigned 
 
     usb_buf[0x08] = 0xFF;
 
-    hid_write(dev, usb_buf, 20);
-    hid_read(dev, usb_buf, 20);
+    SendPacket(usb_buf);
 
     SendApply();
 }
@@ -82,15 +101,21 @@ void LogitechG203LController::SetMode(
     unsigned char   green,
     unsigned char   blue)
 {
-    unsigned char usb_buf[20];
+    unsigned char usb_buf[PACKET_SIZE];
+    unsigned char brightness = bright * 5;
 
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    if(brightness == 0)
+    {
+        brightness = 1;
+    }
+
+    memset(usb_buf, 0x00, PACKET_SIZE);
 
     //Header
     usb_buf[0x00] = 0x11;
     usb_buf[0x01] = 0xFF;
     usb_buf[0x02] = 0x0E;
-    usb_buf[0x03] = 0x1A;
+    usb_buf[0x03] = 0x10;
     //Common Data
     usb_buf[0x04] = 0x00;
     usb_buf[0x05] = (unsigned char)mode;
@@ -103,45 +128,44 @@ void LogitechG203LController::SetMode(
     {
         usb_buf[0x0B] = (unsigned char)((speed>>8) & 0x000000FF);
         usb_buf[0x0C] = (unsigned char)(speed & 0x000000FF);
-        usb_buf[0x0D] = bright;
+        usb_buf[0x0D] = brightness;
     }
     if(mode == LOGITECH_G203L_MODE_BREATHING)
     {
         usb_buf[0x09] = (unsigned char)((speed>>8) & 0x000000FF);
         usb_buf[0x0A] = (unsigned char)(speed & 0x000000FF);
-        usb_buf[0x0C] = bright;
+        usb_buf[0x0C] = brightness;
     }
     if(mode == LOGITECH_G203L_MODE_WAVE)
     {
         usb_buf[0x0C] = (unsigned char)(speed & 0x000000FF);
         usb_buf[0x0D] = dir ? 0x01 : 0x06; //0x01: Left->Right   0x06: Right->Left
-        usb_buf[0x0E] = bright;
+        usb_buf[0x0E] = brightness;
         usb_buf[0x0F] = (unsigned char)((speed>>8) & 0x000000FF);
     }
     if(mode == LOGITECH_G203L_MODE_COLORMIXING)
     {
         usb_buf[0x0C] = (unsigned char)(speed & 0x000000FF);
         usb_buf[0x0D] = (unsigned char)((speed>>8) & 0x000000FF);
-        usb_buf[0x0E] = bright;
+        usb_buf[0x0E] = brightness;
     }
     
     //END BYTE
     usb_buf[0x10] = 0x01;
 
-    hid_write(dev, usb_buf, 20);
-    hid_read(dev, usb_buf, 20);
+    SendPacket(usb_buf);
 }
 
 void LogitechG203LController::SetDevice(std::vector<RGBColor> colors)
 {
-    unsigned char usb_buf[20];
+    unsigned char usb_buf[PACKET_SIZE];
 
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, PACKET_SIZE);
 
     usb_buf[0x00] = 0x11;
     usb_buf[0x01] = 0xFF;
     usb_buf[0x02] = 0x12;
-    usb_buf[0x03] = 0x1A;
+    usb_buf[0x03] = 0x10;
 
     usb_buf[0x04] = 0x01;
     usb_buf[0x05] = RGBGetRValue(colors[0]);
@@ -160,8 +184,30 @@ void LogitechG203LController::SetDevice(std::vector<RGBColor> colors)
     
     usb_buf[0x10] = 0xFF;
 
-    hid_write(dev, usb_buf, 20);
-    hid_read(dev, usb_buf, 20);
+    SendPacket(usb_buf);
 
     SendApply();
+}
+
+void LogitechG203LController::SendPacket(unsigned char* buffer)
+{
+    if(dev != nullptr)
+    {
+        if(hid_write(dev, buffer, PACKET_SIZE) == -1)
+        {
+            hid_close(dev);
+            dev = hid_open_path(location.c_str());
+            return;
+        }
+    }
+
+    if(dev != nullptr)
+    {
+        if(hid_read_timeout(dev, buffer, PACKET_SIZE, 10) <= 0)
+        {
+            hid_close(dev);
+            dev = hid_open_path(location.c_str());
+            return;
+        }
+    }
 }
