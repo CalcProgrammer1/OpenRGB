@@ -329,7 +329,7 @@ void RGBController_RGBFusion2USB::Load_Device_Config()
     }
     else
     {
-        for(nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>>& it : device_settings[SectionLayout].items())
+        for(const nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>>& it : device_settings[SectionLayout].items())
         {
             MBName2Layout.insert( std::pair<std::string, std::string>(it.key(), it.value() ));
         }
@@ -380,7 +380,7 @@ void RGBController_RGBFusion2USB::Load_Device_Config()
             json json_HCL = device_settings[SectionCustom]["Data"];
             layout.clear();
 
-            for(nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>>& json_layout_it : json_HCL.items())
+            for(const nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>>& json_layout_it : json_HCL.items())
             {
                 json json_zl = json_layout_it.value();
                 std::vector<LedPort> v_lp;
