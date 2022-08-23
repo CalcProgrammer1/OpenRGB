@@ -299,6 +299,7 @@
 #define EVGA_RTX3090_KINGPIN_HYBRID_SUB_DEV             0x3998
 #define EVGA_RTX3090_KINGPIN_HC_SUB_DEV                 0x3999
 #define EVGA_RTX3090TI_FTW3_GAMING_SUB_DEV              0x4983
+#define EVGA_RTX3090TI_FTW3_ULTRA_GAMING_SUB_DEV        0x4985
 
 /*-----------------------------------------------------*\
 | Gainward Sub-Device IDs                               |
