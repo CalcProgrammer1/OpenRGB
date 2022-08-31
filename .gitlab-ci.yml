@@ -51,6 +51,9 @@ before_script:
   rules:
   - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
     when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
