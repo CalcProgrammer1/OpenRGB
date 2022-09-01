@@ -120,7 +120,7 @@ static const char *led_names[] =
     KEY_EN_F12,
     KEY_EN_PRINT_SCREEN,
     KEY_EN_SCROLL_LOCK,
-    "Key: Pause",
+    KEY_EN_PAUSE_BREAK,
     KEY_EN_INSERT,
     KEY_EN_HOME,
     KEY_EN_PAGE_UP,
