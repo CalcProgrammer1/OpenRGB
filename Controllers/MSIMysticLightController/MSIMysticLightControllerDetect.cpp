@@ -1,6 +1,8 @@
 #include "Detector.h"
+#include "MSIMysticLight64Controller.h"
 #include "MSIMysticLight162Controller.h"
 #include "MSIMysticLight185Controller.h"
+#include "RGBController_MSIMysticLight64.h"
 #include "RGBController_MSIMysticLight162.h"
 #include "RGBController_MSIMysticLight185.h"
 #include "dependencies/dmiinfo.h"
@@ -33,7 +35,6 @@ void DetectMSIMysticLightControllers
     )
 {
     hid_device* dev = hid_open_path(info->path);
-
     if(dev != nullptr)
     {
         unsigned char temp_buffer[200];
@@ -55,6 +56,12 @@ void DetectMSIMysticLightControllers
             rgb_controller->name = "MSI " + dmi.getMainboard();
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
+        else if(packet_length == sizeof(FeaturePacket_64) )
+        {
+            MSIMysticLight64Controller*     controller     = new MSIMysticLight64Controller(dev, info->path);
+            RGBController_MSIMysticLight64* rgb_controller = new RGBController_MSIMysticLight64(controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
         else    // no supported length returned
         {
             std::string name = "MSI " + dmi.getMainboard();
@@ -64,7 +71,7 @@ void DetectMSIMysticLightControllers
     }
 }
 
-
+REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_1563",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x1563,   0x00FF, 0x01);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_1720",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x1720,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7B12",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7B12,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7B16",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7B16,   0x0001, 0x00);

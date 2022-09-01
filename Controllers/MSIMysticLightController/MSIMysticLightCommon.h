@@ -122,6 +122,8 @@ enum MSI_BRIGHTNESS
 #define SYNC_SETTING_JPIPE2         0x20
 #define SYNC_SETTING_JRGB           0x80
 
+#define MSI_64_MAX_COLORS           7
+
 struct Color
 {
     unsigned char R;
@@ -152,6 +154,18 @@ struct ZoneData
 struct RainbowZoneData : ZoneData
 {
     unsigned char cycle_or_led_num          = PER_LED_MODE_JRAINBOW_LED_COUNT;
+};
+
+struct FeaturePacket_64
+{
+    const unsigned char report_id                 = 0x02; // Report ID
+    const unsigned char second_byte               = 0x00; 
+    unsigned char       mode                      = 0x00;
+    unsigned char       speed                     = 0x00;
+    unsigned char       brightness                = 0x00;
+    unsigned char       num_colors                = 0x00;
+    Color               colors[MSI_64_MAX_COLORS] = {};
+    const unsigned char padding[37]               = {}; //pad to make the packet size 64 bytes
 };
 
 struct FeaturePacket_162

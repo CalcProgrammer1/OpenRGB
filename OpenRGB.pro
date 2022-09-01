@@ -479,8 +479,10 @@ HEADERS +=                                                                      
     Controllers/MSIGPUController/MSIGPUController.h                                             \
     Controllers/MSIGPUController/RGBController_MSIGPU.h                                         \
     Controllers/MSIMysticLightController/MSIMysticLightCommon.h                                 \
+    Controllers/MSIMysticLightController/MSIMysticLight64Controller.h                           \
     Controllers/MSIMysticLightController/MSIMysticLight162Controller.h                          \
     Controllers/MSIMysticLightController/MSIMysticLight185Controller.h                          \
+    Controllers/MSIMysticLightController/RGBController_MSIMysticLight64.h                       \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight162.h                      \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight185.h                      \
     Controllers/MSIOptixController/MSIOptixController.h                                         \
@@ -1016,9 +1018,11 @@ SOURCES +=                                                                      
     Controllers/MSIGPUController/MSIGPUController.cpp                                           \
     Controllers/MSIGPUController/MSIGPUControllerDetect.cpp                                     \
     Controllers/MSIGPUController/RGBController_MSIGPU.cpp                                       \
+    Controllers/MSIMysticLightController/MSIMysticLight64Controller.cpp                         \
     Controllers/MSIMysticLightController/MSIMysticLight162Controller.cpp                        \
     Controllers/MSIMysticLightController/MSIMysticLight185Controller.cpp                        \
     Controllers/MSIMysticLightController/MSIMysticLightControllerDetect.cpp                     \
+    Controllers/MSIMysticLightController/RGBController_MSIMysticLight64.cpp                     \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight162.cpp                    \
     Controllers/MSIMysticLightController/RGBController_MSIMysticLight185.cpp                    \
     Controllers/MSIOptixController/MSIOptixController.cpp                                       \
