@@ -291,8 +291,6 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
         {
             SinowealthController1007* controller = new SinowealthController1007(dev, info->path);
             rgb_controller                       = new RGBController_Sinowealth1007(controller);
-            rgb_controller->name = name;
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
         /*-------------------------------------------------------------------------*\
         | See above where USE_HID_USAGE is true for explanation of the detection    |
@@ -328,9 +326,9 @@ void DetectSinowealthMouse(hid_device_info* info, const std::string& name)
         {
             SinowealthController* controller = new SinowealthController(dev, dev, info->path);
             rgb_controller                   = new RGBController_Sinowealth(controller);
-            rgb_controller->name             = name;
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
+        rgb_controller->name                 = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 #endif
 }
