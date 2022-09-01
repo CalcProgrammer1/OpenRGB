@@ -51,6 +51,7 @@ echo -e "- [Mouse Mats](#mouse-mats)" >> "$MAIN_FILE"
 echo -e "- [Headsets](#headsets)" >> "$MAIN_FILE"
 echo -e "- [Headset Stands](#headset-stands)" >> "$MAIN_FILE"
 echo -e "- [Gamepads](#gamepads)" >> "$MAIN_FILE"
+echo -e "- [Accessories](#Accessories)" >> "$MAIN_FILE"
 echo -e "- [Lights](#lights)" >> "$MAIN_FILE"
 echo -e "- [Speakers](#speakers)" >> "$MAIN_FILE"
 echo -e "- [Virtual Devices](#virtual-devices)" >> "$MAIN_FILE"
@@ -177,6 +178,9 @@ do
                 Gamepad)
                     gamepad+=$current_controller
                     ;;
+                Accessory)
+                    accessory+=$current_controller
+                    ;;
                 Light)
                     light+=$current_controller
                     ;;
@@ -277,6 +281,7 @@ printf "\n## Mouse Mats\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e $
 printf "\n## Headsets\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${headset}| sort)" >> "$MAIN_FILE"
 printf "\n## Headset Stands\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${headset_stand}| sort)" >> "$MAIN_FILE"
 printf "\n## Gamepads\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${gamepad}| sort)" >> "$MAIN_FILE"
+printf "\n## Accessories\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${accessory}| sort)" >> "$MAIN_FILE"
 printf "\n## Lights\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${light}| sort)" >> "$MAIN_FILE"
 printf "\n## Speakers\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${speaker}| sort)" >> "$MAIN_FILE"
 printf "\n## Virtual Devices\n${DATA_TABLE_HEAD}${DATA_TABLE_ALIGN}%s\n" "$(echo -e ${virtual}| sort)" >> "$MAIN_FILE"

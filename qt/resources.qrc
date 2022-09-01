@@ -52,5 +52,9 @@
         <file>OpenRGBGreyscale.png</file>
         <file>microphone.png</file>
         <file>microphone_dark.png</file>
+        <file>accessory.png</file>
+        <file>accessory_dark.png</file>
+        <file>unknown.png</file>
+        <file>unknown_dark.png</file>
     </qresource>
 </RCC>

@@ -33,6 +33,9 @@ static QString GetIconString(device_type type, bool dark)
     QString filename;
     switch(type)
     {
+    case DEVICE_TYPE_ACCESSORY:
+        filename = "accessory";
+        break;
     case DEVICE_TYPE_MOTHERBOARD:
         filename = "motherboard";
         break;
