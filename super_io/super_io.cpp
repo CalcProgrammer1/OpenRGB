@@ -113,7 +113,7 @@ int superio_inb(int ioreg, int reg)
         lseek(dev_port_fd, ioreg, SEEK_SET);
         if(write(dev_port_fd, &reg, 1) == -1)
         {
-            return;
+            return -1;
         }
 
         if(read(dev_port_fd, &temp, 1) == -1)

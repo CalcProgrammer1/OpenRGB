@@ -58,17 +58,7 @@ enum
     POLYCHROME_USB_ZONE_UNAVAILABLE         = 0x1E,     // Value from LEDCOUNT CFG if zone not present
 };
 
-const char* polychrome_USB_zone_names[] =
-{
-    "RGB LED 1 Header",
-    "RGB LED 2 Header",
-    "Addressable Header 1",
-    "Addressable Header 2",
-    "PCH",
-    "IO Cover",
-    "PCB",
-    "Audio",
-};
+extern const char* polychrome_USB_zone_names[];
 
 enum
 {

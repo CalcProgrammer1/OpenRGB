@@ -20,6 +20,18 @@
 #define POLYCHROME_USB_INIT             0xA4
 #define POLYCHROME_USB_COMMIT           0x12
 
+const char* polychrome_USB_zone_names[] =
+{
+    "RGB LED 1 Header",
+    "RGB LED 2 Header",
+    "Addressable Header 1",
+    "Addressable Header 2",
+    "PCH",
+    "IO Cover",
+    "PCB",
+    "Audio",
+};
+
 PolychromeUSBController::PolychromeUSBController(hid_device* dev_handle, const char* path)
 {
     DMIInfo       dmi;
