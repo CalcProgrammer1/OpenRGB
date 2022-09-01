@@ -110,7 +110,7 @@ void AuraMousematController::UpdateDevice
     usb_buf[0x08]   = pattern;
     usb_buf[0x09]   = 0x00;
 
-    for(int i = 0; i < colors.size(); i++)
+    for(unsigned int i = 0; i < colors.size(); i++)
     {
         usb_buf[0x0a + i * 3]   = RGBGetRValue(colors[i]);
         usb_buf[0x0b + i * 3]   = RGBGetGValue(colors[i]);

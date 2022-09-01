@@ -171,7 +171,7 @@ void RGBController_ROGStrixLC_Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_ROGStrixLC_Controller::ResizeZone(int zone, int new_size)
+void RGBController_ROGStrixLC_Controller::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |

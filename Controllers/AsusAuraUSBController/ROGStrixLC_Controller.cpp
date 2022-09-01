@@ -34,7 +34,7 @@ std::string ROGStrixLC_Controller::GetLocation()
     return("HID: " + location);
 }
 
-void ROGStrixLC_Controller::SetMode(unsigned char channel, unsigned char mode, unsigned char red, unsigned char grn, unsigned char blu)
+void ROGStrixLC_Controller::SetMode(unsigned char /*channel*/, unsigned char /*mode*/, unsigned char /*red*/, unsigned char /*grn*/, unsigned char /*blu*/)
 {
     /*---------------------------------------------------------*\
     | This interface is not used in this controller however is  |
@@ -58,7 +58,7 @@ void ROGStrixLC_Controller::SetMode(unsigned char mode, unsigned char speed, uns
     }
 }
 
-void ROGStrixLC_Controller::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
+void ROGStrixLC_Controller::SetChannelLEDs(unsigned char /*channel*/, RGBColor* /*colors*/, unsigned int /*num_colors*/)
 {
     /*---------------------------------------------------------*\
     | This interface is not used in this controller however is  |

@@ -33,7 +33,7 @@ std::string AsusAuraRyuoAIOController::GetLocation()
 	return("HID: " + location);
 }
 
-void AsusAuraRyuoAIOController::SetMode(unsigned char channel, unsigned char mode, unsigned char red, unsigned char grn, unsigned char blu)
+void AsusAuraRyuoAIOController::SetMode(unsigned char /*channel*/, unsigned char /*mode*/, unsigned char /*red*/, unsigned char /*grn*/, unsigned char /*blu*/)
 {
 	/*---------------------------------------------------------*\
 	| This interface is not used in this controller however is  |
@@ -56,7 +56,7 @@ void AsusAuraRyuoAIOController::SetMode(unsigned char mode, unsigned char speed,
 	}
 }
 
-void AsusAuraRyuoAIOController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
+void AsusAuraRyuoAIOController::SetChannelLEDs(unsigned char /*channel*/, RGBColor* /*colors*/, unsigned int /*num_colors*/)
 {
 	/*---------------------------------------------------------*\
 	| This interface is not used in this controller however is  |

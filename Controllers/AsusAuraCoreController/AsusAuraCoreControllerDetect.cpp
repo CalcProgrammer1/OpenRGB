@@ -17,7 +17,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string&)
+void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -37,7 +37,7 @@ void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string&)
     }
 }
 
-void DetectAsusAuraCoreLaptopControllers(hid_device_info* info, const std::string& name)
+void DetectAsusAuraCoreLaptopControllers(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 

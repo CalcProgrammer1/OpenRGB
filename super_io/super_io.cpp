@@ -39,9 +39,17 @@ void superio_enter(int ioreg)
     if (dev_port_fd >= 0)
     {
         lseek(dev_port_fd, ioreg, SEEK_SET);
-        write(dev_port_fd, &temp, 1);
+        if(write(dev_port_fd, &temp, 1) == -1)
+        {
+            return;
+        }
+
         lseek(dev_port_fd, ioreg, SEEK_SET);
-        write(dev_port_fd, &temp, 1);
+        if(write(dev_port_fd, &temp, 1) == -1)
+        {
+            return;
+        }
+        
         close(dev_port_fd);
     } 
 #endif
@@ -67,8 +75,16 @@ void superio_outb(int ioreg, int reg, int val)
     if (dev_port_fd >= 0)
     {
         lseek(dev_port_fd, ioreg, SEEK_SET);
-        write(dev_port_fd, &reg, 1);
-        write(dev_port_fd, &val, 1);
+        if(write(dev_port_fd, &reg, 1) == -1)
+        {
+            return;
+        }
+
+        if(write(dev_port_fd, &val, 1) == -1)
+        {
+            return;
+        }
+
         close(dev_port_fd);
     }
 #endif
@@ -95,9 +111,18 @@ int superio_inb(int ioreg, int reg)
     if (dev_port_fd >= 0)  
     {
         lseek(dev_port_fd, ioreg, SEEK_SET);
-        write(dev_port_fd, &reg, 1);
-        read(dev_port_fd, &temp, 1);
+        if(write(dev_port_fd, &reg, 1) == -1)
+        {
+            return;
+        }
+
+        if(read(dev_port_fd, &temp, 1) == -1)
+        {
+            return -1;
+        }
+
         close(dev_port_fd);
+        
         return((int)temp);
     }
     else

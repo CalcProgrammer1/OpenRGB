@@ -172,7 +172,7 @@ void AlienwareAW510KController::SendInitialize()
 
 void AlienwareAW510KController::SetDirect
     (
-    unsigned char   zone,
+    unsigned char   /*zone*/,
     unsigned char   r,
     unsigned char   g,
     unsigned char   b
@@ -222,7 +222,7 @@ void AlienwareAW510KController::SendDirectOn
     | To Guarantee the data are always %4 =0 append   |
     | zeros at end of last packet                     |
     \*-----------------------------------------------*/
-    for(int i = 0; i < (frame_data.size() % 4); i++)
+    for(unsigned int i = 0; i < (frame_data.size() % 4); i++)
     {
         SelectedKeys key;
         key.idx     = 0x00;
@@ -358,7 +358,7 @@ void AlienwareAW510KController::UpdateSingleLED
 }
 void AlienwareAW510KController::SendMode
     (
-    unsigned char   zone,
+    unsigned char   /*zone*/,
     unsigned char   mode,
     unsigned short  speed,
     unsigned char   direction,

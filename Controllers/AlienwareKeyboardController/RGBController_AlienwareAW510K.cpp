@@ -395,7 +395,7 @@ void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
 
 void RGBController_AlienwareAW510K::UpdateZoneLEDs(int zone)
 {
-    controller->SetDirect((unsigned char) zone, RGBGetRValue(zones[zone].colors[0]), RGBGetGValue(zones[zone].colors[0]), RGBGetBValue(zones[zone].colors[0]));
+    controller->SetDirect( RGBGetRValue(zones[zone].colors[0]), RGBGetGValue(zones[zone].colors[0]), RGBGetBValue(zones[zone].colors[0]));
 }
 
 void RGBController_AlienwareAW510K::UpdateSingleLED(int led)

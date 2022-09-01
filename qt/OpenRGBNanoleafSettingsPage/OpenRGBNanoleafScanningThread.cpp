@@ -26,18 +26,23 @@ static mdns_string_t ipv4_address_to_string(char* buffer, size_t capacity, const
 {
 	char host[NI_MAXHOST] = {0};
 	char service[NI_MAXSERV] = {0};
-	int ret = getnameinfo((const struct sockaddr*)addr, (socklen_t)addrlen, host, NI_MAXHOST,
-	                      service, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
+	int ret = getnameinfo((const struct sockaddr*)addr, (socklen_t)addrlen, host, NI_MAXHOST, service, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
 	int len = 0;
-	if (ret == 0)
+
+	if(ret == 0)
     {
         len = snprintf(buffer, capacity, "%s", host);
 	}
-	if (len >= (int)capacity)
+
+	if(len >= (int)capacity)
+	{
 		len = (int)capacity - 1;
+	}
+
 	mdns_string_t str;
 	str.str = buffer;
 	str.length = len;
+	
 	return str;
 }
 
@@ -45,21 +50,30 @@ static mdns_string_t ipv6_address_to_string(char* buffer, size_t capacity, const
 {
 	char host[NI_MAXHOST] = {0};
 	char service[NI_MAXSERV] = {0};
-	int ret = getnameinfo((const struct sockaddr*)addr, (socklen_t)addrlen, host, NI_MAXHOST,
-	                      service, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
+	int ret = getnameinfo((const struct sockaddr*)addr, (socklen_t)addrlen, host, NI_MAXHOST, service, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
 	int len = 0;
-	if (ret == 0)
+
+	if(ret == 0)
     {
-		if (addr->sin6_port != 0)
+		if(addr->sin6_port != 0)
+		{
 			len = snprintf(buffer, capacity, "[%s]:%s", host, service);
+		}
 		else
+		{
 			len = snprintf(buffer, capacity, "%s", host);
+		}
 	}
-	if (len >= (int)capacity)
+
+	if(len >= (int)capacity)
+	{
 		len = (int)capacity - 1;
+	}
+
 	mdns_string_t str;
 	str.str = buffer;
 	str.length = len;
+
 	return str;
 }
 
@@ -86,9 +100,9 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 	do
     {
 		adapter_address = (IP_ADAPTER_ADDRESSES*)malloc(address_size);
-		ret = GetAdaptersAddresses(AF_UNSPEC, GAA_FLAG_SKIP_MULTICAST | GAA_FLAG_SKIP_ANYCAST, 0,
-		                           adapter_address, &address_size);
-		if (ret == ERROR_BUFFER_OVERFLOW)
+		ret = GetAdaptersAddresses(AF_UNSPEC, GAA_FLAG_SKIP_MULTICAST | GAA_FLAG_SKIP_ANYCAST, 0, adapter_address, &address_size);
+
+		if(ret == ERROR_BUFFER_OVERFLOW)
         {
 			free(adapter_address);
 			adapter_address = 0;
@@ -99,9 +113,9 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 			break;
 		}
 	}
-    while (num_retries-- > 0);
+    while(num_retries-- > 0);
 
-	if (!adapter_address || (ret != NO_ERROR))
+	if(!adapter_address || (ret != NO_ERROR))
     {
 		free(adapter_address);
 		return num_sockets;
@@ -109,37 +123,42 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 
 	int first_ipv4 = 1;
 	int first_ipv6 = 1;
-	for (PIP_ADAPTER_ADDRESSES adapter = adapter_address; adapter; adapter = adapter->Next)
-    {
-		if (adapter->TunnelType == TUNNEL_TYPE_TEREDO)
-			continue;
-		if (adapter->OperStatus != IfOperStatusUp)
-			continue;
 
-		for (IP_ADAPTER_UNICAST_ADDRESS* unicast = adapter->FirstUnicastAddress; unicast;
-		     unicast = unicast->Next)
+	for(PIP_ADAPTER_ADDRESSES adapter = adapter_address; adapter; adapter = adapter->Next)
+    {
+		if(adapter->TunnelType == TUNNEL_TYPE_TEREDO)
+		{
+			continue;
+		}
+
+		if(adapter->OperStatus != IfOperStatusUp)
+		{
+			continue;
+		}
+		
+		for(IP_ADAPTER_UNICAST_ADDRESS* unicast = adapter->FirstUnicastAddress; unicast; unicast = unicast->Next)
         {
-			if (unicast->Address.lpSockaddr->sa_family == AF_INET)
+			if(unicast->Address.lpSockaddr->sa_family == AF_INET)
             {
 				struct sockaddr_in* saddr = (struct sockaddr_in*)unicast->Address.lpSockaddr;
-				if ((saddr->sin_addr.S_un.S_un_b.s_b1 != 127) ||
-				    (saddr->sin_addr.S_un.S_un_b.s_b2 != 0) ||
-				    (saddr->sin_addr.S_un.S_un_b.s_b3 != 0) ||
-				    (saddr->sin_addr.S_un.S_un_b.s_b4 != 1))
+				if((saddr->sin_addr.S_un.S_un_b.s_b1 != 127) ||
+				   (saddr->sin_addr.S_un.S_un_b.s_b2 != 0) ||
+				   (saddr->sin_addr.S_un.S_un_b.s_b3 != 0) ||
+				   (saddr->sin_addr.S_un.S_un_b.s_b4 != 1))
                 {
 					int log_addr = 0;
-					if (first_ipv4)
+					if(first_ipv4)
                     {
 						service_address_ipv4 = *saddr;
 						first_ipv4 = 0;
 						log_addr = 1;
 					}
 					has_ipv4 = 1;
-					if (num_sockets < max_sockets)
+					if(num_sockets < max_sockets)
                     {
 						saddr->sin_port = htons((unsigned short)port);
 						int sock = mdns_socket_open_ipv4(saddr);
-						if (sock >= 0)
+						if(sock >= 0)
                         {
 							sockets[num_sockets++] = sock;
 							log_addr = 1;
@@ -149,38 +168,37 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 							log_addr = 0;
 						}
 					}
-					if (log_addr)
+					if(log_addr)
                     {
 						char buffer[128];
-						mdns_string_t addr = ipv4_address_to_string(buffer, sizeof(buffer), saddr,
-						                                            sizeof(struct sockaddr_in));
+						ipv4_address_to_string(buffer, sizeof(buffer), saddr, sizeof(struct sockaddr_in));
 					}
 				}
 			}
-            else if (unicast->Address.lpSockaddr->sa_family == AF_INET6)
+            else if(unicast->Address.lpSockaddr->sa_family == AF_INET6)
             {
 				struct sockaddr_in6* saddr = (struct sockaddr_in6*)unicast->Address.lpSockaddr;
 				static const unsigned char localhost[] = {0, 0, 0, 0, 0, 0, 0, 0,
 				                                          0, 0, 0, 0, 0, 0, 0, 1};
 				static const unsigned char localhost_mapped[] = {0, 0, 0,    0,    0,    0, 0, 0,
 				                                                 0, 0, 0xff, 0xff, 0x7f, 0, 0, 1};
-				if ((unicast->DadState == NldsPreferred) &&
-				    memcmp(saddr->sin6_addr.s6_addr, localhost, 16) &&
-				    memcmp(saddr->sin6_addr.s6_addr, localhost_mapped, 16))
+				if((unicast->DadState == NldsPreferred) &&
+				   memcmp(saddr->sin6_addr.s6_addr, localhost, 16) &&
+				   memcmp(saddr->sin6_addr.s6_addr, localhost_mapped, 16))
                 {
 					int log_addr = 0;
-					if (first_ipv6)
+					if(first_ipv6)
                     {
 						service_address_ipv6 = *saddr;
 						first_ipv6 = 0;
 						log_addr = 1;
 					}
 					has_ipv6 = 1;
-					if (num_sockets < max_sockets)
+					if(num_sockets < max_sockets)
                     {
 						saddr->sin6_port = htons((unsigned short)port);
 						int sock = mdns_socket_open_ipv6(saddr);
-						if (sock >= 0)
+						if(sock >= 0)
                         {
 							sockets[num_sockets++] = sock;
 							log_addr = 1;
@@ -190,11 +208,10 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 							log_addr = 0;
 						}
 					}
-					if (log_addr)
+					if(log_addr)
                     {
 						char buffer[128];
-						mdns_string_t addr = ipv6_address_to_string(buffer, sizeof(buffer), saddr,
-						                                            sizeof(struct sockaddr_in6));
+						ipv6_address_to_string(buffer, sizeof(buffer), saddr, sizeof(struct sockaddr_in6));
 					}
 				}
 			}
@@ -212,29 +229,32 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 
 	int first_ipv4 = 1;
 	int first_ipv6 = 1;
-	for (ifa = ifaddr; ifa; ifa = ifa->ifa_next)
-    {
-		if (!ifa->ifa_addr)
-			continue;
 
-		if (ifa->ifa_addr->sa_family == AF_INET)
+	for(ifa = ifaddr; ifa; ifa = ifa->ifa_next)
+    {
+		if(!ifa->ifa_addr)
+		{
+			continue;
+		}
+
+		if(ifa->ifa_addr->sa_family == AF_INET)
         {
 			struct sockaddr_in* saddr = (struct sockaddr_in*)ifa->ifa_addr;
-			if (saddr->sin_addr.s_addr != htonl(INADDR_LOOPBACK))
+			if(saddr->sin_addr.s_addr != htonl(INADDR_LOOPBACK))
             {
 				int log_addr = 0;
-				if (first_ipv4)
+				if(first_ipv4)
                 {
 					service_address_ipv4 = *saddr;
 					first_ipv4 = 0;
 					log_addr = 1;
 				}
 				has_ipv4 = 1;
-				if (num_sockets < max_sockets)
+				if(num_sockets < max_sockets)
                 {
 					saddr->sin_port = htons(port);
 					int sock = mdns_socket_open_ipv4(saddr);
-					if (sock >= 0)
+					if(sock >= 0)
                     {
 						sockets[num_sockets++] = sock;
 						log_addr = 1;
@@ -244,15 +264,14 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 						log_addr = 0;
 					}
 				}
-				if (log_addr)
+				if(log_addr)
                 {
 					char buffer[128];
-					mdns_string_t addr = ipv4_address_to_string(buffer, sizeof(buffer), saddr,
-					                                            sizeof(struct sockaddr_in));
+					ipv4_address_to_string(buffer, sizeof(buffer), saddr, sizeof(struct sockaddr_in));
 				}
 			}
 		}
-        else if (ifa->ifa_addr->sa_family == AF_INET6)
+        else if(ifa->ifa_addr->sa_family == AF_INET6)
         {
 			struct sockaddr_in6* saddr = (struct sockaddr_in6*)ifa->ifa_addr;
 			static const unsigned char localhost[] = {0, 0, 0, 0, 0, 0, 0, 0,
@@ -263,14 +282,14 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 			    memcmp(saddr->sin6_addr.s6_addr, localhost_mapped, 16))
             {
 				int log_addr = 0;
-				if (first_ipv6)
+				if(first_ipv6)
                 {
 					service_address_ipv6 = *saddr;
 					first_ipv6 = 0;
 					log_addr = 1;
 				}
 				has_ipv6 = 1;
-				if (num_sockets < max_sockets)
+				if(num_sockets < max_sockets)
                 {
 					saddr->sin6_port = htons(port);
 					int sock = mdns_socket_open_ipv6(saddr);
@@ -284,11 +303,10 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 						log_addr = 0;
 					}
 				}
-				if (log_addr)
+				if(log_addr)
                 {
 					char buffer[128];
-					mdns_string_t addr = ipv6_address_to_string(buffer, sizeof(buffer), saddr,
-					                                            sizeof(struct sockaddr_in6));
+					ipv6_address_to_string(buffer, sizeof(buffer), saddr, sizeof(struct sockaddr_in6));
 				}
 			}
 		}
@@ -326,18 +344,17 @@ static int query_callback(
 	(void)sizeof(name_length);
 	(void)sizeof(user_data);
 
-    if (rtype == MDNS_RECORDTYPE_A)
+    if(rtype == MDNS_RECORDTYPE_A)
     {
 		struct sockaddr_in address;
 		mdns_record_parse_a(data, size, record_offset, record_length, &address);
 
-        if (address.sin_port == 0)
+        if(address.sin_port == 0)
+		{
             address.sin_port = 16021; // Default Nanoleaf port.
+		}
 
-        mdns_string_t addrstr =
-            ipv4_address_to_string(namebuffer, sizeof(namebuffer), &address, sizeof(address));
-
-        // printf("A %.*s:%u\n", MDNS_STRING_FORMAT(addrstr), address.sin_port);
+        mdns_string_t addrstr = ipv4_address_to_string(namebuffer, sizeof(namebuffer), &address, sizeof(address));
 
         (static_cast<OpenRGBNanoleafScanningThread*>(user_data))->EmitDeviceFound(addrstr.str, address.sin_port);
 	}
@@ -370,20 +387,27 @@ int OpenRGBNanoleafScanningThread::SendMDNSQuery()
 	void* buffer = malloc(capacity);
 	size_t records;
 
-	const char* record_name = "PTR";
-	if (record == MDNS_RECORDTYPE_SRV)
+	const char* record_name;
+	if(record == MDNS_RECORDTYPE_SRV)
+	{
 		record_name = "SRV";
-	else if (record == MDNS_RECORDTYPE_A)
+	}
+	else if(record == MDNS_RECORDTYPE_A)
+	{
 		record_name = "A";
-	else if (record == MDNS_RECORDTYPE_AAAA)
+	}
+	else if(record == MDNS_RECORDTYPE_AAAA)
+	{
 		record_name = "AAAA";
+	}
 	else
+	{
 		record = MDNS_RECORDTYPE_PTR;
+	}
 
-	for (int isock = 0; isock < num_sockets; ++isock)
+	for(int isock = 0; isock < num_sockets; ++isock)
     {
-		query_id[isock] =
-		    mdns_query_send(sockets[isock], record, service, strlen(service), buffer, capacity, 0);
+		query_id[isock] = mdns_query_send(sockets[isock], record, service, strlen(service), buffer, capacity, 0);
 	}
 
     /*-----------------------------------------------------*\
@@ -400,24 +424,27 @@ int OpenRGBNanoleafScanningThread::SendMDNSQuery()
 		int nfds = 0;
 		fd_set readfs;
 		FD_ZERO(&readfs);
-		for (int isock = 0; isock < num_sockets; ++isock)
+		for(int isock = 0; isock < num_sockets; ++isock)
         {
-			if (sockets[isock] >= nfds)
+			if(sockets[isock] >= nfds)
+			{
 				nfds = sockets[isock] + 1;
+			}
+
 			FD_SET(sockets[isock], &readfs);
 		}
 
 		records = 0;
 		res = select(nfds, &readfs, 0, 0, &timeout);
-		if (res > 0)
+		if(res > 0)
         {
-			for (int isock = 0; isock < num_sockets; ++isock)
+			for(int isock = 0; isock < num_sockets; ++isock)
             {
-				if (FD_ISSET(sockets[isock], &readfs))
+				if(FD_ISSET(sockets[isock], &readfs))
                 {
-					records += mdns_query_recv(sockets[isock], buffer, capacity, query_callback,
-					                           this, query_id[isock]);
+					records += mdns_query_recv(sockets[isock], buffer, capacity, query_callback, this, query_id[isock]);
 				}
+
 				FD_SET(sockets[isock], &readfs);
 			}
 		}
@@ -426,8 +453,10 @@ int OpenRGBNanoleafScanningThread::SendMDNSQuery()
 
 	free(buffer);
 
-	for (int isock = 0; isock < num_sockets; ++isock)
+	for(int isock = 0; isock < num_sockets; ++isock)
+	{
 		mdns_socket_close(sockets[isock]);
+	}
 
 	return 0;
 }
