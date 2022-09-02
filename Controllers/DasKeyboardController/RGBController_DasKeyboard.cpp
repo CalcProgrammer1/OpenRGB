@@ -197,7 +197,7 @@ static const char *led_names[] =
     @save :x:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectDasKeyboardControllers
+    @detectors DetectDasKeyboardControllers,DetectDas4QKeyboard
     @comment
 \*-------------------------------------------------------------------*/
 
