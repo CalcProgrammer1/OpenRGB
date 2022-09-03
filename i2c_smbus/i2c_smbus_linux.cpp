@@ -96,6 +96,7 @@ bool i2c_smbus_linux_detect()
 
     if(ent == NULL)
     {
+        closedir(dir);
         return(false);
     }
 
