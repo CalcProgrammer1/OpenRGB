@@ -1077,6 +1077,7 @@ SOURCES +=                                                                      
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevB.cpp                           \
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevD.cpp                           \
     Controllers/QMKOpenRGBController/RGBController_QMKOpenRGBRevE.cpp                           \
+    Controllers/RazerController/RazerDevices.cpp                                                \
     Controllers/RazerController/RazerController.cpp                                             \
     Controllers/RazerController/RazerKrakenController.cpp                                       \
     Controllers/RazerController/RazerControllerDetect.cpp                                       \
