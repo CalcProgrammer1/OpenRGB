@@ -7242,7 +7242,7 @@ static const razer_device core_device =
 {
     "Razer Core",
     RAZER_CORE_PID,
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_GPU,
     true,
     1,
     9,
@@ -7289,7 +7289,7 @@ static const razer_device core_x_device =
 {
     "Razer Core X",
     RAZER_CORE_X_PID,
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_GPU,
     true,
     1,
     16,
@@ -7324,7 +7324,7 @@ static const razer_device mug_holder_device =
 {
     "Razer Chroma Mug Holder",
     RAZER_CHROMA_MUG_PID,
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_ACCESSORY,
     true,
     1,
     15,
@@ -7880,7 +7880,7 @@ static const razer_device charging_pad_chroma_device =
 {
     "Razer Charging Pad Chroma",
     RAZER_CHARGING_PAD_CHROMA_PID,
-    DEVICE_TYPE_UNKNOWN,
+    DEVICE_TYPE_ACCESSORY,
     true,
     1,
     10,
