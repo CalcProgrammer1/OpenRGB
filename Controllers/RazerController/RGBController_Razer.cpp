@@ -3,7 +3,7 @@
 
 /**------------------------------------------------------------------*\
     @name Razer
-    @category Keyboard,Microphone,Mouse,Mousemat,HeadsetStand,Case
+    @category Keyboard,Microphone,Mouse,Mousemat,HeadsetStand,Case,GPU,Accessory
     @type USB
     @save :robot:
     @direct :white_check_mark:
