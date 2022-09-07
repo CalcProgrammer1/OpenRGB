@@ -119,7 +119,7 @@
 #define ASUS_VEGA64_STRIX                               0x04C4
 #define ASUS_RX5600XT_STRIX_O6G_GAMING                  0x04EC
 #define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
-#define ASUS_RX6800_TUF_GAMING_OC                       0x04F6 
+#define ASUS_RX6800_TUF_GAMING_OC                       0x04F6
 #define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
 #define ASUS_RX560_STRIX_4G_GAMING                      0x04BC
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
@@ -492,6 +492,7 @@
 #define SAPPHIRE_NAVI22_NITRO_PLUS_SUB_DEV              0xE445
 #define SAPPHIRE_NAVI23_NITRO_PLUS_SUB_DEV              0xE448
 #define SAPPHIRE_NAVI21_6900XT_NITRO_PLUS_SUB_DEV       0x440E
+#define SAPPHIRE_NAVI21_6900XT_TOXIC_AC_SUB_DEV         0x440F
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV                   0xF440
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 
