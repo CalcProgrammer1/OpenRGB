@@ -10,13 +10,13 @@
 #include "RGBController_AsusStrixClaw.h"
 
 /**------------------------------------------------------------------*\
-    @name Asus Aura Strix Evolve
+    @name Asus Strix Claw
     @category Mouse
     @type USB
     @save :robot:
     @direct :x:
     @effects :tools:
-    @detectors DetectAsusAuraUSBStrixEvolve
+    @detectors DetectAsusStrixClaw
     @comment
 \*-------------------------------------------------------------------*/
 
