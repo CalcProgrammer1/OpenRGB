@@ -23,7 +23,6 @@
 RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controller* controller_ptr)
 {
     controller                      = controller_ptr;
-    unsigned char speed             = controller->GetLedSpeed();
 
     name                            = "AMD RX 6xxx GPU";
     vendor                          = "Cooler Master";
