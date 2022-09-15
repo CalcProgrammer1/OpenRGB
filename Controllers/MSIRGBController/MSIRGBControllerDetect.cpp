@@ -24,7 +24,7 @@ typedef struct
     bool invert;
 } msi_device;
 
-msi_device compatible_devices[] =
+static msi_device compatible_devices[] =
 {
     {"7A40", false},
     {"7A34", false},

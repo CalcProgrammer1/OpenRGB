@@ -23,7 +23,7 @@ typedef struct
     const char* name;
 } gig_device;
 
-gig_device compatible_devices[] =
+static gig_device compatible_devices[] =
 {
     {"X570 UD"}
 };
