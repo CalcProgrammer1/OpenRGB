@@ -932,7 +932,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
         case MODE_COLORS_PER_LED:
             if(options.colors.size() != 0)
             {
-                std::size_t last_set_color;
+                std::size_t last_set_color = 0;
 
                 for(std::size_t led_idx = 0; led_idx < device->leds.size(); led_idx++)
                 {
