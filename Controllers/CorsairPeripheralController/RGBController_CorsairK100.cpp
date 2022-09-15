@@ -294,9 +294,9 @@ void RGBController_CorsairK100::SetupZones()
     {
         case CORSAIR_TYPE_K100:
             selected_zone.push_back({ZONE_EN_KEYBOARD,  119,    ZONE_TYPE_MATRIX, led_names_k100, new matrix_map_type{7, 24, (unsigned int *)&matrix_map_k100}});
-            selected_zone.push_back({"Underglow",       44,     ZONE_TYPE_LINEAR, led_names_lightbar});
-            selected_zone.push_back({"Nameplate",       9,      ZONE_TYPE_LINEAR, led_names_nameplate});
-            selected_zone.push_back({"Logo",            3,      ZONE_TYPE_LINEAR, led_names_logo});
+            selected_zone.push_back({"Underglow",       44,     ZONE_TYPE_LINEAR, led_names_lightbar, NULL});
+            selected_zone.push_back({"Nameplate",       9,      ZONE_TYPE_LINEAR, led_names_nameplate, NULL});
+            selected_zone.push_back({"Logo",            3,      ZONE_TYPE_LINEAR, led_names_logo, NULL});
             break;
     }
 
