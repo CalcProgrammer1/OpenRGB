@@ -12,9 +12,6 @@
 
 AsusAuraRyuoAIOController::AsusAuraRyuoAIOController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path)
 {
-	const int szTemp = ASUSAURARYUOAIOCONTROLLER_HID_MAX_STR;
-	wchar_t tmpName[szTemp];
-
 	/*-----------------------------------------------------*\
 	| Add addressable devices                               |
 	|    Manually adding device info for now                |
