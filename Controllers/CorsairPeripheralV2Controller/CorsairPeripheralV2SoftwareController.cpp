@@ -6,7 +6,6 @@
 |                                                                       |
 |  Chris M (Dr_No)          11 Aug 2022                                 |
 \*---------------------------------------------------------------------*/
-#pragma once
 
 #include "LogManager.h"
 #include "CorsairPeripheralV2SoftwareController.h"

@@ -238,8 +238,8 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
     StopTransaction(0);
 }
 
-void CorsairPeripheralV2Controller::UpdateHWMode(uint16_t mode, corsair_v2_color color_mode, uint8_t speed,
-                                                 uint8_t direction, uint8_t brightness, std::vector<RGBColor> colors)
+void CorsairPeripheralV2Controller::UpdateHWMode(uint16_t mode, corsair_v2_color /*color_mode*/, uint8_t /*speed*/,
+                                                 uint8_t /*direction*/, uint8_t /*brightness*/, std::vector<RGBColor> /*colors*/)
 {
     /*---------------------------------------------------------*\
     | If we are switching to `Direct` mode                      |
