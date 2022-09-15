@@ -121,6 +121,7 @@ INCLUDEPATH +=                                                                  
     Controllers/GigabyteRGBFusionController/                                                    \
     Controllers/GigabyteRGBFusionGPUController/                                                 \
     Controllers/GigabyteRGBFusion2GPUController/                                                \
+    Controllers/GigabyteSuperIORGBController/                                                   \
     Controllers/HoltekController/                                                               \
     Controllers/HPOmen30LController/                                                            \
     Controllers/HyperXDRAMController/                                                           \
@@ -402,6 +403,7 @@ HEADERS +=                                                                      
     Controllers/GigabyteRGBFusionGPUController/RGBController_GigabyteRGBFusionGPU.h             \
     Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.h               \
     Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.h           \
+    Controllers/GigabyteSuperIORGBController/GigabyteSuperIORGBController.h                     \
     Controllers/HoltekController/HoltekA070Controller.h                                         \
     Controllers/HoltekController/HoltekA1FAController.h                                         \
     Controllers/HoltekController/RGBController_HoltekA070.h                                     \
@@ -928,6 +930,9 @@ SOURCES +=                                                                      
     Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.cpp             \
     Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUControllerDetect.cpp       \
     Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.cpp         \
+    Controllers/GigabyteSuperIORGBController/GigabyteSuperIORGBController.cpp                   \
+    Controllers/GigabyteSuperIORGBController/GigabyteSuperIORGBControllerDetect.cpp             \
+    Controllers/GigabyteSuperIORGBController/RGBController_GigabyteSuperIORGB.cpp               \
     Controllers/HoltekController/HoltekA070Controller.cpp                                       \
     Controllers/HoltekController/HoltekA1FAController.cpp                                       \
     Controllers/HoltekController/HoltekControllerDetect.cpp                                     \
