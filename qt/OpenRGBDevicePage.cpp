@@ -733,7 +733,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 {
                     char id_buf[32];
                     // TODO: translate
-                    snprintf(id_buf, 16, "Mode Color %u", i);
+                    snprintf(id_buf, 32, "Mode Color %u", i);
                     ui->LEDBox->addItem(id_buf);
                 }
 
