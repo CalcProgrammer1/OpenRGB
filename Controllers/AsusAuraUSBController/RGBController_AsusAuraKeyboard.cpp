@@ -414,7 +414,7 @@ void RGBController_AuraKeyboard::SetupZones()
         case SCOPE_RX_LAYOUT:
             led_names = default_led_names;
             led_zones.push_back({ZONE_EN_KEYBOARD,      ZONE_TYPE_MATRIX, 106, new matrix_map_type{6, 22, (unsigned int *)&scope_matrix_map}});
-            led_zones.push_back({"Logo",                ZONE_TYPE_SINGLE, 1});
+            led_zones.push_back({"Logo",                ZONE_TYPE_SINGLE, 1, NULL});
 
             led_names.insert(led_names.begin() + 7,     {KEY_EN_LEFT_WINDOWS,   0x15});
             led_names.insert(led_names.begin() + 12,    {KEY_EN_LEFT_ALT,       0x1D});
@@ -424,8 +424,8 @@ void RGBController_AuraKeyboard::SetupZones()
         case SCOPE_TKL_LAYOUT:
             led_names = default_tkl_led_names;
             led_zones.push_back({ZONE_EN_KEYBOARD,      ZONE_TYPE_MATRIX, 86, new matrix_map_type{6, 18, (unsigned int *)&scope_tkl_matrix_map}});
-            led_zones.push_back({"Logo",                ZONE_TYPE_LINEAR, 2});
-            led_zones.push_back({"Underglow",           ZONE_TYPE_LINEAR, 26});
+            led_zones.push_back({"Logo",                ZONE_TYPE_LINEAR, 2, NULL});
+            led_zones.push_back({"Underglow",           ZONE_TYPE_LINEAR, 26, NULL});
 
             led_names.insert(led_names.begin() + 7,     {KEY_EN_LEFT_WINDOWS,   0x15});
             led_names.insert(led_names.begin() + 12,    {KEY_EN_LEFT_ALT,       0x1D});
@@ -434,8 +434,8 @@ void RGBController_AuraKeyboard::SetupZones()
         case FLARE_LAYOUT:
             led_names = default_led_names;
             led_zones.push_back({ZONE_EN_KEYBOARD,      ZONE_TYPE_MATRIX, 106, new matrix_map_type{6, 22, (unsigned int *)&flare_matrix_map}});
-            led_zones.push_back({"Logo",                ZONE_TYPE_SINGLE, 1});
-            led_zones.push_back({"Underglow",           ZONE_TYPE_SINGLE, 2});
+            led_zones.push_back({"Logo",                ZONE_TYPE_SINGLE, 1, NULL});
+            led_zones.push_back({"Underglow",           ZONE_TYPE_SINGLE, 2, NULL});
 
             led_names.insert(led_names.begin() + 7,     {KEY_EN_LEFT_WINDOWS,   0x0D});
             led_names.insert(led_names.begin() + 12,    {KEY_EN_LEFT_ALT,       0x15});
