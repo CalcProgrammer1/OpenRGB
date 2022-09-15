@@ -26,7 +26,6 @@
 RGBController_CMMMController::RGBController_CMMMController(CMMMController* controller_ptr)
 {
     controller                      = controller_ptr;
-    uint8_t speed                   = controller->GetLedSpeed();
 
     name                            = "Cooler Master MasterMouse";
     vendor                          = controller->GetDeviceVendor();

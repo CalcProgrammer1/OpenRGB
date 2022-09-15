@@ -25,7 +25,6 @@
 RGBController_CMMM711Controller::RGBController_CMMM711Controller(CMMM711Controller* controller_ptr)
 {
     controller                      = controller_ptr;
-    uint8_t speed                   = controller->GetLedSpeed();
 
     name                            = controller->GetDeviceName();
     vendor                          = "Cooler Master";
