@@ -387,18 +387,18 @@ int OpenRGBNanoleafScanningThread::SendMDNSQuery()
 	void* buffer = malloc(capacity);
 	size_t records;
 
-	const char* record_name;
+	//const char* record_name;
 	if(record == MDNS_RECORDTYPE_SRV)
 	{
-		record_name = "SRV";
+		//record_name = "SRV";
 	}
 	else if(record == MDNS_RECORDTYPE_A)
 	{
-		record_name = "A";
+		//record_name = "A";
 	}
 	else if(record == MDNS_RECORDTYPE_AAAA)
 	{
-		record_name = "AAAA";
+		//record_name = "AAAA";
 	}
 	else
 	{
