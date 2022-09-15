@@ -85,9 +85,9 @@ std::string AuraMouseController::GetVersion(bool wireless, int protocol)
 
         case 3:
             {
-                char version[9];
+                char version[16];
                 int offset = (wireless ? 13 : 4);
-                snprintf(version, 9, "%2d.%02d.%02d", usb_buf_out[offset + 1], usb_buf_out[offset + 2], usb_buf_out[offset + 3]);
+                snprintf(version, 16, "%2d.%02d.%02d", usb_buf_out[offset + 1], usb_buf_out[offset + 2], usb_buf_out[offset + 3]);
                 str = std::string(version);
             }
             break;
