@@ -289,13 +289,13 @@ void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_EVGAGPUv3::UpdateZoneLEDs(int /*zone*/ zone)
+void RGBController_EVGAGPUv3::UpdateZoneLEDs(int /*zone*/)
 {
     //LOG_TRACE("[%s] Updating zone %1d", evga->evgaGPUName, zone);
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPUv3::UpdateSingleLED(int /*led*/ led)
+void RGBController_EVGAGPUv3::UpdateSingleLED(int /*led*/)
 {
     //LOG_TRACE("[%s] Updating single LED %1d", evga->evgaGPUName, led);
     DeviceUpdateLEDs();
