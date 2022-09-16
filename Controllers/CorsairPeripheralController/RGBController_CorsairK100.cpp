@@ -298,6 +298,9 @@ void RGBController_CorsairK100::SetupZones()
             selected_zone.push_back({"Nameplate",       9,      ZONE_TYPE_LINEAR, led_names_nameplate, NULL});
             selected_zone.push_back({"Logo",            3,      ZONE_TYPE_LINEAR, led_names_logo, NULL});
             break;
+
+        case CORSAIR_TYPE_UNKNOWN:
+            break;
     }
 
     /*---------------------------------------------------------*\
