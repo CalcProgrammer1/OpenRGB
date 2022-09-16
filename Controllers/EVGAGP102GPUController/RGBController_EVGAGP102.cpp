@@ -141,7 +141,7 @@ void RGBController_EVGAGP102::UpdateSingleLED(int /*led*/)
 
 void RGBController_EVGAGP102::DeviceUpdateMode()
 {
-    for (int i = 0; i < evga.size(); i++)
+    for(unsigned int i = 0; i < evga.size(); i++)
     {
         evga[i]->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
     }
