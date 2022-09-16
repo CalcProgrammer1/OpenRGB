@@ -9,7 +9,7 @@
 
 #include "CorsairPeripheralV2Controller.h"
 
-CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string name, uint16_t pid)
+CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string /*name*/, uint16_t pid)
 {
     const uint8_t sz    = HID_MAX_STR;
     wchar_t       tmp[sz];
