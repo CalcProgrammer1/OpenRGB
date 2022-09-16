@@ -26,6 +26,7 @@
 #define AMD_NAVI14_DEV                                  0x7340
 #define AMD_NAVI21_DEV1                                 0x73BF
 #define AMD_NAVI21_DEV2                                 0x73AF
+#define AMD_NAVI21_DEV3                                 0x73A5
 #define AMD_NAVI22_DEV                                  0x73DF
 #define AMD_NAVI23_DEV                                  0x73FF
 
@@ -493,6 +494,7 @@
 #define SAPPHIRE_NAVI23_NITRO_PLUS_SUB_DEV              0xE448
 #define SAPPHIRE_NAVI21_6900XT_NITRO_PLUS_SUB_DEV       0x440E
 #define SAPPHIRE_NAVI21_6900XT_TOXIC_AC_SUB_DEV         0x440F
+#define SAPPHIRE_NAVI21_6950XT_NITRO_PLUS_SUB_DEV       0x441D
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV                   0xF440
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 
