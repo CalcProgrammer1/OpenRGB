@@ -27,7 +27,7 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
     controller                  = controller_ptr;
     unsigned char speed         = controller->GetLedSpeed();
 
-    name                        = small_argb_header_data[controller->GetZoneIndex()].name;
+    name                        = cm_small_argb_header_data[controller->GetZoneIndex()].name;
     vendor                      = "Cooler Master";
     type                        = DEVICE_TYPE_LEDSTRIP;
     description                 = controller->GetDeviceName();
@@ -185,7 +185,7 @@ RGBController_CMSmallARGBController::~RGBController_CMSmallARGBController()
 void RGBController_CMSmallARGBController::Init_Controller()
 {
     int zone_idx            = controller->GetZoneIndex();
-    int zone_led_count      = small_argb_header_data[zone_idx].count;
+    int zone_led_count      = cm_small_argb_header_data[zone_idx].count;
     bool boolSingleLED      = ( zone_led_count == 1 );          //If argb_header_data[zone_idx].count == 1 then the zone is ZONE_TYPE_SINGLE
 
     zone ARGB_zone;
@@ -215,7 +215,7 @@ void RGBController_CMSmallARGBController::SetupZones()
 
         if (!boolSingleLED)
         {
-            controller->SetLedCount(small_argb_header_data[zone_idx].header, zones[zone_idx].leds_count);
+            controller->SetLedCount(cm_small_argb_header_data[zone_idx].header, zones[zone_idx].leds_count);
         }
 
         for(unsigned int lp_idx = 0; lp_idx < zones[zone_idx].leds_count; lp_idx++)
@@ -226,13 +226,13 @@ void RGBController_CMSmallARGBController::SetupZones()
             if(boolSingleLED)
             {
                 new_led.name  = i;
-                new_led.value = small_argb_header_data[i].header;
+                new_led.value = cm_small_argb_header_data[i].header;
             }
             else
             {
                 new_led.name = i;
                 new_led.name.append(" LED " + std::to_string(lp_idx));
-                new_led.value = small_argb_header_data[i].header;
+                new_led.value = cm_small_argb_header_data[i].header;
             }
 
             leds.push_back(new_led);

@@ -34,7 +34,7 @@ enum
     CM_SMALL_ARGB_BLUE_BYTE             = 11,
 };
 
-struct _argb_headers
+struct cm_small_argb_headers
 {
     const char*     name;
     unsigned char   header;
@@ -42,10 +42,7 @@ struct _argb_headers
     unsigned int    count;
 };
 
-static _argb_headers small_argb_header_data[1] =
-{
-    { "CM Small ARGB",  0x01, true,  12 }
-};
+extern cm_small_argb_headers cm_small_argb_header_data[1];
 
 enum
 {
