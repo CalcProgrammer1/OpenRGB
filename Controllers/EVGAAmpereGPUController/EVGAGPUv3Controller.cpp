@@ -68,7 +68,7 @@ std::string EVGAGPUv3Controller::ReadFWVersion()
     LOG_TRACE("[%s] Getting FW from HW", evgaGPUName);
     uint8_t         data_pkt[I2C_SMBUS_BLOCK_MAX] = {};
     std::string     return_string = "";
-    char            version[8];
+    char            version[10];
 
     uint8_t         result = bus->i2c_smbus_read_i2c_block_data(dev, EVGA_GPU_V3_REG_FIRMWARE, 6, data_pkt);
     if (result == 6)
@@ -76,7 +76,7 @@ std::string EVGAGPUv3Controller::ReadFWVersion()
         uint8_t     major = data_pkt[4];
         uint8_t     minor = data_pkt[5];
 
-        snprintf(version, 8, "1.%02d.%02d", major, minor);
+        snprintf(version, 10, "1.%02d.%02d", major, minor);
         return_string.append(version);
         LOG_TRACE("[%s] Firmware %s", evgaGPUName, version);
         fwVersion = return_string;
