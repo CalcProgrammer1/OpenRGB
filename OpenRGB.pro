@@ -1503,6 +1503,8 @@ contains(QMAKE_PLATFORM, linux) {
          LIBS += -lstdc++fs
     }
 
+    QMAKE_CXXFLAGS += -Wno-implicit-fallthrough
+    
     #-------------------------------------------------------------------------------------------#
     # Determine which hidapi to use based on availability                                       #
     #   Prefer hidraw backend, then libusb                                                      #
