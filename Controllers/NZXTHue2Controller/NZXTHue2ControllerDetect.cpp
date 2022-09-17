@@ -4,17 +4,18 @@
 #include "RGBController_NZXTHue2.h"
 #include <hidapi/hidapi.h>
 
-#define NZXT_VID                     0x1E71
-#define NZXT_HUE_2_PID               0x2001
-#define NZXT_HUE_2_AMBIENT_PID       0x2002
-#define NZXT_MOTHERBOARD_DEVICE_PID  0x2005
-#define NZXT_SMART_DEVICE_V2_PID     0x2006
-#define NZXT_KRAKEN_X3_PID           0x2007
-#define NZXT_RGB_FAN_CONTROLLER_PID  0x2009
-#define NZXT_RGB_FAN_CONTROLLER2_PID 0x2010
-#define NZXT_RGB_FAN_CONTROLLER3_PID 0x200E
-#define NZXT_SMART_DEVICE_V2_1_PID   0x200D
-#define NZXT_SMART_DEVICE_V2_2_PID   0x200F
+#define NZXT_VID                        0x1E71
+#define NZXT_HUE_2_PID                  0x2001
+#define NZXT_HUE_2_AMBIENT_PID          0x2002
+#define NZXT_MOTHERBOARD_DEVICE_PID     0x2005
+#define NZXT_MOTHERBOARD_DEVICE_2_PID   0x200B
+#define NZXT_SMART_DEVICE_V2_PID        0x2006
+#define NZXT_KRAKEN_X3_PID              0x2007
+#define NZXT_RGB_FAN_CONTROLLER_PID     0x2009
+#define NZXT_RGB_FAN_CONTROLLER2_PID    0x2010
+#define NZXT_RGB_FAN_CONTROLLER3_PID    0x200E
+#define NZXT_SMART_DEVICE_V2_1_PID      0x200D
+#define NZXT_SMART_DEVICE_V2_2_PID      0x200F
 
 static void spawn_hue(hid_device_info* info, const std::string& name, int rgb_channels, int fan_channels)
 {
@@ -63,6 +64,7 @@ void DetectNZXTFanController(hid_device_info* info, const std::string& name)
 REGISTER_HID_DETECTOR("NZXT Hue 2",                DetectNZXTHue2,            NZXT_VID, NZXT_HUE_2_PID);
 REGISTER_HID_DETECTOR("NZXT Hue 2 Ambient",        DetectNZXTHue2Ambient,     NZXT_VID, NZXT_HUE_2_AMBIENT_PID);
 REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard, NZXT_VID, NZXT_MOTHERBOARD_DEVICE_PID);
+REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard, NZXT_VID, NZXT_MOTHERBOARD_DEVICE_2_PID);
 REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,   NZXT_VID, NZXT_SMART_DEVICE_V2_PID);
 REGISTER_HID_DETECTOR("NZXT Kraken X3",            DetectNZXTKrakenX3,        NZXT_VID, NZXT_KRAKEN_X3_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,   NZXT_VID, NZXT_RGB_FAN_CONTROLLER_PID);
