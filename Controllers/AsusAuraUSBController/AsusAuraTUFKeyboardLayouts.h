@@ -79,6 +79,22 @@ static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_UK[6][24] = {
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA }
 };
 
+static unsigned int ASUS_FALCHION_LAYOUT_KEYS_US[5][16] = {
+    {   0,   5,   7,  12,  16,  20,  24,  29,  33,  37,  41,  46,  51,  56,  NA,  63 },
+    {   1,  NA,   8,  13,  17,  21,  25,  30,  34,  38,  42,  47,  52,  57,  59,  64 },
+    {   2,  NA,   9,  14,  18,  22,  26,  31,  35,  39,  43,  48,  53,  NA,  60,  65 }, 
+    {   3,  NA,  10,  15,  19,  23,  27,  32,  36,  40,  44,  49,  54,  NA,  61,  66 },
+    {   4,   6,  11,  NA,  NA,  NA,  28,  NA,  NA,  NA,  45,  50,  55,  58,  62,  67 }
+};
+
+static unsigned int ASUS_FALCHION_LAYOUT_KEYS_UK[5][16] = {
+    {   0,   5,   8,  13,  17,  21,  25,  30,  34,  38,  42,  47,  52,  57,  NA,  64 },
+    {   1,  NA,   9,  14,  18,  22,  26,  31,  35,  39,  43,  48,  53,  58,  61,  65 },
+    {   2,  NA,  10,  15,  19,  23,  27,  32,  36,  40,  44,  49,  54,  59,  NA,  66 }, 
+    {   3,   6,  11,  16,  20,  24,  28,  33,  37,  41,  45,  50,  55,  NA,  62,  67 },
+    {   4,   7,  12,  NA,  NA,  NA,  29,  NA,  NA,  NA,  46,  51,  56,  60,  63,  68 }
+};
+
 static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_US[7][19] = {
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  45,  50,  56,  62,  67,  71,  NA,  75,  79,  84 },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85 },
@@ -415,6 +431,200 @@ static std::map<int,layout_info> AsusTUFK7Layouts =
         }
     },
 };
+
+static std::map<int,layout_info> AsusFalchionLayouts =
+{
+    {
+        ASUS_TUF_K7_LAYOUT_UK,
+        {
+            *ASUS_FALCHION_LAYOUT_KEYS_UK,
+            69,
+            5,
+            16,
+            {
+                { KEY_EN_ESCAPE,            0x00    },
+                { KEY_EN_TAB,               0x01    },
+                { KEY_EN_CAPS_LOCK,         0x02    },
+                { KEY_EN_LEFT_SHIFT,        0x03    },
+                { KEY_EN_LEFT_CONTROL,      0x04    },
+
+                { KEY_EN_1,                 0x08    },
+                { KEY_EN_ISO_BACK_SLASH,    0x0B    },
+                { KEY_EN_LEFT_WINDOWS,      0x0C    },
+
+                { KEY_EN_2,                 0x10    },
+                { KEY_EN_Q,                 0x09    },
+                { KEY_EN_A,                 0x0A    },
+                { KEY_EN_Z,                 0x13    },
+                { KEY_EN_LEFT_ALT,          0x14    },
+
+                { KEY_EN_3,                 0x18    },
+                { KEY_EN_W,                 0x11    },
+                { KEY_EN_S,                 0x12    },
+                { KEY_EN_X,                 0x1B    },
+
+                { KEY_EN_4,                 0x20    },
+                { KEY_EN_E,                 0x19    },
+                { KEY_EN_D,                 0x1A    },
+                { KEY_EN_C,                 0x23    },
+
+                { KEY_EN_5,                 0x28    },
+                { KEY_EN_R,                 0x21    },
+                { KEY_EN_F,                 0x22    },
+                { KEY_EN_V,                 0x2B    },
+
+                { KEY_EN_6,                 0x30    },
+                { KEY_EN_T,                 0x29    },
+                { KEY_EN_G,                 0x2A    },
+                { KEY_EN_B,                 0x33    },
+                { KEY_EN_SPACE,             0x34    },
+
+                { KEY_EN_7,                 0x38    },
+                { KEY_EN_Y,                 0x31    },
+                { KEY_EN_H,                 0x32    },
+                { KEY_EN_N,                 0x3B    },
+
+                { KEY_EN_8,                 0x40    },
+                { KEY_EN_U,                 0x39    },
+                { KEY_EN_J,                 0x3A    },
+                { KEY_EN_M,                 0x43    },
+
+                { KEY_EN_9,                 0x48    },
+                { KEY_EN_I,                 0x41    },
+                { KEY_EN_K,                 0x42    },
+                { KEY_EN_COMMA,             0x4B    },
+
+                { KEY_EN_0,                 0x50    },
+                { KEY_EN_O,                 0x49    },
+                { KEY_EN_L,                 0x4A    },
+                { KEY_EN_PERIOD,            0x53    },
+                { KEY_EN_RIGHT_ALT,         0x4C    },
+
+                { KEY_EN_MINUS,             0x58    },
+                { KEY_EN_P,                 0x51    },
+                { KEY_EN_SEMICOLON,         0x52    },
+                { KEY_EN_FORWARD_SLASH,     0x5B    },
+                { KEY_EN_RIGHT_FUNCTION,    0x54    },
+
+                { KEY_EN_EQUALS,            0x60    },
+                { KEY_EN_LEFT_BRACKET,      0x59    },
+                { KEY_EN_QUOTE,             0x5A    },
+                { KEY_EN_RIGHT_SHIFT,       0x63    },
+                { KEY_EN_RIGHT_CONTROL,     0x5C    },
+
+                { KEY_EN_BACKSPACE,         0x68    },
+                { KEY_EN_RIGHT_BRACKET,     0x61    },
+                { KEY_EN_POUND,             0x62    },
+                { KEY_EN_LEFT_ARROW,        0x64    },
+
+                { KEY_EN_ISO_ENTER,         0x6A    },
+                { KEY_EN_UP_ARROW,          0x6B    },
+                { KEY_EN_DOWN_ARROW,        0x6C    },
+
+                { KEY_EN_INSERT,            0x70    },
+                { KEY_EN_DELETE,            0x71    },
+                { KEY_EN_PAGE_UP,           0x72    },
+                { KEY_EN_PAGE_DOWN,         0x73    },
+                { KEY_EN_RIGHT_ARROW,       0x74    },
+            }
+        }
+    },
+    {
+        ASUS_TUF_K7_LAYOUT_US,
+        {
+            *ASUS_FALCHION_LAYOUT_KEYS_US,
+            68,
+            5,
+            16,
+            {
+                { KEY_EN_ESCAPE,            0x00    },
+                { KEY_EN_TAB,               0x01    },
+                { KEY_EN_CAPS_LOCK,         0x02    },
+                { KEY_EN_LEFT_SHIFT,        0x03    },
+                { KEY_EN_LEFT_CONTROL,      0x04    },
+
+                { KEY_EN_1,                 0x08    },
+                { KEY_EN_LEFT_WINDOWS,      0x0C    },
+
+                { KEY_EN_2,                 0x10    },
+                { KEY_EN_Q,                 0x09    },
+                { KEY_EN_A,                 0x0A    },
+                { KEY_EN_Z,                 0x13    },
+                { KEY_EN_LEFT_ALT,          0x14    },
+
+                { KEY_EN_3,                 0x18    },
+                { KEY_EN_W,                 0x11    },
+                { KEY_EN_S,                 0x12    },
+                { KEY_EN_X,                 0x1B    },
+
+                { KEY_EN_4,                 0x20    },
+                { KEY_EN_E,                 0x19    },
+                { KEY_EN_D,                 0x1A    },
+                { KEY_EN_C,                 0x23    },
+
+                { KEY_EN_5,                 0x28    },
+                { KEY_EN_R,                 0x21    },
+                { KEY_EN_F,                 0x22    },
+                { KEY_EN_V,                 0x2B    },
+
+                { KEY_EN_6,                 0x30    },
+                { KEY_EN_T,                 0x29    },
+                { KEY_EN_G,                 0x2A    },
+                { KEY_EN_B,                 0x33    },
+                { KEY_EN_SPACE,             0x34    },
+
+                { KEY_EN_7,                 0x38    },
+                { KEY_EN_Y,                 0x31    },
+                { KEY_EN_H,                 0x32    },
+                { KEY_EN_N,                 0x3B    },
+
+                { KEY_EN_8,                 0x40    },
+                { KEY_EN_U,                 0x39    },
+                { KEY_EN_J,                 0x3A    },
+                { KEY_EN_M,                 0x43    },
+
+                { KEY_EN_9,                 0x48    },
+                { KEY_EN_I,                 0x41    },
+                { KEY_EN_K,                 0x42    },
+                { KEY_EN_COMMA,             0x4B    },
+
+                { KEY_EN_0,                 0x50    },
+                { KEY_EN_O,                 0x49    },
+                { KEY_EN_L,                 0x4A    },
+                { KEY_EN_PERIOD,            0x53    },
+                { KEY_EN_RIGHT_ALT,         0x4C    },
+
+                { KEY_EN_MINUS,             0x58    },
+                { KEY_EN_P,                 0x51    },
+                { KEY_EN_SEMICOLON,         0x52    },
+                { KEY_EN_FORWARD_SLASH,     0x5B    },
+                { KEY_EN_RIGHT_FUNCTION,    0x54    },
+
+                { KEY_EN_EQUALS,            0x60    },
+                { KEY_EN_LEFT_BRACKET,      0x59    },
+                { KEY_EN_QUOTE,             0x5A    },
+                { KEY_EN_RIGHT_SHIFT,       0x63    },
+                { KEY_EN_RIGHT_CONTROL,     0x5C    },
+
+                { KEY_EN_BACKSPACE,         0x68    },
+                { KEY_EN_RIGHT_BRACKET,     0x61    },
+                { KEY_EN_LEFT_ARROW,        0x64    },
+
+                { KEY_EN_ANSI_BACK_SLASH,   0x69    },
+                { KEY_EN_ANSI_ENTER,        0x6A    },
+                { KEY_EN_UP_ARROW,          0x6B    },
+                { KEY_EN_DOWN_ARROW,        0x6C    },
+
+                { KEY_EN_INSERT,            0x70    },
+                { KEY_EN_DELETE,            0x71    },
+                { KEY_EN_PAGE_UP,           0x72    },
+                { KEY_EN_PAGE_DOWN,         0x73    },
+                { KEY_EN_RIGHT_ARROW,       0x74    },
+            }
+        }
+    },
+};
+
 
 static std::map<int,layout_info> AsusClaymoreNoNumpadLayouts =
 {

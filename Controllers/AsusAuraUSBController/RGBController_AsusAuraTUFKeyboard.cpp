@@ -28,6 +28,8 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
 
     pid = controller->device_pid;
 
+    const unsigned char AURA_KEYBOARD_SPEED_MIN = (pid == AURA_ROG_FALCHION_WIRED_PID || pid == AURA_ROG_FALCHION_WIRELESS_PID) ? 255 : 15;
+
     if(pid != AURA_ROG_CLAYMORE_PID)
     {
         name        = "ASUS Aura Keyboard";
@@ -347,6 +349,13 @@ void RGBController_AuraTUFKeyboard::SetupZones()
 
     switch(pid)
     {
+        case AURA_TUF_K7_GAMING_PID:
+            keyboard_ptr = &AsusTUFK7Layouts;
+            break;
+        case AURA_ROG_FALCHION_WIRED_PID:
+        case AURA_ROG_FALCHION_WIRELESS_PID:
+            keyboard_ptr = &AsusFalchionLayouts;
+            break;
         case AURA_ROG_CLAYMORE_PID:
             unsigned char numpad;
             numpad = controller->GetNumpadLocation();
@@ -364,9 +373,6 @@ void RGBController_AuraTUFKeyboard::SetupZones()
                 default:
                     keyboard_ptr = &AsusClaymoreNoNumpadLayouts;
             }
-            break;
-        case AURA_TUF_K7_GAMING_PID:
-            keyboard_ptr = &AsusTUFK7Layouts;
             break;
         default:
             keyboard_ptr = &AsusTUFK7Layouts;
@@ -423,13 +429,12 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
 {
     std::vector<led_color> led_color_list = {};
 
-    for(unsigned int i = 0; i < colors.size(); i++)
+    for(int i = 0; i < colors.size(); i++)
     {
         led_color_list.push_back({ leds[i].value, colors[i] });
     }
 
     controller->UpdateLeds(led_color_list);
-
 }
 
 void RGBController_AuraTUFKeyboard::UpdateZoneLEDs(int /*zone*/)

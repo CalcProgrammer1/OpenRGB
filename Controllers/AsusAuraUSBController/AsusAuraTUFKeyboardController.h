@@ -33,6 +33,8 @@ enum
 
 enum
 {
+    AURA_ROG_FALCHION_WIRED_PID     = 0x193C,
+    AURA_ROG_FALCHION_WIRELESS_PID  = 0x193E,
     AURA_TUF_K7_GAMING_PID          = 0x18AA,
     AURA_TUF_K3_GAMING_PID          = 0x194B,
     AURA_ROG_CLAYMORE_PID           = 0x184D,

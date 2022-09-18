@@ -57,6 +57,7 @@ std::string AuraTUFKeyboardController::GetVersion()
     {
         unsigned char usb_buf[65];
         memset(usb_buf, 0x00, sizeof(usb_buf));
+
         usb_buf[0x00]   = 0x00;
         usb_buf[0x01]   = 0x12;
         usb_buf[0x02]   = 0x00;
@@ -92,9 +93,7 @@ std::string AuraTUFKeyboardController::GetVersion()
         usb_buf[0x05]   = 0x00; // set to 1 to get firmware version of numpad
 
         ClearResponses();
-
         hid_write(dev, usb_buf, 65);
-
         AwaitResponse(20);
 
         unsigned char usb_buf1[65];
@@ -166,12 +165,12 @@ int AuraTUFKeyboardController::GetNumpadLocation()
 {
     unsigned char usb_buf[65];
     memset(usb_buf, 0x00, sizeof(usb_buf));
+
     usb_buf[0x00]   = 0x00;
     usb_buf[0x01]   = 0x40;
     usb_buf[0x02]   = 0x60;
 
     ClearResponses();
-
     hid_write(dev, usb_buf, 65);
 
     unsigned char usb_buf_out[65];
@@ -183,7 +182,6 @@ int AuraTUFKeyboardController::GetNumpadLocation()
 void AuraTUFKeyboardController::SaveMode()
 {
     unsigned char usb_save_buf[65];
-
     memset(usb_save_buf, 0x00, sizeof(usb_save_buf));
 
     usb_save_buf[0x00]   = 0x00;
@@ -191,9 +189,7 @@ void AuraTUFKeyboardController::SaveMode()
     usb_save_buf[0x02]   = 0x55;
 
     ClearResponses();
-
     hid_write(dev, usb_save_buf, 65);
-
     AwaitResponse(60);
 }
 
@@ -203,7 +199,6 @@ void AuraTUFKeyboardController::SaveMode()
 void AuraTUFKeyboardController::AllowRemoteControl(unsigned char type)
 {
     unsigned char usb_buf[65];
-
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0x00]   = 0x00;
@@ -211,9 +206,7 @@ void AuraTUFKeyboardController::AllowRemoteControl(unsigned char type)
     usb_buf[0x02]   = type;
 
     ClearResponses();
-
     hid_write(dev, usb_buf, 65);
-
     AwaitResponse(20);
 }
 
@@ -229,7 +222,6 @@ void AuraTUFKeyboardController::UpdateSingleLed
     | Set up message packet for single LED                  |
     \*-----------------------------------------------------*/
     unsigned char usb_buf[65];
-
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0] = 0x00;
@@ -247,9 +239,7 @@ void AuraTUFKeyboardController::UpdateSingleLed
     usb_buf[8] = blue;
 
     ClearResponses();
-
     hid_write(dev, usb_buf, 65);
-
     AwaitResponse(20);
 }
 
@@ -263,7 +253,6 @@ void AuraTUFKeyboardController::UpdateLeds
     for(int i = 0; i < packets; i++)
     {
         unsigned char usb_buf[65];
-
         memset(usb_buf, 0x00, sizeof(usb_buf));
 
         int remaining = colors.size() - i * 15;
@@ -283,11 +272,8 @@ void AuraTUFKeyboardController::UpdateLeds
             usb_buf[j * 4 + 7] = RGBGetGValue(colors[i * 15 + j].color);
             usb_buf[j * 4 + 8] = RGBGetBValue(colors[i * 15 + j].color);
         }
-
         ClearResponses();
-
         hid_write(dev, usb_buf, 65);
-
         AwaitResponse(20);
     }
 }
@@ -303,7 +289,6 @@ void AuraTUFKeyboardController::UpdateDevice
     )
 {
     unsigned char usb_buf[65];
-
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0x00]   = 0x00;
@@ -401,12 +386,7 @@ void AuraTUFKeyboardController::UpdateDevice
     }
 
     ClearResponses();
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 65);
-
     AwaitResponse(20);
 }
 
@@ -419,7 +399,6 @@ void AuraTUFKeyboardController::UpdateQuicksandColors
     )
 {
     unsigned char usb_buf[65];
-
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0x00]   = 0x00;
@@ -437,9 +416,7 @@ void AuraTUFKeyboardController::UpdateQuicksandColors
     }
 
     ClearResponses();
-
     hid_write(dev, usb_buf, 65);
-
     AwaitResponse(20);
 }
 
@@ -449,7 +426,6 @@ void AuraTUFKeyboardController::UpdateQuicksandColors
 void AuraTUFKeyboardController::UpdateMode(unsigned char mode)
 {
     unsigned char usb_buf[65];
-
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0x00]   = 0x00;
@@ -460,9 +436,7 @@ void AuraTUFKeyboardController::UpdateMode(unsigned char mode)
     usb_buf[0x05]   = mode;
 
     ClearResponses();
-
     hid_write(dev, usb_buf, 65);
-
     AwaitResponse(20);
 }
 

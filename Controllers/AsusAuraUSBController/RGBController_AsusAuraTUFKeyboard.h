@@ -13,7 +13,6 @@
 
 enum
 {
-    AURA_KEYBOARD_SPEED_MIN          = 15,
     AURA_KEYBOARD_SPEED_MAX          = 0,
     AURA_KEYBOARD_SPEED_DEFAULT      = 8,
     AURA_KEYBOARD_BRIGHTNESS_MIN     = 0,
