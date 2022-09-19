@@ -184,8 +184,6 @@ RGBController_LenovoUSB::RGBController_LenovoUSB(LenovoUSBController* controller
             }
 
             description = "Lenovo Y760S " + keyboardToString(keyboard_type);
-
-            break;
     }
 
     SetupZones();
@@ -215,9 +213,42 @@ void RGBController_LenovoUSB::SetupZones()
             break;
 
         case LEGION_Y750:
+            switch(keyboard_type)
+            {
+                case JAPAN:
+                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_jp);
+                    break;
+
+                case ISO:
+                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_iso);
+                    break;
+
+                default:
+                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_ansi);
+                    break;
+            }
+            lenovo_zones.push_back(lenovo_legion_Y750_logo);
+            lenovo_zones.push_back(lenovo_legion_Y750_vents);
+            lenovo_zones.push_back(lenovo_legion_Y750_neon);
+            break;
         case LEGION_Y750S:
-        case LEGION_Y760:
         case LEGION_Y760S:
+            switch(keyboard_type)
+            {
+                case JAPAN:
+                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_jp);
+                    break;
+
+                case ISO:
+                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_iso);
+                    break;
+
+                default:
+                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_ansi);
+                    break;
+            }
+            break;
+        case LEGION_Y760:
             switch(keyboard_type)
             {
                 case JAPAN:
@@ -238,7 +269,7 @@ void RGBController_LenovoUSB::SetupZones()
             lenovo_zones.push_back(lenovo_legion_Y760_vent_back_right);
             lenovo_zones.push_back(lenovo_legion_Y760_vent_back_left);
             lenovo_zones.push_back(lenovo_legion_Y760_neon);
-        break;
+            break;
     }
 
     for(unsigned int i = 0; i < lenovo_zones.size(); i++)

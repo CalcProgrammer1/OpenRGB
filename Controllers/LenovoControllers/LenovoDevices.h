@@ -685,7 +685,7 @@ const lenovo_led legion_Y760_vents[]
     {0x34, "Right Vent LED 25"},
     {0x35, "Right Vent LED 26"},
     {0x36, "Right Vent Back"},//53
-    
+
     //back right vent
     {0x37, "Back Right Vent Left"},//54
     {0x38, "Back Right Vent 2"},
@@ -828,7 +828,7 @@ const lenovo_led legion_Y760_neon[]
     {0x4C, "Neon LED 76"},
     {0x4D, "Neon LED 77"},
     {0x4E, "Neon LED 78 Right Corner"},//77
-    
+
     //right side
     {0x4F, "Neon LED 79 Right Corner"},//78
     {0x50, "Neon LED 80"},
@@ -851,6 +851,17 @@ const lenovo_led legion_Y760_neon[]
     {0x61, "Neon LED 97"},
     {0x62, "Neon LED 98"},
     {0x63, "Neon LED 99 Top Right"},//98
+};
+
+
+/*--------------------------------------------------------*\
+| Additional LEDs for Legion Y750, Y750S and Y760S         |
+\*--------------------------------------------------------*/
+const lenovo_led legion_legion_Y750_additional_leds[]
+{
+    {0xAA, "Logo"},
+    {0xAD, "Vents"},
+    {0xAC, "Neon"}
 };
 
 /*--------------------------------------------------------*\
@@ -918,6 +929,7 @@ static lenovo_zone lenovo_legion_Y760_logo
     0,
     12,
 };
+
 /*------*\
 |vents   |
 \*------*/
@@ -933,6 +945,7 @@ static lenovo_zone lenovo_legion_Y760_vent_left
     0,
     26,
 };
+
 static lenovo_zone lenovo_legion_Y760_vent_right
 {
     "Right vent",
@@ -945,6 +958,7 @@ static lenovo_zone lenovo_legion_Y760_vent_right
     27,
     53,
 };
+
 static lenovo_zone lenovo_legion_Y760_vent_back_right
 {
     "Back Right vent",
@@ -957,6 +971,7 @@ static lenovo_zone lenovo_legion_Y760_vent_back_right
     54,
     79,
 };
+
 static lenovo_zone lenovo_legion_Y760_vent_back_left
 {
     "Back Left vent",
@@ -969,6 +984,7 @@ static lenovo_zone lenovo_legion_Y760_vent_back_left
     80,
     105,
 };
+
 /*------*\
 |neon    |
 \*------*/
@@ -985,5 +1001,98 @@ static lenovo_zone lenovo_legion_Y760_neon
     98,
 };
 
+/*--------------------------------------------------------*\
+| Legion Y750, Y750S and Y760S: 4 zones                    |
+\*--------------------------------------------------------*/
+
+/*------*\
+|keyboard|
+\*------*/
+static lenovo_zone lenovo_legion_Y750_kbd_ansi
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    1,
+    10,
+    22,
+    legion_Y760_ansi_leds_map,
+    legion_Y760_ansi_leds,
+    0,
+    144,
+};
+
+static lenovo_zone lenovo_legion_Y750_kbd_iso
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    1,
+    10,
+    22,
+    legion_Y760_iso_leds_map,
+    legion_Y760_iso_leds,
+    0,
+    144,
+};
+
+static lenovo_zone lenovo_legion_Y750_kbd_jp
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    1,
+    10,
+    22,
+    legion_Y760_jp_leds_map,
+    legion_Y760_jp_leds,
+    0,
+    148,
+};
+
+/*------*\
+|logo    |
+\*------*/
+static lenovo_zone lenovo_legion_Y750_logo
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1,
+    1,
+    NULL,
+    legion_legion_Y750_additional_leds,
+    0,
+    0,
+};
+
+/*------*\
+|vents   |
+\*------*/
+static lenovo_zone lenovo_legion_Y750_vents
+{
+    "Vents",
+    ZONE_TYPE_SINGLE,
+    1,
+    1,
+    1,
+    NULL,
+    legion_legion_Y750_additional_leds,
+    1,
+    1,
+};
+
+/*------*\
+|neon    |
+\*------*/
+static lenovo_zone lenovo_legion_Y750_neon
+{
+    "Neon",
+    ZONE_TYPE_SINGLE,
+    1,
+    1,
+    1,
+    NULL,
+    legion_legion_Y750_additional_leds,
+    2,
+    2,
+};
 
 #endif
