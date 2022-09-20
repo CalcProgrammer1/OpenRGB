@@ -90,6 +90,7 @@ INCLUDEPATH +=                                                                  
     Controllers/CorsairHydroController/                                                         \
     Controllers/CorsairHydroPlatinumController/                                                 \
     Controllers/CorsairPeripheralController/                                                    \
+    Controllers/CorsairPeripheralV2Controller/                                                  \
     Controllers/CorsairLightingNodeController/                                                  \
     Controllers/CorsairVengeanceController/                                                     \
     Controllers/CorsairVengeanceProController/                                                  \
@@ -824,6 +825,7 @@ SOURCES +=                                                                      
     Controllers/CorsairPeripheralController/RGBController_CorsairK55RGBPROXT.cpp                \
     Controllers/CorsairPeripheralController/RGBController_CorsairK65Mini.cpp                    \
     Controllers/CorsairPeripheralController/RGBController_CorsairK95PlatinumXT.cpp              \
+    Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Devices.cpp                    \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Controller.cpp                 \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2ControllerDetect.cpp           \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2SoftwareController.cpp         \

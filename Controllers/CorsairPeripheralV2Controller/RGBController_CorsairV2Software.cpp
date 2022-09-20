@@ -25,39 +25,39 @@ using namespace std::chrono_literals;
 
 RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controller *controller_ptr)
 {
-    controller                      = controller_ptr;
-    const corsair_device* corsair   = controller->GetDeviceData();
+    controller                          = controller_ptr;
+    const corsair_v2_device* corsair    = controller->GetDeviceData();
 
-    vendor                          = "Corsair";
-    description                     = controller->GetName();
-    type                            = corsair->type;
-    version                         = controller->GetFirmwareString();
-    location                        = controller->GetDeviceLocation();
-    serial                          = controller->GetSerialString();
+    vendor                              = "Corsair";
+    description                         = controller->GetName();
+    type                                = corsair->type;
+    version                             = controller->GetFirmwareString();
+    location                            = controller->GetDeviceLocation();
+    serial                              = controller->GetSerialString();
 
     if(corsair->supports & CORSAIR_V2_MODE_SW)
     {
         mode Direct;
-        Direct.name                 = "Direct";
-        Direct.value                = CORSAIR_V2_MODE_DIRECT;
-        Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode           = MODE_COLORS_PER_LED;
+        Direct.name                     = "Direct";
+        Direct.value                    = CORSAIR_V2_MODE_DIRECT;
+        Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+        Direct.color_mode               = MODE_COLORS_PER_LED;
         modes.push_back(Direct);
     }
 
     if(corsair->supports & CORSAIR_V2_MODE_HW)
     {
         mode Static;
-        Static.name                 = "Static";
-        Static.value                = CORSAIR_V2_MODE_STATIC;
-        Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-        Static.colors_min           = 1;
-        Static.colors_max           = 1;
+        Static.name                     = "Static";
+        Static.value                    = CORSAIR_V2_MODE_STATIC;
+        Static.flags                    = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Static.colors_min               = 1;
+        Static.colors_max               = 1;
         Static.colors.resize(Static.colors_max);
-        Static.brightness_min       = CORSAIR_V2_BRIGHTNESS_MIN;
-        Static.brightness_max       = CORSAIR_V2_BRIGHTNESS_MAX;
-        Static.brightness           = CORSAIR_V2_BRIGHTNESS_MAX;
-        Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Static.brightness_min           = CORSAIR_V2_BRIGHTNESS_MIN;
+        Static.brightness_max           = CORSAIR_V2_BRIGHTNESS_MAX;
+        Static.brightness               = CORSAIR_V2_BRIGHTNESS_MAX;
+        Static.color_mode               = MODE_COLORS_MODE_SPECIFIC;
         modes.push_back(Static);
     }
 
@@ -68,8 +68,8 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
     | to not revert back into rainbow mode.  Start a thread |
     | to continuously send a keepalive packet every 50 sec  |
     \*-----------------------------------------------------*/
-    keepalive_thread_run            = true;
-    keepalive_thread                = new std::thread(&RGBController_CorsairV2SW::KeepaliveThread, this);
+    keepalive_thread_run                = true;
+    keepalive_thread                    = new std::thread(&RGBController_CorsairV2SW::KeepaliveThread, this);
 }
 
 RGBController_CorsairV2SW::~RGBController_CorsairV2SW()
@@ -97,7 +97,7 @@ RGBController_CorsairV2SW::~RGBController_CorsairV2SW()
 
 void RGBController_CorsairV2SW::SetupZones()
 {
-    const corsair_device* corsair   = controller->GetDeviceData();
+    const corsair_v2_device* corsair        = controller->GetDeviceData();
 
     /*---------------------------------------------------------*\
     | Fill in zones from the device data                        |

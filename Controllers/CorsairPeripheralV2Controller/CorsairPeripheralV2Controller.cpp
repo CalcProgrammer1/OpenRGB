@@ -25,15 +25,15 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
     wName = std::wstring(tmp);
     device_name.append(" ").append(std::string(wName.begin(), wName.end()));
 
-    for(size_t i = 0; i < CORSAIR_DEVICE_COUNT; i++)
+    for(size_t i = 0; i < CORSAIR_V2_DEVICE_COUNT; i++)
     {
-        if(device_list[i]->pid == pid)
+        if(corsair_v2_device_list[i]->pid == pid)
         {
             /*---------------------------------------------------------*\
             | Set device ID                                             |
             \*---------------------------------------------------------*/
             device_index    = i;
-            write_cmd       = CORSAIR_V2_WRITE_ID + device_list[device_index]->wireless;
+            write_cmd       = CORSAIR_V2_WRITE_ID + corsair_v2_device_list[device_index]->wireless;
         }
     }
 
@@ -48,9 +48,9 @@ CorsairPeripheralV2Controller::~CorsairPeripheralV2Controller()
     hid_close(dev);
 }
 
-const corsair_device* CorsairPeripheralV2Controller::GetDeviceData()
+const corsair_v2_device* CorsairPeripheralV2Controller::GetDeviceData()
 {
-    return device_list[device_index];
+    return corsair_v2_device_list[device_index];
 }
 
 std::string CorsairPeripheralV2Controller::GetDeviceLocation()

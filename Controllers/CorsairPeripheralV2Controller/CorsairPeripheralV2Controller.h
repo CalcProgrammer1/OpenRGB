@@ -71,7 +71,7 @@ public:
     std::string                     GetFirmwareString();
     std::string                     GetName();
     std::string                     GetSerialString();
-    const corsair_device*           GetDeviceData();
+    const corsair_v2_device*        GetDeviceData();
 
     void                            SetRenderMode(corsair_v2_device_mode mode);
     void                            LightingControl(uint8_t opt1, uint8_t opt2);
