@@ -103,5 +103,5 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &mm700_device,
 };
 
-const unsigned int CORSAIR_V2_DEVICE_COUNT = (sizeof(corsair_v2_device_list) / sizeof(corsair_v2_device_list[ 0 ]));
+const unsigned int CORSAIR_V2_DEVICE_COUNT = (sizeof(corsair_v2_device_list_data) / sizeof(corsair_v2_device_list_data[ 0 ]));
 const corsair_v2_device** corsair_v2_device_list = corsair_v2_device_list_data;

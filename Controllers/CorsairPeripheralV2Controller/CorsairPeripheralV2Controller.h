@@ -65,7 +65,7 @@ class CorsairPeripheralV2Controller
 {
 public:
     CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string name, uint16_t pid);
-    ~CorsairPeripheralV2Controller();
+    virtual ~CorsairPeripheralV2Controller();
 
     std::string                     GetDeviceLocation();
     std::string                     GetFirmwareString();
