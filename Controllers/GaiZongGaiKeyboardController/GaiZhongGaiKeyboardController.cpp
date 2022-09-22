@@ -70,7 +70,7 @@ unsigned short GaiZhongGaiKeyboardController::GetUSBPID()
 void GaiZhongGaiKeyboardController::SendColors
     (
     unsigned char*  color_data,
-    unsigned int    color_data_size
+    unsigned int    /*color_data_size*/
     )
 {
     unsigned char usb_buf[65];
