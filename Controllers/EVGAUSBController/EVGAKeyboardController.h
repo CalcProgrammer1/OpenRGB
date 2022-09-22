@@ -115,7 +115,7 @@ private:
     void            FillColours(uint8_t * buffer, uint8_t brightness, std::vector<RGBColor> colors);
     void            SendMode(uint8_t mode, uint8_t direction);
     void            SendColour(uint8_t mode, uint16_t speed, uint8_t brightness, uint8_t direction, std::vector<RGBColor> colors);
-    uint8_t         GetChecksum(uint8_t * data, uint8_t count);
+    uint8_t         GetChecksum(uint8_t * data, size_t count);
 
     uint8_t         FindDirection(uint8_t mode, uint8_t direction);
     uint8_t         FindColours(uint8_t * data, uint8_t count, std::vector<RGBColor> &colors);

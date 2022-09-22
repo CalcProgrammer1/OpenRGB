@@ -325,7 +325,7 @@ void EVGAKeyboardController::FillColours(uint8_t * buffer, uint8_t brightness, s
     }
 }
 
-uint8_t EVGAKeyboardController::GetChecksum(uint8_t * data, uint8_t count)
+uint8_t EVGAKeyboardController::GetChecksum(uint8_t * data, size_t count)
 {
     uint8_t checksum = 0;
 
