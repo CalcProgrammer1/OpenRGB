@@ -244,12 +244,12 @@ void RGBController_RGBFusion2GPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion2GPU::UpdateZoneLEDs(int zone)
+void RGBController_RGBFusion2GPU::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2GPU::UpdateSingleLED(int led)
+void RGBController_RGBFusion2GPU::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
