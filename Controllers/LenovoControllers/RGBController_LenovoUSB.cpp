@@ -300,7 +300,7 @@ void RGBController_LenovoUSB::SetupZones()
 
         zones.push_back(new_zone);
 
-        for(int led_idx = lenovo_zones[i].start; led_idx <= lenovo_zones[i].end; led_idx++ )
+        for(unsigned int led_idx = lenovo_zones[i].start; led_idx <= lenovo_zones[i].end; led_idx++ )
         {
             led new_led;
             new_led.name = lenovo_zones[i].leds[led_idx].name;
