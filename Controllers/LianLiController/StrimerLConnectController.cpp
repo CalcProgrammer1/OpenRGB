@@ -77,7 +77,7 @@ void StrimerLConnectController::SendApply()
     hid_write(dev, buffer, STRIMERLCONNECT_PACKET_SIZE);
 }
 
-void StrimerLConnectController::SetMode(uint8_t mode, uint8_t zone, uint8_t speed, uint8_t brightness, uint8_t direction, bool random_colours)
+void StrimerLConnectController::SetMode(uint8_t mode, uint8_t zone, uint8_t speed, uint8_t brightness, uint8_t direction, bool /*random_colours*/)
 {
     uint8_t buffer[STRIMERLCONNECT_PACKET_SIZE] = { STRIMERLCONNECT_REPORT_ID, STRIMERLCONNECT_MODE_COMMAND, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
