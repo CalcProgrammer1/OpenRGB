@@ -207,9 +207,43 @@ void RGBController_LenovoUSB::SetupZones()
     switch(controller->getPid())
     {
         case LEGION_Y740:
-            /*--------------------------------*\
-            | not yet implemeted               |
-            \*--------------------------------*/
+            switch(chasis_size)
+            {
+                case FIFTEEN:
+                    switch(keyboard_type)
+                    {
+                        case ISO:
+                            lenovo_zones.push_back(lenovo_legion_Y740_15_kbd_iso);
+                            break;
+
+                        default:
+                            lenovo_zones.push_back(lenovo_legion_Y740_15_kbd_ansi);
+                            break;
+                    }
+                    lenovo_zones.push_back(lenovo_legion_Y740_15_logo);
+                    lenovo_zones.push_back(lenovo_legion_Y740_15_pwrbtn);
+                    lenovo_zones.push_back(lenovo_legion_Y740_15_vents);
+                    lenovo_zones.push_back(lenovo_legion_Y740_15_ports);
+                    break;
+
+                case SEVENTEEN:
+                default:
+                    switch(keyboard_type)
+                    {
+                        case ISO:
+                            lenovo_zones.push_back(lenovo_legion_Y740_17_kbd_iso);
+                            break;
+
+                        default:
+                            lenovo_zones.push_back(lenovo_legion_Y740_17_kbd_ansi);
+                            break;
+                    }
+                    lenovo_zones.push_back(lenovo_legion_Y740_17_logo);
+                    lenovo_zones.push_back(lenovo_legion_Y740_17_pwrbtn);
+                    lenovo_zones.push_back(lenovo_legion_Y740_17_vents);
+                    lenovo_zones.push_back(lenovo_legion_Y740_17_ports);
+                    break;
+            }
             break;
 
         case LEGION_Y750:
