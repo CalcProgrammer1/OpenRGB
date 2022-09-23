@@ -16,7 +16,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectNZXTHuePlusControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectNZXTHuePlusControllers(std::vector<RGBController*> &/*rgb_controllers*/)
 {
     std::vector<std::string *> ports = find_usb_serial_port(NZXT_HUE_PLUS_VID, NZXT_HUE_PLUS_PID);
 
