@@ -492,17 +492,17 @@ void LianLiUniHubController::Synchronize()
     \*--------------------------------------------------------------------*/
 //    uint8_t control = 0;
 
-//    /*-------------------------------------*\
-//    | Configure fan settings                |
-//    \*-------------------------------------*/
+      /*-------------------------------------*\
+      | Configure fan settings                |
+      \*-------------------------------------*/
 //    for(const Channel& channel : channels)
 //    {
 //        if(channel.fanSpeed == UNIHUB_FAN_SPEED_PWM)
 //        {
-//            /*-----------------------------*\
-//            | Configure the fan to pwm      |
-//            | control                       |
-//            \*-----------------------------*/
+              /*-----------------------------*\
+              | Configure the fan to pwm      |
+              | control                       |
+              \*-----------------------------*/
 //            uint8_t config_pwm[1] = { 0x00 };
 
 //            control |= (0x01 << channel.index);
@@ -512,10 +512,10 @@ void LianLiUniHubController::Synchronize()
 //        }
 //        else
 //        {
-//            /*-----------------------------*\
-//            | Configure the fan to hub      |
-//            | control and set speed         |
-//            \*-----------------------------*/
+              /*-----------------------------*\
+              | Configure the fan to hub      |
+              | control and set speed         |
+              \*-----------------------------*/
 //            uint8_t config_hub[2] = { (uint8_t)(channel.fanSpeed >> 0x08), (uint8_t)(channel.fanSpeed &  0xFF) };
 
 //            SendConfig(channel.fanHubActionAddress, config_hub, sizeof(config_hub));
@@ -523,9 +523,9 @@ void LianLiUniHubController::Synchronize()
 //        }
 //    }
 
-//    /*-------------------------------------*\
-//    | Configure fan control modes           |
-//    \*-------------------------------------*/
+      /*-------------------------------------*\
+      | Configure fan control modes           |
+      \*-------------------------------------*/
 //    uint8_t config_fan_mode[2] = { 0x31, (uint8_t)(0xF0 | control) };
 
 //    SendConfig(UNIHUB_ACTION_ADDRESS, config_fan_mode, sizeof(config_fan_mode));
