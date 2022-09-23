@@ -9,6 +9,17 @@
 
 #include <LogitechProtocolCommon.h>
 
+const char* logitech_led_locations[] =
+{
+    "Unknown",
+    "Primary",
+    "Logo",
+    "Left",
+    "Right"
+};
+
+const int NUM_LOGITECH_LED_LOCATIONS = sizeof(logitech_led_locations);
+
 static std::vector<uint16_t> logitech_RGB_pages =
 {
     LOGITECH_HIDPP_PAGE_RGB_EFFECTS1,
