@@ -33,7 +33,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
     
     hid_write(dev, (unsigned char *)usb_pkt, size + 1);
     
-    delete usb_pkt;
+    delete[] usb_pkt;
 }
 
 SteelSeriesOldApexController::SteelSeriesOldApexController
