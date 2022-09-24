@@ -530,7 +530,7 @@ unsigned int RGBController_QMKOpenRGBRevB::CalculateDivisor
     (
     std::vector<point_t> led_points,
     std::set<int> rows,
-    std::set<int> columns
+    std::set<int> /*columns*/
     )
 {
     std::vector< std::vector<point_t> > row_points(rows.size());
@@ -563,7 +563,7 @@ unsigned int RGBController_QMKOpenRGBRevB::CalculateDivisor
     }
 
     unsigned int divisor = distances[0];
-    for(const std::pair<int, int> &i : counts)
+    for(const std::pair<const int, int> &i : counts)
     {
         if(counts[divisor] < i.second)
         {
@@ -600,7 +600,7 @@ void RGBController_QMKOpenRGBRevB::CountKeyTypes
 void RGBController_QMKOpenRGBRevB::PlaceLEDsInMaps
     (
         std::set<int>               unique_rows,
-        std::set<int>               unique_cols,
+        std::set<int>               /*unique_cols*/,
         unsigned int                divisor,
         std::vector<point_t>        led_points,
         std::vector<unsigned int>   led_flags,
@@ -613,7 +613,6 @@ void RGBController_QMKOpenRGBRevB::PlaceLEDsInMaps
 
     unsigned int x                  = 0;
     unsigned int y                  = 0;
-    unsigned int openrgb_idx        = 0;
     unsigned int underglow_counter  = 0;
 
     for(unsigned int i = 0; i < controller->GetTotalNumberOfLEDs(); i++)
@@ -690,7 +689,7 @@ void RGBController_QMKOpenRGBRevB::CleanMatrixMaps
         can_break               = false;
         can_break_udg           = false;
 
-        for(std::size_t j = matrix_map[i].size() - 1; j --> 0; )
+        for(int j = matrix_map[i].size() - 1; j --> 0; )
         {
             if(matrix_map[i][j] != NO_LED && width < (j + 1) && !can_break)
             {
