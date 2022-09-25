@@ -1135,7 +1135,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
                         break;
                     }
                 }
-                catch(std::invalid_argument& e)
+                catch(std::invalid_argument& /*e*/)
                 {
                     std::cout << "Error: Invalid data in --server-port argument (expected a number in range 1024-65535)" << std::endl;
                     print_help = true;
@@ -1194,7 +1194,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
                         break;
                     }
                 }
-                catch(std::invalid_argument& e)
+                catch(std::invalid_argument& /*e*/)
                 {
                     if(!strcasecmp(argument.c_str(), "fatal"))
                     {
