@@ -392,7 +392,8 @@
 #define GIGABYTE_RTX3080TI_VISION_OC_SUB_DEV            0x4087
 #define GIGABYTE_RTX3080TI_XTREME_WATERFORCE_SUB_DEV    0x4083
 #define GIGABYTE_RTX3090_GAMING_OC_24GB_SUB_DEV         0x4043
-#define GIGABYTE_RTX3090_XTREME_WATERFORCE_SUB_DEV      0x403A
+#define GIGABYTE_RTX3090_XTREME_WATERFORCE_SUB_DEV      0x4039
+#define GIGABYTE_RTX3090_XTREME_WATERFORCE_WB_SUB_DEV   0x403A
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |
