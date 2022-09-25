@@ -47,7 +47,7 @@ void RGBController_Debug::ResizeZone(int index, int new_size)
 
     leds.resize(std::max(old_leds_size, new_leds_size));
 
-    memmove(&leds[zones[index].start_idx] + old_leds_size, &leds[zones[index].start_idx] + new_leds_size, (old_leds_size - zones[index].start_idx - old_size) * sizeof(led));
+    memmove((void *)(&leds[zones[index].start_idx] + old_leds_size), (const void *)(&leds[zones[index].start_idx] + new_leds_size), (old_leds_size - zones[index].start_idx - old_size) * sizeof(led));
 
     leds.resize(new_leds_size);
 
