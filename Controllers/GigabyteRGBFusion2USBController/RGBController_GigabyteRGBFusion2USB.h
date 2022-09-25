@@ -25,7 +25,7 @@ static std::map<V, K> reverse_map(const std::map<K, V>& map)
 {
     std::map<V, K> reversed_map;
 
-    for(const std::pair<K, V>& entry : map)
+    for(const std::pair<K, V> entry : map)
     {
         reversed_map[entry.second] = entry.first;
     }
