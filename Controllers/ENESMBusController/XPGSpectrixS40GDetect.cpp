@@ -47,10 +47,17 @@ void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
         }
 
         memset(nvme_dev_buf, 0, 1024);
-        read(nvme_model_fd, nvme_dev_buf, 1024);
-        close(nvme_model_fd);
 
-        LOG_DEBUG("[XPG Spectrix S40G] Probing %d, model: %s", nvme_idx, nvme_dev_buf);
+        if(read(nvme_model_fd, nvme_dev_buf, 1024) < 0)
+        {
+            LOG_WARNING("[XPG Spectrix S40G] Probing %d, failed to read NVMe model", nvme_idx);
+        }
+        else
+        {
+            LOG_DEBUG("[XPG Spectrix S40G] Probing %d, model: %s", nvme_idx, nvme_dev_buf);
+        }
+        
+        close(nvme_model_fd);
 
         /*-------------------------------------------------*\
         | Check if this NVMe device is a SPECTRIX S40G      |

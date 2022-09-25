@@ -6,6 +6,8 @@
 |  Adam Honse (CalcProgrammer1) 2/14/2019   |
 \*-----------------------------------------*/
 
+#include "LogManager.h"
+
 #include "i2c_smbus.h"
 #include "i2c_smbus_linux.h"
 
@@ -114,7 +116,12 @@ bool i2c_smbus_linux_detect()
                 if(test_fd)
                 {
                     memset(device_string, 0x00, sizeof(device_string));
-                    read(test_fd, device_string, sizeof(device_string));
+                    
+                    if(read(test_fd, device_string, sizeof(device_string)) < 0)
+                    {
+                        LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device name");
+                    }
+
                     device_string[strlen(device_string) - 1] = 0x00;
 
                     close(test_fd);
@@ -154,7 +161,12 @@ bool i2c_smbus_linux_detect()
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
-                        read(test_fd, buff, sizeof(buff));
+
+                        if(read(test_fd, buff, sizeof(buff)) < 0)
+                        {
+                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI vendor ID");
+                        }
+                        
                         buff[strlen(buff) - 1] = 0x00;
                         pci_vendor = strtoul(buff, NULL, 16);
                         close(test_fd);
@@ -166,7 +178,12 @@ bool i2c_smbus_linux_detect()
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
-                        read(test_fd, buff, sizeof(buff));
+
+                        if(read(test_fd, buff, sizeof(buff)) < 0)
+                        {
+                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI device ID");
+                        }
+
                         buff[strlen(buff) - 1] = 0x00;
                         pci_device = strtoul(buff, NULL, 16);
                         close(test_fd);
@@ -178,7 +195,12 @@ bool i2c_smbus_linux_detect()
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
-                        read(test_fd, buff, sizeof(buff));
+                        
+                        if(read(test_fd, buff, sizeof(buff)) < 0)
+                        {
+                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI subvendor ID");
+                        }
+
                         buff[strlen(buff) - 1] = 0x00;
                         pci_subsystem_vendor = strtoul(buff, NULL, 16);
                         close(test_fd);
@@ -190,7 +212,12 @@ bool i2c_smbus_linux_detect()
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
-                        read(test_fd, buff, sizeof(buff));
+
+                        if(read(test_fd, buff, sizeof(buff)) < 0)
+                        {
+                            LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI subdevice ID");
+                        }
+
                         buff[strlen(buff) - 1] = 0x00;
                         pci_subsystem_device = strtoul(buff, NULL, 16);
                         close(test_fd);
