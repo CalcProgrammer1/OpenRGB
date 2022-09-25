@@ -110,9 +110,7 @@ enum MSI_BRIGHTNESS
     MSI_BRIGHTNESS_LEVEL_100            = 10, 
 };
 
-#define PER_LED_MODE_JRAINBOW_LED_COUNT     40
-#define PER_LED_MODE_CORSAIR_LED_COUNT      120
-#define NUMOF_PER_LED_MODE_LEDS             240
+#define NUMOF_PER_LED_MODE_LEDS                  240
 
 #define SYNC_SETTING_ONBOARD        0x01
 #define SYNC_SETTING_JRAINBOW1      0x02
@@ -153,7 +151,7 @@ struct ZoneData
 
 struct RainbowZoneData : ZoneData
 {
-    unsigned char cycle_or_led_num          = PER_LED_MODE_JRAINBOW_LED_COUNT;
+    unsigned char cycle_or_led_num          = 100;
 };
 
 struct FeaturePacket_64

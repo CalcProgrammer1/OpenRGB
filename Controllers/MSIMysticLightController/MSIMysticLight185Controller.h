@@ -118,6 +118,7 @@ private:
                         (
                         MSI_ZONE zone
                         );
+    void            SelectPerLedProtocol();
 
     hid_device*                     dev;
     std::string                     name;
@@ -127,10 +128,17 @@ private:
     std::string                     chip_id;
 
     FeaturePacket_185               data;
-    FeaturePacket_PerLED_185        per_led_data;
+    FeaturePacket_PerLED_185        per_led_data_onboard_and_sync;
+    FeaturePacket_PerLED_185        per_led_data_jrainbow1;
+    FeaturePacket_PerLED_185        per_led_data_jrainbow2;
+    FeaturePacket_PerLED_185        per_led_data_jcorsair;
     FeaturePacket_185               zone_based_per_led_data;
     bool                            direct_mode;
+    bool                            sync_direct_mode;
     bool                            no_onboards;
+    bool                            no_jrainbow1;
+    bool                            no_jrainbow2;
+    bool                            no_jcorsair;
     int                             numof_onboard_leds;
     int                             numof_pipe1_leds;
     int                             numof_pipe2_leds;
