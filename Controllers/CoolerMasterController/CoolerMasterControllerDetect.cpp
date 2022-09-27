@@ -54,6 +54,7 @@
 #define COOLERMASTER_MM531_PID                      0x0097
 #define COOLERMASTER_MM711_PID                      0x0101
 #define COOLERMASTER_MM720_PID                      0x0141
+#define COOLERMASTER_MM730_PID                      0x0165
 
 /*-----------------------------------------------------*\
 | Coolermaster Mousemats                                |
@@ -142,6 +143,7 @@ void DetectCoolerMasterMouse(hid_device_info* info, const std::string& name)
             case COOLERMASTER_MM530_PID:
             case COOLERMASTER_MM531_PID:
             case COOLERMASTER_MM720_PID:
+            case COOLERMASTER_MM730_PID:
                 {
                     CMMMController*               controller        = new CMMMController(dev, info->path, info->product_id);
                     RGBController_CMMMController* rgb_controller    = new RGBController_CMMMController(controller);
@@ -229,6 +231,7 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master MM530",                    DetectCooler
 //REGISTER_HID_DETECTOR_IPU("Cooler Master MM531",                  DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM531_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM711",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM711_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM720",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM720_PID,                     1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MM730",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM730_PID,                     1,      0xFF00, 1);
 
 /*-----------------------------------------------------*\
 | Coolermaster Mousemats                                |

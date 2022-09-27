@@ -28,6 +28,7 @@ enum
     CM_MM531_PID                 = 0x0097,
     CM_MM711_PID                 = 0x0101,
     CM_MM720_PID                 = 0x0141,
+    CM_MM730_PID                 = 0x0165,
 };
 
 enum
