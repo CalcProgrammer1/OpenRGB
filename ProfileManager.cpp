@@ -215,25 +215,36 @@ bool ProfileManager::LoadDeviceFromListWithOptions
         /*---------------------------------------------------------*\
         | Do not compare location string for HID devices, as the    |
         | location string may change between runs as devices are    |
-        | connected and disconnected                                |
+        | connected and disconnected. Also do not compare the I2C   |
+        | bus number, since it is not persistent across reboots     |
+        | on Linux - strip the I2C number and compare only address. |
         \*---------------------------------------------------------*/
-        bool compare_location = true;
+        bool location_check;
 
         if(load_controller->location.find("HID: ") == 0)
         {
-            compare_location = false;
+            location_check = true;
+        } 
+        else if(load_controller->location.find("I2C: ") == 0)
+        {
+            std::string i2c_address = load_controller->location.substr(load_controller->location.find_last_of(", ") + 2);
+            location_check = temp_controller->location.find(i2c_address) != std::string::npos;
+        }
+        else
+        {
+            location_check = temp_controller->location == load_controller->location;
         }
 
         /*---------------------------------------------------------*\
         | Test if saved controller data matches this controller     |
         \*---------------------------------------------------------*/
-        if((temp_controller_used[temp_index] == false                                               )
-         &&(temp_controller->type            == load_controller->type                               )
-         &&(temp_controller->name            == load_controller->name                               )
-         &&(temp_controller->description     == load_controller->description                        )
-         &&(temp_controller->version         == load_controller->version                            )
-         &&(temp_controller->serial          == load_controller->serial                             )
-         &&((temp_controller->location       == load_controller->location   ) || (!compare_location)))
+        if((temp_controller_used[temp_index]    == false                       )
+         &&(temp_controller->type               == load_controller->type       )
+         &&(temp_controller->name               == load_controller->name       )
+         &&(temp_controller->description        == load_controller->description)
+         &&(temp_controller->version            == load_controller->version    )
+         &&(temp_controller->serial             == load_controller->serial     )
+         &&(location_check                      == true                        ))
         {
             /*---------------------------------------------------------*\
             | Set used flag for this temp device                        |
