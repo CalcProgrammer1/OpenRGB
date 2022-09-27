@@ -28,7 +28,9 @@ public:
 
 private:
     MSIGPUController* msi_gpu;
+    std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
 
+    bool       TimeToSend();
     int        GetDeviceMode();
     int        GetModeBrightness();
     int        GetModeSpeed();

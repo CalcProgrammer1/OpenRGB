@@ -395,18 +395,35 @@ void RGBController_MSIGPU::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
+bool RGBController_MSIGPU::TimeToSend()
+{
+    /*-----------------------------------------------------*\
+    | Rate limit is 1000(ms) / wait_time in Frames Per Sec  |
+    \*-----------------------------------------------------*/
+    const uint8_t wait_time     = 33;
+    return (std::chrono::steady_clock::now() - last_commit_time) > std::chrono::milliseconds(wait_time);
+}
+
 void RGBController_MSIGPU::DeviceUpdateLEDs()
 {
-    msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_UNKNOWN, 0x00);
+    if(TimeToSend())
+    {
+        msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_UNKNOWN, 0x00);
 
-    if (modes[active_mode].value == MSI_GPU_MODE_FADEIN)
-    {
-        msi_gpu->SetRGB2(RGBGetRValue(colors[1]), RGBGetGValue(colors[1]), RGBGetBValue(colors[1]));
-        msi_gpu->SetRGB3(RGBGetRValue(colors[2]), RGBGetGValue(colors[2]), RGBGetBValue(colors[2]));
-    }
-    else
-    {
-        msi_gpu->SetRGB1(RGBGetRValue(colors[0]), RGBGetGValue(colors[0]), RGBGetBValue(colors[0]));
+        if(modes[active_mode].value == MSI_GPU_MODE_FADEIN)
+        {
+            msi_gpu->SetRGB2(RGBGetRValue(colors[1]), RGBGetGValue(colors[1]), RGBGetBValue(colors[1]));
+            msi_gpu->SetRGB3(RGBGetRValue(colors[2]), RGBGetGValue(colors[2]), RGBGetBValue(colors[2]));
+        }
+        else
+        {
+            msi_gpu->SetRGB1(RGBGetRValue(colors[0]), RGBGetGValue(colors[0]), RGBGetBValue(colors[0]));
+        }
+
+        /*-----------------------------------------------------*\
+        | Update last commit time                               |
+        \*-----------------------------------------------------*/
+        last_commit_time    = std::chrono::steady_clock::now();
     }
 }
 
@@ -422,17 +439,25 @@ void RGBController_MSIGPU::UpdateSingleLED(int /*led*/)
 
 void RGBController_MSIGPU::DeviceUpdateMode()
 {
-    if (modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
-    {
-        msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_BRIGHTNESS, brightness_values[modes[active_mode].brightness]);
-    }
+    if(TimeToSend())
+    {    
+        if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+        {
+            msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_BRIGHTNESS, brightness_values[modes[active_mode].brightness]);
 
-    if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
-    {
-        msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_SPEED, speed_values[modes[active_mode].speed]);
-    }
+            if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
+            {
+                msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_SPEED, speed_values[modes[active_mode].speed]);
+            }
 
-    msi_gpu->SetMode(modes[active_mode].value);
+            msi_gpu->SetMode(modes[active_mode].value);
+
+            /*-----------------------------------------------------*\
+            | Update last commit time                               |
+            \*-----------------------------------------------------*/
+            last_commit_time    = std::chrono::steady_clock::now();
+        }
+    }
 }
 
 void RGBController_MSIGPU::DeviceSaveMode()
