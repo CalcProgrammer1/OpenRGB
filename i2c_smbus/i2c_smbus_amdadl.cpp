@@ -163,7 +163,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         break;
 
     case I2C_SMBUS_WORD_DATA:
-        return -1;
+        pI2C->iDataSize = 2;
         break;
 
     case I2C_SMBUS_BLOCK_DATA:
