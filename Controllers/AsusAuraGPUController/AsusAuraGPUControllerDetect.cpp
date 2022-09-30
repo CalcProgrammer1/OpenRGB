@@ -120,4 +120,3 @@ REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RX560 Gaming"               , DetectAs
 REGISTER_I2C_PCI_DETECTOR("ASUS RX 570 Strix O4G Gaming OC"           , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX570_STRIX_O4G_GAMING_OC,             0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS RX 580 Strix Gaming OC"               , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX580_STRIX_GAMING_OC,                 0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS RX 580 Strix Gaming TOP"              , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX580_STRIX_GAMING_TOP,                0x29);
-REGISTER_I2C_PCI_DETECTOR("ASUS RX 6900XT TUF Gaming OC"              , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV1,            ASUS_SUB_VEN,   ASUS_TUF_RX6900XT_O16G_GAMING,              0x2A);
