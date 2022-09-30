@@ -129,6 +129,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     int PrimaryDisplay;
     int ret;
     int data_size = 0;
+    char* data_ptr;
 
     ADLI2C* pI2C;
     ADLI2C I2Cstore;
@@ -140,7 +141,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     pI2C->iSpeed = 100;
     pI2C->iLine = 1; //location of the Aura chip
     pI2C->iAddress = addr << 1;
-    pI2C->iOffset = command;
+    pI2C->iOffset = 0;
     pI2C->pcData = (char*)data;
 
     if (ADL_OK != ADL2_Adapter_Primary_Get(context, &PrimaryDisplay))
@@ -163,16 +164,17 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
 
     case I2C_SMBUS_BYTE_DATA:
         data_size = 1;
+        data_ptr = data;
         break;
 
     case I2C_SMBUS_WORD_DATA:
         data_size = 2;
+        data_ptr = data;
         break;
 
     case I2C_SMBUS_BLOCK_DATA:
-        return -1;
         data_size = data->block[0];
-        pI2C->pcData = (char*)&data->block[1];
+        data_ptr = &data->block[1];
         break;
 
     default:
@@ -185,7 +187,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         pI2C->iOffset = command;
         pI2C->iAction = ADL_DL_I2C_ACTIONREAD;
         pI2C->iDataSize = data_size;
-        pI2C->pcData = (char *)data;
+        pI2C->pcData = (char *)data_ptr;
 
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
     }
@@ -197,7 +199,7 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         pI2C->pcData = i2c_buf;
 
         i2c_buf[0] = command;
-        memcpy(&i2c_buf[1], data, data_size);
+        memcpy(&i2c_buf[1], data_ptr, data_size);
 
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
     }
