@@ -173,8 +173,8 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         break;
 
     case I2C_SMBUS_BLOCK_DATA:
-        data_size = data->block[0];
-        data_ptr = (char*)&data->block[1];
+        data_size = data->block[0] + 1;
+        data_ptr = (char*)&data->block[0];
         break;
 
     default:
@@ -195,12 +195,11 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     {
         /* An SMBus write has one extra byte, the register address, before the data */
         pI2C->iAction = ADL_DL_I2C_ACTIONWRITE;
-        pI2C->iDataSize = data_size + 2;
+        pI2C->iDataSize = data_size + 1;
         pI2C->pcData = i2c_buf;
 
         i2c_buf[0] = command;
-        i2c_buf[1] = data_size;
-        memcpy(&i2c_buf[2], data_ptr, data_size);
+        memcpy(&i2c_buf[1], data_ptr, data_size);
 
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
     }
