@@ -181,21 +181,17 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
 
     if (read_write == I2C_SMBUS_READ)
     {
-        /* An SMBus read is a one-byte write followed by a repeat start read */
-        pI2C->iOffset = 0;
-        pI2C->iAction = ADL_DL_I2C_ACTIONWRITE;
-        pI2C->iDataSize = 1;
-        pI2C->pcData = (char *)&command;
-
-        ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
-
-        pI2C->iAction = ADL_DL_I2C_ACTIONREAD_REPEATEDSTART;
+        /* An SMBus read can be achieved by setting the offset to the command (register address) */
+        pI2C->iOffset = command;
+        pI2C->iAction = ADL_DL_I2C_ACTIONREAD;
         pI2C->iDataSize = data_size;
         pI2C->pcData = (char *)data;
+
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
     }
     else
     {
+        /* An SMBus write has one extra byte, the register address, before the data */
         pI2C->iAction = ADL_DL_I2C_ACTIONWRITE;
         pI2C->iDataSize = data_size + 1;
         pI2C->pcData = i2c_buf;
