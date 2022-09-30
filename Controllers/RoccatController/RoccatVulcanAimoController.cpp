@@ -47,36 +47,56 @@ std::string RoccatVulcanAimoController::GetLocation()
     return("HID: " + location);
 }
 
-std::string RoccatVulcanAimoController::GetVersion()
+
+device_info RoccatVulcanAimoController::InitDeviceInfo()
 {
-    unsigned char usb_buf[8] = { 0x0f };
+    unsigned char usb_buf[8] = { 0x0F };
     hid_get_feature_report(dev_ctrl, usb_buf, 8);
 
-    return std::to_string((int) floor(usb_buf[2] / 100)) + "." + std::to_string(usb_buf[2] % 100);
+    dev_info.version = std::to_string((int) floor(usb_buf[2] / 100)) + "." + std::to_string(usb_buf[2] % 100);
+
+    dev_info.layout_type    = usb_buf[6];
+    dev_info.layout_variant = usb_buf[7];
+
+    return dev_info;
 }
 
-void RoccatVulcanAimoController::SendColors(std::vector<RGBColor> colors)
+device_info RoccatVulcanAimoController::GetDeviceInfo()
+{
+    return dev_info;
+}
+
+
+void RoccatVulcanAimoController::SendColors(std::vector<led_color> colors)
 {
     unsigned char bufs[7][65];
+
+    for(int p = 0; p < 7; p++)
+    {
+        memset(bufs[p], 0x00, 65);
+    }
 
     bufs[0][1] = 0xA1;
     bufs[0][2] = 0x01;
     bufs[0][3] = 0x01;
     bufs[0][4] = 0xB4;
 
-    for(int z = 0; z < 11; z++)
+    for(int i = 0; i < colors.size(); i++)
     {
-        for(int l = 0; l < 12; l++)
-        {
-            int placeR = (z * 36) + 4 + l +  0;
-            bufs[placeR / 64][placeR % 64 + 1] = RGBGetRValue(colors[z * 12 + l]);
+        int coloumn = floor(colors[i].value / 12);
+        int row = colors[i].value % 12;
 
-            int placeG = (z * 36) + 4 + l + 12;
-            bufs[placeG / 64][placeG % 64 + 1] = RGBGetGValue(colors[z * 12 + l]);
+        int offset = coloumn * 36 + row + 4;
 
-            int placeB = (z * 36) + 4 + l + 24;
-            bufs[placeB / 64][placeB % 64 + 1] = RGBGetBValue(colors[z * 12 + l]);
-        }
+        bufs[offset / 64][offset % 64 + 1] = RGBGetRValue(colors[i].color);
+
+        offset += 12;
+
+        bufs[offset / 64][offset % 64 + 1] = RGBGetGValue(colors[i].color);
+
+        offset += 12;
+
+        bufs[offset / 64][offset % 64 + 1] = RGBGetBValue(colors[i].color);
     }
 
     for(int p = 0; p < 7; p++)
@@ -85,7 +105,7 @@ void RoccatVulcanAimoController::SendColors(std::vector<RGBColor> colors)
     }
 }
 
-void RoccatVulcanAimoController::SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<RGBColor> colors)
+void RoccatVulcanAimoController::SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<led_color> colors)
 {
 	if(speed      == 0) speed      = 1;
 	if(brightness == 0) brightness = 1;
@@ -94,8 +114,8 @@ void RoccatVulcanAimoController::SendMode(unsigned int mode, unsigned int speed,
 
     memset(buf, 0x00, 443);
 
-    buf[0] = 0x0d;
-    buf[1] = 0xbb;
+    buf[0] = 0x0D;
+    buf[1] = 0xBB;
     buf[2] = 0x01;
     buf[3] = 0x00;
     buf[4] = mode;
@@ -106,26 +126,30 @@ void RoccatVulcanAimoController::SendMode(unsigned int mode, unsigned int speed,
 
     if(mode == ROCCAT_VULCAN_MODE_STATIC)
     {
-        for(int z = 0; z < 11; z++)
+
+        for(int i = 0; i < colors.size(); i++)
         {
-            for(int l = 0; l < 12; l++)
-            {
-                int placeR      = (z * 36) + 8 + l +  0;
-                buf[placeR + 1] = RGBGetRValue(colors[z * 12 + l]);
+            int coloumn = floor(colors[i].value / 12);
+            int row = colors[i].value % 12;
 
-                int placeG      = (z * 36) + 8 + l + 12;
-                buf[placeG + 1] = RGBGetGValue(colors[z * 12 + l]);
+            int offset = coloumn * 36 + row + 9;
 
-                int placeB      = (z * 36) + 8 + l + 24;
-                buf[placeB + 1] = RGBGetBValue(colors[z * 12 + l]);
-            }
+            buf[offset] = RGBGetRValue(colors[i].color);
+
+            offset += 12;
+
+            buf[offset] = RGBGetGValue(colors[i].color);
+
+            offset += 12;
+
+            buf[offset] = RGBGetBValue(colors[i].color);
         }
     }
 
     unsigned short total = 0;
     for(int i = 0; i < 441; i++) total += buf[i];
 
-    buf[441] = total & 0xff;
+    buf[441] = total & 0xFF;
     buf[442] = total >> 8;
 
     hid_send_feature_report(dev_ctrl, buf, 443);

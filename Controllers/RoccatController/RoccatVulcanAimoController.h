@@ -10,6 +10,7 @@
 #pragma once
 
 #include "RGBController.h"
+#include "RoccatVulcanAimoLayouts.h"
 
 #include <string>
 #include <hidapi/hidapi.h>
@@ -21,6 +22,19 @@ enum
     ROCCAT_VULCAN_MODE_WAVE     = 0x0A,
 };
 
+struct device_info
+{
+    std::string     version;
+    int             layout_type;
+    int             layout_variant;
+};
+
+struct led_color
+{
+    unsigned int    value;
+    RGBColor        color;
+};
+
 class RoccatVulcanAimoController
 {
 public:
@@ -29,13 +43,15 @@ public:
 
     std::string     GetSerial();
     std::string     GetLocation();
-    std::string     GetVersion();
+    device_info     InitDeviceInfo();
+    device_info     GetDeviceInfo();
 
-    void            SendColors(std::vector<RGBColor> colors);
-    void            SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<RGBColor> colors);
+    void            SendColors(std::vector<led_color> colors);
+    void            SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<led_color> colors);
 
 private:
     std::string     location;
     hid_device*     dev_ctrl;
     hid_device*     dev_led;
+    device_info     dev_info;
 };

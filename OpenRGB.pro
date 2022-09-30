@@ -561,6 +561,7 @@ HEADERS +=                                                                      
     Controllers/RoccatController/RoccatHordeAimoController.h                                    \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
     Controllers/RoccatController/RoccatVulcanAimoController.h                                   \
+    Controllers/RoccatController/RoccatVulcanAimoLayouts.h                                      \
     Controllers/SapphireGPUController/SapphireNitroGlowV1Controller.h                           \
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.h                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.h                       \
