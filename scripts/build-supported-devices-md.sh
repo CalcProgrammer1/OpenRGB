@@ -18,6 +18,23 @@ GPU_DEVICE_TABLE_HEAD='| Vendor &<br/>Device ID | Sub-Vendor &<br/>Product ID | 
 DEVICE_TABLE_ALIGN='| :---: | :---: | :--- |'
 MAIN_FILE='Supported Devices.md'
 
+## Symbol Declarations
+WHITE_CHECK_MARK_STRING=':white_check_mark:'
+WHITE_CHECK_MARK='✔️'
+ROTATING_LIGHT_STRING=':rotating_light:'
+ROTATING_LIGHT='🚨'
+ROBOT_STRING=':robot:'
+ROBOT='🤖'
+TOOLS_STRING=':tools:'
+TOOLS='⚒️'
+NO_ENTRY_STRING=':o:'
+NO_ENTRY='🚫'
+CROSS_STRING=':x:'
+CROSS='❌'
+
+declare -a STRINGS=($WHITE_CHECK_MARK_STRING $ROTATING_LIGHT_STRING $ROBOT_STRING $TOOLS_STRING $NO_ENTRY_STRING $CROSS_STRING)
+declare -a UNICODE=($WHITE_CHECK_MARK $ROTATING_LIGHT $ROBOT $TOOLS $NO_ENTRY $CROSS)
+
 ## We first need to build OpenRGB with the preprocessed files saved
 #qmake ${OPENRGB_PATH}/OpenRGB.pro "QMAKE_CXXFLAGS+=-save-temps"
 #make -j$(nproc)
@@ -62,12 +79,12 @@ echo -e "- [Other Devices](#other-devices)" >> "$MAIN_FILE"
 echo -e "\n## Legend\n\n" >> "$MAIN_FILE"
 echo -e "| Symbol | Meaning |" >> "$MAIN_FILE"
 echo -e "| :---: | :--- |" >> "$MAIN_FILE"
-echo -e "| :white_check_mark: | Fully supported by OpenRGB |" >> "$MAIN_FILE"
-echo -e "| :rotating_light: | Support is problematic<br/>See device page for details |" >> "$MAIN_FILE"
-echo -e "| :robot: | Feature is automatic and can not be turned off |" >> "$MAIN_FILE"
-echo -e "| :tools: | Partially supported by OpenRGB<br/>See device page for details |" >> "$MAIN_FILE"
-echo -e "| :o: | Not currently supported by OpenRGB |" >> "$MAIN_FILE"
-echo -e "| :x: | Not applicable for this device |" >> "$MAIN_FILE"
+echo -e "| ${WHITE_CHECK_MARK} | Fully supported by OpenRGB |" >> "$MAIN_FILE"
+echo -e "| ${ROTATING_LIGHT} | Support is problematic<br/>See device page for details |" >> "$MAIN_FILE"
+echo -e "| ${ROBOT} | Feature is automatic and can not be turned off |" >> "$MAIN_FILE"
+echo -e "| ${TOOLS} | Partially supported by OpenRGB<br/>See device page for details |" >> "$MAIN_FILE"
+echo -e "| ${NO_ENTRY} | Not currently supported by OpenRGB |" >> "$MAIN_FILE"
+echo -e "| ${CROSS} | Not applicable for this device |" >> "$MAIN_FILE"
 
 while read -r controller
 do
@@ -85,56 +102,65 @@ do
     detectors=$(printf %s "$DATA" | grep @detectors |  sed -e 's/@detectors *//g' -e 's/^ *//g' -e 's/\,/\n/g')
     comment=$(printf %s "$DATA" | awk -v RS='    @' '/comment/' | sed -e 's/comment//g' -e 's/^ *//g')
 
+    # Replace any of the wiki strings with the unicode equivalents
+    replace_size=${#STRINGS[@]}
+    for (( i=0; i<${replace_size}; i++ ));
+    do
+      save=${save/${STRINGS[$i]}/${UNICODE[$i]}}
+      direct=${direct/${STRINGS[$i]}/${UNICODE[$i]}}
+      effects=${effects/${STRINGS[$i]}/${UNICODE[$i]}}
+    done
+
     if [[ $name = *[![:blank:]]* ]]; then    #Check that the name is not blank
         case $save in
-            :x:)
+            ${CROSS})
                 save_title="Not supported by controller"
                 ;;
-            :o:)
+            ${NO_ENTRY})
                 save_title="Not currently supported by OpenRGB"
                 ;;
-            :robot:)
+            ${ROBOT})
                 save_title="Controller saves automatically on every update"
                 ;;
-            :white_check_mark:)
+            ${WHITE_CHECK_MARK})
                 save_title="Saving is supported by this controller"
                 ;;
         esac
 
         case $direct in
-            :x:)
+            ${CROSS})
                 direct_title="Not supported by controller"
                 ;;
-            :o:)
+            ${NO_ENTRY})
                 direct_title="Not currently supported by OpenRGB"
                 ;;
-            :rotating_light:)
+            ${ROTATING_LIGHT})
                 direct_title="Direct control is problematic (See device page for details)"
                 ;;
-            :white_check_mark:)
+            ${WHITE_CHECK_MARK})
                 direct_title="Direct control is supported for Software Effects"
                 ;;
         esac
 
         case $effects in
-            :x:)
+            ${CROSS})
                 effects_title="Hardware effects are not supported by controller"
                 ;;
-            :o:)
+            ${NO_ENTRY})
                 effects_title="Not currently supported by OpenRGB"
                 ;;
-            :rotating_light:)
+            ${ROTATING_LIGHT})
                 effects_title="Hardware effects implementation is problematic"
                 ;;
-            :tools:)
+            ${TOOLS})
                 effects_title="Hardware effects are not fully implemented by controller (See device page for details)"
                 ;;
-            :white_check_mark:)
+            ${WHITE_CHECK_MARK})
                 effects_title="Hardware effects are supported"
                 ;;
         esac
 
-        link=$(echo -e ${name} | sed -e 's/(/%28/' -e 's/)/%29/')
+        link=$(echo -e ${name//[[:blank:]]/-} | sed -e 's/(/%28/' -e 's/)/%29/')
         ## Output this controllers entry into the main file's tables
         current_controller='|['${name}']('${link}'.md)|'${type}'|<span title="'$save_title'">'${save}'</span>|<span title="'$direct_title'">'${direct}'</span>|<span title="'$effects_title'">'${effects}'</span>|\n'
 
@@ -206,7 +232,7 @@ do
         done <<< "$categories"
 
         ## Create a controller page and fill it with header details and the start of the device table
-        outfile=${name}.md
+        outfile=${name//[[:blank:]]/-}.md
         echo -e "# ${name}\n\n ${comment}\n" >"$outfile"
         echo -e "## Connection Type\n ${type}\n" >> "$outfile"
         echo -e "## Saving\n ${save_title}\n" >> "$outfile"
