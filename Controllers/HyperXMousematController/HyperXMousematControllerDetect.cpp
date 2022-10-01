@@ -11,6 +11,9 @@
 #define HYPERX_VID                  0x0951
 #define HYPERX_FURY_ULTRA_PID       0x1705
 
+#define HYPERX_VID_2                0x03F0
+#define HYPERX_PULSEFIRE_PID         0x0F8D
+
 /******************************************************************************************\
 *                                                                                          *
 *   DetectHyperXMousematControllers                                                        *
@@ -34,3 +37,4 @@ void DetectHyperXMousematControllers(hid_device_info* info, const std::string& n
 }   /* DetectHyperXMousematControllers() */
 
 REGISTER_HID_DETECTOR_I("HyperX Fury Ultra", DetectHyperXMousematControllers, HYPERX_VID, HYPERX_FURY_ULTRA_PID, 0);
+REGISTER_HID_DETECTOR_IPU("HyperX Pulsefire Mat", DetectHyperXMousematControllers, HYPERX_VID_2, HYPERX_PULSEFIRE_PID, 1, 0xFF90, 0xFF00);
