@@ -107,7 +107,9 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ##### Binaries
 
-   *  OpenRGB builds an official Fedora 35 and 36 package for both the [release](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest#Linux-64-bit) and [pipeline](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux+64+rpm) builds
+* OpenRGB builds an official Fedora package for the latest [release](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest#Linux-64-bit) of OpenRGB
+* There are also pipeline builds for both [Fedora 35](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux+64+f35+rpm) and
+  [Fedora 36](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux+64+f36+rpm) available
 
 ##### Compiling
 
