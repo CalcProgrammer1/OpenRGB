@@ -39,7 +39,7 @@
 /*-----------------------------------------------------*\
 | Fan controller product IDs                            |
 \*-----------------------------------------------------*/
-#define UNI_HUB_PID                                 0x7750
+#define UNI_HUB_PID                                 0xA100
 
 /*----------------------------------------------------------------------------*\
 | The Uni Hub is controlled by sending control transfers to various wIndex     |
