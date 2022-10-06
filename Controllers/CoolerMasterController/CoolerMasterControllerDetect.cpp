@@ -44,6 +44,7 @@
 \*-----------------------------------------------------*/
 #define COOLERMASTER_ARGB_PID                       0x1011
 #define COOLERMASTER_ARGB_GEN2_A1_PID               0x0173
+#define COOLERMASTER_ARGB_GEN2_A1_V2_PID            0x01C9
 #define COOLERMASTER_SMALL_ARGB_PID                 0x1000
 #define COOLERMASTER_RGB_PID                        0x004F
 
@@ -93,7 +94,7 @@ void DetectCoolerMasterARGB(hid_device_info* info, const std::string&)
     }
 }
 
-void DetectCoolerMasterARGBGen2A1(hid_device_info* info, const std::string&)
+void DetectCoolerMasterARGBGen2A1(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -101,7 +102,7 @@ void DetectCoolerMasterARGBGen2A1(hid_device_info* info, const std::string&)
     {
         CMARGBGen2A1controller*               controller     = new CMARGBGen2A1controller(dev, *info);
         RGBController_CMARGBGen2A1Controller* rgb_controller = new RGBController_CMARGBGen2A1Controller(controller);
-        // Constructor sets the name
+        rgb_controller->name                                 = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -221,6 +222,7 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master SK650",                    DetectCooler
 \*-----------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB",                     DetectCoolerMasterARGB,         COOLERMASTER_VID,   COOLERMASTER_ARGB_PID,                      0,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB Gen 2 A1",            DetectCoolerMasterARGBGen2A1,   COOLERMASTER_VID,   COOLERMASTER_ARGB_GEN2_A1_PID,              1,      0xFF01, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB Gen 2 A1 V2",         DetectCoolerMasterARGBGen2A1,   COOLERMASTER_VID,   COOLERMASTER_ARGB_GEN2_A1_V2_PID,           1,      0xFF01, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master RGB",                      DetectCoolerMasterRGB,          COOLERMASTER_VID,   COOLERMASTER_RGB_PID,                       1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master Small ARGB",               DetectCoolerMasterSmallARGB,    COOLERMASTER_VID,   COOLERMASTER_SMALL_ARGB_PID,                0,      0xFF00, 1);
 
