@@ -218,6 +218,7 @@
 #define ASUS_TUF_RTX_3090_O24G                          0x87B5
 #define ASUS_TUF_RTX_3090_O24G_OC                       0x87B3
 #define ASUS_TUF_RX_6800XT_O16G_GAMING                  0x04F2
+#define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
