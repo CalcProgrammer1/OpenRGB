@@ -76,12 +76,29 @@ RGBController_MSIMysticLight162::RGBController_MSIMysticLight162
     SetupModes();
     SetupZones();
     SetupColors();
+    active_mode = GetDeviceMode();
+    GetDeviceConfig();
 }
 
 RGBController_MSIMysticLight162::~RGBController_MSIMysticLight162()
 {
     zone_description.clear();
     delete controller;
+}
+
+int RGBController_MSIMysticLight162::GetDeviceMode()
+{
+    MSI_MODE mode = controller->GetMode();
+
+    for(unsigned int i = 0; i < modes.size(); ++i)
+    {
+        if(mode == modes[i].value)
+        {
+            return i;
+        }
+    }
+
+    return 0;
 }
 
 void RGBController_MSIMysticLight162::SetupZones()
@@ -338,4 +355,55 @@ void RGBController_MSIMysticLight162::SetupMode
     }
 
     modes.push_back(Mode);
+}
+
+void RGBController_MSIMysticLight162::GetDeviceConfig()
+{
+    MSI_MODE       mode;
+    MSI_SPEED      speed;
+    MSI_BRIGHTNESS brightness;
+    bool           rainbow;
+    unsigned int   color;
+
+    for(size_t i = 0; i < zone_description.size(); ++i)
+    {
+        controller->GetMode(zone_description[i]->zone_type, mode, speed, brightness, rainbow, color);
+
+        for(size_t j = 0; j < zones[i].leds_count; ++j)
+        {
+            zones[i].colors[j] = color;
+        }
+    }
+
+    controller->GetMode(zone_description[0]->zone_type, mode, speed, brightness, rainbow, color);
+
+    for(size_t i = 0; i < modes.size(); ++i)
+    {
+        if(mode == modes[i].value)
+        {
+            if(modes[i].flags & MODE_FLAG_HAS_SPEED)
+            {
+                modes[i].speed = speed;
+            }
+            if(modes[i].flags & MODE_FLAG_HAS_BRIGHTNESS)
+            {
+                modes[i].brightness = brightness;
+            }
+            if(rainbow)
+            {
+                if(modes[i].flags & (MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR))
+                {
+                    if(rainbow)
+                    {
+                        modes[i].color_mode = MODE_COLORS_RANDOM;
+                    }
+                    else
+                    {
+                        modes[i].color_mode = MODE_COLORS_PER_LED;
+                    }
+                 }
+            }
+            break;
+        }
+    }
 }

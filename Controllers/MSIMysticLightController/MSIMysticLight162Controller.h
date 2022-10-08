@@ -36,13 +36,16 @@ public:
                         bool            rainbow_color
                         );
 
+    MSI_MODE        GetMode();
+
     void            GetMode
                         (
                         MSI_ZONE        zone,
                         MSI_MODE        &mode,
                         MSI_SPEED       &speed,
                         MSI_BRIGHTNESS  &brightness,
-                        bool            &rainbow_color
+                        bool            &rainbow_color,
+                        unsigned int    &color
                         );
 
     void            SetZoneColor

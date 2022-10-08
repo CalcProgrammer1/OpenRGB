@@ -41,6 +41,8 @@ private:
                     MSI_MODE        mode,
                     unsigned int    flags
                     );
+    int         GetDeviceMode();
+    void        GetDeviceConfig();
 
     MSIMysticLight162Controller*    controller;
 };

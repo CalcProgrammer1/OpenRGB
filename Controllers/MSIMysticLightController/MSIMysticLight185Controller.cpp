@@ -29,6 +29,7 @@ using namespace std::chrono_literals;
 #define JRAINBOW2_MAX_LED_COUNT                 240
 #define JCORSAIR_MAX_LED_COUNT                  240
 
+#define MSI_DIRECT_MODE                         0x25
 #define PER_LED_BASIC_SYNC_MODE                 (0x80 | SYNC_SETTING_ONBOARD | SYNC_SETTING_JPIPE1 | SYNC_SETTING_JPIPE2)
 #define PER_LED_FULL_SYNC_MODE                  (PER_LED_BASIC_SYNC_MODE | SYNC_SETTING_JRAINBOW1 | SYNC_SETTING_JRAINBOW2 | SYNC_SETTING_JCORSAIR)
 
@@ -372,7 +373,7 @@ MSIMysticLight185Controller::MSIMysticLight185Controller
     enable_per_led_msg.j_corsair.is_individual = 0x78;
     enable_per_led_msg.j_corsair_outerll120.speedAndBrightnessFlags = 0x28;
     enable_per_led_msg.j_corsair_outerll120.colorFlags = 0x80;
-    enable_per_led_msg.on_board_led.effect = 0x25;
+    enable_per_led_msg.on_board_led.effect = MSI_DIRECT_MODE;
     enable_per_led_msg.on_board_led.speedAndBrightnessFlags = 0x29 | SYNC_SETTING_JRGB;
     enable_per_led_msg.on_board_led.colorFlags = PER_LED_FULL_SYNC_MODE;
     enable_per_led_msg.on_board_led_1.speedAndBrightnessFlags = 0x28;
@@ -965,21 +966,38 @@ void MSIMysticLight185Controller::ReadName()
     name.append(" ").append(std::string(wname.begin(), wname.end()));
 }
 
-void MSIMysticLight185Controller::GetMode(MSI_ZONE zone,
-                                          MSI_MODE &mode,
-                                          MSI_SPEED &speed,
-                                          MSI_BRIGHTNESS &brightness,
-                                          bool &rainbow_color)
+MSI_MODE MSIMysticLight185Controller::GetMode()
+{
+    if(data.on_board_led.effect == MSI_DIRECT_MODE)
+    {
+        direct_mode = true;
+        return MSI_MODE_DIRECT_DUMMY;
+    }
+    else
+    {
+        return (MSI_MODE)data.j_rainbow_1.effect;
+    }
+}
+
+void MSIMysticLight185Controller::GetMode
+    (
+    MSI_ZONE zone,
+    MSI_MODE &mode,
+    MSI_SPEED &speed,
+    MSI_BRIGHTNESS &brightness,
+    bool &rainbow_color,
+    unsigned int &color
+    )
 {
     /*-----------------------------------------------------*\
     | Get data for given zone                               |
     \*-----------------------------------------------------*/
-    ZoneData *zoneData = GetZoneData(data, zone);
+    ZoneData *zone_data = GetZoneData(data, zone);
 
     /*-----------------------------------------------------*\
     | Return if zone is invalid                             |
     \*-----------------------------------------------------*/
-    if(!zoneData)
+    if(!zone_data)
     {
         return;
     }
@@ -987,10 +1005,11 @@ void MSIMysticLight185Controller::GetMode(MSI_ZONE zone,
     /*-----------------------------------------------------*\
     | Update pointers with data                             |
     \*-----------------------------------------------------*/
-    mode            = (MSI_MODE)zoneData->effect;
-    speed           = (MSI_SPEED)(zoneData->speedAndBrightnessFlags & 0x03);
-    brightness      = (MSI_BRIGHTNESS)((zoneData->speedAndBrightnessFlags >> 2) & 0x1F);
-    rainbow_color   = (zoneData->colorFlags & 0x80) >> 7;
+    mode            = (MSI_MODE)zone_data->effect;
+    speed           = (MSI_SPEED)(zone_data->speedAndBrightnessFlags & 0x03);
+    brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> 2) & 0x1F);
+    rainbow_color   = (zone_data->colorFlags & 0x80) == 0 ? true : false;
+    color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 
 void MSIMysticLight185Controller::SetCycleCount
@@ -1125,17 +1144,17 @@ void MSIMysticLight185Controller::SelectPerLedProtocol()
     {
         if(!no_jrainbow1)
         {
-            enable_per_led_msg.j_rainbow_1.effect = 0x25;
+            enable_per_led_msg.j_rainbow_1.effect = MSI_DIRECT_MODE;
             enable_per_led_msg.j_rainbow_1.cycle_or_led_num = JRAINBOW1_MAX_LED_COUNT;
         }
         if(!no_jrainbow2)
         {
-            enable_per_led_msg.j_rainbow_2.effect = 0x25;
+            enable_per_led_msg.j_rainbow_2.effect = MSI_DIRECT_MODE;
             enable_per_led_msg.j_rainbow_2.cycle_or_led_num = JRAINBOW2_MAX_LED_COUNT;
         }
         if(!no_jcorsair)
         {
-            enable_per_led_msg.j_corsair.effect = 0x25;
+            enable_per_led_msg.j_corsair.effect = MSI_DIRECT_MODE;
             enable_per_led_msg.j_corsair.is_individual = JCORSAIR_MAX_LED_COUNT;
         }
         enable_per_led_msg.on_board_led.colorFlags = PER_LED_BASIC_SYNC_MODE;

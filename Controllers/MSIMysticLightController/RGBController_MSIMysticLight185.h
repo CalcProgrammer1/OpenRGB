@@ -42,6 +42,9 @@ private:
                     MSI_MODE        mode,
                     unsigned int    flags
                     );
+    int         GetDeviceMode();
+    void        GetDeviceConfig();
 
     MSIMysticLight185Controller*    controller;
+    MSI_ZONE                        last_resizable_zone;
 };

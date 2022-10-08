@@ -40,7 +40,7 @@ static std::vector<const ZoneDescription*> zone_description;
 | Returns the index of the zone_description in led_zones which has zone_type equal to the given zone_type.  |
 | Returns -1 if no such zone_description exists.                                                            |
 \*---------------------------------------------------------------------------------------------------------*/
-int IndexOfZoneForType(MSI_ZONE zone_type)
+static int IndexOfZoneForType(MSI_ZONE zone_type)
 {
     for(size_t i = 0; i < zone_description.size(); ++i)
 	{
@@ -94,14 +94,31 @@ RGBController_MSIMysticLight185::RGBController_MSIMysticLight185
         }
     }
 
+    last_resizable_zone = MSI_ZONE_NONE;
     SetupModes();
     SetupZones();
+    active_mode         = GetDeviceMode();
 }
 
 RGBController_MSIMysticLight185::~RGBController_MSIMysticLight185()
 {
     zone_description.clear();
     delete controller;
+}
+
+int RGBController_MSIMysticLight185::GetDeviceMode()
+{
+    MSI_MODE mode = controller->GetMode();
+
+    for(unsigned int i = 0; i < modes.size(); ++i)
+    {
+        if(mode == modes[i].value)
+        {
+            return i;
+        }
+    }
+
+    return 0;
 }
 
 void RGBController_MSIMysticLight185::SetupZones()
@@ -112,14 +129,14 @@ void RGBController_MSIMysticLight185::SetupZones()
     leds.clear();
     colors.clear();
 
-    bool firstRun = false;
+    bool first_run = false;
 
     if(zones.size() == 0)
     {
-        firstRun = true;
+        first_run = true;
     }
 
-    if(firstRun)
+    if(first_run)
     {
         /*---------------------------------------------------------*\
         | Set up zones                                              |
@@ -143,7 +160,7 @@ void RGBController_MSIMysticLight185::SetupZones()
             || ((zd->zone_type != MSI_ZONE_J_RAINBOW_1) && (zd->zone_type != MSI_ZONE_J_RAINBOW_2) && (zd->zone_type != MSI_ZONE_J_RAINBOW_3) && (zd->zone_type != MSI_ZONE_J_CORSAIR)))
             {
                 new_zone.leds_min   = maxLeds;
-                new_zone.leds_min   = maxLeds;
+                new_zone.leds_max   = maxLeds;
                 new_zone.leds_count = maxLeds;
             }
             /*--------------------------------------------------\
@@ -154,6 +171,7 @@ void RGBController_MSIMysticLight185::SetupZones()
                 new_zone.leds_min   = 0;
                 new_zone.leds_max   = maxLeds;
                 new_zone.leds_count = 0;
+                last_resizable_zone = zd->zone_type;
             }
 
             /*-------------------------------------------------*\
@@ -216,6 +234,12 @@ void RGBController_MSIMysticLight185::ResizeZone
     {
         zones[zone].leds_count = new_size;
         SetupZones();
+
+        if(zone_description[zone]->zone_type == last_resizable_zone)
+        {
+            GetDeviceConfig();
+            last_resizable_zone = MSI_ZONE_NONE;
+        }
     }
 }
 
@@ -411,4 +435,61 @@ void RGBController_MSIMysticLight185::SetupMode
     }
 
     modes.push_back(Mode);
+}
+
+void RGBController_MSIMysticLight185::GetDeviceConfig()
+{
+    if(controller->GetMode() != MSI_MODE_DIRECT_DUMMY)
+    {
+        MSI_MODE       mode;
+        MSI_SPEED      speed;
+        MSI_BRIGHTNESS brightness;
+        bool           rainbow;
+        unsigned int   color;
+
+        for(size_t i = 0; i < zone_description.size(); ++i)
+        {
+            controller->GetMode(zone_description[i]->zone_type, mode, speed, brightness, rainbow, color);
+
+            if(zones[i].colors != nullptr)
+            {
+                for(size_t j = 0; j < zones[i].leds_count; ++j)
+                {
+                    zones[i].colors[j] = color;
+                }
+            }
+        }
+
+        controller->GetMode(zone_description[0]->zone_type, mode, speed, brightness, rainbow, color);
+
+        for(size_t i = 0; i < modes.size(); ++i)
+        {
+            if(mode == modes[i].value)
+            {
+                if(modes[i].flags & MODE_FLAG_HAS_SPEED)
+                {
+                    modes[i].speed = speed;
+                }
+                if(modes[i].flags & MODE_FLAG_HAS_BRIGHTNESS)
+                {
+                   modes[i].brightness = brightness;
+                }
+                if(rainbow)
+                {
+                    if(modes[i].flags & (MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR))
+                    {
+                        if(rainbow)
+                        {
+                            modes[i].color_mode = MODE_COLORS_RANDOM;
+                        }
+                        else
+                        {
+                            modes[i].color_mode = MODE_COLORS_PER_LED;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
 }

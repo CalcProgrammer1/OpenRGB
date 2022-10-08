@@ -66,7 +66,7 @@ static const Config board_configs[] =
     { 0x7B12, 10, &zones_set0 },        // MEG Z390 ACE
     { 0x7B17, 10, &zones_set0 },        // MPG Z390 GAMING PRO CARBON
     { 0x7B18, 6,  &zones_set1 },        // MAG Z390 TOMAHAWK            verified
-    { 0x7B50, 6,  &zones_set2 },        // MPG Z390M GAMING EDGE AC	    verified
+    { 0x7B50, 6,  &zones_set2 },        // MPG Z390M GAMING EDGE AC     verified
     { 0x7B85, 7,  &zones_set0 },        // B450 GAMING PRO CARBON       verified
 };
 
@@ -501,13 +501,19 @@ void MSIMysticLight162Controller::ReadName()
     name.append(" ").append(std::string(wname.begin(), wname.end()));
 }
 
+MSI_MODE MSIMysticLight162Controller::GetMode()
+{
+    return (MSI_MODE)data.on_board_led.effect;
+}
+
 void MSIMysticLight162Controller::GetMode
     (
     MSI_ZONE        zone,
     MSI_MODE        &mode,
     MSI_SPEED       &speed,
     MSI_BRIGHTNESS  &brightness,
-    bool            &rainbow_color
+    bool            &rainbow_color,
+    unsigned int    &color
     )
 {
     /*-----------------------------------------------------*\
@@ -529,7 +535,8 @@ void MSIMysticLight162Controller::GetMode
     mode            = (MSI_MODE)zone_data->effect;
     speed           = (MSI_SPEED)(zone_data->speedAndBrightnessFlags & 0x03);
     brightness      = (MSI_BRIGHTNESS)((zone_data->speedAndBrightnessFlags >> 2) & 0x1F);
-    rainbow_color   = (zone_data->colorFlags & 0x80) >> 7;
+    rainbow_color   = (zone_data->colorFlags & 0x80) == 0 ? true : false;
+    color           = ToRGBColor(zone_data->color.R, zone_data->color.G, zone_data->color.B);
 }
 
 void MSIMysticLight162Controller::SetDirectMode
