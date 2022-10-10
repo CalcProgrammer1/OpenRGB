@@ -20,6 +20,7 @@
 #define HYPERX_ALLOY_ELITE_2_PID        0x1711
 #define HYPERX_ALLOY_FPS_RGB_PID        0x16DC
 #define HYPERX_ALLOY_ORIGINS_PID        0x16E5
+#define HYPERX_ALLOY_ORIGINS_V2_PID     0x0591
 #define HYPERX_ALLOY_ORIGINS_CORE_PID   0x16E6
 
 #define HP_KEYBOARD_VID                 0x03F0
@@ -103,8 +104,10 @@ REGISTER_HID_DETECTOR_I("HyperX Alloy Origins Core",    DetectHyperXAlloyOrigins
 REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",         DetectHyperXAlloyOrigins,     HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_PID,        3);
 REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite 2",        DetectHyperXAlloyElite2,      HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_2_PID,        3, 0xFF90);
 REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite 2 (HP)",   DetectHyperXAlloyElite2,      HP_KEYBOARD_VID,     HYPERX_ALLOY_ELITE_2_HP_PID,     3, 0xFF90);
+REGISTER_HID_DETECTOR_IP("HyperX Alloy Origins",        DetectHyperXAlloyOrigins,     HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_V2_PID,     3, 0xFF90);
 #else
 REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",         DetectHyperXAlloyOrigins,     HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_PID,        0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",         DetectHyperXAlloyOrigins,     HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_V2_PID,     0);
 REGISTER_HID_DETECTOR_I("HyperX Alloy Elite 2",         DetectHyperXAlloyElite2,      HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_2_PID,        0);
 REGISTER_HID_DETECTOR_I("HyperX Alloy Elite 2 (HP)",    DetectHyperXAlloyElite2,      HP_KEYBOARD_VID,     HYPERX_ALLOY_ELITE_2_HP_PID,     0);
 #endif

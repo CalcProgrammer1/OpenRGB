@@ -102,6 +102,7 @@ void HyperXAlloyOriginsController::SendDirectInitialization()
     buf[0x00]   = 0x00;
     buf[0x01]   = 0x04;
     buf[0x02]   = 0xF2;
+    buf[0x09]   = 0x09;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
