@@ -110,7 +110,7 @@ before_script:
   script:
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
-  - rm -v ../openrgb-dbgsym*.deb
+  - rm -v ../openrgb-dbgsym*.*deb
   - mv -v ../openrgb*.deb ./
 
   artifacts:
@@ -118,7 +118,7 @@ before_script:
     paths:
     - openrgb*.deb
     exclude:
-    - openrgb-dbgsym*.deb
+    - openrgb-dbgsym*.*deb
     expire_in: 30 days
 
   rules:
@@ -138,7 +138,7 @@ before_script:
   script:
   - dpkg-architecture -l
   - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
+  - rm -v ../openrgb-dbgsym*.*deb
   - mv -v ../openrgb*.deb ./
 
   artifacts:
@@ -146,7 +146,7 @@ before_script:
     paths:
     - openrgb*.deb
     exclude:
-    - openrgb-dbgsym*.deb
+    - openrgb-dbgsym*.*deb
     expire_in: 30 days
 
   rules:
@@ -166,7 +166,7 @@ before_script:
   script:
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
-  - rm -v ../openrgb-dbgsym*.deb
+  - rm -v ../openrgb-dbgsym*.*deb
   - mv -v ../openrgb*.deb ./
 
   artifacts:
@@ -174,7 +174,7 @@ before_script:
     paths:
     - openrgb*.deb
     exclude:
-    - openrgb-dbgsym*.deb
+    - openrgb-dbgsym*.*deb
     expire_in: 30 days
 
   rules:
@@ -194,7 +194,7 @@ before_script:
   script:
   - dpkg-architecture -l
   - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
+  - rm -v ../openrgb-dbgsym*.*deb
   - mv -v ../openrgb*.deb ./
 
   artifacts:
@@ -202,7 +202,7 @@ before_script:
     paths:
     - openrgb*.deb
     exclude:
-    - openrgb-dbgsym*.deb
+    - openrgb-dbgsym*.*deb
     expire_in: 30 days
 
   rules:

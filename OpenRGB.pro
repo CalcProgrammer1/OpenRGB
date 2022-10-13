@@ -176,6 +176,8 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
+    Controllers/LianLiController/LianLiUniHub_AL10Controller.h \
+    Controllers/LianLiController/RGBController_LianLiUniHub_AL10.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
@@ -450,6 +452,8 @@ HEADERS +=                                                                      
     Controllers/LianLiController/RGBController_LianLiUniHub.h                                   \
     Controllers/LianLiController/RGBController_StrimerLConnect.h                                \
     Controllers/LianLiController/StrimerLConnectController.h                                    \
+    Controllers/LianLiController/LianLiUniHubALController.h                                     \
+    Controllers/LianLiController/RGBController_LianLiUniHubAL.h                                 \
     Controllers/LogitechController/LogitechProtocolCommon.h                                     \
     Controllers/LogitechController/LogitechG203LController.h                                    \
     Controllers/LogitechController/LogitechG213Controller.h                                     \
@@ -629,6 +633,8 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 SOURCES +=                                                                                      \
+    Controllers/LianLiController/LianLiUniHub_AL10Controller.cpp \
+    Controllers/LianLiController/RGBController_LianLiUniHub_AL10.cpp \
     dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
@@ -991,6 +997,8 @@ SOURCES +=                                                                      
     Controllers/LianLiController/RGBController_LianLiUniHub.cpp                                 \
     Controllers/LianLiController/RGBController_StrimerLConnect.cpp                              \
     Controllers/LianLiController/StrimerLConnectController.cpp                                  \
+    Controllers/LianLiController/LianLiUniHubALController.cpp                                   \
+    Controllers/LianLiController/RGBController_LianLiUniHubAL.cpp                               \
     Controllers/LogitechController/LogitechControllerDetect.cpp                                 \
     Controllers/LogitechController/LogitechProtocolCommon.cpp                                   \
     Controllers/LogitechController/LogitechG203LController.cpp                                  \
