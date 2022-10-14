@@ -7,6 +7,7 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus.h"
+#include <Windows.h>
 
 #pragma once
 
@@ -44,15 +45,19 @@
 /* Other settings */
 #define NCT6775_MAX_RETRIES    400
 
+#define GLOBAL_SMBUS_MUTEX_NAME "Global\\Access_SMBUS.HTP.Method"
 
 class i2c_smbus_nct6775: public i2c_smbus_interface
 {
 public:
     u16 nct6775_smba = 0x0290;
+    i2c_smbus_nct6775();
+    ~i2c_smbus_nct6775();
 
 private:
     s32 nct6775_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
     s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
 
+    HANDLE global_smbus_access_handle = NULL;
 };

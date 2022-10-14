@@ -9,8 +9,9 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus_i801.h"
+#include "ResourceManager.h"
+
 #ifdef _WIN32
-#include <Windows.h>
 #include "OlsApi.h"
 #elif _MACOSX_X86_X64
 #include "macUSPCIOAccess.h"
@@ -19,6 +20,33 @@
 #include "LogManager.h"
 
 using namespace std::chrono_literals;
+
+i2c_smbus_i801::i2c_smbus_i801()
+{
+#ifdef _WIN32
+    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
+
+    bool shared_smbus_access = true;
+    if(drivers_settings.contains("shared_smbus_access"))
+    {
+        shared_smbus_access = drivers_settings["shared_smbus_access"].get<bool>();
+    }
+    if(shared_smbus_access)
+    {
+        global_smbus_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_SMBUS_MUTEX_NAME);
+    }
+#endif
+}
+
+i2c_smbus_i801::~i2c_smbus_i801()
+{
+#ifdef _WIN32
+    if(global_smbus_access_handle != NULL)
+    {
+        CloseHandle(global_smbus_access_handle);
+    }
+#endif
+}
 
 /* Return negative errno on error. */
 s32 i2c_smbus_i801::i801_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
@@ -486,7 +514,23 @@ int i2c_smbus_i801::i801_wait_intr()
 
 s32 i2c_smbus_i801::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
-    return i801_access(addr, read_write, command, size, data);
+#ifdef _WIN32
+    if(global_smbus_access_handle != NULL)
+    {
+        WaitForSingleObject(global_smbus_access_handle, INFINITE);
+    }
+#endif
+
+    s32 result = i801_access(addr, read_write, command, size, data);
+
+#ifdef _WIN32
+    if(global_smbus_access_handle != NULL)
+    {
+        ReleaseMutex(global_smbus_access_handle);
+    }
+#endif
+
+    return result;
 }
 
 s32 i2c_smbus_i801::i2c_xfer(u8 addr, char read_write, int* size, u8* data)

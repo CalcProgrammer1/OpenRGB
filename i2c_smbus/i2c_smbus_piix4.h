@@ -37,6 +37,8 @@
 #define PIIX4_WORD_DATA         0x0C
 #define PIIX4_BLOCK_DATA        0x14
 
+#define GLOBAL_SMBUS_MUTEX_NAME "Global\\Access_SMBUS.HTP.Method"
+
 class i2c_smbus_piix4 : public i2c_smbus_interface
 {
 public:
@@ -50,4 +52,5 @@ private:
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
     s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
     HANDLE delay_timer;
+    HANDLE global_smbus_access_handle = NULL;
 };

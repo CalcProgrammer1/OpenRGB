@@ -16,13 +16,12 @@
 i2c_smbus_piix4::i2c_smbus_piix4()
 {
     json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
-    bool amd_smbus_reduce_cpu = false;
 
+    bool amd_smbus_reduce_cpu = false;
     if(drivers_settings.contains("amd_smbus_reduce_cpu"))
     {
         amd_smbus_reduce_cpu = drivers_settings["amd_smbus_reduce_cpu"].get<bool>();
     }
-
     if(amd_smbus_reduce_cpu)
     {
         delay_timer = CreateWaitableTimerExW(NULL, NULL, CREATE_WAITABLE_TIMER_MANUAL_RESET | CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
@@ -31,6 +30,16 @@ i2c_smbus_piix4::i2c_smbus_piix4()
             delay_timer = CreateWaitableTimer(NULL, TRUE, NULL); // create regular timer instead
         }
     }
+
+    bool shared_smbus_access = true;
+    if(drivers_settings.contains("shared_smbus_access"))
+    {
+        shared_smbus_access = drivers_settings["shared_smbus_access"].get<bool>();
+    }
+    if(shared_smbus_access)
+    {
+        global_smbus_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_SMBUS_MUTEX_NAME);
+    }
 }
 
 i2c_smbus_piix4::~i2c_smbus_piix4()
@@ -38,6 +47,11 @@ i2c_smbus_piix4::~i2c_smbus_piix4()
     if(delay_timer)
     {
         CloseHandle(delay_timer);
+    }
+
+    if(global_smbus_access_handle != NULL)
+    {
+        CloseHandle(global_smbus_access_handle);
     }
 }
 
@@ -221,7 +235,19 @@ s32 i2c_smbus_piix4::piix4_access(u16 addr, char read_write, u8 command, int siz
 
 s32 i2c_smbus_piix4::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
-    return piix4_access(addr, read_write, command, size, data);
+    if(global_smbus_access_handle != NULL)
+    {
+        WaitForSingleObject(global_smbus_access_handle, INFINITE);
+    }
+
+    s32 result = piix4_access(addr, read_write, command, size, data);
+
+    if(global_smbus_access_handle != NULL)
+    {
+        ReleaseMutex(global_smbus_access_handle);
+    }
+
+    return result;
 }
 
 s32 i2c_smbus_piix4::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
