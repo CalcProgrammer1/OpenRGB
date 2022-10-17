@@ -10,7 +10,7 @@
 #include "RGBController_HyperXPulsefireDart.h"
 
 /**------------------------------------------------------------------*\
-    @name HyoerX Pulsefire Dart
+    @name HyperX Pulsefire Dart
     @category Mouse
     @type USB
     @save :white_check_mark:

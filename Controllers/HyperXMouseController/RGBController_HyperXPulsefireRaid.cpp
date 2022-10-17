@@ -10,7 +10,7 @@
 #include "RGBController_HyperXPulsefireRaid.h"
 
 /**------------------------------------------------------------------*\
-    @name HyoerX Pulsefire Raid
+    @name HyperX Pulsefire Raid
     @category Mouse
     @type USB
     @save :x:
