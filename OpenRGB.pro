@@ -289,7 +289,9 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.h                               \
     Controllers/AsusAuraUSBController/RGBController_ROGStrixLC_Controller.h                     \
     Controllers/AsusAuraUSBController/ROGStrixLC_Controller.h                                   \
+    Controllers/AsusLegacyUSBController/AsusCerberusKeyboardController.h                        \
     Controllers/AsusLegacyUSBController/AsusStrixClawController.h                               \
+    Controllers/AsusLegacyUSBController/RGBController_AsusCerberusKeyboard.h                    \
     Controllers/AsusLegacyUSBController/RGBController_AsusStrixClaw.h                           \
     Controllers/BlinkyTapeController/BlinkyTapeController.h                                     \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.h                                 \
@@ -783,8 +785,10 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.cpp                             \
     Controllers/AsusAuraUSBController/RGBController_ROGStrixLC_Controller.cpp                   \
     Controllers/AsusAuraUSBController/ROGStrixLC_Controller.cpp                                 \
-    Controllers/AsusLegacyUSBController/AsusStrixClawController.cpp                             \
+    Controllers/AsusLegacyUSBController/AsusCerberusKeyboardController.cpp                      \
     Controllers/AsusLegacyUSBController/AsusLegacyUSBControllerDetect.cpp                       \
+    Controllers/AsusLegacyUSBController/AsusStrixClawController.cpp                             \
+    Controllers/AsusLegacyUSBController/RGBController_AsusCerberusKeyboard.cpp                  \
     Controllers/AsusLegacyUSBController/RGBController_AsusStrixClaw.cpp                         \
     Controllers/BlinkyTapeController/BlinkyTapeController.cpp                                   \
     Controllers/BlinkyTapeController/BlinkyTapeControllerDetect.cpp                             \
