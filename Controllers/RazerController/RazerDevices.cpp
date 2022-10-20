@@ -7004,6 +7004,41 @@ static const razer_device goliathus_extended_device =
     0
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Strider Chroma                                         |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Matrix                                                  |
+|       19 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone strider_chroma_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    19
+};
+
+static const razer_device strider_chroma_device =
+{
+    "Razer Strider Chroma",
+    RAZER_STRIDER_CHROMA_PID,
+    DEVICE_TYPE_MOUSEMAT,
+    true,
+    1,
+    19,
+    {
+        &strider_chroma_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
 /*-------------------------------------------------------------------------*\
 |  HEADSETS                                                                 |
 \*-------------------------------------------------------------------------*/
@@ -8100,6 +8135,7 @@ const razer_device* razer_device_list[] =
     &firefly_v2_device,
     &goliathus_device,
     &goliathus_extended_device,
+    &strider_chroma_device,
 /*-----------------------------------------------------------------*\
 |  HEADSETS                                                         |
 \*-----------------------------------------------------------------*/

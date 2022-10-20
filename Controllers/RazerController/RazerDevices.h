@@ -208,6 +208,7 @@
 #define RAZER_NOMMO_PRO_PID                             0x0518
 #define RAZER_O11_DYNAMIC_PID                           0x0F13
 #define RAZER_SEIREN_EMOTE_PID                          0x0F1B
+#define RAZER_STRIDER_CHROMA_PID                        0x0C05
 
 typedef struct
 {

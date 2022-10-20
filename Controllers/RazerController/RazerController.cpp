@@ -106,6 +106,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_FIREFLY_V2_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
+        case RAZER_STRIDER_CHROMA_PID:
         default:
             dev_transaction_id = 0x3F;
             break;
@@ -135,6 +136,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_NAGA_CLASSIC_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_O11_DYNAMIC_PID:
+        case RAZER_STRIDER_CHROMA_PID:
         case RAZER_TARTARUS_V2_PID:
             dev_led_id = RAZER_LED_ID_ZERO;
             break;
@@ -284,6 +286,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_SEIREN_EMOTE_PID:
+        case RAZER_STRIDER_CHROMA_PID:
         case RAZER_TARTARUS_V2_PID:
         case RAZER_TIAMAT_71_V2_PID:
         case RAZER_VIPER_8KHZ_PID:
@@ -616,6 +619,7 @@ bool RazerController::SupportsWave()
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
         case RAZER_O11_DYNAMIC_PID:
+        case RAZER_STRIDER_CHROMA_PID:
 
             supports_wave = true;
             break;
