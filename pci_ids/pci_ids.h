@@ -422,6 +422,7 @@
 #define MSI_RTX2070_GAMING_SUB_DEV                      0x3733
 #define MSI_RTX2070_ARMOR_SUB_DEV                       0x3734
 #define MSI_RTX2070S_GAMING_SUB_DEV                     0x373F
+#define MSI_RTX2070S_ARMOR_OC_SUB_DEV                   0xC730
 #define MSI_RTX2070S_GAMING_TRIO_SUB_DEV                0xC727
 #define MSI_RTX2070S_GAMING_Z_TRIO_SUB_DEV              0x37B6
 #define MSI_RTX2070S_GAMING_X_SUB_DEV                   0x373e
