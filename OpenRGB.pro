@@ -1225,6 +1225,7 @@ TRANSLATIONS +=                                                                 
     qt/i18n/OpenRGB_fr.ts                                                                       \
     qt/i18n/OpenRGB_ru.ts                                                                       \
     qt/i18n/OpenRGB_zh.ts                                                                       \
+    qt/i18n/OpenRGB_pt_BR.ts                                                                    \
 
 FORMS +=                                                                                        \
     qt/OpenRGBClientInfoPage.ui                                                                 \
@@ -1514,7 +1515,7 @@ contains(QMAKE_PLATFORM, linux) {
     }
 
     QMAKE_CXXFLAGS += -Wno-implicit-fallthrough
-    
+
     #-------------------------------------------------------------------------------------------#
     # Determine which hidapi to use based on availability                                       #
     #   Prefer hidraw backend, then libusb                                                      #

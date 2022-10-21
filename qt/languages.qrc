@@ -5,5 +5,6 @@
         <file>i18n/OpenRGB_es.qm</file>
         <file>i18n/OpenRGB_de.qm</file>
         <file>i18n/OpenRGB_ru.qm</file>
+        <file>i18n/OpenRGB_pt_BR.qm</file>
     </qresource>
 </RCC>
