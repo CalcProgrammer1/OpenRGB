@@ -2449,6 +2449,36 @@ static const razer_key tartarus_v2_keymap[] =
     {   0,      3,      5,              "Key: 20"                           },
 };
 
+#define TARTARUS_PRO_KEYMAP_SIZE (sizeof(tartarus_pro_keymap) / sizeof(tartarus_pro_keymap[0]))
+
+static const razer_key tartarus_pro_keymap[] =
+{
+    /*---------------------------------------------------------------------*\
+    |   Zone,   Row,    Column,         Key                                 |
+    \*---------------------------------------------------------------------*/
+    {   0,      0,      0,              "Keypad 01"                         },
+    {   0,      0,      1,              "Keypad 02"                         },
+    {   0,      0,      2,              "Keypad 03"                         },
+    {   0,      0,      3,              "Keypad 04"                         },
+    {   0,      0,      4,              "Keypad 05"                         },
+    {   0,      1,      0,              "Keypad 06"                         },
+    {   0,      1,      1,              "Keypad 07"                         },
+    {   0,      1,      2,              "Keypad 08"                         },
+    {   0,      1,      3,              "Keypad 09"                         },
+    {   0,      1,      4,              "Keypad 10"                         },
+    {   0,      2,      0,              "Keypad 11"                         },
+    {   0,      2,      1,              "Keypad 12"                         },
+    {   0,      2,      2,              "Keypad 13"                         },
+    {   0,      2,      3,              "Keypad 14"                         },
+    {   0,      2,      4,              "Keypad 15"                         },
+    {   0,      3,      0,              "Keypad 16"                         },
+    {   0,      3,      1,              "Keypad 17"                         },
+    {   0,      3,      2,              "Keypad 18"                         },
+    {   0,      3,      3,              "Keypad 19"                         },
+    {   0,      3,      4,              "Key Scroll Wheel"                  },
+    {   1,      0,      0,              "Keypad 20"                         },
+};
+
 /*-------------------------------------------------------------------------*\
 |  KEYBOARDS                                                                |
 \*-------------------------------------------------------------------------*/
@@ -6739,7 +6769,7 @@ static const razer_device orbweaver_chroma_device =
 {
     "Razer Orbweaver Chroma",
     RAZER_ORBWEAVER_CHROMA_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_KEYPAD,
     true,
     4,
     5,
@@ -6774,7 +6804,7 @@ static const razer_device tartarus_chroma_device =
 {
     "Razer Tartarus Chroma",
     RAZER_TARTARUS_CHROMA_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_KEYPAD,
     true,
     1,
     1,
@@ -6786,6 +6816,54 @@ static const razer_device tartarus_chroma_device =
         NULL,
         NULL
     },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+| Razer Tartarus Pro 1532:0244                                  |
+|                                                               |
+|  Zone "Keypad"                                                |
+|       Matrix                                                  |
+|       4 Rows, 5 Columns                                       |
+\*-------------------------------------------------------------*/
+static const razer_zone tartarus_pro_zone =
+{
+    "Keypad",
+    ZONE_TYPE_MATRIX,
+    4,
+    5
+};
+
+static const razer_zone tartarus_pro_K20 =
+{
+    "Keypad LED 20",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device tartarus_pro_device =
+{
+    "Razer Tartarus Pro",
+    RAZER_TARTARUS_PRO_PID,
+    DEVICE_TYPE_KEYPAD,
+    true,
+    1,
+    21,
+    {
+        &tartarus_pro_zone,
+        &tartarus_pro_K20,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    /*-------------------------------------------------------------*\
+    Need to be Implemented to read upper defined keymap(Not working now)
+    tartarus_pro_keymap,
+    TARTARUS_PRO_KEYMAP_SIZE
+    \*-------------------------------------------------------------*/
     NULL,
     0
 };
@@ -6809,7 +6887,7 @@ static const razer_device tartarus_v2_device =
 {
     "Razer Tartarus V2",
     RAZER_TARTARUS_V2_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_KEYPAD,
     true,
     4,
     6,
@@ -8126,6 +8204,7 @@ const razer_device* razer_device_list[] =
 \*-----------------------------------------------------------------*/
     &orbweaver_chroma_device,
     &tartarus_chroma_device,
+    &tartarus_pro_device,
     &tartarus_v2_device,
 /*-----------------------------------------------------------------*\
 |  MOUSEMATS                                                        |

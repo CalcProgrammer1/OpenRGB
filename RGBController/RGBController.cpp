@@ -1644,6 +1644,10 @@ std::string device_type_to_str(device_type type)
         return "Virtual";
     case DEVICE_TYPE_CASE:
         return "Case";
+    case DEVICE_TYPE_ACCESSORY:
+        return "Accessory";
+    case DEVICE_TYPE_KEYPAD:
+        return "Keypad";
     default:
         return "Unknown";
     }

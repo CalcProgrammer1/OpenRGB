@@ -55,6 +55,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CYNOSA_V2_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_TARTARUS_CHROMA_PID:
+        case RAZER_TARTARUS_PRO_PID:
         case RAZER_TARTARUS_V2_PID:
         case RAZER_DEATHADDER_CHROMA_PID:
         case RAZER_DEATHADDER_ESSENTIAL_V2_PID:
@@ -137,6 +138,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_O11_DYNAMIC_PID:
         case RAZER_STRIDER_CHROMA_PID:
+        case RAZER_TARTARUS_PRO_PID:
         case RAZER_TARTARUS_V2_PID:
             dev_led_id = RAZER_LED_ID_ZERO;
             break;
@@ -287,6 +289,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_SEIREN_EMOTE_PID:
         case RAZER_STRIDER_CHROMA_PID:
+        case RAZER_TARTARUS_PRO_PID:
         case RAZER_TARTARUS_V2_PID:
         case RAZER_TIAMAT_71_V2_PID:
         case RAZER_VIPER_8KHZ_PID:
@@ -580,6 +583,7 @@ bool RazerController::SupportsWave()
         case RAZER_HUNTSMAN_V2_TKL_PID:
         case RAZER_HUNTSMAN_V2_PID:
         case RAZER_ORBWEAVER_CHROMA_PID:
+        case RAZER_TARTARUS_PRO_PID:
         case RAZER_TARTARUS_V2_PID:
 
         /*-----------------------------------------------------*\

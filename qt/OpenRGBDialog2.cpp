@@ -87,6 +87,9 @@ static QString GetIconString(device_type type, bool dark)
     case DEVICE_TYPE_CASE:
         filename = "case";
         break;
+    case DEVICE_TYPE_KEYPAD:
+        filename = "keypad";
+        break;
     default:
         filename = "unknown";
         break;

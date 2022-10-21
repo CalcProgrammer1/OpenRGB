@@ -359,6 +359,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Viper Ultimate (Wireless)",                 Det
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Razer Orbweaver Chroma",                          DetectRazerControllers,        RAZER_VID,  RAZER_ORBWEAVER_CHROMA_PID,                     0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Tartarus Chroma",                           DetectRazerControllers,        RAZER_VID,  RAZER_TARTARUS_CHROMA_PID,                      0x02,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Tartarus Pro",                              DetectRazerControllers,        RAZER_VID,  RAZER_TARTARUS_PRO_PID,                         0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Tartarus V2",                               DetectRazerControllers,        RAZER_VID,  RAZER_TARTARUS_V2_PID,                          0x02,   0x01,   0x02);
 
 /*-----------------------------------------------------------------------------------------------------*\
