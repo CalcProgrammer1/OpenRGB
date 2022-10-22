@@ -51,6 +51,11 @@
 #define CORSAIR_STRAFE_MK2_PID          0x1B48
 
 /*-----------------------------------------------------*\
+| Non-RGB Keyboard product IDs                          |
+\*-----------------------------------------------------*/
+#define CORSAIR_K70_LUX_PID             0x1B36
+
+/*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 |   List taken from ckb-next                            |
 \*-----------------------------------------------------*/
@@ -209,6 +214,7 @@ REGISTER_HID_DETECTOR_IP("Corsair K65 LUX RGB",             DetectCorsairPeriphe
 REGISTER_HID_DETECTOR_IP("Corsair K65 RGB RAPIDFIRE",       DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_RGB_RAPIDFIRE_PID,  1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K68 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K68_RGB,                1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_RGB_PID,            1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair K70 LUX",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_LUX_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 LUX RGB",             DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_LUX_RGB_PID,        1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB RAPIDFIRE",       DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_RGB_RAPIDFIRE_PID,  1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB MK.2",            DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_RGB_MK2_PID,        1, 0xFFC2);
