@@ -176,8 +176,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
-    Controllers/LianLiController/LianLiUniHub_AL10Controller.h \
-    Controllers/LianLiController/RGBController_LianLiUniHub_AL10.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
@@ -449,11 +447,13 @@ HEADERS +=                                                                      
     Controllers/LIFXController/LIFXController.h                                                 \
     Controllers/LIFXController/RGBController_LIFX.h                                             \
     Controllers/LianLiController/LianLiUniHubController.h                                       \
+    Controllers/LianLiController/LianLiUniHub_AL10Controller.h                                  \
     Controllers/LianLiController/RGBController_LianLiUniHub.h                                   \
     Controllers/LianLiController/RGBController_StrimerLConnect.h                                \
     Controllers/LianLiController/StrimerLConnectController.h                                    \
     Controllers/LianLiController/LianLiUniHubALController.h                                     \
     Controllers/LianLiController/RGBController_LianLiUniHubAL.h                                 \
+    Controllers/LianLiController/RGBController_LianLiUniHub_AL10.h                              \
     Controllers/LogitechController/LogitechProtocolCommon.h                                     \
     Controllers/LogitechController/LogitechG203LController.h                                    \
     Controllers/LogitechController/LogitechG213Controller.h                                     \
@@ -567,6 +567,7 @@ HEADERS +=                                                                      
     Controllers/SRGBmodsController/RGBController_SRGBmodsPico.h                                 \
     Controllers/SteelSeriesController/color32.h                                                 \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.h                             \
+    Controllers/SteelSeriesController/SteelSeriesAerox9Controller.h                             \
     Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
     Controllers/SteelSeriesController/SteelSeriesApexMController.h                              \
@@ -633,8 +634,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 SOURCES +=                                                                                      \
-    Controllers/LianLiController/LianLiUniHub_AL10Controller.cpp \
-    Controllers/LianLiController/RGBController_LianLiUniHub_AL10.cpp \
     dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
@@ -993,8 +992,10 @@ SOURCES +=                                                                      
     Controllers/LIFXController/LIFXControllerDetect.cpp                                         \
     Controllers/LIFXController/RGBController_LIFX.cpp                                           \
     Controllers/LianLiController/LianLiControllerDetect.cpp                                     \
+    Controllers/LianLiController/LianLiUniHub_AL10Controller.cpp                                \
     Controllers/LianLiController/LianLiUniHubController.cpp                                     \
     Controllers/LianLiController/RGBController_LianLiUniHub.cpp                                 \
+    Controllers/LianLiController/RGBController_LianLiUniHub_AL10.cpp                            \
     Controllers/LianLiController/RGBController_StrimerLConnect.cpp                              \
     Controllers/LianLiController/StrimerLConnectController.cpp                                  \
     Controllers/LianLiController/LianLiUniHubALController.cpp                                   \
@@ -1136,6 +1137,7 @@ SOURCES +=                                                                      
     Controllers/SRGBmodsController/SRGBmodsControllerDetect.cpp                                 \
     Controllers/SRGBmodsController/RGBController_SRGBmodsPico.cpp                               \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.cpp                           \
+    Controllers/SteelSeriesController/SteelSeriesAerox9Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesApexTZoneController.cpp                        \
