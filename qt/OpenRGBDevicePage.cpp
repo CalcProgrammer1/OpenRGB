@@ -84,7 +84,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     }
 
     ui->DeviceViewBox->setController(device);
-    ui->DeviceViewBox->hide();
+    ui->DeviceViewBoxFrame->hide();
 
     /*-----------------------------------------------------*\
     | Fill in the mode selection box                        |
@@ -1124,12 +1124,12 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
 
 void Ui::OpenRGBDevicePage::ShowDeviceView()
 {
-    ui->DeviceViewBox->show();
+    ui->DeviceViewBoxFrame->show();
 }
 
 void Ui::OpenRGBDevicePage::HideDeviceView()
 {
-    ui->DeviceViewBox->hide();
+    ui->DeviceViewBoxFrame->hide();
 }
 
 void Ui::OpenRGBDevicePage::on_ApplyColorsButton_clicked()
