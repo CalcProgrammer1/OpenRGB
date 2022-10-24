@@ -9,6 +9,7 @@
 #include <string>
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
+#include "RazerController.h"
 
 /*-----------------------------------------------------*\
 | Razer vendor ID                                       |
@@ -225,6 +226,7 @@ typedef struct
     unsigned int row;
     unsigned int col;
     const char* name;
+    unsigned char layout = RAZER_LAYOUT_TYPE_ALL;
 } razer_key;
 
 typedef struct

@@ -25,6 +25,18 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     serial                  = controller->GetSerialString();
     uint8_t max_brightness  = controller->GetMaxBrightness();
 
+    if(type == DEVICE_TYPE_KEYBOARD)
+    {
+        std::string layout = controller->GetKeyboardLayoutName();
+
+        description.append(", ");
+        description.append(layout);
+    }
+
+    std::string variant = controller->GetVariantName();
+    description.append(", ");
+    description.append(variant);
+
     mode Direct;
     Direct.name             = "Direct";
     Direct.value            = RAZER_MODE_DIRECT;
@@ -122,6 +134,7 @@ RGBController_Razer::~RGBController_Razer()
 void RGBController_Razer::SetupZones()
 {
     unsigned int device_index = controller->GetDeviceIndex();
+    unsigned char layout_type = controller->GetKeyboardLayoutType();
 
     /*---------------------------------------------------------*\
     | Fill in zone information based on device table            |
@@ -153,7 +166,46 @@ void RGBController_Razer::SetupZones()
                 {
                     for(unsigned int x = 0; x < new_map->width; x++)
                     {
-                        new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                        bool exists_in_keymap = false;
+
+                        if(new_zone.name != ZONE_EN_KEYBOARD)
+                        {
+                            /*---------------------------------------------------------*\
+                            | For zones other than the actual keyboard, we want all     |
+                            | entries in the matrix visible in the LED view (such as    |
+                            | underglow)                                                |
+                            \*---------------------------------------------------------*/
+                            exists_in_keymap = true;
+                        }
+                        else if(device_list[device_index]->keymap != NULL)
+                        {
+                            for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
+                            {
+                                razer_key key = device_list[device_index]->keymap[i];
+                                if(zone_id == key.zone && y  == key.row  && x  == key.col && (key.layout & layout_type))
+                                {
+                                    exists_in_keymap = true;
+                                    break;
+                                }
+                            }   
+                        }
+                        else
+                        {
+                            /*---------------------------------------------------------*\
+                            | If the device has no keymap defined we want all entries in|
+                            | the matrix to be visible in the LED view                  |
+                            \*---------------------------------------------------------*/
+                            exists_in_keymap = true;
+                        }
+
+                        if (exists_in_keymap)
+                        {
+                            new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                        }
+                        else
+                        {
+                            new_map->map[(y * new_map->width) + x] = -1;
+                        }
                     }
                 }
             }

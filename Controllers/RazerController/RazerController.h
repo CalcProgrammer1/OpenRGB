@@ -51,6 +51,7 @@ enum
     RAZER_COMMAND_ID_GET_FIRMWARE_VERSION       = 0x81,
     RAZER_COMMAND_ID_GET_SERIAL_STRING          = 0x82,
     RAZER_COMMAND_ID_GET_DEVICE_MODE            = 0x84,
+    RAZER_COMMAND_ID_GET_KEYBOARD_INFO          = 0x86,
 };
 
 /*---------------------------------------------------------*\
@@ -97,6 +98,56 @@ enum
     RAZER_MATRIX_TYPE_LINEAR                    = 2,
     RAZER_MATRIX_TYPE_EXTENDED_ARGB             = 3,
     RAZER_MATRIX_TYPE_CUSTOM                    = 4,
+};
+
+/*---------------------------------------------------------*\
+| Razer Keyboard Layout                                     |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_KEYBOARD_LAYOUT_NONE                     = 0,
+    RAZER_KEYBOARD_LAYOUT_US                       = 1,
+    RAZER_KEYBOARD_LAYOUT_GREEK                    = 2,
+    RAZER_KEYBOARD_LAYOUT_GERMAN                   = 3,
+    RAZER_KEYBOARD_LAYOUT_FRENCH                   = 4,
+    RAZER_KEYBOARD_LAYOUT_RUSSIAN                  = 5,
+    RAZER_KEYBOARD_LAYOUT_UK                       = 6,
+    RAZER_KEYBOARD_LAYOUT_NORDIC                   = 7,
+    RAZER_KEYBOARD_LAYOUT_CHT                      = 8,
+    RAZER_KEYBOARD_LAYOUT_KOREAN                   = 9,
+    RAZER_KEYBOARD_LAYOUT_TURKISH                  = 10,
+    RAZER_KEYBOARD_LAYOUT_THAILAND                 = 11,
+    RAZER_KEYBOARD_LAYOUT_JAPAN                    = 12,
+    RAZER_KEYBOARD_LAYOUT_PORTUGESE_BRAZIL         = 13,
+    RAZER_KEYBOARD_LAYOUT_SPANISH_LATIN_AMERICAN   = 14,
+    RAZER_KEYBOARD_LAYOUT_SWISS                    = 15,
+    RAZER_KEYBOARD_LAYOUT_SPANISH_EUR              = 16,
+    RAZER_KEYBOARD_LAYOUT_ITALIAN                  = 17,
+    RAZER_KEYBOARD_LAYOUT_PORTUGESE_PORTUGA        = 18,
+    RAZER_KEYBOARD_LAYOUT_HEBREW                   = 19,
+    RAZER_KEYBOARD_LAYOUT_ARABIC                   = 20,
+};
+
+/*---------------------------------------------------------*\
+| Razer Layout Type                                         |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_LAYOUT_TYPE_NONE                      = 0x00,
+    RAZER_LAYOUT_TYPE_ANSI                      = 0x01,
+    RAZER_LAYOUT_TYPE_ISO                       = 0x02,
+    RAZER_LAYOUT_TYPE_JIS                       = 0x04,
+
+    RAZER_LAYOUT_TYPE_ALL                        = RAZER_LAYOUT_TYPE_ANSI | RAZER_LAYOUT_TYPE_ISO | RAZER_LAYOUT_TYPE_JIS
+};
+
+/*---------------------------------------------------------*\
+| Razer Keyboard Variant                                    |
+\*---------------------------------------------------------*/
+enum
+{
+    RAZER_KEYBOARD_VARIANT_BLACK                = 0x00,
+    RAZER_KEYBOARD_VARIANT_MERCURY              = 0x82,
 };
 
 /*---------------------------------------------------------*\
@@ -169,6 +220,10 @@ public:
     std::string             GetName();
     std::string             GetSerialString();
     unsigned char           GetMaxBrightness();
+
+    unsigned char           GetKeyboardLayoutType();
+    std::string             GetKeyboardLayoutName();
+    std::string             GetVariantName();
 
     void                    SetBrightness(unsigned char brightness);
 
@@ -259,6 +314,7 @@ private:
 
     std::string             razer_get_firmware();
     std::string             razer_get_serial();
+    void                    razer_get_keyboard_info(unsigned char* layout, unsigned char* variant);
 
     void                    razer_set_brightness(unsigned char brightness);
     void                    razer_set_custom_frame(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char* rgb_data);
