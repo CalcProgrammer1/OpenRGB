@@ -592,13 +592,14 @@ void AlienwareController::SetColor(uint8_t zone, RGBColor color)
 
 void AlienwareController::SetColor(uint8_t zone, RGBColor color1, RGBColor color2)
 {
-    dirty = ((color1 != zones[zone].color[0]) || (color2 != zones[zone].color[1]));
+    if ((color1 == zones[zone].color[0]) && (color2 == zones[zone].color[1]))
+    {
+        return;
+    }
 
-	if(dirty)
-	{
-		zones[zone].color[0] = color1;
-        zones[zone].color[1] = color2;
-	}
+    zones[zone].color[0] = color1;
+    zones[zone].color[1] = color2;
+    dirty = true;
 }
 
 void AlienwareController::SetPeriod(uint8_t zone, uint16_t period)
