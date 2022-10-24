@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Device page</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="2,0">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="3,1">
    <item row="1" column="1">
     <widget class="QFrame" name="frame_2">
      <property name="sizePolicy">
@@ -184,7 +184,7 @@
      <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,0,0">
+     <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,1,1">
       <item row="5" column="0">
        <widget class="QLabel" name="SpeedLabel">
         <property name="text">
