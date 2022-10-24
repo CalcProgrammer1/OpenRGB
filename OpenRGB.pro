@@ -176,6 +176,8 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.h \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
@@ -634,6 +636,8 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 SOURCES +=                                                                                      \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.cpp \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.cpp \
     dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
