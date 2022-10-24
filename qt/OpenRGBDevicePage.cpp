@@ -501,6 +501,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
         if(supports_brightness)
         {
             ui->BrightnessSlider->blockSignals(true);
+            int current_brightness;
             InvertedBrightness = device->modes[selected_mode].brightness_min > device->modes[selected_mode].brightness_max;
 
             if(InvertedBrightness)
@@ -510,14 +511,16 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 \*-----------------------------------------------------*/
                 ui->BrightnessSlider->setMinimum(device->modes[selected_mode].brightness_max);
                 ui->BrightnessSlider->setMaximum(device->modes[selected_mode].brightness_min);
+                current_brightness = device->modes[selected_mode].brightness_min - device->modes[selected_mode].brightness + device->modes[selected_mode].brightness_max;
             }
             else
             {
                 ui->BrightnessSlider->setMinimum(device->modes[selected_mode].brightness_min);
                 ui->BrightnessSlider->setMaximum(device->modes[selected_mode].brightness_max);
+                current_brightness = device->modes[selected_mode].brightness;
             }
 
-            ui->BrightnessSlider->setValue(device->modes[selected_mode].brightness);
+            ui->BrightnessSlider->setValue(current_brightness);
             ui->BrightnessSlider->setEnabled(true);
             ui->BrightnessSlider->blockSignals(false);
         }
