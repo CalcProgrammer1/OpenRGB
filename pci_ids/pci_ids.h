@@ -121,6 +121,7 @@
 #define ASUS_RX5600XT_STRIX_O6G_GAMING                  0x04EC
 #define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
 #define ASUS_RX6800_TUF_GAMING_OC                       0x04F6
+#define ASUS_RX470_STRIX_O4G_GAMING                     0x04B0
 #define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
 #define ASUS_RX560_STRIX_4G_GAMING                      0x04BC
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
