@@ -86,6 +86,7 @@
 #define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
 #define NVIDIA_RTX3090TI_DEV                            0x2203
+#define NVIDIA_RTX4090_DEV                              0x2684
 
 /*-----------------------------------------------------*\
 | nVidia Sub-Device IDs                                 |
@@ -221,6 +222,7 @@
 #define ASUS_TUF_RX_6700XT_O12G_GAMING                  0x05C9
 #define ASUS_TUF_RX_6800XT_O16G_GAMING                  0x04F2
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
+#define ASUS_TUF_RTX_4090_O24G_OC_GAMING                0x889A
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
