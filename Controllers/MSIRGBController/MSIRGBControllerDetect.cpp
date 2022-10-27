@@ -80,9 +80,9 @@ static msi_device compatible_devices[] =
 void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
 {
     int sio_addrs[2] = {0x2E, 0x4E};
-    
+
     DMIInfo board;
-    std::string board_dmi = board.getMainboard(); 
+    std::string board_dmi = board.getMainboard();
     std::string manufacturer = board.getManufacturer();
 
     if (manufacturer != "Micro-Star International Co., Ltd." && manufacturer != "Micro-Star International Co., Ltd" && manufacturer != "MSI")
