@@ -3140,6 +3140,43 @@ static const razer_device ornata_chroma_device =
     ORNATA_CHROMA_KEYMAP_SIZE
 };
 
+
+/*-------------------------------------------------------------*\
+|  Razer Ornata V3                                              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Linear                                                  |
+|       10 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone ornata_v3_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_LINEAR,
+    1,
+    10
+};
+
+static const razer_device ornata_v3_device =
+{
+    "Razer Ornata V3",
+    RAZER_ORNATA_V3_PID,
+    DEVICE_TYPE_KEYBOARD,
+    false,
+    1,
+    10,
+    {
+        &ornata_v3_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+
 /*-------------------------------------------------------------*\
 |  Razer DeathStalker Chroma                                    |
 |                                                               |
@@ -8116,6 +8153,7 @@ const razer_device* razer_device_list[] =
     &huntsman_v2_analog_device,
     &huntsman_v2_tkl_device,
     &ornata_chroma_device,
+    &ornata_v3_device,
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
 \*-----------------------------------------------------------------*/
