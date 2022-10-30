@@ -329,7 +329,7 @@ const lenovo_led legion_Y760_iso_leds[]
     {0x14, KEY_EN_PAGE_DOWN},//19
 
     //row 2
-    {0x17, "Key: ¬"},//20
+    {0x16, "Key: ¬"},//20
     {0x17, "Key: !"},//21
     {0x18, "Key: \""},//22
     {0x19, "Key: £"},//23
@@ -1020,13 +1020,6 @@ const lenovo_led legion_Y740_17_ansi_leds[]
     {0x4F, KEY_EN_LEFT_ARROW},       //101
     {0x54, KEY_EN_DOWN_ARROW},       //102
     {0x59, KEY_EN_RIGHT_ARROW},      //103
-
-    //Other LEDs
-    {0x97, "Power button"},          //104
-    {0x99, "Fans"},                  //105
-    {0x98, "USB ports"},             //106
-    {0x96, "Legion Y Logo"}          //107
-
 };
 
 const lenovo_led legion_Y740_17_iso_leds[]
@@ -1145,13 +1138,6 @@ const lenovo_led legion_Y740_17_iso_leds[]
     {0x4F, KEY_EN_LEFT_ARROW},       //100
     {0x54, KEY_EN_DOWN_ARROW},       //101
     {0x59, KEY_EN_RIGHT_ARROW},      //102
-
-    //Other LEDs
-    {0x97, "Power button"},          //103
-    {0x99, "Fans"},                  //104
-    {0x98, "USB ports"},             //105
-    {0x96, "Legion Y Logo"}          //106
-
 };
 
 /*--------------------------------------------------------*\
@@ -1264,13 +1250,6 @@ const lenovo_led legion_Y740_15_ansi_leds[]
     {0x81, "Key: M2"},               //87
     {0x53, "Key: Kb Brightness Up"}, //88
     {0x54, "Key: Kb Brightness Down"}, //89
-
-    //Other LEDs
-    {0x97, "Power button"},          //90
-    {0x99, "Fans"},                  //91
-    {0x98, "USB ports"},             //92
-    {0x96, "Legion Y Logo"}          //93
-
 };
 
 const lenovo_led legion_Y740_15_iso_leds[]
@@ -1378,14 +1357,19 @@ const lenovo_led legion_Y740_15_iso_leds[]
     {0x81, "Key: M2"},               //86
     {0x53, "Key: Kb Brightness Up"}, //87
     {0x54, "Key: Kb Brightness Down"}, //88
-
-    //Other LEDs
-    {0x97, "Power button"},         //89
-    {0x99, "Fans"},                 //90
-    {0x98, "USB ports"},            //91
-    {0x96, "Legion Y Logo"}         //92
-
 };
+
+/*--------------------------------------------------------*\
+| Additional LEDs for Legion Y740                          |
+\*--------------------------------------------------------*/
+const lenovo_led legion_legion_Y740_additional_leds[]
+{
+    {0x97, "Power button"},          //104
+    {0x99, "Vents"},                 //105
+    {0x98, "USB ports"},             //106
+    {0x96, "Legion Y Logo"}          //107
+};
+
 
 /*--------------------------------------------------------*\
 | Legion 7 gen 6: 7 zones                                  |
@@ -1554,7 +1538,7 @@ static lenovo_zone lenovo_legion_Y750_kbd_iso
     legion_Y760_iso_leds_map,
     legion_Y760_iso_leds,
     0,
-    144,
+    142,
 };
 
 static lenovo_zone lenovo_legion_Y750_kbd_jp
@@ -1648,13 +1632,13 @@ static lenovo_zone lenovo_legion_Y740_17_kbd_iso
     legion_Y740_17_iso_leds_map,
     legion_Y740_17_iso_leds,
     0,
-    103,
+    102,
 };
 
-/*-----------*\
-|Power button |
-\*-----------*/
-static lenovo_zone lenovo_legion_Y740_17_logo
+/*------*\
+|logo    |
+\*------*/
+static lenovo_zone lenovo_legion_Y740_logo
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -1662,15 +1646,15 @@ static lenovo_zone lenovo_legion_Y740_17_logo
     1,
     1,
     NULL,
-    legion_Y740_17_ansi_leds,
-    107,
-    107,
+    legion_legion_Y740_additional_leds,
+    3,
+    3,
 };
 
-/*------*\
-|logo    |
-\*------*/
-static lenovo_zone lenovo_legion_Y740_17_pwrbtn
+/*-----------*\
+|Power button |
+\*-----------*/
+static lenovo_zone lenovo_legion_Y740_pwrbtn
 {
     "Power Button",
     ZONE_TYPE_SINGLE,
@@ -1678,15 +1662,15 @@ static lenovo_zone lenovo_legion_Y740_17_pwrbtn
     1,
     1,
     NULL,
-    legion_Y740_17_ansi_leds,
-    104,
-    104,
+    legion_legion_Y740_additional_leds,
+    0,
+    0,
 };
 
 /*------*\
 |vents   |
 \*------*/
-static lenovo_zone lenovo_legion_Y740_17_vents
+static lenovo_zone lenovo_legion_Y740_vents
 {
     "Vents",
     ZONE_TYPE_SINGLE,
@@ -1694,27 +1678,26 @@ static lenovo_zone lenovo_legion_Y740_17_vents
     1,
     1,
     NULL,
-    legion_Y740_17_ansi_leds,
-    105,
-    105,
+    legion_legion_Y740_additional_leds,
+    1,
+    1,
 };
 
 /*--------*\
 |USB Ports |
 \*--------*/
-static lenovo_zone lenovo_legion_Y740_17_ports
+static lenovo_zone lenovo_legion_Y740_ports
 {
-    "Neon",
+    "USB Ports",
     ZONE_TYPE_SINGLE,
     1,
     1,
     1,
     NULL,
-    legion_Y740_17_ansi_leds,
-    106,
-    106,
+    legion_legion_Y740_additional_leds,
+    2,
+    2,
 };
-
 
 /*--------------------------------------------------------*\
 | Legion Y740 15": 5 zones                                 |
@@ -1746,72 +1729,7 @@ static lenovo_zone lenovo_legion_Y740_15_kbd_iso
     legion_Y740_15_iso_leds_map,
     legion_Y740_15_iso_leds,
     0,
-    89,
+    88,
 };
-
-/*-----------*\
-|Power button |
-\*-----------*/
-static lenovo_zone lenovo_legion_Y740_15_logo
-{
-    "Logo",
-    ZONE_TYPE_SINGLE,
-    1,
-    1,
-    1,
-    NULL,
-    legion_Y740_15_ansi_leds,
-    93,
-    93,
-};
-
-/*------*\
-|logo    |
-\*------*/
-static lenovo_zone lenovo_legion_Y740_15_pwrbtn
-{
-    "Power Button",
-    ZONE_TYPE_SINGLE,
-    1,
-    1,
-    1,
-    NULL,
-    legion_Y740_15_ansi_leds,
-    90,
-    90,
-};
-
-/*------*\
-|vents   |
-\*------*/
-static lenovo_zone lenovo_legion_Y740_15_vents
-{
-    "Vents",
-    ZONE_TYPE_SINGLE,
-    1,
-    1,
-    1,
-    NULL,
-    legion_Y740_15_ansi_leds,
-    91,
-    91,
-};
-
-/*--------*\
-|USB Ports |
-\*--------*/
-static lenovo_zone lenovo_legion_Y740_15_ports
-{
-    "Neon",
-    ZONE_TYPE_SINGLE,
-    1,
-    1,
-    1,
-    NULL,
-    legion_Y740_15_ansi_leds,
-    92,
-    92,
-};
-
 
 #endif

@@ -105,7 +105,7 @@ vector<uint8_t> LenovoUSBController::getInformation(uint8_t information_id)
     int num_bytes = hid_get_feature_report(dev, read_buffer, LENOVO_HID_PACKET_SIZE);
     if(num_bytes > 0)
     {
-        vector<uint8_t> response(&read_buffer[0], &read_buffer[num_bytes - 1]);
+        vector<uint8_t> response(&read_buffer[0], &read_buffer[num_bytes]);
         return response;
     }
     return vector<uint8_t>();
