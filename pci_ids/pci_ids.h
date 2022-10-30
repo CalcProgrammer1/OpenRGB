@@ -1,4 +1,4 @@
-/*---------------------------------------------------------*\
+﻿/*---------------------------------------------------------*\
 | PCI Vendor IDs                                            |
 \*---------------------------------------------------------*/
 #define AMD_VEN                                         0x1022
@@ -102,6 +102,7 @@
 \*---------------------------------------------------------*/
 #define ASROCK_SUB_VEN                                  0x1849
 #define ASUS_SUB_VEN                                    0x1043
+#define COLORFUL_SUB_VEN                                0x7377
 #define EVGA_SUB_VEN                                    0x3842
 #define GALAX_SUB_VEN                                   0x1B4C
 #define GAINWARD_SUB_VEN                                0x10B0
@@ -223,6 +224,11 @@
 #define ASUS_TUF_RX_6800XT_O16G_GAMING                  0x04F2
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
 #define ASUS_TUF_RTX_4090_O24G_OC_GAMING                0x889A
+
+/*-----------------------------------------------------*\
+| Colorful Sub-Device IDs                               |
+\*-----------------------------------------------------*/
+#define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV            0x140A
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |

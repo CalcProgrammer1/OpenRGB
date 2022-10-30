@@ -295,6 +295,8 @@ HEADERS +=                                                                      
     Controllers/AsusLegacyUSBController/RGBController_AsusStrixClaw.h                           \
     Controllers/BlinkyTapeController/BlinkyTapeController.h                                     \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.h                                 \
+    Controllers/ColorfulGPUController/ColorfulGPUController.h                                   \
+    Controllers/ColorfulGPUController/RGBController_ColorfulGPU.h                               \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.h                                 \
     Controllers/CoolerMasterController/CMMKController.h                                         \
@@ -793,6 +795,9 @@ SOURCES +=                                                                      
     Controllers/BlinkyTapeController/BlinkyTapeController.cpp                                   \
     Controllers/BlinkyTapeController/BlinkyTapeControllerDetect.cpp                             \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.cpp                               \
+    Controllers/ColorfulGPUController/ColorfulGPUController.cpp                                 \
+    Controllers/ColorfulGPUController/ColorfulGPUControllerDetect.cpp                           \
+    Controllers/ColorfulGPUController/RGBController_ColorfulGPU.cpp                             \
     Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.cpp                               \
     Controllers/CoolerMasterController/CMMKController.cpp                                       \
