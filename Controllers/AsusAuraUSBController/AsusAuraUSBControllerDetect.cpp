@@ -47,6 +47,7 @@
 #define AURA_ROG_STRIX_SCOPE_PID                0x18F8
 #define AURA_ROG_STRIX_SCOPE_RX_PID             0x1951
 #define AURA_ROG_STRIX_SCOPE_TKL_PID            0x190C
+#define AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID    0x1954
 #define AURA_TUF_K7_GAMING_PID                  0x18AA
 #define AURA_TUF_K3_GAMING_PID                  0x194B
 
@@ -100,6 +101,7 @@ AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
             return SCOPE_RX_LAYOUT;
 
         case AURA_ROG_STRIX_SCOPE_TKL_PID:
+        case AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID:
             return SCOPE_TKL_LAYOUT;
 
         case AURA_ROG_FALCHION_WIRED_PID:
@@ -299,6 +301,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",                DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                     1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",                    DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,                 1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL PNK LTD",            DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID,         1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K7",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                       1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K3",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K3_GAMING_PID,                       1,  0xFF00);
 
