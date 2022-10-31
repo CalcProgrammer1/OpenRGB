@@ -224,6 +224,7 @@
 #define ASUS_TUF_RX_6800XT_O16G_GAMING                  0x04F2
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
 #define ASUS_TUF_RTX_4090_O24G_OC_GAMING                0x889A
+#define ASUS_TUF_RTX_4090_O24G_GAMING                   0x889B
 
 /*-----------------------------------------------------*\
 | Colorful Sub-Device IDs                               |
