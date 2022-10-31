@@ -137,3 +137,28 @@ extern const char* KEY_EN_MEDIA_STOP;
 extern const char* KEY_EN_MEDIA_MUTE;
 extern const char* KEY_EN_MEDIA_VOLUME_DOWN;
 extern const char* KEY_EN_MEDIA_VOLUME_UP;
+
+extern const char* KEY_JP_RO;
+extern const char* KEY_JP_EJ;
+extern const char* KEY_JP_ZENKAKU;
+extern const char* KEY_JP_KANA;
+extern const char* KEY_JP_HENKAN;
+extern const char* KEY_JP_MUHENKAN;
+extern const char* KEY_JP_YEN;
+extern const char* KEY_JP_AT;
+extern const char* KEY_JP_CHEVRON;
+extern const char* KEY_JP_COLON;
+
+extern const char* KEY_KR_HAN;
+extern const char* KEY_KR_HANJA;
+
+extern const char* KEY_NORD_OE;
+extern const char* KEY_NORD_AE;
+extern const char* KEY_NORD_AAL;
+extern const char* KEY_NORD_HALF;
+extern const char* KEY_NORD_HYPHEN;
+extern const char* KEY_NORD_PLUS;
+extern const char* KEY_NORD_BACKSLASH;
+extern const char* KEY_NORD_CHEVRON;
+extern const char* KEY_NORD_QUOTE;
+extern const char* KEY_NORD_ANGLE_BRACKET;

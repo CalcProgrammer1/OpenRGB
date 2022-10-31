@@ -137,3 +137,28 @@ const char* KEY_EN_MEDIA_STOP        = "Key: Media Stop";
 const char* KEY_EN_MEDIA_MUTE        = "Key: Media Mute";
 const char* KEY_EN_MEDIA_VOLUME_DOWN = "Key: Media Volume -";
 const char* KEY_EN_MEDIA_VOLUME_UP   = "Key: Media Volume +";
+
+const char* KEY_JP_RO                = "Key: _";
+const char* KEY_JP_EJ                = "Key: E/J";
+const char* KEY_JP_ZENKAKU           = "Key: 半角/全角";
+const char* KEY_JP_KANA              = "Key: かな";
+const char* KEY_JP_HENKAN            = "Key: 変換";
+const char* KEY_JP_MUHENKAN          = "Key: 無変換";
+const char* KEY_JP_YEN               = "Key: ¥";
+const char* KEY_JP_AT                = "Key: @";
+const char* KEY_JP_CHEVRON           = "Key: ^";
+const char* KEY_JP_COLON             = "Key: :";
+
+const char* KEY_KR_HAN               = "Key: 한/영";
+const char* KEY_KR_HANJA             = "Key: 한자";
+
+const char* KEY_NORD_OE              = "Key: Ø/Ä";
+const char* KEY_NORD_AE              = "Key: Æ/Ö";
+const char* KEY_NORD_AAL             = "Key: Å";
+const char* KEY_NORD_HALF            = "Key: ½/§";
+const char* KEY_NORD_HYPHEN          = "Key: -/_";
+const char* KEY_NORD_PLUS            = "Key: +/?";
+const char* KEY_NORD_BACKSLASH       = "Key: \\/`/´";
+const char* KEY_NORD_CHEVRON         = "Key: ^/~";
+const char* KEY_NORD_QUOTE           = "Key: '/*";
+const char* KEY_NORD_ANGLE_BRACKET   = "Key: </>";

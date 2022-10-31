@@ -159,6 +159,40 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_EN_MEDIA_MUTE,        { "Mte"   , "\xF0\x9F\x94\x87", }}, // 🔇
     { KEY_EN_MEDIA_VOLUME_DOWN, { "Vl-"   , "\xF0\x9F\x94\x88", }}, // 🔉
     { KEY_EN_MEDIA_VOLUME_UP,   { "Vl+"   , "\xF0\x9F\x94\x89", }}, // 🔊
+    { KEY_JP_RO,                { "_"     , "_",                }},
+    { KEY_JP_EJ,                { "E/J"   , "E/J",              }},
+    { KEY_JP_ZENKAKU,           { "Zen"   , "\xE5\x8D\x8A\xE8"
+                                            "\xA7\x92\x2F\xE5"
+                                            "\x85\xA8\xE8\xA7"
+                                            "\x92",             }}, // 半角/全角
+    { KEY_JP_KANA,              { "Kana"  , "\xE3\x81\x8B\xE3"
+                                            "\x81\xAA",         }}, // かな
+    { KEY_JP_HENKAN,            { "Hnkn"  , "\xE5\xA4\x89\xE6"
+                                            "\x8F\x9B",         }}, // 変換
+    { KEY_JP_MUHENKAN,          { "MuKn"  , "\xE7\x84\xA1\xE5"
+                                            "\xA4\x89\xE6\x8F"
+                                            "\x9B",             }}, // 無変換
+    { KEY_JP_YEN,               { "Yen"   , "\xC2\xA5",         }}, // ¥
+    { KEY_JP_AT,                { "@"     , "@",                }},
+    { KEY_JP_CHEVRON,           { "^"     , "^",                }},
+    { KEY_JP_COLON,             { ":"     , ":",                }},
+    { KEY_KR_HAN,               { "Hayg"  , "\xED\x95\x9C\x2F"
+                                            "\xEC\x98\x81",     }}, // 한/영
+    { KEY_KR_HANJA,             { "Haja"  , "\xED\x95\x9C\xEC"
+                                            "\x9E\x90",         }}, // 한자
+    { KEY_NORD_OE,              { "oe"    , "\xC3\x98\x2F\xC3"
+                                            "\x84"              }}, // Ø/Ä
+    { KEY_NORD_AE,              { "ae"    , "\xC3\x86\x2F\xC3"
+                                            "\x96"              }}, // Æ/Ö
+    { KEY_NORD_AAL,             { "Aal"   , "\xC3\x85",         }}, // Å
+    { KEY_NORD_HALF,            { "1/2"   , "\xC2\xBD\x2F\xC2"
+                                            "\xA7"              }}, // ½/§
+    { KEY_NORD_HYPHEN,          { "-/_"   , "-/_"               }},
+    { KEY_NORD_PLUS,            { "+/?"   , "+/?",              }},
+    { KEY_NORD_BACKSLASH,       { "\\"    , "\\",               }},
+    { KEY_NORD_CHEVRON,         { "^/~"   , "^/~",              }},
+    { KEY_NORD_QUOTE,           { "'/*"   , "'/*",              }},
+    { KEY_NORD_ANGLE_BRACKET,   { "</>"   , "</>"               }},
 };
 
 void DeviceView::setController(RGBController * controller_ptr)
