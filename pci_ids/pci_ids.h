@@ -230,6 +230,7 @@
 | Colorful Sub-Device IDs                               |
 \*-----------------------------------------------------*/
 #define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV            0x140A
+#define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV2           0x1401
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
