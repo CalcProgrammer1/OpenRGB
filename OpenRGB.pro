@@ -129,6 +129,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXKeyboardController/                                                       \
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
+    Controllers/IntelArcA770LEController/                                                       \
     Controllers/LEDStripController/                                                             \
     Controllers/LenovoControllers/                                                              \
     Controllers/LianLiController/                                                               \
@@ -441,6 +442,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireRaid.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
+    Controllers/IntelArcA770LEController/IntelArcA770LEController.h                             \
+    Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
     Controllers/KeychronKeyboardController/KeychronKeyboardController.h                         \
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.h                     \
     Controllers/LEDStripController/LEDStripController.h                                         \
@@ -989,6 +992,9 @@ SOURCES +=                                                                      
     Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
     Controllers/HyperXMousematController/HyperXMousematControllerDetect.cpp                     \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
+    Controllers/IntelArcA770LEController/IntelArcA770LEController.cpp                           \
+    Controllers/IntelArcA770LEController/IntelArcA770LEControllerDetect.cpp                     \
+    Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.cpp                       \
     Controllers/KeychronKeyboardController/KeychronKeyboardController.cpp                       \
     Controllers/KeychronKeyboardController/KeychronKeyboardControllerDetect.cpp                 \
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.cpp                   \
