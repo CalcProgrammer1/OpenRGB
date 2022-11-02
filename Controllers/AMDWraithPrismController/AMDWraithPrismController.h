@@ -10,6 +10,8 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
+#include "RGBController.h"
+
 #pragma once
 
 #define AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX     0xFF
@@ -91,61 +93,23 @@ public:
     AMDWraithPrismController(hid_device* dev_handle, const char* path);
     ~AMDWraithPrismController();
 
-    char* GetDeviceName();
-
     std::string GetEffectChannelString(unsigned char channel);
     std::string GetFirmwareVersionString();
     std::string GetLocationString();
     std::string GetSerialString();
 
-    void SetRingEffectChannel(unsigned char channel);
-
-    void SetFanMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color);
-    void SetFanColor(unsigned char red, unsigned char green, unsigned char blue);
-
-    void SetLogoMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color);
-    void SetLogoColor(unsigned char red, unsigned char green, unsigned char blue);
-
-    void SetRingMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool direction, bool random_color);
-    void SetRingColor(unsigned char red, unsigned char green, unsigned char blue);
-
-private:
-    char                    device_name[32];
-    hid_device*             dev;
-    std::string             location;
-
-    unsigned char           current_fan_mode;
-    unsigned char           current_fan_speed;
-    unsigned char           current_fan_brightness;
-    bool                    current_fan_random_color;
-
-    unsigned char           current_logo_mode;
-    unsigned char           current_logo_speed;
-    unsigned char           current_logo_brightness;
-    bool                    current_logo_random_color;
-
-    unsigned char           current_ring_mode;
-    unsigned char           current_ring_speed;
-    unsigned char           current_ring_brightness;
-    bool                    current_ring_direction;
-    bool                    current_ring_random_color;
+    void SendDirectPacket
+        (
+        unsigned char   size,
+        unsigned char * led_ids,
+        RGBColor *      colors
+        );
 
     void SendEnableCommand();
 
     void SendApplyCommand();
 
-    void SendEffectChannelUpdate
-        (
-        unsigned char effect_channel,
-        unsigned char speed,
-        bool          direction,
-        bool          random_color,
-        unsigned char mode,
-        unsigned char brightness,
-        unsigned char red,
-        unsigned char green,
-        unsigned char blue
-        );
-
-    void SendChannelRemap(unsigned char ring_channel, unsigned char logo_channel, unsigned char fan_channel);
+private:
+    hid_device*             dev;
+    std::string             location;
 };

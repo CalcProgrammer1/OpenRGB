@@ -33,99 +33,19 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
     description = "AMD Wraith Prism Device";
     version     = controller->GetFirmwareVersionString();
     location    = controller->GetLocationString();
-    /*-----------------------------------------------------*\
-    | Don't use HID serial string, it is inconsistent on my |
-    | Wraith Prism                                          |
-    \*-----------------------------------------------------*/
-    serial      = "";//controller->GetSerialString();
 
     mode Direct;
     Direct.name                 = "Direct";
-    Direct.value                = AMD_WRAITH_PRISM_EFFECT_CHANNEL_STATIC;
+    Direct.value                = 0;
     Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
     Direct.brightness_min       = 0;
-    Direct.brightness_max       = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Direct.brightness           = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
+    Direct.brightness_max       = 0;
+    Direct.brightness           = 0;
     Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-    mode Breathing;
-    Breathing.name              = "Breathing";
-    Breathing.value             = AMD_WRAITH_PRISM_EFFECT_CHANNEL_BREATHING;
-    Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Breathing.speed_min         = AMD_WRAITH_PRISM_SPEED_SLOWEST;
-    Breathing.speed_max         = AMD_WRAITH_PRISM_SPEED_FASTEST;
-    Breathing.brightness_min    = 0;
-    Breathing.brightness_max    = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Breathing.brightness        = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Breathing.color_mode        = MODE_COLORS_PER_LED;
-    Breathing.speed             = AMD_WRAITH_PRISM_SPEED_NORMAL;
-    modes.push_back(Breathing);
-
-    mode ColorCycle;
-    ColorCycle.name             = "Spectrum Cycle";
-    ColorCycle.value            = AMD_WRAITH_PRISM_EFFECT_CHANNEL_COLOR_CYCLE;
-    ColorCycle.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    ColorCycle.speed_min        = AMD_WRAITH_PRISM_SPEED_SLOWEST;
-    ColorCycle.speed_max        = AMD_WRAITH_PRISM_SPEED_FASTEST;
-    ColorCycle.brightness_min   = 0;
-    ColorCycle.brightness_max   = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_CYCLE_MAX;
-    ColorCycle.brightness       = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_CYCLE_MAX;
-    ColorCycle.color_mode       = MODE_COLORS_NONE;
-    ColorCycle.speed            = AMD_WRAITH_PRISM_SPEED_NORMAL;
-    modes.push_back(ColorCycle);
-
-    mode Rainbow;
-    Rainbow.name                = "Rainbow Wave";
-    Rainbow.value               = AMD_WRAITH_PRISM_EFFECT_CHANNEL_RAINBOW;
-    Rainbow.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Rainbow.speed_min           = AMD_WRAITH_PRISM_SPEED_SLOWEST;
-    Rainbow.speed_max           = AMD_WRAITH_PRISM_SPEED_FASTEST;
-    Rainbow.brightness_min      = 0;
-    Rainbow.brightness_max      = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Rainbow.brightness          = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;    //The Ring zone can not get brighter but Logo / Fan can
-    Rainbow.color_mode          = MODE_COLORS_NONE;
-    Rainbow.speed               = AMD_WRAITH_PRISM_SPEED_NORMAL;
-    modes.push_back(Rainbow);
-
-    mode Bounce;
-    Bounce.name                 = "Bounce";
-    Bounce.value                = AMD_WRAITH_PRISM_EFFECT_CHANNEL_BOUNCE;
-    Bounce.flags                = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Bounce.speed_min            = AMD_WRAITH_PRISM_SPEED_SLOWEST;
-    Bounce.speed_max            = AMD_WRAITH_PRISM_SPEED_FASTEST;
-    Bounce.brightness_min       = 0;
-    Bounce.brightness_max       = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Bounce.brightness           = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;    //The Ring zone can not get brighter but Logo / Fan can
-    Bounce.color_mode           = MODE_COLORS_NONE;
-    Bounce.speed                = AMD_WRAITH_PRISM_SPEED_NORMAL;
-    modes.push_back(Bounce);
-
-    mode Chase;
-    Chase.name                  = "Chase";
-    Chase.value                 = AMD_WRAITH_PRISM_EFFECT_CHANNEL_CHASE;
-    Chase.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Chase.speed_min             = AMD_WRAITH_PRISM_SPEED_SLOWEST;
-    Chase.speed_max             = AMD_WRAITH_PRISM_SPEED_FASTEST;
-    Chase.brightness_min        = 0;
-    Chase.brightness_max        = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Chase.brightness            = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Chase.color_mode            = MODE_COLORS_PER_LED;
-    Chase.speed                 = AMD_WRAITH_PRISM_SPEED_NORMAL;
-    modes.push_back(Chase);
-
-    mode Swirl;
-    Swirl.name                  = "Swirl";
-    Swirl.value                 = AMD_WRAITH_PRISM_EFFECT_CHANNEL_SWIRL;
-    Swirl.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Swirl.speed_min             = AMD_WRAITH_PRISM_SPEED_SLOWEST;
-    Swirl.speed_max             = AMD_WRAITH_PRISM_SPEED_FASTEST;
-    Swirl.brightness_min        = 0;
-    Swirl.brightness_max        = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Swirl.brightness            = AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX;
-    Swirl.color_mode            = MODE_COLORS_PER_LED;
-    Swirl.speed                 = AMD_WRAITH_PRISM_SPEED_NORMAL;
-    modes.push_back(Swirl);
+    controller->SendEnableCommand();
+    controller->SendApplyCommand();
 
     SetupZones();
 }
@@ -137,6 +57,14 @@ RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
 
 void RGBController_AMDWraithPrism::SetupZones()
 {
+    /*---------------------------------------------------------*\
+    | LED maps                                                  |
+    \*---------------------------------------------------------*/
+    const unsigned int logo_leds[1] =   { 0x00 };
+    const unsigned int fan_leds[1] =    { 0x01 };
+    const unsigned int ring_leds[14] =  { 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
+                                          0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
@@ -160,27 +88,39 @@ void RGBController_AMDWraithPrism::SetupZones()
 
     zone ring_zone;
     ring_zone.name          = "Ring";
-    ring_zone.type          = ZONE_TYPE_SINGLE;
-    ring_zone.leds_min      = 1;
-    ring_zone.leds_max      = 1;
-    ring_zone.leds_count    = 1;
+    ring_zone.type          = ZONE_TYPE_LINEAR;
+    ring_zone.leds_min      = 14;
+    ring_zone.leds_max      = 14;
+    ring_zone.leds_count    = 14;
     ring_zone.matrix_map    = NULL;
     zones.push_back(ring_zone);
 
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
     \*---------------------------------------------------------*/
-    led logo_led;
-    logo_led.name = "Logo LED";
-    leds.push_back(logo_led);
+    for(unsigned int led_idx = 0; led_idx < 1; led_idx++)
+    {
+        led logo_led;
+        logo_led.name = "Logo LED";
+        logo_led.value = logo_leds[led_idx];
+        leds.push_back(logo_led);
+    }
 
-    led fan_led;
-    fan_led.name = "Fan LED";
-    leds.push_back(fan_led);
+    for(unsigned int led_idx = 0; led_idx < 1; led_idx++)
+    {
+        led fan_led;
+        fan_led.name = "Fan LED";
+        fan_led.value = fan_leds[led_idx];
+        leds.push_back(fan_led);
+    }
 
-    led ring_led;
-    ring_led.name = "Ring LED";
-    leds.push_back(ring_led);
+    for(unsigned int led_idx = 0; led_idx < 14; led_idx++)
+    {
+        led ring_led;
+        ring_led.name = "Ring LED";
+        ring_led.value = ring_leds[led_idx];
+        leds.push_back(ring_led);
+    }
 
     SetupColors();
 }
@@ -194,85 +134,41 @@ void RGBController_AMDWraithPrism::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
-    unsigned char grn = RGBGetGValue(colors[0]);
-    unsigned char blu = RGBGetBValue(colors[0]);
-    controller->SetLogoColor(red, grn, blu);
+    unsigned char   led_ids[15];
+    RGBColor        color_buf[15];
+    unsigned int    leds_count = 0;
 
-    red = RGBGetRValue(colors[1]);
-    grn = RGBGetGValue(colors[1]);
-    blu = RGBGetBValue(colors[1]);
-    controller->SetFanColor(red, grn, blu);
+    for(unsigned int led_idx = 0; led_idx < colors.size(); led_idx++)
+    {
+        led_ids[leds_count]     = (unsigned char)leds[led_idx].value;
+        color_buf[leds_count]   = colors[led_idx];
 
-    red = RGBGetRValue(colors[2]);
-    grn = RGBGetGValue(colors[2]);
-    blu = RGBGetBValue(colors[2]);
-    controller->SetRingColor(red, grn, blu);
+        leds_count++;
+
+        if(leds_count >= 15)
+        {
+            controller->SendDirectPacket(15, led_ids, color_buf);
+            leds_count = 0;
+        }
+    }
+
+    if(leds_count > 0)
+    {
+        controller->SendDirectPacket(leds_count, led_ids, color_buf);
+    }
 }
 
 void RGBController_AMDWraithPrism::UpdateZoneLEDs(int zone)
 {
-    RGBColor      color = colors[zone];
-    unsigned char red   = RGBGetRValue(color);
-    unsigned char grn   = RGBGetGValue(color);
-    unsigned char blu   = RGBGetBValue(color);
 
-    if(zone == 0)
-    {
-        controller->SetLogoColor(red, grn, blu);
-    }
-    else if(zone == 1)
-    {
-        controller->SetFanColor(red, grn, blu);
-    }
-    else if(zone == 2)
-    {
-        controller->SetRingColor(red, grn, blu);
-    }
 }
 
 void RGBController_AMDWraithPrism::UpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+
 }
 
 void RGBController_AMDWraithPrism::DeviceUpdateMode()
 {
-    bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
 
-    controller->SetRingMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, modes[active_mode].direction, random);
-
-    switch(modes[active_mode].value)
-    {
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_COLOR_CYCLE:
-            controller->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].brightness, random);
-            controller->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].brightness, random);
-            break;
-
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_RAINBOW:
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_BOUNCE:
-            controller->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, (modes[active_mode].brightness >> 1), random);
-            controller->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, (modes[active_mode].brightness >> 1), random);
-            break;
-
-        case AMD_WRAITH_PRISM_EFFECT_CHANNEL_BREATHING:
-            controller->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_BREATHING, modes[active_mode].speed, modes[active_mode].brightness, random);
-            controller->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_BREATHING, modes[active_mode].speed, modes[active_mode].brightness, random);
-            break;
-
-        default:
-            if(random)
-            {
-                controller->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].brightness, random);
-                controller->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_COLOR_CYCLE, modes[active_mode].speed, modes[active_mode].brightness, random);
-            }
-            else
-            {
-                controller->SetFanMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[active_mode].speed, modes[active_mode].brightness, random);
-                controller->SetLogoMode(AMD_WRAITH_PRISM_FAN_LOGO_MODE_STATIC, modes[active_mode].speed, modes[active_mode].brightness, random);
-            }
-            break;
-    }
-
-    DeviceUpdateLEDs();
 }
