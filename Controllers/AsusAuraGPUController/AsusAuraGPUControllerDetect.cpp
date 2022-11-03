@@ -66,6 +66,7 @@ void DetectAsusAuraGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
 } /* DetectAsusAuraGPUControllers() */
 
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 O2G Gaming"        , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050_DEV,         ASUS_SUB_VEN,   ASUS_GTX1050_STRIX_O2G_GAMING,              0x29);
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 TI 4G Gaming"      , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_4G_GAMING,         0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 TI O4G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING,        0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 TI O4G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING_2,      0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS GTX 1060 Strix 6G Gaming"             , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1060_DEV,         ASUS_SUB_VEN,   ASUS_GTX1060_STRIX_6G_GAMING,               0x29);
