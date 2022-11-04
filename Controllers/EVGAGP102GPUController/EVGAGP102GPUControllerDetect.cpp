@@ -25,7 +25,8 @@ static const gpu_pci_device device_list[] =
 {
     
     { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         EVGA_SUB_VEN,   EVGA_GTX1070_FTW2_SUB_DEV,              "EVGA GeForce GTX 1070 FTW2 Gaming"                     },
-    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         EVGA_SUB_VEN,   EVGA_GTX1080_FTW2_SUB_DEV,              "EVGA GeForce GTX 1080 FTW2"                            },
+    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         EVGA_SUB_VEN,   EVGA_GTX1080_FTW2_SUB_DEV,              "EVGA GeForce GTX 1080 FTW2 Gaming"                     },
+    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         EVGA_SUB_VEN,   EVGA_GTX1080_FTW2_11G_SUB_DEV,          "EVGA GeForce GTX 1080 FTW2 11G"                        },
     { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1080TI_SC2_GAMING_SUB_DEV,      "EVGA GTX 1080 Ti SC2 Gaming"                           },
     { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1080TI_FTW3_SUB_DEV,            "EVGA GTX 1080 Ti FTW3"                                 },
     { NVIDIA_VEN,   NVIDIA_GTX1080TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1080TI_FTW3_HYBRID_SUB_DEV,     "EVGA 1080Ti FTW3 Hybrid"                               },
