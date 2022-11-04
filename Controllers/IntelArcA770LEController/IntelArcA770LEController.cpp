@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "IntelArcA770LEController.h"
+#include <algorithm>
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
