@@ -154,6 +154,7 @@ INCLUDEPATH +=                                                                  
     Controllers/QMKOpenRGBController/                                                           \
     Controllers/RazerController/                                                                \
     Controllers/RedragonController/                                                             \
+    Controllers/RedSquareKeyroxController/                                                      \
     Controllers/RoccatController/                                                               \
     Controllers/SapphireGPUController/                                                          \
     Controllers/SinowealthController/                                                           \
@@ -546,6 +547,8 @@ HEADERS +=                                                                      
     Controllers/RazerController/RGBController_RazerKraken.h                                     \
     Controllers/RedragonController/RedragonM711Controller.h                                     \
     Controllers/RedragonController/RGBController_RedragonM711.h                                 \
+    Controllers/RedSquareKeyroxController/RedSquareKeyroxController.h                           \
+    Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.h                       \
     Controllers/RoccatController/RGBController_RoccatBurst.h                                    \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
@@ -1122,6 +1125,9 @@ SOURCES +=                                                                      
     Controllers/RedragonController/RedragonM711Controller.cpp                                   \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
     Controllers/RedragonController/RGBController_RedragonM711.cpp                               \
+    Controllers/RedSquareKeyroxController/RedSquareKeyroxController.cpp                         \
+    Controllers/RedSquareKeyroxController/RedSquareKeyroxControllerDetect.cpp                   \
+    Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.cpp                     \
     Controllers/RoccatController/RGBController_RoccatBurst.cpp                                  \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
