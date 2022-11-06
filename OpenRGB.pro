@@ -582,6 +582,7 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesAerox9Controller.h                             \
     Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
+    Controllers/SteelSeriesController/SteelSeriesApexRegions.h                                  \
     Controllers/SteelSeriesController/SteelSeriesApexMController.h                              \
     Controllers/SteelSeriesController/SteelSeriesApexTZoneController.h                          \
     Controllers/SteelSeriesController/SteelSeriesArctis5Controller.h                            \
