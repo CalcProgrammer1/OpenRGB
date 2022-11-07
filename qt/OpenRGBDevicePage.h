@@ -66,6 +66,7 @@ private:
     bool InvertedSpeed      = false;
     bool InvertedBrightness = false;
     bool MultipleSelected   = false;
+    bool DeviceViewShowing  = false;
 
     QColor current_color;
     void updateColorUi();
