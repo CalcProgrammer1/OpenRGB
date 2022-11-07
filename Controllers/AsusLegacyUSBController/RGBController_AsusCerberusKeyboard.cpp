@@ -14,6 +14,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus Cerberus Mech Keyboard
+    @category Keyboard
     @type USB
     @save :robot:
     @direct :x:
