@@ -233,15 +233,15 @@ void RGBController_LenovoUSB::SetupZones()
             switch(keyboard_type)
             {
                 case JAPAN:
-                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_jp);
+                    lenovo_zones.push_back(lenovo_legion_Y760_kbd_jp);
                     break;
 
                 case ISO:
-                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_iso);
+                    lenovo_zones.push_back(lenovo_legion_Y760_kbd_iso);
                     break;
 
                 default:
-                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_ansi);
+                    lenovo_zones.push_back(lenovo_legion_Y760_kbd_ansi);
                     break;
             }
             lenovo_zones.push_back(lenovo_legion_Y750_logo);
@@ -253,15 +253,15 @@ void RGBController_LenovoUSB::SetupZones()
             switch(keyboard_type)
             {
                 case JAPAN:
-                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_jp);
+                    lenovo_zones.push_back(lenovo_legion_Y760_kbd_jp);
                     break;
 
                 case ISO:
-                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_iso);
+                    lenovo_zones.push_back(lenovo_legion_Y760_kbd_iso);
                     break;
 
                 default:
-                    lenovo_zones.push_back(lenovo_legion_Y750_kbd_ansi);
+                    lenovo_zones.push_back(lenovo_legion_Y760_kbd_ansi);
                     break;
             }
             break;

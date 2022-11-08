@@ -63,40 +63,49 @@ struct lenovo_zone
 \*---------*/
 
 static const unsigned int legion_Y760_ansi_leds_map[] =
-    {  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  NA,  NA,  16,  17,  18,  19,
-      20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  NA,  NA,  NA,  NA,  53,  33,  34,  35,  36,
-      37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  52,  NA,  NA,  68,  69,  70,  NA,
-      54,  55,  56,  57,  58,  59,  60,  61,  62,  63,  64,  90,  65,  91,  66,  92,  67,  NA,  93,  94,  95,  71,
-      72,  73,  74,  75,  76,  77,  78,  79,  80,  81,  82,  83,  85,  84,  87,  86,  88,  89, 111, 113, 114,  96,
-      97,  98,  99, 100, 101, 102, 103, 104, 105, 116, 106, 117, 107, 118, 108, 109, 110,  NA, 112,  NA, 115,  NA,
-     126, 127, 128, 129, 130,  NA,  NA,  NA,  NA, 131, 132, 133,  NA,  NA,  NA, 136,  NA,  NA, 119, 121, 123, 125,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 135,  NA,  NA, 120, 122, 124, 144,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 134, 137, 139,  NA, 140, 141, 143,  NA,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 138,  NA,  NA,  NA,  NA, 142,  NA };
+    {    0,  NA,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
+        20,  NA,  21,  22,  23,  24,  25,  26,  27,  28,  29,  NA,  30,  31,  32,  NA,  52,  33,  34,  35,  36,
+        37,  NA,  38,  39,  40,  41,  42,  43,  44,  45,  46,  NA,  47,  48,  49,  50,  51,  53,  NA,  NA,  NA,
+        54,  NA,  55,  56,  57,  NA,  58,  59,  60,  61,  62,  63,  64,  65,  66,  NA,  67,  68,  69,  70,  NA,
+        72,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  90,  91,  NA,  92,  93,  94,  95,  71,
+        73,  74,  75,  NA,  76,  77,  78,  79,  80,  81,  82,  83,  84,  NA,  86,  88,  89, 111, 113, 114,  96,
+        NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  85,  NA,  87,  NA,  NA, 112,  NA, 115,  NA,
+        97,  98,  NA,  99, 100, 101,  NA, 102, 103, 104, 105, 106, 107, 108,  NA, 109, 110, 119, 121, 123,  NA,
+        NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 116, 117, 118,  NA,  NA,  NA, 120, 122, 124, 125,
+       126,  NA, 127, 128, 129, 130,  NA,  NA,  NA,  NA, 131, 132, 133,  NA, 135,  NA,  NA, 140,  NA, 142, 144,
+        NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 136,  NA,  NA,  NA, 141, 143,  NA,
+        NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 134, 137,  NA, 139,  NA,  NA,  NA,  NA,
+        NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 138,  NA,  NA,  NA,  NA,  NA,  NA };
 
 static const unsigned int legion_Y760_iso_leds_map[] =
-    {  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  NA,  NA,  16,  17,  18,  19,
-      20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  NA,  NA,  NA,  NA,  51,  33,  34,  35,  36,
-      37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  NA,  NA,  50,  NA,  NA,  66,  67,  68,  NA,
-      52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  88,  63,  89,  64,  NA,  NA,  65,  90,  91,  92,  69,
-      70,  71,  72,  73,  74,  75,  76,  77,  78,  79,  80,  81,  83,  82,  85,  84,  87,  86, 109, 111, 112,  93,
-      94,  96,  95,  97,  98,  99, 100, 101, 102, 103, 114, 104, 115, 105, 116, 106, 107, 108, 110,  NA, 113,  NA,
-     124, 125, 126, 127, 128,  NA,  NA,  NA,  NA, 129, 130, 131,  NA,  NA,  NA, 134,  NA,  NA, 117, 119, 121, 123,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 133,  NA,  NA, 118, 120, 122, 142,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 132, 135, 137,  NA, 138, 139, 141,  NA,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 136,  NA,  NA,  NA,  NA, 140,  NA };
+    {   0,  NA,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
+       20,  NA,  21,  22,  23,  24,  25,  26,  27,  28,  29,  NA,  30,  31,  32,  NA,  NA,  33,  34,  35,  36,
+       37,  NA,  38,  39,  40,  41,  42,  43,  44,  45,  46,  NA,  47,  48,  49,  NA,  50,  51,  NA,  NA,  NA,
+       52,  NA,  53,  54,  55,  NA,  56,  57,  58,  59,  60,  61,  62,  63,  64,  NA,  65,  66,  67,  68,  NA,
+       70,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  88,  89,  NA,  NA,  90,  91,  92,  69,
+       71,  72,  73,  NA,  74,  75,  76,  77,  78,  79,  80,  81,  82,  NA,  84,  86,  NA, 109, 111, 112,  93,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  83,  NA,  85,  87,  NA, 110,  NA, 113,  NA,
+       94,  NA,  95,  97,  98,  99,  NA, 100, 101, 102, 103, 104, 105, 106,  NA, 107, 108, 117, 119, 121,  NA,
+       NA,  NA,  96,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 114, 115, 116,  NA,  NA,  NA, 118, 120, 122, 123,
+       124, NA, 125, 126, 127, 128,  NA,  NA,  NA,  NA, 129, 130, 131,  NA, 133,  NA,  NA, 138,  NA, 140, 142,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 134,  NA,  NA,  NA, 139, 141,  NA,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 132, 135,  NA, 137,  NA,  NA,  NA,  NA,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 136,  NA,  NA,  NA,  NA,  NA,  NA };
 
 static const unsigned int legion_Y760_jp_leds_map[] =
-    {  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  NA,  NA,  16,  17,  18,  19,
-      20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  33,  NA,  NA,  NA,  54,  34,  35,  36,  37,
-      38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  52,  53,  NA,  NA,  71,  72,  73,  NA,
-      55,  56,  57,  58,  59,  60,  61,  62,  63,  64,  65,  66,  67,  68,  69,  NA,  91,  70,  94,  95,  96,  74,
-      75,  76,  77,  78,  79,  80,  81,  82,  83,  84,  85,  86,  87,  88,  89,  90,  92,  93, 116, 118, 119,  97,
-      98,  99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 117,  NA, 120,  NA,
-     128, 129, 130, 131, 132, 133,  NA,  NA, 134, 135, 136, 137,  NA,  NA,  NA, 139,  NA,  NA, 121, 123, 125, 127,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 140,  NA,  NA, 122, 124, 126, 148,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 138, 141, 143,  NA, 144, 145, 146,  NA,
-      NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 142,  NA,  NA,  NA,  NA, 147,  NA };
+    {   0,  NA,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
+       20,  NA,  21,  22,  23,  24,  25,  26,  27,  28,  29,  NA,  30,  31,  32,  33,  53,  34,  35,  36,  37,
+       38,  NA,  39,  40,  41,  42,  43,  44,  45,  46,  47,  NA,  48,  49,  50,  51,  52,  54,  NA,  NA,  NA,
+       55,  NA,  56,  57,  58,  NA,  59,  60,  61,  62,  63,  64,  65,  66,  68,  NA,  70,  71,  72,  73,  NA,
+       75,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  67,  69,  NA,  93,  94,  95,  96,  74,
+       76,  77,  78,  NA,  79,  80,  81,  82,  83,  84,  85,  86,  87,  NA,  89,  91,  NA, 116, 118, 119,  97,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  88,  NA,  90,  92,  NA, 117,  NA, 120,  NA,
+       98,  99,  NA, 100, 101, 102,  NA, 103, 104, 105, 106, 107, 109, 111, 113, 114, 115, 121, 123, 125,  NA,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 108, 110, 112,  NA,  NA,  NA, 122, 124, 126, 127,
+      128,  NA, 129, 130, 131, 132, 133,  NA,  NA, 134, 135, 136, 137,  NA, 139,  NA,  NA, 144,  NA, 146, 148,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 140,  NA,  NA,  NA, 145, 147,  NA,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 138, 141,  NA, 143,  NA,  NA,  NA,  NA,
+       NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA, 142,  NA,  NA,  NA,  NA,  NA,  NA };
 
 static const unsigned int legion_Y740_17_ansi_leds_map[] =
     {   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  NA,  14,  15,  16,  17,
@@ -164,7 +173,7 @@ const lenovo_led legion_Y760_ansi_leds[]
     {0x16, "Key: ~"},//20
     {0x17, "Key: !"},//21
     {0x18, "Key: @"},//22
-    {0x19, "Key: #"},//23
+    {0x19, KEY_EN_POUND},//23
     {0x1A, "Key: $"},//24
     {0x1B, "Key: %"},//25
     {0x1C, "Key: ^"},//26
@@ -495,10 +504,10 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x14, KEY_EN_PAGE_DOWN}, //19
 
     //row 2
-    {0x16, "Key: halfwidth"}, //20
+    {0x16, KEY_JP_ZENKAKU}, //20
     {0x17, "Key: !"}, //21
     {0x18, "Key: \""}, //22
-    {0x19, "Key: #"}, //23
+    {0x19, KEY_EN_POUND}, //23
     {0x1A, "Key: $"}, //24
     {0x1B, "Key: %"}, //25
     {0x1C, "Key: &"}, //26
@@ -515,7 +524,7 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x29, KEY_EN_NUMPAD_MINUS}, //37
 
     //row 3
-    {0x2B, "Key: fullwidth"}, //38
+    {0x2B, "Key: kanji"}, //38
     {0x2C, KEY_EN_1}, //39
     {0x2D, KEY_EN_2}, //40
     {0x2E, KEY_EN_3}, //41
@@ -527,8 +536,8 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x34, KEY_EN_9}, //47
     {0x35, KEY_EN_0}, //48
     {0x36, KEY_EN_MINUS}, //49
-    {0x37, "Key: ~"}, //50
-    {0x38, "Key: Yen"}, //51
+    {0x37, KEY_JP_CHEVRON}, //50
+    {0x38, KEY_JP_YEN}, //51
     {0x25, KEY_EN_BACKSPACE}, //52
     {0x3A, KEY_EN_BACKSPACE}, //53
     {0x3B, KEY_EN_NUMPAD_LOCK}, //54
@@ -546,7 +555,7 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x4A, KEY_EN_O}, //64
     {0x4B, KEY_EN_P}, //65
     {0x4C, KEY_EN_BACK_TICK}, //66
-    {0x61, "Key: @"}, //67
+    {0x61, KEY_JP_AT}, //67
     {0x4D, "Key: {"}, //68
     {0x62, KEY_EN_LEFT_BRACKET}, //69
     {0x4E, KEY_EN_ISO_ENTER}, //70
@@ -571,7 +580,7 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x5D, "Key: +"}, //87
     {0x5E, KEY_EN_SEMICOLON}, //88
     {0x5F, "Key: *"}, //89
-    {0x60, "Key: :"}, //90
+    {0x60, KEY_JP_COLON}, //90
     {0x77, "Key: }"}, //91
     {0x78, KEY_EN_RIGHT_BRACKET}, //92
     {0x63, KEY_EN_ISO_ENTER}, //93
@@ -596,7 +605,7 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x8A, KEY_EN_PERIOD}, //110
     {0x76, "Key: ?"}, //111
     {0x8B, KEY_EN_FORWARD_SLASH}, //112
-    {0x8C, KEY_EN_ANSI_BACK_SLASH}, //113
+    {0x8C, KEY_JP_RO}, //113
     {0x8D, KEY_EN_RIGHT_SHIFT}, //114
     {0xa2, KEY_EN_RIGHT_SHIFT}, //115
     {0x79, KEY_EN_NUMPAD_4}, //116
@@ -619,11 +628,11 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x80, KEY_EN_LEFT_FUNCTION}, //129
     {0x96, KEY_EN_LEFT_WINDOWS}, //130
     {0x97, KEY_EN_LEFT_ALT}, //131
-    {0x98, "Key: Muhenkan"}, //132
+    {0x98, KEY_JP_MUHENKAN}, //132
     {0x85, KEY_EN_SPACE}, //133
     {0x86, KEY_EN_SPACE}, //134
-    {0x99, "Key: Henkan"}, //135
-    {0x9A, "Key: Katakana/Hiragana/Rōmaji"}, //136
+    {0x99, KEY_JP_HENKAN}, //135
+    {0x9A, KEY_JP_KANA}, //136
     {0x9B, KEY_EN_RIGHT_CONTROL}, //137
     {0x9C, KEY_EN_LEFT_ARROW}, //138
     {0x9D, KEY_EN_UP_ARROW}, //139
@@ -1387,8 +1396,8 @@ static lenovo_zone lenovo_legion_Y760_kbd_ansi
     "Keyboard",
     ZONE_TYPE_MATRIX,
     1,
-    10,
-    22,
+    13,
+    21,
     legion_Y760_ansi_leds_map,
     legion_Y760_ansi_leds,
     0,
@@ -1400,8 +1409,8 @@ static lenovo_zone lenovo_legion_Y760_kbd_iso
     "Keyboard",
     ZONE_TYPE_MATRIX,
     1,
-    10,
-    22,
+    13,
+    21,
     legion_Y760_iso_leds_map,
     legion_Y760_iso_leds,
     0,
@@ -1413,8 +1422,8 @@ static lenovo_zone lenovo_legion_Y760_kbd_jp
     "Keyboard",
     ZONE_TYPE_MATRIX,
     1,
-    10,
-    22,
+    13,
+    21,
     legion_Y760_jp_leds_map,
     legion_Y760_jp_leds,
     0,
@@ -1512,47 +1521,11 @@ static lenovo_zone lenovo_legion_Y760_neon
 | Legion Y750, Y750S and Y760S: 4 zones                    |
 \*--------------------------------------------------------*/
 
-/*------*\
-|keyboard|
-\*------*/
-static lenovo_zone lenovo_legion_Y750_kbd_ansi
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    1,
-    10,
-    22,
-    legion_Y760_ansi_leds_map,
-    legion_Y760_ansi_leds,
-    0,
-    144,
-};
-
-static lenovo_zone lenovo_legion_Y750_kbd_iso
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    1,
-    10,
-    22,
-    legion_Y760_iso_leds_map,
-    legion_Y760_iso_leds,
-    0,
-    142,
-};
-
-static lenovo_zone lenovo_legion_Y750_kbd_jp
-{
-    "Keyboard",
-    ZONE_TYPE_MATRIX,
-    1,
-    10,
-    22,
-    legion_Y760_jp_leds_map,
-    legion_Y760_jp_leds,
-    0,
-    148,
-};
+/*----------------------------------*\
+|keyboard                            |
+|                                    |
+| Note: keyboard is shared with Y760 |
+\*----------------------------------*/
 
 /*------*\
 |logo    |
