@@ -26,6 +26,7 @@
 using namespace std::chrono_literals;
 
 static std::string                 profile_save_filename = "";
+const unsigned int                 brightness_percentage = 100;
 
 enum
 {
@@ -44,6 +45,7 @@ struct DeviceOptions
     int             device;
     std::vector<std::tuple<unsigned char, unsigned char, unsigned char>> colors;
     std::string     mode;
+    unsigned int    brightness;
     unsigned int    size;
     bool            random_colors;
     bool            hasSize;
@@ -390,6 +392,7 @@ void OptionHelp()
     help_text += "-c,  --color [random | FFFFF,00AAFF ...] Sets colors on each device directly if no effect is specified, and sets the effect color if an effect is specified\n";
     help_text += "                                           If there are more LEDs than colors given, the last color will be applied to the remaining LEDs\n";
     help_text += "-m,  --mode [breathing | static | ...]   Sets the mode to be applied, check --list-devices to see which modes are supported on your device\n";
+    help_text += "-b,  --brightness [0-100]                Sets the brightness as a percentage if the mode supports brightness\n";
     help_text += "-s,  --size [0-N]                        Sets the new size of the specified device zone.\n";
     help_text += "                                           Must be specified after specifying a zone.\n";
     help_text += "                                           If the specified size is out of range, or the zone does not offer resizing capability, the size will not be changed\n";
@@ -625,6 +628,20 @@ bool OptionMode(int* currentDev, std::string argument, Options* options)
     return true;
 }
 
+bool OptionBrightness(int* currentDev, std::string argument, Options* options)
+{
+    if(argument.size() == 0)
+    {
+        std::cout << "Error: --brightness passed with no argument" << std::endl;
+        return false;
+    }
+
+    DeviceOptions* currentDevOpts   = GetDeviceOptionsForDevID(options, *currentDev);
+    currentDevOpts->brightness      = std::clamp(std::stoi(argument), 0, (int)brightness_percentage);
+    currentDevOpts->hasOption       = true;
+    return true;
+}
+
 bool OptionSize(int* current_device, int* current_zone, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
 {
     const unsigned int new_size = std::stoi(argument);
@@ -792,6 +809,19 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         }
 
         /*---------------------------------------------------------*\
+        | -b / --brightness                                         |
+        \*---------------------------------------------------------*/
+        else if(option == "--brightness" || option == "-b")
+        {
+            if(!OptionBrightness(&current_device, argument, options))
+            {
+                return RET_FLAG_PRINT_HELP;
+            }
+
+            arg_index++;
+        }
+
+        /*---------------------------------------------------------*\
         | -s / --size                                               |
         \*---------------------------------------------------------*/
         else if(option == "--size" || option == "-s")
@@ -915,6 +945,20 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
     if(options.random_colors && (device->modes[mode].flags & MODE_FLAG_HAS_RANDOM_COLOR))
     {
         device->modes[mode].color_mode = MODE_COLORS_RANDOM;
+    }
+
+    /*---------------------------------------------------------*\
+    | If the user has specified random colours and the device   |
+    |   supports that colour mode then swich to it before       |
+    |   evaluating if a colour needs to be set                  |
+    \*---------------------------------------------------------*/
+    if((options.brightness > 0) && (device->modes[mode].flags & MODE_FLAG_HAS_BRIGHTNESS))
+    {
+        unsigned int new_brightness     = device->modes[mode].brightness_max - device->modes[mode].brightness_min;
+        new_brightness                 *= options.brightness;
+        new_brightness                 /= brightness_percentage;
+
+        device->modes[mode].brightness  = device->modes[mode].brightness_min + new_brightness;
     }
 
     /*---------------------------------------------------------*\
