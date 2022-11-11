@@ -6,7 +6,7 @@
     @type USB
     @save :robot:
     @effects :white_check_mark:
-    @detectors DetectMSIMysticLightControllers
+    @detectors DetectMSIMysticLight64Controllers
     @comment
 \*-------------------------------------------------------------------*/
 

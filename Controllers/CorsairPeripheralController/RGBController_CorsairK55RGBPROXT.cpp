@@ -356,7 +356,7 @@ RGBController_CorsairK55RGBPROXT::~RGBController_CorsairK55RGBPROXT()
     keepalive_thread_run = false;
     keepalive_thread->join();
     delete keepalive_thread;
-    delete[] zones[0].matrix_map->map;
+    delete[] zones[0].matrix_map;
 
     delete controller;
 }

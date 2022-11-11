@@ -65,9 +65,9 @@ static const Config board_configs[] =
     { 0x1720, 10, &zones_set0 },        // MPG Z390 GAMING EDGE AC
     { 0x7B12, 10, &zones_set0 },        // MEG Z390 ACE
     { 0x7B17, 10, &zones_set0 },        // MPG Z390 GAMING PRO CARBON
-    { 0x7B18, 6,  &zones_set1 },        // MAG Z390 TOMAHAWK            verified
-    { 0x7B50, 6,  &zones_set2 },        // MPG Z390M GAMING EDGE AC     verified
-    { 0x7B85, 7,  &zones_set0 },        // B450 GAMING PRO CARBON       verified
+    { 0x7B18, 6,  &zones_set1 },        // MAG Z390 TOMAHAWK
+    { 0x7B50, 6,  &zones_set2 },        // MPG Z390M GAMING EDGE AC
+    { 0x7B85, 7,  &zones_set0 },        // B450 GAMING PRO CARBON
 };
 
 
