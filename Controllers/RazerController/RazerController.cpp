@@ -599,6 +599,7 @@ bool RazerController::SupportsWave()
         case RAZER_DIAMONDBACK_CHROMA_PID:
         case RAZER_MAMBA_2015_WIRED_PID:
         case RAZER_MAMBA_2015_WIRELESS_PID:
+        case RAZER_MAMBA_ELITE_PID:
         case RAZER_MAMBA_TE_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
 
@@ -1193,7 +1194,7 @@ unsigned char RazerController::GetKeyboardLayoutType()
 
         case RAZER_KEYBOARD_LAYOUT_GREEK:                  // Unconfirmed
         case RAZER_KEYBOARD_LAYOUT_GERMAN:                 // Unconfirmed
-        case RAZER_KEYBOARD_LAYOUT_FRENCH:        
+        case RAZER_KEYBOARD_LAYOUT_FRENCH:
         case RAZER_KEYBOARD_LAYOUT_UK:
         case RAZER_KEYBOARD_LAYOUT_NORDIC:
         case RAZER_KEYBOARD_LAYOUT_KOREAN:                 // Unconfirmed
@@ -1251,7 +1252,7 @@ std::string RazerController::GetVariantName()
 {
     unsigned char layout;
     unsigned char variant;
-    
+
     RazerController::razer_get_keyboard_info(&layout, &variant);
 
     switch(variant)
