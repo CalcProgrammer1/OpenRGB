@@ -41,6 +41,7 @@
 #define INTEL_COMET_LAKE_V_SMBUS_DEV                    0xA3A3
 #define INTEL_TIGER_LAKE_SMBUS_DEV                      0x43A3
 #define INTEL_ALDER_LAKE_SMBUS_DEV                      0x7AA3
+#define INTEL_RAPTOR_LAKE_SMBUS_DEV                     0x7A23
 
 /*-----------------------------------------------------*\
 | nVidia Device IDs                                     |
@@ -541,7 +542,8 @@
     ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_H_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_V_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_TIGER_LAKE_SMBUS_DEV)) || \
-    ((ven == INTEL_VEN) && (dev == INTEL_ALDER_LAKE_SMBUS_DEV)))
+    ((ven == INTEL_VEN) && (dev == INTEL_ALDER_LAKE_SMBUS_DEV)) || \
+    ((ven == INTEL_VEN) && (dev == INTEL_RAPTOR_LAKE_SMBUS_DEV)))
 
 #define IF_MOBO_SMBUS(ven, dev)                             \
     if((ven == 0) ||                                        \
@@ -553,4 +555,5 @@
     ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_H_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_V_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_TIGER_LAKE_SMBUS_DEV)) || \
-    ((ven == INTEL_VEN) && (dev == INTEL_ALDER_LAKE_SMBUS_DEV)))
+    ((ven == INTEL_VEN) && (dev == INTEL_ALDER_LAKE_SMBUS_DEV)) || \
+    ((ven == INTEL_VEN) && (dev == INTEL_RAPTOR_LAKE_SMBUS_DEV)))
