@@ -140,8 +140,8 @@ void RGBController_AMDWraithPrism::SetupZones()
     \*---------------------------------------------------------*/
     const unsigned int logo_leds[1] =   { 0x00 };
     const unsigned int fan_leds[1] =    { 0x01 };
-    const unsigned int ring_leds[14] =  { 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
-                                          0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+    const unsigned int ring_leds[14] =  { 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x10, 0x0F,
+                                          0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09 };
 
     /*---------------------------------------------------------*\
     | Set up zones                                              |
