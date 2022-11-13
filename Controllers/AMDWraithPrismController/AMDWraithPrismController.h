@@ -76,6 +76,7 @@ enum
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_CHASE       = 0x09, /* Chase effect channel         */
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_SWIRL       = 0x0A, /* Swirl effect channel         */
     AMD_WRAITH_PRISM_EFFECT_CHANNEL_MORSE       = 0x0B, /* Morse code effect channel    */
+    AMD_WRAITH_PRISM_EFFECT_CHANNEL_DIRECT      = 0xFF, /* Value for direct mode        */
 };
 
 enum
@@ -98,6 +99,29 @@ public:
     std::string GetLocationString();
     std::string GetSerialString();
 
+    unsigned char           current_fan_mode;
+    unsigned char           current_fan_speed;
+    unsigned char           current_fan_brightness;
+    bool                    current_fan_random_color;
+
+    unsigned char           current_logo_mode;
+    unsigned char           current_logo_speed;
+    unsigned char           current_logo_brightness;
+    bool                    current_logo_random_color;
+
+    unsigned char           current_ring_mode;
+    unsigned char           current_ring_speed;
+    unsigned char           current_ring_brightness;
+    bool                    current_ring_direction;
+    bool                    current_ring_random_color;
+
+    void SetFanMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color);
+    void SetFanColor(unsigned char red, unsigned char green, unsigned char blue);
+    void SetLogoMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool random_color);
+    void SetLogoColor(unsigned char red, unsigned char green, unsigned char blue);
+    void SetRingMode(unsigned char mode, unsigned char speed, unsigned char brightness, bool direction, bool random_color);
+    void SetRingColor(unsigned char red, unsigned char green, unsigned char blue);
+
     void SendDirectPacket
         (
         unsigned char   size,
@@ -105,11 +129,28 @@ public:
         RGBColor *      colors
         );
 
-    void SendEnableCommand();
+    void SendEnableCommand(bool direct);
 
     void SendApplyCommand();
 
 private:
     hid_device*             dev;
     std::string             location;
+
+    void SetRingEffectChannel(unsigned char channel);
+
+    void SendEffectChannelUpdate
+        (
+        unsigned char effect_channel,
+        unsigned char speed,
+        bool          direction,
+        bool          random_color,
+        unsigned char mode,
+        unsigned char brightness,
+        unsigned char red,
+        unsigned char green,
+        unsigned char blue
+        );
+
+    void SendChannelRemap(unsigned char ring_channel, unsigned char logo_channel, unsigned char fan_channel);
 };
