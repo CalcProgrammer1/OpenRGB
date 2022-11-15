@@ -120,7 +120,7 @@ OpenRGBE131SettingsPage::OpenRGBE131SettingsPage(QWidget *parent) :
 
             if(e131_settings["devices"][device_idx].contains("matrix_height"))
             {
-                entry->ui->MatrixWidthEdit->setText(QString::number((int)e131_settings["devices"][device_idx]["matrix_height"]));
+                entry->ui->MatrixHeightEdit->setText(QString::number((int)e131_settings["devices"][device_idx]["matrix_height"]));
             }
 
             if(e131_settings["devices"][device_idx].contains("matrix_order"))
