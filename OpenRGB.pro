@@ -208,6 +208,8 @@ HEADERS +=                                                                      
     pci_ids/pci_ids.h                                                                           \
     qt/DeviceView.h                                                                             \
     qt/OpenRGBDialog2.h                                                                         \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.h                   \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h                    \
     qt/OpenRGBPluginContainer.h                                                                 \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.h                                                 \
     qt/OpenRGBPluginsPage/OpenRGBPluginsList.h                                                  \
@@ -367,6 +369,8 @@ HEADERS +=                                                                      
     Controllers/E131Controller/RGBController_E131.h                                             \
     Controllers/EKController/EKController.h                                                     \
     Controllers/EKController/RGBController_EKController.h                                       \
+    Controllers/ElgatoKeyLightController/ElgatoKeyLightController.h                             \
+    Controllers/ElgatoKeyLightController/RGBController_ElgatoKeyLight.h                         \
     Controllers/ENESMBusController/ENESMBusController.h                                         \
     Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface.h                        \
@@ -703,6 +707,8 @@ SOURCES +=                                                                      
     net_port/net_port.cpp                                                                       \
     qt/DeviceView.cpp                                                                           \
     qt/OpenRGBDialog2.cpp                                                                       \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp \
     qt/OpenRGBPluginContainer.cpp                                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.cpp                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsList.cpp                                                \
@@ -894,6 +900,9 @@ SOURCES +=                                                                      
     Controllers/EKController/EKControllerDetect.cpp                                             \
     Controllers/EKController/EKController.cpp                                                   \
     Controllers/EKController/RGBController_EKController.cpp                                     \
+    Controllers/ElgatoKeyLightController/ElgatoKeyLightController.cpp                           \
+    Controllers/ElgatoKeyLightController/ElgatoKeyLightControllerDetect.cpp                     \
+    Controllers/ElgatoKeyLightController/RGBController_ElgatoKeyLight.cpp                       \
     Controllers/ENESMBusController/ENESMBusController.cpp                                       \
     Controllers/ENESMBusController/ENESMBusControllerDetect.cpp                                 \
     Controllers/ENESMBusController/RGBController_ENESMBus.cpp                                   \
@@ -1262,6 +1271,8 @@ FORMS +=                                                                        
     qt/OpenRGBDevicePage.ui                                                                     \
     qt/OpenRGBDialog.ui                                                                         \
     qt/OpenRGBDialog2.ui                                                                        \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui \
     qt/OpenRGBPluginContainer.ui                                                                \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.ui                                                \
     qt/OpenRGBPluginsPage/OpenRGBPluginsPage.ui                                                 \

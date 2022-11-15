@@ -10,6 +10,7 @@
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
 #include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
+#include "OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h"
 #include "OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h"
 #include "OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h"
 #include "OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h"
@@ -79,6 +80,7 @@ private:
     OpenRGBSupportedDevicesPage *SupportedPage;
     OpenRGBSettingsPage *SettingsPage;
     OpenRGBE131SettingsPage *E131SettingsPage;
+    OpenRGBElgatoKeyLightSettingsPage *ElgatoKeyLightSettingsPage;
     OpenRGBLIFXSettingsPage *LIFXSettingsPage;
     OpenRGBPhilipsHueSettingsPage *PhilipsHueSettingsPage;
     OpenRGBPhilipsWizSettingsPage *PhilipsWizSettingsPage;
@@ -105,6 +107,7 @@ private:
     void AddSupportedDevicesPage();
     void AddSettingsPage();
     void AddE131SettingsPage();
+    void AddElgatoKeyLightSettingsPage();
     void AddLIFXSettingsPage();
     void AddPhilipsHueSettingsPage();
     void AddPhilipsWizSettingsPage();
