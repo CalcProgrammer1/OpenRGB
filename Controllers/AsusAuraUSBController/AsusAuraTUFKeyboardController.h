@@ -35,8 +35,9 @@ enum
 {
     AURA_ROG_FALCHION_WIRED_PID     = 0x193C,
     AURA_ROG_FALCHION_WIRELESS_PID  = 0x193E,
-    AURA_TUF_K7_GAMING_PID          = 0x18AA,
+    AURA_TUF_K1_GAMING_PID          = 0x1945,
     AURA_TUF_K3_GAMING_PID          = 0x194B,
+    AURA_TUF_K7_GAMING_PID          = 0x18AA,
     AURA_ROG_CLAYMORE_PID           = 0x184D,
 };
 
@@ -73,11 +74,19 @@ public:
         std::vector<led_color>    colors
         );
 
+    void UpdateK1Wave
+        (
+        std::vector<RGBColor>   colors,
+        unsigned char           direction,
+        unsigned char           speed,
+        unsigned char           brightness
+        );
+
     void UpdateDevice
         (
         unsigned char           mode,
         std::vector<RGBColor>   colors,
-        unsigned char           dir,
+        unsigned char           direction,
         unsigned char           color_mode,
         unsigned char           speed,
         unsigned char           brightness
