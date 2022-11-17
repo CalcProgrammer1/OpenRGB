@@ -3,28 +3,31 @@
 #include "SinowealthController1007.h"
 #include "SinowealthKeyboardController.h"
 #include "SinowealthKeyboard16Controller.h"
+#include "SinowealthKeyboard90Controller.h"
 #include "SinowealthGMOWController.h"
 #include "RGBController.h"
 #include "RGBController_Sinowealth.h"
 #include "RGBController_Sinowealth1007.h"
 #include "RGBController_SinowealthKeyboard.h"
 #include "RGBController_SinowealthKeyboard16.h"
+#include "RGBController_SinowealthKeyboard90.h"
 #include "RGBController_SinowealthGMOW.h"
 #include <hidapi/hidapi.h>
 #include "LogManager.h"
 
 #define SINOWEALTH_VID          0x258A
 
-#define Glorious_Model_O_PID	0x0036
-#define Glorious_Model_OW_PID1	0x2022 // wireless
-#define Glorious_Model_OW_PID2	0x2011 // when connected via cable
-#define Glorious_Model_D_PID	0x0033
+#define Glorious_Model_O_PID    0x0036
+#define Glorious_Model_OW_PID1  0x2022 // wireless
+#define Glorious_Model_OW_PID2  0x2011 // when connected via cable
+#define Glorious_Model_D_PID    0x0033
 #define Glorious_Model_DW_PID1  0x2023 // Wireless
 #define Glorious_Model_DW_PID2  0x2012 // When connected via cable
 #define Everest_GT100_PID       0x0029
-#define ZET_FURY_PRO_PID	    0x1007
+#define ZET_FURY_PRO_PID        0x1007
 #define Fl_Esports_F11_PID      0x0049
-#define RGB_KEYBOARD_0016PID	0x0016
+#define RGB_KEYBOARD_0016PID    0x0016
+#define GENESIS_THOR_300_PID    0x0090
 
 /******************************************************************************************\
 *                                                                                          *
@@ -386,6 +389,24 @@ void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
 #endif
 }
 
+void DetectSinowealthGenesisKeyboard(hid_device_info* info, const std::string& name)
+{
+    unsigned int pid = info->product_id;
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        RGBController *rgb_controller;
+
+        if(pid == GENESIS_THOR_300_PID)
+        {
+            SinowealthKeyboard90Controller* controller = new SinowealthKeyboard90Controller(dev, info->path, pid);
+            rgb_controller                             = new RGBController_SinowealthKeyboard90(controller);
+        }
+        rgb_controller->name = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 #ifdef USE_HID_USAGE
 REGISTER_HID_DETECTOR_P("Glorious Model O / O-",           DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_O_PID,   0xFF00);
 REGISTER_HID_DETECTOR_P("Glorious Model D / D-",           DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_D_PID,   0xFF00);
@@ -396,6 +417,7 @@ REGISTER_HID_DETECTOR_PU("Glorious Model O / O- Wireless", DetectSinowealthMouse
 REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID1, 0xFFFF, 0x0000);
 REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID2, 0xFFFF, 0x0000);
 
+REGISTER_HID_DETECTOR_IPU("Genesis Thor 300",    DetectSinowealthGenesisKeyboard, SINOWEALTH_VID, GENESIS_THOR_300_PID,   1, 0xFF00, 1);
 //REGISTER_HID_DETECTOR_P("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,     0xFF00);
 //REGISTER_HID_DETECTOR_P("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID,   0xFF00);
 #else
@@ -408,6 +430,7 @@ REGISTER_HID_DETECTOR_I("Glorious Model O / O- Wireless", DetectSinowealthMouse,
 REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID1, 2);
 REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless", DetectSinowealthMouse, SINOWEALTH_VID, Glorious_Model_DW_PID2, 2);
 
+REGISTER_HID_DETECTOR_I("Genesis Thor 300",      DetectSinowealthGenesisKeyboard, SINOWEALTH_VID, GENESIS_THOR_300_PID, 1);
 //REGISTER_HID_DETECTOR_I("FL ESPORTS F11",        DetectSinowealthKeyboard, SINOWEALTH_VID, Fl_Esports_F11_PID,   1);
 //REGISTER_HID_DETECTOR_I("Sinowealth Keyboard",   DetectSinowealthKeyboard, SINOWEALTH_VID, RGB_KEYBOARD_0016PID, 1);
 #endif

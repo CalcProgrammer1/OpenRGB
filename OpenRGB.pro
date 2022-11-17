@@ -570,11 +570,13 @@ HEADERS +=                                                                      
     Controllers/SinowealthController/SinowealthGMOWController.h                                 \
     Controllers/SinowealthController/SinowealthKeyboardController.h                             \
     Controllers/SinowealthController/SinowealthKeyboard16Controller.h                           \
+    Controllers/SinowealthController/SinowealthKeyboard90Controller.h                           \
     Controllers/SinowealthController/RGBController_Sinowealth.h                                 \
     Controllers/SinowealthController/RGBController_Sinowealth1007.h                             \
     Controllers/SinowealthController/RGBController_SinowealthGMOW.h                             \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard.h                         \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard16.h                       \
+    Controllers/SinowealthController/RGBController_SinowealthKeyboard90.h                       \
     Controllers/SonyGamepadController/SonyDualSenseController.h                                 \
     Controllers/SonyGamepadController/RGBController_SonyDualSense.h                             \
     Controllers/SonyGamepadController/SonyDS4Controller.h                                       \
@@ -1157,12 +1159,14 @@ SOURCES +=                                                                      
     Controllers/SinowealthController/SinowealthGMOWController.cpp                               \
     Controllers/SinowealthController/SinowealthKeyboardController.cpp                           \
     Controllers/SinowealthController/SinowealthKeyboard16Controller.cpp                         \
+    Controllers/SinowealthController/SinowealthKeyboard90Controller.cpp                         \
     Controllers/SinowealthController/SinowealthControllerDetect.cpp                             \
     Controllers/SinowealthController/RGBController_Sinowealth.cpp                               \
     Controllers/SinowealthController/RGBController_Sinowealth1007.cpp                           \
     Controllers/SinowealthController/RGBController_SinowealthGMOW.cpp                           \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard.cpp                       \
     Controllers/SinowealthController/RGBController_SinowealthKeyboard16.cpp                     \
+    Controllers/SinowealthController/RGBController_SinowealthKeyboard90.cpp                     \
     Controllers/SonyGamepadController/SonyDualSenseController.cpp                               \
     Controllers/SonyGamepadController/RGBController_SonyDualSense.cpp                           \
     Controllers/SonyGamepadController/SonyDS4Controller.cpp                                     \
