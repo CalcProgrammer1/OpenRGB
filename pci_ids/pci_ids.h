@@ -235,6 +235,7 @@
 #define COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G           0x150A
 #define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV            0x140A
 #define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV2           0x1401
+#define COLORFUL_IGAME_RTX_3070_TI_ADVANCED_OCV2        0x1400
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
