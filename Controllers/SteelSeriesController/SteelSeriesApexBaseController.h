@@ -102,6 +102,7 @@ public:
             if(result > 0)
             {
                 std::string fwver(ibuf, ibuf+STEELSERIES_PACKET_IN_SIZE);
+                fwver = fwver.c_str();
 
                 /*---------------------------------------*\
                 | Find 2 periods in string, if found we   |
@@ -133,6 +134,7 @@ public:
             if(result > 0)
             {
                 std::string fwver(ibuf, ibuf+STEELSERIES_PACKET_IN_SIZE);
+                fwver = fwver.c_str();
 
                 std::size_t majorp = fwver.find('.');
                 if(majorp != std::string::npos)
