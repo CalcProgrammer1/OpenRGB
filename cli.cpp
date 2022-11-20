@@ -43,6 +43,7 @@ enum
 struct DeviceOptions
 {
     int             device;
+    int             zone        = -1;
     std::vector<std::tuple<unsigned char, unsigned char, unsigned char>> colors;
     std::string     mode;
     unsigned int    brightness;
@@ -385,7 +386,8 @@ void OptionHelp()
     help_text += "--server                                 Starts the SDK's server\n";
     help_text += "--server-port                            Sets the SDK's server port. Default: 6742 (1024-65535)\n";
     help_text += "-l,  --list-devices                      Lists every compatible device with their number\n";
-    help_text += "-d,  --device [0-9]                      Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
+    help_text += "-d,  --device [0-9 | \"name\"]             Selects device to apply colors and/or effect to, or applies to all devices if omitted\n";
+    help_text += "                                           Basic string search is implemented 3 characters or more\n";
     help_text += "                                           Can be specified multiple times with different modes and colors\n";
     help_text += "-z,  --zone [0-9]                        Selects zone to apply colors and/or sizes to, or applies to all zones in device if omitted\n";
     help_text += "                                           Must be specified after specifying a device\n";
@@ -541,80 +543,127 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
     }
 }
 
-bool OptionDevice(int* current_device, std::string argument, Options* options, std::vector<RGBController *>& rgb_controllers)
+bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options, std::vector<RGBController *>& rgb_controllers)
 {
+    bool found = false;
     ResourceManager::get()->WaitForDeviceDetection();
 
     try
     {
-        *current_device = std::stoi(argument);
+        int current_device = std::stoi(argument);
 
-        if((*current_device >= static_cast<int>(rgb_controllers.size())) || (*current_device < 0))
+        if((current_device >= static_cast<int>(rgb_controllers.size())) || (current_device < 0))
         {
             throw nullptr;
         }
 
         DeviceOptions newDev;
-        newDev.device = *current_device;
+        newDev.device = current_device;
 
         if(!options->hasDevice)
         {
             options->hasDevice = true;
         }
 
-        options->devices.push_back(newDev);
+        current_devices->push_back(newDev);
 
-        return true;
+        found = true;
     }
     catch(...)
     {
-        std::cout << "Error: Invalid device ID: " + argument << std::endl;
-        return false;
+        if(argument.length() > 1)
+        {
+            for(int i = 0; i < rgb_controllers.size(); i++)
+            {
+                /*---------------------------------------------------------*\
+                | If the argument is not a number then check all the        |
+                |   controllers names for a match                           |
+                \*---------------------------------------------------------*/
+                std::string name            = rgb_controllers[i]->name;
+                std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+                std::transform(argument.begin(), argument.end(), argument.begin(), ::tolower);
+
+                if(name.find(argument) != std::string::npos)
+                {
+                    found                   = true;
+
+                    DeviceOptions newDev;
+                    newDev.device           = i;
+
+                    if(!options->hasDevice)
+                    {
+                        options->hasDevice  = true;
+                    }
+
+                    current_devices->push_back(newDev);
+                }
+            }
+        }
+        else
+        {
+            std::cout << "Error: Invalid device ID: " + argument << std::endl;
+            return false;
+        }
     }
+
+    return found;
 }
 
-bool OptionZone(int* current_device, int* current_zone, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
+bool OptionZone(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
 {
+    bool found = false;
     ResourceManager::get()->WaitForDeviceDetection();
 
     try
     {
-        *current_zone = std::stoi(argument);
+        int current_zone = std::stoi(argument);
 
-        if(*current_device >= static_cast<int>(rgb_controllers.size()))
+        for(size_t i = 0; i < current_devices->size(); i++)
         {
-            if(*current_zone >= static_cast<int>(rgb_controllers[*current_device]->zones.size()))
+            int current_device = current_devices->at(i).device;
+
+            if(current_zone >= static_cast<int>(rgb_controllers[current_device]->zones.size()) || (current_zone < 0))
             {
                 throw nullptr;
             }
-        }
 
-        return true;
+            current_devices->at(i).zone = current_zone;
+            found = true;
+        }
     }
     catch(...)
     {
         std::cout << "Error: Invalid zone ID: " + argument << std::endl;
         return false;
     }
+
+    return found;
 }
 
-bool OptionColor(int* currentDev, int* /*current_zone*/, std::string argument, Options* options)
+bool OptionColor(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
 {
-    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
+    bool found = false;
 
-    if(ParseColors(argument, currentDevOpts))
+    for(size_t i = 0; i < current_devices->size(); i++)
     {
-        currentDevOpts->hasOption = true;
-        return true;
+        DeviceOptions* currentDevOpts = &current_devices->at(i);
+
+        if(ParseColors(argument, currentDevOpts))
+        {
+            currentDevOpts->hasOption = true;
+            found = true;
+        }
+        else
+        {
+            std::cout << "Error: Invalid color value: " + argument << std::endl;
+            return false;
+        }
     }
-    else
-    {
-        std::cout << "Error: Invalid color value: " + argument << std::endl;
-        return false;
-    }
+
+    return found;
 }
 
-bool OptionMode(int* currentDev, std::string argument, Options* options)
+bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
 {
     if(argument.size() == 0)
     {
@@ -622,13 +671,21 @@ bool OptionMode(int* currentDev, std::string argument, Options* options)
         return false;
     }
 
-    DeviceOptions* currentDevOpts = GetDeviceOptionsForDevID(options, *currentDev);
-    currentDevOpts->mode = argument;
-    currentDevOpts->hasOption = true;
-    return true;
+    bool found = false;
+
+    for(size_t i = 0; i < current_devices->size(); i++)
+    {
+        DeviceOptions* currentDevOpts = &current_devices->at(i);
+
+        currentDevOpts->mode = argument;
+        currentDevOpts->hasOption = true;
+        found = true;
+    }
+
+    return found;
 }
 
-bool OptionBrightness(int* currentDev, std::string argument, Options* options)
+bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
 {
     if(argument.size() == 0)
     {
@@ -636,45 +693,59 @@ bool OptionBrightness(int* currentDev, std::string argument, Options* options)
         return false;
     }
 
-    DeviceOptions* currentDevOpts   = GetDeviceOptionsForDevID(options, *currentDev);
-    currentDevOpts->brightness      = std::min(std::max(std::stoi(argument), 0),(int)brightness_percentage);
-    currentDevOpts->hasOption       = true;
-    return true;
+    bool found = false;
+
+    for(size_t i = 0; i < current_devices->size(); i++)
+    {
+        DeviceOptions* currentDevOpts   = &current_devices->at(i);
+
+        currentDevOpts->brightness      = std::clamp(std::stoi(argument), 0, (int)brightness_percentage);
+        currentDevOpts->hasOption       = true;
+        found = true;
+    }
+
+    return found;
 }
 
-bool OptionSize(int* current_device, int* current_zone, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
+bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
 {
     const unsigned int new_size = std::stoi(argument);
 
     ResourceManager::get()->WaitForDeviceDetection();
 
-    /*---------------------------------------------------------*\
-    | Fail out if device, zone, or size are out of range        |
-    \*---------------------------------------------------------*/
-    if((*current_device >= static_cast<int>(rgb_controllers.size())) || (*current_device < 0))
+    for(size_t i = 0; i < current_devices->size(); i++)
     {
-        std::cout << "Error: Device is out of range" << std::endl;
-        return false;
-    }
-    else if((*current_zone >= static_cast<int>(rgb_controllers[*current_device]->zones.size())) || (*current_zone < 0))
-    {
-        std::cout << "Error: Zone is out of range" << std::endl;
-        return false;
-    }
-    else if((new_size < rgb_controllers[*current_device]->zones[*current_zone].leds_min) || (new_size > rgb_controllers[*current_device]->zones[*current_zone].leds_max))
-    {
-        std::cout << "Error: New size is out of range" << std::endl;
-    }
+        int current_device      = current_devices->at(i).device;
+        int current_zone        = current_devices->at(i).zone;
 
-    /*---------------------------------------------------------*\
-    | Resize the zone                                           |
-    \*---------------------------------------------------------*/
-    rgb_controllers[*current_device]->ResizeZone(*current_zone, new_size);
+        /*---------------------------------------------------------*\
+        | Fail out if device, zone, or size are out of range        |
+        \*---------------------------------------------------------*/
+        if((current_device >= static_cast<int>(rgb_controllers.size())) || (current_device < 0))
+        {
+            std::cout << "Error: Device is out of range" << std::endl;
+            return false;
+        }
+        else if((current_zone >= static_cast<int>(rgb_controllers[current_device]->zones.size())) || (current_zone < 0))
+        {
+            std::cout << "Error: Zone is out of range" << std::endl;
+            return false;
+        }
+        else if((new_size < rgb_controllers[current_device]->zones[current_zone].leds_min) || (new_size > rgb_controllers[current_device]->zones[current_zone].leds_max))
+        {
+            std::cout << "Error: New size is out of range" << std::endl;
+        }
 
-    /*---------------------------------------------------------*\
-    | Save the profile                                          |
-    \*---------------------------------------------------------*/
-    ResourceManager::get()->GetProfileManager()->SaveProfile("sizes", true);
+        /*---------------------------------------------------------*\
+        | Resize the zone                                           |
+        \*---------------------------------------------------------*/
+        rgb_controllers[current_device]->ResizeZone(current_zone, new_size);
+
+        /*---------------------------------------------------------*\
+        | Save the profile                                          |
+        \*---------------------------------------------------------*/
+        ResourceManager::get()->GetProfileManager()->SaveProfile("sizes", true);
+    }
 
     return true;
 }
@@ -728,8 +799,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
 {
     unsigned int ret_flags  = 0;
     int arg_index           = 1;
-    int current_device      = -1;
-    int current_zone        = -1;
+    std::vector<DeviceOptions> current_devices;
 
     options->hasDevice = false;
     options->profile_loaded = false;
@@ -761,7 +831,13 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--device" || option == "-d")
         {
-            if(!OptionDevice(&current_device, argument, options, rgb_controllers))
+            while(!current_devices.empty())
+            {
+                options->devices.push_back(current_devices.back());
+                current_devices.pop_back();
+            }
+
+            if(!OptionDevice(&current_devices, argument, options, rgb_controllers))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -774,7 +850,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--zone" || option == "-z")
         {
-            if(!OptionZone(&current_device, &current_zone, argument, options, rgb_controllers))
+            if(!OptionZone(&current_devices, argument, options, rgb_controllers))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -787,7 +863,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--color" || option == "-c")
         {
-            if(!OptionColor(&current_device, &current_zone, argument, options))
+            if(!OptionColor(&current_devices, argument, options))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -800,7 +876,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--mode" || option == "-m")
         {
-            if(!OptionMode(&current_device, argument, options))
+            if(!OptionMode(&current_devices, argument, options))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -813,7 +889,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--brightness" || option == "-b")
         {
-            if(!OptionBrightness(&current_device, argument, options))
+            if(!OptionBrightness(&current_devices, argument, options))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -826,7 +902,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--size" || option == "-s")
         {
-            if(!OptionSize(&current_device, &current_zone, argument, options, rgb_controllers))
+            if(!OptionSize(&current_devices, argument, options, rgb_controllers))
             {
                 return RET_FLAG_PRINT_HELP;
             }
@@ -909,6 +985,12 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
     | If a device was specified, check to verify that a         |
     | corresponding option was also specified                   |
     \*---------------------------------------------------------*/
+    while(!current_devices.empty())
+    {
+        options->devices.push_back(current_devices.back());
+        current_devices.pop_back();
+    }
+
     if(options->hasDevice)
     {
         for(std::size_t option_idx = 0; option_idx < options->devices.size(); option_idx++)
@@ -978,14 +1060,27 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
             {
                 std::size_t last_set_color = 0;
 
-                for(std::size_t led_idx = 0; led_idx < device->leds.size(); led_idx++)
+                RGBColor* start_from;
+                unsigned int led_count;
+                if(options.zone < 0)
+                {
+                    start_from  = &device->colors[0];
+                    led_count   = device->leds.size();
+                }
+                else
+                {
+                    start_from  = device->zones[options.zone].colors;
+                    led_count   = device->zones[options.zone].leds_count;
+                }
+
+                for(std::size_t led_idx = 0; led_idx < led_count; led_idx++)
                 {
                     if(led_idx < options.colors.size())
                     {
-                        last_set_color = led_idx;
+                        last_set_color      = led_idx;
                     }
 
-                    device->colors[led_idx] = ToRGBColor(std::get<0>(options.colors[last_set_color]),
+                    start_from[led_idx]     = ToRGBColor(std::get<0>(options.colors[last_set_color]),
                                                          std::get<1>(options.colors[last_set_color]),
                                                          std::get<2>(options.colors[last_set_color]));
                 }
