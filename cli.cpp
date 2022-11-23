@@ -637,7 +637,7 @@ bool OptionBrightness(int* currentDev, std::string argument, Options* options)
     }
 
     DeviceOptions* currentDevOpts   = GetDeviceOptionsForDevID(options, *currentDev);
-    currentDevOpts->brightness      = std::clamp(std::stoi(argument), 0, (int)brightness_percentage);
+    currentDevOpts->brightness      = std::min(std::max(std::stoi(argument), 0),(int)brightness_percentage);
     currentDevOpts->hasOption       = true;
     return true;
 }
