@@ -35,6 +35,11 @@ DeviceView::DeviceView(QWidget *parent) :
     size = width();
 }
 
+DeviceView::~DeviceView()
+{
+    delete controller;
+}
+
 struct led_label
 {
     QString label_text;
@@ -201,7 +206,10 @@ void DeviceView::setController(RGBController * controller_ptr)
     | Store the controller pointer                          |
     \*-----------------------------------------------------*/
     controller = controller_ptr;
+}
 
+void DeviceView::InitDeviceView()
+{
     /*-----------------------------------------------------*\
     | Set the size of the selection flags vector            |
     \*-----------------------------------------------------*/
@@ -364,7 +372,7 @@ void DeviceView::setController(RGBController * controller_ptr)
             | Calculate LED box positions for single/linear zones   |
             \*-----------------------------------------------------*/
             unsigned int leds_count = controller->zones[zone_idx].leds_count;
-            
+
             for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
             {
                 unsigned int led_pos_idx = controller->zones[zone_idx].start_idx + led_idx;
@@ -587,7 +595,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     \*-----------------------------------------------------*/
     if(controller->leds.size() != led_pos.size())
     {
-        setController(controller);
+        InitDeviceView();
     }
 
     /*-----------------------------------------------------*\
@@ -722,7 +730,7 @@ void DeviceView::updateSelection()
             selectedLeds.push_back(led_idx);
         }
     }
-    
+
     update();
 
     /*-----------------------------------------------------*\
@@ -788,7 +796,7 @@ bool DeviceView::selectLeds(QVector<int> target)
     }
 
     update();
-    
+
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/
@@ -823,7 +831,7 @@ bool DeviceView::selectZone(int zone, bool add)
     }
 
     update();
-    
+
     /*-----------------------------------------------------*\
     | Send selection changed signal                         |
     \*-----------------------------------------------------*/

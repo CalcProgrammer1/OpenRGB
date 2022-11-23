@@ -17,6 +17,7 @@ class DeviceView : public QWidget
     Q_OBJECT
 public:
     explicit DeviceView(QWidget *parent = 0);
+    ~DeviceView();
 
     virtual QSize sizeHint () const;
     virtual QSize minimumSizeHint () const;
@@ -54,14 +55,15 @@ private:
     float                               matrix_h;
 
     bool                                numerical_labels;
-    
+
     RGBController* controller;
 
-	QColor posColor(const QPoint &point);
-	void updateSelection();
+    QColor posColor(const QPoint &point);
+    void InitDeviceView();
+    void updateSelection();
 
 signals:
-	void selectionChanged(QVector<int>);
+    void selectionChanged(QVector<int>);
 
 public slots:
     bool selectLed(int);
