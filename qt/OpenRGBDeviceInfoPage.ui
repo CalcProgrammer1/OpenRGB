@@ -13,124 +13,148 @@
   <property name="windowTitle">
    <string>Device info page</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="20,80">
-   <item row="0" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="NameLabel">
-     <property name="text">
-      <string>Name:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="VendorLabel">
-     <property name="text">
-      <string>Vendor:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="TypeLabel">
-     <property name="text">
-      <string>Type:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="DescriptionLabel">
-     <property name="text">
-      <string>Description:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="VersionLabel">
-     <property name="text">
-      <string>Version:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="LocationLabel">
-     <property name="text">
-      <string>Location:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="SerialLabel">
-     <property name="text">
-      <string>Serial:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="NameValue">
-     <property name="text">
-      <string notr="true">Name Value</string>
-     </property>
-     <property name="wordWrap">
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::NoFrame</enum>
+  </property>
+  <property name="frameShadow">
+   <enum>QFrame::Sunken</enum>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0">
+   <item row="0" column="0">
+    <widget class="QFrame" name="DeviceInfoFrame">
+     <property name="autoFillBackground">
       <bool>true</bool>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="VendorValue">
-     <property name="text">
-      <string notr="true">Vendor Value</string>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="wordWrap">
-      <bool>true</bool>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="TypeValue">
-     <property name="text">
-      <string notr="true">Type Value</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="DescriptionValue">
-     <property name="text">
-      <string notr="true">Description Value</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="VersionValue">
-     <property name="text">
-      <string notr="true">Version Value</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QLabel" name="LocationValue">
-     <property name="text">
-      <string notr="true">Location Value</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QLabel" name="SerialValue">
-     <property name="text">
-      <string notr="true">Serial Value</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
+     <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
+      <item row="4" column="1">
+       <widget class="QLabel" name="VersionValue">
+        <property name="text">
+         <string notr="true">Version Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="SerialLabel">
+        <property name="text">
+         <string>Serial:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLabel" name="SerialValue">
+        <property name="text">
+         <string notr="true">Serial Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="NameLabel">
+        <property name="text">
+         <string>Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="NameValue">
+        <property name="text">
+         <string notr="true">Name Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="VendorLabel">
+        <property name="text">
+         <string>Vendor:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="VendorValue">
+        <property name="text">
+         <string notr="true">Vendor Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="TypeLabel">
+        <property name="text">
+         <string>Type:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="TypeValue">
+        <property name="text">
+         <string notr="true">Type Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="DescriptionValue">
+        <property name="text">
+         <string notr="true">Description Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="DescriptionLabel">
+        <property name="text">
+         <string>Description:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="VersionLabel">
+        <property name="text">
+         <string>Version:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="LocationLabel">
+        <property name="text">
+         <string>Location:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="LocationValue">
+        <property name="text">
+         <string notr="true">Location Value</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
