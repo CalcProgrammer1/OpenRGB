@@ -5,6 +5,7 @@
 #include "SteelSeriesQCKMatController.h"
 #include "SteelSeriesApexController.h"
 #include "SteelSeriesApexTZoneController.h"
+#include "SteelSeriesApex3TKLController.h"
 #include "SteelSeriesOldApexController.h"
 #include "SteelSeriesApexMController.h"
 #include "SteelSeriesSenseiController.h"
@@ -18,6 +19,7 @@
 #include "RGBController_SteelSeriesQCKMat.h"
 #include "RGBController_SteelSeriesApex.h"
 #include "RGBController_SteelSeriesApexTZone.h"
+#include "RGBController_SteelSeriesApex3TKL.h"
 #include "RGBController_SteelSeriesOldApex.h"
 #include "RGBController_SteelSeriesSensei.h"
 #include "RGBController_SteelSeriesArctis5.h"
@@ -77,6 +79,7 @@
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
 #define STEELSERIES_APEX_3_PID                      0x161A
+#define STEELSERIES_APEX_3_TKL_PID                  0x1622
 #define STEELSERIES_APEX_5_PID                      0x161C
 #define STEELSERIES_APEX_7_PID                      0x1612
 #define STEELSERIES_APEX_7_TKL_PID                  0x1618
@@ -118,6 +121,18 @@ void DetectSteelSeriesApexTZone(hid_device_info* info, const std::string& name)
         SteelSeriesApexTZoneController* controller          = new SteelSeriesApexTZoneController(dev, APEX_TZONE, info->path);
         RGBController_SteelSeriesApexTZone* rgb_controller  = new RGBController_SteelSeriesApexTZone(controller);
         rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectSteelSeriesApex3TKL(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        SteelSeriesApex3TKLController* controller          = new SteelSeriesApex3TKLController(dev, APEX_TZONE, info->path, name.c_str());
+        RGBController_SteelSeriesApex3TKL* rgb_controller  = new RGBController_SteelSeriesApex3TKL(controller);
+        rgb_controller->name                               = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -331,6 +346,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth 4XL",                      
 | Keyboards                                                                                                                                                                 |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_I("SteelSeries Apex 3",                               DetectSteelSeriesApexTZone, STEELSERIES_VID, STEELSERIES_APEX_3_PID,                        3  );
+REGISTER_HID_DETECTOR_I("SteelSeries Apex 3 TKL",                           DetectSteelSeriesApex3TKL,  STEELSERIES_VID, STEELSERIES_APEX_3_TKL_PID,                    1  );
 REGISTER_HID_DETECTOR_I("SteelSeries Apex 5",                               DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_5_PID,                        1  );
 REGISTER_HID_DETECTOR_I("SteelSeries Apex 7",                               DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_PID,                        1  );
 REGISTER_HID_DETECTOR_I("SteelSeries Apex 7 TKL",                           DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_TKL_PID,                    1  );
