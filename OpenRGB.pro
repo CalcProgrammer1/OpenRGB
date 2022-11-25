@@ -178,8 +178,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
-    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.h \
-    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
@@ -428,12 +426,14 @@ HEADERS +=                                                                      
     Controllers/HyperXKeyboardController/HyperXAlloyEliteController.h                           \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.h                          \
     Controllers/HyperXKeyboardController/HyperXAlloyFPSController.h                             \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.h                       \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h                         \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.h                     \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite.h                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.h                      \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.h                         \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.h                     \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.h                   \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.h                 \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.h                         \
     Controllers/HyperXMouseController/HyperXPulsefireHasteController.h                          \
@@ -656,8 +656,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 SOURCES +=                                                                                      \
-    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.cpp \
-    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.cpp \
     dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
@@ -988,6 +986,7 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/HyperXAlloyEliteController.cpp                         \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.cpp                        \
     Controllers/HyperXKeyboardController/HyperXAlloyFPSController.cpp                           \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.cpp                     \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.cpp                       \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.cpp                   \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp                     \
@@ -995,6 +994,7 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.cpp                    \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.cpp                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.cpp                   \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.cpp                 \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.cpp               \
     Controllers/HyperXMouseController/HyperXMouseControllerDetect.cpp                           \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.cpp                       \
@@ -1280,11 +1280,7 @@ FORMS +=                                                                        
     qt/OpenRGBDevicePage.ui                                                                     \
     qt/OpenRGBDialog.ui                                                                         \
     qt/OpenRGBDialog2.ui                                                                        \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui \
     qt/OpenRGBPluginContainer.ui                                                                \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.ui                                                \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsPage.ui                                                 \
     qt/OpenRGBProfileSaveDialog.ui                                                              \
     qt/OpenRGBServerInfoPage.ui                                                                 \
     qt/OpenRGBSettingsPage.ui                                                                   \
@@ -1294,6 +1290,8 @@ FORMS +=                                                                        
     qt/OpenRGBZoneResizeDialog.ui                                                               \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui                                      \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui                  \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui                   \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui                                      \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui                                       \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui                               \
@@ -1302,6 +1300,8 @@ FORMS +=                                                                        
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui                           \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.ui                          \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.ui                           \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.ui                                                \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsPage.ui                                                 \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.ui                                \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.ui                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui                                  \
