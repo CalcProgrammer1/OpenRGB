@@ -30,5 +30,6 @@ typedef enum
     APEX_TZONE  = 0x0A,
     RIVAL_700   = 0x0B,
     AEROX_3     = 0x0C,
+    APEX_8ZONE  = 0x0D,
 } steelseries_type;
 

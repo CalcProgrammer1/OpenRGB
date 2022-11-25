@@ -4,56 +4,37 @@
 |  Edbgon 06.10.21                          |
 \*-----------------------------------------*/
 
-
 #include "SteelSeriesApexTZoneController.h"
 #include <cstring>
 
-SteelSeriesApexTZoneController::SteelSeriesApexTZoneController
-    (
-    hid_device*         dev_handle,
-    steelseries_type    proto_type,
-    const char*         path
-    )
+SteelSeriesApexTZoneController::SteelSeriesApexTZoneController(hid_device* dev_handle, const char* path) : SteelSeriesApex3Controller(dev_handle, path)
 {
-    dev         = dev_handle;
-    location    = path;
-    proto       = proto_type;
+
 }
 
 SteelSeriesApexTZoneController::~SteelSeriesApexTZoneController()
 {
-    hid_close(dev);
+
 }
 
-std::string SteelSeriesApexTZoneController::GetDeviceLocation()
+uint8_t SteelSeriesApexTZoneController::GetLedCount()
 {
-    return("HID: " + location);
+    return STEELSERIES_TZ_LED_COUNT;
 }
 
-char* SteelSeriesApexTZoneController::GetDeviceName()
+uint8_t SteelSeriesApexTZoneController::GetMaxBrightness()
 {
-    return device_name;
+    return STEELSERIES_TZ_BRIGHTNESS_MAX;
 }
 
-std::string SteelSeriesApexTZoneController::GetSerialString()
+bool SteelSeriesApexTZoneController::SupportsRainbowWave()
 {
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if (ret != 0)
-    {
-        return("");
-    }
-
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return false;
 }
 
-steelseries_type SteelSeriesApexTZoneController::GetKeyboardType()
+bool SteelSeriesApexTZoneController::SupportsSave()
 {
-    return proto;
+    return true;
 }
 
 void SteelSeriesApexTZoneController::Save()
@@ -67,7 +48,7 @@ void SteelSeriesApexTZoneController::Save()
     hid_write(dev, buf, STEELSERIES_TZ_WRITE_PACKET_SIZE);
 }
 
-void SteelSeriesApexTZoneController::SetColor(std::vector<RGBColor> colors, unsigned char brightness)
+void SteelSeriesApexTZoneController::SetColor(std::vector<RGBColor> colors, uint8_t /*mode*/, uint8_t brightness)
 {
     unsigned char buf[STEELSERIES_TZ_WRITE_PACKET_SIZE] = { 0x00 };
 
@@ -81,8 +62,7 @@ void SteelSeriesApexTZoneController::SetColor(std::vector<RGBColor> colors, unsi
     hid_write(dev, buf, STEELSERIES_TZ_WRITE_PACKET_SIZE);
 
     buf[0x01]           = 0x0B;
-
-    for(unsigned int i = 0; i < colors.size(); i++)
+    for(size_t i = 0; i < colors.size(); i++)
     {
         uint8_t index   = i * 3;
 

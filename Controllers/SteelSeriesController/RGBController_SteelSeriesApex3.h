@@ -7,13 +7,19 @@
 #pragma once
 
 #include "RGBController.h"
-#include "SteelSeriesApexTZoneController.h"
+#include "SteelSeriesApex3Controller.h"
 
-class RGBController_SteelSeriesApexTZone : public RGBController
+enum class APEX3_MODES
+{
+    DIRECT          = 0,
+    RAINBOW_WAVE    = 1
+};
+
+class RGBController_SteelSeriesApex3 : public RGBController
 {
 public:
-    RGBController_SteelSeriesApexTZone(SteelSeriesApexTZoneController* apex_tzone_ptr);
-    ~RGBController_SteelSeriesApexTZone();
+    RGBController_SteelSeriesApex3(SteelSeriesApex3Controller* controller_ptr);
+    ~RGBController_SteelSeriesApex3();
 
     void        SetupZones();
     void        ResizeZone(int zone, int new_size);
@@ -26,5 +32,5 @@ public:
     void        DeviceSaveMode();
 
 private:
-    SteelSeriesApexTZoneController*     controller;
+    SteelSeriesApex3Controller*     controller;
 };

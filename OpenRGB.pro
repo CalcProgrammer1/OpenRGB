@@ -587,11 +587,12 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/color32.h                                                 \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.h                             \
     Controllers/SteelSeriesController/SteelSeriesAerox9Controller.h                             \
-    Controllers/SteelSeriesController/SteelSeriesApex3TKLController.h                           \
     Controllers/SteelSeriesController/SteelSeriesApexBaseController.h                           \
     Controllers/SteelSeriesController/SteelSeriesApexController.h                               \
-    Controllers/SteelSeriesController/SteelSeriesApexRegions.h                                  \
+    Controllers/SteelSeriesController/SteelSeriesApex3Controller.h                              \
+    Controllers/SteelSeriesController/SteelSeriesApex8ZoneController.h                          \
     Controllers/SteelSeriesController/SteelSeriesApexMController.h                              \
+    Controllers/SteelSeriesController/SteelSeriesApexRegions.h                                  \
     Controllers/SteelSeriesController/SteelSeriesApexTZoneController.h                          \
     Controllers/SteelSeriesController/SteelSeriesArctis5Controller.h                            \
     Controllers/SteelSeriesController/SteelSeriesGeneric.h                                      \
@@ -603,8 +604,7 @@ HEADERS +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h                            \
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.h                             \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.h                           \
-    Controllers/SteelSeriesController/RGBController_SteelSeriesApex3TKL.h                       \
-    Controllers/SteelSeriesController/RGBController_SteelSeriesApexTZone.h                      \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesApex3.h                          \
     Controllers/SteelSeriesController/RGBController_SteelSeriesArctis5.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.h                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.h                          \
@@ -1180,8 +1180,9 @@ SOURCES +=                                                                      
     Controllers/SRGBmodsController/RGBController_SRGBmodsPico.cpp                               \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesAerox9Controller.cpp                           \
-    Controllers/SteelSeriesController/SteelSeriesApex3TKLController.cpp                         \
     Controllers/SteelSeriesController/SteelSeriesApexController.cpp                             \
+    Controllers/SteelSeriesController/SteelSeriesApex3Controller.cpp                            \
+    Controllers/SteelSeriesController/SteelSeriesApex8ZoneController.cpp                        \
     Controllers/SteelSeriesController/SteelSeriesApexMController.cpp                            \
     Controllers/SteelSeriesController/SteelSeriesApexTZoneController.cpp                        \
     Controllers/SteelSeriesController/SteelSeriesArctis5Controller.cpp                          \
@@ -1194,8 +1195,7 @@ SOURCES +=                                                                      
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.cpp                          \
     Controllers/SteelSeriesController/SteelSeriesQCKMatController.cpp                           \
     Controllers/SteelSeriesController/RGBController_SteelSeriesApex.cpp                         \
-    Controllers/SteelSeriesController/RGBController_SteelSeriesApex3TKL.cpp                     \
-    Controllers/SteelSeriesController/RGBController_SteelSeriesApexTZone.cpp                    \
+    Controllers/SteelSeriesController/RGBController_SteelSeriesApex3.cpp                        \
     Controllers/SteelSeriesController/RGBController_SteelSeriesArctis5.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesOldApex.cpp                      \
     Controllers/SteelSeriesController/RGBController_SteelSeriesRival.cpp                        \

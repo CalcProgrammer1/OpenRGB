@@ -7,38 +7,29 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
+#include "RGBController.h"
 #include "SteelSeriesGeneric.h"
-#include "SteelSeriesApexBaseController.h"
+#include "SteelSeriesApex3Controller.h"
 
 #pragma once
 
+#define STEELSERIES_TZ_LED_COUNT            10
 #define STEELSERIES_TZ_WRITE_PACKET_SIZE    33
-#define STEELSERIES_TZ_BRIGHTNESS_MIN       0x00
 #define STEELSERIES_TZ_BRIGHTNESS_MAX       0x64
 
-class SteelSeriesApexTZoneController
+class SteelSeriesApexTZoneController : public SteelSeriesApex3Controller
 {
 public:
-    SteelSeriesApexTZoneController
-        (
-        hid_device*         dev_handle,
-        steelseries_type    proto_type,
-        const char*         path
-        );
-
+    SteelSeriesApexTZoneController(hid_device *dev_handle, const char *path);
     ~SteelSeriesApexTZoneController();
 
-    std::string GetDeviceLocation();
-    char*       GetDeviceName();
-    std::string GetSerialString();
-    steelseries_type GetKeyboardType();
-
-    void SetColor(std::vector<RGBColor> colors, unsigned char brightness);
-    void Save();
+    void        SetColor(std::vector<RGBColor> colors, uint8_t mode, uint8_t brightness);
+    void        Save();
+    uint8_t     GetLedCount();
+    uint8_t     GetMaxBrightness();
+    bool        SupportsRainbowWave();
+    bool        SupportsSave();
 
 private:
-    char                    device_name[32];
-    hid_device*             dev;
-    std::string             location;
-    steelseries_type        proto;
+
 };

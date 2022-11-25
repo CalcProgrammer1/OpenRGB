@@ -1,29 +1,30 @@
+#include <hidapi/hidapi.h>
 #include "Detector.h"
+#include "RGBController.h"
+#include "SteelSeriesGeneric.h"
+
+#include "SteelSeriesAerox9Controller.h"
+#include "SteelSeriesArctis5Controller.h"
+#include "SteelSeriesApex8ZoneController.h"
+#include "SteelSeriesApexController.h"
+#include "SteelSeriesApexMController.h"
+#include "SteelSeriesApexTZoneController.h"
+#include "SteelSeriesOldApexController.h"
+#include "SteelSeriesQCKMatController.h"
 #include "SteelSeriesRivalController.h"
 #include "SteelSeriesRival3Controller.h"
-#include "SteelSeriesSiberiaController.h"
-#include "SteelSeriesQCKMatController.h"
-#include "SteelSeriesApexController.h"
-#include "SteelSeriesApexTZoneController.h"
-#include "SteelSeriesApex3TKLController.h"
-#include "SteelSeriesOldApexController.h"
-#include "SteelSeriesApexMController.h"
 #include "SteelSeriesSenseiController.h"
-#include "SteelSeriesGeneric.h"
-#include "SteelSeriesArctis5Controller.h"
-#include "SteelSeriesAerox9Controller.h"
-#include "RGBController.h"
+#include "SteelSeriesSiberiaController.h"
+
+#include "RGBController_SteelSeriesArctis5.h"
+#include "RGBController_SteelSeriesApex.h"
+#include "RGBController_SteelSeriesApex3.h"
+#include "RGBController_SteelSeriesOldApex.h"
+#include "RGBController_SteelSeriesQCKMat.h"
 #include "RGBController_SteelSeriesRival.h"
 #include "RGBController_SteelSeriesRival3.h"
-#include "RGBController_SteelSeriesSiberia.h"
-#include "RGBController_SteelSeriesQCKMat.h"
-#include "RGBController_SteelSeriesApex.h"
-#include "RGBController_SteelSeriesApexTZone.h"
-#include "RGBController_SteelSeriesApex3TKL.h"
-#include "RGBController_SteelSeriesOldApex.h"
 #include "RGBController_SteelSeriesSensei.h"
-#include "RGBController_SteelSeriesArctis5.h"
-#include <hidapi/hidapi.h>
+#include "RGBController_SteelSeriesSiberia.h"
 
 /*-----------------------------------------------------*\
 | Vendor ID                                             |
@@ -113,13 +114,13 @@ void DetectSteelSeriesAerox9(hid_device_info* info, const std::string& name)
     }
 }
 
-void DetectSteelSeriesApexTZone(hid_device_info* info, const std::string& name)
+void DetectSteelSeriesApex3Full(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        SteelSeriesApexTZoneController* controller          = new SteelSeriesApexTZoneController(dev, APEX_TZONE, info->path);
-        RGBController_SteelSeriesApexTZone* rgb_controller  = new RGBController_SteelSeriesApexTZone(controller);
+        SteelSeriesApexTZoneController* controller          = new SteelSeriesApexTZoneController(dev, info->path);
+        RGBController_SteelSeriesApex3* rgb_controller      = new RGBController_SteelSeriesApex3(controller);
         rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -130,9 +131,9 @@ void DetectSteelSeriesApex3TKL(hid_device_info* info, const std::string& name)
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        SteelSeriesApex3TKLController* controller          = new SteelSeriesApex3TKLController(dev, APEX_TZONE, info->path, name.c_str());
-        RGBController_SteelSeriesApex3TKL* rgb_controller  = new RGBController_SteelSeriesApex3TKL(controller);
-        rgb_controller->name                               = name;
+        SteelSeriesApex8ZoneController* controller          = new SteelSeriesApex8ZoneController(dev, info->path);
+        RGBController_SteelSeriesApex3* rgb_controller      = new RGBController_SteelSeriesApex3(controller);
+        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -345,13 +346,13 @@ REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth 4XL",                      
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                                                 |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_I("SteelSeries Apex 3",                               DetectSteelSeriesApexTZone, STEELSERIES_VID, STEELSERIES_APEX_3_PID,                        3  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex 3 TKL",                           DetectSteelSeriesApex3TKL,  STEELSERIES_VID, STEELSERIES_APEX_3_TKL_PID,                    1  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex 5",                               DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_5_PID,                        1  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex 7",                               DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_PID,                        1  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex 7 TKL",                           DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_TKL_PID,                    1  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex Pro",                             DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_PID,                      1  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex Pro TKL",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_PID,                  1  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex M750",                            DetectSteelSeriesApexM,     STEELSERIES_VID, STEELSERIES_APEX_M750_PID,                     2  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex (OG)/Apex Fnatic",                DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_OG_PID,                       0  );
-REGISTER_HID_DETECTOR_I("SteelSeries Apex 350",                             DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_350_PID,                      0  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 3",                             DetectSteelSeriesApex3Full, STEELSERIES_VID, STEELSERIES_APEX_3_PID,                    	3  );
+REGISTER_HID_DETECTOR_IPU("SteelSeries Apex 3 TKL",                         DetectSteelSeriesApex3TKL,  STEELSERIES_VID, STEELSERIES_APEX_3_TKL_PID,    1,  0xFFC0,     1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 5",                             DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_5_PID,                    	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 7",                             DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_PID,                    	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 7 TKL",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_TKL_PID,                	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro",                           DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_PID,                  	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL",                       DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_PID,              	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex M750",                          DetectSteelSeriesApexM,     STEELSERIES_VID, STEELSERIES_APEX_M750_PID,                 	2  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex (OG)/Apex Fnatic",              DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_OG_PID,                   	0  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 350",                           DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_350_PID,                  0  );
