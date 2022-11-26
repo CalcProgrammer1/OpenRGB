@@ -37,7 +37,7 @@ DeviceView::DeviceView(QWidget *parent) :
 
 DeviceView::~DeviceView()
 {
-    delete controller;
+
 }
 
 struct led_label
