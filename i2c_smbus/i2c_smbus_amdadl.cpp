@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "i2c_smbus_amdadl.h"
+#include "LogManager.h"
 #include <string>
 
 typedef int ( *ADL2_MAIN_CONTROL_CREATE )(ADL_MAIN_MALLOC_CALLBACK, int, ADL_CONTEXT_HANDLE*);
@@ -228,6 +229,7 @@ bool i2c_smbus_amdadl_detect()
         else
         {
             i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context);
+            LOG_INFO("ADL GPU Device %04X:%04X Subsystem: %04X:%04X", adl_bus->pci_vendor, adl_bus->pci_device,adl_bus->pci_subsystem_vendor,adl_bus->pci_subsystem_device);
             ResourceManager::get()->RegisterI2CBus(adl_bus);
         }
     }
