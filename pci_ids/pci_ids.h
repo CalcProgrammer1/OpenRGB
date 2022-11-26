@@ -226,6 +226,7 @@
 #define ASUS_TUF_RX_6700XT_O12G_GAMING                  0x05C9
 #define ASUS_TUF_RX_6800XT_O16G_GAMING                  0x04F2
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
+#define ASUS_TUF_RX_6900XT_T16G_GAMING                  0x04FE
 #define ASUS_TUF_RTX_4090_O24G_OC_GAMING                0x889A
 #define ASUS_TUF_RTX_4090_O24G_GAMING                   0x889B
 
