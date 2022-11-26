@@ -30,6 +30,14 @@ Ui::OpenRGBPluginsPage::~OpenRGBPluginsPage()
     delete ui;
 }
 
+void Ui::OpenRGBPluginsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBPluginsPage::RefreshList()
 {
     ui->PluginsList->clear();

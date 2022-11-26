@@ -49,6 +49,14 @@ OpenRGBPhilipsWizSettingsPage::~OpenRGBPhilipsWizSettingsPage()
     delete ui;
 }
 
+void OpenRGBPhilipsWizSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBPhilipsWizSettingsPage::on_AddPhilipsWizDeviceButton_clicked()
 {
     OpenRGBPhilipsWizSettingsEntry* entry = new OpenRGBPhilipsWizSettingsEntry;

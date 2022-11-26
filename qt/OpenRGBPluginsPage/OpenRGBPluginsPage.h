@@ -22,12 +22,13 @@ public:
     void on_EnableButton_clicked(OpenRGBPluginsEntry* entry);
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_InstallPluginButton_clicked();
 
     void on_RemovePluginButton_clicked();
 
     void on_PluginsList_itemSelectionChanged();
-    
+
     void on_PluginsList_PluginsDropped(std::vector<std::string>);
 
 private:

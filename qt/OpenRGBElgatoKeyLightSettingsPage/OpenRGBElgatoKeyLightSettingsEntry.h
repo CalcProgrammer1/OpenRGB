@@ -16,6 +16,9 @@ public:
     explicit OpenRGBElgatoKeyLightSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBElgatoKeyLightSettingsEntry();
     Ui::OpenRGBElgatoKeyLightSettingsEntryUi *ui;
+
+private slots:
+    void changeEvent(QEvent *event);
 };
 
 #endif // OPENRGBELGATOKEYLIGHTSETTINGSENTRY_H

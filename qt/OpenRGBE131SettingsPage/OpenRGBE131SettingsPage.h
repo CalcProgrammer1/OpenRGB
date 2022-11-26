@@ -19,6 +19,7 @@ public:
     ~OpenRGBE131SettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddE131DeviceButton_clicked();
 
     void on_RemoveE131DeviceButton_clicked();

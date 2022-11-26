@@ -47,6 +47,14 @@ OpenRGBSystemInfoPage::~OpenRGBSystemInfoPage()
     delete ui;
 }
 
+void OpenRGBSystemInfoPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBSystemInfoPage::UpdateBusList()
 {
     /*-----------------------------------------------------*\
@@ -100,7 +108,7 @@ void Ui::OpenRGBSystemInfoPage::on_DumpButton_clicked()
     {
         current_index = 0;
     }
-    
+
     if((int)(busses.size()) > current_index)
     {
         i2c_smbus_interface* bus = busses[current_index];

@@ -17,6 +17,7 @@ public:
     ~OpenRGBPhilipsHueSettingsEntry();
     Ui::OpenRGBPhilipsHueSettingsEntryUi *ui;
 private slots:
+    void changeEvent(QEvent *event);
     void on_UnpairButton_clicked();
 };
 

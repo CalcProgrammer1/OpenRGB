@@ -14,3 +14,11 @@ OpenRGBLIFXSettingsEntry::~OpenRGBLIFXSettingsEntry()
 {
     delete ui;
 }
+
+void OpenRGBLIFXSettingsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}

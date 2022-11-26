@@ -50,6 +50,14 @@ OpenRGBClientInfoPage::~OpenRGBClientInfoPage()
 
 }
 
+void OpenRGBClientInfoPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBClientInfoPage::AddClient(NetworkClient* new_client)
 {
     /*-----------------------------------------------------*\
@@ -82,7 +90,6 @@ void OpenRGBClientInfoPage::UpdateInfo()
     ui->ClientTree->setColumnWidth(1, 100);
     ui->ClientTree->setColumnWidth(2, 100);
     ui->ClientTree->setColumnWidth(3, 100);
-    ui->ClientTree->setHeaderLabels(QStringList() << tr("Connected Clients") << tr("Protocol Version") << tr("Save Connection") << "");
 
     /*-----------------------------------------------------*\
     | Set up a signal mapper to handle disconnect buttons   |

@@ -59,6 +59,14 @@ OpenRGBQMKORGBSettingsPage::~OpenRGBQMKORGBSettingsPage()
     delete ui;
 }
 
+void OpenRGBQMKORGBSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBQMKORGBSettingsPage::on_AddQMKORGBDeviceButton_clicked()
 {
     OpenRGBQMKORGBSettingsEntry* entry = new OpenRGBQMKORGBSettingsEntry;

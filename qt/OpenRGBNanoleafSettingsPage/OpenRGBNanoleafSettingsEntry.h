@@ -21,6 +21,7 @@ public:
     Ui::OpenRGBNanoleafSettingsEntryUi *ui;
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_UnpairButton_clicked();
     void on_PairButton_clicked();
 

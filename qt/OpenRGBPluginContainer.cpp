@@ -20,6 +20,14 @@ Ui::OpenRGBPluginContainer::~OpenRGBPluginContainer()
     delete ui;
 }
 
+void Ui::OpenRGBPluginContainer::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBPluginContainer::Hide()
 {
     plugin_widget->hide();

@@ -29,6 +29,7 @@ public:
     void HideDeviceView();
 
 private slots:
+    void changeEvent(QEvent *event);
     void UpdateInterface();
 
     void on_ColorWheelBox_colorChanged(const QColor color);

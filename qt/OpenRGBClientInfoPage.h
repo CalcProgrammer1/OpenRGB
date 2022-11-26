@@ -24,6 +24,7 @@ public slots:
     void UpdateInfo();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_ClientConnectButton_clicked();
     void onClientDisconnectButton_clicked(QObject * arg);
     void onClientSaveCheckBox_clicked(QObject * arg);

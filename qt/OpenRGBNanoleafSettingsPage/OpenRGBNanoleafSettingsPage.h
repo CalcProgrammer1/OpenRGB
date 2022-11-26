@@ -20,6 +20,7 @@ public:
     ~OpenRGBNanoleafSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_ScanForNanoleafDevicesButton_clicked();
     void on_DeviceFound(QString address, int port);
 

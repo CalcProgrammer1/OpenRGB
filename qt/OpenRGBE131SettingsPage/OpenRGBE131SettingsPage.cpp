@@ -196,6 +196,14 @@ OpenRGBE131SettingsPage::~OpenRGBE131SettingsPage()
     delete ui;
 }
 
+void OpenRGBE131SettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBE131SettingsPage::on_AddE131DeviceButton_clicked()
 {
     OpenRGBE131SettingsEntry* entry = new OpenRGBE131SettingsEntry;

@@ -18,6 +18,7 @@ public:
     Ui::OpenRGBYeelightSettingsEntryUi *ui;
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_HostIPChooserButton_clicked();
 
 };

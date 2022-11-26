@@ -19,6 +19,7 @@ public:
     ~OpenRGBSerialSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddSerialDeviceButton_clicked();
 
     void on_RemoveSerialDeviceButton_clicked();

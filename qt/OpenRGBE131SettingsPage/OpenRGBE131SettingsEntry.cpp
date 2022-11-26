@@ -37,6 +37,14 @@ OpenRGBE131SettingsEntry::~OpenRGBE131SettingsEntry()
     delete ui;
 }
 
+void OpenRGBE131SettingsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBE131SettingsEntry::HideMatrixSettings()
 {
     ui->MatrixWidthLabel->setDisabled(true);

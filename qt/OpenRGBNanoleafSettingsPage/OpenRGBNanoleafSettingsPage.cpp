@@ -44,6 +44,14 @@ OpenRGBNanoleafSettingsPage::~OpenRGBNanoleafSettingsPage()
     delete ui;
 }
 
+void OpenRGBNanoleafSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBNanoleafSettingsPage::on_ScanForNanoleafDevicesButton_clicked()
 {
     /*-----------------------------------------------------*\

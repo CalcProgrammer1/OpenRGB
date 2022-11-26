@@ -19,6 +19,7 @@ public:
     ~OpenRGBYeelightSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddYeelightDeviceButton_clicked();
 
     void on_RemoveYeelightDeviceButton_clicked();

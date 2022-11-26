@@ -82,6 +82,14 @@ OpenRGBSerialSettingsPage::~OpenRGBSerialSettingsPage()
     delete ui;
 }
 
+void OpenRGBSerialSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBSerialSettingsPage::on_AddSerialDeviceButton_clicked()
 {
     OpenRGBSerialSettingsEntry* entry = new OpenRGBSerialSettingsEntry;

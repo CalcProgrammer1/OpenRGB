@@ -30,6 +30,18 @@
         <source>IP:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Connected Clients</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save Connection</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OpenRGBConsolePageUi</name>
@@ -361,11 +373,113 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsEntryUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
     <message>
-        <source>Philips Hue settings entry</source>
+        <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBLIFXSettingsEntryUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBLIFXSettingsPageUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auth Key:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unpair</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pair</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBPhilipsHueSettingsEntryUi</name>
     <message>
         <source>IP:</source>
         <translation type="unfinished"></translation>
@@ -388,6 +502,14 @@
     </message>
     <message>
         <source>MAC:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Connect Group:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -502,6 +624,10 @@
     </message>
     <message>
         <source>Remove Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -630,6 +756,22 @@
         <source>Connected Clients:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Server Host:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client Name</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OpenRGBSettingsPageUi</name>
@@ -711,6 +853,34 @@
     </message>
     <message>
         <source>Open Settings Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Drivers Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Greyscale Tray Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Profile on Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shared SMBus Access (restart required)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Server Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -925,18 +1095,6 @@
 <context>
     <name>Ui::OpenRGBClientInfoPage</name>
     <message>
-        <source>Connected Clients</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save Connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1083,14 +1241,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Software</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Supported Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>General Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1140,6 +1290,26 @@
     </message>
     <message>
         <source>Log Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIFX Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nanoleaf Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Elgato KeyLight Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Supported Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Software</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1231,23 +1401,19 @@
         <source>Offline</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Client IP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Client Name</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
         <source>A problem occurred enabling Start At Login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>English - US</source>
+        <translation type="unfinished">English - US</translation>
+    </message>
+    <message>
+        <source>System Default</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

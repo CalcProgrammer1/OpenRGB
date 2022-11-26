@@ -539,6 +539,27 @@ OpenRGBDialog2::~OpenRGBDialog2()
     delete ui;
 }
 
+void OpenRGBDialog2::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        for(int i = 0; i < ui->MainTabBar->count(); i++)
+        {
+            /*-----------------------------------------------------*\
+            | if the objectName is either of the SDK tabs           |
+            |   then translate tab text (TODO: improve workaround)  |
+            \*-----------------------------------------------------*/
+            std::string label = ui->MainTabBar->widget(i)->objectName().toStdString();
+
+            if(label.substr(0,3) == "SDK")
+            {
+                ui->MainTabBar->setTabText(i, tr(label.c_str()));
+            }
+        }
+    }
+}
+
 void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
@@ -621,7 +642,7 @@ void OpenRGBDialog2::AddPluginsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* PluginTabLabel = new TabLabel(PluginsLabelString, tr("Plugins"));
+    TabLabel* PluginTabLabel = new TabLabel(PluginsLabelString, tr("Plugins"), (char *)"Plugins", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, PluginTabLabel);
 }
@@ -649,7 +670,7 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, tr("Software"));
+    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, tr("Software"), (char *)"Software", (char *)context);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
@@ -677,7 +698,7 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SupportedTabLabel = new TabLabel(SettingsLabelString, tr("Supported Devices"));
+    TabLabel* SupportedTabLabel = new TabLabel(SettingsLabelString, tr("Supported Devices"), (char *)"Supported Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
 }
@@ -706,7 +727,7 @@ void OpenRGBDialog2::AddSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("General Settings"));
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("General Settings"), (char *)"General Settings", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 
@@ -740,7 +761,7 @@ void OpenRGBDialog2::AddE131SettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("E1.31 Devices"));
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("E1.31 Devices"), (char *)"E1.31 Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -768,7 +789,7 @@ void OpenRGBDialog2::AddLIFXSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "LIFX Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("LIFX Devices"), (char *)"LIFX Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -796,7 +817,7 @@ void OpenRGBDialog2::AddPhilipsHueSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Hue Devices"));
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Hue Devices"), (char *)"Philips Hue Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -824,7 +845,7 @@ void OpenRGBDialog2::AddPhilipsWizSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Wiz Devices"));
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Wiz Devices"), (char *)"Philips Wiz Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -852,7 +873,7 @@ void OpenRGBDialog2::AddQMKORGBSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("OpenRGB QMK Protocol"));
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("OpenRGB QMK Protocol"), (char *)"OpenRGB QMK Protocol", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -880,7 +901,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Serial Devices"));
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Serial Devices"), (char *)"Serial Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -908,7 +929,7 @@ void OpenRGBDialog2::AddYeelightSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Yeelight Devices"));
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Yeelight Devices"), (char *)"Yeelight Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -936,7 +957,7 @@ void OpenRGBDialog2::AddNanoleafSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Nanoleaf Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Nanoleaf Devices"), (char *)"Nanoleaf Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -964,7 +985,7 @@ void OpenRGBDialog2::AddElgatoKeyLightSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, "Elgato KeyLight Devices");
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Elgato KeyLight Devices"), (char *)"Elgato KeyLight Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -994,7 +1015,7 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    PluginTabLabel = (QLabel*)new TabLabel(PluginLabelString, QString::fromStdString(plugin->info.Label));
+    PluginTabLabel = (QLabel*)new TabLabel(PluginLabelString, QString::fromStdString(plugin->info.Label), (char *)plugin->info.Label.c_str(), (char *)context);
 
     /*-----------------------------------------------------*\
     | Place plugin as its own top level tab                 |
@@ -1178,7 +1199,7 @@ void OpenRGBDialog2::AddI2CToolsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SMBusToolsTabLabel = new TabLabel(SMBusToolsLabelString, tr("SMBus Tools"));
+    TabLabel* SMBusToolsTabLabel = new TabLabel(SMBusToolsLabelString, tr("SMBus Tools"), (char *)"SMBus Tools", (char *)context);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
 }
@@ -1191,6 +1212,7 @@ void OpenRGBDialog2::AddClientTab()
     if(ClientInfoPage == NULL)
     {
         ClientInfoPage = new OpenRGBClientInfoPage();
+        ClientInfoPage->setObjectName(QString("SDK Client"));
         ui->MainTabBar->insertTab(2, ClientInfoPage, tr("SDK Client"));
     }
 }
@@ -1212,6 +1234,7 @@ void OpenRGBDialog2::AddServerTab()
     | Add server information tab if there is a server       |
     \*-----------------------------------------------------*/
     OpenRGBServerInfoPage *ServerInfoPage = new OpenRGBServerInfoPage(ResourceManager::get()->GetServer());
+    ServerInfoPage->setObjectName(QString("SDK Server"));
     ui->MainTabBar->insertTab(2, ServerInfoPage, tr("SDK Server"));
 }
 
@@ -1297,7 +1320,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             /*-----------------------------------------------------*\
             | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
+            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
 
             ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
@@ -1348,7 +1371,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             /*-----------------------------------------------------*\
             | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name));
+            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
@@ -1978,7 +2001,7 @@ void Ui::OpenRGBDialog2::AddConsolePage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* ConsoleTabLabel = new TabLabel(ConsoleLabelString, tr("Log Console"));
+    TabLabel* ConsoleTabLabel = new TabLabel(ConsoleLabelString, tr("Log Console"), (char *)"Log Console", (char *)context);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, ConsoleTabLabel);
 }

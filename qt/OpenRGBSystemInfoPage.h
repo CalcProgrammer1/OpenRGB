@@ -21,6 +21,7 @@ public slots:
     void UpdateBusList();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_DetectButton_clicked();
 
     void on_DumpButton_clicked();

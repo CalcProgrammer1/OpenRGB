@@ -13,7 +13,7 @@ class Ui::OpenRGBZonesBulkResizer : public QWidget
 {
     Q_OBJECT
 
-public:    
+public:
     static void RunChecks(QWidget *parent);
 
     explicit OpenRGBZonesBulkResizer(QWidget*, const std::vector<std::tuple<RGBController*, unsigned int>>&);
@@ -32,6 +32,7 @@ signals:
     void CloseRequest();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_save_button_clicked();
     void on_ignore_button_clicked();
 

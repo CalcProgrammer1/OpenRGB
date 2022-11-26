@@ -19,6 +19,7 @@ public:
     ~OpenRGBQMKORGBSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddQMKORGBDeviceButton_clicked();
 
     void on_RemoveQMKORGBDeviceButton_clicked();

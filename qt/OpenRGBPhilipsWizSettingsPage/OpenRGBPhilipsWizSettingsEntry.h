@@ -16,6 +16,9 @@ public:
     explicit OpenRGBPhilipsWizSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBPhilipsWizSettingsEntry();
     Ui::OpenRGBPhilipsWizSettingsEntryUi *ui;
+
+private slots:
+    void changeEvent(QEvent *event);
 };
 
 #endif // OPENRGBPHILIPSWIZSETTINGSENTRY_H

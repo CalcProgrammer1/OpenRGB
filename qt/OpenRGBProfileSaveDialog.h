@@ -22,6 +22,9 @@ public:
 
 private:
     Ui::OpenRGBProfileSaveDialogUi *ui;
+
+private slots:
+    void changeEvent(QEvent *event);
 };
 
 #endif // OPENRGBPROFILESAVEDIALOG_H

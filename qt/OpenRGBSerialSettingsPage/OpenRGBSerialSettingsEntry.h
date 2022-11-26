@@ -12,6 +12,9 @@ class Ui::OpenRGBSerialSettingsEntry : public QWidget
 {
     Q_OBJECT
 
+private slots:
+    void changeEvent(QEvent *event);
+
 public:
     explicit OpenRGBSerialSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBSerialSettingsEntry();

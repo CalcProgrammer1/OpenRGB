@@ -1263,15 +1263,16 @@ RESOURCES +=                                                                    
     qt/resources.qrc                                                                            \
 
 TRANSLATIONS +=                                                                                 \
+    qt/i18n/OpenRGB_de.ts                                                                       \
     qt/i18n/OpenRGB_en.ts                                                                       \
     qt/i18n/OpenRGB_en_AU.ts                                                                    \
     qt/i18n/OpenRGB_en_GB.ts                                                                    \
-    qt/i18n/OpenRGB_de.ts                                                                       \
     qt/i18n/OpenRGB_es.ts                                                                       \
     qt/i18n/OpenRGB_fr.ts                                                                       \
     qt/i18n/OpenRGB_ru.ts                                                                       \
-    qt/i18n/OpenRGB_zh.ts                                                                       \
     qt/i18n/OpenRGB_pt_BR.ts                                                                    \
+    qt/i18n/OpenRGB_zh.ts                                                                       \
+    qt/i18n/OpenRGB_zh_TW.ts                                                                    \
 
 FORMS +=                                                                                        \
     qt/OpenRGBClientInfoPage.ui                                                                 \

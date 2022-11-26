@@ -54,6 +54,14 @@ OpenRGBLIFXSettingsPage::~OpenRGBLIFXSettingsPage()
     delete ui;
 }
 
+void OpenRGBLIFXSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBLIFXSettingsPage::on_AddLIFXDeviceButton_clicked()
 {
     OpenRGBLIFXSettingsEntry* entry = new OpenRGBLIFXSettingsEntry;

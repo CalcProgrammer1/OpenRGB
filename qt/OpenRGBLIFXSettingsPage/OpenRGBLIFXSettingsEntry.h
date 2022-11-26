@@ -16,6 +16,9 @@ public:
     explicit OpenRGBLIFXSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBLIFXSettingsEntry();
     Ui::OpenRGBLIFXSettingsEntryUi *ui;
+
+private slots:
+    void changeEvent(QEvent *event);
 };
 
 #endif // OPENRGBLIFXSETTINGSENTRY_H

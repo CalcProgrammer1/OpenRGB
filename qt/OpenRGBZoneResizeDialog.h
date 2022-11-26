@@ -19,6 +19,7 @@ public:
     int show();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_ResizeSlider_valueChanged(int value);
 
     void on_ResizeBox_valueChanged(int arg1);

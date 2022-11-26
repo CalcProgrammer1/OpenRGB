@@ -14,3 +14,11 @@ OpenRGBQMKORGBSettingsEntry::~OpenRGBQMKORGBSettingsEntry()
 {
     delete ui;
 }
+
+void OpenRGBQMKORGBSettingsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}

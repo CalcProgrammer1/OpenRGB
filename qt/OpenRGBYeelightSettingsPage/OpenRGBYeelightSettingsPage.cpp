@@ -59,6 +59,14 @@ OpenRGBYeelightSettingsPage::~OpenRGBYeelightSettingsPage()
     delete ui;
 }
 
+void OpenRGBYeelightSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBYeelightSettingsPage::on_AddYeelightDeviceButton_clicked()
 {
     OpenRGBYeelightSettingsEntry* entry = new OpenRGBYeelightSettingsEntry;

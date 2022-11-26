@@ -547,10 +547,6 @@ before_script:
   - Pop-Location
   - _fold_final_
 
-  - _fold_start_ 'Generate qm files'
-  - .\_qt\5.15.0\msvc2019\bin\lrelease OpenRGB.pro
-  - _fold_final_
-
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'
   - mkdir _build; cd _build
   - ..\_qt\5.15.0\msvc2019\bin\qmake ..\OpenRGB.pro
@@ -625,10 +621,6 @@ before_script:
   - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
   - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
   - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'Generate qm files'
-  - .\_qt\5.15.0\msvc2019_64\bin\lrelease OpenRGB.pro
   - _fold_final_
 
   - _fold_start_ 'run qmake and generate the msvc nmake makefile'

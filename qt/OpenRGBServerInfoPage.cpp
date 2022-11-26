@@ -28,6 +28,14 @@ OpenRGBServerInfoPage::~OpenRGBServerInfoPage()
     delete ui;
 }
 
+void OpenRGBServerInfoPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBServerInfoPage::UpdateInfo()
 {
     ui->ServerHostValue->setText(network_server->GetHost().c_str());
@@ -59,8 +67,6 @@ void OpenRGBServerInfoPage::UpdateInfo()
     }
 
     ui->ServerClientTree->clear();
-    ui->ServerClientTree->setColumnCount(3);
-    ui->ServerClientTree->setHeaderLabels(QStringList() << tr("Client IP") << tr("Protocol Version") << tr("Client Name"));
     for(unsigned int client_idx = 0; client_idx < network_server->GetNumClients(); client_idx++)
     {
         QTreeWidgetItem * new_item = new QTreeWidgetItem();

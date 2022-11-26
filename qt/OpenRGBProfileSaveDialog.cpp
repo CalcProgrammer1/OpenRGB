@@ -19,6 +19,14 @@ Ui::OpenRGBProfileSaveDialog::~OpenRGBProfileSaveDialog()
     delete ui;
 }
 
+void Ui::OpenRGBProfileSaveDialog::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 std::string Ui::OpenRGBProfileSaveDialog::show()
 {
     std::string return_string;

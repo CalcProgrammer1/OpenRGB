@@ -46,6 +46,14 @@ OpenRGBElgatoKeyLightSettingsPage::~OpenRGBElgatoKeyLightSettingsPage()
     delete ui;
 }
 
+void OpenRGBElgatoKeyLightSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBElgatoKeyLightSettingsPage::on_AddElgatoKeyLightDeviceButton_clicked()
 {
     OpenRGBElgatoKeyLightSettingsEntry* entry = new OpenRGBElgatoKeyLightSettingsEntry;

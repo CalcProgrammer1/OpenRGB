@@ -39,6 +39,14 @@ OpenRGBSupportedDevicesPage::~OpenRGBSupportedDevicesPage()
     delete ui;
 }
 
+void OpenRGBSupportedDevicesPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBSupportedDevicesPage::on_SaveButton_clicked()
 {
     detectorTableModel->applySettings();

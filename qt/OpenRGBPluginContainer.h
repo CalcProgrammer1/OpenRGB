@@ -24,6 +24,9 @@ public:
 
 private:
     Ui::OpenRGBPluginContainerUi *ui;
+
+private slots:
+    void changeEvent(QEvent *event);
 };
 
 #endif // OPENRGBPLUGINCONTAINER_H

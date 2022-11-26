@@ -22,6 +22,7 @@ public slots:
     void UpdateInfo();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_ServerStartButton_clicked();
     void on_ServerStopButton_clicked();
 

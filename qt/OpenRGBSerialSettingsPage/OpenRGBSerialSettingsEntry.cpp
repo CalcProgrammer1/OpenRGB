@@ -18,3 +18,11 @@ OpenRGBSerialSettingsEntry::~OpenRGBSerialSettingsEntry()
 {
     delete ui;
 }
+
+void OpenRGBSerialSettingsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}

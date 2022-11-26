@@ -2,6 +2,9 @@
 #define SETTINGSPAGE_H
 
 #include "ui_OpenRGBSettingsPage.h"
+#include <QCoreApplication>
+#include <QDirIterator>
+#include <QTranslator>
 #include <QWidget>
 #include "ResourceManager.h"
 
@@ -36,8 +39,11 @@ private:
 
     bool theme_initialized = false;
     bool autostart_initialized = false;
+    QTranslator translator;
 
 private slots:
+    void changeEvent(QEvent *event);
+    void on_ComboBoxLanguage_currentTextChanged(const QString);
     void on_ComboBoxTheme_currentTextChanged(const QString);
     void on_CheckboxMinimizeOnClose_clicked();
     void on_CheckboxTrayIconGreyscale_clicked();

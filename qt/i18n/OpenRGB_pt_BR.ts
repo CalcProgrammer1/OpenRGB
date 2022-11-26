@@ -30,6 +30,18 @@
         <source>Client info page</source>
         <translation>Informação do client</translation>
     </message>
+    <message>
+        <source>Connected Clients</source>
+        <translation type="unfinished">Client&apos;s conectados</translation>
+    </message>
+    <message>
+        <source>Protocol Version</source>
+        <translation type="unfinished">Versão do protocolo</translation>
+    </message>
+    <message>
+        <source>Save Connection</source>
+        <translation type="unfinished">Salvar conexão</translation>
+    </message>
 </context>
 <context>
     <name>OpenRGBConsolePageUi</name>
@@ -361,6 +373,112 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Adicionar</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Remover</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salvar</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBLIFXSettingsEntryUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nome</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBLIFXSettingsPageUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Adicionar</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Remover</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salvar</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">Porta:</translation>
+    </message>
+    <message>
+        <source>Auth Key:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unpair</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pair</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBPhilipsHueSettingsEntryUi</name>
     <message>
         <source>IP:</source>
@@ -388,7 +506,15 @@
     </message>
     <message>
         <source>Philips Hue settings entry</source>
-        <translation>Ajustes de entrada Philips Hue</translation>
+        <translation type="vanished">Ajustes de entrada Philips Hue</translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Connect Group:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -503,6 +629,10 @@
     <message>
         <source>Plugins page</source>
         <translation>Plugins</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -624,11 +754,27 @@
     </message>
     <message>
         <source>Connected Clients:</source>
-        <translation>Client's conectados:</translation>
+        <translation>Client&apos;s conectados:</translation>
     </message>
     <message>
         <source>Server info page</source>
         <translation>Informação do servidor</translation>
+    </message>
+    <message>
+        <source>Server Host:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client IP</source>
+        <translation type="unfinished">IP do Client</translation>
+    </message>
+    <message>
+        <source>Protocol Version</source>
+        <translation type="unfinished">Versão do protocolo</translation>
+    </message>
+    <message>
+        <source>Client Name</source>
+        <translation type="unfinished">Nome do client</translation>
     </message>
 </context>
 <context>
@@ -728,6 +874,18 @@
     <message>
         <source>Settings page</source>
         <translation>Ajustes</translation>
+    </message>
+    <message>
+        <source>Shared SMBus Access (restart required)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Server Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -942,15 +1100,15 @@
     <name>Ui::OpenRGBClientInfoPage</name>
     <message>
         <source>Connected Clients</source>
-        <translation>Client's conectados</translation>
+        <translation type="vanished">Client&apos;s conectados</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation>Versão do protocolo</translation>
+        <translation type="vanished">Versão do protocolo</translation>
     </message>
     <message>
         <source>Save Connection</source>
-        <translation>Salvar conexão</translation>
+        <translation type="vanished">Salvar conexão</translation>
     </message>
     <message>
         <source>Disconnect</source>
@@ -1159,6 +1317,18 @@
         <source>Log Console</source>
         <translation>Console log</translation>
     </message>
+    <message>
+        <source>LIFX Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nanoleaf Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Elgato KeyLight Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Ui::OpenRGBE131SettingsEntry</name>
@@ -1250,22 +1420,30 @@
     </message>
     <message>
         <source>Client IP</source>
-        <translation>IP do Client</translation>
+        <translation type="vanished">IP do Client</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation>Versão do protocolo</translation>
+        <translation type="vanished">Versão do protocolo</translation>
     </message>
     <message>
         <source>Client Name</source>
-        <translation>Nome do client</translation>
+        <translation type="vanished">Nome do client</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
         <source>A problem occurred enabling Start At Login.</source>
-        <translation>Ocorreu um problema ao ativar "Iniciar no login".</translation>
+        <translation>Ocorreu um problema ao ativar &quot;Iniciar no login&quot;.</translation>
+    </message>
+    <message>
+        <source>English - US</source>
+        <translation type="unfinished">Português</translation>
+    </message>
+    <message>
+        <source>System Default</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

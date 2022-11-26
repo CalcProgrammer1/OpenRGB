@@ -18,6 +18,14 @@ OpenRGBPluginsEntry::~OpenRGBPluginsEntry()
     delete ui;
 }
 
+void OpenRGBPluginsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBPluginsEntry::RegisterEnableClickCallback(EnableClickCallback new_callback, void * new_callback_arg)
 {
     EnableClickCallbackVal  = new_callback;

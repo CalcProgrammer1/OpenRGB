@@ -23,6 +23,7 @@ public:
     void RegisterEnableClickCallback(EnableClickCallback new_callback, void * new_callback_arg);
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_EnabledCheckBox_stateChanged(int checked);
 
 private:

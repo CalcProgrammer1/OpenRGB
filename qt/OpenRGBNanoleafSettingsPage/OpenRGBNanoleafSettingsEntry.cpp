@@ -47,6 +47,14 @@ OpenRGBNanoleafSettingsEntry::~OpenRGBNanoleafSettingsEntry()
     delete ui;
 }
 
+void OpenRGBNanoleafSettingsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBNanoleafSettingsEntry::on_PairButton_clicked()
 {
     try

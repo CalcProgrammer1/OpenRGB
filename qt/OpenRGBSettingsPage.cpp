@@ -1,6 +1,7 @@
 #include "AutoStart.h"
 #include "OpenRGBSettingsPage.h"
 #include "ui_OpenRGBSettingsPage.h"
+#include "LogManager.h"
 #include "ResourceManager.h"
 #include <QUrl>
 #include <QDesktopServices>
@@ -12,6 +13,43 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     ui(new Ui::OpenRGBSettingsPageUi)
 {
     ui->setupUi(this);
+
+    /*---------------------------------------------------------*\
+    | App translation                                           |
+    | To add a new language:                                    |
+    |   Add an entry to TRANSLATIONS in OpenRGB.pro             |
+    |   Then run lupdate OpenRGB.pro to generate the new file   |
+    |                                                           |
+    | Edit this file with                                       |
+    |   linguist qt/i18n/OpenRGB_en.ts qt/i18n/OpenRGB_XX.ts    |
+    | or manually with any text editor                          |
+    \*---------------------------------------------------------*/
+
+    /*---------------------------------------------------------*\
+    | Load available languages                                  |
+    |  Tehcnically the QString is unused but declared           |
+    |  here to show up in the translation file.                 |
+    \*---------------------------------------------------------*/
+    QTranslator translator;
+    QMap<QString, QString> map;
+    QString language = tr("English - US");
+
+    QDirIterator file(":/i18n/", QDirIterator::Subdirectories);
+    while(file.hasNext())
+    {
+        translator.load(file.next());
+        map.insert(translator.translate("Ui::OpenRGBSettingsPage", "English - US"), file.filePath());
+    }
+
+    ui->ComboBoxLanguage->blockSignals(true);
+    ui->ComboBoxLanguage->addItem(tr("System Default"), "default");
+    QMapIterator<QString, QString> i(map);
+    while(i.hasNext())
+    {
+        i.next();
+        ui->ComboBoxLanguage->addItem(i.key(), i.value());
+    }
+    ui->ComboBoxLanguage->blockSignals(false);
 
     /*---------------------------------------------------------*\
     | Load theme settings                                       |
@@ -36,6 +74,21 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     | Load user interface settings                              |
     \*---------------------------------------------------------*/
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+
+    if(ui_settings.contains("language"))
+    {
+        /*-----------------------------------------------------*\
+        | Get the language preference from settings             |
+        |   and check the language combobox for a match         |
+        \*-----------------------------------------------------*/
+        std::string language        = ui_settings["language"].get<std::string>();
+        int language_index          = ui->ComboBoxLanguage->findText(QString::fromStdString(language));
+
+        if(language_index > -1)
+        {
+            ui->ComboBoxLanguage->setCurrentIndex(language_index);
+        }
+    }
 
     if(ui_settings.contains("greyscale_tray_icon"))
     {
@@ -158,6 +211,14 @@ OpenRGBSettingsPage::~OpenRGBSettingsPage()
     delete ui;
 }
 
+void OpenRGBSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBSettingsPage::UpdateProfiles()
 {
     /*---------------------------------------------------------*\
@@ -236,6 +297,44 @@ void OpenRGBSettingsPage::UpdateProfiles()
             {
                 ui->ComboBoxExitProfile->setCurrentIndex(profile_index);
             }
+        }
+    }
+}
+
+void OpenRGBSettingsPage::on_ComboBoxLanguage_currentTextChanged(const QString language)
+{
+
+    bool loaded             = false;
+    QString file            = ui->ComboBoxLanguage->currentData().toString();
+    QApplication* app       = static_cast<QApplication *>(QApplication::instance());
+
+    app->removeTranslator(&translator);
+
+    if(file == "default")
+    {
+        QLocale locale = QLocale(QLocale::system());
+        QLocale::setDefault(locale);
+
+        loaded = translator.load(":/i18n/" + QString("OpenRGB_%1.qm").arg(locale.name()));
+    }
+    else
+    {
+        loaded = translator.load(file);
+    }
+
+    if(loaded)
+    {
+        app->installTranslator(&translator);
+        LOG_DEBUG("[Settings] Changed Language to %s from the %s file\n", language, file);
+
+        json ui_settings    = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+        std::string saved   = ui_settings["language"].get<std::string>();
+
+        if(saved != language.toStdString())
+        {
+            ui_settings["language"] = language.toStdString();
+            ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface",ui_settings);
+            SaveSettings();
         }
     }
 }

@@ -67,9 +67,12 @@ signals:
     void ProfileListChanged();
 
 public slots:
+    void changeEvent(QEvent *event);
     void SetTrayIcon(bool tray_icon);
 
 private:
+    const char* context = "Ui::OpenRGBDialog2";
+
     /*-------------------------------------*\
     | Page pointers                         |
     \*-------------------------------------*/

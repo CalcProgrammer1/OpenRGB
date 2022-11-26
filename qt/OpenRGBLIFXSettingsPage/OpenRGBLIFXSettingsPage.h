@@ -19,6 +19,7 @@ public:
     ~OpenRGBLIFXSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddLIFXDeviceButton_clicked();
 
     void on_RemoveLIFXDeviceButton_clicked();

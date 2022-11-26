@@ -74,6 +74,14 @@ OpenRGBPhilipsHueSettingsPage::~OpenRGBPhilipsHueSettingsPage()
     delete ui;
 }
 
+void OpenRGBPhilipsHueSettingsPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBPhilipsHueSettingsPage::on_AddPhilipsHueDeviceButton_clicked()
 {
     OpenRGBPhilipsHueSettingsEntry* entry = new OpenRGBPhilipsHueSettingsEntry;

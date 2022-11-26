@@ -19,6 +19,7 @@ public:
     ~OpenRGBPhilipsHueSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddPhilipsHueDeviceButton_clicked();
 
     void on_RemovePhilipsHueDeviceButton_clicked();

@@ -15,6 +15,14 @@ OpenRGBPhilipsHueSettingsEntry::~OpenRGBPhilipsHueSettingsEntry()
     delete ui;
 }
 
+void OpenRGBPhilipsHueSettingsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBPhilipsHueSettingsEntry::on_UnpairButton_clicked()
 {
     ui->UsernameValue->setText("");

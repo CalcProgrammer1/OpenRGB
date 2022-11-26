@@ -12,6 +12,9 @@ class Ui::OpenRGBQMKORGBSettingsEntry : public QWidget
 {
     Q_OBJECT
 
+private slots:
+    void changeEvent(QEvent *event);
+
 public:
     explicit OpenRGBQMKORGBSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBQMKORGBSettingsEntry();

@@ -117,6 +117,14 @@ OpenRGBZonesBulkResizer::~OpenRGBZonesBulkResizer()
     delete ui;
 }
 
+void OpenRGBZonesBulkResizer::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsigned int zone_index)
 {
     /*---------------------------------------------------------*\

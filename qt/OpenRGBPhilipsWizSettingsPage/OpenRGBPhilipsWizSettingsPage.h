@@ -19,6 +19,7 @@ public:
     ~OpenRGBPhilipsWizSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddPhilipsWizDeviceButton_clicked();
 
     void on_RemovePhilipsWizDeviceButton_clicked();

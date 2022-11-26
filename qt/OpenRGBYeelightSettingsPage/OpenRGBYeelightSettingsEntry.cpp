@@ -17,6 +17,14 @@ OpenRGBYeelightSettingsEntry::~OpenRGBYeelightSettingsEntry()
     delete ui;
 }
 
+void OpenRGBYeelightSettingsEntry::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void OpenRGBYeelightSettingsEntry::on_HostIPChooserButton_clicked()
 {
     char hostname[256];

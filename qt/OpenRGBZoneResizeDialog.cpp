@@ -20,6 +20,14 @@ OpenRGBZoneResizeDialog::~OpenRGBZoneResizeDialog()
     delete ui;
 }
 
+void OpenRGBZoneResizeDialog::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 void Ui::OpenRGBZoneResizeDialog::on_ResizeSlider_valueChanged(int value)
 {
     ui->ResizeBox->blockSignals(true);

@@ -22,6 +22,9 @@ public:
 private:
     RGBController*                  controller;
     Ui::OpenRGBDeviceInfoPageUi*    ui;
+
+private slots:
+    void changeEvent(QEvent *event);
 };
 
 #endif // OPENRGBDEVICEINFOPAGE_H

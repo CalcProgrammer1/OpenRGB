@@ -18,6 +18,9 @@ public:
 
 private:
     Ui::OpenRGBSoftwareInfoPageUi *ui;
+
+private slots:
+    void changeEvent(QEvent *event);
 };
 
 #endif // OPENRGBSOFTWAREINFOPAGE_H

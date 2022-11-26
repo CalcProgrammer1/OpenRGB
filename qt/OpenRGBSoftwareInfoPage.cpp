@@ -19,3 +19,11 @@ OpenRGBSoftwareInfoPage::~OpenRGBSoftwareInfoPage()
 {
     delete ui;
 }
+
+void OpenRGBSoftwareInfoPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}

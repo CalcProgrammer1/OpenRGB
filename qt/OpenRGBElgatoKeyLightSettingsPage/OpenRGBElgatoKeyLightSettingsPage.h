@@ -19,6 +19,7 @@ public:
     ~OpenRGBElgatoKeyLightSettingsPage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_AddElgatoKeyLightDeviceButton_clicked();
 
     void on_RemoveElgatoKeyLightDeviceButton_clicked();

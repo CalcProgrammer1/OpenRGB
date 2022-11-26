@@ -25,6 +25,14 @@ OpenRGBDeviceInfoPage::~OpenRGBDeviceInfoPage()
     delete ui;
 }
 
+void OpenRGBDeviceInfoPage::changeEvent(QEvent *event)
+{
+    if(event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}
+
 RGBController* OpenRGBDeviceInfoPage::GetController()
 {
     return controller;

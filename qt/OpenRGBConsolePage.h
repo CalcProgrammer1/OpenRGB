@@ -17,6 +17,7 @@ public:
     ~OpenRGBConsolePage();
 
 private slots:
+    void changeEvent(QEvent *event);
     void on_log_level_currentIndexChanged(int);
     void on_clear_clicked();
     void on_refresh_clicked();
