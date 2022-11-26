@@ -14,14 +14,21 @@
    <string>Plugins page</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
+   <item row="1" column="0" colspan="2">
+    <widget class="OpenRGBPluginsList" name="PluginsList">
+     <property name="verticalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
     <widget class="QPushButton" name="InstallPluginButton">
      <property name="text">
       <string>Install Plugin</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="2" column="1">
     <widget class="QPushButton" name="RemovePluginButton">
      <property name="enabled">
       <bool>false</bool>
@@ -32,9 +39,15 @@
     </widget>
    </item>
    <item row="0" column="0" colspan="2">
-    <widget class="OpenRGBPluginsList" name="PluginsList">
-     <property name="verticalScrollMode">
-      <enum>QAbstractItemView::ScrollPerPixel</enum>
+    <widget class="QLabel" name="LinkLabel">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
