@@ -699,7 +699,7 @@ bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string a
     {
         DeviceOptions* currentDevOpts   = &current_devices->at(i);
 
-        currentDevOpts->brightness      = std::clamp(std::stoi(argument), 0, (int)brightness_percentage);
+        currentDevOpts->brightness      = std::min(std::max(std::stoi(argument), 0),(int)brightness_percentage);
         currentDevOpts->hasOption       = true;
         found = true;
     }
