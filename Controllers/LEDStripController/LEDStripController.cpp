@@ -27,13 +27,13 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
     LPSTR   source = NULL;
     LPSTR   udpport_baud = NULL;
     LPSTR   next = NULL;
-    
+
     //Set the protocol
     protocol = proto;
 
     //Assume serial device unless a different protocol is specified
     bool    serial = TRUE;
-    
+
     source = strtok_s(ledstring, ",", &next);
 
     //Check if we are setting up a Keyboard Visualizer UDP protocol device
@@ -42,7 +42,7 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
         source = source + 4;
         serial = FALSE;
     }
-    
+
     //Check for either the UDP port or the serial baud rate
     if (strlen(next))
     {
@@ -166,7 +166,7 @@ void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
         case LED_PROTOCOL_TPM2:
             SetLEDsTPM2(colors);
             break;
-        
+
         case LED_PROTOCOL_BASIC_I2C:
             SetLEDsBasicI2C(colors);
             break;
