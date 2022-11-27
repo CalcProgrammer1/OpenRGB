@@ -47,6 +47,8 @@ public:
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
 private:
+    void ScanAndLoadPluginsFrom(QDir plugins_dir);
+
     AddPluginCallback       AddPluginCallbackVal;
     void *                  AddPluginCallbackArg;
 

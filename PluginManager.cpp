@@ -41,7 +41,19 @@ void PluginManager::ScanAndLoadPlugins()
     | The plugins directory is a directory named "plugins" in   |
     | the configuration directory                               |
     \*---------------------------------------------------------*/
-    const QDir plugins_dir = QString(ResourceManager::get()->GetConfigurationDirectory().c_str()).append(plugins_path);
+    ScanAndLoadPluginsFrom(QString(ResourceManager::get()->GetConfigurationDirectory().c_str()).append(plugins_path));
+
+#ifdef OPENRGB_EXTRA_PLUGIN_DIRECTORY
+    /*-----------------------------------------------------------------*\
+    | An additional plugin directory can be set during build time, e.g. |
+    | by the Linux distro to load plugins installed via package manager |
+    \*-----------------------------------------------------------------*/
+    ScanAndLoadPluginsFrom(QString().fromStdString(OPENRGB_EXTRA_PLUGIN_DIRECTORY));
+#endif
+}
+
+void PluginManager::ScanAndLoadPluginsFrom(QDir plugins_dir)
+{
     LOG_INFO("[PluginManager] Scanning plugin directory: %s", plugins_dir.absolutePath().toStdString().c_str());
 
     /*---------------------------------------------------------*\
