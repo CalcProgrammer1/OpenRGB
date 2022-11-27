@@ -89,6 +89,13 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
             ui->ComboBoxLanguage->setCurrentIndex(language_index);
         }
     }
+    else
+    {
+        ui_settings["language"] = "default";
+        ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface",ui_settings);
+        SaveSettings();
+        ui->ComboBoxLanguage->setCurrentIndex(0);
+    }
 
     if(ui_settings.contains("greyscale_tray_icon"))
     {
