@@ -71,7 +71,7 @@ std::string SRGBmodsPicoController::GetSerialString()
 
 void SRGBmodsPicoController::SetChannelLEDs(unsigned char channel, RGBColor* colors, unsigned int num_colors)
 {
-    unsigned int num_packets    = num_colors / 20 + ((num_colors % 20) > 0);
+    unsigned int num_packets    = (num_colors / 20) + ((num_colors % 20) > 0);
     unsigned int color_idx      = 0;
 
     for(unsigned int packet_idx = 0; packet_idx < num_packets; packet_idx++)
@@ -83,7 +83,7 @@ void SRGBmodsPicoController::SetChannelLEDs(unsigned char channel, RGBColor* col
             colors_in_packet = num_colors - color_idx;
         }
 
-        SendPacket(channel, packet_idx + 1, num_packets, false, &colors[color_idx * 3], colors_in_packet);
+        SendPacket(channel, packet_idx + 1, num_packets, false, &colors[color_idx], colors_in_packet);
 
         color_idx += colors_in_packet;
     }
