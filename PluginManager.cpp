@@ -54,7 +54,7 @@ void PluginManager::ScanAndLoadPlugins()
 
 void PluginManager::ScanAndLoadPluginsFrom(QDir plugins_dir)
 {
-    LOG_INFO("[PluginManager] Scanning plugin directory: %s", plugins_dir.absolutePath().toStdString().c_str());
+    LOG_TRACE("[PluginManager] Scanning plugin directory: %s", plugins_dir.absolutePath().toStdString().c_str());
 
     /*---------------------------------------------------------*\
     | Get a list of all files in the plugins directory          |
