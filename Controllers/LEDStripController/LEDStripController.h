@@ -8,6 +8,7 @@
 #define LED_STRIP_H
 
 #include "RGBController.h"
+#include "i2c_smbus.h"
 #include "serial_port.h"
 #include "net_port.h"
 #include <vector>
@@ -29,7 +30,8 @@ enum
 {
     LED_PROTOCOL_KEYBOARD_VISUALIZER,
     LED_PROTOCOL_ADALIGHT,
-    LED_PROTOCOL_TPM2
+    LED_PROTOCOL_TPM2,
+    LED_PROTOCOL_BASIC_I2C
 };
 
 struct LEDStripDevice
@@ -49,6 +51,7 @@ public:
 
     void        Initialize(char* ledstring, led_protocol proto);
 
+    void        InitializeI2C(char* i2cname);
     void        InitializeSerial(char* portname, int baud);
     void        InitializeUDP(char* clientname, char* port);
 
@@ -60,6 +63,7 @@ public:
     void        SetLEDsKeyboardVisualizer(std::vector<RGBColor> colors);
     void        SetLEDsAdalight(std::vector<RGBColor> colors);
     void        SetLEDsTPM2(std::vector<RGBColor> colors);
+    void        SetLEDsBasicI2C(std::vector<RGBColor> colors);
 
     int num_leds;
 
@@ -71,6 +75,8 @@ private:
     std::string client_name;
     serial_port *serialport;
     net_port *udpport;
+    i2c_smbus_interface *i2cport;
+    unsigned char i2c_addr;
     led_protocol protocol;
 };
 

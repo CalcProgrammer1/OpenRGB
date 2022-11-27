@@ -5,6 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "LEDStripController.h"
+#include "ResourceManager.h"
 
 #include <fstream>
 #include <iostream>
@@ -26,13 +27,16 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
     LPSTR   source = NULL;
     LPSTR   udpport_baud = NULL;
     LPSTR   next = NULL;
-    
+
     //Set the protocol
     protocol = proto;
 
     //Assume serial device unless a different protocol is specified
     bool    serial = TRUE;
-    
+
+    //Default i2c address out of range
+    i2c_addr = 255;
+
     source = strtok_s(ledstring, ",", &next);
 
     //Check if we are setting up a Keyboard Visualizer UDP protocol device
@@ -41,7 +45,7 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
         source = source + 4;
         serial = FALSE;
     }
-    
+
     //Check for either the UDP port or the serial baud rate
     if (strlen(next))
     {
@@ -56,7 +60,13 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
 
     if (serial)
     {
-        if (udpport_baud == NULL)
+        if (protocol == LED_PROTOCOL_BASIC_I2C)
+        {
+            //I2C uses the baud field for address
+            i2c_addr = atoi(udpport_baud);
+            InitializeI2C(source);
+        }
+        else if (udpport_baud == NULL)
         {
             //Initialize with default baud rate
             InitializeSerial(source, 115200);
@@ -86,6 +96,24 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
     }
 }
 
+void LEDStripController::InitializeI2C(char* i2cname)
+{
+    for(unsigned int i2c_idx = 0; i2c_idx < ResourceManager::get()->GetI2CBusses().size(); i2c_idx++)
+    {
+        if(ResourceManager::get()->GetI2CBusses()[i2c_idx]->device_name == std::string(i2cname))
+        {
+            if(i2c_addr < 128)
+            {
+                i2cport = ResourceManager::get()->GetI2CBusses()[i2c_idx];
+                break;
+            }
+        }
+    }
+
+    serialport = NULL;
+    udpport = NULL;
+}
+
 void LEDStripController::InitializeSerial(char* portname, int baud)
 {
     portname = strtok(portname, "\r");
@@ -93,6 +121,7 @@ void LEDStripController::InitializeSerial(char* portname, int baud)
     baud_rate = baud;
     serialport = new serial_port(port_name.c_str(), baud_rate);
     udpport = NULL;
+    i2cport = NULL;
 }
 
 void LEDStripController::InitializeUDP(char * clientname, char * port)
@@ -102,6 +131,7 @@ void LEDStripController::InitializeUDP(char * clientname, char * port)
 
     udpport = new net_port(client_name.c_str(), port_name.c_str());
     serialport = NULL;
+    i2cport = NULL;
 }
 
 std::string LEDStripController::GetLocation()
@@ -113,6 +143,10 @@ std::string LEDStripController::GetLocation()
     else if(udpport != NULL)
     {
         return("UDP: " + client_name + ":" + port_name);
+    }
+    else if(i2cport != NULL)
+    {
+        return("I2C: " + std::string(i2cport->device_name) + ", Address " + std::to_string(i2c_addr));
     }
     else
     {
@@ -139,6 +173,10 @@ void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
 
         case LED_PROTOCOL_TPM2:
             SetLEDsTPM2(colors);
+            break;
+
+        case LED_PROTOCOL_BASIC_I2C:
+            SetLEDsBasicI2C(colors);
             break;
     }
 }
@@ -317,4 +355,52 @@ void LEDStripController::SetLEDsTPM2(std::vector<RGBColor> colors)
     }
 
     delete[] serial_buf;
+}
+
+void LEDStripController::SetLEDsBasicI2C(std::vector<RGBColor> colors)
+{
+    unsigned char serial_buf[30];
+
+    /*-------------------------------------------------------------*\
+    | Basic I2C Protocol                                            |
+    |                                                               |
+    |   Packet size: At most 32 bytes (SMBus block size)            |
+    |                                                               |
+    |   Packet is in RGBRGBRGB... format, also provide start index  |
+    \*-------------------------------------------------------------*/
+
+    unsigned char index  = 0;
+    unsigned char offset = 0;
+
+    for(unsigned int color_idx = 0; color_idx < colors.size(); color_idx++)
+    {
+        serial_buf[index + 0] = RGBGetRValue(colors[color_idx]);
+        serial_buf[index + 1] = RGBGetGValue(colors[color_idx]);
+        serial_buf[index + 2] = RGBGetBValue(colors[color_idx]);
+
+        index += 3;
+
+        if(index >= 30)
+        {
+            if(i2cport != NULL)
+            {
+                i2cport->i2c_smbus_write_i2c_block_data(i2c_addr, offset, 30, serial_buf);
+                offset += 30;
+                index = 0;
+            }
+        }
+    }
+
+    if(index > 0)
+    {
+        if(i2cport != NULL)
+        {
+            i2cport->i2c_smbus_write_i2c_block_data(i2c_addr, offset, index, serial_buf);
+        }
+    }
+
+    if(i2cport != NULL)
+    {
+        i2cport->i2c_smbus_write_byte(i2c_addr, 0xFF);
+    }
 }
