@@ -69,13 +69,14 @@ RGBController_LenovoUSB::RGBController_LenovoUSB(LenovoUSBController* controller
     }
 
     std::vector<uint8_t> response;
+
+    /*-----------------------*\
+    |Default to ANSI keyboard |
+    \*-----------------------*/
+    keyboard_type = ANSI;
+
     switch(controller->getPid())
     {
-        /*-----------------------*\
-        |Default to ANSI keyboard |
-        \*-----------------------*/
-        keyboard_type = ANSI;
-
         case LEGION_Y740:
             response = controller->getInformation(0x01);
             if(response.size() > 4 && response[4] <= 100)

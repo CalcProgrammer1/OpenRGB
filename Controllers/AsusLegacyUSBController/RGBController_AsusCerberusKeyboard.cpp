@@ -301,7 +301,7 @@ void RGBController_AsusCerberusKeyboard::SetupZones()
     keyboard.matrix_map->map    = *matrix_map;
     zones.push_back(keyboard);
 
-    for(unsigned int led_id = 0; led_id < zone_size; led_id++)
+    for(int led_id = 0; led_id < zone_size; led_id++)
     {
         led new_led;
         new_led.name  = led_names[led_id].name;
@@ -320,7 +320,7 @@ void RGBController_AsusCerberusKeyboard::ResizeZone(int /*zone*/, int /*new_size
 
 void RGBController_AsusCerberusKeyboard::DeviceUpdateLEDs()
 {
-    for(int i = 0; i < colors.size(); i++)
+    for(unsigned int i = 0; i < colors.size(); i++)
     {
         uint8_t red   = RGBGetRValue(colors[i]);
         uint8_t green = RGBGetGValue(colors[i]);

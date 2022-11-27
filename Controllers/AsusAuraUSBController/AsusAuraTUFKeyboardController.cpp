@@ -77,7 +77,7 @@ std::string AuraTUFKeyboardController::GetVersion()
         {
             snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[5], usb_buf_out[6], usb_buf_out[7]);
         }
-        
+
         return std::string(version);
     }
     else
@@ -111,7 +111,7 @@ std::string AuraTUFKeyboardController::GetVersion()
 
         char version[9];
         snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[8], usb_buf_out[9], usb_buf_out[10]);
-        
+
         return std::string(version);
     }
 }
@@ -137,12 +137,12 @@ int AuraTUFKeyboardController::GetLayout()
     }
     else
     {
-        char layout[] = "";
-    
+        char layout[4];
+
         sprintf(layout, "%X", version);
 
         int layoutnum = std::stoi(std::string(layout, 1));
-        
+
         switch(layoutnum)
         {
             case 1:
@@ -276,14 +276,14 @@ void AuraTUFKeyboardController::UpdateLeds
         usb_buf[3] = leds;
         usb_buf[4] = 0x00;
 
-        for(unsigned int j = 0; j < leds; j++)
+        for(int j = 0; j < leds; j++)
         {
             usb_buf[j * 4 + 5] = colors[i * 15 + j].value;
             usb_buf[j * 4 + 6] = RGBGetRValue(colors[i * 15 + j].color);
             usb_buf[j * 4 + 7] = RGBGetGValue(colors[i * 15 + j].color);
             usb_buf[j * 4 + 8] = RGBGetBValue(colors[i * 15 + j].color);
         }
-        
+
         ClearResponses();
 
         hid_write(dev, usb_buf, 65);
@@ -352,7 +352,7 @@ void AuraTUFKeyboardController::UpdateDevice
                     usb_buf[12 + i * 3] = RGBGetBValue(colors[i]);
                 }
             }
-                
+
         }
     }
     else

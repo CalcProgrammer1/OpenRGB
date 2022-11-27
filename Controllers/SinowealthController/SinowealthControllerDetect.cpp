@@ -395,15 +395,14 @@ void DetectSinowealthGenesisKeyboard(hid_device_info* info, const std::string& n
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        RGBController *rgb_controller;
-
         if(pid == GENESIS_THOR_300_PID)
         {
-            SinowealthKeyboard90Controller* controller = new SinowealthKeyboard90Controller(dev, info->path, pid);
-            rgb_controller                             = new RGBController_SinowealthKeyboard90(controller);
+            SinowealthKeyboard90Controller* controller         = new SinowealthKeyboard90Controller(dev, info->path, pid);
+            RGBController_SinowealthKeyboard90* rgb_controller = new RGBController_SinowealthKeyboard90(controller);
+            rgb_controller->name                               = name;
+
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
-        rgb_controller->name = name;
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

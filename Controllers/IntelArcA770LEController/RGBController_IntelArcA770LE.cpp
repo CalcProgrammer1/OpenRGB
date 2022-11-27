@@ -188,12 +188,12 @@ void RGBController_IntelArcA770LE::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_IntelArcA770LE::UpdateZoneLEDs(int zone)
+void RGBController_IntelArcA770LE::UpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_IntelArcA770LE::UpdateSingleLED(int led)
+void RGBController_IntelArcA770LE::UpdateSingleLED(int /*led*/)
 {
 }
 

@@ -573,7 +573,7 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
     {
         if(argument.length() > 1)
         {
-            for(int i = 0; i < rgb_controllers.size(); i++)
+            for(unsigned int i = 0; i < rgb_controllers.size(); i++)
             {
                 /*---------------------------------------------------------*\
                 | If the argument is not a number then check all the        |
@@ -640,7 +640,7 @@ bool OptionZone(std::vector<DeviceOptions>* current_devices, std::string argumen
     return found;
 }
 
-bool OptionColor(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
+bool OptionColor(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/)
 {
     bool found = false;
 
@@ -663,7 +663,7 @@ bool OptionColor(std::vector<DeviceOptions>* current_devices, std::string argume
     return found;
 }
 
-bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
+bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/)
 {
     if(argument.size() == 0)
     {
@@ -685,7 +685,7 @@ bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argumen
     return found;
 }
 
-bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
+bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/)
 {
     if(argument.size() == 0)
     {

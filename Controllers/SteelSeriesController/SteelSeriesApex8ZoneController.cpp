@@ -77,7 +77,7 @@ void SteelSeriesApex8ZoneController::SetColor(std::vector<RGBColor> colors, uint
 
     buffer[1]              += mode;
 
-    for(int i = 0; i < colors.size(); i++)
+    for(unsigned int i = 0; i < colors.size(); i++)
     {
         uint8_t index       = i * 3;
 

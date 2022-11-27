@@ -54,7 +54,7 @@ std::string AsusCerberusKeyboardController::GetSerialString()
 
 std::string AsusCerberusKeyboardController::GetVersion()
 {
-    char versionstr[] = "";
+    char versionstr[5];
     snprintf(versionstr, 3, "%X", version);
     return(std::string(versionstr, 3));
 }

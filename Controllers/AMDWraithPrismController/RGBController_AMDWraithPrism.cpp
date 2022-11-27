@@ -262,12 +262,12 @@ void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AMDWraithPrism::UpdateZoneLEDs(int zone)
+void RGBController_AMDWraithPrism::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AMDWraithPrism::UpdateSingleLED(int led)
+void RGBController_AMDWraithPrism::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -81,7 +81,7 @@ void RoccatVulcanAimoController::SendColors(std::vector<led_color> colors)
     bufs[0][3] = 0x01;
     bufs[0][4] = 0xB4;
 
-    for(int i = 0; i < colors.size(); i++)
+    for(unsigned int i = 0; i < colors.size(); i++)
     {
         int coloumn = floor(colors[i].value / 12);
         int row = colors[i].value % 12;
@@ -127,7 +127,7 @@ void RoccatVulcanAimoController::SendMode(unsigned int mode, unsigned int speed,
     if(mode == ROCCAT_VULCAN_MODE_STATIC)
     {
 
-        for(int i = 0; i < colors.size(); i++)
+        for(unsigned int i = 0; i < colors.size(); i++)
         {
             int coloumn = floor(colors[i].value / 12);
             int row = colors[i].value % 12;

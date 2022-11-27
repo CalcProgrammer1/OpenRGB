@@ -100,7 +100,7 @@ void RGBController_RoccatVulcanAimo::SetupZones()
     keyboard_zone.matrix_map->map    = RoccatVulcanLayouts[layout].matrix_map;
     zones.push_back(keyboard_zone);
 
-    for(unsigned int led_id = 0; led_id < RoccatVulcanLayouts[layout].size; led_id++)
+    for(int led_id = 0; led_id < RoccatVulcanLayouts[layout].size; led_id++)
     {
         led new_led;
         new_led.name  = RoccatVulcanLayouts[layout].led_names[led_id].name;
@@ -129,7 +129,7 @@ void RGBController_RoccatVulcanAimo::DeviceUpdateLEDs()
     {
         std::vector<led_color> led_color_list = {};
 
-        for(int i = 0; i < colors.size(); i++)
+        for(unsigned int i = 0; i < colors.size(); i++)
         {
             led_color_list.push_back({ leds[i].value, colors[i] });
         }
@@ -158,7 +158,7 @@ void RGBController_RoccatVulcanAimo::DeviceUpdateMode()
 
     if(modes[active_mode].value == ROCCAT_VULCAN_MODE_STATIC)
     {
-        for(int i = 0; i < colors.size(); i++)
+        for(unsigned int i = 0; i < colors.size(); i++)
         {
             led_color_list.push_back({ leds[i].value, colors[i] });
         }
