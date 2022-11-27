@@ -15,6 +15,8 @@ class Ui::OpenRGBSerialSettingsEntry : public QWidget
 private slots:
     void changeEvent(QEvent *event);
 
+    void on_ProtocolComboBox_currentIndexChanged(int index);
+
 public:
     explicit OpenRGBSerialSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBSerialSettingsEntry();

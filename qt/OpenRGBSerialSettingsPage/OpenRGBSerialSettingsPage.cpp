@@ -62,6 +62,10 @@ OpenRGBSerialSettingsPage::OpenRGBSerialSettingsPage(QWidget *parent) :
                 {
                     entry->ui->ProtocolComboBox->setCurrentIndex(2);
                 }
+                else if(protocol_string == "basic_i2c")
+                {
+                    entry->ui->ProtocolComboBox->setCurrentIndex(3);
+                }
             }
 
             entries.push_back(entry);
@@ -153,6 +157,9 @@ void Ui::OpenRGBSerialSettingsPage::on_SaveSerialConfigurationButton_clicked()
                 break;
             case 2:
                 ledstrip_settings["devices"][device_idx]["protocol"] = "tpm2";
+                break;
+            case 3:
+                ledstrip_settings["devices"][device_idx]["protocol"] = "basic_i2c";
                 break;
         }
     }

@@ -6,7 +6,6 @@
 
 #include "LEDStripController.h"
 #include "ResourceManager.h"
-#include "LogManager.h"
 
 #include <fstream>
 #include <iostream>
@@ -47,13 +46,6 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
         serial = FALSE;
     }
 
-    //I2C includes extra entry - I2C device address
-    if (protocol == LED_PROTOCOL_BASIC_I2C)
-    {
-        udpport_baud = strtok_s(next, ",", &next);
-        i2c_addr = atoi(udpport_baud);
-    }
-
     //Check for either the UDP port or the serial baud rate
     if (strlen(next))
     {
@@ -70,6 +62,8 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
     {
         if (protocol == LED_PROTOCOL_BASIC_I2C)
         {
+            //I2C uses the baud field for address
+            i2c_addr = atoi(udpport_baud);
             InitializeI2C(source);
         }
         else if (udpport_baud == NULL)
