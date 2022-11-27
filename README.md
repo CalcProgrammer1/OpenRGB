@@ -149,6 +149,10 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
     </details>
 
+    * If RGB RAM or certain motherboard on-board LEDs are not loading the profile on startup, you need to add the loading entries to: `/etc/modules-load.d/`
+      - i2c-dev
+      - i2c-i801 or i2c-piix4 (according to your chipset)
+
      ----
 
   *  You'll have to enable user access to your SMBus if you don't run as root.
