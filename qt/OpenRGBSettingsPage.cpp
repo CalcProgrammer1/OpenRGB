@@ -325,7 +325,7 @@ void OpenRGBSettingsPage::on_ComboBoxLanguage_currentTextChanged(const QString l
     if(loaded)
     {
         app->installTranslator(&translator);
-        LOG_DEBUG("[Settings] Changed Language to %s from the %s file\n", language, file);
+        LOG_DEBUG("[Settings] Changed Language to %s from the %s file\n", language.toStdString().c_str(), file.toStdString().c_str());
 
         json ui_settings    = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
         std::string saved   = ui_settings["language"].get<std::string>();
