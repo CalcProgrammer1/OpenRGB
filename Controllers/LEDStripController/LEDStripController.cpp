@@ -6,6 +6,7 @@
 
 #include "LEDStripController.h"
 #include "ResourceManager.h"
+#include "LogManager.h"
 
 #include <fstream>
 #include <iostream>
@@ -34,6 +35,9 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
     //Assume serial device unless a different protocol is specified
     bool    serial = TRUE;
 
+    //Default i2c address out of range
+    i2c_addr = 255;
+
     source = strtok_s(ledstring, ",", &next);
 
     //Check if we are setting up a Keyboard Visualizer UDP protocol device
@@ -41,6 +45,13 @@ void LEDStripController::Initialize(char* ledstring, led_protocol proto)
     {
         source = source + 4;
         serial = FALSE;
+    }
+
+    //I2C includes extra entry - I2C device address
+    if (protocol == LED_PROTOCOL_BASIC_I2C)
+    {
+        udpport_baud = strtok_s(next, ",", &next);
+        i2c_addr = atoi(udpport_baud);
     }
 
     //Check for either the UDP port or the serial baud rate
@@ -97,8 +108,11 @@ void LEDStripController::InitializeI2C(char* i2cname)
     {
         if(ResourceManager::get()->GetI2CBusses()[i2c_idx]->device_name == std::string(i2cname))
         {
-            i2cport = ResourceManager::get()->GetI2CBusses()[i2c_idx];
-            break;
+            if(i2c_addr < 128)
+            {
+                i2cport = ResourceManager::get()->GetI2CBusses()[i2c_idx];
+                break;
+            }
         }
     }
 
@@ -138,7 +152,7 @@ std::string LEDStripController::GetLocation()
     }
     else if(i2cport != NULL)
     {
-        return("I2C: " + std::string(i2cport->device_name));
+        return("I2C: " + std::string(i2cport->device_name) + ", Address " + std::to_string(i2c_addr));
     }
     else
     {
@@ -376,7 +390,7 @@ void LEDStripController::SetLEDsBasicI2C(std::vector<RGBColor> colors)
         {
             if(i2cport != NULL)
             {
-                i2cport->i2c_smbus_write_i2c_block_data(0x08, offset, 30, serial_buf);
+                i2cport->i2c_smbus_write_i2c_block_data(i2c_addr, offset, 30, serial_buf);
                 offset += 30;
                 index = 0;
             }
@@ -387,12 +401,12 @@ void LEDStripController::SetLEDsBasicI2C(std::vector<RGBColor> colors)
     {
         if(i2cport != NULL)
         {
-            i2cport->i2c_smbus_write_i2c_block_data(0x08, offset, index, serial_buf);
+            i2cport->i2c_smbus_write_i2c_block_data(i2c_addr, offset, index, serial_buf);
         }
     }
 
     if(i2cport != NULL)
     {
-        i2cport->i2c_smbus_write_byte(0x08, 0xFF);
+        i2cport->i2c_smbus_write_byte(i2c_addr, 0xFF);
     }
 }

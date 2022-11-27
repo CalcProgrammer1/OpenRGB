@@ -76,6 +76,7 @@ private:
     serial_port *serialport;
     net_port *udpport;
     i2c_smbus_interface *i2cport;
+    unsigned char i2c_addr;
     led_protocol protocol;
 };
 
