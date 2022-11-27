@@ -24,7 +24,7 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation>IP</translation>
+        <translation>IP :</translation>
     </message>
     <message>
         <source>Client info page</source>
@@ -32,15 +32,15 @@
     </message>
     <message>
         <source>Connected Clients</source>
-        <translation type="unfinished">Clients connectés</translation>
+        <translation>Clients connectés</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation type="unfinished">Version du protocole</translation>
+        <translation>Version du protocole</translation>
     </message>
     <message>
         <source>Save Connection</source>
-        <translation type="unfinished">Sauvegarder la connexion</translation>
+        <translation>Sauvegarder la connexion</translation>
     </message>
 </context>
 <context>
@@ -113,7 +113,7 @@
     </message>
     <message>
         <source>Random</source>
-        <translation>Aléatoire :</translation>
+        <translation>Aléatoire</translation>
     </message>
     <message>
         <source>B:</source>
@@ -302,7 +302,7 @@
     <name>OpenRGBE131SettingsEntryUi</name>
     <message>
         <source>Start Channel:</source>
-        <translation>Canal de départ</translation>
+        <translation>Canal de départ :</translation>
     </message>
     <message>
         <source>Number of LEDs:</source>
@@ -310,7 +310,7 @@
     </message>
     <message>
         <source>Start Universe:</source>
-        <translation>Univers de départ</translation>
+        <translation>Univers de départ :</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -326,7 +326,7 @@
     </message>
     <message>
         <source>Matrix Width:</source>
-        <translation>Largeur de la matrice</translation>
+        <translation>Largeur de la matrice :</translation>
     </message>
     <message>
         <source>Type:</source>
@@ -338,11 +338,11 @@
     </message>
     <message>
         <source>Universe Size:</source>
-        <translation>Taille de l&apos;univers</translation>
+        <translation>Taille de l&apos;univers :</translation>
     </message>
     <message>
         <source>Keepalive Time:</source>
-        <translation>Temps de keepalive</translation>
+        <translation>Temps de maintien :</translation>
     </message>
     <message>
         <source>RGB Order:</source>
@@ -380,7 +380,7 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP :</translation>
     </message>
 </context>
 <context>
@@ -391,15 +391,15 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ajouter</translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Sauvegarder</translation>
+        <translation>Sauvegarder</translation>
     </message>
 </context>
 <context>
@@ -410,11 +410,11 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
 </context>
 <context>
@@ -425,42 +425,42 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ajouter</translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Sauvegarder</translation>
+        <translation>Sauvegarder</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBNanoleafSettingsEntryUi</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP :</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Port :</translation>
+        <translation>Port :</translation>
     </message>
     <message>
         <source>Auth Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé-d&apos;authentification :</translation>
     </message>
     <message>
         <source>Unpair</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissocier</translation>
     </message>
     <message>
         <source>Pair</source>
-        <translation type="unfinished"></translation>
+        <translation>Appairer</translation>
     </message>
 </context>
 <context>
@@ -471,11 +471,11 @@
     </message>
     <message>
         <source>Scan</source>
-        <translation type="unfinished"></translation>
+        <translation>Scanner</translation>
     </message>
     <message>
         <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour appairer, maintenir le bouton on off enfoncé pendant 5 à 7 secondes jusqu&apos;à ce que la LED se mette a clignotter, puis cliquer sur le bouton &quot;Appairer&quot; dans les 30 secondes.</translation>
     </message>
 </context>
 <context>
@@ -490,7 +490,7 @@
     </message>
     <message>
         <source>Username:</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&apos;utilisateur :</translation>
     </message>
     <message>
         <source>Client Key:</source>
@@ -514,7 +514,7 @@
     </message>
     <message>
         <source>Auto Connect Group:</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion automatique au groupe :</translation>
     </message>
 </context>
 <context>
@@ -533,7 +533,7 @@
     </message>
     <message>
         <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
-        <translation>Après avoir ajouté une entrée Hue et enregistré, redémarrez OpenRGB et appuyez sur le bouton Sync sur votre pont Hue pour le coupler</translation>
+        <translation>Après avoir ajouté une entrée Hue et enregistré, redémarrez OpenRGB et appuyez sur le bouton Sync sur votre pont Hue pour le coupler.</translation>
     </message>
     <message>
         <source>Philips Hue settings page</source>
@@ -609,7 +609,7 @@
     </message>
     <message>
         <source>Icon</source>
-        <translation>Icône</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Plugins entry</source>
@@ -628,11 +628,11 @@
     </message>
     <message>
         <source>Plugins page</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Vous cherchez un plugin ? La liste se trouve sur : &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -662,7 +662,7 @@
     </message>
     <message>
         <source>QMK settings entry</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -754,27 +754,27 @@
     </message>
     <message>
         <source>Connected Clients:</source>
-        <translation>Clients connectés</translation>
+        <translation>Clients connectés :</translation>
     </message>
     <message>
         <source>Server info page</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Server Host:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Server Host:</source>
+        <translation>Hôte :</translation>
+    </message>
+    <message>
         <source>Client IP</source>
-        <translation type="unfinished">Ip du client</translation>
+        <translation>Ip du client</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation type="unfinished">Version du protocole</translation>
+        <translation>Version du protocole</translation>
     </message>
     <message>
         <source>Client Name</source>
-        <translation type="unfinished">Nom du client</translation>
+        <translation>Nom du client</translation>
     </message>
 </context>
 <context>
@@ -785,7 +785,7 @@
     </message>
     <message>
         <source>90000</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Run zone checks on rescan</source>
@@ -801,7 +801,7 @@
     </message>
     <message>
         <source>User Interface Settings:</source>
-        <translation>Paramètres d&apos;interface</translation>
+        <translation>Paramètres d&apos;interface :</translation>
     </message>
     <message>
         <source>Start At Login</source>
@@ -841,7 +841,7 @@
     </message>
     <message>
         <source>Log Manager Settings:</source>
-        <translation>Paramètres des logs</translation>
+        <translation>Paramètres des logs :</translation>
     </message>
     <message>
         <source>Start at Login Status</source>
@@ -849,7 +849,7 @@
     </message>
     <message>
         <source>Start At Login Settings:</source>
-        <translation>Paramètres de démarrage à la connexion</translation>
+        <translation>Paramètres de démarrage à la connexion :</translation>
     </message>
     <message>
         <source>Open Settings Folder</source>
@@ -861,31 +861,31 @@
     </message>
     <message>
         <source>Drivers Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètre de pilotes</translation>
     </message>
     <message>
         <source>Greyscale Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Icône de la barre des tâches grise</translation>
     </message>
     <message>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>AMD SMBus : Réduire l&apos;utilisation CPU (Redemarrage requis)</translation>
     </message>
     <message>
         <source>Set Profile on Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer le profile a la fermeture</translation>
     </message>
     <message>
         <source>Shared SMBus Access (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>Accès SMBus partagé (Redemarrage requis)</translation>
     </message>
     <message>
         <source>Set Server Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir l&apos;hôte du serveur</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
 </context>
 <context>
@@ -912,11 +912,11 @@
     </message>
     <message>
         <source>Gitlab page</source>
-        <translation>Page Gitlab :</translation>
+        <translation>Page Gitlab</translation>
     </message>
     <message>
         <source>Website</source>
-        <translation>Site Web :</translation>
+        <translation>Site Web</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>
@@ -954,7 +954,7 @@
     <name>OpenRGBSystemInfoPageUi</name>
     <message>
         <source>SMBus Adapters:</source>
-        <translation>Adaptateurs SMBus</translation>
+        <translation>Adaptateurs SMBus :</translation>
     </message>
     <message>
         <source>Address:</source>
@@ -974,11 +974,11 @@
     </message>
     <message>
         <source>SMBus Detector:</source>
-        <translation>Détecteur SMBus</translation>
+        <translation>Détecteur SMBus :</translation>
     </message>
     <message>
         <source>Detection Mode:</source>
-        <translation>Mode de détection</translation>
+        <translation>Mode de détection :</translation>
     </message>
     <message>
         <source>Detect Devices</source>
@@ -1025,7 +1025,7 @@
     </message>
     <message>
         <source>Override host IP:</source>
-        <translation>Surcharger l&apos;IP de l&apos;hôte</translation>
+        <translation>Ecraser l&apos;IP de l&apos;hôte :</translation>
     </message>
     <message>
         <source>Left blank for auto discovering host ip</source>
@@ -1318,15 +1318,15 @@
     </message>
     <message>
         <source>LIFX Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Périphériques LIFX</translation>
     </message>
     <message>
         <source>Nanoleaf Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Périphériques Nanoleaf</translation>
     </message>
     <message>
         <source>Elgato KeyLight Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Périphériques Elgato KeyLight</translation>
     </message>
 </context>
 <context>
@@ -1438,11 +1438,11 @@
     </message>
     <message>
         <source>English - US</source>
-        <translation type="unfinished">Français</translation>
+        <translation>Français</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Par defaut</translation>
     </message>
 </context>
 <context>
