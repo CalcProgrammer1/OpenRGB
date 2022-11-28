@@ -3244,7 +3244,7 @@ Using an effect on a device WILL damage the flash or controller</source>
         <location filename="../OpenRGBSettingsPage.cpp" line="35"/>
         <location filename="../OpenRGBSettingsPage.cpp" line="41"/>
         <source>English - US</source>
-        <translation type="unfinished">中文</translation>
+        <translation type="unfinished">简体中文</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.cpp" line="45"/>
