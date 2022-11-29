@@ -1,7 +1,7 @@
 %global _name OpenRGB
 
 Name:           openrgb
-Version:        0.8
+Version:        0.8.1
 Release:        0%{?dist}
 Summary:        Open source RGB lighting control that doesn't depend on manufacturer software
 
@@ -47,6 +47,9 @@ fi
 %doc README.md
 
 %changelog
+* Tue Nov 29 2022 Adam Honse <calcprogrammer1@gmail.com> - 0.8.1-0
+- Updated to 0.8.1
+
 * Sun Nov 27 2022 Adam Honse <calcprogrammer1@gmail.com> - 0.8-0
 - Updated to 0.8
 
