@@ -346,7 +346,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 32 .deb (Debian Buster)"
@@ -363,7 +362,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 64 .deb (Debian Buster)"
@@ -380,7 +378,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 32 .deb (Debian Bullseye)"
@@ -397,7 +394,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 64 .deb (Debian Bullseye)"
@@ -414,7 +410,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 32 .deb (Debian Bookworm)"
@@ -431,7 +426,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 64 .deb (Debian Bookworm)"
@@ -448,7 +442,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 64 .deb (Debian Buster)"
@@ -465,7 +458,6 @@ before_script:
   - apt update
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
   - openrgb --version
-  - openrgb -l
   - apt remove -y openrgb
   dependencies:
   - "Linux 64 .deb (Debian Bookworm)"
@@ -481,7 +473,6 @@ before_script:
   script:
   - yum -y localinstall ./openrgb*64.rpm
   - openrgb --version
-  - openrgb -l
   - yum -y remove openrgb
   dependencies:
   - "Linux 64 f35 rpm"
@@ -497,7 +488,6 @@ before_script:
   script:
   - yum -y localinstall ./openrgb*64.rpm
   - openrgb --version
-  - openrgb -l
   - yum -y remove openrgb
   dependencies:
   - "Linux 64 f36 rpm"
