@@ -45,7 +45,7 @@
 | Fan controller product IDs                            |
 \*-----------------------------------------------------*/
 #define UNI_HUB_PID                                 0x7750
-#define UNI_HUB_AL_PID                              0XA101
+#define UNI_HUB_AL_PID                              0xA101
 
 /*----------------------------------------------------------------------------*\
 | The Uni Hub is controlled by sending control transfers to various wIndex     |
