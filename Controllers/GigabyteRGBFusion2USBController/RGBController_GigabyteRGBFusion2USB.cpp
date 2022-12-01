@@ -30,15 +30,16 @@ static FwdLedHeaders LedLookup
 \*-------------------------------------------------*/
 static MBName MBName2LayoutLookup
 {
-    {"B550 AORUS ELITE",        "STD_ATX"},
-    {"B550 AORUS PRO",          "STD_ATX"},
-    {"B550I AORUS PRO AX",      "ITX"},
-    {"X570 AORUS ELITE",        "STD_ATX"},
-    {"X570 AORUS ELITE WIFI",   "STD_ATX"},
-    {"X570 AORUS PRO WIFI",     "STD_ATX"},
-    {"X570 AORUS ULTRA",        "STD_ATX"},
-    {"X570 I AORUS PRO WIFI",   "ITX"},
-    {"Z390 AORUS MASTER-CF",    "MSTR_ATX"}
+    {"B550 AORUS ELITE",            "STD_ATX"   },
+    {"B550 AORUS PRO",              "STD_ATX"   },
+    {"B550I AORUS PRO AX",          "ITX"       },
+    {"X570 AORUS ELITE",            "STD_ATX"   },
+    {"X570 AORUS ELITE WIFI",       "STD_ATX"   },
+    {"X570 AORUS PRO WIFI",         "STD_ATX"   },
+    {"X570 AORUS ULTRA",            "STD_ATX"   },
+    {"X570 I AORUS PRO WIFI",       "ITX"       },
+    {"X670E AORUS MASTER",          "MSTR_ATX_2"},
+    {"Z390 AORUS MASTER-CF",        "MSTR_ATX"  },
 };
 
 /*-------------------------------------------------*\
@@ -182,6 +183,33 @@ static KnownLayout knownLayoutsLookup
                     { "Chipset Logo",   LED3, 1},
                     { "PCIe",           LED4, 1},
                     { "LED C1/C2",      LED5, 1},
+                }
+            }
+        }
+    },
+    {
+        "MSTR_ATX_2",
+        {
+            {
+                "D_LED1 Bottom",
+                {
+                    { "D_LED1 Bottom", HDR_D_LED2, 0},
+                }
+            },
+            {
+                "D_LED2 Top",
+                {
+                    { "D_LED2 Top",  HDR_D_LED1, 0},
+                }
+            },
+            {
+                "Motherboard",
+                {
+                    { "LED C1",         LED2, 1},
+                    { "LED C2",         LED5, 1},
+                    { "CPU Header",     LED3, 1},
+                    { "Cover Left",     LED4, 1},
+                    { "Cover Right",    LED1, 1},
                 }
             }
         }
