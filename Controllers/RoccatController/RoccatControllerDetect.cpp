@@ -10,11 +10,13 @@
 #include "RoccatBurstController.h"
 #include "RoccatKoneAimoController.h"
 #include "RoccatVulcanAimoController.h"
+#include "RoccatKovaController.h"
 #include "RGBController.h"
 #include "RGBController_RoccatBurst.h"
 #include "RGBController_RoccatHordeAimo.h"
 #include "RGBController_RoccatKoneAimo.h"
 #include "RGBController_RoccatVulcanAimo.h"
+#include "RGBController_RoccatKova.h"
 #include <hidapi/hidapi.h>
 #include <unordered_set>
 
@@ -26,6 +28,7 @@
 #define ROCCAT_HORDE_AIMO_PID       0x303E
 #define ROCCAT_BURST_CORE_PID       0x2DE6
 #define ROCCAT_BURST_PRO_PID        0x2DE1
+#define ROCCAT_KOVA_PID             0x2CEE
 
 void DetectRoccatMouseControllers(hid_device_info* info, const std::string& name)
 {
@@ -157,6 +160,19 @@ void DetectRoccatBurstProControllers(hid_device_info* info, const std::string& n
     }
 }
 
+void DetectRoccatKovaControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RoccatKovaController *     controller     = new RoccatKovaController(dev, info->path);
+        RGBController_RoccatKova * rgb_controller = new RGBController_RoccatKova(controller);
+        rgb_controller->name                      = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 REGISTER_PRE_DETECTION_HOOK(ResetRoccatVulcanAimoControllersPaths);
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",               DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_PID,          0, 0x0B,    0 );
@@ -165,3 +181,4 @@ REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",  DetectRoccatVulcanAi
 REGISTER_HID_DETECTOR_IPU("Roccat Horde Aimo",              DetectRoccatHordeAimoKeyboardControllers,   ROCCAT_VID, ROCCAT_HORDE_AIMO_PID,         1, 0x0B,    0);
 REGISTER_HID_DETECTOR_IPU("Roccat Burst Core",              DetectRoccatBurstCoreControllers,           ROCCAT_VID, ROCCAT_BURST_CORE_PID,         3, 0xFF01,  1);
 REGISTER_HID_DETECTOR_IPU("Roccat Burst Pro",               DetectRoccatBurstProControllers,            ROCCAT_VID, ROCCAT_BURST_PRO_PID,          3, 0xFF01,  1);
+REGISTER_HID_DETECTOR_IPU("Roccat Kova",                    DetectRoccatKovaControllers,                ROCCAT_VID, ROCCAT_KOVA_PID,               0, 0x0B,    0);
