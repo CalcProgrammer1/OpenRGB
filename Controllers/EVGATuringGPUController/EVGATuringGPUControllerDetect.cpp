@@ -33,6 +33,7 @@ void DetectEVGATuringGPUControllers(i2c_smbus_interface* bus, uint8_t address, c
     }
 }   /* DetectEVGATuringGPUControllers() */
 
+REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 2070 XC Black"                        , DetectEVGATuringGPUControllers, NVIDIA_VEN,     NVIDIA_RTX2070_DEV,     EVGA_SUB_VEN,   EVGA_RTX2070_XC_BLACK_SUB_DEV,             0x49);
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 2070 XC Gaming"                       , DetectEVGATuringGPUControllers, NVIDIA_VEN,     NVIDIA_RTX2070_OC_DEV,  EVGA_SUB_VEN,   EVGA_RTX2070_XC_GAMING_SUB_DEV,            0x49);
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 2070 XC OC"                           , DetectEVGATuringGPUControllers, NVIDIA_VEN,     NVIDIA_RTX2070_OC_DEV,  EVGA_SUB_VEN,   EVGA_RTX2070_XC_OC_SUB_DEV,                0x49);
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 2070 SUPER XC Ultra"                  , DetectEVGATuringGPUControllers, NVIDIA_VEN,     NVIDIA_RTX2070S_OC_DEV, EVGA_SUB_VEN,   EVGA_RTX2070S_XC_ULTRA_SUB_DEV,            0x49);
