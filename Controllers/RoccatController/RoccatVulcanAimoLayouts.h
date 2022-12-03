@@ -289,7 +289,7 @@ static std::map<int, layout_info> RoccatVulcanLayouts =
                 { KEY_EN_RIGHT_SHIFT,         0x52 },
 
                 { KEY_EN_F12,                 0x56 },
-                { KEY_EN_ANSI_BACK_SLASH,     0x57 },
+                { KEY_EN_ANSI_BACK_SLASH,     0x51 },
                 { KEY_EN_ANSI_ENTER,          0x58 },
                 { KEY_EN_RIGHT_CONTROL,       0x59 },
 
