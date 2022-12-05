@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "ui_OpenRGBZoneResizeDialog.h"
 
+#include "RGBController.h"
+
 namespace Ui {
 class OpenRGBZoneResizeDialog;
 }
@@ -13,7 +15,7 @@ class Ui::OpenRGBZoneResizeDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit OpenRGBZoneResizeDialog(int size_min, int size_max, int size_current, QWidget *parent = nullptr);
+    explicit OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, unsigned int edit_zone_idx_val, QWidget *parent = nullptr);
     ~OpenRGBZoneResizeDialog();
 
     int show();
@@ -24,8 +26,14 @@ private slots:
 
     void on_ResizeBox_valueChanged(int arg1);
 
+    void on_AddSegmentButton_clicked();
+
+    void on_RemoveSegmentButton_clicked();
+
 private:
     Ui::OpenRGBZoneResizeDialogUi *ui;
+    RGBController* edit_dev;
+    unsigned int edit_zone_idx;
 };
 
 #endif // OPENRGBZONERESIZEDIALOG_H

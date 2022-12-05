@@ -245,6 +245,85 @@ void RGBController_NZXTHue2::SetupZones()
         }
     }
 
+    /*-------------------------------------------------*\
+    | Set up segments                                   |
+    \*-------------------------------------------------*/
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        unsigned int start_idx = 0;
+
+        for(unsigned int dev_idx = 0; dev_idx < 6; dev_idx++)
+        {
+            std::string device_name = "";
+            switch(controller->channel_dev_ids[zone_idx][dev_idx])
+            {
+            case 0x01: //Hue 1 strip
+                device_name = "Hue 1 strip";
+                break;
+
+            case 0x02: //Aer 1 fan
+                device_name = "Aer 1 fan";
+                break;
+
+            case 0x04: //Hue 2 strip (10 LEDs)
+                device_name = "Hue 2 strip (10 LEDs)";
+                break;
+
+            case 0x05: //Hue 2 strip (8 LEDs)
+                device_name = "Hue 2 strip (8 LEDs)";
+                break;
+
+            case 0x06: //Hue 2 strip (6 LEDs)
+                device_name = "Hue 2 strip (6 LEDs)";
+                break;
+
+            case 0x09: //Hue 2 Underglow (300mm) (15 LEDs)
+                device_name = "Hue 2 Underglow (300mm) (15 LEDs)";
+                break;
+
+            case 0x0A: //Hue 2 Underglow (200mm) (10 LEDs)
+                device_name = "Hue 2 Underglow (200mm) (10 LEDs)";
+                break;
+
+            case 0x0B: //Aer 2 fan (120mm)
+                device_name = "Aer 2 fan (120mm)";
+                break;
+
+            case 0x0C: //Aer 2 fan (140mm)
+                device_name = "Aer 2 fan (140mm)";
+                break;
+
+            case 0x10: //Kraken X3 ring
+                device_name = "Kraken X3 ring";
+                break;
+
+            case 0x11: //Kraken X3 logo
+                device_name = "Kraken X3 logo";
+                break;
+
+            case 0x08: //Hue 2 Cable Comb (14 LEDs)
+                device_name = "Hue 2 Cable Comb (14 LEDs)";
+                break;
+
+            default:
+                break;
+            }
+
+            if(device_name != "")
+            {
+                segment new_segment;
+                new_segment.name = device_name;
+                new_segment.type = ZONE_TYPE_LINEAR;
+                new_segment.start_idx = start_idx;
+                new_segment.leds_count = controller->channel_dev_szs[zone_idx][dev_idx];
+
+                zones[zone_idx].segments.push_back(new_segment);
+
+                start_idx += new_segment.leds_count;
+            }
+        }
+    }
+
     SetupColors();
 }
 

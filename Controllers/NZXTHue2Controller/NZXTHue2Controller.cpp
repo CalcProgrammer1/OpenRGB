@@ -206,6 +206,9 @@ void NZXTHue2Controller::UpdateDeviceList()
                 break;
             }
 
+            channel_dev_ids[chan][dev] = usb_buf[start + dev];
+            channel_dev_szs[chan][dev] = num_leds_in_device;
+
             LOG_DEBUG("[NZXT Hue 2] %d: Device ID: %02X LEDs: %d", dev, usb_buf[start + dev], num_leds_in_device);
 
             num_leds_on_channel += num_leds_in_device;

@@ -15,8 +15,9 @@
 |   1:      Add versioning, vendor string (Release 0.5) |
 |   2:      Add profile controls (Release 0.6)          |
 |   3:      Add brightness field to modes (Release 0.7) |
+|   4:      Add segments field to zones (Release 0.9)   |
 \*-----------------------------------------------------*/
-#define OPENRGB_SDK_PROTOCOL_VERSION    3
+#define OPENRGB_SDK_PROTOCOL_VERSION    4
 
 /*-----------------------------------------------------*\
 | Default Interface to bind to.                         |

@@ -20,6 +20,7 @@
 #define PAD_LED     0.1
 #define PAD_TEXT    0.1
 #define PAD_ZONE    1.0
+#define PAD_SEGMENT 0.9
 #define SIZE_TEXT   0.5
 
 DeviceView::DeviceView(QWidget *parent) :
@@ -226,6 +227,7 @@ void DeviceView::InitDeviceView()
     | Process position and size for zones                   |
     \*-----------------------------------------------------*/
     unsigned int maxWidth       = 0;
+    unsigned int segment_count  = 0;
     float        totalHeight    = 0;
 
     /*-----------------------------------------------------*\
@@ -245,6 +247,17 @@ void DeviceView::InitDeviceView()
         | For all other zones, compute the height including     |
         | wrap-around                                           |
         \*-----------------------------------------------------*/
+        else if(controller->zones[zone_idx].segments.size() > 0)
+        {
+            for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
+            {
+                unsigned int count          = controller->zones[zone_idx].segments[segment_idx].leds_count;
+                zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
+                totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
+
+                segment_count++;
+            }
+        }
         else
         {
             unsigned int count          = controller->zones[zone_idx].leds_count;
@@ -261,13 +274,17 @@ void DeviceView::InitDeviceView()
         }
     }
 
+    segment_pos.resize(segment_count);
+
     /*-----------------------------------------------------*\
     | Add some space for zone names and padding             |
     \*-----------------------------------------------------*/
     totalHeight    += controller->zones.size() * PAD_ZONE;
+    totalHeight    += segment_count * PAD_SEGMENT;
 
     float current_y = 0;                    // We will be descending, placing each zone one unit below the previous one
     matrix_h        = totalHeight;
+    segment_count   = 0;
 
     for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
     {
@@ -366,6 +383,43 @@ void DeviceView::InitDeviceView()
 
             current_y += map->height;
         }
+        else if(controller->zones[zone_idx].segments.size() > 0)
+        {
+            for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
+            {
+                /*-----------------------------------------------------*\
+                | Calculate segment label position and size             |
+                \*-----------------------------------------------------*/
+                segment_pos[segment_count].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0;
+                segment_pos[segment_count].matrix_y = current_y + SIZE_TEXT;
+                segment_pos[segment_count].matrix_w = zone_pos[zone_idx].matrix_w;
+                segment_pos[segment_count].matrix_h = SIZE_TEXT - PAD_TEXT;
+                current_y                          += PAD_SEGMENT;
+
+                segment_count++;
+
+                /*-----------------------------------------------------*\
+                | Calculate LED box positions for segmented zones       |
+                \*-----------------------------------------------------*/
+                unsigned int leds_count = controller->zones[zone_idx].segments[segment_idx].leds_count;
+                
+                for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
+                {
+                    unsigned int led_pos_idx = controller->zones[zone_idx].start_idx + controller->zones[zone_idx].segments[segment_idx].start_idx + led_idx;
+
+                    led_pos[led_pos_idx].matrix_x = zone_pos[zone_idx].matrix_x + ((led_idx % MAX_COLS) + PAD_LED);
+                    led_pos[led_pos_idx].matrix_y = current_y + ((led_idx / MAX_COLS) + PAD_LED);
+
+                    /*-----------------------------------------------------*\
+                    | LED is a 1x1 square, minus padding on all sides       |
+                    \*-----------------------------------------------------*/
+                    led_pos[led_pos_idx].matrix_w = (1 - (2 * PAD_LED));
+                    led_pos[led_pos_idx].matrix_h = (1 - (2 * PAD_LED));
+                }
+
+                current_y += (leds_count / MAX_COLS) + ((leds_count % MAX_COLS) > 0);
+            }
+        }
         else
         {
             /*-----------------------------------------------------*\
@@ -409,7 +463,7 @@ void DeviceView::InitDeviceView()
     }
 
     /*-----------------------------------------------------*\
-    | Scale the zones and LEDs                              |
+    | Scale the zones, segments, and LEDs                   |
     |                                                       |
     | Atom is the width of a single square; if the whole    |
     | thing becomes too tall, we ignore it and let the view |
@@ -423,6 +477,14 @@ void DeviceView::InitDeviceView()
         zone_pos[zone_idx].matrix_y *= atom;
         zone_pos[zone_idx].matrix_w *= atom;
         zone_pos[zone_idx].matrix_h *= atom;
+    }
+
+    for(std::size_t segment_idx = 0; segment_idx < segment_pos.size(); segment_idx++)
+    {
+        segment_pos[segment_idx].matrix_x *= atom;
+        segment_pos[segment_idx].matrix_y *= atom;
+        segment_pos[segment_idx].matrix_w *= atom;
+        segment_pos[segment_idx].matrix_h *= atom;
     }
 
     for(std::size_t led_idx = 0; led_idx < led_pos.size(); led_idx++)
@@ -547,7 +609,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
 
             for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
             {
-                int posx = zone_pos[zone_idx].matrix_x * size + offset_x;
+                int posx = zone_pos[zone_idx].matrix_x * size + offset_x + 12;
                 int posy = zone_pos[zone_idx].matrix_y * size;
                 int posw = zone_pos[zone_idx].matrix_w * size;
                 int posh = zone_pos[zone_idx].matrix_h * size;
@@ -656,8 +718,10 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     painter.setFont(font);
 
     /*-----------------------------------------------------*\
-    | Zone names                                            |
+    | Zone and Segment names                                |
     \*-----------------------------------------------------*/
+    unsigned int segment_count = 0;
+
     for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
     {
         int posx = zone_pos[zone_idx].matrix_x * size + offset_x;
@@ -676,6 +740,28 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
             painter.setPen(palette().windowText().color());
         }
         painter.drawText(posx, posy + posh, QString(controller->zones[zone_idx].name.c_str()));
+
+        for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
+        {
+            posx = segment_pos[segment_count].matrix_x * size + offset_x;
+            posy = segment_pos[segment_count].matrix_y * size;
+            posw = segment_pos[segment_count].matrix_w * size;
+            posh = segment_pos[segment_count].matrix_h * size;
+
+            segment_count++;
+
+            rect = {posx, posy, posw, posh};
+
+            if(rect.contains(lastMousePos) && (!mouseDown || !mouseMoved))
+            {
+                painter.setPen(palette().highlight().color());
+            }
+            else
+            {
+                painter.setPen(palette().windowText().color());
+            }
+            painter.drawText(posx, posy + posh, QString(controller->zones[zone_idx].segments[segment_idx].name.c_str()));   
+        }
     }
 
     /*-----------------------------------------------------*\

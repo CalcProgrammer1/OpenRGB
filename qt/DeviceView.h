@@ -49,6 +49,7 @@ private:
     bool per_led;
 
     std::vector<matrix_pos_size_type>   zone_pos;
+    std::vector<matrix_pos_size_type>   segment_pos;
     std::vector<matrix_pos_size_type>   led_pos;
     std::vector<QString>                led_labels;
 
