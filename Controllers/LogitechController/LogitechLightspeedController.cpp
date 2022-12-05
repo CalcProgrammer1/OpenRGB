@@ -54,15 +54,14 @@ std::string LogitechLightspeedController::GetSerialString()
 
 void LogitechLightspeedController::SendMouseMode
     (
-    unsigned char       mode,
-    uint16_t            speed,
-    unsigned char       zone,
-    unsigned char       red,
-    unsigned char       green,
-    unsigned char       blue,
-    unsigned char       brightness,
-    bool                bright_cycle_swap
+        uint8_t         mode,
+        uint16_t        speed,
+        uint8_t         zone,
+        uint8_t         red,
+        uint8_t         green,
+        uint8_t         blue,
+        uint8_t         brightness
     )
 {
-    lightspeed->setMode(mode, speed, zone, red, green, blue, brightness, bright_cycle_swap);
+    lightspeed->setMode(mode, speed, zone, red, green, blue, brightness);
 }

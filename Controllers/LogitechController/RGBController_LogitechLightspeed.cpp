@@ -28,7 +28,7 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
 
     mode Off;
     Off.name                        = "Off";
-    Off.value                       = LOGITECH_G_PRO_WIRELESS_MODE_OFF;
+    Off.value                       = LOGITECH_DEVICE_LED_OFF;
     Off.flags                       = 0;
     Off.color_mode                  = MODE_COLORS_NONE;
     modes.push_back(Off);
@@ -64,48 +64,83 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
                 LOG_INFO("Logitech device type not known: %i", controller->lightspeed->logitech_device_type);
         }
 
-        mode Direct;
-        Direct.name                 = "Direct";
-        Direct.value                = 0xFF;
-        Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode           = MODE_COLORS_PER_LED;
-        modes.push_back(Direct);
+        logitech_led fx             = controller->lightspeed->getLED_info(0);
 
-        mode Static;
-        Static.name                 = "Static";
-        Static.value                = LOGITECH_G_PRO_WIRELESS_MODE_STATIC;
-        Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-        Static.color_mode           = MODE_COLORS_PER_LED;
-        Static.brightness_min       = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
-        Static.brightness_max       = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
-        Static.brightness           = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
-        modes.push_back(Static);
+        for(uint8_t i = 0; i < fx.fx.size(); i++)
+        {
+            /*---------------------------------------------------------*\
+            | Logitech devices don't have a set order for effects and   |
+            |   each device needs to have the effect index mapped       |
+            \*---------------------------------------------------------*/
+            switch(fx.fx[i].mode)
+            {
+                case LOGITECH_DEVICE_LED_OFF:
+                    /* Do nothing as it's already added */
+                    break;
 
-        mode Cycle;
-        Cycle.name                  = "Spectrum Cycle";
-        Cycle.value                 = LOGITECH_G_PRO_WIRELESS_MODE_CYCLE;
-        Cycle.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-        Cycle.color_mode            = MODE_COLORS_NONE;
-        Cycle.brightness_min        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
-        Cycle.brightness_max        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
-        Cycle.brightness            = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
-        Cycle.speed_min             = LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST;
-        Cycle.speed_max             = LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST;
-        Cycle.speed                 = LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL;
-        modes.push_back(Cycle);
+                case LOGITECH_DEVICE_LED_ON:
+                {
+                    mode Direct;
+                    Direct.name                 = "Direct";
+                    Direct.value                = i;
+                    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+                    Direct.color_mode           = MODE_COLORS_PER_LED;
+                    modes.push_back(Direct);
 
-        mode Breathing;
-        Breathing.name              = "Breathing";
-        Breathing.value             = LOGITECH_G_PRO_WIRELESS_MODE_BREATHING;
-        Breathing.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-        Breathing.color_mode        = MODE_COLORS_PER_LED;
-        Breathing.brightness_min    = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
-        Breathing.brightness_max    = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
-        Breathing.brightness        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
-        Breathing.speed_min         = LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST;
-        Breathing.speed_max         = LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST;
-        Breathing.speed             = LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL;
-        modes.push_back(Breathing);
+                    mode Static;
+                    Static.name                 = "Static";
+                    Static.value                = i;
+                    Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+                    Static.color_mode           = MODE_COLORS_PER_LED;
+                    Static.brightness_min       = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
+                    Static.brightness_max       = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+                    Static.brightness           = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+                    modes.push_back(Static);
+                    LOG_DEBUG("[%s] Adding %s & %s modes at index - %02i", name.c_str(), Direct.name.c_str(), Static.name.c_str(), i);
+                    break;
+                }
+
+                case LOGITECH_DEVICE_LED_SPECTRUM:
+                {
+                    mode Cycle;
+                    Cycle.name                  = "Spectrum Cycle";
+                    Cycle.value                 = i;
+                    Cycle.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+                    Cycle.color_mode            = MODE_COLORS_NONE;
+                    Cycle.brightness_min        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
+                    Cycle.brightness_max        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+                    Cycle.brightness            = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+                    Cycle.speed_min             = LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST;
+                    Cycle.speed_max             = LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST;
+                    Cycle.speed                 = LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL;
+                    modes.push_back(Cycle);
+                    LOG_DEBUG("[%s] Adding %s mode at index - %02i", name.c_str(), Cycle.name.c_str(), i);
+                    break;
+                }
+
+                case LOGITECH_DEVICE_LED_BREATHING:
+                {
+                    mode Breathing;
+                    Breathing.name              = "Breathing";
+                    Breathing.value             = i;
+                    Breathing.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+                    Breathing.color_mode        = MODE_COLORS_PER_LED;
+                    Breathing.brightness_min    = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN;
+                    Breathing.brightness_max    = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+                    Breathing.brightness        = LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX;
+                    Breathing.speed_min         = LOGITECH_G_PRO_WIRELESS_SPEED_SLOWEST;
+                    Breathing.speed_max         = LOGITECH_G_PRO_WIRELESS_SPEED_FASTEST;
+                    Breathing.speed             = LOGITECH_G_PRO_WIRELESS_SPEED_NORMAL;
+                    modes.push_back(Breathing);
+                    LOG_DEBUG("[%s] Adding %s mode at index - %02i", name.c_str(), Breathing.name.c_str(), i);
+                    break;
+                }
+
+                default:
+                    LOG_WARNING("[%s] Effect at index - %02i not added: Value %04X unrecognised", name.c_str(), i, fx.fx[i].mode);
+                    break;
+            }
+        }
 
         SetupZones();
     }
@@ -190,17 +225,7 @@ void RGBController_LogitechLightspeed::UpdateZoneLEDs(int zone)
     unsigned char grn       = RGBGetGValue(colors[zone]);
     unsigned char blu       = RGBGetBValue(colors[zone]);
 
-    /*---------------------------------------------------------*\
-    | Workaround for G502 mode breathing / spectrum cycle swap  |
-    \*---------------------------------------------------------*/
-    bool bright_cycle_swap  = (pid == 0xC08B || pid == 0xC332 || pid == 0x0AB5 || pid == 0x0A87);
-
-    /*---------------------------------------------------------*\
-    | Replace direct mode with static when sending to controller|
-    \*---------------------------------------------------------*/
-    unsigned char temp_mode = (modes[active_mode].value == 0xFF) ? LOGITECH_G_PRO_WIRELESS_MODE_STATIC : modes[active_mode].value;
-
-    controller->SendMouseMode(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness, bright_cycle_swap);
+    controller->SendMouseMode(modes[active_mode].value, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness);
 }
 
 void RGBController_LogitechLightspeed::UpdateSingleLED(int led)
@@ -215,6 +240,6 @@ void RGBController_LogitechLightspeed::DeviceUpdateMode()
     | mouse in direct mode.  This code will only be called when |
     | we change modes as to not spam the device.                |
     \*---------------------------------------------------------*/
-    controller->lightspeed->setDirectMode(modes[active_mode].value == 0xFF);
+    controller->lightspeed->setDirectMode(modes[active_mode].name == "Direct");
     DeviceUpdateLEDs();
 }

@@ -255,7 +255,7 @@ public:
     uint8_t                     getLED_count();
     logitech_led                getLED_info(uint8_t LED_num);
     uint8_t                     setDirectMode(bool direct);
-    uint8_t                     setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness, bool bright_cycle_swap);
+    uint8_t                     setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness);
     int                         getDeviceName();
 private:
     std::map<uint8_t, logitech_led> leds;
