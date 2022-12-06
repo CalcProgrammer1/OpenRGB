@@ -180,6 +180,7 @@
 #define ASUS_ROG_STRIX_RTX2080TI_A11G_GAMING            0x866B
 #define ASUS_KO_RTX_3060_OC_O12G_GAMING                 0x87FB
 #define ASUS_ROG_STRIX_RTX_3060_O12G_GAMING             0x87F3
+#define ASUS_ROG_STRIX_RTX_3060_12G_GAMING              0x87F4
 #define ASUS_TUF_RTX_3060_O12G_GAMING                   0x87F5
 #define ASUS_TUF_RTX_3060_O12G_V2_GAMING                0x8865
 #define ASUS_TUF_RTX_3060_O12G_LHR_GAMING               0x8816
