@@ -1246,7 +1246,10 @@ std::string RazerController::GetKeyboardLayoutName()
         case RAZER_KEYBOARD_LAYOUT_PORTUGESE_PORTUGA:      return "Portugese (Portugal) (ISO)";    // Unconfirmed
         case RAZER_KEYBOARD_LAYOUT_HEBREW:                 return "Hebrew (ISO)";                  // Unconfirmed
         case RAZER_KEYBOARD_LAYOUT_ARABIC:                 return "Arabic (ANSI)";                 // Unconfirmed
-        default:                                           return "Unknown";
+        default:
+            std::string tmp = "Unknown: ";
+            tmp            += layout;
+            return tmp;
     }
 }
 
