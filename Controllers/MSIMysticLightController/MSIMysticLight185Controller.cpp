@@ -225,6 +225,7 @@ static const Config board_configs[] =
     { 0x7C83, 6,  0, 0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // B460M PRO-VDH WIFI
     { 0x7C84, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },     // MAG X570 TOMAHAWK WIFI
     { 0x7C86, 6,  0, 0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MPG B460I GAMING EDGE
+    { 0x7C87, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // B450M BAZOOKA MAX WIFI
     { 0x7C90, 6,  4, 0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG B550 GAMING CARBON WIFI
     { 0x7C91, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B550 TOMAHAWK
     { 0x7C92, 6,  0, 0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MPG B550I GAMING EDGE WIFI
@@ -259,10 +260,11 @@ static const Config board_configs[] =
     { 0x7D53, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG X570S EDGE MAX WIFI
     { 0x7D54, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG X570S TOMAHAWK MAX WIFI
     { 0x7D59, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B660-A DDR4
+    { 0x7D67, 0,  0, 0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO X670-P WIFI
     { 0x7D69, 9,  2, 4, 1, &zones_set15, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X670E ACE
+    { 0x7D77, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650M-A WIFI                 
     { 0x7D91, 1,  0, 0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG Z790 TOMAHAWK WIFI
     { 0x7E06, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z790-P WIFI DDR4
-    { 0x7D77, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650M-A WIFI                 
 };
 
 
