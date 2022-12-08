@@ -156,14 +156,14 @@ RGBController_LenovoUSB::RGBController_LenovoUSB(LenovoUSBController* controller
             break;
 
         case LEGION_Y760S:
-            response = controller->getInformation(0x02);
+            response = controller->getInformation(0x01);
             if(response.size() > 4)
             {
-                if(response[4] == 41)
+                if(response[4] == 0x97)
                 {
                     keyboard_type = JAPAN;
                 }
-                else if(response[4] >= 16 && response[4] <=40)
+                else if(response[4] == 0x8F)
                 {
                     keyboard_type = ISO;
                 }
