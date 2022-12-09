@@ -8118,6 +8118,42 @@ static const razer_device seiren_emote_device =
     0
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Thunderbolt 4 Dock Chroma                              |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       12 LEDs                                                 |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone thunderbolt_4_dock_chroma_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    12
+};
+
+static const razer_device thunderbolt_4_dock_chroma_device =
+{
+    "Razer Thunderbolt 4 Dock Chroma",
+    RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID,
+    DEVICE_TYPE_ACCESSORY,
+    true,
+    1,
+    12,
+    {
+        &thunderbolt_4_dock_chroma_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -8281,6 +8317,7 @@ const razer_device* razer_device_list[] =
     &nommo_pro_device,
     &o11_dynamic_device,
     &seiren_emote_device,
+    &thunderbolt_4_dock_chroma_device,
 };
 
 const unsigned int RAZER_NUM_DEVICES = (sizeof(razer_device_list) / sizeof(razer_device_list[ 0 ]));

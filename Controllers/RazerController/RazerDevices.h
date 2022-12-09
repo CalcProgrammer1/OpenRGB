@@ -212,6 +212,7 @@
 #define RAZER_O11_DYNAMIC_PID                           0x0F13
 #define RAZER_SEIREN_EMOTE_PID                          0x0F1B
 #define RAZER_STRIDER_CHROMA_PID                        0x0C05
+#define RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID             0x0F21
 
 typedef struct
 {

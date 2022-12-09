@@ -295,6 +295,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_TARTARUS_PRO_PID:
         case RAZER_TARTARUS_V2_PID:
         case RAZER_TIAMAT_71_V2_PID:
+        case RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID:
         case RAZER_VIPER_8KHZ_PID:
         case RAZER_VIPER_MINI_PID:
         case RAZER_VIPER_PID:
@@ -629,6 +630,7 @@ bool RazerController::SupportsWave()
         case RAZER_NOMMO_PRO_PID:
         case RAZER_O11_DYNAMIC_PID:
         case RAZER_STRIDER_CHROMA_PID:
+        case RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID:
 
             supports_wave = true;
             break;
