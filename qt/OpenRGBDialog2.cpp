@@ -1963,6 +1963,7 @@ void Ui::OpenRGBDialog2::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar
         if((i != tab_idx) && (dynamic_cast<OpenRGBPluginContainer*>(tab) != nullptr))
         {
             ((OpenRGBPluginContainer*) tab)->Hide();
+            ui->MainButtonsFrame->setVisible(true);
         }
     }
 
@@ -1978,6 +1979,7 @@ void Ui::OpenRGBDialog2::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar
     if(dynamic_cast<OpenRGBPluginContainer*>(tab) != nullptr)
     {
         ((OpenRGBPluginContainer*) tab)->Show();
+        ui->MainButtonsFrame->setVisible(false);
     }
 }
 
