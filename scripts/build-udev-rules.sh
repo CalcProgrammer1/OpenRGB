@@ -52,7 +52,7 @@ DUMMY_LIST=$( grep -hR -e DUMMY_DEVICE_DETECTOR ${CONTROLLER_PATH} | cut -d '(' 
 #  Create a list of RGBController.cpp classes including path                  #
 #-----------------------------------------------------------------------------#
 echo -e "Creating file list to parse metadata"
-FILE_LIST=$(find ${CONTROLLER_PATH} | grep RGBController_ | grep cpp)
+FILE_LIST=$(find ${CONTROLLER_PATH} | sort | grep RGBController_ | grep cpp)
 
 #Check the output of the file_list
 # echo -e "$FILE_LIST" >> "file_list.txt"
