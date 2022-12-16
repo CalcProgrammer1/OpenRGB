@@ -306,12 +306,7 @@ void RGBController_LenovoUSB::SetupZones()
             new_zone.matrix_map         = new matrix_map_type;
             new_zone.matrix_map->height = lenovo_zones[i].height;
             new_zone.matrix_map->width  = lenovo_zones[i].width;
-            new_zone.matrix_map->map    = new unsigned int[new_zone.matrix_map->height * new_zone.matrix_map->width];
-
-            if(lenovo_zones[i].matrix_map != NULL)
-            {
-                new_zone.matrix_map->map = (unsigned int *) lenovo_zones[i].matrix_map;
-            }
+            new_zone.matrix_map->map    = (unsigned int *) lenovo_zones[i].matrix_map;
         }
         else
         {
