@@ -221,43 +221,19 @@ void SteelSeriesRivalController::SetRival600Color
     unsigned char   blue
     )
 {
-    char usb_buf[0x25];
+    unsigned char usb_pkt[0x07];
 
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_pkt, 0x00, sizeof(usb_pkt));
 
-    usb_buf[0x00]       = 0x05;
+    usb_pkt[0x00] = 0x1c;
+    usb_pkt[0x01] = 0x27;
+    usb_pkt[0x02] = 0x00;
+    usb_pkt[0x03] = 1 << zone_id;
+    usb_pkt[0x04] = red;
+    usb_pkt[0x05] = green;
+    usb_pkt[0x06] = blue;
 
-    memset(usb_buf+0x2, zone_id, 6);
-
-    usb_buf[0x08]       = 0xE8;     //set time to 1000
-    usb_buf[0x09]       = 0x3;
-
-
-    usb_buf[0x18]       = 1;        //set trigger flag
-    usb_buf[0x1D]       = 1;        //set number of colors
-
-    usb_buf[0x1E]       = red;
-    usb_buf[0x1F]       = green;
-    usb_buf[0x20]       = blue;
-    usb_buf[0x21]       = red;
-    usb_buf[0x22]       = green;
-    usb_buf[0x23]       = blue;
-
-    unsigned char* usb_pkt = new unsigned char[0x25 + 1];
-    usb_pkt[0] = 0x00;
-    for(unsigned int i = 1; i < 0x25 + 1; i++)
-    {
-        usb_pkt[i] = usb_buf[i-1];
-    }
-
-    hid_write(dev, (unsigned char *)usb_pkt, 0x25 + 1);
-    hid_send_feature_report(dev, (unsigned char *)usb_pkt, 0x25 + 1);
-
-    delete []  usb_pkt;
-
-    usb_buf[0x00]       = 0x09;
-    usb_buf[0x01]       = 0x00;
-    send_usb_msg(dev, usb_buf, 0x02);
+    hid_write(dev, usb_pkt, 0x07);
 }
 
 void SteelSeriesRivalController::SetRival700Color
