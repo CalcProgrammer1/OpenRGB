@@ -30,7 +30,7 @@ static unsigned int matrix_map[8][35] =
     @name Lian Li Uni Hub AL
     @type USB
     @save :x:
-    @direct :warning:
+    @direct :rotating_light:
     @effects :white_check_mark:
     @detectors DetectLianLiUniHubAL
     @comment
