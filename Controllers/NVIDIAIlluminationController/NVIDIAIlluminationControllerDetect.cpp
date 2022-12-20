@@ -57,6 +57,7 @@ static const gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX3080TI_DEV,           NVIDIA_VEN,     NVIDIA_RTX3080TI_FE_SUB_DEV,                NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 3080TI FE"              },
     {NVIDIA_VEN,    NVIDIA_RTX3090_DEV,             NVIDIA_VEN,     NVIDIA_RTX3090_FE_SUB_DEV,                  NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 3090 FE"                },
     {NVIDIA_VEN,    NVIDIA_RTX3090TI_DEV,           NVIDIA_VEN,     NVIDIA_RTX3090TI_FE_SUB_DEV,                NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 3090TI FE"              },
+    {NVIDIA_VEN,    NVIDIA_RTX4080_DEV,             NVIDIA_VEN,     NVIDIA_RTX4080_FE_SUB_DEV,                  NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 4080 FE"                },
     {NVIDIA_VEN,    NVIDIA_RTX4090_DEV,             NVIDIA_VEN,     NVIDIA_RTX4090_FE_SUB_DEV,                  NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 4090 FE"                },
 };
 

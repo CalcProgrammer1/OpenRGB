@@ -87,6 +87,7 @@
 #define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
 #define NVIDIA_RTX3090TI_DEV                            0x2203
+#define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4090_DEV                              0x2684
 
 /*-----------------------------------------------------*\
@@ -97,6 +98,7 @@
 #define NVIDIA_RTX3080TI_FE_SUB_DEV                     0x1535
 #define NVIDIA_RTX3090_FE_SUB_DEV                       0x147D
 #define NVIDIA_RTX3090TI_FE_SUB_DEV                     0x1618
+#define NVIDIA_RTX4080_FE_SUB_DEV                       0x167A
 #define NVIDIA_RTX4090_FE_SUB_DEV                       0x165B
 
 /*---------------------------------------------------------*\
