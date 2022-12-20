@@ -18,7 +18,7 @@ using namespace thor300;
     @category Keyboard
     @type USB
     @save :robot:
-    @direct :rotating light:
+    @direct :rotating_light:
     @effects :white_check_mark:
     @detectors DetectSinowealthGenesisKeyboard
     @comment Direct mode is not supported by the keyboard
