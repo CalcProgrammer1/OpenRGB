@@ -20,7 +20,7 @@
     preset color in the mouse's memory, and color offsets for each LED
     are not supported. You'd need to use Swarm if you intend to use that
     specific feature.
-*/
+\*-------------------------------------------------------------------*/
 
 RGBController_RoccatKova::RGBController_RoccatKova(RoccatKovaController* controller_ptr)
 {
