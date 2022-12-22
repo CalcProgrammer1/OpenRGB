@@ -34,9 +34,11 @@ for DEV in ${ASUS_TUF_DEVICES[@]}; do
 done
 
 # asus-wmi rules
-UDEV_HEADER+=${UDEV_LINE}'#  ASUS TUF Laptops (asus-wmi)                                  #\n'${UDEV_LINE}
-UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="platform", KERNEL=="asus-nb-wmi", RUN+="/bin/chmod a+w /sys/bus/platform/devices/asus-nb-wmi/leds/asus::kbd_backlight/kbd_rgb_mode"\n'
-UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="platform", KERNEL=="asus-nb-wmi", RUN+="/bin/chmod a+w /sys/bus/platform/devices/asus-nb-wmi/leds/asus::kbd_backlight/brightness"\n'
+ASUS_WMI_DEVICES=('kbd_rgb_mode' 'brightness')
+UDEV_HEADER+='\n'${UDEV_LINE}'#  ASUS TUF Laptops (asus-wmi)                                  #\n'${UDEV_LINE}
+for DEV in ${ASUS_WMI_DEVICES[@]}; do
+  UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::kbd_backlight", RUN+="/bin/chmod a+w /sys%p/'${DEV}'"\n'
+done
 
 echo -e "$UDEV_HEADER" > "$UDEV_FILE"
 
