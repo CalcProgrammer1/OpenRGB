@@ -490,7 +490,9 @@ HEADERS +=                                                                      
     Controllers/EVGAUSBController/RGBController_EVGAKeyboard.h                                  \
     Controllers/EVGAUSBController/RGBController_EVGAMouse.h                                     \
     Controllers/EVisionKeyboardController/EVisionKeyboardController.h                           \
+    Controllers/EVisionKeyboardController/EVisionV2KeyboardController.h                         \
     Controllers/EVisionKeyboardController/RGBController_EVisionKeyboard.h                       \
+    Controllers/EVisionKeyboardController/RGBController_EVisionV2Keyboard.h                     \
     Controllers/FanBusController/FanBusController.h                                             \
     Controllers/FanBusController/FanBusInterface.h                                              \
     Controllers/FanBusController/RGBController_FanBus.h                                         \
@@ -1129,8 +1131,10 @@ SOURCES +=                                                                      
     Controllers/EVGAUSBController/RGBController_EVGAKeyboard.cpp                                \
     Controllers/EVGAUSBController/RGBController_EVGAMouse.cpp                                   \
     Controllers/EVisionKeyboardController/EVisionKeyboardController.cpp                         \
+    Controllers/EVisionKeyboardController/EVisionV2KeyboardController.cpp                       \
     Controllers/EVisionKeyboardController/EVisionKeyboardControllerDetect.cpp                   \
     Controllers/EVisionKeyboardController/RGBController_EVisionKeyboard.cpp                     \
+    Controllers/EVisionKeyboardController/RGBController_EVisionV2Keyboard.cpp                   \
     Controllers/FanBusController/FanBusController.cpp                                           \
     Controllers/FanBusController/FanBusControllerDetect.cpp                                     \
     Controllers/FanBusController/FanBusInterface.cpp                                            \
