@@ -735,7 +735,7 @@ std::string LianLiUniHub_AL10Controller::ReadVersion()
     /*-------------------------------------*\
     | Format version string                 |
     \*-------------------------------------*/
-    char version[14];
+    char version[15];
     int  vlength = std::snprintf(version, sizeof(version), "%x.%x.%x.%x.%x", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
 
     return(std::string(version, vlength));
