@@ -17,6 +17,8 @@ USB_DEVICE_TABLE_HEAD='| Vendor ID | Product ID | Device Name |\n'
 GPU_DEVICE_TABLE_HEAD='| Vendor &<br/>Device ID | Sub-Vendor &<br/>Product ID | Device Name |\n'
 DEVICE_TABLE_ALIGN='| :---: | :---: | :--- |'
 MAIN_FILE='Supported Devices.md'
+CSV_TABLE_HEAD='Name,Category,Type,RGBController,VID,PID,SVID,SPID,Save,Direct,Effects,Comments'
+CSV_FILE='Supported Devices.csv'
 
 ## Symbol Declarations
 WHITE_CHECK_MARK_STRING=':white_check_mark:'
@@ -85,6 +87,8 @@ echo -e "| ${ROBOT} | Feature is automatic and can not be turned off |" >> "$MAI
 echo -e "| ${TOOLS} | Partially supported by OpenRGB<br/>See device page for details |" >> "$MAIN_FILE"
 echo -e "| ${NO_ENTRY} | Not currently supported by OpenRGB |" >> "$MAIN_FILE"
 echo -e "| ${CROSS} | Not applicable for this device |" >> "$MAIN_FILE"
+
+echo -e "${CSV_TABLE_HEAD}" > "${CSV_FILE}"
 
 while read -r controller
 do
@@ -268,7 +272,9 @@ do
                         vid=${vid/0x/}
                         pid=${pid/0x/}
                         device_name=${device_name//[^[:alnum:][:punct:][:blank:]]/}
-
+                        escaped_comment=$(LC_ALL=C sed 's/["]/""/g' <<<"$comment")
+                        
+                        csv_row=$(printf '"%s","%s","%s","%s","%s","%s","","","%s","%s","%s","%s"\n' "${device_name//|/\\|}" "${categories//|/\\|}" "${type//|/\\|}" "${name//|/\\|}" "${vid/ /}" "${pid/ /}" "${save}" "${direct}" "${effects}" "${escaped_comment}")
                         table_row=$(printf '| `%s` | `%s` | %s |' "${vid/ /}" "${pid/ /}" "${device_name//|/\\|}")
                         ;;
                     I2C | SMBus)
@@ -279,7 +285,9 @@ do
                         svid=${svid/0x/}
                         spid=${spid/0x/}
                         device_name=${device_name//[^[:alnum:][:punct:][:blank:]]/}
+                        escaped_comment=$(LC_ALL=C sed 's/["]/""/g' <<<"$comment")
 
+                        csv_row=$(printf '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' "${device_name//|/\\|}" "${categories//|/\\|}" "${type//|/\\|}" "${name//|/\\|}" "${vid/ /}" "${pid/ /}" "${svid/ /}" "${spid/ /}" "${save}" "${direct}" "${effects}" "${escaped_comment}")
                         table_row=$(printf '| `%s:%s` | `%s:%s` | %s |' "${vid/ /}" "${pid/ /}" "${svid/ /}" "${spid/ /}" "${device_name//|/\\|}")
                         ;;
                     *)
@@ -289,6 +297,7 @@ do
 
                 if [[ $table_row = *[![:blank:]]* ]]; then
                     echo -e "$table_row" >>"$outfile"
+                    echo -e "$csv_row" >>"$CSV_FILE"
                 fi
             done <<< "$text"
         done <<< "$detectors"
