@@ -58,6 +58,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CYNOSA_V2_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
+        case RAZER_ORNATA_V3_X_PID:
         case RAZER_TARTARUS_CHROMA_PID:
         case RAZER_TARTARUS_PRO_PID:
         case RAZER_TARTARUS_V2_PID:
@@ -174,6 +175,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
+        case RAZER_ORNATA_V3_X_PID:
         case RAZER_CORE_PID:
         case RAZER_FIREFLY_PID:
         default:
@@ -299,6 +301,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
+        case RAZER_ORNATA_V3_X_PID:
         case RAZER_SEIREN_EMOTE_PID:
         case RAZER_STRIDER_CHROMA_PID:
         case RAZER_TARTARUS_PRO_PID:
@@ -592,6 +595,7 @@ bool RazerController::SupportsWave()
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
+        case RAZER_ORNATA_V3_X_PID:
         case RAZER_HUNTSMAN_PID:
         case RAZER_HUNTSMAN_ELITE_PID:
         case RAZER_HUNTSMAN_MINI_PID:

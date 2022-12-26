@@ -98,6 +98,7 @@
 #define RAZER_ORNATA_CHROMA_PID                         0x021E
 #define RAZER_ORNATA_CHROMA_V2_PID                      0x025D
 #define RAZER_ORNATA_V3_PID                             0x028F
+#define RAZER_ORNATA_V3_X_PID                           0x0294
 #define RAZER_TARTARUS_CHROMA_PID                       0x0208
 #define RAZER_TARTARUS_PRO_PID                          0x0244
 #define RAZER_TARTARUS_V2_PID                           0x022B
