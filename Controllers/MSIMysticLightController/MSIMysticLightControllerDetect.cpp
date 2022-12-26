@@ -1,8 +1,10 @@
 #include "Detector.h"
 #include "MSIMysticLight64Controller.h"
+#include "MSIMysticLight112Controller.h"
 #include "MSIMysticLight162Controller.h"
 #include "MSIMysticLight185Controller.h"
 #include "RGBController_MSIMysticLight64.h"
+#include "RGBController_MSIMysticLight112.h"
 #include "RGBController_MSIMysticLight162.h"
 #include "RGBController_MSIMysticLight185.h"
 #include "dependencies/dmiinfo.h"
@@ -52,6 +54,13 @@ void DetectMSIMysticLightControllers
         {
             MSIMysticLight162Controller*     controller     = new MSIMysticLight162Controller(dev, info->path, info->product_id);
             RGBController_MSIMysticLight162* rgb_controller = new RGBController_MSIMysticLight162(controller);
+            rgb_controller->name = "MSI " + dmi.getMainboard();
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else if((packet_length >= sizeof(FeaturePacket_112)) && (packet_length <= (sizeof(FeaturePacket_112) + 1)))
+        {
+            MSIMysticLight112Controller*     controller     = new MSIMysticLight112Controller(dev, info->path);
+            RGBController_MSIMysticLight112* rgb_controller = new RGBController_MSIMysticLight112(controller);
             rgb_controller->name = "MSI " + dmi.getMainboard();
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
@@ -151,6 +160,7 @@ REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D69",    DetectMSIMysticLightCont
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D77",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7D77,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7D91",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7D91,   0x0001, 0x00);
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E06",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7E06,   0x0001, 0x00);
+REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_7E07",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x7E07,   0x0001, 0x00);
 
 #ifdef ENABLE_UNTESTED_MYSTIC_LIGHT
 REGISTER_HID_DETECTOR_PU("MSI Mystic Light MS_3EA4",    DetectMSIMysticLightControllers,   MSI_USB_VID,    0x3EA4,   0x0001, 0x00);

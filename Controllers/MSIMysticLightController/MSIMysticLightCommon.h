@@ -166,6 +166,23 @@ struct FeaturePacket_64
     const unsigned char padding[37]               = {}; //pad to make the packet size 64 bytes
 };
 
+struct FeaturePacket_112
+{
+    const unsigned char report_id           = 0x52; // Report ID
+    ZoneData            j_rgb_1;                    // 1
+    ZoneData            j_rainbow_1;                // 11
+    ZoneData            j_corsair_1;                // 21
+    ZoneData            j_corsair_outerll120;       // 31
+    ZoneData            on_board_led;               // 41
+    ZoneData            on_board_led_1;             // 51
+    ZoneData            on_board_led_2;             // 61
+    ZoneData            on_board_led_3;             // 71
+    ZoneData            on_board_led_4;             // 81
+    ZoneData            on_board_led_5;             // 91
+    ZoneData            on_board_led_6;             // 101
+    unsigned char       save_data           = 0;    // 111
+};
+
 struct FeaturePacket_162
 {
     const unsigned char report_id           = 0x52; // Report ID
