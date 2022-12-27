@@ -8,6 +8,7 @@
 #else
 #include <netdb.h>
 #include <ifaddrs.h>
+#include <sys/select.h>
 #endif
 
 #include "mdns.h"
