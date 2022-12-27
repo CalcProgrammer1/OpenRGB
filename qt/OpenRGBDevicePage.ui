@@ -226,7 +226,7 @@
        </widget>
       </item>
       <item row="5" column="1" colspan="3">
-       <widget class="QSlider" name="SpeedSlider">
+       <widget class="QTooltipedSlider" name="SpeedSlider">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -302,7 +302,7 @@
        </widget>
       </item>
       <item row="7" column="1" colspan="3">
-       <widget class="QSlider" name="BrightnessSlider">
+       <widget class="QTooltipedSlider" name="BrightnessSlider">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -391,6 +391,11 @@
     <signal>swatchChanged(QColor)</signal>
     <slot>currentColorInput(QColor)</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>QTooltipedSlider</class>
+   <extends>QSlider</extends>
+   <header location="global">QTooltipedSlider.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -238,6 +238,7 @@ HEADERS +=                                                                      
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.h                               \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h                                \
     qt/OpenRGBZonesBulkResizer.h                                                                \
+    qt/QTooltipedSlider.h                                                                       \
     qt/TabLabel.h                                                                               \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
@@ -729,6 +730,7 @@ SOURCES +=                                                                      
     qt/OpenRGBThemeManager.cpp                                                                  \
     qt/OpenRGBZoneResizeDialog.cpp                                                              \
     qt/OpenRGBZonesBulkResizer.cpp                                                              \
+    qt/QTooltipedSlider.cpp                                                                     \
     qt/TabLabel.cpp                                                                             \
     qt/hsv.cpp                                                                                  \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \

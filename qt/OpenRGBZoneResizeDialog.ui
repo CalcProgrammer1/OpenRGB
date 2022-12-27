@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>233</width>
-    <height>71</height>
+    <height>73</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="1,0">
    <item row="0" column="0">
-    <widget class="QSlider" name="ResizeSlider">
+    <widget class="QTooltipedSlider" name="ResizeSlider">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -55,6 +55,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QTooltipedSlider</class>
+   <extends>QSlider</extends>
+   <header location="global">QTooltipedSlider.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
