@@ -132,6 +132,7 @@ INCLUDEPATH +=                                                                  
     Controllers/IntelArcA770LEController/                                                       \
     Controllers/LEDStripController/                                                             \
     Controllers/LenovoControllers/                                                              \
+    Controllers/LenovoMotherboardController/                                                    \
     Controllers/LianLiController/                                                               \
     Controllers/LIFXController/                                                                 \
     Controllers/LogitechController/                                                             \
@@ -457,6 +458,8 @@ HEADERS +=                                                                      
     Controllers/LenovoControllers/LenovoDevices.h                                               \
     Controllers/LenovoControllers/LenovoUSBController.h                                         \
     Controllers/LenovoControllers/RGBController_LenovoUSB.h                                     \
+    Controllers/LenovoMotherboardController/LenovoMotherboardController.h                       \
+    Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.h                   \
     Controllers/LexipMouseController/LexipMouseController.h                                     \
     Controllers/LexipMouseController/RGBController_LexipMouse.h                                 \
     Controllers/LIFXController/LIFXController.h                                                 \
@@ -1028,6 +1031,9 @@ SOURCES +=                                                                      
     Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
     Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
     Controllers/LenovoControllers/RGBController_LenovoUSB.cpp                                   \
+    Controllers/LenovoMotherboardController/LenovoMotherboardController.cpp                     \
+    Controllers/LenovoMotherboardController/LenovoMotherboardControllerDetect.cpp               \
+    Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.cpp                 \
     Controllers/LexipMouseController/LexipMouseController.cpp                                   \
     Controllers/LexipMouseController/LexipMouseControllerDetect.cpp                             \
     Controllers/LexipMouseController/RGBController_LexipMouse.cpp                               \
