@@ -703,6 +703,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 else
                 {
                     ui->ZoneBox->setDisabled(1);
+                    ui->ResizeButton->setEnabled(false);
                 }
 
                 for (std::size_t i = 0; i < device->zones.size(); i++)
