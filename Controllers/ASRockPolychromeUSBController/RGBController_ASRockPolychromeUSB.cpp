@@ -11,7 +11,7 @@
 #include <string.h>
 
 #define ASROCK_USB_MAX_ZONES        8
-#define ASROCK_ADDRESSABLE_MAX_LEDS 100
+#define ASROCK_ADDRESSABLE_MAX_LEDS 80
 
 /**------------------------------------------------------------------*\
     @name ASrock Polychrome USB
@@ -22,7 +22,6 @@
     @effects :white_check_mark:
     @detectors DetectPolychromeUSBControllers
     @comment ASRock Polychrome controllers will save with each update.
-        Per ARGB LED support is not possible with these devices.
 \*-------------------------------------------------------------------*/
 
 RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController* controller_ptr)
@@ -181,11 +180,6 @@ RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController
     modes.push_back(Direct);
 
     SetupZones();
-
-    /*-------------------------------------------------*\
-    | Initialize active mode                            |
-    \*-------------------------------------------------*/
-    active_mode = GetDeviceMode(1);
 }
 
 void RGBController_PolychromeUSB::SetupZones()
@@ -239,16 +233,6 @@ void RGBController_PolychromeUSB::SetupZones()
     SetupColors();
 
     /*---------------------------------------------------------*\
-    | Initialize colors for each LED                            |
-    \*---------------------------------------------------------*/
-    for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
-    {
-        unsigned char led = (unsigned char)leds[led_idx].value;
-
-        colors[led_idx] = controller->GetZoneConfig(led).color;     // TODO Get addressable instead of zone idx
-    }
-
-    /*---------------------------------------------------------*\
     | Initialize zone info to track zone, speed, mode           |
     | B550 Boards have modes, speed for each zone               |
     \*---------------------------------------------------------*/
@@ -259,26 +243,37 @@ void RGBController_PolychromeUSB::SetupZones()
         zones_info.push_back(zoneinfo);
     }
 
+     /*---------------------------------------------------------*\
+     | Initialize colors for each LED                            |
+     | We cannot currently get the individual led color so       |
+     | we use the zone color in each zone to set all leds        |
+     | !!TODO: in Per-Led mode, zone color is always black       |
+     \*---------------------------------------------------------*/
+     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+     {
+         unsigned char led = (unsigned char)leds[led_idx].value;
+
+         colors[led_idx] = zones_info[led].color;
+     }
+
+     /*-------------------------------------------------*\
+     | Initialize active mode                            |
+     \*-------------------------------------------------*/
+     active_mode = zones_info.size() > 1 ? zones_info[0].mode : 0x0;
+
+     /*-----------------------------------------------------*\
+     | If in Direct mode, reset all Leds to match interface  |
+     \*-----------------------------------------------------*/
+     if(active_mode == 0x0F)
+     {
+        controller->WriteAllZones(zones_info, zones);
+     }
 }
 
 void RGBController_PolychromeUSB::ResizeZone(int zone, int new_size)
 {
-     unsigned char zonecfg[ASROCK_USB_MAX_ZONES];
-
-    /*---------------------------------------------------------*\
-    | This device does not currently support resizing zones     |
-    \*---------------------------------------------------------*/
     zones[zone].leds_count = (unsigned char) new_size;
-
-    memset(zonecfg, POLYCHROME_USB_ZONE_UNAVAILABLE, ASROCK_USB_MAX_ZONES);
-
-    for(unsigned int i = 0; i < zones.size(); i++)
-    {
-        zonecfg[i]=zones[i].leds_count;
-    }
-
-    // unsigned char zonecmd = POLYCHROME_USB_LEDCOUNT_CFG;
-    // WriteHeader(zonecmd, zonecfg, sizeof(zonecfg));
+    controller->ResizeZone(zones_info[zone].zone, new_size);
 }
 
 void RGBController_PolychromeUSB::DeviceUpdateLEDs()

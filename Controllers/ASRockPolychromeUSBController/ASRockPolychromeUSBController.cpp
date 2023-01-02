@@ -17,6 +17,8 @@
 #define POLYCHROME_USB_READ_HEADER      0x14
 #define POLYCHROME_USB_WRITE_HEADER     0x15
 #define POLYCHROME_USB_SET_ZONE         0x10
+#define POLYCHROME_USB_INITIAL_CHUNK    0xE3
+#define POLYCHROME_USB_SEND_CHUNK       0xE4
 #define POLYCHROME_USB_INIT             0xA4
 #define POLYCHROME_USB_COMMIT           0x12
 
@@ -29,7 +31,7 @@ const char* polychrome_USB_zone_names[] =
     "PCH",
     "IO Cover",
     "PCB",
-    "Audio",
+    "Addressable Header 3/Audio",
 };
 
 PolychromeUSBController::PolychromeUSBController(hid_device* dev_handle, const char* path)
@@ -82,19 +84,26 @@ std::string PolychromeUSBController::GetSerialString()
 void PolychromeUSBController::SetDeviceInfo()
 {
     PolychromeDeviceInfo newdev_info;
+
+    /*--------------------------------------------------*\
+    | Disable RGSwap as it causes flashing on each update|
+    \*--------------------------------------------------*/
+    WriteRGSwap(0,0,0,0,0,0,0,0);
     ReadConfigTables();
 
     for (unsigned int zonecnt = 0; zonecnt < POLYCHROME_USB_ZONE_MAX_NUM; zonecnt++)
     {
-        if(configtable[zonecnt] == 0x1E)
+        if(configtable[zonecnt] == 0x1E || !((configtable[9] >> zonecnt) & 1))
         {
 			/*-----------------------------------------------------------------------*\
 			| If we don't have this device type (0x1E) we will skip it and continue.  |
+            | Or if the device is not available we skip it and continue               |
 			\*-----------------------------------------------------------------------*/
             continue;
         }
 
         newdev_info.num_leds = configtable[zonecnt];
+        newdev_info.rgswap = ((configtable[8] >> zonecnt) & 1);
 
 		/*--------------------------------------------------------------------------------------------------*\
 		| We will need to know what zone type this is, so that we can look up the name and make calls later. |
@@ -108,6 +117,11 @@ void PolychromeUSBController::SetDeviceInfo()
             \*-----------------------------------------*/
             case POLYCHROME_USB_ZONE_ARGB1:
             case POLYCHROME_USB_ZONE_ARGB2:
+            /*---------------------------------------------*\
+            | The last led channel is allocated to a       |
+            | third ARGB header on some newer motherboards |
+            \*---------------------------------------------*/
+            case POLYCHROME_USB_ZONE_AUDIO:
                 newdev_info.device_type = PolychromeDeviceType::ADDRESSABLE;
                 break;
 
@@ -117,10 +131,9 @@ void PolychromeUSBController::SetDeviceInfo()
             case POLYCHROME_USB_ZONE_PCH:
             case POLYCHROME_USB_ZONE_IOCOVER:
             case POLYCHROME_USB_ZONE_PCB:
-            case POLYCHROME_USB_ZONE_AUDIO:
                 newdev_info.device_type = PolychromeDeviceType::FIXED;
                 break;
-            
+
             /*-----------------------------------------*\
             | Type: Fixed                               |
             \*-----------------------------------------*/
@@ -133,6 +146,23 @@ void PolychromeUSBController::SetDeviceInfo()
 
         device_info.push_back(newdev_info);
     }
+}
+
+void PolychromeUSBController::ResizeZone(int zone, int new_size)
+{
+    unsigned char zonecfg[POLYCHROME_USB_ZONE_MAX_NUM];
+
+    memset(zonecfg, POLYCHROME_USB_ZONE_UNAVAILABLE, POLYCHROME_USB_ZONE_MAX_NUM);
+
+    configtable[zone] = new_size;
+
+    for(unsigned int i = 0; i < POLYCHROME_USB_ZONE_MAX_NUM; i++)
+    {
+        zonecfg[i] = configtable[i];
+    }
+
+    unsigned char zonecmd = POLYCHROME_USB_LEDCOUNT_CFG;
+    WriteHeader(zonecmd, zonecfg, sizeof(zonecfg));
 }
 
 void PolychromeUSBController::WriteZone
@@ -163,8 +193,8 @@ void PolychromeUSBController::WriteZone
 	usb_buf[0x01] = POLYCHROME_USB_SET_ZONE;
     usb_buf[0x03] = device_info.zone_type; 
 	usb_buf[0x04] = mode;
-	usb_buf[0x05] = RGBGetRValue(rgb);
-	usb_buf[0x06] = RGBGetGValue(rgb);
+    usb_buf[0x05] = RGBGetGValue(rgb);
+    usb_buf[0x06] = RGBGetRValue(rgb);
 	usb_buf[0x07] = RGBGetBValue(rgb);
 	usb_buf[0x08] = speed;
 	usb_buf[0x09] = 0xFF;
@@ -183,33 +213,81 @@ void PolychromeUSBController::WriteAllZones
     const std::vector<zone>&                zones
     )
 {
-    unsigned char usb_buf[65];
+    std::vector<unsigned char> combined_leds_rgb;
+    std::size_t max_led_count = 0;
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++){
+        PolychromeDeviceInfo device_info = GetPolychromeDevices()[zone_idx];
 
+        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            if(device_info.rgswap)
+            {
+                combined_leds_rgb.push_back(RGBGetRValue(zones[zone_idx].colors[led_idx]));
+                combined_leds_rgb.push_back(RGBGetGValue(zones[zone_idx].colors[led_idx]));
+            }
+            else
+            {
+                combined_leds_rgb.push_back(RGBGetGValue(zones[zone_idx].colors[led_idx]));
+                combined_leds_rgb.push_back(RGBGetRValue(zones[zone_idx].colors[led_idx]));
+            }
+            combined_leds_rgb.push_back(RGBGetBValue(zones[zone_idx].colors[led_idx]));
+        }
+        max_led_count += zones[zone_idx].leds_max;
+    }
+    combined_leds_rgb.resize((max_led_count + 8) * 3, 0);
+
+    unsigned char usb_buf[65];
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up message packet with leading 00                  |
+    | Set up initial message packet with leading 00         |
     \*-----------------------------------------------------*/
     usb_buf[0x01] = POLYCHROME_USB_SET_ZONE;
-    usb_buf[0x03] = 0x07;
-    usb_buf[0x04] = zones_info[0].mode;
-    usb_buf[0x04] = 0xE2;
+    usb_buf[0x03] = 0xFF;
+    usb_buf[0x04] = POLYCHROME_USB_INITIAL_CHUNK;
+    usb_buf[0x07] = 0xFF;
+    usb_buf[0x40] = 0x65;
 
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    std::size_t initial_led_offset = 9;
+    std::size_t message_byte_capacity = 54;           // 18 leds * 3 bytes
+
+    std::size_t led_byte_idx = 0;
+
+    while(led_byte_idx < combined_leds_rgb.size())
     {
-        usb_buf[0x05 + (3 * zone_idx)    ] = RGBGetRValue(zones[zone_idx].colors[0]);
-        usb_buf[0x05 + (3 * zone_idx) + 1] = RGBGetGValue(zones[zone_idx].colors[0]);
-        usb_buf[0x05 + (3 * zone_idx) + 2] = RGBGetBValue(zones[zone_idx].colors[0]);
+        for(std::size_t byte_idx = 0; byte_idx < message_byte_capacity; byte_idx++)
+        {
+            usb_buf[initial_led_offset + byte_idx] = combined_leds_rgb[led_byte_idx++];
+            if(led_byte_idx >= combined_leds_rgb.size())
+            {
+                break;
+            }
+        }
+
+        /*-----------------------------------------------------*\
+        | Send packet                                           |
+        \*-----------------------------------------------------*/
+        hid_write(dev, usb_buf, 65);
+
+        /*-----------------------------------------------------*\
+        | Zero out buffer                                       |
+        \*-----------------------------------------------------*/
+        memset(usb_buf, 0x00, sizeof(usb_buf));
+
+        /*-----------------------------------------------------*\
+        | Set up message packet with leading 00                  |
+        \*-----------------------------------------------------*/
+        usb_buf[0x01] = POLYCHROME_USB_SET_ZONE;
+        usb_buf[0x03] = 0xFF;
+        usb_buf[0x04] = POLYCHROME_USB_SEND_CHUNK;
+        usb_buf[0x40] = 0x65;
+
+        initial_led_offset = 5;
+        message_byte_capacity = 57;                 // 19 leds * 3 bytes
     }
-    
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 64);
 }
 
 void PolychromeUSBController::WriteRGSwap
@@ -217,7 +295,11 @@ void PolychromeUSBController::WriteRGSwap
     bool ahdr1,
     bool ahdr0,
     bool hdr1,
-    bool hdr0
+    bool hdr0,
+    bool pch,
+    bool io,
+    bool pcb,
+    bool chnl8
     )
 {
     unsigned char usb_buf[65];
@@ -232,8 +314,8 @@ void PolychromeUSBController::WriteRGSwap
     \*-----------------------------------------------------*/
 	usb_buf[0x01] = POLYCHROME_USB_WRITE_HEADER;
 
-    usb_buf[0x04] = POLYCHROME_USB_RGSWAP_CFG;
-	usb_buf[0x05] = ((ahdr1 << 3) & (ahdr0 << 2) & (hdr1 << 1) & hdr0) & 0x40;
+    usb_buf[0x03] = POLYCHROME_USB_RGSWAP_CFG;
+    usb_buf[0x04] = ((chnl8 << 7) & (pcb << 6) & (io << 5) & (pch << 4) & (ahdr1 << 3) & (ahdr0 << 2) & (hdr1 << 1) & hdr0);
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -309,8 +391,15 @@ PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
     g   = usb_buf[0x06];
     b   = usb_buf[0x07];
 
-    zoneinfo.mode   = usb_buf[0x04] != 0xE2 ? usb_buf[0x04] : 0x0F;
-    zoneinfo.color  = ToRGBColor(r,g,b);  
+    /*------------------------------------------------------*\
+    | Set Chroma mode (0xE2) & Per-Led mode (0xE3) as Direct |
+    \*------------------------------------------------------*/
+    zoneinfo.mode   = usb_buf[0x04] != 0xE2 && usb_buf[0x04] != 0xE3 && usb_buf[0x04] < 0x0F ? usb_buf[0x04] : 0x0F;
+
+    /*------------------------------------------------------*\
+    | G & R are swapped since RGSwap is disabled on init     |
+    \*------------------------------------------------------*/
+    zoneinfo.color  = ToRGBColor(g,r,b);
     zoneinfo.speed  = usb_buf[0x08];
     zoneinfo.zone   = usb_buf[0x03];
 
@@ -321,7 +410,7 @@ void PolychromeUSBController::ReadConfigTables()
 {
     unsigned char usb_buf[65];
     unsigned char maxzoneleds[8];
-    unsigned char rgbswap;
+    unsigned char rgswap;
     unsigned char header1;
 
     /*-----------------------------------------------------*\
@@ -348,7 +437,7 @@ void PolychromeUSBController::ReadConfigTables()
 
     /*-----------------------------------------------------*\
     | Reads in format: RGB1, RGB2, ARGB1, ARGB2, PCH, IO,   |
-    | PCB, AUDIO                                            |
+    | PCB, AUDIO/ARGB3                                      |
     \*-----------------------------------------------------*/
     memcpy(&maxzoneleds,&usb_buf[0x04],8);
 
@@ -368,10 +457,10 @@ void PolychromeUSBController::ReadConfigTables()
     hid_read(dev, usb_buf, 64);
 
     /*-----------------------------------------------------*\
-    | Reads bitwise in format: AUDIO, PCB, IO, PCH, ARGB2,  |
-    | ARGB1, RGB2, RGB1 if available                        |
+    | Reads bitwise in format: AUDIO/ARGB3, PCB, IO, PCH,   |
+    | ARGB2,ARGB1, RGB2, RGB1 if available                  |
     \*-----------------------------------------------------*/
-    rgbswap=usb_buf[4];
+    rgswap=usb_buf[4];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -387,10 +476,15 @@ void PolychromeUSBController::ReadConfigTables()
     hid_write(dev, usb_buf, 64);
     memset(usb_buf, 0x00, sizeof(usb_buf));
     hid_read(dev, usb_buf, 64);
+
+    /*-----------------------------------------------------*\
+    | Reads bitwise in format: AUDIO/ARGB3, PCB, IO, PCH,   |
+    | ARGB2,ARGB1, RGB2, RGB1 if available                  |
+    \*-----------------------------------------------------*/
     header1=usb_buf[4];
 
     memcpy(configtable,&maxzoneleds,8);
-    configtable[8]=rgbswap;
+    configtable[8]=rgswap;
     configtable[9]=header1;
     return;
 }

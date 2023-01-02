@@ -69,7 +69,7 @@ enum
     POLYCHROME_USB_ZONE_PCH          = 0X04,  // PCH
     POLYCHROME_USB_ZONE_IOCOVER      = 0X05,  // IOCOVER
     POLYCHROME_USB_ZONE_PCB          = 0X06,  // PCB - Could be mixed swapped with 0x07
-    POLYCHROME_USB_ZONE_AUDIO        = 0X07   // AUDIO
+    POLYCHROME_USB_ZONE_AUDIO        = 0X07   // AUDIO/ARGB Header 3
 };
 
 enum class PolychromeDeviceType
@@ -91,6 +91,7 @@ struct PolychromeDeviceInfo
     unsigned char           effect_channel;
     unsigned char           num_leds;
 	unsigned char			zone_type;
+    bool        			rgswap;
     PolychromeDeviceType    device_type;
 };
 
@@ -131,12 +132,24 @@ public:
                                                     unsigned int    configsize
                                                     );
 
+    void                                        ResizeZone(int zone, int new_size);
+
 protected:
     hid_device*                         dev;
     std::vector<PolychromeDeviceInfo>   device_info;
     std::string                         location;
 
-    void WriteRGSwap(bool ahdr1, bool ahdr0, bool hdr1, bool hdr0);
+    void WriteRGSwap
+        (
+        bool ahdr1,
+        bool ahdr0,
+        bool hdr1,
+        bool hdr0,
+        bool pch = false,
+        bool io = false,
+        bool pcb = false,
+        bool chnl8 = false
+        );
 
 private:
     unsigned int  led_count;
