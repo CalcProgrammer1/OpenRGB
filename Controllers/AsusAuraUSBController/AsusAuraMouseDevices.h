@@ -25,6 +25,8 @@
 #define AURA_ROG_CHAKRAM_WIRELESS_PID               0x18E5
 #define AURA_ROG_CHAKRAM_WIRED_1_PID                0x18E3
 #define AURA_ROG_CHAKRAM_CORE_PID                   0x1958
+#define AURA_ROG_CHAKRAM_X_USB_PID                  0x1A18
+#define AURA_ROG_CHAKRAM_X_2_4_PID                  0x1A1A
 #define AURA_ROG_PUGIO_PID                          0x1846
 #define AURA_ROG_PUGIO_II_WIRED_PID                 0x1906
 #define AURA_ROG_PUGIO_II_WIRELESS_PID              0x1908
@@ -267,6 +269,32 @@ static std::map<int,mouse_type> aura_mouse_devices =
         }
     },
     {
+        AURA_ROG_CHAKRAM_X_USB_PID, // ROG Chakram X USB
+        {
+            0,
+            0,
+            0,
+            4,
+            false,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_CHAKRAM_X_2_4_PID, // ROG Chakram X 2.4GHz Dongle
+        {
+            255,
+            1,
+            0,
+            64,
+            true,
+            2,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
         AURA_ROG_PUGIO_PID, // ROG Pugio
         {
             255,
@@ -313,7 +341,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
             0,
             4,
             false,
-            3,
+            4,
             { AURA_MOUSE_ZONE_LOGO },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM }
         }
@@ -469,7 +497,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
             0,
             4,
             false,
-            2,
+            3,
             { AURA_MOUSE_ZONE_LOGO },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
         }

@@ -29,9 +29,9 @@ static std::string aura_mouse_zone_names[3]
 
 RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller_ptr)
 {
-    controller              = controller_ptr;
+    controller = controller_ptr;
 
-    uint16_t pid            = controller->device_pid;
+    pid = controller->device_pid;
 
     name                    = "ASUS Aura Mouse";
     vendor                  = "ASUS";
@@ -168,8 +168,6 @@ RGBController_AuraMouse::~RGBController_AuraMouse()
 
 void RGBController_AuraMouse::SetupZones()
 {
-    uint16_t pid                = controller->device_pid;
-
     for(std::vector<uint8_t>::iterator zone_it = aura_mouse_devices[pid].mouse_zones.begin(); zone_it != aura_mouse_devices[pid].mouse_zones.end(); zone_it++)
     {
         zone mouse_zone;
@@ -209,7 +207,7 @@ void RGBController_AuraMouse::DeviceUpdateLEDs()
 
 void RGBController_AuraMouse::UpdateZoneLEDs(int zone)
 {
-    UpdateSingleLED(zone);
+    DeviceUpdateLEDs();
 }
 
 void RGBController_AuraMouse::UpdateSingleLED(int led)

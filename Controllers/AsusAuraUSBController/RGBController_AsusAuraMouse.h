@@ -30,4 +30,5 @@ public:
 
 private:
     AuraMouseController*  controller;
+    uint16_t              pid;
 };

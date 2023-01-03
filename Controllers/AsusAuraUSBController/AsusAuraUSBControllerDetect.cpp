@@ -324,6 +324,8 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless Bluetooth",     DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS ROG Chakram (Wireless)",                 DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRELESS_PID,                0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",                    DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_1_PID,                 0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("Asus ROG Chakram Core",                       DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_CORE_PID,                    0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("Asus ROG Chakram X USB",                      DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_X_USB_PID,                   0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("Asus ROG Chakram X 2.4GHz",                   DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_X_2_4_PID,                   0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio",                              DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_PUGIO_PID,                           2,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio II (Wired)",                   DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_PUGIO_II_WIRED_PID,                  0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio II (Wireless)",                DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_PUGIO_II_WIRELESS_PID,               0,  0xFF01);
