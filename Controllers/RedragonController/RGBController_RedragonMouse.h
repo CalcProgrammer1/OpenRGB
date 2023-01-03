@@ -1,21 +1,20 @@
 /*-----------------------------------------*\
-|  RGBController_RedragonM711.h             |
+|  RGBController_RedragonMouse.h            |
 |                                           |
-|  Generic RGB Interface for Redragon M711  |
-|  Cobra RGB Mouse                          |
+|  Generic RGB Interface for Redragon Mouse |
 |                                           |
 |  Adam Honse (CalcProgrammer1) 3/25/2020   |
 \*-----------------------------------------*/
-
 #pragma once
-#include "RGBController.h"
-#include "RedragonM711Controller.h"
 
-class RGBController_RedragonM711 : public RGBController
+#include "RGBController.h"
+#include "RedragonMouseController.h"
+
+class RGBController_RedragonMouse : public RGBController
 {
 public:
-    RGBController_RedragonM711(RedragonM711Controller* controller_ptr);
-    ~RGBController_RedragonM711();
+    RGBController_RedragonMouse(RedragonMouseController* controller_ptr);
+    ~RGBController_RedragonMouse();
 
     void        SetupZones();
     void        ResizeZone(int zone, int new_size);
@@ -27,5 +26,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    RedragonM711Controller*   controller;
+    RedragonMouseController*   controller;
 };

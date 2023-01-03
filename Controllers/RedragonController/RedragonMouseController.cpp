@@ -1,8 +1,8 @@
-#include "RedragonM711Controller.h"
+#include "RedragonMouseController.h"
 
 #include <cstring>
 
-RedragonM711Controller::RedragonM711Controller(hid_device* dev_handle, const char* path)
+RedragonMouseController::RedragonMouseController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
@@ -13,17 +13,17 @@ RedragonM711Controller::RedragonM711Controller(hid_device* dev_handle, const cha
     SendMouseApply();
 }
 
-RedragonM711Controller::~RedragonM711Controller()
+RedragonMouseController::~RedragonMouseController()
 {
     hid_close(dev);
 }
 
-std::string RedragonM711Controller::GetDeviceLocation()
+std::string RedragonMouseController::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-std::string RedragonM711Controller::GetSerialString()
+std::string RedragonMouseController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
@@ -39,7 +39,7 @@ std::string RedragonM711Controller::GetSerialString()
     return(return_string);
 }
 
-void RedragonM711Controller::SendMouseColor
+void RedragonMouseController::SendMouseColor
     (
     unsigned char       red,
     unsigned char       green,
@@ -55,7 +55,7 @@ void RedragonM711Controller::SendMouseColor
     SendWritePacket(0x0449, 3, color_buf);
 }
 
-void RedragonM711Controller::SendMouseMode
+void RedragonMouseController::SendMouseMode
     (
     unsigned char       mode,
     unsigned char       speed
@@ -70,7 +70,7 @@ void RedragonM711Controller::SendMouseMode
     SendWritePacket(0x044C, 3, mode_buf);
 }
 
-void RedragonM711Controller::SendMouseMode
+void RedragonMouseController::SendMouseMode
     (
     unsigned char       mode,
     unsigned char       speed,
@@ -95,19 +95,19 @@ void RedragonM711Controller::SendMouseMode
 | Private packet sending functions.                                                                 |
 \*-------------------------------------------------------------------------------------------------*/
 
-void RedragonM711Controller::SendMouseApply()
+void RedragonMouseController::SendMouseApply()
 {
-    char usb_buf[16];
+    char usb_buf[REDRAGON_MOUSE_REPORT_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, REDRAGON_MOUSE_REPORT_SIZE);
 
     /*-----------------------------------------------------*\
     | Set up Apply packet                                   |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]           = 0x02;
+    usb_buf[0x00]           = REDRAGON_MOUSE_REPORT_ID;
     usb_buf[0x01]           = 0xF1;
     usb_buf[0x02]           = 0x02;
     usb_buf[0x03]           = 0x04;
@@ -115,27 +115,27 @@ void RedragonM711Controller::SendMouseApply()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, (unsigned char *)usb_buf, 16);
+    hid_send_feature_report(dev, (unsigned char *)usb_buf, REDRAGON_MOUSE_REPORT_SIZE);
 }
 
-void RedragonM711Controller::SendWritePacket
+void RedragonMouseController::SendWritePacket
     (
     unsigned short      address,
     unsigned char       data_size,
     unsigned char *     data
     )
 {
-    char usb_buf[16];
+    char usb_buf[REDRAGON_MOUSE_REPORT_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
+    memset(usb_buf, 0x00, REDRAGON_MOUSE_REPORT_SIZE);
 
     /*-----------------------------------------------------*\
     | Set up Lighting Control packet                        |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]           = 0x02;
+    usb_buf[0x00]           = REDRAGON_MOUSE_REPORT_ID;
     usb_buf[0x01]           = 0xF3;
     usb_buf[0x02]           = address & 0xFF;
     usb_buf[0x03]           = address >> 8;
@@ -149,5 +149,5 @@ void RedragonM711Controller::SendWritePacket
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, (unsigned char *)usb_buf, 16);
+    hid_send_feature_report(dev, (unsigned char *)usb_buf, REDRAGON_MOUSE_REPORT_SIZE);
 }

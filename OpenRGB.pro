@@ -180,8 +180,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
-    Controllers/RoccatController/RGBController_RoccatElo.h \
-    Controllers/RoccatController/RoccatEloController.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
@@ -560,16 +558,18 @@ HEADERS +=                                                                      
     Controllers/RazerController/RGBController_Razer.h                                           \
     Controllers/RazerController/RGBController_RazerAddressable.h                                \
     Controllers/RazerController/RGBController_RazerKraken.h                                     \
-    Controllers/RedragonController/RedragonM711Controller.h                                     \
-    Controllers/RedragonController/RGBController_RedragonM711.h                                 \
+    Controllers/RedragonController/RGBController_RedragonMouse.h                                \
+    Controllers/RedragonController/RedragonMouseController.h                                    \
     Controllers/RedSquareKeyroxController/RedSquareKeyroxController.h                           \
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.h                       \
     Controllers/RoccatController/RGBController_RoccatBurst.h                                    \
+    Controllers/RoccatController/RGBController_RoccatElo.h                                      \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
     Controllers/RoccatController/RGBController_RoccatKova.h                                     \
     Controllers/RoccatController/RGBController_RoccatVulcanAimo.h                               \
     Controllers/RoccatController/RoccatBurstController.h                                        \
+    Controllers/RoccatController/RoccatEloController.h                                          \
     Controllers/RoccatController/RoccatHordeAimoController.h                                    \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
     Controllers/RoccatController/RoccatKovaController.h                                         \
@@ -669,8 +669,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 SOURCES +=                                                                                      \
-    Controllers/RoccatController/RGBController_RoccatElo.cpp \
-    Controllers/RoccatController/RoccatEloController.cpp \
     dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
@@ -1161,18 +1159,20 @@ SOURCES +=                                                                      
     Controllers/RazerController/RGBController_Razer.cpp                                         \
     Controllers/RazerController/RGBController_RazerAddressable.cpp                              \
     Controllers/RazerController/RGBController_RazerKraken.cpp                                   \
-    Controllers/RedragonController/RedragonM711Controller.cpp                                   \
+    Controllers/RedragonController/RGBController_RedragonMouse.cpp                              \
     Controllers/RedragonController/RedragonControllerDetect.cpp                                 \
-    Controllers/RedragonController/RGBController_RedragonM711.cpp                               \
+    Controllers/RedragonController/RedragonMouseController.cpp                                  \
     Controllers/RedSquareKeyroxController/RedSquareKeyroxController.cpp                         \
     Controllers/RedSquareKeyroxController/RedSquareKeyroxControllerDetect.cpp                   \
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.cpp                     \
     Controllers/RoccatController/RGBController_RoccatBurst.cpp                                  \
+    Controllers/RoccatController/RGBController_RoccatElo.cpp                                    \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
     Controllers/RoccatController/RGBController_RoccatKova.cpp                                   \
     Controllers/RoccatController/RGBController_RoccatVulcanAimo.cpp                             \
     Controllers/RoccatController/RoccatBurstController.cpp                                      \
+    Controllers/RoccatController/RoccatEloController.cpp                                        \
     Controllers/RoccatController/RoccatHordeAimoController.cpp                                  \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
     Controllers/RoccatController/RoccatKovaController.cpp                                       \
