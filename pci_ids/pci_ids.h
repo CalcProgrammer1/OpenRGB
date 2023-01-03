@@ -29,6 +29,7 @@
 #define AMD_NAVI21_DEV3                                 0x73A5
 #define AMD_NAVI22_DEV                                  0x73DF
 #define AMD_NAVI23_DEV                                  0x73FF
+#define AMD_NAVI31_DEV                                  0x744C
 
 /*-----------------------------------------------------*\
 | Intel Device IDs                                      |
