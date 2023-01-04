@@ -494,6 +494,9 @@
 #define MSI_RTX3090_SUPRIM_X_SUB_DEV                    0x3882
 #define MSI_RTX3090TI_SUPRIM_X_SUB_DEV                  0x5090
 #define MSI_RTX3090TI_GAMING_X_TRIO_SUB_DEV             0x5091
+#define MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV             0x5102
+#define MSI_RTX4090_GAMING_X_TRIO_SUB_DEV               0x5103
+#define MSI_RTX4090_SUPRIM_X_SUB_DEV                    0x5104
 #define MSI_RX6600XT_GAMING_X_SUB_DEV                   0x5020
 #define MSI_RX6700XT_GAMING_X_SUB_DEV                   0x3981
 #define MSI_RX6750XT_GAMING_X_TRIO_SUB_DEV              0x3990

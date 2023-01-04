@@ -1,0 +1,87 @@
+/*-------------------------------------------------*\
+|  MSIGPUControllerv2.h                             |
+|                                                   |
+|  Definitions for MSI GPUs for new ITE9 controller |
+|  Wojciech Lazarski 03/Jan/2023                    |
+|                                                   |
+\*-------------------------------------------------*/
+
+#include <string>
+#include "i2c_smbus.h"
+
+#pragma once
+
+typedef unsigned char msi_gpu_dev_id;
+
+enum
+{
+    MSI_GPU_V2_REG_BRIGHTNESS                 = 0x36,    /* MSI GPU Brightness Register     */
+    MSI_GPU_V2_REG_SPEED                      = 0x38,    /* MSI GPU Speed Register          */
+    MSI_GPU_V2_REG_UNKNOWN                    = 0x2E,    /* MSI GPU Unknown Register        */
+    MSI_GPU_V2_REG_R1                         = 0x30,    /* MSI GPU R1 Register             */
+    MSI_GPU_V2_REG_G1                         = 0x31,    /* MSI GPU G1 Register             */
+    MSI_GPU_V2_REG_B1                         = 0x32,    /* MSI GPU B1 Register             */
+    MSI_GPU_V2_REG_COLOR_BLOCK1_BASE          = 0x27,    /* MSI GPU 1 Color block registyr  */
+    MSI_GPU_V2_REG_COLOR_BLOCK2_BASE          = 0x28,    /* MSI GPU 1 Color block registyr  */
+    MSI_GPU_V2_REG_COLOR_BLOCK3_BASE          = 0x29,    /* MSI GPU 1 Color block registyr  */
+    MSI_GPU_V2_REG_MODE                       = 0x22,    /* MSI GPU Mode Selection Register */
+    MSI_GPU_V2_REG_SAVE                       = 0x3f,    /* MSI GPU Commit Changes Register */
+    MSI_GPU_V2_REG_CONTROL                    = 0x46,    /* MSI GPU Direction Register      */
+};
+
+enum
+{
+    MSI_GPU_V2_CONTROL_DIRECTION_RIGHT        = 0x00,    /* Right direction light effects */
+    MSI_GPU_V2_CONTROL_DIRECTION_LEFT         = 0x02,    /* Left direction light effects */
+    MSI_GPU_V2_CONTROL_NON_RGBMODE            = 0x01,    /* Non RGB Mode - programming colors */
+};
+
+enum
+{
+    MSI_GPU_V2_MODE_IDLE                      = 0x1c,       /* Idle mode for programing ?                          */
+    MSI_GPU_V2_MODE_OFF                       = 0x01,       /* OFF mode                                            */
+    MSI_GPU_V2_MODE_RAINBOW                   = 0x08,       /* Rainbow effect mode                                 */
+    MSI_GPU_V2_MODE_STATIC                    = 0x13,       /* Static color mode                                   */
+    MSI_GPU_V2_MODE_RAINDROP                  = 0x1a,       /* Raindrop effect mode                                */
+    MSI_GPU_V2_MODE_MAGIC                     = 0x07,       /* Magic effect mode                                   */
+    MSI_GPU_V2_MODE_PATROLLING                = 0x05,       /* Patrolling effect mode                              */
+    MSI_GPU_V2_MODE_STREAMING                 = 0x06,       /* Streaming effect mode                               */
+    MSI_GPU_V2_MODE_LIGHTNING                 = 0x15,       /* Lightning effect mode                               */
+    MSI_GPU_V2_MODE_WAVE                      = 0x1f,       /* Wave effect mode                                    */
+    MSI_GPU_V2_MODE_METEOR                    = 0x16,       /* Meteor effect mode                                  */
+    MSI_GPU_V2_MODE_STACK                     = 0x0d,       /* Stack effect mode                                   */
+    MSI_GPU_V2_MODE_RHYTHM                    = 0x0c,       /* Rhythm effect mode                                  */
+    MSI_GPU_V2_MODE_FLOWING                   = 0x09,       /* Flowing effect mode                                 */
+    MSI_GPU_V2_MODE_FLOWING2                  = 0x0a,       /* Flowing effect mode V2                              */
+    MSI_GPU_V2_MODE_WHIRLING                  = 0x0f,       /* Whirling effect mode                                */
+    MSI_GPU_V2_MODE_TWISTING                  = 0x11,       /* Twisting effect mode                                */
+    MSI_GPU_V2_MODE_LAMINATING                = 0x1d,       /* Laminating effect mode                              */
+    MSI_GPU_V2_MODE_FADEIN                    = 0x14,       /* Fadein effect mode                                  */
+    MSI_GPU_V2_MODE_BREATHING                 = 0x04,       /* Breathing effect mode                               */
+    MSI_GPU_V2_MODE_FLASHING                  = 0x02,       /* Flashing effect mode                                */
+    MSI_GPU_V2_MODE_DOUBLEFLASHING            = 0x03,       /* Doubleflashing effect mode                          */
+};
+
+class MSIGPUv2Controller
+{
+public:
+    MSIGPUv2Controller(i2c_smbus_interface* bus, msi_gpu_dev_id dev);
+    ~MSIGPUv2Controller();
+
+    std::string   GetDeviceLocation();
+
+    void          SetRGB1(unsigned char red, unsigned char green, unsigned char blue);
+    void          SetRGB1V2(unsigned char red, unsigned char green, unsigned char blue);
+    void          SetRGB2V2(unsigned char red, unsigned char green, unsigned char blue);
+    void          SetRGB3V2(unsigned char red, unsigned char green, unsigned char blue);
+
+    void          SetMode(unsigned char mode);
+
+    unsigned char MSIGPURegisterRead(unsigned char reg);
+    void          MSIGPURegisterWrite(unsigned char reg, unsigned char val);
+    void          MSIGPUBlockWrite(unsigned char reg,unsigned char *val, unsigned char len);
+
+private:
+    i2c_smbus_interface *   bus;
+    msi_gpu_dev_id          dev;
+};

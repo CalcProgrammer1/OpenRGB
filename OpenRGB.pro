@@ -505,7 +505,9 @@ HEADERS +=                                                                      
     Controllers/MSI3ZoneController/MSI3ZoneController.h                                         \
     Controllers/MSI3ZoneController/RGBController_MSI3Zone.h                                     \
     Controllers/MSIGPUController/MSIGPUController.h                                             \
+    Controllers/MSIGPUController/MSIGPUv2Controller.h                                           \
     Controllers/MSIGPUController/RGBController_MSIGPU.h                                         \
+    Controllers/MSIGPUController/RGBController_MSIGPUv2.h                                       \
     Controllers/MSIMysticLightController/MSIMysticLightCommon.h                                 \
     Controllers/MSIMysticLightController/MSIMysticLight64Controller.h                           \
     Controllers/MSIMysticLightController/MSIMysticLight112Controller.h                          \
@@ -1090,7 +1092,10 @@ SOURCES +=                                                                      
     Controllers/MSI3ZoneController/RGBController_MSI3Zone.cpp                                   \
     Controllers/MSIGPUController/MSIGPUController.cpp                                           \
     Controllers/MSIGPUController/MSIGPUControllerDetect.cpp                                     \
+    Controllers/MSIGPUController/MSIGPUv2Controller.cpp                                         \
+    Controllers/MSIGPUController/MSIGPUv2ControllerDetect.cpp                                   \
     Controllers/MSIGPUController/RGBController_MSIGPU.cpp                                       \
+    Controllers/MSIGPUController/RGBController_MSIGPUv2.cpp                                     \
     Controllers/MSIMysticLightController/MSIMysticLight64Controller.cpp                         \
     Controllers/MSIMysticLightController/MSIMysticLight162Controller.cpp                        \
     Controllers/MSIMysticLightController/MSIMysticLight112Controller.cpp                        \
