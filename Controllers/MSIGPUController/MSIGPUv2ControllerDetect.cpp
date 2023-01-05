@@ -39,6 +39,7 @@ void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
 
 } /* DetectMSIGPUControllers() */
 
+REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4090 16GB Suprim X",             DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4080_DEV,         MSI_SUB_VEN,    MSI_RTX4080_SUPRIM_X_SUB_DEV,           0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4090 24GB Suprim Liquid X",      DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4090_DEV,         MSI_SUB_VEN,    MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV,    0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4090 24GB Gaming X Trio",        DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4090_DEV,         MSI_SUB_VEN,    MSI_RTX4090_GAMING_X_TRIO_SUB_DEV,      0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4090 24GB Suprim X",             DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4090_DEV,         MSI_SUB_VEN,    MSI_RTX4090_SUPRIM_X_SUB_DEV,           0x68);
