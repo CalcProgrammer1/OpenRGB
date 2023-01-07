@@ -65,6 +65,10 @@ void DetectAsusAuraGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
     }
 } /* DetectAsusAuraGPUControllers() */
 
+/*-----------------------------------------*\
+|  NVidia GPUs                              |
+\*-----------------------------------------*/
+
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 O2G Gaming"        , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050_DEV,         ASUS_SUB_VEN,   ASUS_GTX1050_STRIX_O2G_GAMING,              0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 TI 4G Gaming"      , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_4G_GAMING,         0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG Strix GTX 1050 TI O4G Gaming"     , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING,        0x29);
@@ -113,6 +117,11 @@ REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080 Ti 11G Gaming"     , DetectAs
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080 Ti A11G Gaming"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080TI_A11G_GAMING,       0x2A);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX RTX 2080 Ti O11G Gaming"    , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING,       0x2A);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF RTX 3060 Ti 8G Gaming OC"         , DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_TI_O8G_OC,                0x2A);
+
+/*-----------------------------------------*\
+|  AMD GPUs                                 |
+\*-----------------------------------------*/
+
 REGISTER_I2C_PCI_DETECTOR("ASUS AREZ Strix RX Vega 56 O8G"            , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_VEGA10_DEV,             ASUS_SUB_VEN,   ASUS_AREZ_STRIX_VEGA56_08G_GAMING,          0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS Vega 64 Strix"                        , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_VEGA10_DEV,             ASUS_SUB_VEN,   ASUS_VEGA64_STRIX,                          0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS RX 5600XT Strix O6G Gaming"           , DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_NAVI10_DEV,             ASUS_SUB_VEN,   ASUS_RX5600XT_STRIX_O6G_GAMING,             0x2A);
