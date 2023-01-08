@@ -563,6 +563,13 @@
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 #define SAPPHIRE_NAVI31_NITRO_PLUS_SUB_DEV              0xE471
 
+/*-----------------------------------------------------*\
+| Zotac Sub-Device IDs                                  |
+\*-----------------------------------------------------*/
+#define ZOTAC_RTX2060S_AMP_SUB_DEV                      0x5511
+#define ZOTAC_RTX2070S_GAMING_SUB_DEV                   0x7500
+#define ZOTAC_RTX2080_AMP_SUB_DEV                       0x3500
+
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |
 \*---------------------------------------------------------*/

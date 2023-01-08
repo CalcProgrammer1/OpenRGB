@@ -170,6 +170,7 @@ INCLUDEPATH +=                                                                  
     Controllers/WootingKeyboardController/                                                      \
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
+    Controllers/ZotacTuringGPUController/                                                       \
     RGBController/                                                                              \
     qt/
 
@@ -655,6 +656,8 @@ HEADERS +=                                                                      
     Controllers/ZETEdgeAirProController/RGBController_ZETEdgeAirPro.h                           \
     Controllers/ZETKeyboardController/ZETBladeOpticalController.h                               \
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
+    Controllers/ZotacTuringGPUController/ZotacTuringGPUController.h                             \
+    Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.h                         \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBControllerKeyNames.h                                                       \
@@ -1273,6 +1276,9 @@ SOURCES +=                                                                      
     Controllers/ZETKeyboardController/ZETBladeOpticalController.cpp                             \
     Controllers/ZETKeyboardController/ZETKeyboardControllerDetect.cpp                           \
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.cpp                         \
+    Controllers/ZotacTuringGPUController/ZotacTuringGPUController.cpp                           \
+    Controllers/ZotacTuringGPUController/ZotacTuringGPUControllerDetect.cpp                     \
+    Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.cpp                       \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBControllerKeyNames.cpp                                                     \
