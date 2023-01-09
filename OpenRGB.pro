@@ -131,6 +131,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
     Controllers/IntelArcA770LEController/                                                       \
+    Controllers/IonicoController/                                                               \
     Controllers/LEDStripController/                                                             \
     Controllers/LenovoControllers/                                                              \
     Controllers/LenovoMotherboardController/                                                    \
@@ -455,6 +456,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.h                             \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
+    Controllers/IonicoController/IonicoController.h                                             \
+    Controllers/IonicoController/RGBController_Ionico.h                                         \
     Controllers/KeychronKeyboardController/KeychronKeyboardController.h                         \
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.h                     \
     Controllers/LEDStripController/LEDStripController.h                                         \
@@ -1034,6 +1037,9 @@ SOURCES +=                                                                      
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.cpp                           \
     Controllers/IntelArcA770LEController/IntelArcA770LEControllerDetect.cpp                     \
+    Controllers/IonicoController/IonicoController.cpp                                           \
+    Controllers/IonicoController/IonicoControllerDetect.cpp                                     \
+    Controllers/IonicoController/RGBController_Ionico.cpp                                       \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.cpp                       \
     Controllers/KeychronKeyboardController/KeychronKeyboardController.cpp                       \
     Controllers/KeychronKeyboardController/KeychronKeyboardControllerDetect.cpp                 \
