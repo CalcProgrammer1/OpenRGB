@@ -7,21 +7,19 @@
 
 #include "Detector.h"
 #include "LogManager.h"
-#include "RGBController_MSIGPUv2.h"
-#include "MSIGPUv2Controller.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectMSIGPUControllers                                                               *
-*                                                                                          *
-*       Detect MSI GPU controllers on the enumerated I2C busses.                          *
-*                                                                                          *
-\******************************************************************************************/
+#include "RGBController_MSIGPUv2.h"
+#include "MSIGPUv2Controller.h"
+
+/*-----------------------------------------------------------------------------------------*\
+|                                                                                           |
+|   DetectMSI GPU V2 Controllers                                                            |
+|                                                                                           |
+|       Detect MSI GPU v2 controllers on the enumerated I2C busses.                         |
+|                                                                                           |
+\*-----------------------------------------------------------------------------------------*/
 
 void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
@@ -37,7 +35,7 @@ void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
         LOG_TRACE("MSI GPU Controler using ITE9 chip");
 
 
-} /* DetectMSIGPUControllers() */
+} /* DetectMSIGPUv2Controllers() */
 
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4070Ti 12GB Gaming X Trio",        DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4070TI_DEV,       MSI_SUB_VEN,    MSI_RTX4070TI_GAMING_X_TRIO_SUB_DEV,    0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4080 16GB Gaming X Trio",        DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4080_DEV,         MSI_SUB_VEN,    MSI_RTX4080_GAMING_X_TRIO_SUB_DEV,      0x68);
