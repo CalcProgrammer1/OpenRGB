@@ -6,18 +6,34 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>110</height>
+    <width>184</width>
+    <height>186</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Profile Name</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="existing">
      <property name="text">
-      <string>New Profile Name:</string>
+      <string>Save to an existing profile:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="list_profile"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="new_2">
+     <property name="text">
+      <string>Create a new profile:</string>
      </property>
     </widget>
    </item>

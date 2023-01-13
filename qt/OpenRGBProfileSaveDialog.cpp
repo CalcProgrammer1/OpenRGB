@@ -1,6 +1,7 @@
 #include <QCloseEvent>
 #include "ResourceManager.h"
 #include "OpenRGBDialog2.h"
+#include "ProfileManager.h"
 #include "OpenRGBProfileSaveDialog.h"
 #include "ui_OpenRGBProfileSaveDialog.h"
 
@@ -12,6 +13,25 @@ Ui::OpenRGBProfileSaveDialog::OpenRGBProfileSaveDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::OpenRGBProfileSaveDialogUi)
 {
     ui->setupUi(this);
+
+    std::vector<std::string> filenames = ResourceManager::get()->GetProfileManager()->profile_list;
+
+    if(filenames.empty())
+    {
+        ui->list_profile->setVisible(false);
+        ui->existing->setVisible(false);
+    }
+    else
+    {
+        for(const std::string& f: filenames)
+        {
+            ui->list_profile->addItem(QString::fromStdString(f));
+        }
+
+        connect(ui->list_profile, &QListWidget::currentItemChanged, [=](){
+            ui->lineEdit->setText(ui->list_profile->currentItem()->text());
+        });
+    }
 }
 
 Ui::OpenRGBProfileSaveDialog::~OpenRGBProfileSaveDialog()
