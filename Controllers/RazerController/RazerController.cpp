@@ -48,6 +48,9 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     switch(dev_pid)
     {
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_PRO_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
@@ -120,6 +123,9 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     switch(dev_pid)
     {
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_PRO_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
@@ -232,6 +238,9 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
         case RAZER_BASILISK_V2_PID:
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_PRO_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_V3_PID:
@@ -512,6 +521,9 @@ bool RazerController::SupportsBreathing()
         | Mice                                                  |
         \*-----------------------------------------------------*/
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_PRO_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
 
             supports_breathing = false;
             break;
@@ -597,6 +609,9 @@ bool RazerController::SupportsWave()
         case RAZER_BASILISK_ULTIMATE_WIRED_PID:
         case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_PRO_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_DIAMONDBACK_CHROMA_PID:
         case RAZER_MAMBA_2015_WIRED_PID:
         case RAZER_MAMBA_2015_WIRELESS_PID:

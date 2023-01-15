@@ -120,6 +120,9 @@
 #define RAZER_BASILISK_X_HYPERSPEED_PID                 0x0083
 #define RAZER_BASILISK_V2_PID                           0x0085
 #define RAZER_BASILISK_V3_PID                           0x0099
+#define RAZER_BASILISK_V3_PRO_WIRED_PID                 0x00AA
+#define RAZER_BASILISK_V3_PRO_WIRELESS_PID              0x00AB
+#define RAZER_BASILISK_V3_PRO_BLUETOOTH_PID             0x00AC
 #define RAZER_DEATHADDER_1800_PID                       0x0038
 #define RAZER_DEATHADDER_2000_PID                       0x004F
 #define RAZER_DEATHADDER_2013_PID                       0x0037

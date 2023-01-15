@@ -5011,6 +5011,182 @@ static const razer_device basilisk_v3_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO Wired 1532:00AA                        |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       9 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_scroll_pro_wired_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_wired_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_wired_ledstrip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device basilisk_v3_pro_wired_device =
+{
+    "Razer Basilisk V3 Pro (Wired)",
+    RAZER_BASILISK_V3_PRO_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    11,
+    {
+        &basilisk_v3_logo_zone,
+        &basilisk_v3_scroll_wheel_zone,
+        &basilisk_v3_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO Wireless 1532:00AB                     |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       9 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_scroll_pro_wireless_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_wireless_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_wireless_ledstrip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device basilisk_v3_pro_wireless_device =
+{
+    "Razer Basilisk V3 Pro (Wireless)",
+    RAZER_BASILISK_V3_PRO_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    11,
+    {
+        &basilisk_v3_logo_zone,
+        &basilisk_v3_scroll_wheel_zone,
+        &basilisk_v3_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO Bluetooth 1532:00AC                    |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       9 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_scroll_pro_bluetooth_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_bluetooth_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_bluetooth_ledstrip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device basilisk_v3_pro_bluetooth_device =
+{
+    "Razer Basilisk V3 Pro (Bluetooth)",
+    RAZER_BASILISK_V3_PRO_BLUETOOTH_PID,
+    DEVICE_TYPE_MOUSE,
+    false,
+    1,
+    11,
+    {
+        &basilisk_v3_logo_zone,
+        &basilisk_v3_scroll_wheel_zone,
+        &basilisk_v3_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+/*-------------------------------------------------------------*\
 |  Razer DeathAdder Chroma                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -8239,6 +8415,9 @@ const razer_device* razer_device_list[] =
     &basilisk_ultimate_wireless_device,
     &basilisk_v2_device,
     &basilisk_v3_device,
+    &basilisk_v3_pro_wired_device,
+    &basilisk_v3_pro_wireless_device,
+    &basilisk_v3_pro_bluetooth_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
     &deathadder_essential_device,
