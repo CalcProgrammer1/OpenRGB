@@ -29,8 +29,5 @@ public:
 
 private:
     MSIGPUv2Controller* msi_gpu;
-    std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
-
-    bool       TimeToSend();
-    void       DeviceUpdateAll();
+    void       DeviceUpdateAll(const mode& current_mode);
 };

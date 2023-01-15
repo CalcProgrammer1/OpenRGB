@@ -28,9 +28,9 @@ enum
     MSI_GPU_V2_REG_R1                       = 0x30,     /* MSI GPU R1 Register             */
     MSI_GPU_V2_REG_G1                       = 0x31,     /* MSI GPU G1 Register             */
     MSI_GPU_V2_REG_B1                       = 0x32,     /* MSI GPU B1 Register             */
-    MSI_GPU_V2_REG_COLOR_BLOCK1_BASE        = 0x27,     /* MSI GPU 1 Color block registyr  */
-    MSI_GPU_V2_REG_COLOR_BLOCK2_BASE        = 0x28,     /* MSI GPU 1 Color block registyr  */
-    MSI_GPU_V2_REG_COLOR_BLOCK3_BASE        = 0x29,     /* MSI GPU 1 Color block registyr  */
+    MSI_GPU_V2_REG_COLOR_BLOCK1_BASE        = 0x27,     /* MSI GPU 1 Color block register  */
+    MSI_GPU_V2_REG_COLOR_BLOCK2_BASE        = 0x28,     /* MSI GPU 2 Color block register  */
+    MSI_GPU_V2_REG_COLOR_BLOCK3_BASE        = 0x29,     /* MSI GPU 3 Color block register  */
     MSI_GPU_V2_REG_MODE                     = 0x22,     /* MSI GPU Mode Selection Register */
     MSI_GPU_V2_REG_SAVE                     = 0x3F,     /* MSI GPU Commit Changes Register */
     MSI_GPU_V2_REG_CONTROL                  = 0x46,     /* MSI GPU Direction Register      */
@@ -83,6 +83,7 @@ public:
     void          SetRGB3V2(unsigned char red, unsigned char green, unsigned char blue);
 
     void          SetMode(unsigned char mode);
+    void          Save();
 
     unsigned char MSIGPURegisterRead(unsigned char reg);
     void          MSIGPURegisterWrite(unsigned char reg, unsigned char val);

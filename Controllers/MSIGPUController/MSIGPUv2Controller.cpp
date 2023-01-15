@@ -71,6 +71,11 @@ void MSIGPUv2Controller::SetMode(unsigned char mode)
     MSIGPURegisterWrite(MSI_GPU_V2_REG_MODE, mode);
 }
 
+void MSIGPUv2Controller::Save()
+{
+    MSIGPURegisterWrite(MSI_GPU_V2_REG_SAVE, 0x00);
+}
+
 unsigned char MSIGPUv2Controller::MSIGPURegisterRead(unsigned char reg)
 {
     return bus->i2c_smbus_read_byte_data(dev, reg);
