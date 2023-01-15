@@ -402,7 +402,7 @@ void DeviceView::InitDeviceView()
                 | Calculate LED box positions for segmented zones       |
                 \*-----------------------------------------------------*/
                 unsigned int leds_count = controller->zones[zone_idx].segments[segment_idx].leds_count;
-                
+
                 for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
                 {
                     unsigned int led_pos_idx = controller->zones[zone_idx].start_idx + controller->zones[zone_idx].segments[segment_idx].start_idx + led_idx;
@@ -760,7 +760,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
             {
                 painter.setPen(palette().windowText().color());
             }
-            painter.drawText(posx, posy + posh, QString(controller->zones[zone_idx].segments[segment_idx].name.c_str()));   
+            painter.drawText(posx, posy + posh, QString(controller->zones[zone_idx].segments[segment_idx].name.c_str()));
         }
     }
 
@@ -878,6 +878,47 @@ bool DeviceView::selectLeds(QVector<int> target)
         if(selectionFlags[i])
         {
             selectedLeds.push_back(i);
+        }
+    }
+
+    update();
+
+    /*-----------------------------------------------------*\
+    | Send selection changed signal                         |
+    \*-----------------------------------------------------*/
+    emit selectionChanged(selectedLeds);
+
+    return true;
+}
+
+bool DeviceView::selectSegment(int zone, int segment, bool add)
+{
+    if(zone < 0 || size_t(zone) >= controller->zones.size())
+    {
+        return false;
+    }
+
+    if(segment < 0 || size_t(segment) >= controller->zones[zone].segments.size())
+    {
+        return false;
+    }
+
+    if(!add)
+    {
+        selectedLeds.clear();
+        selectionFlags.clear();
+        selectionFlags.resize(controller->leds.size());
+    }
+
+    int zoneStart = controller->zones[zone].start_idx;
+    int segStart = controller->zones[zone].segments[segment].start_idx;
+
+    for(std::size_t led_idx = 0; led_idx < controller->zones[zone].segments[segment].leds_count; ++led_idx)
+    {
+        if(!selectionFlags[zoneStart + segStart + led_idx])
+        {
+            selectedLeds.push_back(zoneStart + segStart + led_idx);
+            selectionFlags[zoneStart + segStart + led_idx] = 1;
         }
     }
 

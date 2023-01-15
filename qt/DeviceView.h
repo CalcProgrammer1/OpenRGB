@@ -69,6 +69,7 @@ signals:
 public slots:
     bool selectLed(int);
     bool selectLeds(QVector<int>);
+    bool selectSegment(int zone, int segment, bool add = false);
     bool selectZone(int zone, bool add = false);
     void clearSelection(); // Same as selecting the entire device
     void setSelectionColor(RGBColor);
