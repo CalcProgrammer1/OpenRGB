@@ -22,4 +22,4 @@ void DetectViewSonic(hid_device_info* info, const std::string& name)
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("ViewSonic Monitor XG270QG", DetectViewSonic,        VIEWSONIC_VID, VS_XG270QG_PID, 0, 0xFF00, 1);
+REGISTER_HID_DETECTOR("ViewSonic Monitor XG270QG", DetectViewSonic,        VIEWSONIC_VID, VS_XG270QG_PID);
