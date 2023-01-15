@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | PCI Vendor IDs                                            |
 \*---------------------------------------------------------*/
 #define AMD_VEN                                         0x1022
@@ -397,6 +397,7 @@
 #define GIGABYTE_RTX2070_GAMING_OC_8GC_SUB_DEV          0x37C8
 #define GIGABYTE_RTX2070_WINDFORCE_SUB_DEV              0x37C2
 #define GIGABYTE_AORUS_RTX2070_XTREME_SUB_DEV           0x37B4
+#define GIGABYTE_AORUS_RTX2070_XTREME_SUB_DEV2          0x37B5
 #define GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV             0x3FEB
 #define GIGABYTE_AORUS_RTX2070S_8G_SUB_DEV              0x3FF5
 #define GIGABYTE_RTX2070S_GAMING_OC_SUB_DEV2            0x3FF6
