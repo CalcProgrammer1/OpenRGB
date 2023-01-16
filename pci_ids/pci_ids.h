@@ -237,6 +237,7 @@
 #define ASUS_TUF_RX_6700XT_O12G_GAMING                  0x05C9
 #define ASUS_ROG_STRIX_RX_6700XT_O12G_GAMING            0x05C7
 #define ASUS_ROG_STRIX_RX_6750XT_O12G_GAMING            0x05E5
+#define ASUS_ROG_STRIX_RX_6800_O16G_GAMING              0x04F4
 #define ASUS_TUF_RX_6800XT_O16G_GAMING                  0x04F2
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
 #define ASUS_TUF_RX_6900XT_T16G_GAMING                  0x04FE
