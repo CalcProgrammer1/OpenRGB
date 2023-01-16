@@ -9,6 +9,17 @@
 #include "RGBController_EVGAMouse.h"
 #include "Colors.h"
 
+/**------------------------------------------------------------------*\
+    @name EVGA USB X20 Mouse
+    @category Mouse
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectWiredEVGAMouse,DetectWirelessEVGAMouse
+    @comment The EVGA USB mouse currently supports the X20 (both wired
+        and wireless, but not bluetooth).
+\*-------------------------------------------------------------------*/
 RGBController_EVGAMouse::RGBController_EVGAMouse(EVGAMouseController* controller_ptr)
 {
     controller                  = controller_ptr;
