@@ -22,7 +22,7 @@
 | 0:    OpenRGB 0.6     Unversioned, early plugin API.                                                  |
 | 1:    OpenRGB 0.61    First versioned API, introduced with plugin settings changes                    |
 | 2:    OpenRGB 0.7     First released versioned API, callback unregister functions in ResourceManager  |
-| 3:    OpenRGB 0.8     A minor change in the API that allows Unicode paths to be used                  |
+| 3:    OpenRGB 0.9     Use filesystem::path for paths, Added segments                                  |
 \*-----------------------------------------------------------------------------------------------------*/
 #define OPENRGB_PLUGIN_API_VERSION  3
 
@@ -41,7 +41,7 @@ struct OpenRGBPluginInfo
 {
     /*-------------------------------------------------------------------------------------------------*\
     | Plugin Details                                                                                    |
-    \*-------------------------------------------------------------------------------------------------*/    
+    \*-------------------------------------------------------------------------------------------------*/
     std::string                 Name;           /* Plugin name string                                  */
     std::string                 Description;    /* Plugin description string                           */
     std::string                 Version;        /* Plugin version string                               */
