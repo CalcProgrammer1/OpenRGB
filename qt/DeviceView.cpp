@@ -607,6 +607,8 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
                 offset_x = (width() - size) / 2;
             }
 
+            unsigned int segment_count = 0;
+
             for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
             {
                 int posx = zone_pos[zone_idx].matrix_x * size + offset_x + 12;
@@ -619,6 +621,23 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
                 if(rect.contains(event->pos()))
                 {
                     selectZone(zone_idx, ctrlDown);
+                }
+
+                for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
+                {
+                    posx = segment_pos[segment_count].matrix_x * size + offset_x + 12;
+                    posy = segment_pos[segment_count].matrix_y * size;
+                    posw = segment_pos[segment_count].matrix_w * size;
+                    posh = segment_pos[segment_count].matrix_h * size;
+
+                    segment_count++;
+
+                    rect = {posx, posy, posw, posh};
+
+                    if(rect.contains(event->pos()))
+                    {
+                        selectSegment(zone_idx, segment_idx, ctrlDown);
+                    }
                 }
             }
         }
