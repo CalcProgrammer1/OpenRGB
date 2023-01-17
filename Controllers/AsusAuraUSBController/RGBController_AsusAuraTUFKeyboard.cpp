@@ -58,17 +58,15 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 AURA_KEYBOARD_SPEED_MAX          = 0;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 8;
                 break;
-            case AURA_TUF_K5_GAMING_PID:
-                AURA_KEYBOARD_SPEED_MIN          = 63;
-                AURA_KEYBOARD_SPEED_MAX          = 0;
-                AURA_KEYBOARD_SPEED_DEFAULT      = 31;
-                break;
             case AURA_ROG_FALCHION_WIRED_PID:
             case AURA_ROG_FALCHION_WIRELESS_PID:
             case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
+            case AURA_ROG_STRIX_SCOPE_RX_PID:
+            case AURA_ROG_STRIX_SCOPE_PID:
+            case AURA_TUF_K5_GAMING_PID:
                 AURA_KEYBOARD_SPEED_MIN          = 255;
                 AURA_KEYBOARD_SPEED_MAX          = 0;
-                AURA_KEYBOARD_SPEED_DEFAULT      = 8;
+                AURA_KEYBOARD_SPEED_DEFAULT      = 30;
                 break;
             default:
                 AURA_KEYBOARD_SPEED_MIN          = 15;
@@ -408,6 +406,10 @@ void RGBController_AuraTUFKeyboard::SetupZones()
         case AURA_TUF_K3_GAMING_PID:
         case AURA_TUF_K7_GAMING_PID:
             keyboard_ptr = &AsusTUFK7Layouts;
+            break;
+        case AURA_ROG_STRIX_SCOPE_PID:
+        case AURA_ROG_STRIX_SCOPE_RX_PID:
+            keyboard_ptr = &AsusROGStrixScopeLayouts;
             break;
         case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
             keyboard_ptr = &AsusROGStrixFlareIILayouts;

@@ -320,8 +320,6 @@ REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAs
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                     1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",                    DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX TKL Wireless Deluxe", DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID,       1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL PNK LTD",            DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID,         1,  0xFF00);
@@ -335,6 +333,8 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare II Animate",             DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K1",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K1_GAMING_PID,                       2,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K3",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K3_GAMING_PID,                       1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K5",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K5_GAMING_PID,                       2,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                        DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                     1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K7",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                       1,  0xFF00);
 
 /*-----------------------------------------------------------------*\
