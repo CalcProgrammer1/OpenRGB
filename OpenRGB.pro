@@ -131,6 +131,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXKeyboardController/                                                       \
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
+    Controllers/HyperXQuadcastController/                                                       \
     Controllers/IntelArcA770LEController/                                                       \
     Controllers/IonicoController/                                                               \
     Controllers/LEDStripController/                                                             \
@@ -457,6 +458,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireRaid.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
+    Controllers/HyperXQuadcastController/HyperXQuadcastSController.h                            \
+    Controllers/HyperXQuadcastController/RGBController_HyperXQuadcastS.h                        \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.h                             \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
     Controllers/IonicoController/IonicoController.h                                             \
@@ -1045,6 +1048,9 @@ SOURCES +=                                                                      
     Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
     Controllers/HyperXMousematController/HyperXMousematControllerDetect.cpp                     \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
+    Controllers/HyperXQuadcastController/HyperXQuadcastSController.cpp                          \
+    Controllers/HyperXQuadcastController/HyperXQuadcastSControllerDetect.cpp                    \
+    Controllers/HyperXQuadcastController/RGBController_HyperXQuadcastS.cpp                      \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.cpp                           \
     Controllers/IntelArcA770LEController/IntelArcA770LEControllerDetect.cpp                     \
     Controllers/IonicoController/IonicoController.cpp                                           \
@@ -1619,6 +1625,7 @@ contains(QMAKE_PLATFORM, linux) {
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
+    -ldl                                                                                        \
 
     COMPILER_VERSION = $$system($$QMAKE_CXX " -dumpversion")
     if (!versionAtLeast(COMPILER_VERSION, "9")) {
