@@ -129,6 +129,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HPOmen30LController/                                                            \
     Controllers/HyperXDRAMController/                                                           \
     Controllers/HyperXKeyboardController/                                                       \
+    Controllers/HyperXMicrophoneController/                                                     \
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
     Controllers/IntelArcA770LEController/                                                       \
@@ -445,6 +446,8 @@ HEADERS +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.h                     \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.h                   \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.h                 \
+    Controllers/HyperXMicrophoneController/HyperXMicrophoneController.h                         \
+    Controllers/HyperXMicrophoneController/RGBController_HyperXMicrophone.h                     \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.h                         \
     Controllers/HyperXMouseController/HyperXPulsefireHasteController.h                          \
     Controllers/HyperXMouseController/HyperXPulsefireSurgeController.h                          \
@@ -1027,6 +1030,9 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.cpp                   \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.cpp                 \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.cpp               \
+    Controllers/HyperXMicrophoneController/HyperXMicrophoneController.cpp                       \
+    Controllers/HyperXMicrophoneController/HyperXMicrophoneControllerDetect.cpp                 \
+    Controllers/HyperXMicrophoneController/RGBController_HyperXMicrophone.cpp                   \
     Controllers/HyperXMouseController/HyperXMouseControllerDetect.cpp                           \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.cpp                       \
     Controllers/HyperXMouseController/HyperXPulsefireHasteController.cpp                        \
