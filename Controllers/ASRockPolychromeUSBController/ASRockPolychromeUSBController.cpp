@@ -5,12 +5,14 @@
 |  lighting controller                      |
 |                                           |
 |  Ed Kambulow (dredvard) 12/20/2020        |
+|  Shady Nawara (ShadyNawara) 01/16/2023    |
 \*-----------------------------------------*/
-
-#include "RGBController.h"
-#include "ASRockPolychromeUSBController.h"
 #include <cstring>
 #include <stdio.h>
+
+#include "RGBController.h"
+#include "ResourceManager.h"
+#include "ASRockPolychromeUSBController.h"
 #include "dependencies/dmiinfo.h"
 
 #define POLYCHROME_USB_READ_ZONE_CONFIG 0x11
@@ -91,6 +93,44 @@ void PolychromeUSBController::SetDeviceInfo()
     WriteRGSwap(0,0,0,0,0,0,0,0);
     ReadConfigTables();
 
+    /*--------------------------------------------------*\
+    | Read settings to check for configured RGSwap       |
+    \*--------------------------------------------------*/
+    const std::string detector_name     = "ASRock Polychrome USB";
+    const std::string json_rgswap       = "RGSwap";
+    SettingsManager* settings_manager   = ResourceManager::get()->GetSettingsManager();
+    json device_settings                = settings_manager->GetSettings(detector_name);
+
+    /*---------------------------------------------------------*\
+    | Get RGSwap settings from the settings manager             |
+    | If RGSwap settings are not found then write them out      |
+    | RGSwap is disabled by default                             |
+    \*---------------------------------------------------------*/
+    if(!device_settings.contains(json_rgswap))
+    {
+        for(const char* z : polychrome_USB_zone_names)
+        {
+            device_settings[json_rgswap][z] = false;
+        }
+
+        settings_manager->SetSettings(detector_name, device_settings);
+        settings_manager->SaveSettings();
+    }
+    else
+    {
+        for(std::size_t idx = 0; idx < 8; idx++)
+        {
+            if(device_settings[json_rgswap].contains(polychrome_USB_zone_names[idx]))
+            {
+                rgswapconfig[idx] = device_settings[json_rgswap][polychrome_USB_zone_names[idx]];
+            }
+        }
+    }
+
+    /*--------------------------------------------------*\
+    | Disable RGSwap as it causes flashing on each update|
+    \*--------------------------------------------------*/
+
     for (unsigned int zonecnt = 0; zonecnt < POLYCHROME_USB_ZONE_MAX_NUM; zonecnt++)
     {
         if(configtable[zonecnt] == 0x1E || !((configtable[9] >> zonecnt) & 1))
@@ -103,7 +143,7 @@ void PolychromeUSBController::SetDeviceInfo()
         }
 
         newdev_info.num_leds = configtable[zonecnt];
-        newdev_info.rgswap = ((configtable[8] >> zonecnt) & 1);
+        newdev_info.rgswap = ((configtable[8] >> zonecnt) & 1) || rgswapconfig[zonecnt];
 
 		/*--------------------------------------------------------------------------------------------------*\
 		| We will need to know what zone type this is, so that we can look up the name and make calls later. |
@@ -193,8 +233,18 @@ void PolychromeUSBController::WriteZone
 	usb_buf[0x01] = POLYCHROME_USB_SET_ZONE;
     usb_buf[0x03] = device_info.zone_type; 
 	usb_buf[0x04] = mode;
-    usb_buf[0x05] = RGBGetGValue(rgb);
-    usb_buf[0x06] = RGBGetRValue(rgb);
+
+    if(device_info.rgswap)
+    {
+        usb_buf[0x05] = RGBGetRValue(rgb);
+        usb_buf[0x06] = RGBGetGValue(rgb);
+    }
+    else
+    {
+        usb_buf[0x05] = RGBGetGValue(rgb);
+        usb_buf[0x06] = RGBGetRValue(rgb);
+    }
+
 	usb_buf[0x07] = RGBGetBValue(rgb);
 	usb_buf[0x08] = speed;
 	usb_buf[0x09] = 0xFF;
@@ -397,9 +447,17 @@ PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
     zoneinfo.mode   = usb_buf[0x04] != 0xE2 && usb_buf[0x04] != 0xE3 && usb_buf[0x04] < 0x0F ? usb_buf[0x04] : 0x0F;
 
     /*------------------------------------------------------*\
-    | G & R are swapped since RGSwap is disabled on init     |
+    | G & R are swapped since RGSwap is disabled on init,    |
+    | Unless overwritten in settings                         |
     \*------------------------------------------------------*/
-    zoneinfo.color  = ToRGBColor(g,r,b);
+    if(device_info.rgswap)
+    {
+        zoneinfo.color  = ToRGBColor(r,g,b);
+    }
+    else
+    {
+        zoneinfo.color  = ToRGBColor(g,r,b);
+    }
     zoneinfo.speed  = usb_buf[0x08];
     zoneinfo.zone   = usb_buf[0x03];
 

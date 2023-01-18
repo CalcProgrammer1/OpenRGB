@@ -5,13 +5,14 @@
 |  ASRock Polychrome USB Driver             |
 |                                           |
 |  Ed Kambulow (Dredvard) 12/26/2020        |
+|  Shady Nawara (ShadyNawara) 01/16/2023    |
 \*-----------------------------------------*/
 
 #include "RGBController_ASRockPolychromeUSB.h"
 #include <string.h>
 
 #define ASROCK_USB_MAX_ZONES        8
-#define ASROCK_ADDRESSABLE_MAX_LEDS 80
+#define ASROCK_ADDRESSABLE_MAX_LEDS 100
 
 /**------------------------------------------------------------------*\
     @name ASrock Polychrome USB

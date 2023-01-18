@@ -5,6 +5,7 @@
 |  ASRock Polychrome USB Driver             |
 |                                           |
 |  Ed Kambulow (Dredvard) 12/26/2020        |
+|  Shady Nawara (ShadyNawara) 01/16/2023    |
 \*-----------------------------------------*/
 
 #pragma once
