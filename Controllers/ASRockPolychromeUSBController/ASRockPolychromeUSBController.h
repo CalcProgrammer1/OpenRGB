@@ -134,6 +134,7 @@ public:
                                                     );
 
     void                                        ResizeZone(int zone, int new_size);
+    void                                        SetRGSwap(bool reset);
 
 protected:
     hid_device*                         dev;
@@ -142,14 +143,14 @@ protected:
 
     void WriteRGSwap
         (
-        bool ahdr1,
-        bool ahdr0,
-        bool hdr1,
         bool hdr0,
-        bool pch = false,
-        bool io = false,
-        bool pcb = false,
-        bool chnl8 = false
+        bool hdr1,
+        bool ahdr0,
+        bool ahdr1,
+        bool pch,
+        bool io,
+        bool pcb,
+        bool chnl8
         );
 
 private:

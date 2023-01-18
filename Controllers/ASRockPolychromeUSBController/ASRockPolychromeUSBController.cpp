@@ -87,10 +87,6 @@ void PolychromeUSBController::SetDeviceInfo()
 {
     PolychromeDeviceInfo newdev_info;
 
-    /*--------------------------------------------------*\
-    | Disable RGSwap as it causes flashing on each update|
-    \*--------------------------------------------------*/
-    WriteRGSwap(0,0,0,0,0,0,0,0);
     ReadConfigTables();
 
     /*--------------------------------------------------*\
@@ -104,14 +100,19 @@ void PolychromeUSBController::SetDeviceInfo()
     /*---------------------------------------------------------*\
     | Get RGSwap settings from the settings manager             |
     | If RGSwap settings are not found then write them out      |
-    | RGSwap is disabled by default                             |
+    | Onboard leds are set to their existing values,            |
+    | Addressable RGB and RGB headers are set to false          |
     \*---------------------------------------------------------*/
     if(!device_settings.contains(json_rgswap))
     {
-        for(const char* z : polychrome_USB_zone_names)
-        {
-            device_settings[json_rgswap][z] = false;
-        }
+        device_settings[json_rgswap][polychrome_USB_zone_names[0]] = false;
+        device_settings[json_rgswap][polychrome_USB_zone_names[1]] = false;
+        device_settings[json_rgswap][polychrome_USB_zone_names[2]] = false;
+        device_settings[json_rgswap][polychrome_USB_zone_names[3]] = false;
+        device_settings[json_rgswap][polychrome_USB_zone_names[4]] = ((configtable[8] >> 4) & 1) ? true : false;
+        device_settings[json_rgswap][polychrome_USB_zone_names[5]] = ((configtable[8] >> 5) & 1) ? true : false;
+        device_settings[json_rgswap][polychrome_USB_zone_names[6]] = ((configtable[8] >> 6) & 1) ? true : false;
+        device_settings[json_rgswap][polychrome_USB_zone_names[7]] = false;
 
         settings_manager->SetSettings(detector_name, device_settings);
         settings_manager->SaveSettings();
@@ -127,9 +128,7 @@ void PolychromeUSBController::SetDeviceInfo()
         }
     }
 
-    /*--------------------------------------------------*\
-    | Disable RGSwap as it causes flashing on each update|
-    \*--------------------------------------------------*/
+    bool rgswap_final[8] = {0};
 
     for (unsigned int zonecnt = 0; zonecnt < POLYCHROME_USB_ZONE_MAX_NUM; zonecnt++)
     {
@@ -144,6 +143,7 @@ void PolychromeUSBController::SetDeviceInfo()
 
         newdev_info.num_leds = configtable[zonecnt];
         newdev_info.rgswap = ((configtable[8] >> zonecnt) & 1) || rgswapconfig[zonecnt];
+        rgswap_final[zonecnt] = newdev_info.rgswap;
 
 		/*--------------------------------------------------------------------------------------------------*\
 		| We will need to know what zone type this is, so that we can look up the name and make calls later. |
@@ -186,6 +186,9 @@ void PolychromeUSBController::SetDeviceInfo()
 
         device_info.push_back(newdev_info);
     }
+
+    // set rgswap to match our settings
+    WriteRGSwap(rgswap_final[0], rgswap_final[1], rgswap_final[2], rgswap_final[3], rgswap_final[4], rgswap_final[5], rgswap_final[6], rgswap_final[7]);
 }
 
 void PolychromeUSBController::ResizeZone(int zone, int new_size)
@@ -340,38 +343,45 @@ void PolychromeUSBController::WriteAllZones
     }
 }
 
+/*-----------------------------------------------------*\
+| If reset is true, rgswap is set to the values         |
+| specified in the settings file, otherwise set to off  |
+\*-----------------------------------------------------*/
+void PolychromeUSBController::SetRGSwap(bool reset)
+{
+    if(reset)
+    {
+        bool rg[8] = {0};
+        std::vector<PolychromeDeviceInfo> devices_info = GetPolychromeDevices();
+        for (PolychromeDeviceInfo device : devices_info)
+        {
+            rg[device.zone_type] = device.rgswap;
+        }
+        WriteRGSwap(rg[0], rg[1], rg[2], rg[3], rg[4], rg[5], rg[6], rg[7]);
+    }
+    else
+    {
+        /*-----------------------------------------------------------------*\
+        | Disable RGSwap as it causes flashing on each update in direct mode|
+        \*-----------------------------------------------------------------*/
+        WriteRGSwap(0, 0, 0, 0, 0, 0, 0, 0);
+    }
+}
+
 void PolychromeUSBController::WriteRGSwap
     (
-    bool ahdr1,
-    bool ahdr0,
-    bool hdr1,
     bool hdr0,
+    bool hdr1,
+    bool ahdr0,
+    bool ahdr1,
     bool pch,
     bool io,
     bool pcb,
     bool chnl8
     )
 {
-    unsigned char usb_buf[65];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
-
-    /*-----------------------------------------------------*\
-    | Set up message packet with leading 00                 |
-    \*-----------------------------------------------------*/
-	usb_buf[0x01] = POLYCHROME_USB_WRITE_HEADER;
-
-    usb_buf[0x03] = POLYCHROME_USB_RGSWAP_CFG;
-    usb_buf[0x04] = ((chnl8 << 7) & (pcb << 6) & (io << 5) & (pch << 4) & (ahdr1 << 3) & (ahdr0 << 2) & (hdr1 << 1) & hdr0);
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 64);
+    unsigned char rgconfig[1] = {static_cast<unsigned char>(((chnl8 << 7) | (pcb << 6) | (io << 5) | (pch << 4) | (ahdr1 << 3) | (ahdr0 << 2) | (hdr1 << 1) | hdr0))};
+    WriteHeader(POLYCHROME_USB_RGSWAP_CFG, rgconfig, 1);
 }
 
 void PolychromeUSBController::WriteHeader

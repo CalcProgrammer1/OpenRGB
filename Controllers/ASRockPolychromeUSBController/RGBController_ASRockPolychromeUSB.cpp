@@ -334,6 +334,12 @@ unsigned char RGBController_PolychromeUSB::GetDeviceMode(unsigned char zone)
 
 void RGBController_PolychromeUSB::DeviceUpdateMode()
 {
+    /*-----------------------------------------------------------------*\
+    | Disable RGSwap as it causes flashing on each update in direct mode|
+    | Otherwise, reset to values specified in settings.json             |
+    \*-----------------------------------------------------------------*/
+    controller->SetRGSwap(modes[active_mode].name != "Direct");
+
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         if(zones[zone_idx].leds_count > 0)
