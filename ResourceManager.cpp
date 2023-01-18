@@ -14,6 +14,11 @@
 #include "LogManager.h"
 #include "filesystem.h"
 
+#ifdef _WIN32
+#include <codecvt>
+#include <locale>
+#endif
+
 #include <stdlib.h>
 #include <string>
 #include <hidapi/hidapi.h>
@@ -50,7 +55,8 @@ ResourceManager::ResourceManager()
     | Load settings from file                                                   |
     \*-------------------------------------------------------------------------*/
     settings_manager        = new SettingsManager();
-    settings_manager->LoadSettings(GetConfigurationDirectory() + "OpenRGB.json");
+
+    settings_manager->LoadSettings(GetConfigurationDirectory() / "OpenRGB.json");
 
     /*-------------------------------------------------------------------------*\
     | Configure the log manager                                                 |
@@ -448,10 +454,15 @@ void ResourceManager::I2CBusListChanged()
 void ResourceManager::SetupConfigurationDirectory()
 {
     config_dir.clear();
+#ifdef _WIN32
+    const wchar_t* appdata = _wgetenv(L"APPDATA");
+    if(appdata != NULL)
+    {
+        config_dir = appdata;
+    }
+#else
     const char* xdg_config_home = getenv("XDG_CONFIG_HOME");
     const char* home            = getenv("HOME");
-    const char* appdata         = getenv("APPDATA");
-
     /*-----------------------------------------------------*\
     | Check both XDG_CONFIG_HOME and APPDATA environment    |
     | variables.  If neither exist, use current directory   |
@@ -460,22 +471,20 @@ void ResourceManager::SetupConfigurationDirectory()
     {
         config_dir = xdg_config_home;
     }
-    else if(appdata != NULL)
-    {
-        config_dir = appdata;
-    }
     else if(home != NULL)
     {
         config_dir = home;
-        config_dir = config_dir + "/.config";
+        config_dir /= ".config";
     }
+#endif
+
 
     /*-----------------------------------------------------*\
     | If a configuration directory was found, append OpenRGB|
     \*-----------------------------------------------------*/
     if(config_dir != "")
     {
-        config_dir = config_dir + "/OpenRGB/";
+        config_dir.append("OpenRGB");
 
         /*-------------------------------------------------------------------------*\
         | Create OpenRGB configuration directory if it doesn't exist                |
@@ -488,25 +497,15 @@ void ResourceManager::SetupConfigurationDirectory()
     }
 }
 
-std::string ResourceManager::GetConfigurationDirectory()
+filesystem::path ResourceManager::GetConfigurationDirectory()
 {
     return(config_dir);
 }
 
-void ResourceManager::SetConfigurationDirectory(std::string directory)
+void ResourceManager::SetConfigurationDirectory(const filesystem::path &directory)
 {
-    /*-----------------------------------------------------*\
-    | Ensure the directory string has a trailing slash      |
-    \*-----------------------------------------------------*/
-    const char separator = filesystem::path::preferred_separator;
-
-    if(directory[directory.size() - 1] != separator)
-    {
-        directory += separator;
-    }
-
     config_dir = directory;
-    settings_manager->LoadSettings(directory + "OpenRGB.json");
+    settings_manager->LoadSettings(directory / "OpenRGB.json");
     profile_manager->SetConfigurationDirectory(directory);
 
     rgb_controllers_sizes.clear();

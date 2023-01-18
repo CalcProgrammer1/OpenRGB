@@ -7,6 +7,7 @@
 #include <queue>
 #include <memory>
 #include "json.hpp"
+#include "filesystem.h"
 
 /*-------------------------------------------------*\
 | Common LOG strings                                |
@@ -83,7 +84,7 @@ private:
 
 public:
     static LogManager* get();
-    void configure(json config, const std::string& defaultDir);
+    void configure(json config, const filesystem::path & defaultDir);
     void flush();
     void append(const char* filename, int line, unsigned int level, const char* fmt, ...);
     void setLoglevel(unsigned int);

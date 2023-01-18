@@ -50,7 +50,7 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings)
     settings_data[settings_key] = new_settings;
 }
 
-void SettingsManager::LoadSettings(std::string filename)
+void SettingsManager::LoadSettings(const filesystem::path& filename)
 {
     /*---------------------------------------------------------*\
     | Clear any stored settings before loading                  |

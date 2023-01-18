@@ -107,9 +107,8 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
 
 bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
 {
-    std::string from_path       = install_file;
-    std::string to_path         = ResourceManager::get()->GetConfigurationDirectory() + "plugins/";
-    std::string to_file         = to_path + filesystem::path(from_path).filename().string();
+    filesystem::path from_path = filesystem::u8path(install_file);
+    filesystem::path to_path   = ResourceManager::get()->GetConfigurationDirectory() / "plugins" / from_path.filename();
     bool        match           = false;
 
     LOG_TRACE("[OpenRGBPluginsPage] Installing plugin %s", install_file.c_str());
@@ -119,7 +118,7 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
     \*-----------------------------------------------------*/
     for(unsigned int plugin_idx = 0; plugin_idx < plugin_manager->ActivePlugins.size(); plugin_idx++)
     {
-        if(to_file == plugin_manager->ActivePlugins[plugin_idx].path)
+        if(to_path == plugin_manager->ActivePlugins[plugin_idx].path)
         {
             match = true;
             break;
@@ -147,12 +146,12 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
     \*-----------------------------------------------------*/
     try
     {
-        plugin_manager->RemovePlugin(to_file);
+        plugin_manager->RemovePlugin(to_path);
 
         LOG_TRACE("[OpenRGBPluginsPage] Copying from %s to %s", from_path.c_str(), to_path.c_str());
         filesystem::copy(from_path, to_path, filesystem::copy_options::overwrite_existing);
 
-        plugin_manager->AddPlugin(to_file);
+        plugin_manager->AddPlugin(to_path);
 
         return true;
     }

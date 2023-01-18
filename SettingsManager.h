@@ -12,17 +12,18 @@
 #pragma once
 
 #include "json.hpp"
+#include "filesystem.h"
 
 using json = nlohmann::json;
 
 class SettingsManagerInterface
 {
 public:
-    virtual json    GetSettings(std::string settings_key)                       = 0;
-    virtual void    SetSettings(std::string settings_key, json new_settings)    = 0;
+    virtual json GetSettings(std::string settings_key)                       = 0;
+    virtual void SetSettings(std::string settings_key, json new_settings)    = 0;
 
-    virtual void    LoadSettings(std::string filename)                          = 0;
-    virtual void    SaveSettings()                                              = 0;
+    virtual void LoadSettings(const filesystem::path& filename)              = 0;
+    virtual void SaveSettings()                                              = 0;
 
 protected:
     virtual ~SettingsManagerInterface() {};
@@ -34,14 +35,14 @@ public:
     SettingsManager();
     ~SettingsManager();
 
-    json    GetSettings(std::string settings_key) override;
-    void    SetSettings(std::string settings_key, json new_settings) override;
+    json GetSettings(std::string settings_key) override;
+    void SetSettings(std::string settings_key, json new_settings) override;
 
-    void    LoadSettings(std::string filename) override;
-    void    SaveSettings() override;
+    void LoadSettings(const filesystem::path& filename) override;
+    void SaveSettings() override;
 
 private:
-    json        settings_data;
-    json        settings_prototype;
-    std::string settings_filename;
+    json             settings_data;
+    json             settings_prototype;
+    filesystem::path settings_filename;
 };

@@ -22,8 +22,9 @@
 | 0:    OpenRGB 0.6     Unversioned, early plugin API.                                                  |
 | 1:    OpenRGB 0.61    First versioned API, introduced with plugin settings changes                    |
 | 2:    OpenRGB 0.7     First released versioned API, callback unregister functions in ResourceManager  |
+| 3:    OpenRGB 0.8     A minor change in the API that allows Unicode paths to be used                  |
 \*-----------------------------------------------------------------------------------------------------*/
-#define OPENRGB_PLUGIN_API_VERSION  2
+#define OPENRGB_PLUGIN_API_VERSION  3
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Plugin Tab Location Values                                                                            |

@@ -11,7 +11,7 @@
 #define OPENRGB_PROFILE_HEADER  "OPENRGB_PROFILE"
 #define OPENRGB_PROFILE_VERSION OPENRGB_SDK_PROTOCOL_VERSION
 
-ProfileManager::ProfileManager(std::string config_dir)
+ProfileManager::ProfileManager(const filesystem::path& config_dir)
 {
     configuration_directory = config_dir;
     UpdateProfileList();
@@ -54,7 +54,8 @@ bool ProfileManager::SaveProfile(std::string profile_name, bool sizes)
         /*---------------------------------------------------------*\
         | Open an output file in binary mode                        |
         \*---------------------------------------------------------*/
-        std::ofstream controller_file(configuration_directory + filename, std::ios::out | std::ios::binary | std::ios::trunc);
+        filesystem::path profile_path = configuration_directory / filesystem::u8path(filename);
+        std::ofstream controller_file(profile_path, std::ios::out | std::ios::binary | std::ios::trunc);
 
         /*---------------------------------------------------------*\
         | Write header                                              |
@@ -98,7 +99,7 @@ bool ProfileManager::SaveProfile(std::string profile_name, bool sizes)
     }
 }
 
-void ProfileManager::SetConfigurationDirectory(std::string directory)
+void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory)
 {
     configuration_directory = directory;
     UpdateProfileList();
@@ -124,18 +125,21 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
     unsigned int                controller_size;
     unsigned int                controller_offset = 0;
 
-    std::string filename = configuration_directory + profile_name;
+    filesystem::path filename = configuration_directory / filesystem::u8path(profile_name);
 
     /*---------------------------------------------------------*\
     | Determine file extension                                  |
     \*---------------------------------------------------------*/
     if(sizes)
     {
-        filename += ".ors";
+        filename.concat(".ors");
     }
     else
     {
-        filename += ((filename.substr(filename.size() - 4)==".orp") ? "" : ".orp");
+        if(filename.extension() != ".orp")
+        {
+            filename.concat(".orp");
+        }
     }
 
     /*---------------------------------------------------------*\
@@ -386,7 +390,10 @@ bool ProfileManager::LoadProfileWithOptions
 
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
-    remove((configuration_directory + profile_name + ".orp").c_str());
+    filesystem::path filename = configuration_directory / profile_name;
+    filename.concat(".orp");
+
+    filesystem::remove(filename);
 
     UpdateProfileList();
 }
@@ -409,7 +416,9 @@ void ProfileManager::UpdateProfileList()
             /*---------------------------------------------------------*\
             | Open input file in binary mode                            |
             \*---------------------------------------------------------*/
-            std::ifstream profile_file(configuration_directory + filename, std::ios::in | std::ios::binary);
+            filesystem::path file_path = configuration_directory;
+            file_path.append(filename);
+            std::ifstream profile_file(file_path, std::ios::in | std::ios::binary);
 
             /*---------------------------------------------------------*\
             | Read and verify file header                               |

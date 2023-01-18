@@ -1,8 +1,3 @@
-#include <vector>
-#include <cstring>
-#include <string>
-#include <tuple>
-#include <iostream>
 #include "OpenRGB.h"
 #include "AutoStart.h"
 #include "filesystem.h"
@@ -15,11 +10,18 @@
 #include "LogManager.h"
 #include "Colors.h"
 
+#include <vector>
+#include <cstring>
+#include <string>
+#include <tuple>
+#include <iostream>
+
 /*-------------------------------------------------------------*\
 | Quirk for MSVC; which doesn't support this case-insensitive   |
 | function                                                      |
 \*-------------------------------------------------------------*/
 #ifdef _WIN32
+#include <shellapi.h>
     #define strcasecmp strcmpi
 #endif
 
@@ -804,10 +806,16 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
     options->hasDevice = false;
     options->profile_loaded = false;
 
+#ifdef _WIN32
+    int fake_argc;
+    wchar_t** argvw = CommandLineToArgvW(GetCommandLineW(), &fake_argc);
+#endif
+
     while(arg_index < argc)
     {
         std::string option   = argv[arg_index];
         std::string argument = "";
+        filesystem::path arg_path;
 
         /*---------------------------------------------------------*\
         | Handle options that take an argument                      |
@@ -815,6 +823,11 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         if(arg_index + 1 < argc)
         {
             argument = argv[arg_index + 1];
+#ifdef _WIN32
+            arg_path = argvw[arg_index + 1];
+#else
+            arg_path = argument;
+#endif
         }
 
         /*---------------------------------------------------------*\
@@ -915,7 +928,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--profile" || option == "-p")
         {
-            options->profile_loaded = OptionProfile(argument, rgb_controllers);
+            options->profile_loaded = OptionProfile(arg_path.generic_u8string(), rgb_controllers);
 
             arg_index++;
         }
@@ -925,7 +938,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
         \*---------------------------------------------------------*/
         else if(option == "--save-profile" || option == "-sp")
         {
-            OptionSaveProfile(argument);
+            OptionSaveProfile(arg_path.generic_u8string());
 
             arg_index++;
         }
@@ -1137,6 +1150,11 @@ unsigned int cli_pre_detection(int argc, char* argv[])
     bool            server_start = false;
     bool            print_help   = false;
 
+#ifdef _WIN32
+    int fake_argc;
+    wchar_t** argvw = CommandLineToArgvW(GetCommandLineW(), &fake_argc);
+#endif
+
     while(arg_index < argc)
     {
         std::string option   = argv[arg_index];
@@ -1168,15 +1186,20 @@ unsigned int cli_pre_detection(int argc, char* argv[])
         {
             cfg_args+= 2;
             arg_index++;
+#ifdef _WIN32
+            filesystem::path config_path(argvw[arg_index]);
+#else
+            filesystem::path config_path(argument);
+#endif
 
-            if(filesystem::is_directory(argument))
+            if(filesystem::is_directory(config_path))
             {
-                ResourceManager::get()->SetConfigurationDirectory(argument);
-                LOG_INFO("Setting config directory to %s",argument.c_str());
+                ResourceManager::get()->SetConfigurationDirectory(config_path);
+                LOG_INFO("Setting config directory to %s",argument.c_str()); // TODO: Use config_path in logs somehow
             }
             else
             {
-                LOG_ERROR("'%s' is not a valid directory",argument.c_str());
+                LOG_ERROR("'%s' is not a valid directory",argument.c_str()); // TODO: Use config_path in logs somehow
                 print_help = true;
                 break;
             }

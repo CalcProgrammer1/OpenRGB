@@ -1,6 +1,8 @@
+#pragma once
+
 #include "RGBController.h"
 
-#pragma once
+#include "filesystem.h"
 
 class ProfileManagerInterface
 {
@@ -32,7 +34,7 @@ public:
         bool sizes = false
         )                                                                            = 0;
 
-    virtual void SetConfigurationDirectory(std::string directory)                    = 0;
+    virtual void SetConfigurationDirectory(const filesystem::path& directory)        = 0;
 protected:
     virtual ~ProfileManagerInterface() {};
 };
@@ -40,7 +42,7 @@ protected:
 class ProfileManager: public ProfileManagerInterface
 {
 public:
-    ProfileManager(std::string config_dir);
+    ProfileManager(const filesystem::path& config_dir);
     ~ProfileManager();
 
     bool SaveProfile
@@ -70,10 +72,10 @@ public:
         bool            sizes = false
         );
 
-    void SetConfigurationDirectory(std::string directory);
+    void SetConfigurationDirectory(const filesystem::path& directory);
 
 private:
-    std::string                         configuration_directory;
+    filesystem::path configuration_directory;
 
     void UpdateProfileList();
     bool LoadProfileWithOptions

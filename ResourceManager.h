@@ -23,6 +23,7 @@
 #include "ProfileManager.h"
 #include "RGBController.h"
 #include "SettingsManager.h"
+#include "filesystem.h"
 
 #define HID_INTERFACE_ANY   -1
 #define HID_USAGE_ANY       -1
@@ -91,7 +92,7 @@ public:
 
     virtual unsigned int                        GetDetectionPercent()                                                                               = 0;
 
-    virtual std::string                         GetConfigurationDirectory()                                                                         = 0;
+    virtual filesystem::path                    GetConfigurationDirectory()                                                                         = 0;
 
     virtual std::vector<NetworkClient*>&        GetClients()                                                                                        = 0;
     virtual NetworkServer*                      GetServer()                                                                                         = 0;
@@ -152,7 +153,7 @@ public:
     unsigned int GetDetectionPercent();
     const char*  GetDetectionString();
 
-    std::string                     GetConfigurationDirectory();
+    filesystem::path                GetConfigurationDirectory();
 
     void RegisterNetworkClient(NetworkClient* new_client);
     void UnregisterNetworkClient(NetworkClient* network_client);
@@ -163,7 +164,7 @@ public:
     ProfileManager*                 GetProfileManager();
     SettingsManager*                GetSettingsManager();
 
-    void                            SetConfigurationDirectory(std::string directory);
+    void                            SetConfigurationDirectory(const filesystem::path &directory);
 
     void ProcessPreDetectionHooks();
     void ProcessDynamicDetectors();
@@ -282,5 +283,5 @@ private:
     std::vector<I2CBusListChangeCallback>       I2CBusListChangeCallbacks;
     std::vector<void *>                         I2CBusListChangeCallbackArgs;
 
-    std::string config_dir;
+    filesystem::path config_dir;
 };

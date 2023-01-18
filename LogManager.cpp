@@ -46,7 +46,7 @@ unsigned int LogManager::getLoglevel()
     }
 }
 
-void LogManager::configure(json config, const std::string &defaultDir)
+void LogManager::configure(json config, const filesystem::path& defaultDir)
 {
     std::lock_guard<std::mutex> grd(entry_mutex);
 
@@ -92,11 +92,10 @@ void LogManager::configure(json config, const std::string &defaultDir)
         /*-------------------------------------------------*\
         | If the path is relative, use logs dir             |
         \*-------------------------------------------------*/
-        filesystem::path p = logname;
+        filesystem::path p = filesystem::u8path(logname);
         if(p.is_relative())
         {
-            p = defaultDir + "logs/";
-            p.append(logname);
+            p = defaultDir / "logs" / logname;
         }
         filesystem::create_directories(p.parent_path());
 

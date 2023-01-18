@@ -766,7 +766,7 @@ void OpenRGBSettingsPage::SaveSettings()
 
 void Ui::OpenRGBSettingsPage::on_OpenSettingsFolderButton_clicked()
 {
-    std::string config_dir = ResourceManager::get()->GetConfigurationDirectory();
+    std::string config_dir = ResourceManager::get()->GetConfigurationDirectory().generic_u8string();
     QUrl url = QUrl::fromLocalFile(QString::fromStdString(config_dir));
     QDesktopServices::openUrl(url);
 }
