@@ -1417,6 +1417,11 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
                 if(new_size >= 0)
                 {
                     /*-----------------------------------------------------*\
+                    | Update mode UI to update Zone box                     |
+                    \*-----------------------------------------------------*/
+                    UpdateModeUi();
+
+                    /*-----------------------------------------------------*\
                     | Update LED box                                        |
                     \*-----------------------------------------------------*/
                     on_ZoneBox_currentIndexChanged(selected_zone);
