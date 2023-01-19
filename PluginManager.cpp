@@ -75,6 +75,11 @@ void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir)
 
     for(const filesystem::directory_entry& entry: filesystem::directory_iterator(plugins_dir))
     {
+        if(entry.is_directory())
+        {
+            continue;
+        }
+
         filesystem::path plugin_path = entry.path();
         LOG_TRACE("[PluginManager] Found plugin file %s", plugin_path.filename().generic_u8string().c_str());
         AddPlugin(plugin_path);
