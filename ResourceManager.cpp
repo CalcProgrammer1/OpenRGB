@@ -150,6 +150,29 @@ void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
     LOG_INFO("[%s] Registering RGB controller", rgb_controller->name.c_str());
     rgb_controllers_hw.push_back(rgb_controller);
 
+    /*-------------------------------------------------*\
+    | If the device list size has changed, call the     |
+    | device list changed callbacks                     |
+    |                                                   |
+    | TODO: If all detection is reworked to use         |
+    | RegisterRGBController, tracking of previous list  |
+    | size can be removed and profile can be loaded per |
+    | controller before adding to list                  |
+    \*-------------------------------------------------*/
+    if(rgb_controllers_hw.size() != detection_prev_size)
+    {
+        /*-------------------------------------------------*\
+        | First, load sizes for the new controllers         |
+        \*-------------------------------------------------*/
+        for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+        {
+            profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
+        }
+
+        UpdateDeviceList();
+    }
+    detection_prev_size = rgb_controllers_hw.size();
+
     UpdateDeviceList();
 }
 
@@ -609,7 +632,12 @@ void ResourceManager::Cleanup()
         }
     }
 
+    /*-------------------------------------------------*\
+    | Clear the hardware controllers list and set the   |
+    | previous hardware controllers list size to zero   |
+    \*-------------------------------------------------*/
     rgb_controllers_hw.clear();
+    detection_prev_size = 0;
 
     for(RGBController* rgb_controller : rgb_controllers_hw_copy)
     {
@@ -795,18 +823,19 @@ void ResourceManager::DetectDevicesThreadFunction()
     unsigned int        hid_device_count    = 0;
     hid_device_info*    hid_devices         = NULL;
     bool                hid_safe_mode       = false;
-    unsigned int        prev_count          = 0;
-    std::vector<bool>   size_used;
 
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Start device detection               |");
     LOG_INFO("------------------------------------------------------");
 
-    size_used.resize(rgb_controllers_sizes.size());
+    /*-------------------------------------------------*\
+    | Reset the size entry used flags vector            |
+    \*-------------------------------------------------*/
+    detection_size_entry_used.resize(rgb_controllers_sizes.size());
 
-    for(unsigned int size_idx = 0; size_idx < size_used.size(); size_idx++)
+    for(unsigned int size_idx = 0; size_idx < detection_size_entry_used.size(); size_idx++)
     {
-        size_used[size_idx] = false;
+        detection_size_entry_used[size_idx] = false;
     }
 
     /*-------------------------------------------------*\
@@ -909,14 +938,14 @@ void ResourceManager::DetectDevicesThreadFunction()
         | If the device list size has changed, call the     |
         | device list changed callbacks                     |
         \*-------------------------------------------------*/
-        if(rgb_controllers_hw.size() != prev_count)
+        if(rgb_controllers_hw.size() != detection_prev_size)
         {
             /*-------------------------------------------------*\
             | First, load sizes for the new controllers         |
             \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
             {
-                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
             }
 
             UpdateDeviceList();
@@ -925,7 +954,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         {
             LOG_DEBUG("[%s] no devices found", detection_string);
         }
-        prev_count = rgb_controllers_hw.size();
+        detection_prev_size = rgb_controllers_hw.size();
 
         LOG_TRACE("[%s] detection end", detection_string);
 
@@ -977,14 +1006,14 @@ void ResourceManager::DetectDevicesThreadFunction()
         | If the device list size has changed, call the     |
         | device list changed callbacks                     |
         \*-------------------------------------------------*/
-        if(rgb_controllers_hw.size() != prev_count)
+        if(rgb_controllers_hw.size() != detection_prev_size)
         {
             /*-------------------------------------------------*\
             | First, load sizes for the new controllers         |
             \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
             {
-                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
             }
 
             UpdateDeviceList();
@@ -993,7 +1022,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         {
             LOG_DEBUG("[%s] no devices found", detection_string);
         }
-        prev_count = rgb_controllers_hw.size();
+        detection_prev_size = rgb_controllers_hw.size();
 
         LOG_TRACE("[%s] detection end", detection_string);
 
@@ -1073,14 +1102,14 @@ void ResourceManager::DetectDevicesThreadFunction()
                         | If the device list size has changed, call the     |
                         | device list changed callbacks                     |
                         \*-------------------------------------------------*/
-                        if(rgb_controllers_hw.size() != prev_count)
+                        if(rgb_controllers_hw.size() != detection_prev_size)
                         {
                             /*-------------------------------------------------*\
                             | First, load sizes for the new controllers         |
                             \*-------------------------------------------------*/
-                            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+                            for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
                             {
-                                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+                                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
                             }
 
                             UpdateDeviceList();
@@ -1089,7 +1118,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                         {
                             LOG_DEBUG("[%s] no devices found", detection_string);
                         }
-                        prev_count = rgb_controllers_hw.size();
+                        detection_prev_size = rgb_controllers_hw.size();
 
                         LOG_TRACE("[%s] detection end", detection_string);
                     }
@@ -1162,7 +1191,7 @@ void ResourceManager::DetectDevicesThreadFunction()
 
                         hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
 
-                        if(rgb_controllers_hw.size() != prev_count)
+                        if(rgb_controllers_hw.size() != detection_prev_size)
                         {
                             LOG_VERBOSE("[%s] successfully added", detection_string);
                         }
@@ -1228,14 +1257,14 @@ void ResourceManager::DetectDevicesThreadFunction()
         | If the device list size has changed, call the     |
         | device list changed callbacks                     |
         \*-------------------------------------------------*/
-        if(rgb_controllers_hw.size() != prev_count)
+        if(rgb_controllers_hw.size() != detection_prev_size)
         {
             /*-------------------------------------------------*\
             | First, load sizes for the new controllers         |
             \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = prev_count; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
+            for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
             {
-                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, size_used, rgb_controllers_hw[controller_size_idx], true, false);
+                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
             }
 
             UpdateDeviceList();
@@ -1244,7 +1273,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         {
             LOG_DEBUG("[%s] no devices found", detection_string);
         }
-        prev_count = rgb_controllers_hw.size();
+        detection_prev_size = rgb_controllers_hw.size();
 
         LOG_TRACE("[%s] detection end", detection_string);
 

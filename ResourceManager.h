@@ -111,18 +111,18 @@ class ResourceManager: public ResourceManagerInterface
 {
 public:
     static ResourceManager *get();
-    
+
     ResourceManager();
     ~ResourceManager();
 
     void RegisterI2CBus(i2c_smbus_interface *);
     std::vector<i2c_smbus_interface*> & GetI2CBusses();
-    
+
     void RegisterRGBController(RGBController *rgb_controller);
     void UnregisterRGBController(RGBController *rgb_controller);
 
     std::vector<RGBController*> & GetRGBControllers();
-    
+
     void RegisterI2CBusDetector         (I2CBusDetectorFunction     detector);
     void RegisterDeviceDetector         (std::string name, DeviceDetectorFunction     detector);
     void RegisterI2CDeviceDetector      (std::string name, I2CDeviceDetectorFunction  detector);
@@ -136,7 +136,7 @@ public:
                                          int usage      = HID_USAGE_ANY);
     void RegisterDynamicDetector        (std::string name, DynamicDetectorFunction detector);
     void RegisterPreDetectionHook       (PreDetectionHookFunction hook);
-    
+
     void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
     void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
     void RegisterDetectionStartCallback(DetectionStartCallback new_callback, void * new_callback_arg);
@@ -197,7 +197,7 @@ private:
     | Detection enabled flag                                                                |
     \*-------------------------------------------------------------------------------------*/
     bool                                        detection_enabled;
-    
+
     /*-------------------------------------------------------------------------------------*\
     | Profile Manager                                                                       |
     \*-------------------------------------------------------------------------------------*/
@@ -254,8 +254,11 @@ private:
 
     std::atomic<bool>                           detection_is_required;
     std::atomic<unsigned int>                   detection_percent;
+    std::atomic<unsigned int>                   detection_prev_size;
+    std::vector<bool>                           detection_size_entry_used;
     const char*                                 detection_string;
-    
+
+
     /*-------------------------------------------------------------------------------------*\
     | Device List Changed Callback                                                          |
     \*-------------------------------------------------------------------------------------*/
