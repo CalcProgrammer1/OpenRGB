@@ -72,6 +72,17 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
                 }
                 std::this_thread::sleep_for(10ms);
             }
+            for(unsigned char addr = 0x18; addr <= 0x1F; addr++)
+            {
+                if(TestForCorsairDominatorPlatinumController(busses[bus], addr))
+                {
+                    CorsairDominatorPlatinumController*     new_controller    = new CorsairDominatorPlatinumController(busses[bus], addr);
+                    RGBController_CorsairDominatorPlatinum* new_rgbcontroller = new RGBController_CorsairDominatorPlatinum(new_controller);
+                    
+                    ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+                }
+                std::this_thread::sleep_for(10ms);
+            }
         }
         else
         {
