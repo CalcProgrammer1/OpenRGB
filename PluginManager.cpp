@@ -75,7 +75,7 @@ void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir)
 
     for(const filesystem::directory_entry& entry: filesystem::directory_iterator(plugins_dir))
     {
-        if(entry.is_directory())
+        if(filesystem::is_directory(entry.path()))
         {
             continue;
         }
