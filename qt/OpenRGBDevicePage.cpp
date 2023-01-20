@@ -1401,13 +1401,79 @@ void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
     {
     case MODE_COLORS_PER_LED:
         {
-            int selected_zone = ui->ZoneBox->currentIndex();
+            /*-----------------------------------------*\
+            | Initialize both selected zone and segment |
+            | to -1 to indicate there is no selection   |
+            \*-----------------------------------------*/
+            unsigned int    current_index       = 0;
+            bool            selected_all_zones  = false;
+            int             selected_zone       = -1;
+            int             selected_segment    = -1;
 
-            if (device->zones.size() > 1)
+            /*-----------------------------------------*\
+            | Handle condition where device has more    |
+            | than one zone, which adds an "All Zones"  |
+            | entry to the Zone menu in the first index |
+            \*-----------------------------------------*/
+            if(device->zones.size() > 1)
             {
-                selected_zone -= 1;
+                if(ui->ZoneBox->currentIndex() == current_index)
+                {
+                    selected_all_zones = true;
+                }
+
+                current_index++;
             }
 
+            /*-----------------------------------------*\
+            | Determine selected zone and optionally    |
+            | selected segment based on index if "All   |
+            | Zones" is not the selected index          |
+            \*-----------------------------------------*/
+            if(!selected_all_zones)
+            {
+                for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
+                {
+                    if(ui->ZoneBox->currentIndex() == current_index)
+                    {
+                        selected_zone = zone_idx;
+                        break;
+                    }
+
+                    current_index++;
+
+                    for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
+                    {
+                        if(ui->ZoneBox->currentIndex() == current_index)
+                        {
+                            selected_zone    = zone_idx;
+                            selected_segment = segment_idx;
+                            break;
+                        }
+
+                        current_index++;
+                    }
+
+                    if(selected_segment != -1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            /*-----------------------------------------*\
+            | If all zones or a segment are selected,   |
+            | the edit button should not be clickable.  |
+            | If somehow this did get clicked, ignore.  |
+            \*-----------------------------------------*/
+            if(selected_all_zones || selected_segment != -1)
+            {
+                return;
+            }
+
+            /*-----------------------------------------*\
+            | Only allow resizing linear zones          |
+            \*-----------------------------------------*/
             if(device->zones[selected_zone].type == ZONE_TYPE_LINEAR)
             {
                 OpenRGBZoneResizeDialog dlg(device, selected_zone);
