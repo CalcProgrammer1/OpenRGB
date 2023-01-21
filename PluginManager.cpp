@@ -61,13 +61,18 @@ void PluginManager::ScanAndLoadPlugins()
     | An additional plugin directory can be set during build time, e.g. |
     | by the Linux distro to load plugins installed via package manager |
     \*-----------------------------------------------------------------*/
-    ScanAndLoadPluginsFrom(QString().fromStdString(OPENRGB_EXTRA_PLUGIN_DIRECTORY));
+    ScanAndLoadPluginsFrom(OPENRGB_EXTRA_PLUGIN_DIRECTORY);
 #endif
 }
 
 void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir)
 {
     LOG_TRACE("[PluginManager] Scanning plugin directory: %s", plugins_dir.generic_u8string().c_str());
+
+    if(!filesystem::is_directory(plugins_dir))
+    {
+        return;
+    }
 
     /*---------------------------------------------------------*\
     | Get a list of all files in the plugins directory          |
