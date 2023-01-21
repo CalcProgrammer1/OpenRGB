@@ -68,6 +68,16 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
                     ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                 }
             }
+            for(unsigned char addr = 0x18; addr <= 0x1F; addr++)
+            {
+                if(TestForCorsairVengeanceController(busses[bus], addr))
+                {
+                    CorsairVengeanceController*     new_controller    = new CorsairVengeanceController(busses[bus], addr);
+                    RGBController_CorsairVengeance* new_rgbcontroller = new RGBController_CorsairVengeance(new_controller);
+                    
+                    ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+                }
+            }
         }
     }
 
