@@ -68,17 +68,7 @@ RGBController_HyperXQuadcastS::RGBController_HyperXQuadcastS(HyperXQuadcastSCont
     Direct.color_mode       = MODE_COLORS_PER_LED;
     Direct.brightness_min   = 0;
     Direct.brightness_max   = 100;
-    Direct.colors.push_back(ToRGBColor(0xFF,0,0)); // Top LED
-    Direct.colors.push_back(ToRGBColor(0xFF,0,0)); // Bot LED
     modes.push_back(Direct);
-
-    mode Off;
-    Off.name                = "Off";
-    Off.flags               = MODE_FLAG_MANUAL_SAVE;
-    Off.color_mode          = MODE_COLORS_NONE;
-    Off.colors.push_back(ToRGBColor(0,0,0)); // Top LED
-    Off.colors.push_back(ToRGBColor(0,0,0)); // Bot LED
-    modes.push_back(Off);
 
     SetupZones();
 
@@ -116,10 +106,6 @@ void RGBController_HyperXQuadcastS::SetupZones()
     zones.push_back(*Mic);
 
     SetupColors();
-
-    // make starting colors be the default starting
-    // colors for direct
-    colors = modes[HXQS_MODE_DIRECT].colors;
 }
 
 void RGBController_HyperXQuadcastS::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -134,32 +120,15 @@ void RGBController_HyperXQuadcastS::DeviceUpdateLEDs()
 }
 void RGBController_HyperXQuadcastS::UpdateZoneLEDs(int zone)
 {
-
+    DeviceUpdateLEDs();
 }
 void RGBController_HyperXQuadcastS::UpdateSingleLED(int led)
 {
-
+    DeviceUpdateLEDs();
 }
 void RGBController_HyperXQuadcastS::DeviceUpdateMode()
 {
-    switch (active_mode)
-    {
-    case HXQS_MODE_DIRECT:
-        // make current colors this modes colors, in this case,
-        // the preserved direct colors from before switching off
-        colors = modes[active_mode].colors;
-
-        break;
-    case HXQS_MODE_OFF:
-        modes[HXQS_MODE_DIRECT].colors = colors; // preserve directs previous colours
-        colors = modes[active_mode].colors; // make current colors this modes colors
-
-        break;
-    default:
-        break;
-    }
-
-    UpdateLEDs();
+    DeviceUpdateLEDs();
 }
 
 void RGBController_HyperXQuadcastS::DeviceSaveMode()
