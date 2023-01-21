@@ -48,6 +48,7 @@ typedef struct
 #define CORSAIR_K55_RGB_PRO_PID                     0x1BA4
 #define CORSAIR_K60_RGB_PRO_PID                     0x1BA0
 #define CORSAIR_K60_RGB_PRO_LP_PID                  0x1BAD
+#define CORSAIR_K70_RGB_PRO_PID                     0x1BB3
 
 /*-----------------------------------------------------*\
 | Corsair V2 Protocol Mousemats                         |
