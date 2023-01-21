@@ -20,11 +20,16 @@
 
 #include <hidapi/hidapi.h>
 
+/*-----------------------------------------------------*\
+| HyperX microphone vendor and product IDs              |
+\*-----------------------------------------------------*/
+#define HYPERX_VID          0x0951
+#define HYPERX_HP_VID       0x03F0
 
-#define HYPERX_QS_VID_NA    0x0951
-#define HYPERX_QS_PID_NA    0x171F
-#define HYPERX_QS_VID_EU    0x03F0
-#define HYPERX_QS_PID_EU    0x0F8B
+#define HYPERX_QS_PID       0x171F
+
+#define HYPERX_QS_PID_HP_1  0x0F8B
+#define HYPERX_QS_PID_HP_2  0x068C
 
 const char* name = "HyperX Quadcast S";
 
@@ -125,8 +130,9 @@ void DetectHyperXQuadcastSControllers(std::vector<RGBController*>& rgb_controlle
         return;
     }
 
-    FindAndAddHyperXQuadcastSDevice(HYPERX_QS_VID_NA, HYPERX_QS_PID_NA, wrapper, rgb_controllers);
-    FindAndAddHyperXQuadcastSDevice(HYPERX_QS_VID_EU, HYPERX_QS_PID_EU, wrapper, rgb_controllers);
+    FindAndAddHyperXQuadcastSDevice(HYPERX_VID,    HYPERX_QS_PID,      wrapper, rgb_controllers);
+    FindAndAddHyperXQuadcastSDevice(HYPERX_HP_VID, HYPERX_QS_PID_HP_1, wrapper, rgb_controllers);
+    FindAndAddHyperXQuadcastSDevice(HYPERX_HP_VID, HYPERX_QS_PID_HP_2, wrapper, rgb_controllers);
 }
 
 REGISTER_DETECTOR("HyperX Quadcast S", DetectHyperXQuadcastSControllers);
@@ -167,6 +173,7 @@ void DetectHyperXQuadcastSControllers(hid_device_info* info, const std::string& 
     ResourceManager::get()->RegisterRGBController(rgb_controller);
 
 }
-REGISTER_HID_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_QS_VID_NA, HYPERX_QS_PID_NA, 0, 0xFF90, 0xFF00);
-REGISTER_HID_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_QS_VID_EU, HYPERX_QS_PID_EU, 0, 0xFF90, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_VID,    HYPERX_QS_PID,      0, 0xFF90, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_1, 0, 0xFF90, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_2, 0, 0xFF90, 0xFF00);
 #endif
