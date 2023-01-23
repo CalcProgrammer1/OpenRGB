@@ -34,6 +34,7 @@ static MBName MBName2LayoutLookup
     {"B550 AORUS PRO",              "STD_ATX"   },
     {"B550I AORUS PRO AX",          "ITX"       },
     {"X570 AORUS ELITE",            "STD_ATX"   },
+    {"X570 AORUS MASTER",           "MSTR_ATX_3"},
     {"X570 AORUS ELITE WIFI",       "STD_ATX"   },
     {"X570 AORUS PRO WIFI",         "STD_ATX"   },
     {"X570 AORUS ULTRA",            "STD_ATX"   },
@@ -210,6 +211,30 @@ static KnownLayout knownLayoutsLookup
                     { "CPU Header",     LED3, 1},
                     { "Cover Left",     LED4, 1},
                     { "Cover Right",    LED1, 1},
+                }
+            }
+        }
+    },
+    {
+        "MSTR_ATX_3",
+        {
+            {
+                "Digital Headers",
+                {
+                    { "D_LED1 / D_LED2", HDR_D_LED1, 0},
+                }
+            },
+            {
+                "ARGB Strip",
+                {
+                    { "LED C1/C2",  LED5, 1},
+                }
+            },
+            {
+                "Motherboard",
+                {
+                    { "Aorus Logo", LED7, 1},
+                    { "ESS Logo",   LED4, 1},
                 }
             }
         }
