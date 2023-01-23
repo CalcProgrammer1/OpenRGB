@@ -28,6 +28,7 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     const int write_sz = 8;
     uint8_t data_pkt[write_sz] = { 0xAB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
     uint8_t data_readpkt[read_sz] = {};
+    uint8_t false_positive_data_readpkt[read_sz] = { 0x00, 0x00, 0x00, 0x00 };
 
     res = bus->i2c_write_block(address, write_sz, data_pkt);
 
@@ -42,10 +43,22 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     //GeForce RTX 3070 AORUS ELITE 12G                  0xAB 0x11 0x52 0x03
     //GeForce RTX 3080 Ti AORUS XTREME WATERFORCE 12G   0xAB 0x11 0x01 0x00
     //GeForce RTX 3080 AORUS XTREME WATERFORCE WB 10G   0xAB 0x10 0x01 0x00
+    //GeForce RTX 4080 Gigabyte AORUS MASTER 16G        0xAB 0x10 0x52 0x07
+    //Note that GeForce RTX 4080 Gigabyte AORUS MASTER 16G exposes two i2c bus with writable address 0x71 but on respond
+    //0x00 0x00 0x00 0x00 so it should be the one controlling the LCD screen. So we skip this bus
     if(res < 0)
     {
         LOG_DEBUG("[%s] at 0x%02X address expected 0x04 but received: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME2, address, res);
         pass = false;
+    }
+    else
+    {
+        bool false_positive = std::equal( std::begin(data_readpkt), std::end(data_readpkt),  std::begin(false_positive_data_readpkt) );
+        if (false_positive)
+        {
+            LOG_DEBUG("[%s] at 0x%02X address is not valid RGB controller", GIGABYTEGPU_CONTROLLER_NAME2, address);
+            pass = false;
+        }
     }
 
     return(pass);
@@ -104,5 +117,6 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX3090 VISION OC 24G ",                    
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3090 XTREME WATERFORCE 24G",           DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3090_XTREME_WATERFORCE_SUB_DEV,     0x65);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3090 XTREME WATERFORCE WB 24G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3090_XTREME_WATERFORCE_WB_SUB_DEV,  0x64);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX4080 Gaming OC 16G",                         DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX4080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX4080_GAMING_OC_SUB_DEV,             0x71);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX4080 MASTER 16G",                      DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX4080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX4080_MASTER_16G_SUB_DEV,      0x71);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX4090 MASTER 24G",                      DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX4090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX4090_MASTER_24G_SUB_DEV,      0x71);
 
