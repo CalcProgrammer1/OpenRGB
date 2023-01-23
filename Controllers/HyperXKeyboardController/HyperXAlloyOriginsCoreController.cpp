@@ -63,6 +63,19 @@ std::string HyperXAlloyOriginsCoreController::GetFirmwareVersion()
     return(firmware_version);
 }
 
+void HyperXAlloyOriginsCoreController::SetBrightness(unsigned int brightness)
+{
+    unsigned char packet[65];
+    memset(packet, 0x00, sizeof(packet));
+
+    packet[1] = 0xA7;
+    packet[4] = 0x01;
+    packet[5] = brightness;
+
+    hid_write(dev, packet, 65);
+}
+
+
 void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> colors)
 {
     for(unsigned int skip_cnt = 0; skip_cnt < (sizeof(skip_idx) / sizeof(skip_idx[0])); skip_cnt++)

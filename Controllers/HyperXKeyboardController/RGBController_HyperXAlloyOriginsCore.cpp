@@ -12,6 +12,10 @@
 
 using namespace std::chrono_literals;
 
+
+#define HYPERX_MIN_BRIGHTNESS   0
+#define HYPERX_MAX_BRIGHTNESS 255
+
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
@@ -170,10 +174,13 @@ RGBController_HyperXAlloyOriginsCore::RGBController_HyperXAlloyOriginsCore(Hyper
     version     = controller->GetFirmwareVersion();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.value            = 0xFFFF;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.brightness_min   = HYPERX_MIN_BRIGHTNESS;
+    Direct.brightness_max   = HYPERX_MAX_BRIGHTNESS;
+    Direct.brightness       = HYPERX_MAX_BRIGHTNESS;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();
@@ -271,7 +278,7 @@ void RGBController_HyperXAlloyOriginsCore::UpdateSingleLED(int /*led*/)
 
 void RGBController_HyperXAlloyOriginsCore::DeviceUpdateMode()
 {
-
+    controller->SetBrightness(modes[active_mode].brightness);
 }
 
 void RGBController_HyperXAlloyOriginsCore::KeepaliveThread()

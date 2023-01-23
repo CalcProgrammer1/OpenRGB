@@ -26,6 +26,7 @@ public:
     std::string     GetFirmwareVersion();
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
+    void SetBrightness(unsigned int brightness);
 
 private:
     hid_device*     dev;
