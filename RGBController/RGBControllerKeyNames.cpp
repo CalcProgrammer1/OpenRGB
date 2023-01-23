@@ -30,6 +30,7 @@ const char* KEY_EN_F12               = "Key: F12";
 const char* KEY_EN_PRINT_SCREEN      = "Key: Print Screen";
 const char* KEY_EN_SCROLL_LOCK       = "Key: Scroll Lock";
 const char* KEY_EN_PAUSE_BREAK       = "Key: Pause/Break";
+const char* KEY_EN_POWER             = "Key: Power";
 
 const char* KEY_EN_BACK_TICK         = "Key: `";
 const char* KEY_EN_1                 = "Key: 1";
@@ -43,6 +44,7 @@ const char* KEY_EN_8                 = "Key: 8";
 const char* KEY_EN_9                 = "Key: 9";
 const char* KEY_EN_0                 = "Key: 0";
 const char* KEY_EN_MINUS             = "Key: -";
+const char* KEY_EN_PLUS              = "Key: +";
 const char* KEY_EN_EQUALS            = "Key: =";
 const char* KEY_EN_BACKSPACE         = "Key: Backspace";
 const char* KEY_EN_INSERT            = "Key: Insert";
@@ -162,3 +164,8 @@ const char* KEY_NORD_BACKSLASH       = "Key: \\/`/´";
 const char* KEY_NORD_CHEVRON         = "Key: ^/~";
 const char* KEY_NORD_QUOTE           = "Key: '/*";
 const char* KEY_NORD_ANGLE_BRACKET   = "Key: </>";
+
+const char* KEY_DE_ESZETT            = "Key: ß";
+const char* KEY_DE_DIAERESIS_A       = "Key: Ä";
+const char* KEY_DE_DIAERESIS_O       = "Key: Ö";
+const char* KEY_DE_DIAERESIS_U       = "Key: Ü";

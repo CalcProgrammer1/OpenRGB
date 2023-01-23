@@ -30,6 +30,7 @@ extern const char* KEY_EN_F12;
 extern const char* KEY_EN_PRINT_SCREEN;
 extern const char* KEY_EN_SCROLL_LOCK;
 extern const char* KEY_EN_PAUSE_BREAK;
+extern const char* KEY_EN_POWER;
 
 extern const char* KEY_EN_BACK_TICK;
 extern const char* KEY_EN_1;
@@ -43,6 +44,7 @@ extern const char* KEY_EN_8;
 extern const char* KEY_EN_9;
 extern const char* KEY_EN_0;
 extern const char* KEY_EN_MINUS;
+extern const char* KEY_EN_PLUS;
 extern const char* KEY_EN_EQUALS;
 extern const char* KEY_EN_BACKSPACE;
 extern const char* KEY_EN_INSERT;
@@ -162,3 +164,8 @@ extern const char* KEY_NORD_BACKSLASH;
 extern const char* KEY_NORD_CHEVRON;
 extern const char* KEY_NORD_QUOTE;
 extern const char* KEY_NORD_ANGLE_BRACKET;
+
+extern const char* KEY_DE_ESZETT;
+extern const char* KEY_DE_DIAERESIS_A;
+extern const char* KEY_DE_DIAERESIS_O;
+extern const char* KEY_DE_DIAERESIS_U;

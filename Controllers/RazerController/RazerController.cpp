@@ -55,6 +55,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLACKWIDOW_2019_PID:
         case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
         case RAZER_BLADE_2021_BASE_V2_PID:
+        case RAZER_BLADE_14_2022_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
@@ -133,6 +134,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
+        case RAZER_BLADE_14_2022_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_X_PID:
@@ -213,6 +215,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_2021_BASE_PID:
         case RAZER_BLADE_2021_BASE_V2_PID:
         case RAZER_BLADE_14_2021_PID:
+        case RAZER_BLADE_14_2022_PID:
         case RAZER_BLADE_PRO_2016_PID:
         case RAZER_BLADE_PRO_2017_PID:
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
@@ -583,6 +586,7 @@ bool RazerController::SupportsWave()
         case RAZER_BLADE_2021_BASE_PID:
         case RAZER_BLADE_2021_BASE_V2_PID:
         case RAZER_BLADE_14_2021_PID:
+        case RAZER_BLADE_14_2022_PID:
         case RAZER_BLADE_PRO_2016_PID:
         case RAZER_BLADE_PRO_2017_PID:
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
@@ -1221,7 +1225,6 @@ unsigned char RazerController::GetKeyboardLayoutType()
             return RAZER_LAYOUT_TYPE_ANSI;
 
         case RAZER_KEYBOARD_LAYOUT_GREEK:                  // Unconfirmed
-        case RAZER_KEYBOARD_LAYOUT_GERMAN:                 // Unconfirmed
         case RAZER_KEYBOARD_LAYOUT_FRENCH:
         case RAZER_KEYBOARD_LAYOUT_UK:
         case RAZER_KEYBOARD_LAYOUT_NORDIC:
@@ -1238,6 +1241,9 @@ unsigned char RazerController::GetKeyboardLayoutType()
         case RAZER_KEYBOARD_LAYOUT_JAPAN:                  // Unconfirmed
             return RAZER_LAYOUT_TYPE_JIS;
 
+        case RAZER_KEYBOARD_LAYOUT_GERMAN:
+            return RAZER_LAYOUT_TYPE_QWERTZ;
+
         default:
             return RAZER_LAYOUT_TYPE_ALL;
     }
@@ -1253,7 +1259,7 @@ std::string RazerController::GetKeyboardLayoutName()
     switch(layout)
     {
         case RAZER_KEYBOARD_LAYOUT_US:                     return "US (ANSI)";
-        case RAZER_KEYBOARD_LAYOUT_GERMAN:                 return "German (ISO)";                  // Unconfirmed
+        case RAZER_KEYBOARD_LAYOUT_GERMAN:                 return "German (QWERTZ)";
         case RAZER_KEYBOARD_LAYOUT_GREEK:                  return "Greek (ISO)";                   // Unconfirmed
         case RAZER_KEYBOARD_LAYOUT_FRENCH:                 return "French (ISO)";
         case RAZER_KEYBOARD_LAYOUT_RUSSIAN:                return "Russian (ANSI)";                // Unconfirmed

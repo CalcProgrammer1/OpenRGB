@@ -137,8 +137,10 @@ enum
     RAZER_LAYOUT_TYPE_ANSI                      = 0x01,
     RAZER_LAYOUT_TYPE_ISO                       = 0x02,
     RAZER_LAYOUT_TYPE_JIS                       = 0x04,
+    RAZER_LAYOUT_TYPE_QWERTZ                    = 0x08,
 
-    RAZER_LAYOUT_TYPE_ALL                        = RAZER_LAYOUT_TYPE_ANSI | RAZER_LAYOUT_TYPE_ISO | RAZER_LAYOUT_TYPE_JIS
+    RAZER_LAYOUT_TYPE_ALL                       = RAZER_LAYOUT_TYPE_ANSI | RAZER_LAYOUT_TYPE_ISO
+                                                | RAZER_LAYOUT_TYPE_JIS  | RAZER_LAYOUT_TYPE_QWERTZ
 };
 
 /*---------------------------------------------------------*\

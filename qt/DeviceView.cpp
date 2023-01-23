@@ -99,6 +99,7 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_EN_F12,               { "F12"   , "F12",              }},
     { KEY_EN_BACK_TICK,         { "`"     , "`",                }},
     { KEY_EN_MINUS,             { "-"     , "-",                }},
+    { KEY_EN_PLUS,              { "+"     , "+",                }},
     { KEY_EN_EQUALS,            { "="     , "=",                }},
     { KEY_EN_LEFT_BRACKET,      { "["     , "[",                }},
     { KEY_EN_RIGHT_BRACKET,     { "]"     , "]",                }},
@@ -165,6 +166,7 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_EN_MEDIA_MUTE,        { "Mte"   , "\xF0\x9F\x94\x87", }}, // 🔇
     { KEY_EN_MEDIA_VOLUME_DOWN, { "Vl-"   , "\xF0\x9F\x94\x88", }}, // 🔉
     { KEY_EN_MEDIA_VOLUME_UP,   { "Vl+"   , "\xF0\x9F\x94\x89", }}, // 🔊
+    { KEY_EN_POWER,             { "Pwr"   , "\xE2\x8F\xBB",     }}, // ⏻
     { KEY_JP_RO,                { "_"     , "_",                }},
     { KEY_JP_EJ,                { "E/J"   , "E/J",              }},
     { KEY_JP_ZENKAKU,           { "Zen"   , "\xE5\x8D\x8A\xE8"
@@ -199,6 +201,10 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_NORD_CHEVRON,         { "^/~"   , "^/~",              }},
     { KEY_NORD_QUOTE,           { "'/*"   , "'/*",              }},
     { KEY_NORD_ANGLE_BRACKET,   { "</>"   , "</>"               }},
+    { KEY_DE_ESZETT,            { "ß"     , "\xc3\x9F",         }},
+    { KEY_DE_DIAERESIS_A,       { "Ä"     , "\xC3\x84",         }},
+    { KEY_DE_DIAERESIS_O,       { "Ö"     , "\xC3\x96",         }},
+    { KEY_DE_DIAERESIS_U,       { "Ü"     , "\xC3\x9C"          }},
 };
 
 void DeviceView::setController(RGBController * controller_ptr)

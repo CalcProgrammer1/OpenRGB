@@ -240,9 +240,10 @@ void RGBController_Razer::SetupZones()
 
                     for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
                     {
-                        if(zone_id == device_list[device_index]->keymap[i].zone &&
-                           row_id  == device_list[device_index]->keymap[i].row  &&
-                           col_id  == device_list[device_index]->keymap[i].col)
+                        if(zone_id      == device_list[device_index]->keymap[i].zone &&
+                           row_id       == device_list[device_index]->keymap[i].row  &&
+                           col_id       == device_list[device_index]->keymap[i].col  &&
+                           layout_type  &  device_list[device_index]->keymap[i].layout)
                         {
                             new_led->name = device_list[device_index]->keymap[i].name;
                             not_found = false;
