@@ -509,6 +509,8 @@ HEADERS +=                                                                      
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.h                           \
     Controllers/LogitechController/RGBController_LogitechLightspeed.h                           \
     Controllers/LogitechController/RGBController_LogitechX56.h                                  \
+    Controllers/MountainKeyboardController/MountainKeyboardController.h                         \
+    Controllers/MountainKeyboardController/RGBController_MountainKeyboard.h                     \
     Controllers/MSI3ZoneController/MSI3ZoneController.h                                         \
     Controllers/MSI3ZoneController/RGBController_MSI3Zone.h                                     \
     Controllers/MSIGPUController/MSIGPUController.h                                             \
@@ -1102,6 +1104,9 @@ SOURCES +=                                                                      
     Controllers/LogitechController/RGBController_LogitechGPowerPlay.cpp                         \
     Controllers/LogitechController/RGBController_LogitechLightspeed.cpp                         \
     Controllers/LogitechController/RGBController_LogitechX56.cpp                                \
+    Controllers/MountainKeyboardController/MountainKeyboardController.cpp                       \
+    Controllers/MountainKeyboardController/MountainKeyboardControllerDetect.cpp                 \
+    Controllers/MountainKeyboardController/RGBController_MountainKeyboard.cpp                   \
     Controllers/MSI3ZoneController/MSI3ZoneController.cpp                                       \
     Controllers/MSI3ZoneController/MSI3ZoneControllerDetect.cpp                                 \
     Controllers/MSI3ZoneController/RGBController_MSI3Zone.cpp                                   \
