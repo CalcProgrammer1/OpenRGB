@@ -30,6 +30,8 @@
 #include "RGBController_LianLiUniHubAL.h"
 #include "LianLiUniHub_AL10Controller.h"
 #include "RGBController_LianLiUniHub_AL10.h"
+#include "LianLiUniHubSLV2Controller.h"
+#include "RGBController_LianLiUniHubSLV2.h"
 
 /*-----------------------------------------------------*\
 | ENE USB vendor ID                                     |
@@ -46,6 +48,7 @@
 \*-----------------------------------------------------*/
 #define UNI_HUB_PID                                 0x7750
 #define UNI_HUB_AL_PID                              0xA101
+#define UNI_HUB_SLV2_PID                            0xA103
 
 /*----------------------------------------------------------------------------*\
 | The Uni Hub is controlled by sending control transfers to various wIndex     |
@@ -174,6 +177,19 @@ void DetectLianLiUniHubAL(hid_device_info* info, const std::string& name)
     }
 }   /* DetectLianLiUniHubAL() */
 
+void DetectLianLiUniHubSLV2(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        LianLiUniHubSLV2Controller* controller = new LianLiUniHubSLV2Controller(dev, info->path, name);
+
+        RGBController_LianLiUniHubSLV2* rgb_controller = new RGBController_LianLiUniHubSLV2(controller);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}   /* DetectLianLiUniHubSLV2() */
+
 void DetectStrimerControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -190,6 +206,7 @@ void DetectStrimerControllers(hid_device_info* info, const std::string& name)
 
 REGISTER_DETECTOR("Lian Li Uni Hub", DetectLianLiUniHub);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - AL", DetectLianLiUniHubAL,    ENE_USB_VID,  UNI_HUB_AL_PID,           0x01,  0xFF72, 0xA1);
+REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL V2", DetectLianLiUniHubSLV2,    ENE_USB_VID,  UNI_HUB_SLV2_PID,           0x01,  0xFF72, 0xA1);
 /*---------------------------------------------------------------------------------------------------------*\
 | Entries for dynamic UDEV rules                                                                            |
 |                                                                                                           |
