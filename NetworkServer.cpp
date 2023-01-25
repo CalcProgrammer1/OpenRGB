@@ -1134,10 +1134,6 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
 void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size)
 {
     NetPacketHeader reply_hdr;
-    unsigned char* reply = new unsigned char[sizeof(pkt_type) + data_size];
-
-    memcpy(reply, &pkt_type, sizeof(pkt_type));
-    memcpy(reply + sizeof(pkt_type), data, data_size);
 
     reply_hdr.pkt_magic[0] = 'O';
     reply_hdr.pkt_magic[1] = 'R';
@@ -1149,8 +1145,8 @@ void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pk
     reply_hdr.pkt_size     = data_size + sizeof(pkt_type);
 
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(client_sock, (const char *)reply, data_size, 0);
-    delete [] reply;
+    send(client_sock, (const char *)&pkt_type, sizeof(pkt_type), 0);
+    send(client_sock, (const char *)data, data_size, 0);
     delete [] data;
 }
 
