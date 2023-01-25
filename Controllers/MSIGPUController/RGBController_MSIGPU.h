@@ -32,6 +32,5 @@ private:
 
     bool       TimeToSend();
     int        GetDeviceMode();
-    int        GetModeBrightness();
     int        GetModeSpeed();
 };
