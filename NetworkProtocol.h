@@ -8,15 +8,15 @@
 
 #pragma once
 
-/*-----------------------------------------------------*\
-| OpenRGB SDK protocol version                          |
-|                                                       |
-|   0:      Initial (unversioned) protocol              |
-|   1:      Add versioning, vendor string (Release 0.5) |
-|   2:      Add profile controls (Release 0.6)          |
-|   3:      Add brightness field to modes (Release 0.7) |
-|   4:      Add segments field to zones (Release 0.9)   |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------------------*\
+| OpenRGB SDK protocol version                                          |
+|                                                                       |
+|   0:      Initial (unversioned) protocol                              |
+|   1:      Add versioning, vendor string (Release 0.5)                 |
+|   2:      Add profile controls (Release 0.6)                          |
+|   3:      Add brightness field to modes (Release 0.7)                 |
+|   4:      Add segments field to zones, network plugins (Release 0.9)  |
+\*---------------------------------------------------------------------*/
 #define OPENRGB_SDK_PROTOCOL_VERSION    4
 
 /*-----------------------------------------------------*\
@@ -56,6 +56,9 @@ enum
     NET_PACKET_ID_REQUEST_SAVE_PROFILE          = 151,  /* Save current configuration in a new profile          */
     NET_PACKET_ID_REQUEST_LOAD_PROFILE          = 152,  /* Load a given profile                                 */
     NET_PACKET_ID_REQUEST_DELETE_PROFILE        = 153,  /* Delete a given profile                               */
+
+    NET_PACKET_ID_REQUEST_PLUGIN_LIST           = 200,  /* Request list of plugins                              */
+    NET_PACKET_ID_PLUGIN_SPECIFIC               = 201,  /* Interact with a plugin                               */
 
     /*----------------------------------------------------------------------------------------------------------*\
     | RGBController class functions                                                                              |

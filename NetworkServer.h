@@ -21,6 +21,17 @@
 #define TCP_TIMEOUT_SECONDS 5
 
 typedef void (*NetServerCallback)(void *);
+typedef unsigned char* (*NetPluginCallback)(void *, unsigned int, unsigned char*, unsigned int*);
+
+struct NetworkPlugin
+{
+    std::string name;
+    std::string description;
+    std::string version;
+    NetPluginCallback callback;
+    void* callback_arg;
+    unsigned int protocol_version;
+};
 
 class NetworkClientInfo
 {
@@ -75,8 +86,13 @@ public:
 
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
     void                                SendReply_ProfileList(SOCKET client_sock);
+    void                                SendReply_PluginList(SOCKET client_sock);
+    void                                SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size);
 
     void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
+    
+    void                                RegisterPlugin(NetworkPlugin plugin);
+    void                                UnregisterPlugin(std::string plugin_name);
 
 protected:
     std::string                         host;
@@ -99,6 +115,8 @@ protected:
     std::vector<void *>                 ServerListeningChangeCallbackArgs;
 
     ProfileManagerInterface*            profile_manager;
+
+    std::vector<NetworkPlugin>          plugins;
 
 private:
 #ifdef WIN32
