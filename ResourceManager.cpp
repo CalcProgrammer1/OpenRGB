@@ -265,6 +265,26 @@ void ResourceManager::RegisterHIDDeviceDetector(std::string name,
     hid_device_detectors.push_back(block);
 }
 
+void ResourceManager::RegisterHIDWrappedDeviceDetector(std::string name,
+                                                       HIDWrappedDeviceDetectorFunction  detector,
+                                                       uint16_t vid,
+                                                       uint16_t pid,
+                                                       int interface,
+                                                       int usage_page,
+                                                       int usage)
+{
+    HIDWrappedDeviceDetectorBlock block;
+
+    block.name          = name;
+    block.address       = (vid << 16) | pid;
+    block.function      = detector;
+    block.interface     = interface;
+    block.usage_page    = usage_page;
+    block.usage         = usage;
+
+    hid_wrapped_device_detectors.push_back(block);
+}
+
 void ResourceManager::RegisterDynamicDetector(std::string name, DynamicDetectorFunction detector)
 {
     dynamic_detector_strings.push_back(name);
@@ -1190,6 +1210,58 @@ void ResourceManager::DetectDevicesThreadFunction()
                         DetectionProgressChanged();
 
                         hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
+
+                        if(rgb_controllers_hw.size() != detection_prev_size)
+                        {
+                            LOG_VERBOSE("[%s] successfully added", detection_string);
+                        }
+                        else
+                        {
+                            LOG_INFO("[%s] is not initialized", detection_string);
+                        }
+                    }
+                }
+            }
+
+            /*-----------------------------------------------------------------------------*\
+            | Loop through all available wrapped HID detectors.  If all required            |
+            | information matches, run the detector                                         |
+            \*-----------------------------------------------------------------------------*/
+            for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+            {
+                if(( (     hid_wrapped_device_detectors[hid_detector_idx].address    == addr                                 ) )
+#ifdef USE_HID_USAGE
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
+#else
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
+#endif
+                )
+                {
+                    detection_string = hid_wrapped_device_detectors[hid_detector_idx].name.c_str();
+
+                    /*-------------------------------------------------*\
+                    | Check if this detector is enabled or needs to be  |
+                    | added to the settings list                        |
+                    \*-------------------------------------------------*/
+                    bool this_device_enabled = true;
+                    if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+                    {
+                        this_device_enabled = detector_settings["detectors"][detection_string];
+                    }
+
+                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+
+                    if(this_device_enabled)
+                    {
+                        DetectionProgressChanged();
+
+                        hid_wrapped_device_detectors[hid_detector_idx].function(default_wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
 
                         if(rgb_controllers_hw.size() != detection_prev_size)
                         {

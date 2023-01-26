@@ -51,6 +51,15 @@ public:
     }
 };
 
+class HIDWrappedDeviceDetector
+{
+public:
+    HIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction detector, uint16_t vid, uint16_t pid, int64_t interface, int usage_page, int usage)
+    {
+        ResourceManager::get()->RegisterHIDWrappedDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
+    }
+};
+
 class DynamicDetector
 {
 public:

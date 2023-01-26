@@ -8,14 +8,14 @@
 \*-----------------------------------------*/
 #include "HyperXQuadcastSController.h"
 
-HyperXQuadcastSController::HyperXQuadcastSController(hid_device* dev_handle, HXQS_HIDAPI_WRAPPER wrapper, std::string path)
+HyperXQuadcastSController::HyperXQuadcastSController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, std::string path)
 {
-    hidapi_wrapper = wrapper;
-    dev            = dev_handle;
-    location       = path;
+    wrapper     = hid_wrapper;
+    dev         = dev_handle;
+    location    = path;
 
     wchar_t serial_string[128];
-    int ret = wrapper.get_serial_num_string(dev, serial_string, 128);
+    int ret = wrapper.hid_get_serial_num_string(dev, serial_string, 128);
 
     if(ret != 0)
     {
@@ -30,10 +30,9 @@ HyperXQuadcastSController::HyperXQuadcastSController(hid_device* dev_handle, HXQ
 
 HyperXQuadcastSController::~HyperXQuadcastSController()
 {
-
     if(dev)
     {
-        hidapi_wrapper.close(dev);
+        wrapper.hid_close(dev);
     }
 }
 
@@ -97,7 +96,7 @@ void HyperXQuadcastSController::SaveColors(std::vector<RGBColor> colors, unsigne
         }
 
         std::this_thread::sleep_for(15ms);
-        res = hidapi_wrapper.send_feature_report(dev,color,HXQS_PACKET_SIZE);
+        res = wrapper.hid_send_feature_report(dev,color,HXQS_PACKET_SIZE);
     }
 
     /*---------------------------------------------------------*\
@@ -156,7 +155,7 @@ void HyperXQuadcastSController::SendDirect(std::vector<RGBColor> colors)
 
     lock.lock();
 
-    res = hidapi_wrapper.send_feature_report(dev, buffer, HXQS_PACKET_SIZE);
+    res = wrapper.hid_send_feature_report(dev, buffer, HXQS_PACKET_SIZE);
     std::this_thread::sleep_for(15ms);
 
     SendToRegister(0xF2, 0, 1);
@@ -179,7 +178,7 @@ void HyperXQuadcastSController::SendEOT(uint8_t frame_count)
     buffer[0x3F]    = 0xAA;
     buffer[0x40]    = 0x55;
 
-    int result      = hidapi_wrapper.send_feature_report(dev,buffer,HXQS_PACKET_SIZE);
+    int result      = wrapper.hid_send_feature_report(dev,buffer,HXQS_PACKET_SIZE);
     LOG_DEBUG("[HyperX Quadcast S] SendEOT with frame count %02X wrote %d bytes", frame_count, result);
     std::this_thread::sleep_for(15ms);
 }
@@ -197,10 +196,10 @@ void HyperXQuadcastSController::SendToRegister(uint8_t reg, uint8_t param1, uint
     buffer[0x08]    = param1;
     buffer[0x09]    = param2;
 
-    int result      = hidapi_wrapper.send_feature_report(dev, buffer, HXQS_PACKET_SIZE);
+    int result      = wrapper.hid_send_feature_report(dev, buffer, HXQS_PACKET_SIZE);
     if(result < 0)
     {
-        LOG_ERROR("[HyperX Quadcast S] SendToRegister failed: %ls", hidapi_wrapper.error(dev));
+        LOG_ERROR("[HyperX Quadcast S] SendToRegister failed: %ls", wrapper.hid_error(dev));
     }
     else
     {
