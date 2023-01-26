@@ -110,7 +110,9 @@ void RGBController_HyperXQuadcastS::SetupZones()
 
 void RGBController_HyperXQuadcastS::ResizeZone(int /*zone*/, int /*new_size*/)
 {
-
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_HyperXQuadcastS::DeviceUpdateLEDs()
@@ -118,11 +120,11 @@ void RGBController_HyperXQuadcastS::DeviceUpdateLEDs()
     last_update_time = std::chrono::steady_clock::now();
     controller->SendDirect(colors);
 }
-void RGBController_HyperXQuadcastS::UpdateZoneLEDs(int zone)
+void RGBController_HyperXQuadcastS::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_HyperXQuadcastS::UpdateSingleLED(int led)
+void RGBController_HyperXQuadcastS::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

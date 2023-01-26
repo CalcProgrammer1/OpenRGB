@@ -68,6 +68,7 @@ INCLUDEPATH +=                                                                  
     dependencies/libe131/src/                                                                   \
     dependencies/libcmmk/include/                                                               \
     dependencies/mdns                                                                           \
+    hidapi_wrapper/                                                                             \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
     net_port/                                                                                   \
@@ -206,6 +207,7 @@ HEADERS +=                                                                      
     qt/OpenRGBDeviceInfoPage.h                                                                  \
     qt/OpenRGBDevicePage.h                                                                      \
     qt/OpenRGBDialog.h                                                                          \
+    hidapi_wrapper/hidapi_wrapper.h                                                             \
     i2c_smbus/i2c_smbus.h                                                                       \
     i2c_tools/i2c_tools.h                                                                       \
     net_port/net_port.h                                                                         \
@@ -741,8 +743,8 @@ SOURCES +=                                                                      
     net_port/net_port.cpp                                                                       \
     qt/DeviceView.cpp                                                                           \
     qt/OpenRGBDialog2.cpp                                                                       \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp                 \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp                  \
     qt/OpenRGBPluginContainer.cpp                                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.cpp                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsList.cpp                                                \

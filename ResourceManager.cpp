@@ -23,6 +23,19 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
+const hidapi_wrapper default_wrapper =
+{
+    NULL,
+    (hidapi_wrapper_send_feature_report)    hid_send_feature_report,
+    (hidapi_wrapper_get_feature_report)     hid_get_feature_report,
+    (hidapi_wrapper_get_serial_num_string)  hid_get_serial_number_string,
+    (hidapi_wrapper_open_path)              hid_open_path,
+    (hidapi_wrapper_enumerate)              hid_enumerate,
+    (hidapi_wrapper_free_enumeration)       hid_free_enumeration,
+    (hidapi_wrapper_close)                  hid_close,
+    (hidapi_wrapper_error)                  hid_error
+};
+
 ResourceManager* ResourceManager::instance;
 
 using namespace std::chrono_literals;
@@ -263,6 +276,26 @@ void ResourceManager::RegisterHIDDeviceDetector(std::string name,
     block.usage         = usage;
 
     hid_device_detectors.push_back(block);
+}
+
+void ResourceManager::RegisterHIDWrappedDeviceDetector(std::string name,
+                                                       HIDWrappedDeviceDetectorFunction  detector,
+                                                       uint16_t vid,
+                                                       uint16_t pid,
+                                                       int interface,
+                                                       int usage_page,
+                                                       int usage)
+{
+    HIDWrappedDeviceDetectorBlock block;
+
+    block.name          = name;
+    block.address       = (vid << 16) | pid;
+    block.function      = detector;
+    block.interface     = interface;
+    block.usage_page    = usage_page;
+    block.usage         = usage;
+
+    hid_wrapped_device_detectors.push_back(block);
 }
 
 void ResourceManager::RegisterDynamicDetector(std::string name, DynamicDetectorFunction detector)
@@ -1203,6 +1236,58 @@ void ResourceManager::DetectDevicesThreadFunction()
                 }
             }
 
+            /*-----------------------------------------------------------------------------*\
+            | Loop through all available wrapped HID detectors.  If all required            |
+            | information matches, run the detector                                         |
+            \*-----------------------------------------------------------------------------*/
+            for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+            {
+                if(( (     hid_wrapped_device_detectors[hid_detector_idx].address    == addr                                 ) )
+#ifdef USE_HID_USAGE
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
+#else
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
+                  || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
+#endif
+                )
+                {
+                    detection_string = hid_wrapped_device_detectors[hid_detector_idx].name.c_str();
+
+                    /*-------------------------------------------------*\
+                    | Check if this detector is enabled or needs to be  |
+                    | added to the settings list                        |
+                    \*-------------------------------------------------*/
+                    bool this_device_enabled = true;
+                    if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+                    {
+                        this_device_enabled = detector_settings["detectors"][detection_string];
+                    }
+
+                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+
+                    if(this_device_enabled)
+                    {
+                        DetectionProgressChanged();
+
+                        hid_wrapped_device_detectors[hid_detector_idx].function(default_wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
+
+                        if(rgb_controllers_hw.size() != detection_prev_size)
+                        {
+                            LOG_VERBOSE("[%s] successfully added", detection_string);
+                        }
+                        else
+                        {
+                            LOG_INFO("[%s] is not initialized", detection_string);
+                        }
+                    }
+                }
+            }
+
             /*-------------------------------------------------*\
             | Update detection percent                          |
             \*-------------------------------------------------*/
@@ -1223,6 +1308,132 @@ void ResourceManager::DetectDevicesThreadFunction()
         \*-------------------------------------------------*/
         hid_free_enumeration(hid_devices);
     }
+
+    /*-------------------------------------------------*\
+    | Detect HID devices                                |
+    |                                                   |
+    | Reset current device pointer to first device      |
+    \*-------------------------------------------------*/
+#ifdef __linux__
+    LOG_INFO("------------------------------------------------------");
+    LOG_INFO("|            Detecting libusb HID devices            |");
+    LOG_INFO("------------------------------------------------------");
+
+    void *         dyn_handle = NULL;
+    hidapi_wrapper wrapper;
+
+    /*-------------------------------------------------*\
+    | Load the libhidapi-libusb library                 |
+    \*-------------------------------------------------*/
+    if(dyn_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE | RTLD_DEEPBIND))
+    {
+        /*-------------------------------------------------*\
+        | Create a wrapper with the libusb functions        |
+        \*-------------------------------------------------*/
+        wrapper =
+        {
+            .dyn_handle                 = dyn_handle,
+            .hid_send_feature_report    = (hidapi_wrapper_send_feature_report)          dlsym(dyn_handle,"hid_send_feature_report"),
+            .hid_get_feature_report     = (hidapi_wrapper_get_feature_report)           dlsym(dyn_handle,"hid_get_feature_report"),
+            .hid_get_serial_num_string  = (hidapi_wrapper_get_serial_num_string)        dlsym(dyn_handle,"hid_get_serial_number_string"),
+            .hid_open_path              = (hidapi_wrapper_open_path)                    dlsym(dyn_handle,"hid_open_path"),
+            .hid_enumerate              = (hidapi_wrapper_enumerate)                    dlsym(dyn_handle,"hid_enumerate"),
+            .hid_free_enumeration       = (hidapi_wrapper_free_enumeration)             dlsym(dyn_handle,"hid_free_enumeration"),
+            .hid_close                  = (hidapi_wrapper_close)                        dlsym(dyn_handle,"hid_close"),
+            .hid_error                  = (hidapi_wrapper_error)                        dlsym(dyn_handle,"hid_free_enumeration")
+        };
+
+        hid_devices = wrapper.hid_enumerate(0, 0);
+
+        current_hid_device = hid_devices;
+
+        /*-------------------------------------------------*\
+        | Iterate through all devices in list and run       |
+        | detectors                                         |
+        \*-------------------------------------------------*/
+        hid_device_count = 0;
+
+        while(current_hid_device)
+        {
+            if(LogManager::get()->getLoglevel() >= LL_DEBUG)
+            {
+                const char* manu_name = wchar_to_char(current_hid_device->manufacturer_string);
+                const char* prod_name = wchar_to_char(current_hid_device->product_string);
+                LOG_DEBUG("[%04X:%04X U=%04X P=0x%04X I=%d] %-25s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+            }
+            detection_string = "";
+            DetectionProgressChanged();
+
+            unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
+
+            /*-----------------------------------------------------------------------------*\
+            | Loop through all available wrapped HID detectors.  If all required            |
+            | information matches, run the detector                                         |
+            \*-----------------------------------------------------------------------------*/
+            for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+            {
+                if(( (     hid_wrapped_device_detectors[hid_detector_idx].address    == addr                                 ) )
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
+                    || (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
+                    || (     hid_wrapped_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
+                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
+                    || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
+                )
+                {
+                    detection_string = hid_wrapped_device_detectors[hid_detector_idx].name.c_str();
+
+                    /*-------------------------------------------------*\
+                    | Check if this detector is enabled or needs to be  |
+                    | added to the settings list                        |
+                    \*-------------------------------------------------*/
+                    bool this_device_enabled = true;
+                    if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+                    {
+                        this_device_enabled = detector_settings["detectors"][detection_string];
+                    }
+
+                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+
+                    if(this_device_enabled)
+                    {
+                        DetectionProgressChanged();
+
+                        hid_wrapped_device_detectors[hid_detector_idx].function(wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
+
+                        if(rgb_controllers_hw.size() != detection_prev_size)
+                        {
+                            LOG_VERBOSE("[%s] successfully added", detection_string);
+                        }
+                        else
+                        {
+                            LOG_INFO("[%s] is not initialized", detection_string);
+                        }
+                    }
+                }
+            }
+
+            /*-------------------------------------------------*\
+            | Update detection percent                          |
+            \*-------------------------------------------------*/
+            hid_device_count++;
+
+            percent = (i2c_device_detectors.size() + i2c_pci_device_detectors.size() + hid_device_count) / percent_denominator;
+
+            detection_percent = percent * 100.0f;
+
+            /*-------------------------------------------------*\
+            | Move on to the next HID device                    |
+            \*-------------------------------------------------*/
+            current_hid_device = current_hid_device->next;
+        }
+
+        /*-------------------------------------------------*\
+        | Done using the device list, free it               |
+        \*-------------------------------------------------*/
+        wrapper.hid_free_enumeration(hid_devices);
+    }
+#endif
 
     /*-------------------------------------------------*\
     | Detect other devices                              |

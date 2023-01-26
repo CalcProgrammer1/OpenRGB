@@ -13,12 +13,6 @@
 #include "RGBController.h"
 #include "HyperXQuadcastSController.h"
 
-enum
-{
-    HXQS_MODE_DIRECT = 0,
-    HXQS_MODE_OFF    = 1,
-};
-
 class RGBController_HyperXQuadcastS : public RGBController
 {
 public:
