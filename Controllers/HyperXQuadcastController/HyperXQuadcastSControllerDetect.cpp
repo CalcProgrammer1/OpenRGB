@@ -40,6 +40,6 @@ void DetectHyperXQuadcastSControllers(hidapi_wrapper wrapper, hid_device_info* i
     ResourceManager::get()->RegisterRGBController(rgb_controller);
 }
 
-REGISTER_HID_WRAPPED_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_VID,    HYPERX_QS_PID,      0, 0xFF90, 0xFF00);
-REGISTER_HID_WRAPPED_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_1, 0, 0xFF90, 0xFF00);
-REGISTER_HID_WRAPPED_DETECTOR_IPU("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_2, 0, 0xFF90, 0xFF00);
+REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_VID,    HYPERX_QS_PID,      0);//, 0xFF90, 0xFF00);
+REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_1, 0);//, 0xFF90, 0xFF00);
+REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXQuadcastSControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_2, 0);//, 0xFF90, 0xFF00);

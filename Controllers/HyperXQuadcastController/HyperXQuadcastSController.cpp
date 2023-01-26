@@ -51,7 +51,6 @@ void HyperXQuadcastSController::SaveColors(std::vector<RGBColor> colors, unsigne
 {
     using namespace std::chrono_literals;
 
-    int res;
     unsigned int num_color_packets        = 0;
     unsigned int frame                    = 0;
     unsigned char color[HXQS_PACKET_SIZE] = {0};
@@ -96,7 +95,7 @@ void HyperXQuadcastSController::SaveColors(std::vector<RGBColor> colors, unsigne
         }
 
         std::this_thread::sleep_for(15ms);
-        res = wrapper.hid_send_feature_report(dev,color,HXQS_PACKET_SIZE);
+        wrapper.hid_send_feature_report(dev,color,HXQS_PACKET_SIZE);
     }
 
     /*---------------------------------------------------------*\
@@ -131,7 +130,6 @@ void HyperXQuadcastSController::SendDirect(std::vector<RGBColor> colors)
 
     if(colors.size() != 2)
     {
-        LOG_ERROR("[HyperX Quadcast S] Unable to send direct packet, incorrect size: %d", colors.size());
         return;
     }
 
@@ -178,8 +176,7 @@ void HyperXQuadcastSController::SendEOT(uint8_t frame_count)
     buffer[0x3F]    = 0xAA;
     buffer[0x40]    = 0x55;
 
-    int result      = wrapper.hid_send_feature_report(dev,buffer,HXQS_PACKET_SIZE);
-    LOG_DEBUG("[HyperX Quadcast S] SendEOT with frame count %02X wrote %d bytes", frame_count, result);
+    wrapper.hid_send_feature_report(dev,buffer,HXQS_PACKET_SIZE);
     std::this_thread::sleep_for(15ms);
 }
 
@@ -196,14 +193,6 @@ void HyperXQuadcastSController::SendToRegister(uint8_t reg, uint8_t param1, uint
     buffer[0x08]    = param1;
     buffer[0x09]    = param2;
 
-    int result      = wrapper.hid_send_feature_report(dev, buffer, HXQS_PACKET_SIZE);
-    if(result < 0)
-    {
-        LOG_ERROR("[HyperX Quadcast S] SendToRegister failed: %ls", wrapper.hid_error(dev));
-    }
-    else
-    {
-        LOG_DEBUG("[HyperX Quadcast S] SendToRegister %02X with P1 %02X P2 %02X wrote %d bytes", reg, param1, param2, result);
-    }
+    wrapper.hid_send_feature_report(dev, buffer, HXQS_PACKET_SIZE);
     std::this_thread::sleep_for(15ms);
 }
