@@ -267,10 +267,12 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                         if((temp_controller->zones[zone_idx].name       == load_controller->zones[zone_idx].name      )
                          &&(temp_controller->zones[zone_idx].type       == load_controller->zones[zone_idx].type      )
                          &&(temp_controller->zones[zone_idx].leds_min   == load_controller->zones[zone_idx].leds_min  )
-                         &&(temp_controller->zones[zone_idx].leds_max   == load_controller->zones[zone_idx].leds_max  )
-                         &&(temp_controller->zones[zone_idx].leds_count != load_controller->zones[zone_idx].leds_count))
+                         &&(temp_controller->zones[zone_idx].leds_max   == load_controller->zones[zone_idx].leds_max  ))
                         {
-                            load_controller->ResizeZone(zone_idx, temp_controller->zones[zone_idx].leds_count);
+                            if (temp_controller->zones[zone_idx].leds_count != load_controller->zones[zone_idx].leds_count)
+                            {
+                                load_controller->ResizeZone(zone_idx, temp_controller->zones[zone_idx].leds_count);
+                            }
 
                             for(std::size_t segment_idx = 0; segment_idx < temp_controller->zones[zone_idx].segments.size(); segment_idx++)
                             {
