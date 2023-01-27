@@ -1035,28 +1035,6 @@ void ResourceManager::DetectDevicesThreadFunction()
             }
         }
 
-        /*-------------------------------------------------*\
-        | If the device list size has changed, call the     |
-        | device list changed callbacks                     |
-        \*-------------------------------------------------*/
-        if(rgb_controllers_hw.size() != detection_prev_size)
-        {
-            /*-------------------------------------------------*\
-            | First, load sizes for the new controllers         |
-            \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
-            {
-                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
-            }
-
-            UpdateDeviceList();
-        }
-        else
-        {
-            LOG_DEBUG("[%s] no devices found", detection_string);
-        }
-        detection_prev_size = rgb_controllers_hw.size();
-
         LOG_TRACE("[%s] detection end", detection_string);
 
         /*-------------------------------------------------*\
@@ -1131,28 +1109,6 @@ void ResourceManager::DetectDevicesThreadFunction()
 
                         hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
 
-                        /*-------------------------------------------------*\
-                        | If the device list size has changed, call the     |
-                        | device list changed callbacks                     |
-                        \*-------------------------------------------------*/
-                        if(rgb_controllers_hw.size() != detection_prev_size)
-                        {
-                            /*-------------------------------------------------*\
-                            | First, load sizes for the new controllers         |
-                            \*-------------------------------------------------*/
-                            for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
-                            {
-                                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
-                            }
-
-                            UpdateDeviceList();
-                        }
-                        else
-                        {
-                            LOG_DEBUG("[%s] no devices found", detection_string);
-                        }
-                        detection_prev_size = rgb_controllers_hw.size();
-
                         LOG_TRACE("[%s] detection end", detection_string);
                     }
                 }
@@ -1223,15 +1179,6 @@ void ResourceManager::DetectDevicesThreadFunction()
                         DetectionProgressChanged();
 
                         hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
-
-                        if(rgb_controllers_hw.size() != detection_prev_size)
-                        {
-                            LOG_VERBOSE("[%s] successfully added", detection_string);
-                        }
-                        else
-                        {
-                            LOG_INFO("[%s] is not initialized", detection_string);
-                        }
                     }
                 }
             }
@@ -1275,15 +1222,6 @@ void ResourceManager::DetectDevicesThreadFunction()
                         DetectionProgressChanged();
 
                         hid_wrapped_device_detectors[hid_detector_idx].function(default_wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
-
-                        if(rgb_controllers_hw.size() != detection_prev_size)
-                        {
-                            LOG_VERBOSE("[%s] successfully added", detection_string);
-                        }
-                        else
-                        {
-                            LOG_INFO("[%s] is not initialized", detection_string);
-                        }
                     }
                 }
             }
@@ -1400,15 +1338,6 @@ void ResourceManager::DetectDevicesThreadFunction()
                         DetectionProgressChanged();
 
                         hid_wrapped_device_detectors[hid_detector_idx].function(wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
-
-                        if(rgb_controllers_hw.size() != detection_prev_size)
-                        {
-                            LOG_VERBOSE("[%s] successfully added", detection_string);
-                        }
-                        else
-                        {
-                            LOG_INFO("[%s] is not initialized", detection_string);
-                        }
                     }
                 }
             }
@@ -1463,12 +1392,6 @@ void ResourceManager::DetectDevicesThreadFunction()
 
             device_detectors[detector_idx]();
         }
-
-        if(rgb_controllers_hw.size() == detection_prev_size)
-        {
-            LOG_DEBUG("[%s] no devices found", detection_string);
-        }
-        detection_prev_size = rgb_controllers_hw.size();
 
         LOG_TRACE("[%s] detection end", detection_string);
 
