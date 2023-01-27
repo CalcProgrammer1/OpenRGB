@@ -211,6 +211,7 @@
 #define RAZER_LAPTOP_STAND_CHROMA_V2_PID                0x0F2B
 #define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID                0x0F1D
 #define RAZER_MOUSE_DOCK_CHROMA_PID                     0x007E
+#define RAZER_MOUSE_DOCK_PRO_PID                        0x00A4
 #define RAZER_NOMMO_CHROMA_PID                          0x0517
 #define RAZER_NOMMO_PRO_PID                             0x0518
 #define RAZER_O11_DYNAMIC_PID                           0x0F13

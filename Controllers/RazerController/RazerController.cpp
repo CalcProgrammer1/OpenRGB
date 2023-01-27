@@ -101,6 +101,10 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
             break;
             }
 
+        case RAZER_MOUSE_DOCK_PRO_PID:
+            dev_transaction_id = 0xFF;
+            break;
+
         case RAZER_GOLIATHUS_CHROMA_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         case RAZER_BASE_STATION_CHROMA_PID:
@@ -142,6 +146,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        case RAZER_MOUSE_DOCK_PRO_PID:
         case RAZER_NAGA_CLASSIC_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_O11_DYNAMIC_PID:
@@ -290,6 +295,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_MOUSE_DOCK_CHROMA_PID:
+        case RAZER_MOUSE_DOCK_PRO_PID:
         case RAZER_NAGA_CLASSIC_PID:
         case RAZER_NAGA_LEFT_HANDED_PID:
         case RAZER_NAGA_TRINITY_PID:
@@ -645,6 +651,7 @@ bool RazerController::SupportsWave()
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        case RAZER_MOUSE_DOCK_PRO_PID:
         case RAZER_NOMMO_CHROMA_PID:
         case RAZER_NOMMO_PRO_PID:
         case RAZER_O11_DYNAMIC_PID:

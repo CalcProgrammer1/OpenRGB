@@ -8134,6 +8134,41 @@ static const razer_device mouse_dock_chroma_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Mouse Dock Pro 1532:00A4                               |
+|                                                               |
+|  Zone "Base"                                                  |
+|       Linear                                                  |
+|       9 LEDs                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone mouse_dock_pro_base_zone =
+{
+    "Base",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device mouse_dock_pro_device =
+{
+    "Razer Mouse Dock Pro",
+    RAZER_MOUSE_DOCK_PRO_PID,
+    DEVICE_TYPE_LIGHT,
+    true,
+    1,
+    9,
+    {
+        &mouse_dock_pro_base_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Nommo Pro                                              |
 |                                                               |
 |  Zone "Left Speaker"                                          |
@@ -8536,6 +8571,7 @@ const razer_device* razer_device_list[] =
     &laptop_stand_chroma_v2_device,
     &mug_holder_device,
     &mouse_dock_chroma_device,
+    &mouse_dock_pro_device,
     &nommo_chroma_device,
     &nommo_pro_device,
     &o11_dynamic_device,
