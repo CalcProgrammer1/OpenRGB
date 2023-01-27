@@ -54,11 +54,11 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         case 5:
             strcpy(driver_path, "/sys/bus/hid/drivers/razerkraken/");
             break;
-        
+
         case 6:
             strcpy(driver_path, "/sys/bus/hid/drivers/razermousemat/");
             break;
-        
+
         case 7:
             strcpy(driver_path, "/sys/bus/hid/drivers/razeraccessory/");
             break;
@@ -69,7 +69,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
         dir = opendir(driver_path);
 
         LOG_DEBUG("[OpenRazer] Folder %s is %s", driver_path, (dir == NULL)?"not found":"found look for driver..." );
-        
+
         if(dir == NULL)
         {
             driver_to_read++;
@@ -106,14 +106,14 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
                     if(razer_rgb->device_index != -1)
                     {
-                        rgb_controllers.push_back(razer_rgb);
+                        ResourceManager::get()->RegisterRGBController(razer_rgb);
                     }
                     else
                     {
                         LOG_DEBUG("[OpenRazer] Device index is not -1 delete controller");
                         delete razer_rgb;
                     }
-                    
+
                 }
             }
 

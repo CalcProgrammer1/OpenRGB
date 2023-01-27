@@ -93,7 +93,7 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
             {
                 finder.addUsername(bridges[0].mac, hue_settings["bridges"][0]["username"]);
             }
-            
+
             /*-------------------------------------------------*\
             | Add the client key if it exists                   |
             \*-------------------------------------------------*/
@@ -196,9 +196,10 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
                     {
                         if(groups[group_idx].getType() == "Entertainment")
                         {
-                            PhilipsHueEntertainmentController*       new_controller    = new PhilipsHueEntertainmentController(bridge, groups[group_idx]);
-                            RGBController_PhilipsHueEntertainment*   new_rgbcontroller = new RGBController_PhilipsHueEntertainment(new_controller);
-                            rgb_controllers.push_back(new_rgbcontroller);
+                            PhilipsHueEntertainmentController*     controller     = new PhilipsHueEntertainmentController(bridge, groups[group_idx]);
+                            RGBController_PhilipsHueEntertainment* rgb_controller = new RGBController_PhilipsHueEntertainment(controller);
+
+                            ResourceManager::get()->RegisterRGBController(rgb_controller);
                         }
                     }
 
@@ -238,9 +239,10 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
                     {
                         if(lights[light_idx].hasColorControl())
                         {
-                            PhilipsHueController*       new_controller    = new PhilipsHueController(lights[light_idx], bridge.getBridgeIP());
-                            RGBController_PhilipsHue*   new_rgbcontroller = new RGBController_PhilipsHue(new_controller);
-                            rgb_controllers.push_back(new_rgbcontroller);
+                            PhilipsHueController*     controller     = new PhilipsHueController(lights[light_idx], bridge.getBridgeIP());
+                            RGBController_PhilipsHue* rgb_controller = new RGBController_PhilipsHue(controller);
+
+                            ResourceManager::get()->RegisterRGBController(rgb_controller);
                         }
                     }
                 }

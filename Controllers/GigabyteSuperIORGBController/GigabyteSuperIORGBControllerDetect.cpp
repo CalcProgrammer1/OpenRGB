@@ -49,21 +49,22 @@ void DetectGigabyteSuperIORGBControllers(std::vector<RGBController*> &rgb_contro
 
         int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
 
-        switch (val & SIO_ID_MASK)
+        switch(val & SIO_ID_MASK)
         {
-        case SIO_ITE688_ID:
-            for(unsigned int i = 0; i < NUM_COMPATIBLE_DEVICES; i++)
-            {
-                if (board_dmi.find(std::string(compatible_devices[i].name)) != std::string::npos)
+            case SIO_ITE688_ID:
+                for(unsigned int i = 0; i < NUM_COMPATIBLE_DEVICES; i++)
                 {
-                    GigabyteSuperIORGBController*     controller = new GigabyteSuperIORGBController(sioaddr);
-                    RGBController_GigabyteSuperIORGB* rgb_controller = new RGBController_GigabyteSuperIORGB(controller);
-                    rgb_controller->name = "Gigabyte " + board_dmi;
-                    rgb_controllers.push_back(rgb_controller);
-                    break;
+                    if (board_dmi.find(std::string(compatible_devices[i].name)) != std::string::npos)
+                    {
+                        GigabyteSuperIORGBController*     controller     = new GigabyteSuperIORGBController(sioaddr);
+                        RGBController_GigabyteSuperIORGB* rgb_controller = new RGBController_GigabyteSuperIORGB(controller);
+                        rgb_controller->name                             = "Gigabyte " + board_dmi;
+
+                        ResourceManager::get()->RegisterRGBController(rgb_controller);
+                        break;
+                    }
                 }
-            }
-            break;
+                break;
         }
     }
 }   /* DetectGigabyteSuperIORGBControllers() */

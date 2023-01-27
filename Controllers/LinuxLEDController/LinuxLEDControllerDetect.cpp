@@ -67,7 +67,7 @@ void DetectLinuxLEDControllers(std::vector<RGBController*> &rgb_controllers)
             RGBController_LinuxLED* rgb_controller = new RGBController_LinuxLED(controller);
             rgb_controller->name                   = name;
 
-            rgb_controllers.push_back(rgb_controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 

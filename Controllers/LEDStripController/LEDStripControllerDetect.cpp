@@ -88,7 +88,7 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
             RGBController_LEDStrip* rgb_controller = new RGBController_LEDStrip(controller);
             rgb_controller->name                   = dev.name;
 
-            rgb_controllers.push_back(rgb_controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 

@@ -157,10 +157,20 @@ void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers)
 {
     const char* base_path = "/sys/devices/platform/faustus/kbbl";
     DIR* dir = opendir(base_path);
-    if(!dir) return;
+
+    if(!dir)
+    {
+        return;
+    }
+
     // Directory is present - we pretty much have a driver confirmation already, but double check for all files required just in case
     struct dirent* dent = readdir(dir);
-    if(!dent) return;
+
+    if(!dent)
+    {
+        return;
+    }
+
     int found = 0;
     while(dent)
     {
@@ -171,9 +181,15 @@ void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers)
         }
         dent = readdir(dir);
     }
+
     closedir(dir);
-    if(found != 6) return;
-    rgb_controllers.push_back(new RGBController_Faustus(base_path));
+
+    if(found != 6)
+    {
+        return;
+    }
+
+    ResourceManager::get()->RegisterRGBController(new RGBController_Faustus(base_path));
 }   /* DetectFaustusControllers() */
 
 REGISTER_DETECTOR("Faustus", DetectFaustusControllers);

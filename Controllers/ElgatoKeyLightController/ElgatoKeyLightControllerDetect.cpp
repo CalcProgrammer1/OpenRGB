@@ -38,7 +38,7 @@ void DetectElgatoKeyLightControllers(std::vector<RGBController*> &rgb_controller
                 ElgatoKeyLightController*     controller     = new ElgatoKeyLightController(elgato_keylight_ip);
                 RGBController_ElgatoKeyLight* rgb_controller = new RGBController_ElgatoKeyLight(controller);
 
-                rgb_controllers.push_back(rgb_controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

@@ -298,7 +298,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                 /*---------------------------------------------------------*\
                 | Push the dummy motherboard onto the controller list       |
                 \*---------------------------------------------------------*/
-                rgb_controllers.push_back(dummy_motherboard);
+                ResourceManager::get()->RegisterRGBController(dummy_motherboard);
             }
             else if(type == "dram")
             {
@@ -374,7 +374,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                 /*---------------------------------------------------------*\
                 | Push the dummy DRAM onto the controller list              |
                 \*---------------------------------------------------------*/
-                rgb_controllers.push_back(dummy_dram);
+                ResourceManager::get()->RegisterRGBController(dummy_dram);
             }
             else if(type == "gpu")
             {
@@ -450,7 +450,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                 /*---------------------------------------------------------*\
                 | Push the dummy GPU onto the controller list               |
                 \*---------------------------------------------------------*/
-                rgb_controllers.push_back(dummy_gpu);
+                ResourceManager::get()->RegisterRGBController(dummy_gpu);
             }
             else if(type == "keyboard")
             {
@@ -538,7 +538,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                 /*---------------------------------------------------------*\
                 | Push the dummy Keyboard onto the controller list          |
                 \*---------------------------------------------------------*/
-                rgb_controllers.push_back(dummy_keyboard);
+                ResourceManager::get()->RegisterRGBController(dummy_keyboard);
             }
             else if(type == "argb")
             {
@@ -586,7 +586,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
                 /*---------------------------------------------------------*\
                 | Push the dummy ARGB onto the controller list              |
                 \*---------------------------------------------------------*/
-                rgb_controllers.push_back(dummy_argb);
+                ResourceManager::get()->RegisterRGBController(dummy_argb);
             }
         }
     }
@@ -800,7 +800,7 @@ void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
 
             dummy_custom->SetupColors();
 
-            rgb_controllers.push_back(dummy_custom);
+            ResourceManager::get()->RegisterRGBController(dummy_custom);
         }
     }
 

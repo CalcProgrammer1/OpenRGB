@@ -115,7 +115,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     static HMODULE module = LoadLibrary(OPENRAZERDLL);
 
     LOG_DEBUG("[OpenRazerWindows] The %s is %s", OPENRAZERDLL, (module == nullptr)?"not found":"found" );
-    
+
     if(module == nullptr)
     {
         return;
@@ -125,7 +125,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
     | Map DLL functions                                         |
     \*---------------------------------------------------------*/
 	typedef unsigned int(*INITRAZERDRIVER)(struct hid_device** hdev);
-	
+
     INITRAZERDRIVER init_razer_kbd_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_kbd_driver"));
     INITRAZERDRIVER init_razer_mousemat_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_mousemat_driver"));
 	INITRAZERDRIVER init_razer_mouse_driver = reinterpret_cast<INITRAZERDRIVER>(GetProcAddress(module, "init_razer_mouse_driver"));
@@ -154,7 +154,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
             if(razer_rgb->device_index != -1)
             {
-                rgb_controllers.push_back(razer_rgb);
+                ResourceManager::get()->RegisterRGBController(razer_rgb);
             }
             else
             {
@@ -178,7 +178,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
             if(razer_rgb->device_index != -1)
             {
-                rgb_controllers.push_back(razer_rgb);
+                ResourceManager::get()->RegisterRGBController(razer_rgb);
             }
             else
             {
@@ -203,7 +203,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
             if(razer_rgb->device_index != -1)
             {
-                rgb_controllers.push_back(razer_rgb);
+                ResourceManager::get()->RegisterRGBController(razer_rgb);
             }
             else
             {
@@ -228,7 +228,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
             if(razer_rgb->device_index != -1)
             {
-                rgb_controllers.push_back(razer_rgb);
+                ResourceManager::get()->RegisterRGBController(razer_rgb);
             }
             else
             {
@@ -253,7 +253,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
             if(razer_rgb->device_index != -1)
             {
-                rgb_controllers.push_back(razer_rgb);
+                ResourceManager::get()->RegisterRGBController(razer_rgb);
             }
             else
             {
@@ -278,7 +278,7 @@ void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
 
             if(razer_rgb->device_index != -1)
             {
-                rgb_controllers.push_back(razer_rgb);
+                ResourceManager::get()->RegisterRGBController(razer_rgb);
             }
             else
             {

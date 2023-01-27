@@ -31,7 +31,7 @@ void DetectDygmaRaiseControllers(std::vector<RGBController*> &rgb_controllers)
             controller->Initialize((char *)ports[i]->c_str());
 
             RGBController_DygmaRaise* rgb_controller = new RGBController_DygmaRaise(controller);
-            rgb_controllers.push_back(rgb_controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }

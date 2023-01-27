@@ -17,9 +17,6 @@
 
 void DetectYeelightControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    YeelightController* new_controller;
-    RGBController_Yeelight* new_rgbcontroller;
-
     json                    yeelight_settings;
 
     /*-------------------------------------------------*\
@@ -51,10 +48,10 @@ void DetectYeelightControllers(std::vector<RGBController*> &rgb_controllers)
                     music_mode = yeelight_settings["devices"][device_idx]["music_mode"];
                 }
 
-                new_controller = new YeelightController(yeelight_ip, yeelight_host_ip, music_mode);
-                new_rgbcontroller = new RGBController_Yeelight(new_controller);
+                YeelightController*     controller     = new YeelightController(yeelight_ip, yeelight_host_ip, music_mode);
+                RGBController_Yeelight* rgb_controller = new RGBController_Yeelight(controller);
 
-                rgb_controllers.push_back(new_rgbcontroller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

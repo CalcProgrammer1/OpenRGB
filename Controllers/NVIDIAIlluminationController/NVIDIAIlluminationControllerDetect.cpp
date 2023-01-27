@@ -96,13 +96,12 @@ void DetectNVIDIAIllumGPUs(std::vector<RGBController*> &rgb_controllers)
                     {
                         case NVIDIA_ILLUMINATION_V1:
                             {
-                                NVIDIAIlluminationV1Controller*     new_controller;
-                                RGBController_NVIDIAIlluminationV1* new_rgbcontroller;
-                                nvapi_accessor*                     new_nvapi = new nvapi_accessor(gpu_handles[gpu_idx]);
-                                new_controller          = new NVIDIAIlluminationV1Controller(new_nvapi, device_list[dev_idx].treats_rgbw_as_rgb);
-                                new_rgbcontroller       = new RGBController_NVIDIAIlluminationV1(new_controller);
-                                new_rgbcontroller->name = device_list[dev_idx].name;
-                                rgb_controllers.push_back(new_rgbcontroller);
+                                nvapi_accessor*                     new_nvapi      = new nvapi_accessor(gpu_handles[gpu_idx]);
+                                NVIDIAIlluminationV1Controller*     controller     = new NVIDIAIlluminationV1Controller(new_nvapi, device_list[dev_idx].treats_rgbw_as_rgb);
+                                RGBController_NVIDIAIlluminationV1* rgb_controller = new RGBController_NVIDIAIlluminationV1(controller);
+                                rgb_controller->name                               = device_list[dev_idx].name;
+
+                                ResourceManager::get()->RegisterRGBController(rgb_controller);
                             }
                             break;
                     }

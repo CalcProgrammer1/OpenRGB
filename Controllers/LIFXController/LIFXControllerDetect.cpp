@@ -39,7 +39,7 @@ void DetectLIFXControllers(std::vector<RGBController*> &rgb_controllers)
                 LIFXController*     controller     = new LIFXController(lifx_ip, name);
                 RGBController_LIFX* rgb_controller = new RGBController_LIFX(controller);
 
-                rgb_controllers.push_back(rgb_controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

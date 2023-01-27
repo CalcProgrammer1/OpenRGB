@@ -26,7 +26,7 @@ void DetectNanoleafControllers(std::vector<RGBController*> &rgb_controllers)
                 try
                 {
                     RGBController_Nanoleaf* rgb_controller = new RGBController_Nanoleaf(device["ip"], device["port"], device["auth_token"]);
-                    rgb_controllers.push_back(rgb_controller);
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 catch(...)
                 {

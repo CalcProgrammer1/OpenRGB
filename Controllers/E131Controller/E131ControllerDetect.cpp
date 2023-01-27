@@ -176,12 +176,12 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
             {
                 dev.matrix_height = e131_settings["devices"][device_idx]["matrix_height"];
             }
-            
+
             if(e131_settings["devices"][device_idx].contains("universe_size"))
             {
                 dev.universe_size = e131_settings["devices"][device_idx]["universe_size"];
             }
-            
+
             if(e131_settings["devices"][device_idx].contains("type"))
             {
                 if(e131_settings["devices"][device_idx]["type"].is_string())
@@ -275,7 +275,7 @@ void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
         {
             RGBController_E131* rgb_controller;
             rgb_controller = new RGBController_E131(device_lists[list_idx]);
-            rgb_controllers.push_back(rgb_controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 

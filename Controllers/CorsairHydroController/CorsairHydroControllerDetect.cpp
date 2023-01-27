@@ -69,10 +69,9 @@ void DetectCorsairHydroControllers(std::vector<RGBController*>& rgb_controllers)
 
             CorsairHydroController*     controller     = new CorsairHydroController(dev);
             RGBController_CorsairHydro* rgb_controller = new RGBController_CorsairHydro(controller);
+            rgb_controller->name                       = device_list[device_idx].name;
 
-            rgb_controller->name = device_list[device_idx].name;
-
-            rgb_controllers.push_back(rgb_controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectCorsairHydroControllers() */

@@ -106,10 +106,11 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
             {
                 if (board_dmi.find(std::string(compatible_devices[i].name)) != std::string::npos)
                 {
-                    MSIRGBController*     new_msi = new MSIRGBController(sioaddr, compatible_devices[i].invert);
-                    RGBController_MSIRGB* new_rgb = new RGBController_MSIRGB(new_msi);
-                    new_rgb->name = "MSI " + board_dmi;
-                    rgb_controllers.push_back(new_rgb);
+                    MSIRGBController*     controller     = new MSIRGBController(sioaddr, compatible_devices[i].invert);
+                    RGBController_MSIRGB* rgb_controller = new RGBController_MSIRGB(controller);
+                    rgb_controller->name                 = "MSI " + board_dmi;
+
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                     break;
                 }
             }

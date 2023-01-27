@@ -98,7 +98,7 @@ void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
     | https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-scsi-devices    |
     \*-------------------------------------------------------------------------------------------------*/
     wchar_t dev_name[MAX_PATH];
-    
+
     if(Search(dev_name))
     {
         HANDLE nvme_fd = OpenDevice(dev_name);
@@ -108,12 +108,12 @@ void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
             ENESMBusInterface_SpectrixS40G* interface      = new ENESMBusInterface_SpectrixS40G(nvme_fd, dev_name);
             ENESMBusController*             controller     = new ENESMBusController(interface, 0x67);
             RGBController_ENESMBus*         rgb_controller = new RGBController_ENESMBus(controller);
-            
-            rgb_controller->name   = "XPG Spectrix S40G";
-            rgb_controller->type   = DEVICE_TYPE_STORAGE;
-            rgb_controller->vendor = "XPG";
 
-            rgb_controllers.push_back(rgb_controller);
+            rgb_controller->name                           = "XPG Spectrix S40G";
+            rgb_controller->type                           = DEVICE_TYPE_STORAGE;
+            rgb_controller->vendor                         = "XPG";
+
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectSpectrixS40GControllers() */

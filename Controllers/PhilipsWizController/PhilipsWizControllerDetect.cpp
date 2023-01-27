@@ -17,9 +17,6 @@
 
 void DetectPhilipsWizControllers(std::vector<RGBController*> &rgb_controllers)
 {
-    PhilipsWizController* new_controller;
-    RGBController_PhilipsWiz* new_rgbcontroller;
-
     json                    wiz_settings;
 
     /*-------------------------------------------------*\
@@ -38,10 +35,10 @@ void DetectPhilipsWizControllers(std::vector<RGBController*> &rgb_controllers)
             {
                 std::string wiz_ip = wiz_settings["devices"][device_idx]["ip"];
 
-                new_controller = new PhilipsWizController(wiz_ip);
-                new_rgbcontroller = new RGBController_PhilipsWiz(new_controller);
+                PhilipsWizController*     controller     = new PhilipsWizController(wiz_ip);
+                RGBController_PhilipsWiz* rgb_controller = new RGBController_PhilipsWiz(controller);
 
-                rgb_controllers.push_back(new_rgbcontroller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

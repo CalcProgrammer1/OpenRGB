@@ -35,12 +35,11 @@ void DetectCorsairHydro2Controllers(std::vector<RGBController*>& rgb_controllers
         libusb_detach_kernel_driver(dev, 0);
         libusb_claim_interface(dev, 0);
 
-        CorsairHydro2Controller* controller = new CorsairHydro2Controller(dev);
+        CorsairHydro2Controller*     controller     = new CorsairHydro2Controller(dev);
         RGBController_CorsairHydro2* rgb_controller = new RGBController_CorsairHydro2(controller);
+        rgb_controller->name                        = "Corsair H100i v2";
 
-        rgb_controller->name = "Corsair H100i v2";
-
-        rgb_controllers.push_back(rgb_controller);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
