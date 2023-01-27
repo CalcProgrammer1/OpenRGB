@@ -23,7 +23,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectPhilipsHueControllers()
 {
     json                    hue_settings;
 
@@ -210,11 +210,11 @@ void DetectPhilipsHueControllers(std::vector<RGBController*>& rgb_controllers)
                     \*-------------------------------------------------*/
                     if(auto_connect)
                     {
-                        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+                        for(unsigned int controller_idx = 0; controller_idx < ResourceManager::get()->GetRGBControllers().size(); controller_idx++)
                         {
-                            if(rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device")
+                            if(ResourceManager::get()->GetRGBControllers()[controller_idx]->description == "Philips Hue Entertainment Mode Device")
                             {
-                                rgb_controllers[controller_idx]->SetMode(0);
+                                ResourceManager::get()->GetRGBControllers()[controller_idx]->SetMode(0);
                                 break;
                             }
                         }

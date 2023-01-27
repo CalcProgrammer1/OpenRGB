@@ -28,7 +28,7 @@ static gig_device compatible_devices[] =
     {"X570 UD"}
 };
 
-void DetectGigabyteSuperIORGBControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectGigabyteSuperIORGBControllers()
 {
     int sio_addrs[2] = {0x2E, 0x4E};
 

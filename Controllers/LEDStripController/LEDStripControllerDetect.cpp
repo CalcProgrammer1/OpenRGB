@@ -15,7 +15,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectLEDStripControllers()
 {
     json                    ledstrip_settings;
     LEDStripDevice          dev;

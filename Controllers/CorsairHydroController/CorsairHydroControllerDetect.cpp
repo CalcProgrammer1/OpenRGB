@@ -49,7 +49,7 @@ static const corsair_hydro_device device_list[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectCorsairHydroControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectCorsairHydroControllers()
 {
     libusb_init(NULL);
 

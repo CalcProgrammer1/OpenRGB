@@ -20,7 +20,7 @@
 #define CORSAIR_VID     0x1B1C
 #define H100I_V2_PID    0x0C09
 
-void DetectCorsairHydro2Controllers(std::vector<RGBController*>& rgb_controllers)
+void DetectCorsairHydro2Controllers()
 {
     libusb_init(NULL);
 

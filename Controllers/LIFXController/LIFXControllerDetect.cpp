@@ -15,7 +15,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectLIFXControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectLIFXControllers()
 {
     json                    lifx_settings;
 

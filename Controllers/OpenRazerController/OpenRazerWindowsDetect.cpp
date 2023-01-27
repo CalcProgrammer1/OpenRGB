@@ -110,7 +110,7 @@ static void load_device_fn(device_fn_type* device_fn, device* dev)
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectOpenRazerControllers()
 {
     static HMODULE module = LoadLibrary(OPENRAZERDLL);
 

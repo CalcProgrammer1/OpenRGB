@@ -15,7 +15,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectElgatoKeyLightControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectElgatoKeyLightControllers()
 {
     json                    elgato_keylight_settings;
 

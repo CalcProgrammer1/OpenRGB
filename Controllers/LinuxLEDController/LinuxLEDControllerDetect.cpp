@@ -18,7 +18,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectLinuxLEDControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectLinuxLEDControllers()
 {
     json                    linux_led_settings;
 

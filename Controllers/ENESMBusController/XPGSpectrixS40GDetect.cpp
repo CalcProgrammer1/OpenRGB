@@ -20,7 +20,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectSpectrixS40GControllers()
 {
     /*---------------------------------------------------------------------*\
     | Search for /dev/nvmeX nodes with model matching "XPG SPECTRIX S40G"   |

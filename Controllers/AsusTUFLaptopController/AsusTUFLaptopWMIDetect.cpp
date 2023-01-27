@@ -7,7 +7,7 @@
 #include "wmi.h"
 #include <string>
 
-static void DetectAsusTUFLaptopWMIControllers(std::vector<RGBController*>&)
+static void DetectAsusTUFLaptopWMIControllers()
 {
     // Try to retrieve ProductID / Device name from WMI; Possibly can be rewritten to use wmi.cpp
     // IF you encounter false detection ( e.g. if your laptop keyboard backlight uses USB interface

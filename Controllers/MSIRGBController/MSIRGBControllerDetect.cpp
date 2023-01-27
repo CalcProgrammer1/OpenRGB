@@ -77,7 +77,7 @@ static msi_device compatible_devices[] =
     {"7B87", true },
 };
 
-void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectMSIRGBControllers()
 {
     int sio_addrs[2] = {0x2E, 0x4E};
 

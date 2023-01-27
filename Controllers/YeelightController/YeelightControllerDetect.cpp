@@ -15,7 +15,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectYeelightControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectYeelightControllers()
 {
     json                    yeelight_settings;
 

@@ -92,7 +92,7 @@ HANDLE OpenDevice(wchar_t buff[MAX_PATH])
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectSpectrixS40GControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectSpectrixS40GControllers()
 {
     /*-------------------------------------------------------------------------------------------------*\
     | https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-scsi-devices    |

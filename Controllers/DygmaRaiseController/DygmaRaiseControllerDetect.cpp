@@ -19,7 +19,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectDygmaRaiseControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectDygmaRaiseControllers()
 {
     std::vector<std::string *> ports = find_usb_serial_port(DYGMA_RAISE_VID, DYGMA_RAISE_PID);
 

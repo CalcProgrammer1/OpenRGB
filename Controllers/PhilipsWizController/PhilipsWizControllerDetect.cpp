@@ -15,7 +15,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectPhilipsWizControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectPhilipsWizControllers()
 {
     json                    wiz_settings;
 

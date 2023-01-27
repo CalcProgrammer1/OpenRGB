@@ -15,7 +15,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectEspurnaControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectEspurnaControllers()
 {
     json espurna_settings;
 

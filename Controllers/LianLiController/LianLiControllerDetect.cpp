@@ -56,7 +56,7 @@
 | requires libusb as hidapi provides no wIndex customization.                  |
 \*----------------------------------------------------------------------------*/
 
-void DetectLianLiUniHub(std::vector<RGBController*>&)
+void DetectLianLiUniHub()
 {
     libusb_device** devices = nullptr;
 
@@ -102,7 +102,7 @@ void DetectLianLiUniHub(std::vector<RGBController*>&)
     }
 }
 
-void DetectLianLiUniHub_AL10(std::vector<RGBController*>&)
+void DetectLianLiUniHub_AL10()
 {
     libusb_device** devices = nullptr;
 

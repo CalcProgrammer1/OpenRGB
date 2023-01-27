@@ -153,7 +153,7 @@ void RGBController_Faustus::DeviceUpdateMode()
     DeviceUpdateLEDs();
 }
 
-void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectFaustusControllers()
 {
     const char* base_path = "/sys/devices/platform/faustus/kbbl";
     DIR* dir = opendir(base_path);

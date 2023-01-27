@@ -11,7 +11,7 @@
 |                                                                                          |
 \*----------------------------------------------------------------------------------------*/
 
-void DetectNanoleafControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectNanoleafControllers()
 {
     json nanoleaf_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("NanoleafDevices");
 

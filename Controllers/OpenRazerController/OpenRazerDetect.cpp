@@ -19,7 +19,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectOpenRazerControllers()
 {
     char driver_path[512];
     DIR *dir;

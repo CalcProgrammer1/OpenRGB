@@ -2,7 +2,7 @@
 #include "FanBusController.h"
 #include "RGBController_FanBus.h"
 
-void DetectFanBusControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectFanBusControllers()
 {
     FanBusInterface*    new_interface;
     json                fanbus_settings;

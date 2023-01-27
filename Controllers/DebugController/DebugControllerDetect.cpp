@@ -201,7 +201,7 @@ static const char *led_names[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectDebugControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectDebugControllers()
 {
     json            debug_settings;
 

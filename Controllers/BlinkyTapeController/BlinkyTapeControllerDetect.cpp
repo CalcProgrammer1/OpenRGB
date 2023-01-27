@@ -19,7 +19,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectBlinkyTapeControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectBlinkyTapeControllers()
 {
     std::vector<std::string *> device_locations = find_usb_serial_port(BLINKINLABS_VID, BLINKYTAPE_PID);
 

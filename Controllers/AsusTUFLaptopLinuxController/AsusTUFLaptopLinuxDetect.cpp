@@ -5,7 +5,7 @@
 #include "Detector.h"
 #include <unistd.h>
 
-static void DetectAsusTUFLaptopLinuxControllers(std::vector<RGBController*>&)
+static void DetectAsusTUFLaptopLinuxControllers()
 {
     /*-------------------------------------------------------------------------------------*\
     | If /sys/devices/platform/asus-nb-wmi/leds/asus::kbd_backlight/kbd_rgb_mode exists,    |

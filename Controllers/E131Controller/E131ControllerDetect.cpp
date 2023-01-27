@@ -20,7 +20,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers)
+void DetectE131Controllers()
 {
     json                e131_settings;
 

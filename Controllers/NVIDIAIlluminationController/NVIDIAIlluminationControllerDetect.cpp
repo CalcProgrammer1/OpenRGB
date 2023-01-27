@@ -61,7 +61,7 @@ static const gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX4090_DEV,             NVIDIA_VEN,     NVIDIA_RTX4090_FE_SUB_DEV,                  NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 4090 FE"                },
 };
 
-void DetectNVIDIAIllumGPUs(std::vector<RGBController*> &rgb_controllers)
+void DetectNVIDIAIllumGPUs()
 {
     static NV_PHYSICAL_GPU_HANDLE   gpu_handles[64];
     static NV_S32                   gpu_count = 0;
