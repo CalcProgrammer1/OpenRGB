@@ -14,14 +14,17 @@
 /*-----------------------------------------------------*\
 | HyperX mouse vendor IDs                               |
 \*-----------------------------------------------------*/
-#define HYPERX_VID                          0x0951
-#define HYPERX_PULSEFIRE_SURGE_PID          0x16D3
-#define HYPERX_PULSEFIRE_FPS_PRO_PID        0x16D7
-#define HYPERX_PULSEFIRE_CORE_PID           0x16DE
-#define HYPERX_PULSEFIRE_DART_WIRELESS_PID  0x16E1
-#define HYPERX_PULSEFIRE_DART_WIRED_PID     0x16E2
-#define HYPERX_PULSEFIRE_RAID_PID           0x16E4
-#define HYPERX_PULSEFIRE_HASTE_PID          0x1727
+#define HYPERX_VID                              0x0951
+#define HYPERX_VID_2                            0x03F0
+#define HYPERX_PULSEFIRE_SURGE_PID              0x16D3
+#define HYPERX_PULSEFIRE_FPS_PRO_PID            0x16D7
+#define HYPERX_PULSEFIRE_CORE_PID               0x16DE
+#define HYPERX_PULSEFIRE_DART_WIRELESS_PID      0x16E1
+#define HYPERX_PULSEFIRE_DART_WIRELESS_PID_2    0x068E
+#define HYPERX_PULSEFIRE_DART_WIRED_PID         0x16E2
+#define HYPERX_PULSEFIRE_DART_WIRED_PID_2       0x088E
+#define HYPERX_PULSEFIRE_RAID_PID               0x16E4
+#define HYPERX_PULSEFIRE_HASTE_PID              0x1727
 
 void DetectHyperXPulsefireSurgeControllers(hid_device_info* info, const std::string& name)
 {
@@ -93,16 +96,19 @@ void DetectHyperXPulsefireRaidControllers(hid_device_info* info, const std::stri
     }
 }   /* DetectHyperXPulsefireRaidControllers() */
 
-REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge",              DetectHyperXPulsefireSurgeControllers,  HYPERX_VID, HYPERX_PULSEFIRE_SURGE_PID,         1,      0xFF01);
-REGISTER_HID_DETECTOR_IP("HyperX Pulsefire FPS Pro",            DetectHyperXPulsefireFPSProControllers, HYPERX_VID, HYPERX_PULSEFIRE_FPS_PRO_PID,       1,      0xFF01);
-REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Core",               DetectHyperXPulsefireFPSProControllers, HYPERX_VID, HYPERX_PULSEFIRE_CORE_PID,          1,      0xFF01);
-REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wireless)",    DetectHyperXPulsefireDartControllers,   HYPERX_VID, HYPERX_PULSEFIRE_DART_WIRELESS_PID, 2,      0xFF00);
-REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wired)",       DetectHyperXPulsefireDartControllers,   HYPERX_VID, HYPERX_PULSEFIRE_DART_WIRED_PID,    1,      0xFF13);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge",              DetectHyperXPulsefireSurgeControllers,  HYPERX_VID,     HYPERX_PULSEFIRE_SURGE_PID,             1,      0xFF01);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire FPS Pro",            DetectHyperXPulsefireFPSProControllers, HYPERX_VID,     HYPERX_PULSEFIRE_FPS_PRO_PID,           1,      0xFF01);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Core",               DetectHyperXPulsefireFPSProControllers, HYPERX_VID,     HYPERX_PULSEFIRE_CORE_PID,              1,      0xFF01);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wireless)",    DetectHyperXPulsefireDartControllers,   HYPERX_VID,     HYPERX_PULSEFIRE_DART_WIRELESS_PID,     2,      0xFF00);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wireless)",    DetectHyperXPulsefireDartControllers,   HYPERX_VID_2,   HYPERX_PULSEFIRE_DART_WIRELESS_PID_2,   2,      0xFF00);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wired)",       DetectHyperXPulsefireDartControllers,   HYPERX_VID,     HYPERX_PULSEFIRE_DART_WIRED_PID,        1,      0xFF13);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wired)",       DetectHyperXPulsefireDartControllers,   HYPERX_VID_2,   HYPERX_PULSEFIRE_DART_WIRED_PID_2,      1,      0xFF13);
 
-REGISTER_HID_DETECTOR_IPU("HyperX Pulsefire Raid",              DetectHyperXPulsefireRaidControllers,   HYPERX_VID, HYPERX_PULSEFIRE_RAID_PID,          1,      0xFF01, 0x01);
+REGISTER_HID_DETECTOR_IPU("HyperX Pulsefire Raid",              DetectHyperXPulsefireRaidControllers,   HYPERX_VID,     HYPERX_PULSEFIRE_RAID_PID,              1,      0xFF01, 0x01);
 
 #ifdef _WIN32
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Haste",              DetectHyperXPulsefireHasteControllers,  HYPERX_VID, HYPERX_PULSEFIRE_HASTE_PID,         3,      0xFF90);
 #else
 REGISTER_HID_DETECTOR_PU("HyperX Pulsefire Haste",              DetectHyperXPulsefireHasteControllers,  HYPERX_VID, HYPERX_PULSEFIRE_HASTE_PID,         1,      2);
 #endif
+
