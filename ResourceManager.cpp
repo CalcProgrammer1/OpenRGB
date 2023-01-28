@@ -26,14 +26,14 @@
 const hidapi_wrapper default_wrapper =
 {
     NULL,
-    (hidapi_wrapper_send_feature_report)    hid_send_feature_report,
-    (hidapi_wrapper_get_feature_report)     hid_get_feature_report,
-    (hidapi_wrapper_get_serial_num_string)  hid_get_serial_number_string,
-    (hidapi_wrapper_open_path)              hid_open_path,
-    (hidapi_wrapper_enumerate)              hid_enumerate,
-    (hidapi_wrapper_free_enumeration)       hid_free_enumeration,
-    (hidapi_wrapper_close)                  hid_close,
-    (hidapi_wrapper_error)                  hid_error
+    (hidapi_wrapper_send_feature_report)        hid_send_feature_report,
+    (hidapi_wrapper_get_feature_report)         hid_get_feature_report,
+    (hidapi_wrapper_get_serial_number_string)   hid_get_serial_number_string,
+    (hidapi_wrapper_open_path)                  hid_open_path,
+    (hidapi_wrapper_enumerate)                  hid_enumerate,
+    (hidapi_wrapper_free_enumeration)           hid_free_enumeration,
+    (hidapi_wrapper_close)                      hid_close,
+    (hidapi_wrapper_error)                      hid_error
 };
 
 ResourceManager* ResourceManager::instance;
@@ -1263,22 +1263,26 @@ void ResourceManager::DetectDevicesThreadFunction()
     /*-------------------------------------------------*\
     | Load the libhidapi-libusb library                 |
     \*-------------------------------------------------*/
+#ifdef __GLIBC__
     if(dyn_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE | RTLD_DEEPBIND))
+#else
+    if(dyn_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE ))
+#endif
     {
         /*-------------------------------------------------*\
         | Create a wrapper with the libusb functions        |
         \*-------------------------------------------------*/
         wrapper =
         {
-            .dyn_handle                 = dyn_handle,
-            .hid_send_feature_report    = (hidapi_wrapper_send_feature_report)          dlsym(dyn_handle,"hid_send_feature_report"),
-            .hid_get_feature_report     = (hidapi_wrapper_get_feature_report)           dlsym(dyn_handle,"hid_get_feature_report"),
-            .hid_get_serial_num_string  = (hidapi_wrapper_get_serial_num_string)        dlsym(dyn_handle,"hid_get_serial_number_string"),
-            .hid_open_path              = (hidapi_wrapper_open_path)                    dlsym(dyn_handle,"hid_open_path"),
-            .hid_enumerate              = (hidapi_wrapper_enumerate)                    dlsym(dyn_handle,"hid_enumerate"),
-            .hid_free_enumeration       = (hidapi_wrapper_free_enumeration)             dlsym(dyn_handle,"hid_free_enumeration"),
-            .hid_close                  = (hidapi_wrapper_close)                        dlsym(dyn_handle,"hid_close"),
-            .hid_error                  = (hidapi_wrapper_error)                        dlsym(dyn_handle,"hid_free_enumeration")
+            .dyn_handle                     = dyn_handle,
+            .hid_send_feature_report        = (hidapi_wrapper_send_feature_report)          dlsym(dyn_handle,"hid_send_feature_report"),
+            .hid_get_feature_report         = (hidapi_wrapper_get_feature_report)           dlsym(dyn_handle,"hid_get_feature_report"),
+            .hid_get_serial_number_string   = (hidapi_wrapper_get_serial_number_string)     dlsym(dyn_handle,"hid_get_serial_number_string"),
+            .hid_open_path                  = (hidapi_wrapper_open_path)                    dlsym(dyn_handle,"hid_open_path"),
+            .hid_enumerate                  = (hidapi_wrapper_enumerate)                    dlsym(dyn_handle,"hid_enumerate"),
+            .hid_free_enumeration           = (hidapi_wrapper_free_enumeration)             dlsym(dyn_handle,"hid_free_enumeration"),
+            .hid_close                      = (hidapi_wrapper_close)                        dlsym(dyn_handle,"hid_close"),
+            .hid_error                      = (hidapi_wrapper_error)                        dlsym(dyn_handle,"hid_free_enumeration")
         };
 
         hid_devices = wrapper.hid_enumerate(0, 0);

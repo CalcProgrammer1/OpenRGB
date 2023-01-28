@@ -18,7 +18,7 @@ HyperXQuadcastSController::HyperXQuadcastSController(hidapi_wrapper hid_wrapper,
     location    = path;
 
     wchar_t serial_string[128];
-    int ret = wrapper.hid_get_serial_num_string(dev, serial_string, 128);
+    int ret = wrapper.hid_get_serial_number_string(dev, serial_string, 128);
 
     if(ret != 0)
     {
