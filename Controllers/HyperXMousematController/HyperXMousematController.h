@@ -10,14 +10,15 @@
 #include "RGBController.h"
 
 #include <string>
-#include <hidapi/hidapi.h>
+
+#include "hidapi_wrapper.h"
 
 #pragma once
 
 class HyperXMousematController
 {
 public:
-    HyperXMousematController(hid_device* dev_handle, const char* path);
+    HyperXMousematController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path);
     ~HyperXMousematController();
 
     std::string GetDeviceLocation();
@@ -29,6 +30,7 @@ public:
             );
 
 private:
+    hidapi_wrapper          wrapper;
     hid_device*             dev;
     std::string             location;
 };

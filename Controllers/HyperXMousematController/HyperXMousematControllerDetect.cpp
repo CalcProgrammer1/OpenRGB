@@ -3,7 +3,8 @@
 #include "RGBController.h"
 #include "RGBController_HyperXMousemat.h"
 #include <vector>
-#include <hidapi/hidapi.h>
+
+#include "hidapi_wrapper.h"
 
 /*-----------------------------------------------------*\
 | HyperX mousemat vendor IDs                            |
@@ -22,13 +23,13 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectHyperXMousematControllers(hid_device_info* info, const std::string& name)
+void DetectHyperXMousematControllers(hidapi_wrapper wrapper, hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    hid_device* dev = wrapper.hid_open_path(info->path);
 
     if(dev)
     {
-        HyperXMousematController*     controller     = new HyperXMousematController(dev, info->path);
+        HyperXMousematController*     controller     = new HyperXMousematController(wrapper, dev, info->path);
         RGBController_HyperXMousemat* rgb_controller = new RGBController_HyperXMousemat(controller);
         rgb_controller->name                         = name;
         
@@ -36,5 +37,5 @@ void DetectHyperXMousematControllers(hid_device_info* info, const std::string& n
     }
 }   /* DetectHyperXMousematControllers() */
 
-REGISTER_HID_DETECTOR_I("HyperX Fury Ultra", DetectHyperXMousematControllers, HYPERX_VID, HYPERX_FURY_ULTRA_PID, 0);
-REGISTER_HID_DETECTOR_IPU("HyperX Pulsefire Mat", DetectHyperXMousematControllers, HYPERX_VID_2, HYPERX_PULSEFIRE_PID, 1, 0xFF90, 0xFF00);
+REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Fury Ultra", DetectHyperXMousematControllers, HYPERX_VID, HYPERX_FURY_ULTRA_PID, 0);
+REGISTER_HID_WRAPPED_DETECTOR_IPU("HyperX Pulsefire Mat", DetectHyperXMousematControllers, HYPERX_VID_2, HYPERX_PULSEFIRE_PID, 1, 0xFF90, 0xFF00);
