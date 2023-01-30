@@ -57,11 +57,6 @@ void DetectNZXTKrakenX3(hid_device_info* info, const std::string& name)
     spawn_hue(info, name, 3, 0);
 }
 
-void DetectNZXTKrakenX53(hid_device_info* info, const std::string& name)
-{
-    spawn_hue(info, name, 1, 0);
-}
-
 void DetectNZXTFanController(hid_device_info* info, const std::string& name)
 {
     spawn_hue(info, name, 2, 3);
@@ -73,7 +68,7 @@ REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard, NZ
 REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard, NZXT_VID, NZXT_MOTHERBOARD_DEVICE_2_PID);
 REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,   NZXT_VID, NZXT_SMART_DEVICE_V2_PID);
 REGISTER_HID_DETECTOR("NZXT Kraken X3",            DetectNZXTKrakenX3,        NZXT_VID, NZXT_KRAKEN_X3_PID);
-REGISTER_HID_DETECTOR("NZXT Kraken X53",           DetectNZXTKrakenX53,       NZXT_VID, NZXT_KRAKEN_X53_PID);
+REGISTER_HID_DETECTOR("NZXT Kraken X53",           DetectNZXTKrakenX3,        NZXT_VID, NZXT_KRAKEN_X53_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,   NZXT_VID, NZXT_RGB_FAN_CONTROLLER_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,   NZXT_VID, NZXT_RGB_FAN_CONTROLLER2_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,   NZXT_VID, NZXT_RGB_FAN_CONTROLLER3_PID);
