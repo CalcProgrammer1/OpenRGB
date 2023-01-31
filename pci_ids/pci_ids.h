@@ -1,4 +1,4 @@
-/*---------------------------------------------------------*\
+﻿/*---------------------------------------------------------*\
 | PCI Vendor IDs                                            |
 \*---------------------------------------------------------*/
 #define AMD_VEN                                         0x1022
@@ -244,6 +244,7 @@
 #define ASUS_TUF_RX_6950XT_016G_GAMING                  0x0504
 #define ASUS_ROG_STRIX_LC_RX_6950XT_O16G_GAMING         0x05E9
 #define ASUS_TUF_RTX_4070TI_12G_GAMING                  0x88A4
+#define ASUS_TUF_RTX_4070TI_O12G_GAMING                 0x88A3
 #define ASUS_TUF_RTX_4090_O24G_OC_GAMING                0x889A
 #define ASUS_TUF_RTX_4090_O24G_GAMING                   0x889B
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING             0x889C
