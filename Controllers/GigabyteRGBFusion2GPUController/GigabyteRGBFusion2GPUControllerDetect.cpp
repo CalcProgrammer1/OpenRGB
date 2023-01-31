@@ -28,7 +28,6 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     const int write_sz = 8;
     uint8_t data_pkt[write_sz] = { 0xAB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
     uint8_t data_readpkt[read_sz] = {};
-    uint8_t false_positive_data_readpkt[read_sz] = { 0x00, 0x00, 0x00, 0x00 };
 
     res = bus->i2c_write_block(address, write_sz, data_pkt);
 
@@ -38,27 +37,27 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     res = bus->i2c_read_block(address, &pktsz, data_readpkt);
 
     //What we have seen returned so far...
-    //GeForce RTX 3070 AORUS MASTER 8G                  0xAB 0x11 0x52 0x03
-    //GeForce RTX 3060 Ti GAMING OC PRO 8G              0xAB 0x10 0x01 0x02
-    //GeForce RTX 3070 AORUS ELITE 12G                  0xAB 0x11 0x52 0x03
-    //GeForce RTX 3080 Ti AORUS XTREME WATERFORCE 12G   0xAB 0x11 0x01 0x00
-    //GeForce RTX 3080 AORUS XTREME WATERFORCE WB 10G   0xAB 0x10 0x01 0x00
-    //GeForce RTX 4080 Gigabyte AORUS MASTER 16G        0xAB 0x10 0x52 0x07
+    //GeForce RTX 3070 AORUS MASTER 8G                      0xAB 0x11 0x52 0x03
+    //GeForce RTX 3060 Ti GAMING OC PRO 8G                  0xAB 0x10 0x01 0x02
+    //GeForce RTX 3070 AORUS ELITE 12G                      0xAB 0x11 0x52 0x03
+    //GeForce RTX 3080 Ti AORUS XTREME WATERFORCE 12G       0xAB 0x11 0x01 0x00
+    //GeForce RTX 3080 Ti AORUS XTREME WATERFORCE 12G LHS   0xAB 0x11 0x52 0x00
+    //GeForce RTX 3080 AORUS XTREME WATERFORCE WB 10G       0xAB 0x10 0x01 0x00
+    //GeForce RTX 4080 Gigabyte AORUS MASTER 16G            0xAB 0x10 0x52 0x07
+    //Note that GeForce RTX 3080 Ti AORUS XTREME WATERFORCE 12G LHS exposes three i2c buses but only one returns a 0xAB
+    //response and controls the RGB lighting. The other buses return 0x00 0x00 0x00 0x00.
     //Note that GeForce RTX 4080 Gigabyte AORUS MASTER 16G exposes two i2c bus with writable address 0x71 but on respond
     //0x00 0x00 0x00 0x00 so it should be the one controlling the LCD screen. So we skip this bus
-    if(res < 0)
+
+    //All seen responses start with 0xAB, so we check for this.
+    if(res < 0 || data_readpkt[0] != 0xAB)
     {
-        LOG_DEBUG("[%s] at 0x%02X address expected 0x04 but received: 0x%02X", GIGABYTEGPU_CONTROLLER_NAME2, address, res);
+        // Assemble C-string with respons for debugging
+        char str[32];
+        for(int idx = 0; idx < read_sz; ++idx)
+            sprintf(&str[5*idx], " 0x%02X", data_readpkt[idx]);
+        LOG_DEBUG("[%s] at address 0x%02X invalid. Expected 0xAB [0x*] but received:%s", GIGABYTEGPU_CONTROLLER_NAME2, address, str);
         pass = false;
-    }
-    else
-    {
-        bool false_positive = std::equal( std::begin(data_readpkt), std::end(data_readpkt),  std::begin(false_positive_data_readpkt) );
-        if (false_positive)
-        {
-            LOG_DEBUG("[%s] at 0x%02X address is not valid RGB controller", GIGABYTEGPU_CONTROLLER_NAME2, address);
-            pass = false;
-        }
     }
 
     return(pass);
@@ -110,6 +109,7 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX3070 MASTER 8G LHR",                     
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3070 Ti MASTER 8G",                    DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX3070TI_MASTER_8G_SUB_DEV,     0x70);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 XTREME WATERFORCE WB 10G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_SUB_DEV,     0x64);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 XTREME WATERFORCE WB 10G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_SUB_DEV,     0x64);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 XTREME WATERFORCE WB 12G LHR",    DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_12G_LHR_DEV, GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_12G_SUB_DEV, 0x64);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 XTREME WATERFORCE 10G Rev 2.0",   DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_LHR_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080_XTREME_WATERFORCE_V2_SUB_DEV,  0x65);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte RTX3080 Ti Vision OC 12G",                      DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_VISION_OC_SUB_DEV,           0x63);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RTX3080 Ti XTREME WATERFORCE 12G",        DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX3080TI_XTREME_WATERFORCE_SUB_DEV,   0x65);
