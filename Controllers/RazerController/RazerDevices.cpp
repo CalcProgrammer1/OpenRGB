@@ -234,6 +234,50 @@ keyboard_keymap_overlay_values razer_deathstalker_v2_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_deathstalker_v2_pro_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            {
+                KEYBOARD_LAYOUT_ANSI_QWERTY,
+                {
+                    /*---------------------------------------------------------------------*\
+                    | Swap Keys                                                             |
+                    |   Zone,   Row,    Column,     Index,      Key                         |
+                    \*---------------------------------------------------------------------*/
+                    {   0,      4,       1,         0,          KEY_EN_UNUSED,              },  // Move 'Z' 1 right (Account for ISO key)
+                }
+            },
+            {
+                KEYBOARD_LAYOUT_ISO_QWERTY,
+                {
+                    /*---------------------------------------------------------------------*\
+                    | Swap Keys                                                             |
+                    |   Zone,   Row,    Column,     Index,      Key                         |
+                    \*---------------------------------------------------------------------*/
+                    {   0,      2,      13,         0,          KEY_EN_UNUSED,              },  // Remove ANSI_BACKSLASH
+                    {   0,      4,       1,         0,          KEY_EN_ISO_BACK_SLASH,      },  // Add ISO_BACK_SLASH
+                }
+            },
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    }
+};
+
 keyboard_keymap_overlay_values razer_huntsman_elite_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -3772,6 +3816,78 @@ static const razer_device deathstalker_v2_device =
     NULL,
     0,
     &razer_deathstalker_v2_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer DeathStalker V2 Pro (Wireless) 1532:0290               |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       104 LEDs                                                |
+\*-------------------------------------------------------------*/
+static const razer_zone deathstalker_v2_pro_wireless_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device deathstalker_v2_pro_wireless_device =
+{
+    "Razer DeathStalker V2 Pro (Wireless)",
+    RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &deathstalker_v2_pro_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    &razer_deathstalker_v2_pro_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer DeathStalker V2 Pro (Wired) 1532:0292                  |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       104 LEDs                                                |
+\*-------------------------------------------------------------*/
+static const razer_zone deathstalker_v2_pro_wired_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device deathstalker_v2_pro_wired_device =
+{
+    "Razer DeathStalker V2 Pro (Wired)",
+    RAZER_DEATHSTALKER_V2_PRO_WIRED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &deathstalker_v2_pro_wired_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    &razer_deathstalker_v2_pro_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -9183,6 +9299,8 @@ const razer_device* razer_device_list[] =
     &cynosa_lite_device,
     &deathstalker_chroma_device,
     &deathstalker_v2_device,
+    &deathstalker_v2_pro_wired_device,
+    &deathstalker_v2_pro_wireless_device,
     &huntsman_device,
     &huntsman_elite_device,
     &huntsman_mini_device,

@@ -261,6 +261,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Cynosa Chroma V2",                          Det
 REGISTER_HID_DETECTOR_IPU("Razer Cynosa Lite",                               DetectRazerControllers,        RAZER_VID,  RAZER_CYNOSA_LITE_PID,                          0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathstalker Chroma",                       DetectRazerControllers,        RAZER_VID,  RAZER_DEATHSTALKER_CHROMA_PID,                  0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathstalker V2",                           DetectRazerControllers,        RAZER_VID,  RAZER_DEATHSTALKER_V2_PID,                      0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Deathstalker V2 Pro (Wired)",               DetectRazerControllers,        RAZER_VID,  RAZER_DEATHSTALKER_V2_PRO_WIRED_PID,            0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Deathstalker V2 Pro (Wireless)",            DetectRazerControllers,        RAZER_VID,  RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID,         0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman",                                  DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_PID,                             0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman Elite",                            DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_ELITE_PID,                       0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Huntsman Mini",                             DetectRazerControllers,        RAZER_VID,  RAZER_HUNTSMAN_MINI_PID,                        0x02,   0x01,   0x02);

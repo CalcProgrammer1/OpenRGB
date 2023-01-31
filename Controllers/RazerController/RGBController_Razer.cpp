@@ -1,5 +1,6 @@
 #include "RGBController_Razer.h"
 #include "RazerDevices.h"
+#include "LogManager.h"
 
 /**------------------------------------------------------------------*\
     @name Razer
@@ -27,13 +28,18 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
 
     if(type == DEVICE_TYPE_KEYBOARD)
     {
+        LOG_DEBUG("[%s] Checking Keyboard Layout", name.c_str());
         std::string layout = controller->GetKeyboardLayoutName();
 
+        LOG_DEBUG("[%s] returned: %s", name.c_str(), layout.c_str());
         description.append(", ");
         description.append(layout);
     }
 
+    LOG_DEBUG("[%s] Checking variant", name.c_str());
     std::string variant = controller->GetVariantName();
+
+    LOG_DEBUG("[%s] returned: %s", name.c_str(), variant.c_str());
     description.append(", ");
     description.append(variant);
 

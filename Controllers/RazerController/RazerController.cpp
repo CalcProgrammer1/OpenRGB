@@ -100,6 +100,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
             break;
 
         case RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
             {
             dev_transaction_id = 0x9F;
             break;
@@ -145,6 +147,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHADDER_ELITE_PID:
         case RAZER_DEATHADDER_V2_MINI_PID:
         case RAZER_DEATHADDER_ESSENTIAL_V2_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_FIREFLY_V2_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         case RAZER_GOLIATHUS_CHROMA_PID:
@@ -283,6 +287,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHADDER_V2_PRO_WIRED_PID:
         case RAZER_DEATHADDER_V2_PRO_WIRELESS_PID:
         case RAZER_DEATHSTALKER_V2_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_FIREFLY_V2_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
@@ -617,6 +623,8 @@ bool RazerController::SupportsWave()
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHSTALKER_CHROMA_PID:
         case RAZER_DEATHSTALKER_V2_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
