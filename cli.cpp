@@ -1,4 +1,3 @@
-#include "OpenRGB.h"
 #include "AutoStart.h"
 #include "filesystem.h"
 #include "ProfileManager.h"

@@ -9,7 +9,6 @@
 #include "ResourceManager.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
-#include "OpenRGB.h"
 #include "ProfileManager.h"
 #include "RGBController.h"
 #include "i2c_smbus.h"
