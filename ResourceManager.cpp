@@ -1520,6 +1520,21 @@ void ResourceManager::UpdateDetectorSettings()
     }
 
     /*-------------------------------------------------*\
+    | Loop through all HID wrapped detectors and see if |
+    | any need to be saved to the settings              |
+    \*-------------------------------------------------*/
+    for(unsigned int hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < hid_wrapped_device_detectors.size(); hid_wrapped_detector_idx++)
+    {
+        detection_string = hid_wrapped_device_detectors[hid_wrapped_detector_idx].name.c_str();
+
+        if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
+        }
+    }
+
+    /*-------------------------------------------------*\
     | Loop through remaining detectors and see if any   |
     | need to be saved to the settings                  |
     \*-------------------------------------------------*/
@@ -1545,6 +1560,11 @@ void ResourceManager::UpdateDetectorSettings()
         }
     }
 
+    /*-------------------------------------------------*\
+    | If there were any setting changes that need to be |
+    | saved, set the settings in the settings manager   |
+    | and save them.                                    |
+    \*-------------------------------------------------*/
     if(save_settings)
     {
         LOG_INFO("Saving detector settings");
