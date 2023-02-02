@@ -508,6 +508,7 @@
 #define MSI_RTX3090TI_SUPRIM_X_SUB_DEV                  0x5090
 #define MSI_RTX3090TI_GAMING_X_TRIO_SUB_DEV             0x5091
 #define MSI_RTX4070TI_GAMING_X_TRIO_SUB_DEV             0x5132
+#define MSI_RTX4070TI_SUPRIM_X_TRIO_SUB_DEV             0x5133
 #define MSI_RTX4080_GAMING_X_TRIO_SUB_DEV               0x5111
 #define MSI_RTX4080_SUPRIM_X_SUB_DEV                    0x5110
 #define MSI_RTX4090_GAMING_X_TRIO_SUB_DEV               0x5103
