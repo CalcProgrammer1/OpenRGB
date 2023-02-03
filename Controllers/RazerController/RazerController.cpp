@@ -277,6 +277,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID:
         case RAZER_CORE_X_PID:
         case RAZER_CYNOSA_CHROMA_PID:
+        case RAZER_CYNOSA_LITE_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHADDER_ELITE_PID:
         case RAZER_DEATHADDER_ESSENTIAL_PID:
