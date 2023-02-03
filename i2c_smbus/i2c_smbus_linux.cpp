@@ -59,7 +59,7 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
     }
 
     free(msg.buf);
-    
+
     return ret_val;
 }
 
@@ -85,7 +85,7 @@ bool i2c_smbus_linux_detect()
     char *ptr;
 
     // Start looking for I2C adapters in /sys/bus/i2c/devices/
-    strcpy(driver_path, "/sys/bus/i2c/devices/");
+    strcpy(driver_path, "/sys/class/i2c-adapter/");
     dir = opendir(driver_path);
 
     if(dir == NULL)
@@ -116,7 +116,7 @@ bool i2c_smbus_linux_detect()
                 if(test_fd)
                 {
                     memset(device_string, 0x00, sizeof(device_string));
-                    
+
                     if(read(test_fd, device_string, sizeof(device_string)) < 0)
                     {
                         LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device name");
@@ -166,7 +166,7 @@ bool i2c_smbus_linux_detect()
                         {
                             LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI vendor ID");
                         }
-                        
+
                         buff[strlen(buff) - 1] = 0x00;
                         pci_vendor = strtoul(buff, NULL, 16);
                         close(test_fd);
@@ -195,7 +195,7 @@ bool i2c_smbus_linux_detect()
                     if (test_fd >= 0)
                     {
                         memset(buff, 0x00, sizeof(buff));
-                        
+
                         if(read(test_fd, buff, sizeof(buff)) < 0)
                         {
                             LOG_WARNING("[i2c_smbus_linux] Failed to read i2c device PCI subvendor ID");
@@ -222,7 +222,7 @@ bool i2c_smbus_linux_detect()
                         pci_subsystem_device = strtoul(buff, NULL, 16);
                         close(test_fd);
                     }
-                    
+
                     strcpy(device_string, "/dev/");
                     strcat(device_string, ent->d_name);
                     test_fd = open(device_string, O_RDWR);
