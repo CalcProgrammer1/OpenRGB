@@ -35,7 +35,6 @@ public:
     VS_XG270QG_Controller(hid_device* device, const char* path);
     ~VS_XG270QG_Controller();
 
-    std::string GetVersion();
     std::string GetLocation();
     std::string GetSerial();
 

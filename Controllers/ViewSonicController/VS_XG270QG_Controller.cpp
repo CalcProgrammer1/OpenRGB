@@ -19,11 +19,6 @@ VS_XG270QG_Controller::~VS_XG270QG_Controller()
     hid_close(dev);
 }
 
-std::string VS_XG270QG_Controller::GetVersion()
-{
-    return "?";
-}
-
 std::string VS_XG270QG_Controller::GetLocation()
 {
     return location;
