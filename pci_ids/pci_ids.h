@@ -75,6 +75,7 @@
 #define NVIDIA_RTX3050_DEV                              0x2507
 #define NVIDIA_RTX3060_DEV                              0x2503
 #define NVIDIA_RTX3060_GA104_DEV                        0x2487
+#define NVIDIA_RTX3060_GA106_DEV                        0x2503
 #define NVIDIA_RTX3060_LHR_DEV                          0x2504
 #define NVIDIA_RTX3060TI_DEV                            0x2486
 #define NVIDIA_RTX3060TI_LHR_DEV                        0x2489
