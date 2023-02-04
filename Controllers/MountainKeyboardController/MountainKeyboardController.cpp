@@ -379,7 +379,7 @@ void MountainKeyboardController::SendColorPacketCmd(unsigned char pkt_no,unsigne
             memset(&usb_buf[MOUNTAIN_KEYBOARD_USB_BUFFER_HEADER_SIZE + data_size],0x00,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE-data_size);
         }
         hid_write(dev, usb_buf, MOUNTAIN_KEYBOARD_USB_BUFFER_SIZE);
-        std::this_thread::sleep_for(10ms);
+        std::this_thread::sleep_for(5ms);
     }
 }
 
@@ -402,7 +402,7 @@ void MountainKeyboardController::SendColorEdgePacketCmd(unsigned char pkt_no, un
             memset(&usb_buf[MOUNTAIN_KEYBOARD_USB_BUFFER_HEADER_SIZE + data_size],0x00,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE-data_size);
         }
         hid_write(dev, usb_buf, MOUNTAIN_KEYBOARD_USB_BUFFER_SIZE);
-        std::this_thread::sleep_for(10ms);
+        std::this_thread::sleep_for(5ms);
     }
 }
 
@@ -422,48 +422,106 @@ void MountainKeyboardController::SendColorPacketFinishCmd()
     }
 }
 
-void MountainKeyboardController::SendDirectColorEdgeCmd(unsigned char brightness, unsigned char *color_data, unsigned int data_size)
+void MountainKeyboardController::SendDirectColorEdgeCmd(bool quick_mode, unsigned char brightness, unsigned char *color_data, unsigned int data_size)
 {
-    unsigned char pkt_no = 0;
+    static bool first_call = true;
+    static unsigned char prv_buffer[MOUNTAIN_KEYBOARD_TRANSFER_EDGE_BUFFER_SIZE] = {0};
 
-    unsigned char *data_ptr = color_data;
-    SendColorStartPacketCmd(brightness);
-    while(data_size>0)
+    unsigned char pkt_no        = 0;
+    unsigned char *data_ptr     = color_data;
+    unsigned char *prv_data_ptr = prv_buffer;
+    unsigned int  data_len      = data_size;
+
+    if(MOUNTAIN_KEYBOARD_TRANSFER_EDGE_BUFFER_SIZE >= data_len)
     {
-        if(data_size >= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE)
+        if(!quick_mode)
         {
-            MountainKeyboardController::SendColorEdgePacketCmd(pkt_no++,data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE);
-            data_ptr  += MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
-            data_size -= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+            SendColorStartPacketCmd(brightness);
         }
-        else
+        while(data_len>0)
         {
-            MountainKeyboardController::SendColorEdgePacketCmd(pkt_no++,data_ptr,data_size);
-            data_size = 0;;
+            if(data_len >= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE)
+            {
+                if(first_call || !quick_mode || memcmp(data_ptr,prv_data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE))
+                {
+                    MountainKeyboardController::SendColorEdgePacketCmd(pkt_no,data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE);
+                    memcpy(prv_data_ptr,data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE);
+                }
+                pkt_no++;
+                data_ptr        += MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+                prv_data_ptr    += MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+                data_len        -= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+            }
+            else
+            {
+                if(first_call || !quick_mode || memcmp(data_ptr,prv_data_ptr,data_len))
+                {
+                    MountainKeyboardController::SendColorEdgePacketCmd(pkt_no,data_ptr,data_len);
+                    memcpy(prv_data_ptr,data_ptr,data_len);
+                }
+                data_len = 0;
+            }
+        }
+        if(!quick_mode)
+        {
+            SendColorPacketFinishCmd();
+        }
+
+        if (first_call)
+        {
+            first_call = false;
         }
     }
-    SendColorPacketFinishCmd();
 }
 
-void MountainKeyboardController::SendDirectColorCmd(unsigned char brightness, unsigned char *color_data, unsigned int data_size)
+void MountainKeyboardController::SendDirectColorCmd(bool quick_mode, unsigned char brightness, unsigned char *color_data, unsigned int data_size)
 {
-    unsigned char pkt_no = 0;
+    static bool first_call = true;
+    static unsigned char prv_buffer[MOUNTAIN_KEYBOARD_TRANSFER_BUFFER_SIZE] = {0};
 
-    unsigned char *data_ptr = color_data;
-    SendColorStartPacketCmd(brightness);
-    while(data_size>0)
+    unsigned char pkt_no        = 0;
+    unsigned char *data_ptr     = color_data;
+    unsigned char *prv_data_ptr = prv_buffer;
+    unsigned int  data_len      = data_size;
+
+    if(MOUNTAIN_KEYBOARD_TRANSFER_BUFFER_SIZE >= data_len)
     {
-        if(data_size >= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE)
+        if(!quick_mode)
         {
-            MountainKeyboardController::SendColorPacketCmd(pkt_no++,brightness,data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE);
-            data_ptr  += MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
-            data_size -= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+            SendColorStartPacketCmd(brightness);
         }
-        else
+        while(data_len>0)
         {
-            MountainKeyboardController::SendColorPacketCmd(pkt_no++,brightness,data_ptr,data_size);
-            data_size = 0;;
+            if(data_len >= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE)
+            {
+                if(first_call || !quick_mode || memcmp(data_ptr,prv_data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE))
+                {
+                    MountainKeyboardController::SendColorPacketCmd(pkt_no,brightness,data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE);
+                    memcpy(prv_data_ptr,data_ptr,MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE);
+                }
+                pkt_no++;
+                data_ptr        += MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+                prv_data_ptr    += MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+                data_len        -= MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE;
+            }
+            else
+            {
+                if(first_call || !quick_mode || memcmp(data_ptr,prv_data_ptr,data_len))
+                {
+                    MountainKeyboardController::SendColorPacketCmd(pkt_no,brightness,data_ptr,data_len);
+                    memcpy(prv_data_ptr,data_ptr,data_len);
+                }
+                data_len = 0;
+            }
+        }
+        if(!quick_mode)
+        {
+            SendColorPacketFinishCmd();
+        }
+
+        if (first_call)
+        {
+            first_call = false;
         }
     }
-    SendColorPacketFinishCmd();
 }

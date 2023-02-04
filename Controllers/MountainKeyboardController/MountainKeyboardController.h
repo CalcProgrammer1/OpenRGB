@@ -22,6 +22,12 @@
 #define MOUNTAIN_EVEREST_PID                0x0001
 
 
+#define MOUNTAIN_KEYBOARD_MAX_TRANSFER_COLORS           126
+#define MOUNTAIN_KEYBOARD_TRANSFER_BUFFER_SIZE          (3*MOUNTAIN_KEYBOARD_MAX_TRANSFER_COLORS)
+
+#define MOUNTAIN_KEYBOARD_MAX_TRANSFER_EDGE_COLORS       46
+#define MOUNTAIN_KEYBOARD_TRANSFER_EDGE_BUFFER_SIZE     (3*MOUNTAIN_KEYBOARD_MAX_TRANSFER_EDGE_COLORS)
+
 #define MOUNTAIN_KEYBOARD_USB_BUFFER_SIZE                65
 #define MOUNTAIN_KEYBOARD_USB_BUFFER_HEADER_SIZE          8
 #define MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE    \
@@ -129,8 +135,8 @@ public:
     void SendColorMatrixCmd(color_setup setup);
     void SendColorReactiveCmd(color_setup setup);
 
-    void SendDirectColorCmd(unsigned char brightness, unsigned char *color_data, unsigned int color_count);
-    void SendDirectColorEdgeCmd(unsigned char brightness, unsigned char *color_data, unsigned int data_size);
+    void SendDirectColorCmd(bool quick_mode, unsigned char brightness, unsigned char *color_data, unsigned int color_count);
+    void SendDirectColorEdgeCmd(bool quick_mode, unsigned char brightness, unsigned char *color_data, unsigned int data_size);
 
     void SaveData(unsigned char mode_idx);
     void SelectMode(unsigned char mode_idx);

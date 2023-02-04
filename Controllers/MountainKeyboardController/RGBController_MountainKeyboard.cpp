@@ -19,51 +19,308 @@ static const unsigned char reactive_speed_values    [MOUNTAIN_KEYBOARD_SPEED_MAX
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
-#define KEYBOARD_MATRIX_HEIGHT       6
-#define KEYBOARD_MATRIX_WIDTH       24
+#define KEYBOARD_MATRIX_TKL_HEIGHT            6
+#define KEYBOARD_MATRIX_TKL_WIDTH            19
+#define KEYBOARD_MATRIX_TKL_KEYS_NO          87
 
-#define KEYBOARD_MATRIX_EDGE_HEIGHT  6
-#define KEYBOARD_MATRIX_EDGE_WIDTH  19
+#define KEYBOARD_MATRIX_NUM_HEIGHT            6
+#define KEYBOARD_MATRIX_NUM_WIDTH             4
+#define KEYBOARD_MATRIX_NUM_KEYS_NO          17
 
-static unsigned int matrix_map[KEYBOARD_MATRIX_HEIGHT][KEYBOARD_MATRIX_WIDTH] =
-    { {   0,  NA,   9,  18,  27,  36,  NA,  45,  54,  63,  72,  NA,  81,  90,  99, 108, 117, 114, 123,  NA,  NA,  NA,  NA,  NA },
-      {   1,  10,  19,  28,  37,  46,  55,  64,  73,  82,  91,  NA, 100, 109,  87,  NA,  96, 105, 115,  NA,   6,  24,  16,  15 },
-      {   2,  NA,  11,  20,  29,  38,  NA,  47,  56,  65,  74,  83,  92, 101, 110, 119,  88,  97, 106,  NA,  61,  69,  70,   7 },
-      {   3,  NA,  12,  21,  30,  39,  NA,  48,  57,   6,  75,  84,  93, 102,  NA, 120,  NA,  NA,  NA,  NA,  51,  52,  60,  NA },
-      {   4,  NA,  22,  31,  40,  49,  NA,  58,  NA,  67,  76,  85,  94, 103, 121,  NA,  NA, 124,  NA,  NA,  34,  42,  43,  33 },
-      {   5,  14,  23,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  68,  77,  86,  95, 104, 113, 122,  NA,  78,  NA,  79,  NA } };
+#define KEYBOARD_MATRIX_EDGE_TKL_HEIGHT       6
+#define KEYBOARD_MATRIX_EDGE_TKL_WIDTH       14
+#define KEYBOARD_MATRIX_EDGE_TKL_KEYS_NO     32
 
+#define KEYBOARD_MATRIX_EDGE_NUMPAD_HEIGHT    6
+#define KEYBOARD_MATRIX_EDGE_NUMPAD_WIDTH     5
+#define KEYBOARD_MATRIX_EDGE_NUMPAD_KEYS_NO  14
 
-static unsigned int matrix_edge_map[KEYBOARD_MATRIX_EDGE_HEIGHT][KEYBOARD_MATRIX_EDGE_WIDTH] =
-    { {  NA,  13,  14,  15,   7,   6,   5,   4,   3,   2,   1,   0,  45,  NA,  NA,  44,  43,  42,  NA },
-      {  16,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,   9,  31,  NA,  NA,  NA,  41 },
-      {  17,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,   8,  32,  NA,  NA,  NA,  40 },
-      {  18,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  10,  33,  NA,  NA,  NA,  39 },
-      {  19,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  11,  34,  NA,  NA,  NA,  38 },
-      {  NA,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  12,  NA,  NA,  35,  36,  37,  NA } };
+#define KEYBOARD_MATRIX_KEYS_NO              (KEYBOARD_MATRIX_TKL_KEYS_NO + KEYBOARD_MATRIX_NUM_KEYS_NO)
+#define KEYBOARD_MATRIX_EDGE_KEYS_NO         (KEYBOARD_MATRIX_EDGE_TKL_KEYS_NO + KEYBOARD_MATRIX_EDGE_NUMPAD_KEYS_NO)
 
+/*-------------------------------*\
+| TODO: Detect detached keypad    |
+\*-------------------------------*/
+enum
+{
+    IDX_EDGE_00,
+    IDX_EDGE_01,
+    IDX_EDGE_02,
+    IDX_EDGE_03,
+    IDX_EDGE_04,
+    IDX_EDGE_05,
+    IDX_EDGE_06,
+    IDX_EDGE_07,
+    IDX_EDGE_08,
+    IDX_EDGE_09,
+    IDX_EDGE_10,
+    IDX_EDGE_11,
+    IDX_EDGE_12,
+    IDX_EDGE_13,
+    IDX_EDGE_14,
+    IDX_EDGE_15,
+    IDX_EDGE_16,
+    IDX_EDGE_17,
+    IDX_EDGE_18,
+    IDX_EDGE_19,
+    IDX_EDGE_20,
+    IDX_EDGE_21,
+    IDX_EDGE_22,
+    IDX_EDGE_23,
+    IDX_EDGE_24,
+    IDX_EDGE_25,
+    IDX_EDGE_26,
+    IDX_EDGE_27,
+    IDX_EDGE_28,
+    IDX_EDGE_29,
+    IDX_EDGE_30,
+    IDX_EDGE_31,
+    IDX_EDGE_32,
+    IDX_EDGE_33,
+    IDX_EDGE_34,
+    IDX_EDGE_35,
+    IDX_EDGE_36,
+    IDX_EDGE_37,
+    IDX_EDGE_38,
+    IDX_EDGE_39,
+    IDX_EDGE_40,
+    IDX_EDGE_41,
+    IDX_EDGE_42,
+    IDX_EDGE_43,
+    IDX_EDGE_44,
+    IDX_EDGE_45
+};
+
+enum
+{
+    IDX_KEY_EN_ESCAPE       = 0,
+    IDX_KEY_EN_BACK_TICK,
+    IDX_KEY_EN_TAB,
+    IDX_KEY_EN_CAPS_LOCK,
+    IDX_KEY_EN_LEFT_SHIFT,
+    IDX_KEY_EN_LEFT_CONTROL,
+    IDX_KEY_EN_NUMPAD_LOCK,
+    IDX_KEY_EN_NUMPAD_PLUS,
+    IDX_KEY_EN_UNUSED_8,
+    IDX_KEY_EN_F1,
+    IDX_KEY_EN_1,
+    IDX_KEY_EN_Q,
+    IDX_KEY_EN_A,
+    IDX_KEY_EN_UNUSED_13,
+    IDX_KEY_EN_LEFT_WINDOWS,
+    IDX_KEY_EN_NUMPAD_TIMES,
+    IDX_KEY_EN_NUMPAD_MINUS,
+    IDX_KEY_EN_UNUSED_17,
+    IDX_KEY_EN_F2,
+    IDX_KEY_EN_2,
+    IDX_KEY_EN_W,
+    IDX_KEY_EN_S,
+    IDX_KEY_EN_Z,
+    IDX_KEY_EN_LEFT_ALT,
+    IDX_KEY_EN_NUMPAD_DIVIDE,
+    IDX_KEY_EN_UNUSED_25,
+    IDX_KEY_EN_UNUSED_26,
+    IDX_KEY_EN_F3,
+    IDX_KEY_EN_3,
+    IDX_KEY_EN_E,
+    IDX_KEY_EN_D,
+    IDX_KEY_EN_X,
+    IDX_KEY_EN_UNUSED_32,
+    IDX_KEY_EN_NUMPAD_ENTER,
+    IDX_KEY_EN_NUMPAD_1,
+    IDX_KEY_EN_UNUSED_35,
+    IDX_KEY_EN_F4,
+    IDX_KEY_EN_4,
+    IDX_KEY_EN_R,
+    IDX_KEY_EN_F,
+    IDX_KEY_EN_C,
+    IDX_KEY_EN_SPACE,
+    IDX_KEY_EN_NUMPAD_2,
+    IDX_KEY_EN_NUMPAD_3,
+    IDX_KEY_EN_UNUSED_44,
+    IDX_KEY_EN_F5,
+    IDX_KEY_EN_5,
+    IDX_KEY_EN_T,
+    IDX_KEY_EN_G,
+    IDX_KEY_EN_V,
+    IDX_KEY_EN_UNUSED_50,
+    IDX_KEY_EN_NUMPAD_4,
+    IDX_KEY_EN_NUMPAD_5,
+    IDX_KEY_EN_UNUSED_53,
+    IDX_KEY_EN_F6,
+    IDX_KEY_EN_6,
+    IDX_KEY_EN_Y,
+    IDX_KEY_EN_H,
+    IDX_KEY_EN_B,
+    IDX_KEY_EN_UNUSED_59,
+    IDX_KEY_EN_NUMPAD_6,
+    IDX_KEY_EN_NUMPAD_7,
+    IDX_KEY_EN_UNUSED_62,
+    IDX_KEY_EN_F7,
+    IDX_KEY_EN_7,
+    IDX_KEY_EN_U,
+    IDX_KEY_EN_J,
+    IDX_KEY_EN_N,
+    IDX_KEY_EN_RIGHT_ALT,
+    IDX_KEY_EN_NUMPAD_8,
+    IDX_KEY_EN_NUMPAD_9,
+    IDX_KEY_EN_UNUSED_71,
+    IDX_KEY_EN_F8,
+    IDX_KEY_EN_8,
+    IDX_KEY_EN_I,
+    IDX_KEY_EN_K,
+    IDX_KEY_EN_M,
+    IDX_KEY_EN_RIGHT_WINDOWS,
+    IDX_KEY_EN_NUMPAD_0,
+    IDX_KEY_EN_NUMPAD_PERIOD,
+    IDX_KEY_EN_UNUSED_80,
+    IDX_KEY_EN_F9,
+    IDX_KEY_EN_9,
+    IDX_KEY_EN_O,
+    IDX_KEY_EN_L,
+    IDX_KEY_EN_COMMA,
+    IDX_KEY_EN_RIGHT_FUNCTION,
+    IDX_KEY_EN_BACKSPACE,
+    IDX_KEY_EN_DELETE,
+    IDX_KEY_EN_UNUSED_89,
+    IDX_KEY_EN_F10,
+    IDX_KEY_EN_0,
+    IDX_KEY_EN_P,
+    IDX_KEY_EN_SEMICOLON,
+    IDX_KEY_EN_PERIOD,
+    IDX_KEY_EN_RIGHT_CONTROL,
+    IDX_KEY_EN_INSERT,
+    IDX_KEY_EN_END,
+    IDX_KEY_EN_UNUSED_98,
+    IDX_KEY_EN_F11,
+    IDX_KEY_EN_MINUS,
+    IDX_KEY_EN_LEFT_BRACKET,
+    IDX_KEY_EN_QUOTE,
+    IDX_KEY_EN_FORWARD_SLASH,
+    IDX_KEY_EN_LEFT_ARROW,
+    IDX_KEY_EN_HOME,
+    IDX_KEY_EN_PAGE_DOWN,
+    IDX_KEY_EN_UNUSED_107,
+    IDX_KEY_EN_F12,
+    IDX_KEY_EN_EQUALS,
+    IDX_KEY_EN_RIGHT_BRACKET,
+    IDX_KEY_EN_UNUSED_111,
+    IDX_KEY_EN_UNUSED_112,
+    IDX_KEY_EN_DOWN_ARROW,
+    IDX_KEY_EN_SCROLL_LOCK,
+    IDX_KEY_EN_PAGE_UP,
+    IDX_KEY_EN_UNUSED_116,
+    IDX_KEY_EN_PRINT_SCREEN,
+    IDX_KEY_EN_UNUSED_118,
+    IDX_KEY_EN_ANSI_BACK_SLASH,
+    IDX_KEY_EN_ANSI_ENTER,
+    IDX_KEY_EN_RIGHT_SHIFT,
+    IDX_KEY_EN_RIGHT_ARROW,
+    IDX_KEY_EN_PAUSE_BREAK,
+    IDX_KEY_EN_UP_ARROW,
+};
+
+static unsigned int matrix_tkl_map[KEYBOARD_MATRIX_TKL_HEIGHT][KEYBOARD_MATRIX_TKL_WIDTH] =
+    { {   0,  NA,   8,  14,  19,  24,  NA,  30,  36,  40,  45,  NA,  53,  59,  65,  70,  74,  78,  83},
+      {   1,   6,   9,  15,  20,  25,  29,  31,  37,  41,  46,  NA,  54,  60,  66,  NA,  75,  79,  84},
+      {   2,  NA,  10,  16,  21,  26,  NA,  32,  38,  42,  47,  50,  55,  61,  67,  71,  76,  80,  85},
+      {   3,  NA,  11,  17,  22,  27,  NA,  33,  39,  43,  48,  51,  56,  62,  NA,  72,  NA,  NA,  NA},
+      {   4,  NA,  12,  18,  23,  28,  NA,  34,  NA,  44,  49,  52,  57,  63,  68,  NA,  NA,  81,  NA},
+      {   5,   7,  13,  NA,  NA,  NA,  NA,  35,  NA,  NA,  NA,  NA,  58,  64,  69,  73,  77,  82,  86} };
+
+static unsigned int matrix_num_map[KEYBOARD_MATRIX_NUM_HEIGHT][KEYBOARD_MATRIX_NUM_WIDTH] =
+    { {  NA,  NA,  NA,  NA },
+      {   0,   5,   9,  14 },
+      {   1,   6,  10,  15 },
+      {   2,   7,  11,  NA },
+      {   3,   8,  12,  16 },
+      {   4,  NA,  13,  NA } };
+
+static unsigned int matrix_tkl_map_lut[KEYBOARD_MATRIX_TKL_KEYS_NO] =
+{
+    IDX_KEY_EN_ESCAPE, IDX_KEY_EN_BACK_TICK, IDX_KEY_EN_TAB, IDX_KEY_EN_CAPS_LOCK, IDX_KEY_EN_LEFT_SHIFT, IDX_KEY_EN_LEFT_CONTROL,
+    IDX_KEY_EN_1, IDX_KEY_EN_LEFT_WINDOWS,
+    IDX_KEY_EN_F1, IDX_KEY_EN_2, IDX_KEY_EN_Q, IDX_KEY_EN_A, IDX_KEY_EN_Z, IDX_KEY_EN_LEFT_ALT,
+    IDX_KEY_EN_F2, IDX_KEY_EN_3, IDX_KEY_EN_W, IDX_KEY_EN_S, IDX_KEY_EN_X,
+    IDX_KEY_EN_F3, IDX_KEY_EN_4, IDX_KEY_EN_E, IDX_KEY_EN_D, IDX_KEY_EN_C,
+    IDX_KEY_EN_F4, IDX_KEY_EN_5, IDX_KEY_EN_R, IDX_KEY_EN_F, IDX_KEY_EN_V,
+    IDX_KEY_EN_6,
+    IDX_KEY_EN_F5, IDX_KEY_EN_7, IDX_KEY_EN_T, IDX_KEY_EN_G, IDX_KEY_EN_B, IDX_KEY_EN_SPACE,
+    IDX_KEY_EN_F6, IDX_KEY_EN_8, IDX_KEY_EN_Y, IDX_KEY_EN_H,
+    IDX_KEY_EN_F7, IDX_KEY_EN_9, IDX_KEY_EN_U, IDX_KEY_EN_J, IDX_KEY_EN_N,
+    IDX_KEY_EN_F8, IDX_KEY_EN_0, IDX_KEY_EN_I, IDX_KEY_EN_K, IDX_KEY_EN_M,
+    IDX_KEY_EN_O, IDX_KEY_EN_L, IDX_KEY_EN_COMMA,
+    IDX_KEY_EN_F9, IDX_KEY_EN_MINUS, IDX_KEY_EN_P, IDX_KEY_EN_SEMICOLON, IDX_KEY_EN_PERIOD, IDX_KEY_EN_RIGHT_ALT,
+    IDX_KEY_EN_F10, IDX_KEY_EN_EQUALS, IDX_KEY_EN_LEFT_BRACKET, IDX_KEY_EN_QUOTE, IDX_KEY_EN_FORWARD_SLASH, IDX_KEY_EN_RIGHT_WINDOWS,
+    IDX_KEY_EN_F11, IDX_KEY_EN_BACKSPACE, IDX_KEY_EN_RIGHT_BRACKET, IDX_KEY_EN_RIGHT_SHIFT, IDX_KEY_EN_RIGHT_FUNCTION,
+    IDX_KEY_EN_F12, IDX_KEY_EN_ANSI_BACK_SLASH, IDX_KEY_EN_ANSI_ENTER, IDX_KEY_EN_RIGHT_CONTROL,
+    IDX_KEY_EN_PRINT_SCREEN, IDX_KEY_EN_INSERT, IDX_KEY_EN_DELETE, IDX_KEY_EN_LEFT_ARROW,
+    IDX_KEY_EN_SCROLL_LOCK, IDX_KEY_EN_HOME, IDX_KEY_EN_END, IDX_KEY_EN_UP_ARROW, IDX_KEY_EN_DOWN_ARROW,
+    IDX_KEY_EN_PAUSE_BREAK, IDX_KEY_EN_PAGE_UP, IDX_KEY_EN_PAGE_DOWN, IDX_KEY_EN_RIGHT_ARROW
+};
+
+static unsigned int matrix_num_map_lut[KEYBOARD_MATRIX_NUM_KEYS_NO] =
+{
+    IDX_KEY_EN_NUMPAD_LOCK, IDX_KEY_EN_NUMPAD_7, IDX_KEY_EN_NUMPAD_4, IDX_KEY_EN_NUMPAD_1, IDX_KEY_EN_NUMPAD_0,
+    IDX_KEY_EN_NUMPAD_DIVIDE, IDX_KEY_EN_NUMPAD_8, IDX_KEY_EN_NUMPAD_5, IDX_KEY_EN_NUMPAD_2,
+    IDX_KEY_EN_NUMPAD_TIMES, IDX_KEY_EN_NUMPAD_9, IDX_KEY_EN_NUMPAD_6, IDX_KEY_EN_NUMPAD_3, IDX_KEY_EN_NUMPAD_PERIOD,
+    IDX_KEY_EN_NUMPAD_MINUS, IDX_KEY_EN_NUMPAD_PLUS, IDX_KEY_EN_NUMPAD_ENTER
+};
+
+static unsigned int matrix_edge_tkl_map_lut[KEYBOARD_MATRIX_EDGE_TKL_KEYS_NO]=
+{
+    IDX_EDGE_16, IDX_EDGE_17, IDX_EDGE_18, IDX_EDGE_19,
+    IDX_EDGE_13, IDX_EDGE_20,
+    IDX_EDGE_14, IDX_EDGE_21,
+    IDX_EDGE_15, IDX_EDGE_22,
+    IDX_EDGE_07, IDX_EDGE_23,
+    IDX_EDGE_06, IDX_EDGE_24,
+    IDX_EDGE_05, IDX_EDGE_25,
+    IDX_EDGE_04, IDX_EDGE_26,
+    IDX_EDGE_03, IDX_EDGE_27,
+    IDX_EDGE_02, IDX_EDGE_28,
+    IDX_EDGE_01, IDX_EDGE_29,
+    IDX_EDGE_00, IDX_EDGE_30,
+    IDX_EDGE_45, IDX_EDGE_12,
+    IDX_EDGE_09, IDX_EDGE_08, IDX_EDGE_10, IDX_EDGE_11
+};
+
+static unsigned int matrix_edge_numpad_map_lut[KEYBOARD_MATRIX_EDGE_NUMPAD_KEYS_NO]=
+{
+    IDX_EDGE_31, IDX_EDGE_32, IDX_EDGE_33, IDX_EDGE_34,
+    IDX_EDGE_44, IDX_EDGE_35,
+    IDX_EDGE_43, IDX_EDGE_36,
+    IDX_EDGE_42, IDX_EDGE_37,
+    IDX_EDGE_41, IDX_EDGE_40, IDX_EDGE_39, IDX_EDGE_38
+};
+
+static unsigned int matrix_edge_tkl_map[KEYBOARD_MATRIX_EDGE_TKL_HEIGHT][KEYBOARD_MATRIX_EDGE_TKL_WIDTH] =
+    { { NA,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, NA },
+      {  0, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 28 },
+      {  1, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 29 },
+      {  2, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 30 },
+      {  3, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 31 },
+      { NA,  5,  7,  9, 11, 13, 15, 17, 19, 21, 23, 25, 27, NA } };
+
+static unsigned int matrix_edge_numpad_map[KEYBOARD_MATRIX_EDGE_NUMPAD_HEIGHT][KEYBOARD_MATRIX_EDGE_NUMPAD_WIDTH] =
+    { { NA,   4,  6,  8, NA },
+      {  0,  NA, NA, NA, 10 },
+      {  1,  NA, NA, NA, 11 },
+      {  2,  NA, NA, NA, 12 },
+      {  3,  NA, NA, NA, 13 },
+      { NA,   5,  7,  9, NA } };
 
 /*---------------------------------------------------*\
-| TODO: Detect detached keypad                        |
 | TODO: Figure out how to read RGB state              |
 | TODO: separatee display brughness from backlight    |
 \*---------------------------------------------------*/
-
-#if 0
-static unsigned int matrix_map_tkl[6][19] =
-{ {   0,  NA,   9,  18,  27,  36,  NA,  45,  54,  63,  72,  NA,  81,  90,  99, 108, 117, 114, 123},
-  {   1,  10,  19,  28,  37,  46,  55,  64,  73,  82,  91,  NA, 100, 109,  87,  NA,  96, 105, 115},
-  {   2,  NA,  11,  20,  29,  38,  NA,  47,  56,  65,  74,  83,  92, 101, 110, 119,  88,  97, 106},
-  {   3,  NA,  12,  21,  30,  39,  NA,  48,  57,   6,  75,  84,  93, 102,  NA, 120,  NA,  NA,  NA},
-  {   4,  NA,  22,  31,  40,  49,  NA,  58,  NA,  67,  76,  85,  94, 103, 121,  NA,  NA, 124,  NA},
-  {   5,  14,  23,  NA,  NA,  NA,  NA,  41,  NA,  NA,  NA,  NA,  68,  77,  86,  95, 104, 113, 122} };
-#endif
 
 typedef struct
 {
     const char*     name;
     zone_type       type;
     unsigned int*   ptr;
+    unsigned int*   ptr_lut;
     unsigned int    size;
     unsigned int    height;
     unsigned int    width;
@@ -74,26 +331,43 @@ static const mountain_zone_t zone_definitions[] =
     {
         ZONE_EN_KEYBOARD,
         ZONE_TYPE_MATRIX,
-        (unsigned int*)&matrix_map,
-        125,
-        KEYBOARD_MATRIX_HEIGHT,
-        KEYBOARD_MATRIX_WIDTH
+        (unsigned int*)&matrix_tkl_map,
+        (unsigned int*)&matrix_tkl_map_lut,
+        KEYBOARD_MATRIX_TKL_KEYS_NO,
+        KEYBOARD_MATRIX_TKL_HEIGHT,
+        KEYBOARD_MATRIX_TKL_WIDTH
+    },
+    {
+        "Numpad",
+        ZONE_TYPE_MATRIX,
+        (unsigned int*)&matrix_num_map,
+        (unsigned int*)&matrix_num_map_lut,
+        KEYBOARD_MATRIX_NUM_KEYS_NO,
+        KEYBOARD_MATRIX_NUM_HEIGHT,
+        KEYBOARD_MATRIX_NUM_WIDTH
     },
     {
         "Keyboard Edge",
         ZONE_TYPE_MATRIX,
-        (unsigned int*)&matrix_edge_map,
-        46,
-        KEYBOARD_MATRIX_EDGE_HEIGHT,
-        KEYBOARD_MATRIX_EDGE_WIDTH
+        (unsigned int*)&matrix_edge_tkl_map,
+        (unsigned int*)&matrix_edge_tkl_map_lut,
+        KEYBOARD_MATRIX_EDGE_TKL_KEYS_NO,
+        KEYBOARD_MATRIX_EDGE_TKL_HEIGHT,
+        KEYBOARD_MATRIX_EDGE_TKL_WIDTH
+    },
+    {
+        "Numpad Edge",
+        ZONE_TYPE_MATRIX,
+        (unsigned int*)&matrix_edge_numpad_map,
+        (unsigned int*)&matrix_edge_numpad_map_lut,
+        KEYBOARD_MATRIX_EDGE_NUMPAD_KEYS_NO,
+        KEYBOARD_MATRIX_EDGE_NUMPAD_HEIGHT,
+        KEYBOARD_MATRIX_EDGE_NUMPAD_WIDTH
     }
 };
 
-/*-------------------------------*\
-| TODO: Detect detached keypad    |
-\*-------------------------------*/
 
-static const char *led_names[] =
+static const char *led_names[MOUNTAIN_KEYBOARD_MAX_TRANSFER_COLORS] =
 {
     KEY_EN_ESCAPE,
     KEY_EN_BACK_TICK,
@@ -227,7 +501,7 @@ static const char *led_names[] =
     @category Keyboard
     @type USB
     @save :white_check_mark:
-    @direct :white_check_mark:
+    @direct :rotating_light:
     @effects :white_check_mark:
     @detectors DetectMountainKeyboardControllers
     @comment
@@ -247,12 +521,19 @@ RGBController_MountainKeyboard::RGBController_MountainKeyboard(MountainKeyboardC
     mode Direct;
     Direct.name                         = "Direct";
     Direct.value                        = MOUNTAIN_KEYBOARD_MODE_DIRECT;
-    Direct.flags                        = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    Direct.brightness_min               = MOUNTAIN_KEYBOARD_BRIGHTNESS_MIN;
-    Direct.brightness                   = MOUNTAIN_KEYBOARD_BRIGHTNESS_MAX;
-    Direct.brightness_max               = MOUNTAIN_KEYBOARD_BRIGHTNESS_MAX;
+    Direct.flags                        = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode                   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Custom;
+    Custom.name                         = "Custom";
+    Custom.value                        = MOUNTAIN_KEYBOARD_MODE_DIRECT;
+    Custom.flags                        = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Custom.brightness_min               = MOUNTAIN_KEYBOARD_BRIGHTNESS_MIN;
+    Custom.brightness                   = MOUNTAIN_KEYBOARD_BRIGHTNESS_MAX;
+    Custom.brightness_max               = MOUNTAIN_KEYBOARD_BRIGHTNESS_MAX;
+    Custom.color_mode                   = MODE_COLORS_PER_LED;
+    modes.push_back(Custom);
 
     mode Off;
     Off.name                            = "Off";
@@ -395,6 +676,7 @@ void RGBController_MountainKeyboard::SetupZones()
     for(unsigned int zone_idx = 0; zone_idx < sizeof(zone_definitions)/sizeof(zone_definitions[0]); zone_idx++)
     {
         zone new_zone;
+
         new_zone.name                   = zone_definitions[zone_idx].name;
         new_zone.type                   = zone_definitions[zone_idx].type;
         new_zone.leds_min               = zone_definitions[zone_idx].size;
@@ -407,30 +689,37 @@ void RGBController_MountainKeyboard::SetupZones()
         zones.push_back(new_zone);
     }
 
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < sizeof(zone_definitions)/sizeof(zone_definitions[0]); zone_idx++)
     {
+        if (zone_definitions[zone_idx].ptr_lut)
+        {
+            for(unsigned int led_idx=0;led_idx<zones[zone_idx].leds_count;led_idx++)
+            {
+                led* new_led = new led();
+                switch(zone_idx)
+                {
+                    case 0:
+                    case 1:
+                    {
+                        new_led->name = led_names[zone_definitions[zone_idx].ptr_lut[led_idx]];
+                    }
+                    break;
 
-        if(zone_idx == 0)
-        {
-            for(unsigned int led_idx=0;led_idx<zones[zone_idx].leds_count;led_idx++)
-            {
-                led* new_led = new led();
-                new_led->name = led_names[led_idx];
-                leds.push_back(*new_led);
-            }
-        }
-        else
-        {
-            for(unsigned int led_idx=0;led_idx<zones[zone_idx].leds_count;led_idx++)
-            {
-                led* new_led = new led();
-                new_led->name = zones[zone_idx].name + " LED:";
-                new_led->name.append(std::to_string(led_idx + 1));
+                    case 2:
+                    case 3:
+                    {
+                        new_led->name = zones[zone_idx].name + " LED:";
+                        new_led->name.append(std::to_string(led_idx + 1));
+                    }
+                    break;
+
+                    default:
+                    break;
+                }
                 leds.push_back(*new_led);
             }
         }
     }
-
     SetupColors();
 
     DeviceUpdateMode();
@@ -449,42 +738,58 @@ void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
     {
         case MOUNTAIN_KEYBOARD_MODE_DIRECT:
         {
-            unsigned char *color_data;
+            unsigned char color_data[MOUNTAIN_KEYBOARD_TRANSFER_BUFFER_SIZE] = {0};
+            unsigned char color_edge_data[MOUNTAIN_KEYBOARD_TRANSFER_EDGE_BUFFER_SIZE] = {0};
 
-            color_data = (unsigned char*)malloc(colors.size() * 3);
-            if(color_data)
+            for(int led_idx = 0; led_idx < colors.size(); led_idx++)
             {
-                for(int led_idx = 0; led_idx < colors.size(); led_idx++)
+                if(led_idx < zones[0].leds_count)
                 {
-                    color_data[(3 * led_idx)]   = RGBGetRValue(colors[led_idx]);
-                    color_data[(3 * led_idx)+1] = RGBGetGValue(colors[led_idx]);
-                    color_data[(3 * led_idx)+2] = RGBGetBValue(colors[led_idx]);
+                    unsigned int zone_led_idx = led_idx;
+                    unsigned int idx = zone_definitions[0].ptr_lut[zone_led_idx];
+                    color_data[(3 * idx)]   = RGBGetRValue(colors[led_idx]);
+                    color_data[(3 * idx)+1] = RGBGetGValue(colors[led_idx]);
+                    color_data[(3 * idx)+2] = RGBGetBValue(colors[led_idx]);
                 }
-
-                unsigned char *color_ptr = color_data;
-                for(unsigned int zone_idx=0;zone_idx<zones.size();zone_idx++)
+                else if (led_idx < zones[0].leds_count + zones[1].leds_count)
                 {
-                    switch(zone_idx)
-                    {
-                        case 0:
-                        {
-                            controller->SendDirectColorCmd(current_mode.brightness, color_ptr,zones[zone_idx].leds_count * 3);
-                            color_ptr += zones[zone_idx].leds_count * 3;
-                        }
-                        break;
-                        case 1:
-                        {
-                            controller->SendDirectColorEdgeCmd(current_mode.brightness, color_ptr,zones[zone_idx].leds_count * 3);
-                            color_ptr += zones[zone_idx].leds_count * 3;
-                        }
-                        break;
+                    unsigned int zone_led_idx = led_idx - zones[0].leds_count;
+                    unsigned int idx = zone_definitions[1].ptr_lut[zone_led_idx];
+                    color_data[(3 * idx)]   = RGBGetRValue(colors[led_idx]);
+                    color_data[(3 * idx)+1] = RGBGetGValue(colors[led_idx]);
+                    color_data[(3 * idx)+2] = RGBGetBValue(colors[led_idx]);
 
-                        default:
-                        break;
-                    }
                 }
+                else if (led_idx < zones[0].leds_count + zones[1].leds_count + zones[2].leds_count)
+                {
+                    unsigned int zone_led_idx = led_idx - zones[0].leds_count - zones[1].leds_count;
+                    unsigned int idx = zone_definitions[2].ptr_lut[zone_led_idx];
+                    color_edge_data[(3 * idx)]   = RGBGetRValue(colors[led_idx]);
+                    color_edge_data[(3 * idx)+1] = RGBGetGValue(colors[led_idx]);
+                    color_edge_data[(3 * idx)+2] = RGBGetBValue(colors[led_idx]);
+                }
+                else
+                {
+                    unsigned int zone_led_idx = led_idx - zones[0].leds_count - zones[1].leds_count - zones[2].leds_count;
+                    unsigned int idx = zone_definitions[3].ptr_lut[zone_led_idx];
+                    color_edge_data[(3 * idx)]   = RGBGetRValue(colors[led_idx]);
+                    color_edge_data[(3 * idx)+1] = RGBGetGValue(colors[led_idx]);
+                    color_edge_data[(3 * idx)+2] = RGBGetBValue(colors[led_idx]);
+                }
+            }
 
-                free(color_data);
+            /*---------------------------------------------------------*\
+            | Check if we running pseud DIRECT mode or CUSTOM one       |
+            \*---------------------------------------------------------*/
+            if(current_mode.flags & MODE_FLAG_MANUAL_SAVE)
+            {
+                controller->SendDirectColorCmd(false, current_mode.brightness, color_data,MOUNTAIN_KEYBOARD_TRANSFER_BUFFER_SIZE);
+                controller->SendDirectColorEdgeCmd(false, current_mode.brightness, color_edge_data,MOUNTAIN_KEYBOARD_TRANSFER_EDGE_BUFFER_SIZE);
+            }
+            else
+            {
+                controller->SendDirectColorCmd(true, current_mode.brightness, color_data,MOUNTAIN_KEYBOARD_TRANSFER_BUFFER_SIZE);
+                controller->SendDirectColorEdgeCmd(true, current_mode.brightness, color_edge_data,MOUNTAIN_KEYBOARD_TRANSFER_EDGE_BUFFER_SIZE);
             }
         }
         break;
