@@ -1230,7 +1230,6 @@ unsigned char RazerController::GetKeyboardLayoutType()
             return RAZER_LAYOUT_TYPE_ANSI;
 
         case RAZER_KEYBOARD_LAYOUT_GREEK:                  // Unconfirmed
-        case RAZER_KEYBOARD_LAYOUT_FRENCH:
         case RAZER_KEYBOARD_LAYOUT_UK:
         case RAZER_KEYBOARD_LAYOUT_NORDIC:
         case RAZER_KEYBOARD_LAYOUT_KOREAN:                 // Unconfirmed
@@ -1242,6 +1241,9 @@ unsigned char RazerController::GetKeyboardLayoutType()
         case RAZER_KEYBOARD_LAYOUT_PORTUGESE_PORTUGA:      // Unconfirmed
         case RAZER_KEYBOARD_LAYOUT_HEBREW:                 // Unconfirmed
             return RAZER_LAYOUT_TYPE_ISO;
+
+        case RAZER_KEYBOARD_LAYOUT_FRENCH:
+            return RAZER_LAYOUT_TYPE_AZERTY;
 
         case RAZER_KEYBOARD_LAYOUT_JAPAN:                  // Unconfirmed
             return RAZER_LAYOUT_TYPE_JIS;

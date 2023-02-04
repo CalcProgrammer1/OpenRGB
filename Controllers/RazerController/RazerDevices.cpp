@@ -11,6 +11,130 @@
 /*-------------------------------------------------------------------------*\
 |  KEYMAPS                                                                  |
 \*-------------------------------------------------------------------------*/
+keyboard_keymap_overlay_values razer_empty_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    }
+};
+
+keyboard_keymap_overlay_values razer_blackwidow_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      1,      14,         0,          KEY_EN_EQUALS,              },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      6,          0,          KEY_EN_SPACE,               },
+        {   0,      5,      10,         0,          KEY_EN_RIGHT_ALT,           },
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      2,      13,         0,          KEY_EN_UNUSED,              },
+        {   0,      5,      7,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      11,         0,          "Logo",                     },
+    }
+};
+
+keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      0,      20,         0,          "Logo",                     },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    }
+};
+
+keyboard_keymap_overlay_values razer_huntsman_elite_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      0,      18,         0,          KEY_EN_MEDIA_PREVIOUS,      },
+        {   0,      0,      19,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    },
+        {   0,      0,      20,         0,          KEY_EN_MEDIA_NEXT,          },
+        {   0,      0,      21,         0,          KEY_EN_MEDIA_MUTE,          },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    }
+};
+
+/*-------------------------------------------------------------------------*\
+|  OLD_KEYMAPS                                                              |
+\*-------------------------------------------------------------------------*/
 #define BLACKWIDOW_CHROMA_KEYMAP_SIZE (sizeof(blackwidow_chroma_keymap) / sizeof(blackwidow_chroma_keymap[0]))
 
 static const razer_key blackwidow_chroma_keymap[] =
@@ -2623,7 +2747,8 @@ static const razer_device blackwidow_2019_device =
         NULL
     },
     blackwidow_2019_keymap,
-    BLACKWIDOW_2019_KEYMAP_SIZE
+    BLACKWIDOW_2019_KEYMAP_SIZE,
+    &razer_blackwidow_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2658,7 +2783,8 @@ static const razer_device blackwidow_chroma_device =
         NULL
     },
     blackwidow_chroma_keymap,
-    BLACKWIDOW_CHROMA_KEYMAP_SIZE
+    BLACKWIDOW_CHROMA_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2693,7 +2819,8 @@ static const razer_device blackwidow_chroma_overwatch_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2728,7 +2855,8 @@ static const razer_device blackwidow_v3_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2763,7 +2891,8 @@ static const razer_device blackwidow_chroma_te_device =
         NULL
     },
     blackwidow_chroma_te_keymap,
-    BLACKWIDOW_CHROMA_TE_KEYMAP_SIZE
+    BLACKWIDOW_CHROMA_TE_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2798,7 +2927,8 @@ static const razer_device blackwidow_elite_device =
         NULL
     },
     blackwidow_elite_keymap,
-    BLACKWIDOW_ELITE_KEYMAP_SIZE
+    BLACKWIDOW_ELITE_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2833,7 +2963,8 @@ static const razer_device blackwidow_chroma_v2_device =
         NULL
     },
     blackwidow_chroma_v2_keymap,
-    BLACKWIDOW_CHROMA_V2_KEYMAP_SIZE
+    BLACKWIDOW_CHROMA_V2_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2868,7 +2999,8 @@ static const razer_device blackwidow_v3_pro_wired_device =
         NULL
     },
     blackwidow_v3_pro_keymap,
-    BLACKWIDOW_V3_PRO_KEYMAP_SIZE
+    BLACKWIDOW_V3_PRO_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2903,7 +3035,8 @@ static const razer_device blackwidow_v3_pro_bluetooth_device =
         NULL
     },
     blackwidow_v3_pro_keymap,
-    BLACKWIDOW_V3_PRO_KEYMAP_SIZE
+    BLACKWIDOW_V3_PRO_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2938,7 +3071,8 @@ static const razer_device blackwidow_v3_pro_wireless_device =
         NULL
     },
     blackwidow_v3_pro_keymap,
-    BLACKWIDOW_V3_PRO_KEYMAP_SIZE
+    BLACKWIDOW_V3_PRO_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -2973,7 +3107,8 @@ static const razer_device blackwidow_v3_tkl_device =
         NULL
     },
     blackwidow_v3_tkl_keymap,
-    BLACKWIDOW_V3_TKL_KEYMAP_SIZE
+    BLACKWIDOW_V3_TKL_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3008,7 +3143,8 @@ static const razer_device blackwidow_v3_mini_wired_device =
         NULL
     },
     blackwidow_v3_mini_keymap,
-    BLACKWIDOW_V3_MINI_KEYMAP_SIZE
+    BLACKWIDOW_V3_MINI_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3035,7 +3171,8 @@ static const razer_device blackwidow_v3_mini_wireless_device =
         NULL
     },
     blackwidow_v3_mini_keymap,
-    BLACKWIDOW_V3_MINI_KEYMAP_SIZE
+    BLACKWIDOW_V3_MINI_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3070,7 +3207,8 @@ static const razer_device blackwidow_x_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3104,8 +3242,9 @@ static const razer_device blackwidow_x_chroma_te_device =
         NULL,
         NULL
     },
-    blackwidow_chroma_te_keymap,
-    BLACKWIDOW_CHROMA_TE_KEYMAP_SIZE
+    NULL,
+    0,
+    &razer_blackwidow_x_chroma_te_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3140,7 +3279,8 @@ static const razer_device cynosa_chroma_device =
         NULL
     },
     cynosa_chroma_keymap,
-    CYNOSA_CHROMA_KEYMAP_SIZE
+    CYNOSA_CHROMA_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3175,7 +3315,8 @@ static const razer_device cynosa_v2_device =
         NULL
     },
     cynosa_chroma_v2_keymap,
-    CYNOSA_CHROMA_V2_KEYMAP_SIZE
+    CYNOSA_CHROMA_V2_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3210,7 +3351,8 @@ static const razer_device cynosa_lite_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3245,7 +3387,8 @@ static const razer_device ornata_chroma_device =
         NULL
     },
     ornata_chroma_keymap,
-    ORNATA_CHROMA_KEYMAP_SIZE
+    ORNATA_CHROMA_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 
@@ -3281,7 +3424,8 @@ static const razer_device ornata_v3_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 
@@ -3317,7 +3461,8 @@ static const razer_device ornata_v3_x_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 
@@ -3353,7 +3498,8 @@ static const razer_device deathstalker_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3388,7 +3534,8 @@ static const razer_device huntsman_device =
         NULL
     },
     huntsman_keymap,
-    HUNTSMAN_KEYMAP_SIZE
+    HUNTSMAN_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3434,8 +3581,9 @@ static const razer_device huntsman_elite_device =
         NULL,
         NULL
     },
-    huntsman_elite_keymap,
-    HUNTSMAN_ELITE_KEYMAP_SIZE
+    NULL,
+    0,
+    &razer_huntsman_elite_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3482,7 +3630,8 @@ static const razer_device huntsman_v2_analog_device =
         NULL
     },
     huntsman_v2_analog_keymap,
-    HUNTSMAN_V2_ANALOG_KEYMAP_SIZE
+    HUNTSMAN_V2_ANALOG_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3517,7 +3666,8 @@ static const razer_device huntsman_mini_device =
         NULL
     },
     huntsman_mini_keymap,
-    HUNTSMAN_MINI_KEYMAP_SIZE
+    HUNTSMAN_MINI_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3552,7 +3702,8 @@ static const razer_device huntsman_te_device =
         NULL
     },
     huntsman_te_keymap,
-    HUNTSMAN_TE_KEYMAP_SIZE
+    HUNTSMAN_TE_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3587,7 +3738,8 @@ static const razer_device huntsman_v2_tkl_device =
         NULL
     },
     huntsman_v2_tkl_keymap,
-    HUNTSMAN_V2_TKL_KEYMAP_SIZE
+    HUNTSMAN_V2_TKL_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3622,7 +3774,8 @@ static const razer_device huntsman_v2_device =
         NULL
     },
     huntsman_v2_keymap,
-    HUNTSMAN_V2_KEYMAP_SIZE
+    HUNTSMAN_V2_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------------------*\
@@ -3661,7 +3814,8 @@ static const razer_device blade_2016_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3696,7 +3850,8 @@ static const razer_device blade_late_2016_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3731,7 +3886,8 @@ static const razer_device blade_15_2018_advanced_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3766,7 +3922,8 @@ static const razer_device blade_15_2018_base_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3801,7 +3958,8 @@ static const razer_device blade_15_2018_mercury_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3836,7 +3994,8 @@ static const razer_device blade_15_2019_advanced_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3871,7 +4030,8 @@ static const razer_device blade_15_2019_base_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3906,7 +4066,8 @@ static const razer_device blade_15_2019_mercury_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3941,7 +4102,8 @@ static const razer_device blade_15_2019_studio_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -3976,7 +4138,8 @@ static const razer_device blade_15_2020_advanced_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4011,7 +4174,8 @@ static const razer_device blade_15_2020_base_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4046,7 +4210,8 @@ static const razer_device blade_late_2020_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4081,7 +4246,8 @@ static const razer_device blade_15_2021_advanced_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4116,7 +4282,8 @@ static const razer_device blade_15_2021_base_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4151,7 +4318,8 @@ static const razer_device blade_15_2021_base_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4186,7 +4354,8 @@ static const razer_device blade_14_2021_device =
         NULL
     },
     blade_14_2021_keymap,
-    BLADE_14_2021_KEYMAP_SIZE
+    BLADE_14_2021_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4221,7 +4390,8 @@ static const razer_device blade_14_2022_device =
         NULL
     },
     blade_14_2022_keymap,
-    BLADE_14_2022_KEYMAP_SIZE
+    BLADE_14_2022_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4256,7 +4426,8 @@ static const razer_device book_13_2020_device =
         NULL
     },
     book_13_2020_keymap,
-    BOOK_13_2020_KEYMAP_SIZE
+    BOOK_13_2020_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4291,7 +4462,8 @@ static const razer_device blade_pro_2016_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4326,7 +4498,8 @@ static const razer_device blade_pro_2017_device =
         NULL
     },
     blade_pro_2017_keymap,
-    BLADE_PRO_2017_KEYMAP_SIZE
+    BLADE_PRO_2017_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4361,7 +4534,8 @@ static const razer_device blade_pro_2017_fullhd_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4395,7 +4569,8 @@ static const razer_device blade_pro_2019_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4430,7 +4605,8 @@ static const razer_device blade_pro_late_2019_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4465,7 +4641,8 @@ static const razer_device blade_pro_17_2020_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4500,7 +4677,8 @@ static const razer_device blade_pro_17_2021_device =
         NULL
     },
     blade_17_pro_2021_keymap,
-    BLADE_17_PRO_2021_KEYMAP_SIZE
+    BLADE_17_PRO_2021_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4535,7 +4713,8 @@ static const razer_device blade_stealth_2016_device =
         NULL
     },
     blade_stealth_2016_keymap,
-    BLADE_STEALTH_2016_KEYMAP_SIZE
+    BLADE_STEALTH_2016_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4570,7 +4749,8 @@ static const razer_device blade_stealth_late_2016_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4605,7 +4785,8 @@ static const razer_device blade_stealth_2017_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4640,7 +4821,8 @@ static const razer_device blade_stealth_late_2017_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4675,7 +4857,8 @@ static const razer_device blade_stealth_2019_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4710,7 +4893,8 @@ static const razer_device blade_stealth_late_2019_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4745,7 +4929,8 @@ static const razer_device blade_stealth_2020_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4780,7 +4965,8 @@ static const razer_device blade_stealth_late_2020_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------------------*\
@@ -4819,7 +5005,8 @@ static const razer_device abyssus_elite_dva_edition_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4854,7 +5041,8 @@ static const razer_device abyssus_essential_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4901,7 +5089,8 @@ static const razer_device basilisk_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -4936,7 +5125,8 @@ static const razer_device basilisk_essential_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5007,7 +5197,8 @@ static const razer_device basilisk_ultimate_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5078,7 +5269,8 @@ static const razer_device basilisk_ultimate_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5125,7 +5317,8 @@ static const razer_device basilisk_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5184,7 +5377,8 @@ static const razer_device basilisk_v3_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5243,7 +5437,8 @@ static const razer_device basilisk_v3_pro_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5302,7 +5497,8 @@ static const razer_device basilisk_v3_pro_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5361,7 +5557,8 @@ static const razer_device basilisk_v3_pro_bluetooth_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 /*-------------------------------------------------------------*\
 |  Razer DeathAdder Chroma                                      |
@@ -5407,7 +5604,8 @@ static const razer_device deathadder_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5454,7 +5652,8 @@ static const razer_device deathadder_elite_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5501,7 +5700,8 @@ static const razer_device deathadder_essential_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5548,7 +5748,8 @@ static const razer_device deathadder_essential_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5595,7 +5796,8 @@ static const razer_device deathadder_essential_white_edition_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5642,7 +5844,8 @@ static const razer_device deathadder_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5677,7 +5880,8 @@ static const razer_device deathadder_v2_mini_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5712,7 +5916,8 @@ static const razer_device deathadder_v2_pro_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5747,7 +5952,8 @@ static const razer_device deathadder_v2_pro_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5806,7 +6012,8 @@ static const razer_device diamondback_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5877,7 +6084,8 @@ static const razer_device lancehead_2017_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -5948,7 +6156,8 @@ static const razer_device lancehead_2017_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6019,7 +6228,8 @@ static const razer_device lancehead_2019_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6090,7 +6300,8 @@ static const razer_device lancehead_2019_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6161,7 +6372,8 @@ static const razer_device lancehead_te_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6196,7 +6408,8 @@ static const razer_device mamba_2012_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6231,7 +6444,8 @@ static const razer_device mamba_2012_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6266,7 +6480,8 @@ static const razer_device mamba_2015_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6301,7 +6516,8 @@ static const razer_device mamba_2015_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6348,7 +6564,8 @@ static const razer_device mamba_2018_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6396,7 +6613,8 @@ static const razer_device mamba_2018_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6468,7 +6686,8 @@ static const razer_device mamba_elite_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6539,7 +6758,8 @@ static const razer_device mamba_te_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6598,7 +6818,8 @@ static const razer_device naga_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6657,7 +6878,8 @@ static const razer_device naga_classic_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6716,7 +6938,8 @@ static const razer_device naga_hex_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6775,7 +6998,8 @@ static const razer_device naga_left_handed_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6834,7 +7058,8 @@ static const razer_device naga_trinity_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6893,7 +7118,8 @@ static const razer_device naga_pro_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 static const razer_device naga_pro_wireless_device =
@@ -6913,7 +7139,8 @@ static const razer_device naga_pro_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6948,7 +7175,8 @@ static const razer_device viper_8khz_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -6983,7 +7211,8 @@ static const razer_device viper_mini_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7018,7 +7247,8 @@ static const razer_device viper_ultimate_wired_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7053,7 +7283,8 @@ static const razer_device viper_ultimate_wireless_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7088,7 +7319,8 @@ static const razer_device viper_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7135,7 +7367,8 @@ static const razer_device naga_epic_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------------------*\
@@ -7174,7 +7407,8 @@ static const razer_device orbweaver_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7209,7 +7443,8 @@ static const razer_device tartarus_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7257,7 +7492,8 @@ static const razer_device tartarus_pro_device =
     TARTARUS_PRO_KEYMAP_SIZE
     \*-------------------------------------------------------------*/
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7292,7 +7528,8 @@ static const razer_device tartarus_v2_device =
         NULL
     },
     tartarus_v2_keymap,
-    TARTARUS_V2_KEYMAP_SIZE
+    TARTARUS_V2_KEYMAP_SIZE,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------------------*\
@@ -7331,7 +7568,8 @@ static const razer_device firefly_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7366,7 +7604,8 @@ static const razer_device firefly_hyperflux_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7401,7 +7640,8 @@ static const razer_device firefly_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7436,7 +7676,8 @@ static const razer_device goliathus_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7471,7 +7712,8 @@ static const razer_device goliathus_extended_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7506,7 +7748,8 @@ static const razer_device strider_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------------------*\
@@ -7545,7 +7788,8 @@ static const razer_device kraken_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7580,7 +7824,8 @@ static const razer_device kraken_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7615,7 +7860,8 @@ static const razer_device kraken_ultimate_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7650,7 +7896,8 @@ static const razer_device kraken_kitty_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7709,7 +7956,8 @@ static const razer_device tiamat_71_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------------------*\
@@ -7760,7 +8008,8 @@ static const razer_device core_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7807,7 +8056,8 @@ static const razer_device core_x_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7842,7 +8092,8 @@ static const razer_device mug_holder_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7937,7 +8188,8 @@ static const razer_device chromaargb_device =
         &chromaargb_zone_6
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8008,7 +8260,8 @@ static const razer_device chromahdk_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8055,7 +8308,8 @@ static const razer_device chroma_pc_case_lighting_kit_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8090,7 +8344,8 @@ static const razer_device base_station_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 
@@ -8126,7 +8381,8 @@ static const razer_device mouse_bungee_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8161,7 +8417,8 @@ static const razer_device base_station_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8196,7 +8453,8 @@ static const razer_device laptop_stand_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8231,7 +8489,8 @@ static const razer_device laptop_stand_chroma_v2_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8266,7 +8525,8 @@ static const razer_device mouse_dock_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8301,7 +8561,8 @@ static const razer_device mouse_dock_pro_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8349,7 +8610,8 @@ static const razer_device nommo_pro_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8397,7 +8659,8 @@ static const razer_device nommo_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8433,7 +8696,8 @@ static const razer_device charging_pad_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8469,7 +8733,8 @@ static const razer_device o11_dynamic_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8505,7 +8770,8 @@ static const razer_device seiren_emote_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8541,7 +8807,8 @@ static const razer_device thunderbolt_4_dock_chroma_device =
         NULL
     },
     NULL,
-    0
+    0,
+    &razer_empty_layout
 };
 
 /*-------------------------------------------------------------------------*\

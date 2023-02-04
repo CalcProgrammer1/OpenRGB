@@ -137,6 +137,35 @@ void RGBController_Razer::SetupZones()
     unsigned char layout_type = controller->GetKeyboardLayoutType();
 
     /*---------------------------------------------------------*\
+    | Dynamically generate a keyboard layout                    |
+    \*---------------------------------------------------------*/
+    KEYBOARD_LAYOUT new_layout;
+    switch(layout_type)
+    {
+        case RAZER_LAYOUT_TYPE_AZERTY:
+            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_AZERTY;
+            break;
+
+        case RAZER_LAYOUT_TYPE_ISO:
+            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTY;
+            break;
+
+        case RAZER_LAYOUT_TYPE_JIS:
+            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
+            break;
+
+        case RAZER_LAYOUT_TYPE_QWERTZ:
+            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTZ;
+            break;
+
+        default:
+            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
+    }
+
+    KeyboardLayoutManager new_kb(new_layout, device_list[device_index]->layout->base_size,
+                                             device_list[device_index]->layout->key_values);
+
+    /*---------------------------------------------------------*\
     | Fill in zone information based on device table            |
     \*---------------------------------------------------------*/
     for(unsigned int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
@@ -154,57 +183,72 @@ void RGBController_Razer::SetupZones()
 
             if(new_zone.type == ZONE_TYPE_MATRIX)
             {
-                matrix_map_type * new_map = new matrix_map_type;
-                new_zone.matrix_map = new_map;
+                matrix_map_type * new_map   = new matrix_map_type;
+                new_zone.matrix_map         = new_map;
+                new_map->height             = device_list[device_index]->zones[zone_id]->rows;
+                new_map->width              = device_list[device_index]->zones[zone_id]->cols;
+                new_map->map                = new unsigned int[new_map->height * new_map->width];
 
-                new_map->height = device_list[device_index]->zones[zone_id]->rows;
-                new_map->width  = device_list[device_index]->zones[zone_id]->cols;
-
-                new_map->map = new unsigned int[new_map->height * new_map->width];
-
-                for(unsigned int y = 0; y < new_map->height; y++)
+                if(device_list[device_index]->layout->base_size != KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
                 {
-                    for(unsigned int x = 0; x < new_map->width; x++)
+                    /*---------------------------------------------------------*\
+                    | Minor adjustments to keyboard layout                      |
+                    \*---------------------------------------------------------*/
+                    keyboard_keymap_overlay_values* temp = device_list[device_index]->layout;
+                    new_kb.ChangeKeys(*temp);
+
+                    /*---------------------------------------------------------*\
+                    | Matrix map still uses declared zone rows and columns      |
+                    |   as the packet structure depends on the matrix map       |
+                    \*---------------------------------------------------------*/
+                    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_INDEX, new_map->height, new_map->width);
+                }
+                else
+                {
+                    for(unsigned int y = 0; y < new_map->height; y++)
                     {
-                        bool exists_in_keymap = false;
+                        for(unsigned int x = 0; x < new_map->width; x++)
+                        {
+                            bool exists_in_keymap = false;
 
-                        if(new_zone.name != ZONE_EN_KEYBOARD)
-                        {
-                            /*---------------------------------------------------------*\
-                            | For zones other than the actual keyboard, we want all     |
-                            | entries in the matrix visible in the LED view (such as    |
-                            | underglow)                                                |
-                            \*---------------------------------------------------------*/
-                            exists_in_keymap = true;
-                        }
-                        else if(device_list[device_index]->keymap != NULL)
-                        {
-                            for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
+                            if(new_zone.name != ZONE_EN_KEYBOARD)
                             {
-                                razer_key key = device_list[device_index]->keymap[i];
-                                if(zone_id == key.zone && y  == key.row  && x  == key.col && (key.layout & layout_type))
+                                /*---------------------------------------------------------*\
+                                | For zones other than the actual keyboard, we want all     |
+                                | entries in the matrix visible in the LED view (such as    |
+                                | underglow)                                                |
+                                \*---------------------------------------------------------*/
+                                exists_in_keymap = true;
+                            }
+                            else if(device_list[device_index]->keymap != NULL)
+                            {
+                                for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
                                 {
-                                    exists_in_keymap = true;
-                                    break;
+                                    razer_key key = device_list[device_index]->keymap[i];
+                                    if(zone_id == key.zone && y  == key.row  && x  == key.col && (key.layout & layout_type))
+                                    {
+                                        exists_in_keymap = true;
+                                        break;
+                                    }
                                 }
-                            }   
-                        }
-                        else
-                        {
-                            /*---------------------------------------------------------*\
-                            | If the device has no keymap defined we want all entries in|
-                            | the matrix to be visible in the LED view                  |
-                            \*---------------------------------------------------------*/
-                            exists_in_keymap = true;
-                        }
+                            }
+                            else
+                            {
+                                /*---------------------------------------------------------*\
+                                | If the device has no keymap defined we want all entries in|
+                                | the matrix to be visible in the LED view                  |
+                                \*---------------------------------------------------------*/
+                                exists_in_keymap = true;
+                            }
 
-                        if (exists_in_keymap)
-                        {
-                            new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
-                        }
-                        else
-                        {
-                            new_map->map[(y * new_map->width) + x] = -1;
+                            if (exists_in_keymap)
+                            {
+                                new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                            }
+                            else
+                            {
+                                new_map->map[(y * new_map->width) + x] = -1;
+                            }
                         }
                     }
                 }
@@ -220,48 +264,68 @@ void RGBController_Razer::SetupZones()
 
     for(unsigned int zone_id = 0; zone_id < zones.size(); zone_id++)
     {
-        for (unsigned int row_id = 0; row_id < device_list[device_index]->zones[zone_id]->rows; row_id++)
+        /*---------------------------------------------------------*\
+        | Check the dynamic layout                                  |
+        \*---------------------------------------------------------*/
+        if(device_list[device_index]->zones[zone_id]->name == ZONE_EN_KEYBOARD && new_kb.GetKeyCount() > 0)
         {
-            for (unsigned int col_id = 0; col_id < device_list[device_index]->zones[zone_id]->cols; col_id++)
+            for(std::size_t row = 0; row < zones[zone_id].matrix_map->height; row++)
             {
-                led* new_led = new led();
-
-                new_led->name = device_list[device_index]->zones[zone_id]->name;
-
-                if(zones[zone_id].leds_count > 1)
+                for(std::size_t col = 0; col < zones[zone_id].matrix_map->width; col++)
                 {
-                    new_led->name.append(" LED ");
-                    new_led->name.append(std::to_string(col_id + 1));
+                    led* new_led = new led();
+
+                    new_led->name = new_kb.GetKeyNameAt(row, col);
+
+                    leds.push_back(*new_led);
                 }
-
-                if(device_list[device_index]->keymap != NULL)
+            }
+        }
+        else
+        {
+            for (unsigned int row_id = 0; row_id < device_list[device_index]->zones[zone_id]->rows; row_id++)
+            {
+                for (unsigned int col_id = 0; col_id < device_list[device_index]->zones[zone_id]->cols; col_id++)
                 {
-                    bool not_found = true;
+                    led* new_led = new led();
 
-                    for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
+                    new_led->name = device_list[device_index]->zones[zone_id]->name;
+
+                    if(zones[zone_id].leds_count > 1)
                     {
-                        if(zone_id      == device_list[device_index]->keymap[i].zone &&
-                           row_id       == device_list[device_index]->keymap[i].row  &&
-                           col_id       == device_list[device_index]->keymap[i].col  &&
-                           layout_type  &  device_list[device_index]->keymap[i].layout)
+                        new_led->name.append(" LED ");
+                        new_led->name.append(std::to_string(col_id + 1));
+                    }
+
+                    if(device_list[device_index]->keymap != NULL)
+                    {
+                        bool not_found = true;
+
+                        for(unsigned int i = 0; i < device_list[device_index]->keymap_size; i++)
                         {
-                            new_led->name = device_list[device_index]->keymap[i].name;
-                            not_found = false;
-                            break;
+                            if(zone_id      == device_list[device_index]->keymap[i].zone &&
+                               row_id       == device_list[device_index]->keymap[i].row  &&
+                               col_id       == device_list[device_index]->keymap[i].col  &&
+                               layout_type  &  device_list[device_index]->keymap[i].layout)
+                            {
+                                new_led->name = device_list[device_index]->keymap[i].name;
+                                not_found = false;
+                                break;
+                            }
+                        }
+
+                        /*-----------------------------------------------------------------*\
+                        | If this is the "Keyboard" zone and key was not found in the map   |
+                        |   then change the value of the key to hide it from view           |
+                        \*-----------------------------------------------------------------*/
+                        if(not_found && zones[zone_id].name == ZONE_EN_KEYBOARD)
+                        {
+                            zones[zone_id].matrix_map->map[row_id * zones[zone_id].matrix_map->width + col_id] = NA;
                         }
                     }
 
-                    /*-----------------------------------------------------------------*\
-                    | If this is the "Keyboard" zone and key was not found in the map   |
-                    |   then change the value of the key to hide it from view           |
-                    \*-----------------------------------------------------------------*/
-                    if(not_found && zones[zone_id].name == ZONE_EN_KEYBOARD)
-                    {
-                        zones[zone_id].matrix_map->map[row_id * zones[zone_id].matrix_map->width + col_id] = NA;
-                    }
+                    leds.push_back(*new_led);
                 }
-
-                leds.push_back(*new_led);
             }
         }
     }

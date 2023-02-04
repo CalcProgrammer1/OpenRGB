@@ -10,6 +10,7 @@
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 #include "RazerController.h"
+#include "KeyboardLayoutManager.h"
 
 /*-----------------------------------------------------*\
 | Razer vendor ID                                       |
@@ -222,32 +223,33 @@
 
 typedef struct
 {
-    std::string name;
-    unsigned int type;
-    unsigned int rows;
-    unsigned int cols;
+    std::string                         name;
+    unsigned int                        type;
+    unsigned int                        rows;
+    unsigned int                        cols;
 } razer_zone;
 
 typedef struct
 {
-    unsigned int zone;
-    unsigned int row;
-    unsigned int col;
-    const char* name;
-    unsigned char layout = RAZER_LAYOUT_TYPE_ALL;
+    unsigned int                        zone;
+    unsigned int                        row;
+    unsigned int                        col;
+    const char*                         name;
+    unsigned char                       layout = RAZER_LAYOUT_TYPE_ALL;
 } razer_key;
 
 typedef struct
 {
-    std::string name;
-    unsigned short pid;
-    device_type type;
-    bool matrix_type;
-    unsigned int rows;
-    unsigned int cols;
-    const razer_zone* zones[RAZER_MAX_ZONES];
-    const razer_key* keymap;
-    unsigned int keymap_size;
+    std::string                         name;
+    unsigned short                      pid;
+    device_type                         type;
+    bool                                matrix_type;
+    unsigned int                        rows;
+    unsigned int                        cols;
+    const razer_zone*                   zones[RAZER_MAX_ZONES];
+    const razer_key*                    keymap;
+    unsigned int                        keymap_size;
+    keyboard_keymap_overlay_values*     layout;
 } razer_device;
 
 /*-----------------------------------------------------*\

@@ -682,6 +682,7 @@ HEADERS +=                                                                      
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.h                             \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.h                         \
+    RGBController/KeyboardLayoutManager.h                                                       \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBControllerKeyNames.h                                                       \
@@ -1324,6 +1325,7 @@ SOURCES +=                                                                      
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.cpp                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUControllerDetect.cpp                     \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.cpp                       \
+    RGBController/KeyboardLayoutManager.cpp                                                     \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBControllerKeyNames.cpp                                                     \

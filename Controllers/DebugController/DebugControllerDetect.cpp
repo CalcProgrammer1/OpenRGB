@@ -3,6 +3,7 @@
 #include "RGBController_Debug.h"
 #include "RGBController_Dummy.h"
 #include "RGBControllerKeyNames.h"
+#include "KeyboardLayoutManager.h"
 #include "SettingsManager.h"
 #include <vector>
 #include <stdio.h>
@@ -18,180 +19,10 @@
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
-static unsigned int debug_keyboard_matrix_map[6][23] =
-    { {   0,  NA,  16,  30,  44,  54,  NA,  65,  75,  84,  95,  NA,   8,  23,  38,   6,  22,  36,  49,  NA,  NA,  NA,  NA },
-      {   1,  17,  31,  45,  55,  66,  76,  85,  96,   9,  24,  NA,  39,   7,  37,  NA,  60,  70,  80,  52,  63,  73,  82 },
-      {   2,  NA,  18,  32,  46,  56,  NA,  67,  77,  86,  97,  10,  25,  40,  90, 101,  50,  61,  71,  51,  62,  72,  93 },
-      {   3,  NA,  19,  33,  47,  57,  NA,  68,  78,  87,  98,  11,  26,  41,  28,  14,  NA,  NA,  NA,  92, 103,  53,  NA },
-      {   4,  20,  34,  48,  58,  69,  NA,  79,  NA,  88,  99,  12,  27,  42,  81,  NA,  NA, 102,  NA,  64,  74,  83, 104 },
-      {   5,  21,  35,  NA,  NA,  NA,  NA,  59,  NA,  NA,  NA,  NA,  89, 100,  13,  91,  15,  29,  43,  94,  NA, 105,  NA } };
-
 static unsigned int dummy_keyboard_underglow_map[3][10] =
     { {    0,   1,   2,   3,   4,   5,   6,   7,   8,   9 },
       {   10,  11,  12,  13,  14,  15,  16,  17,  18,  19 },
       {   20,  21,  22,  23,  24,  25,  26,  27,  28,  29 } };
-
-static const char *led_names[] =
-{
-    KEY_EN_ESCAPE,
-    KEY_EN_BACK_TICK,
-    KEY_EN_TAB,
-    KEY_EN_CAPS_LOCK,
-    KEY_EN_LEFT_SHIFT,
-    KEY_EN_LEFT_CONTROL,
-    KEY_EN_F12,
-    KEY_EN_EQUALS,
-    KEY_EN_F9,
-    KEY_EN_9,
-    KEY_EN_O,
-    KEY_EN_L,
-    KEY_EN_COMMA,
-    KEY_EN_MENU,
-    KEY_EN_ISO_ENTER,
-    KEY_EN_LEFT_ARROW,
-    KEY_EN_F1,
-    KEY_EN_1,
-    KEY_EN_Q,
-    KEY_EN_A,
-    KEY_EN_ISO_BACK_SLASH,
-    KEY_EN_LEFT_WINDOWS,
-    KEY_EN_PRINT_SCREEN,
-    KEY_EN_F10,
-    KEY_EN_0,
-    KEY_EN_P,
-    KEY_EN_SEMICOLON,
-    KEY_EN_PERIOD,
-    KEY_EN_ANSI_ENTER,
-    KEY_EN_DOWN_ARROW,
-    KEY_EN_F2,
-    KEY_EN_2,
-    KEY_EN_W,
-    KEY_EN_S,
-    KEY_EN_Z,
-    KEY_EN_LEFT_ALT,
-    KEY_EN_SCROLL_LOCK,
-    KEY_EN_BACKSPACE,
-    KEY_EN_F11,
-    KEY_EN_MINUS,
-    KEY_EN_LEFT_BRACKET,
-    KEY_EN_QUOTE,
-    KEY_EN_FORWARD_SLASH,
-    KEY_EN_RIGHT_ARROW,
-    KEY_EN_F3,
-    KEY_EN_3,
-    KEY_EN_E,
-    KEY_EN_D,
-    KEY_EN_X,
-    KEY_EN_PAUSE_BREAK,
-    KEY_EN_DELETE,
-    KEY_EN_NUMPAD_7,
-    KEY_EN_NUMPAD_LOCK,
-    KEY_EN_NUMPAD_6,
-    KEY_EN_F4,
-    KEY_EN_4,
-    KEY_EN_R,
-    KEY_EN_F,
-    KEY_EN_C,
-    KEY_EN_SPACE,
-    KEY_EN_INSERT,
-    KEY_EN_END,
-    KEY_EN_NUMPAD_8,
-    KEY_EN_NUMPAD_DIVIDE,
-    KEY_EN_NUMPAD_1,
-    KEY_EN_F5,
-    KEY_EN_5,
-    KEY_EN_T,
-    KEY_EN_G,
-    KEY_EN_V,
-    KEY_EN_HOME,
-    KEY_EN_PAGE_DOWN,
-    KEY_EN_NUMPAD_9,
-    KEY_EN_NUMPAD_TIMES,
-    KEY_EN_NUMPAD_2,
-    KEY_EN_F6,
-    KEY_EN_6,
-    KEY_EN_Y,
-    KEY_EN_H,
-    KEY_EN_B,
-    KEY_EN_PAGE_UP,
-    KEY_EN_RIGHT_SHIFT,
-    KEY_EN_NUMPAD_MINUS,
-    KEY_EN_NUMPAD_3,
-    KEY_EN_F7,
-    KEY_EN_7,
-    KEY_EN_U,
-    KEY_EN_J,
-    KEY_EN_N,
-    KEY_EN_RIGHT_ALT,
-    KEY_EN_RIGHT_BRACKET,
-    KEY_EN_RIGHT_CONTROL,
-    KEY_EN_NUMPAD_4,
-    KEY_EN_NUMPAD_PLUS,
-    KEY_EN_NUMPAD_0,
-    KEY_EN_F8,
-    KEY_EN_8,
-    KEY_EN_I,
-    KEY_EN_K,
-    KEY_EN_M,
-    KEY_EN_RIGHT_WINDOWS,
-    KEY_EN_ANSI_BACK_SLASH,
-    KEY_EN_UP_ARROW,
-    KEY_EN_NUMPAD_5,
-    KEY_EN_NUMPAD_ENTER,
-    KEY_EN_NUMPAD_PERIOD,
-    "RGB Strip 1",
-    "RGB Strip 2",
-    "RGB Strip 3",
-    "RGB Strip 4",
-    "RGB Strip 5",
-    "RGB Strip 6",
-    "RGB Strip 7",
-    "RGB Strip 8",
-    "RGB Strip 9",
-    "RGB Strip 10",
-    "RGB Strip 11",
-    "RGB Strip 12",
-    "RGB Strip 13",
-    "RGB Strip 14",
-    "RGB Strip 15",
-    "RGB Strip 16",
-    "RGB Strip 17",
-    "RGB Strip 18",
-    KEY_EN_MEDIA_PREVIOUS,
-    KEY_EN_MEDIA_PLAY_PAUSE,
-    KEY_EN_MEDIA_NEXT,
-    KEY_EN_MEDIA_MUTE,
-    "Underglow LED 1",
-    "Underglow LED 2",
-    "Underglow LED 3",
-    "Underglow LED 4",
-    "Underglow LED 5",
-    "Underglow LED 6",
-    "Underglow LED 7",
-    "Underglow LED 8",
-    "Underglow LED 9",
-    "Underglow LED 10",
-    "Underglow LED 11",
-    "Underglow LED 12",
-    "Underglow LED 13",
-    "Underglow LED 14",
-    "Underglow LED 15",
-    "Underglow LED 16",
-    "Underglow LED 17",
-    "Underglow LED 18",
-    "Underglow LED 19",
-    "Underglow LED 20",
-    "Underglow LED 21",
-    "Underglow LED 22",
-    "Underglow LED 23",
-    "Underglow LED 24",
-    "Underglow LED 25",
-    "Underglow LED 26",
-    "Underglow LED 27",
-    "Underglow LED 28",
-    "Underglow LED 29",
-    "Underglow LED 30"
-};
 
 /******************************************************************************************\
 *                                                                                          *
@@ -454,14 +285,74 @@ void DetectDebugControllers()
             }
             else if(type == "keyboard")
             {
+                json json_kbd           = debug_settings["devices"][device_idx];
+                KEYBOARD_LAYOUT layout  = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
+                KEYBOARD_SIZE   size    = KEYBOARD_SIZE::KEYBOARD_SIZE_FULL;
+
+                if(json_kbd.contains("layout"))
+                {
+                    layout = json_kbd["layout"];
+                }
+
+                if(json_kbd.contains("size"))
+                {
+                    size = json_kbd["size"];
+                }
+
                 /*---------------------------------------------------------*\
                 | Create a dummy Keyboard                                   |
                 \*---------------------------------------------------------*/
                 RGBController_Dummy* dummy_keyboard = new RGBController_Dummy();
+                KeyboardLayoutManager new_kb(layout, size);
 
-                dummy_keyboard->name                             = "Debug Keyboard";
+                /*---------------------------------------------------------*\
+                | Check for custom key inserts and swaps                    |
+                \*---------------------------------------------------------*/
+
+                if(json_kbd.contains("insert"))
+                {
+                    std::vector<keyboard_led> insert;
+
+                    for(size_t i = 0; i < json_kbd["insert"].size(); i++)
+                    {
+                        keyboard_led* key = new keyboard_led;
+
+                        key->zone    = json_kbd["insert"][i]["Zone"];
+                        key->row     = json_kbd["insert"][i]["Row"];
+                        key->col     = json_kbd["insert"][i]["Col"];
+                        key->value   = json_kbd["insert"][i]["Val"];
+                        key->name    = json_kbd["insert"][i]["Name"].get_ref<const std::string&>().c_str();
+
+                        insert.push_back(*key);
+                    }
+                    new_kb.InsertKeys(insert);
+                    new_kb.UpdateDimensions();
+                }
+
+                if(json_kbd.contains("swap"))
+                {
+                    std::vector<keyboard_led> swap;
+
+                    for(size_t i = 0; i < json_kbd["swap"].size(); i++)
+                    {
+                        keyboard_led* key = new keyboard_led;
+
+                        key->zone   = json_kbd["swap"][i]["Zone"];
+                        key->row    = json_kbd["swap"][i]["Row"];
+                        key->col    = json_kbd["swap"][i]["Col"];
+                        key->value  = json_kbd["swap"][i]["Val"];
+                        key->name   = json_kbd["swap"][i]["Name"].get_ref<const std::string&>().c_str();
+
+                        swap.push_back(*key);
+                    }
+                    new_kb.SwapKeys(swap);
+                    new_kb.UpdateDimensions();
+                }
+
+                dummy_keyboard->name                             = new_kb.GetName();
                 dummy_keyboard->type                             = DEVICE_TYPE_KEYBOARD;
-                dummy_keyboard->description                      = "Debug Keyboard Device";
+                dummy_keyboard->description                      = dummy_keyboard->name;
+                dummy_keyboard->description.append(" Debug Keyboard");
                 dummy_keyboard->location                         = "Debug Keyboard Location";
                 dummy_keyboard->version                          = "Debug Keyboard Version";
                 dummy_keyboard->serial                           = "Debug Keyboard Serial";
@@ -485,52 +376,88 @@ void DetectDebugControllers()
 
                 dummy_keyboard_matrix_zone.name                  = "Keyboard Matrix Zone";
                 dummy_keyboard_matrix_zone.type                  = ZONE_TYPE_MATRIX;
-                dummy_keyboard_matrix_zone.leds_min              = 106;
-                dummy_keyboard_matrix_zone.leds_max              = 106;
-                dummy_keyboard_matrix_zone.leds_count            = 106;
+                dummy_keyboard_matrix_zone.leds_min              = new_kb.GetKeyCount();
+                dummy_keyboard_matrix_zone.leds_max              = new_kb.GetKeyCount();
+                dummy_keyboard_matrix_zone.leds_count            = new_kb.GetKeyCount();
                 dummy_keyboard_matrix_zone.matrix_map            = new matrix_map_type;
-                dummy_keyboard_matrix_zone.matrix_map->height    = 6;
-                dummy_keyboard_matrix_zone.matrix_map->width     = 23;
-                dummy_keyboard_matrix_zone.matrix_map->map       = (unsigned int*)&debug_keyboard_matrix_map;
+                dummy_keyboard_matrix_zone.matrix_map->height    = new_kb.GetRowCount();
+                dummy_keyboard_matrix_zone.matrix_map->width     = new_kb.GetColumnCount();
+                dummy_keyboard_matrix_zone.matrix_map->map       = new unsigned int[dummy_keyboard_matrix_zone.matrix_map->height
+                                                                                  * dummy_keyboard_matrix_zone.matrix_map->width];
+                new_kb.GetKeyMap(dummy_keyboard_matrix_zone.matrix_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT);
 
                 dummy_keyboard->zones.push_back(dummy_keyboard_matrix_zone);
+
+                for(std::size_t led_idx = 0; led_idx < dummy_keyboard_matrix_zone.leds_count; led_idx++)
+                {
+                    led dummy_keyboard_led;
+                    dummy_keyboard_led.name = new_kb.GetKeyNameAt(led_idx);
+                    dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                }
 
                 /*-----------------------------------------------------------------*\
                 | Add another matrix zone so that is can resemble a huntsman elite  |
                 \*-----------------------------------------------------------------*/
-                zone dummy_keyboard_underglow_matrix_zone;
+                bool underglow = true;
+                if(json_kbd.contains("underglow"))
+                {
+                    underglow = json_kbd["underglow"];
+                }
 
-                dummy_keyboard_underglow_matrix_zone.name               = "Underglow";
-                dummy_keyboard_underglow_matrix_zone.type               = ZONE_TYPE_MATRIX;
-                dummy_keyboard_underglow_matrix_zone.leds_min           = 30;
-                dummy_keyboard_underglow_matrix_zone.leds_max           = 30;
-                dummy_keyboard_underglow_matrix_zone.leds_count         = 30;
-                dummy_keyboard_underglow_matrix_zone.matrix_map         = new matrix_map_type;
-                dummy_keyboard_underglow_matrix_zone.matrix_map->height = 3;
-                dummy_keyboard_underglow_matrix_zone.matrix_map->width  = 10;
-                dummy_keyboard_underglow_matrix_zone.matrix_map->map    = (unsigned int*)&dummy_keyboard_underglow_map;
+                if(underglow)
+                {
+                    zone dummy_keyboard_underglow_matrix_zone;
 
-                dummy_keyboard->zones.push_back(dummy_keyboard_underglow_matrix_zone);
+                    dummy_keyboard_underglow_matrix_zone.name               = "Underglow";
+                    dummy_keyboard_underglow_matrix_zone.type               = ZONE_TYPE_MATRIX;
+                    dummy_keyboard_underglow_matrix_zone.leds_min           = 30;
+                    dummy_keyboard_underglow_matrix_zone.leds_max           = 30;
+                    dummy_keyboard_underglow_matrix_zone.leds_count         = 30;
+                    dummy_keyboard_underglow_matrix_zone.matrix_map         = new matrix_map_type;
+                    dummy_keyboard_underglow_matrix_zone.matrix_map->height = 3;
+                    dummy_keyboard_underglow_matrix_zone.matrix_map->width  = 10;
+                    dummy_keyboard_underglow_matrix_zone.matrix_map->map    = (unsigned int*)&dummy_keyboard_underglow_map;
+
+                    dummy_keyboard->zones.push_back(dummy_keyboard_underglow_matrix_zone);
+
+                    for(std::size_t led_idx = 0; led_idx < dummy_keyboard_underglow_matrix_zone.leds_count; led_idx++)
+                    {
+                        led dummy_keyboard_led;
+                        dummy_keyboard_led.name = dummy_keyboard_underglow_matrix_zone.name + " LED ";
+                        dummy_keyboard_led.name.append(std::to_string(led_idx));
+                        dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                    }
+                }
 
                 /*---------------------------------------------------------*\
-                | Create a linear zone for the dummy GPU                    |
+                | Create a linear zone for the dummy Keyboard               |
                 \*---------------------------------------------------------*/
-                zone dummy_keyboard_linear_zone;
-
-                dummy_keyboard_linear_zone.name                  = "Linear Zone";
-                dummy_keyboard_linear_zone.type                  = ZONE_TYPE_LINEAR;
-                dummy_keyboard_linear_zone.leds_min              = 18;
-                dummy_keyboard_linear_zone.leds_max              = 18;
-                dummy_keyboard_linear_zone.leds_count            = 18;
-                dummy_keyboard_linear_zone.matrix_map            = NULL;
-
-                dummy_keyboard->zones.push_back(dummy_keyboard_linear_zone);
-
-                for(std::size_t led_idx = 0; led_idx < 154; led_idx++)
+                bool linear = true;
+                if(json_kbd.contains("linear"))
                 {
-                    led dummy_keyboard_led;
-                    dummy_keyboard_led.name = led_names[led_idx];
-                    dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                    linear = json_kbd["linear"];
+                }
+
+                if(linear)
+                {
+                    zone dummy_keyboard_linear_zone;
+
+                    dummy_keyboard_linear_zone.name                  = "Linear Zone";
+                    dummy_keyboard_linear_zone.type                  = ZONE_TYPE_LINEAR;
+                    dummy_keyboard_linear_zone.leds_min              = 18;
+                    dummy_keyboard_linear_zone.leds_max              = 18;
+                    dummy_keyboard_linear_zone.leds_count            = 18;
+                    dummy_keyboard_linear_zone.matrix_map            = NULL;
+
+                    dummy_keyboard->zones.push_back(dummy_keyboard_linear_zone);
+
+                    for(std::size_t led_idx = 0; led_idx < dummy_keyboard_linear_zone.leds_count; led_idx++)
+                    {
+                        led dummy_keyboard_led;
+                        dummy_keyboard_led.name = "RGB Strip ";
+                        dummy_keyboard_led.name.append(std::to_string(led_idx));
+                        dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                    }
                 }
 
                 dummy_keyboard->SetupColors();
