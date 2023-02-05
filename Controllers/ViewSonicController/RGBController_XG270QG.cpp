@@ -109,6 +109,7 @@ void RGBController_XG270QG::SetupZones()
     back_circle.leds_min    = 1;
     back_circle.leds_max    = 1;
     back_circle.leds_count  = 1;
+    back_circle.matrix_map  = NULL;
     zones.push_back(back_circle);
 
     zone down;
@@ -117,6 +118,7 @@ void RGBController_XG270QG::SetupZones()
     down.leds_min           = 1;
     down.leds_max           = 1;
     down.leds_count         = 1;
+    down.matrix_map         = NULL;
     zones.push_back(down);
 
     led back;
