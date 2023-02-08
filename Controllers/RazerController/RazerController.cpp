@@ -8,6 +8,7 @@
 
 #include "RazerController.h"
 #include "RazerDevices.h"
+#include "LogManager.h"
 
 #include <string.h>
 
@@ -199,6 +200,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         | These devices use a standard matrix report        |
         \*-------------------------------------------------*/
         case RAZER_BLACKWIDOW_CHROMA_V2_PID:
+        case RAZER_BLACKWIDOW_X_CHROMA_TE_PID:
         case RAZER_BLADE_2016_PID:
         case RAZER_BLADE_LATE_2016_PID:
         case RAZER_BLADE_2018_ADVANCED_PID:
@@ -356,6 +358,9 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_ORBWEAVER_CHROMA_PID:
             matrix_type = RAZER_MATRIX_TYPE_CUSTOM;
             break;
+
+        default:
+            LOG_WARNING("[%s] Report matrix type was not selected, device may not repsond to mode updates.", name.c_str());
     }
 }
 
