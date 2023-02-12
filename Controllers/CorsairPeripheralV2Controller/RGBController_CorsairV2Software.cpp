@@ -94,8 +94,28 @@ RGBController_CorsairV2SW::~RGBController_CorsairV2SW()
 
 void RGBController_CorsairV2SW::SetupZones()
 {
+    std::string physical_size;
+    KEYBOARD_LAYOUT new_layout;
     unsigned int max_led_value              = 0;
     const corsair_v2_device* corsair        = controller->GetDeviceData();
+    unsigned int layout                     = controller->GetKeyboardLayout();
+
+    switch(layout)
+    {
+        case CORSAIR_V2_KB_LAYOUT_ISO:
+            new_layout = KEYBOARD_LAYOUT_ISO_QWERTY;
+            break;
+
+        case CORSAIR_V2_KB_LAYOUT_JIS:
+            new_layout = KEYBOARD_LAYOUT_JIS;
+            break;
+
+        case CORSAIR_V2_KB_LAYOUT_ANSI:
+        case CORSAIR_V2_KB_LAYOUT_ABNT:
+        default:
+            new_layout = KEYBOARD_LAYOUT_ANSI_QWERTY;
+            break;
+    }
 
     /*---------------------------------------------------------*\
     | Fill in zones from the device data                        |
@@ -115,42 +135,43 @@ void RGBController_CorsairV2SW::SetupZones()
 
             if(new_zone.type == ZONE_TYPE_MATRIX)
             {
-                new_zone.leds_count         = corsair->layout_size;
+                KeyboardLayoutManager new_kb(new_layout, corsair->layout_new->base_size, corsair->layout_new->key_values);
+
                 matrix_map_type * new_map   = new matrix_map_type;
                 new_zone.matrix_map         = new_map;
 
                 new_map->height             = corsair->zones[i]->rows;
                 new_map->width              = corsair->zones[i]->cols;
+                new_map->map                = new unsigned int[new_map->height * new_map->width];
 
-                new_map->map = new unsigned int[new_map->height * new_map->width];
-
-                /*---------------------------------------------------------*\
-                | Create an empty matrix                                    |
-                \*---------------------------------------------------------*/
-                for(unsigned int y = 0; y < new_map->height; y++)
+                if(corsair->layout_new->base_size != KEYBOARD_SIZE_EMPTY)
                 {
-                    for(unsigned int x = 0; x < new_map->width; x++)
+                    /*---------------------------------------------------------*\
+                    | Minor adjustments to keyboard layout                      |
+                    \*---------------------------------------------------------*/
+                    new_zone.leds_count                     = new_kb.GetKeyCount();
+                    keyboard_keymap_overlay_values* temp    = corsair->layout_new;
+                    new_kb.ChangeKeys(*temp);
+
+                    /*---------------------------------------------------------*\
+                    | Matrix map still uses declared zone rows and columns      |
+                    |   as the packet structure depends on the matrix map       |
+                    \*---------------------------------------------------------*/
+                    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
+
+                    /*---------------------------------------------------------*\
+                    | Create LEDs for the Matrix zone                           |
+                    |   Place keys in the layout to populate the matrix         |
+                    \*---------------------------------------------------------*/
+                    for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
                     {
-                        new_map->map[(y * new_map->width) + x] = NA;
+                        led new_led;
+
+                        new_led.name                = new_kb.GetKeyNameAt(led_idx);
+                        new_led.value               = new_kb.GetKeyValueAt(led_idx);
+                        max_led_value               = std::max(max_led_value, new_led.value);
+                        leds.push_back(new_led);
                     }
-                }
-
-                /*---------------------------------------------------------*\
-                | Create LEDs for the Matrix zone                           |
-                |   Place keys in the layout to populate the matrix         |
-                \*---------------------------------------------------------*/
-                for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
-                {
-                    led new_led;
-
-                    new_led.name                = corsair->layout[led_idx].name;
-                    new_led.value               = corsair->layout[led_idx].index;
-                    max_led_value               = std::max(max_led_value, new_led.value);
-                    leds.push_back(new_led);
-
-                    uint8_t layout_index        = (corsair->layout[led_idx].row * new_map->width)
-                                                +  corsair->layout[led_idx].col;
-                    new_map->map[layout_index]  = led_idx;
                 }
 
                 /*---------------------------------------------------------*\

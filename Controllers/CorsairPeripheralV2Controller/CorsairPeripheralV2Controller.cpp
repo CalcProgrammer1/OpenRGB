@@ -119,7 +119,6 @@ void CorsairPeripheralV2Controller::SetRenderMode(corsair_v2_device_mode mode)
     buffer[5]   = mode;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    std::this_thread::sleep_for(2ms);
     hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
 }
 
@@ -140,7 +139,6 @@ void CorsairPeripheralV2Controller::LightingControl(uint8_t opt1, uint8_t opt2)
     buffer[5]   = 0x00;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    std::this_thread::sleep_for(2ms);
     hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
 
     /*---------------------------------------------------------*\
@@ -152,11 +150,15 @@ void CorsairPeripheralV2Controller::LightingControl(uint8_t opt1, uint8_t opt2)
     buffer[5]   = opt2;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    std::this_thread::sleep_for(2ms);
     hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
 }
 
-void CorsairPeripheralV2Controller::GetAddress(uint8_t address)
+unsigned int CorsairPeripheralV2Controller::GetKeyboardLayout()
+{
+    return GetAddress(0x41);
+}
+
+unsigned int CorsairPeripheralV2Controller::GetAddress(uint8_t address)
 {
     uint8_t buffer[CORSAIR_V2_WRITE_SIZE];
     uint8_t read[CORSAIR_V2_WRITE_SIZE];
@@ -169,11 +171,20 @@ void CorsairPeripheralV2Controller::GetAddress(uint8_t address)
     buffer[3]   = address;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    std::this_thread::sleep_for(2ms);
     hid_read_timeout(dev, read, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
 
+    unsigned int temp = (unsigned int)(read[6] << 24 | read[5] << 16 | read[4] << 8 | read[3]);
     LOG_DEBUG("[%s] GetAddress %02X - %02X %02X - %02X %02X %02X %02X   %02X %02X %02X %02X", device_name.c_str(),
               address, read[0], read[1], read[2], read[3], read[4], read[5], read[6], read[7], read[8], read[9]);
+
+    uint8_t result = read[2];
+    if(result > 0)
+    {
+        LOG_DEBUG("[%s] An error occurred! Get Address %02X failed - %d %s", device_name.c_str(),
+                  address, result, (result == 5) ? "unsupported" : "");
+        return -1;
+    }
+    return temp;
 }
 
 void CorsairPeripheralV2Controller::StartTransaction(uint8_t opt1)
@@ -188,7 +199,6 @@ void CorsairPeripheralV2Controller::StartTransaction(uint8_t opt1)
     buffer[4]   = 0x01;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    std::this_thread::sleep_for(2ms);
     hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
 }
 
@@ -204,7 +214,6 @@ void CorsairPeripheralV2Controller::StopTransaction(uint8_t opt1)
     buffer[4]   = opt1;
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    std::this_thread::sleep_for(2ms);
     hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
 }
 
@@ -239,8 +248,7 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
     memcpy(&buffer[offset1], &data[0], copy_bytes);
 
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-    std::this_thread::sleep_for(2ms);
-    hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+    hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT_SHORT);
 
     remaining              -= copy_bytes;
     buffer[2]               = CORSAIR_V2_CMD_BLK_WN;
@@ -261,8 +269,7 @@ void CorsairPeripheralV2Controller::SetLEDs(uint8_t *data, uint16_t data_size)
         memcpy(&buffer[offset2], &data[index], copy_bytes);
 
         hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
-        std::this_thread::sleep_for(2ms);
-        hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT);
+        hid_read_timeout(dev, buffer, CORSAIR_V2_WRITE_SIZE, CORSAIR_V2_TIMEOUT_SHORT);
 
         remaining          -= copy_bytes;
     }
