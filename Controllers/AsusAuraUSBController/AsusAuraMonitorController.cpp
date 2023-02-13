@@ -83,17 +83,19 @@ void AuraMonitorController::UpdateLed
     usb_buf[0x02]   = 0xA1;
     usb_buf[0x03]   = 0x80;
 
-    usb_buf[0x04]   = 16 + led * 3;
+    unsigned char offset = (device_pid == AURA_ROG_STRIX_XG279Q_PID) ? 0 : 16;
+
+    usb_buf[0x04]   = offset + led * 3;
     usb_buf[0x05]   = red;
     
     hid_send_feature_report(dev, usb_buf, 8);
 
-    usb_buf[0x04]   = 16 + led * 3 + 1;
+    usb_buf[0x04]   = offset + led * 3 + 1;
     usb_buf[0x05]   = blue;
     
     hid_send_feature_report(dev, usb_buf, 8);
 
-    usb_buf[0x04]   = 16 + led * 3 + 2;
+    usb_buf[0x04]   = offset + led * 3 + 2;
     usb_buf[0x05]   = green;
     
     hid_send_feature_report(dev, usb_buf, 8);
