@@ -373,16 +373,17 @@ void RGBController_ENESMBus::SetupZones()
     /*---------------------------------------------------------*\
     | Create LED entries for each zone                          |
     \*---------------------------------------------------------*/
+    std::size_t led_idx = 0;
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        for(std::size_t zone_led_idx = 0; zone_led_idx < zones[zone_idx].leds_count; zone_led_idx++)
         {
             led* new_led = new led();
 
             new_led->name = zones[zone_idx].name + " LED ";
-            new_led->name.append(std::to_string(led_idx + 1));
+            new_led->name.append(std::to_string(zone_led_idx + 1));
 
-            new_led->value = led_map[led_idx];
+            new_led->value = led_map[led_idx++];
 
             leds.push_back(*new_led);
         }
