@@ -109,6 +109,7 @@ before_script:
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-32
   stage: build
   script:
+  - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
   - rm -v ../openrgb-dbgsym*.*deb
@@ -137,6 +138,7 @@ before_script:
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:buster-64
   stage: build
   script:
+  - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
   - dpkg-buildpackage -us -B
   - rm -v ../openrgb-dbgsym*.*deb
@@ -165,6 +167,7 @@ before_script:
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-32
   stage: build
   script:
+  - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
   - rm -v ../openrgb-dbgsym*.*deb
@@ -193,6 +196,7 @@ before_script:
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-64
   stage: build
   script:
+  - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
   - dpkg-buildpackage -us -B
   - rm -v ../openrgb-dbgsym*.*deb
@@ -221,6 +225,7 @@ before_script:
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-32
   stage: build
   script:
+  - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
   - dpkg-buildpackage --target-arch i386 -us -B
   - rm -v ../openrgb-dbgsym*.deb
@@ -249,6 +254,7 @@ before_script:
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-64
   stage: build
   script:
+  - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
   - dpkg-buildpackage -us -B
   - rm -v ../openrgb-dbgsym*.deb
@@ -278,6 +284,7 @@ before_script:
   script:
   - dnf install rpmdevtools dnf-plugins-core -y
   - rpmdev-setuptree
+  - ./scripts/build-package-files.sh fedora/OpenRGB.spec
   - ls /root/
   - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
   - cp ../OpenRGB /root/rpmbuild/SOURCES/ -r
@@ -310,8 +317,9 @@ before_script:
   image: fedora:36
   stage: build
   script:
-  - dnf install rpmdevtools dnf-plugins-core libcurl-devel -y
+  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel -y
   - rpmdev-setuptree
+  - ./scripts/build-package-files.sh fedora/OpenRGB.spec
   - ls /root/
   - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
   - cp ../OpenRGB /root/rpmbuild/SOURCES/ -r
