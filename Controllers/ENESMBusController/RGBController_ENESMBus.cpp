@@ -295,79 +295,86 @@ void RGBController_ENESMBus::UpdateSingleLED(int led)
 
 void RGBController_ENESMBus::SetupZones()
 {
-    std::vector<int>    led_map;
-
     /*---------------------------------------------------------*\
     | Search through all LEDs and create zones for each channel |
     | type                                                      |
     \*---------------------------------------------------------*/
-    for(std::size_t led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
+    for(std::size_t cfg_zone_idx = 0; cfg_zone_idx < ENE_NUM_ZONES; cfg_zone_idx++)
     {
-        bool matched = false;
-
         /*---------------------------------------------------------*\
-        | Search through existing zones to make sure we don't       |
-        | create a duplicate zone                                   |
+        | Get the number of LEDs in the zone                        |
         \*---------------------------------------------------------*/
-        for(std::size_t existing_zone_idx = 0; existing_zone_idx < zones.size(); existing_zone_idx++)
+        unsigned int leds_in_zone = controller->GetLEDCount(cfg_zone_idx);
+
+        if(leds_in_zone > 0)
         {
-            if(controller->GetChannelName(led_idx) == zones[existing_zone_idx].name)
-            {
-                matched = true;
-            }
-        }
-
-        /*---------------------------------------------------------*\
-        | If zone does not already exist, create it                 |
-        \*---------------------------------------------------------*/
-        if(matched == false)
-        {
-            zone* new_zone = new zone();
-
             /*---------------------------------------------------------*\
-            | Set zone name to channel name                             |
+            | Search through existing zones to make sure we don't       |
+            | create a duplicate zone                                   |
             \*---------------------------------------------------------*/
-            new_zone->name = controller->GetChannelName(led_idx);
+            bool matched                    = false;
+            std::size_t existing_zone_idx   = 0;
 
-            new_zone->leds_count = 0;
-
-            /*---------------------------------------------------------*\
-            | Find all LEDs with this channel type and add them to zone |
-            \*---------------------------------------------------------*/
-            for(std::size_t zone_led_idx = 0; zone_led_idx < controller->GetLEDCount(); zone_led_idx++)
+            for(existing_zone_idx = 0; existing_zone_idx < zones.size(); existing_zone_idx++)
             {
-                if(controller->GetChannelName(zone_led_idx) == new_zone->name)
+                if(controller->GetChannelName(cfg_zone_idx) == zones[existing_zone_idx].name)
                 {
-                    new_zone->leds_count++;
-                    led_map.push_back(zone_led_idx);
+                    matched = true;
+                    break;
                 }
             }
 
             /*---------------------------------------------------------*\
-            | Zones have fixed size, so set min and max to count        |
+            | If zone does not already exist, create it                 |
             \*---------------------------------------------------------*/
-            new_zone->leds_min = new_zone->leds_count;
-            new_zone->leds_max = new_zone->leds_count;
-
-            /*---------------------------------------------------------*\
-            | If this zone has more than one LED, mark it as linear type|
-            \*---------------------------------------------------------*/
-            if(new_zone->leds_count > 1)
+            if(matched == false)
             {
-                new_zone->type = ZONE_TYPE_LINEAR;
+                zone* new_zone = new zone();
+
+                /*---------------------------------------------------------*\
+                | Set zone name to channel name                             |
+                \*---------------------------------------------------------*/
+                new_zone->name = controller->GetChannelName(cfg_zone_idx);
+
+                /*---------------------------------------------------------*\
+                | Set zone LED count to LEDs in zone                        |
+                \*---------------------------------------------------------*/
+                new_zone->leds_count = leds_in_zone;
+
+                /*---------------------------------------------------------*\
+                | Push new zone to zones vector                             |
+                \*---------------------------------------------------------*/
+                zones.push_back(*new_zone);
             }
+            /*---------------------------------------------------------*\
+            | Otherwise, add the number of LEDs from this zone to the   |
+            | existing one.                                             |
+            \*---------------------------------------------------------*/
             else
             {
-                new_zone->type = ZONE_TYPE_SINGLE;
+                zones[existing_zone_idx].leds_count += leds_in_zone;
             }
-
-            new_zone->matrix_map = NULL;
-
-            /*---------------------------------------------------------*\
-            | Push new zone to zones vector                             |
-            \*---------------------------------------------------------*/
-            zones.push_back(*new_zone);
         }
+    }
+
+    /*---------------------------------------------------------*\
+    | Finish setting up the zones                               |
+    \*---------------------------------------------------------*/
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].leds_min    = zones[zone_idx].leds_count;
+        zones[zone_idx].leds_max    = zones[zone_idx].leds_count;
+
+        if(zones[zone_idx].leds_count > 1)
+        {
+            zones[zone_idx].type    = ZONE_TYPE_LINEAR;
+        }
+        else
+        {
+            zones[zone_idx].type    = ZONE_TYPE_SINGLE;
+        }
+
+        zones[zone_idx].matrix_map  = NULL;
     }
 
     /*---------------------------------------------------------*\
@@ -383,7 +390,8 @@ void RGBController_ENESMBus::SetupZones()
             new_led->name = zones[zone_idx].name + " LED ";
             new_led->name.append(std::to_string(zone_led_idx + 1));
 
-            new_led->value = led_map[led_idx++];
+            new_led->value = led_idx;
+            led_idx++;
 
             leds.push_back(*new_led);
         }
