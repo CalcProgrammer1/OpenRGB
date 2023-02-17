@@ -224,6 +224,20 @@ const char * ENESMBusController::GetChannelName(unsigned int led)
         return(ene_channels[9]);
         break;
 
+    /*---------------------------------------------*\
+    | If the config table entry is zero, this LED   |
+    | is part of the previous zone.  Search         |
+    | backwards until finding a non-zero entry.     |
+    \*---------------------------------------------*/
+    case 0:
+        for(int id = led; led >= 0; id--)
+        {
+            if(config_table[channel_cfg + id] != 0)
+            {
+                return(GetChannelName(id));
+            }
+        }
+
     default:
         return(ene_channels[10]);
         break;
