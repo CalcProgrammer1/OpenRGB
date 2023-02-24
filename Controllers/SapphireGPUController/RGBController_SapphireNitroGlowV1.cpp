@@ -22,27 +22,70 @@
 
 RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNitroGlowV1Controller* controller_ptr)
 {
-    controller          = controller_ptr;
+    controller                 = controller_ptr;
 
-    name                = "Sapphire Nitro Glow V1 Device";
-    vendor              = "Sapphire";
-    description         = "Sapphire Nitro Glow V1 Device";
-    location            = controller->GetDeviceLocation();
-    type                = DEVICE_TYPE_GPU;
+    name                       = "Sapphire Nitro Glow V1 Device";
+    vendor                     = "Sapphire";
+    description                = "Sapphire Nitro Glow V1 Device";
+    location                   = controller->GetDeviceLocation();
+    type                       = DEVICE_TYPE_GPU;
 
-    mode Static;
-    Static.name         = "Static";
-    Static.value        = 0x04;
-    Static.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode   = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    mode Sapphire;
+    Sapphire.name              = "Sapphire Blue";
+    Sapphire.value             = SAPPHIRE_NITRO_GLOW_V1_MODE_SAPPHIRE_BLUE;
+    Sapphire.flags             = MODE_FLAG_HAS_BRIGHTNESS;
+    Sapphire.color_mode        = MODE_COLORS_NONE;
+    Sapphire.brightness_min    = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MIN;
+    Sapphire.brightness_max    = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    Sapphire.brightness        = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    modes.push_back(Sapphire);
 
     mode Rainbow;
-    Rainbow.name        = "Rainbow Wave";
-    Rainbow.value       = 0x01;
-    Rainbow.flags       = 0;
-    Rainbow.color_mode  = MODE_COLORS_NONE;
+    Rainbow.name               = "Rainbow Wave";
+    Rainbow.value              = SAPPHIRE_NITRO_GLOW_V1_MODE_RAINBOW;
+    Rainbow.flags              = MODE_FLAG_HAS_BRIGHTNESS;
+    Rainbow.color_mode         = MODE_COLORS_NONE;
+    Rainbow.brightness_min     = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MIN;
+    Rainbow.brightness_max     = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    Rainbow.brightness         = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
     modes.push_back(Rainbow);
+
+    mode Temperature;
+    Temperature.name           = "PCB Temperature";
+    Temperature.value          = SAPPHIRE_NITRO_GLOW_V1_MODE_BOARD_TEMPERATURE;
+    Temperature.flags          = MODE_FLAG_HAS_BRIGHTNESS;
+    Temperature.color_mode     = MODE_COLORS_NONE;
+    Temperature.brightness_min = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MIN;
+    Temperature.brightness_max = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    Temperature.brightness     = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    modes.push_back(Temperature);
+
+    mode FanSpeed;
+    FanSpeed.name              = "Fan Speed";
+    FanSpeed.value             = SAPPHIRE_NITRO_GLOW_V1_MODE_FAN_SPEED;
+    FanSpeed.flags             = MODE_FLAG_HAS_BRIGHTNESS;
+    FanSpeed.color_mode        = MODE_COLORS_NONE;
+    FanSpeed.brightness_min    = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MIN;
+    FanSpeed.brightness_max    = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    FanSpeed.brightness        = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    modes.push_back(FanSpeed);
+
+    mode Static;
+    Static.name                = "Static";
+    Static.value               = SAPPHIRE_NITRO_GLOW_V1_MODE_CUSTOM;
+    Static.flags               = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.color_mode          = MODE_COLORS_PER_LED;
+    Static.brightness_min      = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MIN;
+    Static.brightness_max      = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    Static.brightness          = SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX;
+    modes.push_back(Static);
+
+    mode Off;
+    Off.name                   = "Off";
+    Off.value                  = SAPPHIRE_NITRO_GLOW_V1_MODE_OFF;
+    Off.flags                  = 0;
+    Off.color_mode             = MODE_COLORS_NONE;
+    modes.push_back(Off);
 
     SetupZones();
 
@@ -91,7 +134,7 @@ void RGBController_SapphireNitroGlowV1::ReadConfiguration()
 
     switch(controller->GetMode())
     {
-        case SAPPHIRE_NITRO_GLOW_V1_MODE_CUSTOM:
+        case SAPPHIRE_NITRO_GLOW_V1_MODE_SAPPHIRE_BLUE:
             active_mode = 0;
             break;
 
@@ -107,15 +150,20 @@ void RGBController_SapphireNitroGlowV1::ReadConfiguration()
             active_mode = 3;
             break;
 
+        case SAPPHIRE_NITRO_GLOW_V1_MODE_CUSTOM:
+            active_mode = 4;
+            break;
+
         case SAPPHIRE_NITRO_GLOW_V1_MODE_OFF:
-            active_mode = 0;
-            colors[0] = ToRGBColor(0, 0, 0);
+            active_mode = 5;
             break;
 
         default:
             active_mode = 0;
             break;
     }
+
+    modes[(unsigned int)active_mode].brightness = controller->GetBrightness();
 }
 
 void RGBController_SapphireNitroGlowV1::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -148,4 +196,5 @@ void RGBController_SapphireNitroGlowV1::UpdateSingleLED(int /*led*/)
 void RGBController_SapphireNitroGlowV1::DeviceUpdateMode()
 {
     controller->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
+    controller->SetBrightness((unsigned char)modes[(unsigned int)active_mode].brightness);
 }

@@ -61,3 +61,13 @@ void SapphireNitroGlowV1Controller::SetMode(unsigned char mode)
 {
     bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V1_REG_MODE, mode);
 }
+
+unsigned char SapphireNitroGlowV1Controller::GetBrightness()
+{
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V1_REG_BRIGHTNESS));
+}
+
+void SapphireNitroGlowV1Controller::SetBrightness(unsigned char brightness)
+{
+    bus->i2c_smbus_write_byte_data(dev, SAPPHIRE_NITRO_GLOW_V1_REG_BRIGHTNESS, brightness);
+}

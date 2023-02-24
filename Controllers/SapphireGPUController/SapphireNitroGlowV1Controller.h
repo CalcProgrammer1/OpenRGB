@@ -12,6 +12,9 @@
 
 #pragma once
 
+#define SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MIN 2;
+#define SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX 0;
+
 typedef unsigned char	sapphire_dev_id;
 
 enum
@@ -49,6 +52,9 @@ public:
 
     unsigned char   GetMode();
     void            SetMode(unsigned char mode);
+
+    unsigned char   GetBrightness();
+    void            SetBrightness(unsigned char brightness);
 
 private:
     i2c_smbus_interface*    bus;
