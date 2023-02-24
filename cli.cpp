@@ -950,7 +950,6 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
             if((option == "--localconfig")
              ||(option == "--nodetect")
              ||(option == "--noautoconnect")
-             ||(option == "--client")
              ||(option == "--server")
              ||(option == "--gui")
              ||(option == "--i2c-tools" || option == "--yolo")
@@ -971,6 +970,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
             else if((option == "--server-port")
                   ||(option == "--loglevel")
                   ||(option == "--config")
+                  ||(option == "--client")
                   ||(option == "--autostart-enable"))
             {
                 /*-------------------------------------------------*\
@@ -1263,6 +1263,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
 
             ResourceManager::get()->GetClients().push_back(client);
 
+            cfg_args++;
             arg_index++;
         }
 
