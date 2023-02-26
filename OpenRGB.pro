@@ -219,6 +219,8 @@ HEADERS +=                                                                      
     qt/OpenRGBDialog2.h                                                                         \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.h                   \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h                    \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.h                             \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
     qt/OpenRGBPluginContainer.h                                                                 \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.h                                                 \
     qt/OpenRGBPluginsPage/OpenRGBPluginsList.h                                                  \
@@ -469,6 +471,8 @@ HEADERS +=                                                                      
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
     Controllers/IonicoController/IonicoController.h                                             \
     Controllers/IonicoController/RGBController_Ionico.h                                         \
+    Controllers/KasaSmartController/KasaSmartController.h                                       \
+    Controllers/KasaSmartController/RGBController_KasaSmart.h                                   \
     Controllers/KeychronKeyboardController/KeychronKeyboardController.h                         \
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.h                     \
     Controllers/LEDStripController/LEDStripController.h                                         \
@@ -748,6 +752,8 @@ SOURCES +=                                                                      
     qt/OpenRGBDialog2.cpp                                                                       \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp                 \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp                  \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.cpp                           \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
     qt/OpenRGBPluginContainer.cpp                                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.cpp                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsList.cpp                                                \
@@ -1062,6 +1068,9 @@ SOURCES +=                                                                      
     Controllers/IonicoController/IonicoControllerDetect.cpp                                     \
     Controllers/IonicoController/RGBController_Ionico.cpp                                       \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.cpp                       \
+    Controllers/KasaSmartController/KasaSmartController.cpp                                     \
+    Controllers/KasaSmartController/KasaSmartControllerDetect.cpp                               \
+    Controllers/KasaSmartController/RGBController_KasaSmart.cpp                                 \
     Controllers/KeychronKeyboardController/KeychronKeyboardController.cpp                       \
     Controllers/KeychronKeyboardController/KeychronKeyboardControllerDetect.cpp                 \
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.cpp                   \
@@ -1364,6 +1373,8 @@ FORMS +=                                                                        
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui                  \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui                   \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.ui                            \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.ui                             \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui                                      \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui                                       \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui                               \

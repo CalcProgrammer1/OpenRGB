@@ -438,6 +438,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddE131SettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the Kasa Smart settings page                      |
+    \*-----------------------------------------------------*/
+    AddKasaSmartSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the LIFX settings page                            |
     \*-----------------------------------------------------*/
     AddLIFXSettingsPage();
@@ -762,6 +767,34 @@ void OpenRGBDialog2::AddE131SettingsPage()
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
     TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("E1.31 Devices"), (char *)"E1.31 Devices", (char *)context);
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddKasaSmartSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    KasaSmartSettingsPage = new OpenRGBKasaSmartSettingsPage();
+
+    ui->SettingsTabBar->addTab(KasaSmartSettingsPage, "");
+
+    QString SettingsLabelString;
+
+    if(OpenRGBThemeManager::IsDarkTheme())
+    {
+        SettingsLabelString = "light_dark.png";
+    }
+    else
+    {
+        SettingsLabelString = "light.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Kasa Smart Devices"), (char *)"Kasa Smart Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
