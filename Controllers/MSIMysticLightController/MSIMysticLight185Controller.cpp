@@ -202,6 +202,14 @@ const std::vector<MSI_ZONE> zones_set16 =
     MSI_ZONE_J_PIPE_2
 };
 
+const std::vector<MSI_ZONE> zones_set17 =
+{
+    MSI_ZONE_J_RGB_1,
+    MSI_ZONE_J_RAINBOW_1,
+    MSI_ZONE_J_RAINBOW_2,
+    MSI_ZONE_J_PIPE_1
+};
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------*\
 | Definition of the board sepcific configurations (number of onboard LEDs and supported zones).                                     |
@@ -272,10 +280,11 @@ static const Config board_configs[] =
     { 0x7D59, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B660-A DDR4
     { 0x7D67, 0,  0, 0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO X670-P WIFI
     { 0x7D69, 9,  2, 4, 1, &zones_set15, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X670E ACE
+    { 0x7D70, 0,  6, 0, 1, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG X670E Carbon WIFI
     { 0x7D73, 1,  0, 0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG B650I EDGE WIFI
     { 0x7D76, 0,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B650M MORTAR WIFI
     { 0x7D77, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650M-A WIFI                 
-    { 0x7D86, 0, 18, 3, 1, &zones_set16, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z790 ACE
+    { 0x7D86, 0, 18, 4, 1, &zones_set16, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z790 ACE
     { 0x7D91, 1,  0, 0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG Z790 TOMAHAWK WIFI
     { 0x7E06, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z790-P WIFI DDR4
     { 0x7E07, 0,  0, 0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z790-A WIFI DDR4
