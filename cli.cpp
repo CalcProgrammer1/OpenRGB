@@ -1046,7 +1046,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
     |   supports that colour mode then swich to it before       |
     |   evaluating if a colour needs to be set                  |
     \*---------------------------------------------------------*/
-    if((options.brightness > 0) && (device->modes[mode].flags & MODE_FLAG_HAS_BRIGHTNESS))
+    if((options.brightness >= 0) && (device->modes[mode].flags & MODE_FLAG_HAS_BRIGHTNESS))
     {
         unsigned int new_brightness     = device->modes[mode].brightness_max - device->modes[mode].brightness_min;
         new_brightness                 *= options.brightness;
