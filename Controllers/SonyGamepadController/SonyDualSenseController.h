@@ -31,7 +31,7 @@ enum
 class SonyDualSenseController
 {
 public:
-    SonyDualSenseController(hid_device * device_handle, const char * device_path);
+    SonyDualSenseController(hid_device * device_handle, const char * device_path, bool is_bluetooth);
     ~SonyDualSenseController();
 
     std::string     GetLocation();

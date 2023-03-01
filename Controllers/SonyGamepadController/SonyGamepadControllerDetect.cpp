@@ -37,7 +37,8 @@ void DetectSonyDualSenseControllers(hid_device_info* info, const std::string&)
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        SonyDualSenseController*      controller      = new SonyDualSenseController(dev, info->path);
+        bool is_bluetooth = info->interface_number    == -1;
+        SonyDualSenseController*      controller      = new SonyDualSenseController(dev, info->path, is_bluetooth);
         RGBController_SonyDualSense*  rgb_controller  = new RGBController_SonyDualSense(controller);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -47,4 +48,4 @@ void DetectSonyDualSenseControllers(hid_device_info* info, const std::string&)
 REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_V1_PID);
 REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_V2_PID);
 REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_RECEIVER_PID);
-REGISTER_HID_DETECTOR("Sony DualSense"  , DetectSonyDualSenseControllers, SONY_VID, SONY_DUALSENSE_PID);
+REGISTER_HID_DETECTOR("Sony DualSense",   DetectSonyDualSenseControllers, SONY_VID, SONY_DUALSENSE_PID);

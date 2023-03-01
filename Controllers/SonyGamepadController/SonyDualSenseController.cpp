@@ -10,19 +10,11 @@
 #include <hidapi/hidapi.h>
 #include "SonyDualSenseController.h"
 
-SonyDualSenseController::SonyDualSenseController(hid_device * device_handle, const char * device_path)
+SonyDualSenseController::SonyDualSenseController(hid_device * device_handle, const char * device_path, bool is_bluetooth)
 {
     dev = device_handle;
     location = device_path;
-
-    unsigned char usb_buf[SONY_DUALSENSE_BT_PACKET_SIZE];
-    memset(usb_buf, 0x00, SONY_DUALSENSE_BT_PACKET_SIZE);
-
-    usb_buf[0] = 0x31;
-
-    int bytes = hid_write(dev, usb_buf, SONY_DUALSENSE_BT_PACKET_SIZE);
-
-    is_bluetooth = bytes > 0;
+    this->is_bluetooth = is_bluetooth;
 }
 
 SonyDualSenseController::~SonyDualSenseController()
