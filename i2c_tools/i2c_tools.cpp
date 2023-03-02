@@ -22,12 +22,12 @@ std::string i2c_detect(i2c_smbus_interface * bus, int mode)
     char line[128];
     std::string text;
 
-    sprintf(line, "     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
+    snprintf(line, 128, "     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
     text.append(line);
 
     for (i = 0; i < 128; i += 16)
     {
-        sprintf(line, "%02x: ", i);
+        snprintf(line, 128, "%02x: ", i);
         text.append(line);
 
         for (j = 0; j < 16; j++)
@@ -35,7 +35,7 @@ std::string i2c_detect(i2c_smbus_interface * bus, int mode)
             /* Skip unwanted addresses */
 			if (i+j < first || i+j > last)
             {
-                sprintf(line, "   ");
+                snprintf(line, 128, "   ");
                 text.append(line);
 				continue;
 			}
@@ -63,16 +63,16 @@ std::string i2c_detect(i2c_smbus_interface * bus, int mode)
 
             if (res < 0)
             {
-                sprintf(line, "-- ");
+                snprintf(line, 128, "-- ");
                 text.append(line);
             }
             else
             {
-                sprintf(line, "%02x ", i + j);
+                snprintf(line, 128, "%02x ", i + j);
                 text.append(line);
             }
         }
-        sprintf(line, "\r\n");
+        snprintf(line, 128, "\r\n");
         text.append(line);
     }
 
@@ -100,21 +100,21 @@ std::string i2c_dump(i2c_smbus_interface * bus, unsigned char address)
     char line[128];
     std::string text;
 
-    sprintf(line, "       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
+    snprintf(line, 128, "       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
     text.append(line);
 
     for (i = 0; i < 0xFF; i += 16)
     {
-        sprintf(line, "%04x: ", i + start);
+        snprintf(line, 128, "%04x: ", i + start);
         text.append(line);
 
         for (j = 0; j < 16; j++)
         {
-            sprintf(line, "%02x ", (unsigned char )bus->i2c_smbus_read_byte_data(address, start + i + j));
+            snprintf(line, 128, "%02x ", (unsigned char )bus->i2c_smbus_read_byte_data(address, start + i + j));
             text.append(line);
         }
 
-        sprintf(line, "\r\n");
+        snprintf(line, 128, "\r\n");
         text.append(line);
     }
 
@@ -146,7 +146,7 @@ std::string i2c_read(i2c_smbus_interface * bus, unsigned char address, unsigned 
 
     for(i = 0; i < size; i++)
     {
-        sprintf(line, "%02x ", (unsigned char)bus->i2c_smbus_read_byte(address));
+        snprintf(line, 128, "%02x ", (unsigned char)bus->i2c_smbus_read_byte(address));
         text.append(line);
     }
 

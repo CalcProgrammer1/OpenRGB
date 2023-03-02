@@ -18,7 +18,7 @@ GaiZhongGaiKeyboardController::GaiZhongGaiKeyboardController(hid_device* dev_han
     | Obtaining the Firmware Version                        |
     \*-----------------------------------------------------*/
     char str[10];
-    sprintf(str, "Ver%04X", info->release_number);
+    snprintf(str, 10, "Ver%04X", info->release_number);
     version = str;
 }
 

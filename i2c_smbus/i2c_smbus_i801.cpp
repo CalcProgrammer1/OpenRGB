@@ -663,7 +663,7 @@ bool i2c_smbus_i801_detect()
         return(false);
     }
 
-    sprintf(bus->device_name, "Intel(R) SMBus - %X", bus->pci_device);
+    snprintf(bus->device_name, 512, "Intel(R) SMBus - %X", bus->pci_device);
     ((i2c_smbus_i801 *)bus)->i801_smba = ReadConfigPortWord(0x20) & 0xFFFE;
     ResourceManager::get()->RegisterI2CBus(bus);
 

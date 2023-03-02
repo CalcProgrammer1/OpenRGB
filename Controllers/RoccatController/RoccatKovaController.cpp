@@ -122,7 +122,7 @@ void RoccatKovaController::FetchFirmwareVersion()
 
     uint8_t version                                        = buf[ROCCAT_KOVA_FIRMWARE_VERSION_IDX];
     char version_str[5]                                    {00};
-    sprintf(version_str, "%.2f", version / 100.);
+    snprintf(version_str, 5, "%.2f", version / 100.);
     firmware_version                                       = version_str;
 }
 

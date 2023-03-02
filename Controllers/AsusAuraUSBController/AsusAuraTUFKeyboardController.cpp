@@ -138,7 +138,7 @@ int AuraTUFKeyboardController::GetLayout()
     {
         char layout[4];
 
-        sprintf(layout, "%X", version);
+        snprintf(layout, 4, "%X", version);
 
         int layoutnum = std::stoi(std::string(layout, 1));
 

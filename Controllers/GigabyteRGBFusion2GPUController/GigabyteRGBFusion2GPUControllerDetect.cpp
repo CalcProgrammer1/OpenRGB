@@ -55,7 +55,7 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
         // Assemble C-string with respons for debugging
         char str[32];
         for(int idx = 0; idx < read_sz; ++idx)
-            sprintf(&str[5*idx], " 0x%02X", data_readpkt[idx]);
+            snprintf(&str[5*idx], 32, " 0x%02X", data_readpkt[idx]);
         LOG_DEBUG("[%s] at address 0x%02X invalid. Expected 0xAB [0x*] but received:%s", GIGABYTEGPU_CONTROLLER_NAME2, address, str);
         pass = false;
     }

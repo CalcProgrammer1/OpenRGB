@@ -115,7 +115,7 @@ s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int
 
                 len = 0;
             }
-            
+
             WriteIoPortByte(SMBHSTCMD, NCT6775_WRITE_BLOCK);
         }
         else
@@ -271,19 +271,19 @@ bool i2c_smbus_nct6775_detect()
         switch (val & SIO_ID_MASK)
         {
         case SIO_NCT5577_ID:
-            sprintf(bus->device_name, "Nuvoton NCT5577D SMBus at %X", smba);
+            snprintf(bus->device_name, 512, "Nuvoton NCT5577D SMBus at %X", smba);
             break;
         case SIO_NCT6102_ID:
-            sprintf(bus->device_name, "Nuvoton NCT6102D/NCT6106D SMBus at %X", smba);
+            snprintf(bus->device_name, 512, "Nuvoton NCT6102D/NCT6106D SMBus at %X", smba);
             break;
         case SIO_NCT6793_ID:
-            sprintf(bus->device_name, "Nuvoton NCT6793D SMBus at %X", smba);
+            snprintf(bus->device_name, 512, "Nuvoton NCT6793D SMBus at %X", smba);
             break;
         case SIO_NCT6796_ID:
-            sprintf(bus->device_name, "Nuvoton NCT6796D SMBus at %X", smba);
+            snprintf(bus->device_name, 512, "Nuvoton NCT6796D SMBus at %X", smba);
             break;
         case SIO_NCT6798_ID:
-            sprintf(bus->device_name, "Nuvoton NCT6798D SMBus at %X", smba);
+            snprintf(bus->device_name, 512, "Nuvoton NCT6798D SMBus at %X", smba);
             break;
         }
 
