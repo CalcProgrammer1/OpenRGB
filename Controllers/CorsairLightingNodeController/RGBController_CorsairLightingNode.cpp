@@ -240,7 +240,7 @@ void RGBController_CorsairLightingNode::SetupZones()
     for (unsigned int channel_idx = 0; channel_idx < CORSAIR_LIGHTING_NODE_NUM_CHANNELS; channel_idx++)
     {
         char ch_idx_string[2];
-        sprintf(ch_idx_string, "%d", channel_idx + 1);
+        snprintf(ch_idx_string, 2, "%d", channel_idx + 1);
 
         zones[channel_idx].name     = "Corsair Channel ";
         zones[channel_idx].name.append(ch_idx_string);
@@ -264,7 +264,7 @@ void RGBController_CorsairLightingNode::SetupZones()
         for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
             char led_idx_string[4];
-            sprintf(led_idx_string, "%d", led_ch_idx + 1);
+            snprintf(led_idx_string, 4, "%d", led_ch_idx + 1);
 
             led new_led;
             new_led.name = "Corsair Channel ";
