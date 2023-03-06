@@ -103,6 +103,7 @@
 #define NVIDIA_RTX3090TI_FE_SUB_DEV                     0x1618
 #define NVIDIA_RTX4080_FE_SUB_DEV                       0x167A
 #define NVIDIA_RTX4090_FE_SUB_DEV                       0x165B
+#define NVIDIA_RTX4090_FE_SUB_DEV2                      0x16F4
 
 /*---------------------------------------------------------*\
 | PCI Sub-Vendor IDs                                        |
