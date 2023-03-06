@@ -1536,7 +1536,7 @@ void Ui::OpenRGBDevicePage::ShowDeviceView()
 
     DeviceViewShowing = true;
 
-    if(device->modes[selected_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR)
+    if(device->modes[selected_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR && device->leds.size() >= 1)
     {
         ui->DeviceViewBoxFrame->show();
     }
