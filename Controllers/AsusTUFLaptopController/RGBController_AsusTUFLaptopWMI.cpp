@@ -2,12 +2,6 @@
 
 #include "RGBController_AsusTUFLaptopWMI.h"
 
-#include "acpiwmi.h"
-#include "ResourceManager.h"
-#include "Detector.h"
-#include "wmi.h"
-#include <string>
-
 using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
@@ -21,72 +15,91 @@ using namespace std::chrono_literals;
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_AsusTUFLaptopWMI::RGBController_AsusTUFLaptopWMI()
+RGBController_AsusTUFLaptopWMI::RGBController_AsusTUFLaptopWMI(AsusTUFLaptopController* controller_ptr)
 {
-    name        = "ASUS TUF Keyboard";
-    vendor      = "ASUS";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "WMI Device";
-    location    = "\\\\.\\ATKACPI";
+    name                        = "ASUS TUF Keyboard";
+    vendor                      = "ASUS";
+    type                        = DEVICE_TYPE_KEYBOARD;
+    description                 = "WMI Device";
+    location                    = "\\\\.\\ATKACPI";
 
-    modes.resize(5);
-    modes[0].name       = "Direct";
-    modes[0].value      = 4;
-    modes[0].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    modes[0].color_mode = MODE_COLORS_PER_LED;
+    mode Static;
+    Static.name                 = "Static";
+    Static.value                = ASUS_WMI_KEYBOARD_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Static.color_mode           = MODE_COLORS_PER_LED;
+    Static.brightness_max       = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    Static.brightness_min       = ASUS_WMI_KEYBOARD_BRIGHTNESS_MIN;
+    Static.brightness           = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    modes.push_back(Static);
 
-    modes[1].name       = "Static";
-    modes[1].value      = 0;
-    modes[1].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    modes[1].color_mode = MODE_COLORS_PER_LED;
+    mode Breathing;
+    Breathing.name              = "Breathing";
+    Breathing.value             = ASUS_WMI_KEYBOARD_MODE_BREATHING;
+    Breathing.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Breathing.color_mode        = MODE_COLORS_PER_LED;
+    Breathing.speed_min         = ASUS_WMI_KEYBOARD_SPEED_MIN;
+    Breathing.speed_max         = ASUS_WMI_KEYBOARD_SPEED_MAX;
+    Breathing.speed             = 2;
+    Breathing.brightness_max    = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    Breathing.brightness_min    = ASUS_WMI_KEYBOARD_BRIGHTNESS_MIN;
+    Breathing.brightness        = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    modes.push_back(Breathing);
 
-    modes[2].name       = "Breathing";
-    modes[2].value      = 1;
-    modes[2].flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    modes[2].speed_min  = 0;
-    modes[2].speed_max  = 2;
-    modes[2].color_mode = MODE_COLORS_PER_LED;
-    modes[2].speed      = 1;
+    mode ColorCycle;
+    ColorCycle.name             = "Color Cycle";
+    ColorCycle.value            = ASUS_WMI_KEYBOARD_MODE_COLORCYCLE;
+    ColorCycle.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    ColorCycle.color_mode       = MODE_COLORS_NONE;
+    ColorCycle.speed_min        = ASUS_WMI_KEYBOARD_SPEED_MIN;
+    ColorCycle.speed_max        = ASUS_WMI_KEYBOARD_SPEED_MAX;
+    ColorCycle.speed            = 2;
+    ColorCycle.brightness_max   = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    ColorCycle.brightness_min   = ASUS_WMI_KEYBOARD_BRIGHTNESS_MIN;
+    ColorCycle.brightness       = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    modes.push_back(ColorCycle);
 
-    modes[3].name       = "Color Cycle";
-    modes[3].value      = 2;
-    modes[3].flags      = MODE_FLAG_HAS_SPEED;
-    modes[3].speed_min  = 0;
-    modes[3].speed_max  = 2;
-    modes[3].color_mode = MODE_COLORS_NONE;
-    modes[3].speed      = 1;
-
-    modes[4].name       = "Strobe";
-    modes[4].value      = 0x0A;
-    modes[4].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    modes[4].color_mode = MODE_COLORS_PER_LED;
+    mode Strobing;
+    Strobing.name               = "Strobing";
+    Strobing.value              = ASUS_WMI_KEYBOARD_MODE_STROBING;
+    Strobing.flags              = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Strobing.color_mode         = MODE_COLORS_PER_LED;
+    Strobing.brightness_max     = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    Strobing.brightness_min     = ASUS_WMI_KEYBOARD_BRIGHTNESS_MIN;
+    Strobing.brightness         = ASUS_WMI_KEYBOARD_BRIGHTNESS_MAX;
+    modes.push_back(Strobing);
 
     SetupZones();
+
+    controller = controller_ptr;
+
+    ReadConfiguration();
 }
 
 RGBController_AsusTUFLaptopWMI::~RGBController_AsusTUFLaptopWMI()
 {
-    AsWMI_Close();
+    delete controller;
 }
 
 void RGBController_AsusTUFLaptopWMI::SetupZones()
 {
     /*---------------------------------------------------------*\
-    | Set up zone                                               |
+    | Device only has one zone and one led                      |
     \*---------------------------------------------------------*/
-    zones.resize(1);
-    zones[0].type           = ZONE_TYPE_SINGLE;
-    zones[0].name           = "Keyboard Backlight zone";
-    zones[0].leds_min       = 1;
-    zones[0].leds_max       = 1;
-    zones[0].leds_count     = 1;
-    zones[0].matrix_map     = NULL;
+    zone* new_zone = new zone();
+    led*  new_led  = new led();
 
-    /*---------------------------------------------------------*\
-    | Set up LED                                                |
-    \*---------------------------------------------------------*/
-    leds.resize(1);
-    leds[0].name = "Keyboard Backlight LED";
+    new_zone->type           = ZONE_TYPE_SINGLE;
+    new_zone->name           = "Keyboard Backlight zone";
+    new_zone->leds_min       = 1;
+    new_zone->leds_max       = 1;
+    new_zone->leds_count     = 1;
+    new_zone->matrix_map     = NULL;
+
+    new_led->name            = "Keyboard Backlight LED";
+
+    zones.push_back(*new_zone);
+    leds.push_back(*new_led);
 
     SetupColors();
 }
@@ -98,52 +111,66 @@ void RGBController_AsusTUFLaptopWMI::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
+/*---------------------------------------------------------*\
+| Break this function off since we have to call save in the |
+  same operation as doing everything else.                  |
+\*---------------------------------------------------------*/
+void RGBController_AsusTUFLaptopWMI::ControllerSetMode(bool save)
+{
+    unsigned char red   = RGBGetRValue(colors[0]);
+    unsigned char green = RGBGetGValue(colors[0]);
+    unsigned char blue  = RGBGetBValue(colors[0]);
+
+    unsigned char mode  = (unsigned char)modes[(unsigned int)active_mode].value;
+
+    /*------------------------------------------------------------*\
+    | Use speed only if the mode supports it. Otherwise set normal |
+    \*------------------------------------------------------------*/
+    unsigned char speed = ASUS_WMI_KEYBOARD_SPEED_NORMAL;
+
+    if (modes[(unsigned int)active_mode].flags & MODE_FLAG_HAS_SPEED)
+    {
+        speed = (unsigned char)modes[(unsigned int)active_mode].speed;
+    }
+
+    controller->SetMode(red, green, blue, mode, speed, save);
+}
+
 void RGBController_AsusTUFLaptopWMI::DeviceUpdateLEDs()
 {
-    uint8_t red   = RGBGetRValue(colors[0]);
-    uint8_t green = RGBGetGValue(colors[0]);
-    uint8_t blue  = RGBGetBValue(colors[0]);
-    uint8_t speed_byte = 0;
-    uint8_t mode = modes[active_mode].value;
-    uint8_t inv = 0;
-    if(mode == 4)
-    {
-        mode = 1;
-        inv = 4; // Any invalid mode, i.e. anything other than 0, 1, 2 and 10
-    }
-    if(mode == 1 || mode == 2)
-    {
-        switch(modes[active_mode].speed)
-        {
-        case 0: speed_byte = 0xE1; break;
-        case 1: speed_byte = 0xEB; break;
-        case 2: speed_byte = 0xF5; break;
-        }
-    }
-    int high = ((mode | ((red | (green << 8)) << 8)) << 8) | 0xB3;
-    int low = blue | (speed_byte << 8);
-    AsWMI_NB_DeviceControl_2arg(0x100056, high, low);
-    if(inv)
-    {
-        //std::this_thread::sleep_for(10ms);
-        high = ((inv | ((red | (green << 8)) << 8)) << 8) | 0xB3;
-        AsWMI_NB_DeviceControl_2arg(0x100056, high, low);
-    }
+    ControllerSetMode(false);
 }
 
 void RGBController_AsusTUFLaptopWMI::UpdateZoneLEDs(int /*zone*/)
 {
-    DeviceUpdateLEDs();
+    ControllerSetMode(false);
 }
 
 void RGBController_AsusTUFLaptopWMI::UpdateSingleLED(int /*led*/)
 {
-    DeviceUpdateLEDs();
+    ControllerSetMode(false);
 }
 
 void RGBController_AsusTUFLaptopWMI::DeviceUpdateMode()
 {
-    DeviceUpdateLEDs();
+    if (modes[(unsigned int)active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+    {
+        controller->SetBrightness((unsigned char)modes[(unsigned int)active_mode].brightness);
+    }
+    ControllerSetMode(false);
+}
+
+void RGBController_AsusTUFLaptopWMI::ReadConfiguration()
+{
+    if (modes[(unsigned int)active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+    {
+        modes[(unsigned int)active_mode].brightness = controller->GetBrightness();
+    }
+}
+
+void RGBController_AsusTUFLaptopWMI::DeviceSaveMode()
+{
+    ControllerSetMode(true);
 }
 
 #endif

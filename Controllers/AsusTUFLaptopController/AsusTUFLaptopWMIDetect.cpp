@@ -1,5 +1,6 @@
 #ifdef _WIN32
 
+#include "AsusTUFLaptopController.h"
 #include "RGBController_AsusTUFLaptopWMI.h"
 
 #include "acpiwmi.h"
@@ -29,6 +30,7 @@ static void DetectAsusTUFLaptopWMIControllers()
         return;
     }
     std::string& name = systemProduct[0]["Name"];
+
     if(name.find("TUF Gaming") == name.npos)
     {
         return;
@@ -36,7 +38,9 @@ static void DetectAsusTUFLaptopWMIControllers()
 
     if(AsWMI_Open())
     {
-        RGBController* new_controller = new RGBController_AsusTUFLaptopWMI();
+        AsusTUFLaptopController* asus_wmi_controller = new AsusTUFLaptopController();
+        RGBController* new_controller                = new RGBController_AsusTUFLaptopWMI(asus_wmi_controller);
+
         ResourceManager::get()->RegisterRGBController(new_controller);
         // Success! No more if's
     }

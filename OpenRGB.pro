@@ -1506,6 +1506,7 @@ win32:SOURCES +=                                                                
     wmi/wmi.cpp                                                                                 \
     wmi/acpiwmi.cpp                                                                             \
     AutoStart/AutoStart-Windows.cpp                                                             \
+    Controllers/AsusTUFLaptopController/AsusTUFLaptopController.cpp                             \
     Controllers/AsusTUFLaptopController/AsusTUFLaptopWMIDetect.cpp                              \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.cpp                      \
     Controllers/ENESMBusController/XPGSpectrixS40GDetect_Windows.cpp                            \
@@ -1530,6 +1531,7 @@ win32:HEADERS +=                                                                
     wmi/wmi.h                                                                                   \
     wmi/acpiwmi.h                                                                               \
     AutoStart/AutoStart-Windows.h                                                               \
+    Controllers/AsusTUFLaptopController/AsusTUFLaptopController.h                               \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G_Windows.h   \
     Controllers/NVIDIAIlluminationController/nvapi_accessor.h                                   \
