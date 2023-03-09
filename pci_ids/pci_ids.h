@@ -78,6 +78,7 @@
 #define NVIDIA_RTX3060_GA106_DEV                        0x2503
 #define NVIDIA_RTX3060_LHR_DEV                          0x2504
 #define NVIDIA_RTX3060TI_DEV                            0x2486
+#define NVIDIA_RTX3060TI_GDDR6X_DEV                     0x24C9
 #define NVIDIA_RTX3060TI_LHR_DEV                        0x2489
 #define NVIDIA_RTX3060TI_V1_LHR_DEV                     0x2414
 #define NVIDIA_RTX3070_DEV                              0x2484
@@ -196,6 +197,7 @@
 #define ASUS_KO_RTX_3060_O12G_V2_GAMING                 0x8821
 #define ASUS_KO_RTX3060TI_O8G_GAMING                    0x87CA
 #define ASUS_KO_RTX3060TI_O8G_V2_GAMING                 0x883E
+#define ASUS_TUF_RTX_3060_TI_O8G                        0x88AC
 #define ASUS_TUF_RTX_3060_TI_O8G_OC                     0x87C6
 #define ASUS_ROG_STRIX_3060_TI_O8G_OC                   0x87BA
 #define ASUS_ROG_STRIX_RTX_3060TI_O8G_V2_GAMING         0x8834
